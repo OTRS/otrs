@@ -340,7 +340,7 @@
                     <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
                     <div class="Field">
                         [% Data.StandardTemplateStrg %]
-                        <p class="FieldExplanation">Setting a template will overwrite any text or attachment.</p>
+                        <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") %]</p>
                     </div>
                     <div class="Clear"></div>
 [% WRAPPER JSOnDocumentComplete %]
