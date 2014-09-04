@@ -120,10 +120,14 @@ fieldset:first-child .ACLFields > h4 {
     position: absolute;
     width: 12px;
     height: 13px;
-    background: url(../img/toggle_arrow.png) top center;
     left: -17px;
-    top: 9px;
+    top: -1px;
     cursor: pointer;
+    font-size: 15px;
+}
+
+.ACLFieldGroup li .Trigger .fa-caret-right {
+    display: inline-block;
 }
 
 .ACLFieldGroup .DataItem strong {
@@ -132,11 +136,15 @@ fieldset:first-child .ACLFields > h4 {
 
 .ACLFieldGroup ul li .Trigger {
     left: 2px;
-    top: 7px;
+    top: 0px;
 }
 
-.ACLFieldGroup > li .Trigger.Collapse {
-    background-position: bottom center;
+.ACLFieldGroup > li .Trigger.Collapse .fa-caret-down {
+    display: inline-block;
+}
+
+.ACLFieldGroup > li .Trigger.Collapse .fa-caret-right {
+    display: none;
 }
 
 .ACLFieldGroup li ul li {

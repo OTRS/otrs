@@ -134,7 +134,10 @@
 
                     <ul class="Hidden" id="TemplateLevel1">
                         <li class="DataItem">
-                            <span class="Trigger Collapse"></span>
+                            <span class="Trigger Collapse">
+                                <i class="fa fa-caret-down"></i>
+                                <i class="fa fa-caret-right"></i>
+                            </span>
                             <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <strong></strong>
                             <ul>
@@ -147,12 +150,15 @@
 
                     <ul class="Hidden" id="TemplateLevel2">
                         <li class="DataItem">
-                            <span class="Trigger Collapse"></span>
+                            <span class="Trigger Collapse">
+                                <i class="fa fa-caret-down"></i>
+                                <i class="fa fa-caret-right"></i>
+                            </span>
                             <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <strong></strong>
                             <ul>
                                 <li>
-                                    <span class="Icon AddButton NoMargin"></span>
+                                    <span class="Icon AddButton NoMargin"><i class="fa fa-plus-square-o"></i></span>
                                     <input type="text" class="NewDataKey" data-level="3" />
                                 </li>
                             </ul>
@@ -161,13 +167,16 @@
 
                     <ul class="Hidden" id="TemplateLevel2Last">
                         <li class="DataItem">
-                            <span class="Trigger Collapse"></span>
+                            <span class="Trigger Collapse">
+                                <i class="fa fa-caret-down"></i>
+                                <i class="fa fa-caret-right"></i>
+                            </span>
                             <span class="Icon RemoveButton"><i class="fa fa-minus-square-o"></i></span>
                             <strong></strong>
                             <ul class="LastLevel">
                                 <li>
                                     [% Data.ACLKeysLevel4Prefixes %]
-                                    <span class="Icon AddButton AddDataItem"></span>
+                                    <span class="Icon AddButton AddDataItem"><i class="fa fa-plus-square-o"></i></span>
                                 </li>
                             </ul>
                         </li>
@@ -179,7 +188,7 @@
                             <ul>
                                 <li>
                                     [% Data.ACLKeysLevel4Prefixes %]
-                                    <span class="Icon AddButton AddDataItem"></span>
+                                    <span class="Icon AddButton AddDataItem"><i class="fa fa-plus-square-o"></i></span>
                                 </li>
                             </ul>
                         </li>
