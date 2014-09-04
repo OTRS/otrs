@@ -96,8 +96,8 @@
                             <th>[% Translate("ACL name") | html %]</th>
                             <th>[% Translate("Comment") | html %]</th>
                             <th>[% Translate("Validity") | html %]</th>
-                            <th>[% Translate("Export") | html %]</th>
-                            <th>[% Translate("Copy") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Export") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Copy") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,8 +106,8 @@
                             <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLEdit;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
                             <td>[% Data.Comment | html %]</td>
                             <td>[% Translate(Data.ValidID) | html %]</td>
-                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-download"></i> [% Translate("Export") | html %]</a></td>
-                            <td><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i> [% Translate("Copy") | html %]</a></td>
+                            <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-download"></i><span class="InvisibleText">[% Translate("Export") | html %]</span></a></td>
+                            <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i><span class="InvisibleText">[% Translate("Copy") | html %]</span></a></td>
                         </tr>
 [% RenderBlockEnd("ACLRow") %]
 [% RenderBlockStart("ACLNoDataRow") %]
