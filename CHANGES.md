@@ -1,3 +1,6 @@
+#3.3.10 ????-??-??
+ - 2014-09-04 Fixed bug#[10708](http://bugs.otrs.org/show_bug.cgi?id=10708) - ProcessManagement: ActivityDialog Description short and long are not displaying.
+
 #3.3.9 2014-09-09
  - 2014-08-29 Fixed bug#[10697](http://bugs.otrs.org/show_bug.cgi?id=10697) - Column name in CSV report of stats is lowercase.
  - 2014-08-29 Fixed bug#[10652](http://bugs.otrs.org/show_bug.cgi?id=10652) - Process tickets without any articles create empty lines in AgentTicketSearch CSV result file.
