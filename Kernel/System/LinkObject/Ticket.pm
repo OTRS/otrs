@@ -57,8 +57,9 @@ sub new {
 fill up the link list with data
 
     $Success = $LinkObjectBackend->LinkListWithData(
-        LinkList => $HashRef,
-        UserID   => 1,
+        LinkList                     => $HashRef,
+        IgnoreLinkedTicketStateTypes => 0|1,        # (optional) default 0
+        UserID                       => 1,
     );
 
 =cut
@@ -89,6 +90,16 @@ sub LinkListWithData {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+    # get config, which ticket state types should not be included in linked tickets overview
+    my @IgnoreLinkedTicketStateTypes
+        = @{
+        $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes')
+            // []
+        };
+
+    my %IgnoreLinkTicketStateTypesHash;
+    map { $IgnoreLinkTicketStateTypesHash{$_}++ } @IgnoreLinkedTicketStateTypes;
+
     for my $LinkType ( sort keys %{ $Param{LinkList} } ) {
 
         for my $Direction ( sort keys %{ $Param{LinkList}->{$LinkType} } ) {
@@ -105,6 +116,14 @@ sub LinkListWithData {
 
                 # remove id from hash if ticket can not get
                 if ( !%TicketData ) {
+                    delete $Param{LinkList}->{$LinkType}->{$Direction}->{$TicketID};
+                    next TICKETID;
+                }
+
+                # if param is set, remove entries from hash with configured ticket state types
+                if (   $Param{IgnoreLinkedTicketStateTypes}
+                    && $IgnoreLinkTicketStateTypesHash{ $TicketData{StateType} } )
+                {
                     delete $Param{LinkList}->{$LinkType}->{$Direction}->{$TicketID};
                     next TICKETID;
                 }

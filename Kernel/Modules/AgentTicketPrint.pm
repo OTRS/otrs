@@ -101,11 +101,15 @@ sub Run {
 
     # get linked objects
     my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
-        Object                       => 'Ticket',
-        Key                          => $Self->{TicketID},
-        State                        => 'Valid',
-        IgnoreLinkedTicketStateTypes => 1,
-        UserID                       => $Self->{UserID},
+        Object           => 'Ticket',
+        Key              => $Self->{TicketID},
+        State            => 'Valid',
+        UserID           => $Self->{UserID},
+        ObjectParameters => {
+            Ticket => {
+                IgnoreLinkedTicketStateTypes => 1,
+            },
+        },
     );
 
     # get link type list
@@ -1093,18 +1097,23 @@ sub _PDFOutputArticles {
             }
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
+        {
             $Article{Body} = $Self->{JSONObject}->Decode(
                 Data => $Article{Body}
             );
             my $Lines;
-            if (IsArrayRefWithData($Article{Body})) {
-                for my $Line (@{$Article{Body}}) {
-                    if ($Line->{SystemGenerated}) {
-                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} ."\n";
+            if ( IsArrayRefWithData( $Article{Body} ) ) {
+                for my $Line ( @{ $Article{Body} } ) {
+                    if ( $Line->{SystemGenerated} ) {
+                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} . "\n";
                     }
                     else {
-                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{ChatterName} . ' ' . $Line->{MessageText} ."\n";
+                        $Lines
+                            .= '['
+                            . $Line->{CreateTime} . '] '
+                            . $Line->{ChatterName} . ' '
+                            . $Line->{MessageText} . "\n";
                     }
                 }
             }
@@ -1299,7 +1308,8 @@ sub _HTMLMask {
                 . "$File{Filename}</a> $File{Filesize}<br/>";
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
+        {
             $Article{ChatMessages} = $Self->{JSONObject}->Decode(
                 Data => $Article{Body},
             );

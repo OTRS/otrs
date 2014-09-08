@@ -528,12 +528,14 @@ sub LinkAdd {
     }
 
     # get backend of source object
-    my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{SourceObject} );
+    my $BackendSourceObject
+        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{SourceObject} );
 
     return if !$BackendSourceObject;
 
     # get backend of target object
-    my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{TargetObject} );
+    my $BackendTargetObject
+        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{TargetObject} );
 
     return if !$BackendTargetObject;
 
@@ -777,12 +779,14 @@ sub LinkDelete {
     );
 
     # get backend of source object
-    my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{SourceObject} );
+    my $BackendSourceObject
+        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{SourceObject} );
 
     return if !$BackendSourceObject;
 
     # get backend of target object
-    my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{TargetObject} );
+    my $BackendTargetObject
+        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{TargetObject} );
 
     return if !$BackendTargetObject;
 
@@ -1210,8 +1214,12 @@ Return
         State                           => 'Valid',
         Type                            => 'ParentChild', # (optional)
         Direction                       => 'Target',      # (optional) default Both (Source|Target|Both)
-        IgnoreLinkedTicketStateTypes    => 0|1            # (optional) default 0
-        UserID    => 1,
+        UserID                          => 1,
+        ObjectParameters                => {              # (optional) backend specific flags
+            Ticket => {
+                IgnoreLinkedTicketStateTypes => 0|1,
+            },
+        },
     );
 
 =cut
@@ -1250,10 +1258,18 @@ sub LinkListWithData {
             next OBJECT;
         }
 
+        my %ObjectParameters = ();
+        if (   ref $Param{ObjectParameters} eq 'HASH'
+            && ref $Param{ObjectParameters}->{$Object} eq 'HASH' )
+        {
+            %ObjectParameters = %{ $Param{ObjectParameters}->{$Object} };
+        }
+
         # add backend data
         my $Success = $BackendObject->LinkListWithData(
             LinkList => $LinkList->{$Object},
             UserID   => $Param{UserID},
+            %ObjectParameters,
         );
 
         next OBJECT if $Success;
@@ -1261,74 +1277,29 @@ sub LinkListWithData {
         delete $LinkList->{$Object};
     }
 
-    if ( $Param{IgnoreLinkedTicketStateTypes} ) {
-
-        # get config, which ticket state types should not be included in linked tickets overview
-        my @IgnoreLinkedTicketStateTypes
-            = @{
-            $Kernel::OM->Get('Kernel::Config')->Get('LinkObject::IgnoreLinkedTicketStateTypes')
-                // []
-            };
-
-        if (@IgnoreLinkedTicketStateTypes) {
-            my %IgnoreLinkTicketStateTypesHash;
-            map { $IgnoreLinkTicketStateTypesHash{$_}++ } @IgnoreLinkedTicketStateTypes;
-
-            # remove tickets with configured ticket state types from list
-            OBJECT:
-            for my $Object ( sort keys %{$LinkList} ) {
-                next OBJECT if $Object ne 'Ticket';
-
-                LINKTYPE:
-                for my $LinkType ( sort keys %{ $LinkList->{$Object} } ) {
-
-                    DIRECTION:
-                    for my $Direction ( sort keys %{ $LinkList->{$Object}->{$LinkType} } ) {
-
-                        TICKETID:
-                        for my $TicketID (
-                            sort keys %{ $LinkList->{$Object}->{$LinkType}->{$Direction} }
-                            )
-                        {
-
-                            next TICKETID
-                                if
-                                !$IgnoreLinkTicketStateTypesHash{
-                                $LinkList->{$Object}->{$LinkType}
-                                    ->{$Direction}->{$TicketID}->{StateType}
-                                };
-
-                            delete $LinkList->{$Object}->{$LinkType}->{$Direction}->{$TicketID};
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     # clean the hash
     OBJECT:
     for my $Object ( sort keys %{$LinkList} ) {
 
         LINKTYPE:
-        for my $LinkType ( sort keys %{ $Param{LinkList} } ) {
+        for my $LinkType ( sort keys %{ $LinkList->{$Object} } ) {
 
             DIRECTION:
-            for my $Direction ( sort keys %{ $Param{LinkList}->{$LinkType} } ) {
+            for my $Direction ( sort keys %{ $LinkList->{$Object}->{$LinkType} } ) {
 
-                next DIRECTION if %{ $Param{LinkList}->{$LinkType}->{$Direction} };
+                next DIRECTION if %{ $LinkList->{$Object}->{$LinkType}->{$Direction} };
 
-                delete $Param{LinkList}->{$LinkType}->{$Direction};
+                delete $LinkList->{$Object}->{$LinkType}->{$Direction};
             }
 
-            next LINKTYPE if %{ $Param{LinkList}->{$LinkType} };
+            next LINKTYPE if %{ $LinkList->{$Object}->{$LinkType} };
 
-            delete $Param{LinkList}->{$LinkType};
+            delete $LinkList->{$Object}->{$LinkType};
         }
 
-        next OBJECT if %{ $Param{LinkList} };
+        next OBJECT if %{ $LinkList->{$Object} };
 
-        delete $Param{LinkList};
+        delete $LinkList->{$Object};
     }
 
     return $LinkList;
@@ -2456,7 +2427,6 @@ sub ObjectSearch {
 
     return \%ObjectList;
 }
-
 
 1;
 
