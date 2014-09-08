@@ -165,6 +165,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
             Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function(Form) {
                 if ( $('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && parseInt(Core.Config.Get('TextIsSpellChecked'), 10) === 0 ) {
+                    Core.App.Publish('Event.Agent.TicketAction.NeedSpellCheck', [$('#RichText')]);
                     Core.UI.Dialog.ShowContentDialog('<p>' + Core.Config.Get('SpellCheckNeededMsg') + '</p>', '', '150px', 'Center', true, [
                         {
                             Label: '<span>' + Core.Config.Get('DialogCloseMsg') + '</span>',
@@ -241,6 +242,18 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 }
             }
         });
+
+        // Subscribe to NeedSpellCheck event to open RTE widget if collapsed, if spellcheck is needed on submit
+        Core.App.Subscribe('Event.Agent.TicketAction.NeedSpellCheck', function ($TextElement) {
+            var $Widget = $TextElement.closest('div.WidgetSimple');
+
+            if ($Widget.attr('id') !== 'WidgetArticle' || $Widget.hasClass('Expanded')) {
+                return;
+            }
+
+            $Widget.find('div.WidgetAction.Toggle > a').trigger('click');
+        });
+
     };
 
     /**
