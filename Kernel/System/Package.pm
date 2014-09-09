@@ -3160,6 +3160,8 @@ sub _FileSystemCheck {
 sub _Encode {
     my ( $Self, $Text ) = @_;
 
+    return $Text if !defined $Text;
+
     $Text =~ s/&/&amp;/g;
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
