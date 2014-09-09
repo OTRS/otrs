@@ -18,6 +18,7 @@ use Kernel::Output::HTML::ArticleCheckSMIME;
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
@@ -196,7 +197,7 @@ my @Certificates = (
 for my $Certificate (@Certificates) {
 
     # add certificate ...
-    my $CertString = $Self->{MainObject}->FileRead(
+    my $CertString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $Certificate->{CertificateFileName},
     );
@@ -207,11 +208,11 @@ for my $Certificate (@Certificates) {
     );
 
     # and private key
-    my $KeyString = $Self->{MainObject}->FileRead(
+    my $KeyString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $Certificate->{PrivateKeyFileName},
     );
-    my $Secret = $Self->{MainObject}->FileRead(
+    my $Secret = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $Certificate->{PrivateSecretFileName},
     );

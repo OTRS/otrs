@@ -9,31 +9,14 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use Kernel::Config;
-use Kernel::System::CustomerUser;
-use Kernel::System::DB;
-use Kernel::System::Queue;
-use Kernel::System::Priority;
-use Kernel::System::Service;
-use Kernel::System::SLA;
-use Kernel::System::State;
-use Kernel::System::Ticket;
-use Kernel::System::Type;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-use Kernel::System::Valid;
+use vars (qw($Self));
 
-use vars qw($Self);
-
-# create objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
-
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
 $ConfigObject->Set(
     Key   => 'Ticket::Acl::Module',
     Value => {
@@ -45,28 +28,14 @@ $ConfigObject->Set(
         },
     },
 );
-my $ValidObject = Kernel::System::Valid->new( %{$Self} );
-my $UserObject  = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject    = Kernel::System::Queue->new( %{$Self} );
-my $ServiceObject  = Kernel::System::Service->new( %{$Self} );
-my $TypeObject     = Kernel::System::Type->new( %{$Self} );
-my $PriorityObject = Kernel::System::Priority->new( %{$Self} );
-my $SLAObject      = Kernel::System::SLA->new( %{$Self} );
-my $StateObject    = Kernel::System::State->new( %{$Self} );
 
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-
-    # use custom config object with current ACLs
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $ValidObject    = $Kernel::OM->Get('Kernel::System::Valid');
+my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
+my $QueueObject    = $Kernel::OM->Get('Kernel::System::Queue');
+my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
+my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
+my $TicketObject   = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # set valid options
 my %ValidList = $ValidObject->ValidList();

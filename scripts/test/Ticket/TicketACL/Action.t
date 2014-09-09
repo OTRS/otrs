@@ -7,34 +7,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
-use vars qw($Self);
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::User;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
-
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # set user options
 my $UserLogin = $HelperObject->TestUserCreate(

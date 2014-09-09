@@ -10,6 +10,8 @@
 use strict;
 use warnings;
 
+use Kernel::System::ObjectManager;
+
 package scripts::test::Ticket::TicketACL::DummyModule;    ## no critic
 
 our @ObjectDependencies = (
@@ -55,6 +57,7 @@ sub Run {
                 }
         },
     };
+
     return 1;
 }
 

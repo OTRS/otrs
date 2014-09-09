@@ -9,16 +9,13 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::CustomerUser;
-use Kernel::System::DynamicField;
-use Kernel::System::Ticket;
 use Kernel::System::UnitTest::Helper;
 
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # don't check email address validity
@@ -29,9 +26,6 @@ $ConfigObject->Set(
 
 # create helper object
 my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    ConfigObject               => $ConfigObject,
-    UnitTestObject             => $Self,
     RestoreSystemConfiguration => 1,
 );
 
@@ -54,19 +48,10 @@ $ConfigObject->Set(
     },
 );
 
-# create all other objects
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $DynamicFieldObject = Kernel::System::DynamicField->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get needed objects
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 # create the required dynamic fields
 my @DynamicFields = (
