@@ -11,19 +11,18 @@ use strict;
 use warnings;
 use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
-use Kernel::System::Cache;
-use Kernel::System::UnitTest::Helper;
-
-# use local Config object because it will be modified
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # get home directory
 my $HomeDir = $ConfigObject->Get('Home');
 
 # get all avaliable backend modules
-my @BackendModuleFiles = $Self->{MainObject}->DirectoryRead(
+my @BackendModuleFiles = $MainObject->DirectoryRead(
     Directory => $HomeDir . '/Kernel/System/Cache/',
     Filter    => '*.pm',
     Silent    => 1,
@@ -46,23 +45,16 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     for my $SubdirLevels ( 0 .. 3 ) {
 
+        # make sure that the CacheObject gets recreated for each loop.
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Cache'] );
+
         $ConfigObject->Set(
             Key   => 'Cache::SubdirLevels',
             Value => $SubdirLevels,
         );
 
-        # creates a local helper object
-        my $HelperObject = Kernel::System::UnitTest::Helper->new(
-            %{$Self},
-            ConfigObject   => $ConfigObject,
-            UnitTestObject => $Self,
-        );
-
-        # create a local cache object
-        my $CacheObject = Kernel::System::Cache->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+        # get a new cache object
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
         next MODULEFILE if !$CacheObject;
 
@@ -71,7 +63,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
         # some tests check that the cache expires, for that we have to disable the in-memory cache
         $CacheObject->Configure(
-            CacheInMemory => 0
+            CacheInMemory => 0,
         );
 
         # set fixed time

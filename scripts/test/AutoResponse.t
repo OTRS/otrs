@@ -9,14 +9,14 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::AutoResponse;
-use Kernel::System::SystemAddress;
-
-# create local objects
-my $AutoResponseObject  = Kernel::System::AutoResponse->new( %{$Self} );
-my $SystemAddressObject = Kernel::System::SystemAddress->new( %{$Self} );
+# get needed objects
+my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
+my $EncodeObject        = $Kernel::OM->Get('Kernel::System::Encode');
+my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 # add system address
 my $SystemAddressNameRand0 = 'unittest' . int rand 1000000;
@@ -78,7 +78,7 @@ $Self->Is(
 );
 
 # check return charset based on system wide utf8 or not
-if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+if ( $EncodeObject->EncodeInternalUsed() ) {
     $Self->Is(
         $AutoResponse{Charset} || '',
         'utf-8',
@@ -163,7 +163,7 @@ $Self->Is(
 );
 
 # check return charset based on system wide utf8 or not
-if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+if ( $EncodeObject->EncodeInternalUsed() ) {
     $Self->Is(
         $AutoResponse{Charset} || '',
         'utf-8',

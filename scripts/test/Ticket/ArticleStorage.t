@@ -59,7 +59,7 @@ $Self->True(
 # article attachment checks
 for my $Backend (qw(DB FS)) {
 
-    # Make sure that the TicketObject gets recreated for each loop.
+    # make sure that the TicketObject gets recreated for each loop.
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
     $ConfigObject->Set(

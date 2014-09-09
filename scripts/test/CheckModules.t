@@ -10,9 +10,15 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+my $Home = $ConfigObject->Get('Home');
 my $TmpSumString;
 
 if ( open( $TmpSumString, '-|', "$^X $Home/bin/otrs.CheckModules.pl --all NoColors" ) )

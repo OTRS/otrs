@@ -10,9 +10,11 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::CloudService;
+use Kernel::System::ObjectManager;
+
 use Kernel::System::VariableCheck qw(:all);
 
 my $Index = 0;
@@ -108,9 +110,7 @@ my @Tests = (
 
 );
 
-my $CloudServiceObject = Kernel::System::CloudService->new(
-    %{$Self},
-);
+my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
 
 for my $Test (@Tests) {
 

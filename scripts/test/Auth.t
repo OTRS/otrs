@@ -10,9 +10,10 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-# use local Config object because it will be modified
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # configure auth backend to db
@@ -40,13 +41,10 @@ my $TestUserID;
 
 my $UserRand1 = 'example-user' . int rand 1000000;
 
-# add test user
-my $GlobalUserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
-$TestUserID = $GlobalUserObject->UserAdd(
+# add test user
+$TestUserID = $UserObject->UserAdd(
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
     UserLogin     => $UserRand1,
@@ -175,7 +173,7 @@ for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
     }
 }
 
-$TestUserID = $GlobalUserObject->UserUpdate(
+$TestUserID = $UserObject->UserUpdate(
     UserID        => $TestUserID,
     UserFirstname => 'Firstname Test1',
     UserLastname  => 'Lastname Test1',
