@@ -20,6 +20,10 @@ use File::Temp();
 use Kernel::Config;
 use Kernel::System::User;
 
+our @ObjectDependencies = (
+    'Kernel::System::UnitTest',
+);
+
 =head1 NAME
 
 Kernel::System::UnitTest::Selenium - run frontend tests
@@ -59,11 +63,7 @@ Then you can use the full API of Selenium::Remote::Driver on this object.
 sub new {
     my ( $Class, %Param ) = @_;
 
-    for my $Needed (qw(UnitTestObject)) {
-        if ( !$Param{$Needed} ) {
-            die "Got no $Needed!";
-        }
-    }
+    $Param{UnitTestObject} ||= $Kernel::OM->Get('Kernel::System::UnitTest');
 
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
