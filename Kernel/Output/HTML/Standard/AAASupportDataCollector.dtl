@@ -110,9 +110,8 @@ $Text{"Kernel Version"}
 $Text{"Could not determine kernel version."}
 
 # OS/Load.pm
-$Text{"Load"}
-$Text{"The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK."}
-$Text{"Could not determine system load."}
+$Text{"System Load"}
+$Text{"The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a 8 CPUs system is OK."}
 
 # OS/PerlModules.pm
 $Text{"Perl Modules"}
