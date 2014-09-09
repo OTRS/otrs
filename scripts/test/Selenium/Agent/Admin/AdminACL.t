@@ -9,25 +9,26 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
+
+use Selenium::Remote::WDKeys;
 
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::UnitTest::Selenium;
 
-use Selenium::Remote::WDKeys;
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
+    Verbose => 1,
 );
 
 $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            UnitTestObject => $Self,
-            %{$Self},
             RestoreSystemConfiguration => 0,
         );
 
@@ -56,7 +57,7 @@ JAVASCRIPT
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminACL");
 
@@ -148,10 +149,6 @@ JAVASCRIPT
         $Selenium->execute_script($CheckAlertJS);
         $Selenium->find_element( ".ItemAddLevel1 option[value='Properties']", 'css' )->click();
         my $LanguageObject = Kernel::Language->new(
-            MainObject   => $Self->{MainObject},
-            ConfigObject => $Self->{ConfigObject},
-            EncodeObject => $Self->{EncodeObject},
-            LogObject    => $Self->{LogObject},
             UserLanguage => 'de',
         );
         $Self->Is(
@@ -175,8 +172,7 @@ JAVASCRIPT
 
         # type in some text & confirm by pressing 'enter', which should produce a new field
         $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys('Test');
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )
-            ->send_keys("\N{U+E007}");
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys("\N{U+E007}");
 
         # now there should be a two new elements: .ItemPrefix and .NewDataItem
         $Self->Is(
@@ -190,10 +186,10 @@ JAVASCRIPT
             'Check for .NewDataItem element',
         );
 
-      # now lets add the DynamicField element on level 2, which should create a new dropdown element
-      # containing dynamic fields and an 'Add all' button
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )
-            ->click();
+        # now lets add the DynamicField element on level 2, which should create a new dropdown
+        # element containing dynamic fields and an 'Add all' button
+        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->click();
+
         $Self->Is(
             $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )
                 ->is_displayed(),
@@ -205,7 +201,7 @@ JAVASCRIPT
             '1',
             'Check for .AddAll element',
         );
-        }
+    }
 );
 
 1;

@@ -9,15 +9,18 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::UnitTest::Selenium;
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
+    Verbose => 1,
 );
 
 $Selenium->RunTest(
@@ -29,7 +32,7 @@ $Selenium->RunTest(
             Password => 'root',
         );
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminSelectBox");
 
@@ -75,7 +78,7 @@ $Selenium->RunTest(
             3,
             "Result table body rows found",
         );
-        }
+    }
 );
 
 1;

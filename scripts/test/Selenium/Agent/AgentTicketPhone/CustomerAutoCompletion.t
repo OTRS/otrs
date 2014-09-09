@@ -9,31 +9,36 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
-
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::User;
-use Kernel::System::CustomerUser;
-use Kernel::System::UnitTest::Selenium;
+use vars (qw($Self));
 
 use Time::HiRes qw(sleep);
+
+use Kernel::System::UnitTest::Helper;
+use Kernel::System::UnitTest::Selenium;
+
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# do not checkmx
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new(
+    Verbose => 1,
+);
 
 # This test checks if the customer auto completion works correctly.
 # Special case: it must also work when called up directly via GET-Parameter.
 # http://bugs.otrs.org/show_bug.cgi?id=7158
 
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
-);
-
 $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            UnitTestObject => $Self,
-            %{$Self},
             RestoreSystemConfiguration => 0,
         );
 
@@ -47,20 +52,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-
-        # create local objects
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        $ConfigObject->Set(
-            Key   => 'CheckEmailAddresses',
-            Value => 0,
-        );
-
-        my $CustomerUserObject = Kernel::System::CustomerUser->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # create a test customer
         my $TestCustomerUser1 = $Helper->TestCustomerUserCreate()
@@ -101,6 +93,8 @@ $Selenium->RunTest(
 
         $Self->True( $Success, "Updated test user 2" );
 
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
         # Normal autocomplete tests
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
@@ -140,7 +134,7 @@ $Selenium->RunTest(
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
         }
-        }
+    }
 );
 
 1;

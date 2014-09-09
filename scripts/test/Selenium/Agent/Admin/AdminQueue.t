@@ -9,23 +9,24 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::UnitTest::Selenium;
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
+    Verbose => 1,
 );
 
 $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            UnitTestObject => $Self,
-            %{$Self},
             RestoreSystemConfiguration => 0,
         );
 
@@ -39,7 +40,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminQueue");
 
@@ -187,7 +188,7 @@ $Selenium->RunTest(
             '',
             "#Comment updated value",
         );
-        }
+    }
 );
 
 1;

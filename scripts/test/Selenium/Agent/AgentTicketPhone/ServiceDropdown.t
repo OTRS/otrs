@@ -9,37 +9,39 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
 use Kernel::System::UnitTest::Helper;
-use Kernel::System::Service;
-use Kernel::System::Ticket;
 use Kernel::System::UnitTest::Selenium;
-use Kernel::System::SysConfig;
+
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# do not checkmx
+$ConfigObject->Set(
+    Key   => 'CheckEmailAddresses',
+    Value => 0,
+);
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new(
+    Verbose => 1,
+);
 
 # this test is to check that when AgentTicketPhone is loaded already with
 # customer data on it (like when doing Split), the dropdown of Service is
 # prefilled with the correct data. This is because of bug
 # http://bugs.otrs.org/show_bug.cgi?id=7060
 
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
-);
-
 $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            UnitTestObject => $Self,
-            %{$Self},
             RestoreSystemConfiguration => 1,
         );
 
-        my $SysConfigObject = Kernel::System::SysConfig->new(
-            %{$Self},
-        );
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # update sysconfig settings
         $SysConfigObject->ConfigItemUpdate(
@@ -58,28 +60,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
-
         # create a customer and a ticket from that customer as previous
         # steps to do the selenium testing
 
-        # create local objects
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        # do not checkmx
-        $ConfigObject->Set(
-            Key   => 'CheckEmailAddresses',
-            Value => 0,
-        );
-
-        my $ServiceObject = Kernel::System::Service->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
-        my $TicketObject = Kernel::System::Ticket->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+        my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
+        my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # create a test customer
         my $TestUserCustomer = $Helper->TestCustomerUserCreate()
@@ -129,6 +114,8 @@ $Selenium->RunTest(
             UserID         => 1,
         );
 
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
         # real selenium test start
         # open the page that clicking on Split link of the zoom view of the
         # just created ticket would open
@@ -152,8 +139,7 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
-
-        }
+    }
 );
 
 1;

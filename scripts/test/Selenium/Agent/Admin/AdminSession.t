@@ -9,30 +9,28 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
 use Kernel::System::UnitTest::Helper;
-use Kernel::System::AuthSession;
 use Kernel::System::UnitTest::Selenium;
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
+    Verbose => 1,
 );
 
 $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            UnitTestObject => $Self,
-            %{$Self},
             RestoreSystemConfiguration => 0,
         );
 
-        my $AuthSessionObject = Kernel::System::AuthSession->new(
-            %{$Self},
-        );
+        my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
@@ -65,7 +63,7 @@ $Selenium->RunTest(
             "Current session ID found for user $TestUserLogin",
         ) || return;
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminSession");
 
@@ -103,7 +101,7 @@ $Selenium->RunTest(
 
         # make sure that we now see the login screen
         $Selenium->find_element( "#LoginBox", 'css' );
-        }
+    }
 );
 
 1;

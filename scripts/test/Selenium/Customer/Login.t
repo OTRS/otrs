@@ -9,36 +9,36 @@
 
 use strict;
 use warnings;
+use utf8;
 
-use vars qw($Self);
-
-use Kernel::Config;
+use vars (qw($Self));
 
 use Kernel::System::UnitTest::Helper;
 use Kernel::System::UnitTest::Selenium;
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose        => 1,
-    UnitTestObject => $Self,
+    Verbose => 1,
 );
 
 $Selenium->RunTest(
     sub {
+
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            UnitTestObject => $Self,
-            %{$Self},
             RestoreSystemConfiguration => 0,
         );
 
         my $TestUserLogin = $Helper->TestCustomerUserCreate() || die "Did not get test user";
 
-        my $ScriptAlias = $Self->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # First load the page so we can delete any pre-existing cookies
+        # first load the page so we can delete any pre-existing cookies
         $Selenium->get("${ScriptAlias}customer.pl");
         $Selenium->delete_all_cookies();
 
-        # Now load it again to login
+        # now load it again to login
         $Selenium->get("${ScriptAlias}customer.pl");
 
         # prevent version information disclosure
@@ -71,7 +71,7 @@ $Selenium->RunTest(
         $Element->is_displayed();
         $Element->is_enabled();
         $Element->send_keys($TestUserLogin);
-        }
+    }
 );
 
 1;
