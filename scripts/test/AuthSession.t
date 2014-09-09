@@ -15,6 +15,8 @@ use vars (qw($Self));
 
 use Storable;
 
+use Kernel::System::AuthSession;
+
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
@@ -60,9 +62,6 @@ for my $SessionFile (@SampleSessionFiles) {
 MODULEFILE:
 for my $ModuleFile (@BackendModuleFiles) {
 
-    # make sure that the SessionObject gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::AuthSession'] );
-
     next MODULEFILE if !$ModuleFile;
 
     # extract module name
@@ -75,7 +74,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         Value => "Kernel::System::AuthSession::$Module",
     );
 
-    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+    my $SessionObject = Kernel::System::AuthSession->new();
 
     my $LongString = '';
     for my $Count ( 1 .. 2 ) {
