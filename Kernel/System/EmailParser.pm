@@ -665,8 +665,10 @@ sub PartsAttachments {
 
     # check if there is no recommended_filename or subject -> add file-NoFilenamePartCounter
     if ( $Part->head()->recommended_filename() ) {
-        $PartData{Filename}
-            = $Self->_DecodeMimewords( String => $Part->head()->recommended_filename() );
+        $PartData{Filename} = $Self->_DecodeString(
+            String => $Part->head()->recommended_filename(),
+            Encode => 'utf-8',
+        );
         $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
         if ( $PartData{ContentDisposition} ) {
             my %Data = $Self->GetContentTypeParams(
@@ -694,21 +696,7 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
 
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
-
-        # get encode object
-        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-        my $Subject;
-        for my $Decoded ( $Self->_DecodeMimewords( String => $SubjectString ) ) {
-
-            if ( $Decoded->[0] ) {
-                $Subject .= $EncodeObject->Convert2CharsetInternal(
-                    Text  => $Decoded->[0],
-                    From  => $Decoded->[1] || 'us-ascii',
-                    Check => 1,
-                );
-            }
-        }
+        my $Subject = $Self->_DecodeString( String => $SubjectString );
 
         # trim whitespace
         $Subject =~ s/^\s+|\n|\s+$//g;
@@ -914,54 +902,44 @@ sub _DecodeString {
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $DecodedString;
+    my $BufferedString;
+    my $PrevEncoding;
 
-    for my $Entry ( $Self->_DecodeMimewords( String => $Param{String} ) ) {
+    $BufferedString = '';
 
+    # call MIME::Words::decode_mimewords()
+    for my $Entry ( decode_mimewords( $Param{String} ) ) {
+        if (
+            $BufferedString ne ''
+            && ( !$PrevEncoding || !$Entry->[1] || lc($PrevEncoding) ne lc( $Entry->[1] ) )
+            )
+        {
+            my $Encoding = $EncodeObject->FindAsciiSupersetEncoding(
+                Encodings => [ $PrevEncoding, $Param{Encode}, $Self->GetCharset() ],
+            );
+            $DecodedString .= $EncodeObject->Convert2CharsetInternal(
+                Text  => $BufferedString,
+                From  => $Encoding,
+                Check => 1,
+            );
+            $BufferedString = '';
+        }
+        $BufferedString .= $Entry->[0];
+        $PrevEncoding = $Entry->[1];
+    }
+
+    if ( $BufferedString ne '' ) {
         my $Encoding = $EncodeObject->FindAsciiSupersetEncoding(
-            Encodings => [ $Entry->[1], $Self->GetCharset() ],
+            Encodings => [ $PrevEncoding, $Param{Encode}, $Self->GetCharset() ],
         );
-
         $DecodedString .= $EncodeObject->Convert2CharsetInternal(
-            Text  => $Entry->[0],
+            Text  => $BufferedString,
             From  => $Encoding,
             Check => 1,
         );
     }
 
     return $DecodedString;
-}
-
-=item _DecodeMimewords()
-
-Wrapper for MIME::Words::decode_mimewords().
-
-This wrapper joins splitted quoted strings since the original split might not always split the lines
-in the corect byte (e.g. for utf-8 encoded strings), see bug$9418 for more details
-
-    my $Result = $ParserObject->_DecodeMimewords(
-        String => 'some text',
-    );
-
-=cut
-
-sub _DecodeMimewords {
-    my ( $Self, %Param ) = @_;
-
-    my $String = $Param{String};
-
-    # check is the string in encoded quote printable (e.g '=?utf-8?Q?=D0=95?=')
-    if ( $String =~ m{\A = \? ([^\?]+) \? Q \?}msx ) {
-
-        # use capturing group as encoding
-        my $Encoding = $1;
-
-        # remove multiple encoding lines, as the line could be splitted in the middle of the byte
-        # but leave the first (regular expession will convert cases like ...=D0?= =?utf-8?Q?=BE...
-        # into ...=D0=BE...)
-        # the result will be a "concatenated string" that will be sent to decode_mnimewords()
-        $String =~ s{\? = \s+ = \? $Encoding \? Q \?}{}gmsx;
-    }
-    return decode_mimewords($String);
 }
 
 =item _MailAddressParse()

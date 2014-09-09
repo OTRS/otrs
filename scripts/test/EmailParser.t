@@ -879,6 +879,30 @@ $Self->Is(
     "#21 GetParam(WHAT => 'Subject' Multiline encode quote printable)",
 );
 
+# test #22
+@Array = ();
+open( $IN, "<", "$Home/scripts/test/sample/EmailParser/PostMaster-Test22.box" );    ## no critic
+while (<$IN>) {
+    push( @Array, $_ );
+}
+close($IN);
+
+$EmailParserObject = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'To' ),
+    'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+    "#21 GetParam(WHAT => 'To' Multiline encode)",
+);
+$Self->Is(
+    $EmailParserObject->GetParam( WHAT => 'Subject' ),
+    'QBQB Евгений Васильев Новоподзалупинский <xxzzyy@gmail.com>',
+    "#21 GetParam(WHAT => 'Subject' Multiline encode)",
+);
+
 @Array = ();
 open( $IN, "<", "$Home/scripts/test/sample/EmailParser/UTF-7.box" );    ## no critic
 while (<$IN>) {
