@@ -10,8 +10,10 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
+# get needed objects
 my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');

@@ -9,10 +9,11 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 

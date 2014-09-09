@@ -9,19 +9,11 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::State;
-use Kernel::System::Queue;
-use Kernel::System::Type;
-
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+# get needed objects
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
 my $TypeObject   = $Kernel::OM->Get('Kernel::System::Type');

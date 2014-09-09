@@ -9,16 +9,16 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::CustomerUser;
-use Kernel::System::Ticket;
-use Kernel::System::UnitTest::Helper;
+use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # add two users
@@ -27,10 +27,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 my @CustomerLogins;
 my $Rand = int( rand(1000000) );
@@ -175,7 +172,7 @@ for my $CustomerUserLogin (@CustomerLogins) {
 
     print $CustomerUserLogin;
     print "\n";
-    my $Success = $Self->{DBObject}->Do(
+    my $Success = $DBObject->Do(
         SQL  => 'DELETE FROM customer_user WHERE login = ?',
         Bind => [ \$CustomerUserLogin ],
     );

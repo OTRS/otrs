@@ -9,29 +9,15 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::CustomerCompany;
-use Kernel::System::Ticket;
-use Kernel::System::UnitTest::Helper;
-
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-);
-my $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
-    %{$Self},
-);
+# get needed objects
+my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+my $TicketObject          = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @CustomerCompanyIDs;
 

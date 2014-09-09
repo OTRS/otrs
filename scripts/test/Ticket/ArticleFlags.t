@@ -9,23 +9,13 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some Ticket_Title',

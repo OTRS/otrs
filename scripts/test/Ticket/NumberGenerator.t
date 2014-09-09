@@ -9,11 +9,11 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # check all number generators

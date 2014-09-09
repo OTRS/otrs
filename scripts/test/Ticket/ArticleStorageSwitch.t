@@ -9,13 +9,15 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # create tickets/article/attachments in backend for article storage switch tests
 for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
@@ -45,7 +47,7 @@ for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
         # new ticket check
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
-        my $ContentRef = $Self->{MainObject}->FileRead(
+        my $ContentRef = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
             Result   => 'ARRAY',

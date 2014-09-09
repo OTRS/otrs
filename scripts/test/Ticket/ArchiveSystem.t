@@ -9,14 +9,11 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-
-# create local objects
+# get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
@@ -29,14 +26,8 @@ $ConfigObject->Set(
     Value => 1,
 );
 
-my $UserObject = Kernel::System::User->new(
-    ConfigObject => $ConfigObject,
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+# get ticket object
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @Tests = (
     {

@@ -9,20 +9,13 @@
 
 use strict;
 use warnings;
-
 use utf8;
-use vars qw($Self);
 
-use Kernel::System::User;
-use Kernel::System::Ticket;
+use vars (qw($Self));
 
-# create local objects
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-);
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Some test ticket for ArticleContentIndex',

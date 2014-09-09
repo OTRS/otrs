@@ -9,22 +9,18 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # create local objects
 my $RandomID = int rand 1_000_000_000;
 
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',

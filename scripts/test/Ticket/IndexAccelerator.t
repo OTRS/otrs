@@ -9,14 +9,14 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
-    # Make sure that the TicketObject gets recreated for each loop.
+    # make sure that the TicketObject gets recreated for each loop.
     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

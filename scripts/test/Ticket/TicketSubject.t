@@ -9,20 +9,18 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
+
     for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
-        # Make sure that the TicketObject gets recreated for each loop.
+        # make sure that the TicketObject gets recreated for each loop.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
 
         $ConfigObject->Set(

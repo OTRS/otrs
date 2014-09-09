@@ -7,20 +7,22 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
-    #get a random id
+    # get a random id
     my $RandomID = $HelperObject->GetRandomID();
 
     # Make sure that the TicketObject gets recreated for each loop.

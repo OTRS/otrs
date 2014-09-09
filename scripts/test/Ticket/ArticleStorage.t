@@ -9,18 +9,15 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
 use Unicode::Normalize;
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $TicketID = $TicketObject->TicketCreate(
@@ -82,9 +79,9 @@ for my $Backend (qw(DB FS)) {
         Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)
         )
     {
-        my $Location = $Self->{ConfigObject}->Get('Home')
+        my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Ticket/$File";
-        my $ContentRef = $Self->{MainObject}->FileRead(
+        my $ContentRef = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
         );
@@ -97,7 +94,7 @@ for my $Backend (qw(DB FS)) {
         {
             my $Content                = ${$ContentRef};
             my $FileNew                = $FileName . $File;
-            my $MD5Orig                = $Self->{MainObject}->MD5sum( String => $Content );
+            my $MD5Orig                = $MainObject->MD5sum( String => $Content );
             my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
                 Content     => $Content,
                 Filename    => $FileNew,
@@ -149,7 +146,7 @@ for my $Backend (qw(DB FS)) {
                 $Data{ContentType} eq 'image/png',
                 "$Backend ArticleWriteAttachment() / ArticleAttachment() - $File",
             );
-            my $MD5New = $Self->{MainObject}->MD5sum( String => $Data{Content} );
+            my $MD5New = $MainObject->MD5sum( String => $Data{Content} );
             $Self->Is(
                 $MD5Orig || '1',
                 $MD5New  || '2',

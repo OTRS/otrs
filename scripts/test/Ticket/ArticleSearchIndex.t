@@ -9,16 +9,12 @@
 
 use strict;
 use warnings;
-
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::Ticket;
-
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+# get needed objects
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
 
 # tests for article search index modules
 for my $Module (qw(StaticDB RuntimeDB)) {
