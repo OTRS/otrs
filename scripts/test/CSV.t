@@ -10,12 +10,13 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::CSV;
+use Kernel::System::ObjectManager;
 
-# create local object
-my $CSVObject = Kernel::System::CSV->new( %{$Self} );
+# get needed objects
+my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
 
 my $CSV = $CSVObject->Array2CSV(
     Head => [ 'RowA', 'RowB', ],
