@@ -81,7 +81,7 @@ my %Check = (
     },
 );
 
-my $TestText = 'hello1234567890����';
+my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
     my @Keys = $CryptObject->KeySearch(
