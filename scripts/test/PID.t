@@ -9,21 +9,17 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::PID;
-use Kernel::System::UnitTest::Helper;
-
-# creates a local helper object
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+my $PIDObject    = $Kernel::OM->Get('Kernel::System::PID');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
-
-my $PIDObject = Kernel::System::PID->new( %{$Self} );
 
 my $PIDCreate = $PIDObject->PIDCreate( Name => 'Test' );
 $Self->True(
@@ -108,7 +104,7 @@ $Self->True(
 
 # 2 manually modify the PID host
 my $RandomID = $HelperObject->GetRandomID();
-$UpdateSuccess = $Self->{DBObject}->Do(
+$UpdateSuccess = $DBObject->Do(
     SQL => '
         UPDATE process_id
         SET process_host = ?

@@ -10,19 +10,20 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Notification;
+# get needed objects
+my $NotificationObject = $Kernel::OM->Get('Kernel::System::Notification');
+my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 
 # set UserID
 my $UserID = 1;
 
-my $NotificationObject = Kernel::System::Notification->new( %{$Self} );
-
 # workaround for oracle
 # oracle databases can't determine the difference between NULL and ''
 my $IsNotOracle = 1;
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
     $IsNotOracle = 0;
 }
 
@@ -125,21 +126,6 @@ my @Tests = (
             ContentType => 'text/plain',
         },
     },
-
-    # Type and Language should be not empty
-    #    {
-    #        Name          => 'Test ' . $TestNumber++,
-    #        SuccessAdd    => 1,
-    #        SuccessUpdate => 1,
-    #        Add           => {
-    #            Type        => 'NewTicket' . $TestNumber,
-    #            Charset     => 'utf-8',
-    #            Language    => '',
-    #            Subject     => 'Some Subject with a tag',
-    #            Body        => 'Some Body with a tag',
-    #            ContentType => 'text/plain',
-    #        },
-    #    },
     {
         Name          => 'Test ' . $TestNumber++,
         SuccessAdd    => $IsNotOracle,
@@ -179,7 +165,6 @@ my @Tests = (
             ContentType => '',
         },
     },
-
     {
         Name          => 'Test ' . $TestNumber++,
         SuccessAdd    => 1,
@@ -201,7 +186,6 @@ my @Tests = (
             ContentType => 'text/plain',
         },
     },
-
     {
         Name          => 'Test ' . $TestNumber++,
         SuccessAdd    => 1,
@@ -225,13 +209,12 @@ my @Tests = (
     },
 );
 
-# Notification names should be stored,
-# for deleting they later
+# notification names should be stored for deleting they later
 my @NotificationNames;
 TEST:
 for my $Test (@Tests) {
 
-    # Add notification
+    # add notification
     my $SuccessAdd = $NotificationObject->NotificationUpdate(
         %{ $Test->{Add} },
         UserID => $UserID,

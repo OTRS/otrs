@@ -9,11 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-use Kernel::System::MailAccount;
+use utf8;
 
-# create local object
-my $MailAccountObject = Kernel::System::MailAccount->new( %{$Self} );
+use vars (qw($Self));
+
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $MailAccountObject = $Kernel::OM->Get('Kernel::System::MailAccount');
 
 my $MailAccountAdd = $MailAccountObject->MailAccountAdd(
     Login         => 'mail',

@@ -9,12 +9,15 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::PDF;
+use vars (qw($Self));
 
-my $PDFObject = Kernel::System::PDF->new( %{$Self} );
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $PDFObject    = $Kernel::OM->Get('Kernel::System::PDF');
+
 die 'PDF support is disabled in sysconfig or CPAN module PDF::API2 is missing!'
     if !$PDFObject;
 
@@ -2694,11 +2697,12 @@ for ( sort keys %TableCellOnCount ) {
     );
 }
 
-# Charset font test 1 (iso-8859-1)
-my $PDFObject2 = Kernel::System::PDF->new( %{$Self} );
+# charset font test 1 (iso-8859-1)
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PDF'] );
+$PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
 # create a pdf document
-my $DocumentNew2 = $PDFObject2->DocumentNew(
+my $DocumentNew2 = $PDFObject->DocumentNew(
     Title     => 'The Title',
     Encode    => 'latin1',
     Testfonts => 1,
@@ -2710,7 +2714,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew2 = $PDFObject2->PageBlankNew(
+my $PageBlankNew2 = $PDFObject->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -2724,16 +2728,12 @@ $Self->True(
     "PageBlankNew2()",
 );
 
+my $FileContent1 = $MainObject->FileRead(
+    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt',
+);
+
 my %CharsetTestData1;
-## no critic
-open my $IN1, '<',
-    $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-iso-8859-1.txt'
-    || die $!;
-## use critic
-while (<$IN1>) {
-    $CharsetTestData1{Text} .= $_;
-}
-close $IN1;
+$CharsetTestData1{Text} = ${$FileContent1};
 
 $CharsetTestData1{Type}           = 'ReturnLeftOver';
 $CharsetTestData1{Font}           = 'Testfont2';
@@ -2746,7 +2746,7 @@ $CharsetTestData1{RequiredWidth}  = 46.87;
 $CharsetTestData1{RequiredHeight} = 10;
 $CharsetTestData1{LeftOver}       = '';
 
-my %ReturnCharsetTestData1 = $PDFObject2->Text(
+my %ReturnCharsetTestData1 = $PDFObject->Text(
     Text     => $CharsetTestData1{Text},
     Width    => $CharsetTestData1{Width},
     Height   => $CharsetTestData1{Height},
@@ -2781,11 +2781,12 @@ $Self->True(
     "CharsetTest1()",
 );
 
-# Charset font test 2 (utf-8)
-my $PDFObject3 = Kernel::System::PDF->new( %{$Self} );
+# charset font test 2 (utf-8)
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PDF'] );
+$PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
 # create a pdf document
-my $DocumentNew3 = $PDFObject3->DocumentNew(
+my $DocumentNew3 = $PDFObject->DocumentNew(
     Title     => 'The Title',
     Encode    => 'utf-8',
     Testfonts => 1,
@@ -2797,7 +2798,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew3 = $PDFObject3->PageBlankNew(
+my $PageBlankNew3 = $PDFObject->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -2811,15 +2812,12 @@ $Self->True(
     "PageBlankNew3()",
 );
 
+my $FileContent2 = $MainObject->FileRead(
+    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt',
+);
+
 my %CharsetTestData2;
-## no critic
-open my $IN2, '<',
-    $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test1-utf-8.txt' || die $!;
-## use critic
-while (<$IN2>) {
-    $CharsetTestData2{Text} .= $_;
-}
-close $IN2;
+$CharsetTestData2{Text} = ${$FileContent2};
 
 $CharsetTestData2{Type}           = 'ReturnLeftOver';
 $CharsetTestData2{Font}           = 'Testfont2';
@@ -2832,7 +2830,7 @@ $CharsetTestData2{RequiredWidth}  = 46.87;
 $CharsetTestData2{RequiredHeight} = 10;
 $CharsetTestData2{LeftOver}       = '';
 
-my %ReturnCharsetTestData2 = $PDFObject3->Text(
+my %ReturnCharsetTestData2 = $PDFObject->Text(
     Text     => $CharsetTestData2{Text},
     Width    => $CharsetTestData2{Width},
     Height   => $CharsetTestData2{Height},
@@ -2867,11 +2865,12 @@ $Self->True(
     "CharsetTest2()",
 );
 
-# Charset font test 3 (utf-8)
-my $PDFObject4 = Kernel::System::PDF->new( %{$Self} );
+# charset font test 3 (utf-8)
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PDF'] );
+$PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
 # create a pdf document
-my $DocumentNew4 = $PDFObject4->DocumentNew(
+my $DocumentNew4 = $PDFObject->DocumentNew(
     Title     => 'The Title',
     Encode    => 'utf-8',
     Testfonts => 1,
@@ -2883,7 +2882,7 @@ $Self->True(
 );
 
 # create a blank page
-my $PageBlankNew4 = $PDFObject4->PageBlankNew(
+my $PageBlankNew4 = $PDFObject->PageBlankNew(
     Width        => 842,
     Height       => 595,
     MarginTop    => 50,
@@ -2897,15 +2896,12 @@ $Self->True(
     "PageBlankNew4()",
 );
 
+my $FileContent3 = $MainObject->FileRead(
+    Location => $ConfigObject->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt',
+);
+
 my %CharsetTestData3;
-## no critic
-open my $IN3, '<',
-    $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/PDF/PDF-test2-utf-8.txt' || die $!;
-## use critic
-while (<$IN3>) {
-    $CharsetTestData3{Text} .= $_;
-}
-close $IN3;
+$CharsetTestData3{Text} = ${$FileContent3};
 
 $CharsetTestData3{Type}           = 'ReturnLeftOver';
 $CharsetTestData3{Font}           = 'Testfont1';
@@ -2918,7 +2914,7 @@ $CharsetTestData3{RequiredWidth}  = 88.96;
 $CharsetTestData3{RequiredHeight} = 10;
 $CharsetTestData3{LeftOver}       = '';
 
-my %ReturnCharsetTestData3 = $PDFObject4->Text(
+my %ReturnCharsetTestData3 = $PDFObject->Text(
     Text     => $CharsetTestData3{Text},
     Width    => $CharsetTestData3{Width},
     Height   => $CharsetTestData3{Height},

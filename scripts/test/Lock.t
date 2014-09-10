@@ -9,11 +9,14 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Lock;
+use Kernel::System::ObjectManager;
 
-my $LockObject = Kernel::System::Lock->new( %{$Self} );
+# get needed objects
+my $LockObject = $Kernel::OM->Get('Kernel::System::Lock');
 
 my @Names = sort $LockObject->LockViewableLock(
     Type => 'Name',
@@ -49,11 +52,15 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
     my $LockID = $LockObject->LockLookup( Lock => $Test->{Input} );
 
     if ( $Test->{Result} ) {
+
         $Self->True( $LockID, $Test->{Name} );
+
         my $Lock = $LockObject->LockLookup( LockID => $LockID );
+
         $Self->Is(
             $Test->{Input},
             $Lock,

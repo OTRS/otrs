@@ -9,17 +9,23 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use File::Copy;
 
 use Kernel::System::VariableCheck qw(:all);
 
-# create local objects
+# get needed objects
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
+my $DBObject      = $Kernel::OM->Get('Kernel::System::DB');
+my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 my $CachePopulate = sub {
     my $CacheSet = $CacheObject->Set(
@@ -236,7 +242,7 @@ $Self->True(
 );
 
 # write to var/test
-my $Write = $Self->{MainObject}->FileWrite(
+my $Write = $MainObject->FileWrite(
     Location   => $Home . '/var/Test',
     Content    => \'aaaa',
     Mode       => 'binmode',
@@ -694,7 +700,7 @@ $Self->True(
     '#5 PackageUpgrade() - 2/3 File already exists in package X.',
 );
 
-my $TmpDir   = $Self->{ConfigObject}->Get('TempDir');
+my $TmpDir   = $ConfigObject->Get('TempDir');
 my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
   <Name>Test3</Name>
@@ -719,35 +725,35 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <BuildHost>yourhost.example.com</BuildHost>
   <CodeUpgrade Type="pre" Version="0.0.4">
         my $Content = "test";
-        $Self->{MainObject}-&gt;FileWrite(
+        $Kernel::OM-&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
             Location  =&gt; "' . $TmpDir . '/test1",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre" Version="0.0.3">
         my $Content = "test";
-        $Self->{MainObject}-&gt;FileWrite(
+        $Kernel::OM-&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
             Location  =&gt; "' . $TmpDir . '/test2",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre" Version="0.0.2">
         my $Content = "test";
-        $Self->{MainObject}-&gt;FileWrite(
+        $Kernel::OM-&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
             Location  =&gt; "' . $TmpDir . '/test3",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre" Version="0.0.1">
         my $Content = "test";
-        $Self->{MainObject}-&gt;FileWrite(
+        $Kernel::OM-&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
             Location  =&gt; "' . $TmpDir . '/test3b",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre">
         my $Content = "test";
-        $Self->{MainObject}-&gt;FileWrite(
+        $Kernel::OM-&gt;Get(\'Kernel::System::Main\')-&gt;FileWrite(
             Location  =&gt; "' . $TmpDir . '/test4",
             Content   =&gt; \$Content,
         );
@@ -904,9 +910,9 @@ $Self->True(
     '#9 PackageInstall() - pre',
 );
 
-$Self->{DBObject}->Prepare( SQL => 'SELECT name_b FROM test_package' );
+$DBObject->Prepare( SQL => 'SELECT name_b FROM test_package' );
 my $Result;
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     $Result = $Row[0];
 }
 
@@ -978,9 +984,9 @@ $Self->True(
     '#10 PackageInstall() - post',
 );
 
-$Self->{DBObject}->Prepare( SQL => 'SELECT name_b FROM test_package' );
+$DBObject->Prepare( SQL => 'SELECT name_b FROM test_package' );
 $Result = '';
-while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+while ( my @Row = $DBObject->FetchrowArray() ) {
     $Result = $Row[0];
 }
 
@@ -1041,7 +1047,7 @@ $Self->True(
 
 # check content of not allowed files for match against files from package
 for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
-    my $Readfile = $Self->{MainObject}->FileRead(
+    my $Readfile = $MainObject->FileRead(
         Location => $Home . '/' . $FileNotAllowed,
         Mode     => 'binmode',
     );
@@ -1070,7 +1076,7 @@ $Self->True(
 # find out if it is an developer installation with files
 # from the version control system.
 my $DeveloperSystem = 0;
-my $Version         = $Self->{ConfigObject}->Get('Version');
+my $Version         = $ConfigObject->Get('Version');
 if (
     !-e $Home . '/ARCHIVE'
     && $Version =~ m{git}
@@ -1206,7 +1212,7 @@ if ( !$DeveloperSystem ) {
 
     # reinstall checks
     my $Content = 'Test 12345678';
-    my $Write   = $Self->{MainObject}->FileWrite(
+    my $Write   = $MainObject->FileWrite(
         Location   => $SaveFileFramework,
         Content    => \$Content,
         Mode       => 'binmode',
@@ -1216,7 +1222,7 @@ if ( !$DeveloperSystem ) {
         $Write,
         '#13 FileWrite() - bin/otrs.CheckDB.pl modified',
     );
-    my $ReadOrig = $Self->{MainObject}->FileRead(
+    my $ReadOrig = $MainObject->FileRead(
         Location => $SaveFileFramework,
         Mode     => 'binmode',
     );
@@ -1262,7 +1268,7 @@ if ( !$DeveloperSystem ) {
         '#13 PackageUninstall()',
     );
 
-    my $ReadLater = $Self->{MainObject}->FileRead(
+    my $ReadLater = $MainObject->FileRead(
         Location => $SaveFileFramework,
         Mode     => 'binmode',
     );

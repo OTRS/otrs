@@ -9,14 +9,15 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::PostMaster;
-use Kernel::System::PostMaster::Filter;
-use Kernel::System::Ticket;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
@@ -156,10 +157,10 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
 
     # use different ticket number generators
     for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
-        my $PostMasterFilter = Kernel::System::PostMaster::Filter->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-        );
+
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster::Filter'] );
+        my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
+
         $ConfigObject->Set(
             Key   => 'Ticket::NumberGenerator',
             Value => "Kernel::System::Ticket::Number::$NumberModule",
@@ -244,7 +245,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 # new ticket check
                 my $Location = $ConfigObject->Get('Home')
                     . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
-                my $ContentRef = $Self->{MainObject}->FileRead(
+                my $ContentRef = $MainObject->FileRead(
                     Location => $Location,
                     Mode     => 'binmode',
                     Result   => 'ARRAY',
@@ -270,9 +271,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
 
                     @Return = $PostMasterObject->Run();
@@ -363,7 +362,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         ArticleID     => $ArticleIDs[0],
                         DynamicFields => 1,
                     );
-                    my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
+                    my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
                         'b50d85781d2ac10c210f99bf8142badc',
@@ -380,7 +379,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         FileID    => 2,
                         UserID    => 1,
                     );
-                    $MD5 = $Self->{MainObject}->MD5sum( String => $Attachment{Content} ) || '';
+                    $MD5 = $MainObject->MD5sum( String => $Attachment{Content} ) || '';
                     $Self->Is(
                         $MD5,
                         '4e78ae6bffb120669f50bca56965f552',
@@ -454,7 +453,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         ArticleID     => $ArticleIDs[0],
                         DynamicFields => 1,
                     );
-                    my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
+                    my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
                         '2ac290235a8cad953a1837c77701c5dc',
@@ -471,7 +470,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         FileID    => 2,
                         UserID    => 1,
                     );
-                    $MD5 = $Self->{MainObject}->MD5sum( String => $Attachment{Content} ) || '';
+                    $MD5 = $MainObject->MD5sum( String => $Attachment{Content} ) || '';
                     $Self->Is(
                         $MD5,
                         '0596f2939525c6bd50fc2b649e40fbb6',
@@ -486,7 +485,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                         ArticleID     => $ArticleIDs[0],
                         DynamicFields => 1,
                     );
-                    my $MD5 = $Self->{MainObject}->MD5sum( String => $Article{Body} ) || '';
+                    my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
 
                     $Self->Is(
                         $MD5,
@@ -512,10 +511,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
+
                     @Return = $PostMasterObject->Run();
                 }
                 $Self->Is(
@@ -564,10 +562,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
+
                     @Return = $PostMasterObject->Run();
                 }
                 $Self->Is(
@@ -593,10 +590,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
+
                     @Return = $PostMasterObject->Run();
                 }
                 $Self->Is(
@@ -622,10 +618,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
+
                     @Return = $PostMasterObject->Run();
                 }
                 $Self->Is(
@@ -651,10 +646,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
+
                     @Return = $PostMasterObject->Run();
                 }
                 $Self->Is(
@@ -707,11 +701,9 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 );
                 {
                     my $PostMasterObject = Kernel::System::PostMaster->new(
-                        %{$Self},
-                        TicketObject => $TicketObject,
-                        ConfigObject => $ConfigObject,
-                        Email        => \@Content,
+                        Email => \@Content,
                     );
+
                     @Return = $PostMasterObject->Run();
                 }
 
@@ -834,11 +826,9 @@ my @Tests = (
     },
 );
 
-# set filter
-my $PostMasterFilter = Kernel::System::PostMaster::Filter->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::PostMaster::Filter'] );
+my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
+
 for my $Type (qw(Config DB)) {
     for my $Test (@Tests) {
         if ( $Type eq 'DB' ) {
@@ -869,9 +859,7 @@ Some Content in Body
     my @Return;
     {
         my $PostMasterObject = Kernel::System::PostMaster->new(
-            %{$Self},
-            ConfigObject => $ConfigObject,
-            Email        => \$Email,
+            Email => \$Email,
         );
 
         @Return = $PostMasterObject->Run();
@@ -989,10 +977,12 @@ my %OwnerResponsibleTests = (
 );
 
 for my $Test ( sort keys %OwnerResponsibleTests ) {
+
     my $FileSuffix = $OwnerResponsibleTests{$Test}->{File};
     my $Location   = $ConfigObject->Get('Home')
         . "/scripts/test/sample/PostMaster/PostMaster-Test-$FileSuffix.box";
-    my $ContentRef = $Self->{MainObject}->FileRead(
+
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Result   => 'ARRAY',
@@ -1004,9 +994,7 @@ for my $Test ( sort keys %OwnerResponsibleTests ) {
     }
 
     my $PostMasterObject = Kernel::System::PostMaster->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-        Email        => $ContentRef,
+        Email => $ContentRef,
     );
 
     my @Return = $PostMasterObject->Run();

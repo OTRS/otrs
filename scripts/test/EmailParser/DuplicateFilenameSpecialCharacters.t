@@ -15,19 +15,21 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
+my $Home = $ConfigObject->Get('Home');
 
 # test for bug#1970
-my @Array;
-open my $IN, '<', "$Home/scripts/test/sample/EmailParser/DuplicateFilenameSpecialCharacters.box";    ## no critic
-while (<$IN>) {
-    push @Array, $_;
-}
-close $IN;
+my $FileContent = $MainObject->FileRead(
+    Location => "$Home/scripts/test/sample/EmailParser/DuplicateFilenameSpecialCharacters.box",
+    Result   => 'ARRAY',
+);
 
 # create local object
 my $EmailParserObject = Kernel::System::EmailParser->new(
-    Email => \@Array,
+    Email => $FileContent,
 );
 
 my @Attachments = $EmailParserObject->GetAttachments();

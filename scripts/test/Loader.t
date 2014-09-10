@@ -9,22 +9,25 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Loader;
-
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $LoaderObject = $Kernel::OM->Get('Kernel::System::Loader');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 {
-    my $CSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $CSS = $MainObject->FileRead(
         Location => $ConfigObject->Get('Home')
             . '/scripts/test/sample/Loader/OTRS.Reset.css',
     );
 
     $CSS = ${$CSS};
 
-    my $ExpectedCSS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $ExpectedCSS = $MainObject->FileRead(
         Location => $ConfigObject->Get('Home')
             . '/scripts/test/sample/Loader/OTRS.Reset.min.css',
     );
@@ -70,18 +73,18 @@ my $LoaderObject = $Kernel::OM->Get('Kernel::System::Loader');
 }
 
 {
-    my $JavaScript = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $JavaScript = $MainObject->FileRead(
         Location => $ConfigObject->Get('Home')
             . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.js',
     );
     $JavaScript = ${$JavaScript};
 
-    # Make sure line endings are standardized
+    # make sure line endings are standardized
     $JavaScript =~ s{\r\n}{\n}xmsg;
 
     my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
 
-    my $ExpectedJS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $ExpectedJS = $MainObject->FileRead(
         Location => $ConfigObject->Get('Home')
             . '/scripts/test/sample/Loader/OTRS.Agent.App.Login.min.js',
     );
@@ -134,13 +137,13 @@ my $LoaderObject = $Kernel::OM->Get('Kernel::System::Loader');
         'MinifyFiles() - compare cache and no cache',
     );
 
-    my $MinifiedJS = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $MinifiedJS = $MainObject->FileRead(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
     );
     $MinifiedJS = ${$MinifiedJS};
     $MinifiedJS =~ s{\r\n}{\n}xmsg;
 
-    my $Expected = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+    my $Expected = $MainObject->FileRead(
         Location => $ConfigObject->Get('Home')
             . '/scripts/test/sample/Loader/CombinedJavaScript.min.js',
     );
@@ -153,7 +156,7 @@ my $LoaderObject = $Kernel::OM->Get('Kernel::System::Loader');
         'MinifyFiles() result content',
     );
 
-    $Kernel::OM->Get('Kernel::System::Main')->FileDelete(
+    $MainObject->FileDelete(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
     );
 }

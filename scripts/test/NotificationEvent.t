@@ -10,64 +10,26 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::NotificationEvent;
-use Kernel::System::Time;
-use Kernel::System::Queue;
-use Kernel::System::Ticket;
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-# set UserID
-my $UserID = 1;
-
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-# create common objects
-my $TimeObject = Kernel::System::Time->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-# Make sure that Kernel::System::Ticket::new() does not create it's own QueueObject.
-# This will interfere with caching.
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    TimeObject   => $TimeObject,
-    QueueObject  => $QueueObject,
-    ConfigObject => $ConfigObject,
-);
-
-my $NotificationEventObject = Kernel::System::NotificationEvent->new(
-    %{$Self},
-    TicketObject => $TicketObject,
-    TimeObject   => $TimeObject,
-    QueueObject  => $QueueObject,
-    ConfigObject => $ConfigObject,
-);
-
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-
-    #    RestoreSystemConfiguration => 1,
-);
+# get needed objects
+my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject                = $Kernel::OM->Get('Kernel::System::DB');
+my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEvent');
 
 my $RandomID = $HelperObject->GetRandomID();
 
+my $UserID = 1;
 my $TestNumber = 1;
 
 # workaround for oracle
 # oracle databases can't determine the difference between NULL and ''
 my $IsNotOracle = 1;
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
     $IsNotOracle = 0;
 }
 
