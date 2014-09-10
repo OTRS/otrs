@@ -14,7 +14,17 @@ use vars (qw($Self));
 
 use Kernel::System::ObjectManager;
 
-local $Kernel::OM = Kernel::System::ObjectManager->new();
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Stats' => {
+        UserID => 1,
+    },
+    'Kernel::System::PostMaster' => {
+        Email => [],
+    },
+    'Kernel::System::Crypt' => {
+        CryptType => 'SMIME',
+    },
+);
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
 
@@ -25,6 +35,9 @@ my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 my %OperationChecked;
 
 my @DirectoriesToSearch = (
+    '/bin',
+    '/Custom/Kernel/Output',
+    '/Custom/Kernel/System',
     '/Kernel/GenericInterface',
     '/Kernel/Output/',
     '/Kernel/System',
@@ -33,7 +46,7 @@ my @DirectoriesToSearch = (
 for my $Directory ( sort @DirectoriesToSearch ) {
     my @FilesInDirectory = $MainObject->DirectoryRead(
         Directory => $Home . $Directory,
-        Filter    => '*.pm',
+        Filter    => [ '*.pm', '*.pl' ],
         Recursive => 1,
     );
 
