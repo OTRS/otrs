@@ -9,12 +9,16 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-my $Home = $Self->{ConfigObject}->Get('Home');
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+my $Home = $ConfigObject->Get('Home');
 
 # test #1
 my @Array = ();
@@ -26,7 +30,6 @@ close($IN);
 
 # create local object
 my $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 
@@ -121,7 +124,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -151,7 +153,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -221,7 +222,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -278,7 +278,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -332,7 +331,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -384,7 +382,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -417,7 +414,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -454,7 +450,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -507,7 +502,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -538,7 +532,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -643,7 +636,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -672,7 +664,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -706,7 +697,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -807,7 +797,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 $Self->Is(
@@ -836,7 +825,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 
@@ -864,7 +852,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 
@@ -888,7 +875,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 
@@ -911,7 +897,6 @@ while (<$IN>) {
 close($IN);
 
 $EmailParserObject = Kernel::System::EmailParser->new(
-    %{$Self},
     Email => \@Array,
 );
 
