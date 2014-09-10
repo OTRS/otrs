@@ -1,4 +1,5 @@
 #4.0.0.beta2 20??-??-??
+ - 2014-09-10 Fixed bug#[10717](http://bugs.otrs.org/show_bug.cgi?id=10717) - Incomplete error message creating CryptObject.
  - 2014-09-09 Fixed bug#[10715](http://bugs.otrs.org/show_bug.cgi?id=10715) - Wrong object name in CloseParentAfterClosedChilds.pm.
  - 2014-09-09 Fixed bug#[10714](http://bugs.otrs.org/show_bug.cgi?id=10714) - Wrong Object call in TicketUpdate Operation.
  - 3024-09-09 Followup fix for bug#[9418](http://bugs.otrs.org/show_bug.cgi?id=9418) - Incorrect decoding email subject and From token

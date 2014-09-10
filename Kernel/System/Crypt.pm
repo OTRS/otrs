@@ -65,12 +65,12 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    $Self->{CryptType} = $Param{CryptType} || die "Got no $_!";
+    $Self->{CryptType} = $Param{CryptType} || die "Got no CryptType!";
 
     # check if module is enabled
     return if !$Kernel::OM->Get('Kernel::Config')->Get( $Param{CryptType} );
 
-    # reset ISA for testability and peristent environments
+    # reset ISA for testability and persistent environments
     @ISA = ();
 
     # load generator crypt module
@@ -80,7 +80,7 @@ sub new {
     # call init()
     $Self->_Init();
 
-    # check working env
+    # check working ENV
     return if $Self->Check();
 
     return $Self;
