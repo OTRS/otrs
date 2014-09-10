@@ -21,11 +21,8 @@ my $CacheObject        = $Kernel::OM->Get('Kernel::System::Cache');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 
-
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerAuth;
-
-
 
 # add three users
 $ConfigObject->Set(
@@ -176,7 +173,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     # START CaseSensitive
     $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = 1;
 
-    $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::CustomerUser' ] );
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::CustomerUser'] );
     $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     $CacheObject->CleanUp();
@@ -225,7 +222,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = 0;
 
-    $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::CustomerUser' ] );
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::CustomerUser'] );
     $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
     $CacheObject->CleanUp();
@@ -499,7 +496,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
             Value => $Config,
         );
 
-        $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::CustomerAuth' ] );
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::CustomerAuth'] );
         my $CustomerAuth = $Kernel::OM->Get('Kernel::System::CustomerAuth');
 
         for my $Password (qw(some_pass someカス someäöü)) {

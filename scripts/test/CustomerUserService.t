@@ -372,7 +372,7 @@ $Self->True(
 
 # allocation test after rename
 # instantiate new service object because of caching!
-$Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::Service' ] );
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Service'] );
 $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
 my @Allocation17 = $ServiceObject->CustomerUserServiceMemberList(

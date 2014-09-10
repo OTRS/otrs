@@ -809,7 +809,8 @@ sub Run {
                     $Output .= $Self->{LayoutObject}->Warning(
                         Message => $Self->{LayoutObject}->{LanguageObject}
                             ->Translate(
-                            'Sorry, you need to be the ticket owner to perform this action.'),
+                            'Sorry, you need to be the ticket owner to perform this action.'
+                            ),
                         Comment =>
                             $Self->{LayoutObject}->{LanguageObject}
                             ->Translate('Please change the owner first.'),
@@ -1365,15 +1366,19 @@ sub AgentMove {
 
         $Param{WidgetStatus} = 'Collapsed';
 
-        if (   $Self->{Config}->{NoteMandatory}
+        if (
+            $Self->{Config}->{NoteMandatory}
             || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
-            || $Param{IsUpload} )
+            || $Param{IsUpload}
+            )
         {
             $Param{WidgetStatus} = 'Expanded';
         }
 
-        if (   $Self->{Config}->{NoteMandatory}
-            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+        if (
+            $Self->{Config}->{NoteMandatory}
+            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            )
         {
             $Param{SubjectRequired} = 'Validate_Required';
             $Param{BodyRequired}    = 'Validate_Required';
@@ -1512,8 +1517,10 @@ sub AgentMove {
             );
         }
 
-        if (   $Self->{Config}->{NoteMandatory}
-            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+        if (
+            $Self->{Config}->{NoteMandatory}
+            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            )
         {
             $Self->{LayoutObject}->Block(
                 Name => 'SubjectLabelMandatory',

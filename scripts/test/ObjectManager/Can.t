@@ -54,8 +54,10 @@ for my $Directory ( sort @DirectoriesToSearch ) {
         #    $1 will contain Kernel::Config
         #    $2 will contain Get
         OPERATION:
-        while ( ${$ContentSCALARRef}
-            =~ m{ \$Kernel::OM \s* -> \s* Get\( \s* '([^']+)'\) \s* -> \s* ([a-zA-Z1-9]+)\( }msxg )
+        while (
+            ${$ContentSCALARRef}
+            =~ m{ \$Kernel::OM \s* -> \s* Get\( \s* '([^']+)'\) \s* -> \s* ([a-zA-Z1-9]+)\( }msxg
+            )
         {
 
             # skip if the function for the object was already checked before

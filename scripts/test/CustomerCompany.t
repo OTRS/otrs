@@ -271,7 +271,7 @@ $ConfigObject->Set(
 );
 
 # destroy customer company object
-$Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::CustomerCompany' ] );
+$Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::CustomerCompany'] );
 
 $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 

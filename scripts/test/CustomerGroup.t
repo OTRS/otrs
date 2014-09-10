@@ -16,8 +16,8 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 $ConfigObject->Set(
     Key   => 'CustomerGroupAlwaysGroups',
