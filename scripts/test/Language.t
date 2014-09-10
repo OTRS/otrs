@@ -6,32 +6,17 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use utf8;
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Main;
+use vars (qw($Self));
+
 use Kernel::Language;
-
-# declare externally defined variables to avoid errors under 'use strict'
-use vars qw( $Self %Param );
-
-# common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'Language.t',
-    %CommonObject,
-);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 
 # create language object which contains all translations
 my $LanguageObject = Kernel::Language->new(
-    %CommonObject,
     UserLanguage => 'de',
 );
 

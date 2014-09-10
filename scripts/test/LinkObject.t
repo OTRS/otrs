@@ -9,15 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use vars qw($Self);
+use vars (qw($Self));
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $LinkObject   = $Kernel::OM->Get('Kernel::System::LinkObject');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # ------------------------------------------------------------ #
@@ -56,7 +55,7 @@ for my $Counter ( 1 .. 100 ) {
 }
 
 # read ticket backend file
-my $TicketBackendContent = $Self->{MainObject}->FileRead(
+my $TicketBackendContent = $MainObject->FileRead(
     Location => $ConfigObject->Get('Home')
         . '/scripts/test/sample/LinkObject/LinkBackendDummy.pm',
     Result => 'SCALAR',
@@ -79,7 +78,7 @@ for my $Counter ( 1 .. 100 ) {
     $Content =~ s{ Dummy }{$Name}xmsg;
 
     # create the backend file
-    $Self->{MainObject}->FileWrite(
+    $MainObject->FileWrite(
         Directory => $BackendLocation,
         Filename  => $Name . '.pm',
         Content   => \$Content,
@@ -2946,7 +2945,7 @@ for my $Test (@Tests) {
 for my $Name (@ObjectNames) {
 
     # delete the backend file
-    $Self->{MainObject}->FileDelete(
+    $MainObject->FileDelete(
         Directory       => $BackendLocation,
         Filename        => $Name . '.pm',
         DisableWarnings => 1,

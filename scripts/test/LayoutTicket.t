@@ -10,56 +10,19 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self %Param));
 
-use Kernel::System::AuthSession;
-use Kernel::System::Web::Request;
-use Kernel::System::Web::UploadCache;
-use Kernel::System::Group;
-use Kernel::System::Ticket;
-use Kernel::System::User;
 use Kernel::Output::HTML::Layout;
 
-# create local objects
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-my $SessionObject = Kernel::System::AuthSession->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $GroupObject = Kernel::System::Group->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $ParamObject = Kernel::System::Web::Request->new(
-    %{$Self},
-    WebRequest => $Param{WebRequest} || 0,
-    ConfigObject => $ConfigObject,
-);
-my $UploadCacheObject = Kernel::System::Web::UploadCache->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $FormID       = $UploadCacheObject->FormIDCreate();
+# get needed objects
+my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+my $TicketObject      = $Kernel::OM->Get('Kernel::System::Ticket');
+my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+my $FormID = $UploadCacheObject->FormIDCreate();
+
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
-    ConfigObject       => $ConfigObject,
-    LogObject          => $Self->{LogObject},
-    TimeObject         => $Self->{TimeObject},
-    MainObject         => $Self->{MainObject},
-    EncodeObject       => $Self->{EncodeObject},
-    SessionObject      => $SessionObject,
-    DBObject           => $Self->{DBObject},
-    ParamObject        => $ParamObject,
-    TicketObject       => $TicketObject,
-    UserObject         => $UserObject,
-    GroupObject        => $GroupObject,
     UserChallengeToken => 'TestToken',
     UserID             => 1,
     Lang               => 'de',
