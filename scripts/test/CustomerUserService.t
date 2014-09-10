@@ -9,31 +9,21 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::CustomerUser;
-use Kernel::System::Service;
-use Kernel::System::UnitTest::Helper;
-
-# create local objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $ServiceObject      = $Kernel::OM->Get('Kernel::System::Service');
 
 # don't check email address validity
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-
-my $CustomerUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
-my $ServiceObject = Kernel::System::Service->new( %{$Self} );
 
 # save all original default services
 my @OriginalDefaultServices = $ServiceObject->CustomerUserServiceMemberList(
@@ -382,9 +372,10 @@ $Self->True(
 
 # allocation test after rename
 # instantiate new service object because of caching!
-my $NewServiceObject = Kernel::System::Service->new( %{$Self} );
+$Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::Service' ] );
+$ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
-my @Allocation17 = $NewServiceObject->CustomerUserServiceMemberList(
+my @Allocation17 = $ServiceObject->CustomerUserServiceMemberList(
     CustomerUserLogin => $Customer{UserLogin},
     Result            => 'ID',
     DefaultServices   => 0,

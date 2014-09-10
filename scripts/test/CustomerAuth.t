@@ -10,14 +10,12 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerAuth;
-use Kernel::System::User;
-
-# use local Config object because it will be modified
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# get needed objects
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # configure CustomerAuth backend to db
 $ConfigObject->Set( 'CustomerAuthBackend', 'DB' );
@@ -33,17 +31,12 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $TestUserID;
-
-my $UserRand1 = 'example-user' . int( rand(1000000) );
-
 # add test user
-my $GlobalUserObject = Kernel::System::CustomerUser->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $GlobalUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
-$TestUserID = $GlobalUserObject->CustomerUserAdd(
+my $UserRand1 = 'example-user' . int rand 1000000;
+
+my $TestUserID = $GlobalUserObject->CustomerUserAdd(
     UserFirstname  => 'CustomerFirstname Test1',
     UserLastname   => 'CustomerLastname Test1',
     UserCustomerID => 'Customer246',
@@ -106,20 +99,21 @@ my @Tests = (
 
 for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
 
+    # make sure that the customer user objects gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::CustomerUser',
+            'Kernel::System::CustomerAuth',
+        ],
+    );
+
     $ConfigObject->Set(
         Key   => "Customer::AuthModule::DB::CryptType",
         Value => $CryptType
     );
 
-    my $UserObject = Kernel::System::CustomerUser->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-
-    my $CustomerAuthObject = Kernel::System::CustomerAuth->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    my $UserObject         = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $CustomerAuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
 
     for my $Test (@Tests) {
 

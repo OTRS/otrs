@@ -9,17 +9,16 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::UnitTest::Helper;
 use Kernel::System::VariableCheck qw(:all);
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 $ConfigObject->Set(
     Key   => 'CustomerGroupAlwaysGroups',
     Value => [],
@@ -84,20 +83,6 @@ my @Tests = (
         },
         Success => 0,
     },
-
-    # TODO GroupMemberAdd() requires UserID but does not check for it
-    #    {
-    #        Name   => 'No $UserID',
-    #        Config => {
-    #            GID => $GID1,
-    #            UID => undef,
-    #            Permission => {
-    #                ro => 1,
-    #            },
-    #            UserID => $UserID,
-    #        },
-    #        Success => 0,
-    #    },
     {
         Name   => 'Empty permission',
         Config => {
@@ -151,6 +136,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
     my $MemberAddSuccess = $CustomerGroupObject->GroupMemberAdd( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
@@ -173,6 +159,7 @@ for my $Test (@Tests) {
 
         PERMISSION:
         for my $Permission ( sort keys %{ $Test->{Config}->{Permission} } ) {
+
             next PERMISSION if !$Test->{Config}->{Permission}->{$Permission};
 
             # check cache internal is empty
