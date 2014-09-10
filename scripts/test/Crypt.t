@@ -9,7 +9,6 @@
 
 use strict;
 use warnings;
-use utf8;
 
 use vars (qw($Self));
 
@@ -81,7 +80,7 @@ my %Check = (
     },
 );
 
-my $TestText = 'hello1234567890Ã¶Ã¤Ã¼ÃŸ';
+my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
     my @Keys = $CryptObject->KeySearch(
