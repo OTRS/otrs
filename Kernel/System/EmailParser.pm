@@ -155,6 +155,15 @@ sub GetParam {
 
     my $What = $Param{WHAT} || return;
 
+    if ( !$Self->{Email} || !$Self->{HeaderObject} ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Email and HeaderObject is needed!',
+        );
+        return;
+    }
+
     $Self->{HeaderObject}->unfold();
     $Self->{HeaderObject}->combine($What);
     my $Line = $Self->{HeaderObject}->get($What) || '';
@@ -186,6 +195,7 @@ sub GetParam {
             Message  => "Get: $What; ReturnLine: $ReturnLine; OrigLine: $Line",
         );
     }
+
     return $ReturnLine;
 }
 
@@ -242,6 +252,7 @@ sub GetRealname {
     for my $EmailSplit ( $Self->_MailAddressParse( Email => $Param{Email} ) ) {
         $Realname = $EmailSplit->phrase();
     }
+
     return $Realname;
 }
 
@@ -264,6 +275,7 @@ sub SplitAddressLine {
     for my $Line ( $Self->_MailAddressParse( Email => $Param{Line} ) ) {
         push @GetParam, $Line->format();
     }
+
     return @GetParam;
 }
 
@@ -309,6 +321,15 @@ sub GetCharset {
             );
         }
         return $Self->{Charset};
+    }
+
+    if ( !$Self->{Email} || !$Self->{HeaderObject} ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Email and HeaderObject is needed!',
+        );
+        return;
     }
 
     # find charset
