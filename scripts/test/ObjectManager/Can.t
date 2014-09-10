@@ -28,8 +28,17 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
 
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+my $SkipCrypt;
+if ( !$ConfigObject->Get('SMIME') ) {
+    $SkipCrypt = 1;
+}
+
+my $Home = $ConfigObject->Get('Home');
+
+# get main object
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 my %OperationChecked;
@@ -75,6 +84,9 @@ for my $Directory ( sort @DirectoriesToSearch ) {
 
             # skip if the function for the object was already checked before
             next OPERATION if $OperationChecked{"$1->$2()"};
+
+            # skip crypt object if it is not configured
+            next OPERATION if $1 eq 'Kernel::System::Crypt' && $SkipCrypt;
 
             # load object
             my $Object = $Kernel::OM->Get("$1");
