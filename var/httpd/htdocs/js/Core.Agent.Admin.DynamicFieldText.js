@@ -33,7 +33,7 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
         $('#RegExRow_'+ ObjectIndex).remove();
 
         return true;
-    }
+    };
 
     /**
      * @function
@@ -94,7 +94,7 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
         $('#RegExCounter').val(RegExCounter);
 
         return false;
-    }
+    };
 
     return TargetNS;
 }(Core.Agent.Admin.DynamicFieldText || {}));
