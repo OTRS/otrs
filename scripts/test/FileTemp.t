@@ -9,20 +9,21 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use File::Basename;
 use File::Copy;
 
-use Kernel::System::FileTemp;
+use Kernel::System::ObjectManager;
 
 my $Filename;
 my $TempDir;
 my $FH;
 
 {
-
-    my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
+    my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
 
     ( $FH, $Filename ) = $FileTempObject->TempFile();
 
@@ -62,6 +63,8 @@ my $FH;
         'Copied file exists in tempdir',
     );
 
+    # destroy the file temp object
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::FileTemp'] );
 }
 
 $Self->False(

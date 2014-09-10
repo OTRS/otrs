@@ -9,24 +9,15 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Group;
-use Kernel::System::User;
-use Kernel::System::UnitTest::Helper;
-
-# create local objects
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    UnitTestObject => $Self,
-    %{$Self},
-    RestoreSystemConfiguration => 0,
-);
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-);
-my $GroupObject = Kernel::System::Group->new(
-    %{$Self},
-);
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
 # add three users
 my $UserLogin1 = $HelperObject->TestUserCreate();

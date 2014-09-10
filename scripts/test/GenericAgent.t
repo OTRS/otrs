@@ -9,28 +9,21 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Ticket;
-use Kernel::System::Queue;
-use Kernel::System::GenericAgent;
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::DynamicField;
-use Kernel::Config;
+use vars (qw($Self));
 
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Hook         = $ConfigObject->Get('Ticket::Hook');
+# get needed objects
+my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+my $Hook = $ConfigObject->Get('Ticket::Hook');
 
 $ConfigObject->Set(
     Key   => 'Ticket::NumberGenerator',
     Value => 'Kernel::System::Ticket::Number::DateChecksum',
 );
-
-# create local objects
-# add or update dynamic fields if needed
-my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 
 my @DynamicfieldIDs;
 my @DynamicFieldUpdate;
@@ -98,36 +91,18 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
     }
 }
 
-my $TicketObject = Kernel::System::Ticket->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-my $QueueObject = Kernel::System::Queue->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    TicketObject => $TicketObject,
-);
-my $GenericAgentObject = Kernel::System::GenericAgent->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    TicketObject => $TicketObject,
-    QueueObject  => $QueueObject,
-);
+my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 
-my %Jobs = ();
+my %Jobs;
 
-# Get the the existing JobList
+# get the the existing JobList
 %Jobs = $GenericAgentObject->JobList();
 my $JobCounter1 = keys %Jobs;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
-
 my $RandomID = $HelperObject->GetRandomID();
 
-# Add a new Job
+# add a new Job
 my $Name   = 'UnitTest_' . $RandomID;
 my %NewJob = (
     Name => $Name,

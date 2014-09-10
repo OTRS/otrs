@@ -9,12 +9,14 @@
 
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Environment;
+use Kernel::System::ObjectManager;
 
-# create local objects
-my $EnvironmentObject = Kernel::System::Environment->new( %{$Self} );
+# get needed objects
+my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
 
 my %OSInfo = $EnvironmentObject->OSInfoGet();
 

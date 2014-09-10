@@ -6,16 +6,17 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::JSON;
-
-# declare externally defined variables to avoid errors under 'use strict'
 use vars qw( $Self %Param );
 
-my $JSONObject = Kernel::System::JSON->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
 # Tests for JSON encode method
 my @Tests = (
@@ -84,6 +85,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+
     my $JSON = $JSONObject->Encode(
         Data     => $Test->{Input},
         SortKeys => 1,
@@ -95,8 +97,6 @@ for my $Test (@Tests) {
         $Test->{Name},
     );
 }
-
-# JSON::Decode()
 
 @Tests = (
     {
@@ -154,6 +154,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
+
     my $JSON = $JSONObject->Decode(
         Data => $Test->{InputDecode},
     );
