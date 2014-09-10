@@ -43,7 +43,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $LinkObject = $Kernel::OM->Get('Kernel::System::Link');
+    my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
 
 =cut
 
@@ -1259,8 +1259,10 @@ sub LinkListWithData {
         }
 
         my %ObjectParameters = ();
-        if (   ref $Param{ObjectParameters} eq 'HASH'
-            && ref $Param{ObjectParameters}->{$Object} eq 'HASH' )
+        if (
+            ref $Param{ObjectParameters} eq 'HASH'
+            && ref $Param{ObjectParameters}->{$Object} eq 'HASH'
+            )
         {
             %ObjectParameters = %{ $Param{ObjectParameters}->{$Object} };
         }

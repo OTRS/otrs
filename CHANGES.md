@@ -1,7 +1,8 @@
 #4.0.0.beta2 20??-??-??
-- 2014-09-09 Fixed bug#[10714](http://bugs.otrs.org/show_bug.cgi?id=10714) - Wrong Object call in TicketUpdate Operation.
-- 3024-09-09 Followup fix for bug#[9418](http://bugs.otrs.org/show_bug.cgi?id=9418) - Incorrect decoding email subject and From token
-- 2014-09-04 Fixed bug#[10708](http://bugs.otrs.org/show_bug.cgi?id=10708) - ProcessManagement: ActivityDialog Description short and long are not displaying.
+ - 2014-09-09 Fixed bug#[10715](http://bugs.otrs.org/show_bug.cgi?id=10715) - Wrong object name in CloseParentAfterClosedChilds.pm.
+ - 2014-09-09 Fixed bug#[10714](http://bugs.otrs.org/show_bug.cgi?id=10714) - Wrong Object call in TicketUpdate Operation.
+ - 3024-09-09 Followup fix for bug#[9418](http://bugs.otrs.org/show_bug.cgi?id=9418) - Incorrect decoding email subject and From token
+ - 2014-09-04 Fixed bug#[10708](http://bugs.otrs.org/show_bug.cgi?id=10708) - ProcessManagement: ActivityDialog Description short and long are not displaying.
 
 #4.0.0.beta1 2014-09-09
  - 2014-09-03 Fixed bug#[10208](http://bugs.otrs.org/show_bug.cgi?id=10208) - Added additional checks to see if something has changed and invalidates a spell check which had already been done, thanks to S7.

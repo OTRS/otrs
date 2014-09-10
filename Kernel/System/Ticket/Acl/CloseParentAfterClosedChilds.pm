@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
-    'Kernel::System::Link',
+    'Kernel::System::LinkObject',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
@@ -45,7 +45,7 @@ sub Run {
     return 1 if !$Param{TicketID} || !$Param{UserID};
 
     # link tickets
-    my $Links = $Kernel::OM->Get('Kernel::System::Link')->LinkList(
+    my $Links = $Kernel::OM->Get('Kernel::System::LinkObject')->LinkList(
         Object => 'Ticket',
         Key    => $Param{TicketID},
         State  => 'Valid',
