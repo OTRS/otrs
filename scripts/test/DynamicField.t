@@ -10,20 +10,16 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::DynamicField;
-use Kernel::System::UnitTest::Helper;
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %$Self,
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
+my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
 my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
-
-my $DynamicFieldObject = Kernel::System::DynamicField->new( %{$Self} );
 
 my @Tests = (
     {
@@ -260,7 +256,7 @@ for my $Test (@Tests) {
     );
 
     if (
-        !$Self->{DBObject}->GetDatabaseFunction('CaseSensitive')
+        !$DBObject->GetDatabaseFunction('CaseSensitive')
         && $FieldNames{ lc $FieldName }
         )
     {
