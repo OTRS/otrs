@@ -21,7 +21,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-for my $Backend ( qw(DB FS) ) {
+for my $Backend (qw(DB FS)) {
 
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',

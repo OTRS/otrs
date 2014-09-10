@@ -39,9 +39,10 @@ sub new {
     $Self->{MainObject}   = $Param{MainObject}   || $Kernel::OM->Get('Kernel::System::Main');
     $Self->{DBObject}     = $Param{DBObject}     || $Kernel::OM->Get('Kernel::System::DB');
     $Self->{TicketObject} = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
-    $Self->{LayoutObject} = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    $Self->{LayoutObject}
+        = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    for ( qw(UserID ArticleID) ) {
+    for (qw(UserID ArticleID)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }

@@ -16,7 +16,7 @@ use vars (qw($Self %Param));
 use Kernel::Output::HTML::Layout;
 use Kernel::System::Web::Request;
 
-my $ParamObject   = Kernel::System::Web::Request->new(
+my $ParamObject = Kernel::System::Web::Request->new(
     WebRequest => $Param{WebRequest} || 0,
 );
 
@@ -1036,10 +1036,10 @@ for my $Test (@Tests) {
 
         # restore original data
         if ( ref $Test->{Definition}->{Data} eq 'HASH' ) {
-            $Test->{Definition}->{Data} = { %OriginalData };
+            $Test->{Definition}->{Data} = {%OriginalData};
         }
         elsif ( ref $Test->{Definition}->{Data} eq 'ARRAY' ) {
-            $Test->{Definition}->{Data} = [ @OriginalData ];
+            $Test->{Definition}->{Data} = [@OriginalData];
         }
     }
 }

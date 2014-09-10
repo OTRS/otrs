@@ -605,7 +605,7 @@ sub Run {
                 ),
                 %Ticket,
                 DynamicFieldHTML => \%DynamicFieldHTML,
-                IsUpload => $IsUpload,
+                IsUpload         => $IsUpload,
                 %GetParam,
                 %Error,
             );
@@ -1446,15 +1446,18 @@ sub _Mask {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # Widget Ticket Actions
-    if ( ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} ) ||
-         ( $Self->{ConfigObject}->Get('Ticket::Service') && $Self->{Config}->{Service} ) ||
-         ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) ||
-         $Self->{Config}->{Title} ||
-         $Self->{Config}->{Queue} ||
-         $Self->{Config}->{Owner} ||
-         $Self->{Config}->{State} ||
-         $Self->{Config}->{Priority}
-       ) {
+    if (
+        ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{TicketType} )
+        ||
+        ( $Self->{ConfigObject}->Get('Ticket::Service')     && $Self->{Config}->{Service} )     ||
+        ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) ||
+        $Self->{Config}->{Title} ||
+        $Self->{Config}->{Queue} ||
+        $Self->{Config}->{Owner} ||
+        $Self->{Config}->{State} ||
+        $Self->{Config}->{Priority}
+        )
+    {
         $Self->{LayoutObject}->Block(
             Name => 'WidgetTicketActions',
         );
@@ -1835,6 +1838,7 @@ sub _Mask {
             Data => \%Param,
         );
     }
+
     # End Widget Ticket Actions
 
     # Widget Dynamic Fields
@@ -1879,6 +1883,7 @@ sub _Mask {
             },
         );
     }
+
     # End Widget Dynamic Fields
 
     # Widget Article
@@ -1886,21 +1891,29 @@ sub _Mask {
 
         $Param{WidgetStatus} = 'Collapsed';
 
-        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') || $Param{IsUpload} || $Self->{ReplyToArticle} ) {
+        if (   $Self->{Config}->{NoteMandatory}
+            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime')
+            || $Param{IsUpload}
+            || $Self->{ReplyToArticle} )
+        {
             $Param{WidgetStatus} = 'Expanded';
         }
 
-        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+        if (   $Self->{Config}->{NoteMandatory}
+            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+        {
             $Param{SubjectRequired} = 'Validate_Required';
             $Param{BodyRequired}    = 'Validate_Required';
         }
         else {
-            $Param{SubjectRequired} = 'Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentDeleteButton1';
-            $Param{BodyRequired}    = 'Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDeleteButton1';
+            $Param{SubjectRequired}
+                = 'Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentDeleteButton1';
+            $Param{BodyRequired}
+                = 'Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDeleteButton1';
 
             # time units are being stored with the article, so we need to make sure that once
             # the time accounting field has been filled in, we also have subject and body
-            if ($Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime')) {
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
                 $Param{SubjectRequired} .= ' Validate_Depending_TimeUnits';
                 $Param{BodyRequired}    .= ' Validate_Depending_TimeUnits';
             }
@@ -2047,7 +2060,9 @@ sub _Mask {
             );
         }
 
-        if ( $Self->{Config}->{NoteMandatory} || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') ) {
+        if (   $Self->{Config}->{NoteMandatory}
+            || $Self->{ConfigObject}->Get('Ticket::Frontend::NeedAccountedTime') )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'SubjectLabelMandatory',
             );
@@ -2180,6 +2195,7 @@ sub _Mask {
             );
         }
     }
+
     # End Widget Article
 
     # get output back

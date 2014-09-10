@@ -14,8 +14,8 @@ use utf8;
 use vars (qw($Self));
 
 # get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # theres is not really needed to add the dynamic fields for this test, we can define a static
 # set of configurations

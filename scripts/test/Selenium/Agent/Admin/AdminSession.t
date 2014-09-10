@@ -101,7 +101,7 @@ $Selenium->RunTest(
 
         # make sure that we now see the login screen
         $Selenium->find_element( "#LoginBox", 'css' );
-    }
+        }
 );
 
 1;

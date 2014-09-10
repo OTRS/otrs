@@ -172,7 +172,8 @@ JAVASCRIPT
 
         # type in some text & confirm by pressing 'enter', which should produce a new field
         $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys('Test');
-        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )->send_keys("\N{U+E007}");
+        $Selenium->find_element( '#ACLMatch .DataItem .NewDataKey', 'css' )
+            ->send_keys("\N{U+E007}");
 
         # now there should be a two new elements: .ItemPrefix and .NewDataItem
         $Self->Is(
@@ -188,7 +189,8 @@ JAVASCRIPT
 
         # now lets add the DynamicField element on level 2, which should create a new dropdown
         # element containing dynamic fields and an 'Add all' button
-        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )->click();
+        $Selenium->find_element( "#ACLMatch .ItemAdd option[value='DynamicField']", 'css' )
+            ->click();
 
         $Self->Is(
             $Selenium->find_element( '#ACLMatch .DataItem .NewDataKeyDropdown', 'css' )
@@ -201,7 +203,7 @@ JAVASCRIPT
             '1',
             'Check for .AddAll element',
         );
-    }
+        }
 );
 
 1;

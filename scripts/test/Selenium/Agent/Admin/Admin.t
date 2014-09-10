@@ -98,7 +98,7 @@ $Selenium->RunTest(
             #   for error messages and has "Admin" highlighted
             $Selenium->find_element( "li#nav-Admin.Selected", 'css' );
         }
-    }
+        }
 );
 
 1;

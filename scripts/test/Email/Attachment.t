@@ -147,7 +147,7 @@ my @Tests = (
 );
 
 # get email object
-my $EmailObject  = $Kernel::OM->Get('Kernel::System::Email');
+my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
 # testing loop
 my $Count = 0;

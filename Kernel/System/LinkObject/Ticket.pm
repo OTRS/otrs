@@ -121,8 +121,10 @@ sub LinkListWithData {
                 }
 
                 # if param is set, remove entries from hash with configured ticket state types
-                if (   $Param{IgnoreLinkedTicketStateTypes}
-                    && $IgnoreLinkTicketStateTypesHash{ $TicketData{StateType} } )
+                if (
+                    $Param{IgnoreLinkedTicketStateTypes}
+                    && $IgnoreLinkTicketStateTypesHash{ $TicketData{StateType} }
+                    )
                 {
                     delete $Param{LinkList}->{$LinkType}->{$Direction}->{$TicketID};
                     next TICKETID;

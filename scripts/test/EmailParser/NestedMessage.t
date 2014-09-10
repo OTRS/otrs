@@ -19,7 +19,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # test for bug#1970
 my @Array;
-open my $IN, '<', "$Home/scripts/test/sample/EmailParser/NestedMessage-Test1.box";   ## no critic
+open my $IN, '<', "$Home/scripts/test/sample/EmailParser/NestedMessage-Test1.box";    ## no critic
 while (<$IN>) {
     push @Array, $_;
 }

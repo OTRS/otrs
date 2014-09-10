@@ -813,18 +813,23 @@ sub _PDFOutputArticles {
             }
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
+        {
             $Article{Body} = $Kernel::OM->Get('JSONObject')->Decode(
                 Data => $Article{Body}
             );
             my $Lines;
-            if (IsArrayRefWithData($Article{Body})) {
-                for my $Line (@{$Article{Body}}) {
-                    if ($Line->{SystemGenerated}) {
-                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} ."\n";
+            if ( IsArrayRefWithData( $Article{Body} ) ) {
+                for my $Line ( @{ $Article{Body} } ) {
+                    if ( $Line->{SystemGenerated} ) {
+                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{MessageText} . "\n";
                     }
                     else {
-                        $Lines .= '[' . $Line->{CreateTime} . '] ' . $Line->{ChatterName} . ' ' . $Line->{MessageText} ."\n";
+                        $Lines
+                            .= '['
+                            . $Line->{CreateTime} . '] '
+                            . $Line->{ChatterName} . ' '
+                            . $Line->{MessageText} . "\n";
                     }
                 }
             }
@@ -1039,7 +1044,7 @@ sub _HTMLMask {
                 . "$File{Filename}</a> $File{Filesize}<br/>";
         }
 
-        if ( $Article{ArticleType} eq 'chat-external') {
+        if ( $Article{ArticleType} eq 'chat-external' ) {
             $Article{ChatMessages} = $Kernel::OM->Get('JSONObject')->Decode(
                 Data => $Article{Body}
             );

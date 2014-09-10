@@ -22,9 +22,9 @@ my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
 
-my $HomeDir      = $ConfigObject->Get('Home');
-my $CertPath     = $ConfigObject->Get('SMIME::CertPath');
-my $PrivatePath  = $ConfigObject->Get('SMIME::PrivatePath');
+my $HomeDir     = $ConfigObject->Get('Home');
+my $CertPath    = $ConfigObject->Get('SMIME::CertPath');
+my $PrivatePath = $ConfigObject->Get('SMIME::PrivatePath');
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 

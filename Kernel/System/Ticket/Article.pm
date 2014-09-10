@@ -203,6 +203,7 @@ sub ArticleCreate {
         );
     }
     elsif ( $Param{MimeType} && $Param{MimeType} eq "application/json" ) {
+
         # Keep JSON body unchanged
     }
 

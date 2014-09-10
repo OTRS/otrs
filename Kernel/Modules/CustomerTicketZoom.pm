@@ -1349,14 +1349,15 @@ sub _Mask {
             );
         }
 
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
+        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'BodyChat',
                 Data => {
                     ChatMessages => $Kernel::OM->Get('JSONObject')->Decode(
                         Data => $Article{Body},
                     ),
-                }
+                    }
             );
         }
         else {

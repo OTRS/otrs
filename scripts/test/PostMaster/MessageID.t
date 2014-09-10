@@ -21,7 +21,7 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my @Tickets;
-for my $File ( qw(1 2 3 5 6 11 21) ) {
+for my $File (qw(1 2 3 5 6 11 21)) {
 
     # create random message ID
     my $MessageID = '<message' . time() . ( int rand 1000000 ) . '@example.com>';

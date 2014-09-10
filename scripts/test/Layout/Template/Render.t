@@ -272,7 +272,7 @@ b1
                 Data => { Title => 'b1', },
             },
         ],
-        Template  => "
+        Template => "
 [% RenderBlockStart('b1') %]
 [% Data.Title %]
 [% RenderBlockEnd('b1') %]

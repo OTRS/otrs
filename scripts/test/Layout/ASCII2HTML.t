@@ -16,7 +16,7 @@ use vars (qw($Self %Param));
 use Kernel::Output::HTML::Layout;
 use Kernel::System::Web::Request;
 
-my $ParamObject   = Kernel::System::Web::Request->new(
+my $ParamObject = Kernel::System::Web::Request->new(
     WebRequest => $Param{WebRequest} || 0,
 );
 

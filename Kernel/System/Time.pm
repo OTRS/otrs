@@ -476,7 +476,7 @@ sub WorkingTime {
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
             = localtime $Param{StartTime};    ## no critic
         $Year  += 1900;
-        $Month +=  1;
+        $Month += 1;
         my $CDate = "$Year-$Month-$Day";
         my $CTime00 = $Param{StartTime} - ( ( $Hour * 60 + $Min ) * 60 + $Sec );    # 00:00:00
 
@@ -505,7 +505,8 @@ sub WorkingTime {
 
                     # we are on start day and within start hour => count to end of this hour
                     elsif ( $CDate eq $ADate && $AHour == $WorkingHour ) {
-                        $Counted += ( $CTime00 + ( $WorkingHour + 1 ) * 60 * 60 ) - $Param{StartTime};
+                        $Counted
+                            += ( $CTime00 + ( $WorkingHour + 1 ) * 60 * 60 ) - $Param{StartTime};
                     }
 
                     # do nothing because we are on end day but greater than service hour
