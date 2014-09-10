@@ -244,7 +244,7 @@ sub Run {
     }
 
     if ( $UserType eq 'Customer' ) {
-        $UserID = $Kernel::OM->Get('Kernel::System::CustomerUser')->Get('CustomerPanelUserID')
+        $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
     }
 
     # get ticket object
