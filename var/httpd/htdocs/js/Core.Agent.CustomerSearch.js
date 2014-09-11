@@ -353,7 +353,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $Clone.removeClass('Hidden CustomerTicketTemplate' + Field);
 
         // copy values and change ids and names
-        $Clone.find(':input').each(function(){
+        $Clone.find(':input, a').each(function(){
             var ID = $(this).attr('id');
             $(this).attr('id', ID + Suffix);
             $(this).val(CustomerValue);
@@ -388,7 +388,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             }
 
             // add event handler to remove button
-            if( $(this).hasClass('Remove') ) {
+            if( $(this).hasClass('RemoveButton') ) {
 
                 // bind click function to remove button
                 $(this).bind('click', function () {

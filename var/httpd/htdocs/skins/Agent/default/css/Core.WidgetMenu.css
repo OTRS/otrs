@@ -231,7 +231,7 @@ ul.ContextFunctions li:last-child:hover > a {
     color: #BBBBBB;
     content: " | ";
     display: block;
-    float: left;
+    float: right;
     margin: 5px 3px;
 }
 

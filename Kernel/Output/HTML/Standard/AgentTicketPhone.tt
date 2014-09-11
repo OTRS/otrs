@@ -90,7 +90,10 @@
                             <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value=""/>
                             <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
                             <input class="CustomerTicketText Radio" title="[% Translate("Customer user") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
-                            <button type="button" id="RemoveCustomerTicket" class="Remove CustomerTicketRemove" value="[% Translate("Remove Ticket Customer User") | html %]">[% Translate("Remove Ticket Customer User") | html %]</button>
+                            <a href="#" id="RemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
+                                <i class="fa fa-minus-square-o"></i>
+                                <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
+                            </a>
                         </div>
 
                         <div id="TicketCustomerContentFromCustomer" class="CustomerContainer">
@@ -99,7 +102,10 @@
                                 <input name="CustomerSelected" title="[% Translate("Select this customer as the main customer.") | html %]" id="CustomerSelected" class="CustomerTicketRadio" type="radio" value="[% Data.Count | html %]" [% Data.CustomerSelected | html %]  [% Data.CustomerDisabled | html %] />
                                 <input name="CustomerKey_[% Data.Count | html %]" id="CustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
                                 <input class="CustomerTicketText Radio [% Data.CustomerError | html %]" title="[% Translate("Customer user") | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
-                                <button type="button" id="RemoveCustomerTicket_[% Data.Count %]" class="Remove CustomerTicketRemove" value="[% Translate("Remove Ticket Customer User") | html %]">[% Translate("Remove Ticket Customer User") | html %]</button>
+                                <a href="#" id="RemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
+                                    <i class="fa fa-minus-square-o"></i>
+                                    <span class="InvisibleText">[% Translate("Remove Ticket Customer User") | html %]</span>
+                                </a>
 
 [% RenderBlockStart("CustomerErrorExplantion") %]
                                 <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
