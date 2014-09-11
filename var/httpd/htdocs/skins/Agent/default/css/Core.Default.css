@@ -749,6 +749,7 @@ iframe.TextOption.Customer {
  */
 .ArticleBody {
     font-family: monospace,fixed;
+    word-wrap: break-word;
 }
 
 
