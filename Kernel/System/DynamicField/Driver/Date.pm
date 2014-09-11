@@ -1249,12 +1249,14 @@ sub StatsSearchFieldParameterBuild {
 
     return { $Operator => undef } if !$Value;
 
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # Date field is limited to full calendar days
     # prepare restriction getting date/time fields
-    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    my $SystemTime = $TimeObject->TimeStamp2SystemTime(
         String => $Value,
     );
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
         SystemTime => $SystemTime,
     );
 
@@ -1273,7 +1275,7 @@ sub StatsSearchFieldParameterBuild {
     }
 
     # get target time using new values (or same values for onknown operators)
-    my $TargetSystemTime = $Self->{TimeObject}->Date2SystemTime(
+    my $TargetSystemTime = $TimeObject->Date2SystemTime(
         Year   => $Year,
         Month  => $Month,
         Day    => $Day,
@@ -1281,7 +1283,7 @@ sub StatsSearchFieldParameterBuild {
         Minute => $Min,
         Second => $Sec,
     );
-    $Value = $Self->{TimeObject}->SystemTime2TimeStamp(
+    $Value = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $TargetSystemTime,
     );
 
