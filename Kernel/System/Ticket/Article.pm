@@ -748,7 +748,7 @@ sub ArticleCreate {
                 next USER if $DoNotSendMute{$UserID};
 
                 # send notification
-                $Self->SendAgetNotification(
+                $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
                     RecipientID           => $UserID,
                     CustomerMessageParams => {%Param},
