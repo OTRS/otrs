@@ -172,7 +172,14 @@
                         <div class="Field">
                             <input type="text" name="UserLogin" id="UserLogin" value="[% Data.UserLogin | html %]" class="W50pc Validate_Required [% Data.UserLoginInvalid | html %]" maxlength="200" autocomplete="off" />
                             <div id="UserLoginError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-                            <div id="UserLoginServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="UserLoginServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("UserLoginServerError") %]
+                                <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("UserLoginServerError") %]
+[% RenderBlockStart("ExistUserLoginServerError") %]
+                                <p>[% Translate("A user with this username already exists!") | html %]</p>
+[% RenderBlockEnd("ExistUserLoginServerError") %]
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
