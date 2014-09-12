@@ -93,7 +93,7 @@ sub new {
     $Self->set_window_size( 1024, 768 );
 
     # get remote host with some precautions for certain unit test systems
-    my $FQDN = $Self->{UnitTestObject}->{ConfigObject}->Get('FQDN');
+    my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
 
     # try to resolve fqdn host
     if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
@@ -111,7 +111,7 @@ sub new {
     }
 
     $Self->{BaseURL}
-        = $Self->{UnitTestObject}->{ConfigObject}->Get('HttpType') . '://' . $Self->{BaseURL};
+        = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://' . $Self->{BaseURL};
 
     return $Self;
 }
@@ -220,7 +220,7 @@ sub Login {
     eval {
         $Self->delete_all_cookies();
 
-        my $ScriptAlias = $Self->{UnitTestObject}->{ConfigObject}->Get('ScriptAlias');
+        my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         if ( $Param{Type} eq 'Agent' ) {
             $ScriptAlias .= 'index.pl';
