@@ -1,4 +1,5 @@
 #4.0.0.beta2 20??-??-??
+ - 2014-09-12 Fixed bug#[5189](http://bugs.otrs.org/show_bug.cgi?id=5189) - Queue name not updated in QueueView after rename for StaticDB.
  - 2014-09-12 Fixed bug#[10718](http://bugs.otrs.org/show_bug.cgi?id=10718) - Typo in $HOME/Kernel/System/Ticket/Article.pm.
  - 2014-09-12 Fixed bug#[10582](http://bugs.otrs.org/show_bug.cgi?id=10582) - Adding templates with same name in AdminTemplate leads to SQl error message.
  - 2014-09-10 Fixed bug#[8008](http://bugs.otrs.org/show_bug.cgi?id=8008) - Session ID should not be visible in the address bar after logging in if cookies are used.

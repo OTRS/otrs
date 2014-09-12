@@ -143,6 +143,32 @@ sub TicketAcceleratorUpdate {
     return 1;
 }
 
+sub TicketAcceleratorUpdateOnQueueUpdate {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(NewQueueName OldQueueName)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
+    #update ticket_index for changed queue name
+    return $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => '
+            UPDATE ticket_index
+            SET queue = ?
+            WHERE queue = ?',
+        Bind => [
+            \$Param{NewQueueName},
+            \$Param{OldQueueName},
+        ],
+    );
+}
+
 sub TicketAcceleratorDelete {
     my ( $Self, %Param ) = @_;
 

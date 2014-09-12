@@ -12,6 +12,8 @@ package Kernel::System::Queue;
 use strict;
 use warnings;
 
+use base qw(Kernel::System::EventHandler);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
@@ -87,6 +89,11 @@ sub new {
         FollowUpID          => 1,
         FollowUpLock        => 0,
     };
+
+    # init of event handler
+    $Self->EventHandlerInit(
+        Config => 'Queue::EventModulePost',
+    );
 
     return $Self;
 }
@@ -827,6 +834,18 @@ sub QueueAdd {
     my $StandardTemplateID2QueueByCreating
         = $ConfigObject->Get(' StandardTemplate2QueueByCreating');
 
+    # get queue data with updated name for QueueCreate event
+    my %Queue = $Self->QueueGet( Name => $Param{Name} );
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'QueueCreate',
+        Data  => {
+            Queue => \%Queue,
+        },
+        UserID => $Param{UserID},
+    );
+
     return $QueueID if !$StandardTemplateID2QueueByCreating;
     return $QueueID if ref $StandardTemplateID2QueueByCreating ne 'ARRAY';
     return $QueueID if !@{$StandardTemplateID2QueueByCreating};
@@ -1094,7 +1113,7 @@ sub QueueUpdate {
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # sql
-    return if !$DBObject->Do(
+    my $Result = $DBObject->Do(
         SQL => 'UPDATE queue SET name = ?, comments = ?, group_id = ?, '
             . ' unlock_timeout = ?, first_response_time = ?, first_response_notify = ?, '
             . ' update_time = ?, update_notify = ?, solution_time = ?, '
@@ -1112,6 +1131,21 @@ sub QueueUpdate {
             \$Param{SignatureID},       \$Param{ValidID},             \$Param{UserID},
             \$Param{QueueID},
         ],
+    );
+
+    return if !$Result;
+
+    # get queue data with updated name for QueueUpdate event
+    my %Queue = $Self->QueueGet( Name => $Param{Name} );
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'QueueUpdate',
+        Data  => {
+            Queue    => \%Queue,
+            OldQueue => \%OldQueue,
+        },
+        UserID => $Param{UserID},
     );
 
     # reset cache
