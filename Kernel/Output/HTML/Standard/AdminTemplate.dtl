@@ -157,7 +157,12 @@ $Include{"RichTextEditor"}
                                 <p>$Text{"This field is required."}</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
+<!-- dtl:block:NameServerError -->
                                 <p>$Text{"This field is required."}</p>
+<!-- dtl:block:NameServerError -->
+<!-- dtl:block:ExistNameServerError -->
+                                <p>$Text{"A standard template with this name already exists!"}</p>
+<!-- dtl:block:ExistNameServerError -->
                             </div>
                         </div>
                         <div class="Clear"></div>
