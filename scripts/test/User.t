@@ -9,20 +9,18 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::User;
+use vars (qw($Self));
 
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
+my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
+
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
-);
-
-my $UserObject = Kernel::System::User->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
 );
 
 # add users
@@ -438,8 +436,8 @@ $Self->False(
     'GetUserData() - OutOfOfficeMessage',
 );
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
-    SystemTime => $Self->{TimeObject}->SystemTime(),
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
+    SystemTime => $TimeObject->SystemTime(),
 );
 
 my %Values = (

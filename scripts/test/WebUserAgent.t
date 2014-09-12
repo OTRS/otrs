@@ -10,15 +10,20 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::WebUserAgent;
+
 use Kernel::System::VariableCheck qw(:all);
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my $TestNumber     = 1;
-my $TimeOut        = $Self->{ConfigObject}->Get('Package::Timeout');
-my $Proxy          = $Self->{ConfigObject}->Get('Package::Proxy');
-my $RepositoryRoot = $Self->{ConfigObject}->Get('Package::RepositoryRoot') || [];
+my $TimeOut        = $ConfigObject->Get('Package::Timeout');
+my $Proxy          = $ConfigObject->Get('Package::Proxy');
+my $RepositoryRoot = $ConfigObject->Get('Package::RepositoryRoot') || [];
 
 my @Tests = (
     {
@@ -192,7 +197,6 @@ TEST:
 for my $Test (@Tests) {
 
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-        %{$Self},
         Timeout => $Test->{Timeout},
         Proxy   => $Test->{Proxy},
     );

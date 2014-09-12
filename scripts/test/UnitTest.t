@@ -9,13 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
 
 use Kernel::System::UnitTest;
 
 my $UnitTestObject = Kernel::System::UnitTest->new(
-    %{$Self},
     Output => 'none',
 );
 

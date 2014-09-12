@@ -9,12 +9,11 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
-
 use utf8;
 
+use vars (qw($Self));
+
 # get needed objects
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $QueueObject   = $Kernel::OM->Get('Kernel::System::Queue');
 my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');

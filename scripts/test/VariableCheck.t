@@ -9,11 +9,16 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-# import all possible checks
+use vars (qw($Self));
+
+use Kernel::System::ObjectManager;
+
 use Kernel::System::VariableCheck qw(:all);
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # standard variables
 my $ExpectedTestResults = {};
@@ -56,7 +61,7 @@ my @CommonVariables = (
     ArrayRefEmpty => [],
     HashRef       => { 0 => 0 },
     HashRefEmpty  => {},
-    ObjectRef     => $Self->{ConfigObject},
+    ObjectRef     => $ConfigObject,
     RefRef        => \\0,
     ScalarRef     => \0,
     String        => 0,

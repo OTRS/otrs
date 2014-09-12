@@ -9,14 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::VirtualFS;
-use Kernel::Config;
+use vars (qw($Self));
 
-# create local object
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my @Tests = (
     {
@@ -105,22 +104,25 @@ my @Tests = (
 
 for my $Backend (qw( FS DB )) {
 
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::VirtualFS'] );
+
     $ConfigObject->Set(
         Key   => 'VirtualFS::Backend',
         Value => 'Kernel::System::VirtualFS::' . $Backend,
     );
 
-    my $VirtualFSObject = Kernel::System::VirtualFS->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    # get a new virtual fs object
+    my $VirtualFSObject = $Kernel::OM->Get('Kernel::System::VirtualFS');
 
     for my $Test (@Tests) {
-        my $Content = $Self->{MainObject}->FileRead(
+
+        my $Content = $MainObject->FileRead(
             Location => $ConfigObject->Get('Home') . '/' . $Test->{Location},
             Mode     => $Test->{Mode},
         );
-        my $MD5Sum = $Self->{MainObject}->MD5sum( String => ${$Content} );
+
+        my $MD5Sum = $MainObject->MD5sum( String => ${$Content} );
+
         $Self->Is(
             $MD5Sum || '',
             $Test->{MD5},
@@ -149,7 +151,7 @@ for my $Backend (qw( FS DB )) {
             $File{Content},
             "$Backend Read() - $Test->{Name}",
         );
-        $MD5Sum = $Self->{MainObject}->MD5sum( String => $File{Content} );
+        $MD5Sum = $MainObject->MD5sum( String => $File{Content} );
         $Self->Is(
             $MD5Sum || '',
             $Test->{MD5},

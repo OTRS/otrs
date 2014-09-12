@@ -9,32 +9,29 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Web::UploadCache;
-use Digest::MD5 qw(md5_hex);
-use Kernel::System::Encode;
-use Kernel::Config;
+use vars (qw($Self));
 
-# create local object
+use Digest::MD5 qw(md5_hex);
+
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 for my $Module (qw(DB FS)) {
+
+    # make sure that the $UploadCacheObject gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::UploadCache'] );
 
     $ConfigObject->Set(
         Key   => 'WebUploadCacheModule',
         Value => "Kernel::System::Web::UploadCache::$Module",
     );
 
-    my $UploadCacheObject = Kernel::System::Web::UploadCache->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
-
-    my $EncodeObject = Kernel::System::Encode->new(
-        ConfigObject => $ConfigObject,
-    );
+    # get a new upload cache object
+    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
     my $FormID = $UploadCacheObject->FormIDCreate();
 
@@ -48,7 +45,7 @@ for my $Module (qw(DB FS)) {
 
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File";
-        my $ContentRef = $Self->{MainObject}->FileRead(
+        my $ContentRef = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
         );
@@ -150,7 +147,7 @@ for my $Module (qw(DB FS)) {
     for my $File (qw(xls txt doc png pdf)) {
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/WebUploadCache/WebUploadCache-Test1.$File";
-        my $ContentRef = $Self->{MainObject}->FileRead(
+        my $ContentRef = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
         );

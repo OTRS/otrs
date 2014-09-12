@@ -9,14 +9,16 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Web::Request;
+use vars (qw($Self));
+
+use CGI;
 
 {
     local $ENV{REQUEST_METHOD} = 'GET';
     local $ENV{QUERY_STRING}   = 'a=4;b=5';
+
     my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my @ParamNames = $Request->GetParamNames();
@@ -43,6 +45,7 @@ use Kernel::System::Web::Request;
     local $CGI::POST_MAX = 1024;    ## no critic
 
     my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
 
     $Self->Is(

@@ -9,15 +9,15 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # set time zone to get correct references
 $ENV{TZ} = 'Europe/Berlin';
-
-use Kernel::System::Time;
-
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
     Key   => 'TimeZone::Calendar9',
@@ -29,10 +29,7 @@ $ConfigObject->Set(
     Value => '+1',
 );
 
-my $TimeObject = Kernel::System::Time->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
+my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
 my $SystemTime = $TimeObject->TimeStamp2SystemTime( String => '2005-10-20T10:00:00Z' );
 $Self->Is(

@@ -10,6 +10,7 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use Kernel::System::VariableCheck qw(:all);
@@ -21,11 +22,11 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 
-# create needed objects
+# get needed objects
+my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
 my $TimeObject              = $Kernel::OM->Get('Kernel::System::Time');
-my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
 
 # initialize variables
 my $RandomID = $HelperObject->GetRandomID();
@@ -504,7 +505,7 @@ for my $Test (@Tests) {
     );
 
     $HelperObject->FixedTimeSet(
-        $Self->{TimeObject}->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
+        $TimeObject->TimeStamp2SystemTime( String => $Test->{FixedTimeSet} ),
     );
 
     my $IsComming

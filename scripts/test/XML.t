@@ -9,14 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::XML;
-use Kernel::System::Ticket;
+use vars (qw($Self));
 
-my $XMLObject    = Kernel::System::XML->new( %{$Self} );
-my $TicketObject = Kernel::System::Ticket->new( %{$Self} );
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $XMLObject    = $Kernel::OM->Get('Kernel::System::XML');
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # test XMLParse2XMLHash() with an iso-8859-1 encoded xml
 my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
@@ -566,7 +566,7 @@ for my $Key (@Keys) {
 #------------------------------------------------#
 
 # get the example xml
-my $Path = $Self->{ConfigObject}->Get('Home');
+my $Path = $ConfigObject->Get('Home');
 $Path .= "/scripts/test/sample/XML/";
 my $File = 'XML-Test-file.xml';
 $String = '';

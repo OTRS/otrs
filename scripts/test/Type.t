@@ -9,12 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Type;
+use vars (qw($Self));
 
-my $TypeObject = Kernel::System::Type->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
 
 # add type
 my $TypeNameRand0 = 'unittest' . int rand 1000000;
