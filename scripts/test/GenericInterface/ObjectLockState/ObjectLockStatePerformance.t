@@ -15,6 +15,9 @@ use vars (qw($Self));
 
 use Time::HiRes ();
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 =head1 ObjectLockState performance tests
 
 This test script will create 10000 records in the object lock table,
@@ -29,7 +32,7 @@ my $ObjectLockStateObject = $Kernel::OM->Get('Kernel::System::GenericInterface::
 my $RandomNumber     = int rand 10000000;
 my $CustomObjectType = "TestObject$RandomNumber";
 
-my $TimeLimit = $Self->{ConfigObject}->Get('GenericInterface::ObjectLockState::TimeLimit') || '0.5';
+my $TimeLimit = $ConfigObject->Get('GenericInterface::ObjectLockState::TimeLimit') || '0.5';
 my $TestDataCount = 10_000;
 
 # add config

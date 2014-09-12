@@ -1509,7 +1509,7 @@ for my $Test (@Tests) {
     if ( $Test->{Check} ) {
 
         $TransitionObject->{TransitionDebug}
-            = $Self->{ConfigObject}->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
+            = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
 
         # Set Config
         if ( IsHashRefWithData( $Test->{Check}{Config} ) ) {

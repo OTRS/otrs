@@ -7,7 +7,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -110,9 +109,7 @@ for my $Test (@Tests) {
             "$Test->{Name} | EntityID should not be undef",
         );
 
-        my $EntityPrefix
-            = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
-            ->{ $Test->{Config}->{EntityType} };
+        my $EntityPrefix = $ConfigObject->Get('Process::Entity::Prefix')->{ $Test->{Config}->{EntityType} };
 
         my $Match;
         if ( $EntityID =~ m{\A $Test->{Config}->{EntityType} - [0-9a-f]{32}? \z}smx ) {

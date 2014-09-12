@@ -11,20 +11,17 @@ use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self %Param));
+use vars (qw($Self));
 
 use Kernel::Output::HTML::Layout;
-use Kernel::System::Web::Request;
 
-my $ParamObject = Kernel::System::Web::Request->new(
-    WebRequest => $Param{WebRequest} || 0,
-);
+# get needed objects
+my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $JSONObject  = $Kernel::OM->Get('Kernel::System::JSON');
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     Lang => 'de',
 );
-
-my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
 # set JSON values
 my $JSONTrue  = $JSONObject->True();

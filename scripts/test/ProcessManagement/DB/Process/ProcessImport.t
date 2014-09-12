@@ -7,7 +7,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -18,6 +17,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+my $MainObject         = $Kernel::OM->Get('Kernel::System::Main');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ActivityObject     = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
@@ -31,7 +31,7 @@ my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
-my $Home     = $Self->{ConfigObject}->Get('Home');
+my $Home     = $ConfigObject->Get('Home');
 my $UserID   = 1;
 
 # get a list of current processes and it parts
@@ -492,7 +492,7 @@ for my $Test (@Tests) {
     # read process for YAML file if needed
     my $FileRef;
     if ( $Test->{ProcessFile} ) {
-        $FileRef = $Self->{MainObject}->FileRead(
+        $FileRef = $MainObject->FileRead(
             Location => $Home . '/scripts/test/sample/ProcessManagement/' . $Test->{ProcessFile},
         );
         my $RandomID = $HelperObject->GetRandomID();

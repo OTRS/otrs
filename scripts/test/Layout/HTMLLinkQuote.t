@@ -11,14 +11,12 @@ use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self %Param));
+use vars (qw($Self));
 
 use Kernel::Output::HTML::Layout;
-use Kernel::System::Web::Request;
 
-my $ParamObject = Kernel::System::Web::Request->new(
-    WebRequest => $Param{WebRequest} || 0,
-);
+# get needed objects
+my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     UserChallengeToken => 'TestToken',

@@ -18,6 +18,7 @@ use Kernel::System::VariableCheck qw(:all);
 # get needed objects
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject           = $Kernel::OM->Get('Kernel::System::DB');
 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
@@ -324,7 +325,7 @@ for my $Test (@Tests) {
 
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_Ticket_NotExisting>'
-                && $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle'
+                && $DBObject->GetDatabaseFunction('Type') eq 'oracle'
                 )
             {
                 $Ticket{ 'DynamicField_' . $Attribute } //= '';

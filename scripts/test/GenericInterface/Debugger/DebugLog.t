@@ -13,11 +13,10 @@ use utf8;
 
 use vars (qw($Self));
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $RandomID = $HelperObject->GetRandomID();
-
-my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {

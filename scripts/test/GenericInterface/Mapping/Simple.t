@@ -16,7 +16,11 @@ use vars (qw($Self));
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Debugger;
 
+# get needed objects
+my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $MainObject       = $Kernel::OM->Get('Kernel::System::Main');
+my $TimeObject       = $Kernel::OM->Get('Kernel::System::Time');
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $RandomID = $HelperObject->GetRandomID();
@@ -69,10 +73,10 @@ my %Attachments;
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
-    my $Location = $Self->{ConfigObject}->Get('Home')
+    my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
 
-    my $ContentRef = $Self->{MainObject}->FileRead(
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
     );
@@ -678,7 +682,7 @@ TEST:
 for my $Test (@MappingTests) {
 
     my $StartSeconds;
-    $StartSeconds = $Self->{TimeObject}->SystemTime() if ( $Test->{CheckTime} );
+    $StartSeconds = $TimeObject->SystemTime() if ( $Test->{CheckTime} );
 
     # instantiate mapping object to catch config errors
     my $MappingObject = Kernel::GenericInterface::Mapping->new(
@@ -708,7 +712,7 @@ for my $Test (@MappingTests) {
         Data => $Test->{Data},
     );
     if ( $Test->{CheckTime} ) {
-        my $EndSeconds = $Self->{TimeObject}->SystemTime();
+        my $EndSeconds = $TimeObject->SystemTime();
         $Self->True(
             ( $EndSeconds - $StartSeconds ) < 5,
             'Mapping - Performance on large data set: ' .

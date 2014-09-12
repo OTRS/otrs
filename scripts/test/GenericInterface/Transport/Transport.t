@@ -19,6 +19,9 @@ use HTTP::Request::Common;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 
+# get needed objects
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
 # helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
@@ -230,7 +233,7 @@ for my $Fail ( 0 .. 1 ) {
             local $ENV{CONTENT_TYPE}
                 = 'application/x-www-form-urlencoded; charset=utf-8;';
 
-            $Self->{EncodeObject}->EncodeOutput( \$TestEntry->{RequestContent} );
+            $EncodeObject->EncodeOutput( \$TestEntry->{RequestContent} );
 
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;

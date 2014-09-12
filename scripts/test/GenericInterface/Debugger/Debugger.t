@@ -15,11 +15,10 @@ use vars (qw($Self));
 
 use Kernel::GenericInterface::Debugger;
 
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $RandomID = $HelperObject->GetRandomID();
-
-my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
     Config => {
@@ -44,10 +43,8 @@ $Self->True(
 );
 
 # first test the debugger in general
-
-my $DebuggerObject;
-
 # a few tests to instantiate incorrectly
+my $DebuggerObject;
 eval {
     $DebuggerObject = Kernel::GenericInterface::Debugger->new();
 };

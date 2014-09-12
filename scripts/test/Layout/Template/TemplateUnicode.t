@@ -6,20 +6,20 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
 use strict;
 use warnings;
 use utf8;
-use vars (qw($Self %Param));
+
+use vars (qw($Self));
 
 use File::Basename qw();
 
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-# Call Output() once so that the TT objects are created.
+# call Output() once so that the TT objects are created.
 $LayoutObject->Output( Template => '' );
 
-# Now add this directory as include path to be able to use the test templates
+# now add this directory as include path to be able to use the test templates
 my $IncludePaths = $LayoutObject->{TemplateProviderObject}->include_path();
 unshift @{$IncludePaths},
     $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/test/Layout/Template';

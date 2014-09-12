@@ -21,11 +21,12 @@ use Kernel::GenericInterface::Operation::Ticket::TicketGet;
 
 use Kernel::System::VariableCheck qw(:all);
 
-#get a random id
-my $RandomID = int rand 1_000_000_000;
-
-# create local config object
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
+# get a random id
+my $RandomID = int rand 1_000_000_000;
 
 # helper object
 # skip SSL certificate verification
@@ -41,7 +42,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $UserLogin = $HelperObject->TestUserCreate();
 my $Password  = $UserLogin;
 
-$Self->{UserID} = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $UserLogin,
 );
 
@@ -256,7 +257,7 @@ $BackendObject->ValueSet(
 my %TicketEntryOne = $TicketObject->TicketGet(
     TicketID      => $TicketID1,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -278,7 +279,7 @@ for my $Key ( sort keys %TicketEntryOne ) {
 my %TicketEntryOneDF = $TicketObject->TicketGet(
     TicketID      => $TicketID1,
     DynamicFields => 1,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -362,7 +363,7 @@ $BackendObject->ValueSet(
 my %TicketEntryTwo = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -384,7 +385,7 @@ for my $Key ( sort keys %TicketEntryTwo ) {
 my %TicketEntryTwoDF = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 1,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -427,7 +428,7 @@ $Self->True(
 my %TicketEntryThree = $TicketObject->TicketGet(
     TicketID      => $TicketID3,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -524,10 +525,10 @@ for my $Article (@ArticleWithoutAttachments) {
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
-    my $Location = $Self->{ConfigObject}->Get('Home')
+    my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
 
-    my $ContentRef = $Self->{MainObject}->FileRead(
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Type     => 'Local',
@@ -600,7 +601,7 @@ for my $Article (@ArticleBox) {
 my %TicketEntryFour = $TicketObject->TicketGet(
     TicketID      => $TicketID4,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -653,7 +654,7 @@ $Self->True(
 
 # get remote host with some precautions for certain unit test systems
 my $Host;
-my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+my $FQDN = $ConfigObject->Get('FQDN');
 
 # try to resolve FQDN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
@@ -672,11 +673,11 @@ if ( !$Host ) {
 
 # prepare webservice config
 my $RemoteSystem =
-    $Self->{ConfigObject}->Get('HttpType')
+    $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/'
-    . $Self->{ConfigObject}->Get('ScriptAlias')
+    . $ConfigObject->Get('ScriptAlias')
     . '/nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
@@ -735,7 +736,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
     Name    => $WebserviceName,
     Config  => $WebserviceConfig,
     ValidID => 1,
-    UserID  => $Self->{UserID},
+    UserID  => $UserID,
 );
 $Self->True(
     $WebserviceUpdate,
@@ -1269,7 +1270,7 @@ for my $Test (@Tests) {
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => $Self->{UserID},
+    UserID => $UserID,
 );
 $Self->True(
     $WebserviceDelete,
@@ -1281,7 +1282,7 @@ for my $TicketID (@TicketIDs) {
     # delete the ticket Three
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
-        UserID   => $Self->{UserID},
+        UserID   => $UserID,
     );
 
     # sanity check

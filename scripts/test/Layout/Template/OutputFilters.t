@@ -10,9 +10,11 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
 use Kernel::Output::HTML::Layout;
+
 use Kernel::System::VariableCheck qw(:all);
 
 my @Tests = (

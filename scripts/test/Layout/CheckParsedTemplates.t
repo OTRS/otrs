@@ -11,14 +11,16 @@ use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self %Param));
+use vars (qw($Self));
 
 use Kernel::Output::HTML::Layout;
-use Kernel::System::Web::Request;
 
-my $ParamObject = Kernel::System::Web::Request->new(
-    WebRequest => $Param{WebRequest} || 0,
-);
+use Kernel::System::VariableCheck qw(:all);
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     UserChallengeToken => 'TestToken',
@@ -95,7 +97,7 @@ $Self->True(
 );
 
 # check all dtl files
-my $HomeDirectory = $Self->{ConfigObject}->Get('Home');
+my $HomeDirectory = $ConfigObject->Get('Home');
 my $DTLDirectory  = $HomeDirectory . '/Kernel/Output/HTML/Standard/';
 my $DIR;
 if ( !opendir $DIR, $DTLDirectory ) {
@@ -116,7 +118,7 @@ for my $File (@Files) {
         my $DTLName = $1;
 
         # find all blocks auf the dtl files
-        my $ContentARRAYRef = $Self->{MainObject}->FileRead(
+        my $ContentARRAYRef = $MainObject->FileRead(
             Location => $File,
             Result   => 'ARRAY'
         );

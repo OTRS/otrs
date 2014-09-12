@@ -14,6 +14,7 @@ use utf8;
 use vars (qw($Self));
 
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
 my $PathToTest =
     $Home .
     '/scripts/test/sample/GenericInterface/Webservice/';

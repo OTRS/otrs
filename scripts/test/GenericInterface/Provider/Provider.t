@@ -17,6 +17,10 @@ use CGI ();
 use URI::Escape();
 use LWP::UserAgent;
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
 # helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
@@ -188,13 +192,13 @@ my $CreateQueryString = sub {
         }
     }
 
-    $Self->{EncodeObject}->EncodeOutput( \$QueryString );
+    $EncodeObject->EncodeOutput( \$QueryString );
     return $QueryString;
 };
 
 # get remote host with some precautions for certain unit test systems
 my $Host;
-my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+my $FQDN = $ConfigObject->Get('FQDN');
 
 # try to resolve FQDN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
@@ -212,13 +216,13 @@ if ( !$Host ) {
 }
 
 # create URL
-my $ScriptAlias   = $Self->{ConfigObject}->Get('ScriptAlias');
+my $ScriptAlias   = $ConfigObject->Get('ScriptAlias');
 my $ApacheBaseURL = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
 my $PlackBaseURL;
-if ( $Self->{ConfigObject}->Get('UnitTestPlackServerPort') ) {
+if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
     $PlackBaseURL
         = "http://localhost:"
-        . $Self->{ConfigObject}->Get('UnitTestPlackServerPort')
+        . $ConfigObject->Get('UnitTestPlackServerPort')
         . '/nph-genericinterface.pl/';
 }
 

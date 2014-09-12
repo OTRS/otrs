@@ -21,6 +21,10 @@ use Kernel::GenericInterface::Operation::Session::SessionCreate;
 
 use Kernel::System::VariableCheck qw(:all);
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -30,11 +34,8 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-#get a random id
+# get a random id
 my $RandomID = int rand 1_000_000_000;
-
-# create local config object
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
@@ -51,7 +52,7 @@ my $StartTime = $TimeObject->SystemTime();
 my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
 # create a new user for current test
-$Self->{UserID} = $UserObject->UserAdd(
+my $UserID = $UserObject->UserAdd(
     UserFirstname => 'Test',
     UserLastname  => 'User',
     UserLogin     => 'TestUser' . $RandomID,
@@ -62,7 +63,7 @@ $Self->{UserID} = $UserObject->UserAdd(
 );
 
 $Self->True(
-    $Self->{UserID},
+    $UserID,
     'User Add ()',
 );
 
@@ -318,7 +319,7 @@ $BackendObject->ValueSet(
 my %TicketEntryOne = $TicketObject->TicketGet(
     TicketID      => $TicketID1,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -340,7 +341,7 @@ for my $Key ( sort keys %TicketEntryOne ) {
 my %TicketEntryOneDF = $TicketObject->TicketGet(
     TicketID      => $TicketID1,
     DynamicFields => 1,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -424,7 +425,7 @@ $BackendObject->ValueSet(
 my %TicketEntryTwo = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -446,7 +447,7 @@ for my $Key ( sort keys %TicketEntryTwo ) {
 my %TicketEntryTwoDF = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 1,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -490,7 +491,7 @@ $Self->True(
 my %TicketEntryThree = $TicketObject->TicketGet(
     TicketID      => $TicketID3,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -587,10 +588,10 @@ for my $Article (@ArticleWithoutAttachments) {
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
-    my $Location = $Self->{ConfigObject}->Get('Home')
+    my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
 
-    my $ContentRef = $Self->{MainObject}->FileRead(
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Type     => 'Local',
@@ -663,7 +664,7 @@ for my $Article (@ArticleBox) {
 my %TicketEntryFour = $TicketObject->TicketGet(
     TicketID      => $TicketID4,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -687,7 +688,7 @@ push @TicketIDs, $TicketID4;
 my $WebserviceName = '-Test-' . $RandomID;
 
 # set UserID on 1
-my $UserID = 1;
+$UserID = 1;
 
 # create webservice object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -719,7 +720,7 @@ $Self->True(
 
 # get remote host with some precautions for certain unit test systems
 my $Host;
-my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+my $FQDN = $ConfigObject->Get('FQDN');
 
 # try to resolve FAQN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
@@ -738,11 +739,11 @@ if ( !$Host ) {
 
 # prepare webservice config
 my $RemoteSystem =
-    $Self->{ConfigObject}->Get('HttpType')
+    $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/'
-    . $Self->{ConfigObject}->Get('ScriptAlias')
+    . $ConfigObject->Get('ScriptAlias')
     . '/nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
@@ -1448,7 +1449,7 @@ for my $Test (@Tests) {
 # clean up webservice
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
-    UserID => $Self->{UserID},
+    UserID => $UserID,
 );
 $Self->True(
     $WebserviceDelete,
@@ -1460,7 +1461,7 @@ for my $TicketID (@TicketIDs) {
     # delete the ticket Three
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
-        UserID   => $Self->{UserID},
+        UserID   => $UserID,
     );
 
     # sanity check
@@ -1487,19 +1488,19 @@ for my $FieldID (@TestDynamicFields) {
 }
 
 my $UpdateUser = $UserObject->UserUpdate(
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
     UserFirstname => 'TestModified',
     UserLastname  => 'UserModified',
     UserLogin     => 'TestUser' . $RandomID,
     UserEmail     => 'testmodified' . $RandomID . 'email@example.com',
     ValidID       => 2,
-    ChangeUserID  => $Self->{UserID},
+    ChangeUserID  => $UserID,
 );
 
 # sanity check
 $Self->True(
     $UpdateUser,
-    "UserUpdate() successful for User ID $Self->{UserID}",
+    "UserUpdate() successful for User ID $UserID",
 );
 
 my $Success = $TypeObject->TypeUpdate(
