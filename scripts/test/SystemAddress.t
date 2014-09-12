@@ -9,12 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::SystemAddress;
+use vars (qw($Self));
 
-my $SystemAddressObject = Kernel::System::SystemAddress->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 # add SystemAddress
 my $SystemAddressEmail    = 'example-SystemAddress' . int( rand(1000000) ) . '@example.com';

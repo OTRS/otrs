@@ -16,8 +16,9 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $DBObject            = $Kernel::OM->Get('Kernel::System::DB');
 my $SearchProfileObject = $Kernel::OM->Get('Kernel::System::SearchProfile');
 
 # set UserID
@@ -32,7 +33,7 @@ my $Base = 'TicketSearch' . $RandomID;
 # workaround for oracle
 # oracle databases can't determine the difference between NULL and ''
 my $IsNotOracle = 1;
-if ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'oracle' ) {
+if ( $DBObject->GetDatabaseFunction('Type') eq 'oracle' ) {
     $IsNotOracle = 0;
 }
 

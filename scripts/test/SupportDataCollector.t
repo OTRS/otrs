@@ -9,25 +9,22 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
+
 use Time::HiRes ();
 
-use Kernel::System::SupportDataCollector;
 use Kernel::System::SupportDataCollector::PluginBase;
-use Kernel::System::UnitTest::Helper;
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
+# get needed objects
+my $HelperObject               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');
+my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
 
-$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+$CacheObject->CleanUp(
     Type => 'SupportDataCollector',
 );
-
-my $SupportDataCollectorObject = Kernel::System::SupportDataCollector->new( %{$Self} );
 
 my $TimeStart   = [ Time::HiRes::gettimeofday() ];
 my %Result      = $SupportDataCollectorObject->Collect();
@@ -72,7 +69,7 @@ for my $ResultEntry ( @{ $Result{Result} || [] } ) {
 }
 
 # cache tests
-my $CacheResult = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+my $CacheResult = $CacheObject->Get(
     Type => 'SupportDataCollector',
     Key  => 'DataCollect',
 );
@@ -93,7 +90,7 @@ my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
 );
 my $TimeElapsedCache = Time::HiRes::tv_interval($TimeStartCache);
 
-$CacheResult = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+$CacheResult = $CacheObject->Get(
     Type => 'SupportDataCollector',
     Key  => 'DataCollect',
 );

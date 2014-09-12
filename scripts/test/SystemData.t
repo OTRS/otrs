@@ -9,12 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::SystemData;
+use vars (qw($Self));
 
-my $SystemDataObject = Kernel::System::SystemData->new( %{$Self} );
+# get needed objects
+my $MainObject       = $Kernel::OM->Get('Kernel::System::Main');
+my $SystemDataObject = $Kernel::OM->Get('Kernel::System::SystemData');
 
 # add system data
 my $SystemDataNameRand0 = 'systemdata' . int( rand(1000000) );
@@ -69,7 +70,7 @@ $Self->Is(
 );
 
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
-    Key    => 'NonExisting' . $Self->{MainObject}->GenerateRandomString(),
+    Key    => 'NonExisting' . $MainObject->GenerateRandomString(),
     Value  => 'some value',
     UserID => 1,
 );

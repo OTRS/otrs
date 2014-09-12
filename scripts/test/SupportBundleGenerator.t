@@ -7,58 +7,27 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
-use Kernel::Config;
-use Kernel::System::CSV;
-use Kernel::System::FileTemp;
-use Kernel::System::JSON;
-use Kernel::System::Package;
-use Kernel::System::Registration;
-use Kernel::System::SupportBundleGenerator;
-use Kernel::System::SupportDataCollector;
-use Kernel::System::UnitTest::Helper;
+use Archive::Tar;
+
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $SupportBundleGeneratorObject = Kernel::System::SupportBundleGenerator->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
-
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
-my $PackageObject = Kernel::System::Package->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
-my $CSVObject = Kernel::System::CSV->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
-my $JSONObject = Kernel::System::JSON->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
-my $RegistrationObject = Kernel::System::Registration->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
-
-my $SupportDataCollectorObject = Kernel::System::SupportDataCollector->new(
-    %{$Self},
-    UnitTestObject => $Self,
-);
+# get needed objects
+my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject                 = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $MainObject                   = $Kernel::OM->Get('Kernel::System::Main');
+my $SupportBundleGeneratorObject = $Kernel::OM->Get('Kernel::System::SupportBundleGenerator');
+my $PackageObject                = $Kernel::OM->Get('Kernel::System::Package');
+my $CSVObject                    = $Kernel::OM->Get('Kernel::System::CSV');
+my $JSONObject                   = $Kernel::OM->Get('Kernel::System::JSON');
+my $RegistrationObject           = $Kernel::OM->Get('Kernel::System::Registration');
+my $SupportDataCollectorObject   = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
+my $TempObject                   = $Kernel::OM->Get('Kernel::System::FileTemp');
 
 # cleanup the Home variable (remove tailing "/")
 my $Home = $ConfigObject->Get('Home');
@@ -109,7 +78,7 @@ if ($IsDevelopmentSystem) {
         );
 
         # delete Kernel/Config.pm file from archive file
-        my $ArchiveContent = $Self->{MainObject}->FileRead(
+        my $ArchiveContent = $MainObject->FileRead(
             Location => $Home . '/ARCHIVE',
             Result   => 'ARRAY',
         );
@@ -122,7 +91,7 @@ if ($IsDevelopmentSystem) {
             $Output .= $Line;
         }
 
-        my $FileLocation = $Self->{MainObject}->FileWrite(
+        my $FileLocation = $MainObject->FileWrite(
             Location => $Home . '/ARCHIVE',
             Content  => \$Output,
         );
@@ -131,7 +100,7 @@ if ($IsDevelopmentSystem) {
 }
 
 # get OTRS Version
-my $OTRSVersion = $Self->{ConfigObject}->Get('Version');
+my $OTRSVersion = $ConfigObject->Get('Version');
 
 # leave only mayor and minor level versions
 $OTRSVersion =~ s{ (\d+ \. \d+) .+ }{$1}msx;
@@ -216,7 +185,7 @@ for my $Test (@Tests) {
             # this operation is destructive be aware of it!
             my $Content = $HelperObject->GetRandomID();
             $Content .= "\n";
-            my $FileLocation = $Self->{MainObject}->FileWrite(
+            my $FileLocation = $MainObject->FileWrite(
                 Location => $File,
                 Content  => \$Content,
             );
@@ -245,11 +214,6 @@ for my $Test (@Tests) {
         $Filename,
         $ExpectedFilename,
         "$Test->{Name}: GenerateCustomFilesArchive() - Filename"
-    );
-
-    # create temp object
-    my $TempObject = Kernel::System::FileTemp->new(
-        ConfigObject => $ConfigObject,
     );
 
     # save as a tmp file
@@ -575,11 +539,6 @@ $Self->IsNot(
     $Result->{Data}->{Filename},
     undef,
     "Generate() - Filename"
-);
-
-# create temp object
-my $TempObject = Kernel::System::FileTemp->new(
-    ConfigObject => $ConfigObject,
 );
 
 # save as a tmp file

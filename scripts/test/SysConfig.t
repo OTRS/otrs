@@ -9,20 +9,15 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::SysConfig;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
 
-# Create Helper instance which will restore system configuration in destructor
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 1,
-);
+use Kernel::Config;
 
-my $SysConfigObject = Kernel::System::SysConfig->new( %{$Self} );
+# get needed objects
+my $HelperObject    = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 #
 # ConfigItemUpdate
