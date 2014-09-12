@@ -7014,7 +7014,7 @@
     <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###SearchArticleCSVTree" Required="1" Valid="1">
         <Description Translatable="1">Exports the whole article tree in search result (it can affect the system performance).</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
