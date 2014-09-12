@@ -251,10 +251,10 @@ for my $Test (@Tests) {
         $Test->{IsCacheable},
         'Have uncacheable templates',
     );
+    my $FileName = $ConfigObject->Get('Home') . '/scripts/test/Layout/Template/OutputFilters.tt';
+    $FileName =~ s{/{2,}}{/}g; # remove duplicated //
     $Self->Is(
-        $LayoutObject->{TemplateProviderObject}->{_TemplateCache}->{
-            $ConfigObject->Get('Home') . '/scripts/test/Layout/Template/OutputFilters.tt'
-            } ? 1 : 0,
+        $LayoutObject->{TemplateProviderObject}->{_TemplateCache}->{$FileName} ? 1 : 0,
         $Test->{IsCacheable},
         'Template added to cache',
     );
