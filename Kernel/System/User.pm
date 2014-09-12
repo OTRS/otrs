@@ -389,6 +389,15 @@ sub UserAdd {
         }
     }
 
+    # check if a user with this login (username) already exits
+    if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "A user with username '$Param{UserLogin}' already exists!"
+        );
+        return;
+    }
+
     # check email address
     if (
         $Param{UserEmail}
@@ -493,6 +502,15 @@ sub UserUpdate {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # check if a user with this login (username) already exits
+    if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin}, UserID => $Param{UserID} ) ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "A user with username '$Param{UserLogin}' already exists!"
+        );
+        return;
     }
 
     # check email address
@@ -1181,6 +1199,38 @@ sub TokenCheck {
 
     # return false if token is invalid
     return;
+}
+
+=item UserLoginExistsCheck()
+
+return 1 if another user with this login (username) already exits
+
+    $Exist = $UserObject->UserLoginExistsCheck(
+        UserLogin => 'Some::UserLogin',
+        UserID => 1, # optional
+    );
+
+=cut
+
+sub UserLoginExistsCheck {
+    my ( $Self, %Param ) = @_;
+    return if !$Self->{DBObject}->Prepare(
+        SQL =>
+            "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} WHERE $Self->{UserTableUser} = ?",
+        Bind => [ \$Param{UserLogin} ],
+    );
+
+    # fetch the result
+    my $Flag;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( !$Param{UserID} || $Param{UserID} ne $Row[0] ) {
+            $Flag = 1;
+        }
+    }
+    if ($Flag) {
+        return 1;
+    }
+    return 0;
 }
 
 1;

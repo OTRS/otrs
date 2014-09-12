@@ -171,8 +171,17 @@
                         <label class="Mandatory" for="UserLogin"><span class="Marker">*</span> $Text{"Username"}:</label>
                         <div class="Field">
                             <input type="text" name="UserLogin" id="UserLogin" value="$QData{"UserLogin"}" class="W50pc Validate_Required $QData{"UserLoginInvalid"}" maxlength="200" autocomplete="off" />
-                            <div id="UserLoginError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
-                            <div id="UserLoginServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                            <div id="UserLoginError" class="TooltipErrorMessage">
+                                <p>$Text{"This field is required."}</p>
+                            </div>
+                            <div id="UserLoginServerError" class="TooltipErrorMessage">
+<!-- dtl:block:UserLoginServerError -->
+                                <p>$Text{"This field is required."}</p>
+<!-- dtl:block:UserLoginServerError -->
+<!-- dtl:block:ExistUserLoginServerError -->
+                                <p>$Text{"A user with this username already exists!"}</p>
+<!-- dtl:block:ExistUserLoginServerError -->
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
