@@ -687,9 +687,6 @@ push @TicketIDs, $TicketID4;
 # set webservice name
 my $WebserviceName = '-Test-' . $RandomID;
 
-# set UserID on 1
-$UserID = 1;
-
 # create webservice object
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 $Self->Is(

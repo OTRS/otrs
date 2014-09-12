@@ -353,13 +353,17 @@ sub DESTROY {
     if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
         for my $TestUser ( @{ $Self->{TestUsers} } ) {
 
+            my $TestUserLogin = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+                UserID => $TestUser,
+            );
+
             # make test user invalid
             my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
                 UserID        => $TestUser,
                 UserFirstname => 'Firstname Test1',
                 UserLastname  => 'Lastname Test1',
-                UserLogin     => $TestUser,
-                UserEmail     => $TestUser . '@localunittest.com.com',
+                UserLogin     => $TestUserLogin,
+                UserEmail     => $TestUserLogin . '@localunittest.com.com',
                 ValidID       => 2,
                 ChangeUserID  => 1,
             ) || die "Could not invalidate test user";

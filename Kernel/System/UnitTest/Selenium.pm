@@ -21,6 +21,7 @@ use Kernel::Config;
 use Kernel::System::User;
 
 our @ObjectDependencies = (
+    'Kernel::System::Log',
     'Kernel::System::UnitTest',
 );
 
@@ -204,7 +205,10 @@ sub Login {
     # check needed stuff
     for (qw(Type User Password)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message => "Need $_!",
+            );
             return;
         }
     }
