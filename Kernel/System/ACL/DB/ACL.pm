@@ -938,6 +938,7 @@ sub ACLDump {
 package Kernel::Config::Files::ZZZACL;
 use strict;
 use warnings;
+no warnings 'redefine';
 use utf8;
 sub Load {
     my ($File, $Self) = @_;

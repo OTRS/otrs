@@ -122,6 +122,7 @@ sub WriteDefault {
     $Out .= "package Kernel::Config::Files::ZZZAAuto;\n";
     $Out .= "use strict;\n";
     $Out .= "use warnings;\n";
+    $Out .= "no warnings 'redefine';\n";
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
@@ -327,6 +328,7 @@ sub CreateConfig {
     $Out .= "package Kernel::Config::Files::ZZZAuto;\n";
     $Out .= "use strict;\n";
     $Out .= "use warnings;\n";
+    $Out .= "no warnings 'redefine';\n";
     if ( $Self->{utf8} ) {
         $Out .= "use utf8;\n";
     }
