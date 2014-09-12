@@ -110,6 +110,11 @@ sub OTRSInit {
         @UncacheableTemplates{ keys %TemplateList } = values %TemplateList;
     }
 
+    # map filtered template names to real tt names (except 'ALL' placeholder)
+    %UncacheableTemplates =
+        map { $_ eq 'ALL' ? 'ALL' : $_ . '.tt' => $UncacheableTemplates{$_} }
+        keys %UncacheableTemplates;
+
     $Self->{UncacheableTemplates} = \%UncacheableTemplates;
 }
 
@@ -233,6 +238,7 @@ sub _load {
 
     # If there was no error, pre-process our template
     if ( ref $Result[0] ) {
+
         $Result[0]->{text} = $Self->_PreProcessTemplateContent(
             Content      => $Result[0]->{text},
             TemplateFile => $Result[0]->{name},
@@ -363,6 +369,8 @@ sub _PreProcessTemplateContent {
     # Make sure the template is treated as utf8.
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
 
+    my $TemplateFileWithoutTT = substr( $Param{TemplateFile}, 0, -3 );
+
     #
     # pre putput filter handling
     #
@@ -396,7 +404,7 @@ sub _PreProcessTemplateContent {
 
             # check template list
             if ( $Param{TemplateFile} && !$TemplateList{ALL} ) {
-                next FILTER if !$TemplateList{ $Param{TemplateFile} };
+                next FILTER if !$TemplateList{$TemplateFileWithoutTT};
             }
 
             next FILTER if !$Param{TemplateFile} && !$TemplateList{ALL};
@@ -414,7 +422,7 @@ sub _PreProcessTemplateContent {
             $Object->Run(
                 %{$FilterConfig},
                 Data => \$Content,
-                TemplateFile => $Param{TemplateFile} || '',
+                TemplateFile => $TemplateFileWithoutTT || '',
             );
         }
     }
