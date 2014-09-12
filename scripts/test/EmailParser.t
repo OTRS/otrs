@@ -17,6 +17,7 @@ use Kernel::System::EmailParser;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $ConfigObject->Get('Home');
 
@@ -132,7 +133,7 @@ $Self->Is(
     "#3 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-my $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+my $MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '4e78ae6bffb120669f50bca56965f552',
@@ -230,7 +231,7 @@ $Self->Is(
     "#5 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '0596f2939525c6bd50fc2b649e40fbb6',
@@ -246,7 +247,7 @@ $Self->Is(
     '',
     "#5 ContentAlternative check",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[2]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'bb29962e132ba159539f1e88b41663b1',
@@ -257,7 +258,7 @@ $Self->Is(
     'test-attachment-äöüß-utf-8.txt',
     "#5 GetAttachments()",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[3]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '5ee767f3b68f24a9213e0bef82dc53e5',
@@ -286,7 +287,7 @@ $Self->Is(
     "#6 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '5ee767f3b68f24a9213e0bef82dc53e5',
@@ -298,7 +299,7 @@ $Self->Is(
     "#6 GetAttachments()",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[2]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'bb29962e132ba159539f1e88b41663b1',
@@ -310,7 +311,7 @@ $Self->Is(
     "#6 GetAttachments()",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[3]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '0596f2939525c6bd50fc2b649e40fbb6',
@@ -339,7 +340,7 @@ $Self->Is(
     "#7 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '5ee767f3b68f24a9213e0bef82dc53e5',
@@ -350,7 +351,7 @@ $Self->Is(
     'test-attachment-äöüß.pdf',
     "#7 GetAttachments()",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[2]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'bb29962e132ba159539f1e88b41663b1',
@@ -361,7 +362,7 @@ $Self->Is(
     'test-attachment-äöüß-utf-8.txt',
     "#7 GetAttachments()",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[3]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '0596f2939525c6bd50fc2b649e40fbb6',
@@ -392,7 +393,7 @@ $Self->Is(
 
 my $Body = $EmailParserObject->GetMessageBody();
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Body ) || '';
+$MD5 = $MainObject->MD5sum( String => $Body ) || '';
 
 $Self->Is(
     $MD5,
@@ -423,7 +424,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
 
 $Self->Is(
     $MD5,
@@ -458,7 +459,7 @@ $Self->Is(
     "#10 GetCharset() - iso-8859-1 charset should be found",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '7ddc731e5a3e76cd27d4b1e0628468b1',
@@ -466,7 +467,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[0]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
 $Self->Is(
     $MD5,
     '7ddc731e5a3e76cd27d4b1e0628468b1',
@@ -510,7 +511,7 @@ $Self->Is(
     "#11 GetCharset() - iso-8859-1 charset should be found",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '52f20c90a1f0d8cf3bd415e278992001',
@@ -550,7 +551,7 @@ $Self->Is(
     "#12 GetParam(WHAT => 'Cc')",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '603c11a38065909cc13bf53c650506c1',
@@ -558,7 +559,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'ecfbec2030e6bf91cc97ed22f7c6551a',
@@ -569,7 +570,7 @@ $Self->Is(
     'attachment-äöüß-utf8.txt',
     "#12 Filename check",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[2]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[2]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'b25beeea18c52cdc791864b52862743e',
@@ -580,7 +581,7 @@ $Self->Is(
     'attachment-äöüß-iso.txt',
     "#12 Filename check",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[3]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[3]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'f287d0dd6d0f90da4ac69348b09ec281',
@@ -591,7 +592,7 @@ $Self->Is(
     'Обяснительная.jpg',
     "#12 Filename check",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[4]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[4]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'f287d0dd6d0f90da4ac69348b09ec281',
@@ -648,7 +649,7 @@ $Self->Is(
     'support@example.com',
     "#13 GetParam(WHAT => 'To')",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '474f97c23688e88edfb70139d5658e01',
@@ -681,7 +682,7 @@ $Self->Is(
     '"VIAGRA � Official Site" <security@example.org>',
     "#14 GetParam(WHAT => 'From')",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
+$MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     'b8b01a1acd8fe7efeff8351bf48d8f63',
@@ -706,7 +707,7 @@ $Self->Is(
 );
 
 @Attachments = $EmailParserObject->GetAttachments();
-$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$MD5 = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
     'e86c2c15e59fc1e1695f890ff102b06c',

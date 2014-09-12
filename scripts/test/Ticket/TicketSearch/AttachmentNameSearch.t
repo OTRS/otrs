@@ -21,6 +21,8 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
+my $UserID = 1;
+
 # get a random id
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -62,7 +64,7 @@ $Self->True(
 my %TicketEntryOne = $TicketObject->TicketGet(
     TicketID      => $TicketID1,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(
@@ -96,7 +98,7 @@ $Self->True(
 my %TicketEntryTwo = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 0,
-    UserID        => $Self->{UserID},
+    UserID        => $UserID,
 );
 
 $Self->True(

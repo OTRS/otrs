@@ -13,9 +13,11 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
+# get needed objects
+my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
 
 # LinkQuote tests
 my @Tests = (
@@ -319,19 +321,19 @@ for my $Test (@Tests) {
 #
 # Special performance test for a large amount of data
 #
-my $XML = $Self->{MainObject}->FileRead(
-    Location => $Self->{ConfigObject}->Get('Home')
+my $XML = $MainObject->FileRead(
+    Location => $ConfigObject->Get('Home')
         . '/scripts/test/sample/HTMLUtils/obstacles_upd2.xml',
 );
 $XML = ${$XML};
 
-my $StartSeconds = $Self->{TimeObject}->SystemTime();
+my $StartSeconds = $TimeObject->SystemTime();
 
 my $HTML = $HTMLUtilsObject->LinkQuote(
     String => \$XML,
 );
 
-my $EndSeconds = $Self->{TimeObject}->SystemTime();
+my $EndSeconds = $TimeObject->SystemTime();
 $Self->True(
     ( $EndSeconds - $StartSeconds ) < 10,
     'LinkQuote - Performance on large data set',

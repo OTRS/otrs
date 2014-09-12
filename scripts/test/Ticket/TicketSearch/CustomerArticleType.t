@@ -19,6 +19,8 @@ use Kernel::System::VariableCheck qw(:all);
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+my $UserID = 1;
+
 # ticket index accelerator tests
 for my $Module ( 'RuntimeDB', 'StaticDB' ) {
 
@@ -80,7 +82,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     my %TicketEntryOne = $TicketObject->TicketGet(
         TicketID      => $TicketID1,
         DynamicFields => 0,
-        UserID        => $Self->{UserID},
+        UserID        => $UserID,
     );
 
     $Self->True(
@@ -114,7 +116,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
     my %TicketEntryTwo = $TicketObject->TicketGet(
         TicketID      => $TicketID2,
         DynamicFields => 0,
-        UserID        => $Self->{UserID},
+        UserID        => $UserID,
     );
 
     $Self->True(

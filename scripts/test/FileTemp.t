@@ -18,6 +18,9 @@ use File::Copy;
 
 use Kernel::System::ObjectManager;
 
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
 my $Filename;
 my $TempDir;
 my $FH;
@@ -44,7 +47,7 @@ my $FH;
         "TempDir $TempDir exists",
     );
 
-    my $ConfiguredTempDir = $Self->{ConfigObject}->Get('TempDir');
+    my $ConfiguredTempDir = $ConfigObject->Get('TempDir');
     $ConfiguredTempDir =~ s{/+}{/}smxg;
 
     $Self->Is(
@@ -54,7 +57,7 @@ my $FH;
     );
 
     $Self->True(
-        ( copy( $Self->{ConfigObject}->Get('Home') . '/scripts/test/FileTemp.t', "$TempDir/" ) ),
+        ( copy( $ConfigObject->Get('Home') . '/scripts/test/FileTemp.t', "$TempDir/" ) ),
         'Copy test to tempdir',
     );
 

@@ -16,6 +16,7 @@ use Kernel::System::Crypt;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # set config
 $ConfigObject->Set(
@@ -93,7 +94,8 @@ for my $Count ( 1 .. 2 ) {
 
     # get keys
     for my $Privacy ( 'Private', 'Public' ) {
-        my $KeyString = $Self->{MainObject}->FileRead(
+
+        my $KeyString = $MainObject->FileRead(
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
             Filename  => "PGP${Privacy}Key-$Count.asc",
         );
@@ -257,7 +259,7 @@ for my $Count ( 1 .. 2 ) {
 
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
-        my $Content = $Self->{MainObject}->FileRead(
+        my $Content = $MainObject->FileRead(
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
@@ -405,7 +407,7 @@ for my $Count ( 1 .. 2 ) {
     my $Search = 'testingexpired@example.com';
 
     # get expired key
-    my $KeyString = $Self->{MainObject}->FileRead(
+    my $KeyString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-Expired.asc',
     );
@@ -429,7 +431,7 @@ for my $Count ( 1 .. 2 ) {
     $Search = 'testingkey@test.com';
 
     # get key
-    $KeyString = $Self->{MainObject}->FileRead(
+    $KeyString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-ToRevoke.asc',
     );
@@ -438,7 +440,7 @@ for my $Count ( 1 .. 2 ) {
     $CryptObject->KeyAdd( Key => ${$KeyString} );
 
     # get key
-    $KeyString = $Self->{MainObject}->FileRead(
+    $KeyString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/Crypt/',
         Filename  => 'PGPPublicKey-RevokeCert.asc',
     );
