@@ -23,6 +23,7 @@ use Kernel::System::User;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+    'Kernel::System::Main',
     'Kernel::System::UnitTest',
 );
 
@@ -69,7 +70,8 @@ sub new {
 
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
-    my %SeleniumTestsConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
+    my %SeleniumTestsConfig
+        = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
 
     if ( !%SeleniumTestsConfig ) {
         my $Self = bless {}, $Class;
@@ -154,7 +156,7 @@ sub _execute_command {    ## no critic
     my $Result = $Self->SUPER::_execute_command( $Res, $Params );
 
     my $TestName = 'Selenium command success: ';
-    $TestName .= $Self->{UnitTestObject}->{MainObject}->Dump(
+    $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
         {
             %{ $Res    || {} },
             %{ $Params || {} },
@@ -207,7 +209,7 @@ sub Login {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $_!",
+                Message  => "Need $_!",
             );
             return;
         }
@@ -288,7 +290,7 @@ sub HandleError {
         UNLINK => 0,
     );
     close $FH;
-    $Self->{UnitTestObject}->{MainObject}->FileWrite(
+    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Filename,
         Content  => \$Data,
     );
