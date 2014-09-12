@@ -353,20 +353,16 @@ sub DESTROY {
     if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
         for my $TestUser ( @{ $Self->{TestUsers} } ) {
 
-            my $TestUserLogin = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID => $TestUser,
             );
 
             # make test user invalid
             my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
-                UserID        => $TestUser,
-                UserFirstname => 'Firstname Test1',
-                UserLastname  => 'Lastname Test1',
-                UserLogin     => $TestUserLogin,
-                UserEmail     => $TestUserLogin . '@localunittest.com.com',
+                %User,
                 ValidID       => 2,
                 ChangeUserID  => 1,
-            ) || die "Could not invalidate test user";
+            );
 
             $Self->{UnitTestObject}->True( $Success, "Set test user $TestUser to invalid" );
         }
@@ -376,15 +372,13 @@ sub DESTROY {
     if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
         for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
 
+            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                User => $TestCustomerUser,
+            );
+
             my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
-                Source         => 'CustomerUser',
-                ID             => $TestCustomerUser,
-                UserCustomerID => $TestCustomerUser,
-                UserLogin      => $TestCustomerUser,
-                UserFirstname  => $TestCustomerUser,
-                UserLastname   => $TestCustomerUser,
-                UserPassword   => $TestCustomerUser,
-                UserEmail      => $TestCustomerUser . '@localunittest.com.com',
+                %CustomerUser,
+                ID => $CustomerUser{UserID},
                 ValidID        => 2,
                 UserID         => 1,
             );
