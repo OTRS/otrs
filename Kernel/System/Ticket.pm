@@ -2196,7 +2196,7 @@ sub TicketServiceList {
     if ( !$Param{CustomerUserID} ) {
         %Services = $ServiceObject->ServiceList(
             UserID       => 1,
-            KeepChildren => $Self->{ConfigObject}->Get('Ticket::Service::KeepChildren'),
+            KeepChildren => $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::KeepChildren'),
         );
     }
     else {
