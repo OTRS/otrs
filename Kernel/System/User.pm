@@ -12,7 +12,7 @@ package Kernel::System::User;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
 use Digest::SHA;
 
 our @ObjectDependencies = (
@@ -713,6 +713,16 @@ sub SetPassword {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
 
         $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
+    }
+
+    # crypt with md5 (compatible with Apache's .htpasswd files)
+    elsif ( $CryptType eq 'apr1' ) {
+
+        # encode output, needed by unix_md5_crypt() only non utf8 signs
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Pw );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{UserLogin} );
+
+        $CryptedPw = apache_md5_crypt( $Pw, $Param{UserLogin} );
     }
 
     # crypt with sha1

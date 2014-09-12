@@ -12,7 +12,7 @@ package Kernel::System::CustomerAuth::DB;
 use strict;
 use warnings;
 
-use Crypt::PasswdMD5 qw(unix_md5_crypt);
+use Crypt::PasswdMD5 qw(unix_md5_crypt apache_md5_crypt);
 use Digest::SHA;
 
 our @ObjectDependencies = (
@@ -149,13 +149,19 @@ sub Auth {
         if ( $GetPw =~ m{\A \$.+? \$.+? \$.* \z}xms ) {
 
             # strip Salt
-            $Salt =~ s/^\$.+?\$(.+?)\$.*$/$1/;
+            $Salt =~ s/^(\$.+?\$)(.+?)\$.*$/$2/;
+            my $Magic = $1;
 
             # encode output, needed by unix_md5_crypt() only non utf8 signs
             $EncodeObject->EncodeOutput( \$Pw );
             $EncodeObject->EncodeOutput( \$Salt );
 
-            $CryptedPw = unix_md5_crypt( $Pw, $Salt );
+            if ( $Magic eq '$apr1$' ) {
+                $CryptedPw = apache_md5_crypt( $Pw, $Salt );
+            }
+            else {
+                $CryptedPw = unix_md5_crypt( $Pw, $Salt );
+            }
             $EncodeObject->EncodeInput( \$CryptedPw );
         }
 

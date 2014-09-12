@@ -98,7 +98,15 @@ my @Tests = (
     },
 );
 
-for my $CryptType (qw(plain crypt md5 sha1 sha2 bcrypt)) {
+for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 bcrypt)) {
+
+    # make sure that the customer user objects gets recreated for each loop.
+    $Kernel::OM->ObjectsDiscard(
+        Objects => [
+            'Kernel::System::User',
+            'Kernel::System::Auth',
+        ],
+    );
 
     $ConfigObject->Set(
         Key   => "AuthModule::DB::CryptType",

@@ -340,7 +340,7 @@ sub LoadDefaults {
     # example values: AuthSyncBackend, AuthSyncBackend2
 #    $Self->{'AuthModule::UseSyncBackend'} = '';
 
-    # password crypt type (bcrypt|sha2|sha1|md5|crypt|plain)
+    # password crypt type (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
 #    $Self->{'AuthModule::DB::CryptType'} = 'sha2';
 
     # This is an example configuration for an LDAP auth. backend.
@@ -1234,7 +1234,7 @@ via the Preferences button after logging in.
     # if you use odbc or you want to define a database type (without autodetection)
 #    $Self->{'Customer::AuthModule::DB::Type'} = 'mysql';
 
-    # password crypt type (bcrypt|sha2|sha1|md5|crypt|plain)
+    # password crypt type (bcrypt|sha2|sha1|md5|apr1|crypt|plain)
 #    $Self->{'Customer::AuthModule::DB::CryptType'} = 'sha2';
 
     # This is an example configuration for an LDAP auth. backend.

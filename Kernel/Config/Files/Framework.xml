@@ -3701,6 +3701,7 @@ via the Preferences button after logging in.
         <Setting>
             <Option SelectedID="sha2">
                 <Item Key="crypt">Crypt</Item>
+                <Item Key="apr1">Apache MD5</Item>
                 <Item Key="md5">MD5-Crypt</Item>
                 <Item Key="plain">Plain</Item>
                 <Item Key="sha1">SHA-1</Item>

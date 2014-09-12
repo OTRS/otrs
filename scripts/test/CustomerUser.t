@@ -489,7 +489,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     );
 
     # check password support
-    for my $Config (qw( md5 crypt plain sha1 sha2 )) {
+    for my $Config (qw( plain crypt apr1 md5 sha1 sha2 bcrypt )) {
 
         $ConfigObject->Set(
             Key   => 'Customer::AuthModule::DB::CryptType',

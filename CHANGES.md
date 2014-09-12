@@ -1,4 +1,5 @@
 #4.0.0.beta2 20??-??-??
+ - 2014-09-12 Added Apache MD5 as a new password hashing backend, thanks to Norihiro Tanaka.
  - 2014-09-12 Make KeepChildren in service lists configurable, thanks to Peter Krall.
  - 2014-09-12 Fixed bug#[5189](http://bugs.otrs.org/show_bug.cgi?id=5189) - Queue name not updated in QueueView after rename for StaticDB.
  - 2014-09-12 Fixed bug#[10718](http://bugs.otrs.org/show_bug.cgi?id=10718) - Typo in $HOME/Kernel/System/Ticket/Article.pm.
