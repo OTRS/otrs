@@ -758,7 +758,7 @@ sub MigrateDTLtoTT {
     # dtl:block
     my %BlockSeen;
     $Content =~ s{<!--\s*dtl:block:($ID)\s*-->}{
-        if ($BlockSeen{$1}++) {
+        if ($BlockSeen{$1}++ % 2) {
             "[% RenderBlockEnd(\"$1\") %]";
         }
         else {

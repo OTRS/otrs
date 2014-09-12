@@ -256,7 +256,9 @@ console.log(123);
 <!-- dtl:block:b12 -->
 <!-- dtl:block:b1 -->
 <!-- dtl:block:b2 -->
-<!-- dtl:block:b2 -->',
+<!-- dtl:block:b2 -->
+#<!-- dtl:block:b2 -->
+#<!-- dtl:block:b2 -->',
         TT => '
 [% RenderBlockStart("b1") %]
 [% RenderBlockStart("b11") %]
@@ -265,7 +267,9 @@ console.log(123);
 [% RenderBlockEnd("b12") %]
 [% RenderBlockEnd("b1") %]
 [% RenderBlockStart("b2") %]
-[% RenderBlockEnd("b2") %]',
+[% RenderBlockEnd("b2") %]
+#[% RenderBlockStart("b2") %]
+#[% RenderBlockEnd("b2") %]',
     },
 );
 
