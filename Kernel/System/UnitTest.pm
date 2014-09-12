@@ -65,14 +65,6 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    $Self->{ConfigObject}      = $Kernel::OM->Get('Kernel::Config');
-    $Self->{DBObject}          = $Kernel::OM->Get('Kernel::System::DB');
-    $Self->{EncodeObject}      = $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{EnvironmentObject} = $Kernel::OM->Get('Kernel::System::Environment');
-    $Self->{LogObject}         = $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{MainObject}        = $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{TimeObject}        = $Kernel::OM->Get('Kernel::System::Time');
-
     $Self->{Output} = $Param{Output} || 'ASCII';
 
     if ( $Self->{Output} eq 'HTML' ) {
@@ -80,8 +72,8 @@ sub new {
 <html>
 <head>
     <title>"
-            . $Self->{ConfigObject}->Get('Product') . " "
-            . $Self->{ConfigObject}->Get('Version')
+            . $Kernel::OM->Get('Kernel::Config')->Get('Product') . " "
+            . $Kernel::OM->Get('Kernel::Config')->Get('Version')
             . " - Test Summary</title>
 </head>
 <a name='top'></a>
@@ -113,7 +105,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %ResultSummary;
-    my $Home = $Self->{ConfigObject}->Get('Home');
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     my $Directory = "$Home/scripts/test";
 
@@ -123,14 +115,15 @@ sub Run {
         $Directory =~ s/\.//g;
     }
 
-    my @Files = $Self->{MainObject}->DirectoryRead(
+    my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
         Filter => [ '*.t', '*/*.t', '*/*/*.t', '*/*/*/*.t', '*/*/*/*/*.t', '*/*/*/*/*/*.t' ],
     );
 
-    my $StartTime = $Self->{TimeObject}->SystemTime();
+    my $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
     my $Product   = $Param{Product}
-        || $Self->{ConfigObject}->Get('Product') . " " . $Self->{ConfigObject}->Get('Version');
+        || $Kernel::OM->Get('Kernel::Config')->Get('Product') . " "
+        . $Kernel::OM->Get('Kernel::Config')->Get('Version');
     my @Names = split( /:/, $Param{Name} || '' );
 
     $Self->{TestCountOk}    = 0;
@@ -151,7 +144,7 @@ sub Run {
             }
         }
         $Self->{TestCount} = 0;
-        my $UnitTestFile = $Self->{MainObject}->FileRead( Location => $File );
+        my $UnitTestFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $File );
         if ( !$UnitTestFile ) {
             $Self->True( 0, "ERROR: $!: $File" );
             print STDERR "ERROR: $!: $File\n";
@@ -194,18 +187,18 @@ sub Run {
         }
     }
 
-    my $Time = $Self->{TimeObject}->SystemTime() - $StartTime;
+    my $Time = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $StartTime;
     $ResultSummary{TimeTaken} = $Time;
-    $ResultSummary{Time}      = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
+    $ResultSummary{Time}      = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
+        SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
     );
     $ResultSummary{Product} = $Product;
-    $ResultSummary{Host}    = $Self->{ConfigObject}->Get('FQDN');
+    $ResultSummary{Host}    = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');
     $ResultSummary{Perl}    = sprintf "%vd", $^V;
-    my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
+    my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
     $ResultSummary{OS}        = $OSInfo{OS};
     $ResultSummary{Vendor}    = $OSInfo{OSName};
-    $ResultSummary{Database}  = lc $Self->{DBObject}->Version();
+    $ResultSummary{Database}  = lc $Kernel::OM->Get('Kernel::System::DB')->Version();
     $ResultSummary{TestOk}    = $Self->{TestCountOk};
     $ResultSummary{TestNotOk} = $Self->{TestCountNotOk};
 
@@ -250,7 +243,7 @@ sub Run {
     }
 
     if ( $Param{SubmitURL} ) {
-        $Self->{EncodeObject}->EncodeOutput( \$XML );
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$XML );
 
         my $RPC = SOAP::Lite->new(
             proxy => $Param{SubmitURL},
@@ -288,7 +281,7 @@ sub True {
     my ( $Self, $True, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name! E. g. True(\$A, \'Test Name\')!'
         );
@@ -319,7 +312,7 @@ sub False {
     my ( $Self, $False, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name! E. g. False(\$A, \'Test Name\')!'
         );
@@ -361,7 +354,7 @@ sub Is {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name! E. g. Is(\$A, \$B, \'Test Name\')!'
         );
@@ -404,7 +397,7 @@ sub IsNot {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')!'
         );
@@ -460,7 +453,7 @@ sub IsDeeply {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name! E. g. Is(\$A, \$B, \'Test Name\')!'
         );
@@ -490,8 +483,8 @@ sub IsDeeply {
         return 1;
     }
     else {
-        my $ShouldBeDump = $Self->{MainObject}->Dump($ShouldBe);
-        my $TestDump     = $Self->{MainObject}->Dump($Test);
+        my $ShouldBeDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($ShouldBe);
+        my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         $Self->_Print( 0, "$Name (is '$TestDump' should be '$ShouldBeDump')" );
         return;
     }
@@ -510,7 +503,7 @@ sub IsNotDeeply {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
     if ( !$Name ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')!'
         );
@@ -543,7 +536,7 @@ sub IsNotDeeply {
     else {
 
         #        $Self->_Print( 0, "$Name (matches the expected value)" );
-        my $TestDump = $Self->{MainObject}->Dump($Test);
+        my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         $Self->_Print( 0, "$Name (The structures are equal: '$TestDump')" );
 
         return;
@@ -575,7 +568,8 @@ sub _DataDiff {
     # check needed stuff
     for (qw(Data1 Data2)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')
+                ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -760,7 +754,7 @@ sub _PrintHeadlineStart {
     $Self->{XMLUnit} = $Name;
 
     # set duration start time
-    $Self->{DurationStartTime}->{$Name} = $Self->{TimeObject}->SystemTime();
+    $Self->{DurationStartTime}->{$Name} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
 
     return 1;
 }
@@ -781,7 +775,8 @@ sub _PrintHeadlineEnd {
     my $Duration = '';
     if ( $Self->{DurationStartTime}->{$Name} ) {
 
-        $Duration = $Self->{TimeObject}->SystemTime() - $Self->{DurationStartTime}->{$Name};
+        $Duration = $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
+            - $Self->{DurationStartTime}->{$Name};
 
         delete $Self->{DurationStartTime}->{$Name};
     }
