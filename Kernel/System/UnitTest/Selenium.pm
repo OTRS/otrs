@@ -21,6 +21,7 @@ use Kernel::Config;
 use Kernel::System::User;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Log',
     'Kernel::System::UnitTest',
 );
@@ -68,8 +69,7 @@ sub new {
 
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
-    my %SeleniumTestsConfig
-        = %{ $Param{UnitTestObject}->{ConfigObject}->Get('SeleniumTestsConfig') // {} };
+    my %SeleniumTestsConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
 
     if ( !%SeleniumTestsConfig ) {
         my $Self = bless {}, $Class;
