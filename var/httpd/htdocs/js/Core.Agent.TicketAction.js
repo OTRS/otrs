@@ -155,7 +155,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 Core.Config.Set('TextIsSpellChecked', '1');
             });
 
-            if ( parseInt(Core.Config.Get('RichTextSet')) === 0){
+            if ( parseInt(Core.Config.Get('RichTextSet'), 10) === 0){
                 $('#RichTextField, .RichTextField').on('change', '#RichText', function() {
                     if (Core.Config.Get('TextIsSpellChecked') === '1'){
                         Core.Config.Set('TextIsSpellChecked', '0');
@@ -225,7 +225,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                     $('#RichText').val($('#RichText').data('defaultvalue'));
 
                     // set RichText contents separately
-                    var Instance = CKEDITOR.instances['RichText'];
+                    var Instance = CKEDITOR.instances.RichText;
                     Instance.setData($('#RichText').data('defaultvalue'));
                 }
 
