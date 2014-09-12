@@ -9,36 +9,32 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::StdAttachment;
-use Kernel::System::StandardTemplate;
+use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-
-my $StdAttachmentObject    = Kernel::System::StdAttachment->new( %{$Self} );
-my $StandardTemplateObject = Kernel::System::StandardTemplate->new( %{$Self} );
+# get needed objects
+my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $MainObject             = $Kernel::OM->Get('Kernel::System::Main');
+my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
+my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
 # file checks
 for my $File (qw(xls txt doc png pdf)) {
-    my $Location = $Self->{ConfigObject}->Get('Home')
+    my $Location = $ConfigObject->Get('Home')
         . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
 
-    my $ContentRef = $Self->{MainObject}->FileRead(
+    my $ContentRef = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
     );
 
     my $Content = ${$ContentRef};
 
-    my $MD5 = $Self->{MainObject}->MD5sum( String => \$Content );
+    my $MD5 = $MainObject->MD5sum( String => \$Content );
 
     my $Add = $StdAttachmentObject->StdAttachmentAdd(
         Name        => 'Some Name 123456798',
@@ -56,7 +52,7 @@ for my $File (qw(xls txt doc png pdf)) {
     );
 
     my %Data = $StdAttachmentObject->StdAttachmentGet( ID => $Add );
-    my $MD5Add = $Self->{MainObject}->MD5sum( String => \$Data{Content} );
+    my $MD5Add = $MainObject->MD5sum( String => \$Data{Content} );
 
     $Self->Is(
         $MD5    || '',
@@ -114,7 +110,7 @@ for my $File (qw(xls txt doc png pdf)) {
     );
 
     %Data = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
-    my $MD5Update = $Self->{MainObject}->MD5sum( String => \$Data{Content} );
+    my $MD5Update = $MainObject->MD5sum( String => \$Data{Content} );
 
     $Self->Is(
         $MD5       || '',
@@ -168,10 +164,10 @@ my $UserID   = 1;
 my $RandomID = $HelperObject->GetRandomID();
 
 # create a new attachment
-my $Location = $Self->{ConfigObject}->Get('Home')
+my $Location = $ConfigObject->Get('Home')
     . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.png";
 
-my $ContentRef = $Self->{MainObject}->FileRead(
+my $ContentRef = $MainObject->FileRead(
     Location => $Location,
     Mode     => 'binmode',
 );

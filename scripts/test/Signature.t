@@ -9,12 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Signature;
+use vars (qw($Self));
 
-my $SignatureObject = Kernel::System::Signature->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
 
 # add signature
 my $SignatureNameRand0 = 'example-signature' . int( rand(1000000) );

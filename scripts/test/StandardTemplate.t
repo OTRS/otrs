@@ -9,18 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::StandardTemplate;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-my $StandardTemplateObject = Kernel::System::StandardTemplate->new( %{$Self} );
+# get needed objects
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
 my $RandomID = $HelperObject->GetRandomID();
 

@@ -9,29 +9,22 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Stats;
-use Kernel::System::Group;
-use Kernel::System::User;
-use Kernel::System::Main;
-use Kernel::System::CSV;
+use vars (qw($Self));
 
-# create local objects
-my $UserID      = 1;
-my $GroupObject = Kernel::System::Group->new( %{$Self} );
-my $UserObject  = Kernel::System::User->new( %{$Self} );
-my $MainObject  = Kernel::System::Main->new( %{$Self} );
-my $CSVObject   = Kernel::System::CSV->new( %{$Self} );
-my $StatsObject = Kernel::System::Stats->new(
-    %{$Self},
-    MainObject  => $MainObject,
-    CSVObject   => $CSVObject,
-    GroupObject => $GroupObject,
-    UserObject  => $UserObject,
-    UserID      => $UserID,
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Stats' => {
+        UserID  => 1,
+    }
 );
+
+my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
 # try to get an invalid stat
 my $StatInvalid = $StatsObject->StatsGet( StatID => 1111 );
@@ -373,7 +366,7 @@ $Self->False(
 
 # load example file
 my $Path
-    = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
+    = $ConfigObject->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;
@@ -434,7 +427,7 @@ $Self->Is(
 my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );
 
 # get OTRS home
-my $Home = $Self->{ConfigObject}->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 my $Perl = $^X;
 
 my $Command = "$Perl $Home/bin/otrs.GenerateStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";

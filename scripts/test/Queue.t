@@ -9,21 +9,17 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Queue;
-use Kernel::System::StandardTemplate;
-use Kernel::System::UnitTest::Helper;
+use vars (qw($Self));
+
 use Kernel::System::VariableCheck qw(:all);
 
-my $HelperObject = Kernel::System::UnitTest::Helper->new(
-    %{$Self},
-    UnitTestObject             => $Self,
-    RestoreSystemConfiguration => 0,
-);
-my $QueueObject            = Kernel::System::Queue->new( %{$Self} );
-my $StandardTemplateObject = Kernel::System::StandardTemplate->new( %{$Self} );
+# get needed objects
+my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
 
 my $QueueRand = 'Some::Queue' . int( rand(1000000) );
 my $QueueID   = $QueueObject->QueueAdd(
@@ -293,7 +289,7 @@ $Self->IsDeeply(
 );
 
 # get template types from config
-my $TemplateTypes = $Self->{ConfigObject}->Get("StandardTemplate::Types");
+my $TemplateTypes = $ConfigObject->Get("StandardTemplate::Types");
 
 for my $TemplateType ( sort keys %TemplatesByType ) {
     $Self->True(

@@ -9,13 +9,13 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::ReferenceData;
-use Kernel::Config;
+use vars (qw($Self));
 
-# create local object
+use Kernel::System::VariableCheck qw(:all);
+
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # use ReferenceData ISO list
@@ -24,10 +24,7 @@ $ConfigObject->Set(
     Value => undef,
 );
 
-my $ReferenceDataObject = Kernel::System::ReferenceData->new(
-    %{ $Self, },
-    ConfigObject => $ConfigObject,
-);
+my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
 
 # tests the method to make sure there are at least 100 countries
 my $CountryList = $ReferenceDataObject->CountryList();

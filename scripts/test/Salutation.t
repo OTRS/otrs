@@ -9,15 +9,17 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::Salutation;
+use vars (qw($Self));
 
-my $SalutationObject = Kernel::System::Salutation->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $SalutationObject = $Kernel::OM->Get('Kernel::System::Salutation');
 
 # add salutation
-my $SalutationNameRand0 = 'example-salutation' . int( rand(1000000) );
+my $SalutationNameRand0 = 'example-salutation' . int rand 1000000;
 my $Salutation          = "Dear <OTRS_CUSTOMER_Realname>,
 
 Thank you for your request. Your email address in our database

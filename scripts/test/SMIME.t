@@ -9,20 +9,21 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
+
+use vars (qw($Self));
 
 use Kernel::System::Crypt;
 
-use vars qw($Self);
-use Kernel::Config;
-use Kernel::System::Main;
-
-# create local objects
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HomeDir      = $ConfigObject->Get('Home');
-my $CertPath     = $ConfigObject->Get('SMIME::CertPath');
-my $PrivatePath  = $ConfigObject->Get('SMIME::PrivatePath');
+my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+
+# get configuration
+my $HomeDir     = $ConfigObject->Get('Home');
+my $CertPath    = $ConfigObject->Get('SMIME::CertPath');
+my $PrivatePath = $ConfigObject->Get('SMIME::PrivatePath');
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
 
@@ -62,9 +63,7 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 
 # create crypt object
 my $CryptObject = Kernel::System::Crypt->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-    CryptType    => 'SMIME',
+    CryptType => 'SMIME',
 );
 
 if ( !$CryptObject ) {
@@ -120,12 +119,6 @@ if ( !$CryptObject ) {
     }
     return 1;
 }
-
-# create main object
-my $MainObject = Kernel::System::Main->new(
-    %{$Self},
-    ConfigObject => $ConfigObject,
-);
 
 my %Search = (
     1 => 'unittest@example.org',
@@ -251,7 +244,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # add certificate ...
-    my $CertString = $Self->{MainObject}->FileRead(
+    my $CertString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMECertificate-$Count.asc",
     );
@@ -289,11 +282,11 @@ for my $Count ( 1 .. 2 ) {
     }
 
     # and private key
-    my $KeyString = $Self->{MainObject}->FileRead(
+    my $KeyString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKey-$Count.asc",
     );
-    my $Secret = $Self->{MainObject}->FileRead(
+    my $Secret = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );
@@ -404,7 +397,7 @@ for my $Count ( 1 .. 2 ) {
    #       to base64 first?
    #    for my $File (qw(xls txt doc png pdf)) {
     for my $File (qw(txt)) {
-        my $Content = $Self->{MainObject}->FileRead(
+        my $Content = $MainObject->FileRead(
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
             Filename  => "PGP-Test1.$File",
             Mode      => 'binmode',
@@ -510,15 +503,15 @@ my $GetCertificateDataFromFiles = sub {
     my ( $CertificateFileName, $PrivateKeyFileName, $PrivateSecretFileName ) = @_;
 
     # read certificates, private keys and secrets
-    my $CertStringRef = $Self->{MainObject}->FileRead(
+    my $CertStringRef = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $CertificateFileName,
     );
-    my $PrivateStringRef = $Self->{MainObject}->FileRead(
+    my $PrivateStringRef = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $PrivateKeyFileName,
     );
-    my $PrivateSecretRef = $Self->{MainObject}->FileRead(
+    my $PrivateSecretRef = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $PrivateSecretFileName,
     );
@@ -1777,7 +1770,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             my ( $CertificateHash, $CertificateFingerprint, $CAHash, $CAFingerprint, $TestName )
                 = @_;
 
-            my $Success = $Self->{DBObject}->Do(
+            my $Success = $DBObject->Do(
                 SQL => 'INSERT INTO smime_signer_cert_relations'
                     . ' ( cert_hash, cert_fingerprint, ca_hash, ca_fingerprint, create_time, create_by, change_time, change_by)'
                     . ' VALUES (?, ?, ?, ?, current_timestamp, 1, current_timestamp, 1)',
@@ -2402,7 +2395,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # add certificate ...
-    my $CertString = $Self->{MainObject}->FileRead(
+    my $CertString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMECertificate-$Count.asc",
     );
@@ -2479,11 +2472,11 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # add private key
-    my $KeyString = $Self->{MainObject}->FileRead(
+    my $KeyString = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKey-$Count.asc",
     );
-    my $Secret = $Self->{MainObject}->FileRead(
+    my $Secret = $MainObject->FileRead(
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );

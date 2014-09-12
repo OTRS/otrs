@@ -10,12 +10,12 @@
 use strict;
 use warnings;
 use utf8;
+
 use vars (qw($Self));
 
-use Kernel::System::Spelling;
 use Kernel::System::VariableCheck qw(:all);
 
-# use local Config object because it will be modified
+# get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $SpellCheckerBin = $ConfigObject->Get('SpellCheckerBin');
@@ -117,11 +117,8 @@ for my $Test (@Tests) {
         "Setting new value for SpellCheckerBin config item",
     );
 
-    # create spelling object
-    my $SpellingObject = Kernel::System::Spelling->new(
-        %{$Self},
-        ConfigObject => $ConfigObject,
-    );
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Spelling'] );
+    my $SpellingObject = $Kernel::OM->Get('Kernel::System::Spelling');
 
     $Self->Is(
         ref $SpellingObject,

@@ -6,32 +6,23 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::Priority;
+use vars (qw($Self));
 
-# declare externally defined variables to avoid errors under 'use strict'
-use vars qw( $Self %Param );
+use Kernel::System::ObjectManager;
 
-my $PriorityObject = Kernel::System::Priority->new( %{$Self} );
+# get needed objects
+my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
 # add priority names
 my $PriorityRand = int( rand(1000000) ) . ' - example-priority';
 
 # Tests for Priority encode method
 my @Tests = (
-
-    #    {
-    #        Input  => {
-    #            Name    => '',
-    #            ValidID => '',
-    #            UserID  => '', },
-    #        Result  => '',
-    #        Name   => 'Priority - Undef',
-    #    },
-
     {
         Input => {
             Name    => $PriorityRand,
@@ -150,12 +141,10 @@ for my $Test (@Tests) {
         $Test->{Name} . 'Update - get after update',
     ) || next TEST;
 
-    $FirstPriorityList{$PriorityID} = "$NewName";
-
-}    # for Normal +
+    $FirstPriorityList{$PriorityID} = $NewName;
+}
 
 # list
-
 %CompletePriorityList = ( %FirstPriorityList, %AddedPriorities );
 my %LastPriorityList = $PriorityObject->PriorityList( Valid => 0 );
 

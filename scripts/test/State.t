@@ -9,12 +9,14 @@
 
 use strict;
 use warnings;
-use vars (qw($Self));
 use utf8;
 
-use Kernel::System::State;
+use vars (qw($Self));
 
-my $StateObject = Kernel::System::State->new( %{$Self} );
+use Kernel::System::ObjectManager;
+
+# get needed objects
+my $StateObject = $Kernel::OM->Get('Kernel::System::State');
 
 # add state
 my $StateNameRand0 = 'example-state' . int( rand(1000000) );
@@ -141,6 +143,7 @@ $Self->True(
 my %StateTypeList = $StateObject->StateTypeList(
     UserID => 1,
 );
+
 my $New  = 0;
 my $Open = 0;
 for ( sort keys %StateTypeList ) {
