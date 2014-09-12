@@ -2072,7 +2072,8 @@ sub Run {
                     );
                 }
             }
-            else {
+
+            if ( !keys %AlreadyShown ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'SearchAJAXShow',
                     Data => {
