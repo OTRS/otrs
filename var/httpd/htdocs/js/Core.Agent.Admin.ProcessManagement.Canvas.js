@@ -954,7 +954,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // show EntityIDs of Activities
         $('.Activity').each(function() {
             ActivityEntityID = $(this).attr('id');
-            $(this).append('<em class="EntityID">' + ActivityEntityID + '</em>');
+            $(this).append('<em class="EntityID"><input type="text" value="' + ActivityEntityID + '" /></em>').find('.EntityID input').unbind().bind('focus', function(Event) {
+                this.select();
+                Event.stopPropagation;
+            });
         });
 
         // show EntityIDs of Transitions
@@ -963,7 +966,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             TransitionEntityID = this.getParameter('TransitionID');
             Overlay = this.getOverlay('label');
             if (Overlay) {
-                $(Overlay.canvas).append('<em class="EntityID">' + TransitionEntityID + '</em>');
+                $(Overlay.canvas).append('<em class="EntityID"><input type="text" value="' + TransitionEntityID + '" /></em>').find('.EntityID input').unbind().bind('focus', function(Event) {
+                    this.select();
+                    Event.stopPropagation;
+                });
             }
         });
 
