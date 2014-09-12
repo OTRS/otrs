@@ -1,4 +1,5 @@
 #4.0.0.beta2 20??-??-??
+ - 2014-09-12 Fixed bug#[10582](http://bugs.otrs.org/show_bug.cgi?id=10582) - Adding templates with same name in AdminTemplate leads to SQl error message.
  - 2014-09-10 Fixed bug#[8008](http://bugs.otrs.org/show_bug.cgi?id=8008) - Session ID should not be visible in the address bar after logging in if cookies are used.
  - 2014-09-10 Fixed bug#[10717](http://bugs.otrs.org/show_bug.cgi?id=10717) - Incomplete error message creating CryptObject.
  - 2014-09-09 Fixed bug#[10715](http://bugs.otrs.org/show_bug.cgi?id=10715) - Wrong object name in CloseParentAfterClosedChilds.pm.

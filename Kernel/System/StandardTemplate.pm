@@ -80,6 +80,15 @@ sub StandardTemplateAdd {
         }
     }
 
+    # check if a standard template with this name already exits
+    if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A standard template with name '$Param{Name}' already exists!"
+        );
+        return;
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -255,6 +264,15 @@ sub StandardTemplateUpdate {
                 ->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # check if a standard template with this name already exits
+    if ( $Self->NameExistsCheck( Name => $Param{Name}, ID => $Param{ID} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A standard template with name '$Param{Name}' already exists!"
+        );
+        return;
     }
 
     # sql
@@ -435,6 +453,41 @@ sub StandardTemplateList {
     }
 
     return %Data;
+}
+
+=item NameExistsCheck()
+
+    return 1 if another standard template with this name already exits
+
+        $Exist = $StandardTemplateObject->NameExistsCheck(
+            Name => 'Some::Template',
+            ID => 1, # optional
+        );
+
+=cut
+
+sub NameExistsCheck {
+    my ( $Self, %Param ) = @_;
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    return if !$DBObject->Prepare(
+        SQL  => 'SELECT id FROM standard_template WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+
+    # fetch the result
+    my $Flag;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
+            $Flag = 1;
+        }
+    }
+    if ($Flag) {
+        return 1;
+    }
+    return 0;
 }
 
 1;
