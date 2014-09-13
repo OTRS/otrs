@@ -172,13 +172,16 @@ sub _ShowOverview {
         );
     }
 
+    # make ObjectTypeConfig local variable to proper sorting
+    my %ObjectTypeConfig = %{ $Self->{ObjectTypeConfig} };
+
     # cycle thought all objects to create the select add field selects
     OBJECTTYPE:
     for my $ObjectType (
         sort {
-            ( $Self->{ObjectTypeConfig}->{$a}->{Prio} || 0 )
-                <=> ( $Self->{objectTypeConfig}->{$b}->{Prio} || 0 )
-        } keys %{ $Self->{ObjectTypeConfig} }
+            ( int $ObjectTypeConfig{$a}->{Prio} || 0 )
+                <=> ( int $ObjectTypeConfig{$b}->{Prio} || 0 )
+        } keys %ObjectTypeConfig
         )
     {
         next OBJECTTYPE if !$Self->{ObjectTypeConfig}->{$ObjectType};
