@@ -441,7 +441,7 @@ for my $Test (@Tests) {
         # sanity check
         $Self->False(
             $LocalResult->{ErrorMessage},
-            "$Test->{Name} - Local result ErroMessage (outside Data hash) got removed to compare"
+            "$Test->{Name} - Local result ErrorMessage (outside Data hash) got removed to compare"
                 . " local and remote tests.",
         );
 
