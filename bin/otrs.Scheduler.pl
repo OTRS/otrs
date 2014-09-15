@@ -227,7 +227,7 @@ sub _Start {
             # remove PID if changed time is greater than
             if ( $DeltaTime > $PIDUpdateTime ) {
 
-                # _AutoStop returns an exit code for the OS, we need the opposit value
+                # _AutoStop returns an exit code for the OS, we need the opposite value
                 my $PIDDeleteSuccess = !_AutoStop(
                     Message => 'NOTICE: otrs.Scheduler.pl is registered in the DB, but the '
                         . 'registry has not been updated in ' . $DeltaTime . ' seconds!. '
@@ -581,6 +581,14 @@ sub _Stop {
         }
     }
 
+    # get the sleeptime from config
+    my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
+
+    # we want to add 2 seconds to wait until other processes wake up after their own sleep time
+    $SleepTime += 2;
+
+    sleep $SleepTime;
+
     return $ExitCode;
 }
 
@@ -690,9 +698,20 @@ sub _AutoStop {
         # get the process ID
         my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
+        # send interrupt signal to the process ID to stop it
+        kill( 2, $SchedulerPID{PID} );
+
         # delete process ID lock
-        # scheduler should not delete PIDs from other hots at this point
+        # scheduler should not delete PIDs from other hosts at this point
         my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $SchedulerPID{Name} );
+
+        # get the sleeptime from config
+        my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
+
+        # we want to add 2 seconds to wait until other processes wake up after their own sleep time
+        $SleepTime += 2;
+
+        sleep $SleepTime;
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
