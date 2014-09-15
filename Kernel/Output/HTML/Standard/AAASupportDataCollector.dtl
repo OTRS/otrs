@@ -43,7 +43,7 @@ $Text{"Setting character_set_client needs to be utf8."}
 $Text{"Server Database Charset"}
 $Text{"Setting character_set_database needs to be UNICODE or UTF8."}
 $Text{"Table Charset"}
-$Text{"There were tables found which no not have utf8 as charset."}
+$Text{"There were tables found which do not have utf8 as charset."}
 
 # Database/mysql/MaxAllowedPacket.pm
 $Text{"Maximum Query Size"}

@@ -75,7 +75,7 @@ sub Run {
             Identifier => 'TableEncoding',
             Label      => 'Table Charset',
             Value      => join( ', ', @TablesWithInvalidCharset ),
-            Message    => 'There were tables found which no not have utf8 as charset.',
+            Message    => 'There were tables found which do not have utf8 as charset.',
         );
     }
     else {
