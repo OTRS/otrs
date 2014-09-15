@@ -168,7 +168,7 @@ sub Run {
         qw(Subject Body
         NewUserID OldUserID NewStateID NewPriorityID
         UserSelection OwnerAll NoSubmit DestQueueID DestQueue
-        StandardTemplateID
+        StandardTemplateID CreateArticle
         )
         )
     {
@@ -1005,7 +1005,7 @@ sub Run {
     # add note (send no notification)
     my $ArticleID;
 
-    if ( $Self->{Config}->{Note} && ( $GetParam{Body} || $GetParam{Subject} ) ) {
+    if ( $GetParam{CreateArticle} && $Self->{Config}->{Note} && ( $GetParam{Body} || $GetParam{Subject} ) ) {
 
         # get pre-loaded attachments
         my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
@@ -1385,16 +1385,9 @@ sub AgentMove {
         }
         else {
             $Param{SubjectRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentDeleteButton1';
+                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
             $Param{BodyRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentDeleteButton1 ';
-
-            # time units are being stored with the article, so we need to make sure that once
-            # the time accounting field has been filled in, we also have subject and body
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
-                $Param{SubjectRequired} .= ' Validate_Depending_TimeUnits';
-                $Param{BodyRequired}    .= ' Validate_Depending_TimeUnits';
-            }
+                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
         }
 
         $Self->{LayoutObject}->Block(
