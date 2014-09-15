@@ -220,13 +220,13 @@
                 <div class="Content">
                     <fieldset class="TableLike FixedLabel">
 [% IF Data.WidgetStatus == 'Expanded' %]
-                            <input type="hidden" id="CreateArticle" name="CreateArticle" value="1" />
+                        <input type="hidden" id="CreateArticle" name="CreateArticle" value="1" />
 [% ELSE %]
-                            <label for="CreateArticle">[% Translate("Create an Article") | html %]:</label>
-                            <div class="Field">
-                                <input type="checkbox" id="CreateArticle" name="CreateArticle" value="1" />
-                            </div>
-                            <div class="Clear"></div>
+                        <label for="CreateArticle">[% Translate("Create an Article") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" id="CreateArticle" name="CreateArticle" value="1" />
+                        </div>
+                        <div class="Clear"></div>
 [% END %]
 [% RenderBlockStart("Note") %]
 [% RenderBlockStart("SubjectLabel") %]
