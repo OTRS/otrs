@@ -471,6 +471,12 @@ my @NeededModules = (
         },
     },
     {
+        # perlcore
+        Module   => 'Time::Piece',
+        Required => 1,
+        Comment  => 'Required for statistics.',
+    },
+    {
         Module    => 'XML::Parser',
         Required  => 0,
         Comment   => 'Recommended for faster xml handling.',
