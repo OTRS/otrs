@@ -554,6 +554,14 @@ sub _Stop {
         }
     }
 
+    # get the sleeptime from config
+    my $SleepTime = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::SleepTime') || 1;
+
+    # we want to add 2 seconds to wait until other processes wake up after their own sleep time
+    $SleepTime += 2;
+
+    sleep $SleepTime;
+
     return $ExitCode;
 }
 
@@ -654,10 +662,21 @@ sub _AutoStop {
         # get the process ID
         my %SchedulerPID = $Kernel::OM->Get('Kernel::System::PID')->PIDGet( Name => $PIDName );
 
+        # send interrupt signal to the process ID to stop it
+        kill( 2, $SchedulerPID{PID} );
+
         # delete process ID lock
-        # scheduler should not delete PIDs from other hots at this point
+        # scheduler should not delete PIDs from other hosts at this point
         my $PIDDelSuccess
             = $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => $SchedulerPID{Name} );
+
+        # get the sleeptime from config
+        my $SleepTime = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::SleepTime') || 1;
+
+        # we want to add 2 seconds to wait until other processes wake up after their own sleep time
+        $SleepTime += 2;
+
+        sleep $SleepTime;
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
@@ -725,7 +744,7 @@ sub _WatchDog {
         }
     }
 
- # if there is a $ProcessID and it is not -1 then it means that the scheduler is running, nothing to
- #   do here
+    # if there is a $ProcessID and it is not -1 then it means that the scheduler is running,
+    # then nothing to do here
     return $ExitCode;
 }
