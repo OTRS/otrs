@@ -43,7 +43,7 @@
 [% Translate("Server Database Charset") | html %]
 [% Translate("Setting character_set_database needs to be UNICODE or UTF8.") | html %]
 [% Translate("Table Charset") | html %]
-[% Translate("There were tables found which no not have utf8 as charset.") | html %]
+[% Translate("There were tables found which do not have utf8 as charset.") | html %]
 
 # Database/mysql/MaxAllowedPacket.pm
 [% Translate("Maximum Query Size") | html %]
