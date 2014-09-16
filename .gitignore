@@ -110,5 +110,5 @@ var/httpd/htdocs/js/*ChronicalView*
 var/httpd/htdocs/js/Core.Agent.TicketAttachmentView.js
 var/httpd/htdocs/skins/Agent/default/css/*Chat*
 var/httpd/htdocs/skins/Customer/default/css/*Chat*
-var/httpd/htdocs/skins/Agent/business/css/Core.Default.css
+var/httpd/htdocs/skins/Agent/business*
 var/httpd/htdocs/skins/Agent/default/css/Core.Agent.AttachmentView.css

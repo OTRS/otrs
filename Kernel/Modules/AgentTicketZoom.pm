@@ -2170,6 +2170,17 @@ sub _ArticleTree {
         my $LastCreateTime;
         my $LastCreateSystemTime;
 
+        # Get mapping of history types to readable strings
+        my %HistoryTypes;
+        my %HistoryTypeConfig
+            = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryTypes') // {} };
+        for my $Entry ( sort keys %HistoryTypeConfig ) {
+            %HistoryTypes = (
+                %HistoryTypes,
+                %{ $HistoryTypeConfig{$Entry} },
+            );
+        }
+
         HISTORYITEM:
         for my $Item ( reverse @HistoryLines ) {
 
@@ -2238,7 +2249,7 @@ sub _ArticleTree {
                     $Item->{Name} =~ s/^%%//xg;
                     my @Values = split( /%%/x, $Item->{Name} );
                     $Item->{Name} = $Self->{LayoutObject}->{LanguageObject}->Translate(
-                        'History::' . $Item->{HistoryType},
+                        $HistoryTypes{ $Item->{HistoryType} },
                         @Values,
                     );
 
