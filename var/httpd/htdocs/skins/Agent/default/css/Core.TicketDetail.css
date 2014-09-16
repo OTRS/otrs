@@ -102,6 +102,10 @@ div.Headline .Flag {
     line-height: 1.3;
 }
 
+.DataTable tbody td a.Attachment {
+    font-size: 12px;
+}
+
 /**
  * @subsection  ControlRow Icons
  */
@@ -184,6 +188,10 @@ div.Headline .Flag {
     padding-bottom: 2px;
 }
 
+.AttachmentElement:last-child {
+    border-bottom: 0px;
+}
+
 .AttachmentPreview {
     height: 80px;
     width: 60px;
@@ -244,57 +252,67 @@ div.Headline .Flag {
  * @note        article colors
  */
 
-/*
-* Customer artcle types
-*/
-.UseArticleColors .customer-webrequest > td,
-.UseArticleColors .customer-email-external > td,
-.UseArticleColors .customer-note-external > td,
-.UseArticleColors .customer-phone > td {
-    background: white !important;
-}
-
-.UseArticleColors a {
+.UseArticleColors #ArticleTable a {
     color: #000;
 }
 
 /*
 * Agent article types
 */
-.UseArticleColors .agent-phone > td {
+.UseArticleColors .agent-phone > td,
+.UseArticleColors .agent-phone .Header {
     background: #d1e8d1 !important;
 }
-.UseArticleColors .agent-email-external > td {
-    background: #d1e8d1 !important;
+.UseArticleColors .agent-email-external > td,
+.UseArticleColors .agent-email-external .Header {
+    background: #D3E5B5 !important;
 }
-.UseArticleColors .agent-email-internal > td {
+.UseArticleColors .agent-email-internal > td,
+.UseArticleColors .agent-email-internal .Header {
     background: #ffd1d1 !important;
 }
-.UseArticleColors .agent-note-external > td {
+.UseArticleColors .agent-note-external > td,
+.UseArticleColors .agent-note-external .Header {
     background: #d1d1d1 !important;
 }
-.UseArticleColors .agent-note-internal > td {
-    background: #ffd1d1 !important;
+.UseArticleColors .agent-note-internal > td,
+.UseArticleColors .agent-note-internal .Header {
+    background: #FFCCCC !important;
 }
 
 /*
 * System article types
 */
 .UseArticleColors .system-note-internal > td,
+.UseArticleColors .system-note-internal .Header,
 .UseArticleColors .system-note-external > td,
+.UseArticleColors .system-note-external .Header,
 .UseArticleColors .system-note-report > td,
+.UseArticleColors .system-note-report .Header,
 .UseArticleColors .system-email-external > td,
+.UseArticleColors .system-email-external .Header,
 .UseArticleColors .system-email-internal > td,
+.UseArticleColors .system-email-internal .Header,
 .UseArticleColors .system-email-notification-int > td,
-.UseArticleColors .system-email-notification-ext > td {
+.UseArticleColors .system-email-notification-int .Header,
+.UseArticleColors .system-email-notification-ext > td,
+.UseArticleColors .system-email-notification-ext .Header {
     background: #ffffd1 !important;
 }
 
+/*
+* Customer artcle types
+*/
+
 .UseArticleColors .customer-webrequest > td,
+.UseArticleColors .customer-webrequest .Header,
 .UseArticleColors .customer-email-external > td,
+.UseArticleColors .customer-email-external .Header,
 .UseArticleColors .customer-note-external > td,
-.UseArticleColors .customer-phone > td {
-    background: white !important;
+.UseArticleColors .customer-note-external .Header,
+.UseArticleColors .customer-phone > td,
+.UseArticleColors .customer-phone .Header {
+    background: #D4DEFC !important;
 }
 
 .UseArticleColors .agent-phone:hover > td,
@@ -312,6 +330,411 @@ div.Headline .Flag {
 .UseArticleColors .customer-note-external:hover > td,
 .UseArticleColors .customer-phone:hover > td {
     background: #FCB24B !important;
+}
+
+/**
+ * @subsection  Chronical View
+ */
+
+.ChronicalView {
+    position: relative;
+    padding: 5px 5px 15px 5px;
+}
+
+.ChronicalView:after {
+    content: ' ';
+    width: 4px;
+    height: 20px;
+    background-color: #F5F5F5;
+    display: block;
+    position: absolute;
+    left: 50%;
+    margin-left: -2px;
+    top: 16px;
+}
+
+.ChronicalView > ul {
+    display: block;
+    width: 50%;
+    float: left;
+    margin-top: 20px;
+    border-left: 1px solid #aaa;
+    margin-left: -1px;
+    padding-bottom: 65px;
+}
+
+.ChronicalView > ul:first-child {
+    margin-right: 0px;
+    border-right: 1px solid #aaa;
+    border-left: 0px;
+}
+
+.ChronicalView > ul > li {
+    background-color: #fff;
+    margin: 0px 20px 0px 25px;
+    padding: 10px 10px 5px 10px;
+    border: 1px solid #ddd;
+}
+
+.ChronicalView > ul:first-child > li {
+    margin-right: 25px;
+    margin-left: 20px;
+}
+
+.ChronicalView > ul:first-child > li.NoEvents {
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    top: 15px;
+    margin-right: 0px;
+    margin-left: -253px;
+    z-index: 100;
+    padding: 5px;
+    text-align: center;
+    border: 0px;
+    background-color: #F5F5F5;
+}
+
+.ChronicalView > ul > li:first-child {
+    margin-top: -7px;
+}
+
+.ChronicalView > ul > li h3 {
+    margin: -10px -10px 5px -10px;
+    padding: 6px 10px;
+    background: #ddd;
+    font-size: 12px;
+    position: relative;
+}
+
+.ChronicalView > ul > li h3 strong {
+    font-weight: normal;
+}
+
+.ChronicalView > ul > li h3 a {
+    float: right;
+    color: #666;
+}
+
+.ChronicalView > ul > li p {
+    white-space: pre-wrap;
+    max-height: 45px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ChronicalView > ul > li.TypeTicketAction p {
+    max-height: none;
+}
+
+.ChronicalView > ul > li.NoFixedMaxHeight p {
+    max-height: none;
+}
+
+.ChronicalView > ul > li p span.FadeOut {
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.ChronicalView > ul > li.NoFadeOut .FadeOut {
+    display: none;
+}
+
+.ChronicalView > ul > li.Connected * {
+    font-size: 11px;
+}
+
+.ChronicalView > ul > li.Connected h3 {
+    padding: 4px 10px;
+}
+
+.ChronicalView > ul > li.Connected p {
+    margin-bottom: -4px;
+}
+
+.ChronicalView > ul > li.Connected h3 span {
+    display: none;
+}
+
+.ChronicalView > ul > li.Connected {
+    margin-right: 40px !important;
+    margin-left: 40px !important;
+    padding-bottom: 10px;
+}
+
+.ChronicalView > ul > li h3 a:hover {
+    color: #000;
+}
+
+.ChronicalView > ul > li h3:last-child {
+    margin-bottom: -10px;
+}
+
+.ChronicalView > ul > li h3:after {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(221, 221, 221, 0);
+    border-right-color: #ccc;
+    border-width: 13px;
+    margin-top: -13px;
+}
+
+.ChronicalView ul.ListLeft li h3:after {
+    left: 100%;
+    border-left-color: #ccc;
+    border-right-color: transparent;
+}
+
+.ChronicalView > ul > li.Connected h3:after {
+    left: 50%;
+    right: auto;
+    border-color: #ccc;
+    top: -7px;
+    height: 3px;
+    margin-top: 0px;
+    border-width: 2px;
+}
+
+.ChronicalView ul.ListLeft li h3 > span {
+    right: -31px;
+    left: auto;
+}
+
+.ChronicalView > ul > li h3 > span {
+    display: block;
+    position: absolute;
+    top: 6px;
+    left: -31px;
+    background-color: #aaa;
+    height: 9px;
+    width: 9px;
+    z-index: 1;
+    -webkit-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+}
+
+.ChronicalView > ul > li h3 > span span {
+    position: absolute;
+    width: 160px;
+    background-color: #777;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    left: 50%;
+    top: -37px;
+    margin-left: -80px;
+    padding: 7px 0px;
+    display: none;
+}
+
+.ChronicalView > ul > li h3 > span:hover {
+    z-index: 99;
+}
+
+.ChronicalView > ul > li h3 > span:hover span {
+    display: block;
+    z-index: 999;
+}
+
+.ChronicalView > ul > li h3 > span span:after {
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(119, 119, 119, 0);
+    border-top-color: #777;
+    border-width: 8px;
+    margin-left: -8px;
+}
+
+.ChronicalView > ul > li:hover h3 > span,
+.ChronicalView > ul > li h3 > span:hover {
+    width: 15px;
+    height: 15px;
+    left: -34px;
+    top: 4px;
+    background-color: #000;
+}
+
+.ChronicalView ul:first-child li:hover h3 > span,
+.ChronicalView ul:first-child li h3 > span:hover {
+    right: -34px;
+    left: auto;
+    top: 4px;
+}
+
+.ChronicalView li ul {
+    font-size: 11px;
+    background-color: #f2f2f2;
+    margin: -5px -10px 5px -10px;
+    padding: 2px 10px 5px 10px;
+    border-top: 1px solid #ddd;
+    position: relative;
+}
+
+.ChronicalView li ul li {
+    margin-top: 3px;
+}
+
+.ChronicalView li ul li.AttachmentsLink {
+    background: #ddd;
+    color: #555;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 3px 5px;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+}
+
+.ChronicalView li ul li.AttachmentsLink:hover {
+    color: #000;
+}
+
+.ChronicalView > span {
+    display: block;
+    margin: 70px 0px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.ChronicalView > .CallForAction {
+    margin: 0px auto;
+    display: block;
+    width: 120px;
+}
+
+.ChronicalView > ul > li.NewTicket {
+    bottom: 10px;
+    margin-left: -85px;
+    position: absolute;
+    width: 150px;
+    text-align: center;
+    border: 0px;
+}
+
+.ChronicalView > ul > li.NewTicket h3 {
+    font-weight: bold;
+    padding-top: 5px;
+}
+
+.ChronicalView > ul > li.NewTicket h3:after {
+    display: none;
+}
+
+.ChronicalView > ul > li.NewTicket:after {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-bottom-color: #DDDDDD;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.ChronicalView > ul > li.NewTicket h3 > span {
+    display: block;
+    position: static;
+    text-align: center;
+    background: none;
+    width: auto !important;
+    height: auto !important;
+    font-weight: normal;
+}
+
+.ChronicalView > ul > li.NewTicket h3 > span span {
+    display: block;
+    position: static;
+    text-align: center;
+    background: none;
+    width: auto;
+    color: #000;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 4px;
+}
+
+.ChronicalView > ul > li.NewTicket h3 > span span:after {
+    display: none;
+}
+
+.ChronicalPlainText {
+    white-space: pre-wrap;
+    height: 400px;
+    width: 800px;
+    padding: 10px;
+    overflow: auto;
+}
+
+.ChronicalArticleiFrame {
+    width: 800px;
+    height: 400px;
+}
+
+/* Define colors for different event types */
+
+.UseArticleColors .ChronicalView .TypeIncoming h3 {
+    background-color: #d4defc;
+    color: #000;
+}
+
+.UseArticleColors .ChronicalView .TypeIncoming h3:after {
+    border-right-color: #B7C3E8;
+}
+
+.UseArticleColors .ChronicalView .TypeTicketAutoAction h3 {
+    background-color: #ffffd1;
+    color: #000;
+}
+
+.UseArticleColors .ChronicalView ul.ListLeft .TypeTicketAutoAction h3:after {
+    border-left-color: #EAEAAF;
+}
+
+.UseArticleColors .ChronicalView .TypeNoteInternal h3 {
+    background-color: #FFCCCC;
+    color: #000;
+}
+
+.UseArticleColors .ChronicalView ul.ListLeft .TypeNoteInternal h3:after {
+    border-left-color: #EFB1B1;
+}
+
+.UseArticleColors .ChronicalView .TypeOutgoing h3 {
+    background-color: #D3E5B5;
+    color: #000;
+}
+
+.UseArticleColors .ChronicalView ul.ListLeft .TypeOutgoing h3:after {
+    border-left-color: #BFD39C;
 }
 
 

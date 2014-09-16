@@ -294,6 +294,9 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 }
             }
         }
+        $('a.Chronical').bind('click', function() {
+            $(this).attr('href', $(this).attr('href') + ';ArticleID=' + URLHash);
+        });
 
         // loading new articles
         $('#ArticleTable tbody tr').bind('click', function (Event) {

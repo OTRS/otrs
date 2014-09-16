@@ -1,0 +1,115 @@
+# --
+# ArticleActionMenu.tt - provides HTML the action menu for articles in Ticket Zoom
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LightRow Bottom">
+    <ul class="Actions">
+
+[% FOREACH Item IN Data.MenuItems.reverse %]
+
+    [% IF Item.ItemType == 'Dropdown' && Item.DropdownType == 'Forward' %]
+        <li>
+            <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Data.FormID | html %]">
+                <input type="hidden" name="Action" value="[% Item.Action | html %]"/>
+                <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
+                <input type="hidden" name="ForwardAll" value="[% Item.ForwardAll | html %]"/>
+                <label for="[% Data.ForwardElementID | html %]" class="InvisibleText">[% Translate(Item.Name) | html %]:</label>
+                        [% Item.StandardForwardsStrg %]
+            </form>
+        [% IF Item.Type == 'OnLoad' %]
+<script type="text/javascript">//<![CDATA[
+"use strict";
+$('#[% Item.FormID | html %] select[name=ForwardTemplateID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+        [% ELSE %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#[% Item.FormID | html %] select[name=ForwardTemplateID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+[% END %]
+        [% END %]
+
+        </li>
+
+    [% ELSIF Item.ItemType == 'Link' %]
+
+        <li>
+            <a href="[% Env("Baselink") %][% Item.Link %]" class="[% Item.Class | html %]" [% Item.LinkParam %] title="[% Translate(Item.Description) | html %]">[% Translate(Item.Name) | html %]</a>
+        </li>
+
+    [% ELSIF Item.ItemType == 'Dropdown' && Item.DropdownType == 'Reply' %]
+
+        <li>
+            <form title="[% Translate(Item.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Item.FormID | html %]">
+                <input type="hidden" name="Action" value="[% Item.Action | html %]"/>
+                <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+                <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
+                <input type="hidden" name="ReplyAll" value="[% Item.ReplyAll | html %]"/>
+                <label for="[% Item.ResponseElementID | html %]" class="InvisibleText">[% Translate(Item.Name) | html %]:</label>
+                        [% Item.StandardResponsesStrg %]
+            </form>
+
+        [% IF Item.Type == 'OnLoad' %]
+<script type="text/javascript">//<![CDATA[
+"use strict";
+$('#[% Item.FormID | html %] select[name=ResponseID]').bind('change', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        window.setTimeout(function() {
+            Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        }, 0);
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+        [% ELSE %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$(document).on('change', '#[% Item.FormID | html %] select[name=ResponseID]', function (Event) {
+    var URL;
+
+    if ($(this).val() > 0) {
+        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
+        window.setTimeout(function() {
+            Core.UI.Popup.OpenPopup(URL, 'TicketAction');
+        }, 0);
+        // reset the select box so that it can be used again from the same window
+        $(this).val('0');
+    }
+});
+//]]></script>
+[% END %]
+        [% END %]
+        </li>
+    [% END %]
+[% END %]
+    </ul>
+    <div class="ClearLeft"></div>
+</div>

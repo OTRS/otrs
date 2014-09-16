@@ -69,8 +69,64 @@
 </div>
 [% RenderBlockEnd("ArticleFilterDialog") %]
 
+[% RenderBlockStart("EventTypeFilterDialog") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#SetArticleFilter').bind('click', function (Event) {
+        Core.UI.Dialog.ShowContentDialog($('#EventTypeFilterDialog'), [% Translate("Event Type Filter") | JSON %], '20px', 'Center', true, [
+            {
+                Label: [% Translate("Apply") | JSON %],
+                Function: function () {
+                    var Data = Core.AJAX.SerializeForm($('#EventTypeFilterDialogForm'));
+                    Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
+                        location.reload();
+                    }, 'text');
+                }
+            },
+            {
+                Label: [% Translate("Reset") | JSON %],
+                Function: function () {
+                    $('#EventTypeFilter').val('');
+                }
+            }
+        ]);
+        return false;
+    });
+    $('#ResetArticleFilter').bind('click', function (Event) {
+        var Data = {
+            Action:       'AgentTicketZoom',
+            Subaction:    'EvenTypeFilterSet',
+            TicketID:     "[% Data.TicketID | html %]",
+            SaveDefaults: 1
+        };
+        Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function () {
+            location.reload();
+        });
+    });
+//]]></script>
+[% END %]
+<div id="EventTypeFilterDialog" class="Hidden">
+    <form action="[% Env("CGIHandle") %]" method="post" id="EventTypeFilterDialogForm" name="EventTypeFilterDialogForm">
+        <input type="hidden" value="AgentTicketZoom" name="Action"/>
+        <input type="hidden" value="EvenTypeFilterSet" name="Subaction"/>
+        <input type="hidden" value="[% Data.TicketID | html %]" name="TicketID"/>
+        <fieldset class="TableLike">
+            <label for="ArticleTypeFilter">[% Translate("Event Type") | html %]:</label>
+            <div class="Field">
+                [% Data.EventTypeFilterString %]
+            </div>
+            <div class="Clear"></div>
+            <label for="SaveDefaults">[% Translate("Save as default") | html %]:</label>
+            <div class="Field">
+                <input type="checkbox" id="SaveDefaults" name="SaveDefaults" value="1" />
+            </div>
+        </fieldset>
+    </form>
+</div>
+[% RenderBlockEnd("EventTypeFilterDialog") %]
+
 [% RenderBlockStart("Header") %]
-<div class="MainBox ARIARoleMain">
+<div class="MainBox ARIARoleMain [% IF Data.UseArticleColors %]UseArticleColors[% END %]">
     <div class="ClearLeft"></div>
     <div class="Headline">
         <div class="Flag" title="[% Translate(Data.Priority) | html %]"><span class="PriorityID-[% Data.PriorityID | html %]">[% Translate(Data.Priority) | html %]</span></div>
@@ -90,6 +146,9 @@
         <div class="SidebarColumn">
             <div class="WidgetSimple">
                 <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
                     <h2>[% Translate(Data.WidgetTitle) | html %]</h2>
                 </div>
                 <div class="Content">
@@ -282,6 +341,9 @@
 [% RenderBlockStart("CustomerTable") %]
             <div class="WidgetSimple">
                 <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
                     <h2>[% Translate("Customer Information") | html %]</h2>
                 </div>
                 <div class="Content">
@@ -292,6 +354,9 @@
 [% RenderBlockStart("LinkTableSimple") %]
             <div class="WidgetSimple DontPrint">
                 <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
                     <h2>[% Translate("Linked Objects") | html %]</h2>
                 </div>
                 <div class="Content">
@@ -513,7 +578,13 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                 <i class="fa fa-caret-down"></i>
             </a>
         </div>
-        <h2>[% Translate("Article Overview") | html %] - [% Data.ArticleCount | html %] [% Translate("Article(s)") | html %]</h2>
+        <h2>
+        [% IF Data.ZoomTimeline %]
+            [% Translate("Ticket Timeline View") | html %]
+        [% ELSE %]
+            [% Translate("Article Overview") | html %] - [% Data.ArticleCount | html %] [% Translate("Article(s)") | html %]
+        [% END %]
+        </h2>
         <div class="AdditionalInformation ControlRow">
 
 [% RenderBlockStart("ArticlePages") %]
@@ -540,16 +611,31 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockStart("Expand") %]
                 <a class="OneArticle Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
                 <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1;ArticlePage=[% Data.Page | uri %]" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
+            [% IF Config("ChronicalViewEnabled") == 1 %]
+                <a class="Chronical [% Data.Class | html %]" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
+            [% END %]
 [% RenderBlockEnd("Expand") %]
 [% RenderBlockStart("Collapse") %]
                 <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
                 <a class="AllArticles Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
+            [% IF Config("ChronicalViewEnabled") == 1 %]
+                <a class="Chronical [% Data.Class | html %]" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
+            [% END %]
 [% RenderBlockEnd("Collapse") %]
+[% IF Config("ChronicalViewEnabled") == 1 %]
+[% RenderBlockStart("Chronical") %]
+                <a class="OneArticle" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=0" title="[% Translate("Show one article") | html %]"><i class="fa fa-minus"></i><span>[% Translate("Show one article") | html %]</span></a>
+                <a class="AllArticles" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %];ZoomExpand=1" title="[% Translate("Show all articles") | html %]"><i class="fa fa-bars"></i><span>[% Translate("Show all articles") | html %]</span></a>
+                <a class="Chronical Active" href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ZoomTimeline=1" title="[% Translate("Show Ticket Timeline View") | html %]"><i class="fa fa-clock-o"></i><span>[% Translate("Show Ticket Timeline View") | html %]</span></a>
+[% RenderBlockEnd("Chronical") %]
+[% END %]
             </div>
             <div class="Clear"></div>
         </div>
     </div>
     <div class="Content">
+
+[% RenderBlockStart("ArticleList") %]
         <div class="TicketList">
             <div id="ArticleTableBody" class="ActionRow">
                 <div class="Scroller">
@@ -598,7 +684,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockEnd("TreeItemNoNewArticle") %]
                                 </td>
                                 <td class="No">
-                            [% Data.Count | html %]
+                                    [% Data.Count | html %]
                                     <input type="hidden" class="ArticleInfo" name="Link[% Data.Count | uri %]" value="[% Env("Baselink") %]Action=AgentTicketZoom;Subaction=ArticleUpdate;Count=[% Data.Count | uri %];TicketID=[% Data.TicketID | html %];ArticleID=[% Data.ArticleID | html %];"/>
                                     <input type="hidden" class="ArticleID" value="[% Data.ArticleID | html %]" />
                                     <input type="hidden" class="SortData" value="[% Data.Count | html %]" />
@@ -645,32 +731,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                                 </td>
                                 <td class="Attachments Attachment Fixed NonTextContent">
 [% RenderBlockStart("TreeItemAttachment") %]
-[% RenderBlockStart("TreeItemAttachmentIconSingle") %]
-# show attachment preview data in tooltip
-                                    <a class="Attachment" title="[% Translate("Attachment") | html %] [% Data.Filename | html %] ([% Data.Filesize | html %])" rel="TicketAttachment[% Data.Count | html %]">
-                                        <i class="fa fa-file-o"></i>
-                                    </a>
-[% RenderBlockEnd("TreeItemAttachmentIconSingle") %]
-[% RenderBlockStart("TreeItemAttachmentIconMultiple") %]
-# no preview data in tooltip
-                                    <a class="Attachment" title="[% Translate("Attachments") | html %]" rel="TicketAttachment[% Data.Count | html %]">
-                                        <i class="fa fa-file-o"></i>
-                                    </a>
-[% RenderBlockEnd("TreeItemAttachmentIconMultiple") %]
-                                    <div id="TicketAttachment[% Data.Count | html %]" class="AttachmentData Hidden">
-                                        <div class="Attachment InnerContent">
-[% RenderBlockStart("TreeItemAttachmentItem") %]
-                                            <div class="AttachmentElement">
-                                                <h3>
-# Bugfix for bug#5579 - Spaces in filenames are converted to + characters when downloading in IE.
-# Filename must be escaped with "| html", not "| uri".
-                                                    <a href="[% Env("Baselink") %]Action=AgentTicketAttachment;ArticleID=[% Data.ArticleID | uri %];FileID=[% Data.FileID | uri %]" [% Data.Target %]>[% Data.Filename | html %]</a>
-                                                </h3>
-                                                <p>[% Data.Filesize | html %]</p>
-                                            </div>
-[% RenderBlockEnd("TreeItemAttachmentItem") %]
-                                        </div>
-                                    </div>
+[% PROCESS ArticleAttachments.tt %]
 [% RenderBlockEnd("TreeItemAttachment") %]
 [% RenderBlockStart("TreeItemNoAttachment") %]
                                     <span class="NoContent"></span>
@@ -686,6 +747,121 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                 </div>
             </div>
         </div>
+[% RenderBlockEnd("ArticleList") %]
+
+[% RenderBlockStart("ChronicalView") %]
+
+        <div class="ChronicalViewTicketActions Hidden">
+[% RenderBlockStart("ChronicalViewTicketActions") %]
+            <div class="TicketActions ArticleID_[% Data.ArticleID | html %]">
+[% PROCESS ArticleActionMenu.tt %]
+            </div>
+[% RenderBlockEnd("ChronicalViewTicketActions") %]
+        </div>
+
+        <div class="ChronicalViewArticleAttachments Hidden">
+[% RenderBlockStart("ChronicalViewArticleAttachments") %]
+            <div class="ArticleAttachments ArticleID_[% Data.ArticleID | html %]">
+[% PROCESS ArticleAttachments.tt %]
+            </div>
+[% RenderBlockEnd("ChronicalViewArticleAttachments") %]
+        </div>
+
+        <ul class="Hidden">
+            <li id="TemplateListItem">
+                <h3>
+                    <em></em>
+                    <strong class="Type"></strong>
+                    <span><span></span></span>
+                    <a href="#" class="ShowFullArticleText" title="[% Translate("Show Full Text") | html %]">
+                        <i class="fa fa-search-plus"></i>
+                    </a>
+                </h3>
+            </li>
+        </ul>
+
+        <div id="TemplateArticleData" class="Hidden">
+            <ul>
+                <li class="subject">
+                    <strong>[% Translate("Subject") | html %]: </strong>
+                </li>
+                <li class="from">
+                    <strong>[% Translate("From") | html %]: </strong>
+                </li>
+                <li class="to">
+                    <strong>[% Translate("To") | html %]: </strong>
+                </li>
+                <li class="cc">
+                    <strong>[% Translate("Cc") | html %]: </strong>
+                </li>
+                <li class="bcc">
+                    <strong>[% Translate("Bcc") | html %]: </strong>
+                </li>
+            </ul>
+            <div class="Hidden FullArticlePlainText" data-title="[% Translate("Full Article Text") | html %]">
+                <div class="ChronicalPlainText">[% Item.ArticleData.Body | html %]</div>
+            </div>
+            <p class="PlainText"></p>
+            <div class="Hidden ArticleIFrame" data-title="[% Translate("Full Article Text") | html %]"></div>
+        </div>
+
+        <div class="ChronicalView [% IF Data.UseArticleColors %]UseArticleColors[% END %]">
+            <ul class="ListLeft">
+                <li class="NoEvents">[% Translate("No more events found. Please try changing the filter settings.") | html %]</li>
+            </ul>
+            <ul class="ListRight"></ul>
+            <div class="Clear"></div>
+            <span><i class="fa fa-spinner fa-spin"></i></span>
+        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+[% IF Config("ChronicalViewEnabled") == 1 %]
+
+var ListObjects = [
+[% FOREACH Item IN Data.Items %]
+    {
+        'orientation'   : [% Item.Orientation | JSON %],
+        'order'         : [% Item.Counter | JSON %],
+        'id'            : "[% IF Item.ArticleID %]ArticleID_[% Item.ArticleID %][% END %]",
+        'class'         : [% Item.Class | JSON %],
+        'time'          : [% Item.CreateTime | JSON %],
+        'time_long'     : [% Item.CreateTime | Localize("TimeLong") | JSON %],
+        'type'          : [% Item.HistoryType | JSON %],
+        'type_readable' : [% Item.HistoryTypeReadable | JSON %],
+        'name'          : [% Item.Name | JSON %],
+        'article_id'    : [% Item.ArticleID | JSON %],
+        'article_data'  : {
+        [% IF Item.ArticleID %]
+            'subject': [% Item.ArticleData.Subject | truncate(75) | JSON %],
+            'from'   : [% Item.ArticleData.From | truncate(75) | JSON %],
+            'to'     : [% Item.ArticleData.To | truncate(75) | JSON %],
+            'cc'     : [% Item.ArticleData.Cc | truncate(75) | JSON %],
+            'bcc'    : [% Item.ArticleData.Bcc | truncate(75) | JSON %],
+            'text'   : [% Item.ArticleData.Body | truncate(200) | JSON %],
+            'text_long' : [% IF !Item.ArticleData.AttachmentIDOfHTMLBody %][% Item.ArticleData.Body | JSON %][% ELSE %]""[% END %],
+            'attachment_id' : [% Item.ArticleData.AttachmentIDOfHTMLBody | JSON %],
+            'iframe_html' : '<iframe sandbox="allow-same-origin allow-popups" data-url="[% Env("Baselink") %]Action=AgentTicketAttachment;Subaction=HTMLView;ArticleID=[% Item.ArticleID | html %];FileID=[% Item.ArticleData.AttachmentIDOfHTMLBody | html %];[% Env("SessionName") | html %]=[% Env("SessionID") | html %]" [% Data.MSSecurityRestricted %] width="100%" frameborder="0" id="Iframe[% Item.ArticleID | html %]" class="ChronicalArticleiFrame" src=""></iframe>'
+        [% END %]
+        }
+    }[% IF !loop.last %],[% END %]
+[% END %]
+];
+
+Core.Agent.TicketZoom.ChronicalView.Init(ListObjects);
+
+[% END %]
+
+[% RenderBlockStart("ShowSelectedArticle") %]
+if ($('#Article_[% Data.ArticleID %]').length) {
+    $('html, body').animate({ scrollTop: ($('#Article_[% Data.ArticleID %]').offset().top)}, 0);
+}
+[% RenderBlockEnd("ShowSelectedArticle") %]
+//]]></script>
+[% END %]
+
+[% RenderBlockEnd("ChronicalView") %]
+
     </div>
 </div>
 [% RenderBlockEnd("Tree") %]
@@ -693,7 +869,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockStart("ArticleItem") %]
 <div>
     <a name="Article[% Data.ArticleID | html %]"></a>
-    <div class="WidgetSimple Expanded">
+    <div class="WidgetSimple Expanded [% Data.SenderType | html %]-[% Data.ArticleType | html %]">
         <div class="Header">
             <div class="WidgetAction Toggle">
                 <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %];ArticleID=[% Data.ArticleID | uri %]" title="[% Translate("Show or hide the content") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
@@ -706,107 +882,8 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 [% RenderBlockEnd("ArticleCreatedBy") %]
             </div>
         </div>
-        <div class="LightRow Bottom">
-            <ul class="Actions">
 
-[% RenderBlockStart("ArticleForwardAsDropdown") %]
-                <li>
-                    <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Data.FormID | html %]">
-                        <input type="hidden" name="Action" value="[% Data.Action | html %]"/>
-                        <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
-                        <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
-                        <input type="hidden" name="ForwardAll" value="[% Data.ForwardAll | html %]"/>
-                        <label for="[% Data.ForwardElementID | html %]" class="InvisibleText">[% Translate(Data.Name) | html %]:</label>
-                        [% Data.StandarForwardsStrg %]
-                    </form>
-[% RenderBlockStart("ArticleForwardAsDropdownJSOnLoad") %]
-<script type="text/javascript">//<![CDATA[
-$('#[% Data.FormID | html %] select[name=ForwardTemplateID]').bind('change', function (Event) {
-    var URL;
-
-    if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        // reset the select box so that it can be used again from the same window
-        $(this).val('0');
-    }
-});
-//]]></script>
-[% RenderBlockEnd("ArticleForwardAsDropdownJSOnLoad") %]
-[% RenderBlockStart("ArticleForwardAsDropdownJSStatic") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#[% Data.FormID | html %] select[name=ForwardTemplateID]').bind('change', function (Event) {
-    var URL;
-
-    if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        // reset the select box so that it can be used again from the same window
-        $(this).val('0');
-    }
-});
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ArticleForwardAsDropdownJSStatic") %]
-                </li>
-[% RenderBlockEnd("ArticleForwardAsDropdown") %]
-
-[% RenderBlockStart("ArticleMenu") %]
-                <li>
-                    <a href="[% Env("Baselink") %][% Data.Link %]" class="[% Data.Class | html %]" [% Data.LinkParam %] title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
-                </li>
-[% RenderBlockEnd("ArticleMenu") %]
-
-[% RenderBlockStart("ArticleReplyAsDropdown") %]
-                <li>
-                    <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Data.FormID | html %]">
-                        <input type="hidden" name="Action" value="[% Data.Action | html %]"/>
-                        <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
-                        <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
-                        <input type="hidden" name="ReplyAll" value="[% Data.ReplyAll | html %]"/>
-                        <label for="[% Data.ResponseElementID | html %]" class="InvisibleText">[% Translate(Data.Name) | html %]:</label>
-                        [% Data.StandardResponsesStrg %]
-                    </form>
-[% RenderBlockStart("ArticleReplyAsDropdownJSOnLoad") %]
-<script type="text/javascript">//<![CDATA[
-$('#[% Data.FormID | html %] select[name=ResponseID]').bind('change', function (Event) {
-    var URL;
-
-    if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        window.setTimeout(function() {
-            Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        }, 0);
-        // reset the select box so that it can be used again from the same window
-        $(this).val('0');
-    }
-});
-//]]></script>
-[% RenderBlockEnd("ArticleReplyAsDropdownJSOnLoad") %]
-[% RenderBlockStart("ArticleReplyAsDropdownJSStatic") %]
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#[% Data.FormID | html %] select[name=ResponseID]').bind('change', function (Event) {
-    var URL;
-
-    if ($(this).val() > 0) {
-        URL = Core.Config.Get('Baselink') + $(this).parents().serialize();
-        window.setTimeout(function() {
-            Core.UI.Popup.OpenPopup(URL, 'TicketAction');
-        }, 0);
-        // reset the select box so that it can be used again from the same window
-        $(this).val('0');
-    }
-});
-//]]></script>
-[% END %]
-[% RenderBlockEnd("ArticleReplyAsDropdownJSStatic") %]
-                </li>
-[% RenderBlockEnd("ArticleReplyAsDropdown") %]
-            </ul>
-            <div class="ClearLeft"></div>
-        </div>
+[% PROCESS ArticleActionMenu.tt %]
 
         <div class="Content">
             <div class="ArticleMailHeader">

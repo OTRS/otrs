@@ -431,7 +431,7 @@ thead .headerSortDown a {
 }
 
 .DataTable tbody tr.Active td {
-    background-color: #e5e5e5 !important;
+    background-color: #e5e5e5;
 }
 
 .TableSmall tbody tr td:last-child {

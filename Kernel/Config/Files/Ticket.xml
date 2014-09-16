@@ -586,7 +586,7 @@
                 <Item Key="NameShort">M</Item>
                 <Item Key="ModulePriority">200</Item>
                 <Item Key="CustomerInfo">0</Item>
-                <Item Key="TicketActionsPerTicket">0</Item>
+                <Item Key="TicketActionsPerTicket">1</Item>
                 <Item Key="OverviewMenuModules">1</Item>
             </Hash>
         </Setting>
@@ -606,7 +606,7 @@
                 <Item Key="DefaultPreViewLines">25</Item>
                 <Item Key="DefaultViewNewLine">90</Item>
                 <Item Key="StripEmptyLines">0</Item>
-                <Item Key="TicketActionsPerTicket">0</Item>
+                <Item Key="TicketActionsPerTicket">1</Item>
                 <Item Key="OverviewMenuModules">1</Item>
             </Hash>
         </Setting>
@@ -737,7 +737,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
-            <Option SelectedID="normal">
+            <Option SelectedID="reverse">
                 <Item Key="reverse">reverse</Item>
                 <Item Key="normal">normal</Item>
             </Option>
@@ -793,7 +793,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewZoom</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>

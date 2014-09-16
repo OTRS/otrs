@@ -1,0 +1,27 @@
+# --
+# ArticleAttachments.tt - provides HTML the action menu for articles in Ticket Zoom
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<a class="Attachment" title="[% Translate("Attachments") | html %]" rel="TicketAttachment[% Data.ArticleID | html %]">
+    ([% Data.Attachments.Files.size | html %])
+</a>
+<div id="TicketAttachment[% Data.ArticleID | html %]" class="AttachmentData Hidden">
+    <div class="Attachment InnerContent">
+        [% FOREACH File IN Data.Attachments.Files %]
+        <div class="AttachmentElement">
+            <h3>
+# Bugfix for bug#5579 - Spaces in filenames are converted to + characters when downloading in IE.
+# Filename must be escaped with "| html", not "| uri".
+                <a href="[% Env("Baselink") %]Action=AgentTicketAttachment;ArticleID=[% Data.ArticleID | uri %];FileID=[% File.FileID | uri %]" [% File.Target %]>[% File.Filename | html %]</a>
+            </h3>
+            <p>[% File.Filesize | html %]</p>
+        </div>
+            [% LAST IF loop.count() == Data.Attachments.ZoomAttachmentDisplayCount %]
+        [% END %]
+    </div>
+</div>
