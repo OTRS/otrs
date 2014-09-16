@@ -29,6 +29,9 @@ $OTRSVersion .= '.x';
 
 my $Home = $ConfigObject->Get('Home');
 
+# get tmp dir location
+my $TmpDir = $ConfigObject->Get('TempDir');
+
 # install package normally
 my $MergeOne = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -133,9 +136,6 @@ $Self->True(
     $PackageIsInstalled,
     'PackageIsInstalled() - merged package should be still installed',
 );
-
-# get tmp dir location
-my $TmpDir = $ConfigObject->Get('TempDir');
 
 my $MainPackageTwo = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -353,6 +353,8 @@ unlink $TmpDir . '/test4';
 $PackageObject->PackageUninstall( String => $MergeOne );
 
 $PackageObject->PackageUninstall( String => $MainPackageThree );
+
+
 
 # define package for merging
 my $MergeThree = '<?xml version="1.0" encoding="utf-8" ?>
@@ -634,5 +636,131 @@ for my $Test (@Tests) {
         );
     }
 }
+
+
+
+# check Db upgrade without merge is still working
+
+# define initial package
+my $PackageFour = '<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>PackageFour</Name>
+  <Version>4.0.1</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <Description Lang="en">The third test package.</Description>
+  <Framework>' . $OTRSVersion . '</Framework>
+  <BuildDate>2014-05-02 17:59:59</BuildDate>
+  <BuildHost>myhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="DeleteMePlease" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otrs_package>
+';
+
+# install predefined package
+my $NormalPackageInstall = $PackageObject->PackageInstall( String => $PackageFour );
+
+# check that the package is installed
+$Self->True(
+    $NormalPackageInstall,
+    'PackageInstall() - package installed with true.',
+);
+
+# check if the package is installed
+my $NormalPackageIsInstalled = $PackageObject->PackageIsInstalled(
+    Name => 'PackageFour',
+);
+
+$Self->True(
+    $NormalPackageIsInstalled,
+    'PackageIsInstalled() - package PackageFour is installed with true',
+);
+
+# package from file should exist on file system
+my $RealFile = $Home . '/DeleteMePlease';
+$RealFile =~ s/\/\//\//g;
+$Self->True(
+    -e $RealFile,
+    "FileExists - $RealFile with true",
+);
+
+$PackageFour = '<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>PackageFour</Name>
+  <Version>4.0.2</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+  <Description Lang="en">The third test package.</Description>
+  <Framework>' . $OTRSVersion . '</Framework>
+  <BuildDate>2014-09-02 17:59:59</BuildDate>
+  <BuildHost>myhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="DeleteMePlease" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+  <DatabaseUpgrade Type="post">
+      <TableCreate Version="4.0.2" Name="delete_this_table">
+          <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+          <Column Name="description" Required="true" Size="200" Type="VARCHAR"/>
+      </TableCreate>
+    <Insert Version="4.0.2" Table="delete_this_table">
+        <Data Key="description" Type="Quote">Lalala1</Data>
+    </Insert>
+  </DatabaseUpgrade>
+
+
+    <DatabaseUninstall Type="pre">
+        <TableDrop Name="delete_this_table"/>
+    </DatabaseUninstall>
+
+  <CodeUpgrade Type="post" Version="4.0.2"><![CDATA[
+        my $Content = "test";
+        $Kernel::OM->Get(\'Kernel::System::Main\')->FileWrite(
+            Location => "' . $TmpDir . '/test1",
+            Content  => \$Content,
+        );
+  ]]></CodeUpgrade>
+</otrs_package>
+';
+
+
+my $PackageUpgrade = $PackageObject->PackageUpgrade( String => $PackageFour );
+
+$Self->True(
+    $PackageUpgrade,
+    'PackageUpgrade() - Package Upgrade.',
+);
+
+
+
+# database upgrade script might be executed, so insert a record
+# should be possible
+
+$DBObject->Prepare( SQL => 'SELECT description FROM delete_this_table' );
+my $UpdateResult;
+while ( my @Row = $DBObject->FetchrowArray() ) {
+    $UpdateResult = $Row[0];
+}
+
+$UpdateResult //= '';
+
+$Self->Is(
+    $UpdateResult,
+    'Lalala1',
+    'SQL check - delete_this_table table was created and have one record for select',
+);
+
+$Self->True(
+    -f $TmpDir . '/test1',
+    'PackageUpgrade() - CodeUpgrade with version 2.0.2.',
+);
+
+
+# remove MainPackage packages
+$PackageObject->PackageUninstall( String => $PackageFour );
+
+unlink $TmpDir . '/test1';
 
 1;

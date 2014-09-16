@@ -975,7 +975,7 @@ sub PackageUpgrade {
 
         my @Parts;
         my $Use = 0;
-        my $UseInstalled;
+        my $UseInstalled = 1;
         my $NotUseTag;
         my $NotUseTagLevel;
         PARTDB:
@@ -985,8 +985,8 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && $Part->{Tag} eq $NotUseTag
-                    && $Part->{TagLevel} eq $NotUseTagLevel
+                    && ( defined $NotUseTag && $Part->{Tag} eq $NotUseTag )
+                    && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
                     $UseInstalled = 1;
