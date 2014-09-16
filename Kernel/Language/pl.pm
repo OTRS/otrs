@@ -582,7 +582,7 @@ sub Data {
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -614,10 +614,9 @@ sub Data {
         'Could not determine distribution.' => '',
         'Kernel Version' => '',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
         'Perl Modules' => '',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => 'Wersja Perl',
@@ -2393,6 +2392,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => 'Nie zapomnij dodać nowych szablonów do kolejki.',
         'Add Template' => 'Dodaj szablon',
         'Edit Template' => 'Edytuj szablon',
+        'A standard template with this name already exists!' => '',
         'Template' => 'Szablon',
         'Create type templates only supports this smart tags' => 'Tworzenie typowych szablonów wspiera jedynie takie tagi',
         'Example template' => 'Przykładowy szablon',
@@ -2424,6 +2424,7 @@ sub Data {
         'Edit Agent' => 'Edytuj agenta',
         'Firstname' => 'Imię',
         'Lastname' => 'Nazwisko',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => 'Zostanie wygenerowane automatycznie jeśli pozostawione puste.',
         'Start' => 'Start',
         'End' => 'Koniec',
@@ -2673,8 +2674,10 @@ sub Data {
         'Previous Owner' => 'Poprzedni właściciel',
         'Next state' => 'Następny status',
         'Add Article' => '',
+        'Create an Article' => '',
         'Spell check' => 'Sprawdzanie poprawności',
         'Text Template' => 'Tekst szablonu',
+        'Setting a template will overwrite any text or attachment.' => '',
         'Note type' => 'Typ notatki',
         'Inform Agent' => 'Poinformuj agenta',
         'Optional' => 'Opcjonalny',
@@ -3198,20 +3201,20 @@ sub Data {
         'Agents <-> Groups' => 'Agenci <-> Grupy',
         'Agents <-> Roles' => 'Agenci <-> Role',
         'All customer users of a CustomerID' => 'wszyscy użytkownicy klienta z ID',
-        'Allows adding notes in the close ticket screen of the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie zamkniętego zgłoszenia interfejsu agenta.',
-        'Allows adding notes in the ticket free text screen of the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie tekstu zgłoszenia interfejsu agenta.',
-        'Allows adding notes in the ticket note screen of the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie notatek zgłoszenia interfejsu agenta.',
-        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie właściciela przybliżonego zgłoszenia w interfejsie agenta.',
-        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie oczekującego przybliżonego zgłoszenia w interfejsie agenta.',
-        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie priorytetu przybliżonego zgłoszenia w interfejsie agenta.',
-        'Allows adding notes in the ticket responsible screen of the agent interface.' =>
-            'Pozwala na dodawanie notatek w oknie odpowiedzialnego za zgłoszenia interfejsu agenta.',
+        'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             '',
         'Allows agents to generate individual-related stats.' => 'Pozwala agentom na generowanie statystyk z indywindualnych działań.',
@@ -3493,8 +3496,8 @@ sub Data {
             '',
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface.' =>
-            'Definiuje czy rozliczanie czasu jest wymagane w interfejsie agenta.',
+        'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+            '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Definiuje czy rozliczanie czasu musi byc ustawione dla wszystkich zebranych zgłoszeń',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
@@ -4146,6 +4149,8 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
+        'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
+            '',
         'Event module that updates customer user service membership if login changes.' =>
             'Moduł zdarzeń modyfikujący przynależność konta klienta do serwisu po zmianie loginu.',
         'Event module that updates customer users after an update of the Customer.' =>
@@ -4388,6 +4393,7 @@ sub Data {
         'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych z artykułami do wyświetlenia w interfejsie uźytkownika.',
+        'List of all queue events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => 'Lista wszystkich wydarzeń związanych ze zgłoszeniami do wyświetlenia w interfejsie uźytkownika.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
@@ -4629,6 +4635,8 @@ sub Data {
             'Resetuje i odblokowuje właściciela jeśli zgłoszenie zostało przesunięte do innej kolejki.',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Odtwarza zgłoszenie z archiwum (tylko jeśli zdarzenie zmienia status z zamkniętego do dowolnego otwartego).',
+        'Retains all services in listings even if they are children of invalid elements.' =>
+            '',
         'Roles <-> Groups' => 'Role <-> Grupy',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -4681,7 +4689,8 @@ sub Data {
             'Ustaw na tak jeśli ufasz wszystkim swoim kluczom publicznym i prywatnym, nawet jeśli nie są one certifykowane zaufanym podpisem.',
         'Sets if SLA must be selected by the agent.' => 'Ustawia czy SLA musi zostać wybrane przez agenta.',
         'Sets if SLA must be selected by the customer.' => 'Ustawia czy SLA musi zostać wybrane przez klienta.',
-        'Sets if note must be filled in by the agent.' => 'Ustawia czy notatka musi zostać wypełniona przez agenta.',
+        'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Sets if service must be selected by the agent.' => 'Ustawia czy serwis musi zostać wybrany przez agenta.',
         'Sets if service must be selected by the customer.' => 'Ustawia czy serwis musi zostać wybrany przez klienta.',
         'Sets if ticket owner must be selected by the agent.' => 'Ustawia czy właściciel zgłoszenia musi zostać wybrany przez agenta.',

@@ -579,7 +579,7 @@ sub Data {
         'Server Database Charset' => 'Karakterset serverske baze podataka',
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Podešavanje character_set_database mora biti UNICODE ili UTF8.',
         'Table Charset' => 'Tabela karakterseta',
-        'There were tables found which no not have utf8 as charset.' => 'Pronađene su tabele koje nemaju utf8 kao karakterset.',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => 'Maksimalna veličina upita',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Podešavanje \'max_allowed_packet\' mora biti veće od 20 MB.',
@@ -611,10 +611,9 @@ sub Data {
         'Could not determine distribution.' => 'Nije moguće utvrditi raspodelu.',
         'Kernel Version' => 'Kernel verzija',
         'Could not determine kernel version.' => 'Nije moguće utvrditi kernel verziju',
-        'Load' => 'Opterećenje',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
-            'Opterećenje treba da bude na maksimumu, broj procesora koje ima sistem (npr. opterećenje od 8 ili manje na 8-procesorskom sistemu je u redu.)',
-        'Could not determine system load.' => 'Nije moguće utvrditi opterećenje sistema.',
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
+            '',
         'Perl Modules' => 'Perl moduli',
         'Not all required Perl modules are correctly installed.' => 'Svi zahtevani Perl moduli nisu korektno instalirani.',
         'Perl Version' => 'Perl verzija',
@@ -2390,6 +2389,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => 'Ne zaboravite da dodate novi šablon u redu.',
         'Add Template' => 'Dodaj Šablon',
         'Edit Template' => 'Uredi Šablon',
+        'A standard template with this name already exists!' => '',
         'Template' => 'Šablon',
         'Create type templates only supports this smart tags' => 'Kreiraj tip šablona koji podržavaju samo ove pametne oznake.',
         'Example template' => 'Primer šablona',
@@ -2421,6 +2421,7 @@ sub Data {
         'Edit Agent' => 'Uredi Operatera',
         'Firstname' => 'Ime',
         'Lastname' => 'Prezime',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => 'Biće automatski generisano ako se ostavi prazno.',
         'Start' => 'Početak',
         'End' => 'Kraj',
@@ -2670,8 +2671,10 @@ sub Data {
         'Previous Owner' => 'Prethodni vlasnik',
         'Next state' => 'Sledeći status',
         'Add Article' => '',
+        'Create an Article' => '',
         'Spell check' => 'Provera pravopisa',
         'Text Template' => 'Šablon teksta',
+        'Setting a template will overwrite any text or attachment.' => '',
         'Note type' => 'Tip napomene',
         'Inform Agent' => 'Obavesi operatera',
         'Optional' => 'Opcioni',
@@ -3195,20 +3198,20 @@ sub Data {
         'Agents <-> Groups' => 'Operateri <-> Grupe',
         'Agents <-> Roles' => 'Operateri <-> Uloge',
         'All customer users of a CustomerID' => 'Svi korisnici za CustomerID',
-        'Allows adding notes in the close ticket screen of the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana zatvorenog tiketa interfejsa operatera.',
-        'Allows adding notes in the ticket free text screen of the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana slobodnog teksta tiketa interfejsa operatera.',
-        'Allows adding notes in the ticket note screen of the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana napomena tiketa interfejsa operatera.',
-        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana vlasnika tiketa pri uvećanom prikazu tiketa u interfejsu operatera.',
-        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana tiketa na čekanju pri uvećanom prikazu tiketa u interfejsu operatera.',
-        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana prioritetnog tiketa na uvećanom prikazu u interfejsu operatera.',
-        'Allows adding notes in the ticket responsible screen of the agent interface.' =>
-            'Dozvoljava dodavanje napomena na prikazu ekrana odgovornog tiketa interfejsa operatera.',
+        'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Dozvoljava operaterima da zamene ose na statistici ako je generišu.',
         'Allows agents to generate individual-related stats.' => 'Dozvoljava operaterima da generišu individualnu statistiku.',
@@ -3490,8 +3493,8 @@ sub Data {
             'Određuje da li treba da se koristi poboljšani režim (omogućava korišćenje tabele, zamene, indeksiranja, eksponiranja, umetanja iz Word-a, itd.).',
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             'Određuje da li lista za filtere treba vršiti preuzimanje samo iz trenutnih tiketa u sistemu. Da razjasnimo, lista korisnika će uvek dolaziti iz sistemskih tiketa.',
-        'Defines if time accounting is mandatory in the agent interface.' =>
-            'Određuje da li je obračun vremena obavezan u interfejsu operatera.',
+        'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+            '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Određuje da li obračun vremena mora biti podešen na svim tiketima u masovnim akcijama.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
@@ -4143,6 +4146,8 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
+        'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
+            '',
         'Event module that updates customer user service membership if login changes.' =>
             '',
         'Event module that updates customer users after an update of the Customer.' =>
@@ -4385,6 +4390,7 @@ sub Data {
         'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
+        'List of all queue events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
@@ -4626,6 +4632,8 @@ sub Data {
             'Resetuje i otključava vlasnika tiketa ako je premešten u drugi red.',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'Vraća tiket iz arhive (samo ako je događaj promena statusa od zatvorenog na bilo koji dostupan otvoreni status).',
+        'Retains all services in listings even if they are children of invalid elements.' =>
+            '',
         'Roles <-> Groups' => 'Uloge <-> Grupe',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -4678,7 +4686,8 @@ sub Data {
             '',
         'Sets if SLA must be selected by the agent.' => 'Podešava ako SLA mora biti izabran od strane operatera.',
         'Sets if SLA must be selected by the customer.' => 'Podešava ako SLA mora biti izabran od strane korisnika.',
-        'Sets if note must be filled in by the agent.' => 'Podešava ako napomena mora biti uneta od strane operatera.',
+        'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Sets if service must be selected by the agent.' => 'Podešava ako usluga mora biti izabrana od strane operatera.',
         'Sets if service must be selected by the customer.' => 'Podešava ako usluga mora biti izabrana od strane korisnika.',
         'Sets if ticket owner must be selected by the agent.' => 'Podešava ako vlasnik tiketa mora biti izabran od strane operatera.',

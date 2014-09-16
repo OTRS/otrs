@@ -581,7 +581,7 @@ sub Data {
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -613,10 +613,9 @@ sub Data {
         'Could not determine distribution.' => '',
         'Kernel Version' => '',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
         'Perl Modules' => '',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => '',
@@ -2392,6 +2391,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => '',
         'Add Template' => '',
         'Edit Template' => '',
+        'A standard template with this name already exists!' => '',
         'Template' => '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
@@ -2423,6 +2423,7 @@ sub Data {
         'Edit Agent' => 'प्रतिनिधि संपादित करें',
         'Firstname' => 'पहला नाम',
         'Lastname' => 'आखिरी नाम',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => 'आरंभ',
         'End' => 'समाप्त',
@@ -2672,8 +2673,10 @@ sub Data {
         'Previous Owner' => 'पिछला स्वामी',
         'Next state' => 'अगली स्थिति',
         'Add Article' => '',
+        'Create an Article' => '',
         'Spell check' => 'वर्तनी की जाँच',
         'Text Template' => '',
+        'Setting a template will overwrite any text or attachment.' => '',
         'Note type' => 'टिप्पणी प्रकार',
         'Inform Agent' => 'प्रतिनिधि को सूचित करें ',
         'Optional' => 'ऐच्छिक',
@@ -3197,20 +3200,20 @@ sub Data {
         'Agents <-> Groups' => 'प्रतिनिधि<->समूहों',
         'Agents <-> Roles' => 'प्रतिनिधि<->भूमिकाएँ',
         'All customer users of a CustomerID' => '',
-        'Allows adding notes in the close ticket screen of the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के बंद टिकट स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
-        'Allows adding notes in the ticket free text screen of the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के टिकट मुक्त पाठ स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
-        'Allows adding notes in the ticket note screen of the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के टिकट टिप्पणी स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
-        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के जूम टिकट के स्वामी स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
-        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के जूम टिकट के विचाराधीन स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
-        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के जूम टिकट के प्राथमिकता स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
-        'Allows adding notes in the ticket responsible screen of the agent interface.' =>
-            'प्रतिनिधि अंतरफलक के जूम टिकट के उत्तरदायी स्क्रीन में टिप्पणीयां जोड़ने की अनुमति देता है।',
+        'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'आँकड़ॊ की धुरी विनिमय करने के लिए प्रतिनिधि को अनुमति देता है यदि वे एक उत्पन्न करते है।',
         'Allows agents to generate individual-related stats.' => 'अलग अलग संबंधित आँकड़े उत्पन्न करने के लिए प्रतिनिधि को अनुमति देता है।',
@@ -3492,8 +3495,8 @@ sub Data {
             '',
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface.' =>
-            'यदि समय लेखांकन प्रतिनिधि अंतरफलक में अनिवार्य है तो परिभाषित करता है।',
+        'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
+            '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             '',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
@@ -4145,6 +4148,8 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
+        'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
+            '',
         'Event module that updates customer user service membership if login changes.' =>
             '',
         'Event module that updates customer users after an update of the Customer.' =>
@@ -4387,6 +4392,7 @@ sub Data {
         'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
+        'List of all queue events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
@@ -4628,6 +4634,8 @@ sub Data {
             'यदि अन्य कतार में स्थानांतरित होने के बाद टिकट के स्वामी को फिर से निर्धारित करता है और अनलॉक करता है।',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             'संग्रह से टिकट पुनर्स्थापित करता है(केवल यदि घटना एक स्थिति परिवर्तन है,किसी भी खुले उपलब्ध स्थिति से बंद के लिए)।',
+        'Retains all services in listings even if they are children of invalid elements.' =>
+            '',
         'Roles <-> Groups' => 'भूमिकाएं <-> समूहों',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -4680,7 +4688,8 @@ sub Data {
             'यदि आपको आपकी सभी सार्वजनिक और निजी PGP कुंजी में विश्वास है तो हाँ स्थापित करें,भले ही वे एक विश्वसनीय हस्ताक्षर के साथ प्रमाणित नहीं किया हैं।',
         'Sets if SLA must be selected by the agent.' => '',
         'Sets if SLA must be selected by the customer.' => '',
-        'Sets if note must be filled in by the agent.' => '',
+        'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Sets if service must be selected by the agent.' => '',
         'Sets if service must be selected by the customer.' => '',
         'Sets if ticket owner must be selected by the agent.' => 'स्थापित करता है,यदि टिकट स्वामी प्रतिनिधि के द्वारा चुना जाना चाहिए।',

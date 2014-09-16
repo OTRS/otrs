@@ -2023,7 +2023,7 @@ msgid "Table Charset"
 msgstr ""
 
 #. Template: AAASupportDataCollector
-msgid "There were tables found which no not have utf8 as charset."
+msgid "There were tables found which do not have utf8 as charset."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -2131,15 +2131,11 @@ msgid "Could not determine kernel version."
 msgstr ""
 
 #. Template: AAASupportDataCollector
-msgid "Load"
+msgid "System Load"
 msgstr ""
 
 #. Template: AAASupportDataCollector
-msgid "The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK."
-msgstr ""
-
-#. Template: AAASupportDataCollector
-msgid "Could not determine system load."
+msgid "The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK)."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -7819,6 +7815,10 @@ msgid "Edit Template"
 msgstr ""
 
 #. Template: AdminTemplate
+msgid "A standard template with this name already exists!"
+msgstr ""
+
+#. Template: AdminTemplate
 msgid "Template"
 msgstr ""
 
@@ -7916,6 +7916,10 @@ msgstr ""
 
 #. Template: AdminUser
 msgid "Lastname"
+msgstr ""
+
+#. Template: AdminUser
+msgid "A user with this username already exists!"
 msgstr ""
 
 #. Template: AdminUser
@@ -8563,11 +8567,19 @@ msgid "Add Article"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "Create an Article"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Spell check"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Text Template"
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "Setting a template will overwrite any text or attachment."
 msgstr ""
 
 #. Template: AgentTicketActionCommon
@@ -10047,31 +10059,31 @@ msgid "All customer users of a CustomerID"
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the close ticket screen of the agent interface."
+msgid "Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the ticket free text screen of the agent interface."
+msgid "Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the ticket note screen of the agent interface."
+msgid "Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface."
+msgid "Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface."
+msgid "Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface."
+msgid "Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
-msgid "Allows adding notes in the ticket responsible screen of the agent interface."
+msgid "Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig
@@ -10803,7 +10815,7 @@ msgid "Defines if the list for filters should be retrieve just from current tick
 msgstr ""
 
 #. SysConfig
-msgid "Defines if time accounting is mandatory in the agent interface."
+msgid "Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen)."
 msgstr ""
 
 #. SysConfig
@@ -12263,6 +12275,10 @@ msgid "Event module registration. For more performance you can define a trigger 
 msgstr ""
 
 #. SysConfig
+msgid "Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used."
+msgstr ""
+
+#. SysConfig
 msgid "Event module that updates customer user service membership if login changes."
 msgstr ""
 
@@ -12836,6 +12852,10 @@ msgstr ""
 
 #. SysConfig
 msgid "List of all article events to be displayed in the GUI."
+msgstr ""
+
+#. SysConfig
+msgid "List of all queue events to be displayed in the GUI."
 msgstr ""
 
 #. SysConfig
@@ -13463,6 +13483,10 @@ msgid "Restores a ticket from the archive (only if the event is a state change, 
 msgstr ""
 
 #. SysConfig
+msgid "Retains all services in listings even if they are children of invalid elements."
+msgstr ""
+
+#. SysConfig
 msgid "Roles <-> Groups"
 msgstr ""
 
@@ -13607,7 +13631,7 @@ msgid "Sets if SLA must be selected by the customer."
 msgstr ""
 
 #. SysConfig
-msgid "Sets if note must be filled in by the agent."
+msgid "Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 
 #. SysConfig

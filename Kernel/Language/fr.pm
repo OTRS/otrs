@@ -193,7 +193,7 @@ sub Data {
         'Search' => 'Rechercher',
         'and' => 'et',
         'between' => 'entre',
-        'before/after' => '',
+        'before/after' => 'avant/après',
         'Fulltext Search' => 'Recherche sur tout le texte',
         'Data' => 'Données',
         'Options' => 'Options',
@@ -218,10 +218,10 @@ sub Data {
         'Medium' => 'Moyen',
         'Large' => 'Grand',
         'Date picker' => 'Selection de date',
-        'Show Tree Selection' => '',
-        'The field content is too long!' => '',
+        'Show Tree Selection' => 'Afficher l\'Arbre de Sélection',
+        'The field content is too long!' => 'Le contenu du champ est trop long',
         'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'This field is required or' => 'Le champ est requis ou',
         'New message' => 'Nouveau message',
         'New message!' => 'Nouveau message !',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -243,12 +243,12 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             'L\'authentification est réussie mais aucun enregistrement client n\'a été trouvé dans la base OTRS. Veuillez en informer votre administrateur.',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'Cet e-mail existe déjà. Merci de vous connecter ou de réinitailiser votre mot de passe.',
         'Logout' => 'Déconnexion',
         'Logout successful. Thank you for using %s!' => 'Déconnexion réussie. Merci d\'avoir utilisé %s !',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
         'Agent updated!' => 'Information de l\'opérateur mises à jour',
-        'Database Selection' => '',
+        'Database Selection' => 'Sélection de la base de donnée',
         'Create Database' => 'Créer la base de données',
         'System Settings' => 'Paramètres Système',
         'Mail Configuration' => 'Configuration de la messagerie',
@@ -266,7 +266,7 @@ sub Data {
         'Database already contains data - it should be empty!' => 'La base de données contient déjà des données - elle doit être vide',
         'Login is needed!' => 'Authentification requise !',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'Il n\'est actuellement pas possible de se connecter en raison d\'une maintenance planifiée du système.',
         'Password is needed!' => 'Le mot de passe est requis !',
         'Take this Customer' => 'Choisir ce client',
         'Take this User' => 'Choisir cet utilisateur',
@@ -294,7 +294,7 @@ sub Data {
         'Check to activate this date' => 'Cochez pour activer cette date',
         'You have Out of Office enabled, would you like to disable it?' =>
             'Vous avez l\'Heure de sortie du travail\' activée, voulez-vous la désactiver?',
-        'News about OTRS releases!' => '',
+        'News about OTRS releases!' => 'Nouvelles à propos des versions OTRS.',
         'Customer %s added' => 'Client %s ajouté',
         'Role added!' => 'Rôle ajouté!',
         'Role updated!' => 'Rôle mis à jour!',
@@ -389,8 +389,8 @@ sub Data {
             'Paquets non vérifié pour le groupe OTRS! Il est recommendé de ne pas utiliser ce paquet.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
             '',
-        'Mark' => '',
-        'Unmark' => '',
+        'Mark' => 'Sélectionner',
+        'Unmark' => 'Déselectionner',
         'Bold' => 'Gras',
         'Italic' => 'Italique',
         'Underline' => 'Souligné',
@@ -419,8 +419,8 @@ sub Data {
         'No content received from registration server. Please try again later.' =>
             '',
         'Problems processing server result. Please try again later.' => '',
-        'Username and password do not match. Please try again.' => '',
-        'The selected process is invalid!' => '',
+        'Username and password do not match. Please try again.' => 'Le nom et mot de passe ne correspondent pas. Merci d\'essayer à nouveau.',
+        'The selected process is invalid!' => 'The processus sélectionné est invalide.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Jour de l\'An',
@@ -494,8 +494,8 @@ sub Data {
         # Template: AAAStats
         'Stat' => 'Statistique',
         'Sum' => 'Somme',
-        'No (not supported)' => '',
-        'Days' => '',
+        'No (not supported)' => 'Non (non supporté)',
+        'Days' => 'Jours',
         'Please fill out the required fields!' => 'Remplissez les champs obligatoires svp !',
         'Please select a file!' => 'Sélectionnez un fichier svp !',
         'Please select an object!' => 'Sélectionnez un objet svp !',
@@ -566,28 +566,28 @@ sub Data {
         'Ticket Close Time' => 'Heure de fermeture du ticket',
 
         # Template: AAASupportDataCollector
-        'Unknown' => '',
+        'Unknown' => 'Inconnu',
         'Information' => 'Information',
-        'OK' => '',
-        'Problem' => '',
-        'Webserver' => '',
-        'Operating System' => '',
-        'OTRS' => '',
+        'OK' => 'OK',
+        'Problem' => 'Problème',
+        'Webserver' => 'Serveur Web',
+        'Operating System' => 'Système d\'Exploitation',
+        'OTRS' => 'OTRS',
         'Table Presence' => '',
         'Internal Error: Could not open file.' => '',
         'Table Check' => '',
-        'Internal Error: Could not read file.' => '',
+        'Internal Error: Could not read file.' => 'Erreur interne: Ne peut pas lire le fichier.',
         'Tables found which are not present in the database.' => '',
-        'Database Size' => '',
-        'Could not determine database size.' => '',
-        'Database Version' => '',
+        'Database Size' => 'Taille de la base de donnée',
+        'Could not determine database size.' => 'N\'a pas pu déteminer la taille de la base de donnée',
+        'Database Version' => 'Version de la base de donnée',
         'Could not determine database version.' => '',
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -606,26 +606,25 @@ sub Data {
         'NLS_DATE_FORMAT Setting SQL Check' => '',
         'Setting client_encoding needs to be UNICODE or UTF8.' => '',
         'Setting server_encoding needs to be UNICODE or UTF8.' => '',
-        'Date Format' => '',
+        'Date Format' => 'Format de la Date',
         'Setting DateStyle needs to be ISO.' => '',
         'PostgreSQL 8.x or higher is required.' => '',
         'OTRS Disk Partition' => '',
-        'Disk Usage' => '',
-        'The partition where OTRS is located is almost full.' => '',
+        'Disk Usage' => 'Utilisation du Disque',
+        'The partition where OTRS is located is almost full.' => 'La partition où OTRS est installé est presque pleine.',
         'The partition where OTRS is located has no disk space problems.' =>
-            '',
+            'La partition où OTRS est installé n\'a pas de problèmes d\'espace disque.',
         'Disk Partitions Usage' => '',
         'Distribution' => '',
         'Could not determine distribution.' => '',
-        'Kernel Version' => '',
+        'Kernel Version' => 'Version du Noyau',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
-        'Perl Modules' => '',
+        'Perl Modules' => 'Modules Perl',
         'Not all required Perl modules are correctly installed.' => '',
-        'Perl Version' => '',
+        'Perl Version' => 'Version de Perl',
         'Free Swap Space (%)' => '',
         'No Swap Enabled.' => '',
         'Used Swap Space (MB)' => '',
@@ -648,22 +647,22 @@ sub Data {
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
-        'Tickets Per Month (avg)' => '',
+        'Tickets Per Month (avg)' => 'Tickets Par Mois (moyenne)',
         'Default SOAP Username and Password' => '',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
             '',
         'Default Admin Password' => '',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             '',
-        'Error Log' => '',
+        'Error Log' => 'Logs d\'Erreur',
         'There are error reports in your system log.' => '',
         'File System Writable' => '',
         'The file system on your OTRS partition is not writable.' => '',
-        'Domain Name' => '',
+        'Domain Name' => 'Nom de Domaine',
         'Your FQDN setting is invalid.' => '',
-        'Package installation status' => '',
-        'Some packages are not correctly installed.' => '',
-        'Package List' => '',
+        'Package installation status' => 'Status d\'installation de paquet',
+        'Some packages are not correctly installed.' => 'Des paquets ne sont pas correctement installés.',
+        'Package List' => 'Liste des paquets',
         'SystemID' => 'ID Système',
         'Your SystemID setting is invalid, it should only contain digits.' =>
             '',
@@ -671,7 +670,7 @@ sub Data {
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             '',
-        'Open Tickets' => '',
+        'Open Tickets' => 'Tickets Ouverts',
         'You should not have more than 8,000 open tickets in your system.' =>
             '',
         'Ticket Search Index module' => '',
@@ -683,7 +682,7 @@ sub Data {
         'Orphaned Records In ticket_index Table' => '',
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
             '',
-        'Environment Variables' => '',
+        'Environment Variables' => 'Variables d\'Environnement',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'CGI Accelerator Usage' => '',
@@ -822,7 +821,7 @@ sub Data {
         'auto reply' => 'réponse automatique',
         'auto reply/new ticket' => 'réponse auto/nouveau ticket',
         'Create' => 'Création',
-        'Answer' => '',
+        'Answer' => 'Réponse',
         'Phone call' => 'Appel téléphonique',
         'Ticket "%s" created!' => 'Le ticket %s a été créé !',
         'Ticket Number' => 'Numéro de ticket',
@@ -995,7 +994,7 @@ sub Data {
             '',
         'ACL name' => '',
         'Validity' => 'Validité',
-        'Copy' => '',
+        'Copy' => 'Copier',
         'No data found.' => 'Aucune donnée trouvée',
 
         # Template: AdminACLEdit
@@ -1811,7 +1810,7 @@ sub Data {
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => 'Annuler et fermer la fenêtre',
-        'Go Back' => '',
+        'Go Back' => 'Retour',
         'Please note, that changing this activity will affect the following processes' =>
             '',
         'Activity' => '',
@@ -2021,7 +2020,7 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Edit details' => '',
+        'Edit details' => 'Editer details',
         'Deregister system' => '',
         'Overview of registered systems' => '',
         'System Registration' => '',
@@ -2038,7 +2037,7 @@ sub Data {
             '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             '',
-        'Data Protection' => '',
+        'Data Protection' => 'Protection des données',
         'What are the advantages of system registration?' => '',
         'You will receive updates about relevant security releases.' => '',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
@@ -2056,7 +2055,7 @@ sub Data {
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
             '',
         'Why do I have to provide a description for my system?' => '',
-        'The description of the system is optional.' => '',
+        'The description of the system is optional.' => 'La description du système est optionelle.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
             '',
         'How often does my OTRS system send updates?' => '',
@@ -2398,6 +2397,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => '',
         'Add Template' => '',
         'Edit Template' => '',
+        'A standard template with this name already exists!' => '',
         'Template' => '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
@@ -2429,6 +2429,7 @@ sub Data {
         'Edit Agent' => 'Modifier l\'opérateur ',
         'Firstname' => 'Prénom',
         'Lastname' => 'Nom',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => 'Démarrer',
         'End' => 'Fin',
@@ -2678,8 +2679,10 @@ sub Data {
         'Previous Owner' => 'Propriétaire Précédent',
         'Next state' => 'État suivant',
         'Add Article' => '',
+        'Create an Article' => '',
         'Spell check' => 'Vérifier orthographe',
         'Text Template' => '',
+        'Setting a template will overwrite any text or attachment.' => '',
         'Note type' => 'Type de note',
         'Inform Agent' => 'Informer l\'opérateur',
         'Optional' => 'Optionnel',
@@ -3203,20 +3206,20 @@ sub Data {
         'Agents <-> Groups' => 'Opérateurs <-> Groupes',
         'Agents <-> Roles' => 'Opérateurs <-> Rôles',
         'All customer users of a CustomerID' => '',
-        'Allows adding notes in the close ticket screen of the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran de fermeture du ticket dans l\'interface opérateur.',
-        'Allows adding notes in the ticket free text screen of the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran de champ libre du ticket dans l\'interface opérateur.',
-        'Allows adding notes in the ticket note screen of the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran de note du ticket dans l\'interface opérateur.',
-        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran du propriétaire d\'un ticket zoomé dans l\'interface opérateur.',
-        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran de mise en attente d\'un ticket zoomé dans l\'interface opérateur.',
-        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran de priorité d\'un ticket zoomé dans l\'interface opérateur.',
-        'Allows adding notes in the ticket responsible screen of the agent interface.' =>
-            'Autorise l\'ajout de notes dans l\'écran du responsable d\'un ticket dans l\'interface opérateur.',
+        'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
+        'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Autorise les opérateurs à échanger les axes d\'une statistique si ils en génèrent une.',
         'Allows agents to generate individual-related stats.' => 'Autorise les opérateurs à générer des statistiques relatives à un individu.',
@@ -3498,7 +3501,7 @@ sub Data {
             '',
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
-        'Defines if time accounting is mandatory in the agent interface.' =>
+        'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
             '',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             '',
@@ -4151,6 +4154,8 @@ sub Data {
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             '',
+        'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
+            '',
         'Event module that updates customer user service membership if login changes.' =>
             '',
         'Event module that updates customer users after an update of the Customer.' =>
@@ -4393,6 +4398,7 @@ sub Data {
         'List of all DynamicField events to be displayed in the GUI.' => '',
         'List of all Package events to be displayed in the GUI.' => '',
         'List of all article events to be displayed in the GUI.' => '',
+        'List of all queue events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
@@ -4634,6 +4640,8 @@ sub Data {
             '',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             '',
+        'Retains all services in listings even if they are children of invalid elements.' =>
+            '',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -4686,7 +4694,8 @@ sub Data {
             '',
         'Sets if SLA must be selected by the agent.' => '',
         'Sets if SLA must be selected by the customer.' => '',
-        'Sets if note must be filled in by the agent.' => '',
+        'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
+            '',
         'Sets if service must be selected by the agent.' => '',
         'Sets if service must be selected by the customer.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',
