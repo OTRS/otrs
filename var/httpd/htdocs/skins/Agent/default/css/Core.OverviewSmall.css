@@ -27,8 +27,9 @@
 }
 
 #EmptyMessageSmall {
-    padding: 8px 8px;
-    border-bottom: 1px solid #DDD;
+    padding: 7px;
+    border: 1px solid #DDD;
+    border-left: 0px;
 }
 
 .Overview thead tr {

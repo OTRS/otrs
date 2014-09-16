@@ -28,9 +28,9 @@
 }
 
 #EmptyMessageMedium {
-   padding: 20px 8px 8px;
-   border-bottom: 1px solid #DDD;
-   min-height:15px;
+   padding: 7px;
+   border: 1px solid #DDD;
+   min-height: 0px;
 }
 
 .OverviewMedium li {

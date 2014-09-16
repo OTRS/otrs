@@ -98,8 +98,11 @@
     font-size: 11px;
     display: block;
     padding: 3px 4px;
-    background-color: #ccc;
     color: #333;
+}
+
+.Header .Small i {
+    font-size: 10px;
 }
 
 /**

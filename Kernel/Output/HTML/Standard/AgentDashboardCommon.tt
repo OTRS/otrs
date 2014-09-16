@@ -33,7 +33,7 @@
 [% RenderBlockEnd("ContentSettings") %]
                 </ul>
                 <div class="Buttons NoMargin">
-                    <button class="button Primary CallForAction" accesskey="g" title="[% Translate("Save settings") | html %] (g)" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save settings") | html %]</span></button>
+                    <button class="Button CallForAction" accesskey="g" title="[% Translate("Save settings") | html %] (g)" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save settings") | html %]</span></button>
                 </div>
             </form>
         </div>

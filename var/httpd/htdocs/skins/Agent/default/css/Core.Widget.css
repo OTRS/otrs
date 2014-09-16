@@ -129,6 +129,10 @@ ul.Tablelike li.Header + li {
     /* END IE9 Hover Bug Workaround */
 }
 
+.WidgetSimple.QueueOverview > .Content {
+    padding-bottom: 2px;
+}
+
 .WidgetSimple.Collapsed > .Content {
     display: none;
 }
@@ -146,19 +150,11 @@ ul.Tablelike li.Header + li {
 }
 
 .WidgetSimple .Buttons {
-    background: #ddd;
-    background: -moz-linear-gradient(top,  #eee 0%, #ddd 50%, #ccc 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee), color-stop(50%,#ddd), color-stop(100%,#ccc));
-    background: -webkit-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
-    background: -o-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
-    background: -ms-linear-gradient(top,  #eee 0%,#ddd 50%,#ccc 100%);
-    background: linear-gradient(to bottom,  #eee 0%,#ddd 50%,#ccc 100%);
     border-top: 1px solid #ccc;
     margin: 15px -8px -10px -8px;
     padding: 10px 10px 9px 10px;
     text-align: center;
     font-size: 11px;
-    text-shadow: 1px 1px 1px #fff;
 }
 
 .WidgetSimple .Buttons.NoMargin {
