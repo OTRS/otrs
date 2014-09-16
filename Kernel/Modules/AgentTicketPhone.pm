@@ -1377,7 +1377,7 @@ sub Run {
             my $ChatArticleID;
 
             if (@ChatMessageList) {
-                my $JSONBody = $Kernel::OM->Get('JSONObject')->Encode(
+                my $JSONBody = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
                     Data => \@ChatMessageList,
                 );
 
@@ -1398,7 +1398,7 @@ sub Run {
 
                     # From             => $GetParam{From},
                     # To               => $To,
-                    Subject        => $Kernel::OM->Get('LanguageObject')->Translate('Chat'),
+                    Subject        => $Kernel::OM->Get('Kernel::Language')->Translate('Chat'),
                     Body           => $JSONBody,
                     MimeType       => 'application/json',
                     Charset        => $Self->{LayoutObject}->{UserCharset},
