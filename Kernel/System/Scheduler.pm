@@ -183,36 +183,41 @@ sub Run {
         # try to update PID changed time
         $Self->_PIDChangedTimeUpdate();
 
-        # skip if can't delete task
-        next TASKITEM
-            if !$Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-            ->TaskDelete( ID => $TaskItem->{ID} );
-
         # check if need to reschedule
         if ( $TaskResult->{ReSchedule} ) {
 
-            # set new due time
-            my %ReScheduleTaskData = (
-                DueTime => scalar $TaskResult->{DueTime},
-                Data    => scalar $TaskResult->{Data},
-                Type    => scalar $TaskItem->{Type},
+            # reschedule: update the current task
+            my $Success = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskUpdate(
+                ID      => $TaskItem->{ID},
+                DueTime => $TaskResult->{DueTime},
+                Data    => $TaskResult->{Data},
+                Type    => $TaskItem->{Type},
             );
-
-            # reschedule: create a new task
-            my $TaskID = $Self->TaskRegister(%ReScheduleTaskData);
 
             # check if task was rescheduled successfully
-            if ( !$TaskID ) {
+            if ( !$Success ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Could not reschedule task",
+                    Message  => "Could not reschedule task.",
                 );
+
+                # delete the task
+                $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+                    ->TaskDelete( ID => $TaskItem->{ID} );
+
                 next TASKITEM;
             }
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'info',
-                Message  => "Task is rescheduled.",
+                Message  => "Task is rescheduled (TaskID: $TaskItem->{ID}).",
             );
+        }
+        else {
+
+            # delete the task
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
+                ->TaskDelete( ID => $TaskItem->{ID} );
         }
     }
 
