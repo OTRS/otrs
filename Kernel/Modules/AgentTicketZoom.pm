@@ -2242,6 +2242,10 @@ sub _ArticleTree {
                 else {
                     $Item->{ArticleData}->{MSSecurityRestricted} = 'security="restricted"';
                 }
+
+                if ($Item->{ArticleData}->{ArticleType} eq 'chat-external' || $Item->{ArticleData}->{ArticleType} eq 'chat-internal') {
+                    $Item->{IsChatArticle} = 1;
+                }
             }
             else {
 

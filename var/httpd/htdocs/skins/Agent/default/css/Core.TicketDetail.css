@@ -694,6 +694,12 @@ div.Headline .Flag {
     overflow: auto;
 }
 
+.ChronicalPlainText .ArticleChat {
+    max-height: none;
+    line-height: 120%;
+    font-size: 12px;
+}
+
 .ChronicalArticleiFrame {
     width: 800px;
     height: 400px;
