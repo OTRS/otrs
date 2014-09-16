@@ -30,14 +30,14 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardCustomerUserListFilter' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
         || $Self->{Config}->{Limit};
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit} = int( $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' ) || 1 );
 
     return $Self;
 }
@@ -101,20 +101,20 @@ sub Run {
         = 'Subaction=Element;Name='
         . $Self->{Name} . ';'
         . 'CustomerID='
-        . $Self->{LayoutObject}->LinkEncode( $Param{CustomerID} ) . ';';
+        . $LayoutObject->LinkEncode( $Param{CustomerID} ) . ';';
 
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
+    my %PageNav = $LayoutObject->PageNavBar(
         StartHit       => $Self->{StartHit},
         PageShown      => $Self->{PageShown},
         AllHits        => $Total || 1,
-        Action         => 'Action=' . $Self->{LayoutObject}->{Action},
+        Action         => 'Action=' . $LayoutObject->{Action},
         Link           => $LinkPage,
         AJAXReplace    => 'Dashboard' . $Self->{Name},
         IDPrefix       => 'Dashboard' . $Self->{Name},
         KeepScriptTags => $Param{AJAX},
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentLargeCustomerUserListNavBar',
         Data => {
             %{ $Self->{Config} },
@@ -133,12 +133,12 @@ sub Run {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         # get the group id which is allowed to use the switch to customer feature
-        my $SwitchToCustomerGroupID = $Self->{GroupObject}->GroupLookup(
+        my $SwitchToCustomerGroupID = $GroupObject->GroupLookup(
             Group => $ConfigObject->Get('SwitchToCustomer::PermissionGroup'),
         );
 
         # get user groups, where the user has the rw privilege
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
+        my %Groups = $GroupObject->GroupMemberList(
             UserID => $Self->{UserID},
             Type   => 'rw',
             Result => 'HASH',
@@ -149,7 +149,7 @@ sub Run {
 
             $Self->{SwitchToCustomerPermission} = 1;
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OverviewResultSwitchToCustomer',
             );
         }
@@ -157,7 +157,7 @@ sub Run {
 
     # show add new customer button if there are writable customer backends and if
     # the agent has permission
-    my $AddAccess = $Self->{LayoutObject}->Permission(
+    my $AddAccess = $LayoutObject->Permission(
         Action => 'AdminCustomerUser',
         Type   => 'rw',                  # ro|rw possible
     );
@@ -168,7 +168,7 @@ sub Run {
     );
 
     if ( $AddAccess && scalar keys %CustomerSource ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserAdd',
             Data => {
                 CustomerID => $Self->{CustomerID},
@@ -177,27 +177,27 @@ sub Run {
     }
 
     # get the permission for the phone ticket creation
-    my $NewAgentTicketPhonePermission = $Self->{LayoutObject}->Permission(
+    my $NewAgentTicketPhonePermission = $LayoutObject->Permission(
         Action => 'AgentTicketPhone',
         Type   => 'rw',
     );
 
     # check the permission for the phone ticket creation
     if ($NewAgentTicketPhonePermission) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewResultNewAgentTicketPhone',
         );
     }
 
     # get the permission for the email ticket creation
-    my $NewAgentTicketEmailPermission = $Self->{LayoutObject}->Permission(
+    my $NewAgentTicketEmailPermission = $LayoutObject->Permission(
         Action => 'AgentTicketEmail',
         Type   => 'rw',
     );
 
     # check the permission for the email ticket creation
     if ($NewAgentTicketEmailPermission) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewResultNewAgentTicketEmail',
         );
     }
@@ -207,7 +207,7 @@ sub Run {
     @CustomerKeys = splice @CustomerKeys, $Self->{StartHit} - 1, $Self->{PageShown};
 
     for my $CustomerKey (@CustomerKeys) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserListRow',
             Data => {
                 %Param,
@@ -218,7 +218,7 @@ sub Run {
 
         # can edit?
         if ( $AddAccess && scalar keys %CustomerSource ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentLargeCustomerUserListRowCustomerKeyLink',
                 Data => {
                     %Param,
@@ -228,7 +228,7 @@ sub Run {
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentLargeCustomerUserListRowCustomerKeyText',
                 Data => {
                     %Param,
@@ -244,17 +244,18 @@ sub Run {
         # 2. current user has access to the chat
         # 3. this customer user is online
         my $ChatStartingAgentsGroup
-            = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+            = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
 
         if (
-            $Self->{ConfigObject}->Get('ChatEngine::Active')
-            && $Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"}
-            && $Self->{ConfigObject}->Get('ChatEngine::ChatDirection::AgentToCustomer')
+            $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active')
+            && $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+            && $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::ChatDirection::AgentToCustomer')
             )
         {
 
             # check if this customer is actually online
-            my @Sessions         = $Self->{SessionObject}->GetAllSessionIDs();
+            my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            my @Sessions         = $SessionObject->GetAllSessionIDs();
             my $CustomerIsOnline = 0;
 
             SESSIONID:
@@ -263,7 +264,7 @@ sub Run {
                 next SESSIONID if !$SessionID;
 
                 # get session data
-                my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+                my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
 
                 next SESSIONID if !%Data;
                 next SESSIONID if !$Data{UserID};
@@ -274,11 +275,11 @@ sub Run {
 
             if ($CustomerIsOnline) {
 
-                my $UserFullname = $Self->{CustomerUserObject}->CustomerName(
+                my $UserFullname = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
                     UserLogin => $CustomerKey,
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ContentLargeCustomerUserListRowCustomerKeyChatStart',
                     Data => {
                         UserFullname => $UserFullname,
@@ -291,7 +292,7 @@ sub Run {
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        my $TicketCountOpen = $Self->{TicketObject}->TicketSearch(
+        my $TicketCountOpen = $TicketObject->TicketSearch(
             StateType            => 'Open',
             CustomerUserLoginRaw => $CustomerKey,
             Result               => 'COUNT',
@@ -300,7 +301,7 @@ sub Run {
             CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsOpen',
             Data => {
                 %Param,
@@ -309,7 +310,7 @@ sub Run {
             },
         );
 
-        my $TicketCountClosed = $Self->{TicketObject}->TicketSearch(
+        my $TicketCountClosed = $TicketObject->TicketSearch(
             StateType            => 'Closed',
             CustomerUserLoginRaw => $CustomerKey,
             Result               => 'COUNT',
@@ -318,7 +319,7 @@ sub Run {
             CacheTTL             => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserListRowCustomerUserTicketsClosed',
             Data => {
                 %Param,
@@ -329,7 +330,7 @@ sub Run {
 
         # check the permission for the phone ticket creation
         if ($NewAgentTicketPhonePermission) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentLargeCustomerUserListNewAgentTicketPhone',
                 Data => {
                     %Param,
@@ -341,7 +342,7 @@ sub Run {
 
         # check the permission for the email ticket creation
         if ($NewAgentTicketEmailPermission) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ContentLargeCustomerUserListNewAgentTicketEmail',
                 Data => {
                     %Param,
@@ -353,7 +354,7 @@ sub Run {
 
         if ( $ConfigObject->Get('SwitchToCustomer') && $Self->{SwitchToCustomerPermission} )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OverviewResultRowSwitchToCustomer',
                 Data => {
                     %Param,
@@ -366,7 +367,7 @@ sub Run {
 
     # show "none" if there are no customers
     if ( !%{$CustomerIDs} ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeCustomerUserListNone',
             Data => {},
         );
@@ -378,7 +379,7 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
         my $NameHTML = $Self->{Name};
         $NameHTML =~ s{-}{_}xmsg;
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentLargeTicketGenericRefresh',
             Data => {
                 %{ $Self->{Config} },
@@ -390,7 +391,7 @@ sub Run {
         );
     }
 
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardCustomerUserList',
         Data         => {
             %{ $Self->{Config} },
