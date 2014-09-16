@@ -2717,9 +2717,7 @@ sub _ArticleItem {
         }
     }
 
-    # show body as html or plain text
-    my $ViewMode = 'BodyHTML';
-
+    # Special treatment for chat articles
     if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' ) {
 
         $Self->{LayoutObject}->Block(
@@ -2730,26 +2728,30 @@ sub _ArticleItem {
                 ),
             },
         );
+
+        return 1;
     }
-    else {
 
-        # in case show plain article body (if no html body as attachment exists of if rich
-        # text is not enabled)
-        if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
-            $ViewMode = 'BodyPlain';
+    # show body as html or plain text
+    my $ViewMode = 'BodyHTML';
 
-            # remember plain body for further processing by ArticleViewModules
-            $Article{BodyPlain} = $Article{Body};
 
-            # html quoting
-            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                Text           => $Article{Body},
-                VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
-                HTMLResultMode => 1,
-                LinkFeature    => 1,
-            );
-        }
+    # in case show plain article body (if no html body as attachment exists of if rich
+    # text is not enabled)
+    if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
+        $ViewMode = 'BodyPlain';
+
+        # remember plain body for further processing by ArticleViewModules
+        $Article{BodyPlain} = $Article{Body};
+
+        # html quoting
+        $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
+            NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+            Text           => $Article{Body},
+            VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+            HTMLResultMode => 1,
+            LinkFeature    => 1,
+        );
     }
 
     # security="restricted" may break SSO - disable this feature if requested
