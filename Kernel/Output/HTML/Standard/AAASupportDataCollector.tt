@@ -106,7 +106,7 @@
 
 # OS/Load.pm
 [% Translate("System Load") | html %]
-[% Translate("The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a 8 CPUs system is OK.") | html %]
+[% Translate("The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).") | html %]
 
 # OS/PerlModules.pm
 [% Translate("Perl Modules") | html %]
