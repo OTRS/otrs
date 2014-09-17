@@ -55,8 +55,8 @@ sub new {
     $Self->{ZoomExpandSort} = $Self->{ParamObject}->GetParam( Param => 'ZoomExpandSort' );
 
     # Please note: ZoomTimeline is an OTRSBusiness feature
-    $Self->{ZoomTimeline}  = $Self->{ParamObject}->GetParam( Param => 'ZoomTimeline' );
-    if ($Self->{ConfigObject}->Get('ChronicalViewEnabled') != 1) {
+    $Self->{ZoomTimeline} = $Self->{ParamObject}->GetParam( Param => 'ZoomTimeline' );
+    if ( $Self->{ConfigObject}->Get('ChronicalViewEnabled') != 1 ) {
         $Self->{ZoomTimeline} = 0;
     }
 
@@ -202,7 +202,7 @@ sub new {
 
     # Add custom files to the zoom's frontend module registration on the fly
     #    to avoid conflicts with other modules.
-    if ($Self->{ConfigObject}->Get('ChronicalViewEnabled') == 1) {
+    if ( $Self->{ConfigObject}->Get('ChronicalViewEnabled') == 1 ) {
         my $ZoomFrontendConfiguration
             = $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketZoom};
         my @CustomJSFiles = (
@@ -1762,7 +1762,7 @@ sub _ArticleTree {
         Name => 'Tree',
         Data => {
             %Param,
-            TableClasses  => $TableClasses,
+            TableClasses => $TableClasses,
             ZoomTimeline => $Self->{ZoomTimeline},
         },
     );
@@ -1834,8 +1834,10 @@ sub _ArticleTree {
         );
 
         # build article filter reset link only if filter is set
-        if (   ( !$Self->{ZoomTimeline} && $Self->{ArticleFilter} )
-            || ( $Self->{ZoomTimeline} && $Self->{EventTypeFilter} ) )
+        if (
+            ( !$Self->{ZoomTimeline} && $Self->{ArticleFilter} )
+            || ( $Self->{ZoomTimeline} && $Self->{EventTypeFilter} )
+            )
         {
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleFilterResetLink',
@@ -2072,12 +2074,16 @@ sub _ArticleTree {
         );
 
         # sort out non-filtered event types (if applicable)
-        if ( $Self->{EventTypeFilter}->{EventTypeID}
-            && IsArrayRefWithData( $Self->{EventTypeFilter}->{EventTypeID} ) )
+        if (
+            $Self->{EventTypeFilter}->{EventTypeID}
+            && IsArrayRefWithData( $Self->{EventTypeFilter}->{EventTypeID} )
+            )
         {
             for my $EventType ( sort keys %{ $Self->{HistoryTypeMapping} } ) {
-                if ( $EventType ne 'NewTicket' && !grep { $_ eq $EventType }
-                    @{ $Self->{EventTypeFilter}->{EventTypeID} } )
+                if (
+                    $EventType ne 'NewTicket' && !grep { $_ eq $EventType }
+                    @{ $Self->{EventTypeFilter}->{EventTypeID} }
+                    )
                 {
                     push @TypesDodge, $EventType;
                 }
@@ -2243,7 +2249,9 @@ sub _ArticleTree {
                     $Item->{ArticleData}->{MSSecurityRestricted} = 'security="restricted"';
                 }
 
-                if ($Item->{ArticleData}->{ArticleType} eq 'chat-external' || $Item->{ArticleData}->{ArticleType} eq 'chat-internal') {
+                if (   $Item->{ArticleData}->{ArticleType} eq 'chat-external'
+                    || $Item->{ArticleData}->{ArticleType} eq 'chat-internal' )
+                {
                     $Item->{IsChatArticle} = 1;
                 }
             }
@@ -2739,7 +2747,6 @@ sub _ArticleItem {
     # show body as html or plain text
     my $ViewMode = 'BodyHTML';
 
-
     # in case show plain article body (if no html body as attachment exists of if rich
     # text is not enabled)
     if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {
@@ -3186,7 +3193,8 @@ sub _ArticleMenu {
         )
     {
 
-        my $Link        = "Action=AgentTicketNote;TicketID=$Ticket{TicketID};ReplyToArticle=$Article{ArticleID}";
+        my $Link
+            = "Action=AgentTicketNote;TicketID=$Ticket{TicketID};ReplyToArticle=$Article{ArticleID}";
         my $Description = 'Reply to note';
 
         # set important menu item
@@ -3213,7 +3221,7 @@ sub _CollectArticleAttachments {
     # download type
     my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
 
-    $Article{AtmCount} = scalar keys $Article{Atms};
+    $Article{AtmCount} = scalar keys %{ $Article{Atms} // {} };
 
     # if attachment will be forced to download, don't open a new download window!
     my $Target = 'target="AttachmentWindow" ';
