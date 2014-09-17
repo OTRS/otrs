@@ -75,9 +75,10 @@ sub new {
 
 generate salutation
 
-    my %Salutation = $TemplateGeneratorObject->Salutation(
+    my $Salutation = $TemplateGeneratorObject->Salutation(
         TicketID => 123,
         UserID   => 123,
+        Data     => $ArticleHashRef,
     );
 
 returns
@@ -154,6 +155,7 @@ generate salutation
     my $Signature = $TemplateGeneratorObject->Signature(
         TicketID => 123,
         UserID   => 123,
+        Data     => $ArticleHashRef,
     );
 
 or
@@ -161,6 +163,7 @@ or
     my $Signature = $TemplateGeneratorObject->Signature(
         QueueID => 123,
         UserID  => 123,
+        Data    => $ArticleHashRef,
     );
 
 returns
