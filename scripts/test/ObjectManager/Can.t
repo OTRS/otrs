@@ -48,8 +48,9 @@ my @DirectoriesToSearch = (
     '/Custom/Kernel/Output',
     '/Custom/Kernel/System',
     '/Kernel/GenericInterface',
-    '/Kernel/Output/',
+    '/Kernel/Output',
     '/Kernel/System',
+    '/var/packagesetup'
 );
 
 for my $Directory ( sort @DirectoriesToSearch ) {
