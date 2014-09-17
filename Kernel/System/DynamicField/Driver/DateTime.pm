@@ -87,7 +87,7 @@ sub new {
             }
         }
 
-        # check if extension contains more behabiors
+        # check if extension contains more behaviors
         if ( IsHashRefWithData( $Extension->{Behaviors} ) ) {
 
             %{ $Self->{Behaviors} } = (
