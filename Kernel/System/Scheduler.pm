@@ -308,7 +308,7 @@ sub _PIDChangedTimeUpdate {
     }
 
     # get current system time
-    my $CurrentTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+    my $CurrentTime = time();
 
     # check if it's necessary to update change time for pid
     if ( $CurrentTime >= $Self->{PIDTimeToUpdate} ) {

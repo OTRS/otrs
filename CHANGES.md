@@ -1,4 +1,5 @@
 #4.0.0.beta2 20??-??-??
+ - 2014-09-17 Fixed bug#[10736](http://bugs.otrs.org/show_bug.cgi?id=10736) - Wrong update behavior for the proccess change time by the scheduler, when a time zone is used.
  - 2014-09-16 Updated translations, thanks to all translators.
  - 2014-09-15 Added dependency check for Perl module Time::Piece.
  - 2014-09-12 Fixed bug#[10724](http://bugs.otrs.org/show_bug.cgi?id=10724) - Sorting of DynamicField object types based on its Prio does not work.
