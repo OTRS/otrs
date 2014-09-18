@@ -2832,6 +2832,9 @@ sub Data {
         'Article Type' => 'अनुच्छेद प्रकार',
         'Sender Type' => 'प्रेषक का प्रकार',
         'Save filter settings as default' => 'तयशुदा रूप में निस्पादक की व्यवस्थाऐं सुरक्षित करें',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '',
         'This ticket is archived.' => '',
         'Locked' => 'लॉकड',
@@ -2841,6 +2844,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'अनुच्छेद',
         'Add Filter' => 'निस्पादक जोड़ें',
@@ -2848,6 +2852,7 @@ sub Data {
         'Reset Filter' => 'निस्पादक को फिर से निर्धारित करें',
         'Show one article' => 'एक अनुच्छेद दिखाएँ',
         'Show all articles' => 'सभी अनुच्छेद दिखाएँ',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'अपठित अनुच्छेद',
         'No.' => 'संख्या',
         'Important' => '',
@@ -2856,6 +2861,12 @@ sub Data {
         'Outgoing message' => 'जाने वाले संदेश ',
         'Internal message' => 'अंदरूनी संदेश',
         'Resize' => 'आकारबदलें',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '',
@@ -3338,6 +3349,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             'नियंत्रित करता है यदि ग्राहकों को उनके टिकट सॉर्ट करने की क्षमता है।',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

@@ -2837,6 +2837,9 @@ sub Data {
         'Article Type' => 'Type d\'article',
         'Sender Type' => 'Type d\'expéditeur',
         'Save filter settings as default' => 'Sauvegarder les paramètres des filtres en tant que paramètres par défaut',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '',
         'This ticket is archived.' => '',
         'Locked' => 'Verrou ',
@@ -2846,6 +2849,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Article(s)',
         'Add Filter' => 'Ajouter un filtre',
@@ -2853,6 +2857,7 @@ sub Data {
         'Reset Filter' => 'Réinitialiser le filtre',
         'Show one article' => 'Afficher un article',
         'Show all articles' => 'Afficher tous les articles',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Articles non lus',
         'No.' => 'No',
         'Important' => 'Important',
@@ -2861,6 +2866,12 @@ sub Data {
         'Outgoing message' => 'Message sortant',
         'Internal message' => 'Message interne',
         'Resize' => 'Redimensionner',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Pour protéger votre vie privée, les contenus distants ont été bloqués.',
@@ -3344,6 +3355,8 @@ sub Data {
             'Contrôle la possibilité pour les clients de classer leurs demandes.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Contrôle si plus d\'une entrée dans le champ « de » peut être inscrite dans une nouvelle demande téléphonique depuis l\'interface agent.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'Convertit les courriels HTML en messages texte.',

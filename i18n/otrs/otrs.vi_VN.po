@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-09-17 14:42+0000\n"
+"Last-Translator: Kim Sandbladh <kim.sandbladh@otrs.com>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/OTRS/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4149,15 +4149,15 @@ msgstr "Lưu ý"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "You need to add the translations manually into the language translation files."
-msgstr ""
+msgstr "Bạn cần phải thêm các bản dịch bằng tay vào các tập tin ngôn ngữ dịch thuật."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
-msgstr ""
+msgstr "Số lượng hàng"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr ""
+msgstr "Xác định chiều cao (trong dây chuyền) cho lĩnh vực này trong chế độ chỉnh sửa."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
@@ -4165,7 +4165,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
-msgstr ""
+msgstr "Xác định chiều rộng (bằng ký tự) cho lĩnh vực này trong chế độ chỉnh sửa."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
@@ -4185,7 +4185,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
-msgstr ""
+msgstr "Thông báo lỗi"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
@@ -4197,35 +4197,35 @@ msgstr "Thông báo quản trị"
 
 #. Template: AdminEmail
 msgid "With this module, administrators can send messages to agents, group or role members."
-msgstr ""
+msgstr "Với mô-đun này, các quản trị viên có thể gửi tin nhắn cho các thành viên đại lý, nhóm hoặc vai trò."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
-msgstr ""
+msgstr "Tạo tin nhắn hành chính"
 
 #. Template: AdminEmail
 msgid "Your message was sent to"
-msgstr ""
+msgstr "Thông điệp của bạn đã được gửi đến"
 
 #. Template: AdminEmail
 msgid "Send message to users"
-msgstr ""
+msgstr "Gửi tin nhắn cho người sử dụng"
 
 #. Template: AdminEmail
 msgid "Send message to group members"
-msgstr ""
+msgstr "Gửi tin nhắn cho các thành viên nhóm"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
-msgstr ""
+msgstr "Thành viên trong nhóm cần phải có sự cho phép"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
-msgstr ""
+msgstr "Gửi tin nhắn cho các thành viên đóng vai trò"
 
 #. Template: AdminEmail
 msgid "Also send to customers in groups"
-msgstr ""
+msgstr "Cũng có thể gửi cho khách hàng trong các nhóm"
 
 #. Template: AdminEmail
 msgid "Body"
@@ -4241,7 +4241,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add job"
-msgstr ""
+msgstr "Thêm công việc"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -4253,107 +4253,107 @@ msgstr "Vận hành ngay!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
-msgstr ""
+msgstr "Xóa nhiệm vụ này"
 
 #. Template: AdminGenericAgent
 msgid "Run this task"
-msgstr ""
+msgstr "Chạy nhiệm vụ này"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
-msgstr ""
+msgstr "Thiết đặt công việc"
 
 #. Template: AdminGenericAgent
 msgid "Job name"
-msgstr ""
+msgstr "Tên công việc"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr ""
+msgstr "Tên bạn đã nhập đã tồn tại."
 
 #. Template: AdminGenericAgent
 msgid "Toggle this widget"
-msgstr ""
+msgstr "Chuyển các phụ tùng này"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution (multiple tickets)"
-msgstr ""
+msgstr "Thực hiện tự động (nhiều vé)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "Lịch trình thực hiện"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
-msgstr ""
+msgstr "Phút lịch trình"
 
 #. Template: AdminGenericAgent
 msgid "Schedule hours"
-msgstr ""
+msgstr "Tiếng đồng hồ lịch trình"
 
 #. Template: AdminGenericAgent
 msgid "Schedule days"
-msgstr ""
+msgstr "Lịch trình ngày chuẩn"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr ""
+msgstr "Hiện nay đại diện chung công việc này sẽ không chạy tự động."
 
 #. Template: AdminGenericAgent
 msgid "To enable automatic execution select at least one value from minutes, hours and days!"
-msgstr ""
+msgstr "Để cho phép thực hiện tự động chọn ít nhất một giá trị từ phút, giờ và ngày!"
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
-msgstr ""
+msgstr "Tổ chức sự kiện có trụ sở chấp hành thực hiện (vé duy nhất)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr ""
+msgstr "Gây nên sự kiện"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "Danh sách tất cả các sự kiện được cấu hình"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "Xóa sự kiện này"
 
 #. Template: AdminGenericAgent
 msgid "Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job."
-msgstr ""
+msgstr "Ngoài ra hay cách khác để thực hiện một chu kỳ, bạn có thể xác định sự kiện vé sẽ kích hoạt công việc này."
 
 #. Template: AdminGenericAgent
 msgid "If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket."
-msgstr ""
+msgstr "Nếu một sự kiện vé bị sa thải bộ lọc vé sẽ được áp dụng để kiểm tra xem vé phù hợp. Chỉ khi đó công việc được chạy trên vé đó."
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr ""
+msgstr "Bạn có thực sự muốn xóa kích hoạt sự kiện này?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr ""
+msgstr "Thêm sự kiện kích hoạt"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name and click on the \"+\" button"
-msgstr ""
+msgstr "Để thêm một sự kiện mới chọn đối tượng và tên của sự kiện và nhấn vào nút \"+\""
 
 #. Template: AdminGenericAgent
 msgid "Duplicate event."
-msgstr ""
+msgstr "Sự kiện trùng lặp."
 
 #. Template: AdminGenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
+msgstr "Sự kiện này đã được gắn liền với công việc, hãy sử dụng một cái khác."
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
-msgstr ""
+msgstr "Xóa Kích hoạt sự kiện này"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Chọn Vé"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -4365,7 +4365,7 @@ msgstr "ví dụ: 234321"
 
 #. Template: AdminGenericAgent
 msgid "Customer login"
-msgstr ""
+msgstr "Khách hàng đăng nhập"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -4373,7 +4373,7 @@ msgstr "ví dụ: U5150"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr ""
+msgstr "Toàn văn tìm kiếm trong bài viết (ví dụ: \"Mar *\" hoặc \"Baue *\")."
 
 #. Template: AdminGenericAgent
 msgid "Agent"
@@ -4381,11 +4381,11 @@ msgstr "Nhân viên"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr ""
+msgstr "Khóa vé"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
-msgstr ""
+msgstr "Tạo lần cập nhật"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
@@ -4401,19 +4401,19 @@ msgstr "Thẻ đã tạo giữa"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr ""
+msgstr "Thay đổi lần"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr ""
+msgstr "Không thay đổi thời gian cài đặt."
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
-msgstr ""
+msgstr "Vé thay đổi"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed between"
-msgstr ""
+msgstr "Vé thay đổi giữa"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -14845,5 +14845,45 @@ msgstr "Lựa chọn hàng đợi trong số các hàng đợi ưa thích của 
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 

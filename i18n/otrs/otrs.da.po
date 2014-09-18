@@ -14845,3 +14845,43 @@ msgstr "Dit valg af foretrukne køer. Du får besked om handlinger i disse køer
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr ""
+

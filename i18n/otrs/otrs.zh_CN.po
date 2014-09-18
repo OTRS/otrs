@@ -1,11 +1,12 @@
 #
 # Translators:
+# 陈德文 <sggggy@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-09-18 09:25+0000\n"
+"Last-Translator: 陈德文 <sggggy@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6203,7 +6204,7 @@ msgstr "可选的字段"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
-msgstr "指排的字段"
+msgstr "指派的字段"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Details for Field"
@@ -14843,5 +14844,45 @@ msgstr "您的最常用队列，如果您设置了邮件通知，您将会得到
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 

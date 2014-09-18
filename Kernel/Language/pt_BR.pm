@@ -2835,6 +2835,9 @@ sub Data {
         'Article Type' => 'Tipo de Artigo',
         'Sender Type' => 'Tipo de Remetente',
         'Save filter settings as default' => 'Salvar configurações de filtro como padrão',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Arquivar',
         'This ticket is archived.' => 'Este chamado está arquivado.',
         'Locked' => 'Bloqueio',
@@ -2844,6 +2847,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'Não existem diálogos disponíveis neste ponto do processo.',
         'This item has no articles yet.' => 'Este item não tem artigos ainda.',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Artigo(s)',
         'Add Filter' => 'Adicionar Filtro',
@@ -2851,6 +2855,7 @@ sub Data {
         'Reset Filter' => 'Reiniciar Filtro',
         'Show one article' => 'Exibir Um Artigo',
         'Show all articles' => 'Exibir Todos os Artigos',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Artigos Não Lidos',
         'No.' => 'Núm.',
         'Important' => 'Importante',
@@ -2859,6 +2864,12 @@ sub Data {
         'Outgoing message' => 'Mensagem de Saída',
         'Internal message' => 'Mensagem Interna',
         'Resize' => 'Redimensionar',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Para proteger sua privacidade, o conteúdo remoto foi desabilitado.',
@@ -3341,6 +3352,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             'Controla se os clientes têm a capacidade de classificar os seus chamados.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Controla se o marcador de visualização de chamados e artigos são removidos quando um chamado é arquivado.',

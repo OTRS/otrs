@@ -2836,6 +2836,9 @@ sub Data {
         'Article Type' => 'Soort interactie',
         'Sender Type' => 'Soort verzender',
         'Save filter settings as default' => 'Sla filter op als standaard',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Archief',
         'This ticket is archived.' => 'Dit ticket is gearchiveerd.',
         'Locked' => 'Vergrendeling',
@@ -2845,6 +2848,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'Op dit moment zijn er geen dialogen beschikbaar.',
         'This item has no articles yet.' => 'Dit item heeft nog geen interacties.',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Interactie(s)',
         'Add Filter' => 'Nieuw filter',
@@ -2852,6 +2856,7 @@ sub Data {
         'Reset Filter' => 'Herstel filter',
         'Show one article' => 'Toon één interactie',
         'Show all articles' => 'Toon alle interacties',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Ongelezen interacties',
         'No.' => 'Nr.',
         'Important' => 'Belangrijk',
@@ -2860,6 +2865,12 @@ sub Data {
         'Outgoing message' => 'Uitgaand bericht',
         'Internal message' => 'Intern bericht',
         'Resize' => 'Grootte wijzigen',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Om uw privacy te beschermen is actieve inhoud geblokkeerd.',
@@ -3342,6 +3353,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

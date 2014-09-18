@@ -2833,6 +2833,9 @@ sub Data {
         'Article Type' => '記事タイプ',
         'Sender Type' => '送信者タイプ',
         'Save filter settings as default' => '既定のフィルタ設定を保存',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'アーカイブ',
         'This ticket is archived.' => 'このチケットはアーカイブされています。',
         'Locked' => 'ロック状態',
@@ -2842,6 +2845,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => 'このチケットにはまだ記事がありません。',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => '記事',
         'Add Filter' => 'フィルタ追加',
@@ -2849,6 +2853,7 @@ sub Data {
         'Reset Filter' => 'フィルタをリセット',
         'Show one article' => '一つの記事を閲覧',
         'Show all articles' => '全ての記事を閲覧',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => '未読記事',
         'No.' => '番号',
         'Important' => '重要',
@@ -2857,6 +2862,12 @@ sub Data {
         'Outgoing message' => '送信メッセージ',
         'Internal message' => '内部メッセージ',
         'Resize' => 'リサイズ',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '',
@@ -3339,6 +3350,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '顧客が自らのチケットをソートする機能を持つかどうかを、コントロールします。',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

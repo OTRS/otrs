@@ -2830,6 +2830,9 @@ sub Data {
         'Article Type' => 'Тип чланка',
         'Sender Type' => 'Тип пошиљаоца',
         'Save filter settings as default' => 'Сачувај подешавања филтера као подразумевана',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Архивирај',
         'This ticket is archived.' => 'Овај тикет је архивиран',
         'Locked' => 'Закључано',
@@ -2839,6 +2842,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'У овом тренутку нема слободних дијалога у процесу.',
         'This item has no articles yet.' => 'Ова ставка још увек нема члканке.',
+        'Ticket Timeline View' => '',
         'Article Overview' => 'Преглед чланка',
         'Article(s)' => 'Чланак/Чланци',
         'Add Filter' => 'Додај Филтер',
@@ -2846,6 +2850,7 @@ sub Data {
         'Reset Filter' => 'Ресетуј Филтер',
         'Show one article' => 'Прикажи један чланак',
         'Show all articles' => 'Прикажи све чланке',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Непрочитани чланци',
         'No.' => 'Бр.',
         'Important' => 'Важно',
@@ -2854,6 +2859,12 @@ sub Data {
         'Outgoing message' => 'Одлазна порука',
         'Internal message' => 'Интерна порука',
         'Resize' => 'Промена величине',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Да бисте заштитили своју приватност, удаљени садржај је блокиран.',
@@ -3337,6 +3348,8 @@ sub Data {
             'Контролише да ли корисници имају могућност да сортирају своје тикете.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Контролише да ли више од једног улаза може бити подешено у новом телефонском тикету у интерфејсу оператера.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Контролише да ли су заставицом обележени тикет и чланак уклоњени када је тикет архивиран.',
         'Converts HTML mails into text messages.' => 'Конвертује HTML поруке у текстуалне поруке.',

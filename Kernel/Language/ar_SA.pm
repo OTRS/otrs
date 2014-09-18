@@ -2832,6 +2832,9 @@ sub Data {
         'Article Type' => '',
         'Sender Type' => '',
         'Save filter settings as default' => '',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '',
         'This ticket is archived.' => '',
         'Locked' => 'مقفل',
@@ -2841,6 +2844,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => '',
         'Add Filter' => '',
@@ -2848,6 +2852,7 @@ sub Data {
         'Reset Filter' => '',
         'Show one article' => '',
         'Show all articles' => '',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => '',
         'No.' => '',
         'Important' => '',
@@ -2856,6 +2861,12 @@ sub Data {
         'Outgoing message' => '',
         'Internal message' => '',
         'Resize' => '',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '',
@@ -3338,6 +3349,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

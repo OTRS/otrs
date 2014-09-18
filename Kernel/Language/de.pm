@@ -2067,7 +2067,7 @@ sub Data {
             'Unter keinen Umständen werden jegliche Daten verkauft oder an unauthorisierte Dritte weitergegeben.',
         'The following explanation provides you with an overview of how we guarantee this protection and which type of data is collected for which purpose.' =>
             'Die nachfolgende Erklärung gibt Ihnen einen Überblick darüber, wie wir diesen Schutz gewährleisten und welche Art von Daten zu welchem ​​Zweck erhoben werden.',
-        'Data Handling with \'System Registration\'' => '',
+        'Data Handling with \'System Registration\'' => 'Datenverarbeitung bei \'Systemregistrierung\'',
         'Information received through the \'Service Center\' is saved by OTRS Group.' =>
             'Informationen welche über das \'Service Center\' gesendet werden, werden von der OTRS Group gespeichert.',
         'This only applies to data that OTRS Group requires to analyze the performance and function of the OTRS server or to establish contact.' =>
@@ -2081,26 +2081,26 @@ sub Data {
         'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
             'Die OTRS Gruppe wird Ihre Daten nicht an Dritte weitergeben, es sei denn diese werden zur weiteren Geschäftsabwicklung benötigt.',
         'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
-            '',
+            'Die OTRS Gruppe wird Ihre Daten nur an öffentliche Einrichtungen und Behörden weiterleiten, wenn dies per Gesetz oder per Gerichtsbeschluss erforderlich ist.',
         'Amendment of Data Protection Policy' => 'Änderung der Datenschutzbestimmungen',
         'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
             'Die OTRS Group behält sich vor Sicherheits- und Datenschutzbestimmungen, wenn diese durch technische Entwicklungen notwendig sind, zu ändern',
         'In this case we will also adapt our information regarding data protection accordingly.' =>
             'In diesem Fall werden wir ebenfalls unsere Datenschutzbestimmungen anpassen.',
         'Please regularly refer to the latest version of our Data Protection Policy.' =>
-            '',
+            'Bitte überprüfen Sie regelmäßig ob eine neuere Version  unserer Datenschutzerklärung verfügbar ist.',
         'Right to Information' => 'Anspruch auf Information',
         'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
-            '',
+            'Sie haben jederzeit das Recht Einsicht in Daten die zu Ihrer Person gespeichert sind, deren Herkunft und Empfänger zu verlangen, sowie den Zweck der Datenverarbeitung zu erfahren.',
         'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
-            '',
+            'Sie können die über Sie gespeicherten Daten durch eine E-Mail an info@otrs.com anfordern.',
         'Further Information' => 'Weitere Informationen',
         'Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time.' =>
-            '',
+            'Ihr Vertrauen ist uns sehr wichtig. Wir sind bereit, Sie über die Verarbeitung Ihrer personenbezogenen Daten jederzeit zu informieren.',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
-            '',
+            'Wenn Sie weitere Fragen haben, die durch diese Datenschutzerklärung nicht beantwortet werden konnten oder wenn Sie nähere Informationen zu einem bestimmten Thema benötigen, wenden Sie sich an info@otrs.com.',
         'If you deregister your system, you will lose these benefits:' =>
-            '',
+            'Wenn Sie ihre Systemregistrierung löschen, verlieren Sie folgende Vorteile:',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             'Um Ihr System zu deregistrieren, loggen Sie sich bitte mit Ihrer OTRS-ID ein.',
         'OTRS-ID' => 'OTRS-ID',
@@ -2174,7 +2174,7 @@ sub Data {
         'To manage private certificate relations click on a private key icon.' =>
             'Um Zertifikats-Zugehörigkeiten zu verwalten können Sie auf das Icon eines privaten Schlüssels klicken.',
         'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
-            '',
+            'Hier können Sie Beziehungen zu Ihren privaten Zertifikat hinzufügen, diese werden jedes Mal zur  S/MIME-Signatur hinzugefügt, wenn Sie dieses Zertifikat verwenden um eine E-Mail zu signieren.',
         'See also' => 'Siehe auch',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Über diesen Weg können die Zertifikate und privaten Schlüssel im Dateisystem bearbeitet werden.',
@@ -2210,7 +2210,7 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'SQL Box',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
-            '',
+            'Hier können Sie SQL-Befehle eingeben um diese direkt an die Anwendungsdatenbank zu senden. Es ist nicht möglich, den Inhalt der Tabellen zu ändern, erlaubt sind nur SELECT-Abfragen.',
         'Only select queries are allowed.' => 'Es sind nur Select Abfragen erlaubt',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Die Syntax Ihrer SQL-Abfrage ist fehlerhaft. Bitte prüfen.',
@@ -2542,7 +2542,7 @@ sub Data {
         'General Information' => 'Allgemeine Informationen',
         'Scheduler is an OTRS separated process that perform asynchronous tasks' =>
             'Der Scheduler ist ein OTRS-Prozess, der asynchrone Aufgaben ausführt.',
-        '(e.g. Generic Interface asynchronous invoker tasks)' => '',
+        '(e.g. Generic Interface asynchronous invoker tasks)' => '(z.B.: Generic Interface asynchrone Invoker Aufgaben)',
         'It is necessary to have the Scheduler running to make the system work correctly!' =>
             'Es ist notwendig das der Scheduler läuft, damit das System ordnungsgemäß funktioniert!',
         'Starting Scheduler' => 'Scheduler starten',
@@ -2830,6 +2830,9 @@ sub Data {
         'Article Type' => 'Artikel Typ',
         'Sender Type' => 'Absender Typ',
         'Save filter settings as default' => 'Filter-Einstellungen als Standard speichern',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Archiv',
         'This ticket is archived.' => 'Dieses Ticket ist archiviert.',
         'Locked' => 'Sperre',
@@ -2839,6 +2842,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
+        'Ticket Timeline View' => '',
         'Article Overview' => 'Artikelübersicht',
         'Article(s)' => 'Beitrag/Beiträge',
         'Add Filter' => 'Filter hinzufügen',
@@ -2846,6 +2850,7 @@ sub Data {
         'Reset Filter' => 'Filter zurücksetzen',
         'Show one article' => 'Einen Beitrag anzeigen',
         'Show all articles' => 'Alle Beiträge anzeigen',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Ungelesene Beiträge',
         'No.' => 'Nr.',
         'Important' => 'Wichtig',
@@ -2854,6 +2859,12 @@ sub Data {
         'Outgoing message' => 'Ausgehende Nachricht',
         'Internal message' => 'Interne Nachricht',
         'Resize' => 'Größe anpassen',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.',
@@ -3138,25 +3149,25 @@ sub Data {
         '(UserLogin) Firstname Lastname' => '(BenutzerLogin) Vorname Nachname',
         '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
-            '',
+            'Eine Liste der dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere dynamische Felder im Haupt-Ticket geändert.',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'Erfasste Zeit',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
-            '',
+            'Aktiviert einen Blinkmechanismus der Warteschlange, die das älteste Ticket enthält.',
         'Activates lost password feature for agents, in the agent interface.' =>
             'Aktiviert die "Passwort vergessen" Funktion für Agenten in der Agentenoberfläche.',
         'Activates lost password feature for customers.' => 'Aktiviert die "Passwort vergessen" Funktion für Kunden.',
         'Activates support for customer groups.' => 'Aktiviert die Unterstützung für Kundengruppen.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
-            '',
+            'Aktiviert verschiedene Artikelfilter in der Zoomansicht, um festzulegen, welche Artikel angezeigt werden sollen.',
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' =>
-            '',
+            'Aktiviert die verfügbaren Skins auf dem System. Wert 1 bedeutet aktiv, 0 bedeutet inaktiv.',
         'Activates the ticket archive system search in the customer interface.' =>
             'Aktiviert die Suche im Ticket-Archiv für das Kunden-Interface.',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
-            '',
+            'Aktiviert das Ticket Archivsystem, um ein schnelleres System zu haben, indem einige Tickets aus dem täglichen Anwendungsbereich verschoben werden. Um diese Tickets in der Suche zu finden, muss das Archiv-Flag in der Ticketsuche aktiviert werden.',
         'Activates time accounting.' => 'Aktiviert die Zeitabrechnung.',
         'ActivityID' => 'ActivityID',
         'Added email. %s' => 'E-Mail hinzugefügt. %s',
@@ -3164,7 +3175,7 @@ sub Data {
         'Added note (%s)' => 'Notiz hinzugefügt (%s)',
         'Added subscription for user "%s".' => 'Abo für Benutzer "%s" eingetragen.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
-            '',
+            'Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTRS-Protokolldatei hinzu. Für jeden Monat wir eine eigen Log-Datei erstellt.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
             '',
         'Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
@@ -3177,48 +3188,48 @@ sub Data {
             '',
         'Agent Notifications' => 'Agenten-Benachrichtigungen',
         'Agent called customer.' => 'Kunden angerufen.',
-        'Agent interface article notification module to check PGP.' => '',
+        'Agent interface article notification module to check PGP.' => 'Benachrichtigungsmodul im Agenten-Interface das die PGP-Überprüfung durchführt.',
         'Agent interface article notification module to check S/MIME.' =>
-            '',
-        'Agent interface module to access CIC search via nav bar.' => '',
+            'Benachrichtigungsmodul im Agenten-Interface das die S/MIME-Prüfung durchführt.',
+        'Agent interface module to access CIC search via nav bar.' => 'Modul im Agenten-Interface um das Kundeninformationscenter über die Navigationsleiste zu betreten.',
         'Agent interface module to access fulltext search via nav bar.' =>
-            '',
+            'Modul im Agenten-Interface um die Volltextsuche über die Navigationsleiste zu starten.',
         'Agent interface module to access search profiles via nav bar.' =>
-            '',
+            'Modul im Agenten-Interface um angelegte Suchprofile über die Navigationsleiste zu wählen.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
-            '',
+            'Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf vorhandene und gültige S/MIME-Schlüssel zu überprüfen. ',
         'Agent interface notification module to check the used charset.' =>
-            '',
+            'Benachrichtigungsmodul im Agenten-Interface um den verwendeten Zeichensatz zu überprüfen.',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
-            '',
+            'Benachrichtigungsmodul im Agenten-Interface um die Zahl der Tickets anzuzeigen, für die ein Agent verantwortlich ist.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
-            '',
+            'Benachrichtigungsmodul im Agenten-Interface um die Zahl der Tickets in MyServces anzuzeigen',
         'Agent interface notification module to see the number of watched tickets.' =>
-            '',
+            'Benachrichtigungsmodul im Agenten-Interface um die Zahl der beobachteten Tickets anzuzeigen.',
         'Agents <-> Groups' => 'Agent <-> Gruppen',
         'Agents <-> Roles' => 'Agent <-> Rollen',
         'All customer users of a CustomerID' => 'Alle Kundenbenutzer einer Kundennummer',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im  \'Schließen\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im \'Freie-Felder\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im \'Notiz\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Besitzer\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Warten\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Priorität\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Verantwortlichen\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
-            '',
+            'Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren.',
         'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine individuelle Statistik zu generieren.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
-            '',
+            'Ermöglicht die Wahl zwischen der Anzeige der Anlagen eines Tickets im Browser (Inline) oder einfach nur als Download anbieten (Anhang).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
-            '',
+            'Ermöglicht die Wahl des nächsten Verfassen-Status für Kundenticket im Kunden-Interface.',
         'Allows customers to change the ticket priority in the customer interface.' =>
             'Erlaubt Kunden die Ticketpriorität im Kunden-Interface zu ändern.',
         'Allows customers to set the ticket SLA in the customer interface.' =>
@@ -3226,15 +3237,15 @@ sub Data {
         'Allows customers to set the ticket priority in the customer interface.' =>
             'Erlaubt Kunden das Setzen der Ticketpriorität im Kunden-Interface zu ändern.',
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' =>
-            '',
+            'Ermöglicht es Kunden, die Ticket-Queue im Kunden-Interface zu setzen . Wenn dieser Wert auf \'Nein\' steht, sollte der Wert \'QueueDefault\' konfiguriert werden.',
         'Allows customers to set the ticket service in the customer interface.' =>
-            '',
+            'Ermöglicht es Kunden den Ticket-Service im Kunden-Interface einzustellen.',
         'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
-            '',
+            'Ermöglicht es Kunden, den Ticket-Typ im Kunden-Interface zu setzen. Wenn dieser Wert auf \'Nein\' steht, sollte der Wert \'TicketTypeDefault\' konfiguriert werden.',
         'Allows default services to be selected also for non existing customers.' =>
-            '',
+            'Ermöglicht das Standard-Services auch für nicht angelegte Kunden ausgewählt werden können.',
         'Allows defining new types for ticket (if ticket type feature is enabled).' =>
-            '',
+            'Ermöglicht die Definition neuer Ticket-Typen  (wenn Ticket-Typ-Funktion aktiviert ist).',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             '',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like "(key1&&key2)" or "(key1||key2)".' =>
@@ -3244,7 +3255,7 @@ sub Data {
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             '',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
-            '',
+            'Ermöglicht die Benutzung der kleinenTicketübersicht (CustomerInfo => 1 - zeigt auch die Kundeninformation ).',
         'Allows invalid agents to generate individual-related stats.' => 'Erlaubt Agenten, die ungültig sind, individuelle Statistiken zu generieren.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Erlaubt Administratoren sich als Kunde über die Customer-User-Administrationsoberfläche anzumelden.',
@@ -3274,7 +3285,7 @@ sub Data {
         'Basic fulltext index settings. Execute "bin/otrs.RebuildFulltextIndex.pl" in order to generate a new index.' =>
             'Volltext-Index-Einstellungen. Um einen neuen Index zu erstellen, führen Sie "bin/otrs.RebuildFulltextIndex.pl" aus.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            '',
+            'Blockiert alle eingehenden E-Mails, die keine gültige Ticketnummer im Betreff mit Absenderadresse: @ example.com besitzen.',
         'Bounced to "%s".' => 'Bounced an "%s".',
         'Builds an article index right after the article\'s creation.' =>
             'Erstellt einen Artikel-Index direkt nach der Erstellung des Artikels.',
@@ -3304,7 +3315,7 @@ sub Data {
             '',
         'Closed tickets (customer user)' => 'Geschlossene Tickets (Kundenbenutzer)',
         'Closed tickets (customer)' => 'Geschlossene Tickets (Kunden)',
-        'Column ticket filters for Ticket Overviews type "Small".' => '',
+        'Column ticket filters for Ticket Overviews type "Small".' => 'Ticket-Filter-Spalte für Ticketübersichten vom Typ "Klein".',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
@@ -3336,6 +3347,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             'Legt fest, ob Kunden die Möglichkeit haben ihre Tickets zu sortieren.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
@@ -3443,14 +3456,14 @@ sub Data {
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
             '',
         'Defines all the parameters for this item in the customer preferences.' =>
-            '',
+            'Definiert alle Parameter für Kunden-Einstellungen.',
         'Defines all the possible stats output formats.' => 'Definiert alle möglichen Statistikausgabeformate.',
         'Defines an alternate URL, where the login link refers to.' => 'Definiert eine alternative URL, auf die der Login-Link verweist.',
         'Defines an alternate URL, where the logout link refers to.' => 'Definiert eine alternative URL, auf die der Logout-Link verweist.',
         'Defines an alternate login URL for the customer panel..' => 'Definiert für die Kundenoberfläche eine alternative Anmelde-URL, auf die der Login-Link verweist.',
         'Defines an alternate logout URL for the customer panel.' => 'Definiert für die Kundenoberfläche eine alternative Abmelde-URL, auf die der Logout-Link verweist.',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
-            '',
+            'Definiert eine externen Verbindung zu einer Kundendatenbank (z.B.: \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').',
         'Defines from which ticket attributes the agent can select the result order.' =>
             '',
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
@@ -4498,7 +4511,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Alt: "%s" Neu: "%s"',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
-        'Out Of Office' => '',
+        'Out Of Office' => 'Nicht mehr im Büro',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',
@@ -4991,7 +5004,7 @@ sub Data {
         'Shows an owner selection in phone and email tickets in the agent interface.' =>
             '',
         'Shows colors for different article types in the article table.' =>
-            '',
+            'Zeigt die Farben für die verschiedenen Artikeltypen in der Artikeltabelle an.',
         'Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer.' =>
             '',
         'Shows either the last customer article\'s subject or the ticket title in the small format overview.' =>

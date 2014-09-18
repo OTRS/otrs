@@ -2829,6 +2829,9 @@ sub Data {
         'Article Type' => 'Jenis artikel',
         'Sender Type' => 'Jenis penghantar',
         'Save filter settings as default' => 'Simpan tetapan penapis sebagai piawai.',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '',
         'This ticket is archived.' => '',
         'Locked' => 'Terkunci',
@@ -2838,6 +2841,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Artikel',
         'Add Filter' => 'Tambah Tapisan',
@@ -2845,6 +2849,7 @@ sub Data {
         'Reset Filter' => 'Tetapkan semula penapis',
         'Show one article' => 'Tunjukkan satu artikel',
         'Show all articles' => 'Tunjukkan kesemua artikel',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Artikel yang belum dibaca',
         'No.' => 'Tidak',
         'Important' => '',
@@ -2853,6 +2858,12 @@ sub Data {
         'Outgoing message' => 'Mesej keluar',
         'Internal message' => 'Mesej dalaman',
         'Resize' => 'Mengubah saiz',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '',
@@ -3336,6 +3347,8 @@ sub Data {
             'Kawalan jika pelanggan mempunyai keupayaan untuk mengatur tiket mereka.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kawalan jika lebih daripada satu daripada kemasukan boleh ditetapkan dalam tiket telefon baru dalam interface ejen.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'Menukarkan mel HTML ke dalam mesej teks.',

@@ -2835,6 +2835,9 @@ sub Data {
         'Article Type' => 'סוג מאמר',
         'Sender Type' => 'סוג שולח',
         'Save filter settings as default' => 'שמור הגדרות מסנן כברירת מחדל',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'ארכיון',
         'This ticket is archived.' => 'פניה זו היא בארכיון.',
         'Locked' => 'נעולה',
@@ -2844,6 +2847,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'אין תיבות שיח זמינות בשלב זה של התהליך.',
         'This item has no articles yet.' => 'לפריט זה עדיין אין מאמרים',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'מאמר(ים)',
         'Add Filter' => 'הוסף מסנן',
@@ -2851,6 +2855,7 @@ sub Data {
         'Reset Filter' => 'אפס מסנן',
         'Show one article' => 'הצג מאמר אחד',
         'Show all articles' => 'הצג את כל המאמרים',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'מאמרים שלא נקראו',
         'No.' => 'מס.',
         'Important' => 'חשוב',
@@ -2859,6 +2864,12 @@ sub Data {
         'Outgoing message' => 'הודעה יוצאת',
         'Internal message' => 'הודעה פנימית',
         'Resize' => 'שנה גודל',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'על מנת להגן על הפרטיות שלך, נחסם תוכן חיצוני.',
@@ -3341,6 +3352,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

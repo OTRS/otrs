@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-09-18 10:54+0000\n"
+"Last-Translator: ru_otrs <robert.ullrich@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6882,7 +6882,7 @@ msgstr "Die nachfolgende Erklärung gibt Ihnen einen Überblick darüber, wie wi
 
 #. Template: AdminRegistration
 msgid "Data Handling with 'System Registration'"
-msgstr ""
+msgstr "Datenverarbeitung bei 'Systemregistrierung'"
 
 #. Template: AdminRegistration
 msgid "Information received through the 'Service Center' is saved by OTRS Group."
@@ -6914,7 +6914,7 @@ msgstr "Die OTRS Gruppe wird Ihre Daten nicht an Dritte weitergeben, es sei denn
 
 #. Template: AdminRegistration
 msgid "OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order."
-msgstr ""
+msgstr "Die OTRS Gruppe wird Ihre Daten nur an öffentliche Einrichtungen und Behörden weiterleiten, wenn dies per Gesetz oder per Gerichtsbeschluss erforderlich ist."
 
 #. Template: AdminRegistration
 msgid "Amendment of Data Protection Policy"
@@ -6930,7 +6930,7 @@ msgstr "In diesem Fall werden wir ebenfalls unsere Datenschutzbestimmungen anpas
 
 #. Template: AdminRegistration
 msgid "Please regularly refer to the latest version of our Data Protection Policy."
-msgstr ""
+msgstr "Bitte überprüfen Sie regelmäßig ob eine neuere Version  unserer Datenschutzerklärung verfügbar ist."
 
 #. Template: AdminRegistration
 msgid "Right to Information"
@@ -6938,11 +6938,11 @@ msgstr "Anspruch auf Information"
 
 #. Template: AdminRegistration
 msgid "You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time."
-msgstr ""
+msgstr "Sie haben jederzeit das Recht Einsicht in Daten die zu Ihrer Person gespeichert sind, deren Herkunft und Empfänger zu verlangen, sowie den Zweck der Datenverarbeitung zu erfahren."
 
 #. Template: AdminRegistration
 msgid "You can request information about the saved data by sending an e-mail to info@otrs.com."
-msgstr ""
+msgstr "Sie können die über Sie gespeicherten Daten durch eine E-Mail an info@otrs.com anfordern."
 
 #. Template: AdminRegistration
 msgid "Further Information"
@@ -6950,15 +6950,15 @@ msgstr "Weitere Informationen"
 
 #. Template: AdminRegistration
 msgid "Your trust is very important to us. We are willing to inform you about the processing of your personal details at any time."
-msgstr ""
+msgstr "Ihr Vertrauen ist uns sehr wichtig. Wir sind bereit, Sie über die Verarbeitung Ihrer personenbezogenen Daten jederzeit zu informieren."
 
 #. Template: AdminRegistration
 msgid "If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com."
-msgstr ""
+msgstr "Wenn Sie weitere Fragen haben, die durch diese Datenschutzerklärung nicht beantwortet werden konnten oder wenn Sie nähere Informationen zu einem bestimmten Thema benötigen, wenden Sie sich an info@otrs.com."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
-msgstr ""
+msgstr "Wenn Sie ihre Systemregistrierung löschen, verlieren Sie folgende Vorteile:"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to deregister your system."
@@ -7174,7 +7174,7 @@ msgstr "Um Zertifikats-Zugehörigkeiten zu verwalten können Sie auf das Icon ei
 
 #. Template: AdminSMIME
 msgid "Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email."
-msgstr ""
+msgstr "Hier können Sie Beziehungen zu Ihren privaten Zertifikat hinzufügen, diese werden jedes Mal zur  S/MIME-Signatur hinzugefügt, wenn Sie dieses Zertifikat verwenden um eine E-Mail zu signieren."
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -7270,7 +7270,7 @@ msgstr "SQL Box"
 
 #. Template: AdminSelectBox
 msgid "Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."
-msgstr ""
+msgstr "Hier können Sie SQL-Befehle eingeben um diese direkt an die Anwendungsdatenbank zu senden. Es ist nicht möglich, den Inhalt der Tabellen zu ändern, erlaubt sind nur SELECT-Abfragen."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8218,7 +8218,7 @@ msgstr "Der Scheduler ist ein OTRS-Prozess, der asynchrone Aufgaben ausführt."
 
 #. Template: AgentSchedulerInfo
 msgid "(e.g. Generic Interface asynchronous invoker tasks)"
-msgstr ""
+msgstr "(z.B.: Generic Interface asynchrone Invoker Aufgaben)"
 
 #. Template: AgentSchedulerInfo
 msgid "It is necessary to have the Scheduler running to make the system work correctly!"
@@ -9914,7 +9914,7 @@ msgstr "(BenutzerLogin) Nachname, Vorname"
 
 #. SysConfig
 msgid "A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set."
-msgstr ""
+msgstr "Eine Liste der dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere dynamische Felder im Haupt-Ticket geändert."
 
 #. SysConfig
 msgid "ACL module that allows closing parent tickets only if all its children are already closed (\"State\" shows which states are not available for the parent ticket until all child tickets are closed)."
@@ -9930,7 +9930,7 @@ msgstr "Erfasste Zeit"
 
 #. SysConfig
 msgid "Activates a blinking mechanism of the queue that contains the oldest ticket."
-msgstr ""
+msgstr "Aktiviert einen Blinkmechanismus der Warteschlange, die das älteste Ticket enthält."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
@@ -9946,11 +9946,11 @@ msgstr "Aktiviert die Unterstützung für Kundengruppen."
 
 #. SysConfig
 msgid "Activates the article filter in the zoom view to specify which articles should be shown."
-msgstr ""
+msgstr "Aktiviert verschiedene Artikelfilter in der Zoomansicht, um festzulegen, welche Artikel angezeigt werden sollen."
 
 #. SysConfig
 msgid "Activates the available themes on the system. Value 1 means active, 0 means inactive."
-msgstr ""
+msgstr "Aktiviert die verfügbaren Skins auf dem System. Wert 1 bedeutet aktiv, 0 bedeutet inaktiv."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
@@ -9958,7 +9958,7 @@ msgstr "Aktiviert die Suche im Ticket-Archiv für das Kunden-Interface."
 
 #. SysConfig
 msgid "Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search."
-msgstr ""
+msgstr "Aktiviert das Ticket Archivsystem, um ein schnelleres System zu haben, indem einige Tickets aus dem täglichen Anwendungsbereich verschoben werden. Um diese Tickets in der Suche zu finden, muss das Archiv-Flag in der Ticketsuche aktiviert werden."
 
 #. SysConfig
 msgid "Activates time accounting."
@@ -9986,7 +9986,7 @@ msgstr "Abo für Benutzer \"%s\" eingetragen."
 
 #. SysConfig
 msgid "Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created."
-msgstr ""
+msgstr "Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTRS-Protokolldatei hinzu. Für jeden Monat wir eine eigen Log-Datei erstellt."
 
 #. SysConfig
 msgid "Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won't be added if the article type is email-internal."
@@ -10018,43 +10018,43 @@ msgstr "Kunden angerufen."
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
-msgstr ""
+msgstr "Benachrichtigungsmodul im Agenten-Interface das die PGP-Überprüfung durchführt."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr ""
+msgstr "Benachrichtigungsmodul im Agenten-Interface das die S/MIME-Prüfung durchführt."
 
 #. SysConfig
 msgid "Agent interface module to access CIC search via nav bar."
-msgstr ""
+msgstr "Modul im Agenten-Interface um das Kundeninformationscenter über die Navigationsleiste zu betreten."
 
 #. SysConfig
 msgid "Agent interface module to access fulltext search via nav bar."
-msgstr ""
+msgstr "Modul im Agenten-Interface um die Volltextsuche über die Navigationsleiste zu starten."
 
 #. SysConfig
 msgid "Agent interface module to access search profiles via nav bar."
-msgstr ""
+msgstr "Modul im Agenten-Interface um angelegte Suchprofile über die Navigationsleiste zu wählen."
 
 #. SysConfig
 msgid "Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true."
-msgstr ""
+msgstr "Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf vorhandene und gültige S/MIME-Schlüssel zu überprüfen. "
 
 #. SysConfig
 msgid "Agent interface notification module to check the used charset."
-msgstr ""
+msgstr "Benachrichtigungsmodul im Agenten-Interface um den verwendeten Zeichensatz zu überprüfen."
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of tickets an agent is responsible for."
-msgstr ""
+msgstr "Benachrichtigungsmodul im Agenten-Interface um die Zahl der Tickets anzuzeigen, für die ein Agent verantwortlich ist."
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of tickets in My Services."
-msgstr ""
+msgstr "Benachrichtigungsmodul im Agenten-Interface um die Zahl der Tickets in MyServces anzuzeigen"
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of watched tickets."
-msgstr ""
+msgstr "Benachrichtigungsmodul im Agenten-Interface um die Zahl der beobachteten Tickets anzuzeigen."
 
 #. SysConfig
 msgid "Agents <-> Groups"
@@ -10070,35 +10070,35 @@ msgstr "Alle Kundenbenutzer einer Kundennummer"
 
 #. SysConfig
 msgid "Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im  'Schließen'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im 'Freie-Felder'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche das Hinzufügen von Notizen im 'Notiz'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im 'Besitzer'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im 'Warten'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im 'Priorität'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im 'Verantwortlichen'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr ""
+msgstr "Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
@@ -10106,11 +10106,11 @@ msgstr "Erlaubt Agenten eine individuelle Statistik zu generieren."
 
 #. SysConfig
 msgid "Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment)."
-msgstr ""
+msgstr "Ermöglicht die Wahl zwischen der Anzeige der Anlagen eines Tickets im Browser (Inline) oder einfach nur als Download anbieten (Anhang)."
 
 #. SysConfig
 msgid "Allows choosing the next compose state for customer tickets in the customer interface."
-msgstr ""
+msgstr "Ermöglicht die Wahl des nächsten Verfassen-Status für Kundenticket im Kunden-Interface."
 
 #. SysConfig
 msgid "Allows customers to change the ticket priority in the customer interface."
@@ -10126,23 +10126,23 @@ msgstr "Erlaubt Kunden das Setzen der Ticketpriorität im Kunden-Interface zu ä
 
 #. SysConfig
 msgid "Allows customers to set the ticket queue in the customer interface. If this is set to 'No', QueueDefault should be configured."
-msgstr ""
+msgstr "Ermöglicht es Kunden, die Ticket-Queue im Kunden-Interface zu setzen . Wenn dieser Wert auf 'Nein' steht, sollte der Wert 'QueueDefault' konfiguriert werden."
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
-msgstr ""
+msgstr "Ermöglicht es Kunden den Ticket-Service im Kunden-Interface einzustellen."
 
 #. SysConfig
 msgid "Allows customers to set the ticket type in the customer interface. If this is set to 'No', TicketTypeDefault should be configured."
-msgstr ""
+msgstr "Ermöglicht es Kunden, den Ticket-Typ im Kunden-Interface zu setzen. Wenn dieser Wert auf 'Nein' steht, sollte der Wert 'TicketTypeDefault' konfiguriert werden."
 
 #. SysConfig
 msgid "Allows default services to be selected also for non existing customers."
-msgstr ""
+msgstr "Ermöglicht das Standard-Services auch für nicht angelegte Kunden ausgewählt werden können."
 
 #. SysConfig
 msgid "Allows defining new types for ticket (if ticket type feature is enabled)."
-msgstr ""
+msgstr "Ermöglicht die Definition neuer Ticket-Typen  (wenn Ticket-Typ-Funktion aktiviert ist)."
 
 #. SysConfig
 msgid "Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled)."
@@ -10162,7 +10162,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information)."
-msgstr ""
+msgstr "Ermöglicht die Benutzung der kleinenTicketübersicht (CustomerInfo => 1 - zeigt auch die Kundeninformation )."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
@@ -10242,7 +10242,7 @@ msgstr "Volltext-Index-Einstellungen. Um einen neuen Index zu erstellen, führen
 
 #. SysConfig
 msgid "Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address."
-msgstr ""
+msgstr "Blockiert alle eingehenden E-Mails, die keine gültige Ticketnummer im Betreff mit Absenderadresse: @ example.com besitzen."
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
@@ -10334,7 +10334,7 @@ msgstr "Geschlossene Tickets (Kunden)"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
-msgstr ""
+msgstr "Ticket-Filter-Spalte für Ticketübersichten vom Typ \"Klein\"."
 
 #. SysConfig
 msgid "Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
@@ -10714,7 +10714,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines all the parameters for this item in the customer preferences."
-msgstr ""
+msgstr "Definiert alle Parameter für Kunden-Einstellungen."
 
 #. SysConfig
 msgid "Defines all the possible stats output formats."
@@ -10738,7 +10738,7 @@ msgstr "Definiert für die Kundenoberfläche eine alternative Abmelde-URL, auf d
 
 #. SysConfig
 msgid "Defines an external link to the database of the customer (e.g. 'http://yourhost/customer.php?CID=[% Data.CustomerID %]' or '')."
-msgstr ""
+msgstr "Definiert eine externen Verbindung zu einer Kundendatenbank (z.B.: 'http://yourhost/customer.php?CID=[% Data.CustomerID %]' or '')."
 
 #. SysConfig
 msgid "Defines from which ticket attributes the agent can select the result order."
@@ -13174,7 +13174,7 @@ msgstr "Offene Tickets (Kunde)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Nicht mehr im Büro"
 
 #. SysConfig
 msgid "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations."
@@ -14282,7 +14282,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows colors for different article types in the article table."
-msgstr ""
+msgstr "Zeigt die Farben für die verschiedenen Artikeltypen in der Artikeltabelle an."
 
 #. SysConfig
 msgid "Shows customer history tickets in AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer."
@@ -14851,4 +14851,44 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
+
+#. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr ""
 

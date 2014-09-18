@@ -2838,6 +2838,9 @@ sub Data {
         'Article Type' => 'Tipo Articolo',
         'Sender Type' => 'Tipo di Mittente',
         'Save filter settings as default' => 'Salva config filtri come default',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Archivio',
         'This ticket is archived.' => 'Questo Ticket è stato archiviato.',
         'Locked' => 'In gestione',
@@ -2847,6 +2850,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => 'Questo oggetto non ha ancora articoli',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Articoli',
         'Add Filter' => 'Aggiungi filtro',
@@ -2854,6 +2858,7 @@ sub Data {
         'Reset Filter' => 'Reimposta filtro',
         'Show one article' => 'Mostra un articolo',
         'Show all articles' => 'Mostra tutti gli articoli',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Articoli non letti',
         'No.' => '',
         'Important' => '',
@@ -2862,6 +2867,12 @@ sub Data {
         'Outgoing message' => 'interazione in uscita',
         'Internal message' => 'interazione interno',
         'Resize' => 'Ridimensiona',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'per proteggere la vstra privacy, il contenuto remoto è stato rimosso.',
@@ -3344,6 +3355,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             'Controlla se i clienti hanno la possibilità di ordinare i loro ticket.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

@@ -2838,6 +2838,9 @@ sub Data {
         'Article Type' => 'Type d\'Article',
         'Sender Type' => 'Type de l\'expéditeur',
         'Save filter settings as default' => 'Sauvegarder les paramètres de filtrage comme paramètres par défaut',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Archiver',
         'This ticket is archived.' => 'Ce ticket est archivé',
         'Locked' => 'Verrouillé',
@@ -2847,6 +2850,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Article(s)',
         'Add Filter' => 'Ajouter filtre',
@@ -2854,6 +2858,7 @@ sub Data {
         'Reset Filter' => 'Réinitialiser filtre',
         'Show one article' => 'Montrer un article',
         'Show all articles' => 'Montrer tous les articles',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Articles non lus',
         'No.' => 'Non.',
         'Important' => '',
@@ -2862,6 +2867,12 @@ sub Data {
         'Outgoing message' => 'Message sortant',
         'Internal message' => 'Message Interne',
         'Resize' => 'Redimensionner',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Pour protéger votre vie privée, les contenus distants ont été bloqués.',
@@ -3345,6 +3356,8 @@ sub Data {
             'Contrôle si les clients ont la possibilité de classer leurs tickets.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Contrôle si plus d\'une entrée peut être mise dans un nouveau ticket téléphone depuis l\'interface opérateur.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => '',

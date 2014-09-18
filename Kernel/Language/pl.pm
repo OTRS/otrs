@@ -2833,6 +2833,9 @@ sub Data {
         'Article Type' => 'Typ artykułu',
         'Sender Type' => 'Typ nadawcy',
         'Save filter settings as default' => 'Zapisz ustawienia filtru jako domyślne',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Archiwum',
         'This ticket is archived.' => 'To zgłoszenie jest zarchiwizowane.',
         'Locked' => 'Blokada',
@@ -2842,6 +2845,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'W tym punkcie procesów brak jest jeszcze dialogów.',
         'This item has no articles yet.' => 'Ten element nie ma jeszcze artykułów.',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Wiadomość(ci)',
         'Add Filter' => 'Dodaj filtr',
@@ -2849,6 +2853,7 @@ sub Data {
         'Reset Filter' => 'resetuj filtr',
         'Show one article' => 'Pokaż tylko jedną wiadomość',
         'Show all articles' => 'Pokaż wszystkie wiadomości',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Nieprzeczytane wiadomości',
         'No.' => 'Lp.',
         'Important' => 'Ważne',
@@ -2857,6 +2862,12 @@ sub Data {
         'Outgoing message' => 'Wiadomość wychodząca',
         'Internal message' => 'Wiadomość wewnętrzna',
         'Resize' => 'Zmień rozmiar',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Aby chronić twoją prywatnąć, zdalna zawartość została zablokowana.',
@@ -3340,6 +3351,8 @@ sub Data {
             'Kontroluje czy klienci mają możliwość sortowania swoimi zgłoszeniami.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Kontroluje czy więcej niż jedna pozycja może być zaznaczona przy zgłoszeniu telefonicznym w panelu agenta.',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontroluje czy flagi zgłoszenia i artykułu są usunięte kiedy zgłoszenie jest zarchiwizowane.',
         'Converts HTML mails into text messages.' => 'Konwertuję e-maile HTML do tekstowych',

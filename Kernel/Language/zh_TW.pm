@@ -2832,6 +2832,9 @@ sub Data {
         'Article Type' => '信件類别 ',
         'Sender Type' => '發送人類型',
         'Save filter settings as default' => '將過濾器作為缺省設置並保存',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '歸檔',
         'This ticket is archived.' => '該工單已歸檔',
         'Locked' => '鎖定狀態',
@@ -2841,6 +2844,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '目前流程中沒有環節操作。',
         'This item has no articles yet.' => '此條目沒有信件。',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => '信件',
         'Add Filter' => '添加過濾器',
@@ -2848,6 +2852,7 @@ sub Data {
         'Reset Filter' => '重置過濾器',
         'Show one article' => '顯示單一信件',
         'Show all articles' => '顯示所有信件',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => '未讀信件',
         'No.' => '編號：',
         'Important' => '重要',
@@ -2856,6 +2861,12 @@ sub Data {
         'Outgoing message' => '發出的信息',
         'Internal message' => '内部信息',
         'Resize' => '調整大小',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '為了保護您的隱私,遠程内容被阻擋。',
@@ -3338,6 +3349,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

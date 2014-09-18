@@ -2831,6 +2831,9 @@ sub Data {
         'Article Type' => 'Indlægstype',
         'Sender Type' => 'Afsendertype',
         'Save filter settings as default' => 'Gem disse filterinstillinger som standard',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => 'Arkiver',
         'This ticket is archived.' => 'Denne sag er arkiveret',
         'Locked' => 'Tildelt',
@@ -2840,6 +2843,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'Der er ingen dialoger tilgængelige på dette sted i processen.',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => 'Indlægsoversigt',
         'Article(s)' => 'Indlæg',
         'Add Filter' => 'Tilføj filter',
@@ -2847,6 +2851,7 @@ sub Data {
         'Reset Filter' => 'Nulstil filter',
         'Show one article' => 'Vis indlæg enkeltvis',
         'Show all articles' => 'Vis alle indlæg',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Ulæste indlæg',
         'No.' => 'Nr.',
         'Important' => 'Vigtigt',
@@ -2855,6 +2860,12 @@ sub Data {
         'Outgoing message' => 'Udgående besked',
         'Internal message' => 'Intern besked',
         'Resize' => 'Ændr størrelse',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'For at beskytte dit privatliv blev fjernindhold blokeret.',
@@ -3337,6 +3348,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

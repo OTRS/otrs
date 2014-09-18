@@ -2834,6 +2834,9 @@ sub Data {
         'Article Type' => 'Tip članka',
         'Sender Type' => '',
         'Save filter settings as default' => 'Sačuvaj postavke filtra kao zadane',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '',
         'This ticket is archived.' => '',
         'Locked' => 'Zaključano',
@@ -2843,6 +2846,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => 'Članak/ci',
         'Add Filter' => 'Dodaj filtar',
@@ -2850,6 +2854,7 @@ sub Data {
         'Reset Filter' => 'Reset filtra',
         'Show one article' => 'Prikaži jedan članak',
         'Show all articles' => 'Prikaži sve članke',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => 'Nepročitani članci',
         'No.' => 'Br.',
         'Important' => '',
@@ -2858,6 +2863,12 @@ sub Data {
         'Outgoing message' => 'Odlazna poruka',
         'Internal message' => 'Interna poruka',
         'Resize' => 'Promjena veličine',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '',
@@ -3340,6 +3351,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             'Kontrolira da li korisnici imaju mogućnost sortiranja svojih kartica.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

@@ -1847,7 +1847,7 @@ sub Data {
             '通过鼠标将左侧列表中的元素拖放至右侧，你可以为这个环节操作指派字段。',
         'Filter available fields' => '过滤可选的字段',
         'Available Fields' => '可选的字段',
-        'Assigned Fields' => '指排的字段',
+        'Assigned Fields' => '指派的字段',
         'Edit Details for Field' => '编辑字段详情',
         'ArticleType' => '信件类型',
         'Display' => '显示',
@@ -2836,6 +2836,9 @@ sub Data {
         'Article Type' => '信件类别 ',
         'Sender Type' => '发送人类型',
         'Save filter settings as default' => '将过滤器作为缺省设置并保存',
+        'Event Type Filter' => '',
+        'Event Type' => '',
+        'Save as default' => '',
         'Archive' => '归档',
         'This ticket is archived.' => '该工单已归档',
         'Locked' => '锁定状态',
@@ -2845,6 +2848,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '目前流程中没有环节操作。',
         'This item has no articles yet.' => '此条目没有信件。',
+        'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => '信件',
         'Add Filter' => '添加过滤器',
@@ -2852,6 +2856,7 @@ sub Data {
         'Reset Filter' => '重置过滤器',
         'Show one article' => '显示单一信件',
         'Show all articles' => '显示所有信件',
+        'Show Ticket Timeline View' => '',
         'Unread articles' => '未读信件',
         'No.' => '编号：',
         'Important' => '重要',
@@ -2860,6 +2865,12 @@ sub Data {
         'Outgoing message' => '发出的信息',
         'Internal message' => '内部信息',
         'Resize' => '调整大小',
+        'Show Full Text' => '',
+        'Full Article Text' => '',
+        'No more events found. Please try changing the filter settings.' =>
+            '',
+        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '为了保护你的隐私,远程内容被阻挡。',
@@ -3342,6 +3353,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',

@@ -9035,6 +9035,18 @@ msgid "Save filter settings as default"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr ""
 
@@ -9067,6 +9079,10 @@ msgid "This item has no articles yet."
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr ""
 
@@ -9092,6 +9108,10 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Show all articles"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -9124,6 +9144,22 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Resize"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -10400,6 +10436,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 
 #. SysConfig
