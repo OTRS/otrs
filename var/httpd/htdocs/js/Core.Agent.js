@@ -292,7 +292,7 @@ Core.Agent = (function (TargetNS) {
             InitNavigation();
         }
 
-        $('#Navigation').hide().css('visibility', 'visible').fadeIn('fast');
+        $('#Navigation').hide().css('visibility', 'visible').show();
     };
 
     function ToolBarIsAside() {
