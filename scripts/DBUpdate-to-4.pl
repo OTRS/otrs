@@ -1329,16 +1329,9 @@ safe uninstall packages from the database.
 sub _UninstallMergedFeatureAddOns {
     my $PackageObject = Kernel::System::Package->new();
 
-    # qw( ) contains a list of the feature add-ons to uninstall
-    # Also uninstalls the support assessment package which was replaced by the SupportData
-    #   and SupportBundle features.
+    # Uninstall FeatureAddons that were merged, keeping the DB structures intact.
     for my $PackageName (
-        qw(
-        OTRSGenericInterfaceREST
-        OTRSMyServices
-        Support
-        OTRSStatsRestrictionByDateTimeDF
-        )
+        qw( OTRSGenericInterfaceREST OTRSMyServices OTRSStatsRestrictionByDateTimeDF )
         )
     {
         my $Success = $PackageObject->_PackageUninstallMerged(
@@ -1349,6 +1342,37 @@ sub _UninstallMergedFeatureAddOns {
             return;
         }
     }
+
+    # Perform a regular uninstall on the support assessment package which was replaced by the SupportData
+    #   and SupportBundle features. Here we want to also remove the database tables.
+    PACKAGE_NAME:
+    for my $PackageName (qw( Support))
+    {
+        my @PackageList = $PackageObject->RepositoryList(
+            Result => 'short',
+        );
+
+        my ($PackageEntry) = grep { $_->{Name} eq 'Support' } @PackageList;
+
+        next PACKAGE_NAME if !$PackageEntry;
+
+        my $Package = $PackageObject->RepositoryGet(
+            Name    => 'Support',
+            Version => $PackageEntry->{Version},
+            Result  => 'SCALAR',
+        );
+
+        next PACKAGE_NAME if !$Package;
+
+        my $Success = $PackageObject->PackageUninstall(
+            String => $Package,
+        );
+        if ( !$Success ) {
+            print STDERR "There was an error uninstalling package $PackageName\n";
+            return;
+        }
+    }
+
     return 1;
 }
 
