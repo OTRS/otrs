@@ -117,7 +117,8 @@ sub Run {
 
     my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,
-        Filter => [ '*.t', '*/*.t', '*/*/*.t', '*/*/*/*.t', '*/*/*/*/*.t', '*/*/*/*/*/*.t' ],
+        Filter    => '*.t',
+        Recursive => 1,
     );
 
     my $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
