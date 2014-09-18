@@ -198,6 +198,7 @@ sub new {
         WebRequestCustomer              => 'Incoming Web Request',
         SendAutoFollowUp                => 'Automatic Follow-Up Sent',
         SendAutoReply                   => 'Automatic Reply Sent',
+        TimeAccounting                  => 'Time Accounted',
     };
 
     # Add custom files to the zoom's frontend module registration on the fly
@@ -2067,7 +2068,6 @@ sub _ArticleTree {
             Subscribe
             Unsubscribe
             SystemRequest
-            TimeAccounting
             SendAgentNotification
             SendCustomerNotification
             SendAutoReject
@@ -2119,6 +2119,7 @@ sub _ArticleTree {
             EscalationUpdateTimeNotifyBefore
             EscalationUpdateTimeStart
             EscalationUpdateTimeStop
+            TimeAccounting
         );
 
         # types which are usually being connected to some kind of
