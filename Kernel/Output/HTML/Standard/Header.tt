@@ -74,6 +74,8 @@
             //]]></script>
 [% END %]
 [% RenderBlockEnd("ToolBarCICSearchCustomerUser") %]
+
+[% IF Config("ChatEngine::Active") %]
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 if ($('#ToolBar li.ChatRequests').length) {
@@ -141,6 +143,7 @@ if ($('#ToolBar li.ChatRequests').length) {
     }, 10000);
 }
 //]]></script>
+[% END %]
 [% END %]
 [% RenderBlockEnd("ToolBar") %]
 
