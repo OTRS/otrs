@@ -2036,7 +2036,7 @@ sub PackageBuild {
     for my $Tag (
         qw(Name Version Vendor URL License ChangeLog Description Framework OS
         IntroInstall IntroUninstall IntroReinstall IntroUpgrade
-        PackageIsVisible PackageIsDownloadable PackageIsRemovable
+        PackageIsVisible PackageIsDownloadable PackageIsRemovable PackageMerge
         PackageRequired ModuleRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)
         )
     {
