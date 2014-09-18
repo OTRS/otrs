@@ -34,6 +34,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="ConfigImportAllowed" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Controls if the admin is allowed to import a saved system configuration in SysConfig.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="ProductName" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.</Description>
         <Group>Framework</Group>

@@ -78,11 +78,13 @@ $('#SysConfigGroup').bind('change', function(){
 [% RenderBlockEnd("Download") %]
 
 [% RenderBlockStart("ActionImport") %]
+    [% IF Config('ConfigImportAllowed') %]
                     <li>
                         <a title="[% Translate("Load SysConfig settings from file") | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Import" class="CallForAction Fullsize Center">
                             <span><i class="fa fa-upload"></i> [% Translate("Import settings") | html %]</span>
                         </a>
                     </li>
+    [% END %]
 [% RenderBlockEnd("ActionImport") %]
 
                 </ul>

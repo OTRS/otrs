@@ -83,6 +83,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Upload' ) {
 
+        if (!$Self->{ConfigObject}->Get('ConfigImportAllowed')) {
+            return $Self->{LayoutObject}->FatalError( Message => "Import not allowed!" );
+        }
+
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
