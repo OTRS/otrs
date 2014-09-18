@@ -212,7 +212,7 @@
         <Setting>
             <Hash>
                 <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
-                <Item Key="StyleTop">-4px</Item>
+                <Item Key="StyleTop">12px</Item>
                 <Item Key="StyleRight">38px</Item>
                 <Item Key="StyleHeight">67px</Item>
                 <Item Key="StyleWidth">244px</Item>
