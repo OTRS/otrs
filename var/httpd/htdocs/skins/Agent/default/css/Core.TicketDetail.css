@@ -407,6 +407,19 @@ div.Headline .Flag {
     position: relative;
 }
 
+.ChronicalView > ul > li h3 .fa-info-circle {
+    display: none;
+}
+
+.ChronicalView > ul > li.Important h3 .fa-info-circle {
+    display: inline-block;
+    color: #777;
+}
+
+.ChronicalView > ul > li.Important:hover h3 .fa-info-circle {
+    color: #000;
+}
+
 .ChronicalView > ul > li h3 strong {
     font-weight: normal;
 }

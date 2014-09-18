@@ -2249,6 +2249,13 @@ sub _ArticleTree {
                     $Item->{ArticleData}->{MSSecurityRestricted} = 'security="restricted"';
                 }
 
+                my %ArticleFlags = $Self->{TicketObject}->ArticleFlagGet(
+                    ArticleID => $Item->{ArticleID},
+                    UserID    => 1,
+                );
+
+                $Item->{ArticleData}->{ArticleIsImportant} = $ArticleFlags{Important};
+
                 if (   $Item->{ArticleData}->{ArticleType} eq 'chat-external'
                     || $Item->{ArticleData}->{ArticleType} eq 'chat-internal' )
                 {

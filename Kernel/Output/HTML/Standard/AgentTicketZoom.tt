@@ -770,6 +770,7 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
         <ul class="Hidden">
             <li id="TemplateListItem">
                 <h3>
+                    <i class="fa fa-info-circle" title="[% Translate("Important") | html %]"></i>
                     <em></em>
                     <strong class="Type"></strong>
                     <span><span></span></span>
@@ -839,6 +840,7 @@ var ListObjects = [
             'to'     : [% Item.ArticleData.To | truncate(75) | JSON %],
             'cc'     : [% Item.ArticleData.Cc | truncate(75) | JSON %],
             'bcc'    : [% Item.ArticleData.Bcc | truncate(75) | JSON %],
+            'is_important' : [% Item.ArticleData.ArticleIsImportant | JSON %],
             'text'   : [% IF Item.IsChatArticle %][% Translate("This is a chat log. Please zoom this entry in order to see the complete log.") | JSON %][% ELSE %][% Item.ArticleData.Body | truncate(200) | JSON %][% END %],
             'text_long' : [% IF Item.IsChatArticle %][% Item.ArticleData.Body %][% ELSE %][% IF !Item.ArticleData.AttachmentIDOfHTMLBody %][% Item.ArticleData.Body | JSON %][% ELSE %]""[% END %][% END %],
             'attachment_id' : [% Item.ArticleData.AttachmentIDOfHTMLBody | JSON %],
