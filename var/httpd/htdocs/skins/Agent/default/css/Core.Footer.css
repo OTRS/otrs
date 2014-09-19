@@ -30,8 +30,7 @@
 }
 
 #Footer a:hover,
-#Footer ul li a:hover,
-#Footer div.TopOfPage a:hover {
+#Footer ul li a:hover {
     text-decoration: underline;
 }
 
@@ -63,43 +62,20 @@
     border: none;
 }
 
-#Footer div.TopOfPage {
-    position: absolute;
-    top: 12px;
-    right: 33px;
-}
-
-.LoginScreen #Footer div.TopOfPage {
+.LoginScreen #Footer a.TopOfPage {
     display: none;
 }
 
-.RTL #Footer div.TopOfPage {
-    left: 33px;
-    right: auto;
-}
-
-#Footer div.TopOfPage a {
-    padding-left: 0;
-    padding-right: 16px;
-    font-weight: bold;
-    color: #333;
-    position: relative;
+#Footer a.TopOfPage {
+    color: #aaa;
     display: block;
+    text-align: center;
+    font-size: 18px;
+    margin: 5px;
 }
 
-.RTL #Footer div.TopOfPage a {
-    padding-left: 16px;
-    padding-right: 0;
+#Footer a.TopOfPage:hover {
+    color: #333;
 }
 
-#Footer div.TopOfPage a i {
-    font-size: 17px;
-    position: absolute;
-    right: -3px;
-    top: -4px;
-}
-
-#Footer div.TopOfPage a:hover i {
-    text-decoration: none;
-}
 } /* end @media */
