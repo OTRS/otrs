@@ -75,6 +75,7 @@ Core.Agent = (function (TargetNS) {
         }
 
         $('#Navigation > li')
+            .addClass('CanDrag')
             .filter(function () {
                 return $('ul', this).length;
             })
@@ -145,11 +146,13 @@ Core.Agent = (function (TargetNS) {
         Core.UI.DnD.Sortable(
             $('#Navigation'),
             {
-                Items: 'li',
+                Items: 'li.CanDrag',
                 Tolerance: 'pointer',
                 Distance: 15,
                 Opacity: 0.6,
                 Helper: 'clone',
+                Axis: 'x',
+                Containment: $('#Navigation'),
                 Update: function (event, ui) {
 
                     // collect navigation bar items
@@ -160,6 +163,10 @@ Core.Agent = (function (TargetNS) {
 
                     // save the new order to the users preferences
                     TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
+
+                    $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
+                        $(this).delay(1500).fadeOut();
+                    });
                 }
             }
         );

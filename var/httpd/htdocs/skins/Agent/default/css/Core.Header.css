@@ -195,6 +195,14 @@
     display: block;
 }
 
+#NavigationContainer > .fa-check {
+    position: absolute;
+    font-size: 15px;
+    top: 8px;
+    color: #777;
+    display: none;
+}
+
 /**
  * @subsection      Main hover effect
  */
