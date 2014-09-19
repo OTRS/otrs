@@ -56,7 +56,7 @@ sub new {
 
     # Please note: ZoomTimeline is an OTRSBusiness feature
     $Self->{ZoomTimeline} = $Self->{ParamObject}->GetParam( Param => 'ZoomTimeline' );
-    if ( defined $Self->{ConfigObject}->Get('ChronicalViewEnabled') && $Self->{ConfigObject}->Get('ChronicalViewEnabled') != 1 ) {
+    if ( !$Self->{ConfigObject}->Get('ChronicalViewEnabled') ) {
         $Self->{ZoomTimeline} = 0;
     }
 
