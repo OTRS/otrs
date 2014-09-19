@@ -61,7 +61,7 @@ sub new {
     }
 
     # save last used view type in preferences
-    if ( $Self->{ZoomExpand} || $Self->{ZoomTimeline} ) {
+    if ( defined $Self->{ZoomExpand} || defined $Self->{ZoomTimeline} ) {
 
         my $LastUsedZoomViewType = '';
         if ( $Self->{ZoomExpand} && $Self->{ZoomExpand} == 1 ) {
