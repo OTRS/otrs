@@ -57,7 +57,11 @@ Core.App.Ready(function () {
         DeleteMsg: [% Translate("Delete") | JSON %],
         ApplyButtonText: [% Translate("Apply") | JSON %],
         SlideNavigationText: [% Translate("Slide the navigation bar") | JSON %],
-        NoElementsToSelectFromMsg: [% Translate("There are currently no elements available to select from.") | JSON %]
+        NoElementsToSelectFromMsg: [% Translate("There are currently no elements available to select from.") | JSON %],
+        TurnOffCompatibilityModeMsg: [% Translate("Please turn off Compatibility Mode in Internet Explorer!") | JSON %],
+        BrowserTooOldMsg: [% Translate("The browser you are using is too old.") | JSON %],
+        BrowserListMsg: [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | JSON %],
+        BrowserDocumentationMsg: [% Translate("Please see the documentation or ask your admin for further information.") | JSON %]
     });
 
     Core.Agent.Init();

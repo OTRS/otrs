@@ -25,7 +25,8 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
     // add dependencies to chart libs here (e.g. nvd3 etc.)
     // nvd3 is not available for IE8, so exclude this browser for the check
-    if (!($.browser.msie && $.browser.version === '8.0') && !Core.Debug.CheckDependency('Core.UI.AdvancedChart', 'nv', 'nvd3')) {
+    // also check for IE7, because IE8+ in compatibility mode are recognized as IE7
+    if (!($.browser.msie && ($.browser.version === '7.0' || $.browser.version === '8.0')) && !Core.Debug.CheckDependency('Core.UI.AdvancedChart', 'nv', 'nvd3')) {
         return;
     }
 

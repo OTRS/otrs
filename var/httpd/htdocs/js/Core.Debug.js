@@ -83,52 +83,6 @@ Core.Debug = (function (TargetNS) {
     /*jslint evil: false */
 
     /**
-     * @exports TargetNS.BrowserCheck as Core.Debug.BrowserCheckAgent
-     * @function
-     * @description
-     *      Checks if the used browser is not on the OTRS browser blacklist
-     *      of the agent interface.
-     * @return true if the used browser is *not* on the black list.
-     */
-    TargetNS.BrowserCheckAgent = function () {
-        var AppropriateBrowser = true,
-            BrowserBlackList = Core.Config.Get('BrowserBlackList::Agent');
-        if (typeof BrowserBlackList !== 'undefined') {
-            $.each(BrowserBlackList, function (Key, Value) {
-                if ($.isFunction(Value)) {
-                    if (Value()) {
-                        AppropriateBrowser = false;
-                    }
-                }
-            });
-            return AppropriateBrowser;
-        }
-    };
-
-    /**
-     * @exports TargetNS.BrowserCheck as Core.Debug.BrowserCheckCustomer
-     * @function
-     * @description
-     *      Checks if the used browser is not on the OTRS browser blacklist
-     *      of the customer interface.
-     * @return true if the used browser is *not* on the black list.
-     */
-    TargetNS.BrowserCheckCustomer = function () {
-        var AppropriateBrowser = true,
-        BrowserBlackList = Core.Config.Get('BrowserBlackList::Customer');
-        if (typeof BrowserBlackList !== 'undefined') {
-            $.each(BrowserBlackList, function (Key, Value) {
-                if ($.isFunction(Value)) {
-                    if (Value()) {
-                        AppropriateBrowser = false;
-                    }
-                }
-            });
-            return AppropriateBrowser;
-        }
-    };
-
-    /**
      * @exports TargetNS.SimulateRTLPage as Core.Debug.SimulateRTLPage
      * @function
      * @description

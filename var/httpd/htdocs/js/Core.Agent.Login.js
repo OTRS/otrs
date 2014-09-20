@@ -26,7 +26,7 @@ Core.Agent.Login = (function (TargetNS) {
      */
     TargetNS.Init = function (LoginFailed) {
         // Browser is too old
-        if (!Core.Debug.BrowserCheckAgent()) {
+        if (!Core.Agent.SupportedBrowser) {
             $('#LoginBox').hide();
             $('#OldBrowser').show();
             return;

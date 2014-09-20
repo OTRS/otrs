@@ -63,7 +63,7 @@ Core.Customer.Login = (function (TargetNS) {
             $SliderNavigationLinks = $('#Slider a');
 
         // Browser is too old
-        if (!Core.Debug.BrowserCheckCustomer()) {
+        if (!Core.Customer.SupportedBrowser) {
             $('#Login').hide();
             $('#Reset').hide();
             $('#Signup').hide();

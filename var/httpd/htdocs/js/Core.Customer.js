@@ -31,6 +31,9 @@ Core.Customer = (function (TargetNS) {
         return;
     }
 
+    TargetNS.SupportedBrowser = true;
+    TargetNS.IECompatibilityMode = false;
+
     /**
      * @function
      * @return nothing
@@ -38,6 +41,24 @@ Core.Customer = (function (TargetNS) {
      */
     TargetNS.Init = function () {
         var $TableElements = $('table.Overview tbody tr');
+
+        TargetNS.SupportedBrowser = Core.App.BrowserCheck('Customer');
+        TargetNS.IECompatibilityMode = Core.App.BrowserCheckIECompatibilityMode();
+
+        if (TargetNS.IECompatibilityMode) {
+            TargetNS.SupportedBrowser = false;
+            alert(Core.Config.Get('TurnOffCompatibilityModeMsg'));
+        }
+
+        if (!TargetNS.SupportedBrowser) {
+            alert(
+                Core.Config.Get('BrowserTooOldMsg')
+                + ' '
+                + Core.Config.Get('BrowserListMsg')
+                + ' '
+                + Core.Config.Get('BrowserDocumentationMsg')
+            );
+        }
 
         Core.Exception.Init();
 

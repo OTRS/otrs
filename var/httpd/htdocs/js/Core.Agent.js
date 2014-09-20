@@ -283,12 +283,20 @@ Core.Agent = (function (TargetNS) {
 
             CurrentItems = $('#Navigation').children('li').get();
             CurrentItems.sort(function(a, b) {
+                var IDA, IDB;
 
                 IDA = $(a).attr('id');
                 IDB = $(b).attr('id');
 
-                if (NavbarCustomOrderItems.indexOf(IDA) < NavbarCustomOrderItems.indexOf(IDB)) { return -1; }
-                if (NavbarCustomOrderItems.indexOf(IDA) > NavbarCustomOrderItems.indexOf(IDB)) { return 1; }
+
+                if ($.inArray(IDA, NavbarCustomOrderItems) < $.inArray(IDB, NavbarCustomOrderItems)) {
+                    return -1;
+                }
+
+                if ($.inArray(IDA, NavbarCustomOrderItems) > $.inArray(IDB, NavbarCustomOrderItems)) {
+                    return 1;
+                }
+
                 return 0;
             });
 
@@ -386,12 +394,33 @@ Core.Agent = (function (TargetNS) {
         }
     };
 
+    TargetNS.SupportedBrowser = true;
+    TargetNS.IECompatibilityMode = false;
+
     /**
      * @function
      * @return nothing
      *      This function initializes the application and executes the needed functions
      */
     TargetNS.Init = function () {
+        TargetNS.SupportedBrowser = Core.App.BrowserCheck('Agent');
+        TargetNS.IECompatibilityMode = Core.App.BrowserCheckIECompatibilityMode();
+
+        if (TargetNS.IECompatibilityMode) {
+            TargetNS.SupportedBrowser = false;
+            alert(Core.Config.Get('TurnOffCompatibilityModeMsg'));
+        }
+
+        if (!TargetNS.SupportedBrowser) {
+            alert(
+                Core.Config.Get('BrowserTooOldMsg')
+                + ' '
+                + Core.Config.Get('BrowserListMsg')
+                + ' '
+                + Core.Config.Get('BrowserDocumentationMsg')
+            );
+        }
+
         InitNavigation();
         Core.Exception.Init();
         Core.UI.Table.InitCSSPseudoClasses();

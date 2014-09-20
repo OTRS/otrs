@@ -59,6 +59,67 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @exports TargetNS.BrowserCheck as Core.App.BrowserCheck
+     * @function
+     * @param {String} Interface The interface we are in (Agent or Customer)
+     * @description
+     *      Checks if the used browser is not on the OTRS browser blacklist
+     *      of the agent interface.
+     * @return true if the used browser is *not* on the black list.
+     */
+    TargetNS.BrowserCheck = function (Interface) {
+        var AppropriateBrowser = true,
+            BrowserBlackList = Core.Config.Get('BrowserBlackList::' + Interface);
+        if (typeof BrowserBlackList !== 'undefined') {
+            $.each(BrowserBlackList, function (Key, Value) {
+                if ($.isFunction(Value)) {
+                    if (Value()) {
+                        AppropriateBrowser = false;
+                    }
+                }
+            });
+            return AppropriateBrowser;
+        }
+        alert('Error: Browser Check failed!');
+    };
+
+    /**
+     * @exports TargetNS.BrowserCheckIECompatibilityMode as Core.App.BrowserCheckIECompatibilityMode
+     * @function
+     * @description
+     *      Checks if the used browser is IE in Compatibility Mode.
+     *      IE11 in Compatibility Mode is not recognized.
+     * @return true if the used browser is IE in Compatibility Mode.
+     */
+    TargetNS.BrowserCheckIECompatibilityMode = function  () {
+        var IE7 = ($.browser.msie && $.browser.version === '7.0');
+
+        // if not IE7, we cannot be in compatibilty mode
+        if (!IE7) {
+            return false;
+        }
+
+        // IE8,9,10,11 in Compatibility Mode will claim to be IE7.
+        // See also http://msdn.microsoft.com/en-us/library/ms537503%28v=VS.85%29.aspx
+        if (
+                navigator &&
+                navigator.userAgent &&
+                (
+                    navigator.userAgent.match(/Trident\/4.0/) ||
+                    navigator.userAgent.match(/Trident\/5.0/) ||
+                    navigator.userAgent.match(/Trident\/6.0/) ||
+                    navigator.userAgent.match(/Trident\/7.0/)
+                )
+            ) {
+
+            return true;
+        }
+
+        // if IE7 but no Trident 4-7 is found, we are in a real IE7
+        return false;
+    };
+
+    /**
      * @function
      *      This functions callback is executed if all elements and files of this page are loaded
      * @param {Function} Callback The callback function to be executed

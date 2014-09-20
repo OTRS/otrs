@@ -1,3 +1,8 @@
+#4.0.0.beta3 2014-10-??
+ - 2014-09-22 Fixed bug#[10460](http://bugs.otrs.org/show_bug.cgi?id=10460) - Namespace error in Internet Explorer Compatibility Mode.
+ - 2014-09-22 Fixed bug#[8290](http://bugs.otrs.org/show_bug.cgi?id=8290) - Browser Detection is skipped when using Single Sign On.
+ - 2014-09-22 Fixed bug of new navigation sorting in IE8.
+
 #4.0.0.beta2 2014-09-23
  - 2014-09-18 Added possibility to disable sysconfig import via configuration.
  - 2014-09-17 Fixed bug#[10736](http://bugs.otrs.org/show_bug.cgi?id=10736) - Wrong update behavior for the proccess change time by the scheduler, when a time zone is used.
