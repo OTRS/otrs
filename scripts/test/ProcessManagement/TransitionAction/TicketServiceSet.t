@@ -66,7 +66,7 @@ for my $ServiceData (@Services) {
     $Self->IsNot(
         $ServiceID,
         undef,
-        "ServiceADD() for $ServiceData->{Name}, ServiceID should not be undef",
+        "ServiceAdd() for $ServiceData->{Name}, ServiceID should not be undef",
     );
 
     # store the ServiceID

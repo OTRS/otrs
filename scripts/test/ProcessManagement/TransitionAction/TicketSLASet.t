@@ -57,7 +57,7 @@ for my $ServiceData (@Services) {
     $Self->IsNot(
         $ServiceID,
         undef,
-        "ServiceADD() for $ServiceData->{Name}, ServiceID should not be undef",
+        "ServiceAdd() for $ServiceData->{Name}, ServiceID should not be undef",
     );
 
     # store the ServiceID
@@ -95,7 +95,7 @@ for my $SLAData (@SLAs) {
     $Self->IsNot(
         $SLAID,
         undef,
-        "SLAADD() for $SLAData->{Name}, SLAID should not be undef",
+        "SLAAdd() for $SLAData->{Name}, SLAID should not be undef",
     );
 
     # store the SLAID
