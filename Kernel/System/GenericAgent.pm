@@ -309,11 +309,13 @@ sub JobRun {
         # Find all tickets which will escalate within the next five days.
         #   The notification module will determine if a notification must be sent out or not.
         my @Tickets = $TicketObject->TicketSearch(
+            %Job,
             Result                           => 'ARRAY',
-            Limit                            => 100,
-            TicketEscalationTimeOlderMinutes => -( 5 * 24 * 60 ),
-            Permission                       => 'rw',
-            UserID                           => $Param{UserID} || 1,
+            Limit                            => $Job{Limit} || 100,
+            TicketEscalationTimeOlderMinutes => $Job{TicketEscalationTimeOlderMinutes}
+                || -( 5 * 24 * 60 ),
+            Permission => 'rw',
+            UserID => $Param{UserID} || 1,
         );
 
         for (@Tickets) {
