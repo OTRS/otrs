@@ -1,4 +1,5 @@
 #3.3.10 ????-??-??
+ - 2014-09-22 Fixed bug#[10749](http://bugs.otrs.org/show_bug.cgi?id=10749) - generic agent limitted by notifications for escalations.
  - 2014-09-17 Fixed bug#[10736](http://bugs.otrs.org/show_bug.cgi?id=10736) - Wrong update behavior for the proccess change time by the scheduler, when a time zone is used.
  - 2014-09-15 Added dependency check for Perl module Time::Piece.
  - 2014-09-12 Fixed bug#[10710](http://bugs.otrs.org/show_bug.cgi?id=10710) - Adding agent with username that has already existed in AdminUser leads to SQL error message, thanks to S7.
