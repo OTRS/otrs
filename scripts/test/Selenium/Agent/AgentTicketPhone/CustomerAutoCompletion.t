@@ -98,14 +98,14 @@ $Selenium->RunTest(
         # Normal autocomplete tests
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
-        my %AutoCompleteExptected = (
+        my %AutoCompleteExpected = (
             "$RandomID"             => 2,
             "$RandomID-1"           => 1,
             "$RandomID-2"           => 1,
             "$RandomID-nonexisting" => 0,
         );
 
-        for my $AutocompleteInput ( sort keys %AutoCompleteExptected ) {
+        for my $AutocompleteInput ( sort keys %AutoCompleteExpected ) {
 
             # Workaround: type_keys_ok() does not workin Safari.
             # Use type_ok() instead and emulate the key events.
@@ -130,7 +130,7 @@ $Selenium->RunTest(
 
             $Self->Is(
                 $AutoCompleteEntries,
-                $AutoCompleteExptected{$AutocompleteInput},
+                $AutoCompleteExpected{$AutocompleteInput},
                 "Found entries in the autocomplete dropdown for input string $AutocompleteInput",
             );
         }
