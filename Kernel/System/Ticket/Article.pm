@@ -793,11 +793,11 @@ sub ArticleCreate {
                     Valid  => 1,
                 );
 
-                # TODO: check $UserData{UserSendFollowUpNotification} == 2 is used, otherwise this
+                # TODO: check $UserData{UserSendFollowUpNotification} eq 2 is used, otherwise this
                 # part of the code is unreachable
                 if (
                     $UserData{UserSendFollowUpNotification}
-                    && $UserData{UserSendFollowUpNotification} == 2
+                    && $UserData{UserSendFollowUpNotification} eq '2'
                     && $Ticket{OwnerID} ne 1
                     && $Ticket{OwnerID} ne $Param{UserID}
                     && $Ticket{OwnerID} ne $UserData{UserID}
@@ -832,7 +832,7 @@ sub ArticleCreate {
             # do not send to this user
             next USER if $DoNotSend{$UserID};
 
-            # check if alreay sent
+            # check if already sent
             next USER if $AlreadySent{$UserID};
 
             # remember already sent info

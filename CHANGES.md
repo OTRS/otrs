@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-??
+ - 2014-09-23 Fixed bug#[10758](http://bugs.otrs.org/show_bug.cgi?id=10758) - isn't numeric in numeric eq (==) error on Article.pm.
  - 2014-09-22 Fixed bug#[10749](http://bugs.otrs.org/show_bug.cgi?id=10749) - generic agent limitted by notifications for escalations.
  - 2014-09-22 Fixed bug#[10460](http://bugs.otrs.org/show_bug.cgi?id=10460) - Namespace error in Internet Explorer Compatibility Mode.
  - 2014-09-22 Fixed bug#[8290](http://bugs.otrs.org/show_bug.cgi?id=8290) - Browser Detection is skipped when using Single Sign On.
