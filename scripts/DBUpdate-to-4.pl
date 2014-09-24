@@ -675,7 +675,31 @@ sub _MigrateProcessManagementEntityIDs {
 
         # skip ACLs that does not include ActivityDialogs and Processes in the ConfigChange or
         #    processes in ConfigMatch
-        next ACL if ( !IsHashRefWithData( $ACL->{ConfigChange} ) );
+        if (
+            !IsHashRefWithData( $ACL->{ConfigMatch} )
+            && !IsHashRefWithData( $ACL->{ConfigChange} )
+            )
+        {
+            next ACL;
+        }
+
+        if (
+            IsHashRefWithData( $ACL->{ConfigMatch} )
+            && !IsHashRefWithData( $ACL->{ConfigMatch}->{Properties} )
+            )
+        {
+            next ACL;
+        }
+
+        if (
+            IsHashRefWithData( $ACL->{ConfigChange} )
+            && !IsHashRefWithData( $ACL->{ConfigChange}->{Possible} )
+            && !IsHashRefWithData( $ACL->{ConfigChange}->{PossibleNot} )
+            )
+        {
+            next ACL;
+        }
+
         if (
             !$ACL->{ConfigMatch}->{Properties}->{Process}
             && !$ACL->{ConfigMatch}->{PropertiesDatabase}->{Process}
@@ -1343,8 +1367,8 @@ sub _UninstallMergedFeatureAddOns {
         }
     }
 
-    # Perform a regular uninstall on the support assessment package which was replaced by the SupportData
-    #   and SupportBundle features. Here we want to also remove the database tables.
+    # Perform a regular uninstall on the support assessment package which was replaced by the
+    #    SupportData and SupportBundle features. Here we want to also remove the database tables.
     PACKAGE_NAME:
     for my $PackageName (qw( Support))
     {
