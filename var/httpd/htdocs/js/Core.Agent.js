@@ -412,13 +412,7 @@ Core.Agent = (function (TargetNS) {
         }
 
         if (!TargetNS.SupportedBrowser) {
-            alert(
-                Core.Config.Get('BrowserTooOldMsg')
-                + ' '
-                + Core.Config.Get('BrowserListMsg')
-                + ' '
-                + Core.Config.Get('BrowserDocumentationMsg')
-            );
+            alert( Core.Config.Get('BrowserTooOldMsg') + ' ' + Core.Config.Get('BrowserListMsg') + ' ' + Core.Config.Get('BrowserDocumentationMsg') );
         }
 
         InitNavigation();
