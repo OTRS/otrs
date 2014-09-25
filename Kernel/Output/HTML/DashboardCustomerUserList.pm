@@ -37,7 +37,9 @@ sub new {
 
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
         || $Self->{Config}->{Limit};
-    $Self->{StartHit} = int( $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' ) || 1 );
+    $Self->{StartHit}
+        = int( $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' )
+            || 1 );
 
     return $Self;
 }
@@ -244,7 +246,8 @@ sub Run {
         # 2. current user has access to the chat
         # 3. this customer user is online
         my $ChatStartingAgentsGroup
-            = $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+            = $Kernel::OM->Get('Kernel::Config')
+            ->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
 
         if (
             $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active')
@@ -254,7 +257,7 @@ sub Run {
         {
 
             # check if this customer is actually online
-            my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+            my $SessionObject    = $Kernel::OM->Get('Kernel::System::AuthSession');
             my @Sessions         = $SessionObject->GetAllSessionIDs();
             my $CustomerIsOnline = 0;
 

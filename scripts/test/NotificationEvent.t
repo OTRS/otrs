@@ -23,7 +23,7 @@ my $NotificationEventObject = $Kernel::OM->Get('Kernel::System::NotificationEven
 
 my $RandomID = $HelperObject->GetRandomID();
 
-my $UserID = 1;
+my $UserID     = 1;
 my $TestNumber = 1;
 
 # workaround for oracle

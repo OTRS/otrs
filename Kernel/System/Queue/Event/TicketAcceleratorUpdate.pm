@@ -34,7 +34,7 @@ sub Run {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "Need $_!"
+                Message  => "Need $_!"
             );
             return;
         }
@@ -42,7 +42,7 @@ sub Run {
 
     # only run for StaticDB
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    return 1 if (!$TicketObject->isa('Kernel::System::Ticket::IndexAccelerator::StaticDB'));
+    return 1 if ( !$TicketObject->isa('Kernel::System::Ticket::IndexAccelerator::StaticDB') );
 
     # only update if Queue has really changed
     return 1 if $Param{Data}->{Queue}->{Name} eq $Param{Data}->{OldQueue}->{Name};

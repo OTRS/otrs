@@ -16,7 +16,7 @@ use vars (qw($Self));
 use Kernel::Output::HTML::Layout;
 
 # get needed objects
-my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 my $LayoutObject = Kernel::Output::HTML::Layout->new(
     UserChallengeToken => 'TestToken',

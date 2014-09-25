@@ -360,8 +360,8 @@ sub DESTROY {
             # make test user invalid
             my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
                 %User,
-                ValidID       => 2,
-                ChangeUserID  => 1,
+                ValidID      => 2,
+                ChangeUserID => 1,
             );
 
             $Self->{UnitTestObject}->True( $Success, "Set test user $TestUser to invalid" );
@@ -372,15 +372,16 @@ sub DESTROY {
     if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
         for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
 
-            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            my %CustomerUser
+                = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
                 User => $TestCustomerUser,
-            );
+                );
 
             my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
                 %CustomerUser,
-                ID => $CustomerUser{UserID},
-                ValidID        => 2,
-                UserID         => 1,
+                ID      => $CustomerUser{UserID},
+                ValidID => 2,
+                UserID  => 1,
             );
 
             $Self->{UnitTestObject}->True(

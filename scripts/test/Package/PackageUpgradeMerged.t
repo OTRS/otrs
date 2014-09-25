@@ -354,8 +354,6 @@ $PackageObject->PackageUninstall( String => $MergeOne );
 
 $PackageObject->PackageUninstall( String => $MainPackageThree );
 
-
-
 # define package for merging
 my $MergeThree = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -637,8 +635,6 @@ for my $Test (@Tests) {
     }
 }
 
-
-
 # check Db upgrade without merge is still working
 
 # define initial package
@@ -725,15 +721,12 @@ $PackageFour = '<?xml version="1.0" encoding="utf-8" ?>
 </otrs_package>
 ';
 
-
 my $PackageUpgrade = $PackageObject->PackageUpgrade( String => $PackageFour );
 
 $Self->True(
     $PackageUpgrade,
     'PackageUpgrade() - Package Upgrade.',
 );
-
-
 
 # database upgrade script might be executed, so insert a record
 # should be possible
@@ -756,7 +749,6 @@ $Self->True(
     -f $TmpDir . '/test1',
     'PackageUpgrade() - CodeUpgrade with version 2.0.2.',
 );
-
 
 # remove MainPackage packages
 $PackageObject->PackageUninstall( String => $PackageFour );

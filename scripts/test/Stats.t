@@ -20,8 +20,8 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Stats' => {
-        UserID  => 1,
-    }
+        UserID => 1,
+        }
 );
 
 my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');

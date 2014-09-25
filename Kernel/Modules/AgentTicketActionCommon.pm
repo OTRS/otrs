@@ -806,7 +806,10 @@ sub Run {
             }
         }
 
-        if ( $GetParam{CreateArticle} && $Self->{Config}->{Note} && ( $GetParam{Subject} || $GetParam{Body} ) ) {
+        if (   $GetParam{CreateArticle}
+            && $Self->{Config}->{Note}
+            && ( $GetParam{Subject} || $GetParam{Body} ) )
+        {
 
             if ( !$GetParam{Subject} ) {
                 if ( $Self->{Config}->{Subject} ) {
