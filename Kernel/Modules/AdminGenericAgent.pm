@@ -145,7 +145,7 @@ sub Run {
         }
 
         for my $Type (
-            qw(Time ChangeTime CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+            qw(Time ChangeTime CloseTime LastChangeTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
             )
         {
             my $Key = $Type . 'SearchType';
@@ -154,7 +154,8 @@ sub Run {
         for my $Type (
             qw(
             TicketCreate           TicketChange
-            TicketClose            TicketPending
+            TicketClose            TicketLastChange
+            TicketPending
             TicketEscalation       TicketEscalationResponse
             TicketEscalationUpdate TicketEscalationSolution
             )
@@ -581,6 +582,7 @@ sub _MaskUpdate {
         TicketCreate             => 'Time',
         TicketChange             => 'ChangeTime',
         TicketClose              => 'CloseTime',
+        TicketLastChange         => 'LastChangeTime',
         TicketPending            => 'TimePending',
         TicketEscalation         => 'EscalationTime',
         TicketEscalationResponse => 'EscalationResponseTime',
@@ -590,7 +592,8 @@ sub _MaskUpdate {
     for my $Type (
         qw(
         TicketCreate           TicketClose
-        TicketChange           TicketPending
+        TicketChange           TicketLastChange
+        TicketPending
         TicketEscalation       TicketEscalationResponse
         TicketEscalationUpdate TicketEscalationSolution
         )

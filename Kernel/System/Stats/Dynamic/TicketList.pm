@@ -369,6 +369,32 @@ sub GetObjectAttributes {
             },
         },
         {
+            Name             => 'Last changed times',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'LastChangeTime',
+            TimePeriodFormat => 'DateInputFormat',      # 'DateInputFormatLong',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'TicketLastChangeTimeNewerDate',
+                TimeStop  => 'TicketLastChangeTimeOlderDate',
+            },
+        },
+        {
+            Name             => 'Change times',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'ChangeTime',
+            TimePeriodFormat => 'DateInputFormat',      # 'DateInputFormatLong',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'TicketChangeTimeNewerDate',
+                TimeStop  => 'TicketChangeTimeOlderDate',
+            },
+        },
+        {
             Name             => 'Close Time',
             UseAsXvalue      => 0,
             UseAsValueSeries => 0,

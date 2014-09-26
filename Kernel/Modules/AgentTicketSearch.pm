@@ -181,7 +181,7 @@ sub Run {
     else {
         for my $Key (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
-            Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType EscalationTimeSearchType
+            Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType LastChangeTimeSearchType EscalationTimeSearchType
             UseSubQueues AttachmentName
             ArticleTimeSearchType SearchInArchive
             Fulltext ShownAttributes
@@ -203,6 +203,12 @@ sub Run {
             TicketChangeTimeStartYear
             TicketChangeTimeStop TicketChangeTimeStopDay TicketChangeTimeStopMonth
             TicketChangeTimeStopYear
+            TicketLastChangeTimePointFormat TicketLastChangeTimePoint
+            TicketLastChangeTimePointStart
+            TicketLastChangeTimeStart TicketLastChangeTimeStartDay TicketLastChangeTimeStartMonth
+            TicketLastChangeTimeStartYear
+            TicketLastChangeTimeStop TicketLastChangeTimeStopDay TicketLastChangeTimeStopMonth
+            TicketLastChangeTimeStopYear
             TicketCloseTimePointFormat TicketCloseTimePoint
             TicketCloseTimePointStart
             TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
@@ -311,6 +317,17 @@ sub Run {
         $GetParam{'ChangeTimeSearchType::TimeSlot'} = 1;
     }
 
+    # get last change time option
+    if ( !$GetParam{LastChangeTimeSearchType} ) {
+        $GetParam{'LastChangeTimeSearchType::None'} = 1;
+    }
+    elsif ( $GetParam{LastChangeTimeSearchType} eq 'TimePoint' ) {
+        $GetParam{'LastChangeTimeSearchType::TimePoint'} = 1;
+    }
+    elsif ( $GetParam{LastChangeTimeSearchType} eq 'TimeSlot' ) {
+        $GetParam{'LastChangeTimeSearchType::TimeSlot'} = 1;
+    }
+
     # get close time option
     if ( !$GetParam{CloseTimeSearchType} ) {
         $GetParam{'CloseTimeSearchType::None'} = 1;
@@ -382,6 +399,7 @@ sub Run {
             ArticleCreate    => 'ArticleTime',
             TicketCreate     => 'Time',
             TicketChange     => 'ChangeTime',
+            TicketLastChange => 'LastChangeTime',
             TicketClose      => 'CloseTime',
             TicketEscalation => 'EscalationTime',
         );
@@ -1231,6 +1249,14 @@ sub Run {
                 Disabled => 1,
             },
             {
+                Key   => 'TicketLastChangeTimePoint',
+                Value => 'Ticket Last Change Time (before/after)',
+            },
+            {
+                Key   => 'TicketLastChangeTimeSlot',
+                Value => 'Ticket Last Change Time (between)',
+            },
+            {
                 Key   => 'TicketChangeTimePoint',
                 Value => 'Ticket Change Time (before/after)',
             },
@@ -1886,6 +1912,43 @@ sub Run {
             Format => 'DateInputFormat',
         );
 
+        $Param{TicketLastChangeTimePoint} = $Self->{LayoutObject}->BuildSelection(
+            Data       => [ 1 .. 59 ],
+            Name       => 'TicketLastChangeTimePoint',
+            SelectedID => $GetParam{TicketLastChangeTimePoint},
+        );
+        $Param{TicketLastChangeTimePointStart} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                'Last'   => 'within the last ...',
+                'Before' => 'more than ... ago',
+            },
+            Name => 'TicketLastChangeTimePointStart',
+            SelectedID => $GetParam{TicketLastChangeTimePointStart} || 'Last',
+        );
+        $Param{TicketLastChangeTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'TicketLastChangeTimePointFormat',
+            SelectedID => $GetParam{TicketLastChangeTimePointFormat},
+        );
+        $Param{TicketLastChangeTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %GetParam,
+            Prefix   => 'TicketLastChangeTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{TicketLastChangeTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %GetParam,
+            Prefix => 'TicketLastChangeTimeStop',
+            Format => 'DateInputFormat',
+        );
+
         $Param{TicketEscalationTimePoint} = $Self->{LayoutObject}->BuildSelection(
             Data       => [ 1 .. 59 ],
             Name       => 'TicketEscalationTimePoint',
@@ -1925,7 +1988,7 @@ sub Run {
         );
 
         my %GetParamBackup = %GetParam;
-        for my $Key (qw(TicketEscalation TicketClose TicketChange TicketCreate ArticleCreate)) {
+        for my $Key (qw(TicketEscalation TicketClose TicketChange TicketLastChange TicketCreate ArticleCreate)) {
             for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
                 delete $GetParam{ $Key . $SubKey };
                 delete $GetParamBackup{ $Key . $SubKey };
@@ -1996,6 +2059,7 @@ sub Run {
             TimeSearchType           => 'TicketCreate',
             ChangeTimeSearchType     => 'TicketChange',
             CloseTimeSearchType      => 'TicketClose',
+            LastChangeTimeSearchType => 'TicketLastChange',
             EscalationTimeSearchType => 'TicketEscalation',
             ArticleTimeSearchType    => 'ArticleCreate',
         );

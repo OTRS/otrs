@@ -439,6 +439,25 @@ Core.Agent.Admin.GenericAgent.Init({
                         </div>
                         <div class="Clear"></div>
 
+                        <label for="LastChangeTimeSearchTypeNone">[% Translate("Last changed times") | html %]:</label>
+                        <div class="Field">
+                            <input type="radio" name="LastChangeTimeSearchType" id="LastChangeTimeSearchTypeNone" value="" [% Data.item("LastChangeTimeSearchType::None") %]/>
+                            [% Translate("No last changed time settings.") | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <input type="radio" name="LastChangeTimeSearchType" value="TimePoint" [% Data.item("LastChangeTimeSearchType::TimePoint") %]/>
+                            [% Translate("Ticket last changed") | html %] [% Data.TicketLastChangeTimePointStart %] [% Data.TicketLastChangeTimePoint %] [% Data.TicketLastChangeTimePointFormat %].
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field">
+                            <input type="radio" name="LastChangeTimeSearchType" value="TimeSlot" [% Data.item("LastChangeTimeSearchType::TimeSlot") %]/>
+                            [% Translate("Ticket last changed between") | html %] [% Data.TicketLastChangeTimeStart %] [% Translate("and") | html %] [% Data.TicketLastChangeTimeStop %].
+                        </div>
+                        <div class="Clear"></div>
+
                         <label for="ChangeTimeSearchTypeNone">[% Translate("Change times") | html %]:</label>
                         <div class="Field">
                             <input type="radio" name="ChangeTimeSearchType" id="ChangeTimeSearchTypeNone" value="" [% Data.item("ChangeTimeSearchType::None") %]/>

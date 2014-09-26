@@ -1805,6 +1805,30 @@
                         maxOccurs="1">
                     </xsd:element>
                     <xsd:element
+                        name="TicketLastChangeTimeOlderMinutes"
+                        type="xsd:positiveInteger"
+                        minOccurs="0"
+                        maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="TicketLastChangeTimeNewerMinutes"
+                        type="xsd:positiveInteger"
+                        minOccurs="0"
+                        maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="TicketLastChangeTimeNewerDate"
+                        type="xsd:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
+                        name="TicketLastChangeTimeOlderDate"
+                        type="xsd:string"
+                        minOccurs="0"
+                        maxOccurs="1">
+                    </xsd:element>
+                    <xsd:element
                         name="TicketCloseTimeOlderMinutes"
                         type="xsd:positiveInteger"
                         minOccurs="0"

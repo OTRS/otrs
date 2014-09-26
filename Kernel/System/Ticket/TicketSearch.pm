@@ -183,14 +183,24 @@ To find tickets in your system.
         # tickets with created time before ... (ticket older than this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets changed more than 60 minutes ago (optional)
+        # ticket history entries that created more than 60 minutes ago (optional)
         TicketChangeTimeOlderMinutes => 60,
-        # tickets changed less than 120 minutes ago (optional)
+        # ticket history entries that created less than 120 minutes ago (optional)
         TicketChangeTimeNewerMinutes => 120,
 
+        # tickets changed more than 60 minutes ago (optional)
+        TicketLastChangeTimeOlderMinutes => 60,
+        # tickets changed less than 120 minutes ago (optional)
+        TicketLastChangeTimeNewerMinutes => 120,
+
         # tickets with changed time after ... (ticket changed newer than this date) (optional)
-        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
+        TicketLastChangeTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with changed time before ... (ticket changed older than this date) (optional)
+        TicketLastChangeTimeOlderDate => '2006-01-19 23:59:59',
+
+        # ticket history entry create time after ... (ticket history entries newer than this date) (optional)
+        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
+        # ticket history entry create time before ... (ticket history entries older than this date) (optional)
         TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets closed more than 60 minutes ago (optional)
@@ -1548,7 +1558,7 @@ sub TicketSearch {
         );
     }
 
-    # get tickets changed older than xxxx-xx-xx xx:xx date
+    # get tickets based on ticket history changed older than xxxx-xx-xx xx:xx date
     my $CompareChangeTimeOlderNewerDate;
     if ( $Param{TicketChangeTimeOlderDate} ) {
 
@@ -1582,7 +1592,7 @@ sub TicketSearch {
             . $DBObject->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
     }
 
-    # get tickets changed newer than xxxx-xx-xx xx:xx date
+    # get tickets based on ticket history changed newer than xxxx-xx-xx xx:xx date
     if ( $Param{TicketChangeTimeNewerDate} ) {
         if (
             $Param{TicketChangeTimeNewerDate}
@@ -1616,6 +1626,102 @@ sub TicketSearch {
 
         $SQLExt .= " AND th.create_time >= '"
             . $DBObject->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
+    }
+
+    # get tickets changed older than x minutes
+    if ( defined $Param{TicketLastChangeTimeOlderMinutes} ) {
+
+        $Param{TicketLastChangeTimeOlderMinutes} ||= 0;
+
+        my $TimeStamp = $TimeObject->SystemTime();
+        $TimeStamp -= ( $Param{TicketLastChangeTimeOlderMinutes} * 60 );
+
+        $Param{TicketLastChangeTimeOlderDate} = $TimeObject->SystemTime2TimeStamp(
+            SystemTime => $TimeStamp,
+        );
+    }
+
+    # get tickets changed newer than x minutes
+    if ( defined $Param{TicketLastChangeTimeNewerMinutes} ) {
+
+        $Param{TicketLastChangeTimeNewerMinutes} ||= 0;
+
+        my $TimeStamp = $TimeObject->SystemTime();
+        $TimeStamp -= ( $Param{TicketLastChangeTimeNewerMinutes} * 60 );
+
+        $Param{TicketLastChangeTimeNewerDate} = $TimeObject->SystemTime2TimeStamp(
+            SystemTime => $TimeStamp,
+        );
+    }
+
+    # get tickets changed older than xxxx-xx-xx xx:xx date
+    my $CompareLastChangeTimeOlderNewerDate;
+    if ( $Param{TicketLastChangeTimeOlderDate} ) {
+
+        # check time format
+        if (
+            $Param{TicketLastChangeTimeOlderDate}
+            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid time format '$Param{TicketLastChangeTimeOlderDate}'!",
+            );
+            return;
+        }
+        my $Time = $TimeObject->TimeStamp2SystemTime(
+            String => $Param{TicketLastChangeTimeOlderDate},
+        );
+        if ( !$Time ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketLastChangeTimeOlderDate} . "'!",
+            );
+            return;
+        }
+        $CompareLastChangeTimeOlderNewerDate = $Time;
+
+        $SQLExt .= " AND st.change_time <= '"
+            . $DBObject->Quote( $Param{TicketLastChangeTimeOlderDate} ) . "'";
+    }
+
+    # get tickets changed newer than xxxx-xx-xx xx:xx date
+    if ( $Param{TicketLastChangeTimeNewerDate} ) {
+        if (
+            $Param{TicketLastChangeTimeNewerDate}
+            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid time format '$Param{TicketLastChangeTimeNewerDate}'!",
+            );
+            return;
+        }
+        my $Time = $TimeObject->TimeStamp2SystemTime(
+            String => $Param{TicketLastChangeTimeNewerDate},
+        );
+        if ( !$Time ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message =>
+                    "Search not executed due to invalid time '"
+                    . $Param{TicketLastChangeTimeNewerDate} . "'!",
+            );
+            return;
+        }
+
+        # don't execute queries if newer date is after current date
+        return if $Time > $CurrentSystemTime;
+
+        # don't execute queries if older/newer date restriction show now valid timeframe
+        return if $CompareLastChangeTimeOlderNewerDate && $Time > $CompareLastChangeTimeOlderNewerDate;
+
+        $SQLExt .= " AND st.change_time >= '"
+            . $DBObject->Quote( $Param{TicketLastChangeTimeNewerDate} ) . "'";
     }
 
     # get tickets closed older than x minutes

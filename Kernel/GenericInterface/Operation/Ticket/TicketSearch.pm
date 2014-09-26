@@ -188,14 +188,24 @@ perform TicketSearch Operation. This will return a Ticket ID list.
         # tickets with created time before ... (ticket older than this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets changed more than 60 minutes ago (optional)
+        # ticket history entries that created more than 60 minutes ago (optional)
         TicketChangeTimeOlderMinutes => 60,
-        # tickets changed less than 120 minutes ago (optional)
+        # ticket history entries that created less than 120 minutes ago (optional)
         TicketChangeTimeNewerMinutes => 120,
 
+        # tickets changed more than 60 minutes ago (optional)
+        TicketLastChangeTimeOlderMinutes => 60,
+        # tickets changed less than 120 minutes ago (optional)
+        TicketLastChangeTimeNewerMinutes => 120,
+
         # tickets with changed time after ... (ticket changed newer than this date) (optional)
-        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
+        TicketLastChangeTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with changed time before ... (ticket changed older than this date) (optional)
+        TicketLastChangeTimeOlderDate => '2006-01-19 23:59:59',
+
+        # ticket history entry create time after ... (ticket history entries newer than this date) (optional)
+        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
+        # ticket history entry create time before ... (ticket history entries older than this date) (optional)
         TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets closed more than 60 minutes ago (optional)
@@ -364,7 +374,7 @@ sub _GetParams {
 
     for my $Item (
         qw(TicketNumber Title From To Cc Subject Body
-        Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
+        Agent ResultForm TimeSearchType ChangeTimeSearchType LastChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
         Fulltext ShownAttributes AttachmentName
         )
@@ -432,6 +442,7 @@ sub _GetParams {
     my @Prefixes = (
         'TicketCreateTime',
         'TicketChangeTime',
+        'TicketLastChangeTime',
         'TicketCloseTime',
         'TicketPendingTime',
         'ArticleCreateTime',
@@ -565,7 +576,7 @@ sub _CreateTimeSettings {
     # get single params
     my %GetParam = %Param;
 
-    # get close time settings
+    # get change time settings
     if ( !$GetParam{ChangeTimeSearchType} ) {
 
         # do nothing on time stuff
@@ -635,6 +646,80 @@ sub _CreateTimeSettings {
             }
             else {
                 $GetParam{TicketChangeTimeNewerMinutes} = $Time;
+            }
+        }
+    }
+
+    # get last change time settings
+    if ( !$GetParam{LastChangeTimeSearchType} ) {
+
+        # do nothing on time stuff
+    }
+    elsif ( $GetParam{LastChangeTimeSearchType} eq 'TimeSlot' ) {
+        for (qw(Month Day)) {
+            $GetParam{"TicketLastChangeTimeStart$_"}
+                = sprintf( "%02d", $GetParam{"TicketLastChangeTimeStart$_"} );
+        }
+        for (qw(Month Day)) {
+            $GetParam{"TicketLastChangeTimeStop$_"}
+                = sprintf( "%02d", $GetParam{"TicketLastChangeTimeStop$_"} );
+        }
+        if (
+            $GetParam{TicketLastChangeTimeStartDay}
+            && $GetParam{TicketLastChangeTimeStartMonth}
+            && $GetParam{TicketLastChangeTimeStartYear}
+            )
+        {
+            $GetParam{TicketLastChangeTimeNewerDate}
+                = $GetParam{TicketLastChangeTimeStartYear} . '-'
+                . $GetParam{TicketLastChangeTimeStartMonth} . '-'
+                . $GetParam{TicketLastChangeTimeStartDay}
+                . ' 00:00:00';
+        }
+        if (
+            $GetParam{TicketLastChangeTimeStopDay}
+            && $GetParam{TicketLastChangeTimeStopMonth}
+            && $GetParam{TicketLastChangeTimeStopYear}
+            )
+        {
+            $GetParam{TicketLastChangeTimeOlderDate}
+                = $GetParam{TicketLastChangeTimeStopYear} . '-'
+                . $GetParam{TicketLastChangeTimeStopMonth} . '-'
+                . $GetParam{TicketLastChangeTimeStopDay}
+                . ' 23:59:59';
+        }
+    }
+    elsif ( $GetParam{LastChangeTimeSearchType} eq 'TimePoint' ) {
+        if (
+            $GetParam{TicketLastChangeTimePoint}
+            && $GetParam{TicketLastChangeTimePointStart}
+            && $GetParam{TicketLastChangeTimePointFormat}
+            )
+        {
+            my $Time = 0;
+            if ( $GetParam{TicketLastChangeTimePointFormat} eq 'minute' ) {
+                $Time = $GetParam{TicketLastChangeTimePoint};
+            }
+            elsif ( $GetParam{TicketLastChangeTimePointFormat} eq 'hour' ) {
+                $Time = $GetParam{TicketLastChangeTimePoint} * 60;
+            }
+            elsif ( $GetParam{TicketLastChangeTimePointFormat} eq 'day' ) {
+                $Time = $GetParam{TicketLastChangeTimePoint} * 60 * 24;
+            }
+            elsif ( $GetParam{TicketLastChangeTimePointFormat} eq 'week' ) {
+                $Time = $GetParam{TicketLastChangeTimePoint} * 60 * 24 * 7;
+            }
+            elsif ( $GetParam{TicketLastChangeTimePointFormat} eq 'month' ) {
+                $Time = $GetParam{TicketLastChangeTimePoint} * 60 * 24 * 30;
+            }
+            elsif ( $GetParam{TicketLastChangeTimePointFormat} eq 'year' ) {
+                $Time = $GetParam{TicketLastChangeTimePoint} * 60 * 24 * 365;
+            }
+            if ( $GetParam{TicketLastChangeTimePointStart} eq 'Before' ) {
+                $GetParam{TicketLastChangeTimeOlderMinutes} = $Time;
+            }
+            else {
+                $GetParam{TicketLastChangeTimeNewerMinutes} = $Time;
             }
         }
     }

@@ -17,6 +17,7 @@ use Scalar::Util;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
+    'Kernel::System::DB',
     'Kernel::System::Log',
     'Kernel::System::Ticket',
 );
@@ -106,6 +107,19 @@ sub PostValueSet {
         ArticleID     => $Param{ObjectID},
         DynamicFields => 0,
     );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # update change time
+    return if !$DBObject->Do(
+        SQL => 'UPDATE ticket SET change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{UserID}, \$Article{TicketID} ],
+    );
+
+    # clear ticket cache
+    $TicketObject->_TicketCacheClear( TicketID => $Article{TicketID} );
 
     # trigger event
     $TicketObject->EventHandler(

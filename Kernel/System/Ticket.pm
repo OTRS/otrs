@@ -5701,6 +5701,13 @@ sub TicketAccountTime {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # update change time
+    return if !$DBObject->Do(
+        SQL => 'UPDATE ticket SET change_time = current_timestamp, '
+            . ' change_by = ? WHERE id = ?',
+        Bind => [ \$Param{UserID}, \$Param{TicketID} ],
+    );
+
     # db quote
     $Param{TimeUnit} = $DBObject->Quote( $Param{TimeUnit}, 'Number' );
 
