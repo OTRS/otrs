@@ -36,8 +36,9 @@ $Self->Is(
     "Data collection status",
 );
 
-$Self->False(
+$Self->Is(
     $Result{ErrorMessage},
+    undef,
     "There is no error message",
 );
 
