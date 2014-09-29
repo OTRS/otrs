@@ -675,6 +675,14 @@ sub _MigrateProcessManagementEntityIDs {
 
         # skip ACLs that does not include ActivityDialogs and Processes in the ConfigChange or
         #    processes in ConfigMatch
+        if ( ref $ACL->{ConfigMatch} ne 'HASH' ) {
+            $ACL->{ConfigMatch} = {};
+        }
+
+        if ( ref $ACL->{ConfigChange} ne 'HASH' ) {
+            $ACL->{ConfigChange} = {};
+        }
+
         if (
             !IsHashRefWithData( $ACL->{ConfigMatch} )
             && !IsHashRefWithData( $ACL->{ConfigChange} )
@@ -683,21 +691,16 @@ sub _MigrateProcessManagementEntityIDs {
             next ACL;
         }
 
-        if (
-            IsHashRefWithData( $ACL->{ConfigMatch} )
-            && !IsHashRefWithData( $ACL->{ConfigMatch}->{Properties} )
-            )
-        {
-            next ACL;
+        for my $Part (qw(Properties PropertiesDatabase)) {
+            if ( ref $ACL->{ConfigMatch}->{$Part} ne 'HASH' ) {
+                $ACL->{ConfigMatch}->{$Part} = {};
+            }
         }
 
-        if (
-            IsHashRefWithData( $ACL->{ConfigChange} )
-            && !IsHashRefWithData( $ACL->{ConfigChange}->{Possible} )
-            && !IsHashRefWithData( $ACL->{ConfigChange}->{PossibleNot} )
-            )
-        {
-            next ACL;
+        for my $Part (qw(Possible PossibleNot)) {
+            if ( ref $ACL->{ConfigChange}->{$Part} ne 'HASH' ) {
+                $ACL->{ConfigChange}->{$Part} = {};
+            }
         }
 
         if (
@@ -1006,6 +1009,34 @@ sub _MigrateProcessManagementEntityIDs {
         my $ACL = $FileACLs->{$ACLName};
 
         # skip ACLs that does not include ActivityDialogs
+        if ( ref $ACL->{ConfigMatch} ne 'HASH' ) {
+            $ACL->{ConfigMatch} = {};
+        }
+
+        if ( ref $ACL->{ConfigChange} ne 'HASH' ) {
+            $ACL->{ConfigChange} = {};
+        }
+
+        if (
+            !IsHashRefWithData( $ACL->{ConfigMatch} )
+            && !IsHashRefWithData( $ACL->{ConfigChange} )
+            )
+        {
+            next ACL;
+        }
+
+        for my $Part (qw(Properties PropertiesDatabase)) {
+            if ( ref $ACL->{ConfigMatch}->{$Part} ne 'HASH' ) {
+                $ACL->{ConfigMatch}->{$Part} = {};
+            }
+        }
+
+        for my $Part (qw(Possible PossibleNot)) {
+            if ( ref $ACL->{ConfigChange}->{$Part} ne 'HASH' ) {
+                $ACL->{ConfigChange}->{$Part} = {};
+            }
+        }
+
         if (
             !$ACL->{ConfigMatch}->{Properties}->{Process}
             && !$ACL->{ConfigMatch}->{PropertiesDatabase}->{Process}
