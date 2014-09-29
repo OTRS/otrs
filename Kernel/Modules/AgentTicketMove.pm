@@ -1005,9 +1005,11 @@ sub Run {
     # add note (send no notification)
     my $ArticleID;
 
-    if (   $GetParam{CreateArticle}
+    if (
+        $GetParam{CreateArticle}
         && $Self->{Config}->{Note}
-        && ( $GetParam{Body} || $GetParam{Subject} ) )
+        && ( $GetParam{Body} || $GetParam{Subject} )
+        )
     {
 
         # get pre-loaded attachments
