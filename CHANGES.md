@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-??
+ - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
  - 2014-09-26 Added functionality to search for the last change time of the ticket (TicketLastChangeTimeOlderMinutes, TicketLastChangeTimeNewerMinutes, TicketLastChangeTimeNewerDate, TicketLastChangeTimeOlderDate).
  - 2014-09-25 Readded AgentZoom.pm to fix compatibility problems of older systems.
  - 2014-09-23 Fixed bug#[10759](http://bugs.otrs.org/show_bug.cgi?id=10759) - Migrate ProcessManagement EntityIDs can't use string error.
