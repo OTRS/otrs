@@ -1023,8 +1023,11 @@ sub Run {
 
             # store last overview screen
             my $URL
-                = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
-                . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
+                = "Action=AgentTicketSearch;Subaction=Search"
+                . ";Profile=" . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} )
+                . ";SortBy=" . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
+                . ";OrderBy=" . $Self->{LayoutObject}->LinkEncode( $Self->{OrderBy} )
+                . ";TakeLastSearch=1;StartHit=" . $Self->{LayoutObject}->LinkEncode( $Self->{StartHit} );
 
             $Self->{SessionObject}->UpdateSessionID(
                 SessionID => $Self->{SessionID},
@@ -1047,12 +1050,12 @@ sub Run {
                 . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
                 . ';SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
                 . ';OrderBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{OrderBy} )
-                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
+                . ';Profile=' . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} ) . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
             my $LinkSort = 'Filter='
                 . $Self->{LayoutObject}->LinkEncode( $Self->{Filter} )
                 . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
-                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
+                . ';Profile=' . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} ) . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
             my $LinkFilter = 'TakeLastSearch=1;Subaction=Search;Profile='
                 . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} )
@@ -1065,7 +1068,7 @@ sub Run {
                 = 'SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
                 . ';OrderBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{OrderBy} )
                 . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
-                . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
+                . ';Profile=' . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} ) . ';TakeLastSearch=1;Subaction=Search'
                 . ';';
             $Output .= $Self->{LayoutObject}->TicketListShow(
                 TicketIDs => \@ViewableTicketIDs,
