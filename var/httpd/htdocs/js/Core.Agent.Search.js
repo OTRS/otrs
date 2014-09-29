@@ -320,18 +320,20 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // add new profile
                 $('#SearchProfileAddAction').bind('click', function () {
-                    var Name, $Element1;
+                    var ProfileName, $Element1;
 
                     // get name
-                    Name = $('#SearchProfileAddName').val();
-                    if (!Name) {
-                        return false;
+                    ProfileName = $('#SearchProfileAddName').val();
+
+                    // check name
+                    if (!ProfileName.length || ProfileName.length < 2) {
+                        return;
                     }
 
                     // add name to profile selection
                     $Element1 = $('#SearchProfile').children().first().clone();
-                    $Element1.text(Name);
-                    $Element1.attr('value', Name);
+                    $Element1.text(ProfileName);
+                    $Element1.attr('value', ProfileName);
                     $Element1.attr('selected', 'selected');
                     $('#SearchProfile').append($Element1);
 
