@@ -1991,7 +1991,10 @@ sub Run {
         );
 
         my %GetParamBackup = %GetParam;
-        for my $Key (qw(TicketEscalation TicketClose TicketChange TicketLastChange TicketCreate ArticleCreate)) {
+        for my $Key (
+            qw(TicketEscalation TicketClose TicketChange TicketLastChange TicketCreate ArticleCreate)
+            )
+        {
             for my $SubKey (qw(TimeStart TimeStop TimePoint TimePointStart TimePointFormat)) {
                 delete $GetParam{ $Key . $SubKey };
                 delete $GetParamBackup{ $Key . $SubKey };

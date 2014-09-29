@@ -1718,7 +1718,8 @@ sub TicketSearch {
         return if $Time > $CurrentSystemTime;
 
         # don't execute queries if older/newer date restriction show now valid timeframe
-        return if $CompareLastChangeTimeOlderNewerDate && $Time > $CompareLastChangeTimeOlderNewerDate;
+        return
+            if $CompareLastChangeTimeOlderNewerDate && $Time > $CompareLastChangeTimeOlderNewerDate;
 
         $SQLExt .= " AND st.change_time >= '"
             . $DBObject->Quote( $Param{TicketLastChangeTimeNewerDate} ) . "'";

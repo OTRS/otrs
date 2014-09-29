@@ -38,8 +38,10 @@ sub new {
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
         || $Self->{Config}->{Limit};
     $Self->{StartHit}
-        = int( $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' )
-            || 1 );
+        = int(
+        $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' )
+            || 1
+        );
 
     return $Self;
 }

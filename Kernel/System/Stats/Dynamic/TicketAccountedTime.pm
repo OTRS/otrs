@@ -305,7 +305,7 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'ChangeTime',
-            TimePeriodFormat => 'DateInputFormat',      # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketChangeTimeNewerDate',
