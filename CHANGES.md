@@ -1,4 +1,5 @@
 #3.2.17 2014-??-??
+ - 2014-09-30 Fixed bug#[10774](http://bugs.otrs.org/show_bug.cgi?id=10774) - greedy framework events.
  - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
  - 2014-07-29 Fixed bug#[10598](http://bugs.otrs.org/show_bug.cgi?id=10598) - Field tags not parsed properly in auto response subject.
  - 2014-06-23 Fixed bug#[10522](http://bugs.otrs.org/show_bug.cgi?id=10522) - HTTP 500 error when uploading attachments to ticket on Windows.
