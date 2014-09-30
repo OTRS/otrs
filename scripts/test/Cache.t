@@ -28,6 +28,11 @@ my @BackendModuleFiles = $MainObject->DirectoryRead(
     Silent    => 1,
 );
 
+# define fixed time compatible backends
+my %FixedTimeCompatibleBackends = (
+    FileStorable => 1,
+);
+
 MODULEFILE:
 for my $ModuleFile (@BackendModuleFiles) {
 
@@ -67,7 +72,9 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         # set fixed time
-        $HelperObject->FixedTimeSet();
+        if ( $FixedTimeCompatibleBackends{$Module} ) {
+            $HelperObject->FixedTimeSet();
+        }
 
         my $CacheSet = $CacheObject->Set(
             Type  => 'CacheTest2',
@@ -208,7 +215,12 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         # wait 7 seconds
-        $HelperObject->FixedTimeAddSeconds(7);
+        if ( $FixedTimeCompatibleBackends{$Module} ) {
+            $HelperObject->FixedTimeAddSeconds(7);
+        }
+        else {
+            sleep 7;
+        }
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
@@ -239,7 +251,12 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         # wait 3 seconds
-        $HelperObject->FixedTimeAddSeconds(3);
+        if ( $FixedTimeCompatibleBackends{$Module} ) {
+            $HelperObject->FixedTimeAddSeconds(3);
+        }
+        else {
+            sleep 3;
+        }
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
@@ -257,7 +274,12 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         # wait 3 seconds
-        $HelperObject->FixedTimeAddSeconds(3);
+        if ( $FixedTimeCompatibleBackends{$Module} ) {
+            $HelperObject->FixedTimeAddSeconds(3);
+        }
+        else {
+            sleep 3;
+        }
 
         $CacheGet = $CacheObject->Get(
             Type => 'CacheTest2',
@@ -379,7 +401,9 @@ for my $ModuleFile (@BackendModuleFiles) {
         );
 
         # unset fixed time
-        $HelperObject->FixedTimeUnset();
+        if ( $FixedTimeCompatibleBackends{$Module} ) {
+            $HelperObject->FixedTimeUnset();
+        }
 
         my $String1 = '';
         my $String2 = '';
