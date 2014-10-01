@@ -166,7 +166,7 @@
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketProcessTransitions</Item>
                 <Item Key="Transaction">1</Item>
-                <Item Key="Event">^(Ticket|History|Escalation|Article).*</Item>
+                <Item Key="Event"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
