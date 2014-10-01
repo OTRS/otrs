@@ -129,39 +129,12 @@ sub Collect {
 
     my @Result;
 
-    # ----------------------  TODO: Remove DEBUG code! ------------------------------
-    my $Time = time();
-    my $TempLogDir = '/tmp/SupportDataLog' . $Time;
-    system( "mkdir " . $TempLogDir );
-
-    my $Content = 'GATEWAY_INTERFACE: ' . $ENV{GATEWAY_INTERFACE};
-    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory => $TempLogDir,
-        Filename  => 'GATEWAY_INTERFACE.txt',
-        Content   => \$Content,
-    );
-
-    $Content = $Kernel::OM->Get('Kernel::Config')->Get('ProductName');
-    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Directory => $TempLogDir,
-        Filename  => 'ProductName.txt',
-        Content   => \$Content,
-    );
-    # -----------------------------------------------------------------------------
-
     # Execute all Plugins
     for my $PluginFile (@PluginFiles) {
 
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
         $PluginFile =~ s{/+}{::}xmsg;
-
-        # ----------------------  TODO: Remove DEBUG code! ------------------------------
-        my $TimeStart = time();
-        my $FH;
-        open $FH, '>>', $TempLogDir . '/PluginTimes.txt';
-        print $FH $PluginFile . ' : ';
-        # -----------------------------------------------------------------------------
 
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
             return (
@@ -172,13 +145,6 @@ sub Collect {
         my $PluginObject = $PluginFile->new( %{$Self} );
 
         my %PluginResult = $PluginObject->Run();
-
-        # ----------------------  TODO: Remove DEBUG code! ------------------------------
-        my $TimeEnd = time();
-        my $TimeDiff = $TimeEnd - $TimeStart;
-        print $FH $TimeDiff . "\n";
-        close $FH;
-        # -----------------------------------------------------------------------------
 
         if ( !%PluginResult || !$PluginResult{Success} ) {
             return (
