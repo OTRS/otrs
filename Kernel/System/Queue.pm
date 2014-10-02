@@ -1112,16 +1112,16 @@ sub QueueUpdate {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # sql
-    my $Result = $DBObject->Do(
-        SQL => 'UPDATE queue SET name = ?, comments = ?, group_id = ?, '
-            . ' unlock_timeout = ?, first_response_time = ?, first_response_notify = ?, '
-            . ' update_time = ?, update_notify = ?, solution_time = ?, '
-            . ' solution_notify = ?, follow_up_id = ?, follow_up_lock = ?, '
-            . ' system_address_id = ?, calendar_name = ?, default_sign_key = ?, '
-            . ' salutation_id = ?, signature_id = ?, '
-            . ' valid_id = ?, change_time = current_timestamp, change_by = ? '
-            . ' WHERE id = ?',
+    # SQL
+    return if !$DBObject->Do(
+        SQL => '
+            UPDATE queue
+            SET name = ?, comments = ?, group_id = ?, unlock_timeout = ?, first_response_time = ?,
+                first_response_notify = ?, update_time = ?, update_notify = ?, solution_time = ?,
+                solution_notify = ?, follow_up_id = ?, follow_up_lock = ?, system_address_id = ?,
+                calendar_name = ?, default_sign_key = ?, salutation_id = ?, signature_id = ?,
+                valid_id = ?, change_time = current_timestamp, change_by = ?
+            WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{GroupID}, \$Param{UnlockTimeout},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
@@ -1132,8 +1132,6 @@ sub QueueUpdate {
             \$Param{QueueID},
         ],
     );
-
-    return if !$Result;
 
     # get queue data with updated name for QueueUpdate event
     my %Queue = $Self->QueueGet( Name => $Param{Name} );
@@ -1168,8 +1166,10 @@ sub QueueUpdate {
                 $NewQueueName =~ s/\Q$OldQueue{Name}\E/$Param{Name}/;
 
                 return if !$DBObject->Do(
-                    SQL => 'UPDATE queue SET name = ?, change_time = current_timestamp, '
-                        . ' change_by = ? WHERE id = ?',
+                    SQL => '
+                        UPDATE queue
+                        SET name = ?, change_time = current_timestamp, change_by = ?
+                        WHERE id = ?',
                     Bind => [ \$NewQueueName, \$Param{UserID}, \$QueueID ],
                 );
 
@@ -1181,10 +1181,10 @@ sub QueueUpdate {
         }
     }
 
-    # check all sysconfig options
+    # check all SysConfig options
     return 1 if !$Param{CheckSysConfig};
 
-    # check all sysconfig options and correct them automatically if neccessary
+    # check all SysConfig options and correct them automatically if necessary
     $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemCheckAll();
 
     return 1;

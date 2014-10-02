@@ -10,6 +10,8 @@ package Kernel::System::Queue::Event::TicketAcceleratorUpdate;
 use strict;
 use warnings;
 
+use Kernel::System::VariableCheck qw(:all);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -30,12 +32,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw( Data Event Config UserID )) {
-        if ( !$Param{$_} ) {
+    for my $Needed (qw( Data Event Config UserID )) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -43,6 +46,18 @@ sub Run {
     # only run for StaticDB
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
     return 1 if ( !$TicketObject->isa('Kernel::System::Ticket::IndexAccelerator::StaticDB') );
+
+    # only run if we have the correct data
+    for my $Needed (qw(Queue OldQueue)) {
+        if ( !IsHashRefWithData( $Param{Data}->{$Needed} ) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Needed in Data is missing or invalid!"
+            );
+
+            return;
+        }
+    }
 
     # only update if Queue has really changed
     return 1 if $Param{Data}->{Queue}->{Name} eq $Param{Data}->{OldQueue}->{Name};

@@ -157,7 +157,7 @@ sub TicketAcceleratorUpdateOnQueueUpdate {
     }
 
     #update ticket_index for changed queue name
-    return $Kernel::OM->Get('Kernel::System::DB')->Do(
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE ticket_index
             SET queue = ?
@@ -167,6 +167,8 @@ sub TicketAcceleratorUpdateOnQueueUpdate {
             \$Param{OldQueueName},
         ],
     );
+
+    return 1;
 }
 
 sub TicketAcceleratorDelete {
