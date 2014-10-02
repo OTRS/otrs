@@ -127,7 +127,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 [% RenderBlockStart("PreFilledToRow") %]
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', "[% Data.Email | html %]" );
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', "[% Data.Email %]" );
 [% RenderBlockEnd("PreFilledToRow") %]
 //]]></script>
 [% END %]
@@ -201,7 +201,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
 [% RenderBlockStart("PreFilledCcRow") %]
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', "[% Data.Email | html %]" );
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', "[% Data.Email %]" );
 [% RenderBlockEnd("PreFilledCcRow") %]
 //]]></script>
 [% END %]
