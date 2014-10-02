@@ -6,13 +6,14 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
+# Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-18 10:54+0000\n"
-"Last-Translator: ru_otrs <robert.ullrich@otrs.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4405,6 +4406,22 @@ msgid "Ticket created between"
 msgstr "Ticket erstellt zwischen"
 
 #. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr "Zuletzt geändert Zeiten"
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr "keine zuletzt geändert Zeiten"
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr "Ticket zuletzt geändert"
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr "Ticket zuletzt geändert zwischen"
+
+#. Template: AdminGenericAgent
 msgid "Change times"
 msgstr "Änderungs-Zeiten"
 
@@ -4682,7 +4699,7 @@ msgstr "Zeit"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
-msgstr "Entfernte IP"
+msgstr "Remote-IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
@@ -4706,7 +4723,7 @@ msgstr "Filter bis"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by remote IP"
-msgstr "Filter nach entfernter IP"
+msgstr "Filter nach Remote-IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Refresh"
@@ -5310,7 +5327,7 @@ msgstr "Webservice-Liste"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr "Entferntes System"
+msgstr "Remote-System"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
@@ -9005,6 +9022,14 @@ msgid "Ticket Change Time (between)"
 msgstr "Ticket-Änderungszeit (zwischen)"
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr "Ticket zuletzt geändert (vor/nach)"
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr "Ticket zuletzt geändert (zwischen)"
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr "Ticket-Schließzeit (vor/nach)"
 
@@ -9045,6 +9070,18 @@ msgid "Save filter settings as default"
 msgstr "Filter-Einstellungen als Standard speichern"
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr "Ereignistypfilter"
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr "Ereignistyp"
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr "Save as default"
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr "Archiv"
 
@@ -9077,6 +9114,10 @@ msgid "This item has no articles yet."
 msgstr "Dieser Eintrag hat noch keine Artikel"
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr "Ansicht des Ticket-Verlaufs"
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr "Artikelübersicht"
 
@@ -9103,6 +9144,10 @@ msgstr "Einen Beitrag anzeigen"
 #. Template: AgentTicketZoom
 msgid "Show all articles"
 msgstr "Alle Beiträge anzeigen"
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr "Zeige Ticket-Verlauf-Ansicht"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9136,6 +9181,22 @@ msgstr "Interne Nachricht"
 msgid "Resize"
 msgstr "Größe anpassen"
 
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr "Vollständigen Text anzeigen"
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr "Vollständiger Artikeltext"
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr "Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern."
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr "Dies ist ein Chat-Protokoll. Bitte verkleinere diese Ansicht um das komplette Protokoll zu sehen."
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr "Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert."
@@ -9168,17 +9229,9 @@ msgstr "Konnte Popup-Fenster nicht öffnen. Bitte deaktivieren Sie alle Popup-Bl
 msgid "There are currently no elements available to select from."
 msgstr "Derzeit sind keine Elemente für die Auswahl vorhanden."
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr "JavaScript nicht aktiviert oder nicht unterstützt."
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr "Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren."
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
-msgstr "Browser-Warnung"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -9191,6 +9244,18 @@ msgstr "OTRS funktioniert mit einer großen Auswahl an Browsern, aus denen Sie w
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadministrator."
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr "JavaScript nicht aktiviert oder nicht unterstützt."
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr "Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren."
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
+msgstr "Browser-Warnung"
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -9918,7 +9983,7 @@ msgstr "Eine Liste der dynamischen Felder, die während einer Zusammenführung i
 
 #. SysConfig
 msgid "ACL module that allows closing parent tickets only if all its children are already closed (\"State\" shows which states are not available for the parent ticket until all child tickets are closed)."
-msgstr ""
+msgstr "ACL Modul das erlaubt Eltern-Tickets nur dann zu schließen, wenn alle seine Kinder-Tickets geschlossen wurden. (\"Status\" zeigt welche Status für das Eltern-Ticket nicht verfügbar sind, bis alle Kinder-Tickets geschlossen sind)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -9990,23 +10055,23 @@ msgstr "Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTRS-Protokol
 
 #. SysConfig
 msgid "Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won't be added if the article type is email-internal."
-msgstr ""
+msgstr "Fügt die Kunden E-Mailadresse zu den Empfängern hinzu in der \"TicketCompose\"-Oberfläche des Agenten-Interface hinzu. Die Kunden E-Mailadresse wird nicht hinzugefügt, wenn der Artikel-Typ 'email an intern' ist."
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Fügt die einmaligen Feiertagetage für den angezeigten Kalender. Bitte verwenden Sie einstellige Zahlen von 1 bis 9 (statt 01 bis 09)."
 
 #. SysConfig
 msgid "Adds the one time vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Fügt die einmaligen Ferien-Tage für den ausgewählten Kalender hinzu. Bitte benutzen Sie ein Ein-Zahlen-Muster mit Zahlen von 1 bis 9 (anstatt 01 - 09)."
 
 #. SysConfig
 msgid "Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Fügt die permanenten Ferien-Tage für den ausgewählten Kalender hinzu. Bitte benutzen Sie ein Ein-Zahlen-Muster mit Zahlen von 1 bis 9 (anstatt 01 - 09)."
 
 #. SysConfig
 msgid "Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09)."
-msgstr ""
+msgstr "Fügt die permanenten Ferien-Tage hinzu. Bitte benutzen Sie ein Ein-Zahlen-Muster mit Zahlen von 1 bis 9 (anstatt 01 - 09)."
 
 #. SysConfig
 msgid "Agent Notifications"
@@ -10146,19 +10211,19 @@ msgstr "Ermöglicht die Definition neuer Ticket-Typen  (wenn Ticket-Typ-Funktion
 
 #. SysConfig
 msgid "Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled)."
-msgstr ""
+msgstr "Erlaubt die Definition von Services und SLAs für Tickets (zum Beispiel: E-Mail, Desktop, Network, ...) und Eskalationsattributen für SLAs (wenn die Ticket Service/SLA Einstellung aktiviert ist)."
 
 #. SysConfig
 msgid "Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. with this kind of conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Agenten-Bereichs. Mit dieser Funktion können Sie z.B. mit Bedingungen wie \"(key1&&key2)\" oder \"(key1||key2)\" suchen."
 
 #. SysConfig
 msgid "Allows extended search conditions in ticket search of the customer interface. With this feature you can search w. g. with this kind of conditions like \"(key1&&key2)\" or \"(key1||key2)\"."
-msgstr ""
+msgstr "Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Kunden-Bereichs. Mit dieser Funktion können Sie z.B. mit Bedingungen wie \"(key1&&key2)\" oder \"(key1||key2)\" suchen."
 
 #. SysConfig
 msgid "Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information)."
-msgstr ""
+msgstr "Ermöglicht eine Ticket-Übersicht mit einigen Ticketinformationen  (Customer => 1 - zeigt auch die Kundeninformation)."
 
 #. SysConfig
 msgid "Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information)."
@@ -10254,7 +10319,7 @@ msgstr "Erstellt einen Artikel-Index direkt nach der Erstellung des Artikels."
 
 #. SysConfig
 msgid "CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin)."
-msgstr ""
+msgstr "CMD Beispiel-Setup. Ignoriert E-Mails, in denen ein externer CMD eine Ausgabe auf STDOUT liefert (E-Mail von some.bin wird in STDIN geleitet)."
 
 #. SysConfig
 msgid "Cache time in seconds for agent authentication in the GenericInterface."
@@ -10314,7 +10379,7 @@ msgstr "Priorität aktualisiert von \"%s\" (%s) nach \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown."
-msgstr ""
+msgstr "Ändert den Besitzer der Tickets auf Alle (nützlich für ASP). In der Regel werden nur Agenten mit rw-Berechtigungen auf die Queue angezeigt."
 
 #. SysConfig
 msgid "Checkbox"
@@ -10322,7 +10387,7 @@ msgstr "Kontrollkästchen"
 
 #. SysConfig
 msgid "Checks the SystemID in ticket number detection for follow-ups (use \"No\" if SystemID has been changed after using the system)."
-msgstr ""
+msgstr "Überprüft die System-ID in der Ticketnummer-Erkennung bei FolloUps (Wählen Sie \"Nein\" wenn die System-ID während der Nutzung geändert wurde)."
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -10338,35 +10403,35 @@ msgstr "Ticket-Filter-Spalte für Ticketübersichten vom Typ \"Klein\"."
 
 #. SysConfig
 msgid "Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Eskalationen-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Gesperrt-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Queue-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Verantwortlichen-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Service-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the status view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Status-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the ticket search result view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Ergebnisliste der Ticketsuche im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed."
-msgstr ""
+msgstr "Spalten, die in der Beobachten-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt."
 
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
@@ -10398,7 +10463,7 @@ msgstr "Konfigurieren Sie Ihren eigenen Log-Text für PGP."
 
 #. SysConfig
 msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter \"Ticket Event Module\"."
-msgstr ""
+msgstr "Konfiguriert die Standardeinstellung für TicketDynamicField. \"Name\" definiert das dynamische Feld, das verwendet werden soll, \"Wert\" sind die Daten, die gesetzt werden sollen, und \"Event\" definiert das Trigger-Ereignis. Für weitere Informationen schlagen Sie im Entwickler-Handbuch (http://doc.otrs.org/), im Kapitel \"Ticket Event-Module\" nach."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -10410,7 +10475,11 @@ msgstr "Legt fest, ob Kunden die Möglichkeit haben ihre Tickets zu sortieren."
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
-msgstr ""
+msgstr "Kontrolliert, ob mehr als ein Eintrag in einem neuen Telefon-Ticket festgelegt werden kann."
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr "Kontrolliert, ob es dem Admin erlaubt ist, eine gespeicherte Systemkonfiguration in SysConfig zu importieren."
 
 #. SysConfig
 msgid "Controls if the ticket and article seen flags are removed when a ticket is archived."
@@ -10514,7 +10583,7 @@ msgstr "Neues Prozessticket"
 
 #. SysConfig
 msgid "Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module)."
-msgstr ""
+msgstr "Benutzerdefinierter Text für Kunden, die noch keine Tickets haben (wenn Sie für diesen Text eine Übersetzung wünschen, fügen Sie die Übersetzung in einem eigenen Übersetzungsmodul hinzu)."
 
 #. SysConfig
 msgid "Customer Administration"
@@ -10542,11 +10611,11 @@ msgstr "Kunde hat angerufen."
 
 #. SysConfig
 msgid "Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
-msgstr ""
+msgstr "Kunden-Tickets (Symbol), die die geschlossenen Tickets eines Kunden als Infoblock anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um Tickets auf Basis des Login-Namens zu suchen anstatt auf Basis der CustomerID."
 
 #. SysConfig
 msgid "Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID."
-msgstr ""
+msgstr "Kunden-Tickets (Symbol), die die offenen Tickets eines Kunden als Infoblock anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um Tickets auf Basis des Login-Namens zu suchen anstatt auf Basis der CustomerID."
 
 #. SysConfig
 msgid "Customer request via web."
@@ -10570,7 +10639,7 @@ msgstr "Datum / Zeit"
 
 #. SysConfig
 msgid "Debugs the translation set. If this is set to \"Yes\" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to \"No\"."
-msgstr ""
+msgstr "Debuggt die Übersetzungen. Wenn dies auf \"Ja\" gesetzt ist, werden alle nicht übersetzten Strings (Text), zur STDERR hinzugefügt. Dies kann hilfreich sein, wenn Sie eine eigene Übersetzung anlegen. Ansonsten sollte diese Option auf \"Nein\" gesetzt bleiben."
 
 #. SysConfig
 msgid "Default ACL values for ticket actions."
@@ -10578,15 +10647,15 @@ msgstr "Standard ACL-Werte für Ticketaktionen."
 
 #. SysConfig
 msgid "Default ProcessManagement entity prefixes for entity IDs that are automatically generated."
-msgstr ""
+msgstr "Standard Entitäts-Präfixe des Prozessmanagements für Entitäts-IDs, die automatisch generiert werden."
 
 #. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;\"."
-msgstr ""
+msgstr "Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: \"TicketCreateTimePointFormat = Jahr; TicketCreateTimePointStart = Letzter; TicketCreateTimePoint = 2;\"."
 
 #. SysConfig
 msgid "Default data to use on attribute for ticket search screen. Example: \"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
-msgstr ""
+msgstr "Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: \"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
 
 #. SysConfig
 msgid "Default loop protection module."
@@ -10622,19 +10691,19 @@ msgstr "Standardwert für NameX"
 
 #. SysConfig
 msgid "Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Definiert einen Filter für die HTML-Ausgabe um Links hinter einer bestimmten Zeichenfolge hinzufügen. Dieses Element erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen."
 
 #. SysConfig
 msgid "Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below."
-msgstr ""
+msgstr "Definiert eine Zuordnung zwischen Variablen der Kundenbenutzerdaten (Schlüssel) und dynamischen Feldern eines Ticket (Werte). Somit können Sie Kundenbenutzerdaten eines Tickets in dynamische Felder speichern. Die dynamischen Felder müssen im System vorhanden sein und sollten für AgentTicketFreeText aktiviert werden, damit sie eingestellt / manuell durch den Agenten aktualisiert werden können. Sie dürfen nicht für AgentTicketPhone, AgentTicketEmail und AgentTicketCustomer aktiviert werden. Wenn sie in diesen Masken aktiviert werden, werden später automatisch gesetzte Werte überschrieben werden. Um dieses Mapping zu verwenden, müssen Sie auch Sie die nächste Einstellung aktivieren."
 
 #. SysConfig
 msgid "Define dynamic field name for end time. This field has to be manually added to the system as Ticket: \"Date / Time\" and must be activated in ticket creation screens and/or in any other ticket action screens."
-msgstr ""
+msgstr "Definiert dynamische Feldnamen für die Endzeit. Dieses Feld muss manuell im System als Ticket: \"Datum / Uhrzeit\" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden."
 
 #. SysConfig
 msgid "Define dynamic field name for start time. This field has to be manually added to the system as Ticket: \"Date / Time\" and must be activated in ticket creation screens and/or in any other ticket action screens."
-msgstr ""
+msgstr "Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: \"Datum / Uhrzeit\" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden."
 
 #. SysConfig
 msgid "Define the max depth of queues."
@@ -10666,35 +10735,35 @@ msgstr "Definiert eine Standardliste von Wörtern, die von der Rechtschreibprüf
 
 #. SysConfig
 msgid "Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Definiert einen Filter für die HTML-Ausgabe um Links hinter CVE-Nummern hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen."
 
 #. SysConfig
 msgid "Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Definiert einen Filter für die HTML-Ausgabe um Links hinter einer MSBulletin-Nummer hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen."
 
 #. SysConfig
 msgid "Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Definiert einen Filter für die HTML-Ausgabe um Links hinter einer bestimmten Zeichenfolge hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen."
 
 #. SysConfig
 msgid "Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image."
-msgstr ""
+msgstr "Definiert einen Filter für die HTML-Ausgabe um Links hinter Bugtraq-Nummern hinzufügen. Das Element Bild erlaubt zwei Eingabearten. Zum einem den Namen eines Bildes (Beispielsweise faq.png). In diesem Fall wird der OTRS-Bildpfad verwendet. Die zweite Möglichkeit ist, den Link zu dem Bild einzufügen."
 
 #. SysConfig
 msgid "Defines a filter to process the text in the articles, in order to highlight predefined keywords."
-msgstr ""
+msgstr "Definiert einen Filter, um den Text in den Artikel zu verarbeiten, um vordefinierte Schlüsselwörter zu markieren."
 
 #. SysConfig
 msgid "Defines a regular expression that excludes some addresses from the syntax check (if \"CheckEmailAddresses\" is set to \"Yes\"). Please enter a regex in this field for email addresses, that aren't syntactically valid, but are necessary for the system (i.e. \"root@localhost\")."
-msgstr ""
+msgstr "Definiert Regular-Expressions die einige Adressen von der Syntaxprüfung ausschließt (wenn \"CheckEmailAddresses\" auf '\"Ja\" gesetzt ist). Bitte geben Sie in diesem Feld eine Regex für E-Mail-Adressen an, die syntaktisch nicht gültig, aber für das System (z.B.: \"root@localhost\") notwendig sind."
 
 #. SysConfig
 msgid "Defines a regular expression that filters all email addresses that should not be used in the application."
-msgstr ""
+msgstr "Definiert einen regulären Ausdruck, der alle E-Mail-Adressen filtert, die in der Anwendung nicht verwendet werden sollen"
 
 #. SysConfig
 msgid "Defines a useful module to load specific user options or to display news."
-msgstr ""
+msgstr "Definiert ein nützliches Modul um bestimmte User-Optionen zu laden oder um Neuigkeiten anzuzeigen."
 
 #. SysConfig
 msgid "Defines all the X-headers that should be scanned."
@@ -10706,11 +10775,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface."
-msgstr ""
+msgstr "Definiert alle Parameter für das Objekt RefreshTime in den Kundeneinstellungen des Kunden-Interface."
 
 #. SysConfig
 msgid "Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface."
-msgstr ""
+msgstr "Definiert alle Parameter für das Objekt ShownTickets in den Kundeneinstellungen des Kunden-Interface."
 
 #. SysConfig
 msgid "Defines all the parameters for this item in the customer preferences."
@@ -10742,15 +10811,15 @@ msgstr "Definiert eine externen Verbindung zu einer Kundendatenbank (z.B.: 'http
 
 #. SysConfig
 msgid "Defines from which ticket attributes the agent can select the result order."
-msgstr ""
+msgstr "Definiert aus welchen Ticket-Attributen der Agent die Ergebnissortierung wählen kann."
 
 #. SysConfig
 msgid "Defines how the From field from the emails (sent from answers and email tickets) should look like."
-msgstr ""
+msgstr "Definiert, wie das \"Von:\"-Feld in den E-Mails (gesendet von Antworten und E-Mail-Tickets) aussehen soll."
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the queue view."
-msgstr ""
+msgstr "Definiert ob in der Queue-View eine Vorsortierung anhand der Priorität vorgenommen werden soll."
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the service view."
@@ -10826,7 +10895,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen)."
-msgstr ""
+msgstr "Definiert ob die Zeiterfassung verpflichtend in der Agenten-Oberfläche ist. Wenn diese Funktion aktiviert ist, muss eine Notiz für alle Ticketaktionen (egal ob die Notiz als aktiv konfiguriert ist oder ursprünglich zwingend für die individuellen Ticket-Aktionen konfiguert wurde)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -10842,11 +10911,11 @@ msgstr "Definiert die Scheduler-PID Updatezeit in Sekunden."
 
 #. SysConfig
 msgid "Defines scheduler sleep time in seconds after processing all available tasks (floating point number)."
-msgstr ""
+msgstr "Definiert die Wartezeit des Schedulers in Sekunden nachdem alle verfügbaren Aufgaben ausgeführt wurden (Fließkommazahl)."
 
 #. SysConfig
 msgid "Defines the IP regular expression for accessing the local repository. You need to enable this to have access to your local repository and the package::RepositoryList is required on the remote host."
-msgstr ""
+msgstr "Definiert die Regular Expressions für IPs für den Zugriff auf das lokale Repository. Sie müssen diese Einstellungen aktivieren um Zugang zu Ihrem lokalen Repository zu haben, ebenfalls muss das Paket package::RepositoryList auf dem Remote-Host installiert sein."
 
 #. SysConfig
 msgid "Defines the URL CSS path."
@@ -10874,23 +10943,23 @@ msgstr "Definiert die Adresse eines dedizierten DNS-Server, wenn nötig, für \"
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, about new password (after using this link the new password will be sent)."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails, die wegen eines neuen Passworts an Agenten geschickt werden (nachdem dieser Link benutzt wird, wird das neue Passwort gesendet)."
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to agents, with token about new requested password (after using this link the new password will be sent)."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails für Agenten, inklusive eines Tokens für die Passwortänderungsanfrage (nachdem dieser Link benutzt wird, wird das neue Passwort gesendet)."
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to customers, about new account."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails, die wegen eines neuen Accounts an Kunden geschickt wird."
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to customers, about new password (after using this link the new password will be sent)."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails, die wegen eines neuen Passworts an Kunden geschickt wird (nachdem dieser Link benutzt wird, wird das neue Passwort gesendet)."
 
 #. SysConfig
 msgid "Defines the body text for notification mails sent to customers, with token about new requested password (after using this link the new password will be sent)."
-msgstr ""
+msgstr "Definiert den Text im Hauptteil für Benachrichtigungs-Emails für Kunden, inklusive eines Tokens für die Passwortänderungsanfrage (nachdem dieser Link benutzt wird, wird das neue Passwort gesendet)."
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
@@ -10910,15 +10979,15 @@ msgstr "Definiert die Farben der Graphen"
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
-msgstr ""
+msgstr "Definiert die Spalte um die Schlüssel in der Eigenschaften-Tabelle zu speichern"
 
 #. SysConfig
 msgid "Defines the config options for the autocompletion feature."
-msgstr ""
+msgstr "Definiert die Konfigurationsoptionen für die Autovervollständigung."
 
 #. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view."
-msgstr ""
+msgstr "Definiert die Konfigurationsparamenter des Items, die in der Eigenschaftenanzeige angezeigt wird."
 
 #. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view. Take care to maintain the dictionaries installed in the system in the data section."
@@ -10930,19 +10999,19 @@ msgstr "Definiert Verbindungen für HTTP/FTP über einen Proxy."
 
 #. SysConfig
 msgid "Defines the date input format used in forms (option or input fields)."
-msgstr ""
+msgstr "Definiert das benutzte Datumseingabeformat in Formularen (Option für Eingabefelder)."
 
 #. SysConfig
 msgid "Defines the default CSS used in rich text editors."
-msgstr ""
+msgstr "Definiert die genutzte Standard-CSS in RichText-Editoren."
 
 #. SysConfig
 msgid "Defines the default auto response type of the article for this operation."
-msgstr ""
+msgstr "Definiert den Standard-Auto-Antwort-Typ des Artikels für diese Operation."
 
 #. SysConfig
 msgid "Defines the default body of a note in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Inhalt einer Notiz in der TicketFreeText-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/."
@@ -10950,19 +11019,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting)."
-msgstr ""
+msgstr "Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung)."
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
-msgstr ""
+msgstr "Definiert den Standard-Historientyp im Kunden-Interface."
 
 #. SysConfig
 msgid "Defines the default maximum number of X-axis attributes for the time scale."
-msgstr ""
+msgstr "Definiert die standardmäßig eingestellte maximale Anzahl von Attributen für die x-Achse für die Zeitachse."
 
 #. SysConfig
 msgid "Defines the default maximum number of search results shown on the overview page."
-msgstr ""
+msgstr "Definiert die standardmäßig eingestellte maximale Anzahl an Suchergebnissen, die auf der Überblick-Seite angezeigt werden."
 
 #. SysConfig
 msgid "Defines the default next state for a ticket after customer follow up in the customer interface."
@@ -11022,11 +11091,11 @@ msgstr "Bestimmt die Vorbelegung des Textfeldes für Telefon-Tickets im Bildschi
 
 #. SysConfig
 msgid "Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface."
-msgstr ""
+msgstr "Definiert die Standard-Priorität von Kunden-FollowUps in der TicketZoom-Oberfläche im Kundenoberfläche."
 
 #. SysConfig
 msgid "Defines the default priority of new customer tickets in the customer interface."
-msgstr ""
+msgstr "Definiert die Standard-Prioriät von neuen Kundentickets in der Kundenoberfläche."
 
 #. SysConfig
 msgid "Defines the default priority of new tickets."
@@ -11034,11 +11103,11 @@ msgstr "Definiert die Standard-Priorität von neuen Tickets."
 
 #. SysConfig
 msgid "Defines the default queue for new customer tickets in the customer interface."
-msgstr ""
+msgstr "Definiert den Standard-Queue von neuen Kundentickets in der Kundenoberfläche."
 
 #. SysConfig
 msgid "Defines the default selection at the drop down menu for dynamic objects (Form: Common Specification)."
-msgstr ""
+msgstr "Definiert die Standardauswahl in der Einfachauswahl für dynamische Objekte (Formular: genauere Spezifikation)."
 
 #. SysConfig
 msgid "Defines the default selection at the drop down menu for permissions (Form: Common Specification)."
@@ -11050,39 +11119,39 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default sender type for phone tickets in the ticket phone inbound screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Absendertyp für Telefon-Tickets in der Eingehende-Telefon-Tickets-Anzeige in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid "Defines the default sender type for phone tickets in the ticket phone outbound screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Absendertp für Telefon-Tickets in der Ausgehende-Telefon-Tickets-Anzeige in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid "Defines the default sender type for tickets in the ticket zoom screen of the customer interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Absendertp für Telefon-Tickets in der TicketZoom-Anzeige in der Agenten-Oberfläche."
 
 #. SysConfig
 msgid "Defines the default shown ticket search attribute for ticket search screen."
-msgstr ""
+msgstr "Definiert die standardmäßig angezeigten Ticketsuchattribute für die Ticketsuche."
 
 #. SysConfig
 msgid "Defines the default shown ticket search attribute for ticket search screen. Example: \"Key\" must have the name of the Dynamic Field in this case 'X', \"Content\" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: 'a text', Dropdown: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';."
-msgstr ""
+msgstr "Definiert die Standard Suchattribute für die Ticketsuche Beispiel: \"Key\" muss den Namen des dynamischen Feldes haben, in diesem Fall 'X', \"Content\" muss den Wert des dynamischen Feldes, abhängig vom Feldtyp, haben, Text: 'ein Text', Dropdown: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;' and or 'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7';."
 
 #. SysConfig
 msgid "Defines the default sort criteria for all queues displayed in the queue view."
-msgstr ""
+msgstr "Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Queue-Ansicht angezeigten Queues."
 
 #. SysConfig
 msgid "Defines the default sort criteria for all services displayed in the service view."
-msgstr ""
+msgstr "Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Service-Ansicht angezeigten Dienste."
 
 #. SysConfig
 msgid "Defines the default sort order for all queues in the queue view, after priority sort."
-msgstr ""
+msgstr "Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Queue-Ansicht angezeigten Queues, nachdem nach Priorität sortiert wurde."
 
 #. SysConfig
 msgid "Defines the default sort order for all services in the service view, after priority sort."
-msgstr ""
+msgstr "Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Service-Ansicht angezeigten Dienste, nachdem nach Priorität sortiert wurde."
 
 #. SysConfig
 msgid "Defines the default spell checker dictionary."
@@ -11090,7 +11159,7 @@ msgstr "Definiert das Standard Rechtschreib-Wörterbuch"
 
 #. SysConfig
 msgid "Defines the default state of new customer tickets in the customer interface."
-msgstr ""
+msgstr "Definiert den Standard-Status von neuen Kundentickets in der Kundenoberfläche."
 
 #. SysConfig
 msgid "Defines the default state of new tickets."
@@ -11098,47 +11167,47 @@ msgstr "Definiert den Standard-Status von neuen Tickets."
 
 #. SysConfig
 msgid "Defines the default subject for phone tickets in the ticket phone inbound screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Telefon-Tickets in der Eingehende-Telefon-Tickets-Anzeige in der Agent-Oberfläche."
 
 #. SysConfig
 msgid "Defines the default subject for phone tickets in the ticket phone outbound screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff für Telefon-Tickets in der Ausgehende-Telefon-Tickets-Anzeige in der Agent-Oberfläche."
 
 #. SysConfig
 msgid "Defines the default subject of a note in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Bestimmt den Standard-Betreff einer Notiz im Ticket-Freitext-Bildschirm des Agenten-Interfaces."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting in a ticket search of the customer interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in einer Ticket-Suche im Kunden-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting in the escalation view of the agent interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in der Eskalations-Anzeige im Agent-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting in the locked ticket view of the agent interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in der Gesperrte-Tickets-Anzeige im Agent-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting in the responsible view of the agent interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in der Verantwortlicher-Anzeige im Agent-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting in the status view of the agent interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in der Status-Anzeige im Agent-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting in the watch view of the agent interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets in der Beobachten-Anzeige im Agent-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets des Ticket-Suchergebnis im Agent-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket attribute for ticket sorting of the ticket search result of this operation."
-msgstr ""
+msgstr "Bestimmt das Standard-Ticket-Attribut für das Sortieren der Tickets im Ticket-Suchergebnis von dieser Operation."
 
 #. SysConfig
 msgid "Defines the default ticket bounced notification for customer/sender in the ticket bounce screen of the agent interface."
@@ -11722,7 +11791,7 @@ msgstr "Definiert die Postmaster-Standard-Queue"
 
 #. SysConfig
 msgid "Defines the priority in which the information is logged and presented."
-msgstr ""
+msgstr "Definiert die Priorität in welcher die Information aufgezeichnet und präsentiert wird."
 
 #. SysConfig
 msgid "Defines the receipent target of the phone ticket and the sender of the email ticket (\"Queue\" shows all queues, \"SystemAddress\" displays all system addresses) in the agent interface."
@@ -11782,11 +11851,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the subject for notification mails sent to customers, about new account."
-msgstr ""
+msgstr "Definiert den Betreff für Benachrichtigungs-Emails, die wegen eines neuen Accounts an Kunden geschickt wird."
 
 #. SysConfig
 msgid "Defines the subject for notification mails sent to customers, about new password."
-msgstr ""
+msgstr "Definiert den Betreff für Benachrichtigungs-Emails, die wegen eines neuen Passworts an Kunden geschickt wird."
 
 #. SysConfig
 msgid "Defines the subject for notification mails sent to customers, with token about new requested password."
@@ -11798,7 +11867,7 @@ msgstr "Bestimmt den Betreff von abgelehnten E-Mails."
 
 #. SysConfig
 msgid "Defines the system administrator's email address. It will be displayed in the error screens of the application."
-msgstr ""
+msgstr "Definiert die E-Mail-Adresse des System-Administrators. Sie wird in den Fehleranzeigen des Programms angezeigt."
 
 #. SysConfig
 msgid "Defines the system identifier. Every ticket number and http session string contains this ID. This ensures that only tickets which belong to your system will be processed as follow-ups (useful when communicating between two instances of OTRS)."
@@ -11830,7 +11899,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the title font in graphs (place custom fonts in var/fonts)."
-msgstr ""
+msgstr "Definiert die Schriftart des Titels in Grafiken (speichere eigene Schriftarten in var/fonts)."
 
 #. SysConfig
 msgid "Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
@@ -12294,15 +12363,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Event module that updates customer users after an update of the Customer."
-msgstr ""
+msgstr "Ereignis-Modul, das Kundenbenutzer aktualisiert nach einem Update des Kunden."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer User."
-msgstr ""
+msgstr "Ereignis-Modul, das ein Ticket aktualisiert nach einem Update des Kundenbenutzers."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
-msgstr ""
+msgstr "Ereignis-Modul, das ein Ticket aktualisiert nach einem Update des Kunden."
 
 #. SysConfig
 msgid "Events Ticket Calendar"
@@ -12410,15 +12479,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Frontend module registration (disable ticket processes screen if no process available) for Customer."
-msgstr ""
+msgstr "Frontend-Modulregistrierung im Kunden-Interface (verberge Ticket-Prozesse, falls kein Prozess verfügbar ist)."
 
 #. SysConfig
 msgid "Frontend module registration (disable ticket processes screen if no process available)."
-msgstr ""
+msgstr "Frontend-Modulregistrierung (verberge Ticket-Prozesse, falls kein Prozess verfügbar ist)."
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
-msgstr ""
+msgstr "Frontend-Modulregistrierung im Agent-Interface."
 
 #. SysConfig
 msgid "Frontend module registration for the customer interface."
@@ -12462,11 +12531,11 @@ msgstr ""
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr ""
+msgstr "GenericInterface Webservices Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Webservice History GUI"
-msgstr ""
+msgstr "GenericInterface Webservice Verlauf Benutzeroberfläche"
 
 #. SysConfig
 msgid "GenericInterface Webservice Mapping GUI"
@@ -14851,72 +14920,4 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr "Zuletzt geändert Zeiten"
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr "keine zuletzt geändert Zeiten"
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr "Ticket zuletzt geändert"
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr "Ticket zuletzt geändert zwischen"
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr "Ticket zuletzt geändert (vor/nach)"
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr "Ticket zuletzt geändert (zwischen)"
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
 

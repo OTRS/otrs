@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-17 14:42+0000\n"
-"Last-Translator: Kim Sandbladh <kim.sandbladh@otrs.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/OTRS/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1345,23 +1345,23 @@ msgstr "Đánh dấu"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Hủy dấu"
 
 #. Template: AAABase
 msgid "Bold"
-msgstr ""
+msgstr "Chữ đậm"
 
 #. Template: AAABase
 msgid "Italic"
-msgstr ""
+msgstr "Chữ nghiêng"
 
 #. Template: AAABase
 msgid "Underline"
-msgstr ""
+msgstr "Gạch dưới"
 
 #. Template: AAABase
 msgid "Font Color"
-msgstr ""
+msgstr "Màu chữ"
 
 #. Template: AAABase
 msgid "Background Color"
@@ -1417,7 +1417,7 @@ msgstr "HTML liên kết"
 
 #. Template: AAABase
 msgid "Insert Image"
-msgstr ""
+msgstr "Chèn ảnh"
 
 #. Template: AAABase
 msgid "CTRL"
@@ -1941,11 +1941,11 @@ msgstr ""
 
 #. Template: AAAStats
 msgid "Ticket Close Time"
-msgstr ""
+msgstr "Giờ Đóng Vé"
 
 #. Template: AAASupportDataCollector
 msgid "Unknown"
-msgstr ""
+msgstr "Không biết"
 
 #. Template: AAASupportDataCollector
 msgid "Information"
@@ -4398,6 +4398,22 @@ msgstr "Thẻ đã tạo"
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
 msgstr "Thẻ đã tạo giữa"
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -8945,7 +8961,7 @@ msgstr "Toàn bộ văn bản"
 
 #. Template: AgentTicketSearch
 msgid "Remove"
-msgstr ""
+msgstr "Hủy bỏ"
 
 #. Template: AgentTicketSearch
 msgid "Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name."
@@ -8957,7 +8973,7 @@ msgstr "Đăng nhập người dùng khách hàng"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Tên tập tin đính kèm"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
@@ -8997,6 +9013,14 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
 msgstr ""
 
 #. Template: AgentTicketSearch
@@ -9040,6 +9064,18 @@ msgid "Save filter settings as default"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr ""
 
@@ -9072,6 +9108,10 @@ msgid "This item has no articles yet."
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr ""
 
@@ -9097,6 +9137,10 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Show all articles"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -9131,6 +9175,22 @@ msgstr ""
 msgid "Resize"
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -9163,16 +9223,8 @@ msgstr ""
 msgid "There are currently no elements available to select from."
 msgstr ""
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr ""
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr ""
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 
 #. Template: CustomerFooterJS
@@ -9185,6 +9237,18 @@ msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
 msgstr ""
 
 #. Template: CustomerLogin
@@ -10405,6 +10469,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 
 #. SysConfig
@@ -14845,73 +14913,5 @@ msgstr "Lựa chọn hàng đợi trong số các hàng đợi ưa thích của 
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 

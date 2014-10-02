@@ -1,11 +1,12 @@
 #
 # Translators:
+# Kentaro Hori <kentaro0919@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -727,7 +728,7 @@ msgstr "日付抽出"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "ツリーセレクターを表示する"
 
 #. Template: AAABase
 msgid "The field content is too long!"
@@ -807,11 +808,12 @@ msgstr "管理者に連絡してください"
 
 #. Template: AAABase
 msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
-msgstr ""
+msgstr "承認に成功しましたが、顧客レコードが顧客バックエンドで見つかりませんでした。\n"
+"管理者にお問い合わせください。"
 
 #. Template: AAABase
 msgid "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "このe-mailアドレスはすでに存在します。ログイン、またはパスワードのリセットを行ってください。"
 
 #. Template: AAABase
 msgid "Logout"
@@ -855,7 +857,7 @@ msgstr "OTRSをインストール"
 
 #. Template: AAABase
 msgid "Intro"
-msgstr ""
+msgstr "イントロ"
 
 #. Template: AAABase
 msgid "License"
@@ -895,7 +897,7 @@ msgstr "ログインしてください。"
 
 #. Template: AAABase
 msgid "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "予定されていたメンテナンスのため、只今の時間はログインを行うことができません。"
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -979,7 +981,7 @@ msgstr "パッケージが正しくデプロイされません。再インスト
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr ""
+msgstr "%s は書き込めません。"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
@@ -995,7 +997,7 @@ msgstr "外出中が有効になっています。無効にしますか？"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "OTRSリリース情報!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1067,7 +1069,7 @@ msgstr "顧客企業を更新しました。"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "注意: 企業名が不正です。"
 
 #. Template: AAABase
 msgid "Mail account added!"
@@ -1215,7 +1217,7 @@ msgstr "セキュリティメモ： %sを有効にしてください。アプリ
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
-msgstr ""
+msgstr "リポジトリインデックスドキュメントを解析できません。"
 
 #. Template: AAABase
 msgid "No packages for your framework version found in this repository, it only contains packages for other framework versions."
@@ -1299,7 +1301,7 @@ msgstr "続き"
 
 #. Template: AAABase
 msgid "Collapse"
-msgstr ""
+msgstr "崩壊"
 
 #. Template: AAABase
 msgid "Shown"
@@ -1463,27 +1465,27 @@ msgstr "選択されたプロセスは正しくありません。"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
-msgstr ""
+msgstr "元日"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "国際労働者の日"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
-msgstr ""
+msgstr "クリスマスイブ"
 
 #. Template: AAACalendar
 msgid "First Christmas Day"
-msgstr ""
+msgstr "ファースト・クリスマスデー"
 
 #. Template: AAACalendar
 msgid "Second Christmas Day"
-msgstr ""
+msgstr "セカンド・クリスマスデー"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
-msgstr ""
+msgstr "大晦日"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
@@ -1691,11 +1693,11 @@ msgstr "合計"
 
 #. Template: AAAStats
 msgid "No (not supported)"
-msgstr ""
+msgstr "いいえ(サポートされていません)"
 
 #. Template: AAAStats
 msgid "Days"
-msgstr ""
+msgstr "日"
 
 #. Template: AAAStats
 msgid "Please fill out the required fields!"
@@ -1943,31 +1945,31 @@ msgstr "チケット完了時間"
 
 #. Template: AAASupportDataCollector
 msgid "Unknown"
-msgstr ""
+msgstr "アンノウン"
 
 #. Template: AAASupportDataCollector
 msgid "Information"
-msgstr ""
+msgstr "情報"
 
 #. Template: AAASupportDataCollector
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. Template: AAASupportDataCollector
 msgid "Problem"
-msgstr ""
+msgstr "問題"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver"
-msgstr ""
+msgstr "Webサーバー"
 
 #. Template: AAASupportDataCollector
 msgid "Operating System"
-msgstr ""
+msgstr "オペレーションシステム"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS"
-msgstr ""
+msgstr "OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Table Presence"
@@ -1975,7 +1977,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not open file."
-msgstr ""
+msgstr "インターナルエラー: ファイルを開けることができません"
 
 #. Template: AAASupportDataCollector
 msgid "Table Check"
@@ -1991,151 +1993,151 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Database Size"
-msgstr ""
+msgstr "データーベースサイズ"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database size."
-msgstr ""
+msgstr "データーベースサイズが特定できませんでした"
 
 #. Template: AAASupportDataCollector
 msgid "Database Version"
-msgstr ""
+msgstr "データベースのバージョン"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database version."
-msgstr ""
+msgstr "データベースのバージョンが特定できませんでした"
 
 #. Template: AAASupportDataCollector
 msgid "Client Connection Charset"
-msgstr ""
+msgstr "クライアントコネクションのキャラクターセット"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "character_set_client は utf8 に設定する必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
-msgstr ""
+msgstr "データーベースサーバーのキャラクターセット"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "character_set_database設定は UNICODE または UTF8 である必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
-msgstr ""
+msgstr "Table キャラクターセット"
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
-msgstr ""
+msgstr "utf8 に設定されていない tableが見つかりました"
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "最大 Query サイズ"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr ""
+msgstr "max_allowed_packet 設定が20MB以上にする必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Query キャッシュサイズ"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB)."
-msgstr ""
+msgstr "query_cache_size の設定を行ってください (設定値は10MB以上512MB以下に設定する必要があります)"
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "デフォルトのストレージエンジン"
 
 #. Template: AAASupportDataCollector
 msgid "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "デフォルトのストレージエンジンと違うストレージエンジン設定の Table が見つかりました"
 
 #. Template: AAASupportDataCollector
 msgid "MySQL 5.x or higher is required."
-msgstr ""
+msgstr "動作要件は MySQL 5.x 以上になっています "
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG Setting"
-msgstr ""
+msgstr "NLS_LANG 設定"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
-msgstr ""
+msgstr "NLS_LANG は AL32UTF8 (例. GERMAN_GERMANY.AL32UTF8) に設定されている必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
-msgstr ""
+msgstr "NLS_DATE_FORMAT 設定"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
-msgstr ""
+msgstr "NLS_DATE_FORMAT は YYYY-MM-DD HH24:MI:SS に設定されている必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "NLS_DATE_FORMAT 設定 SQL チェック"
 
 #. Template: AAASupportDataCollector
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr " client_encodingはユニコードまたはUTF8 に設定する必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "server_encodingはユニコードまたはUTF8 に設定する必要があります"
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
-msgstr ""
+msgstr "データーフォーマット"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
-msgstr ""
+msgstr "日付の設定はISOフォーマットに従ってください"
 
 #. Template: AAASupportDataCollector
 msgid "PostgreSQL 8.x or higher is required."
-msgstr ""
+msgstr "PostgreSQL 8.x 以上が要件になります"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Disk Partition"
-msgstr ""
+msgstr "OTRS ディスクパーティション"
 
 #. Template: AAASupportDataCollector
 msgid "Disk Usage"
-msgstr ""
+msgstr "ディスク利用率"
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located is almost full."
-msgstr ""
+msgstr "OTRS がインストールされているディスクパーティションがもうすぐいっぱいになります"
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located has no disk space problems."
-msgstr ""
+msgstr "OTRS がインストールされているディスクパーティションはディスクスペースの問題は起こっていません"
 
 #. Template: AAASupportDataCollector
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "OTRS ディスクパーティション使用率"
 
 #. Template: AAASupportDataCollector
 msgid "Distribution"
-msgstr ""
+msgstr "ディストリビューション"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine distribution."
-msgstr ""
+msgstr "ディストリビューションを特定できませんでした"
 
 #. Template: AAASupportDataCollector
 msgid "Kernel Version"
-msgstr ""
+msgstr "カーネルバージョン"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine kernel version."
-msgstr ""
+msgstr "カーネルバージョンを特定できませんでした"
 
 #. Template: AAASupportDataCollector
 msgid "System Load"
-msgstr ""
+msgstr "システムロード"
 
 #. Template: AAASupportDataCollector
 msgid "The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK)."
@@ -2143,47 +2145,47 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Perl Modules"
-msgstr ""
+msgstr "Perl モジュール"
 
 #. Template: AAASupportDataCollector
 msgid "Not all required Perl modules are correctly installed."
-msgstr ""
+msgstr "必要な Perl モジュールが一部インストールされていません "
 
 #. Template: AAASupportDataCollector
 msgid "Perl Version"
-msgstr ""
+msgstr "Perl バージョン"
 
 #. Template: AAASupportDataCollector
 msgid "Free Swap Space (%)"
-msgstr ""
+msgstr "未使用の Swap 領域 (%)"
 
 #. Template: AAASupportDataCollector
 msgid "No Swap Enabled."
-msgstr ""
+msgstr "Swap が有効になっていません"
 
 #. Template: AAASupportDataCollector
 msgid "Used Swap Space (MB)"
-msgstr ""
+msgstr "利用 Swap 領域 (MB) "
 
 #. Template: AAASupportDataCollector
 msgid "There should be more than 60% free swap space."
-msgstr ""
+msgstr "未利用のSwap領域が少なくとも 60 % 必要です"
 
 #. Template: AAASupportDataCollector
 msgid "There should be no more than 200 MB swap space used."
-msgstr ""
+msgstr "200MB 以上のSwap 領域が存在してはいけない"
 
 #. Template: AAASupportDataCollector
 msgid "Config Settings"
-msgstr ""
+msgstr "Config 設定"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine value."
-msgstr ""
+msgstr "value を特定できませんでした"
 
 #. Template: AAASupportDataCollector
 msgid "Database Records"
-msgstr ""
+msgstr "データーベースレコード"
 
 #. Template: AAASupportDataCollector
 msgid "Tickets"
@@ -2191,11 +2193,11 @@ msgstr "チケット"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket History Entries"
-msgstr ""
+msgstr "チケット履歴エントリ"
 
 #. Template: AAASupportDataCollector
 msgid "Articles"
-msgstr ""
+msgstr "記事"
 
 #. Template: AAASupportDataCollector
 msgid "Attachments (DB, Without HTML)"
@@ -2227,7 +2229,7 @@ msgstr "動的領域"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Field Values"
-msgstr ""
+msgstr "ダイナミックフィールドの値"
 
 #. Template: AAASupportDataCollector
 msgid "GenericInterface Webservices"
@@ -4396,6 +4398,22 @@ msgstr "チケットを作成したのが"
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
 msgstr "チケットを作成したのがこの期間内"
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -8998,6 +9016,14 @@ msgid "Ticket Change Time (between)"
 msgstr "チケット変更時間 (期間中)"
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr "チケット完了時間 (前／後)"
 
@@ -9038,6 +9064,18 @@ msgid "Save filter settings as default"
 msgstr "既定のフィルタ設定を保存"
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr "アーカイブ"
 
@@ -9070,6 +9108,10 @@ msgid "This item has no articles yet."
 msgstr "このチケットにはまだ記事がありません。"
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr ""
 
@@ -9096,6 +9138,10 @@ msgstr "一つの記事を閲覧"
 #. Template: AgentTicketZoom
 msgid "Show all articles"
 msgstr "全ての記事を閲覧"
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9129,6 +9175,22 @@ msgstr "内部メッセージ"
 msgid "Resize"
 msgstr "リサイズ"
 
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -9161,17 +9223,9 @@ msgstr "ポップアップウィンドウを開けませんでした。アプリ
 msgid "There are currently no elements available to select from."
 msgstr ""
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr "JavaScriptが有効になっていません。"
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr "OTRSを利用するにはお使いのブラウザでJavaScriptを有効にする必要があります。"
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
-msgstr "ブラウザの警告"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -9184,6 +9238,18 @@ msgstr "OTRSは次のいずれかのブラウザで実行してください。�
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "詳細はマニュアルを参照するか、管理者にお問い合わせください。"
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr "JavaScriptが有効になっていません。"
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr "OTRSを利用するにはお使いのブラウザでJavaScriptを有効にする必要があります。"
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
+msgstr "ブラウザの警告"
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10403,6 +10469,10 @@ msgstr "顧客が自らのチケットをソートする機能を持つかどう
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 
 #. SysConfig
@@ -14848,73 +14918,5 @@ msgstr "お気に入りのキューを選択。有効にした場合、それら
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 

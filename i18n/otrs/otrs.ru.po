@@ -1,12 +1,12 @@
 #
 # Translators:
-# ynkolesnikov <ynkolesnikov@gmail.com>, 2014
+# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-17 12:36+0000\n"
-"Last-Translator: ynkolesnikov <ynkolesnikov@gmail.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4397,6 +4397,22 @@ msgstr "Заявка создана"
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
 msgstr "Заявка создана между "
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -9000,6 +9016,14 @@ msgid "Ticket Change Time (between)"
 msgstr "Время изменения заявки (между)"
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr "Время закрытия заявки (до/после)"
 
@@ -9040,6 +9064,18 @@ msgid "Save filter settings as default"
 msgstr "Сохранить условия фильтра для показа по умолчанию"
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr "Архив"
 
@@ -9072,6 +9108,10 @@ msgid "This item has no articles yet."
 msgstr "Этот элемент пока не имеет заметок."
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr "Обзор заметок/сообщений"
 
@@ -9098,6 +9138,10 @@ msgstr "Отобразить одно сообщение"
 #. Template: AgentTicketZoom
 msgid "Show all articles"
 msgstr "Отобразить все сообщения"
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9131,6 +9175,22 @@ msgstr "Внутреннее сообщение"
 msgid "Resize"
 msgstr "Изменить размер"
 
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr "Для защиты конфиденциальности, содержимое из внешнего источника было заблокировано"
@@ -9163,17 +9223,9 @@ msgstr "Невозможо открыть всплывающее окно. По�
 msgid "There are currently no elements available to select from."
 msgstr "Отсутствуют элементы доступные для выбора"
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr "JavaScript не доступен"
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr "Для работы с OTRS вам потребуется включить JavaScript в вашем браузере."
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
-msgstr "Предупреждение о браузере"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -9186,6 +9238,18 @@ msgstr "OTRS работает с большим списком браузеро�
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "Обратитесь к документации или спросите своего администратора для получения дополнительной информации."
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr "JavaScript не доступен"
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr "Для работы с OTRS вам потребуется включить JavaScript в вашем браузере."
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
+msgstr "Предупреждение о браузере"
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10406,6 +10470,10 @@ msgstr "Задает возможность сортировки заявок д
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
 msgstr "Задает возможность указать более одного клиента для новой телефонной заявки в интерфейсе агента."
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr ""
 
 #. SysConfig
 msgid "Controls if the ticket and article seen flags are removed when a ticket is archived."
@@ -14846,72 +14914,4 @@ msgstr "Выбор очередей, которые вас интересуют.
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr "Выбор сервисов, которые вас интересуют. Вы также будете уведомляться по электронной почте об этих сервисах, если эта функция включена."
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
 

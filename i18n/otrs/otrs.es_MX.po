@@ -1,14 +1,15 @@
 #
 # Translators:
-# Carlos.Garcia <carlos.garcia@otrs.com>, 2014
-# carlosfrodriguez <carlos.rodriguez@otrs.com>, 2014
+# Carlos Javier García Cárdenas <carlos.garcia@otrs.com>, 2014
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2014
 # FCRUZ <francisco.cruz@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4401,6 +4402,22 @@ msgid "Ticket created between"
 msgstr "Ticket creado entre"
 
 #. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Change times"
 msgstr ""
 
@@ -4710,7 +4727,7 @@ msgstr "Refrescar"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request Details"
-msgstr ""
+msgstr "Detalles de la petición"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "An error occurred during communication."
@@ -4726,23 +4743,23 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
-msgstr ""
+msgstr "Añadir un Invocador nuevo al Servicio Web %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change Invoker %s of Web Service %s"
-msgstr ""
+msgstr "Cambiar Invocador %s del Servicio Web %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new invoker"
-msgstr ""
+msgstr "Añadir nuevo invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change invoker %s"
-msgstr ""
+msgstr "Cambiar invocador %s"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
-msgstr ""
+msgstr "Realmente desea eliminar este invocador?"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "All configuration data will be lost."
@@ -4750,7 +4767,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker Details"
-msgstr ""
+msgstr "Detalles del invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "The name is typically used to call up an operation of a remote web service."
@@ -4810,7 +4827,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
-msgstr ""
+msgstr "Eliminar este invocador"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
@@ -4926,7 +4943,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Detalles del a operación"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The name is typically used to call up this web service operation from a remote system."
@@ -5366,7 +5383,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
-msgstr ""
+msgstr "Eliminar invocador"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone webservice"
@@ -6210,7 +6227,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Details for Field"
-msgstr ""
+msgstr "Editar Detalles para el campo"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
@@ -6222,7 +6239,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Field Details"
-msgstr ""
+msgstr "Editar detalles"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
@@ -6710,7 +6727,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Edit details"
-msgstr ""
+msgstr "Editar detalles"
 
 #. Template: AdminRegistration
 msgid "Deregister system"
@@ -7422,7 +7439,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #. Template: AdminSession
 msgid "Session Management"
@@ -9001,6 +9018,14 @@ msgid "Ticket Change Time (between)"
 msgstr "Tiempo de Modificación del Ticket (entre)"
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr "Tiempo de Cierre del Ticket (antes/después)"
 
@@ -9041,6 +9066,18 @@ msgid "Save filter settings as default"
 msgstr "Grabar configuración de filtros como defecto"
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr ""
 
@@ -9073,6 +9110,10 @@ msgid "This item has no articles yet."
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr ""
 
@@ -9099,6 +9140,10 @@ msgstr "Mostrar un artículo"
 #. Template: AgentTicketZoom
 msgid "Show all articles"
 msgstr "Mostrar todos los artículos"
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9132,6 +9177,22 @@ msgstr "Mensaje interno"
 msgid "Resize"
 msgstr "Cambiar el tamaño"
 
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -9164,17 +9225,9 @@ msgstr "No se pudo abrir la ventana pop-up. Por favor, deshabilite cualquier blo
 msgid "There are currently no elements available to select from."
 msgstr ""
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr "JavaScript No Disponible"
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr "Para utilizar OTRS correctamente, es necesario que habilite JavaScript en su explorador web."
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
-msgstr "Advertencia del Explorador"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -9187,6 +9240,18 @@ msgstr "OTRS correo en una amplia lista de exploradores, por favor utilice algun
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "Por favor, refiérase a la documentación o pregunte a su administrador para obtener más información."
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr "JavaScript No Disponible"
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr "Para utilizar OTRS correctamente, es necesario que habilite JavaScript en su explorador web."
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
+msgstr "Advertencia del Explorador"
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10406,6 +10471,10 @@ msgstr "Define es posible que los clientes ordenen sus tickets."
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 
 #. SysConfig
@@ -14846,73 +14915,5 @@ msgstr "Fila de selección de filas favoritas. Ud. también puede ser notificado
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 

@@ -238,7 +238,7 @@ sub Data {
         'There is no acount with that user name.' => 'Não há conta com este nome de usuário.',
         'Please contact your administrator' => 'Por favor, contate seu administrador',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
-            '',
+            'Autenticação feita com sucesso, mas não encontrado o cadastro do cliente no backend, Por favor contacte o administrador.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'Este endereço de e-mail já existe. Por favor, faça login ou redefina sua senha',
         'Logout' => 'Sair',
@@ -385,7 +385,7 @@ sub Data {
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'O pacote não foi verificado pelo Grupo OTRS! O seu uso não é recomendado.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
+            '<br>Se você continuar a instalação desse pacote, os seguintes erros podem ocorrer!<br><br>&nbsp;-Problemas de segurança<br>&nbsp;-`Problemas de estabilidade<br>&nbsp;-Problemas de performance<br><br>Por favor, note que todos os erros causado por trabalhar com esse pacote são serão cobertos pelos Contratos de Serviços!<br><br>',
         'Mark' => 'Marcar',
         'Unmark' => 'Desmarcar',
         'Bold' => 'Negrito',
@@ -581,31 +581,31 @@ sub Data {
         'Could not determine database version.' => 'Não foi possível determinar a versão da base de dados.',
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
-        'Server Database Charset' => '',
+        'Server Database Charset' => 'Charset do Banco de dados',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
-        'Table Charset' => '',
+        'Table Charset' => 'Chartset da Tabela',
         'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
-            '',
+            'O parâmetro  \'max_allowed_packet\' deve ser maior que 20MB',
         'Query Cache Size' => '',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             '',
-        'Default Storage Engine' => '',
+        'Default Storage Engine' => 'Mecanismo de Armazenamento Padrão',
         'Tables with a different storage engine than the default engine were found.' =>
-            '',
-        'MySQL 5.x or higher is required.' => '',
-        'NLS_LANG Setting' => '',
+            'Tabelas com um mecanismo de armazenamento diferente do mecanismo padrão foram encontrados.',
+        'MySQL 5.x or higher is required.' => 'MySQL 5.x ou superior é requerido.',
+        'NLS_LANG Setting' => 'Parâmetro NLS_LANG',
         'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
             '',
-        'NLS_DATE_FORMAT Setting' => '',
+        'NLS_DATE_FORMAT Setting' => 'Parâmetro NLS_DATE_FORMAT ',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
         'Setting client_encoding needs to be UNICODE or UTF8.' => '',
         'Setting server_encoding needs to be UNICODE or UTF8.' => '',
         'Date Format' => 'Formato da data',
         'Setting DateStyle needs to be ISO.' => '',
-        'PostgreSQL 8.x or higher is required.' => '',
+        'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x ou superior é requerido',
         'OTRS Disk Partition' => 'Partição OTRS',
         'Disk Usage' => 'Utilização em disco',
         'The partition where OTRS is located is almost full.' => 'A partição onde o OTRS se encontra localizado encontra-se quase cheia.',
@@ -652,9 +652,9 @@ sub Data {
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             'Risco de segurança: a conta de atendente root@localhost possui a senha padrão. Por favor altere a senha ou desabilite a conta.',
         'Error Log' => 'Log de erros',
-        'There are error reports in your system log.' => '',
-        'File System Writable' => '',
-        'The file system on your OTRS partition is not writable.' => '',
+        'There are error reports in your system log.' => 'Existem erros informados no log do sistema.',
+        'File System Writable' => 'Sistema de Arquivo gravável ',
+        'The file system on your OTRS partition is not writable.' => 'O Sistema de Arquivo da partição do OTRS não está gravável ',
         'Domain Name' => 'Nome de Domínio',
         'Your FQDN setting is invalid.' => 'Suas configurações de FQDN estão inválidas.',
         'Package installation status' => 'Status da instalação do pacote',
@@ -675,27 +675,27 @@ sub Data {
             '',
         'Orphaned Records In ticket_lock_index Table' => '',
         'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
-        'Orphaned Records In ticket_index Table' => '',
+            'A tabela ticket_lock_index contém registros órfãos. Por favor execute o comando otrs/bin/otrs.CleanTicketIndex.pl para limpar o índice StaticDB.',
+        'Orphaned Records In ticket_index Table' => 'Registros órfãos na tabela ticket_index',
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
+            'A tabela ticket_index contém registros órfãos. Por favor execute o comando otrs/bin/otrs.CleanTicketIndex.pl para limpar o índice StaticDB.',
         'Environment Variables' => 'Variáveis de ambiente',
         'Webserver Version' => 'Versão do Servidor WEB',
         'Could not determine webserver version.' => 'Não foi possível determinar a versão do servidor WEB.',
-        'CGI Accelerator Usage' => '',
+        'CGI Accelerator Usage' => 'Uso do CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            '',
-        'mod_deflate Usage' => '',
-        'Please install mod_deflate to improve GUI speed.' => '',
-        'mod_headers Usage' => '',
-        'Please install mod_headers to improve GUI speed.' => '',
-        'Apache::Reload Usage' => '',
+            'Você deve utilizar o FastCGI ou mod_perl para aumentar o desempenho. ',
+        'mod_deflate Usage' => 'Uso do mod_deflate',
+        'Please install mod_deflate to improve GUI speed.' => 'Por favor, instale mod_deflate para melhorar o desempenho da GUI.',
+        'mod_headers Usage' => 'Uso do mod_headers',
+        'Please install mod_headers to improve GUI speed.' => 'Por favor, instale mod_headers para melhorar o desempenho da GUI',
+        'Apache::Reload Usage' => 'Uso do Apache::Reload',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             '',
-        'Apache::DBI Usage' => '',
+        'Apache::DBI Usage' => 'Uso do Apache::DBI',
         'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
-        'You should use PerlEx to increase your performance.' => '',
+        'You should use PerlEx to increase your performance.' => 'Você deve usar o PerlEx para melhorar o desempenho.',
 
         # Template: AAATicket
         'Status View' => 'Visão de Estado',
@@ -1100,7 +1100,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Você pode gerenciar estes grupos através do parâmetro de configuração "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtro Para Grupos',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'Basta começar a digitar para filtrar... ',
         'Select the customer:group permissions.' => 'Selecione as permissões cliente:grupo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Se nada for selecionado, então não há permissões nesse grupo (chamados não estarão disponíveis para o cliente).',
@@ -1183,7 +1183,7 @@ sub Data {
         'Show link' => 'Mostrar Link',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aqui você pode especificar um link HTTP para o valor deste campo nas telas de Visão Geral e Detalhamento.',
-        'Restrict entering of dates' => '',
+        'Restrict entering of dates' => 'Restringir entrada de datas',
         'Here you can restrict the entering of dates of tickets.' => '',
 
         # Template: AdminDynamicFieldDropdown
@@ -1459,8 +1459,8 @@ sub Data {
         'Valid request methods for Operation' => '',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             '',
-        'Maximum message length' => '',
-        'This field should be an integer number.' => '',
+        'Maximum message length' => 'Tamanho máximo da mensagem',
+        'This field should be an integer number.' => 'O campo deve ser um valor inteiro.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
             '',
         'Send Keep-Alive' => '',
@@ -1476,7 +1476,7 @@ sub Data {
         'Valid request command for Invoker' => '',
         'A specific HTTP command to use for the requests with this Invoker (optional).' =>
             '',
-        'Default command' => '',
+        'Default command' => 'Comando padrão',
         'The default HTTP command to use for the requests.' => '',
         'Authentication' => 'Autenticação',
         'The authentication mechanism to access the remote system.' => 'O mecanismo de autenticação para acessar o sistema remoto.',
@@ -1520,18 +1520,18 @@ sub Data {
         'Usually .Net web services uses a "/" as separator.' => '',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => '',
-        'The password to open the SSL certificate.' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => 'ex. /opt/otrs/var/certificates/SOAP/certificate.p12',
+        'The password to open the SSL certificate.' => 'Senha para abrir o Certificado SSL',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'ex. /opt/otrs/var/certificates/SOAP/CA/ca.pem',
         'Certification Authority (CA) Directory' => '',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             '',
-        'e.g. /opt/otrs/var/certificates/SOAP/CA' => '',
+        'e.g. /opt/otrs/var/certificates/SOAP/CA' => 'ex. /opt/otrs/var/certificates/SOAP/CA',
         'Proxy Server' => 'Servidor Proxy',
         'URI of a proxy server to be used (if needed).' => 'URL do servidor proxy (se necessário).',
-        'e.g. http://proxy_hostname:8080' => '',
+        'e.g. http://proxy_hostname:8080' => 'ex. http://proxy_hostname:8080',
         'Proxy User' => 'Usuário do Servidor Proxy',
         'The user name to be used to access the proxy server.' => 'O nome de usuário usado para acesso ao servidor proxy.',
         'Proxy Password' => 'Senha do Servidor Proxy',
@@ -1549,7 +1549,7 @@ sub Data {
         'The file must be a valid web service configuration YAML file.' =>
             'O arquivo deve ser uma configuração YAML válido.',
         'Import' => 'Importar',
-        'Configuration history' => '',
+        'Configuration history' => 'Histórico de configuração',
         'Delete web service' => 'Apagar Web Service',
         'Do you really want to delete this web service?' => 'Você realmente deseja apagar este web service?',
         'After you save the configuration you will be redirected again to the edit screen.' =>
@@ -1588,7 +1588,7 @@ sub Data {
             '',
         'Configuration History List' => '',
         'Version' => 'Versão',
-        'Create time' => '',
+        'Create time' => 'Data de criação',
         'Select a single configuration version to see its details.' => '',
         'Export web service configuration' => '',
         'Restore web service configuration' => '',
@@ -2046,11 +2046,11 @@ sub Data {
         'This is only the beginning!' => '',
         'We will inform you about our new services and offerings soon.' =>
             '',
-        'Can I use OTRS without being registered?' => '',
-        'System registration is optional.' => '',
+        'Can I use OTRS without being registered?' => 'Eu posso utilizar o OTRS sem registrar ?',
+        'System registration is optional.' => 'Registro do sistema é opcional. ',
         'You can download and use OTRS without being registered.' => 'Você pode baixar o OTRS e usá-lo sem estar registrado.',
-        'Is it possible to deregister?' => '',
-        'You can deregister at any time.' => '',
+        'Is it possible to deregister?' => 'É possível cancelar o registro?',
+        'You can deregister at any time.' => 'Você pode cancelar ser registro a qualquer momento.',
         'Which data is transfered when registering?' => '',
         'A registered system sends the following data to OTRS Group:' => '',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
@@ -5230,23 +5230,23 @@ sub Data {
         'UserLastname' => '',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Uses richtext for viewing and editing notification events.' => '',
+        'Uses richtext for viewing and editing notification events.' => 'Usar richtext para visualizar e editar notificações de eventos.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
-            '',
+            'Usar richtext quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações.',
         'View performance benchmark results.' => 'Ver resultados da avaliação de desempenho.',
         'View system log messages.' => 'Ver mensagens de eventos do sistema.',
         'Wear this frontend skin' => 'Utilizar este tema de interface',
         'Webservice path separator.' => '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
+            'Quando chamados são mesclados, uma nota será adicionada automaticamente no chamado que não estará mais ativo. Aqui você pode definir a Artigo dessa nota ( Esse Artigo não pode ser alterada pelo Atendente ).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+            'Quando chamados são mesclados, uma nota será adicionada automaticamente no chamado que não estará mais ativo. Aqui você pode definir o Assunto dessa nota ( Esse Assunto não pode ser alterado pelo Atendente ).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Quando os chamados são agrupados o cliente pode ser informado por e-mail marcando a checkbox "Informar ao Remetente". Nesta área de texto você pode definir um texto pré-formatado que pode ser posteriormente modificado pelos atendentes.',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Fila de seleção das filas preferenciais. Você também será notificado sobre essas filas por e-mail se habilitado.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            '',
+            'Sua seleção dos serviços favoritos. Você também é notificado sobre esses serviços via e-mail se habilitado.',
 
     };
     # $$STOP$$

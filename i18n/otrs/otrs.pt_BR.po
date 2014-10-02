@@ -1,13 +1,14 @@
 #
 # Translators:
+# José Junior <joserribeiro26@gmail.com>, 2014
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -809,7 +810,7 @@ msgstr "Por favor, contate seu administrador"
 
 #. Template: AAABase
 msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
-msgstr ""
+msgstr "Autenticação feita com sucesso, mas não encontrado o cadastro do cliente no backend, Por favor contacte o administrador."
 
 #. Template: AAABase
 msgid "This e-mail address already exists. Please log in or reset your password."
@@ -1337,7 +1338,7 @@ msgstr "O pacote não foi verificado pelo Grupo OTRS! O seu uso não é recomend
 
 #. Template: AAABase
 msgid "<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>"
-msgstr ""
+msgstr "<br>Se você continuar a instalação desse pacote, os seguintes erros podem ocorrer!<br><br>&nbsp;-Problemas de segurança<br>&nbsp;-`Problemas de estabilidade<br>&nbsp;-Problemas de performance<br><br>Por favor, note que todos os erros causado por trabalhar com esse pacote são serão cobertos pelos Contratos de Serviços!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
@@ -2017,7 +2018,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
-msgstr ""
+msgstr "Charset do Banco de dados"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
@@ -2025,7 +2026,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
-msgstr ""
+msgstr "Chartset da Tabela"
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
@@ -2037,7 +2038,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr ""
+msgstr "O parâmetro  'max_allowed_packet' deve ser maior que 20MB"
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
@@ -2049,19 +2050,19 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "Mecanismo de Armazenamento Padrão"
 
 #. Template: AAASupportDataCollector
 msgid "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "Tabelas com um mecanismo de armazenamento diferente do mecanismo padrão foram encontrados."
 
 #. Template: AAASupportDataCollector
 msgid "MySQL 5.x or higher is required."
-msgstr ""
+msgstr "MySQL 5.x ou superior é requerido."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG Setting"
-msgstr ""
+msgstr "Parâmetro NLS_LANG"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
@@ -2069,7 +2070,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
-msgstr ""
+msgstr "Parâmetro NLS_DATE_FORMAT "
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
@@ -2097,7 +2098,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "PostgreSQL 8.x or higher is required."
-msgstr ""
+msgstr "PostgreSQL 8.x ou superior é requerido"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Disk Partition"
@@ -2269,15 +2270,15 @@ msgstr "Log de erros"
 
 #. Template: AAASupportDataCollector
 msgid "There are error reports in your system log."
-msgstr ""
+msgstr "Existem erros informados no log do sistema."
 
 #. Template: AAASupportDataCollector
 msgid "File System Writable"
-msgstr ""
+msgstr "Sistema de Arquivo gravável "
 
 #. Template: AAASupportDataCollector
 msgid "The file system on your OTRS partition is not writable."
-msgstr ""
+msgstr "O Sistema de Arquivo da partição do OTRS não está gravável "
 
 #. Template: AAASupportDataCollector
 msgid "Domain Name"
@@ -2341,15 +2342,15 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr ""
+msgstr "A tabela ticket_lock_index contém registros órfãos. Por favor execute o comando otrs/bin/otrs.CleanTicketIndex.pl para limpar o índice StaticDB."
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_index Table"
-msgstr ""
+msgstr "Registros órfãos na tabela ticket_index"
 
 #. Template: AAASupportDataCollector
 msgid "Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr ""
+msgstr "A tabela ticket_index contém registros órfãos. Por favor execute o comando otrs/bin/otrs.CleanTicketIndex.pl para limpar o índice StaticDB."
 
 #. Template: AAASupportDataCollector
 msgid "Environment Variables"
@@ -2365,31 +2366,31 @@ msgstr "Não foi possível determinar a versão do servidor WEB."
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
-msgstr ""
+msgstr "Uso do CGI Accelerator"
 
 #. Template: AAASupportDataCollector
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr ""
+msgstr "Você deve utilizar o FastCGI ou mod_perl para aumentar o desempenho. "
 
 #. Template: AAASupportDataCollector
 msgid "mod_deflate Usage"
-msgstr ""
+msgstr "Uso do mod_deflate"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_deflate to improve GUI speed."
-msgstr ""
+msgstr "Por favor, instale mod_deflate para melhorar o desempenho da GUI."
 
 #. Template: AAASupportDataCollector
 msgid "mod_headers Usage"
-msgstr ""
+msgstr "Uso do mod_headers"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_headers to improve GUI speed."
-msgstr ""
+msgstr "Por favor, instale mod_headers para melhorar o desempenho da GUI"
 
 #. Template: AAASupportDataCollector
 msgid "Apache::Reload Usage"
-msgstr ""
+msgstr "Uso do Apache::Reload"
 
 #. Template: AAASupportDataCollector
 msgid "Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules."
@@ -2397,7 +2398,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
-msgstr ""
+msgstr "Uso do Apache::DBI"
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI should be used to get a better performance  with pre-established database connections."
@@ -2405,7 +2406,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "You should use PerlEx to increase your performance."
-msgstr ""
+msgstr "Você deve usar o PerlEx para melhorar o desempenho."
 
 #. Template: AAATicket
 msgid "Status View"
@@ -3837,7 +3838,7 @@ msgstr "Filtro Para Grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Basta começar a digitar para filtrar... "
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -4089,7 +4090,7 @@ msgstr "Aqui você pode especificar um link HTTP para o valor deste campo nas te
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "Restringir entrada de datas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
@@ -4398,6 +4399,22 @@ msgstr "Chamado criado"
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
 msgstr "Chamado criado entre"
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -4993,11 +5010,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "Tamanho máximo da mensagem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
-msgstr ""
+msgstr "O campo deve ser um valor inteiro."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Here you can specify the maximum size (in bytes) of REST messages that OTRS will process."
@@ -5041,7 +5058,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "Comando padrão"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
@@ -5185,11 +5202,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.p12"
-msgstr ""
+msgstr "ex. /opt/otrs/var/certificates/SOAP/certificate.p12"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password to open the SSL certificate."
-msgstr ""
+msgstr "Senha para abrir o Certificado SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The full path and name of the certification authority certificate file that validates SSL certificate."
@@ -5197,7 +5214,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr ""
+msgstr "ex. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Certification Authority (CA) Directory"
@@ -5209,7 +5226,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "ex. /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
@@ -5221,7 +5238,7 @@ msgstr "URL do servidor proxy (se necessário)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://proxy_hostname:8080"
-msgstr ""
+msgstr "ex. http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
@@ -5281,7 +5298,7 @@ msgstr "Importar"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration history"
-msgstr ""
+msgstr "Histórico de configuração"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -5397,7 +5414,7 @@ msgstr "Versão"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr ""
+msgstr "Data de criação"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
@@ -6789,11 +6806,11 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Can I use OTRS without being registered?"
-msgstr ""
+msgstr "Eu posso utilizar o OTRS sem registrar ?"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
-msgstr ""
+msgstr "Registro do sistema é opcional. "
 
 #. Template: AdminRegistration
 msgid "You can download and use OTRS without being registered."
@@ -6801,11 +6818,11 @@ msgstr "Você pode baixar o OTRS e usá-lo sem estar registrado."
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
-msgstr ""
+msgstr "É possível cancelar o registro?"
 
 #. Template: AdminRegistration
 msgid "You can deregister at any time."
-msgstr ""
+msgstr "Você pode cancelar ser registro a qualquer momento."
 
 #. Template: AdminRegistration
 msgid "Which data is transfered when registering?"
@@ -9000,6 +9017,14 @@ msgid "Ticket Change Time (between)"
 msgstr "Tempo de Modificação do Chamado (entre)"
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr "Tempo de Fechamento do Chamado (antes/depois)"
 
@@ -9040,6 +9065,18 @@ msgid "Save filter settings as default"
 msgstr "Salvar configurações de filtro como padrão"
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr "Arquivar"
 
@@ -9072,6 +9109,10 @@ msgid "This item has no articles yet."
 msgstr "Este item não tem artigos ainda."
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr ""
 
@@ -9098,6 +9139,10 @@ msgstr "Exibir Um Artigo"
 #. Template: AgentTicketZoom
 msgid "Show all articles"
 msgstr "Exibir Todos os Artigos"
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9131,6 +9176,22 @@ msgstr "Mensagem Interna"
 msgid "Resize"
 msgstr "Redimensionar"
 
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr "Para proteger sua privacidade, o conteúdo remoto foi desabilitado."
@@ -9163,17 +9224,9 @@ msgstr "Não foi possível abrir a janela popup. Desative os bloqueadores de pop
 msgid "There are currently no elements available to select from."
 msgstr "Não há elementos disponíveis atualmente para seleção."
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr "JavaScript não habilitado ou não é suportado."
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr "A fim de experimentar o OTRS, você deve habilitar o JavaScript no seu navegador."
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
-msgstr "Aviso de Navegador"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -9186,6 +9239,18 @@ msgstr "O OTRS funciona com uma lista enorme de navegadores, faça a atualizaç�
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "Por favor, consulte a documentação ou pergunte ao seu administrador para mais informações."
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr "JavaScript não habilitado ou não é suportado."
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr "A fim de experimentar o OTRS, você deve habilitar o JavaScript no seu navegador."
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
+msgstr "Aviso de Navegador"
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10405,6 +10470,10 @@ msgstr "Controla se os clientes têm a capacidade de classificar os seus chamado
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 
 #. SysConfig
@@ -14805,11 +14874,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing notification events."
-msgstr ""
+msgstr "Usar richtext para visualizar e editar notificações de eventos."
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications."
-msgstr ""
+msgstr "Usar richtext quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações."
 
 #. SysConfig
 msgid "View performance benchmark results."
@@ -14829,11 +14898,11 @@ msgstr ""
 
 #. SysConfig
 msgid "When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent)."
-msgstr ""
+msgstr "Quando chamados são mesclados, uma nota será adicionada automaticamente no chamado que não estará mais ativo. Aqui você pode definir a Artigo dessa nota ( Esse Artigo não pode ser alterada pelo Atendente )."
 
 #. SysConfig
 msgid "When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent)."
-msgstr ""
+msgstr "Quando chamados são mesclados, uma nota será adicionada automaticamente no chamado que não estará mais ativo. Aqui você pode definir o Assunto dessa nota ( Esse Assunto não pode ser alterado pelo Atendente )."
 
 #. SysConfig
 msgid "When tickets are merged, the customer can be informed per email by setting the check box \"Inform Sender\". In this text area, you can define a pre-formatted text which can later be modified by the agents."
@@ -14845,73 +14914,5 @@ msgstr "Fila de seleção das filas preferenciais. Você também será notificad
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Sua seleção dos serviços favoritos. Você também é notificado sobre esses serviços via e-mail se habilitado."
 

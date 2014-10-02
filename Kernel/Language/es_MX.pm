@@ -1363,19 +1363,19 @@ sub Data {
         'Filter to' => '',
         'Filter by remote IP' => '',
         'Refresh' => 'Refrescar',
-        'Request Details' => '',
+        'Request Details' => 'Detalles de la petición',
         'An error occurred during communication.' => '',
         'Show or hide the content.' => '',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
-        'Add new Invoker to Web Service %s' => '',
-        'Change Invoker %s of Web Service %s' => '',
-        'Add new invoker' => '',
-        'Change invoker %s' => '',
-        'Do you really want to delete this invoker?' => '',
+        'Add new Invoker to Web Service %s' => 'Añadir un Invocador nuevo al Servicio Web %s',
+        'Change Invoker %s of Web Service %s' => 'Cambiar Invocador %s del Servicio Web %s',
+        'Add new invoker' => 'Añadir nuevo invocador',
+        'Change invoker %s' => 'Cambiar invocador %s',
+        'Do you really want to delete this invoker?' => 'Realmente desea eliminar este invocador?',
         'All configuration data will be lost.' => '',
-        'Invoker Details' => '',
+        'Invoker Details' => 'Detalles del invocador',
         'The name is typically used to call up an operation of a remote web service.' =>
             '',
         'Please provide a unique name for this web service invoker.' => '',
@@ -1396,7 +1396,7 @@ sub Data {
         'Synchronous event triggers would be processed directly during the web request.' =>
             '',
         'Save and continue' => '',
-        'Delete this Invoker' => '',
+        'Delete this Invoker' => 'Eliminar este invocador',
 
         # Template: AdminGenericInterfaceMappingSimple
         'GenericInterface Mapping Simple for Web Service %s' => '',
@@ -1429,7 +1429,7 @@ sub Data {
         'Add new operation' => '',
         'Change operation %s' => '',
         'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Operation Details' => 'Detalles del a operación',
         'The name is typically used to call up this web service operation from a remote system.' =>
             '',
         'Please provide a unique name for this web service.' => '',
@@ -1572,7 +1572,7 @@ sub Data {
             '',
         'Delete webservice' => '',
         'Delete operation' => '',
-        'Delete invoker' => '',
+        'Delete invoker' => 'Eliminar invocador',
         'Clone webservice' => '',
         'Import webservice' => '',
 
@@ -1846,10 +1846,10 @@ sub Data {
         'Filter available fields' => '',
         'Available Fields' => '',
         'Assigned Fields' => '',
-        'Edit Details for Field' => '',
+        'Edit Details for Field' => 'Editar Detalles para el campo',
         'ArticleType' => '',
         'Display' => '',
-        'Edit Field Details' => '',
+        'Edit Field Details' => 'Editar detalles',
         'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
@@ -2016,7 +2016,7 @@ sub Data {
 
         # Template: AdminRegistration
         'System Registration Management' => '',
-        'Edit details' => '',
+        'Edit details' => 'Editar detalles',
         'Deregister system' => '',
         'Overview of registered systems' => '',
         'System Registration' => '',
@@ -2268,7 +2268,7 @@ sub Data {
             '',
         'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
-        'Details' => '',
+        'Details' => 'Detalles',
 
         # Template: AdminSession
         'Session Management' => 'Administración de Sesiones',

@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-09-16 07:56+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-10-02 05:08+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -412,7 +412,7 @@ msgstr "Text"
 
 #. Template: AAABase
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #. Template: AAABase
 msgid "Lite"
@@ -2124,7 +2124,7 @@ msgstr "Distribution"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine distribution."
-msgstr ""
+msgstr "Kunde inte bestämma distribution."
 
 #. Template: AAASupportDataCollector
 msgid "Kernel Version"
@@ -2160,11 +2160,11 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "No Swap Enabled."
-msgstr ""
+msgstr "Inget växlingsutrymme aktiverat."
 
 #. Template: AAASupportDataCollector
 msgid "Used Swap Space (MB)"
-msgstr ""
+msgstr "Använt växlingsutrymme (MB)"
 
 #. Template: AAASupportDataCollector
 msgid "There should be more than 60% free swap space."
@@ -3372,7 +3372,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "All escalated tickets"
-msgstr ""
+msgstr "Alla eskalerade ärenden"
 
 #. Template: AAATicket
 msgid "All tickets with a reminder set where the reminder date has been reached"
@@ -3652,7 +3652,7 @@ msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "Reference"
-msgstr ""
+msgstr "Referens"
 
 #. Template: AdminAutoResponse
 msgid "You can use the following tags"
@@ -3720,7 +3720,7 @@ msgstr "Hantera kunder"
 
 #. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
-msgstr ""
+msgstr "Jokertecken som '*' är tillåtna."
 
 #. Template: AdminCustomerCompany
 msgid "Add customer"
@@ -3836,7 +3836,7 @@ msgstr "Filtrera grupper"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Börja skriva för att filtrera..."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -4152,7 +4152,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
-msgstr ""
+msgstr "Antal rader"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
@@ -4160,7 +4160,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
-msgstr ""
+msgstr "Antal kolumner"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
@@ -4208,7 +4208,7 @@ msgstr ""
 
 #. Template: AdminEmail
 msgid "Send message to users"
-msgstr ""
+msgstr "Skicka meddelande till användare"
 
 #. Template: AdminEmail
 msgid "Send message to group members"
@@ -4399,6 +4399,22 @@ msgid "Ticket created between"
 msgstr "Ärendet skapat mellan"
 
 #. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Change times"
 msgstr ""
 
@@ -4536,11 +4552,11 @@ msgstr "Ange ny handläggare"
 
 #. Template: AdminGenericAgent
 msgid "new owner"
-msgstr ""
+msgstr "ny ägare"
 
 #. Template: AdminGenericAgent
 msgid "new responsible"
-msgstr ""
+msgstr "ny ansvarig"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
@@ -4556,11 +4572,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "New title"
-msgstr ""
+msgstr "Ny titel"
 
 #. Template: AdminGenericAgent
 msgid "New type"
-msgstr ""
+msgstr "Ny typ"
 
 #. Template: AdminGenericAgent
 msgid "New Dynamic Field Values"
@@ -4616,7 +4632,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
-msgstr ""
+msgstr "Spara ändringar"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -4680,7 +4696,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
-msgstr ""
+msgstr "Laddar"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
@@ -4772,7 +4788,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
-msgstr ""
+msgstr "Konfigurera"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "The data from the invoker of OTRS will be processed by this mapping, to transform it to the kind of data the remote system expects."
@@ -4804,7 +4820,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
-msgstr ""
+msgstr "Spara och fortsätt"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
@@ -5048,7 +5064,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "Autentisering"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
@@ -5276,7 +5292,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
-msgstr ""
+msgstr "Importera"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration history"
@@ -8556,7 +8572,7 @@ msgstr "Ny Ägare"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr "Vänligen sätt en ny ägare!"
+msgstr "Vänligen ange en ny ägare!"
 
 #. Template: AgentTicketActionCommon
 msgid "Previous Owner"
@@ -8999,6 +9015,14 @@ msgid "Ticket Change Time (between)"
 msgstr ""
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr ""
 
@@ -9039,6 +9063,18 @@ msgid "Save filter settings as default"
 msgstr "Spara filterinställningar som standard"
 
 #. Template: AgentTicketZoom
+msgid "Event Type Filter"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Event Type"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Save as default"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Archive"
 msgstr ""
 
@@ -9071,6 +9107,10 @@ msgid "This item has no articles yet."
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Ticket Timeline View"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article Overview"
 msgstr ""
 
@@ -9097,6 +9137,10 @@ msgstr "Visa en artikel"
 #. Template: AgentTicketZoom
 msgid "Show all articles"
 msgstr "Visa alla artiklar"
+
+#. Template: AgentTicketZoom
+msgid "Show Ticket Timeline View"
+msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9128,6 +9172,22 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Resize"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Show Full Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Full Article Text"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "This is a chat log. Please zoom this entry in order to see the complete log."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9162,17 +9222,9 @@ msgstr "Kund einte öppnapopupfönster. Avaktivera popupblockerare för denna ap
 msgid "There are currently no elements available to select from."
 msgstr "Det finns inga poster att välja just nu."
 
-#. Template: CustomerLogin
-msgid "JavaScript Not Available"
-msgstr "Javaskript är avstängt"
-
-#. Template: CustomerLogin
-msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
-msgstr "För att OTRS ska fungera behöver javaskript vara påslaget i din webbläsare."
-
-#. Template: CustomerLogin
-msgid "Browser Warning"
-msgstr "Browservarning"
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -9185,6 +9237,18 @@ msgstr "OTRS fungerar i många webbläsare. Uppdatera till en av dessa."
 #. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "Läs dokumentationen eller kontakta en administratör för mer information."
+
+#. Template: CustomerLogin
+msgid "JavaScript Not Available"
+msgstr "Javaskript är avstängt"
+
+#. Template: CustomerLogin
+msgid "In order to experience OTRS, you'll need to enable JavaScript in your browser."
+msgstr "För att OTRS ska fungera behöver javaskript vara påslaget i din webbläsare."
+
+#. Template: CustomerLogin
+msgid "Browser Warning"
+msgstr "Browservarning"
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10404,6 +10468,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if more than one from entry can be set in the new phone ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
 msgstr ""
 
 #. SysConfig
@@ -14844,73 +14912,5 @@ msgstr "Ditt urval av favoritköer. Du blir också meddelad om dessa köer via e
 
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type Filter"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Event Type"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Save as default"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Ticket Timeline View"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Show Full Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "Full Article Text"
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr ""
-
-#. SysConfig
-msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Last changed times"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "No last changed time settings."
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed"
-msgstr ""
-
-#. Template: AdminGenericAgent
-msgid "Ticket last changed between"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (before/after)"
-msgstr ""
-
-#. Template: AgentTicketSearch
-msgid "Ticket Last Change Time (between)"
-msgstr ""
-
-#. Template: CustomerFooterJS
-msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 
