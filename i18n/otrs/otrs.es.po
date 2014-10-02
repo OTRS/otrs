@@ -9173,15 +9173,15 @@ msgstr "Para utilizar OTRS, necesitará habilitar JavaScript en su navegador."
 msgid "Browser Warning"
 msgstr "Advertencia del navegador"
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
 msgstr "El navegador que está usando es demasiado antiguo."
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
 msgstr "OTRS funciona con un gran número de navegadores, por favor, actulícese a uno de ellos."
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "Para más información, consulte la documentación o pregunte a su administrador."
 
@@ -14883,5 +14883,33 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 

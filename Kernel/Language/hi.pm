@@ -1278,6 +1278,10 @@ sub Data {
         'No create time settings.' => 'कोई समय बनाने की व्यवस्थाऐं नहीं।',
         'Ticket created' => 'टिकट बनाया',
         'Ticket created between' => 'टिकट के बीच में बनाया गया',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -2820,6 +2824,8 @@ sub Data {
         'Ticket Create Time (between)' => 'टिकट बनाने का समय (बीच में)',
         'Ticket Change Time (before/after)' => 'टिकट बदलनॆ का समय (के बाद/से पहले)',
         'Ticket Change Time (between)' => 'टिकट बदलनॆ का समय (बीच में)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'टिकट बंद होने का समय (के बाद/से पहले)',
         'Ticket Close Time (between)' => 'टिकट बंद होने का समय (बीच में)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2884,17 +2890,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'पॉपअप विंडो नहीं खोला जा सकता। कृपया इस अनुप्रयोग के लिए पॉपअप ब्लॉकर्स निष्क्रिय करें।',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'आप जो ब्राउज़र उपयोग कर रहे बहुत पुराना है।',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS ब्राउज़रों की एक बड़ी सूची के साथ चलाता है,तो कृपया इनमें से एक को का उन्नयन करे।',
+        'Please see the documentation or ask your admin for further information.' =>
+            'कृपया अधिक जानकारी के लिए दस्तावेज़ देखे या अपने व्यवस्थापक से पूछे।',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'जावास्क्रिप्ट उपलब्ध नहीं है।',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'OTRS अनुभव करने के लिए,आपको अपने ब्राउज़र में जावास्क्रिप्ट सक्षम करना होगा।',
         'Browser Warning' => 'ब्राउज़र चेतावनी',
-        'The browser you are using is too old.' => 'आप जो ब्राउज़र उपयोग कर रहे बहुत पुराना है।',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS ब्राउज़रों की एक बड़ी सूची के साथ चलाता है,तो कृपया इनमें से एक को का उन्नयन करे।',
-        'Please see the documentation or ask your admin for further information.' =>
-            'कृपया अधिक जानकारी के लिए दस्तावेज़ देखे या अपने व्यवस्थापक से पूछे।',
         'Login' => 'प्रवेश',
         'User name' => 'उपयोगकर्ता का नाम',
         'Your user name' => 'आपका उपयोगकर्ता नाम',

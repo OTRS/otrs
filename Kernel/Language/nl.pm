@@ -1282,6 +1282,10 @@ sub Data {
         'No create time settings.' => 'Alle',
         'Ticket created' => 'Ticket aangemaakt',
         'Ticket created between' => 'Ticket aangemaakt tussen',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Tijdstip van wijzigen',
         'No change time settings.' => 'Alle',
         'Ticket changed' => 'Ticket gewijzigd',
@@ -2824,6 +2828,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Aanmaaktijd ticket (tussen)',
         'Ticket Change Time (before/after)' => 'Ticket gewijzigd (voor/na)',
         'Ticket Change Time (between)' => 'Ticket gewijzigd (tussen)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Ticket gesloten (voor/na)',
         'Ticket Close Time (between)' => 'Ticket gesloten (tussen)',
         'Ticket Escalation Time (before/after)' => 'Ticket escalatietijd (voor/na)',
@@ -2888,17 +2894,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Kan geen popup openen. Schakel popup blockers uit voor deze website.',
         'There are currently no elements available to select from.' => 'Er zijn nu geen elementen beschikbaar om te kiezen.',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'De browser die u gebruikt is te oud.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS kan overweg met een grote hoeveelheid browsers. Gebruik s.v.p een van deze.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Zie de documentatie of vraag uw beheerder voor meer informatie.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript niet beschikbaar',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
         'Browser Warning' => 'Waarschuwing',
-        'The browser you are using is too old.' => 'De browser die u gebruikt is te oud.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS kan overweg met een grote hoeveelheid browsers. Gebruik s.v.p een van deze.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Zie de documentatie of vraag uw beheerder voor meer informatie.',
         'Login' => 'Inloggen',
         'User name' => 'Gebruikersnaam',
         'Your user name' => 'Uw gebruikersnaam',

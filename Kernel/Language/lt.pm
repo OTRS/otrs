@@ -1276,6 +1276,10 @@ sub Data {
         'No create time settings.' => '',
         'Ticket created' => 'Triktis sukurta',
         'Ticket created between' => 'Triktis sukurta tarp',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -2818,6 +2822,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Trikties sukūrimo data (tarp)',
         'Ticket Change Time (before/after)' => 'Trikties keitimo data (prieš/po)',
         'Ticket Change Time (between)' => 'Trikties keitimo data (tarp)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Trikties uždarymo data (prieš/po)',
         'Ticket Close Time (between)' => 'Trikties uždarymo data (tarp)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2882,17 +2888,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Nepavyko atverti iššokančio lango. Prašome išjungti visus iššokančius langus blokuojančias programas.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Jūsų naudojama interneto naršyklė yra per sena.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS gali veikti su daugybe naršyklių, prašome atsinaujinti į vieną iš jų.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Daugiau informacijos ieškokit dokumentacijoje arba kreipkitės į administratorių.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript neįjungtas.',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Norint geriausios, darbo su OTRS, patirties Jums reikia savo naršyklėje įjungti JavaScript.',
         'Browser Warning' => 'Naršyklės perspėjimas',
-        'The browser you are using is too old.' => 'Jūsų naudojama interneto naršyklė yra per sena.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS gali veikti su daugybe naršyklių, prašome atsinaujinti į vieną iš jų.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Daugiau informacijos ieškokit dokumentacijoje arba kreipkitės į administratorių.',
         'Login' => 'Prisijungti',
         'User name' => 'Naudotojo vardas',
         'Your user name' => 'Jūsų naudotojo vardas',

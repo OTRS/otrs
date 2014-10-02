@@ -1277,6 +1277,10 @@ sub Data {
         'No create time settings.' => 'Няма настройки за време на създаване.',
         'Ticket created' => 'Билета е създаден',
         'Ticket created between' => 'Билета е създаден между',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -2819,6 +2823,8 @@ sub Data {
         'Ticket Create Time (between)' => '',
         'Ticket Change Time (before/after)' => '',
         'Ticket Change Time (between)' => '',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => '',
         'Ticket Close Time (between)' => '',
         'Ticket Escalation Time (before/after)' => '',
@@ -2883,17 +2889,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => '',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            '',
+        'Please see the documentation or ask your admin for further information.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '',
         'Browser Warning' => '',
-        'The browser you are using is too old.' => '',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            '',
-        'Please see the documentation or ask your admin for further information.' =>
-            '',
         'Login' => 'Вход',
         'User name' => '',
         'Your user name' => '',

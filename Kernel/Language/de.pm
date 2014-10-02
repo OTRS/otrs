@@ -1276,16 +1276,14 @@ sub Data {
         'No create time settings.' => 'Keine Erstell-Zeiten',
         'Ticket created' => 'Ticket erstellt',
         'Ticket created between' => 'Ticket erstellt zwischen',
+        'Last changed times' => 'Zuletzt geändert Zeiten',
+        'No last changed time settings.' => 'keine zuletzt geändert Zeiten',
+        'Ticket last changed' => 'Ticket zuletzt geändert',
+        'Ticket last changed between' => 'Ticket zuletzt geändert zwischen',
         'Change times' => 'Änderungs-Zeiten',
         'No change time settings.' => 'Keine Änderungs-Zeiten',
         'Ticket changed' => 'Ticket geändert',
         'Ticket changed between' => 'Ticket geändert zwischen',
-        'Ticket Last Change Time (before/after)' => 'Ticket zuletzt geändert (vor/nach)',
-        'Ticket Last Change Time (between)' => 'Ticket zuletzt geändert (zwischen)',
-        'No last changed time settings.' => 'keine zuletzt geändert Zeiten',
-        'Ticket last changed' => 'Ticket zuletzt geändert',
-        'Ticket last changed between' => 'Ticket zuletzt geändert zwischen',
-        'Last changed times' => 'Zuletzt geändert Zeiten',
         'Close times' => 'Schließ-Zeiten',
         'No close time settings.' => 'keine Schließ-Zeiten',
         'Ticket closed' => 'Ticket geschlossen',
@@ -2824,6 +2822,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Ticket-Erstellzeit (zwischen)',
         'Ticket Change Time (before/after)' => 'Ticket-Änderungszeit (vor/nach)',
         'Ticket Change Time (between)' => 'Ticket-Änderungszeit (zwischen)',
+        'Ticket Last Change Time (before/after)' => 'Ticket zuletzt geändert (vor/nach)',
+        'Ticket Last Change Time (between)' => 'Ticket zuletzt geändert (zwischen)',
         'Ticket Close Time (before/after)' => 'Ticket-Schließzeit (vor/nach)',
         'Ticket Close Time (between)' => 'Ticket-Schließzeit (zwischen)',
         'Ticket Escalation Time (before/after)' => 'Ticket-Eskalationszeit (vor/nach)',
@@ -2888,17 +2888,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Konnte Popup-Fenster nicht öffnen. Bitte deaktivieren Sie alle Popup-Blocker für diese Anwendung.',
         'There are currently no elements available to select from.' => 'Derzeit sind keine Elemente für die Auswahl vorhanden.',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Sie verwenden leider einen (stark) veralteten Browser.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS funktioniert mit einer großen Auswahl an Browsern, aus denen Sie wählen können. Bitte installieren Sie einen neueren Browser oder upgraden Sie Ihren vorhandenen.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadministrator.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren.',
         'Browser Warning' => 'Browser-Warnung',
-        'The browser you are using is too old.' => 'Sie verwenden leider einen (stark) veralteten Browser.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS funktioniert mit einer großen Auswahl an Browsern, aus denen Sie wählen können. Bitte installieren Sie einen neueren Browser oder upgraden Sie Ihren vorhandenen.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Bitte lesen Sie auch die Dokumentation oder fragen Sie Ihren Systemadministrator.',
         'Login' => 'Anmeldung',
         'User name' => 'Benutzername',
         'Your user name' => 'Ihr Benutzername',

@@ -1284,6 +1284,10 @@ sub Data {
         'No create time settings.' => 'Ingen opprettelsestidspunkt innstillinger.',
         'Ticket created' => 'Sak opprettet',
         'Ticket created between' => 'Sak opprettet mellom',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Bytt tider',
         'No change time settings.' => 'Ingen endringstidspunkt innstillinger',
         'Ticket changed' => 'Sak endret',
@@ -2826,6 +2830,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Opprettelsestidspunkt for sak (mellom)',
         'Ticket Change Time (before/after)' => 'Endringstidspunkt for sak (før/etter)',
         'Ticket Change Time (between)' => 'Endringstidspunkt for sak (mellom)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Avslutningstidspunkt for sak (før/etter)',
         'Ticket Close Time (between)' => 'Avslutningstidspunkt for sak (mellom)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2890,17 +2896,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Kunne ikke åpne sprettoppvindu. Vennligst slå av eventuelle blokkefunksjoner i nettleseren for dette nettstedet.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Nettleseren du bruker er for gammel.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS kjører på en lang rekke nettlesere, vennligst oppgrader til en av disse.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Vennligst se dokumentasjonen eller spør din IT-ansvarlige for mer informasjon.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript ikke tilgjengelig',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'For å bruke OTRS må JavaScript slås på i nettleseren.',
         'Browser Warning' => 'Advarsel om nettleseren',
-        'The browser you are using is too old.' => 'Nettleseren du bruker er for gammel.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS kjører på en lang rekke nettlesere, vennligst oppgrader til en av disse.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Vennligst se dokumentasjonen eller spør din IT-ansvarlige for mer informasjon.',
         'Login' => 'Innlogging',
         'User name' => 'Brukernavn',
         'Your user name' => 'Ditt brukernavn',

@@ -1281,6 +1281,10 @@ sub Data {
         'No create time settings.' => '',
         'Ticket created' => 'הפניה נוצרה',
         'Ticket created between' => 'פניה נוצרה בין',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'זמן השינוי',
         'No change time settings.' => '',
         'Ticket changed' => 'הפניה השתנתה',
@@ -2823,6 +2827,8 @@ sub Data {
         'Ticket Create Time (between)' => 'זמן יצירת פניה (בין)',
         'Ticket Change Time (before/after)' => 'זמן שינוי פניה (לפני/אחרי)',
         'Ticket Change Time (between)' => 'זמן שינוי פניה (בין)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'זמן סגירת פניה (לפני/אחרי)',
         'Ticket Close Time (between)' => 'זמן סגירת פניה (בין)',
         'Ticket Escalation Time (before/after)' => 'זמן אסקלציית פניה (לפני/אחרי)',
@@ -2887,17 +2893,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'לא ניתן לפתוח חלון קופץ. אנא נטרלו חוסמי חלונות קופצים עבור יישום זה.',
         'There are currently no elements available to select from.' => 'אין כעת פריטים זמינים שניתן לבחור.',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'הדפדפן שלכם ישן מדי.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'מערכת זו מופעלת על מגוון רחב של דפדפנים, אנא שדרגו לאחד מהם.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'אנא צפו בתיעוד או בקשו מידע נוסף ממנהל המערכת.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript לא זמין.',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'על מנת להפעיל את המערכת, עליכם לאפשר JavaScript בדפדפן.',
         'Browser Warning' => 'אזהרת דפדפן',
-        'The browser you are using is too old.' => 'הדפדפן שלכם ישן מדי.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'מערכת זו מופעלת על מגוון רחב של דפדפנים, אנא שדרגו לאחד מהם.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'אנא צפו בתיעוד או בקשו מידע נוסף ממנהל המערכת.',
         'Login' => 'התחבר',
         'User name' => 'שם משתמש',
         'Your user name' => 'שם המשתמש שלך',

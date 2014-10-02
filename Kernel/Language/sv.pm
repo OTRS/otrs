@@ -1278,6 +1278,10 @@ sub Data {
         'No create time settings.' => 'Inga Skapat-Tider.',
         'Ticket created' => 'Ärende skapat',
         'Ticket created between' => 'Ärendet skapat mellan',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => 'Inga Ändringstider',
         'Ticket changed' => 'Ärende ändrat',
@@ -2820,6 +2824,8 @@ sub Data {
         'Ticket Create Time (between)' => '',
         'Ticket Change Time (before/after)' => '',
         'Ticket Change Time (between)' => '',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => '',
         'Ticket Close Time (between)' => '',
         'Ticket Escalation Time (before/after)' => '',
@@ -2884,17 +2890,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Kund einte öppnapopupfönster. Avaktivera popupblockerare för denna applikation.',
         'There are currently no elements available to select from.' => 'Det finns inga poster att välja just nu.',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Din webbläsare är för gammal.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS fungerar i många webbläsare. Uppdatera till en av dessa.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Läs dokumentationen eller kontakta en administratör för mer information.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'Javaskript är avstängt',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'För att OTRS ska fungera behöver javaskript vara påslaget i din webbläsare.',
         'Browser Warning' => 'Browservarning',
-        'The browser you are using is too old.' => 'Din webbläsare är för gammal.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS fungerar i många webbläsare. Uppdatera till en av dessa.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Läs dokumentationen eller kontakta en administratör för mer information.',
         'Login' => 'Inloggning',
         'User name' => 'Användarnamn',
         'Your user name' => 'Ditt användarnamn',

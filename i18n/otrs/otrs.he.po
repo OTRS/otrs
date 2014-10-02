@@ -9173,15 +9173,15 @@ msgstr "על מנת להפעיל את המערכת, עליכם לאפשר JavaSc
 msgid "Browser Warning"
 msgstr "אזהרת דפדפן"
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
 msgstr "הדפדפן שלכם ישן מדי."
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
 msgstr "מערכת זו מופעלת על מגוון רחב של דפדפנים, אנא שדרגו לאחד מהם."
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "אנא צפו בתיעוד או בקשו מידע נוסף ממנהל המערכת."
 
@@ -14883,5 +14883,33 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 

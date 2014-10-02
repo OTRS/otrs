@@ -9173,15 +9173,15 @@ msgstr "OTRS अनुभव करने के लिए,आपको अप�
 msgid "Browser Warning"
 msgstr "ब्राउज़र चेतावनी"
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
 msgstr "आप जो ब्राउज़र उपयोग कर रहे बहुत पुराना है।"
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
 msgstr "OTRS ब्राउज़रों की एक बड़ी सूची के साथ चलाता है,तो कृपया इनमें से एक को का उन्नयन करे।"
 
-#. Template: CustomerLogin
+#. Template: CustomerFooterJS
 msgid "Please see the documentation or ask your admin for further information."
 msgstr "कृपया अधिक जानकारी के लिए दस्तावेज़ देखे या अपने व्यवस्थापक से पूछे।"
 
@@ -14883,5 +14883,33 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if the admin is allowed to import a saved system configuration in SysConfig."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
 msgstr ""
 

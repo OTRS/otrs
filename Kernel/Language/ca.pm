@@ -1276,6 +1276,10 @@ sub Data {
         'No create time settings.' => 'No hi ha valors per a temps de creació',
         'Ticket created' => 'Tiquet creat',
         'Ticket created between' => 'Tiquet creat entre',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Temps de canvi',
         'No change time settings.' => 'No hi ha ajustos de temps de canvi.',
         'Ticket changed' => 'Tiquet canviat',
@@ -2818,6 +2822,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Temps de creació del tiquet (entre)',
         'Ticket Change Time (before/after)' => 'Temps de modificació del tiquet (abans/després)',
         'Ticket Change Time (between)' => 'Temps de modificació del tiquet (entre)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Temps de tancament del tiquet (abans/després)',
         'Ticket Close Time (between)' => 'Temps de tancament del tiquet (entre)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2882,17 +2888,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'No es va poder obrir una finestra emergent. Per favor, deshabiliti qualsevol bloqueig de finestres emergents per a aquesta aplicació.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'El navegador que està utilitzant és massa vell.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS s\'executa amb una llista enorme de navegadors, per favor, actualitzi a una d\'aquestes.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Per favor, consulti la documentació o consulti amb el seu administrador per obtenir més informació.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'Javascript no està disponible',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Amb la finalitat de millorar la seva experiència amb OTRS, haurà d\'habilitar Javascript en el seu navegador.',
         'Browser Warning' => 'Avís de navegador',
-        'The browser you are using is too old.' => 'El navegador que està utilitzant és massa vell.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS s\'executa amb una llista enorme de navegadors, per favor, actualitzi a una d\'aquestes.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Per favor, consulti la documentació o consulti amb el seu administrador per obtenir més informació.',
         'Login' => 'Identificador',
         'User name' => 'Nom d\'usuari',
         'Your user name' => 'El seu nom d\'usuari',

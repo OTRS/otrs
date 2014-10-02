@@ -1284,6 +1284,10 @@ sub Data {
         'No create time settings.' => 'Pas de critère de date de création',
         'Ticket created' => 'Ticket créé',
         'Ticket created between' => 'Ticket créé entre le',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Modification d\'heure',
         'No change time settings.' => 'Paramètrage de non modification d\'heure',
         'Ticket changed' => 'Ticket modifié',
@@ -2826,6 +2830,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Date Création Ticket (Période)',
         'Ticket Change Time (before/after)' => 'Date Modification Ticket (avant/après)',
         'Ticket Change Time (between)' => 'Date Modification Ticket (Période)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Date Fermeture Ticket (avant/après)',
         'Ticket Close Time (between)' => 'Date Fermeture Ticket (Période)',
         'Ticket Escalation Time (before/after)' => 'Date Remontée Ticket (avant/après)',
@@ -2890,17 +2896,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'La fenêtre popup n\'a pas pu s\'ouvrir. Merci de désactiver le bloqueur de popup pour cette application.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Votre navigateur est trop ancien.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS tourne sur un grand nombre de navigateurs, merci de mettre à jour votre navigateur vers l\'un de ceux-ci.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Merci de se référer à la documentation ou demander à votre administrateur système pour de plus amples informations.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript non disponible',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Pour utiliser OTRS, vous devez activer le JavaScript dans votre navigateur.',
         'Browser Warning' => 'Avertissement du navigateur',
-        'The browser you are using is too old.' => 'Votre navigateur est trop ancien.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS tourne sur un grand nombre de navigateurs, merci de mettre à jour votre navigateur vers l\'un de ceux-ci.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Merci de se référer à la documentation ou demander à votre administrateur système pour de plus amples informations.',
         'Login' => 'Connexion',
         'User name' => 'Identifiant',
         'Your user name' => 'Votre Identifiant',

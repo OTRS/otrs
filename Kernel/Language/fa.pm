@@ -1281,6 +1281,10 @@ sub Data {
         'No create time settings.' => 'تنظیمی برای زمان ایجاد درخواست وجود ندارد',
         'Ticket created' => 'زمان ایجاد درخواست',
         'Ticket created between' => 'بازه زمانی ایجاد درخواست',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => 'هیچ تنظیمی برای تغییر زمان وجود ندارد',
         'Ticket changed' => 'درخواست تغییر داده شده',
@@ -2823,6 +2827,8 @@ sub Data {
         'Ticket Create Time (between)' => 'زمان ساخت درخواست (بین)',
         'Ticket Change Time (before/after)' => 'زمان تغییر درخواست (قبل از/بعد از)',
         'Ticket Change Time (between)' => 'زمان تغییر درخواست (بین)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'زمان بستن درخواست (قبل از/بعد از)',
         'Ticket Close Time (between)' => 'زمان بستن درخواست (بین)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2887,17 +2893,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'پنجره popup نمی‌تواند باز شود. لطفا همه مسدودکننده‌های popup را برای این نرم‌افزار غیرفعال نمایید.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'مرورگری که استفاده می‌کنید خیلی قدیمی است.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'این نرم‌افزار با تعداد زیادی از مرورگرها کار می‌کند. لطفا به یکی از آنها ارتقاء دهید.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'لطفا مستندات را مشاهده کنید یا از مدیر سیستم برای اطلاعات بیشتر سوال بپرسید.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'جاوااسکریپت در دسترس نیست',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'به منظور تجربه این نرم‌افزار ، نیاز دارید که جاوااسکریپت مرورگر خود را فعال نمایید.',
         'Browser Warning' => 'اخطار مرورگر',
-        'The browser you are using is too old.' => 'مرورگری که استفاده می‌کنید خیلی قدیمی است.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'این نرم‌افزار با تعداد زیادی از مرورگرها کار می‌کند. لطفا به یکی از آنها ارتقاء دهید.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'لطفا مستندات را مشاهده کنید یا از مدیر سیستم برای اطلاعات بیشتر سوال بپرسید.',
         'Login' => 'ورود به سیستم',
         'User name' => 'نام کاربری',
         'Your user name' => 'نام کاربری شما',

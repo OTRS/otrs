@@ -1275,6 +1275,10 @@ sub Data {
         'No create time settings.' => 'Tiada mewujudkan tetapan masa',
         'Ticket created' => 'tiket menciptakan',
         'Ticket created between' => 'Tiket diwujudkan antara',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Perubahan kali',
         'No change time settings.' => 'Tiada masa perubahan tetapan',
         'Ticket changed' => 'tiket berubah',
@@ -2817,6 +2821,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Masa Tiket Dibuat (diantara)',
         'Ticket Change Time (before/after)' => 'Masa Tiket Diubah (sebelum/selepas)',
         'Ticket Change Time (between)' => 'Masa Tiket Diubah (diantara)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Masa Tiket Ditutup (sebelum/selepas)',
         'Ticket Close Time (between)' => 'Masa Tiket Ditutup (diantara)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2881,17 +2887,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Tidak boleh membuka tetingkap pop timbul. Sila lumpuhkan sebarang penyekat pop timbul untuk aplikasi ini.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Browser yang anda gunakan adalah terlalu lama.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS dijalankan dengan senarai browser yang besar. Sila naik taraf kepada salah satu darinya.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Sila lihat dokumentasi atau menanya kepada admin anda untuk maklumat lanjut.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript idak disediakan',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Untuk menikmati OTRS, anda perlu mengaktifkah JavaScript di dalam browser anda.',
         'Browser Warning' => 'Amaran Browser',
-        'The browser you are using is too old.' => 'Browser yang anda gunakan adalah terlalu lama.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS dijalankan dengan senarai browser yang besar. Sila naik taraf kepada salah satu darinya.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Sila lihat dokumentasi atau menanya kepada admin anda untuk maklumat lanjut.',
         'Login' => 'Log masuk',
         'User name' => 'Nama pengguna',
         'Your user name' => 'Nama pengguna anda',

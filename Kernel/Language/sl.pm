@@ -1280,6 +1280,10 @@ sub Data {
         'No create time settings.' => 'Ni postavk za čas kreiranja.',
         'Ticket created' => 'Zahtevek ustvarjen',
         'Ticket created between' => 'Zahtevek ustvarjem med',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Spremeni čas',
         'No change time settings.' => 'Ni spremembe časa',
         'Ticket changed' => 'Zahtevek spremenjen',
@@ -2822,6 +2826,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Čas kreiranja zahtevka (med)',
         'Ticket Change Time (before/after)' => 'Čas spremembe zahtevka (pred/potem)',
         'Ticket Change Time (between)' => 'Čas spremembe zahtevka (med)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Čas zaprtja zahtevka (pred/potem)',
         'Ticket Close Time (between)' => 'Čas zaprtja zahtevka (med)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2886,17 +2892,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Ni bilo mogoče odpreti okna. Prosimo izključite vse zaviralce popup-ov za to aplikacijo.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Brskalnik katerega uporabljate je prestar.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS teče na veliko brskalnikih, prosimo nadgradite vaš brskalnik na enega od teh.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Prosimo, si oglejte dokumentacijo ali pa se posvetujte z vašim adminom za dodatne informacije.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript ni dostopen.',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Kako bi ste koristili OTRS potrebno je aktivirati JavaScript u vašem web pregledniku.',
         'Browser Warning' => 'Opozorilo brskalnika',
-        'The browser you are using is too old.' => 'Brskalnik katerega uporabljate je prestar.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS teče na veliko brskalnikih, prosimo nadgradite vaš brskalnik na enega od teh.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Prosimo, si oglejte dokumentacijo ali pa se posvetujte z vašim adminom za dodatne informacije.',
         'Login' => 'Prijava',
         'User name' => 'Uporabniško ime',
         'Your user name' => 'Vaše uporabniško ime',

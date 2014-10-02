@@ -1282,6 +1282,10 @@ sub Data {
         'No create time settings.' => '没有创建时间。',
         'Ticket created' => '工单创建时间(相对)',
         'Ticket created between' => '工单创建时间(绝对)',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '修改时间',
         'No change time settings.' => '没有修改时间',
         'Ticket changed' => '修改工单时间(相对)',
@@ -2824,6 +2828,8 @@ sub Data {
         'Ticket Create Time (between)' => '工单创建时间(绝对)',
         'Ticket Change Time (before/after)' => '工单更新时间(相对)',
         'Ticket Change Time (between)' => '工单更新时间(绝对)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => '工单关闭时间(相对)',
         'Ticket Close Time (between)' => '工单关闭时间(绝对)',
         'Ticket Escalation Time (before/after)' => '工单升级时间(相对)',
@@ -2888,17 +2894,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '无法打开弹出窗口，请禁用弹出窗口拦截。',
         'There are currently no elements available to select from.' => '目前没有可供选择的元素。',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => '你使用的游览器太旧了.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS 已确认下列的游览器可正常显示, 请挑一个你喜欢用的升级之.',
+        'Please see the documentation or ask your admin for further information.' =>
+            '欲了解更多信息, 请向你的管理询问或参考相关文档.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => '没有启用 JavaScript',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '要继续使用 OTRS，请打开浏览器的 JavaScript 功能.',
         'Browser Warning' => '提示',
-        'The browser you are using is too old.' => '你使用的游览器太旧了.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS 已确认下列的游览器可正常显示, 请挑一个你喜欢用的升级之.',
-        'Please see the documentation or ask your admin for further information.' =>
-            '欲了解更多信息, 请向你的管理询问或参考相关文档.',
         'Login' => '登录',
         'User name' => '用户名',
         'Your user name' => '你的用户名',

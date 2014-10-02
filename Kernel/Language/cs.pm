@@ -1282,6 +1282,10 @@ sub Data {
         'No create time settings.' => 'Žádná nastavení Času Vytvoření.',
         'Ticket created' => 'Tiket vytvořen',
         'Ticket created between' => 'Tiket vytvořen mezi',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => 'Žádná nastavení změny Času',
         'Ticket changed' => 'Tiket změněn',
@@ -2824,6 +2828,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Čas Vytvoření Tiketu (mezi)',
         'Ticket Change Time (before/after)' => 'Čas Změny Tiketu (poslední/před)',
         'Ticket Change Time (between)' => 'Čas Změny Tiketu (mezi)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Čas Uzatvoření Tiketu (poslední/před)',
         'Ticket Close Time (between)' => 'Čas Uzatvoření Tiketu (mezi)',
         'Ticket Escalation Time (before/after)' => 'Čas eskalace Tiketu (poslední/před)',
@@ -2888,17 +2894,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => '',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            '',
+        'Please see the documentation or ask your admin for further information.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => '',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '',
         'Browser Warning' => '',
-        'The browser you are using is too old.' => '',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            '',
-        'Please see the documentation or ask your admin for further information.' =>
-            '',
         'Login' => 'Přihlášení',
         'User name' => '',
         'Your user name' => '',

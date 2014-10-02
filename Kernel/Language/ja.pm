@@ -1279,6 +1279,10 @@ sub Data {
         'No create time settings.' => '作成時間を設定しない',
         'Ticket created' => 'チケットを作成したのが',
         'Ticket created between' => 'チケットを作成したのがこの期間内',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '変更時間',
         'No change time settings.' => '変更時間設定がありません。',
         'Ticket changed' => 'チケットを変更しました',
@@ -2821,6 +2825,8 @@ sub Data {
         'Ticket Create Time (between)' => 'チケット作成時間 (期間中)',
         'Ticket Change Time (before/after)' => 'チケット変更時間 (前／後)',
         'Ticket Change Time (between)' => 'チケット変更時間 (期間中)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'チケット完了時間 (前／後)',
         'Ticket Close Time (between)' => 'チケット完了時間 (期間中)',
         'Ticket Escalation Time (before/after)' => 'チケットエスカレーション時間 (前／後)',
@@ -2885,17 +2891,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'ポップアップウィンドウを開けませんでした。アプリケーションのポップアップブロッカーを無効にしてください。',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'ご利用のブラウザは古すぎます。',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRSは次のいずれかのブラウザで実行してください。ブラウザ内で巨大なリストを使用します。',
+        'Please see the documentation or ask your admin for further information.' =>
+            '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScriptが有効になっていません。',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'OTRSを利用するにはお使いのブラウザでJavaScriptを有効にする必要があります。',
         'Browser Warning' => 'ブラウザの警告',
-        'The browser you are using is too old.' => 'ご利用のブラウザは古すぎます。',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRSは次のいずれかのブラウザで実行してください。ブラウザ内で巨大なリストを使用します。',
-        'Please see the documentation or ask your admin for further information.' =>
-            '詳細はマニュアルを参照するか、管理者にお問い合わせください。',
         'Login' => 'ログイン',
         'User name' => 'ユーザー名',
         'Your user name' => 'ユーザー名',

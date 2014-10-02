@@ -4395,6 +4395,22 @@ msgid "Ticket created between"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Last changed times"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "No last changed time settings."
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Ticket last changed between"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Change times"
 msgstr ""
 
@@ -8995,6 +9011,14 @@ msgid "Ticket Change Time (between)"
 msgstr ""
 
 #. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (before/after)"
+msgstr ""
+
+#. Template: AgentTicketSearch
+msgid "Ticket Last Change Time (between)"
+msgstr ""
+
+#. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
 msgstr ""
 
@@ -9194,6 +9218,22 @@ msgstr ""
 msgid "There are currently no elements available to select from."
 msgstr ""
 
+#. Template: CustomerFooterJS
+msgid "Please turn off Compatibility Mode in Internet Explorer!"
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "The browser you are using is too old."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
+msgstr ""
+
+#. Template: CustomerFooterJS
+msgid "Please see the documentation or ask your admin for further information."
+msgstr ""
+
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
 msgstr ""
@@ -9204,18 +9244,6 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
-msgstr ""
-
-#. Template: CustomerLogin
-msgid "The browser you are using is too old."
-msgstr ""
-
-#. Template: CustomerLogin
-msgid "OTRS runs with a huge lists of browsers, please upgrade to one of these."
-msgstr ""
-
-#. Template: CustomerLogin
-msgid "Please see the documentation or ask your admin for further information."
 msgstr ""
 
 #. Template: CustomerLogin

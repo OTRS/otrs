@@ -1276,6 +1276,10 @@ sub Data {
         'No create time settings.' => 'Oluşturma zamanı ayarı yok.',
         'Ticket created' => 'Bilet oluşturuldu',
         'Ticket created between' => 'Bilet ikisi arasında oluşturuldu:',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Değiştirilme zamanı',
         'No change time settings.' => 'Zaman ayarlarında değişiklik yok.',
         'Ticket changed' => 'Bilet değişti',
@@ -2818,6 +2822,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Bilet Oluşturulma Zamanı (arasında)',
         'Ticket Change Time (before/after)' => 'Bilet Değiştirilme Zamanı (önce/sonra)',
         'Ticket Change Time (between)' => 'Bilet Değiştirilme Zamanı (arasında)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Bilet Kapatılma Zamanı (önce/sonra)',
         'Ticket Close Time (between)' => 'Bilet Kapatılma Zamanı (arasında)',
         'Ticket Escalation Time (before/after)' => '',
@@ -2882,17 +2888,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             '',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => '',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            '',
+        'Please see the documentation or ask your admin for further information.' =>
+            '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript Kullanılamıyor',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '',
         'Browser Warning' => '',
-        'The browser you are using is too old.' => '',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            '',
-        'Please see the documentation or ask your admin for further information.' =>
-            '',
         'Login' => 'Oturum aç',
         'User name' => 'Adınız',
         'Your user name' => 'Soyadınız',

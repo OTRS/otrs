@@ -1278,6 +1278,10 @@ sub Data {
         'No create time settings.' => 'Ei luontiaikaa asetettu.',
         'Ticket created' => 'Tiketti luotu',
         'Ticket created between' => 'Tiketti luotu välillä',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -2820,6 +2824,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Tiketti luotu (välillä)',
         'Ticket Change Time (before/after)' => 'Tikettiä muokattu (ennen/jälkeen)',
         'Ticket Change Time (between)' => 'Tikettiä muokattu (välillä)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Tiketti suljettu (ennen/jälkeen)',
         'Ticket Close Time (between)' => 'Tiketti suljettu (välillä)',
         'Ticket Escalation Time (before/after)' => 'Tiketin eskaloitumisaika (ennen/jälkeen)',
@@ -2884,17 +2890,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Ponnahdusikkunan avaaminen ei onnistunut. Poista ponnahdusikkunoiden esto muokkaamalla selaimen asetuksia ja yritä uudelleen.',
         'There are currently no elements available to select from.' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Käyttämäsi selain on liian vanha.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS toimii usealla eri selaimella, ole hyvä ja päivitä tuettuun selaimeen.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Ole hyvä ja tutustu ohjeisiin tai kysy lisätietoa järjestelmätuestasi.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript ei saatavilla',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Jotta voisit käyttää OTRS-järjestelmää tulee selaimesi tukea JavaScriptiä.',
         'Browser Warning' => 'Selainvirhe',
-        'The browser you are using is too old.' => 'Käyttämäsi selain on liian vanha.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS toimii usealla eri selaimella, ole hyvä ja päivitä tuettuun selaimeen.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Ole hyvä ja tutustu ohjeisiin tai kysy lisätietoa järjestelmätuestasi.',
         'Login' => 'Kirjaudu',
         'User name' => 'Käyttäjätunnus',
         'Your user name' => 'Käyttäjätunnuksesi',

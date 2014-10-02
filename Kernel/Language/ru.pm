@@ -1287,6 +1287,10 @@ sub Data {
         'No create time settings.' => 'Без учета времени создания',
         'Ticket created' => 'Заявка создана',
         'Ticket created between' => 'Заявка создана между ',
+        'Last changed times' => '',
+        'No last changed time settings.' => '',
+        'Ticket last changed' => '',
+        'Ticket last changed between' => '',
         'Change times' => 'Когда изменена',
         'No change time settings.' => 'Не изменять параметры времени',
         'Ticket changed' => 'Заявка изменена',
@@ -2830,6 +2834,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Время создания заявки (между)',
         'Ticket Change Time (before/after)' => 'Время изменения заявки (до/после)',
         'Ticket Change Time (between)' => 'Время изменения заявки (между)',
+        'Ticket Last Change Time (before/after)' => '',
+        'Ticket Last Change Time (between)' => '',
         'Ticket Close Time (before/after)' => 'Время закрытия заявки (до/после)',
         'Ticket Close Time (between)' => 'Время закрытия заявки (между)',
         'Ticket Escalation Time (before/after)' => 'Время эскалации заявки (до/после)',
@@ -2894,17 +2900,18 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Невозможо открыть всплывающее окно. Пожалуйста, отключите для этого приложения любые блокировки всплывающих окон.',
         'There are currently no elements available to select from.' => 'Отсутствуют элементы доступные для выбора',
+        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'The browser you are using is too old.' => 'Используемый вами браузер слишком стар.',
+        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
+            'OTRS работает с большим списком браузеров, пожалуйста, обновитесь до одного из них.',
+        'Please see the documentation or ask your admin for further information.' =>
+            'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript не доступен',
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Для работы с OTRS вам потребуется включить JavaScript в вашем браузере.',
         'Browser Warning' => 'Предупреждение о браузере',
-        'The browser you are using is too old.' => 'Используемый вами браузер слишком стар.',
-        'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
-            'OTRS работает с большим списком браузеров, пожалуйста, обновитесь до одного из них.',
-        'Please see the documentation or ask your admin for further information.' =>
-            'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
         'Login' => 'Вход',
         'User name' => 'Имя пользователя',
         'Your user name' => 'Ваше имя пользователя',
