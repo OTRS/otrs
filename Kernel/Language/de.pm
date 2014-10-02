@@ -1276,7 +1276,7 @@ sub Data {
         'No create time settings.' => 'Keine Erstell-Zeiten',
         'Ticket created' => 'Ticket erstellt',
         'Ticket created between' => 'Ticket erstellt zwischen',
-        'Last changed times' => 'Zuletzt geändert Zeiten',
+        'Last changed times' => 'Letzte Änderungszeitpunkte',
         'No last changed time settings.' => 'keine zuletzt geändert Zeiten',
         'Ticket last changed' => 'Ticket zuletzt geändert',
         'Ticket last changed between' => 'Ticket zuletzt geändert zwischen',
@@ -2888,7 +2888,7 @@ sub Data {
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'Konnte Popup-Fenster nicht öffnen. Bitte deaktivieren Sie alle Popup-Blocker für diese Anwendung.',
         'There are currently no elements available to select from.' => 'Derzeit sind keine Elemente für die Auswahl vorhanden.',
-        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'Bitte schalten Sie den Kompatibilitätsmodus im Internet Explorer aus!',
         'The browser you are using is too old.' => 'Sie verwenden leider einen (stark) veralteten Browser.',
         'OTRS runs with a huge lists of browsers, please upgrade to one of these.' =>
             'OTRS funktioniert mit einer großen Auswahl an Browsern, aus denen Sie wählen können. Bitte installieren Sie einen neueren Browser oder upgraden Sie Ihren vorhandenen.',
