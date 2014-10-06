@@ -1,5 +1,4 @@
 #3.3.10 ????-??-??
- - 2014-09-30 Fixed bug#[10774](http://bugs.otrs.org/show_bug.cgi?id=10774) - greedy framework events.
  - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
  - 2014-09-22 Fixed bug#[10749](http://bugs.otrs.org/show_bug.cgi?id=10749) - generic agent limitted by notifications for escalations.
  - 2014-09-17 Fixed bug#[10736](http://bugs.otrs.org/show_bug.cgi?id=10736) - Wrong update behavior for the proccess change time by the scheduler, when a time zone is used.
