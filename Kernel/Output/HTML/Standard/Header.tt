@@ -21,6 +21,22 @@
 [% RenderBlockStart("ToolBarItem") %]
             <li class="[% Data.Class | html %]"><a href="[% Data.Link %]" target="[% Data.Target | html %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description) | html %]: [% Data.Count | html %][% Data.AccessKeyReference | html %]">[% Translate(Data.Description) | html %] <i class="icon-small fa fa-clock-o icon-show-reached"></i> <i class="icon-small fa fa-star icon-show-new"></i><i class="[% Data.Icon | html %]"></i> <span class="Counter">[% Data.Count | html %]</span> </a></li>
 [% RenderBlockEnd("ToolBarItem") %]
+[% RenderBlockStart("Login") %]
+            <li>
+                <a href="[% Env("Baselink") %]Action=AgentPreferences" title="[% Translate("Edit personal preferences") | html %]">
+                    [% Translate("Edit personal preferences") | html %]
+                    <i class="fa fa-cog"></i>
+                </a>
+            </li>
+[% RenderBlockEnd("Login") %]
+[% RenderBlockStart("Logout") %]
+            <li>
+                <a class="LogoutButton" id="LogoutButton" href="[% Env("Baselink") %]Action=Logout;[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Logout") | html %] ([% Translate("You are logged in as") | html %] [% Env("UserFullname") | html %])">
+                    [% Translate("Logout") | html %] ([% Translate("You are logged in as") | html %] [% Env("UserFullname") | html %])
+                    <i class="fa fa-power-off"></i>
+                </a>
+            </li>
+[% RenderBlockEnd("Logout") %]
 [% RenderBlockStart("ToolBarSearchProfile") %]
             <li class="Extended SearchProfile">
                 <form action="[% Env("CGIHandle") %]" method="post" name="SearchProfile">
@@ -146,22 +162,5 @@ if ($('#ToolBar li.ChatRequests').length) {
 [% END %]
 [% END %]
 [% RenderBlockEnd("ToolBar") %]
-
-[% RenderBlockStart("Login") %]
-            <li>
-                <a href="[% Env("Baselink") %]Action=AgentPreferences" title="[% Translate("Edit personal preferences") | html %]">
-                    [% Translate("Edit personal preferences") | html %]
-                    <i class="fa fa-cog"></i>
-                </a>
-            </li>
-[% RenderBlockEnd("Login") %]
-[% RenderBlockStart("Logout") %]
-            <li>
-                <a class="LogoutButton" id="LogoutButton" href="[% Env("Baselink") %]Action=Logout;[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Logout") | html %] ([% Translate("You are logged in as") | html %] [% Env("UserFullname") | html %])">
-                    [% Translate("Logout") | html %] ([% Translate("You are logged in as") | html %] [% Env("UserFullname") | html %])
-                    <i class="fa fa-power-off"></i>
-                </a>
-            </li>
-[% RenderBlockEnd("Logout") %]
         </ul>
     </div>
