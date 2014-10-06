@@ -21,6 +21,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
@@ -49,6 +50,7 @@ sub new {
     $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
     $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}       = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{JSONObject}          = Kernel::System::JSON->new( %{$Self} );
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -1744,10 +1746,16 @@ sub _Mask {
 
         # split To values
         for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
+
+            # get a json object of the email adress
+            my $JSONEmail = $Self->{JSONObject}->Encode(
+                Data => $Email->address(),
+            );
+
             $Self->{LayoutObject}->Block(
                 Name => 'PreFilledCcRow',
                 Data => {
-                    Email => $Email->address(),
+                    Email => $JSONEmail,
                 },
             );
         }
@@ -1762,10 +1770,16 @@ sub _Mask {
 
         # split To values
         for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+
+            # get a json object of the email adress
+            my $JSONEmail = $Self->{JSONObject}->Encode(
+                Data => $Email->address(),
+            );
+
             $Self->{LayoutObject}->Block(
                 Name => 'PreFilledToRow',
                 Data => {
-                    Email => $Email->address(),
+                    Email => $JSONEmail,
                 },
             );
         }
