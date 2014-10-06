@@ -235,21 +235,21 @@ my @UTF8Tests = (
     },
     {
 
-        # composed UTF8 char (smal a with grave)
+        # composed UTF8 char (lowercase a with grave)
         InsertData => Encode::encode( 'UTF8', "\x{E0}" ),
         SelectData => Encode::encode( 'UTF8', "\x{E0}" ),
         ResultData => "\x{E0}",
     },
     {
 
-        # decomposed UTF8 char (smal a with grave)
+        # decomposed UTF8 char (lowercase a with grave)
         InsertData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
         SelectData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
         ResultData => "\x{61}\x{300}",
     },
     {
 
-        # decomposed UTF8 char (smal a with grave)
+        # decomposed UTF8 char (lowercase a with grave)
         InsertData => Encode::encode( 'UTF8', "\x{61}\x{300}" ),
         SelectData => Encode::encode( 'UTF8', "\x{E0}" ),
         ResultData => undef,
@@ -261,6 +261,9 @@ for my $UTF8Test (@UTF8Tests) {
 
     # extract needed test data
     my %TestData = %{$UTF8Test};
+
+    $Self->{EncodeObject}->EncodeInput(\$TestData{InsertData});
+    $Self->{EncodeObject}->EncodeInput(\$TestData{SelectData});
 
     my $Result = $DBObject->Do(
         SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
