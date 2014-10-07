@@ -21,7 +21,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
+    # get needed parameters
     for my $Object (qw( Config Name UserID )) {
         die "Got no $Object!" if ( !$Self->{$Object} );
     }

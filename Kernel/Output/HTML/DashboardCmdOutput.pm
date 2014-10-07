@@ -21,6 +21,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # get needed parameters
     for (qw(Config Name UserID)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }

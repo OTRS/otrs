@@ -21,8 +21,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(Config Name ConfigObject UserID)) {
+    # get needed parameters
+    for my $Needed (qw(Config Name UserID)) {
         die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
