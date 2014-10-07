@@ -792,12 +792,16 @@ sub Run {
             return 1;
         }
 
+        my $AccountCreatedMessage = $LayoutObject->{LanguageObject}->Translate(
+            'New account created. Sent login information to %s. Please check your email.',
+            $GetParams{UserEmail},
+        );
+
         # login screen
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
                 Title => 'Login',
-                Message =>
-                    "New account created. Sent login information to \%s. Please check your email.\", \"$GetParams{UserEmail}",
+                Message => $AccountCreatedMessage,
                 User => $GetParams{UserLogin},
             ),
         );
