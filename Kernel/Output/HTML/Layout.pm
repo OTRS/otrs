@@ -1159,6 +1159,12 @@ sub Header {
     if ( $Self->{UserID} && $Self->{UserType} eq 'User' ) {
         my $ToolBarModule = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
         if ( $Param{ShowToolbarItems} && ref $ToolBarModule eq 'HASH' ) {
+
+            $Self->Block(
+                Name => 'ToolBar',
+                Data => \%Param,
+            );
+
             my %Modules;
             my %Jobs = %{$ToolBarModule};
 
@@ -1176,19 +1182,9 @@ sub Header {
             }
 
             # show tool bar items
-            my $ToolBarShown = 0;
             MODULE:
             for my $Key ( sort keys %Modules ) {
                 next MODULE if !%{ $Modules{$Key} };
-
-                # show tool bar wrapper
-                if ( !$ToolBarShown ) {
-                    $ToolBarShown = 1;
-                    $Self->Block(
-                        Name => 'ToolBar',
-                        Data => \%Param,
-                    );
-                }
                 $Self->Block(
                     Name => $Modules{$Key}->{Block},
                     Data => {
