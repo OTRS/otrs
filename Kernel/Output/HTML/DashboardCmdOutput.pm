@@ -12,10 +12,7 @@ package Kernel::Output::HTML::DashboardCmdOutput;
 use strict;
 use warnings;
 
-our @ObjectDependencies = (
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::Encode',
-);
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
