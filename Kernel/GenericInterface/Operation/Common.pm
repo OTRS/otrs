@@ -60,7 +60,7 @@ sub Auth {
     if ($SessionID) {
         my $ValidSessionID;
 
-        # get database object
+        # get session object
         my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
         if ($SessionID) {
