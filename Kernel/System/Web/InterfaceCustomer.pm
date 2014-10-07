@@ -723,6 +723,54 @@ sub Run {
             return;
         }
 
+        # check for mail address restrictions
+        my @Whitelist = @{ $Self->{ConfigObject}->Get('CustomerPanelCreateAccount::MailRestrictions::Whitelist') // [] };
+        my @Blacklist = @{ $Self->{ConfigObject}->Get('CustomerPanelCreateAccount::MailRestrictions::Blacklist') // [] };
+
+        my $WhitelistMatched;
+        for my $WhitelistEntry (@Whitelist) {
+            my $Regex = eval{ qr/$WhitelistEntry/i };
+            if ( $@ ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => 'The customer panel mail address whitelist contains the invalid regular expression $WhitelistEntry, please check and correct it.',
+                );
+            }
+            elsif ( $GetParams{UserEmail} =~ $Regex ) {
+                $WhitelistMatched++;
+            }
+        }
+        my $BlacklistMatched;
+        for my $BlacklistEntry (@Blacklist) {
+            my $Regex = eval{ qr/$BlacklistEntry/i };
+            if ( $@ ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => 'The customer panel mail address blacklist contains the invalid regular expression $BlacklistEntry, please check and correct it.',
+                );
+            }
+            elsif ( $GetParams{UserEmail} =~ $Regex ) {
+                $BlacklistMatched++;
+            }
+        }
+
+        if ((@Whitelist && !$WhitelistMatched) || (@Blacklist && $BlacklistMatched)) {
+            $LayoutObject->Block( Name => 'SignupError' );
+            $LayoutObject->Print(
+                Output => \$LayoutObject->CustomerLogin(
+                    Title => 'Login',
+                    Message =>
+                        'This email address is not allowed to register. Please contact support staff.',
+                    UserTitle     => $GetParams{UserTitle},
+                    UserFirstname => $GetParams{UserFirstname},
+                    UserLastname  => $GetParams{UserLastname},
+                    UserEmail     => $GetParams{UserEmail},
+                ),
+            );
+
+            return;
+        }
+
         # create account
         my $Now = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $Self->{TimeObject}->SystemTime(),

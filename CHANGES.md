@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-07
+ - 2014-10-07 Added the possibility to restrict customer self registration by email address whitelist or blacklist.
  - 2014-10-07 Fixed customer account creation message.
  - 2014-10-07 Added new dashboard module that shows the output of an external command, thanks to ib.pl.
  - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
