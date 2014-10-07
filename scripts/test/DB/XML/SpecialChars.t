@@ -285,8 +285,8 @@ for my $UTF8Test (@UTF8Tests) {
     # extract needed test data
     my %TestData = %{$UTF8Test};
 
-    $EncodeObject->EncodeInput(\$TestData{InsertData});
-    $EncodeObject->EncodeInput(\$TestData{SelectData});
+    $EncodeObject->EncodeInput( \$TestData{InsertData} );
+    $EncodeObject->EncodeInput( \$TestData{SelectData} );
 
     my $Result = $DBObject->Do(
         SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
