@@ -5624,6 +5624,23 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0420-CmdOutput" Required="0" Valid="0">
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardCmdOutput</Item>
+                <Item Key="Title">Sample command output</Item>
+                <Item Key="Description"></Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">0</Item>
+                <Item Key="CacheTTL">60</Item>
+                <Item Key="Cmd">/bin/echo Configure me please.</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="DashboardBackend###0200-Image" Required="0" Valid="0">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.</Description>
         <Group>Framework</Group>
