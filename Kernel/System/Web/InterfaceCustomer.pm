@@ -12,6 +12,8 @@ package Kernel::System::Web::InterfaceCustomer;
 use strict;
 use warnings;
 
+use Kernel::System::Email;
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
