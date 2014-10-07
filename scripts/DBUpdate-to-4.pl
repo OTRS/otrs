@@ -1386,7 +1386,7 @@ sub _UninstallMergedFeatureAddOns {
 
     # Uninstall FeatureAddons that were merged, keeping the DB structures intact.
     for my $PackageName (
-        qw( OTRSGenericInterfaceREST OTRSMyServices OTRSStatsRestrictionByDateTimeDF )
+        qw( OTRSGenericInterfaceREST OTRSMyServices OTRSStatsRestrictionByDateTimeDF OTRSTextRegex )
         )
     {
         my $Success = $PackageObject->_PackageUninstallMerged(
