@@ -30,18 +30,15 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get current filter
-    my $Name = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Name' ) || '';
+    my $Name = $ParamObject->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardCustomerUserListFilter' . $Self->{Name};
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
         || $Self->{Config}->{Limit};
-    $Self->{StartHit}
-        = int(
-        $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' )
-            || 1
-        );
+
+    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' )|| 1 );
 
     return $Self;
 }
