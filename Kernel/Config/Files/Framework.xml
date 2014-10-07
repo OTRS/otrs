@@ -3626,7 +3626,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Array>
-              <Item>\@your.domain.example$</Item>
+              <Item>\@your\.domain\.example$</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -3636,7 +3636,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Array>
-              <Item>\@your.domain.example$</Item>
+              <Item>\@your\.domain\.example$</Item>
             </Array>
         </Setting>
     </ConfigItem>
