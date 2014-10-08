@@ -35,7 +35,7 @@ sub Run {
         $Self->AddResultProblem(
             Label   => 'Table Presence',
             Value   => '',
-            Message => "Internal Error: Could not open file."
+            Message => "Internal Error: Could not open file.",
         );
     }
 
@@ -47,7 +47,7 @@ sub Run {
         $Self->AddResultProblem(
             Label   => 'Table Check',
             Value   => '',
-            Message => "Internal Error: Could not read file."
+            Message => "Internal Error: Could not read file.",
         );
     }
 
@@ -64,7 +64,7 @@ sub Run {
 
         my $TableExists = $DBObject->Prepare(
             SQL   => "SELECT 1 FROM $Table->{Name}",
-            Limit => 1
+            Limit => 1,
         );
 
         if ($TableExists) {
@@ -87,8 +87,7 @@ sub Run {
         $Self->AddResultProblem(
             Label   => 'Table Presence',
             Value   => join( ', ', @MissingTables ),
-            Message => "Tables found which are not present in the database."
-
+            Message => "Tables found which are not present in the database.",
         );
     }
 
