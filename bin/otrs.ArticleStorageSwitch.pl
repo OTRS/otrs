@@ -69,13 +69,22 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
+# disable cache
+$Kernel::OM->Get('Kernel::System::Cache')->Configure(
+    CacheInMemory  => 0,
+    CacheInBackend => 0,
+);
+
 # disable ticket events
 $Kernel::OM->Get('Kernel::Config')->{'Ticket::EventModulePost'} = {};
+
+# get pid object
+my $PIDObject = $Kernel::OM->Get('Kernel::System::PID');
 
 # create pid lock
 if (
     !$Opts{f}
-    && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'ArticleStorageSwitch' )
+    && !$PIDObject->PIDCreate( Name => 'ArticleStorageSwitch' )
     )
 {
     print
@@ -85,7 +94,7 @@ if (
 }
 elsif (
     $Opts{f}
-    && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'ArticleStorageSwitch' )
+    && !$PIDObject->PIDCreate( Name => 'ArticleStorageSwitch' )
     )
 {
     print "NOTICE: otrs.ArticleStorageSwitch.pl is already running but is starting again!\n";
@@ -132,14 +141,17 @@ elsif ( $Opts{C} ) {
 }
 
 # set new PID
-$Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
+$PIDObject->PIDCreate(
     Name  => 'ArticleStorageSwitch',
     Force => 1,
     TTL   => 60 * 60 * 24 * 3,
 );
 
+# get ticket object
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
 # get all tickets
-my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+my @TicketIDs = $TicketObject->TicketSearch(
 
     # additional search params
     %SearchParams,
@@ -164,7 +176,7 @@ for my $TicketID (@TicketIDs) {
 
     print "NOTICE: $Count/$CountTotal (TicketID:$TicketID)\n";
 
-    my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketArticleStorageSwitch(
+    my $Success = $TicketObject->TicketArticleStorageSwitch(
         TicketID    => $TicketID,
         Source      => $Opts{s},
         Destination => $Opts{d},
@@ -179,7 +191,7 @@ for my $TicketID (@TicketIDs) {
 }
 
 # delete pid lock
-$Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'ArticleStorageSwitch' );
+$PIDObject->PIDDelete( Name => 'ArticleStorageSwitch' );
 
 print "NOTICE: done.\n";
 

@@ -6629,16 +6629,28 @@ sub TicketArticleStorageSwitch {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
+    # create source object
+    $ConfigObject->Set(
+        Key   => 'Ticket::StorageModule',
+        Value => 'Kernel::System::Ticket::' . $Param{Source},
+    );
+
+    my $TicketObjectSource = Kernel::System::Ticket->new();
+
+    return if !$TicketObjectSource;
+
+    # create target object
+    $ConfigObject->Set(
+        Key   => 'Ticket::StorageModule',
+        Value => 'Kernel::System::Ticket::' . $Param{Destination},
+    );
+
+    my $TicketObjectDestination = Kernel::System::Ticket->new();
+
+    return if !$TicketObjectDestination;
+
     ARTICLEID:
     for my $ArticleID (@ArticleIndex) {
-
-        # create source object
-        $ConfigObject->Set(
-            Key   => 'Ticket::StorageModule',
-            Value => 'Kernel::System::Ticket::' . $Param{Source},
-        );
-        my $TicketObjectSource = Kernel::System::Ticket->new();
-        return if !$TicketObjectSource;
 
         # read source attachments
         my %Index = $TicketObjectSource->ArticleAttachmentIndex(
@@ -6680,14 +6692,6 @@ sub TicketArticleStorageSwitch {
 
         # nothing to transfer
         next ARTICLEID if !@Attachments && !$Plain;
-
-        # write target attachments
-        $ConfigObject->Set(
-            Key   => 'Ticket::StorageModule',
-            Value => 'Kernel::System::Ticket::' . $Param{Destination},
-        );
-        my $TicketObjectDestination = Kernel::System::Ticket->new( %{$Self} );
-        return if !$TicketObjectDestination;
 
         # read destination attachments
         %Index = $TicketObjectDestination->ArticleAttachmentIndex(
@@ -6847,7 +6851,7 @@ sub TicketArticleStorageSwitch {
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::' . $Param{Source},
         );
-        $TicketObjectSource = Kernel::System::Ticket->new( %{$Self} );
+
         $TicketObjectSource->ArticleDeleteAttachment(
             ArticleID     => $ArticleID,
             UserID        => 1,
