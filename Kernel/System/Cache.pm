@@ -120,10 +120,10 @@ value:
         Type  => 'ObjectName',
         Key   => 'SomeKey',
         Value => { ... complex data ... },
-        TTL   => 60 * 60 * 24 * 20,
 
-        CacheInMemory => 0,     # optional, defaults to 1
-        CacheInBackend => 1,    # optional, defaults to 1
+        TTL            => 60 * 60 * 24 * 1,  # optional, default 20 days
+        CacheInMemory  => 0,                 # optional, defaults to 1
+        CacheInBackend => 1,                 # optional, defaults to 1
     );
 
 =cut
@@ -131,7 +131,7 @@ value:
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(Type Key Value TTL)) {
+    for my $Needed (qw(Type Key Value)) {
         if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -140,6 +140,9 @@ sub Set {
             return;
         }
     }
+
+    # set default TTL to 20 days
+    $Param{TTL} //= 60 * 60 * 24 * 20;
 
     # Enforce cache type restriction to make sure it works properly on all file systems.
     if ( $Param{Type} !~ m{ \A [a-zA-Z0-9_]+ \z}smx ) {
