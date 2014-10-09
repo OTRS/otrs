@@ -209,7 +209,7 @@ EOF
                     Subject        => RandomSubject(),
                     Body           => RandomBody(),
                     ContentType    => 'text/plain; charset=ISO-8859-15',
-                    HistoryType    => 'NewTicket',
+                    HistoryType    => 'AddNote',
                     HistoryComment => 'Some free text!',
                     UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
                     NoAgentNotify => 1,    # if you don't want to send agent notifications
