@@ -159,14 +159,26 @@ sub Set {
         );
     }
 
-    # set in-memory cache
+    # Set in-memory cache.
     if ( $Self->{CacheInMemory} && ( $Param{CacheInMemory} // 1 ) ) {
         $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } = $Param{Value};
     }
 
-    # set persistent cache
+    # If in-memory caching is not active, make sure the in-memory
+    #   cache is not in an inconsistent state.
+    else {
+        delete $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
+    }
+
+    # Set persistent cache.
     if ( $Self->{CacheInBackend} && ( $Param{CacheInBackend} // 1 ) ) {
         return $Self->{CacheObject}->Set(%Param);
+    }
+
+    # If persistent caching is not active, make sure the persistent
+    #   cache is not in an inconsistent state.
+    else {
+        return $Self->{CacheObject}->Delete(%Param);
     }
 
     return 1;
@@ -211,8 +223,10 @@ sub Get {
     }
 
     # check in-memory cache
-    if ( $Self->{CacheInMemory} && exists $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } ) {
-        return $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
+    if ( $Self->{CacheInMemory} && ( $Param{CacheInMemory} // 1 ) ) {
+        if ( exists $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} } ) {
+            return $Self->{Cache}->{ $Param{Type} }->{ $Param{Key} };
+        }
     }
 
     return if ( !$Self->{CacheInBackend} || !( $Param{CacheInBackend} // 1 ) );
