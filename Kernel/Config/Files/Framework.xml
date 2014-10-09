@@ -278,7 +278,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.3/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.4.5/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -4114,8 +4114,8 @@ via the Preferences button after logging in.
                     <CSS>Core.AllocationList.css</CSS>
                     <CSS>thirdparty/fullcalendar-1.6.1/fullcalendar.css</CSS>
                     <CSS>thirdparty/d3js/nv.d3.css</CSS>
-                    <JavaScript>thirdparty/flot-0.8.1/excanvas.js</JavaScript>
-                    <JavaScript>thirdparty/flot-0.8.1/jquery.flot.js</JavaScript>
+                    <JavaScript>thirdparty/flot-0.8.3/excanvas.js</JavaScript>
+                    <JavaScript>thirdparty/flot-0.8.3/jquery.flot.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-1.6.1/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
@@ -4164,8 +4164,8 @@ via the Preferences button after logging in.
                 </NavBar>
                 <Loader>
                     <CSS>Core.AllocationList.css</CSS>
-                    <JavaScript>thirdparty/flot-0.8.1/excanvas.js</JavaScript>
-                    <JavaScript>thirdparty/flot-0.8.1/jquery.flot.js</JavaScript>
+                    <JavaScript>thirdparty/flot-0.8.3/excanvas.js</JavaScript>
+                    <JavaScript>thirdparty/flot-0.8.3/jquery.flot.js</JavaScript>
                     <JavaScript>Core.UI.Chart.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.Dashboard.js</JavaScript>
@@ -6034,11 +6034,11 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/jquery-1.10.0/jquery.js</Item>
+                <Item>thirdparty/jquery-1.11.1/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-ui-1.10.3/jquery-ui.js</Item>
-                <Item>thirdparty/jquery-validate-1.11.1/jquery.validate.js</Item>
-                <Item>thirdparty/stacktrace-0.4/stacktrace.js</Item>
+                <Item>thirdparty/jquery-ui-1.11.1/jquery-ui.js</Item>
+                <Item>thirdparty/jquery-validate-1.13.0/jquery.validate.js</Item>
+                <Item>thirdparty/stacktrace-0.6.2/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js</Item>
                 <Item>thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js</Item>
@@ -6117,11 +6117,11 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/jquery-1.10.0/jquery.js</Item>
+                <Item>thirdparty/jquery-1.11.1/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-validate-1.11.1/jquery.validate.js</Item>
-                <Item>thirdparty/jquery-ui-1.10.3/jquery-ui.js</Item>
-                <Item>thirdparty/stacktrace-0.4/stacktrace.js</Item>
+                <Item>thirdparty/jquery-validate-1.13.0/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-ui-1.11.1/jquery-ui.js</Item>
+                <Item>thirdparty/stacktrace-0.6.2/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js</Item>
                 <Item>thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js</Item>

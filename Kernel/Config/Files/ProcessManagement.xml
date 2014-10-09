@@ -13,7 +13,7 @@
                 <Loader>
                     <CSS>Core.Agent.Admin.ProcessManagement.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <JavaScript>thirdparty/jsplumb-1.6.1/jsplumb.js</JavaScript>
+                    <JavaScript>thirdparty/jsplumb-1.6.4/jsplumb.js</JavaScript>
                     <JavaScript>thirdparty/farahey-0.5/farahey.js</JavaScript>
                     <JavaScript>thirdparty/jsplumb-labelspacer/label-spacer.js</JavaScript>
                     <JavaScript>Core.Agent.Admin.ProcessManagement.js</JavaScript>

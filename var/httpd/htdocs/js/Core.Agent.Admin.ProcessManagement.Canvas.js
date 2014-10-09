@@ -766,9 +766,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             ]
         });
 
-        // set default container element. This is where all the svg elements of jsplumb will be appended to.
-        jsPlumb.Defaults.Container = $("#Canvas");
-
         // Always start with drawing the start event element
         TargetNS.CreateStartEvent();
 
