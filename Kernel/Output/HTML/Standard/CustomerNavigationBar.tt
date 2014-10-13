@@ -61,7 +61,7 @@
                     // show tooltip to get the users attention
                     if (!$('.Individual .ChatRequests .ChatTooltip').length) {
                         $('.Individual .ChatRequests')
-                            .append('<span class="ChatTooltip">[% Translate("You have unanswered chat requests") %]</span>')
+                            .append('<span class="ChatTooltip">' + [% Translate("You have unanswered chat requests") | JSON %] + '</span>')
                             .find('.ChatTooltip')
                             .bind('click', function(Event) {
                                 $(this).fadeOut();
