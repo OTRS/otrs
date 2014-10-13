@@ -51,6 +51,7 @@ Core.UI.Table.Sort = (function (TargetNS) {
         if (isJQueryObject($Table)) {
             var $SortableColumns = $Table.find('th.Sortable'),
                 $InitialSorting = $SortableColumns.filter('.InitialSorting'),
+                SortOrder,
                 Headers = {},
                 InitialSort = [],
                 ColumnCount = 0;
@@ -67,8 +68,9 @@ Core.UI.Table.Sort = (function (TargetNS) {
 
                 //Get the column, which should be sorted initially (can be only one)
                 if ($InitialSorting.length === 1) {
-                    // Initially sort the specified column ascending
-                    InitialSort = [[$InitialSorting.index(), 0]];
+                    SortOrder = $InitialSorting.hasClass('Descending') ? '1' : '0';
+                    // Initially sort the specified column ascending (0) or descending (1)
+                    InitialSort = [[$InitialSorting.index(), SortOrder]];
                 }
 
                 $Table.tablesorter({
