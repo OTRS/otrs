@@ -815,7 +815,7 @@ sub _PDFOutputArticles {
 
         if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
         {
-            $Article{Body} = $Kernel::OM->Get('JSONObject')->Decode(
+            $Article{Body} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
                 Data => $Article{Body}
             );
             my $Lines;
@@ -1045,7 +1045,7 @@ sub _HTMLMask {
         }
 
         if ( $Article{ArticleType} eq 'chat-external' ) {
-            $Article{ChatMessages} = $Kernel::OM->Get('JSONObject')->Decode(
+            $Article{ChatMessages} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
                 Data => $Article{Body}
             );
             $Article{IsChat} = 1;

@@ -1354,7 +1354,7 @@ sub _Mask {
             $Self->{LayoutObject}->Block(
                 Name => 'BodyChat',
                 Data => {
-                    ChatMessages => $Kernel::OM->Get('JSONObject')->Decode(
+                    ChatMessages => $Kernel::OM->Get('Kernel::System::JSON')->Decode(
                         Data => $Article{Body},
                     ),
                     }
