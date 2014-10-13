@@ -14,12 +14,12 @@
 
     [% IF Item.ItemType == 'Dropdown' && Item.DropdownType == 'Forward' %]
         <li>
-            <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Data.FormID | html %]">
+            <form title="[% Translate(Data.Name) | html %]" action="[% Env("CGIHandle") %]" method="get" id="[% Item.FormID | html %]">
                 <input type="hidden" name="Action" value="[% Item.Action | html %]"/>
                 <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
                 <input type="hidden" name="ArticleID" value="[% Data.ArticleID | html %]"/>
                 <input type="hidden" name="ForwardAll" value="[% Item.ForwardAll | html %]"/>
-                <label for="[% Data.ForwardElementID | html %]" class="InvisibleText">[% Translate(Item.Name) | html %]:</label>
+                <label for="[% Item.ForwardElementID | html %]" class="InvisibleText">[% Translate(Item.Name) | html %]:</label>
                         [% Item.StandardForwardsStrg %]
             </form>
         [% IF Item.Type == 'OnLoad' %]
