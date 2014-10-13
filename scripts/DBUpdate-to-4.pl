@@ -721,7 +721,6 @@ sub _MigrateProcessManagementEntityIDs {
                 IsArrayRefWithData( $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ProcessEntityID} )
                 )
             {
-
                 my @NewProcesses;
 
                 ENTITY:
@@ -737,7 +736,9 @@ sub _MigrateProcessManagementEntityIDs {
 
                     my $NewEntityID = $EntityLookup{Process}->{$EntityID};
                     if ( !$NewEntityID ) {
-                        die "Error: No new EntityID was created for Process: $EntityID";
+                        print
+                            "\nError: ACL: '$ACL->{Name}' No new EntityID was created for Process: $EntityID, skipping...\n";
+                        next ACL;
                     }
                     push @NewProcesses, $NewEntityID;
                 }
@@ -766,7 +767,9 @@ sub _MigrateProcessManagementEntityIDs {
 
                     my $NewEntityID = $EntityLookup{Activity}->{$EntityID};
                     if ( !$NewEntityID ) {
-                        die "Error: No new EntityID was created for Activity: $EntityID";
+                        print
+                            "\nError: ACL: '$ACL->{Name}' No new EntityID was created for Activity: $EntityID, skipping...\n";
+                        next ACL;
                     }
                     push @NewActivities, $NewEntityID;
                 }
@@ -795,7 +798,8 @@ sub _MigrateProcessManagementEntityIDs {
 
                     my $NewEntityID = $EntityLookup{ActivityDialog}->{$EntityID};
                     if ( !$NewEntityID ) {
-                        die "Error: No new EntityID was created for ActivityDialog: $EntityID";
+                        print
+                            "\nError: ACL: '$ACL->{Name}' Error: No new EntityID was created for ActivityDialog: $EntityID, skipping\n";
                     }
                     push @NewActivityDialogs, $NewEntityID;
                 }
@@ -818,7 +822,9 @@ sub _MigrateProcessManagementEntityIDs {
 
                     my $NewEntityID = $EntityLookup{ActivityDialog}->{$EntityID};
                     if ( !$NewEntityID ) {
-                        die "Error: No new EntityID was created for ActivityDialog: $EntityID";
+                        print
+                            "\nError: ACL: '$ACL->{Name}' No new EntityID was created for ActivityDialog: $EntityID, skipping...\n";
+                        next ACL;
                     }
                     push @NewActivityDialogs, $NewEntityID;
                 }
@@ -838,7 +844,9 @@ sub _MigrateProcessManagementEntityIDs {
 
                     my $NewEntityID = $EntityLookup{Process}->{$EntityID};
                     if ( !$NewEntityID ) {
-                        die "Error: No new EntityID was created for Process: $EntityID";
+                        print
+                            "\nError: ACL: '$ACL->{Name}' No new EntityID was created for Process: $EntityID, skipping...\n";
+                        next ACL;
                     }
                     push @NewProcesses, $NewEntityID;
                 }
