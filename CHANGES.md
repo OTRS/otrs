@@ -1,4 +1,5 @@
 #3.3.10 ????-??-??
+ - 2014-10-13 Updated CKEditor to version 4.4.5. This fixed http://dev.ckeditor.com/ticket/12423.
  - 2014-10-07 Fixed support data collection hangs in some mod_perl environments.
  - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
  - 2014-09-22 Fixed bug#[10749](http://bugs.otrs.org/show_bug.cgi?id=10749) - generic agent limitted by notifications for escalations.
