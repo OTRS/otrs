@@ -828,5 +828,35 @@ iframe.TextOption.Customer {
     border: 1px solid #fff;
 }
 
+/**
+ * @subsection global CKEditor fixes/improvements
+ */
+
+.cke_combo__fontsize .cke_combo_text {
+    width: 40px !important;
+}
+
+#cke_RichText, 
+.cke_toolbar > .cke_toolgroup, 
+.cke_toolbar .cke_combo_button, 
+.cke_inner .cke_contents,
+.cke_dialog_body,
+input.cke_dialog_ui_input_password, 
+input.cke_dialog_ui_input_text, 
+textarea.cke_dialog_ui_input_textarea {
+    border-radius: 0px !important;
+}
+
+.cke_toolgroup .cke_button_on {
+    background-color: #ccc;
+}
+
+input.cke_dialog_ui_input_password:focus, 
+input.cke_dialog_ui_input_text:focus, 
+textarea.cke_dialog_ui_input_textarea:focus {
+    box-shadow: none !important;
+    border-color: #f92 !important;
+}
+
 } /* end @media */
 

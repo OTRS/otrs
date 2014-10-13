@@ -139,6 +139,32 @@ form #cke_RichText span.cke_wrapper {
     background: #E4E4E4;
 }
 
+.cke_combo__fontsize .cke_combo_text {
+    width: 40px !important;
+}
+
+#cke_RichText, 
+.cke_toolbar > .cke_toolgroup, 
+.cke_toolbar .cke_combo_button, 
+.cke_inner .cke_contents,
+.cke_dialog_body,
+input.cke_dialog_ui_input_password, 
+input.cke_dialog_ui_input_text, 
+textarea.cke_dialog_ui_input_textarea {
+    border-radius: 0px !important;
+}
+
+.cke_toolgroup .cke_button_on {
+    background-color: #ccc;
+}
+
+input.cke_dialog_ui_input_password:focus, 
+input.cke_dialog_ui_input_text:focus, 
+textarea.cke_dialog_ui_input_textarea:focus {
+    box-shadow: 0px 1px 2px #e8e8e8 inset, 0px 0px 3px #ccc !important;
+    border-color: #e8e8e8 !important;
+}
+
 /**
  * @subsection  Footer
  */
@@ -372,6 +398,35 @@ form select.Error {
 
 .ArticleChat > div > div > span {
     display: table-cell;
+}
+
+.ChatTooltip {
+    background: #B83850;
+    color: #fff;
+    left: 50%;
+    margin-left: -80px;
+    padding: 10px;
+    position: absolute;
+    text-align: center;
+    top: 39px;
+    width: 140px;
+    z-index: 900;
+    display: none;
+}
+
+.ChatTooltip:after {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(184, 56, 80, 0);
+    border-bottom-color: #B83850;
+    border-width: 10px;
+    margin-left: -10px;
 }
 
 } /* end @media */

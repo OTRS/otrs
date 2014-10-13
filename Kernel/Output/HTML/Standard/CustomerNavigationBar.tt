@@ -45,7 +45,6 @@
             Core.Config.Get('Baselink'),
             Data,
             function(Response) {
-
                 if (!Response || parseInt(Response, 10) < 1) {
                     $('.Individual .ChatRequests').fadeOut(function() {
                         $(this).addClass('Hidden');
@@ -58,6 +57,19 @@
                         })
                         .find('.Counter')
                         .text(Response);
+
+                    // show tooltip to get the users attention
+                    if (!$('.Individual .ChatRequests .ChatTooltip').length) {
+                        $('.Individual .ChatRequests')
+                            .append('<span class="ChatTooltip">[% Translate("You have unanswered chat requests") %]</span>')
+                            .find('.ChatTooltip')
+                            .bind('click', function(Event) {
+                                $(this).fadeOut();
+                                Event.stopPropagation();
+                                return false;
+                            })
+                            .fadeIn();
+                    }
                 }
             },
             'json'

@@ -106,7 +106,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange,splitquote' : 'onchange,splitquote',
-            entities: false
+            entities: false,
+            skin: 'bootstrapck'
         });
         if (CheckFormID().length) {
             CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload');

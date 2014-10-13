@@ -10,7 +10,8 @@
  */
 
 button,
-.Button {
+.Button,
+.cke_dialog_footer_buttons a.cke_dialog_ui_button {
     padding: 4px 11px !important;
     color: #333;
     font-size: 10px;
@@ -30,6 +31,15 @@ button,
     text-shadow: 0 1px 0 #FFF;
     display: inline-block;
     cursor: pointer;
+}
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button {
+    font-weight: bold !important;
+}
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button:hover {
+    background-color: #e5e5e5;
+    border-color: #999;
 }
 
 button::-moz-focus-inner {

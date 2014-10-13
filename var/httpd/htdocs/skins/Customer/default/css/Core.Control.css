@@ -98,6 +98,10 @@
     color: #777;
 }
 
+#Navigation > ul > li.Selected > a:after {
+    content: "";
+}
+
 #Navigation > ul > li:last-child > a:after {
     display: none;
 }

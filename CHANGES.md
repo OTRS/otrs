@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-07
+ - 2014-10-13 Changed default skin for CKEditor to bootstrapck, http://ckeditor.com/addon/bootstrapck.
  - 2014-10-07 Fixed support data collection hangs in some mod_perl environments.
  - 2014-10-07 Added the possibility to restrict customer self registration by email address whitelist or blacklist.
  - 2014-10-07 Fixed customer account creation message.

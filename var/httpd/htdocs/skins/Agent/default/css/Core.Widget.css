@@ -421,7 +421,7 @@ ul.Tablelike li.Header + li {
     margin-top: -5px;
 }
 
-.CallForAction {
+.CallForAction, .cke_dialog_footer_buttons a.cke_dialog_ui_button {
     padding: 0px;
     background: #eee;
     border: 1px solid #ccc;
@@ -429,6 +429,16 @@ ul.Tablelike li.Header + li {
     display: inline-block;
     cursor: pointer;
     transition: all ease-in 0.2s;
+    border-radius: 0px;
+}
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button {
+    font-weight: bold !important;
+}
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button:hover {
+    background-color: #e5e5e5;
+    border-color: #999;
 }
 
 .CallForAction.Hidden {
@@ -469,7 +479,8 @@ ul.Tablelike li.Header + li {
     border-color: #aaa;
 }
 
-.CallForAction span {
+.CallForAction span,
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
     height: 12px;
     padding: 3px 7px 6px;
     line-height: 14px;
@@ -482,6 +493,13 @@ ul.Tablelike li.Header + li {
     text-shadow: 0 1px 0 #FFF;
     cursor: pointer;
     position: relative;
+}
+
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
+    font-size: 11px;
+    line-height: auto;
+    color: #000;
+    font-weight: bold;
 }
 
 .CallForAction span i {

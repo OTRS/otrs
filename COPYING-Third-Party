@@ -252,6 +252,12 @@ o Name:    CKEditor
   Web:     http://www.ckeditor.com/
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
 
+o Name:    Skin BootstrapCK4 for CKEditor
+  Web:     http://ckeditor.com/addon/bootstrapck
+  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
+           GNU Lesser v3 - http://www.gnu.org/licenses/lgpl.html
+           MPL v1.1 - http://opensource.org/licenses/MPL-1.1
+
 o Name:    D3 Data-Driven Documents
   Web:     http://d3js.org/
   License: BSD license - http://opensource.org/licenses/BSD-3-Clause
