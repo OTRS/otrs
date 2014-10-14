@@ -738,8 +738,6 @@ sub _Show {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        $Counter++;
-
         # get field value
         my $Value = $Self->{BackendObject}->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -747,6 +745,8 @@ sub _Show {
         );
 
         next DYNAMICFIELD if ( !defined $Value );
+
+        $Counter++;
 
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,

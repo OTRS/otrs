@@ -156,6 +156,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.9 2014-09-09
+ - 2014-10-14 Fixed bug#[10729](http://bugs.otrs.org/show_bug.cgi?id=10729) - Dynamic Fields are shown incorrect at Ticket Overview, thanks to S7.
  - 2014-09-12 Fixed bug#[10710](http://bugs.otrs.org/show_bug.cgi?id=10710) - Adding agent with username that has already existed in AdminUser leads to SQL error message, thanks to S7.
  - 2014-09-12 Fixed bug#[10703](http://bugs.otrs.org/show_bug.cgi?id=10703) - Fulltext field is not added by defoult if there are not default fields in Ticket search, thanks to S7.
  - 2014-08-29 Fixed bug#[10697](http://bugs.otrs.org/show_bug.cgi?id=10697) - Column name in CSV report of stats is lowercase.
