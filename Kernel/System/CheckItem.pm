@@ -171,15 +171,20 @@ sub CheckEmail {
                 # RFC 5321: first check MX record and fallback to A record if present.
                 # mx record lookup
                 my @MXRecords = Net::DNS::mx( $Resolver, $Host );
+
                 if ( !@MXRecords ) {
+
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                        Priority => 'notice',
                        Message  => "$Host has no mail exchanger (MX) defined, trying A resource record instead.",
                     );
+
                     # see if our previous A-record lookup returned a RR
-                    if(scalar($Packet->answer) eq 0) {
+                    if ( scalar $Packet->answer() eq 0) {
+
                         $Self->{ErrorType} = 'InvalidMX';
                         $Error = "$Host has no mail exchanger (MX) or A resource record defined.";
+
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                            Priority => 'error',
                            Message  => $Error,
@@ -190,6 +195,7 @@ sub CheckEmail {
         }
     }
     elsif ( $ConfigObject->Get('CheckMXRecord') ) {
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't load Net::DNS, no mx lookups possible",
