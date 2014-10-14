@@ -148,6 +148,10 @@
     line-height: 14px;
     position: absolute;
     z-index: 1;
+    max-width: 177px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .JavaScriptAvailable .Login input[type='text'],
