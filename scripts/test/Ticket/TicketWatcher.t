@@ -123,7 +123,19 @@ $Self->True(
     $Watch{$TestUserID1} || 0,
     'TicketWatchGet - first user',
 );
+$Self->True(
+    $Watch{$TestUserID2},
+    'TicketWatchGet - second user',
+);
+
+%Watch = $TicketObject->TicketWatchGet(
+    TicketID => $TicketIDs[1],
+);
 $Self->False(
+    $Watch{$TestUserID1} || 0,
+    'TicketWatchGet - first user',
+);
+$Self->True(
     $Watch{$TestUserID2},
     'TicketWatchGet - second user',
 );
