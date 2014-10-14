@@ -354,6 +354,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::MenuDragDropEnabled" Required="1" Valid="1">
+        <Description Translatable="1">Turns on drag and drop for the main navigation.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeInputFormat" Required="1" Valid="1">
         <Description Translatable="1">Defines the date input format used in forms (option or input fields).</Description>
         <Group>Framework</Group>

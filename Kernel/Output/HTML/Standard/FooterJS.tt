@@ -38,6 +38,7 @@ Core.App.Ready(function () {
         RichTextSet: '[% Config("Frontend::RichText") | html %]',
         CheckEmailAddresses: parseInt('[% Config("CheckEmailAddresses") %]', 10),
         AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
+        MenuDragDropEnabled: parseInt('[% Config("Frontend::MenuDragDropEnabled") %]', 10),
         OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
 [% RenderBlockStart("AutoCompleteConfig") %]
         Autocomplete: [% Data.AutocompleteConfig %],

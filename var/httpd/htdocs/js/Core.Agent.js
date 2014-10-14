@@ -142,34 +142,36 @@ Core.Agent = (function (TargetNS) {
                 }
             });
 
-        // make the navigation items sortable
-        Core.UI.DnD.Sortable(
-            $('#Navigation'),
-            {
-                Items: 'li.CanDrag',
-                Tolerance: 'pointer',
-                Distance: 15,
-                Opacity: 0.6,
-                Helper: 'clone',
-                Axis: 'x',
-                Containment: $('#Navigation'),
-                Update: function (event, ui) {
+        // make the navigation items sortable (if enabled)
+        if (Core.Config.Get('MenuDragDropEnabled') === 1) {
+            Core.UI.DnD.Sortable(
+                $('#Navigation'),
+                {
+                    Items: 'li.CanDrag',
+                    Tolerance: 'pointer',
+                    Distance: 15,
+                    Opacity: 0.6,
+                    Helper: 'clone',
+                    Axis: 'x',
+                    Containment: $('#Navigation'),
+                    Update: function (event, ui) {
 
-                    // collect navigation bar items
-                    var Items = [];
-                    $.each($('#Navigation').children('li'), function() {
-                        Items.push($(this).attr('id'));
-                    });
+                        // collect navigation bar items
+                        var Items = [];
+                        $.each($('#Navigation').children('li'), function() {
+                            Items.push($(this).attr('id'));
+                        });
 
-                    // save the new order to the users preferences
-                    TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
+                        // save the new order to the users preferences
+                        TargetNS.PreferencesUpdate('UserNavBarItemsOrder', Core.JSON.Stringify(Items));
 
-                    $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
-                        $(this).delay(1500).fadeOut();
-                    });
+                        $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
+                            $(this).delay(1500).fadeOut();
+                        });
+                    }
                 }
-            }
-        );
+            );
+        }
 
         /*
          * The navigation elements don't have a class "ARIAHasPopup" which automatically generates the aria-haspopup attribute,
@@ -279,7 +281,7 @@ Core.Agent = (function (TargetNS) {
             IDA,
             IDB;
 
-        if (NavbarCustomOrderItems) {
+        if (NavbarCustomOrderItems && Core.Config.Get('MenuDragDropEnabled') === 1) {
 
             CurrentItems = $('#Navigation').children('li').get();
             CurrentItems.sort(function(a, b) {
