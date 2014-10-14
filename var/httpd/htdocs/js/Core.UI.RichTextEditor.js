@@ -63,10 +63,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
         CKEDITOR.on('instanceCreated', function (Editor) {
             CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
+
             // Remove the validation error tooltip if content is added to the editor
             Editor.editor.on('change', function(evt) {
                 Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
             });
+
             // if spell checker is used on paste new content should spell check again
             Editor.editor.on('paste', function(evt) {
                 if (Core.Config.Get('TextIsSpellChecked') === '1'){
@@ -105,7 +107,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             disableNativeSpellChecker: false,
             toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
-            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange,splitquote' : 'onchange,splitquote',
+            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,splitquote' : 'splitquote',
             entities: false,
             skin: 'bootstrapck'
         });
