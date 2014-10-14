@@ -1598,7 +1598,14 @@ sub _Mask {
             = $ArticleTypeID;
     }
 
-    my $ArticleTypeIDSelected = $Param{ArticleTypeID};
+    my $DefaultArticleTypeID = $Self->{TicketObject}->ArticleTypeLookup(
+        ArticleType => $Self->{Config}->{DefaultArticleType},
+    );
+
+    my $ArticleTypeIDSelected = $ArticleTypes{ $Param{ArticleTypeID} } ?
+        $Param{ArticleTypeID} :
+        $DefaultArticleTypeID;
+
     if ( $Param{GetParam}->{ArticleTypeID} ) {
 
         # set param ArticleType

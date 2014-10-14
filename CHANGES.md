@@ -1,5 +1,6 @@
 #4.0.0.beta3 2014-10-07
  - 2014-10-14 Fixed bug#[10790](http://bugs.otrs.org/show_bug.cgi?id=10790) - Editing fields in Activity Dialogs not possible in IE8.
+ - 2014-10-14 Fixed bug#[10725](http://bugs.otrs.org/show_bug.cgi?id=10725) - Translation affects suggested article type.
  - 2014-10-14 Improved email address validity check to conform to RFC 5321, thanks to gitbensons.
  - 2014-10-14 Added cache benchmark script, thanks to ib.pl.
  - 2014-10-14 Fixed bug#10579 - Error with &-sign in an eMail address.
