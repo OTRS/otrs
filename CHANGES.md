@@ -1,4 +1,5 @@
 #3.3.10 ????-??-??
+ - 2014-10-14 Fixed bug#[10729](http://bugs.otrs.org/show_bug.cgi?id=10729) - Dynamic Fields are shown incorrect at Ticket Overview, thanks to S7.
  - 2014-10-14 Fixed bug#10579 - Error with &-sign in an eMail address.
  - 2014-10-14 Fixed bug#[10667](http://bugs.otrs.org/show_bug.cgi?id=10667) - GenericInterface debugger info does not show the pure data.
  - 2014-10-13 Updated CKEditor to version 4.4.5. This fixed http://dev.ckeditor.com/ticket/12423.
