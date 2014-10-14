@@ -162,5 +162,11 @@ if ($('#ToolBar li.ChatRequests').length) {
 [% END %]
 [% END %]
 [% RenderBlockEnd("ToolBar") %]
+
+[% RenderBlockStart("DebugRTLButton") %]
+            <li>
+                <button type="button" onclick="Core.Debug.SimulateRTLPage();">Simulate RTL</button>
+            </li>
+[% RenderBlockEnd("DebugRTLButton") %]
         </ul>
     </div>
