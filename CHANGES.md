@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-07
+ - 2014-10-14 Added cache benchmark script, thanks to ib.pl.
  - 2014-10-14 Fixed bug#10579 - Error with &-sign in an eMail address.
  - 2014-10-14 Fixed bug#[10621](http://bugs.otrs.org/show_bug.cgi?id=10621) - Queues are false sorted in Ticket Zoom select box.
  - 2014-10-13 Changed default skin for CKEditor to bootstrapck, http://ckeditor.com/addon/bootstrapck.
