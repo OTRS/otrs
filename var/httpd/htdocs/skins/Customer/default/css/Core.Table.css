@@ -26,13 +26,7 @@ table.Overview {
 }
 
 .Overview thead {
-    background: #DCDDDD;
-    background: -moz-linear-gradient(top,  #E8E9E9 0%, #b6b6b6 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#E8E9E9), color-stop(100%,#b6b6b6));
-    background: -webkit-linear-gradient(top,  #E8E9E9 0%,#b6b6b6 100%);
-    background: -o-linear-gradient(top,  #E8E9E9 0%,#b6b6b6 100%);
-    background: -ms-linear-gradient(top,  #E8E9E9 0%,#b6b6b6 100%);
-    background: linear-gradient(to bottom,  #E8E9E9 0%,#b6b6b6 100%);
+    background: #ccc;
     display: none;
 }
 
@@ -83,25 +77,13 @@ table.Overview {
     color: #222;
     font-weight: 600;
     text-align: left;
-    background: #c4c4c4;
-    background: -moz-linear-gradient(top,  #c4c4c4 0%, #bababa 50%, #aaaaaa 50%, #a9a9a9 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4c4c4), color-stop(50%,#bababa), color-stop(50%,#aaaaaa), color-stop(100%,#a9a9a9));
-    background: -webkit-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
-    background: -o-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
-    background: -ms-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
-    background: linear-gradient(to bottom,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: #aaa;
     text-shadow: 0 1px 0 #BBB;
     padding-right: 20px;
 }
 
 .Overview thead .SortDescending a {
-    background: #c4c4c4;
-    background: -moz-linear-gradient(top,  #c4c4c4 0%, #bababa 50%, #aaaaaa 50%, #a9a9a9 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4c4c4), color-stop(50%,#bababa), color-stop(50%,#aaaaaa), color-stop(100%,#a9a9a9));
-    background: -webkit-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
-    background: -o-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
-    background: -ms-linear-gradient(top,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
-    background: linear-gradient(to bottom,  #c4c4c4 0%,#bababa 50%,#aaaaaa 50%,#a9a9a9 100%);
+    background: #aaa;
 }
 
 .Overview thead .SortDescending a:after {
@@ -110,7 +92,6 @@ table.Overview {
     position: absolute;
     right: 2px;
     top: 0px;
-    text-shadow: 1px 1px 0px #fff;
 }
 
 .Overview thead .SortAscending a:after {
@@ -119,7 +100,6 @@ table.Overview {
     position: absolute;
     right: 2px;
     top: 0px;
-    text-shadow: 1px 1px 0px #fff;
 }
 
 .Overview tbody {
@@ -205,13 +185,7 @@ table.Overview {
  * @subsection  Table Style Hovered
  */
 .Overview tbody tr:hover td {
-    background: #FBBA49;
-    background: -moz-linear-gradient(top, #FFE7BD 0%, #FBBA49 20%, #F6AD3E 51%, #F3960D 51%, #E98207 95%, #E07006 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFE7BD), color-stop(20%,#FBBA49), color-stop(51%,#F6AD3E), color-stop(51%,#F3960D), color-stop(95%,#E98207), color-stop(100%,#E07006));
-    background: -webkit-linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
-    background: -o-linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
-    background: -ms-linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
-    background: linear-gradient(top, #FFE7BD 0%,#FBBA49 20%,#F6AD3E 51%,#F3960D 51%,#E98207 95%,#E07006 100%);
+    background: #FCB24B;
 }
 .Overview tbody tr:hover {
     border-color: #CCC;

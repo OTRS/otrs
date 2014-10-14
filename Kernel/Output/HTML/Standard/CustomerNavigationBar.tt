@@ -21,7 +21,6 @@
 [% RenderBlockStart("ItemAreaSubItem") %]
                 <li><a class="[% Data.Class | html %]" href="[% Env("Baselink") %][% Data.Link %]" accesskey="[% Data.AccessKey | html %]" title="[% Translate(Data.Description || Data.Name) | html %] ([% Data.AccessKey | html %])"  [% Data.LinkOption %]>[% Translate(Data.Name) | html %]</a></li>
 [% RenderBlockEnd("ItemAreaSubItem") %]
-                <li class="Footer"></li>
             </ul>
 [% RenderBlockEnd("ItemAreaSub") %]
         </li>

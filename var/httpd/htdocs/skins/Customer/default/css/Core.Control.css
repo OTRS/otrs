@@ -15,18 +15,10 @@
  * @subsection  Navigation
  */
 #Navigation {
-    height: 23px;
+    height: 25px;
     width: 100%;
     position: relative;
-    background: #d3d5d5;
-    background: -moz-linear-gradient(top,  #d3d5d5 0%, #c3c5c5 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3d5d5), color-stop(100%,#c3c5c5));
-    background: -webkit-linear-gradient(top,  #d3d5d5 0%,#c3c5c5 100%);
-    background: -o-linear-gradient(top,  #d3d5d5 0%,#c3c5c5 100%);
-    background: -ms-linear-gradient(top,  #d3d5d5 0%,#c3c5c5 100%);
-    background: linear-gradient(to bottom,  #d3d5d5 0%,#c3c5c5 100%);
-    border-top: 1px solid #EEE;
-    border-bottom: 1px solid #979999;
+    background: #ddd;
     clear: both;
 }
 
@@ -40,15 +32,11 @@
 
 #Navigation > ul > li > ul {
     position: absolute;
-    top: 24px;
-    left: 1px;
+    top: 25px;
+    left: 0px;
     min-width: 140px;
     display: none;
-    -webkit-box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
-    box-shadow: 0 1px 2px #DDD inset, 0 1px 0 #E8E8E8;
-    border: 1px solid #bbb;
-    border-top: 1px solid #999;
-    border-radius: 0px 0px 5px 5px;
+    border-top: 0px;
 }
 
 .RTL #Navigation > ul > li > ul {
@@ -71,9 +59,13 @@
 }
 
 #Navigation > ul > li {
-    margin-left: -2px;
     float: left;
     position: relative;
+    border-right: 1px solid #bbb;
+}
+
+#Navigation > ul > li.Last {
+    border-right: 0px;
 }
 
 .RTL #Navigation > ul > li {
@@ -82,20 +74,11 @@
 }
 
 #Navigation > ul > li > a {
-    padding: 5px 5px;
     color: #111;
     font-size: 11px;
     display: block;
     outline: none;
-    text-shadow: 0 1px 0 #EAEEEE;
-}
-
-#Navigation > ul > li > a:after {
-    content: "|";
-    display: inline-block;
-    padding-left: 5px;
-    margin-right: -2px;
-    color: #777;
+    padding: 6px 10px 5px 11px;
 }
 
 #Navigation > ul > li.Selected > a:after {
@@ -106,22 +89,17 @@
     display: none;
 }
 
-#Navigation > ul > li > ul a, #Navigation > ul > li > ul .Footer {
+#Navigation > ul > li > ul a {
     color: #222;
     font-size: 11px;
     padding: 4px 6px;
     display: block;
     background-color: #C4C6C6;
-    text-shadow: 0 1px 0 #EAEEEE;
     border-top: 1px solid #aaa;
 }
 
-#Navigation > ul > li > ul .Footer {
-    border-top: 0px;
-    border-radius: 0px 0px 5px 5px;
-    padding-bottom: 0px;
-    padding-top: 2px;
-    background-color: #aaa;
+#Navigation > ul > li > ul li:last-child {
+    border-bottom: 1px solid #aaa;
 }
 
 #Navigation > ul > li > ul a:hover, 
@@ -136,16 +114,7 @@
 }
 
 #Navigation li:active {
-    margin-top: -2px;
     background: #949494;
-    background: -moz-linear-gradient(top,  #949494 0%, #c4c4c4 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#949494), color-stop(100%,#c4c4c4));
-    background: -webkit-linear-gradient(top,  #949494 0%,#c4c4c4 100%);
-    background: -o-linear-gradient(top,  #949494 0%,#c4c4c4 100%);
-    background: -ms-linear-gradient(top,  #949494 0%,#c4c4c4 100%);
-    background: linear-gradient(to bottom,  #949494 0%,#c4c4c4 100%);
-    border-top: 1px solid #727272;
-    border-left: 1px solid #727272;
 }
 
 #Navigation .Selected + li {
@@ -156,47 +125,16 @@
     padding-left: 10px;
 }
 
-#Navigation li:active > a {
-    padding-top: 7px;
-    padding-bottom: 3px;
-    color: #222;
-    text-shadow: 0 1px 0 #DADDDD;
-}
-
 #Navigation .Selected,
-#Navigation .Selected:active {
-    margin-top: -1px;
+#Navigation .Selected:active,
+#Navigation > ul > li:hover {
     background: #343435;
-    background: -moz-linear-gradient(top,  #343435 0%, #565656 50%, #333333 50%, #333333 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#343435), color-stop(50%,#565656), color-stop(50%,#333333), color-stop(100%,#333333));
-    background: -webkit-linear-gradient(top,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
-    background: -o-linear-gradient(top,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
-    background: -ms-linear-gradient(top,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
-    background: linear-gradient(to bottom,  #343435 0%,#565656 50%,#333333 50%,#333333 100%);
-    border-bottom: 1px solid #666;
 }
 
-#Navigation .Selected:active {
-    margin-top: -2px;
-}
-
-#Navigation .Selected > a {
-    margin-right: -1px;
-    padding: 6px 10px 4px 11px;
+#Navigation .Selected > a,
+#Navigation > ul > li:hover > a {
     color: #FFF;
     background: none;
-    text-shadow: 0 -1px 0 #000;
-}
-
-.RTL #Navigation .Selected a,
-.RTL #Navigation .Selected a:active {
-    padding: 6px 11px 4px 10px;
-}
-
-#Navigation .Selected a:active {
-    padding: 6px 10px 4px 11px;
-    color: #FFF;
-    text-shadow: 0 1px 0 #000;
 }
 
 /**
@@ -206,13 +144,7 @@
 .MessageBox,
 .ActionRow {
     font-size: 11px;
-    background: #f0f2f2;
-    background: -moz-linear-gradient(top,  #f0f2f2 0%, #e6e7e7 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f2f2), color-stop(100%,#e6e7e7));
-    background: -webkit-linear-gradient(top,  #f0f2f2 0%,#e6e7e7 100%);
-    background: -o-linear-gradient(top,  #f0f2f2 0%,#e6e7e7 100%);
-    background: -ms-linear-gradient(top,  #f0f2f2 0%,#e6e7e7 100%);
-    background: linear-gradient(to bottom,  #f0f2f2 0%,#e6e7e7 100%);
+    background: #ddd;
     border-top: 1px solid #F0F2F2;
     border-bottom: 1px solid #B8BBBB;
     overflow: hidden;
@@ -222,15 +154,11 @@
 
 .Content .MessageBox {
     border: 1px solid #ddd;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    border-radius: 5px;
 }
 
 .MessageBox.Notice {
     background: #F7AE40;
+    border: 0px;
 }
 
 .MessageBox.Error {
@@ -257,16 +185,9 @@
 }
 
 #BottomActionRow {
-    padding: 5px 9px;
-    background: #f4f4f4;
-    background: -moz-linear-gradient(top,  #f4f4f4 0%, #dedfdf 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#dedfdf));
-    background: -webkit-linear-gradient(top,  #f4f4f4 0%,#dedfdf 100%);
-    background: -o-linear-gradient(top,  #f4f4f4 0%,#dedfdf 100%);
-    background: -ms-linear-gradient(top,  #f4f4f4 0%,#dedfdf 100%);
-    background: linear-gradient(to bottom,  #f4f4f4 0%,#dedfdf 100%);
-    border: 1px solid #B8BBBB;
-    border-radius: 3px;
+    padding: 5px 9px 6px 9px;
+    background: #eee;
+    border: 0px;
 }
 
 .TicketView #BottomActionRow,
@@ -369,7 +290,6 @@
 }
 
 .Sortable .ActionRow {
-    padding-bottom: 8px;
     border-bottom: none;
 }
 

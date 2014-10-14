@@ -66,16 +66,8 @@ strong {
  */
 
 #Header {
-    padding: 21px 34px 18px;
-    background: #d1d3d3;
-    background: -moz-linear-gradient(top,  #f4f5f5 0%, #d1d3d3 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f5f5), color-stop(100%,#d1d3d3));
-    background: -webkit-linear-gradient(top,  #f4f5f5 0%,#d1d3d3 100%);
-    background: -o-linear-gradient(top,  #f4f5f5 0%,#d1d3d3 100%);
-    background: -ms-linear-gradient(top,  #f4f5f5 0%,#d1d3d3 100%);
-    background: linear-gradient(to bottom,  #f4f5f5 0%,#d1d3d3 100%);
-    border-bottom: 1px solid #999;
-    text-shadow: 0 1px 0 #EEE;
+    padding: 25px 30px;
+    background: #eee;
 }
 
 #Header a {
@@ -85,8 +77,8 @@ strong {
 
 #Header #Logo {
     position: absolute;
-    top: 2px;
-    right: 25px;
+    top: 6px;
+    right: 15px;
     width: 135px;
     height: 50px;
     background: transparent url(../img/logo.png) no-repeat;
@@ -111,7 +103,6 @@ strong {
 
 .Content {
     padding: 13px 21px;
-    border-top: 1px solid #EEE;
 }
 
 /**
