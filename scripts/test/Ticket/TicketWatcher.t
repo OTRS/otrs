@@ -94,6 +94,17 @@ $Self->True(
     'TicketWatchSubscribe()',
 );
 
+# subscribe first ticket with second user
+$Subscribe = $TicketObject->TicketWatchSubscribe(
+    TicketID    => $TicketIDs[0],
+    WatchUserID => $TestUserID2,
+    UserID      => 1,
+);
+$Self->True(
+    $Subscribe || 0,
+    'TicketWatchSubscribe()',
+);
+
 # subscribe second ticket with second user
 $Subscribe = $TicketObject->TicketWatchSubscribe(
     TicketID    => $TicketIDs[1],
@@ -137,6 +148,18 @@ $Self->True(
     'TicketWatchGet - first user',
 );
 $Self->True(
+    $Watch{$TestUserID2} || 0,
+    'TicketWatchGet - second user',
+);
+
+%Watch = $TicketObject->TicketWatchGet(
+    TicketID => $TicketIDs[1],
+);
+$Self->False(
+    $Watch{$TestUserID1} || 0,
+    'TicketWatchGet - first user',
+);
+$Self->False(
     $Watch{$TestUserID2} || 0,
     'TicketWatchGet - second user',
 );

@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-07
+ - 2014-10-14 Fixed bug#[10728](http://bugs.otrs.org/show_bug.cgi?id=10728) - Removing watcher does not work on ticket merge.
  - 2014-10-14 Fixed bug#[10750](http://bugs.otrs.org/show_bug.cgi?id=10750) - Strange tree view in complex tree of queues.
  - 2014-10-14 Fixed bug#[10790](http://bugs.otrs.org/show_bug.cgi?id=10790) - Editing fields in Activity Dialogs not possible in IE8.
  - 2014-10-14 Fixed bug#[10725](http://bugs.otrs.org/show_bug.cgi?id=10725) - Translation affects suggested article type.
