@@ -255,6 +255,28 @@ sub AgentQueueListOption {
 
     # just show a simple list
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'list' ) {
+
+        # transform data from Hash in Array because of ordering in frontend by Queue name
+        # it was a problem wit name like '(some_queue)'
+        # see bug#10621 http://bugs.otrs.org/show_bug.cgi?id=10621
+        my %QueueDataHash = %{ $Param{Data} || {} };
+
+        # get StandardResponsesStrg
+        my %ReverseQueueDataHash = reverse %QueueDataHash;
+        my @QueueDataArray       = map {
+            {
+                Key   => $ReverseQueueDataHash{$_},
+                Value => $_
+            }
+        } sort values %QueueDataHash;
+
+        # find index of first element in array @QueueDataArray for displaying in frontend
+        # at the top should be element with ' $QueueDataArray[$_]->{Key} = 0' like "- Move -"
+        # when such element is found, it is moved at the top
+        my ($FirstElementIndex) = grep $QueueDataArray[$_]->{Key} == 0, 0 .. $#QueueDataArray;
+        splice( @QueueDataArray, 0, 0, splice( @QueueDataArray, $FirstElementIndex, 1 ) );
+        $Param{Data} = \@QueueDataArray;
+
         $Param{MoveQueuesStrg} = $Self->BuildSelection(
             %Param,
             HTMLQuote     => 0,
@@ -285,15 +307,46 @@ sub AgentQueueListOption {
     }
 
     # add suffix for correct sorting
+    my $KeyNoQueue;
+    my $ValueNoQueue;
+    my $MoveStr = $Self->{LanguageObject}->Get('Move');
+    my $ValueOfQueueNoKey .= "- " . $MoveStr . " -";
+    DATA:
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
+
+        # find value for default item in select box
+        # it can be "-" or "Move"
+        if (
+            $Data{$_} eq "-"
+            || $Data{$_} eq $ValueOfQueueNoKey
+            )
+        {
+            $KeyNoQueue   = $_;
+            $ValueNoQueue = $Data{$_};
+            next DATA;
+        }
         $Data{$_} .= '::';
+    }
+
+    # set default item of select box
+    if ($ValueNoQueue) {
+        $Param{MoveQueuesStrg} .= '<option value="'
+            . $KeyNoQueue
+            . '">'
+            . $ValueNoQueue
+            . "</option>\n";
     }
 
     # to show disabled queues only one time in the selection tree
     my %DisabledQueueAlreadyUsed;
 
     # build selection string
+    KEY:
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
+
+        # default item of select box has set already
+        next KEY if ( $Data{$_} eq "-" || $Data{$_} eq $ValueOfQueueNoKey );
+
         my @Queue = split( /::/, $Param{Data}->{$_} );
         $UsedData{ $Param{Data}->{$_} } = 1;
         my $UpQueue = $Param{Data}->{$_};

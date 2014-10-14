@@ -1449,7 +1449,9 @@ sub Run {
         my $NewTos;
 
         if ($Tos) {
+            TOs:
             for my $KeyTo ( sort keys %{$Tos} ) {
+                next TOs if ( $Tos->{$KeyTo} eq '-' );
                 $NewTos->{"$KeyTo||$Tos->{$KeyTo}"} = $Tos->{$KeyTo};
             }
         }
@@ -1690,7 +1692,7 @@ sub Run {
                     Data         => $NewTos,
                     SelectedID   => $Dest,
                     Translation  => 0,
-                    PossibleNone => 0,
+                    PossibleNone => 1,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
