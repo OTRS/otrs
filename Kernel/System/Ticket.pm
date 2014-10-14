@@ -5475,7 +5475,7 @@ sub TicketMerge {
         return if !$Self->{DBObject}->Do(
             SQL => '
                 DELETE FROM ticket_watcher
-                    WHERE watcher_id = ?
+                    WHERE user_id = ?
                     AND ticket_id = ?
                 ',
             Bind => [ \$WatcherID, \$Param{MergeTicketID} ],
