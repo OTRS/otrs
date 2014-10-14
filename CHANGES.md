@@ -1,4 +1,5 @@
 #3.3.10 ????-??-??
+ - 2014-10-14 Fixed bug#[10750](http://bugs.otrs.org/show_bug.cgi?id=10750) - Strange tree view in complex tree of queues.
  - 2014-10-14 Fixed bug#[10790](http://bugs.otrs.org/show_bug.cgi?id=10790) - Editing fields in Activity Dialogs not possible in IE8.
  - 2014-10-14 Fixed bug#[10729](http://bugs.otrs.org/show_bug.cgi?id=10729) - Dynamic Fields are shown incorrect at Ticket Overview, thanks to S7.
  - 2014-10-14 Fixed bug#[10725](http://bugs.otrs.org/show_bug.cgi?id=10725) - Translation affects suggested article type.

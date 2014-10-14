@@ -285,9 +285,6 @@ sub AgentQueueListOption {
         $Data{$_} .= '::';
     }
 
-    # to show disabled queues only one time in the selection tree
-    my %DisabledQueueAlreadyUsed;
-
     # build selection string
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
         my @Queue = split( /::/, $Param{Data}->{$_} );
@@ -328,7 +325,7 @@ sub AgentQueueListOption {
                         }
                     }
 
-                    if ( !$DisabledQueueAlreadyUsed{$FullQueueName} ) {
+                    if ( !$UsedData{$FullQueueName} ) {
                         my $DSpace               = '&nbsp;&nbsp;' x $Index;
                         my $OptionTitleHTMLValue = '';
                         if ($OptionTitle) {
@@ -344,7 +341,7 @@ sub AgentQueueListOption {
                             . $DSpace
                             . $Queue[$Index]
                             . "</option>\n";
-                        $DisabledQueueAlreadyUsed{$FullQueueName} = 1;
+                        $UsedData{$FullQueueName} = 1;
                     }
                 }
             }
