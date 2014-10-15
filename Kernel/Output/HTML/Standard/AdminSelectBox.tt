@@ -16,9 +16,16 @@
                 <h2>[% Translate("Hint") | html %]</h2>
             </div>
             <div class="Content">
+[% RenderBlockStart("ExplanationOnlySelect") %]
                 <p class="FieldExplanation">
                     [% Translate("Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.") | html %]
                 </p>
+[% RenderBlockEnd("ExplanationOnlySelect") %]
+[% RenderBlockStart("ExplanationAllSqlQueries") %]
+                <p class="FieldExplanation">
+                    [% Translate("Here you can enter SQL to send it directly to the application database.") | html %]
+                </p>
+[% RenderBlockEnd("ExplanationAllSqlQueries") %]
             </div>
         </div>
     </div>
@@ -110,6 +117,9 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
 [% RenderBlockStart("NoMatches") %]
                         <tr><td colspan="[% Data.Colspan | html %]">[% Translate("No matches found.") | html %]</td></tr>
 [% RenderBlockEnd("NoMatches") %]
+[% RenderBlockStart("NoSelectResult") %]
+                        <tr><td colspan="[% Data.Colspan | html %]">[% Translate("Query is executed.") | html %]</td></tr>
+[% RenderBlockEnd("NoSelectResult") %]
 [% RenderBlockStart("Row") %]
                         <tr>
 [% RenderBlockStart("Cell") %]
