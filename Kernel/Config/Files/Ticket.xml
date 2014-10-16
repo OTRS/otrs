@@ -4515,6 +4515,66 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###Permission" Required="1" Valid="1">
+        <Description Translatable="1">Required permissions to use the email outbound screen in the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <String Regex="">compose</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###RequiredLock" Required="0" Valid="1">
+        <Description Translatable="1">Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###StateDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <ValidateModule>Kernel::System::SysConfig::StateValidate</ValidateModule>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###StateType" Required="0" Valid="1">
+        <Description Translatable="1">Defines the next possible states after sending a message in the email outbound screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>
+                <Item>pending reminder</Item>
+                <Item>pending auto</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Translatable="1">Defines the default type of the message in the email outbound screen of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <String Regex="">email-internal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###ArticleTypes" Required="0" Valid="1">
+        <Description Translatable="1">Specifies the different article types that will be used in the system.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <Array>
+                <Item>email-external</Item>
+                <Item>email-internal</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
@@ -5334,6 +5394,22 @@
                 <Item Key="Description" Translatable="1">Phone Call Inbound</Item>
                 <Item Key="Action">AgentTicketPhoneInbound</Item>
                 <Item Key="Link">Action=AgentTicketPhoneInbound;TicketID=[% Data.TicketID | html %]</Item>
+                <Item Key="Target"></Item>
+                <Item Key="PopupType">TicketAction</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::MenuModule###427-Email Outbound" Required="0" Valid="1">
+        <Description Translatable="1">Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketMenuGeneric</Item>
+                <Item Key="Name">E-Mail Outbound</Item>
+                <Item Key="Description" Translatable="1">Write a new, outgoing mail</Item>
+                <Item Key="Action">AgentTicketEmailOutbound</Item>
+                <Item Key="Link">Action=AgentTicketEmailOutbound;TicketID=[% Data.TicketID | html %]</Item>
                 <Item Key="Target"></Item>
                 <Item Key="PopupType">TicketAction</Item>
             </Hash>
@@ -7789,6 +7865,22 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketEmailOutbound" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Ticket Outbound Email</Description>
+                <Title>Email Outbound</Title>
+                <NavBarName>Ticket</NavBarName>
+                <Loader>
+                    <JavaScript>Core.Agent.CustomerSearch.js</JavaScript>
+                    <JavaScript>Core.Agent.TicketAction.js</JavaScript>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketCustomer" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
@@ -8661,6 +8753,7 @@
                 <Item>AgentTicketCompose</Item>
                 <Item>AgentTicketCustomer</Item>
                 <Item>AgentTicketForward</Item>
+                <Item>AgentTicketEmailOutbound</Item>
                 <Item>AgentTicketFreeText</Item>
                 <Item>AgentTicketHistory</Item>
                 <Item>AgentTicketLink</Item>
@@ -9638,6 +9731,15 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###DynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <Hash>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMove###DynamicField" Required="0" Valid="1">
         <Description Translatable="1">Dynamic fields shown in the ticket move screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
         <Group>Ticket</Group>
@@ -10250,6 +10352,22 @@ Thanks for your help!
             <String Regex="^\d+%?$">100</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextWidth" Required="0" Valid="1">
+        <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <String Regex="^\d+%?$">620</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEmailOutbound###RichTextHeight" Required="0" Valid="1">
+        <Description Translatable="1">Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEmailOutbound</SubGroup>
+        <Setting>
+            <String Regex="^\d+%?$">300</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketMerge###RichTextWidth" Required="0" Valid="1">
         <Description Translatable="1">Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).</Description>
         <Group>Ticket</Group>
@@ -10275,6 +10393,7 @@ Thanks for your help!
                 <Item Key="Answer">Answer</Item>
                 <Item Key="Create">Create</Item>
                 <Item Key="Forward">Forward</Item>
+                <Item Key="Email">Email</Item>
                 <Item Key="PhoneCall">Phone call</Item>
                 <Item Key="Note">Note</Item>
             </Hash>

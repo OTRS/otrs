@@ -1,0 +1,446 @@
+# --
+# AgentTicketEmailOutbound.tt - provides HTML form for AgentEmailOutbound
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% InsertTemplate("AgentCustomerSearch.tt") %]
+<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="Compose" id="Compose" class="Validate PreventMultipleSubmits">
+    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+    <input type="hidden" name="Subaction" value="SendEmail"/>
+    <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+    <input type="hidden" name="Email" value="[% Data.Email | html %]"/>
+    <input type="hidden" name="InReplyTo" value="[% Data.InReplyTo | html %]"/>
+    <input type="hidden" name="References" value="[% Data.References | html %]"/>
+    <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+
+    <div class="LayoutPopup ARIARoleMain">
+        <div class="Header">
+            <h1>[% Translate("E-Mail Outbound") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
+            <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
+
+[% RenderBlockStart("TicketBack") %]
+            <p>
+                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+            </p>
+[% RenderBlockEnd("TicketBack") %]
+[% RenderBlockStart("PropertiesLock") %]
+            <p>
+                [% Translate("The ticket has been locked") | html %].
+                <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID %];[% Env("ChallengeTokenParam") | html %]">
+                    [% Translate("Undo & close window") | html %]
+                </a>
+            </p>
+[% RenderBlockEnd("PropertiesLock") %]
+
+        </div>
+
+        <div class="Content">
+
+            <fieldset class="TableLike FixedLabel">
+                <label>[% Translate("From") | html %]:</label>
+                <div class="Field">
+                    [% Data.From | html %]
+                    <input type="hidden" name="From" value="[% Data.From | html %]"/>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="ToCustomer" class="Mandatory"><span class="Marker">*</span>[% Translate("To") | html %]:</label>
+                <div class="Field">
+                    <input id="ToCustomer" type="text" name="ToCustomer" value="" class="CustomerAutoComplete W75pc [% Data.ToInvalid | html %]" autocomplete="off" />
+
+                    <div id="ToCustomerServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("ToServerErrorMsg") %]
+                        <p>[% Translate("Please include at least one recipient") | html %]</p>
+[% RenderBlockEnd("ToServerErrorMsg") %]
+                    </div>
+                </div>
+                <div class="Clear"></div>
+
+                <div class="Field [% Data.CustomerHiddenContainer | html %]">
+                    <div class="CustomerTicketTemplateToCustomer SpacingTopSmall Hidden">
+                        <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="[% Data.To | html %]" />
+                        <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
+                        <input name="CustomerQueue" id="CustomerQueue" class="CustomerQueue" type="hidden" value=""/>
+                        <input class="CustomerTicketText" title="[% Translate("To") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                        <a href="#" id="RemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
+                            <i class="fa fa-minus-square-o"></i>
+                            <span class="InvisibleText">[% Translate("Remove Ticket Customer") | html %]</span>
+                        </a>
+                    </div>
+
+                    <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
+                        <span class="BoxLabel">[% Translate("To") | html %]</span>
+[% RenderBlockStart("MultipleCustomer") %]
+                        <div class="SpacingTopSmall ">
+                            <input name="CustomerKey_[% Data.Count | html %]" id="CustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
+                            <input name="CustomerQueue_[% Data.Count | html %]" id="CustomerQueue_[% Data.Count | html %]" class="CustomerQueue" type="hidden" value="[% Data.CustomerQueue | html %]"/>
+                            <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                            <a href="#" id="RemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
+                                <i class="fa fa-minus-square-o"></i>
+                                <span class="InvisibleText">[% Translate("Remove Ticket Customer") | html %]</span>
+                            </a>
+
+[% RenderBlockStart("CustomerErrorExplantion") %]
+                            <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
+[% RenderBlockEnd("CustomerErrorExplantion") %]
+
+                            <div id="CustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("CustomerGenericServerErrorMsg") %]
+                                <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("CustomerGenericServerErrorMsg") %]
+[% RenderBlockStart("InvalidConfigServerErrorMsg") %]
+                                <p>[% Translate("This email address is not allowed due to the system configuration.") | html %]</p>
+[% RenderBlockEnd("InvalidConfigServerErrorMsg") %]
+[% RenderBlockStart("InvalidMXServerErrorMsg") %]
+                                <p>[% Translate("This email address failed MX check.") | html %]</p>
+[% RenderBlockEnd("InvalidMXServerErrorMsg") %]
+[% RenderBlockStart("InvalidDNSServerErrorMsg") %]
+                                <p>[% Translate("DNS problem, please check your configuration and the error log.") | html %]</p>
+[% RenderBlockEnd("InvalidDNSServerErrorMsg") %]
+[% RenderBlockStart("InvalidSyntaxServerErrorMsg") %]
+                                <p>[% Translate("The syntax of this email address is incorrect.") | html %]</p>
+[% RenderBlockEnd("InvalidSyntaxServerErrorMsg") %]
+[% RenderBlockStart("IsDuplicatedServerErrorMsg") %]
+                                <p>[% Translate("This address already exists on the address list.") | html %]</p>
+[% RenderBlockEnd("IsDuplicatedServerErrorMsg") %]
+                            </div>
+                        </div>
+[% RenderBlockEnd("MultipleCustomer") %]
+                    </div>
+[% RenderBlockStart("MultipleCustomerCounter") %]
+                    <input name="CustomerTicketCounterToCustomer" id="CustomerTicketCounterToCustomer" type="hidden" value="[% Data.CustomerCounter | html %]"/>
+[% RenderBlockEnd("MultipleCustomerCounter") %]
+                </div>
+                <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('.CustomerTicketRemove').bind('click', function () {
+        Core.Agent.CustomerSearch.RemoveCustomerTicket( $(this) );
+        return false;
+    });
+//]]></script>
+[% END %]
+
+                <label for="CcCustomer">[% Translate("Cc") | html %]:</label>
+                <div class="Field">
+                    <input id="CcCustomer" type="text" name="CcCustomer" value="" class="CustomerAutoComplete W75pc [% Data.CcInvalid | html %]" autocomplete="off" />
+                </div>
+                <div class="Clear"></div>
+
+                <div class="Field [% Data.CcCustomerHiddenContainer | html %]">
+                    <div class="CustomerTicketTemplateCcCustomer SpacingTopSmall Hidden">
+                        <input name="CcCustomerInitialValue" id="CcCustomerInitialValue" type="hidden" value="[% Data.Cc | html %]" />
+                        <input name="CcCustomerKey" id="CcCustomerKey" class="CustomerKey" type="hidden" value=""/>
+                        <input name="CcCustomerQueue" id="CcCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
+                        <input class="CustomerTicketText" title="[% Translate("Cc") | html %]" name="CcCustomerTicketText" id="CcCustomerTicketText" type="text" value="" readonly="readonly" />
+                        <a href="#" id="CcRemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
+                            <i class="fa fa-minus-square-o"></i>
+                            <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
+                        </a>
+                    </div>
+
+                    <div id="TicketCustomerContentCcCustomer" class="CcCustomerContainer">
+                        <span class="BoxLabel">[% Translate("Cc") | html %]</span>
+[% RenderBlockStart("CcMultipleCustomer") %]
+                        <div>
+                            <input name="CcCustomerKey_[% Data.Count | html %]" id="CcCustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
+                            <input name="CcCustomerQueue_[% Data.Count | html %]" id="CcCustomerQueue_[% Data.Count | html %]" class="CustomerQueue" type="hidden" value="[% Data.CustomerQueue | html %]"/>
+                            <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CcCustomerTicketText_[% Data.Count %]" id="CcCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                            <a href="#" id="CcRemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
+                                <i class="fa fa-minus-square-o"></i>
+                                <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
+                            </a>
+
+[% RenderBlockStart("CcCustomerErrorExplantion") %]
+                            <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
+[% RenderBlockEnd("CcCustomerErrorExplantion") %]
+
+                            <div id="CcCustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("CcCustomerGenericServerErrorMsg") %]
+                                <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("CcCustomerGenericServerErrorMsg") %]
+[% RenderBlockStart("CcInvalidConfigServerErrorMsg") %]
+                                <p>[% Translate("This email address is not allowed due to the system configuration.") | html %]</p>
+[% RenderBlockEnd("CcInvalidConfigServerErrorMsg") %]
+[% RenderBlockStart("CcInvalidMXServerErrorMsg") %]
+                                <p>[% Translate("This email address failed MX check.") | html %]</p>
+[% RenderBlockEnd("CcInvalidMXServerErrorMsg") %]
+[% RenderBlockStart("CcInvalidDNSServerErrorMsg") %]
+                                <p>[% Translate("DNS problem, please check your configuration and the error log.") | html %]</p>
+[% RenderBlockEnd("CcInvalidDNSServerErrorMsg") %]
+[% RenderBlockStart("CcInvalidSyntaxServerErrorMsg") %]
+                                <p>[% Translate("The syntax of this email address is incorrect.") | html %]</p>
+[% RenderBlockEnd("CcInvalidSyntaxServerErrorMsg") %]
+[% RenderBlockStart("CcIsDuplicatedServerErrorMsg") %]
+                                <p>[% Translate("This address already exists on the address list.") | html %]</p>
+[% RenderBlockEnd("CcIsDuplicatedServerErrorMsg") %]
+                            </div>
+                        </div>
+[% RenderBlockEnd("CcMultipleCustomer") %]
+
+                    </div>
+[% RenderBlockStart("CcMultipleCustomerCounter") %]
+                    <input name="CustomerTicketCounterCcCustomer" id="CustomerTicketCounterCcCustomer" type="hidden" value="[% Data.CustomerCounter | html %]"/>
+[% RenderBlockEnd("CcMultipleCustomerCounter") %]
+                </div>
+                <div class="Clear"></div>
+
+                <label for="BccCustomer">[% Translate("Bcc") | html %]:</label>
+                <div class="Field">
+                    <input id="BccCustomer" type="text" name="BccCustomer" value="" class="CustomerAutoComplete W75pc [% Data.BccInvalid | html %]" autocomplete="off" />
+                </div>
+                <div class="Clear"></div>
+
+                <div class="Field [% Data.BccCustomerHiddenContainer | html %]">
+                    <div class="CustomerTicketTemplateBccCustomer SpacingTopSmall Hidden">
+                        <input name="BccCustomerInitialValue" id="BccCustomerInitialValue" type="hidden" value="[% Data.Bcc | html %]" />
+                        <input name="BccCustomerKey" id="BccCustomerKey" class="CustomerKey" type="hidden" value=""/>
+                        <input name="BccCustomerQueue" id="BccCustomerQueue" class="CustomerQueue" type="hidden" value=""/>
+                        <input class="CustomerTicketText" title="[% Translate("Bcc") | html %]" name="BccCustomerTicketText" id="BccCustomerTicketText" type="text" value="" readonly="readonly" />
+                        <a href="#" id="BccRemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
+                            <i class="fa fa-minus-square-o"></i>
+                            <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
+                        </a>
+                    </div>
+
+                    <div id="TicketCustomerContentBccCustomer" class="BccCustomerContainer">
+                        <span class="BoxLabel">[% Translate("Bcc") | html %]</span>
+[% RenderBlockStart("BccMultipleCustomer") %]
+                        <div class="SpacingTopSmall ">
+                            <input name="BccCustomerKey_[% Data.Count | html %]" id="BccCustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
+                            <input name="BccCustomerQueue_[% Data.Count | html %]" id="BccCustomerQueue_[% Data.Count | html %]" class="CustomerQueue" type="hidden" value="[% Data.CustomerQueue | html %]"/>
+                            <input class="CustomerTicketText [% Data.CustomerError | html %]" name="BccCustomerTicketText_[% Data.Count %]" id="BccCustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                            <a href="#" id="BccRemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
+                                <i class="fa fa-minus-square-o"></i>
+                                <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
+                            </a>
+
+[% RenderBlockStart("BccCustomerErrorExplantion") %]
+                            <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
+[% RenderBlockEnd("BccCustomerErrorExplantion") %]
+
+                            <div id="BccCustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("BccCustomerGenericServerErrorMsg") %]
+                                <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("BccCustomerGenericServerErrorMsg") %]
+[% RenderBlockStart("BccInvalidConfigServerErrorMsg") %]
+                                <p>[% Translate("This email address is not allowed due to the system configuration.") | html %]</p>
+[% RenderBlockEnd("BccInvalidConfigServerErrorMsg") %]
+[% RenderBlockStart("BccInvalidMXServerErrorMsg") %]
+                                <p>[% Translate("This email address failed MX check.") | html %]</p>
+[% RenderBlockEnd("BccInvalidMXServerErrorMsg") %]
+[% RenderBlockStart("BccInvalidDNSServerErrorMsg") %]
+                                <p>[% Translate("DNS problem, please check your configuration and the error log.") | html %]</p>
+[% RenderBlockEnd("BccInvalidDNSServerErrorMsg") %]
+[% RenderBlockStart("BccInvalidSyntaxServerErrorMsg") %]
+                                <p>[% Translate("The syntax of this email address is incorrect.") | html %]</p>
+[% RenderBlockEnd("BccInvalidSyntaxServerErrorMsg") %]
+[% RenderBlockStart("BccIsDuplicatedServerErrorMsg") %]
+                                <p>[% Translate("This address already exists on the address list.") | html %]</p>
+[% RenderBlockEnd("BccIsDuplicatedServerErrorMsg") %]
+                            </div>
+                        </div>
+[% RenderBlockEnd("BccMultipleCustomer") %]
+
+                    </div>
+[% RenderBlockStart("BccMultipleCustomerCounter") %]
+                    <input name="CustomerTicketCounterBccCustomer" id="CustomerTicketCounterBccCustomer" type="hidden" value="[% Data.CustomerCounter | html %]"/>
+[% RenderBlockEnd("BccMultipleCustomerCounter") %]
+                </div>
+                <div class="Clear"></div>
+
+                <label class="Mandatory" for="Subject"><span class="Marker">*</span>[% Translate("Subject") | html %]:</label>
+                <div class="Field">
+                    <input type="text" name="Subject" id="Subject" value="[% Data.Subject | html %]" class="W50pc Validate_Required [% Data.SubjectInvalid | html %]"/>
+                    <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                </div>
+                <div class="Clear"></div>
+
+[% RenderBlockStart("Option") %]
+                <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                <div class="Field">
+                    [% Data.Value %]
+                    <div id="[% Data.Name | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.Invalid | html %]</p></div>
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("Option") %]
+
+[% RenderBlockStart("TicketOptions") %]
+                <label>[% Translate("Options") | html %]:</label>
+                <div class="Field">
+
+<!-- OutputFilterHook_TicketOptionsBegin -->
+
+[% RenderBlockStart("SpellCheck") %]
+                    <a href="#" id="OptionSpellCheck">[ [% Translate("Spell check") | html %] ]</a>
+[% RenderBlockEnd("SpellCheck") %]
+[% RenderBlockStart("AddressBook") %]
+                    <a href="#" id="OptionAddressBook">[ [% Translate("Address book") | html %] ]</a>
+[% RenderBlockEnd("AddressBook") %]
+
+<!-- OutputFilterHook_TicketOptionsEnd -->
+
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("TicketOptions") %]
+
+<!-- OutputFilterHook_NoTicketOptionsFallback -->
+
+[% RenderBlockStart("StandardTemplate") %]
+                <label for="StandardTemplateID">[% Translate("Text Template") | html %]:</label>
+                <div class="Field">
+                                [% Data.StandardTemplateStrg %]
+                    <p class="FieldExplanation">[% Translate("Setting a template will overwrite any text or attachment.") %]</p>
+                </div>
+                <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#StandardTemplateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdateTemplate', 'StandardTemplateID', ['RichTextField']);
+        return false;
+    });
+//]]></script>
+[% END %]
+[% RenderBlockEnd("StandardTemplate") %]
+
+                <label class="Mandatory" for="RichText"><span class="Marker">*</span>[% Translate("Text") | html %]:</label>
+                <div id="RichTextField" class="RichTextField">
+[% RenderBlockStart("RichText") %]
+[% InsertTemplate("RichTextEditor.tt") %]
+[% RenderBlockEnd("RichText") %]
+                    <textarea id="RichText" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaEmail") %]" class="RichText Validate_Required [% Data.BodyInvalid | html %]">[% Data.Body | html %]</textarea>
+                    <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                    <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                </div>
+                <div class="Clear"></div>
+
+                <label>[% Translate("Attachment") | html %]:</label>
+                <div class="Field">
+                    <ul>
+[% RenderBlockStart("Attachment") %]
+                        <li>
+                            [% Data.Filename | html %] ([% Data.Filesize | html %])
+                            <button type="button" id="AttachmentDeleteButton[% Data.FileID | html %]" name="AttachmentDeleteButton[% Data.FileID | html %]" value="[% Translate("Delete") | html %]" class="SpacingLeft">[% Translate("Delete") | html %]</button>
+                            <input type="hidden" id="AttachmentDelete[% Data.FileID | html %]" name="AttachmentDelete[% Data.FileID | html %]" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#AttachmentDeleteButton[% Data.FileID | html %]').bind('click', function () {
+        var $Form = $('#AttachmentDeleteButton[% Data.FileID | html %]').closest('form');
+        $('#AttachmentDelete[% Data.FileID | html %]').val(1);
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.trigger('submit');
+    });
+//]]></script>
+[% END %]
+                        </li>
+[% RenderBlockEnd("Attachment") %]
+                        <li>
+                            <input id="FileUpload" name="FileUpload" type="file" size="40" />
+                            <input type="hidden" id="AttachmentUpload" name="AttachmentUpload" value="0" />
+                        </li>
+                    </ul>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#FileUpload').bind('change', function () {
+        var $Form = $('#FileUpload').closest('form');
+        Core.Form.Validate.DisableValidation($Form);
+        $Form.find('#AttachmentUpload').val('1').end().submit();
+    });
+//]]></script>
+[% END %]
+                </div>
+                <div class="Clear"></div>
+
+                <label for="ComposeStateID">[% Translate("Next ticket state") | html %]:</label>
+                <div class="Field">
+                    [% Data.NextStatesStrg %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#ComposeStateID').bind('change', function (Event) {
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'ComposeStateID', [ [% Data.DynamicFieldNamesStrg %] ]);
+    });
+//]]></script>
+[% END %]
+                </div>
+                <div class="Clear"></div>
+
+                <label>[% Translate("Pending Date") | html %] ([% Translate("for pending* states") | html %]):</label>
+                <div class="Field">
+                    [% Data.PendingDateString %]
+                    <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
+                    <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="ArticleTypeID">[% Translate("Article type") | html %]:</label>
+                <div class="Field">
+                    [% Data.ArticleTypesStrg %]
+                </div>
+                <div class="Clear"></div>
+
+[% RenderBlockStart("DynamicField") %]
+                <div class="Row Row_DynamicField_[% Data.Name | html %]">
+                    [% Data.Label %]
+                    <div class="Field">
+                        [% Data.Field %]
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+[% RenderBlockEnd("DynamicField") %]
+
+# example of how to use fixed dynamic field blocks for customizations
+# Note: Field1 and Field2 are the names of the fields and had to be replaced with the actual
+# field names
+#[% RenderBlockStart("DynamicField_Field1") %]
+#                <div class="Row Row_DynamicField_[% Data.Name | html %]">
+#                    [% Data.Label %]
+#                    <div class="Field">
+#                        [% Data.Field %]
+#                    </div>
+#                    <div class="Clear"></div>
+#                </div>
+#[% RenderBlockEnd("DynamicField_Field1") %]
+#[% RenderBlockStart("DynamicField_Field2") %]
+#                <div class="Row Row_DynamicField_[% Data.Name | html %]">
+#                    [% Data.Label %]
+#                    <div class="Field">
+#                        [% Data.Field %]
+#                    </div>
+#                    <div class="Clear"></div>
+#                </div>
+#[% RenderBlockEnd("DynamicField_Field2") %]
+
+[% RenderBlockStart("TimeUnitsLabel") %]
+                <label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+[% RenderBlockEnd("TimeUnitsLabel") %]
+[% RenderBlockStart("TimeUnitsLabelMandatory") %]
+                <label class="Mandatory" for="TimeUnits"><span class="Marker">*</span>[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+[% RenderBlockEnd("TimeUnitsLabelMandatory") %]
+[% RenderBlockStart("TimeUnits") %]
+                <div class="Field">
+                    <input type="text" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]"/>
+                    <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
+                    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                </div>
+                <div class="Clear"></div>
+[% RenderBlockEnd("TimeUnits") %]
+
+            </fieldset>
+        </div>
+        <div class="Footer">
+            <button class="CallForAction Primary" id="submitRichText" accesskey="g" title="[% Translate("Send mail") | html %] (g)" type="submit" value="[% Translate("Send mail") | html %]" ><span><i class="fa fa-envelope-o"></i> [% Translate("Send mail") | html %]</span></button>
+        </div>
+    </div>
+</form>
+
+#Layers
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.Init();
+//]]></script>
+[% END %]

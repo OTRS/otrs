@@ -702,6 +702,7 @@ sub Data {
         'Age' => 'Alter',
         'Bounce' => 'Umleiten',
         'Forward' => 'Weiterleiten',
+        'E-Mail Outbound' => 'Ausgehende E-Mail',
         'From' => 'Von',
         'To' => 'An',
         'Cc' => 'Cc',
@@ -862,6 +863,7 @@ sub Data {
         'Split' => 'Teilen',
         'Split this article' => 'Diesen Artikel teilen',
         'Forward article via mail' => 'Artikel per E-Mail weiterleiten',
+        'Write a new, outgoing mail' => 'Eine neue, ausgehende E-Mail schreiben',
         'Change the ticket priority' => 'Ticket-Priorität ändern',
         'Change the ticket free fields!' => 'Ändern der Ticket-Frei-Felder',
         'Link this ticket to other objects' => 'Dieses Ticket mit anderen Objekten verknüpfen',
@@ -3487,6 +3489,8 @@ sub Data {
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket forward screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket free text screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket merge screen of a zoomed ticket in the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3591,6 +3595,8 @@ sub Data {
             'Bestimmt den Folgestatus für Tickets, für die im Umleiten-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde.',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'Bestimmt den Folgestatus für Tickets, für die im Weiterleiten-Bildschirm im Agenten-Interface eine Notiz hinzugefügt wurde.',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            'Bestimmt den Folgestatus für Tickets, nachdem eine ausgehende E-Mail versendet wurde.',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'Bestimmt den Folgestatus für Tickets, auf die ein Agent im Antworten-Bildschirm im Agenten-Interface geantwortet hat.',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3698,6 +3704,8 @@ sub Data {
             'Definiert den Standard-Typ für Artikel im Kunden-Interface.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            'Definiert den Standard-Typ der ausgehenden E-Mail.',
         'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
@@ -3871,6 +3879,8 @@ sub Data {
             'Definiert den nächsten möglichen Status nach Erstellen eines / Antworten auf ein Ticket im Verfassen-Bildschirm im Agenten-Interface.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            'Definiert die nächsten, auswählbaren Status, nachdem eine ausgehende Email versendet wurde.',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             '',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3993,9 +4003,11 @@ sub Data {
         'Defines the viewable locks of a ticket. Default: unlock, tmp_lock.' =>
             '',
         'Defines the width for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            '',
+            'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
-            '',
+            'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
+        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
+            'Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the width of the legend.' => 'Bestimmt die Breite der Legende.',
         'Defines which article sender types should be shown in the preview of a ticket.' =>
             'Gibt an, welche Artikel-Sendertypen in der Vorschau eines Tickets angezeigt werden sollen.',
@@ -4081,6 +4093,8 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            'Angezeigte DynamicFields in der Maske für ausgehende Emails. Mögliche Einstellungen: 0 = Deaktiviert, 1 = Aktiviert, 2 = Aktiviert und zwingend benötigt.',
         'Dynamic fields shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the ticket medium format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4630,6 +4644,8 @@ sub Data {
             'Benötigte Rechte um den "Verfassen"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
             'Benötigte Rechte um den "Weiterleiten"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            'Benötigte Rechte, um den Dialog für ausgehende Emails im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
             'Benötigte Rechte um den "Freitext"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
@@ -5089,7 +5105,7 @@ sub Data {
         'Specifies the border color of the legend.' => '',
         'Specifies the bottom margin of the chart.' => '',
         'Specifies the different article types that will be used in the system.' =>
-            '',
+            'Legt die verschiedenen Artikel-Typen fest, die im System verwendet werden.',
         'Specifies the different note types that will be used in the system.' =>
             '',
         'Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.' =>

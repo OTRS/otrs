@@ -236,11 +236,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
 
                 $Element.val(CustomerValue);
 
-                if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
+                if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') {
                     $Element.val('');
                 }
 
-                if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
+                if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward' && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound') {
                     // set hidden field SelectedCustomerUser
                     $('#SelectedCustomerUser').val(CustomerKey);
 
@@ -266,7 +266,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 }
             }, 'CustomerSearch');
 
-            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward') {
+            if (Core.Config.Get('Action') !== 'AgentTicketPhone' && Core.Config.Get('Action') !== 'AgentTicketEmail' && Core.Config.Get('Action') !== 'AgentTicketCompose' && Core.Config.Get('Action') !== 'AgentTicketForward' && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound') {
                 $Element.blur(function () {
                     var FieldValue = $(this).val();
                     if (FieldValue !== BackupData.CustomerEmail && FieldValue !== BackupData.CustomerKey) {
@@ -423,7 +423,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         CheckPhoneCustomerCountLimit();
 
         // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
-        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate( $('#' + Field).closest('form'), 'AJAXUpdate', '', ['CryptKeyID']);
         }
 
@@ -452,7 +452,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         $Field = Object.closest('.Field'),
         $Form;
 
-        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') {
+        if (Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') {
             $Form = Object.closest('form');
         }
         Object.parent().remove();
@@ -462,7 +462,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         // reload Crypt options on AgentTicketEMail, AgentTicketCompose and AgentTicketForward
-        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward') && $('#CryptKeyID').length) {
+        if ((Core.Config.Get('Action') === 'AgentTicketEmail' || Core.Config.Get('Action') === 'AgentTicketCompose' || Core.Config.Get('Action') === 'AgentTicketForward' || Core.Config.Get('Action') === 'AgentTicketEmailOutbound') && $('#CryptKeyID').length) {
             Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
         }
 
