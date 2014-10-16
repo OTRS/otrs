@@ -1,4 +1,4 @@
-#4.0.0.beta3 2014-10-07
+#4.0.0.beta4 2014-10-21
  - 2014-10-16 Updated translations, thanks to all translators.
  - 2014-10-16 Fixed bug#[10631](http://bugs.otrs.org/show_bug.cgi?id=10631) - Search attribute are unordered.
  - 2014-10-16 Added new screen for outgoing emails on a ticket that are not replies.
@@ -17,6 +17,8 @@
  - 2014-10-07 Added the possibility to restrict customer self registration by email address whitelist or blacklist.
  - 2014-10-07 Fixed customer account creation message.
  - 2014-10-07 Added new dashboard module that shows the output of an external command, thanks to ib.pl.
+
+#4.0.0.beta3 2014-10-07
  - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
  - 2014-09-26 Added functionality to search for the last change time of the ticket (TicketLastChangeTimeOlderMinutes, TicketLastChangeTimeNewerMinutes, TicketLastChangeTimeNewerDate, TicketLastChangeTimeOlderDate).
  - 2014-09-25 Readded AgentZoom.pm to fix compatibility problems of older systems.
