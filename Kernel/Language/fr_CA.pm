@@ -365,6 +365,8 @@ sub Data {
         'Hello %s,' => 'Bonjour %s,',
         'This email address already exists. Please log in or reset your password.' =>
             'Cette adresse de courrier électronique existe déjà. Veuillez vous authentifier ou réinitialiser votre mot de passe.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            '',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Le nouveau compte a été créé. Les informations relatives à l\'ouverture de session ont été envoyées à %s. Veuillez vérifier vos courriels.',
         'Please press Back and try again.' => 'Veuillez revenir à la page précédente et rééssayez.',
@@ -2222,6 +2224,8 @@ sub Data {
         'SQL Box' => 'Requêtes SQL',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            '',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Votre requête SQL comporte une erreur de syntaxe. Veuillez la corriger.',
@@ -2229,6 +2233,7 @@ sub Data {
             'Il manque au moins un paramètre, ce qui empêche l\'association. Veuillez corriger la situation.',
         'Result format' => 'Format du résultat ',
         'Run Query' => 'Lancer la requête',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Gestion des services',
@@ -2740,6 +2745,9 @@ sub Data {
         'Remove Ticket Customer User' => '',
         'Get all' => 'Tout prendre',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Transférer la demande no : %s - %s',
 
@@ -2926,6 +2934,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
+        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Éditer les préférences',
 
         # Template: CustomerTicketMessage
@@ -3364,6 +3373,8 @@ sub Data {
             'Contrôle si plus d\'une entrée dans le champ « de » peut être inscrite dans une nouvelle demande téléphonique depuis l\'interface agent.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'Convertit les courriels HTML en messages texte.',
@@ -3488,6 +3499,8 @@ sub Data {
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Détermine si le verrouillage de la demande est nécessaire dans l\'écran de fermeture de la demande de l\'interface agent (si la demande n\'est pas encore verrouillée, elle le devient automatiquement et l\'agent qui y travaille devient son propriétaire).',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Détermine si le verrouillage de la demande est nécessaire dans l\'écran de retour des demandes de l\'interface agent (si la demande n\'est pas encore verrouillée, elle le devient automatiquement et l\'agent qui y travaille devient son propriétaire).',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3598,6 +3611,8 @@ sub Data {
             'Détermine le nouvel état par défaut d\'une demande après qu\'elle a été retournée dans l\'écran de retour des demandes de l\'interface agent.',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'Détermine le nouvel état par défaut d\'une demande après avoir été transférée dans l\'écran de transfert des demandes de l\'interface agent. ',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'Détermine le nouvel état par défaut d\'une demande si elle a été rédigée ou répondue dans l\'écran de rédaction de l\'interface agent.',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3706,6 +3721,8 @@ sub Data {
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             'Détermine le type par défaut du message transféré dans l\'écran de transfert de la demande dans l\'interface agent.',
         'Defines the default type of the article for this operation.' => 'Détermine le type par défaut de l\'article pour cette opération.',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'Détermine le type par défaut de la note dans l\'écran de fermeture de la demande dans l\'interface agent.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3878,6 +3895,8 @@ sub Data {
             'Détermine les nouveaux états possibles après avoir rédigé une demande ou y avoir répondu dans l\'écran de rédaction de l\'interface agent.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             'Détermine les nouveaux états possibles après avoir transféré une demande dans l\'écran de transfert de demande de l\'interface agent.',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             'Détermine les nouveaux états possibles des demandes du client dans l\'interface client.',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3903,6 +3922,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => 'Détermine les paramètres de la table comprenant les préférences du client.',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             'Détermine les paramètres de l\'arrière-plan du tableau de bord. L\'option « Group » (groupe) permet de restreindre l\'accès au module d\'extension (p.ex. Group: admin;group1;group2;). L\'option « Default » (par défaut) précise si l\'activation du module d\'extension se fait par défaut ou par l\'utilisateur. L\'option « CacheTTL » (durée de vie de la mémoire cache) précise le délai, en minutes, avant l\'expiration de la mémoire cache du module d\'extension.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4075,6 +4096,8 @@ sub Data {
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -4334,6 +4357,10 @@ sub Data {
             'Si une note est ajoutée par un agent, cette option règle l\'état de la demande dans l\'écran de mise en attente de la synthèse de la demande de l\'interface agent.',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             'Si une note est ajoutée par un agent, cette option règle l\'état de la demande dans l\'écran de priorité en attente de la synthèse de la demande de l\'interface agent.',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
+            '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             'Si un mécanisme « SMTP » est sélectionné en tant que module d\'envoi de courriel ( SendmailModule ) et qu\'une authentification au serveur de courriel est nécessaire, un mot de passe doit être spécifié.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
@@ -4631,6 +4658,8 @@ sub Data {
             'Permissions requises pour changer le client d\'une demande dans l\'interface agent.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Permissions requises pour utiliser l\'écran de fermeture de la demande de l\'interface agent.',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'Permissions requises pour utiliser l\'écran de retour de la demande dans l\'interface agent.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
@@ -4958,6 +4987,8 @@ sub Data {
             'Dans le menu, affiche un lien qui permet de voir la priorité d\'une demande dans la vue de la synthèse de la demande de l\'interface agent.',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             'Dans le menu, affiche un lien qui permet l\'agent responsable d\'une demande dans la vue de la synthèse de la demande de l\'interface agent.',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             'Dans le menu, affiche le lien qui permet la mise en attente d\'une demande dans la vue de la synthèse de la demande de l\'interface agent.',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5095,6 +5126,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'Précise la couleur des bordures du graphique.',
         'Specifies the border color of the legend.' => 'Précise la couleur des bordures de la légende.',
         'Specifies the bottom margin of the chart.' => 'Précise la marge inférieure du graphique.',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Précise les différents types d\'articles qui seront utilisés dans le système.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5210,6 +5243,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Permet de basculer dans l\'affichage de la liste des fonctions des compagnons de OTRS dans le gestionnaire de paquets.',
         'Toolbar Item for a shortcut.' => 'Élément de la barre d\'outils offrant un raccourci.',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'Active les animations de l\'interface utilisateur graphique. En cas de problème avec les animations, par exemple en matière de performance, vous pouvez les désactiver ici.',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5245,6 +5279,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Lorsque des demandes sont fusionnées, le client peut en être informé par courriel en cochant la case « Informer l\'expéditeur ». Vous pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les agents.',
+        'Write a new, outgoing mail' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Votre sélection de files préférées. Vous recevrez l\'information pertinente au sujet de ces files par courriel (si l\'option est activé).',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

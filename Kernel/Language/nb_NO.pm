@@ -366,6 +366,8 @@ sub Data {
         'Hello %s,' => 'Hei %s',
         'This email address already exists. Please log in or reset your password.' =>
             'Denne e-postadressen finnes allerede. Vennligst logg inn eller nullstill passordet.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            '',
         'New account created. Sent login information to %s. Please check your email.' =>
             'En ny konto har blitt opprettet. Brukernavn og passord er sendt til %s. Vennligst sjekk e-posten din.',
         'Please press Back and try again.' => 'Vennligst gå tilbake og prøv på nytt',
@@ -2223,6 +2225,8 @@ sub Data {
         'SQL Box' => 'SQL-boks',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            '',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL-spørringen har en syntaks-feil. Vennligst sjekk den.',
@@ -2230,6 +2234,7 @@ sub Data {
             'Det mangler minst ett parameter i bindingen. Vennligst sjekk den.',
         'Result format' => 'Format for resultatet',
         'Run Query' => 'Kjør spørring',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Administrasjon: Tjenester',
@@ -2741,6 +2746,9 @@ sub Data {
         'Remove Ticket Customer User' => '',
         'Get all' => 'Hent alle',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Videresend sak: %s - %s',
 
@@ -2927,6 +2935,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
+        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Endre personlige innstillinger',
 
         # Template: CustomerTicketMessage
@@ -3365,6 +3374,8 @@ sub Data {
             '',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'Konverter HTML e-poster til tekstmeldinger',
@@ -3489,6 +3500,8 @@ sub Data {
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Spesifiserer om en saks-lås er nødvendig for å få stenge en sak. Hvis saken ikke er låst vil den bli det, og nåværende agent vil bli satt som eier.',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Spesifiserer om en saks-lås er nødvendig for å oversende en sak. Hvis saken ikke er låst vil den bli det, og nåværende agent blir satt som eier.',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3599,6 +3612,8 @@ sub Data {
             'Definerer standard for neste saksstatus etter at agent har lagt til en notis for en sak som blir avvist',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'Definerer standard for neste saksstatus når agent videresender en sak',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'Setter standard for neste saksstatus når den blir opprettet/besvart av agent',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3707,6 +3722,8 @@ sub Data {
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
         'Defines the default type of the article for this operation.' => '',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'Definerer standard type notis i "Avslutt sak" bildet.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3879,6 +3896,8 @@ sub Data {
             '',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             '',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3904,6 +3923,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => '',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4076,6 +4097,8 @@ sub Data {
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -4334,6 +4357,10 @@ sub Data {
         'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
             '',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             'Hvis noen av "SMTP"-mekanismene er valgt som SendmailModule, og autentisering mot e-post-tjeneren er nødvendig, må et passord spesifiseres.',
@@ -4632,6 +4659,8 @@ sub Data {
             'Nødvendige rettigheter for å endre kunde på en sak.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Nødvendige rettigheter for å bruke "Avslutt sak" bildet.',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             '',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
@@ -4959,6 +4988,8 @@ sub Data {
             '',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             '',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             '',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5096,6 +5127,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'Setter farge på rammen til grafer.',
         'Specifies the border color of the legend.' => 'Setter farge på rammen til symbolforklaringen.',
         'Specifies the bottom margin of the chart.' => 'Spesifiserer bunnmarg på grafene.',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Spesifiserer de ulike artikkeltypene som skal brukes i systemet.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5211,6 +5244,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5246,6 +5280,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
+        'Write a new, outgoing mail' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Her velger du dine utvalgte køer. Du vil også få varslinger fra disse køene, hvis du har valgt det.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

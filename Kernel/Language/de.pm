@@ -358,6 +358,8 @@ sub Data {
         'Hello %s,' => 'Hallo %s,',
         'This email address already exists. Please log in or reset your password.' =>
             'Diese E-Mail-Adresse existiert bereits. Bitte melden Sie sich an oder ändern Sie ihr Passwort.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            'Diese E-Mail-Adresse darf nicht registriert werden. Bitte wenden Sie sich an die Supportabteilung.',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Neues Benutzerkonto angelegt. Anmeldedaten wurden an %s gesendet. Bitte prüfen Sie Ihre E-Mail.',
         'Please press Back and try again.' => 'Bitte auf Zurück klicken und erneut versuchen.',
@@ -702,7 +704,6 @@ sub Data {
         'Age' => 'Alter',
         'Bounce' => 'Umleiten',
         'Forward' => 'Weiterleiten',
-        'E-Mail Outbound' => 'Ausgehende E-Mail',
         'From' => 'Von',
         'To' => 'An',
         'Cc' => 'Cc',
@@ -863,7 +864,6 @@ sub Data {
         'Split' => 'Teilen',
         'Split this article' => 'Diesen Artikel teilen',
         'Forward article via mail' => 'Artikel per E-Mail weiterleiten',
-        'Write a new, outgoing mail' => 'Eine neue, ausgehende E-Mail schreiben',
         'Change the ticket priority' => 'Ticket-Priorität ändern',
         'Change the ticket free fields!' => 'Ändern der Ticket-Frei-Felder',
         'Link this ticket to other objects' => 'Dieses Ticket mit anderen Objekten verknüpfen',
@@ -1279,7 +1279,7 @@ sub Data {
         'Ticket created' => 'Ticket erstellt',
         'Ticket created between' => 'Ticket erstellt zwischen',
         'Last changed times' => 'Letzte Änderungszeitpunkte',
-        'No last changed time settings.' => 'keine zuletzt geändert Zeiten',
+        'No last changed time settings.' => 'Keine Einstellungen für letzte Änderungszeit.',
         'Ticket last changed' => 'Ticket zuletzt geändert',
         'Ticket last changed between' => 'Ticket zuletzt geändert zwischen',
         'Change times' => 'Änderungs-Zeiten',
@@ -2217,6 +2217,8 @@ sub Data {
         'SQL Box' => 'SQL Box',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             'Hier können Sie SQL-Befehle eingeben um diese direkt an die Anwendungsdatenbank zu senden. Es ist nicht möglich, den Inhalt der Tabellen zu ändern, erlaubt sind nur SELECT-Abfragen.',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            'Hier können Sie SQL eingeben, das an die Datenbank gesendet wird.',
         'Only select queries are allowed.' => 'Es sind nur Select Abfragen erlaubt',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Die Syntax Ihrer SQL-Abfrage ist fehlerhaft. Bitte prüfen.',
@@ -2224,6 +2226,7 @@ sub Data {
             'Es fehlt mindestens ein Parameter für das Binding. Bitte prüfen.',
         'Result format' => 'Format der Ergebnisse',
         'Run Query' => 'Anfrage ausführen',
+        'Query is executed.' => 'Suchanfrage wird ausgeführt.',
 
         # Template: AdminService
         'Service Management' => 'Service-Verwaltung',
@@ -2735,6 +2738,9 @@ sub Data {
         'Remove Ticket Customer User' => 'Kundenbenutzer des Tickets entfernen',
         'Get all' => 'Alles holen',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => 'Ausgehende E-Mail',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Ticket weiterleiten:  %s - %s',
 
@@ -2824,8 +2830,8 @@ sub Data {
         'Ticket Create Time (between)' => 'Ticket-Erstellzeit (zwischen)',
         'Ticket Change Time (before/after)' => 'Ticket-Änderungszeit (vor/nach)',
         'Ticket Change Time (between)' => 'Ticket-Änderungszeit (zwischen)',
-        'Ticket Last Change Time (before/after)' => 'Ticket zuletzt geändert (vor/nach)',
-        'Ticket Last Change Time (between)' => 'Ticket zuletzt geändert (zwischen)',
+        'Ticket Last Change Time (before/after)' => 'Letzte Ticket-Änderungszeit (vor/nach)',
+        'Ticket Last Change Time (between)' => 'Letzte Ticket-Änderungszeit (zwischen)',
         'Ticket Close Time (before/after)' => 'Ticket-Schließzeit (vor/nach)',
         'Ticket Close Time (between)' => 'Ticket-Schließzeit (zwischen)',
         'Ticket Escalation Time (before/after)' => 'Ticket-Eskalationszeit (vor/nach)',
@@ -2872,7 +2878,7 @@ sub Data {
         'No more events found. Please try changing the filter settings.' =>
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
         'This is a chat log. Please zoom this entry in order to see the complete log.' =>
-            'Dies ist ein Chat-Protokoll. Bitte verkleinere diese Ansicht um das komplette Protokoll zu sehen.',
+            'Dies ist ein Chat-Protokoll. Bitte öffnen Sie die Detail-Ansicht, um das komplette Protokoll zu sehen.',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.',
@@ -2921,6 +2927,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Eingehende Chatanfragen',
+        'You have unanswered chat requests' => 'Sie haben unbeantwortete Chatanfragen',
         'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
 
         # Template: CustomerTicketMessage
@@ -3359,6 +3366,8 @@ sub Data {
             'Kontrolliert, ob mehr als ein Eintrag in einem neuen Telefon-Ticket festgelegt werden kann.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             'Kontrolliert, ob es dem Admin erlaubt ist, eine gespeicherte Systemkonfiguration in SysConfig zu importieren.',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
@@ -3483,13 +3492,13 @@ sub Data {
             'Bestimmt, ob in der Service-Ansicht eine Vorsortierung anhand der Priorität vorgenommen werden soll.',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket forward screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
-            'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
-        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
         'Defines if a ticket lock is required in the ticket free text screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Bestimmt, ob dieser Screen im Agenten-Interface das Sperren des Tickets voraussetzt. Das Ticket wird (falls nötig) gesperrt und der aktuelle Agent wird als Besitzer gesetzt.',
@@ -3704,9 +3713,9 @@ sub Data {
             'Definiert den Standard-Typ für Artikel im Kunden-Interface.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the message in the email outbound screen of the agent interface.' =>
             'Definiert den Standard-Typ der ausgehenden E-Mail.',
-        'Defines the default type of the article for this operation.' => '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3748,7 +3757,7 @@ sub Data {
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '',
         'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            '',
+            'Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             '',
         'Defines the height of the legend.' => 'Bestimmt die Höhe der Legende.',
@@ -3906,6 +3915,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => '',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4006,8 +4017,6 @@ sub Data {
             'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the width for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
             'Definiert die Breite der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
-        'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
-            'Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the width of the legend.' => 'Bestimmt die Breite der Legende.',
         'Defines which article sender types should be shown in the preview of a ticket.' =>
             'Gibt an, welche Artikel-Sendertypen in der Vorschau eines Tickets angezeigt werden sollen.',
@@ -4081,6 +4090,8 @@ sub Data {
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            'Angezeigte DynamicFields in der Maske für ausgehende Emails. Mögliche Einstellungen: 0 = Deaktiviert, 1 = Aktiviert, 2 = Aktiviert und zwingend benötigt.',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4093,8 +4104,6 @@ sub Data {
             '',
         'Dynamic fields shown in the ticket forward screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
-        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
-            'Angezeigte DynamicFields in der Maske für ausgehende Emails. Mögliche Einstellungen: 0 = Deaktiviert, 1 = Aktiviert, 2 = Aktiviert und zwingend benötigt.',
         'Dynamic fields shown in the ticket free text screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the ticket medium format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4219,7 +4228,7 @@ sub Data {
         'Firstname Lastname (UserLogin)' => 'Vorname Nachname (BenutzerLogin)',
         'FollowUp for [%s]. %s' => 'FollowUp für [%s]. %s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
-            '',
+            'Erzwingt die Kodierung von ausgehenden E-Mails (7bit|8bit|quoted-printable|base64).',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
@@ -4341,6 +4350,10 @@ sub Data {
             '',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             '',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
+            '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
@@ -4439,7 +4452,7 @@ sub Data {
         'Makes the picture transparent.' => 'Macht das Bild transparent.',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             'Benutzt für das Session-Management HTML-Cookies. Wenn HTML-Cookies deaktiviert sind oder im Browser HTML-Cookies deaktiviert sind, arbeitet das System wie immer und fügt die Session-ID and Links an.',
-        'Manage OTRS Group services.' => 'OTRS-Gruppendienste verwalten.',
+        'Manage OTRS Group services.' => 'Dienstleistungen der OTRS Gruppe verwalten.',
         'Manage PGP keys for email encryption.' => 'PGP-Schlüssel für E-Mail-Verschlüsselung verwalten.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'POP3- oder IMAP-Konten für das Abholen von E-Mail verwalten.',
         'Manage S/MIME certificates for email encryption.' => 'S/MIME-Zertifikate für E-Mail-Verschlüsselung verwalten.',
@@ -4638,14 +4651,14 @@ sub Data {
             'Benötigte Rechte um den Kunden eines Tickets im Agenten-Interface zu ändern.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Benötigte Rechte um den "Schließen"-Dialog im Agenten-Interface aufzurufen.',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            'Benötigte Rechte, um den Dialog für ausgehende Emails im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'Benötigte Rechte um den "Umleiten"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
             'Benötigte Rechte um den "Verfassen"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
             'Benötigte Rechte um den "Weiterleiten"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
-        'Required permissions to use the email outbound screen in the agent interface.' =>
-            'Benötigte Rechte, um den Dialog für ausgehende Emails im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
             'Benötigte Rechte um den "Freitext"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
@@ -4967,6 +4980,8 @@ sub Data {
             '',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             '',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             '',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5104,6 +5119,8 @@ sub Data {
         'Specifies the border color of the chart.' => '',
         'Specifies the border color of the legend.' => '',
         'Specifies the bottom margin of the chart.' => '',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Legt die verschiedenen Artikel-Typen fest, die im System verwendet werden.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5219,6 +5236,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut.' => 'Werkzeugleisteneintrag für den Schnellzugriff.',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5254,6 +5272,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
+        'Write a new, outgoing mail' => 'Schreiben Sie eine neue, ausgehende E-Mail',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

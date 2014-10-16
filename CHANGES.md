@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-07
+ - 2014-10-16 Updated translations, thanks to all translators.
  - 2014-10-16 Fixed bug#[10631](http://bugs.otrs.org/show_bug.cgi?id=10631) - Search attribute are unordered.
  - 2014-10-16 Added new screen for outgoing emails on a ticket that are not replies.
  - 2014-10-16 Follow-up fix for bug#10644. Make sure that params get passed to any modules used. Make tests more robust.

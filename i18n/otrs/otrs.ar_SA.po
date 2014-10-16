@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-10-02 05:08+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2014-10-16 13:13+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/OTRS/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1259,6 +1259,10 @@ msgstr ""
 
 #. Template: AAABase
 msgid "This email address already exists. Please log in or reset your password."
+msgstr ""
+
+#. Template: AAABase
+msgid "This email address is not allowed to register. Please contact support staff."
 msgstr ""
 
 #. Template: AAABase
@@ -7282,6 +7286,10 @@ msgid "Here you can enter SQL to send it directly to the application database. I
 msgstr ""
 
 #. Template: AdminSelectBox
+msgid "Here you can enter SQL to send it directly to the application database."
+msgstr ""
+
+#. Template: AdminSelectBox
 msgid "Only select queries are allowed."
 msgstr ""
 
@@ -7299,6 +7307,10 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "Run Query"
+msgstr ""
+
+#. Template: AdminSelectBox
+msgid "Query is executed."
 msgstr ""
 
 #. Template: AdminService
@@ -8761,6 +8773,10 @@ msgstr ""
 msgid "Get all"
 msgstr ""
 
+#. Template: AgentTicketEmailOutbound
+msgid "E-Mail Outbound"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr ""
@@ -9315,6 +9331,10 @@ msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
+msgstr ""
+
+#. Template: CustomerNavigationBar
+msgid "You have unanswered chat requests"
 msgstr ""
 
 #. Template: CustomerNavigationBar
@@ -10474,6 +10494,10 @@ msgid "Controls if the admin is allowed to import a saved system configuration i
 msgstr ""
 
 #. SysConfig
+msgid "Controls if the admin is allowed to make changes to the database via AdminSelectBox."
+msgstr ""
+
+#. SysConfig
 msgid "Controls if the ticket and article seen flags are removed when a ticket is archived."
 msgstr ""
 
@@ -10822,6 +10846,10 @@ msgid "Defines if a ticket lock is required in the close ticket screen of the ag
 msgstr ""
 
 #. SysConfig
+msgid "Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
+msgstr ""
+
+#. SysConfig
 msgid "Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
 msgstr ""
 
@@ -11070,6 +11098,10 @@ msgid "Defines the default next state of a ticket after being forwarded, in the 
 msgstr ""
 
 #. SysConfig
+msgid "Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface."
 msgstr ""
 
@@ -11291,6 +11323,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default type of the article for this operation."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default type of the message in the email outbound screen of the agent interface."
 msgstr ""
 
 #. SysConfig
@@ -11654,6 +11690,10 @@ msgid "Defines the next possible states after forwarding a ticket in the ticket 
 msgstr ""
 
 #. SysConfig
+msgid "Defines the next possible states after sending a message in the email outbound screen of the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the next possible states for customer tickets in the customer interface."
 msgstr ""
 
@@ -11703,6 +11743,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the parameters for the dashboard backend. \"Cmd\" is used to specify command with parameters. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTL\" indicates the cache expiration period in minutes for the plugin."
 msgstr ""
 
 #. SysConfig
@@ -12099,6 +12143,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required."
 msgstr ""
 
 #. SysConfig
@@ -12719,6 +12767,14 @@ msgstr ""
 
 #. SysConfig
 msgid "If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "If active, none of the regular expressions may match the user's email address to allow registration."
+msgstr ""
+
+#. SysConfig
+msgid "If active, one of the regular expressions has to match the user's email address to allow registration."
 msgstr ""
 
 #. SysConfig
@@ -13498,6 +13554,10 @@ msgid "Required permissions to use the close ticket screen in the agent interfac
 msgstr ""
 
 #. SysConfig
+msgid "Required permissions to use the email outbound screen in the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Required permissions to use the ticket bounce screen in the agent interface."
 msgstr ""
 
@@ -14218,6 +14278,10 @@ msgid "Shows a link in the menu to see the responsible agent of a ticket in the 
 msgstr ""
 
 #. SysConfig
+msgid "Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface."
+msgstr ""
+
+#. SysConfig
 msgid "Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface."
 msgstr ""
 
@@ -14518,6 +14582,10 @@ msgid "Specifies the bottom margin of the chart."
 msgstr ""
 
 #. SysConfig
+msgid "Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected."
+msgstr ""
+
+#. SysConfig
 msgid "Specifies the different article types that will be used in the system."
 msgstr ""
 
@@ -14806,6 +14874,10 @@ msgid "Toolbar Item for a shortcut."
 msgstr ""
 
 #. SysConfig
+msgid "Turns on drag and drop for the main navigation."
+msgstr ""
+
+#. SysConfig
 msgid "Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here."
 msgstr ""
 
@@ -14903,6 +14975,10 @@ msgstr ""
 
 #. SysConfig
 msgid "When tickets are merged, the customer can be informed per email by setting the check box \"Inform Sender\". In this text area, you can define a pre-formatted text which can later be modified by the agents."
+msgstr ""
+
+#. SysConfig
+msgid "Write a new, outgoing mail"
 msgstr ""
 
 #. SysConfig

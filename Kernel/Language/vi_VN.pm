@@ -357,6 +357,8 @@ sub Data {
         'Hello %s,' => 'Xin chào %s',
         'This email address already exists. Please log in or reset your password.' =>
             'Địa chỉ email này đã tồn tại. Vui lòng đăng nhập hoặc thiết lập lại mật khẩu của bạn.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            '',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Tài khoản mới tạo ra. Gửi thông tin đăng nhập vào% s. Hãy kiểm tra email của bạn.',
         'Please press Back and try again.' => 'Xin hãy nhấn Trở lại và thử lại lần nữa.',
@@ -417,8 +419,8 @@ sub Data {
         'New Year\'s Day' => 'Ngày đầu năm mới',
         'International Workers\' Day' => 'Ngày Lao động Quốc tế',
         'Christmas Eve' => 'Đêm Giáng sinh ',
-        'First Christmas Day' => '',
-        'Second Christmas Day' => '',
+        'First Christmas Day' => 'Ngày Giáng sinh đầu tiên',
+        'Second Christmas Day' => 'Ngày thứ hai của Giáng sinh ',
         'New Year\'s Eve' => 'Đêm giao thừa',
 
         # Template: AAAGenericInterface
@@ -463,7 +465,7 @@ sub Data {
         'New password' => 'Mật khẩu mới',
         'Verify password' => 'Xác minh mật khẩu',
         'Spelling Dictionary' => 'Từ điển chính tả',
-        'Default spelling dictionary' => '',
+        'Default spelling dictionary' => 'Từ điển chính tả mặc định',
         'Max. shown Tickets a page in Overview.' => 'Số thẻ hiển thị tối đa trên một trang trong phần Tổng quan.',
         'The current password is not correct. Please try again!' => 'Mật khẩu hiện tại là không đúng. Vui lòng thử lại!',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
@@ -533,7 +535,7 @@ sub Data {
         'Close Time' => 'Thờigian đóng',
         'TicketAccumulation' => 'Tích lũy vé',
         'Attributes to be printed' => 'Các thuộc tính được in',
-        'Sort sequence' => '',
+        'Sort sequence' => 'Xếp theo thứ tự',
         'Order by' => 'Đặt hàng bởi',
         'Limit' => 'Giới hạn',
         'Ticketlist' => 'Danh sách vé',
@@ -550,7 +552,7 @@ sub Data {
         'Article Min Time' => 'Bài viết tối thiểu thời gian',
         'Article Max Time' => 'Bài viết tối đa thời gian',
         'Number of Articles' => 'Số của bài viết',
-        'Accounted time by Agent' => '',
+        'Accounted time by Agent' => 'Hạch toán thời gian của người đại lý',
         'Ticket/Article Accounted Time' => '',
         'TicketAccountedTime' => '',
         'Ticket Create Time' => '',
@@ -558,7 +560,7 @@ sub Data {
 
         # Template: AAASupportDataCollector
         'Unknown' => 'Không biết',
-        'Information' => '',
+        'Information' => 'Thông tin',
         'OK' => '',
         'Problem' => 'Vấn đề',
         'Webserver' => '',
@@ -661,7 +663,7 @@ sub Data {
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             '',
-        'Open Tickets' => '',
+        'Open Tickets' => 'Mở Vé',
         'You should not have more than 8,000 open tickets in your system.' =>
             'Bạn không cần phải có hơn 8.000 vé mở trong hệ thống của bạn.',
         'Ticket Search Index module' => '',
@@ -716,16 +718,16 @@ sub Data {
         'Signature added!' => '',
         'Signature updated!' => '',
         'SLA' => 'SLA',
-        'Service Level Agreement' => '',
-        'Service Level Agreements' => '',
+        'Service Level Agreement' => 'Thoả thuận Mức độ Dịch vụ',
+        'Service Level Agreements' => 'Những Thỏa thuận Mức độ Dịch vụ',
         'Service' => 'Dịch vụ',
-        'Services' => '',
+        'Services' => 'Những dịch vụ',
         'State' => 'Trạng thái',
         'States' => '',
         'Status' => 'Trạng thái',
         'Statuses' => '',
-        'Ticket Type' => '',
-        'Ticket Types' => '',
+        'Ticket Type' => 'Loại vé',
+        'Ticket Types' => 'Các loại vé',
         'Compose' => 'Tạo',
         'Pending' => 'Đang treo',
         'Owner' => 'Phụ trách',
@@ -754,33 +756,33 @@ sub Data {
         'merged' => 'đã trộn',
         'closed successful' => 'đóng thành công',
         'closed unsuccessful' => 'đóng không thành công',
-        'Locked Tickets Total' => '',
-        'Locked Tickets Reminder Reached' => '',
-        'Locked Tickets New' => '',
-        'Responsible Tickets Total' => '',
-        'Responsible Tickets New' => '',
-        'Responsible Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
-        'Watched Tickets New' => '',
-        'Watched Tickets Reminder Reached' => '',
+        'Locked Tickets Total' => 'Tổng số Vé Khóa ',
+        'Locked Tickets Reminder Reached' => 'Vé bị khóa Đã đạt Nhắc nhở',
+        'Locked Tickets New' => 'Các Vé khóa mới',
+        'Responsible Tickets Total' => 'Trách nhiệm Tổng số vé',
+        'Responsible Tickets New' => 'Trách nhiệm vé mới',
+        'Responsible Tickets Reminder Reached' => 'Vé có trách nhiệm Đã đạt Nhắc nhở',
+        'Watched Tickets Total' => 'Tổng số Vé đã xem ',
+        'Watched Tickets New' => 'Vé mới đã xem ',
+        'Watched Tickets Reminder Reached' => 'Vé đã xem Đã đạt Nhắc nhở',
         'All tickets' => 'Tất cả các thẻ',
-        'Available tickets' => '',
+        'Available tickets' => 'Vé có sẵn',
         'Escalation' => 'Sự trèo',
-        'last-search' => '',
+        'last-search' => 'tìm kiếm cuối cùng',
         'QueueView' => 'Xem hàng đợi',
-        'Ticket Escalation View' => '',
+        'Ticket Escalation View' => 'Xem vé leo thang',
         'Message from' => 'Thông điệp từ',
         'End message' => 'Thông báo kết thúc',
         'Forwarded message from' => 'Tin nhắn chuyển tiếp từ',
         'End forwarded message' => 'Kết thúc tin nhắn chuyển tiếp',
-        'Bounce Article to a different mail address' => '',
+        'Bounce Article to a different mail address' => 'Bài viết bị trả đến một địa chỉ mail khác nhau',
         'new' => 'mới',
         'open' => 'mở',
-        'Open' => '',
-        'Open tickets' => '',
+        'Open' => 'Mở',
+        'Open tickets' => 'Mở các vé',
         'closed' => 'đóng',
-        'Closed' => '',
-        'Closed tickets' => '',
+        'Closed' => 'Đóng',
+        'Closed tickets' => 'Các vé đã đóng',
         'removed' => 'gỡ bỏ',
         'pending reminder' => 'đang treo nhắc nhở',
         'pending auto' => 'đang treo tự động',
@@ -806,11 +808,11 @@ sub Data {
         '3 normal' => '3 bình thường',
         '4 high' => '4 cao',
         '5 very high' => '5 rất cao',
-        'auto follow up' => '',
-        'auto reject' => '',
-        'auto remove' => '',
-        'auto reply' => '',
-        'auto reply/new ticket' => '',
+        'auto follow up' => 'tự động theo dõi',
+        'auto reject' => 'tự động từ chối',
+        'auto remove' => 'tự động loại bỏ',
+        'auto reply' => 'tự động trả lời',
+        'auto reply/new ticket' => 'tự động trả lời / vé mới',
         'Create' => 'Tạo',
         'Answer' => 'Trả lời',
         'Phone call' => 'Cuộc gọi',
@@ -818,50 +820,50 @@ sub Data {
         'Ticket Number' => 'Số thẻ',
         'Ticket Object' => 'Đối tượng thẻ',
         'No such Ticket Number "%s"! Can\'t link it!' => 'Không có thẻ nào có số "%s" như vậy! Không thể liên kết tới đó!',
-        'You don\'t have write access to this ticket.' => '',
+        'You don\'t have write access to this ticket.' => 'Bạn không có quyền ghi vào vé này .',
         'Sorry, you need to be the ticket owner to perform this action.' =>
-            '',
-        'Please change the owner first.' => '',
-        'Ticket selected.' => '',
-        'Ticket is locked by another agent.' => '',
-        'Ticket locked.' => '',
+            'Xin lỗi, bạn cần phải là chủ sở hữu vé để thực hiện hành động này .',
+        'Please change the owner first.' => 'Hãy thay đổi chủ sở hữu đầu tiên.',
+        'Ticket selected.' => 'Vé đã chọn.',
+        'Ticket is locked by another agent.' => 'Vé nầy đã bị khóa bởi đại lý khác.',
+        'Ticket locked.' => 'Vé đã khóa.',
         'Don\'t show closed Tickets' => 'Không hiển thị các thẻ đã đóng',
         'Show closed Tickets' => 'Hiển thị các thẻ đã đóng',
         'New Article' => 'Bài viết mới',
-        'Unread article(s) available' => '',
-        'Remove from list of watched tickets' => '',
-        'Add to list of watched tickets' => '',
+        'Unread article(s) available' => 'Chưa đọc bài có sẵn',
+        'Remove from list of watched tickets' => 'Xóa khỏi danh sách theo dõi vé',
+        'Add to list of watched tickets' => 'Thêm vào danh sách theo dõi vé',
         'Email-Ticket' => 'Thẻ e-mail',
         'Create new Email Ticket' => 'Tạo thẻ e-mail mới',
         'Phone-Ticket' => 'Thẻ Cuộc gọi',
         'Search Tickets' => 'Tìm kiếm thẻ',
         'Edit Customer Users' => 'Sửa người dùng khách hàng',
-        'Edit Customer' => '',
+        'Edit Customer' => 'Chỉnh sửa các khách hàng',
         'Bulk Action' => 'Lệnh lô',
         'Bulk Actions on Tickets' => 'Lệnh lô trên các thẻ',
         'Send Email and create a new Ticket' => 'Gửi e-mail và tạo 1 thẻ mới',
         'Create new Email Ticket and send this out (Outbound)' => 'Tạo 1 thẻ e-mail mới và gửi ra ngoài',
         'Create new Phone Ticket (Inbound)' => 'Tạo thẻ cuộc gọi mới (vào trong)',
-        'Address %s replaced with registered customer address.' => '',
-        'Customer user automatically added in Cc.' => '',
+        'Address %s replaced with registered customer address.' => 'Địa chỉ %s thay thế với khách hàng đã đăng ký địa chỉ.',
+        'Customer user automatically added in Cc.' => 'Người sử dụng khách hàng sẽ tự động được thêm vào trong Cc.',
         'Overview of all open Tickets' => 'Tổng quan tất cả các thẻ mở',
         'Locked Tickets' => 'Các thẻ đã khóa',
-        'My Locked Tickets' => '',
-        'My Watched Tickets' => '',
-        'My Responsible Tickets' => '',
+        'My Locked Tickets' => 'Vé của tôi bị khóa',
+        'My Watched Tickets' => 'Vé theo dõi của tôi',
+        'My Responsible Tickets' => 'Vé trách nhiệm của tôi',
         'Watched Tickets' => 'Các thẻ đã xem',
         'Watched' => 'Đã xem',
-        'Watch' => '',
-        'Unwatch' => '',
-        'Lock it to work on it' => '',
-        'Unlock to give it back to the queue' => '',
-        'Show the ticket history' => '',
-        'Print this ticket' => '',
+        'Watch' => 'Xem',
+        'Unwatch' => 'Không xem',
+        'Lock it to work on it' => 'Khóa nó để làm việc trên nó',
+        'Unlock to give it back to the queue' => 'Mở khóa để cho nó trở lại hàng đợi',
+        'Show the ticket history' => 'Cho thấy lịch sử vé',
+        'Print this ticket' => 'In vé này',
         'Print this article' => 'In bài viết này',
         'Split' => 'Sự chia rẻ',
         'Split this article' => 'Chia bài viết này',
         'Forward article via mail' => 'Chuyển tiếp bài viết qua email',
-        'Change the ticket priority' => '',
+        'Change the ticket priority' => 'Thay đổi vé ưu tiên ',
         'Change the ticket free fields!' => 'Thay đổi các trường tự do của thẻ',
         'Link this ticket to other objects' => 'Liên kết vé này đến các đối tượng khác',
         'Change the owner for this ticket' => 'Thay đổi chủ sở hữu vé này',
@@ -885,7 +887,7 @@ sub Data {
         'Ticket %s: solution time is over (%s)!' => 'Vé% s: thời gian giải pháp đã qua (% s)!',
         'Ticket %s: solution time will be over in %s!' => 'Vé% s: thời gian giải pháp sẽ được qua trong% s!',
         'There are more escalated tickets!' => 'Có vé đã leo thang hơn nữa!',
-        'Plain Format' => '',
+        'Plain Format' => 'Định dạng Plain',
         'Reply All' => 'Trả lời Tất cả',
         'Direction' => 'Phương hướng',
         'Agent (All with write permissions)' => 'Đại lý (Tất cả ghi với quyền truy)',
@@ -912,23 +914,23 @@ sub Data {
         'Custom Queue' => 'Tuỳ chỉnh xếp hàng',
         'QueueView refresh time' => 'Thời gian làm mới Hàng đợi',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            '',
+            'Nếu được kích hoạt, QueueView sẽ tự động làm mới sau thời gian quy định.',
         'Refresh QueueView after' => '',
         'Screen after new ticket' => 'Màn hình sau khi tạo thẻ mới',
-        'Show this screen after I created a new ticket' => '',
+        'Show this screen after I created a new ticket' => 'Hiển thị màn hình này sau khi tôi tạo ra một thẻ mới',
         'Closed Tickets' => 'Các thẻ đã đóng',
         'Show closed tickets.' => 'Hiển thị các thẻ đã đóng.',
         'Max. shown Tickets a page in QueueView.' => 'Các thẻ hiển thị tối đa trên mỗi trang trong Hàng đợi.',
-        'Ticket Overview "Small" Limit' => '',
+        'Ticket Overview "Small" Limit' => 'Tổng quan về vé  "nhỏ" giới hạn',
         'Ticket limit per page for Ticket Overview "Small"' => '',
         'Ticket Overview "Medium" Limit' => '',
         'Ticket limit per page for Ticket Overview "Medium"' => '',
         'Ticket Overview "Preview" Limit' => '',
         'Ticket limit per page for Ticket Overview "Preview"' => '',
-        'Ticket watch notification' => '',
+        'Ticket watch notification' => 'Vé xem thông báo',
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
-            '',
-        'Send ticket watch notifications' => '',
+            'Gửi cho tôi thông báo tương tự cho tôi xem vé mà các chủ sở hữu sẽ nhận được vé.',
+        'Send ticket watch notifications' => 'Gửi thông báo xem vé',
         'Out Of Office Time' => 'Hết Thời gian Văn phòng',
         'New Ticket' => 'Thẻ mới',
         'Create new Ticket' => 'Tạo thẻ mới',
@@ -969,13 +971,13 @@ sub Data {
         'Create New ACL' => '',
         'Deploy ACLs' => '',
         'Export ACLs' => '',
-        'Configuration import' => '',
+        'Configuration import' => 'Nhập khẩu cấu hình',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
-        'This field is required.' => '',
-        'Overwrite existing ACLs?' => '',
-        'Upload ACL configuration' => '',
-        'Import ACL configuration(s)' => '',
+        'This field is required.' => 'Lĩnh vực này là cần thiết.',
+        'Overwrite existing ACLs?' => 'Ghi đè lên ACL hiện tại?',
+        'Upload ACL configuration' => 'Cấu hình tải lên ACL',
+        'Import ACL configuration(s)' => 'Nhập khẩu cấu hình ACL (s)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
@@ -2214,6 +2216,8 @@ sub Data {
         'SQL Box' => '',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            '',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             '',
@@ -2221,6 +2225,7 @@ sub Data {
             '',
         'Result format' => '',
         'Run Query' => '',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Quản trị dịch vụ',
@@ -2732,6 +2737,9 @@ sub Data {
         'Remove Ticket Customer User' => '',
         'Get all' => '',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -2918,6 +2926,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
+        'You have unanswered chat requests' => '',
         'Edit personal preferences' => '',
 
         # Template: CustomerTicketMessage
@@ -3356,6 +3365,8 @@ sub Data {
             '',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => '',
@@ -3480,6 +3491,8 @@ sub Data {
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             '',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3590,6 +3603,8 @@ sub Data {
             '',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             '',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3698,6 +3713,8 @@ sub Data {
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
         'Defines the default type of the article for this operation.' => '',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             '',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3870,6 +3887,8 @@ sub Data {
             '',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             '',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             '',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3895,6 +3914,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => '',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4067,6 +4088,8 @@ sub Data {
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -4325,6 +4348,10 @@ sub Data {
         'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
             '',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             '',
@@ -4622,6 +4649,8 @@ sub Data {
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             '',
         'Required permissions to use the close ticket screen in the agent interface.' =>
+            '',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
             '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             '',
@@ -4950,6 +4979,8 @@ sub Data {
             '',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             '',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             '',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5087,6 +5118,8 @@ sub Data {
         'Specifies the border color of the chart.' => '',
         'Specifies the border color of the legend.' => '',
         'Specifies the bottom margin of the chart.' => '',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             '',
         'Specifies the different note types that will be used in the system.' =>
@@ -5202,6 +5235,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5237,6 +5271,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
+        'Write a new, outgoing mail' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Lựa chọn hàng đợi trong số các hàng đợi ưa thích của bạn. Bạn cũng sẽ nhận được thông báo về chúng thông qua email nếu chức năng được kích hoạt',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

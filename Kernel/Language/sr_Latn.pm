@@ -358,6 +358,8 @@ sub Data {
         'Hello %s,' => 'Zdravo %s,',
         'This email address already exists. Please log in or reset your password.' =>
             'Ova e-mail adresa već postoji. Molimo, prijavite se ili resetujte vašu lozinku.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            '',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Kreiran novi nalog. Podaci za prijavu poslati %s. Molimo proverite vaš e-mail.',
         'Please press Back and try again.' => 'Molimo pritisnite Nazad i pokušajte ponovo.',
@@ -2215,6 +2217,8 @@ sub Data {
         'SQL Box' => 'SQL Box',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            'Ovde možete uneti SQL komande i poslati ih direktno aplikacionoj bazi podataka.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Postoji greška u sintaksi vašeg SQL upita. Molimo proverite.',
@@ -2222,6 +2226,7 @@ sub Data {
             'Najmanje jedan parametar nedostaje za povezivanje. Molimo proverite.',
         'Result format' => 'Format rezultata',
         'Run Query' => 'Pokreni upit',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Upravljanje servisima',
@@ -2733,6 +2738,9 @@ sub Data {
         'Remove Ticket Customer User' => 'Ukloni tiket korisnik',
         'Get all' => 'Uzmi sve',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Prosledi tiket: %s - %s',
 
@@ -2919,6 +2927,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
+        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Uredi lične postavke',
 
         # Template: CustomerTicketMessage
@@ -3357,6 +3366,8 @@ sub Data {
             'Kontroliše da li više od jednog ulaza može biti podešeno u novom telefonskom tiketu u interfejsu operatera.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontroliše da li su zastavicom obeleženi tiket i članak uklonjeni kada je tiket arhiviran.',
         'Converts HTML mails into text messages.' => 'Konvertuje HTML poruke u tekstualne poruke.',
@@ -3481,6 +3492,8 @@ sub Data {
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Određuje ako je potrebno zaključati tiket u zatvorenom prikazu ekrana tiketa u interfejsu operatera (ako tiket još uvek nije zaključan, tiket će dobiti status zaključan i trenutni operater će biti automatski postavljen kao vlasnik).',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Određuje ako je potrebno zaključati tiket na prikazu ekrana za povraćaj tiketa u interfejsu operatera (ako tiket još uvek nije zaključan, tiket će dobiti status zaključan i trenutni operater će biti automatski postavljen kao vlasnik).',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3591,6 +3604,8 @@ sub Data {
             'Definiše podrazumevani sledeći status tiketa posle dodavanja napomene u prikazu ekrana za povraćaj tiketa u interfejsu operatera.',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'Definiše podrazumevani sledeći status tiketa posle dodavanja napomene u prikazu ekrana za prosleđivanje tiketa u interfejsu operatera.',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'Definiše podrazumevani sledeći status tiketa ukoliko je sastavljeno / odgovoreno u prikazu ekrana za otvaranje tiketa u interfejsu operatera.',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3699,6 +3714,8 @@ sub Data {
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             'Određuje podrazumevani tip prosleđene poruke na prikaz ekrana prosleđenih tiketa interfejsa operatera.',
         'Defines the default type of the article for this operation.' => 'Određuje podrazumevani tip članka za ovu operaciju.',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'Određuje podrazumevani tip napomene na prikazu ekrana zatvorenog tiketa interfejsa operatera.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3871,6 +3888,8 @@ sub Data {
             'Definiše sledeće moguće statuse nakon otvaranja / odgovaranja tiketa u prikazu ekrana za otvaranje tiketa interfejsa operatera.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             'Definiše sledeće moguće statuse nakon prosleđivanja tiketa u prikazu ekrana za prosleđivanje tiketa interfejsa operatera.',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             'Definiše sledeće moguće statuse za tikete korisnika u interfejsu korisnika.',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3896,6 +3915,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => 'Definiše parametre za tabelu podešavanja korisnika.',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             'Definiše parametre za pozadinski prikaz kontrolne table. "Grupa" se koristi da ograniči pristup plugin-u (npr. Grupa: admin;group1;group2;). "Podrazumevano" ukazuje na to da je plugin podrazumevano aktiviran ili da je potrebno da ga korisnik manuelno aktivira. "CacheTTL" ukazje na istek perioda u minutama tokom kog se plugin čuva u kešu.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4069,6 +4090,8 @@ sub Data {
             'Opcije dinamičkih polja prikazane na ekranu poruke tiketa interfejsa kupca. Moguća podešavanja: 0 = Onemogućeno, 1 = Omogućeno, 2 = Omogućeno i zahtevano. NAPOMENA: Ako želite da prikažete ova polja takođe i pri uvećanom prikazu tiketa interfejsa korisnika, treba da ih omogućite u CustomerTicketZoom###DynamicField.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'Opcije dinamičkih polja prikazane u odeljku odgovora tiketa pri uvećanom prikazu ekrana tiketa interfejsa kupca. Moguća podešavanja: 0 = Onemogućeno, 1 = Omogućeno, 2 = Omogućeno i zahtevano.',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Dinamička polja prikazana u procesu aplikativnog dodatka (widget-a) pri uvećanom prikazu ekrana tiketa interfejsa operatera. Moguća podešavanja: 0 = Onemogućeno, 1 = Omogućeno.',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4326,6 +4349,10 @@ sub Data {
         'If a note is added by an agent, sets the state of the ticket in the ticket pending screen of a zoomed ticket in the agent interface.' =>
             '',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
+            '',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
             '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             '',
@@ -4624,6 +4651,8 @@ sub Data {
             'Potrebne dozvole za promenu korisnika tiketa u interfejsu operatera.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Potrebne dozvole za upotrebu prikaza ekrana za zatvaranje tiketa u interfejsu operatera.',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'Potrebne dozvole za upotrebu prikaza ekranaza odbijanje tiketa u interfejsu operatera.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
@@ -4951,6 +4980,8 @@ sub Data {
             '',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             '',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             '',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5088,6 +5119,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'Određuje boju okvira grafikona.',
         'Specifies the border color of the legend.' => 'Određuje boju okvira legende.',
         'Specifies the bottom margin of the chart.' => 'Određuje donju marginu grafikona.',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Određuje različite tipove artikala koji će se koristiti u sistemu.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5203,6 +5236,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5238,6 +5272,7 @@ sub Data {
             'Kada su tiketi spojeni, napomena će biti automatski dodata tiketu koji nije više aktivan. Ovde možete definisati predmet ove napomene (ovaj predmet se ne može promeniti od strane operatera).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Kada su tiketi spojeni, korisnik može biti informisan emailom postavljanjem polje za potvrdu "Obavesti pošiljaoca". U prostoru za tekst, možete definisati unapred formatirani tekst koji kasnije biti modifikovan od strane operatera.',
+        'Write a new, outgoing mail' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Izabrani omiljeni redovi. Ako je aktivirano, dobiđete i obaveštenje o ovim redovima.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

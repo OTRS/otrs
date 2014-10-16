@@ -360,6 +360,8 @@ sub Data {
         'Hello %s,' => 'नमस्कार %s,',
         'This email address already exists. Please log in or reset your password.' =>
             'यह ईमेल पता पहले से मौजूद है। प्रवेश करें या अपने कूटशब्द को पुनर्स्थापित करें।',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            '',
         'New account created. Sent login information to %s. Please check your email.' =>
             'नया खाता बन गया। प्रवेश करने की जानकारी %s को भेजी। कृपया अपना ईमेल देखें।',
         'Please press Back and try again.' => 'कृपया वापस जाएँ और फिर प्रयास करें।',
@@ -2217,6 +2219,8 @@ sub Data {
         'SQL Box' => 'SQL संदूक',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            '',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'आपकी SQL क्वेरी के वाक्यविन्यास मॆ गलती हैं। उसकी जाँच करें।',
@@ -2224,6 +2228,7 @@ sub Data {
             'इसमें बंधन के लिए कम से कम गायब एक मापदण्ड है। उसकी जाँच करें।',
         'Result format' => 'परिणाम का स्वरूप',
         'Run Query' => 'क्वेरी चलाएँ',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'सेवा प्रबंधन',
@@ -2735,6 +2740,9 @@ sub Data {
         'Remove Ticket Customer User' => '',
         'Get all' => 'सभी प्राप्त करें',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -2921,6 +2929,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
+        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'व्यक्तिगत वरीयताएँ संपादित करें',
 
         # Template: CustomerTicketMessage
@@ -3359,6 +3368,8 @@ sub Data {
             '',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => 'HTML मेल को पाठ संदेशों में बदलता है। ',
@@ -3483,6 +3494,8 @@ sub Data {
             '',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'यदि प्रतिनिधि अंतरफलक के पास टिकट बंद स्क्रीन में  एक टिकट लॉक की आवश्यकता है तो परिभाषित करता है(यदि अभी तक टिकट बंद नहीं है,टिकट बंद हो जाए है और वर्तमान प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'यदि प्रतिनिधि अंतरफलक के पास टिकट फलांग स्क्रीन में  एक टिकट लॉक की आवश्यकता है तो परिभाषित करता है(यदि अभी तक टिकट बंद नहीं है,टिकट बंद हो जाए है और वर्तमान प्रतिनिधि उसके मालिक के रूप में अपने आप स्थापित हो जाएगा)।',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3593,6 +3606,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट की फलांग स्क्रीन में,वापस होने के बाद टिकट की अगली तयशुदा स्थिति को परिभाषित करता है।',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट की अग्रिम स्क्रीन में,अग्रेषित होने के बाद टिकट की अगली तयशुदा स्थिति को परिभाषित करता है।',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'एक टिकट की तयशुदा अगली स्थिति को परिभाषित करता है। यदि यह रचित है/जवाब टिकट की प्रतिनिधि अंतरफलक रचना की स्क्रीन में।',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3701,6 +3716,8 @@ sub Data {
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट अग्रेषित स्क्रीन में तयशुदा अग्रेषित संदेश के प्रकार को परिभाषित करता है।',
         'Defines the default type of the article for this operation.' => '',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट बंद स्क्रीन में तयशुदा टिप्पणी के प्रकार को परिभाषित करता है।',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3873,6 +3890,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट रचना स्क्रीन में रचना/जवाब टिकट  के बाद अगली संभव स्थिति को परिभाषित करता है।',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट अग्रेषित स्क्रीन में अग्रेषण टिकट के बाद  के बाद अगली संभव स्थिति को परिभाषित करता है।',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             'ग्राहक अंतरफलक में ग्राहक टिकटों के लिए अगली संभव स्थिति को परिभाषित करता है।',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3898,6 +3917,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => 'ग्राहक वरीयता तालिका के लिए मापदंडों को परिभाषित करता है।',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             'पटल के लिए मापदंडों के बैकेंड को परिभाषित करता है। प्लगइन के उपयोग को सीमित करने के लिए "समूह" का प्रयोग किया जाता है(उदाहरण के लिए समूह: व्यवस्थापक, group1; समूह 2;)। "तयशुदा" इंगित करता है कि यदि प्लगइन तयशुदा रूप से सक्रिय है या उपयोगकर्ता के लिए उसे मैन्युअल रूप से सक्षम की जरूरत है। "CacheTTL" प्लगइन के लिए द्रुतिका समाप्ति अवधि(मिनट में) के संकेत करता है।',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4070,6 +4091,8 @@ sub Data {
         'Dynamic fields options shown in the ticket message screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required. NOTE. If you want to display these fields also in the ticket zoom of the customer interface, you have to enable them in CustomerTicketZoom###DynamicField.' =>
             '',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             '',
@@ -4329,6 +4352,10 @@ sub Data {
             'यदि एक टिप्पणी प्रतिनिधि के द्वारा जोड़ा जाता है,प्रतिनिधि अंतरफलक के एक जूम टिकट का टिकट विचाराधीन स्क्रीन में एक टिकट की स्थिति निर्धारित करे।',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             'यदि एक टिप्पणी प्रतिनिधि के द्वारा जोड़ा जाता है,प्रतिनिधि अंतरफलक के एक जूम टिकट का टिकट प्राथमिकता स्क्रीन में एक टिकट की स्थिति निर्धारित करे।',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
+            '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             'यदि "एसएमटीपी" तंत्र को किसी भी SendmailModule के रूप में चुना गया,और मेल सर्वर के लिए प्रमाणीकरण की जरूरत है,एक कूटशब्द जरूर निर्दिष्ट करे।',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
@@ -4626,6 +4653,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक में एक टिकट के ग्राहकों को बदलने के लिए आवश्यक अनुमतियां।',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में बंद टिकट स्क्रीन का उपयोग करने के लिए आवश्यक अनुमतियां।',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में टिकट फलांग स्क्रीन का उपयोग करने के लिए आवश्यक अनुमतियां।',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
@@ -4953,6 +4982,8 @@ sub Data {
             'प्रतिनिधि अंतरफलक के टिकट ज़ूम दृश्य में टिकट की प्राथमिकता को देखने के लिए विकल्प सूची में एक कड़ी दिखाता है।',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट ज़ूम दृश्य में टिकट के उत्तरदायी प्रतिनिधि को देखने के लिए विकल्प सूची में एक कड़ी दिखाता है।',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             'प्रतिनिधि अंतरफलक के टिकट ज़ूम दृश्य में टिकट को विचाराधीन निर्धारित करने के लिए विकल्प सूची में एक कड़ी दिखाता है। ',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5090,6 +5121,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'संचित्र की सरहद का रंग निर्दिष्ट करता है।',
         'Specifies the border color of the legend.' => 'किंवदंती की सरहद का रंग निर्दिष्ट करता है।',
         'Specifies the bottom margin of the chart.' => 'संचित्र के नीचे की हाशिये को निर्दिष्ट करता है।',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'विभिन्न अनुच्छेद प्रकार जो प्रणाली में इस्तेमाल किया जाएगा निर्दिष्ट करता है।',
         'Specifies the different note types that will be used in the system.' =>
@@ -5205,6 +5238,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'टूलबार वस्तु किसी शॉर्टकट के लिए।',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'GUI में इस्तेमाल एनिमेशन प्रारंभ करते हैं। यदि आपको इन एनिमेशन के साथ समस्या है(उदाहरण के लिए प्रदर्शन के मुद्दों),यहां आप उन्हें बंद कर सकते हैं।',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5240,6 +5274,7 @@ sub Data {
             '',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'जब टिकटों को विलय कर रहे हैं, चेक बॉक्स "सूचित प्रेषक" निर्धारित करने के बाद ग्राहक को ईमेल द्वारा सूचित किया जा सकता है। इस पाठ क्षेत्र में,आप एक पूर्व स्वरूपित पाठ परिभाषित कर सकते हैं जो बाद में प्रतिनिधियों द्वारा संशोधित किया जा सकता है। ',
+        'Write a new, outgoing mail' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'अपनी श्रेणी का चयन करें पसंदीदा श्रेणीयो से। आपको उन श्रेणीयो के बारे में ईमेल द्वारा अधिसूचित किया जाएगा। सक्रिय होने पर।',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

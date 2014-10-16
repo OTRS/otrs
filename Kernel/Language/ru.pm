@@ -369,6 +369,8 @@ sub Data {
         'Hello %s,' => 'Здравствуйте, %s.',
         'This email address already exists. Please log in or reset your password.' =>
             'Такой адрес электронной почты уже существует. Пожалуйста, войдите, или сбросьте свой пароль.',
+        'This email address is not allowed to register. Please contact support staff.' =>
+            '',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Новая учетная запись создана. Информация о логине отправлена на %s. Проверьте свою почту.',
         'Please press Back and try again.' => 'Нажмите «Назад» и попробуйте еще раз',
@@ -2227,6 +2229,8 @@ sub Data {
         'SQL Box' => 'Запрос SQL',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             'Здесь вы можете ввести SQL-запрос и напрямую отправить его в базу данных приложения. Невозможно изменение данных в таблицах, только выборка.',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            '',
         'Only select queries are allowed.' => 'Разрешены только запросы на выборку данных.',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Ошибка синтаксиса в вашем SQL-запросе, пожалуйста, проверьте его еще раз. ',
@@ -2234,6 +2238,7 @@ sub Data {
             'Отсутствует как минимум один параметр привязки. Пожалуйста, проверьте его.',
         'Result format' => 'Формат вывода',
         'Run Query' => 'Выполнить запрос',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Управление сервисами',
@@ -2745,6 +2750,9 @@ sub Data {
         'Remove Ticket Customer User' => 'Удалить клиента заявки',
         'Get all' => 'Получить всех',
 
+        # Template: AgentTicketEmailOutbound
+        'E-Mail Outbound' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Переслать заявку: %s - %s',
 
@@ -2931,6 +2939,7 @@ sub Data {
 
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => 'Входящие запросы на Чат',
+        'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Редактировать персональные настройки',
 
         # Template: CustomerTicketMessage
@@ -3369,6 +3378,8 @@ sub Data {
             'Задает возможность указать более одного клиента для новой телефонной заявки в интерфейсе агента.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Управляет удалением флагов просмотра заявок и сообщений при архивирвании заявки.',
         'Converts HTML mails into text messages.' => 'Преобразовать письмо из HTML в текст',
@@ -3493,6 +3504,8 @@ sub Data {
             'Устанавливает, должна ли быть выполнена предварительная сортировка по приоритету в обзоре заявок по сервисам.',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Требуется ли блокировка заявки при закрытии заявки в интерфейсе агента (если заявка еще не заблокирована, она блокируется и текущий агент становится ее Владельцем)',
+        'Defines if a ticket lock is required in the email outbound screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
+            '',
         'Defines if a ticket lock is required in the ticket bounce screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
             'Требуется ли блокировка заявки при пересылке заявки в интерфейсе агента (если заявка еще не заблокирована, она блокируется и текущий агент становится ее Владельцем)',
         'Defines if a ticket lock is required in the ticket compose screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3603,6 +3616,8 @@ sub Data {
             'Задает следующее состояние по умолчанию для заявки после отправки (bounce) на экране Отправить заявки в интерфейсе агента.',
         'Defines the default next state of a ticket after being forwarded, in the ticket forward screen of the agent interface.' =>
             'Задает следующее состояние по умолчанию для заявки после перенаправлении (forward) заявки на экране Переслать в интерфейсе агента.',
+        'Defines the default next state of a ticket after the message has been sent, in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default next state of a ticket if it is composed / answered in the ticket compose screen of the agent interface.' =>
             'Задает следующее состояние по умолчанию для заявки при создании ответа/сообщения в интерфейсе агента.',
         'Defines the default note body text for phone tickets in the ticket phone inbound screen of the agent interface.' =>
@@ -3711,6 +3726,8 @@ sub Data {
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             'Задает умалчиваемый тип сообщения при пересылке на экране Переслать в интерфейсе агента.',
         'Defines the default type of the article for this operation.' => 'Задает умалчиваемый тип сообщения для этой операции.',
+        'Defines the default type of the message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
             'Задает умалчиваемый тип сообщения на экране закрытия в интерфейсе агента.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
@@ -3883,6 +3900,8 @@ sub Data {
             'Задает список следующих доступных состояний после ответа на заявку на экране создания ответа в интерфейсе агента.',
         'Defines the next possible states after forwarding a ticket in the ticket forward screen of the agent interface.' =>
             'Задает список следующих доступных состояний после пресылки заявки на экране Переслать в интерфейсе агента.',
+        'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
+            '',
         'Defines the next possible states for customer tickets in the customer interface.' =>
             'Задает список следующих доступных состояний для заявок клиента в интерфейсе клиента.',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
@@ -3908,6 +3927,8 @@ sub Data {
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
         'Defines the parameters for the customer preferences table.' => 'Задает параметры личных настроек для клиента',
+        'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
+            '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             'Задает параметры для Дайджеста. "Group" используется для ограничения доступа к нему (т.е. Group: admin;group1;group2;). "Default" означает, что он досупен по умолчанию или агент может его включить сам. "CacheTTL"  задает период обновления кэша в минутах.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin.' =>
@@ -4081,6 +4102,8 @@ sub Data {
             'Параметры отображения динамических полей при создании заявки в интерфейсе клиента. Возможные значения: 0 = не показывать, 1 - показывать, 2 - показывать и должно быть заполнено. Внимание. Если вы желаете отобразить эти поля на экране просмотра заявки в клиентском интерфейсе, необходимо активировать их в параметре CustomerTicketZoom###DynamicField.',
         'Dynamic fields options shown in the ticket reply section in the ticket zoom screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
             'Параметры отображения динамических полей при создании ответа на сообщение на экране просмотра заявки в интерфейсе клиента. Возможные значения: 0 = не показывать, 1 - показывать, 2 - показывать и должно быть заполнено.',
+        'Dynamic fields shown in the email outbound screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.' =>
+            '',
         'Dynamic fields shown in the process widget in ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Параметры показа динамических полей в процессном виджете на экране просмотра заявки в интерфейсе агента. Возможные значения: 0 = не показывать, 1 - показывать.',
         'Dynamic fields shown in the sidebar of the ticket zoom screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
@@ -4339,6 +4362,10 @@ sub Data {
             'Если сообщение/заметка добавлена агентом, задает состояние заявки на экране перевода в ожидание в интерфейсе агента.',
         'If a note is added by an agent, sets the state of the ticket in the ticket priority screen of a zoomed ticket in the agent interface.' =>
             'Если сообщение/заметка добавлена агентом, задает состояние заявки на смены приоритета в интерфейсе агента.',
+        'If active, none of the regular expressions may match the user\'s email address to allow registration.' =>
+            '',
+        'If active, one of the regular expressions has to match the user\'s email address to allow registration.' =>
+            '',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, a password must be specified.' =>
             'Если любой из "SMTP" механизмов был выбран для SendmailModule, и аутентификация на почтовом серевере необходима, пароль должен быть задан.',
         'If any of the "SMTP" mechanisms was selected as SendmailModule, and authentication to the mail server is needed, an username must be specified.' =>
@@ -4636,6 +4663,8 @@ sub Data {
             'Права, требуемые для изменения клиента заявки в интерфейсе агента.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
             'Права, требуемые для закрытия заявки в интерфейсе агента.',
+        'Required permissions to use the email outbound screen in the agent interface.' =>
+            '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
             'Права, требуемые для перенаправлении заявки в интерфейсе агента.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
@@ -4963,6 +4992,8 @@ sub Data {
             'Показывает пункт меню Приоритет при просмотре заявки в интерфейсе агента.',
         'Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.' =>
             'Показывает пункт меню Ответственный при просмотре заявки в интерфейсе агента.',
+        'Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.' =>
+            '',
         'Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.' =>
             'Показывает пункт меню Отложить при просмотре заявки в интерфейсе агента.',
         'Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -5100,6 +5131,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'Задает цвет рамки для графика.',
         'Specifies the border color of the legend.' => 'Задает цвет рамки для легенды.',
         'Specifies the bottom margin of the chart.' => 'Задает нижнюю границу для графика.',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Задает различные типы сообщений для использования в системе.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5215,6 +5248,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Переключает отображение списка OTRS FeatureAddons в Управлении пакетами.',
         'Toolbar Item for a shortcut.' => 'Описание ярлыка(иконки) для навигационной панели.',
+        'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'Включает анимацию в интерфейсе. Если у вас будут проблемы с ней (проблемы производительности), вы можете выключить ее здесь.',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5250,6 +5284,7 @@ sub Data {
             'Когда выполняется слияние заявок, заметка автоматически добавляется к заявке, которая более неактивна. Здесь можно задать Тему сообщения/заметки (она не может быть изменена агентом).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'При слиянии/объединении заявок, клиент может быть информирован об этом почтовым сообщением, активацией параметра "Inform Sender". Здесь вы можете задать текст, который  потом может быть изменен агентом.',
+        'Write a new, outgoing mail' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
