@@ -241,6 +241,15 @@ sub JobRun {
                 $DynamicFieldSearchTemplate{$Key} = $DBJobRaw{$Key};
             }
         }
+
+        # Pass module parameters directly to the module in %Param,
+        #   but don't overwrite existing keys
+        for my $Counter ( 1 .. 6 ) {
+            if ( $Job{New}->{"ParamKey$Counter"} ) {
+                $Job{New}->{ $Job{New}->{"ParamKey$Counter"} } //= $Job{New}->{"ParamValue$Counter"}
+            }
+        }
+
         if ( exists $Job{SearchInArchive} && $Job{SearchInArchive} eq 'ArchivedTickets' ) {
             $Job{ArchiveFlags} = ['y'];
         }

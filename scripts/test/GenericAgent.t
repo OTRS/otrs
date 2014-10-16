@@ -102,36 +102,70 @@ my $JobCounter1 = keys %Jobs;
 
 my $RandomID = $HelperObject->GetRandomID();
 
+# Create a Ticket to test JobRun and JobRunTicket
+my $TicketID = $TicketObject->TicketCreate(
+    Title        => 'Testticket for Untittest of the Generic Agent',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    PriorityID   => 1,
+    StateID      => 1,
+    CustomerNo   => '123465',
+    CustomerUser => 'customerUnitTest@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+my $ArticleID = $TicketObject->ArticleCreate(
+    TicketID    => $TicketID,
+    ArticleType => 'note-internal',
+    SenderType  => 'agent',
+    From        => 'Agent Some Agent Some Agent <email@example.com>',
+    To          => 'Customer A <customer-a@example.com>',
+    Cc          => 'Customer B <customer-b@example.com>',
+    ReplyTo     => 'Customer B <customer-b@example.com>',
+    Subject     => 'some short description',
+    Body        => 'the message text Perl modules provide a range of
+',
+
+    #    MessageID => '<asdasdasd.123@example.com>',
+    ContentType    => 'text/plain; charset=ISO-8859-15',
+    HistoryType    => 'OwnerUpdate',
+    HistoryComment => 'Some free text!',
+    UserID         => 1,
+    NoAgentNotify => 1,    # if you don't want to send agent notifications
+);
+
+$Self->True(
+    $TicketID,
+    'TicketCreate() - uses for GenericAgenttest',
+);
+
+my %Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+);
+
+$Self->True(
+    $Ticket{TicketNumber},
+    'Found ticket number',
+);
+
 # add a new Job
 my $Name   = 'UnitTest_' . $RandomID;
 my %NewJob = (
     Name => $Name,
     Data => {
-
-        #ScheduleLastRun => '',
-        #ScheduleMinutes => [1,2],
-        #ScheduleDays => [],
-        #ScheduleHours => [],
-        TicketNumber      => '',
-        From              => '',
-        Body              => '',
-        To                => '',
-        Cc                => '',
-        Subject           => '',
-        CustomerID        => '',
-        CustomerUserLogin => 'customerUnitTest@example.com',
-
-        #QueueIDs => [],
-        #PriorityIDs => [],
-        #LockIDs => [],
-        #TicketFreeText2 => [],
-        #OwnerIDs => [],
-        #StateIDs => [],
-        TimeSearchType              => 'TimePoint',
-        TicketCreateTimePoint       => 1,
-        TicketCreateTimePointStart  => 'Last',
-        TicketCreateTimePointFormat => 'year',
-
+        TicketNumber                 => $Ticket{TicketNumber},
+        From                         => '',
+        Body                         => '',
+        To                           => '',
+        Cc                           => '',
+        Subject                      => '',
+        CustomerID                   => '',
+        CustomerUserLogin            => 'customerUnitTest@example.com',
+        TimeSearchType               => 'TimePoint',
+        TicketCreateTimePoint        => 1,
+        TicketCreateTimePointStart   => 'Last',
+        TicketCreateTimePointFormat  => 'year',
         TicketCreateTimeStartMonth   => 8,
         TicketCreateTimeStopMonth    => 9,
         TicketCreateTimeStartDay     => 7,
@@ -268,45 +302,7 @@ my $Return = $GenericAgentObject->JobAdd(
 
 $Self->True(
     !$Return || '',
-    'JobAdd() check return value - douple check',
-);
-
-# Create a Ticket to test JobRun and JobRunTicket
-my $TicketID = $TicketObject->TicketCreate(
-    Title        => 'Testticket for Untittest of the Generic Agent',
-    Queue        => 'Raw',
-    Lock         => 'unlock',
-    PriorityID   => 1,
-    StateID      => 1,
-    CustomerNo   => '123465',
-    CustomerUser => 'customerUnitTest@example.com',
-    OwnerID      => 1,
-    UserID       => 1,
-);
-
-my $ArticleID = $TicketObject->ArticleCreate(
-    TicketID    => $TicketID,
-    ArticleType => 'note-internal',
-    SenderType  => 'agent',
-    From        => 'Agent Some Agent Some Agent <email@example.com>',
-    To          => 'Customer A <customer-a@example.com>',
-    Cc          => 'Customer B <customer-b@example.com>',
-    ReplyTo     => 'Customer B <customer-b@example.com>',
-    Subject     => 'some short description',
-    Body        => 'the message text Perl modules provide a range of
-',
-
-    #    MessageID => '<asdasdasd.123@example.com>',
-    ContentType    => 'text/plain; charset=ISO-8859-15',
-    HistoryType    => 'OwnerUpdate',
-    HistoryComment => 'Some free text!',
-    UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
-);
-
-$Self->True(
-    $TicketID,
-    'TicketCreate() - uses for GenericAgenttest',
+    'JobAdd() check return value - double check',
 );
 
 %GetParam = $GenericAgentObject->JobGet( Name => $Name );
@@ -333,7 +329,7 @@ $Self->True(
     'JobRun() Run the UnitTest GenericAgent job',
 );
 
-my %Ticket = $TicketObject->TicketGet(
+%Ticket = $TicketObject->TicketGet(
     TicketID      => $TicketID,
     DynamicFields => 1,
 );

@@ -1,4 +1,5 @@
 #4.0.0.beta3 2014-10-07
+ - 2014-10-16 Follow-up fix for bug#10644. Make sure that params get passed to any modules used. Make tests more robust.
  - 2014-10-14 Added flat design skin for the customer interface.
  - 2014-10-14 Fixed bug#[10728](http://bugs.otrs.org/show_bug.cgi?id=10728) - Removing watcher does not work on ticket merge.
  - 2014-10-14 Fixed bug#[10750](http://bugs.otrs.org/show_bug.cgi?id=10750) - Strange tree view in complex tree of queues.
