@@ -35,9 +35,12 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check all needed objects
-    for (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
+    for my $Needed (
+        qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)
+        )
+    {
+        if ( !$Self->{$Needed} ) {
+            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
         }
     }
 
@@ -53,14 +56,14 @@ sub new {
     $Self->{UploadCacheObject}      = Kernel::System::Web::UploadCache->new(%Param);
 
     # get params
-    for (
+    for my $Param (
         qw(From To Cc Bcc Subject Body InReplyTo References ComposeStateID ArticleTypeID
         ArticleID TimeUnits Year Month Day Hour Minute FormID)
         )
     {
-        my $Value = $Self->{ParamObject}->GetParam( Param => $_ );
+        my $Value = $Self->{ParamObject}->GetParam( Param => $Param );
         if ( defined $Value ) {
-            $Self->{GetParam}->{$_} = $Value;
+            $Self->{GetParam}->{$Param} = $Value;
         }
     }
 
@@ -108,6 +111,7 @@ sub Run {
 
         # show error screen if ACL prohibits this action
         if ( defined $AclAction{ $Self->{Action} } && $AclAction{ $Self->{Action} } eq '0' ) {
+
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
     }
@@ -231,7 +235,7 @@ sub Run {
 
         my @TemplateAJAX;
 
-        # update ticket body and attachements if needed.
+        # update ticket body and attachments if needed.
         if ( $GetParam{ElementChanged} eq 'StandardTemplateID' ) {
             my @TicketAttachments;
             my $TemplateText;
@@ -267,8 +271,8 @@ sub Run {
                     = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
                     StandardTemplateID => $GetParam{StandardTemplateID},
                     );
-                for ( sort keys %AllStdAttachments ) {
-                    my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
+                for my $ID ( sort keys %AllStdAttachments ) {
+                    my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
                     $Self->{UploadCacheObject}->FormIDAddFile(
                         FormID      => $GetParam{FormID},
                         Disposition => 'attachment',
@@ -276,7 +280,7 @@ sub Run {
                     );
                 }
 
-                # send a list of attachments in the upload cache back to the clientside JavaScript
+                # send a list of attachments in the upload cache back to the client side JavaScript
                 # which renders then the list of currently uploaded attachments
                 @TicketAttachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
                     FormID => $GetParam{FormID},
@@ -344,6 +348,7 @@ sub Run {
                 @TemplateAJAX,
             ],
         );
+
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
             Content     => $JSON,
@@ -357,6 +362,7 @@ sub Run {
     else {
         $Output = $Self->Form();
     }
+
     return $Output;
 }
 
@@ -368,6 +374,7 @@ sub Form {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
+
         return $Self->{LayoutObject}->ErrorScreen(
             Message => "Got no TicketID!",
             Comment => 'System Error!',
@@ -389,6 +396,7 @@ sub Form {
 
     # error screen, don't show ticket
     if ( !$Access ) {
+
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
@@ -445,6 +453,7 @@ sub Form {
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
                 );
+
                 return $Output;
             }
             else {
@@ -472,6 +481,7 @@ sub Form {
 
         # Check if article is from the same TicketID as we checked permissions for.
         if ( $Data{TicketID} ne $Self->{TicketID} ) {
+
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Article does not belong to ticket $Self->{TicketID}!",
             );
@@ -544,8 +554,8 @@ sub Form {
             = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
             StandardTemplateID => $GetParam{EmailTemplateID},
             );
-        for ( sort keys %AllStdAttachments ) {
-            my %AttachmentsData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $_ );
+        for my $ID ( sort keys %AllStdAttachments ) {
+            my %AttachmentsData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
             $Self->{UploadCacheObject}->FormIDAddFile(
                 FormID => $GetParam{FormID},
                 %AttachmentsData,
@@ -559,9 +569,9 @@ sub Form {
     );
 
     # check some values
-    for (qw(To Cc Bcc Subject)) {
-        if ( $Data{$_} ) {
-            delete $Data{$_};
+    for my $Recipient (qw(To Cc Bcc Subject)) {
+        if ( $Data{$Recipient} ) {
+            delete $Data{$Recipient};
         }
     }
 
@@ -583,13 +593,14 @@ sub Form {
 
             # load module
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
+
                 return $Self->{LayoutObject}->FatalError();
             }
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
 
             # get params
-            for ( $Object->Option( %Data, %GetParam, Config => $Jobs{$Job} ) ) {
-                $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            for my $Param ( $Object->Option( %Data, %GetParam, Config => $Jobs{$Job} ) ) {
+                $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param );
             }
 
             # run module
@@ -600,7 +611,7 @@ sub Form {
         }
     }
 
-    # create html strings for all dynamic fields
+    # create HTML strings for all dynamic fields
     my %DynamicFieldHTML;
 
     # cycle through the activated Dynamic Fields for this screen
@@ -662,7 +673,7 @@ sub Form {
             $Value = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
         }
 
-        # get field html
+        # get field HTML
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
             $Self->{BackendObject}->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
@@ -817,7 +828,7 @@ sub SendEmail {
         DynamicFields => 1,
     );
 
-    # create html strings for all dynamic fields
+    # create HTML strings for all dynamic fields
     my %DynamicFieldHTML;
 
     # cycle through the activated Dynamic Fields for this screen
@@ -877,6 +888,7 @@ sub SendEmail {
         );
 
         if ( !IsHashRefWithData($ValidationResult) ) {
+
             return $Self->{LayoutObject}->ErrorScreen(
                 Message =>
                     "Could not perform validation on field $DynamicFieldConfig->{Label}!",
@@ -889,7 +901,7 @@ sub SendEmail {
             $Error{ $DynamicFieldConfig->{Name} } = ' ServerError';
         }
 
-        # get field html
+        # get field HTML
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
             $Self->{BackendObject}->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
@@ -951,8 +963,8 @@ sub SendEmail {
             my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
 
             # get params
-            for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            for my $Param ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param );
             }
 
             # run module
@@ -1085,7 +1097,7 @@ sub SendEmail {
         }
         @AttachmentData = @NewAttachmentData;
 
-        # verify html document
+        # verify HTML document
         $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
             String => $GetParam{Body},
         );
@@ -1125,6 +1137,7 @@ sub SendEmail {
 
     # error page
     if ( !$ArticleID ) {
+
         return $Self->{LayoutObject}->ErrorScreen( Comment => 'Please contact the admin.', );
     }
 
@@ -1190,6 +1203,7 @@ sub SendEmail {
 
     # redirect
     if ( defined $StateData{TypeName} && $StateData{TypeName} =~ /^close/i ) {
+
         return $Self->{LayoutObject}->PopupClose(
             URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
         );
@@ -1359,6 +1373,7 @@ sub AjaxUpdate {
             @DynamicFieldAJAX,
         ],
     );
+
     return $Self->{LayoutObject}->Attachment(
         ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
         Content     => $JSON,
@@ -1377,6 +1392,7 @@ sub _GetNextStates {
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
+
     return \%NextStates;
 }
 
@@ -1411,8 +1427,9 @@ sub _Mask {
     );
     my %ArticleTypes;
     my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
-    for (@ArticleTypesPossible) {
-        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $_ ) } = $_;
+    for my $ArticleType (@ArticleTypesPossible) {
+        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $ArticleType ) }
+            = $ArticleType;
     }
     if ( $Self->{GetParam}->{ArticleTypeID} ) {
         $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
@@ -1436,8 +1453,8 @@ sub _Mask {
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for ( sort keys %{ $Param{Errors} } ) {
-            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+        for my $Error ( sort keys %{ $Param{Errors} } ) {
+            $Param{$Error} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$Error} );
         }
     }
 
@@ -1582,7 +1599,7 @@ sub _Mask {
             $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} }
         );
 
-        # get the html strings form $Param
+        # get the HTML strings form $Param
         my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
 
         $Self->{LayoutObject}->Block(
