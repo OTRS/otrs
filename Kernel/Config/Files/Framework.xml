@@ -3079,17 +3079,6 @@
             <String Regex="">otrs@&lt;OTRS_CONFIG_FQDN&gt;</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="SQLBox::EnableAllSqlQueries" Required="1" Valid="1">
-        <Description Translatable="1">If this option is enabled, then in SQL box are allowed all SQL queries in another case only select queries are allowed.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="NotificationSubjectLostPasswordToken" Required="1" Valid="1">
         <Description Translatable="1">Defines the subject for notification mails sent to agents, with token about new requested password.</Description>
         <Group>Framework</Group>
@@ -6328,6 +6317,17 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin::AdminCustomerUser</SubGroup>
         <Setting>
             <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AdminSelectBox::AllowDatabaseModification" Required="1" Valid="1">
+        <Description Translatable="1">Controls if the admin is allowed to make changes to the database via AdminSelectBox.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::AdminSelectBox</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>

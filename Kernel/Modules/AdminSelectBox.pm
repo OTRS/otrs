@@ -45,9 +45,7 @@ sub Run {
         Data => [ 'HTML', 'CSV' ],
     );
 
-    # check if enabled all SQL queries
-    # show appropriate explanation message in Admin
-    if ( !$Self->{ConfigObject}->Get('SQLBox::EnableAllSqlQueries') ) {
+    if ( !$Self->{ConfigObject}->Get('AdminSelectBox::AllowDatabaseModification') ) {
         $Self->{LayoutObject}->Block(
             Name => 'ExplanationOnlySelect',
         );
@@ -79,7 +77,7 @@ sub Run {
         }
 
         # check if enabled all SQL queries
-        if ( !$Self->{ConfigObject}->Get('SQLBox::EnableAllSqlQueries') ) {
+        if ( !$Self->{ConfigObject}->Get('AdminSelectBox::AllowDatabaseModification') ) {
 
             # check if SQL query is "SELECT" one
             if ( uc( $Param{SQL} ) !~ m{ \A \s* (?:SELECT|SHOW|DESC) }smx ) {
