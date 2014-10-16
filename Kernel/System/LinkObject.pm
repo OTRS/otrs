@@ -1249,6 +1249,16 @@ sub LinkListWithData {
     OBJECT:
     for my $Object ( sort keys %{$LinkList} ) {
 
+        # check if backend object can be loaded
+        if (
+            !$Kernel::OM->Get('Kernel::System::Main')
+            ->Require( 'Kernel::System::LinkObject::' . $Object )
+            )
+        {
+            delete $LinkList->{$Object};
+            next OBJECT;
+        }
+
         # get backend object
         my $BackendObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Object );
 
