@@ -1,4 +1,5 @@
 #3.3.10 ????-??-??
+ - 2014-10-16 Fixed bug#[10631](http://bugs.otrs.org/show_bug.cgi?id=10631) - Search attribute are unordered.
  - 2014-10-15 Added configuration option to allow for other than SELECT statements in the SQL box module, thanks to S7.
  - 2014-10-14 Fixed bug#[8535](http://bugs.otrs.org/show_bug.cgi?id=8535) - Only first 1000 Tickets are shown in CustomerInterface.
  - 2014-10-14 Fixed bug#[10728](http://bugs.otrs.org/show_bug.cgi?id=10728) - Removing watcher does not work on ticket merge.
