@@ -1185,6 +1185,7 @@ sub Run {
             }
         }
         my @Attributes = (
+            # Main fields
             {
                 Key   => 'TicketNumber',
                 Value => 'Ticket Number',
@@ -1202,6 +1203,7 @@ sub Run {
                 Value    => '-',
                 Disabled => 1,
             },
+            # Article fields
             {
                 Key   => 'From',
                 Value => 'From',
@@ -1224,7 +1226,6 @@ sub Run {
             },
         );
 
-        # show Article Name option only if the ArticleStorage is in the DB
         if (
             $Self->{ConfigObject}->Get('Ticket::StorageModule') eq
             'Kernel::System::Ticket::ArticleStorageDB'
@@ -1238,6 +1239,7 @@ sub Run {
             );
         }
 
+        # Ticket fields
         push @Attributes, (
             {
                 Key      => '',
@@ -1323,6 +1325,7 @@ sub Run {
             );
         }
 
+        # Time fields
         push @Attributes, (
             {
                 Key      => '',
@@ -1388,6 +1391,7 @@ sub Run {
             );
         }
 
+        # Dynamic fields
         my $DynamicFieldSeparator = 1;
 
         # create dynamic fields search options for attribute select
