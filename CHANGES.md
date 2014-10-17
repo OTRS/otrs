@@ -1,4 +1,5 @@
 #4.0.0.beta5 2014-??-??
+ - 2014-10-17 Fixed bug#[10813](http://bugs.otrs.org/show_bug.cgi?id=10813) - GenericInterface event handler only listens to ticket events.
  - 2014-10-17 Fixed bug#[10810](http://bugs.otrs.org/show_bug.cgi?id=10810) - Reference of uninitialized value at login.
 
 #4.0.0.beta4 2014-10-21
