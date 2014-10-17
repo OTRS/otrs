@@ -68,7 +68,7 @@ for my $ModuleFile (@BackendModuleFiles) {
 
     # Make sure we get a fresh instance
     $Kernel::OM->ObjectsDiscard(
-        ObjectsDiscard => ['Kernel::System::Cache'],
+        Objects => ['Kernel::System::Cache'],
     );
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
