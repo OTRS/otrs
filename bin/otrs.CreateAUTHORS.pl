@@ -28,7 +28,7 @@ use IO::File;
 
 chdir Cwd::abs_path( File::Spec->catdir( '..', dirname __FILE__ ) );
 
-my @Lines = qx{git log --format="%aN <%aE>"};
+my @Lines = qx{git log --all --format="%aN <%aE>"};
 my %Seen;
 map { $Seen{$_}++ } @Lines;
 
@@ -38,6 +38,7 @@ $FileHandle->print("The following persons contributed to OTRS:\n\n");
 AUTHOR:
 foreach my $Author ( sort keys %Seen ) {
     chomp $Author;
+    next AUTHOR if $Author eq 'cvs2svn <admin@example.com>';
     if ( $Author =~ m/^[^<>]+ \s <>\s?$/smx ) {
         print STDERR "Could not find Author $Author, skipping.\n";
         next AUTHOR;
