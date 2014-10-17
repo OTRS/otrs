@@ -2113,8 +2113,14 @@ sub Run {
                 next ITEM if !$Show;
             }
             else {
+                # Skip undefined
                 next ITEM if !defined $GetParamBackup{$Key};
+                # Skip empty strings
                 next ITEM if $GetParamBackup{$Key} eq '';
+                # Skip empty arrays
+                if (ref $GetParamBackup{$Key} eq 'ARRAY' && !@{$GetParamBackup{$Key}}) {
+                    next ITEM;
+                }
             }
 
             # show attribute
