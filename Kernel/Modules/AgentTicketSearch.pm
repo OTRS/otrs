@@ -1985,8 +1985,14 @@ sub Run {
                 next if !$Show;
             }
             else {
+                # Skip undefined
                 next if !defined $GetParamBackup{$Key};
+                # Skip empty strings
                 next if $GetParamBackup{$Key} eq '';
+                # Skip empty arrays
+                if (ref $GetParamBackup{$Key} eq 'ARRAY' && !@{$GetParamBackup{$Key}}) {
+                    next;
+                }
             }
 
             # show attribute
