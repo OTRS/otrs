@@ -12,6 +12,42 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Package::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Core::Package</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="Event"></Item><!-- run on all events -->
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerCompany::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Core::CustomerCompany</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="Event"></Item><!-- run on all events -->
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerUser::EventModulePost###1000-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Performs the configured action for each event (as an Invoker) for each configured Webservice.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>Core::CustomerUser</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::GenericInterface::Event::Handler</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="Event"></Item><!-- run on all events -->
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="GenericInterface::WebserviceConfig::CacheTTL" Required="1" Valid="1">
         <Description Translatable="1">Cache time in seconds for the web service config backend.</Description>
         <Group>GenericInterface</Group>
