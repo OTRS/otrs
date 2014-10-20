@@ -135,7 +135,6 @@ sub Output {
                 INCLUDE_PATH => \@TemplateFolders,
                 EVAL_PERL    => 1,
                 COMPILE_EXT  => '.ttc',
-                COMPILE_DIR  => $Self->{ConfigObject}->Get('TempDir'),
             }
         );
         $Self->{TemplateProviderObject}->OTRSInit(
