@@ -78,6 +78,9 @@ sub new {
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
+        'Kernel::System::DB' => {
+            AutoConnectNo => 1,
+        }
     );
 
     $Self->{EncodeObject}  = $Kernel::OM->Get('Kernel::System::Encode');
@@ -163,9 +166,10 @@ sub Run {
 
     # check common objects
     $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-    if ( !$Self->{DBObject} || $Self->{ParamObject}->Error() ) {
+    my $DBCanConnect = $Self->{DBObject}->Connect();
+    if ( !$DBCanConnect || $Self->{ParamObject}->Error() ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-        if ( !$Self->{DBObject} ) {
+        if ( !$DBCanConnect ) {
             $LayoutObject->FatalError(
                 Comment => 'Please contact your administrator',
             );
