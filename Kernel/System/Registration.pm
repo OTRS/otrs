@@ -728,7 +728,7 @@ sub RegistrationUpdateSend {
     elsif ( !$OperationResult->{Success} ) {
 
         my $Reason = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
-        my $Message = "RegistrationUpdate - Can not register system $Reason";
+        my $Message = "RegistrationUpdate - Can not update system $Reason";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Message,
