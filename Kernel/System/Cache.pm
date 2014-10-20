@@ -73,6 +73,8 @@ sub new {
 change cache configuration settings at runtime. You can use this to disable the cache in
 environments where it is not desired, such as in long running scripts.
 
+please, to turn CacheInMemory off in persistent environments.
+
     $CacheObject->Configure(
         CacheInMemory  => 1,    # optional
         CacheInBackend => 1,    # optional
