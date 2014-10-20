@@ -1392,6 +1392,18 @@ safe uninstall packages from the database.
 sub _UninstallMergedFeatureAddOns {
     my $PackageObject = Kernel::System::Package->new();
 
+    # Purge relevant caches before uninstalling to avoid errors because of
+    #   inconsistent states.
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'RepositoryList',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'RepositoryGet',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'XMLParse',
+    );
+
     # Uninstall FeatureAddons that were merged, keeping the DB structures intact.
     for my $PackageName (
         qw( OTRSGenericInterfaceREST OTRSMyServices OTRSStatsRestrictionByDateTimeDF OTRSTextRegex )
