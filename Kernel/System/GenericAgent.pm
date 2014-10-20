@@ -682,7 +682,7 @@ sub JobGet {
                     $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 30;
                 }
                 elsif ( $Data{ $Type . 'TimePointFormat' } eq 'year' ) {
-                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 356;
+                    $Time = $Data{ $Type . 'TimePoint' } * 60 * 24 * 365;
                 }
                 if ( $Data{ $Type . 'TimePointStart' } eq 'Before' ) {
 
