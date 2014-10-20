@@ -841,7 +841,7 @@ $TestCount++;
 my @ServiceSearch1Search = $ServiceObject->ServiceSearch( UserID => 1 );
 
 my %ServiceSearch1List = $ServiceObject->ServiceList(
-    UserID => 1,
+    UserID       => 1,
     KeepChildren => 1,
 );
 

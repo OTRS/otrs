@@ -1588,8 +1588,10 @@ sub _Mask {
         ArticleType => $Self->{Config}->{DefaultArticleType},
     );
 
-    my $ArticleTypeIDSelected = $ArticleTypes{ $Param{ArticleTypeID} } ?
-        $Param{ArticleTypeID} :
+    my $ArticleTypeIDSelected = $ArticleTypes{ $Param{ArticleTypeID} }
+        ?
+        $Param{ArticleTypeID}
+        :
         $DefaultArticleTypeID;
 
     if ( $Param{GetParam}->{ArticleTypeID} ) {
