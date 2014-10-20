@@ -2097,49 +2097,52 @@ sub Run {
             @ShownAttributes = split /;/, $GetParamBackup{ShownAttributes};
         }
         my %AlreadyShown;
-        ITEM:
-        for my $Item (@Attributes) {
-            my $Key = $Item->{Key};
-            next ITEM if !$Key;
 
-            # check if shown
-            if (@ShownAttributes) {
-                my $Show = 0;
-                SHOWN_ATTRIBUTE:
-                for my $ShownAttribute (@ShownAttributes) {
-                    if ( 'Label' . $Key eq $ShownAttribute ) {
-                        $Show = 1;
-                        last SHOWN_ATTRIBUTE;
+        if ($Profile) {
+            ITEM:
+            for my $Item (@Attributes) {
+                my $Key = $Item->{Key};
+                next ITEM if !$Key;
+
+                # check if shown
+                if (@ShownAttributes) {
+                    my $Show = 0;
+                    SHOWN_ATTRIBUTE:
+                    for my $ShownAttribute (@ShownAttributes) {
+                        if ( 'Label' . $Key eq $ShownAttribute ) {
+                            $Show = 1;
+                            last SHOWN_ATTRIBUTE;
+                        }
+                    }
+                    next ITEM if !$Show;
+                }
+                else {
+                    # Skip undefined
+                    next ITEM if !defined $GetParamBackup{$Key};
+
+                    # Skip empty strings
+                    next ITEM if $GetParamBackup{$Key} eq '';
+
+                    # Skip empty arrays
+                    if ( ref $GetParamBackup{$Key} eq 'ARRAY' && !@{ $GetParamBackup{$Key} } ) {
+                        next ITEM;
                     }
                 }
-                next ITEM if !$Show;
+
+                # show attribute
+                next ITEM if $AlreadyShown{$Key};
+                $AlreadyShown{$Key} = 1;
+                $Self->{LayoutObject}->Block(
+                    Name => 'SearchAJAXShow',
+                    Data => {
+                        Attribute => $Key,
+                    },
+                );
             }
-            else {
-                # Skip undefined
-                next ITEM if !defined $GetParamBackup{$Key};
-
-                # Skip empty strings
-                next ITEM if $GetParamBackup{$Key} eq '';
-
-                # Skip empty arrays
-                if ( ref $GetParamBackup{$Key} eq 'ARRAY' && !@{ $GetParamBackup{$Key} } ) {
-                    next ITEM;
-                }
-            }
-
-            # show attribute
-            next ITEM if $AlreadyShown{$Key};
-            $AlreadyShown{$Key} = 1;
-            $Self->{LayoutObject}->Block(
-                Name => 'SearchAJAXShow',
-                Data => {
-                    Attribute => $Key,
-                },
-            );
         }
 
-        # if no attribute is shown, show fulltext search
-        if ( !$Profile ) {
+        # No profile, show default screen
+        else  {
 
             # Merge regular show/hide settings and the settings for the dynamic fields
             my %Defaults = %{ $Self->{Config}->{Defaults} || {} };
@@ -2177,6 +2180,7 @@ sub Run {
                 }
             }
 
+            # If no attribute is shown, show fulltext search.
             if ( !keys %AlreadyShown ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'SearchAJAXShow',
