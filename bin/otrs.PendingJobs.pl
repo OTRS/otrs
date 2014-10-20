@@ -132,10 +132,16 @@ for my $TicketID (@TicketIDs) {
 
     next TICKETID if $Ticket{UntilTime} >= 1;
 
+    # get used calendar
+    my $Calendar = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCalendarGet(
+        %Ticket,
+    );
+
     # check if it is during business hours, then send reminder
     my $CountedTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
-        StartTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - ( 30 * 60 ),
-        StopTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+        StartTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - ( 10 * 60 ),
+        StopTime  => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+        Calendar  => $Calendar,
     );
 
     # error handling

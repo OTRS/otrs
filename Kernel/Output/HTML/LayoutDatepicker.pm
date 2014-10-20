@@ -40,6 +40,15 @@ sub DatepickerGetVacationDays {
     # get the defined vacation days
     my $TimeVacationDays        = $Self->{ConfigObject}->Get('TimeVacationDays');
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
+    if ( $Param{Calendar} ) {
+        if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
+            $TimeVacationDays
+                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
+                "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
+            );
+        }
+    }
 
     # translate the vacation description if possible
     for my $Month ( sort keys %{$TimeVacationDays} ) {
@@ -59,7 +68,6 @@ sub DatepickerGetVacationDays {
             }
         }
     }
-
     return {
         'TimeVacationDays'        => $TimeVacationDays,
         'TimeVacationDaysOneTime' => $TimeVacationDaysOneTime,

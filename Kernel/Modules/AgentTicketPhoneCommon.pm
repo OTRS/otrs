@@ -361,7 +361,8 @@ sub Run {
         );
         $Output .= $Self->_MaskPhone(
             TicketID     => $Self->{TicketID},
-            QueueID      => $Self->{QueueID},
+            QueueID      => $Self->{QueueID} || $Ticket{QueueID},
+            SLAID        => $Ticket{SLAID},
             TicketNumber => $Ticket{TicketNumber},
             Title        => $Ticket{Title},
             NextStates   => $Self->_GetNextStates(
@@ -608,6 +609,8 @@ sub Run {
             $Output .= $Self->_MaskPhone(
                 TicketID     => $Self->{TicketID},
                 TicketNumber => $Tn,
+                QueueID      => $Ticket{QueueID},
+                SLAID        => $Ticket{SLAID},
                 Title        => $Ticket{Title},
                 NextStates   => $Self->_GetNextStates(
                     %GetParam,
@@ -1125,6 +1128,12 @@ sub _MaskPhone {
         );
     }
 
+    # get used calendar
+    my $Calendar = $Self->{TicketObject}->TicketCalendarGet(
+        QueueID => $Param{QueueID},
+        SLAID   => $Param{SLAID},
+    );
+
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
@@ -1135,6 +1144,7 @@ sub _MaskPhone {
         Class            => $Param{Errors}->{DateInvalid},
         Validate         => 1,
         ValidateDateInFuture => 1,
+        Calendar             => $Calendar,
     );
 
     # do html quoting

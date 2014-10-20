@@ -1,4 +1,6 @@
 #4.0.0.beta5 2014-??-??
+ - 2014-10-20 Fixed bug#[5252](http://bugs.otrs.org/show_bug.cgi?id=5252) - For pending- and escalation-notification only the standard calendar is used.
+ - 2014-10-20 Fixed bug#[10041](http://bugs.otrs.org/show_bug.cgi?id=10041) - Queue Based Calendars not shown only the standard calendar is used.
  - 2014-10-17 Fixed bug#[10817](http://bugs.otrs.org/show_bug.cgi?id=10817) - generic agent ticket date filter 'year' one year has 365 instead of 356.
  - 2014-10-17 Fixed bug#[10813](http://bugs.otrs.org/show_bug.cgi?id=10813) - GenericInterface event handler only listens to ticket events.
  - 2014-10-17 Fixed bug#[10810](http://bugs.otrs.org/show_bug.cgi?id=10810) - Reference of uninitialized value at login.

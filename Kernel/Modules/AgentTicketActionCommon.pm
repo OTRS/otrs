@@ -1792,6 +1792,11 @@ sub _Mask {
 
             next STATEID if $StateData{TypeName} !~ /pending/i;
 
+            # get used calendar
+            my $Calendar = $Self->{TicketObject}->TicketCalendarGet(
+                %Ticket,
+            );
+
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 %Param,
                 Format           => 'DateInputFormatLong',
@@ -1802,6 +1807,7 @@ sub _Mask {
                 Class => $Param{DateInvalid} || ' ',
                 Validate             => 1,
                 ValidateDateInFuture => 1,
+                Calendar             => $Calendar,
             );
 
             $Self->{LayoutObject}->Block(

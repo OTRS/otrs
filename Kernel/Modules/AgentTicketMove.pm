@@ -1281,6 +1281,13 @@ sub AgentMove {
         next STATE_ID if !$StateID;
         my %StateData = $Self->{StateObject}->StateGet( ID => $StateID );
         if ( $StateData{TypeName} =~ /pending/i ) {
+
+            # get used calendar
+            my $Calendar = $Self->{TicketObject}->TicketCalendarGet(
+                QueueID => $Param{QueueID},
+                SLAID   => $Param{SLAID},
+            );
+
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 Format           => 'DateInputFormatLong',
                 YearPeriodPast   => 0,
@@ -1291,6 +1298,7 @@ sub AgentMove {
                 Class => $Param{DateInvalid} || ' ',
                 Validate             => 1,
                 ValidateDateInFuture => 1,
+                Calendar             => $Calendar,
             );
             $Self->{LayoutObject}->Block(
                 Name => 'StatePending',

@@ -2979,6 +2979,17 @@ sub BuildDateSelection {
         %Param,
     );
 
+    # prepare datepicker for specific calendar
+    my $VacationDays = '';
+    if ( $Param{Calendar} ) {
+        $VacationDays = $Self->DatepickerGetVacationDays(
+            Calendar => $Param{Calendar},
+        );
+    }
+    my $VacationDaysJSON = $Self->JSONEncode(
+        Data => $VacationDays,
+    );
+
     # Add Datepicker JS to output.
     my $DatepickerJS = '
     Core.UI.Datepicker.Init({
@@ -2987,10 +2998,12 @@ sub BuildDateSelection {
         Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
         Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
         Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
+        VacationDays: ' . $VacationDaysJSON . ',
         DateInFuture: ' .    ( $ValidateDateInFuture    ? 'true' : 'false' ) . ',
         DateNotInFuture: ' . ( $ValidateDateNotInFuture ? 'true' : 'false' ) . ',
         WeekDayStart: ' . $WeekDayStart . '
     });';
+
     $Self->AddJSOnDocumentComplete( Code => $DatepickerJS );
     $Self->{HasDatepicker} = 1;    # Call some Datepicker init code.
 

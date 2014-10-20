@@ -49,30 +49,10 @@ sub Run {
         DynamicFields => 0,
     );
 
-    my $Calendar;
-
-    # check if ticket has an assigned SLA with a defined calendar
-    if ( $Ticket{SLAID} ) {
-
-        my %SLAData = $Kernel::OM->Get('Kernel::System::SLA')->SLAGet(
-            SLAID  => $Ticket{SLAID},
-            UserID => 1,
-        );
-
-        # set $Calendar if SLA has a defined calendar
-        $Calendar = $SLAData{Calendar} ? $SLAData{Calendar} : '';
-    }
-
-    # check if there was no $Calendar defined via SLA and if ticket queue has a defined calendar
-    if ( !$Calendar && $Ticket{QueueID} ) {
-
-        my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
-            ID => $Ticket{QueueID},
-        );
-
-        # set $Calendar if SLA has a defined calendar
-        $Calendar = $QueueData{Calendar} ? $QueueData{Calendar} : '';
-    }
+    # get used calendar
+    my $Calendar = $TicketObject->TicketCalendarGet(
+        %Ticket,
+    );
 
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
@@ -80,8 +60,8 @@ sub Run {
     # do not trigger escalation start events outside busincess hours
     my $CountedTime = $TimeObject->WorkingTime(
         StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
-        StopTime => $TimeObject->SystemTime(),
-        Calendar => $Calendar || '',
+        StopTime  => $TimeObject->SystemTime(),
+        Calendar  => $Calendar,
     );
     if ( !$CountedTime ) {
 

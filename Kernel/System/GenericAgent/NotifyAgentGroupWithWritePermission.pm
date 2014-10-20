@@ -16,6 +16,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Queue',
+    'Kernel::System::SLA',
     'Kernel::System::Ticket',
     'Kernel::System::Time',
     'Kernel::System::User',
@@ -46,20 +47,26 @@ sub Run {
         DynamicFields => 0,
     );
 
+    # get used calendar
+    my $Calendar = $TicketObject->TicketCalendarGet(
+        %Ticket,
+    );
+
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # check if bussines hours is, then send escalation info
+    # check if it is during business hours, then send escalation info
     my $CountedTime = $TimeObject->WorkingTime(
         StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
-        StopTime => $TimeObject->SystemTime(),
+        StopTime  => $TimeObject->SystemTime(),
+        Calendar  => $Calendar,
     );
     if ( !$CountedTime ) {
         if ( $Self->{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message =>
-                    "Send not escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because currently no working hours!",
+                    "Send no escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because currently no working hours!",
             );
         }
         return 1;

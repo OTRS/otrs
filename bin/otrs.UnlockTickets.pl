@@ -88,7 +88,7 @@ elsif ( $Command eq '--timeout' ) {
     my @Tickets;
     exit 1 if !$Kernel::OM->Get('Kernel::System::DB')->Prepare(
         SQL => "
-            SELECT st.tn, st.id, st.timeout, sq.unlock_timeout
+            SELECT st.tn, st.id, st.timeout, sq.unlock_timeout, st.sla_id, st.queue_id
             FROM ticket st, queue sq
             WHERE st.queue_id = sq.id
                 AND sq.unlock_timeout != 0
@@ -97,16 +97,26 @@ elsif ( $Command eq '--timeout' ) {
     );
 
     while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
+        push @Tickets, \@Row;
+    }
+
+    TICKET:
+    for (@Tickets) {
+        my @Row = @{$_};
+
+        # get used calendar
+        my $Calendar = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCalendarGet(
+            QueueID => $Row[5],
+            SLAID   => $Row[4],
+        );
+
         my $CountedTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
             StartTime => $Row[2],
             StopTime  => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+            Calendar  => $Calendar,
         );
-        if ( $CountedTime >= $Row[3] * 60 ) {
-            push @Tickets, \@Row;
-        }
-    }
-    for (@Tickets) {
-        my @Row = @{$_};
+        next TICKET if $CountedTime < $Row[3] * 60;
+
         print " Unlocking ticket id $Row[0] ...";
         my $Unlock = $Kernel::OM->Get('Kernel::System::Ticket')->LockSet(
             TicketID => $Row[1],

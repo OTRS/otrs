@@ -6934,6 +6934,53 @@ sub TicketCheckForProcessType {
     return 1 if $Ticket{$DynamicFieldName};
 }
 
+=item TicketCalendarGet()
+
+checks calendar to be used for ticket based on sla and queue
+
+    my $Calendar = $TicketObject->TicketCalendarGet(
+        QueueID => 1,
+        SLAID   => 1,   # optional
+    );
+
+returns calendar number or empty string for default calendar
+
+=cut
+
+sub TicketCalendarGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{QueueID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')
+            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        return;
+    }
+
+    # check if SLAID was passed and if sla has a specific calendar
+    if ( $Param{SLAID} ) {
+
+        my %SLAData = $Kernel::OM->Get('Kernel::System::SLA')->SLAGet(
+            SLAID  => $Param{SLAID},
+            UserID => 1,
+        );
+
+        # if SLA has a defined calendar, return it
+        return $SLAData{Calendar} if $SLAData{Calendar};
+    }
+
+    # if no calendar was determined by SLA, check if queue has a specific calendar
+    my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
+        ID => $Param{QueueID},
+    );
+
+    # if queue has a defined calendar, return it
+    return $QueueData{Calendar} if $QueueData{Calendar};
+
+    # use default calendar
+    return '';
+}
+
 sub DESTROY {
     my $Self = shift;
 

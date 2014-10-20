@@ -2131,6 +2131,15 @@ sub _RenderPendingTime {
         }
     }
 
+    my $Calendar = '';
+
+    # get used calendar if we have ticket data
+    if ( IsHashRefWithData( $Param{Ticket} ) ) {
+        $Calendar = $Self->{TicketObject}->TicketCalendarGet(
+            %{ $Param{Ticket} },
+        );
+    }
+
     $Data{Content} = $Self->{LayoutObject}->BuildDateSelection(
         Prefix => 'PendingTime',
         PendingTimeRequired =>
@@ -2146,6 +2155,7 @@ sub _RenderPendingTime {
         Class                => $Error,
         Validate             => 1,
         ValidateDateInFuture => 1,
+        Calendar             => $Calendar,
     );
 
     $Self->{LayoutObject}->Block(

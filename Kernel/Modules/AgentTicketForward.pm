@@ -534,6 +534,7 @@ sub Form {
         TicketID     => $Self->{TicketID},
         Title        => $Ticket{Title},
         QueueID      => $Ticket{QueueID},
+        SLAID        => $Ticket{SLAID},
         NextStates   => $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
@@ -868,6 +869,7 @@ sub SendEmail {
             Title        => $Ticket{Title},
             TicketID     => $Self->{TicketID},
             QueueID      => $QueueID,
+            SLAID        => $Ticket{SLAID},
             NextStates   => $Self->_GetNextStates(
                 %GetParam,
                 %ACLCompatGetParam,
@@ -1290,6 +1292,12 @@ sub _Mask {
         }
     }
 
+    # get used calendar
+    my $Calendar = $Self->{TicketObject}->TicketCalendarGet(
+        QueueID => $Param{QueueID},
+        SLAID   => $Param{SLAID},
+    );
+
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
@@ -1300,6 +1308,7 @@ sub _Mask {
         Class            => $Param{Errors}->{DateInvalid} || ' ',
         Validate         => 1,
         ValidateDateInFuture => 1,
+        Calendar             => $Calendar,
     );
 
     # Multiple-Autocomplete

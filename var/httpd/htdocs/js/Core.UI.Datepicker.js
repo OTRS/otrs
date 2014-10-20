@@ -80,6 +80,10 @@ Core.UI.Datepicker = (function (TargetNS) {
      */
     TargetNS.Init = function (Element) {
 
+        if (typeof Element.VacationDays === 'object') {
+            Core.Config.Set('Datepicker.VacationDays', Element.VacationDays);
+        }
+
         function LeadingZero(Number) {
             if (Number.toString().length === 1) {
                 return '0' + Number;
