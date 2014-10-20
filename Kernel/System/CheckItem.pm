@@ -175,19 +175,20 @@ sub CheckEmail {
                 if ( !@MXRecords ) {
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
-                       Priority => 'notice',
-                       Message  => "$Host has no mail exchanger (MX) defined, trying A resource record instead.",
+                        Priority => 'notice',
+                        Message =>
+                            "$Host has no mail exchanger (MX) defined, trying A resource record instead.",
                     );
 
                     # see if our previous A-record lookup returned a RR
-                    if ( scalar $Packet->answer() eq 0) {
+                    if ( scalar $Packet->answer() eq 0 ) {
 
                         $Self->{ErrorType} = 'InvalidMX';
                         $Error = "$Host has no mail exchanger (MX) or A resource record defined.";
 
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
-                           Priority => 'error',
-                           Message  => $Error,
+                            Priority => 'error',
+                            Message  => $Error,
                         );
                     }
                 }

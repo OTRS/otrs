@@ -38,7 +38,7 @@ sub new {
     $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKey} }
         || $Self->{Config}->{Limit};
 
-    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' )|| 1 );
+    $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
 
     return $Self;
 }

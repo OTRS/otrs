@@ -1185,6 +1185,7 @@ sub Run {
             }
         }
         my @Attributes = (
+
             # Main fields
             {
                 Key   => 'TicketNumber',
@@ -1203,6 +1204,7 @@ sub Run {
                 Value    => '-',
                 Disabled => 1,
             },
+
             # Article fields
             {
                 Key   => 'From',
@@ -2115,10 +2117,12 @@ sub Run {
             else {
                 # Skip undefined
                 next ITEM if !defined $GetParamBackup{$Key};
+
                 # Skip empty strings
                 next ITEM if $GetParamBackup{$Key} eq '';
+
                 # Skip empty arrays
-                if (ref $GetParamBackup{$Key} eq 'ARRAY' && !@{$GetParamBackup{$Key}}) {
+                if ( ref $GetParamBackup{$Key} eq 'ARRAY' && !@{ $GetParamBackup{$Key} } ) {
                     next ITEM;
                 }
             }

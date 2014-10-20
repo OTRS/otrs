@@ -726,10 +726,14 @@ sub Run {
         }
 
         # check for mail address restrictions
-        my @Whitelist = @{ $Self->{ConfigObject}
-                ->Get('CustomerPanelCreateAccount::MailRestrictions::Whitelist') // [] };
-        my @Blacklist = @{ $Self->{ConfigObject}
-                ->Get('CustomerPanelCreateAccount::MailRestrictions::Blacklist') // [] };
+        my @Whitelist = @{
+            $Self->{ConfigObject}
+                ->Get('CustomerPanelCreateAccount::MailRestrictions::Whitelist') // []
+        };
+        my @Blacklist = @{
+            $Self->{ConfigObject}
+                ->Get('CustomerPanelCreateAccount::MailRestrictions::Blacklist') // []
+        };
 
         my $WhitelistMatched;
         for my $WhitelistEntry (@Whitelist) {
