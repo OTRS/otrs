@@ -21,62 +21,85 @@ my $LanguageObject = Kernel::Language->new(
 );
 
 # test cases
-my %Test = (
-    'OTRSLanguageUnitTest::Test1' => {
+my @Tests = (
+    {
+        OriginalString    => '0',    # test with zero
+        TranslationString => '',     # test without a translation string
+        TranslationResult => '0',
+    },
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test1',
         TranslationString => 'Test1',
         TranslationResult => 'Test1',
-        Parameters        => ['Hallo'],    # test with not needed parameter
+        Parameters        => ['Hallo'],                       # test with not needed parameter
     },
-    'OTRSLanguageUnitTest::Test2' => {
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test2',
         TranslationString => 'Test2 [%s]',
         TranslationResult => 'Test2 [Hallo]',
         Parameters        => ['Hallo'],
     },
-    'OTRSLanguageUnitTest::Test3' => {
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test3',
         TranslationString => 'Test3 [%s] (A=%s)',
         TranslationResult => 'Test3 [Hallo] (A=A)',
         Parameters        => [ 'Hallo', 'A' ],
     },
-    'OTRSLanguageUnitTest::Test4' => {
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test4',
         TranslationString => 'Test4 [%s] (A=%s;B=%s)',
         TranslationResult => 'Test4 [Hallo] (A=A;B=B)',
         Parameters        => [ 'Hallo', 'A', 'B' ],
     },
-    'OTRSLanguageUnitTest::Test5' => {
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test5',
         TranslationString => 'Test5 [%s] (A=%s;B=%s;C=%s)',
         TranslationResult => 'Test5 [Hallo] (A=A;B=B;C=C)',
         Parameters        => [ 'Hallo', 'A', 'B', 'C' ],
     },
-    'OTRSLanguageUnitTest::Test6' => {
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test6',
         TranslationString => 'Test6 [%s] (A=%s;B=%s;C=%s;D=%s)',
         TranslationResult => 'Test6 [Hallo] (A=A;B=B;C=C;D=D)',
         Parameters        => [ 'Hallo', 'A', 'B', 'C', 'D' ],
     },
-    'OTRSLanguageUnitTest::Test7 [% test %] {" special characters %s"}' => {
+    {
+        OriginalString    => 'OTRSLanguageUnitTest::Test7 [% test %] {" special characters %s"}',
         TranslationString => 'Test7 [% test %] {" special characters %s"}',
         TranslationResult => 'Test7 [% test %] {" special characters test"}',
         Parameters        => ['test'],
     },
 );
 
-for my $OriginalString ( sort keys %Test ) {
-
-    my @Parameters = @{ $Test{$OriginalString}->{Parameters} };
+for my $Test (@Tests) {
 
     # add translation string to language object
-    $LanguageObject->{Translation}->{$OriginalString} = $Test{$OriginalString}->{TranslationString};
+    $LanguageObject->{Translation}->{ $Test->{OriginalString} } = $Test->{TranslationString};
 
     # get the translation
-    my $TranslatedString = $LanguageObject->Translate(
-        $OriginalString,
-        @Parameters,
-    );
+    my $TranslatedString;
+
+    # test cases with parameters
+    if ( $Test->{Parameters} ) {
+
+        $TranslatedString = $LanguageObject->Translate(
+            $Test->{OriginalString},
+            @{ $Test->{Parameters} },
+        );
+    }
+
+    # test cases without a parameter
+    else {
+        $TranslatedString = $LanguageObject->Translate(
+            $Test->{OriginalString},
+        );
+    }
 
     # compare with expected translation
     $Self->Is(
-        $TranslatedString || '',
-        $Test{$OriginalString}->{TranslationResult},
-        'Translation of ' . $OriginalString,
+        $TranslatedString // '',
+        $Test->{TranslationResult},
+        'Translation of ' . $Test->{OriginalString},
     );
 }
 
