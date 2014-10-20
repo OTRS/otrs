@@ -18,6 +18,7 @@ use Kernel::System::Scheduler::TaskHandler;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::PID',
     'Kernel::System::Scheduler::TaskManager',
@@ -69,6 +70,10 @@ sub new {
 
     $Self->{PIDUpdateTime}
         = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 60;
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Configure(
+        CacheInMemory => 0,
+    );
 
     return $Self;
 }
