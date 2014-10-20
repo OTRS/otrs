@@ -1,5 +1,5 @@
 # --
-# scripts/test/Language.t - Language module testscript
+# scripts/test/Language/Translate.t - Language module testscript
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
