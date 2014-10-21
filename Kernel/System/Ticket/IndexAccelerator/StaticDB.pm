@@ -401,9 +401,9 @@ sub TicketAcceleratorIndex {
     return if !$DBObject->Prepare(
         SQL => "
             SELECT count(*), ti.s_lock
-            FROM ticket_index ti, personal_queues suq
-            WHERE suq.queue_id = ti.queue_id
-                AND ti.group_id IN ( ${\(join ', ', @GroupIDs)} )
+            FROM ticket_index ti
+                JOIN personal_queues suq ON suq.queue_id = ti.queue_id
+            WHERE ti.group_id IN ( ${\(join ', ', @GroupIDs)} )
                 AND suq.user_id = $Param{UserID}
             GROUP BY ti.s_lock",
     );
@@ -501,11 +501,11 @@ sub TicketAcceleratorRebuild {
     # get all viewable tickets
     my $SQL = "
         SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, tsd.name, st.create_time_unix
-        FROM ticket st, queue sq, ticket_state tsd, ticket_lock_type slt
-        WHERE st.ticket_state_id = tsd.id
-            AND st.queue_id = sq.id
-            AND st.ticket_lock_id = slt.id
-            AND st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
+        FROM ticket st
+            JOIN queue sq             ON st.queue_id = sq.id
+            JOIN ticket_state tsd     ON st.ticket_state_id = tsd.id
+            JOIN ticket_lock_type slt ON st.ticket_lock_id = slt.id
+        WHERE st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} )
             AND st.archive_flag = 0";
 
     return if !$DBObject->Prepare( SQL => $SQL );
