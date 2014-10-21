@@ -2050,7 +2050,7 @@ sub PackageBuild {
 
             my %OldParam;
             for my $Item (qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)) {
-                $OldParam{$Item} = $Param{$Tag}->{$Item};
+                $OldParam{$Item} = $Param{$Tag}->{$Item} || '';
                 delete $Param{$Tag}->{$Item};
             }
 
@@ -2075,7 +2075,7 @@ sub PackageBuild {
                     qw(Content Encode TagType Tag TagLevel TagCount TagKey TagLastLevel)
                     )
                 {
-                    $OldParam{$HashParam} = $Hash{$HashParam};
+                    $OldParam{$HashParam} = $Hash{$HashParam} || '';
                     delete $Hash{$HashParam};
                 }
 
