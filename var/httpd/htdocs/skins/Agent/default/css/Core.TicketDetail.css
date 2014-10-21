@@ -707,6 +707,12 @@ div.Headline .Flag {
     overflow: auto;
 }
 
+.ChronicalView .PlainText > div.ChatMessage {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .ChronicalPlainText .ArticleChat {
     max-height: none;
     line-height: 120%;

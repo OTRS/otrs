@@ -173,6 +173,7 @@ sub new {
     $Self->{HistoryTypeMapping} = {
         NewTicket                       => 'Ticket Created',
         AddNote                         => 'Note Added',
+        AddNoteCustomer                 => 'Note Added (Customer)',
         EmailAgent                      => 'Outgoing Email',
         EmailCustomer                   => 'Incoming Customer Email',
         TicketDynamicFieldUpdate        => 'Dynamic Field Updated',
@@ -204,6 +205,8 @@ sub new {
         SendAutoFollowUp                => 'Automatic Follow-Up Sent',
         SendAutoReply                   => 'Automatic Reply Sent',
         TimeAccounting                  => 'Time Accounted',
+        ChatExternal                    => 'External Chat',
+        ChatInternal                    => 'Internal Chat',
     };
 
     # Add custom files to the zoom's frontend module registration on the fly
@@ -2142,6 +2145,7 @@ sub _ArticleTree {
         # types which can be considered as internal
         my @TypesInternal = qw(
             AddNote
+            ChatInternal
         );
 
         # outgoing types
@@ -2157,9 +2161,11 @@ sub _ArticleTree {
         my @TypesIncoming = qw(
             NewTicket
             EmailCustomer
+            AddNoteCustomer
             PhoneCallCustomer
             FollowUp
             WebRequestCustomer
+            ChatExternal
         );
 
         my @TypesLeft = (
@@ -2226,6 +2232,23 @@ sub _ArticleTree {
                     delete $Item->{Name};
                 }
             }
+            # special treatment for certain types, e.g. external notes from customers
+            elsif ( $Item->{ArticleID} && $Item->{HistoryType} eq 'AddNote' && IsHashRefWithData($ArticlesByArticleID->{$Item->{ArticleID}}) && $ArticlesByArticleID->{$Item->{ArticleID}}->{SenderType} eq 'customer') {
+                $Item->{Class} = 'TypeIncoming';
+
+                # We fake a custom history type because external notes from customers still
+                # have the history type 'AddNote' which does not allow for distinguishing.
+                $Item->{HistoryType} = 'AddNoteCustomer';
+            }
+            # special treatment for certain types, e.g. external notes from customers
+            elsif ( $Item->{ArticleID} && IsHashRefWithData($ArticlesByArticleID->{$Item->{ArticleID}}) && $ArticlesByArticleID->{$Item->{ArticleID}}->{ArticleType} eq 'chat-external') {
+                $Item->{HistoryType} = 'ChatExternal';
+                $Item->{Class} = 'TypeIncoming';
+            }
+            elsif ( $Item->{ArticleID} && IsHashRefWithData($ArticlesByArticleID->{$Item->{ArticleID}}) && $ArticlesByArticleID->{$Item->{ArticleID}}->{ArticleType} eq 'chat-internal') {
+                $Item->{HistoryType} = 'ChatInternal';
+                $Item->{Class} = 'TypeInternal';
+            }
             elsif ( grep { $_ eq $Item->{HistoryType} } @TypesTicketAction ) {
                 $Item->{Class} = 'TypeTicketAction';
             }
@@ -2272,6 +2295,33 @@ sub _ArticleTree {
                     )
                 {
                     $Item->{IsChatArticle} = 1;
+
+                    # display only the first three (shortened) lines of a chart article
+                    my $ChatMessages = $Self->{JSONObject}->Decode(
+                        Data => $Item->{ArticleData}->{Body},
+                    );
+
+                    my $ItemCounter = 0;
+
+                    CHATITEM:
+                    for my $MessageData (sort { $a->{ID} <=> $b->{ID} } @{$ChatMessages}) {
+                        if ($MessageData->{SystemGenerated} == 1) {
+
+                            $Item->{ArticleData}->{BodyChat} .= $Self->{LayoutObject}->Output(
+                                Template => '<div class="ChatMessage">[[% Data.CreateTime | html %]] - [% Data.MessageText | html %]</div>',
+                                Data     => $MessageData,
+                            );
+                        }
+                        else {
+
+                            $Item->{ArticleData}->{BodyChat} .= $Self->{LayoutObject}->Output(
+                                Template => '<div class="ChatMessage">[[% Data.CreateTime | html %]] - [% Data.ChatterName | html %]: [% Data.MessageText | html %]</div>',
+                                Data     => $MessageData,
+                            );
+                        }
+                        $ItemCounter++;
+                        last CHATITEM if $ItemCounter == 3;
+                    }
                 }
             }
             else {
@@ -2304,11 +2354,11 @@ sub _ArticleTree {
             );
 
             # if we have two events that happened 'nearly' the same time, treat
-            # them as if they happened exactly on the same time (treshold 10 seconds)
+            # them as if they happened exactly on the same time (treshold 5 seconds)
             if (
                 $LastCreateSystemTime
                 && $Item->{CreateSystemTime} <= $LastCreateSystemTime
-                && $Item->{CreateSystemTime} >= ( $LastCreateSystemTime - 10 )
+                && $Item->{CreateSystemTime} >= ( $LastCreateSystemTime - 5 )
                 )
             {
                 push @{ $HistoryItems{$LastCreateTime} }, $Item;
