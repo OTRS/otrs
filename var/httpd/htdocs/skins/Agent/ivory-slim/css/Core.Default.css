@@ -11,6 +11,14 @@
 
 @media screen,projection,tv,handheld {
 
+#Header #Logo {
+    background-position: center;
+    height: 62px;
+    opacity: 0.53;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=53)";
+    top: 0px !important;
+}
+
 /**
  * @subsection  Color
  * @note        standard colors #69BFCC is the main skin color and #265D66 its dark version
