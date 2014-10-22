@@ -93,7 +93,10 @@ sub Run {
         Priority => 'info',
         Message  => "Registration - RegistrationUpdate running.",
     );
-    my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend();
+
+    my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend(
+        RegistrationUpdateTaskID => $Param{TaskID},
+    );
 
     # if we sent a successful Update, reschedule in whatever the OTRS
     # portal tells us. Otherwise, retry in two hours

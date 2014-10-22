@@ -731,6 +731,36 @@ sub RegistrationUpdateSend {
         }
     }
 
+    # if called from the scheduler process, cleanup the redundant scheduler
+    # registration update tasks
+    if ( $Param{RegistrationUpdateTaskID} ) {
+
+        # remove all existing RegistrationUpdate scheduler task
+        my @TaskList = $Self->{TaskObject}->TaskList();
+
+        # count the redundant task in the scheduler task table
+        my @RegistrationUpdateTasks;
+
+        TASK:
+        for my $Task (@TaskList) {
+
+            next TASK if $Task->{Type} ne 'RegistrationUpdate';
+
+            next TASK if $Task->{ID} eq $Param{RegistrationUpdateTaskID};
+
+            # add the redundant task to the registration update task list
+            push @RegistrationUpdateTasks, $Task;
+        }
+
+        # delete all redundant registration update task, if some exists
+        if (@RegistrationUpdateTasks) {
+
+            for my $RegistrationUpdateTask (@RegistrationUpdateTasks) {
+                $Self->{TaskObject}->TaskDelete( ID => $RegistrationUpdateTask->{ID} );
+            }
+        }
+    }
+
     $Result{Success} = 1;
     $Result{ReScheduleIn} = $ResponseData->{NextUpdate} // ( 3600 * 7 * 24 );
 
