@@ -183,7 +183,10 @@ sub Run {
         }
 
         # call run method on task handler object
-        my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
+        my $TaskResult = $TaskHandlerObject->Run(
+            TaskID => $TaskItem->{ID},
+            Data   => $TaskData{Data},
+        );
 
         # try to update PID changed time
         $Self->_PIDChangedTimeUpdate();
@@ -218,6 +221,7 @@ sub Run {
                 Message  => "Task is rescheduled (TaskID: $TaskItem->{ID}).",
             );
         }
+
         else {
 
             # delete the task

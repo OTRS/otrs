@@ -89,7 +89,10 @@ sub Run {
         Priority => 'info',
         Message  => "Registration - RegistrationUpdate running.",
     );
-    my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend();
+
+    my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend(
+        RegistrationUpdateTaskID => $Param{TaskID},
+    );
 
     # if we sent a successful Update, reschedule in whatever the OTRS
     # portal tells us. Otherwise, retry in two hours
