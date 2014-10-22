@@ -84,10 +84,6 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    return if !$Param{GetParam}->{ServiceID};
-    return if ref $Param{GetParam}->{ServiceID} ne 'ARRAY';
-
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # delete old custom services
