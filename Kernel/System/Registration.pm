@@ -735,7 +735,7 @@ sub RegistrationUpdateSend {
     # registration update tasks
     if ( $Param{RegistrationUpdateTaskID} ) {
 
-        # remove all existing RegistrationUpdate scheduler task
+        # get all existing scheduler tasks
         my @TaskList = $Self->{TaskObject}->TaskList();
 
         # count the redundant task in the scheduler task table
