@@ -69,8 +69,7 @@ td{
     padding:10px;
 }
 
-#Footer ul,
-#Footer .TopOfPage {
+#Footer ul {
     display: none;
 }
 

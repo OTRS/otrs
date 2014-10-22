@@ -14,9 +14,6 @@
         [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
     </a>
 [% RenderBlockEnd("Banner") %]
-    <a href="#Top" class="TopOfPage" title="[% Translate("Top of page") | html %]">
-        <span class="InvisibleText">[% Translate("Top of page") | html %]</span><i class="fa fa-arrow-circle-o-up"></i>
-    </a>
 </div>
 
 [% InsertTemplate("FooterJS.tt") %]

@@ -19,14 +19,14 @@
     padding: 12px 9px 8px;
     font-size: 10px;
     clear: both;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #eee;
     text-align: center;
     position: relative;
 }
 
 #Footer a,
 #Footer ul li a {
-    color: #9E9E9E;
+    color: #bbb;
 }
 
 #Footer a:hover,
@@ -60,22 +60,6 @@
 
 #Footer ul li:first-child {
     border: none;
-}
-
-.LoginScreen #Footer a.TopOfPage {
-    display: none;
-}
-
-#Footer a.TopOfPage {
-    color: #aaa;
-    display: block;
-    text-align: center;
-    font-size: 18px;
-    margin: 5px;
-}
-
-#Footer a.TopOfPage:hover {
-    color: #333;
 }
 
 } /* end @media */
