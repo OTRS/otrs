@@ -842,7 +842,7 @@ sub RegistrationUpdateSend {
         # get task object
         my $TaskObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
 
-        # remove all existing RegistrationUpdate scheduler task
+        # get all existing scheduler task
         my @TaskList = $TaskObject->TaskList();
 
         # count the redundant task in the scheduler task table
