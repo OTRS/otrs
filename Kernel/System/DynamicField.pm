@@ -1156,6 +1156,15 @@ sub DynamicFieldOrderCheck {
     return 1;
 }
 
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
+    return 1;
+}
+
 =begin Internal:
 
 =cut

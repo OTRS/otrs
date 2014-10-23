@@ -727,6 +727,15 @@ sub TokenCheck {
     return 1;
 }
 
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
+    return 1;
+}
+
 1;
 
 =back

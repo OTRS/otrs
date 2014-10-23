@@ -1302,6 +1302,15 @@ sub QueuePreferencesGet {
     return $Self->{PreferencesObject}->QueuePreferencesGet(%Param);
 }
 
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
+    return 1;
+}
+
 1;
 
 =back
