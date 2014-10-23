@@ -1,4 +1,5 @@
 #4.0.0.beta5 2014-??-??
+ - 2014-10-23 Added possibility to search for 'NotTicketFlags', thanks to Moritz Lenz.
  - 2014-10-23 Added the possibility to define a custom logo per skin. Fallback will be still AgentLogo.
  - 2014-10-22 Fixed bug#[10828](http://bugs.otrs.org/show_bug.cgi?id=10828) - MyServices select misbehaves on empty values.
  - 2014-10-22 Fixed bug#[10820](http://bugs.otrs.org/show_bug.cgi?id=10820) - memory cache does not get updated.

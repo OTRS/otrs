@@ -137,6 +137,12 @@ To find tickets in your system.
             Seen => 1,
         }
 
+        # search for ticket flag that is absent, or a different value than the
+        # one given:
+        NotTicketFlag => {
+            Seen => 1,
+        },
+
         # article stuff (optional)
         From    => '%spam@example.com%',
         To      => '%service@example.com%',
@@ -521,6 +527,22 @@ sub TicketSearch {
             $Index++;
         }
     }
+
+    if ( $Param{NotTicketFlag} ) {
+        my $TicketFlagUserID = $Param{TicketFlagUserID} || $Param{UserID};
+        return if !defined $TicketFlagUserID;
+
+        my $Index = 1;
+        for my $Key ( sort keys %{ $Param{NotTicketFlag} } ) {
+            $SQLFrom .= "LEFT JOIN ticket_flag ntf$Index ON st.id = ntf$Index.ticket_id  "
+                     . " AND ntf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'"
+                     . " AND ntf$Index.create_by = "
+                        . $DBObject->Quote( $TicketFlagUserID, 'Integer' )
+                     . ' ';
+            $Index++;
+        }
+    }
+
 
     # current type lookup
     if ( $Param{Types} ) {
@@ -1054,6 +1076,19 @@ sub TicketSearch {
             $SQLExt .= " AND tf$Index.ticket_value = '" . $DBObject->Quote($Value) . "'";
             $SQLExt .= " AND tf$Index.create_by = "
                 . $DBObject->Quote( $TicketFlagUserID, 'Integer' );
+
+            $Index++;
+        }
+    }
+
+    if ( $Param{NotTicketFlag} ) {
+        my $Index = 1;
+        for my $Key ( sort keys %{ $Param{NotTicketFlag} } ) {
+            my $Value = $Param{NotTicketFlag}->{$Key};
+            return if !defined $Value;
+
+            $SQLExt .= " AND (ntf$Index.ticket_value IS NULL "
+                       . "OR ntf$Index.ticket_value <> '" . $DBObject->Quote($Value) . "')";
 
             $Index++;
         }

@@ -350,6 +350,117 @@ for my $UserID (@UserIDs) {
     }
 }
 
+# tests for the NotTicketFlag TicketSearch feature
+#
+my $Count = $TicketObject->TicketSearch(
+    TicketID            => $TicketID,
+    TicketFlagUserID    => $UserIDs[0],
+    UserID              => 1,
+    NotTicketFlag       => {
+        JustOne             => 42,
+    },
+    Result              => 'COUNT',
+);
+
+$Self->Is($Count, 1, 'NotTicketFlag with non-existing flag');
+
+$TicketObject->TicketFlagSet(
+    TicketID => $TicketID,
+    Key      => 'JustOne',
+    Value    => 42,
+    UserID   => $UserIDs[0],
+);
+
+$TicketObject->TicketFlagSet(
+    TicketID => $TicketID,
+    Key      => 'AnotherOne',
+    Value    => 23,
+    UserID   => $UserIDs[0],
+);
+
+@Tests = (
+    {
+        Name        => 'NotTicketFlag excludes ticket with correct flag value',
+        Expected    => 0,
+        Search      => {
+            TicketFlagUserID    => $UserIDs[0],
+            NotTicketFlag       => {
+                JustOne             => 42,
+            },
+
+        },
+    },
+    {
+        Name        => 'NotTicketFlag excludes ticket with correct flag value, and ignores non-existing flags',
+        Expected    => 0,
+        Search      => {
+            TicketFlagUserID    => $UserIDs[0],
+            NotTicketFlag       => {
+                JustOne             => 42,
+                OtherFlag           => 'does not matter',
+            },
+        },
+    },
+    {
+        Name        => 'NotTicketFlag ignores flags with different value',
+        Expected    => 1,
+        Search  => {
+            TicketFlagUserID    => $UserIDs[0],
+            NotTicketFlag       => {
+                JustOne             => 999,
+            },
+        }
+    },
+    {
+        Name        => 'NotTicketFlag ignores flags with different value',
+        Expected    => 1,
+        Search      => {
+            TicketFlagUserID    => $UserIDs[0],
+            NotTicketFlag       => {
+                JustOne             => 999,
+            },
+        },
+    },
+    {
+        Name        => 'NotTicketFlag combines with TicketFlag',
+        Expected    => 1,
+        Search      => {
+            TicketFlagUserID    => $UserIDs[0],
+            TicketFlag          => {
+                JustOne             => 42,
+                AnotherOne          => 23,
+            },
+            NotTicketFlag       => {
+                JustOne             => 999,
+                DoesNotExist        => 0,
+            },
+        },
+    },
+    {
+        Name        =>  'NotTicketFlag ignores flags from other users',
+        Expected    => 1,
+        Search      => {
+            TicketFlagUserID    => $UserIDs[1],
+            NotTicketFlag       => {
+                JustOne             => 42,
+            },
+        },
+    },
+);
+
+for my $Test (@Tests) {
+    my $Count = $TicketObject->TicketSearch(
+        TicketID            => $TicketID,
+        UserID              => 1,
+        Result              => 'COUNT',
+        %{ $Test->{Search} },
+    );
+    $Self->Is($Count, $Test->{Expected}, $Test->{Name});
+}
+
+
+
+
 # delete tickets
 for my $TicketID (@TicketIDs) {
     $Self->True(
