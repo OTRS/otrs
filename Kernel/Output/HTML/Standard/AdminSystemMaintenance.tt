@@ -73,7 +73,7 @@
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=SystemMaintenanceEdit;SystemMaintenanceID=[% Data.ID | uri %]">[% Data.StopDateTimeStamp | html %]</a>
                             </td>
                             <td>[% Data.Comment | truncate(80) | html %]</td>
-                            <td>[% Data.ValidID | html %]</td>
+                            <td>[% Translate(Data.ValidID) | html %]</td>
 
                             <td class="Center">
                                 <a class="TrashCan SystemMaintenanceDelete" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;SystemMaintenanceID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete System Maintenance") | html %]">
