@@ -140,7 +140,142 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
     }
 }
 
-# remove old backups
+# create new backup directory
+my $Home = $CommonObject{ConfigObject}->Get('Home');
+chdir($Home);
+
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+    = $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    );
+
+# create directory name - this looks like 2013-09-09_22-19'
+my $Directory = sprintf( "$Opts{d}/%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
+
+if ( !mkdir($Directory) ) {
+    die "ERROR: Can't create directory: $Directory: $!\n";
+}
+
+# backup Kernel/Config.pm
+print "Backup $Directory/Config.tar.gz ... ";
+if (
+    !system(
+        "tar -czf $Directory/Config.tar.gz Kernel/Config*"
+    )
+    )
+{
+    print "done\n";
+}
+else {
+    print "failed\n";
+    RemoveIncompleteBackup($Directory);
+    die "Backup failed\n";
+}
+
+# backup application
+if ($DBOnlyBackup) {
+    print "Backup of filesystem data disabled by parameter dbonly ... \n";
+}
+else {
+    if ($FullBackup) {
+        print "Backup $Directory/Application.tar.gz ... ";
+        my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache ";
+        if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
+            print "done\n";
+        }
+        else {
+            print "failed\n";
+            RemoveIncompleteBackup($Directory);
+            die "Backup failed\n";
+        }
+    }
+
+    # backup vardir
+    else {
+        print "Backup $Directory/VarDir.tar.gz ... ";
+        if ( !system("tar -czf $Directory/VarDir.tar.gz var/") ) {
+            print "done\n";
+        }
+        else {
+            print "failed\n";
+            RemoveIncompleteBackup($Directory);
+            die "Backup failed\n";
+        }
+    }
+
+    # backup datadir
+    if ( $ArticleDir !~ m/\Q$Home\E/ ) {
+        print "Backup $Directory/DataDir.tar.gz ... ";
+        if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
+            print "done\n";
+        }
+        else {
+            print "failed\n";
+            RemoveIncompleteBackup($Directory);
+            die "Backup failed\n";
+        }
+    }
+}
+
+# backup database
+if ( $DB =~ m/mysql/i ) {
+    print "Dump $DB rdbms ... ";
+    if ($DatabasePw) {
+        $DatabasePw = "-p'$DatabasePw'";
+    }
+    if (
+        !system(
+            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql"
+        )
+        )
+    {
+        print "done\n";
+    }
+    else {
+        print "failed\n";
+        RemoveIncompleteBackup($Directory);
+        die "Backup failed\n";
+    }
+}
+else {
+    print "Dump $DB rdbms ... ";
+
+    # set password via environment variable if there is one
+    if ($DatabasePw) {
+        $ENV{'PGPASSWORD'} = $DatabasePw;
+    }
+
+    if ($DatabaseHost) {
+        $DatabaseHost = "-h $DatabaseHost"
+    }
+
+    if (
+        !system(
+            "$DBDump -f $Directory/DatabaseBackup.sql $DatabaseHost -U $DatabaseUser $Database"
+        )
+        )
+    {
+        print "done\n";
+    }
+    else {
+        print "failed\n";
+        RemoveIncompleteBackup($Directory);
+        die "Backup failed\n";
+    }
+}
+
+# compressing database
+print "Compress SQL-file... ";
+if ( !system("$CompressCMD $Directory/DatabaseBackup.sql") ) {
+    print "done\n";
+}
+else {
+    print "failed\n";
+    RemoveIncompleteBackup($Directory);
+    die "Backup failed\n";
+}
+
+# remove old backups only after everything worked well
 if ( defined $Opts{r} ) {
     my %LeaveBackups;
     my $SystemTime = $CommonObject{TimeObject}->SystemTime();
@@ -197,8 +332,6 @@ if ( defined $Opts{r} ) {
             );
             for my $File (@Files) {
                 if ( -e $File ) {
-
-                    #                    print "Notice: remove $File\n";
                     unlink $File;
                 }
             }
@@ -212,123 +345,28 @@ if ( defined $Opts{r} ) {
     }
 }
 
-# create new backup directory
-my $Home = $CommonObject{ConfigObject}->Get('Home');
-chdir($Home);
+# If error occurs this functions remove incomlete backup folder to avoid the impression
+#   that the backup was ok (see http://bugs.otrs.org/show_bug.cgi?id=10665).
+sub RemoveIncompleteBackup {
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-    = $CommonObject{TimeObject}->SystemTime2Date(
-    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    # get parameters
+    my $Directory = shift;
+
+    # remove files and directory
+    print STDERR "Deleting incomplete backup $Directory ... ";
+    my @Files = $CommonObject{MainObject}->DirectoryRead(
+        Directory => $Directory,
+        Filter    => '*',
     );
-
-# create directory name - this looks like 2013-09-09_22-19'
-my $Directory = sprintf( "$Opts{d}/%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
-
-if ( !mkdir($Directory) ) {
-    die "ERROR: Can't create directory: $Directory: $!\n";
-}
-
-# backup Kernel/Config.pm
-print "Backup $Directory/Config.tar.gz ... ";
-if (
-    !system(
-        "tar -czf $Directory/Config.tar.gz Kernel/Config*"
-    )
-    )
-{
-    print "done\n";
-}
-else {
-    die "failed\n";
-}
-
-# backup application
-if ($DBOnlyBackup) {
-    print "Backup of filesystem data disabled by parameter dbonly ... \n";
-}
-else {
-    if ($FullBackup) {
-        print "Backup $Directory/Application.tar.gz ... ";
-        my $Excludes = "--exclude=var/tmp --exclude=js-cache --exclude=css-cache ";
-        if ( !system("tar $Excludes -czf $Directory/Application.tar.gz .") ) {
-            print "done\n";
-        }
-        else {
-            die "failed\n";
+    for my $File (@Files) {
+        if ( -e $File ) {
+            unlink $File;
         }
     }
-
-    # backup vardir
-    else {
-        print "Backup $Directory/VarDir.tar.gz ... ";
-        if ( !system("tar -czf $Directory/VarDir.tar.gz var/") ) {
-            print "done\n";
-        }
-        else {
-            die "failed\n";
-        }
-    }
-
-    # backup datadir
-    if ( $ArticleDir !~ m/\Q$Home\E/ ) {
-        print "Backup $Directory/DataDir.tar.gz ... ";
-        if ( !system("tar -czf $Directory/DataDir.tar.gz $ArticleDir") ) {
-            print "done\n";
-        }
-        else {
-            die "failed\n";
-        }
-    }
-}
-
-# backup database
-if ( $DB =~ m/mysql/i ) {
-    print "Dump $DB rdbms ... ";
-    if ($DatabasePw) {
-        $DatabasePw = "-p'$DatabasePw'";
-    }
-    if (
-        !system(
-            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql"
-        )
-        )
-    {
-        print "done\n";
+    if ( rmdir($Directory) ) {
+        print STDERR "done\n";
     }
     else {
-        die "failed\n";
+        print STDERR "failed\n";
     }
-}
-else {
-    print "Dump $DB rdbms ... ";
-
-    # set password via environment variable if there is one
-    if ($DatabasePw) {
-        $ENV{'PGPASSWORD'} = $DatabasePw;
-    }
-
-    if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost"
-    }
-
-    if (
-        !system(
-            "$DBDump -f $Directory/DatabaseBackup.sql $DatabaseHost -U $DatabaseUser $Database"
-        )
-        )
-    {
-        print "done\n";
-    }
-    else {
-        die "failed\n";
-    }
-}
-
-# compressing database
-print "Compress SQL-file... ";
-if ( !system("$CompressCMD $Directory/DatabaseBackup.sql") ) {
-    print "done\n";
-}
-else {
-    die "failed\n";
 }
