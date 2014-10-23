@@ -157,9 +157,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
 
             if ( parseInt(Core.Config.Get('RichTextSet'), 10) === 0){
                 $('#RichTextField, .RichTextField').on('change', '#RichText', function() {
-                    if (Core.Config.Get('TextIsSpellChecked') === '1'){
-                        Core.Config.Set('TextIsSpellChecked', '0');
-                    }
+                    Core.Config.Set('TextIsSpellChecked', '0');
                 });
             }
 
