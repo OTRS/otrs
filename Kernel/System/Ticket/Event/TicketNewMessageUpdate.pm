@@ -61,13 +61,20 @@ sub Run {
             AllUsers => 1,
         );
 
-        # set the seen flag to 1 for the agent who created the article
-        $TicketObject->ArticleFlagSet(
+        my %Article = $TicketObject->ArticleGet(
             ArticleID => $Param{Data}->{ArticleID},
-            Key       => 'Seen',
-            Value     => 1,
-            UserID    => $Param{UserID},
+            DynamicFields => 0,
         );
+
+        if (%Article && $Article{SenderType} eq 'agent') {
+            # set the seen flag to 1 for the agent who created the article
+            $TicketObject->ArticleFlagSet(
+                ArticleID => $Param{Data}->{ArticleID},
+                Key       => 'Seen',
+                Value     => 1,
+                UserID    => $Param{UserID},
+            );
+        }
 
         return 1;
     }
