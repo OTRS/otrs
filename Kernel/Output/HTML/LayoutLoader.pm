@@ -73,6 +73,9 @@ sub LoaderCreateAgentCSSCalls {
         || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
         || 'default';
 
+    # save selected skin
+    $Self->{SkinSelected} = $SkinSelected;
+
     my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
     my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
 

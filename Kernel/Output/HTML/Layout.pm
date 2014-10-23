@@ -1077,11 +1077,26 @@ sub Header {
    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls();
 
-    # Add header logo, if configured
-    if ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
-        my %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
-        my %Data;
+    my %AgentLogo;
 
+    # check if we need to display a custom logo for the selected skin
+    my $AgentLogoCustom = $Self->{ConfigObject}->Get('AgentLogoCustom');
+    if (   $Self->{SkinSelected}
+        && $AgentLogoCustom
+        && IsHashRefWithData($AgentLogoCustom)
+        && $AgentLogoCustom->{ $Self->{SkinSelected} } )
+    {
+        %AgentLogo = %{ $AgentLogoCustom->{ $Self->{SkinSelected} } };
+    }
+
+    # Otherwise show default header logo, if configured
+    elsif ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
+        %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
+    }
+
+    if ( %AgentLogo && keys %AgentLogo ) {
+
+        my %Data;
         for my $CSSStatement ( sort keys %AgentLogo ) {
             if ( $CSSStatement eq 'URL' ) {
                 my $WebPath = '';

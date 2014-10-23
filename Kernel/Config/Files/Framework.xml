@@ -219,6 +219,62 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="AgentLogoCustom###default" Required="0" Valid="0">
+        <Description Translatable="1">The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
+                <Item Key="StyleTop">4px</Item>
+                <Item Key="StyleRight">38px</Item>
+                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleWidth">270px</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentLogoCustom###slim" Required="0" Valid="0">
+        <Description Translatable="1">The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
+                <Item Key="StyleTop">4px</Item>
+                <Item Key="StyleRight">38px</Item>
+                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleWidth">270px</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentLogoCustom###ivory" Required="0" Valid="0">
+        <Description Translatable="1">The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
+                <Item Key="StyleTop">4px</Item>
+                <Item Key="StyleRight">38px</Item>
+                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleWidth">270px</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="AgentLogoCustom###ivory-slim" Required="0" Valid="0">
+        <Description Translatable="1">The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="URL">skins/Agent/default/img/logo_bg.png</Item>
+                <Item Key="StyleTop">4px</Item>
+                <Item Key="StyleRight">38px</Item>
+                <Item Key="StyleHeight">67px</Item>
+                <Item Key="StyleWidth">270px</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="AgentLoginLogo" Required="0" Valid="0">
         <Description Translatable="1">The logo shown on top of the login box of the agent interface. The URL to the image must be relative URL to the skin image directory.</Description>
         <Group>Framework</Group>
