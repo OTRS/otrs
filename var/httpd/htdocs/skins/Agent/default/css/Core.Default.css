@@ -828,6 +828,31 @@ iframe.TextOption.Customer {
     border: 1px solid #fff;
 }
 
+.ui-corner-all {
+    border-radius: 0px !important;
+}
+
+.ui-widget-header {
+    background: #eee !important;
+    border: 0px !important;
+    font-weight: normal !important;
+}
+
+.ui-state-default, 
+.ui-widget-content .ui-state-default, 
+.ui-widget-header .ui-state-default {
+    background: #f2f2f2 !important;
+}
+
+.ui-state-hover, 
+.ui-widget-content .ui-state-hover, 
+.ui-widget-header .ui-state-hover, 
+.ui-state-focus, 
+.ui-widget-content .ui-state-focus, 
+.ui-widget-header .ui-state-focus {
+    background: #ddd !important;
+} 
+
 /**
  * @subsection global CKEditor fixes/improvements
  */
