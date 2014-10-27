@@ -47,6 +47,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Instance,
             UserLanguage;
 
+        if ($EditorArea.hasClass('HasCKEInstance')) {
+            return false;
+        }
+
         if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
             EditorID = $EditorArea.attr('id');
         }
@@ -62,6 +66,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
 
         CKEDITOR.on('instanceCreated', function (Editor) {
+
+            // mark the root element as already initated
+            $EditorArea.addClass('HasCKEInstance');
+
             CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
 
             // Remove the validation error tooltip if content is added to the editor
