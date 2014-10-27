@@ -21,11 +21,11 @@
  - 2014-09-17 Fixed bug#[10736](http://bugs.otrs.org/show_bug.cgi?id=10736) - Wrong update behavior for the proccess change time by the scheduler, when a time zone is used.
  - 2014-09-15 Added dependency check for Perl module Time::Piece.
  - 2014-09-12 Fixed bug#[10710](http://bugs.otrs.org/show_bug.cgi?id=10710) - Adding agent with username that has already existed in AdminUser leads to SQL error message, thanks to S7.
- - 2014-09-12 Fixed bug#[10582](http://bugs.otrs.org/show_bug.cgi?id=10582) - Adding templates with same name in AdminTemplate leads to SQl error message.
+ - 2014-09-12 Fixed bug#[10582](http://bugs.otrs.org/show_bug.cgi?id=10582) - Adding templates with same name in AdminTemplate leads to SQL error message.
  - 2014-09-04 Fixed bug#[10708](http://bugs.otrs.org/show_bug.cgi?id=10708) - ProcessManagement: ActivityDialog Description short and long are not displaying.
 
 #3.3.9 2014-09-09
- - 2014-09-12 Fixed bug#[10703](http://bugs.otrs.org/show_bug.cgi?id=10703) - Fulltext field is not added by defoult if there are not default fields in Ticket search, thanks to S7.
+ - 2014-09-12 Fixed bug#[10703](http://bugs.otrs.org/show_bug.cgi?id=10703) - Fulltext field is not added by default if there are not default fields in Ticket search, thanks to S7.
  - 2014-08-29 Fixed bug#[10697](http://bugs.otrs.org/show_bug.cgi?id=10697) - Column name in CSV report of stats is lowercase.
  - 2014-08-29 Fixed bug#[10652](http://bugs.otrs.org/show_bug.cgi?id=10652) - Process tickets without any articles create empty lines in AgentTicketSearch CSV result file.
  - 2014-08-29 Fixed bug#[10607](http://bugs.otrs.org/show_bug.cgi?id=10607) - SQL Box can change the database.
