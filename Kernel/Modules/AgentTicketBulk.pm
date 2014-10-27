@@ -1060,10 +1060,6 @@ sub _Mask {
             Name => 'RichText',
             Data => \%Param,
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'RichTextEmail',
-            Data => \%Param,
-        );
     }
 
     # reload parent window

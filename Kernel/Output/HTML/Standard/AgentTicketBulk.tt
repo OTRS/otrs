@@ -125,9 +125,7 @@
 
                             <label class="Mandatory" for="EmailBody"><span class="Marker">*</span> [% Translate("Text") | html %]:</label>
                             <div class="RichTextField">
-[% RenderBlockStart("RichTextEmail") %]
-[% InsertTemplate("RichTextEditor.tt") %]
-[% RenderBlockEnd("RichTextEmail") %]
+# RichTextEditor has already been included previously (if enabled)
                                 <textarea id="EmailBody" class="RichText Validate_DependingRequiredAND Validate_Depending_EmailSubject [% Data.BodyInvalid %]" name="EmailBody" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.EmailBody | html %]</textarea>
                                 <div id="EmailBodyError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                                 <div id="EmailBodyServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
