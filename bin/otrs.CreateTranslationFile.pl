@@ -194,14 +194,6 @@ sub HandleLanguage {
         # i.e. FAQ_2_0 or FAQ20
         $Module =~ s{ [_0-9]+ .+ \z }{}xms;
 
-        # special handling of some ITSM modules
-        if ( $Module eq 'ITSMIncidentProblemManagement' ) {
-            $Module = 'ITSMTicket';
-        }
-        elsif ( $Module eq 'ITSMConfigurationManagement' ) {
-            $Module = 'ITSMConfigItem';
-        }
-
         # save module directory in target file
         $TargetFile = "$ModuleDirectory/Kernel/Language/${Language}_$Module.pm";
 
