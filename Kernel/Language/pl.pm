@@ -481,7 +481,7 @@ sub Data {
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
             'Nie można zmienić hasła ponieważ było już używane. Należy wybrać nowe hasło!',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
-            'Wskaż znak separatora w pliku CSV (statystyki i wyszukiwania). Jeśli nie wskażzesz tutaj separatora, użyty zostanie domyślny separator dla twojego języka.',
+            'Wskaż znak separatora w pliku CSV (statystyki i wyszukiwania). Jeśli nie wskażesz tutaj separatora, użyty zostanie domyślny separator dla twojego języka.',
         'CSV Separator' => 'Separator CSV',
 
         # Template: AAAStats
@@ -2849,7 +2849,7 @@ sub Data {
         'Resize' => 'Zmień rozmiar',
 
         # Template: AttachmentBlocker
-        'To protect your privacy, remote content was blocked.' => 'Aby chronić twoją prywatnąć, zdalna zawartość została zablokowana.',
+        'To protect your privacy, remote content was blocked.' => 'Aby chronić twoją prywatność, zdalna zawartość została zablokowana.',
         'Load blocked content.' => 'Załaduj zablokowaną treść.',
 
         # Template: Copyright
@@ -3072,7 +3072,7 @@ sub Data {
         'Generated password' => 'Wygenerowane hasło',
 
         # Template: InstallerDBmysql
-        'Passwords do not match' => 'Hasła nie zgadzzają się',
+        'Passwords do not match' => 'Hasła nie zgadzają się',
 
         # Template: InstallerDBoracle
         'SID' => 'SID',
@@ -3120,7 +3120,7 @@ sub Data {
 
         # Template: Login
         'Lost your password?' => 'Zapomniałeś hasła?',
-        'Request New Password' => 'Żądaj nowego hasła',
+        'Request New Password' => 'Żądanie nowego hasła',
         'Back to login' => 'Powrót do logowania',
 
         # Template: Motd
@@ -4003,7 +4003,7 @@ sub Data {
         'Determines the next screen after new customer ticket in the customer interface.' =>
             'Determinuje kolejne okno dla nowych zgłoszeń klienta w interfejsie klienta.',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
-            'Determinuje kolejne okno po oknie odpowiedzi przybliżonego zgłoszzenia w interfejsie klienta.',
+            'Determinuje kolejne okno po oknie odpowiedzi przybliżonego zgłoszenia w interfejsie klienta.',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
@@ -4149,7 +4149,7 @@ sub Data {
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             'Eksportuje całe drzewo artykułów z rezultatów wyszukiwania (może to mieć wpływ na wydajnośc systemu).',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
-            'Pobiera pakiety przezz proxy. Nadpisuje "WebUserAgent::Proxy".',
+            'Pobiera pakiety przez proxy. Nadpisuje "WebUserAgent::Proxy".',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             'Plik kóry jest wyświetlony w module Kernel::Modules::AgentInfo ',
         'Filter incoming emails.' => 'Fitrowanie przychodzących e-maili.',
