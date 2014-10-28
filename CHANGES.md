@@ -1,4 +1,5 @@
 #3.3.10 ????-??-??
+ - 2014-10-27 Updated SupportDataBundle email address.
  - 2014-10-27 Fixed bug#[10587](http://bugs.otrs.org/show_bug.cgi?id=10587) - Find.pm "Can't cd to .." error in DynamicField subdirectories.
  - 2014-10-23 Fixed bug#[10665](http://bugs.otrs.org/show_bug.cgi?id=10665) - Backup script should delete incomplete backups.
  - 2014-10-20 Fixed bug#[10817](http://bugs.otrs.org/show_bug.cgi?id=10817) - generic agent ticket date filter 'year' one year has 365 instead of 356.
