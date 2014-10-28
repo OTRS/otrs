@@ -1,4 +1,5 @@
 #4.0.0.beta5 2014-??-??
+ - 2014-10-28 Reimplemented otrs.SetPermissions.pl. It is now much faster and has a --skip-article-dir option.
  - 2014-10-27 Updated SupportDataBundle email address.
  - 2014-10-27 Fixed bug#[10587](http://bugs.otrs.org/show_bug.cgi?id=10587) - Find.pm "Can't cd to .." error in DynamicField subdirectories.
  - 2014-10-23 Fixed bug#[10665](http://bugs.otrs.org/show_bug.cgi?id=10665) - Backup script should delete incomplete backups.

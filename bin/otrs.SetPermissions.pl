@@ -28,322 +28,219 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
-use File::Find qw();
-use Getopt::Long;
+use File::Find();
+use File::stat();
+use Getopt::Long();
 
-print "bin/otrs.SetPermissions.pl - set OTRS file permissions\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+my $OTRSDirectory       = dirname($RealBin);
+my $OTRSDirectoryLength = length($OTRSDirectory);
 
-my $Secure             = 0;
-my $Version            = 0;
-my $Help               = 0;
-my $NotRoot            = 0;
-my $AdminGroupWritable = 0;
-my $OtrsUser           = '';
-my $WebUser            = '';
-my $AdminUser          = 'root';
-my $OtrsGroup          = '';
-my $WebGroup           = '';
-my $AdminGroup         = 'root';
+my $OtrsUser   = 'otrs';    # default otrs
+my $WebGroup   = '';        # no default, too different
+my $AdminGroup = 'root';    # default root
+my ( $Help, $DryRun, $SkipArticleDir, $OtrsUserID, $WebGroupID, $AdminGroupID );
 
-GetOptions(
-    'secure'               => \$Secure,
-    'not-root'             => \$NotRoot,
-    'version'              => \$Version,
-    'help'                 => \$Help,
-    'admin-group-writable' => \$AdminGroupWritable,
-    'otrs-user=s'          => \$OtrsUser,
-    'web-user=s'           => \$WebUser,
-    'admin-user=s'         => \$AdminUser,
-    'otrs-group=s'         => \$OtrsGroup,
-    'web-group=s'          => \$WebGroup,
-    'admin-group=s'        => \$AdminGroup
+sub PrintUsage {
+    print <<EOF;
+bin/otrs.SetPermissions.pl - set OTRS file permissions
+Copyright (C) 2001-2014 OTRS AG, http://otrs.com
+
+Usage: otrs.SetPermissions.pl
+    --web-group=<WEB_GROUP>         # web server group ('www', 'www-data' or similar)
+    [--otrs-user=<OTRS_USER>]       # OTRS user, defaults to 'otrs'
+    [--admin-group=<ADMIN_GROUP>]   # admin group, defaults to 'root'
+    [--skip-article-dir]            # don't change var/article as it might take too long
+    [--dry-run]                     # only report, don't change
+    [--help]
+
+Example: otrs.setPermissions.pl --web-group=www-data
+EOF
+    return;
+}
+
+# Files/directories that should be ignored and not recursed into.
+my @IgnoreFiles = (
+    qr{^/\.git}smx,
+    qr{^/\.tidyall}smx,
+    qr{^/\.tx}smx,
+    qr{^/\.settings}smx,
 );
 
-if ($Version) {
-    exit(0);
-}
-if ( $Help || $#ARGV < 0 ) {
-    print <<EOF;
-Usage: otrs.SetPermissions.pl
-    [--otrs-user=<OTRS_USER>]
-    [--web-user=<WEBSERVER_USER>]
-    [--otrs-group=<OTRS_GROUP>]
-    [--web-group=<WEB_GROUP>]
-    [--admin-user=<ADMIN_USER>]
-    [--admin-group=<ADMIN_GROUP>]
-    [--admin-group-writable]
-    [--secure]  (paranoid mode: all files readonly, does not work with PackageManager)
-    [--not-root]
-    <OTRS_HOME>
+# Files to be marked as executable.
+my @ExecutableFiles = (
+    qr{\.(?:pl|psgi|sh)$}smx,
+    qr{^/scripts/suse-rcotrs$}smx,
+);
 
-Try: otrs.SetPermissions.pl /opt/otrs
-EOF
+# Special files that must not be written by web server user.
+my @ProtectedFiles = (
+    qr{^/\.fetchmailrc$}smx,
+    qr{^/\.procmailrc$}smx,
+);
 
-    if ( $#ARGV < 0 ) {
-        exit 1;
-    }
-    else {
+my $ExitStatus = 0;
+
+sub Run {
+    if ( !@ARGV ) {
+        PrintUsage();
         exit 0;
     }
-}
 
-my $DestDir = $ARGV[0];
-
-# check params
-if ( !$OtrsUser ) {
-    print STDERR "ERROR: --otrs-user=<OTRS_USER>\n";
-    exit 1;
-}
-if ( !$WebUser ) {
-    print STDERR "ERROR: --web-user=<WEBSERVER_USER>\n";
-    exit 1;
-}
-if ( !$OtrsGroup ) {
-    print STDERR "ERROR: --otrs-group=<OTRS_GROUP>\n";
-    exit 1;
-}
-if ( !$WebGroup ) {
-    print STDERR "ERROR: --web-group=<WEB_GROUP>\n";
-    exit 1;
-}
-
-# Check that the users exist
-my ( $WebUserID, $OtrsUserID, $AdminUserID );
-if ( !$NotRoot ) {
-    ( $WebUserID, $OtrsUserID, $AdminUserID ) = GetUserIDs( $WebUser, $OtrsUser, $AdminUser );
-}
-
-# Check that the groups exist
-my ( $WebGroupID, $OtrsGroupID, $AdminGroupID );
-if ( !$NotRoot ) {
-    ( $WebGroupID, $OtrsGroupID, $AdminGroupID )
-        = GetGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
-}
-
-# set permissions
-print "Setting permissions on $DestDir\n";
-if ($Secure) {
-
-    # In secure mode, make files read-only by default
-    File::Find::find(
-        { wanted => \&MakeReadOnly, no_chdir => 1, follow => 1 },
-        $DestDir . "/"
-    );    # append / to follow symlinks
-
-    # Also change the toplevel directory/symlink itself.
-    MakeReadOnly($DestDir);
-}
-else {
-
-    # set all files writeable for webserver user (needed for package manager)
-    File::Find::find(
-        { wanted => \&MakeWritable, no_chdir => 1, follow => 1 },
-        $DestDir . "/"
-    );    # append / to follow symlinks
-
-    # Also change the toplevel directory/symlink itself.
-    # This must be readonly, otherwise procmail will refuse to read .procmailrc.
-    # See bug#9391.
-    MakeReadOnly($DestDir);
-
-    # set the $HOME to the OTRS user
-    if ( !$NotRoot ) {
-        SafeChown( $OtrsUserID, $WebGroupID, $DestDir );
+    if ( $^O ne 'MSWin32' && $> != 0 ) {    # $EFFECTIVE_USER_ID
+        print STDERR "ERROR: Please run this script as superuser (root).\n";
+        exit 1;
     }
-}
 
-# add empty files
-my @EmptyFiles = (
-    "$DestDir/var/log/TicketCounter.log",
-);
-for my $File (@EmptyFiles) {
-    open( my $Fh, '>>', $File ) || die "Could not open $File: $!\n";    ## no critic
-    print $Fh '';
-    close $Fh;
-}
+    Getopt::Long::GetOptions(
+        'help'             => \$Help,
+        'otrs-user=s'      => \$OtrsUser,
+        'web-group=s'      => \$WebGroup,
+        'admin-group=s'    => \$AdminGroup,
+        'dry-run'          => \$DryRun,
+        'skip-article-dir' => \$SkipArticleDir,
+    );
 
-# var/*
-
-print "Setting permissions on $DestDir/var\n";
-
-# set the var directory to OTRS and webserver user
-my @Dirs = (
-    "$DestDir/var/article",
-    "$DestDir/var/log",
-    "$DestDir/var/tmp",
-    "$DestDir/var/spool",
-    "$DestDir/var/stats",
-    "$DestDir/var/sessions",
-
-    # CSS and JS cache directories must be writable
-    "$DestDir/var/httpd/htdocs/skins/Agent",
-    "$DestDir/var/httpd/htdocs/skins/Customer",
-    "$DestDir/var/httpd/htdocs/js/js-cache",
-);
-for my $Dir (@Dirs) {
-    if ( !-e $Dir ) {
-        mkdir $Dir;
+    # check params
+    $OtrsUserID = getpwnam $OtrsUser;
+    if ( !$OtrsUser || !defined $OtrsUserID ) {
+        print STDERR "ERROR: --otrs-user is missing or invalid.\n";
+        exit 1;
     }
-}
-File::Find::find(
-    { wanted => \&MakeWritableSetGid, no_chdir => 1, follow => 1 },
-    @Dirs
-);
+    $WebGroupID = getgrnam $WebGroup;
+    if ( !$WebGroup || !defined $WebGroupID ) {
+        print STDERR "ERROR: --web-group is missing or invalid.\n";
+        exit 1;
+    }
+    $AdminGroupID = getgrnam $AdminGroup;
+    if ( !$AdminGroup || !defined $AdminGroupID ) {
+        print STDERR "ERROR: --admin-group is invalid.\n";
+        exit 1;
+    }
 
-# set all bin/* as executable
-print "Setting permissions on $DestDir/bin/*\n";
-File::Find::find(
-    { wanted => \&MakeExecutable, no_chdir => 1, follow => 1 },
-    "$DestDir/bin"
-);
+    if ( defined $SkipArticleDir ) {
+        push @IgnoreFiles, qr{^/var/article}smx;
+    }
 
-# set all scripts/* as executable
-print "Setting permissions on $DestDir/scripts/\n";
-my @FileListScripts = (
-    glob("$DestDir/scripts/*.pl"),
-    glob("$DestDir/scripts/*.sh"),
-    glob("$DestDir/scripts/tools/*.pl"),
-    glob("$DestDir/scripts/auto_build/*.pl"),
-    "$DestDir/scripts/suse-rcotrs",
-);
-for my $ExecutableFile (@FileListScripts) {
-    MakeExecutable($ExecutableFile);
-}
-
-# set write permission for web installer
-if ( !$Secure ) {
-    print "Setting permissions on $DestDir/Kernel/Config.pm\n";
-    MakeWritable("$DestDir/Kernel/Config.pm");
+    print "Setting permissions on $OTRSDirectory\n";
+    File::Find::find(
+        {
+            wanted   => \&SetPermissions,
+            no_chdir => 1,
+            follow   => 1,
+        },
+        $OTRSDirectory,
+    );
+    exit $ExitStatus;
 }
 
-# set owner rw and group ro
-my @MailConfigFiles = (
-    "$DestDir/.procmailrc",
-    "$DestDir/.fetchmailrc",
-);
-for my $MailConfigFile (@MailConfigFiles) {
-    if ( -e $MailConfigFile ) {
-        print "Setting owner rw and group ro permissions on $MailConfigFile\n";
-        MakeReadOnly($MailConfigFile);
-        if ( !$NotRoot ) {
-            SafeChown( $OtrsUserID, $AdminGroupID, $MailConfigFile );
+sub SetPermissions {
+
+    # First get a canonical full filename
+    my $File = $File::Find::fullname;
+    $File =~ s{/{2,}}{/}smxg;
+
+    # Make sure it is inside the OTRS directory to avoid following symlinks outside
+    if ( substr( $File, 0, $OTRSDirectoryLength ) ne $OTRSDirectory ) {
+        $File::Find::prune = 1;    # don't descend into subdirectories
+        return;
+    }
+
+    # Now get a canonical relative filename under the OTRS directory
+    my $RelativeFile = substr( $File, $OTRSDirectoryLength ) || '/';
+
+    for my $IgnoreRegex (@IgnoreFiles) {
+        if ( $RelativeFile =~ $IgnoreRegex ) {
+            $File::Find::prune = 1;    # don't descend into subdirectories
+            return;
         }
     }
+
+    # Ok, get target permissions for file
+    SetFilePermissions( $File, $RelativeFile );
+
+    return;
 }
 
-exit(0);
+sub SetFilePermissions {
+    my ( $File, $RelativeFile ) = @_;
 
-## no critic (ProhibitLeadingZeros)
-
-sub MakeReadOnly {
-    my $File = $File::Find::name;
-    $File = $_[0] if !defined $File;
-
-    return if $File =~ m{/[.]git}smx;
-
-    if ( !$NotRoot ) {
-        SafeChown( $AdminUserID, $AdminGroupID, $File );
-    }
-    my $Mode = 0640;
+    ## no critic (ProhibitLeadingZeros)
+    # Writable by default, owner OTRS and group webserver.
+    my ( $TargetPermission, $TargetUserID, $TargetGroupID ) = ( 0660, $OtrsUserID, $WebGroupID );
     if ( -d $File ) {
-        $Mode = 0750;
-    }
-    SafeChmod( $Mode, $File );
-}
 
-sub MakeWritable {
-    my $File = $File::Find::name;
-    $File = $_[0] if !defined $File;
-
-    return if $File =~ m{/[.]git}smx;
-
-    my $Mode = 0660;
-
-    if ( -d $File ) {
-        $Mode = 0770;
-    }
-    if ($NotRoot) {
-        $Mode |= 2;
-        SafeChmod( $Mode, $File );
+        # SETGID for all directories so that both OTRS and the web server can write to the files.
+        $TargetPermission = 02770;
     }
     else {
-        SafeChown( $OtrsUserID, $WebGroupID, $File );
-        SafeChmod( $Mode, $File );
-    }
-}
-
-sub MakeWritableSetGid {
-    my $File = $File::Find::name;
-    $File = $_[0] if !defined $File;
-
-    return if $File =~ m{/[.]git}smx;
-
-    my $Mode = 0660;
-
-    if ( -d $File ) {
-        $Mode = 02770;
-    }
-    if ($NotRoot) {
-        $Mode |= 2;
-        SafeChmod( $Mode, $File );
-    }
-    else {
-        SafeChown( $OtrsUserID, $WebGroupID, $File );
-        SafeChmod( $Mode, $File );
-    }
-}
-
-sub MakeExecutable {
-    my $File = $File::Find::name;
-    $File = $_[0] if !defined $File;
-
-    return if $File =~ m{/[.]git}smx;
-
-    my $Mode = ( lstat($File) )[2];
-    if ( defined $Mode ) {
-        $Mode |= 0110;
-        SafeChmod( $Mode, $File );
-    }
-}
-
-sub GetUserIDs {
-    my @IDs;
-    my @Arguments = @_;
-    for my $User (@Arguments) {
-        my $ID = getpwnam $User;
-        if ( !defined $ID ) {
-            print "User \"$User\" does not exist!\n";
-            exit(1);
+        # Executable bit for script files.
+        EXEXUTABLE_REGEX:
+        for my $ExecutableRegex (@ExecutableFiles) {
+            if ( $RelativeFile =~ $ExecutableRegex ) {
+                $TargetPermission = 0770;
+                last EXEXUTABLE_REGEX;
+            }
         }
-        push @IDs, $ID;
-    }
-    return @IDs;
-}
 
-sub GetGroupIDs {
-    my @IDs;
-    for my $Group (@_) {
-        my $ID = getgrnam $Group;
-        if ( !defined $ID ) {
-            print "Group \"$Group\" does not exist!\n";
-            exit(1);
+        # Some files are protected and must not be written by webserver. Set admin group.
+        PROTECTED_REGEX:
+        for my $ProtectedRegex (@ProtectedFiles) {
+            if ( $RelativeFile =~ $ProtectedRegex ) {
+                $TargetPermission = -d $File ? 0750 : 0640;
+                $TargetGroupID = $AdminGroupID;
+                last PROTECTED_REGEX;
+            }
         }
-        push @IDs, $ID;
     }
-    return @IDs;
+
+    # Special treatment for toplevel folder: this must be readonly,
+    #   otherwise procmail will refuse to read .procmailrc (see bug#9391).
+    if ( $RelativeFile eq '/' ) {
+        $TargetPermission = 0750;
+    }
+
+    my $Stat = File::stat::stat($File);
+    if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
+        if ( defined $DryRun ) {
+            print sprintf(
+                "$RelativeFile permissions %o -> %o\n",
+                $Stat->mode() & 07777,
+                $TargetPermission
+            );
+        }
+        elsif ( !chmod( $TargetPermission, $File ) ) {
+            print STDERR sprintf(
+                "ERROR: could not change $RelativeFile permissions %o -> %o: $!\n",
+                $Stat->mode() & 07777,
+                $TargetPermission
+            );
+            $ExitStatus = 1;
+        }
+    }
+    if ( ( $Stat->uid() != $TargetUserID ) || ( $Stat->gid() != $TargetGroupID ) ) {
+        if ( defined $DryRun ) {
+            print sprintf(
+                "$RelativeFile ownership %s:%s -> %s:%s\n",
+                $Stat->uid(),
+                $Stat->gid(),
+                $TargetUserID,
+                $TargetGroupID
+            );
+        }
+        elsif ( !chown( $TargetUserID, $TargetGroupID, $File ) ) {
+            print STDERR sprintf(
+                "ERROR: could not change $RelativeFile ownership %s:%s -> %s:%s: $!\n",
+                $Stat->uid(),
+                $Stat->gid(),
+                $TargetUserID,
+                $TargetGroupID
+            );
+            $ExitStatus = 1;
+        }
+    }
+
+    return;
+    ## use critic
 }
 
-sub SafeChown {
-    my ( $User, $Group, $File ) = @_;
-    if ( !chown( $User, $Group, $File ) ) {
-        die("Error in chown $User $Group $File: $!\n");
-    }
-}
-
-sub SafeChmod {
-    my ( $Mode, $File ) = @_;
-    if ( !chmod( $Mode, $File ) ) {
-        die("Error in chmod $Mode $File: $!\n");
-    }
-}
+Run();
