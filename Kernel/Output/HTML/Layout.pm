@@ -367,7 +367,21 @@ sub new {
     }
 
     # locate template files
-    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{TemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{StandardTemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . 'Standard';
+
+    # Check if 'Standard' fallback exists
+    if ( !-e $Self->{StandardTemplateDir} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+        );
+        $Self->FatalDie();
+    }
+
     if ( !-e $Self->{TemplateDir} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -376,21 +390,15 @@ sub new {
                 Default theme used instead.",
         );
 
-        # Set TemplateDir to 'Standard' as a fallback and check if it exists.
+        # Set TemplateDir to 'Standard' as a fallback.
         $Theme = 'Standard';
-        $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
-        if ( !-e $Self->{TemplateDir} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
-            );
-            $Self->FatalDie();
-        }
+        $Self->{TemplateDir} = $Self->{StandardTemplateDir};
     }
 
     $Self->{CustomTemplateDir}
         = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
+    $Self->{CustomStandardTemplateDir}
+        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
 
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
@@ -533,14 +541,14 @@ sub Output {
         if ( -f "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{CustomTemplateDir}/$Param{TemplateFile}.dtl";
         }
-        elsif ( -f "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl" ) {
-            $File = "$Self->{CustomTemplateDir}/../Standard/$Param{TemplateFile}.dtl";
+        elsif ( -f "$Self->{CustomStandardTemplateDir}/$Param{TemplateFile}.dtl" ) {
+            $File = "$Self->{CustomStandardTemplateDir}/$Param{TemplateFile}.dtl";
         }
         elsif ( -f "$Self->{TemplateDir}/$Param{TemplateFile}.dtl" ) {
             $File = "$Self->{TemplateDir}/$Param{TemplateFile}.dtl";
         }
         else {
-            $File = "$Self->{TemplateDir}/../Standard/$Param{TemplateFile}.dtl";
+            $File = "$Self->{StandardTemplateDir}/$Param{TemplateFile}.dtl";
         }
         my $ResultRef = $Self->{MainObject}->FileRead(
             Location => $File,
@@ -1712,6 +1720,14 @@ sub Print {
         }
     }
 
+    # There seems to be a bug in FastCGI that it cannot handle unicode output properly.
+    #   Work around this by converting to an utf8 byte stream instead.
+    #   See also http://bugs.otrs.org/show_bug.cgi?id=6284 and
+    #   http://bugs.otrs.org/show_bug.cgi?id=9802.
+    if ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {    # are we on FCGI?
+        $Self->{EncodeObject}->EncodeOutput( $Param{Output} );
+    }
+
     print ${ $Param{Output} };
 
     return 1;
@@ -2569,10 +2585,22 @@ sub Attachment {
             }
         }
 
+        my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
+
         # only deliver filename if needed
         if ($FilenameInHeader) {
-            $Output .= " filename=\"$Param{Filename}\"";
+
+            # Special handling for old IE (nonstandard).
+            if ( $Self->{Browser} eq 'MSIE' && $Self->{BrowserMajorVersion} <= 8 ) {
+                $Output .= " filename=\"$URLEncodedFilename\"";
+            }
+
+            # Use RFC5987 for modern browsers.
+            else {
+                $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
+            }
         }
+
     }
     $Output .= "\n";
 
@@ -2586,6 +2614,7 @@ sub Attachment {
         $Output .= "Pragma: no-cache\n";
     }
     $Output .= "Content-Length: $Param{Size}\n";
+    $Output .= "X-Frame-Options: SAMEORIGIN\n";
 
     if ( $Param{Charset} ) {
         $Output .= "Content-Type: $Param{ContentType}; charset=$Param{Charset};\n\n";
@@ -4256,12 +4285,15 @@ sub RichTextDocumentServe {
     # http://www.ietf.org/rfc/rfc2557.txt
 
     # find matching attachment and replace it with runtlime url to image
+    ATTACHMENTID:
     for my $AttachmentID ( sort keys %{ $Param{Attachments} } ) {
         next if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
         # content id cleanup
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/^<//;
         $Param{Attachments}->{$AttachmentID}->{ContentID} =~ s/>$//;
+
+        next ATTACHMENTID if !$Param{Attachments}->{$AttachmentID}->{ContentID};
 
         $Param{Data}->{Content} =~ s{
         (=|"|')(\Q$Param{Attachments}->{$AttachmentID}->{ContentID}\E)("|'|>|\/>|\s)

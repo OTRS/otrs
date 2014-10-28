@@ -2,22 +2,21 @@
 # rcscript config settings for OTRS (http://otrs.org/)
 # --
 
-# 
+#
 # program name
-# 
+#
 OTRS_PROG="OTRS"
 
-# 
+#
 # OTRS home (root) directory
 #
 OTRS_ROOT=/opt/otrs
 
 # if one of this is false, it will not be checked at the startup!
-# Note: (may be the database isn't on the same host! --> DB_RUNNING=0) 
-# 
+# Note: (may be the database isn't on the same host! --> DB_RUNNING=0)
+#
 OTRS_HTTP_RUNNING=1
 OTRS_CRON_RUNNING=1
-OTRS_SCHEDULER_RUNNING=1
 
 #
 # Used webserver [apache]
@@ -27,37 +26,32 @@ OTRS_USED_WEBSERVER_TEST="/sbin/service httpd status | grep 'is running'"
 
 #
 # cron stuff
-# 
+#
 OTRS_CRON_DIR=$OTRS_ROOT/var/cron
 OTRS_CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
 OTRS_CRON_USER=" -u otrs "
 
-# 
-# location of otrs.PostMaster.pl 
-# 
+#
+# location of otrs.PostMaster.pl
+#
 OTRS_POSTMASTER=$OTRS_ROOT/bin/otrs.PostMaster.pl
 
 #
-# location of otrs.CheckDB.pl 
+# location of otrs.CheckDB.pl
 #
 OTRS_CHECKDB=$OTRS_ROOT/bin/otrs.CheckDB.pl
 
 #
-# location of otrs.Scheduler.pl
-#
-OTRS_SCHEDULER=$OTRS_ROOT/bin/otrs.Scheduler.pl
-
-# 
 # location of OTRS spool dir
-# 
+#
 OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
 
-# 
+#
 # OTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl
-# 
+#
 OTRS_HTTP_LOCATION="otrs"
 
-# 
+#
 # get host name
 #
 OTRS_HOST=`hostname -f`

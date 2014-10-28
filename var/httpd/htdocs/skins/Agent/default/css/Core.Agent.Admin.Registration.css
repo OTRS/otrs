@@ -17,8 +17,8 @@
  */
 
  .QA {
-    padding: 15px; 
-    line-height: 150%; 
+    padding: 15px;
+    line-height: 150%;
     width: 550px;
     font-size: 13px;
 }
@@ -68,5 +68,9 @@
     margin-bottom: 12px;
 }
 
+.DP {
+    max-height: 450px;
+    overflow: scroll;
+}
 
 } /* end @media */

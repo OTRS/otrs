@@ -15,6 +15,8 @@ use warnings;
 use Kernel::System::Stats;
 use Kernel::System::JSON;
 
+use Kernel::System::VariableCheck qw(:all);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -523,6 +525,13 @@ sub Preferences {
     }
 
     $Self->{LayoutObject}->Block(
+        Name => 'ChartTypeSelection',
+        Data => {
+            ChartType => $StatsSettings->{ChartType} // 'Bar',
+        },
+    );
+
+    $Self->{LayoutObject}->Block(
         Name => 'WidgetSettingsEnd',
         Data => {
             NamePref => $Self->{Name},
@@ -584,8 +593,43 @@ sub Run {
             Data => {
                 Name      => $Self->{Name},
                 StatsData => $JSON,
+                ChartType => $StatsSettings->{ChartType} // 'Bar',
+                Preferences => $Preferences{ 'GraphWidget' . $Self->{Name} } || '{}',
             },
         );
+
+        my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
+        my $StatFormat = $Stat->{Format};
+        if (
+            IsArrayRefWithData($StatFormat)
+            && grep { $_ eq 'Print' || $_ eq 'CSV' } @{$StatFormat}
+            )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'StatsDataLink',
+                Data => {
+                    Name => $Self->{Name},
+                },
+            );
+            if ( grep { $_ eq 'CSV' } @{$StatFormat} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'StatsDataLinkCSV',
+                    Data => {
+                        Name   => $Self->{Name},
+                        StatID => $StatID,
+                    },
+                );
+            }
+            if ( grep { $_ eq 'Print' } @{$StatFormat} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'StatsDataLinkPDF',
+                    Data => {
+                        Name   => $Self->{Name},
+                        StatID => $StatID,
+                    },
+                );
+            }
+        }
     }
     else {
         $Self->{LayoutObject}->Block(

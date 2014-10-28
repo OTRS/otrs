@@ -1,0 +1,18 @@
+---
+Process:
+  Activities: []
+  ChangeTime: 2014-01-16 18:31:02
+  Config:
+    Description: Just for testing
+    Path: {}
+    StartActivity: ''
+    StartActivityDialog: ''
+  CreateTime: 2014-01-16 18:30:54
+  EntityID: P8
+  ID: 32
+  Layout: {}
+  Name: Empty Process
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions: []

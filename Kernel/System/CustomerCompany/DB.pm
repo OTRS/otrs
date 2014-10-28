@@ -156,10 +156,10 @@ sub CustomerCompanyList {
                 my $QuotedPart = $Self->{DBObject}->Quote($Part);
                 for my $Field ( @{$CustomerCompanySearchFields} ) {
                     if ( $Self->{CaseSensitive} ) {
-                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
+                        push @SQLParts, "$Field LIKE '$QuotedPart'";
                     }
                     else {
-                        push @SQLParts, "$Field LIKE '$QuotedPart'";
+                        push @SQLParts, "LOWER($Field) LIKE LOWER('$QuotedPart')";
                     }
                 }
                 if (@SQLParts) {
@@ -239,10 +239,10 @@ sub CustomerCompanyGet {
     $SQL .= " FROM $Self->{CustomerCompanyTable} WHERE ";
     my $CustomerIDQuoted = $Self->{DBObject}->Quote($CustomerID);
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
+        $SQL .= "$Self->{CustomerCompanyKey} = ?";
     }
     else {
-        $SQL .= "$Self->{CustomerCompanyKey} = ?";
+        $SQL .= "LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     $SQL = $Self->_ConvertTo($SQL);
 
@@ -365,10 +365,10 @@ sub CustomerCompanyUpdate {
     $SQL .= join( ', ', @Fields );
 
     if ( $Self->{CaseSensitive} ) {
-        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
+        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
     }
     else {
-        $SQL .= " WHERE $Self->{CustomerCompanyKey} = ?";
+        $SQL .= " WHERE LOWER($Self->{CustomerCompanyKey}) = LOWER( ? )";
     }
     push @Values, \$Param{CustomerCompanyID};
     $SQL = $Self->_ConvertTo($SQL);

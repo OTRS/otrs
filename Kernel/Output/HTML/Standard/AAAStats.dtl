@@ -10,6 +10,7 @@
 # Common
 $Text{"Stat"}
 $Text{"Sum"}
+$Text{"Days"}
 $Text{"No (not supported)"}
 
 # Error messages

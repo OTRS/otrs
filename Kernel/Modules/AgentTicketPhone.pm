@@ -1076,6 +1076,31 @@ sub Run {
 
         if (%Error) {
 
+            # get and format default subject and body
+            my $Subject = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Subject} || '',
+            );
+
+            my $Body = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Body} || '',
+            );
+
+            # make sure body is rich text
+            if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+                $Body = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $Body,
+                );
+            }
+
+            #set Body and Subject parameters for Output
+            if ( !$GetParam{Subject} ) {
+                $GetParam{Subject} = $Subject;
+            }
+
+            if ( !$GetParam{Body} ) {
+                $GetParam{Body} = $Body;
+            }
+
             # get services
             my $Services = $Self->_GetServices(
                 %GetParam,
@@ -1695,7 +1720,7 @@ sub Run {
                     Data         => $StandardTemplates,
                     SelectedID   => $GetParam{StandardTemplateID},
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
                 @DynamicFieldAJAX,
@@ -2284,7 +2309,7 @@ sub _MaskPhoneNew {
             SelectedID => $Param{StandardTemplateID} || '',
             PossibleNone => 1,
             Sort         => 'AlphanumericValue',
-            Translation  => 0,
+            Translation  => 1,
             Max          => 200,
         );
         $Self->{LayoutObject}->Block(

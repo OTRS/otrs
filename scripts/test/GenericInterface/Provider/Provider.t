@@ -194,6 +194,7 @@ my $CreateQueryString = sub {
         }
     }
 
+    $Self->{EncodeObject}->EncodeOutput( \$QueryString );
     return $QueryString;
 };
 

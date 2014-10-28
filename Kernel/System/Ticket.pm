@@ -3512,7 +3512,7 @@ to lock or unlock a ticket
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -3763,9 +3763,10 @@ sub TicketArchiveFlagSet {
 to set a ticket state
 
     my $Success = $TicketObject->TicketStateSet(
-        State    => 'open',
-        TicketID => 123,
-        UserID   => 123,
+        State     => 'open',
+        TicketID  => 123,
+        ArticleID => 123, #optional, for history
+        UserID    => 123,
     );
 
     my $Success = $TicketObject->TicketStateSet(
@@ -3776,7 +3777,7 @@ to set a ticket state
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -4066,7 +4067,7 @@ Return:
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -4247,7 +4248,7 @@ Return:
 
 Optional attribute:
 SendNoNotification, disable or enable agent and customer notification for this
-action. Otherwise a notification will be send to agent and cusomer.
+action. Otherwise a notification will be sent to agent and cusomer.
 
 For example:
 
@@ -5455,6 +5456,40 @@ sub TicketMerge {
         Name =>
             "Merged Ticket ($MergeTicket{TicketNumber}/$Param{MergeTicketID}) to ($MainTicket{TicketNumber}/$Param{MainTicketID})",
         CreateUserID => $Param{UserID},
+    );
+
+    # tranfer watchers - only those that were not already watching the main ticket
+    # delete all watchers from the merge ticket that are already watching the main ticket
+    my %MainWatchers = $Self->TicketWatchGet(
+        TicketID => $Param{MainTicketID},
+    );
+
+    my %MergeWatchers = $Self->TicketWatchGet(
+        TicketID => $Param{MergeTicketID},
+    );
+
+    WATCHER:
+    for my $WatcherID ( sort keys %MergeWatchers ) {
+
+        next WATCHER if !$MainWatchers{$WatcherID};
+        return if !$Self->{DBObject}->Do(
+            SQL => '
+                DELETE FROM ticket_watcher
+                    WHERE user_id = ?
+                    AND ticket_id = ?
+                ',
+            Bind => [ \$WatcherID, \$Param{MergeTicketID} ],
+        );
+    }
+
+    # transfer remaining watchers to new ticket
+    return if !$Self->{DBObject}->Do(
+        SQL => '
+            UPDATE ticket_watcher
+                SET ticket_id = ?
+                WHERE ticket_id = ?
+            ',
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
     # link tickets
@@ -7378,7 +7413,13 @@ sub TicketAcl {
 
         # build new Process data hash (ProcessManagement)
         # for Step{Possible}
-        if ( IsArrayRefWithData( $Step{Possible}{'Process'} ) )
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $MatchTry
+            && $Step{Possible}{'Process'}
+            && IsArrayRefWithData( $Step{Possible}{'Process'} )
+            )
         {
             $HadPossibleProcesses = 1;
             if ( !%PossibleProcesses ) {
@@ -7401,7 +7442,13 @@ sub TicketAcl {
         }
 
         # for Step{PossibleNot}
-        if ( IsArrayRefWithData( $Step{PossibleNot}{'Process'} ) )
+        if (
+            ( %Checks || %ChecksDatabase )
+            && $Match
+            && $MatchTry
+            && $Step{PossibleNot}{'Process'}
+            && IsArrayRefWithData( $Step{PossibleNot}{'Process'} )
+            )
         {
 
             if ( !%PossibleNotProcesses ) {

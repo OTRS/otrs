@@ -24,7 +24,13 @@ take an extra step; please read http://bugs.otrs.org/show_bug.cgi?id=6798
 Within a single minor version you can skip patch level releases if you want to
 upgrade. For instance you can upgrade directly from OTRS 3.3.1 to version
 3.3.4. If you need to do such a "patch level upgrade", you should skip steps
-9 and 13-17.
+9 and 13-16.
+
+Please note that if you perform a patch level upgrade from OTRS 3.3.6 or earlier,
+you need to activate a new cron job that controls the scheduler process.
+Please copy the file `/opt/otrs/var/cron/scheduler_watchdog.dist` to
+`/opt/otrs/var/cron/scheduler_watchdog` and update your crontab with
+`/opt/otrs/bin/Cron.sh start` (as "otrs" user, not root).
 
 
 1. Stop all relevant services
@@ -35,6 +41,11 @@ e. g. (depends on used services):
     shell> /etc/init.d/cron stop
     shell> /etc/init.d/postfix stop
     shell> /etc/init.d/apache stop
+
+stop the OTRS scheduler:
+
+    shell> cd /opt/otrs/
+    shell> bin/otrs.Scheduler.pl -a stop
 
 
 2. Backup everything below $OTRS_HOME (default: OTRS_HOME=/opt/otrs)
@@ -168,11 +179,11 @@ MySQL:
 
 PostgreSQL 8.2+:
 
-    shell> cat scripts/DBUpdate-to-3.3.postgresql.sql | psql otrs otrs
+    shell> cat scripts/DBUpdate-to-3.3.postgresql.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
 PostgreSQL, older versions:
 
-    shell> cat scripts/DBUpdate-to-3.3.postgresql_before_8_2.sql | psql otrs otrs
+    shell> cat scripts/DBUpdate-to-3.3.postgresql_before_8_2.sql | psql --set ON_ERROR_STOP=on --single-transaction otrs otrs
 
 
  NOTE: If you use PostgreSQL 8.1 or earlier, you need to activate the new legacy driver
@@ -294,20 +305,9 @@ Make sure to execute it as the OTRS system user!
 
     shell> /opt/otrs/bin/Cron.sh start
 
-
-17. Activate OTRS Scheduler Service
------------------------------------
-
-This only applies if you did not previously configure the OTRS scheduler service.
-
-OTRS comes with a scheduler service that is used to perform asynchronous tasks.
-
-The OTRS RPMs will set up the Scheduler Service automatically.
-If you install/update from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d and giving it the appropriate permissions.
-
-This will make sure the scheduler service starts when the system starts up.
+Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
+that scheduler_watchdog cronjob is activated.
 
 
-18. Well done!
+17. Well done!
 --------------

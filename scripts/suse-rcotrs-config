@@ -17,7 +17,6 @@ OTRS_ROOT=/opt/otrs
 #
 OTRS_HTTP_RUNNING=1
 OTRS_CRON_RUNNING=1
-OTRS_SCHEDULER_RUNNING=1
 
 #
 # Used webserver [apache]
@@ -56,11 +55,6 @@ OTRS_CHECKDB=$OTRS_ROOT/bin/otrs.CheckDB.pl
 # location of otrs.CleanUp.pl
 #
 OTRS_CLEANUP=$OTRS_ROOT/bin/otrs.CleanUp.pl
-
-#
-# location of otrs.Scheduler.pl
-#
-OTRS_SCHEDULER=$OTRS_ROOT/bin/otrs.Scheduler.pl
 
 #
 # location of OTRS spool dir

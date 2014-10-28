@@ -415,7 +415,7 @@ sub Run {
             $Article->{ArticleType} = $Self->{Config}->{ArticleType} || '';
         }
         if ( !$Article->{SenderTypeID} && !$Article->{SenderType} ) {
-            $Article->{SenderType} = $UserType eq 'Agent' ? 'agent' : 'customer';
+            $Article->{SenderType} = $UserType eq 'User' ? 'agent' : 'customer';
         }
         if ( !$Article->{HistoryType} ) {
             $Article->{HistoryType} = $Self->{Config}->{HistoryType} || '';
@@ -457,9 +457,9 @@ sub Run {
         for my $DynamicFieldItem (@DynamicFieldList) {
             if ( !IsHashRefWithData($DynamicFieldItem) ) {
                 return {
-                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorCode => 'TicketUpdate.InvalidParameter',
                     ErrorMessage =>
-                        "TicketCreate: Ticket->DynamicField parameter is invalid!",
+                        "TicketUpdate: Ticket->DynamicField parameter is invalid!",
                 };
             }
 
@@ -941,7 +941,7 @@ sub _CheckArticle {
     # check Article->TimeUnit
     # TimeUnit could be required or not depending on sysconfig option
     if (
-        !defined $Article->{TimeUnit}
+        ( !defined $Article->{TimeUnit} || !IsStringWithData( $Article->{TimeUnit} ) )
         && $Self->{ConfigObject}->{'Ticket::Frontend::AccountTime'}
         && $Self->{ConfigObject}->{'Ticket::Frontend::NeedAccountedTime'}
         )
@@ -1039,7 +1039,7 @@ sub _CheckDynamicField {
 
     # check DynamicField item internally
     for my $Needed (qw(Name Value)) {
-        if ( !$DynamicField->{$Needed} ) {
+        if ( !defined $DynamicField->{$Needed} || !IsStringWithData( $DynamicField->{$Needed} ) ) {
             return {
                 ErrorCode    => 'TicketUpdate.MissingParameter',
                 ErrorMessage => "TicketUpdate: DynamicField->$Needed  parameter is missing!",

@@ -25,11 +25,11 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Scheduler::PIDUpdateTime" Required="1" Valid="1">
-        <Description Translatable="1">Defines scheduler PID update time in seconds (floating point number).</Description>
+        <Description Translatable="1">Defines scheduler PID update time in seconds.</Description>
         <Group>Scheduler</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="\d+[.]*\d*">60.0</String>
+            <String Regex="\d+">600</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Scheduler::RestartAfterSeconds" Required="1" Valid="1">

@@ -174,7 +174,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             SelectedID     = $SelectObj.val(),
             Multiple       = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
             ElementCount   = $SelectObj.find('option').length,
-            DialogTitle    = $SelectObj.parent().prev('label').text(),
+            DialogTitle    = $SelectObj.parent().prev('label').clone().children().remove().end().text(),
             Elements       = {},
             InDialog       = false,
             StyleSheetURL,
@@ -265,6 +265,13 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 // (which is hidden but is still used for the action)
                 $SelectObj.val(SelectedNodes);
             }
+
+            // if the node has really been selected (not initially by the code, but by using keyboard or mouse)
+            // we need to check if we can now select the submit button
+            if ((data.rslt.e && data.rslt.e.type !== undefined) && !InDialog && !Multiple) {
+                $TreeObj.next('#SubmitTree').focus();
+            }
+
         })
         .bind("deselect_node.jstree", function (event, data) {
 
@@ -326,6 +333,15 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $('#TreeSearch').find('input').bind('keyup', function() {
             $TreeObj.jstree("search", $(this).val());
+
+            // make sure subtrees of matches nodes are expandable
+            $('.jstree-search')
+                .parent()
+                .removeClass('jstree-open')
+                .addClass('jstree-closed')
+                .find('ins').click(function() {
+                    $(this).nextAll('ul').find('li').show();
+                });
         });
 
         $('#TreeSearch').find('span').bind('click', function() {
@@ -460,12 +476,19 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 DisabledAttr = ' disabled="disabled"';
             }
 
-            SelectData.push({
-                'Key'          : Key,
-                'Value'        : Value,
-                'SelectedAttr' : SelectedAttr,
-                'DisabledAttr' : DisabledAttr
-            });
+            // append the delete filter value on top
+            // and do not push it to the array
+            if ( Key === 'DeleteFilter' ) {
+                $FieldObj.append('<option value="' + Key + '"' + SelectedAttr + DisabledAttr + '>' + Value + '</option>');
+            }
+            else {
+                SelectData.push({
+                    'Key'          : Key,
+                    'Value'        : Value,
+                    'SelectedAttr' : SelectedAttr,
+                    'DisabledAttr' : DisabledAttr
+                });
+            }
         });
 
         SelectData.sort(function(a, b) {

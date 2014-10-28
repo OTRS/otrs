@@ -101,4 +101,29 @@ my $EncodeObject = Kernel::System::Encode->new(
     }
 }
 
+$Self->True(
+    $EncodeObject->EncodingIsAsciiSuperset( Encoding => 'UTF-8' ),
+    'UTF-8 is a superset of ASCII',
+);
+$Self->False(
+    $EncodeObject->EncodingIsAsciiSuperset( Encoding => 'UTF-16-LE' ),
+    'UTF-16 is a not superset of ASCII',
+);
+
+$Self->Is(
+    $EncodeObject->FindAsciiSupersetEncoding(
+        Encodings => [ 'UTF-7', 'UTF-16-LE', 'ISO-8859-1' ],
+    ),
+    'ISO-8859-1',
+    'FindAsciiSupersetEncoding',
+);
+
+$Self->Is(
+    $EncodeObject->FindAsciiSupersetEncoding(
+        Encodings => ['UTF-7'],
+    ),
+    'ASCII',
+    'FindAsciiSupersetEncoding falls back to ASCII',
+);
+
 1;

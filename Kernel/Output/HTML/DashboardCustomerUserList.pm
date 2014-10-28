@@ -29,7 +29,9 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    # use customer user object if it comes in the params
+    $Self->{CustomerUserObject} = $Param{CustomerUserObject}
+        // Kernel::System::CustomerUser->new( %{$Self} );
 
     # get current filter
     my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';

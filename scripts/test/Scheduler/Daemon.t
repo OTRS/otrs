@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -78,7 +79,13 @@ my $CheckAction = sub {
         $Force = '-f 1';
     }
 
-    my $ResultMessage = `$Scheduler -a $Param{Action} $Force 2>&1`;
+    my $ResultMessage;
+    if ( $Param{Action} eq 'watchdog' ) {
+        $ResultMessage = `$Scheduler -w 1 2>&1`;
+    }
+    else {
+        $ResultMessage = `$Scheduler -a $Param{Action} $Force 2>&1`;
+    }
 
     # special sleep for windows
     if ( $^O =~ /^mswin/i ) {
@@ -86,6 +93,7 @@ my $CheckAction = sub {
             $Param{Action} eq 'start'
             || $Param{Action} eq 'stop'
             || $Param{Action} eq 'reload'
+            || $Param{Action} eq 'watchdog'
             )
         {
             print "Sleeping 5s (Special for Windows OS)\n";
@@ -135,7 +143,7 @@ my $CheckAction = sub {
                 if ( $Seconds == $Param{SleepAfterAction} ) {
                     $Self->True(
                         0,
-                        "$Name timeout wating for $Seconds seconds state is $IntStateAfter!",
+                        "$Name timeout waiting for $Seconds seconds state is $IntStateAfter!",
                     );
                 }
             }
@@ -233,7 +241,7 @@ if ( $PreviousSchedulerStatus =~ m{registered}i ) {
     if ($?) {
         $Self->True(
             0,
-            "Forced stopscheduler DETECTED $ResultMessage",
+            "Forced stop scheduler DETECTED $ResultMessage",
         );
     }
 
@@ -332,10 +340,20 @@ my $ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
     Key   => 'Scheduler::RestartAfterSeconds',
     Value => $RestartAfterSeconds,
 );
-
 $Self->True(
     $ConfigUpdated,
-    'SysConfig setting was changed.'
+    'SysConfig setting Scheduler::RestartAfterSeconds was changed.'
+);
+
+# set new configuration so scheduler will PID update will be in 60 seconds
+$ConfigUpdated = $SysConfigObject->ConfigItemUpdate(
+    Valid => 1,
+    Key   => 'Scheduler::PIDUpdateTime',
+    Value => 60,
+);
+$Self->True(
+    $ConfigUpdated,
+    'SysConfig setting Scheduler::PIDUpdateTime was changed.'
 );
 
 $CheckAction->(
@@ -575,17 +593,17 @@ for my $Seconds ( 1 .. $SleepTime ) {
 }
 
 # get the process ID
-my %PID = $PIDObject->PIDGet(
+my %SchedulerPID = $PIDObject->PIDGet(
     Name => 'otrs.Scheduler',
 );
 
 # verify that PID is removed
 $Self->False(
-    $PID{PID},
+    $SchedulerPID{PID},
     "Scheduler PID was correctly removed from DB",
 );
 
-# start shceduler normally (tests before this point should leave a clean system)
+# start scheduler normally (tests before this point should leave a clean system)
 $CheckAction->(
     Name                => 'Start for PID host change',
     Action              => 'start',
@@ -628,7 +646,7 @@ $CheckAction->(
 
 # use normal stop to try to stop the scheduler
 $CheckAction->(
-    Name                => 'Nomal stop',
+    Name                => 'Normal stop',
     Action              => 'stop',
     ExpectActionSuccess => 1,
     StateBefore         => 'running',
@@ -663,7 +681,7 @@ $CheckAction->(
     PIDDifferentAfter   => 1,
 );
 
-# use forced stop to stop the scheduler (thsi should remove the PID even from another host)
+# use forced stop to stop the scheduler (this should remove the PID even from another host)
 $CheckAction->(
     Name                => 'Forced stop',
     Action              => 'stop',
@@ -688,7 +706,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
     sleep 1;
 }
 
-# start scheduer normally
+# start scheduler normally
 $CheckAction->(
     Name                => 'Start after force stop for PID host change',
     Action              => 'start',
@@ -699,7 +717,133 @@ $CheckAction->(
     PIDChangeExpected   => 1,
 );
 
-# stop scheduer (using force, just to make sure to leave a clean system)
+# stop scheduler normally
+$CheckAction->(
+    Name                => 'Stop for watchdog start',
+    Action              => 'stop',
+    Force               => 0,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 1,
+    PIDDifferentBefore  => 0,
+);
+
+# Wait for slow systems
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
+# start scheduler with watchdog
+$CheckAction->(
+    Name                => 'Watchdog start',
+    Action              => 'watchdog',
+    Force               => 0,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+    PIDDifferentBefore  => 0,
+);
+
+# stop scheduler normally (this is done to after stop add a PID to the DB and simulated a force
+#    needed condition)
+$CheckAction->(
+    Name                => 'Stop for watchdog start',
+    Action              => 'stop',
+    Force               => 0,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 1,
+    PIDDifferentBefore  => 0,
+);
+
+# Wait for slow systems
+$SleepTime = 20;
+print "Waiting at most $SleepTime s until scheduler stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $SchedulerStatus = `$Scheduler -a status`;
+    if ( $SchedulerStatus !~ m{\A running }msxi ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
+# create PID manually otherwise PIDCreate() will create a valid PID and Scheduler will report as
+#   running
+my $Time    = time();
+my $Success = $Self->{DBObject}->Do(
+    SQL => '
+        INSERT INTO process_id
+        (process_name, process_id, process_host, process_create, process_change)
+        VALUES (?, ?, ?, ?, ?)',
+    Bind => [ \'otrs.Scheduler', \'123456', \'Anyhost', \$Time, \$Time ],
+);
+$Self->True(
+    $Success,
+    "PIDCreate() for watchdog with true",
+);
+
+# get the process ID
+%SchedulerPID = $PIDObject->PIDGet(
+    Name => 'otrs.Scheduler',
+);
+$Self->Is(
+    $SchedulerPID{PID},
+    123456,
+    "Scheduler PID",
+);
+
+# try to start scheduler normally
+$CheckAction->(
+    Name                => 'Start try for watchdog on forced condition should fail',
+    Action              => 'start',
+    Force               => 0,
+    ExpectActionSuccess => 0,
+    StateBefore         => 'not running',
+    StateAfter          => 'not running',
+    PIDChangeExpected   => 0,
+    PIDDifferentBefore  => 1,
+    PIDDifferentAfter   => 1,
+);
+
+# start scheduler with watchdog
+$CheckAction->(
+    Name                => 'Watchdog start',
+    Action              => 'watchdog',
+    Force               => 0,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'not running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 1,
+    PIDDifferentBefore  => 1,
+    SleepAfterAction    => 40,
+);
+
+# start scheduler with watchdog again, no changes should be made
+$CheckAction->(
+    Name                => 'Watchdog start',
+    Action              => 'watchdog',
+    Force               => 0,
+    ExpectActionSuccess => 1,
+    StateBefore         => 'running',
+    StateAfter          => 'running',
+    PIDChangeExpected   => 0,
+    PIDDifferentBefore  => 0,
+);
+
+# stop scheduler (using force, just to make sure to leave a clean system)
 $CheckAction->(
     Name                => 'Final stop for PID host change',
     Action              => 'stop',
@@ -724,13 +868,13 @@ for my $Seconds ( 1 .. $SleepTime ) {
 }
 
 # get the process ID
-%PID = $PIDObject->PIDGet(
+%SchedulerPID = $PIDObject->PIDGet(
     Name => 'otrs.Scheduler',
 );
 
 # verify that PID is removed
 $Self->False(
-    $PID{PID},
+    $SchedulerPID{PID},
     "Scheduler PID was correctly removed from DB",
 );
 

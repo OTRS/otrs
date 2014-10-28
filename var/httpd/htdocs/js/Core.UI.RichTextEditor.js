@@ -92,7 +92,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             disableNativeSpellChecker: false,
             toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
             filebrowserUploadUrl: Core.Config.Get('Baselink'),
-            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,onchange' : 'onchange',
+            extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,splitquote' : 'splitquote',
             entities: false
         });
         if (CheckFormID().length) {

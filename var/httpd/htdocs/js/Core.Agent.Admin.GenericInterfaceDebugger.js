@@ -140,6 +140,7 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
                     if (this.Data && this.Data.length) {
 
                         // quote XML tags
+                        this.Data = this.Data.replace( new RegExp("&","gm"),"&amp;");
                         this.Data = this.Data.replace( new RegExp("<","gm"),"&lt;");
                         this.Data = this.Data.replace( new RegExp(">","gm"),"&gt;");
 

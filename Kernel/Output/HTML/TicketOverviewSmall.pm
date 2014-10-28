@@ -12,6 +12,8 @@ package Kernel::Output::HTML::TicketOverviewSmall;
 use strict;
 use warnings;
 
+use Kernel::System::HTMLUtils;
+use URI::Escape ();
 use Kernel::System::JSON;
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
@@ -39,6 +41,7 @@ sub new {
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
 
     $Self->{SmallViewColumnHeader}
         = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
@@ -63,36 +66,23 @@ sub new {
         $Self->{StoredFilters} = $StoredFilters;
     }
 
+    # get the configured dyanmic fields from the Small Overview setting as a basis
+    my %DefaultDynamicFields
+        = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
+
+    my %DefaultColumns
+        = map { 'DynamicField_' . $_ => $DefaultDynamicFields{$_} } sort keys %DefaultDynamicFields;
+
+    # take general settings (Frontend::Agent) if not defined for the screen
+    $Self->{Config}->{DefaultColumns} //= $Self->{ConfigObject}->Get('DefaultOverviewColumns');
+
+    # check for default settings specific for this screen, should overide the dynamic fields
+    %DefaultColumns = ( %DefaultColumns, %{ $Self->{Config}->{DefaultColumns} || {} } );
+
     # configure columns
-    my @ColumnsEnabled;
-    my @ColumnsAvailable;
-
-    # take general settings if not defined for the screen
-    if ( !defined $Self->{Config}->{DefaultColumns} ) {
-        $Self->{Config}->{DefaultColumns} = $Self->{ConfigObject}->Get('DefaultOverviewColumns');
-    }
-
-    # check for default settings
-    if (
-        $Self->{Config}->{DefaultColumns}
-        && IsHashRefWithData( $Self->{Config}->{DefaultColumns} )
-        )
-    {
-        @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} ne '0' }
-            sort keys %{ $Self->{Config}->{DefaultColumns} };
-        @ColumnsEnabled = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
-            sort _DefaultColumnSort keys %{ $Self->{Config}->{DefaultColumns} };
-    }
-
-    # get dynamic fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
-        ObjectType => 'Ticket',
-        ResultType => 'HASH',
-    );
-
-    for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
-        push @ColumnsAvailable, 'DynamicField_' . $DynamicFieldList->{$DynamicFieldID};
-    }
+    my @ColumnsAvailable = grep { $DefaultColumns{$_} ne '0' } sort keys %DefaultColumns;
+    my @ColumnsEnabled
+        = grep { $DefaultColumns{$_} eq '2' } sort _DefaultColumnSort keys %DefaultColumns;
 
     # if preference settings are available, take them
     if ( $Preferences{ $Self->{PrefKeyColumns} } ) {
@@ -271,7 +261,13 @@ sub ActionRow {
     # add translations for the allocation lists for regular columns
     my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
+
+        COLUMN:
         for my $Column ( sort keys %{$Columns} ) {
+
+            # dynamic fields will be translated in the next block
+            next COLUMN if $Column =~ m{ \A DynamicField_ }xms;
+
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
                 Data => {
@@ -460,6 +456,12 @@ sub Run {
                             Data     => \%Article,
                         );
                     }
+
+                    # add the return module to redirect back to the current screen afterwards
+                    my $ReturnPath = URI::Escape::uri_escape(
+                        $Self->{LayoutObject}->{EnvRef}->{RequestedURL}
+                    );
+                    $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
 
                     # add session id if needed
                     if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
@@ -1012,7 +1014,7 @@ sub Run {
                 );
 
                 if ($IsSortable) {
-                    my $CSS = '';
+                    my $CSS = 'DynamicField_' . $DynamicFieldConfig->{Name};
                     my $OrderBy;
                     if (
                         $Param{SortBy}
@@ -1143,13 +1145,16 @@ sub Run {
                 }
                 else {
 
+                    my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
+                    my $CSS              = $DynamicFieldName;
+
                     $Self->{LayoutObject}->Block(
                         Name => 'OverviewNavBarPageDynamicField',
                         Data => {
                             %Param,
+                            CSS => $CSS,
                         },
                     );
-                    my $DynamicFieldName = 'DynamicField_' . $DynamicFieldConfig->{Name};
 
                     if ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
 
@@ -1434,7 +1439,7 @@ sub Run {
                     $BlockType = 'Translatable';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
                 }
-                elsif ( $TicketColumn eq 'Created' ) {
+                elsif ( $TicketColumn eq 'Created' || $TicketColumn eq 'Changed' ) {
                     $BlockType = 'Time';
                     $DataValue = $Article{$TicketColumn} || $UserInfo{$TicketColumn};
                 }
@@ -1709,7 +1714,19 @@ sub _InitialColumnFilter {
     }
 
     if ( $Param{ColumnName} =~ m{ \A DynamicField_ }xms ) {
-        $Class .= ' DynamicFieldWithTreeView';
+
+        # get the pure dynamic field name without prefix
+        my $DynamicFieldName = substr( $Param{ColumnName}, 13 );
+
+        # get the dynamic field config
+        my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+            Name => $DynamicFieldName,
+        );
+
+        # check for active treeview configuration
+        if ( $DynamicFieldConfig->{Config}->{TreeView} ) {
+            $Class .= ' DynamicFieldWithTreeView';
+        }
     }
 
     # build select HTML
@@ -1904,6 +1921,23 @@ sub _DefaultColumnSort {
         Priority               => 193,
     );
 
+    # dynamic fields can not be on the DefaultColumns sorting hash
+    # when comparing 2 dynamic fields sorting must be alphabetical
+    if ( !$DefaultColumns{$a} && !$DefaultColumns{$b} ) {
+        return $a cmp $b;
+    }
+
+    # when a dynamic field is compared to a ticket attribute it must be higher
+    elsif ( !$DefaultColumns{$a} ) {
+        return 1;
+    }
+
+    # when a ticket attribute is compared to a dynamic field it must be lower
+    elsif ( !$DefaultColumns{$b} ) {
+        return -1;
+    }
+
+    # otherwise do a numerical comparison with the ticket attributes
     return $DefaultColumns{$a} <=> $DefaultColumns{$b};
 }
 

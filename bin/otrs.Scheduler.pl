@@ -38,6 +38,7 @@ use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::PID;
+use Kernel::System::VariableCheck qw(:all);
 use Kernel::Scheduler;
 
 # defie PID name
@@ -45,12 +46,30 @@ my $PIDName = 'otrs.Scheduler';
 
 # get options
 my %Opts = ();
-getopt( 'hfap', \%Opts );
+getopt( 'hfapw', \%Opts );
 
 # check if is running on windows
 if ( $^O eq "MSWin32" ) {
-    print "This program cannot run on Microsoft Windows. Use otrs.Scheduler4win.pl instead.\n";
-    exit 1;
+    if ( $Opts{w} ) {
+
+        my $ConfigObject = Kernel::Config->new();
+
+        # get the scheduler information to restart
+        my $Home      = $ConfigObject->Get('Home');
+        my $Scheduler = $Home . '/bin/otrs.Scheduler4win.pl';
+
+        # convert Scheduler path to windows format
+        $Scheduler =~ s{/}{\\}g;
+
+        # create a new scheduler instance
+        # this process could take more than 30 seconds be aware of that!
+        # needs a separate process
+        system("\"$^X\" \"$Scheduler\" -w 1");
+    }
+    else {
+        print "This program cannot run on Microsoft Windows. Use otrs.Scheduler4win.pl instead.\n";
+        exit 1;
+    }
 }
 
 # help option
@@ -59,152 +78,77 @@ if ( $Opts{h} ) {
     exit 1;
 }
 
+# check if watch dog mode is requested
+if ( $Opts{w} ) {
+
+    my $ExitCode = _WatchDog();
+    exit $ExitCode;
+}
+
 # check if a stop request is sent
-if ( $Opts{a} && $Opts{a} eq "stop" ) {
+elsif ( $Opts{a} && $Opts{a} eq "stop" ) {
 
-    # create common objects
-    my %CommonObject = _CommonObjects();
+    my $Force = $Opts{f} ? 1 : '';
 
-    # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
-
-    # no process ID means that is not running
-    if ( !%PID ) {
-        print "Can't stop OTRS Scheduler because is not running!\n";
-        exit 1;
-    }
-
-    # send interrupt signal to the process ID to stop it
-    kill( 2, $PID{PID} );
-
-    $CommonObject{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "Scheduler Daemon Stop! PID $PID{PID}",
-    );
-
-    # force stop: remove PID from database, might be necessary if
-    #   the process died but is still registered.
-    if ( exists $Opts{f} ) {
-
-        # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
-            Name  => $PID{Name},
-            Force => 1,
-        );
-
-        # log daemon stop
-        if ( !$PIDDelSuccess ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Process could not be deleted from process table! PID $PID{PID}",
-            );
-            exit 1;
-        }
-
-        # delete PID file
-        my $Home    = $CommonObject{ConfigObject}->Get('Home');
-        my $PIDFile = $Home . '/var/run/scheduler.pid';
-
-        if ( unlink($PIDFile) == 0 ) {
-
-            # log PID file cannot be deleted
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Scheduler could not delete PID file:'$PIDFile'! $!",
-            );
-        }
-    }
-
-    exit 0;
+    my $ExitCode = _Stop( Force => $Force );
+    exit $ExitCode;
 }
 
 # check if a status request is sent
-if ( $Opts{a} && $Opts{a} eq "status" ) {
+elsif ( $Opts{a} && $Opts{a} eq "status" ) {
 
-    # create common objects
-    my %CommonObject = _CommonObjects();
+    my $ProcessID = _Status();
 
-    # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
-
-    # no process ID means that is not running
-    if ( !%PID ) {
-
-        # print 0 if PID option is required
-        if ( $Opts{p} ) {
-            print "0\n";
-        }
-
-        # otherwise print a human meaningful message
-        else {
-            print "Not Running!\n";
-        }
-        exit 1;
-    }
-
-    # log daemon stop
-    $CommonObject{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "Scheduler Daemon status request! PID $PID{PID}",
-    );
-
-    # create a new Daemon object
-    my $Daemon = Proc::Daemon->new();
-
-    # Get the process status
-    if ( $Daemon->Status( $PID{PID} ) ) {
-
-        # print only the PID if PID option is required
-        if ( $Opts{p} ) {
-            print "$PID{PID}\n";
-        }
-
-        # otherwise print a human meaningful message
-        else {
-            print "Running $PID{PID}\n";
-        }
+    if ( $Opts{p} ) {
+        print "$ProcessID\n";
     }
     else {
 
-        # print -1 only id PID option is required, this will differentiate from a correct stop
-        # message
-        if ( $Opts{p} ) {
-            print "-1\n";
+        # no process ID means that is not running
+        if ( !$ProcessID ) {
+            print "Not Running!\n";
         }
 
-        # otherwise print an error message
+        # the process ID is not -1
+        elsif ( IsPositiveInteger($ProcessID) ) {
+            print "Running $ProcessID\n";
+        }
+
+        # a process ID of -1, means that is not running but still registered
         else {
             print
                 "Not Running, but PID is still registered! Use '-a stop --force' to unregister "
                 . "the PID from the database.\n";
-            exit 1;
         }
     }
-    exit 0;
+
+    # set the correct exit code
+    my $ExitCode = IsPositiveInteger($ProcessID) ? 0 : 1;
+    exit $ExitCode;
 }
 
 # check if a reload request is sent
-if ( $Opts{a} && $Opts{a} eq "reload" ) {
+elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 
     # create common objects
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+    my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # no process ID means that is not running
-    if ( !%PID ) {
+    if ( !%SchedulerPID ) {
         print "Can't get OTRS Scheduler status because it is not running!\n";
         exit 1;
     }
 
     # send interrupt signal to the process ID to stop it
-    kill( 1, $PID{PID} );
+    kill( 1, $SchedulerPID{PID} );
 
     # log daemon stop
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon reload request! PID $PID{PID}",
+        Message  => "Scheduler Daemon reload request! PID $SchedulerPID{PID}",
     );
     exit 0;
 }
@@ -212,15 +156,63 @@ if ( $Opts{a} && $Opts{a} eq "reload" ) {
 # check if start request is sent
 elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
+    my $Force = $Opts{f} ? 1 : '';
+
+    my $ExitCode = _Start( Force => $Force );
+    exit $ExitCode;
+}
+
+# invalid option, show help
+else {
+    _Help();
+    exit 1;
+}
+
+exit 1;
+
+# Internal
+sub _Help {
+    print "otrs.Scheduler.pl - OTRS Scheduler Daemon\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status|reload) [-f (force)]\n";
+    print "       otrs.Scheduler.pl -w 1 (Watchdog mode)\n";
+
+    # Not documented!
+    # otrs.Scheduler.pl -a status [-p PID]
+    #     0 if scheduler is stopped
+    #    -1 if scheduler is registered in the DB but is not running
+    # <PID> if scheduler is running where <PID> is the process number of the scheduler process
+
+    return 1;
+}
+
+sub _CommonObjects {
+    my %CommonObject;
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-otrs.Scheduler',
+        %CommonObject,
+    );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
+    return %CommonObject;
+}
+
+sub _Start {
+    my %Param = @_;
+
     {
 
         # create common objects
         my %CommonObject = _CommonObjects();
 
         # check if PID is already there
-        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+        my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
-        if (%PID) {
+        if (%SchedulerPID) {
 
             # get the PID update time
             my $PIDUpdateTime =
@@ -230,29 +222,37 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             my $Time = time();
 
             # calculate time difference
-            my $DeltaTime = $Time - $PID{Changed};
+            my $DeltaTime = $Time - $SchedulerPID{Changed};
 
             # remove PID if changed time is greater than
             if ( $DeltaTime > $PIDUpdateTime ) {
 
                 # _AutoStop returns an exit code for the OS, we need the opposite value
                 my $PIDDeleteSuccess = !_AutoStop(
-                    Message => 'NOTICE: otrs.Scheduler.pl is registered on the DB, but the '
+                    Message => 'NOTICE: otrs.Scheduler.pl is registered in the DB, but the '
                         . 'registry has not been updated in ' . $DeltaTime . ' seconds!. '
-                        . 'The register will be deleted so Scheduler can start again without '
+                        . 'The registration will be deleted so the Scheduler can start again without '
                         . 'forcing',
                     DeletePID => 1,
                 );
 
                 if ($PIDDeleteSuccess) {
-                    %PID = ();
+                    %SchedulerPID = ();
                 }
             }
         }
 
+        my $ExitCode;
+
         # check for force to start option
-        if (%PID) {
-            if ( !exists $Opts{f} ) {
+        if (%SchedulerPID) {
+
+            # we need to make sure sure that all other scheduler processes are stopped
+            # if there is more than one process running
+            if ( $Param{Force} ) {
+                _Stop( Force => 1 );
+            }
+            else {
                 print
                     "NOTICE: otrs.Scheduler.pl is already running (use '-f' if you want to start it forced)!\n";
 
@@ -260,9 +260,10 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 $CommonObject{LogObject}->Log(
                     Priority => 'error',
                     Message =>
-                        "Scheduler Daemon tries to start but found an already running service!\n",
+                        "Scheduler Daemon tried to start but found an already running service!\n",
                 );
-                exit 1;
+                $ExitCode = 1;
+                return $ExitCode;
             }
 
             print
@@ -277,10 +278,9 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
 
         # get default log path from configuration
         my $LogPath = $CommonObject{ConfigObject}->Get('Scheduler::LogPath')
-            || '<OTRS_CONFIG_Home>/var/log';
+            || $CommonObject{ConfigObject}->Get('Home') . '/var/log';
 
         # backup old log files
-        my $FileExt    = '.log';
         my $FileStdOut = $LogPath . '/SchedulerOUT.log';
         my $FileStdErr = $LogPath . '/SchedulerERR.log';
         use File::Copy;
@@ -343,8 +343,27 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     # create common objects
     my %CommonObject = _CommonObjects();
 
+    # re-create entire common object again:
+    #
+    # forked scheduler executing RegistrationUpdate tasks using PostgreSQL looses the connection
+    #   to the server and this produces errors in SQL statements in different parts of the chain
+    #   from Kernel/System/SystemData.pm (trying to list the registration variables) to
+    #   Kernel/Scheduler.pm to bin/otrs.Scheduler.pl (trying to get the PID form the DB).
+    #
+    # The results are that the RegistrationUpdate task is not executed and the scheduler stops.
+    #
+    # Some error samples might include:
+    #     DBD::Pg::st execute failed: server closed the connection unexpectedly
+    #     DBD::Pg::st execute failed: lost synchronization with server: got message type "s"
+    #     DBD::Pg::st execute failed: lost synchronization with server: got message type "e"
+    #
+    # It has been found that just creating the entire common object again either at this point
+    #     or within the "main loop" works around the problem; re-creating just the DBObject does not
+    #     work correctly.
+    %CommonObject = _CommonObjects();
+
     # if start is forced, be sure to remove any PID from any host
-    my $Force = $Opts{f} ? 1 : '';
+    my $Force = $Param{Force} ? 1 : '';
 
     # create new PID on the Database
     $CommonObject{PIDObject}->PIDCreate(
@@ -353,7 +372,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     );
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+    my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
     # set run directory for PID File
     my $Home    = $CommonObject{ConfigObject}->Get('Home');
@@ -370,14 +389,14 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 Message   => "Could not create the directory $RunDir! Scheduler is stopping...!",
                 DeletePID => 1,
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
     }
 
     # write PID to the PID file (if possible)
     my $PIDFH;
     if ( open $PIDFH, ">", $PIDFile ) {    ## no critic
-        print $PIDFH $PID{PID};
+        print $PIDFH $SchedulerPID{PID};
         close $PIDFH;
     }
 
@@ -387,13 +406,13 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             Message   => "Can not write into the PID file:'$PIDFile'! $!",
             DeletePID => 1,
         );
-        exit $ExitCode;
+        return $ExitCode;
     }
 
     # Log daemon start up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Scheduler Daemon start! PID $PID{PID}",
+        Message  => "Scheduler Daemon start! PID $SchedulerPID{PID}",
     );
 
     my $Interrupt;
@@ -401,13 +420,13 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     my $Hangup;
 
     # when we get a INT signal, set the exit flag
-    $SIG{INT} = sub { $Interrupt = 1 };
+    local $SIG{INT} = sub { $Interrupt = 1 };
 
     # when we get a TERM signal, set the exit flag
-    $SIG{TERM} = sub { $Terminate = 1 };
+    local $SIG{TERM} = sub { $Terminate = 1 };
 
     # when get a HUP signal, set HUP flag
-    $SIG{HUP} = sub { $Hangup = 1 };
+    local $SIG{HUP} = sub { $Hangup = 1 };
 
     my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
 
@@ -423,15 +442,15 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     while (1) {
 
         # get the process ID
-        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+        my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
         # check if process ID was deleted from DB
-        if ( !%PID ) {
+        if ( !%SchedulerPID ) {
             my $ExitCode = _AutoStop(
                 Message => "Process could not be found in the process table!\n"
                     . "Scheduler is stopping...!\n",
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
 
         # check if Framework.xml file exists, otherwise quit because the otrs installation
@@ -444,7 +463,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                     . "Scheduler is stopping...!\n",
                 DeletePID => 1,
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
 
         # get config checksum
@@ -457,7 +476,7 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
                 Message => "Config.pm changed, unsafe to continue! \n"
                     . "Scheduler is restarting...!\n",
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
 
         # check for stop signal (again)
@@ -465,15 +484,16 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
             my $ExitCode = _AutoStop(
                 DeletePID => 1,
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
 
         # check for hangup signal, requesting a config reload
         if ($Hangup) {
             my $ExitCode = _AutoRestart(
-                Message => "Reload requested, scheduler daemon restarts itself (PID $PID{PID})."
+                Message =>
+                    "Reload requested, scheduler daemon restarts itself (PID $SchedulerPID{PID})."
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
 
         # Call Scheduler
@@ -486,9 +506,9 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
         #   of memory leaks in some external perl modules.
         if ( ( $CurrentTime - $StartTime ) > $RestartAfterSeconds ) {
             my $ExitCode = _AutoRestart(
-                Message => "Scheduler Daemon restarts itself (PID $PID{PID})."
+                Message => "Scheduler Daemon restarts itself (PID $SchedulerPID{PID})."
             );
-            exit $ExitCode;
+            return $ExitCode;
         }
 
         # sleep to avoid overloading the processor
@@ -496,43 +516,114 @@ elsif ( $Opts{a} && $Opts{a} eq "start" ) {
     }
 
     # this will never be reached because of the while (1)
-    exit 1;
+    my $ExitCode = 1;
+    return $ExitCode;
 }
 
-# invalid option, show help
-else {
-    _Help();
-    exit 1;
-}
+sub _Stop {
+    my %Param = @_;
 
-exit 1;
+    # create common objects
+    my %CommonObject = _CommonObjects();
 
-# Internal
-sub _Help {
-    print "otrs.Scheduler.pl - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
-    print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
+    # get the process ID
+    my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
-    # Not documented!
-    # otrs.Scheduler.pl -a status [-p PID]
-    #     0 if scheduler is stopped
-    #    -1 if scheduler is registered in the DB but is not running
-    # <PID> if scheduler is running where <PID> is the process number of the scheduler process
-}
+    my $ExitCode = 0;
 
-sub _CommonObjects {
-    my %CommonObject;
-    $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-    $CommonObject{LogObject}    = Kernel::System::Log->new(
-        LogPrefix => 'OTRS-otrs.Scheduler',
-        %CommonObject,
+    # no process ID means that is not running
+    if ( !%SchedulerPID ) {
+        print "Can't stop OTRS Scheduler because is not running!\n";
+        $ExitCode = 1;
+        return $ExitCode;
+    }
+
+    # send interrupt signal to the process ID to stop it
+    kill( 2, $SchedulerPID{PID} );
+
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon Stop! PID $SchedulerPID{PID}",
     );
-    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-    $CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-    $CommonObject{PIDObject}  = Kernel::System::PID->new(%CommonObject);
-    return %CommonObject;
+
+    # force stop: remove PID from database, might be necessary if
+    #   the process died but is still registered.
+    if ( $Param{Force} ) {
+
+        # delete process ID lock
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+            Name  => $SchedulerPID{Name},
+            Force => 1,
+        );
+
+        # log daemon stop
+        if ( !$PIDDelSuccess ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Process could not be deleted from process table! PID $SchedulerPID{PID}",
+            );
+            $ExitCode = 1;
+            return $ExitCode;
+        }
+
+        # delete PID file
+        my $Home    = $CommonObject{ConfigObject}->Get('Home');
+        my $PIDFile = $Home . '/var/run/scheduler.pid';
+
+        if ( unlink($PIDFile) == 0 ) {
+
+            # log PID file cannot be deleted
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Scheduler could not delete PID file:'$PIDFile'! $!",
+            );
+        }
+    }
+
+    # get the sleeptime from config
+    my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
+
+    # we want to add 2 seconds to wait until other processes wake up after their own sleep time
+    $SleepTime += 2;
+
+    sleep $SleepTime;
+
+    return $ExitCode;
+}
+
+sub _Status {
+    my %Param = @_;
+
+    # create common objects
+    my %CommonObject = _CommonObjects();
+
+    # get the process ID
+    my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+
+    # no process ID means that is not running
+    if ( !%SchedulerPID ) {
+        return 0;
+    }
+
+    # log daemon stop
+    $CommonObject{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Scheduler Daemon status request! PID $SchedulerPID{PID}",
+    );
+
+    # create a new Daemon object
+    my $Daemon = Proc::Daemon->new();
+
+    # Get the process status
+    if ( $Daemon->Status( $SchedulerPID{PID} ) ) {
+
+        # print the process ID
+        return $SchedulerPID{PID};
+    }
+
+    # otherwise return -1, this means that the process is registed but it not running
+    return -1;
 }
 
 sub _AutoRestart {
@@ -542,23 +633,26 @@ sub _AutoRestart {
     my %CommonObject = _CommonObjects();
 
     # get the process ID
-    my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+    my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
 
-    # Log daemon start up
+    # Log daemon start-up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
         Message => $Param{Message} || 'Unknown reason to restart',
     );
 
-    # delete PID lock
-    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+    # delete process ID lock
+    my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete(
+        Name  => $SchedulerPID{Name},
+        Force => 1,
+    );
 
     my $ExitCode;
     if ( !$PIDDelSuccess ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
             Message =>
-                "Could not remove Scheduler PID $PID{PID} from database to prepare Scheduler restart, exiting.",
+                "Could not remove Scheduler PID $SchedulerPID{PID} from database to prepare Scheduler restart, exiting.",
         );
         $ExitCode = 1;
         return $ExitCode;
@@ -602,16 +696,29 @@ sub _AutoStop {
     if ( $Param{DeletePID} ) {
 
         # get the process ID
-        my %PID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+        my %SchedulerPID = $CommonObject{PIDObject}->PIDGet( Name => $PIDName );
+
+        # send interrupt signal to the process ID to stop it
+        kill( 2, $SchedulerPID{PID} );
 
         # delete process ID lock
-        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $PID{Name} );
+        # scheduler should not delete PIDs from other hosts at this point
+        my $PIDDelSuccess = $CommonObject{PIDObject}->PIDDelete( Name => $SchedulerPID{Name} );
+
+        # get the sleeptime from config
+        my $SleepTime = $CommonObject{ConfigObject}->Get('Scheduler::SleepTime') || 1;
+
+        # we want to add 2 seconds to wait until other processes wake up after their own sleep time
+        $SleepTime += 2;
+
+        sleep $SleepTime;
 
         # log daemon stop
         if ( !$PIDDelSuccess ) {
             $CommonObject{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Process could not be deleted from process table! PID $PID{PID}",
+                Message =>
+                    "Process could not be deleted from process table! PID $SchedulerPID{PID}",
             );
             $ExitCode = 1;
             return $ExitCode;
@@ -643,5 +750,60 @@ sub _AutoStop {
     }
     $ExitCode = 1;
     return $ExitCode;
+}
 
+sub _WatchDog {
+    my %Param = @_;
+
+    # create common object
+    my %CommonObject;
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-otrs.Scheduler-Watchdog',
+        %CommonObject,
+    );
+    $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{DBObject}   = Kernel::System::DB->new(
+        %CommonObject,
+        AutoConnectNo => 1,
+    );
+
+    my $ExitCode = 0;
+
+    # check if OTRS can connect to the DB
+    if ( !$CommonObject{DBObject}->Connect() ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Database is not ready!",
+        );
+        return $ExitCode;
+    }
+
+    my $ProcessID = _Status();
+
+    if ( !$ProcessID ) {
+        $ExitCode = _Start();
+    }
+    elsif ( $ProcessID == -1 ) {
+        _Stop( Force => 1 );
+
+        my $ProcessID = _Status();
+        if ( !$ProcessID ) {
+            $ExitCode = _Start();
+        }
+        else {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    'Scheduler was forced to stop but it is still registered, can not continue',
+            );
+            $ExitCode = 1;
+        }
+    }
+
+ # if there is a $ProcessID and it is not -1 then it means that the scheduler is running, nothing to
+ #   do here
+    return $ExitCode;
 }

@@ -21,6 +21,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
+use Kernel::System::JSON;
 use Kernel::System::VariableCheck qw(:all);
 use Mail::Address;
 
@@ -49,6 +50,7 @@ sub new {
     $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
     $Self->{DynamicFieldObject}  = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}       = Kernel::System::DynamicField::Backend->new(%Param);
+    $Self->{JSONObject}          = Kernel::System::JSON->new( %{$Self} );
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -1106,6 +1108,26 @@ sub Run {
             UploadCacheObject => $Self->{UploadCacheObject},
         );
 
+        # restrict number of body lines if configured
+        if (
+            $Data{Body}
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseQuoteMaxLines')
+            )
+        {
+            my $MaxLines = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseQuoteMaxLines');
+
+            # split body - one element per line
+            my @Body = split "\n", $Data{Body};
+
+            # only modify if body is longer than allowed
+            if ( scalar @Body > $MaxLines ) {
+
+                # splice to max. allowed lines and reassemble
+                @Body = @Body[ 0 .. ( $MaxLines - 1 ) ];
+                $Data{Body} = join "\n", @Body;
+            }
+        }
+
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
             # prepare body, subject, ReplyTo ...
@@ -1582,7 +1604,16 @@ sub _Mask {
             = $ArticleTypeID;
     }
 
-    my $ArticleTypeIDSelected = $Param{ArticleTypeID};
+    my $DefaultArticleTypeID = $Self->{TicketObject}->ArticleTypeLookup(
+        ArticleType => $Self->{Config}->{DefaultArticleType},
+    );
+
+    my $ArticleTypeIDSelected = $ArticleTypes{ $Param{ArticleTypeID} }
+        ?
+        $Param{ArticleTypeID}
+        :
+        $DefaultArticleTypeID;
+
     if ( $Param{GetParam}->{ArticleTypeID} ) {
 
         # set param ArticleType
@@ -1744,10 +1775,16 @@ sub _Mask {
 
         # split To values
         for my $Email ( Mail::Address->parse( $Param{Cc} ) ) {
+
+            # get a json object of the email adress
+            my $JSONEmail = $Self->{JSONObject}->Encode(
+                Data => $Email->address(),
+            );
+
             $Self->{LayoutObject}->Block(
                 Name => 'PreFilledCcRow',
                 Data => {
-                    Email => $Email->address(),
+                    Email => $JSONEmail,
                 },
             );
         }
@@ -1762,10 +1799,16 @@ sub _Mask {
 
         # split To values
         for my $Email ( Mail::Address->parse( $Param{To} ) ) {
+
+            # get a json object of the email adress
+            my $JSONEmail = $Self->{JSONObject}->Encode(
+                Data => $Email->address(),
+            );
+
             $Self->{LayoutObject}->Block(
                 Name => 'PreFilledToRow',
                 Data => {
-                    Email => $Email->address(),
+                    Email => $JSONEmail,
                 },
             );
         }

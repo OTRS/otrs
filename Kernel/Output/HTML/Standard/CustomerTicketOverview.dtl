@@ -112,7 +112,7 @@
                     <td class="Owner">$QData{"OwnerName"}</td>
 <!-- dtl:block:RecordOwner -->
 <!-- dtl:block:RecordQueue -->
-                    <td class="Queue" title="$Data{"Queue"}">$QData{"Queue","20"}</td>
+                    <td class="Queue" title="$QData{"Queue"}">$QData{"Queue","20"}</td>
 <!-- dtl:block:RecordQueue -->
 <!-- dtl:block:RecordDynamicField -->
                     <td>

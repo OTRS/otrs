@@ -21,6 +21,8 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  */
 Core.Agent.Admin.ACL = (function (TargetNS) {
 
+    var KeysWithoutSubkeys = [ 'ActivityDialog', 'Process' ];
+
     function ShowDeleteACLConfirmationDialog($Element) {
         var DialogElement = $Element.data('dialog-element'),
             DialogTitle = $Element.data('dialog-title'),
@@ -76,21 +78,14 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
         var JSONString = $DataObj.val(),
             Data,
-            Level1Key,
-            Level2Key,
-            Level3Key,
-            Level4Key,
-            $ItemObjLevel1,
-            $ItemObjLevel2,
-            $ItemObjLevel3,
-            $ItemObjLevel4,
-            $TempObjLevel2,
-            $TempObjLevel3,
-            $TempObjLevel4,
+            Level1Key, Level2Key, Level3Key, Level4Key,
+            $ItemObjLevel1, $ItemObjLevel2, $ItemObjLevel3, $ItemObjLevel4,
+            $TempObjLevel1, $TempObjLevel2, $TempObjLevel3, $TempObjLevel4,
             SelectHTML,
             Value,
             Class,
-            Bool;
+            Bool,
+            IsMatchItem = ($TargetObj.attr('id') === 'ACLMatch') ? true : false;
 
         if (!JSONString) {
             return false;
@@ -119,7 +114,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
                         if (Data[Level1Key].hasOwnProperty(Level2Key)) {
 
-                            if (Level2Key === 'ActivityDialog') {
+                            if ($.inArray(Level2Key, KeysWithoutSubkeys) !== -1 && !IsMatchItem) {
                                 $ItemObjLevel2 = $('#TemplateLevel2Last > li').clone();
                             }
                             else {
@@ -151,7 +146,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                                     .attr('data-level', 3);
                             }
 
-                            if (Level2Key === 'ActivityDialog') {
+                            if ($.inArray(Level2Key, KeysWithoutSubkeys) !== -1 && !IsMatchItem) {
 
                                 $ItemObjLevel2.find('ul').addClass('LastLevel');
 
@@ -260,7 +255,8 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             Value = $Object.val(),
             Level = parseInt($Object.attr('data-level'), 10),
             $LevelObj, $Target, $TriggerObj,
-            Prefix, SelectHTML;
+            Prefix, SelectHTML,
+            IsMatchItem = ($Object.closest('#ACLMatch').length) ? true : false;
 
         if (Level === 1) {
 
@@ -301,7 +297,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
             if (!AlreadyAdded) {
 
-                if (Value === 'ActivityDialog') {
+                if ($.inArray(Value, KeysWithoutSubkeys) !== -1 && !IsMatchItem) {
                     $LevelObj = $('#TemplateLevel2Last > li').clone();
                     $TriggerObj = $LevelObj.find('.Add');
                 }
@@ -335,7 +331,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 }
                 $Target.before($LevelObj);
 
-                if (Value === 'ActivityDialog') {
+                if ($.inArray(Value, KeysWithoutSubkeys) !== -1 && !IsMatchItem) {
                     $TriggerObj.click();
                 }
             }

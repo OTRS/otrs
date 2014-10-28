@@ -31,10 +31,13 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
+    # use customer user object if it comes in the params
+    $Self->{CustomerUserObject} = $Param{CustomerUserObject}
+        // Kernel::System::CustomerUser->new( %{$Self} );
+
     # create extra needed object
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     # get dynamic fields list
     $Self->{DynamicFieldsList} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -186,6 +189,11 @@ sub Run {
                 $Data{QueueName} = $QueuesAll{ $TicketDetail{QueueID} };
                 $Data{QueueName} =~ s/.*[\:]([^\:]+)$/$1/;
                 $Data{Description} = "";
+
+                # add 1 second to end date as workaround
+                # for a bug on fullcalendar when start and end
+                # dates are exactly the same (ESecond is 00 normally)
+                $Data{ESecond}++;
 
                 $Self->{LayoutObject}->Block(
                     Name => 'CalendarEvent',

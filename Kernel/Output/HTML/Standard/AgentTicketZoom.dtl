@@ -171,12 +171,7 @@
                     <fieldset class="TableLike FixedLabelSmall Narrow">
                         <label>$Text{"CustomerID"}:</label>
                         <p class="Value">
-<!-- dtl:block:CustomerIDRW -->
                             <a href="$Config{"CustomerDBLink"}" class="$Config{"CustomerDBLinkClass"}" $Config{"CustomerDBLinkTarget"}>$QData{"CustomerID"}</a>
-<!-- dtl:block:CustomerIDRW -->
-<!-- dtl:block:CustomerIDRO -->
-                            $QData{"CustomerID"}
-<!-- dtl:block:CustomerIDRO -->
                         </p>
                         <div class="Clear"></div>
 <!-- dtl:block:TotalAccountedTime -->
@@ -196,13 +191,13 @@
 <!-- dtl:block:PendingUntil -->
 <!-- dtl:block:Owner -->
                         <label>$Text{"Owner"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}"}</p>
+                        <p class="Value" title="$QData{"UserFullname"} $QData{"OutOfOfficeMessage"} ($QData{"UserLogin"})">$QData{"UserFullname"} $QData{"OutOfOfficeMessage"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Owner -->
 <!-- dtl:block:Responsible -->
                         <label>$Text{"Responsible"}:</label>
-                        <p class="Value" title="$QData{"UserFirstname"} $QData{"UserLastname"} ($QData{"UserLogin"})">$Quote{"$Data{"UserFullname"}"}</p>
+                        <p class="Value" title="$QData{"UserFullname"} $QData{"OutOfOfficeMessage"} ($QData{"UserLogin"})">$QData{"UserFullname"} $QData{"OutOfOfficeMessage"}</p>
                         <div class="Clear"></div>
 
 <!-- dtl:block:Responsible -->
@@ -268,17 +263,17 @@
 #                    </fieldset>
                 </div>
             </div>
+# show customer info table
+<!-- dtl:block:CustomerTable -->
             <div class="WidgetSimple">
                 <div class="Header">
                     <h2>$Text{"Customer Information"}</h2>
                 </div>
                 <div class="Content">
-# show customer info table
-<!-- dtl:block:CustomerTable -->
                     $Data{"CustomerTable"}
-<!-- dtl:block:CustomerTable -->
                 </div>
             </div>
+<!-- dtl:block:CustomerTable -->
 <!-- dtl:block:LinkTableSimple -->
             <div class="WidgetSimple DontPrint">
                 <div class="Header">
@@ -807,22 +802,22 @@ $('#$QData{"FormID"} select[name=ResponseID]').bind('change', function (Event) {
 # field names
 #<!-- dtl:block:ArticleDynamicFieldField1 -->
 #                        <label>$Text{"$Data{"Label"}"}:</label>
-#<!-- dtl:block:ArticleDynamicField1Link -->
+#<!-- dtl:block:ArticleDynamicFieldField1Link -->
 #                    <p class="Value" title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></p>
-#<!-- dtl:block:ArticleDynamicField1Link -->
-#<!-- dtl:block:ArticleDynamicField1Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField1Link -->
+#<!-- dtl:block:ArticleDynamicFieldField1Plain -->
 #                    <p class="Value" title="$QData{"Title"}">$Data{"Value"}</p>
-#<!-- dtl:block:ArticleDynamicField1Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField1Plain -->
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleDynamicFieldField1 -->
 #<!-- dtl:block:ArticleDynamicFieldField2 -->
 #                        <label>$Text{"$Data{"Label"}"}:</label>
-#<!-- dtl:block:ArticleDynamicField2Link -->
+#<!-- dtl:block:ArticleDynamicFieldField2Link -->
 #                    <p class="Value" title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></p>
-#<!-- dtl:block:ArticleDynamicField2Link -->
-#<!-- dtl:block:ArticleDynamicField2Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField2Link -->
+#<!-- dtl:block:ArticleDynamicFieldField2Plain -->
 #                    <p class="Value" title="$QData{"Title"}">$Data{"Value"}</p>
-#<!-- dtl:block:ArticleDynamicField2Plain -->
+#<!-- dtl:block:ArticleDynamicFieldField2Plain -->
 #                        <div class="Clear"></div>
 #<!-- dtl:block:ArticleDynamicFieldField2 -->
 

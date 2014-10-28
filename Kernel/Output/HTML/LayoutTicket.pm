@@ -199,13 +199,6 @@ sub AgentCustomerViewTable {
     return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
 }
 
-# AgentQueueListOption()
-#
-# !! DONT USE THIS FUNCTION !! Use BuildSelection() instead.
-#
-# Due to compatibility reason this function is still in use and will be removed
-# in a future release.
-
 sub AgentQueueListOption {
     my ( $Self, %Param ) = @_;
 
@@ -292,9 +285,6 @@ sub AgentQueueListOption {
         $Data{$_} .= '::';
     }
 
-    # to show disabled queues only one time in the selection tree
-    my %DisabledQueueAlreadyUsed;
-
     # build selection string
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
         my @Queue = split( /::/, $Param{Data}->{$_} );
@@ -335,7 +325,7 @@ sub AgentQueueListOption {
                         }
                     }
 
-                    if ( !$DisabledQueueAlreadyUsed{$FullQueueName} ) {
+                    if ( !$UsedData{$FullQueueName} ) {
                         my $DSpace               = '&nbsp;&nbsp;' x $Index;
                         my $OptionTitleHTMLValue = '';
                         if ($OptionTitle) {
@@ -351,7 +341,7 @@ sub AgentQueueListOption {
                             . $DSpace
                             . $Queue[$Index]
                             . "</option>\n";
-                        $DisabledQueueAlreadyUsed{$FullQueueName} = 1;
+                        $UsedData{$FullQueueName} = 1;
                     }
                 }
             }
@@ -671,8 +661,10 @@ sub ArticleQuote {
     # attach attachments
     if ( $Param{AttachmentsInclude} ) {
         my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ArticleID => $Param{ArticleID},
-            UserID    => $Self->{UserID},
+            ArticleID                  => $Param{ArticleID},
+            UserID                     => $Self->{UserID},
+            StripPlainBodyAsAttachment => 3,
+            Article                    => \%Article,
         );
         for my $Index ( sort keys %ArticleIndex ) {
             my %Attachment = $Self->{TicketObject}->ArticleAttachment(

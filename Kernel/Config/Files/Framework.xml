@@ -267,7 +267,7 @@
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.3/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/thirdparty/ckeditor-4.4.5/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::RichTextWidth" Required="1" Valid="1">
@@ -2693,6 +2693,31 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Package::EventModule###99-SupportDataSend" Required="0" Valid="1">
+        <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Package</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
+                <Item Key="Event">(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Events###Package" Required="1" Valid="1">
+        <Description Translatable="1">List of all Package events to be displayed in the GUI.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin</SubGroup>
+        <Setting>
+            <Array>
+                <Item>PackageInstall</Item>
+                <Item>PackageReinstall</Item>
+                <Item>PackageUpgrade</Item>
+                <Item>PackageUninstall</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">
         <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
         <Group>Framework</Group>
@@ -4007,15 +4032,17 @@ via the Preferences button after logging in.
                     <CSS>thirdparty/d3js/nv.d3.css</CSS>
                     <JavaScript>thirdparty/flot-0.8.1/excanvas.js</JavaScript>
                     <JavaScript>thirdparty/flot-0.8.1/jquery.flot.js</JavaScript>
-                    <JavaScript>Core.UI.Chart.js</JavaScript>
-                    <JavaScript>Core.UI.DnD.js</JavaScript>
-                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
-                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
-                    <JavaScript>Core.Agent.Dashboard.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-1.6.1/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/models/OTRSmultiBarChart.js</JavaScript>
+                    <JavaScript>thirdparty/d3js/models/OTRSstackedAreaChart.js</JavaScript>
+                    <JavaScript>Core.UI.Chart.js</JavaScript>
+                    <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
+                    <JavaScript>Core.UI.DnD.js</JavaScript>
+                    <JavaScript>Core.UI.AllocationList.js</JavaScript>
+                    <JavaScript>Core.Agent.TableFilters.js</JavaScript>
+                    <JavaScript>Core.Agent.Dashboard.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
@@ -4030,7 +4057,7 @@ via the Preferences button after logging in.
                 <Title></Title>
                 <NavBarName>Customer Information Center</NavBarName>
                 <NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer Information Center.</Description>
                     <Name Translatable="1">Customer Information Center</Name>
                     <Link>Action=AgentCustomerInformationCenter</Link>
                     <LinkOption>onclick="window.setTimeout(function(){Core.Agent.CustomerInformationCenterSearch.OpenSearchDialog();}, 0); return false;"</LinkOption>
@@ -4041,7 +4068,7 @@ via the Preferences button after logging in.
                     <Prio>50</Prio>
                 </NavBar>
                 <NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer Information Center.</Description>
                     <Name Translatable="1">Customers</Name>
                     <Link>Action=AgentCustomerInformationCenter</Link>
                     <LinkOption></LinkOption>
@@ -4344,7 +4371,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerUser;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer User Administration.</Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -4380,7 +4407,7 @@ via the Preferences button after logging in.
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
                     <LinkOption></LinkOption>
                     <NavBar>Customers</NavBar>
-                    <Description Translatable="1"></Description>
+                    <Description Translatable="1">Customer Company Administration.</Description>
                     <Type></Type>
                     <Block>ItemArea</Block>
                     <AccessKey></AccessKey>
@@ -4672,6 +4699,29 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminServiceCenter" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Service Center</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name Translatable="1">Service Center</Name>
+                    <Description Translatable="1">Manage OTRS Group services.</Description>
+                    <Block>System</Block>
+                    <Prio>351</Prio>
+                </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.ServiceCenter.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminLog" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
@@ -4839,6 +4889,18 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Description>PublicRepository</Description>
                 <Title>PublicRepository</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PublicFrontend::Module###PublicSupportDataCollector" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>PublicSupportDataCollector</Description>
+                <Title>PublicSupportDataCollector</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
@@ -5236,7 +5298,6 @@ via the Preferences button after logging in.
                 <Item>green</Item>
                 <Item>blue</Item>
                 <Item>yellow</Item>
-                <Item>black</Item>
                 <Item>purple</Item>
                 <Item>orange</Item>
                 <Item>pink</Item>
@@ -5251,6 +5312,22 @@ via the Preferences button after logging in.
                 <Item>lorange</Item>
                 <Item>lbrown</Item>
             </Array>
+        </Setting>
+     </ConfigItem>
+     <ConfigItem Name="Stats::Graph::TitleFont" Required="1" Valid="1">
+        <Description Translatable="1">Defines the title font in graphs (place custom fonts in var/fonts).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Stats::Graph</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans-Bold.ttf</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::Graph::LegendFont" Required="1" Valid="1">
+        <Description Translatable="1">Defines the legend font in graphs (place custom fonts in var/fonts).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Stats::Graph</SubGroup>
+        <Setting>
+            <String Regex="">DejaVuSans.ttf</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::line_width" Required="1" Valid="1">
@@ -5321,6 +5398,17 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::UseInvalidAgentInStats" Required="0" Valid="0">
+        <Description Translatable="1">Allows invalid agents to generate individual-related stats.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Stats</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -5555,7 +5643,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="RegExp">
                     <Array>
-                        <Item>(CVE|CAN)\-(\d{3,4})\-(\d{2,6})</Item>
+                        <Item>(CVE|CAN)\-(\d{3,4})\-(\d{2,})</Item>
                     </Array>
                 </Item>
                 <Item Key="URL1">
@@ -6109,13 +6197,24 @@ via the Preferences button after logging in.
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="AdminSelectBox::AllowDatabaseModification" Required="1" Valid="1">
+        <Description Translatable="1">Controls if the admin is allowed to make changes to the database via AdminSelectBox.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::AdminSelectBox</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Events###CustomerUser" Required="1" Valid="1">
         <Description Translatable="1">List of all CustomerUser events to be displayed in the GUI.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
             <Array>
-                <Item>CustomerUserCreate</Item>
+                <Item>CustomerUserAdd</Item>
                 <Item>CustomerUserUpdate</Item>
             </Array>
         </Setting>
@@ -6126,7 +6225,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin</SubGroup>
         <Setting>
             <Array>
-                <Item>CustomerCompanyCreate</Item>
+                <Item>CustomerCompanyAdd</Item>
                 <Item>CustomerCompanyUpdate</Item>
             </Array>
         </Setting>

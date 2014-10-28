@@ -526,6 +526,7 @@ sub Form {
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID     => $Self->{TicketID},
+        Title        => $Ticket{Title},
         QueueID      => $Ticket{QueueID},
         NextStates   => $Self->_GetNextStates(
             %GetParam,
@@ -645,9 +646,13 @@ sub SendEmail {
     }
 
     # prepare subject
-    my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 1,
+    );
+
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-        TicketNumber => $TicketNumber,
+        TicketNumber => $Ticket{TicketNumber},
         Action       => 'Forward',
         Subject      => $GetParam{Subject} || '',
     );
@@ -847,12 +852,12 @@ sub SendEmail {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
-            Value     => $TicketNumber,
             Type      => 'Small',
             BodyClass => 'Popup',
         );
         $Output .= $Self->_Mask(
-            TicketNumber => $TicketNumber,
+            TicketNumber => $Ticket{TicketNumber},
+            Title        => $Ticket{Title},
             TicketID     => $Self->{TicketID},
             QueueID      => $QueueID,
             NextStates   => $Self->_GetNextStates(
@@ -1606,7 +1611,7 @@ sub _GetExtendedParams {
                 }
 
                 my $CustomerDisabled = '';
-                my $CountAux         = $CustomerCounter;
+                my $CountAux         = $CustomerCounter++;
                 if ( $CustomerError ne '' ) {
                     $CustomerDisabled = 'disabled="disabled"';
                     $CountAux         = $Count . 'Error';
@@ -1673,7 +1678,7 @@ sub _GetExtendedParams {
                 }
 
                 my $CustomerDisabledCc = '';
-                my $CountAuxCc         = $CustomerCounterCc;
+                my $CountAuxCc         = $CustomerCounterCc++;
                 if ( $CustomerErrorCc ne '' ) {
                     $CustomerDisabledCc = 'disabled="disabled"';
                     $CountAuxCc         = $Count . 'Error';
@@ -1740,7 +1745,7 @@ sub _GetExtendedParams {
                 }
 
                 my $CustomerDisabledBcc = '';
-                my $CountAuxBcc         = $CustomerCounterBcc;
+                my $CountAuxBcc         = $CustomerCounterBcc++;
                 if ( $CustomerErrorBcc ne '' ) {
                     $CustomerDisabledBcc = 'disabled="disabled"';
                     $CountAuxBcc         = $Count . 'Error';

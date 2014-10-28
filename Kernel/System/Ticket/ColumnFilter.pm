@@ -94,8 +94,9 @@ sub new {
     }
 
     # create common needed module objects
-    $Self->{UserObject}         = Kernel::System::User->new( %{$Self} );
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+
+    #$Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
 
     return $Self;
 }

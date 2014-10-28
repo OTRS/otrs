@@ -594,7 +594,7 @@ span.UnreadArticles i:first-child {
 }
 
 span.UnreadArticles.Remarkable i {
-    color: #F7DE7B;
+    color: #F2BD0E;
 }
 
 span.UnreadArticles.Ordinary {
@@ -755,6 +755,15 @@ iframe.TextOption.Customer {
 #ContextSettingsDialog {
     width: 450px;
     max-height: 100px;
+}
+
+#SearchForm legend {
+    color: #333333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    display: block;
+    width: 100%;
 }
 
 /**

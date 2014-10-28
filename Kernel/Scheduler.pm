@@ -209,39 +209,48 @@ sub Run {
         }
 
         # call run method on task handler object
-        my $TaskResult = $TaskHandlerObject->Run( Data => $TaskData{Data} );
+        my $TaskResult = $TaskHandlerObject->Run(
+            TaskID => $TaskItem->{ID},
+            Data   => $TaskData{Data},
+        );
 
         # try to update PID changed time
         $Self->_PIDChangedTimeUpdate();
 
-        # skip if can't delete task
-        next TASKITEM if !$Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
-
         # check if need to reschedule
         if ( $TaskResult->{ReSchedule} ) {
 
-            # set new due time
-            my %ReScheduleTaskData = (
-                DueTime => scalar $TaskResult->{DueTime},
-                Data    => scalar $TaskResult->{Data},
-                Type    => scalar $TaskItem->{Type},
+            # reschedule: update the current task
+            my $Success = $Self->{TaskManagerObject}->TaskUpdate(
+                ID      => $TaskItem->{ID},
+                DueTime => $TaskResult->{DueTime},
+                Data    => $TaskResult->{Data},
+                Type    => $TaskItem->{Type},
             );
-
-            # reschedule: create a new task
-            my $TaskID = $Self->TaskRegister(%ReScheduleTaskData);
 
             # check if task was rescheduled successfully
-            if ( !$TaskID ) {
+            if ( !$Success ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Could not reschedule task",
+                    Message  => "Could not reschedule task.",
                 );
+
+                # delete the task
+                $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
+
                 next TASKITEM;
             }
+
             $Self->{LogObject}->Log(
                 Priority => 'info',
-                Message  => "Task is rescheduled.",
+                Message  => "Task is rescheduled (TaskID: $TaskItem->{ID}).",
             );
+        }
+
+        else {
+
+            # delete the task
+            $Self->{TaskManagerObject}->TaskDelete( ID => $TaskItem->{ID} );
         }
     }
 
@@ -332,7 +341,7 @@ sub _PIDChangedTimeUpdate {
     }
 
     # get current system time
-    my $CurrentTime = $Self->{TimeObject}->SystemTime();
+    my $CurrentTime = time();
 
     # check if it's necessary to update change time for pid
     if ( $CurrentTime >= $Self->{PIDTimeToUpdate} ) {

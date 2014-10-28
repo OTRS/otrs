@@ -235,44 +235,6 @@ sub TestCustomerUserCreate {
     return $TestUser;
 }
 
-sub SeleniumScenariosGet {
-    my $Self = shift;
-
-    my $Scenarios = [
-        {
-            ID          => 'Firefox on localhost',
-            host        => 'localhost',
-            port        => '4444',
-            browser     => '*firefox',
-            browser_url => 'http://127.0.0.1/',
-        },
-        {
-            ID          => 'Safari on localhost',
-            host        => 'localhost',
-            port        => '4444',
-            browser     => '*safari',
-            browser_url => 'http://127.0.0.1/',
-        },
-
-        #        {
-        #            ID          => 'IE7 VM',
-        #            host        => '192.168.56.101',
-        #            port        => '4444',
-        #            browser     => '*iehta',
-        #            browser_url => 'http://192.168.56.1/',
-        #        },
-        #        {
-        #            ID          => 'IE8 VM',
-        #            host        => '192.168.56.102',
-        #            port        => '4444',
-        #            browser     => '*iehta',
-        #            browser_url => 'http://192.168.56.1/',
-        #        },
-    ];
-
-    return $Scenarios;
-}
-
 my $FixedTime;
 
 =item FixedTimeSet()

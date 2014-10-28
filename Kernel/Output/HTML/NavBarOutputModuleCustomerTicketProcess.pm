@@ -121,9 +121,11 @@ sub Run {
                 CustomerUserID => $Self->{UserID},
             );
 
-            $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-                Processes => $ProcessList,
-            );
+            if ( IsHashRefWithData($ProcessList) ) {
+                $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+                    Processes => $ProcessList,
+                );
+            }
 
             # set the value to show or hide the menu item (based in process list)
             if ( IsHashRefWithData($ProcessList) ) {
@@ -142,6 +144,9 @@ sub Run {
 
     # return nothing to display the menu item
     return if $DisplayMenuItem;
+
+    # translate the menu item text
+    $NameForHidden = $Self->{LayoutObject}->{LanguageObject}->Get($NameForHidden);
 
     # add JS snippet to hide the menu item
     my $Output = $Self->{LayoutObject}->Output(

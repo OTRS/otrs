@@ -12,6 +12,8 @@ package Kernel::Output::HTML::TicketOverviewPreview;
 use strict;
 use warnings;
 
+use URI::Escape ();
+
 use Kernel::System::CustomerUser;
 use Kernel::System::SystemAddress;
 use Kernel::System::DynamicField;
@@ -428,6 +430,11 @@ sub _Show {
                 );
             }
 
+            # add the return module to redirect back to the current screen afterwards
+            my $ReturnPath
+                = URI::Escape::uri_escape( $Self->{LayoutObject}->{EnvRef}->{RequestedURL} );
+            $Item->{Link} .= ';ReturnModule=' . $ReturnPath;
+
             # add session id if needed
             if ( !$Self->{LayoutObject}->{SessionIDCookie} && $Item->{Link} ) {
                 $Item->{Link}
@@ -784,8 +791,6 @@ sub _Show {
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        $Counter++;
-
         # get field value
         my $Value = $Self->{BackendObject}->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -793,6 +798,8 @@ sub _Show {
         );
 
         next DYNAMICFIELD if ( !defined $Value );
+
+        $Counter++;
 
         my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
@@ -1058,15 +1065,34 @@ sub _Show {
                         %StandardResponses = %{ $StandardTemplates{Answer} };
                     }
 
-                    # get StandardResponsesStrg
-                    $StandardResponses{0}
-                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+              # get StandardResponsesStrg
+              # get revers StandardResponse because we need to sort by Values
+              # from %ReverseStandardResponseHash we get value of Key by %StandardResponse Value
+              # and @StandardResponseArray is created as array of hashes with elements Key and Value
+
+                    my %ReverseStandardResponseHash = reverse %StandardResponses;
+                    my @StandardResponseArray       = map {
+                        {
+                            Key   => $ReverseStandardResponseHash{$_},
+                            Value => $_
+                        }
+                    } sort values %StandardResponses;
+
+                    unshift(
+                        @StandardResponseArray,
+                        {
+                            Key   => '0',
+                            Value => '- '
+                                . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -',
+                            Selected => 1,
+                        }
+                    );
 
                     # build html string
                     my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
                         Name => 'ResponseID',
                         ID   => 'ResponseID' . $ArticleItem->{ArticleID},
-                        Data => \%StandardResponses,
+                        Data => \@StandardResponseArray,
                     );
 
                     $Self->{LayoutObject}->Block(
@@ -1110,13 +1136,22 @@ sub _Show {
                     if ( $RecipientCount > 1 ) {
 
                         # get StandardResponsesStrg
-                        $StandardResponses{0}
-                            = '- '
-                            . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
+                        shift(@StandardResponseArray);
+                        unshift(
+                            @StandardResponseArray,
+                            {
+                                Key   => '0',
+                                Value => '- '
+                                    . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All')
+                                    . ' -',
+                                Selected => 1,
+                            }
+                        );
+
                         $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
                             Name => 'ResponseID',
                             ID   => 'ResponseIDAll' . $ArticleItem->{ArticleID},
-                            Data => \%StandardResponses,
+                            Data => \@StandardResponseArray,
                         );
 
                         $Self->{LayoutObject}->Block(

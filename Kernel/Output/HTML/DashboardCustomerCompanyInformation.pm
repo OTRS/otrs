@@ -63,13 +63,13 @@ sub Run {
 
     return if !$Param{CustomerID};
 
-    my $CustomerCompanyConfig = $Self->{ConfigObject}->Get('CustomerCompany');
-    return if ref $CustomerCompanyConfig ne 'HASH';
-    return if ref $CustomerCompanyConfig->{Map} ne 'ARRAY';
-
     my %CustomerCompany = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
         CustomerID => $Param{CustomerID},
     );
+
+    my $CustomerCompanyConfig = $Self->{ConfigObject}->Get( $CustomerCompany{Source} );
+    return if ref $CustomerCompanyConfig ne 'HASH';
+    return if ref $CustomerCompanyConfig->{Map} ne 'ARRAY';
 
     return if !%CustomerCompany;
 

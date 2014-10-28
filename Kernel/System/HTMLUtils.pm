@@ -168,7 +168,8 @@ sub ToAscii {
     $Param{String} =~ s/\r/ /gs;
 
     # remove style tags
-    $Param{String} =~ s/\<style.+?\>.*?\<\/style\>//gsi;
+    $Param{String} =~ s{<style [^>]*? />}{}xgsi;
+    $Param{String} =~ s{<style [^>]*? > .*? </style[^>]*>}{}xgsi;
 
     # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
     $Param{String} =~ s/\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>/\n/gsi;
@@ -1156,7 +1157,7 @@ sub EmbeddedImagesExtract {
     }
 
     my $FQDN = $Self->{ConfigObject}->Get('FQDN');
-    ${ $Param{DocumentRef} } =~ s{(src=")(data:image/)(png|gif|jpg|bmp)(;base64,)(.+?)(")}{
+    ${ $Param{DocumentRef} } =~ s{(src=")(data:image/)(png|gif|jpg|jpeg|bmp)(;base64,)(.+?)(")}{
 
         my $Base64String = $5;
 

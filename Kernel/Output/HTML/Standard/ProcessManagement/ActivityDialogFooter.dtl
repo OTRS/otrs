@@ -33,6 +33,16 @@ window.opener.Core.UI.Popup.FirePopupEvent('Reload');
 <script type="text/javascript">//<![CDATA[
 Core.Form.Validate.Init();
 
+// move help triggers into field rows for dynamic fields
+$('.Row > .FieldHelpContainer').each(function() {
+    if (!$(this).next('label').find('.Marker').length) {
+        $(this).prependTo($(this).next('label'));
+    }
+    else {
+        $(this).insertAfter($(this).next('label').find('.Marker'));
+    }
+});
+
 // Register event for tree selection dialog
 Core.UI.TreeSelection.InitTreeSelection();
 //]]></script>

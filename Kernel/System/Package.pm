@@ -21,7 +21,10 @@ use Kernel::System::Loader;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
+use Kernel::System::EventHandler;
 use Kernel::System::VariableCheck qw(:all);
+
+use base qw(Kernel::System::EventHandler);
 
 =head1 NAME
 
@@ -148,13 +151,22 @@ sub new {
             . "Try: \$OTRS_HOME/bin/otrs.SetPermissions.pl !!!\n";
     }
 
+    # init of event handler
+    $Self->EventHandlerInit(
+        Config     => 'Package::EventModule',
+        BaseObject => 'PackageObject',
+        Objects    => {
+            %{$Self},
+        },
+    );
+
     return $Self;
 }
 
 =item RepositoryList()
 
 returns a list of repository packages
-using Result => 'short' will only return name, version, install_status and md5sums
+using Result => 'short' will only return name, version, install_status md5sum and vendor
 instead of the structure
 
     my @List = $PackageObject->RepositoryList();
@@ -182,7 +194,7 @@ sub RepositoryList {
 
     # get repository list
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, version, install_status, content '
+        SQL => 'SELECT name, version, install_status, content, vendor '
             . 'FROM package_repository ORDER BY name, create_time',
     );
 
@@ -193,6 +205,7 @@ sub RepositoryList {
             Name    => $Row[0],
             Version => $Row[1],
             Status  => $Row[2],
+            Vendor  => $Row[4],
         );
 
         # correct any 'dos-style' line endings - http://bugs.otrs.org/show_bug.cgi?id=9838
@@ -539,6 +552,17 @@ sub PackageInstall {
     $Self->{CacheObject}->CleanUp();
     $Self->{LoaderObject}->CacheDelete();
 
+    # trigger event
+    $Self->EventHandler(
+        Event => 'PackageInstall',
+        Data  => {
+            Name    => $Structure{Name}->{Content},
+            Vendor  => $Structure{Vendor}->{Content},
+            Version => $Structure{Version}->{Content},
+        },
+        UserID => 1,
+    );
+
     return 1;
 }
 
@@ -605,6 +629,17 @@ sub PackageReinstall {
 
     $Self->{CacheObject}->CleanUp();
     $Self->{LoaderObject}->CacheDelete();
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'PackageReinstall',
+        Data  => {
+            Name    => $Structure{Name}->{Content},
+            Vendor  => $Structure{Vendor}->{Content},
+            Version => $Structure{Version}->{Content},
+        },
+        UserID => 1,
+    );
 
     return 1;
 }
@@ -899,6 +934,17 @@ sub PackageUpgrade {
     $Self->{CacheObject}->CleanUp();
     $Self->{LoaderObject}->CacheDelete();
 
+    # trigger event
+    $Self->EventHandler(
+        Event => 'PackageUpgrade',
+        Data  => {
+            Name    => $Structure{Name}->{Content},
+            Vendor  => $Structure{Vendor}->{Content},
+            Version => $Structure{Version}->{Content},
+        },
+        UserID => 1,
+    );
+
     return 1;
 }
 
@@ -977,6 +1023,17 @@ sub PackageUninstall {
 
     $Self->{CacheObject}->CleanUp();
     $Self->{LoaderObject}->CacheDelete();
+
+    # trigger event
+    $Self->EventHandler(
+        Event => 'PackageUninstall',
+        Data  => {
+            Name    => $Structure{Name}->{Content},
+            Vendor  => $Structure{Vendor}->{Content},
+            Version => $Structure{Version}->{Content},
+        },
+        UserID => 1,
+    );
 
     return 1;
 }
@@ -2243,6 +2300,81 @@ sub PackageInstallDefaultFiles {
     return 1;
 }
 
+=item PackageFileGetMD5Sum()
+
+generates a MD5 Sum for all files in a given package
+
+    my $MD5Sum = $PackageObject->PackageFileGetMD5Sum(
+        Name => 'Package Name',
+        Version => 123.0,
+    );
+
+returns:
+    $MD5SumLookup = {
+        'Direcoty/File1' => 'f3f30bd59afadf542770d43edb280489'
+        'Direcoty/File2' => 'ccb8a0b86adf125a36392e388eb96778'
+    };
+
+=cut
+
+sub PackageFileGetMD5Sum {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(Name Version)) {
+        if ( !$Param{$Needed} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+        }
+    }
+
+    # check cache
+    my $CacheKey = $Param{Name} . $Param{Version};
+    my $Cache    = $Self->{CacheObject}->Get(
+        Type => 'PackageFileGetMD5Sum',
+        Key  => $CacheKey,
+    );
+    return $Cache if IsHashRefWithData($Cache);
+
+    # get the package contents
+    my $Package = $Self->RepositoryGet(
+        %Param,
+        Result => 'SCALAR',
+    );
+    my %Structure = $Self->PackageParse( String => $Package );
+
+    return 1 if !$Structure{Filelist};
+    return 1 if ref $Structure{Filelist} ne 'ARRAY';
+
+    # cleanup the Home variable (remove tailing "/")
+    my $Home = $Self->{Home};
+    $Home =~ s{\/\z}{};
+
+    my %MD5SumLookup;
+    for my $File ( @{ $Structure{Filelist} } ) {
+
+        my $LocalFile = $Home . '/' . $File->{Location};
+
+        # generate the MD5Sum
+        my $MD5Sum = $Self->{MainObject}->MD5sum(
+            String => \$File->{Content},
+        );
+
+        $MD5SumLookup{$LocalFile} = $MD5Sum;
+    }
+
+    # set cache
+    $Self->{CacheObject}->Set(
+        Type  => 'PackageFileGetMD5Sum',
+        Key   => $CacheKey,
+        Value => \%MD5SumLookup,
+        TTL   => 6 * 30 * 24 * 60 * 60,    # 6 Months (Aprox)
+    );
+
+    return \%MD5SumLookup;
+}
+
 =begin Internal:
 
 =cut
@@ -3028,6 +3160,8 @@ sub _FileSystemCheck {
 sub _Encode {
     my ( $Self, $Text ) = @_;
 
+    return $Text if !defined $Text;
+
     $Text =~ s/&/&amp;/g;
     $Text =~ s/</&lt;/g;
     $Text =~ s/>/&gt;/g;
@@ -3162,6 +3296,15 @@ sub _PackageUninstallMerged {
     $Self->{LoaderObject}->CacheDelete();
 
     return $PackageRemove;
+}
+
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
+    return 1;
 }
 
 1;

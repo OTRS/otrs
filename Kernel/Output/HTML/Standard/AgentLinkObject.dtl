@@ -15,18 +15,18 @@
             $Text{"Link Object: %s", "$Data{"SourceObjectLong"}"}
         </h1>
         <p>
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close" id="CloseLink">$Text{"Close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close" id="LinkAddCloseLink">$Text{"Close window"}</a>
 
-<!-- dtl:block:TemporaryLink -->
+<!-- dtl:block:LinkAddTemporaryLink -->
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
-    $('#CloseLink').bind('click', function (Event) {
+    $('#LinkAddCloseLink').bind('click', function (Event) {
         window.close();
         return false;
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->
-<!-- dtl:block:TemporaryLink -->
+<!-- dtl:block:LinkAddTemporaryLink -->
 
 <!-- dtl:block:LinkMenuDelete -->
             $Text{"or"}
@@ -63,9 +63,9 @@
         $(this).closest('form').submit();
     });
     // Two submits in this form
-    // if SubmitSelect button was clicked,
+    // if SubmitSelect or AddLinks button was clicked,
     // add "gotclicked" class to this button
-    $('#SubmitSelect').bind('click.Submit', function () {
+    $('#SubmitSelect, #AddLinks').bind('click.Submit', function () {
        $('#SubmitSelect').addClass('gotclicked');
     });
 
@@ -137,7 +137,19 @@
             $Text{"Unlink Object: %s", "$QData{"SourceObjectNormal"}"}
         </h1>
         <p>
-            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close">$Text{"Close window"}</a>
+            <a href="$Env{"Baselink"}Action=$Env{"Action"};Subaction=Close" id="LinkDeleteCloseLink">$Text{"Close window"}</a>
+
+<!-- dtl:block:LinkDeleteTemporaryLink -->
+<!--dtl:js_on_document_complete-->
+<script type="text/javascript">//<![CDATA[
+    $('#LinkDeleteCloseLink').bind('click', function (Event) {
+        window.close();
+        return false;
+    });
+//]]></script>
+<!--dtl:js_on_document_complete-->
+<!-- dtl:block:LinkDeleteTemporaryLink -->
+
             $Text{"or"}
             <a href="$Env{"Baselink"}Action=$Env{"Action"};Mode=$LQData{"Mode"};SourceObject=$LQData{"SourceObject"};SourceKey=$LQData{"SourceKey"};TargetIdentifier=$LQData{"TargetIdentifier"}" class="menuitem">
                 $Text{"go to link add screen"}

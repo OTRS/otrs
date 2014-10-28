@@ -201,7 +201,13 @@ sub CleanUp {
 
     # We use finddepth so that the most deeply nested files will be deleted first,
     #   and then the directories above are already empty and can just be removed.
-    File::Find::finddepth( $FileCallback, @TypeList );
+    File::Find::finddepth(
+        {
+            wanted   => $FileCallback,
+            no_chdir => 1,
+        },
+        @TypeList
+    );
 
     return 1;
 }

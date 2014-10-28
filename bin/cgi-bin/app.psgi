@@ -18,6 +18,13 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
+#
+# To profile single requests, install Devel::NYTProf and start this script as
+# PERL5OPT=-d:NYTProf NYTPROF='trace=1:start=no' plackup bin/cgi-bin/app.psgi
+# then append &NYTProf=mymarker to a request.
+# This creates a file called nytprof-mymarker.out, which you can process with
+# nytprofhtml -f nytprof-mymarker.out
+# Then point your browser at nytprof/index.html
 
 use strict;
 use warnings;
@@ -38,7 +45,7 @@ use Plack::Builder;
 # Workaround: some parts of OTRS use exit to interrupt the control flow.
 #   This would kill the Plack server, so just use die instead.
 BEGIN {
-    *CORE::GLOBAL::exit = sub { die; };
+    *CORE::GLOBAL::exit = sub { die "exit called\n"; };
 }
 
 print STDERR "PLEASE NOTE THAT PLACK SUPPORT IS CURRENTLY EXPERIMENTAL AND NOT SUPPORTED!\n";
@@ -61,11 +68,27 @@ my $App = CGI::Emulate::PSGI->handler(
 
             # Reload files in @INC that have changed since the last request.
             Module::Refresh->refresh();
+        };
+        warn $@ if $@;
 
-            # Load the requested script
+        my $Profile;
+        if ( $ENV{NYTPROF} && $ENV{REQUEST_URI} =~ /NYTProf=([\w-]+)/ ) {
+            $Profile = 1;
+            DB::enable_profile("nytprof-$1.out")
+        }
+
+        # Load the requested script
+        eval {
             do "bin/cgi-bin/$ENV{SCRIPT_NAME}";
         };
+        if ( $@ && $@ ne "exit called\n" ) {
+            warn $@;
         }
+
+        if ($Profile) {
+            DB::finish_profile();
+        }
+    },
 );
 
 # Small helper function to determine the path to a static file

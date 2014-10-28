@@ -1,1 +1,0 @@
-﻿CKEDITOR.plugins.setLang("sourcedialog","el",{toolbar:"HTML κώδικας",title:"HTML κώδικας"});

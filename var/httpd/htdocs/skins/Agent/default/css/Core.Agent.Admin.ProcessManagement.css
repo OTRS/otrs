@@ -377,6 +377,8 @@ em.EntityID {
     text-align: center;
     font-size: 11px;
     margin: 32px 5px 5px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #Canvas .Activity .Icon,
@@ -502,6 +504,12 @@ em.EntityID {
     display: block;
 }
 
+#Canvas .TransitionLabel span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /**
  * @subsubsection     Transition Popup / Transition Action Popup
  */
@@ -545,6 +553,8 @@ ul.Path li.StartActivity, ul.Path li.EndActivity {
     position: relative;
     z-index: 2;
     font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 ul.Path li select {

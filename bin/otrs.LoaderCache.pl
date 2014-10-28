@@ -41,7 +41,7 @@ sub PrintHelp {
 otrs.LoaderCache.pl - Commandline interface to the
      cache of the CSS/JavaScript loading mechanism of OTRS
 
-Usage: otrs.LoaderCache.pl -o delete
+Usage: otrs.LoaderCache.pl -o delete|generate
 
 Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
 EOF
@@ -80,6 +80,26 @@ if ( $Opts{o} && lc( $Opts{o} ) eq 'delete' ) {
     else {
         print "No file was deleted.\n";
     }
+    exit 0;
+}
+if ( $Opts{o} && lc( $Opts{o} ) eq 'generate' ) {
+    print "Generating loader cache files...\n";
+
+    # Force loader also on development systems where it might be turned off.
+    $CommonObject{ConfigObject}->Set(
+        Key   => 'Loader::Enabled::JS',
+        Value => 1,
+    );
+    $CommonObject{ConfigObject}->Set(
+        Key   => 'Loader::Enabled::CSS',
+        Value => 1,
+    );
+    my @FrontendModules = $CommonObject{LoaderObject}->CacheGenerate();
+    for my $FrontendModule (@FrontendModules) {
+        print "    $FrontendModule\n";
+
+    }
+    print "Done.\n";
     exit 0;
 }
 else {

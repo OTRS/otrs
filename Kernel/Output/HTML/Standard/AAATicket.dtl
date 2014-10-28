@@ -92,6 +92,7 @@ $Text{"Message from"}
 $Text{"End message"}
 $Text{"Forwarded message from"}
 $Text{"End forwarded message"}
+$Text{"Bounce Article to a different mail address"}
 
 $Text{"new"}
 $Text{"open"}

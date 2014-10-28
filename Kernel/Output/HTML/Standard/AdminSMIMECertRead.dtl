@@ -8,7 +8,7 @@
 # --
 <div class="LayoutPopup ARIARoleMain">
     <div class="Header">
-        <h1>$Text{"SMIME Certificate"}: $QData{"Filename"}</h1>
+        <h1>$Text{"S/MIME Certificate"}: $QData{"Filename"}</h1>
         <p>
             <a class="CancelClosePopup" href="#">$Text{"Close window"}</a>
         </p>
@@ -16,7 +16,7 @@
     <div class="Content">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>Certificate details:</h2>
+                <h2>$Text{"Certificate details"}:</h2>
             </div>
             <div class="Content">
                 <code>$Data{"CertificateText"}</code>

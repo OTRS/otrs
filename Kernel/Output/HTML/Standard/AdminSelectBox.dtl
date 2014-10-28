@@ -16,9 +16,16 @@
                 <h2>$Text{"Hint"}</h2>
             </div>
             <div class="Content">
+<!-- dtl:block:ExplanationOnlySelect -->
+                <p class="FieldExplanation">
+                    $Text{"Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed."}
+                </p>
+<!-- dtl:block:ExplanationOnlySelect -->
+<!-- dtl:block:ExplanationAllSqlQueries -->
                 <p class="FieldExplanation">
                     $Text{"Here you can enter SQL to send it directly to the application database."}
                 </p>
+<!-- dtl:block:ExplanationAllSqlQueries -->
             </div>
         </div>
     </div>
@@ -44,6 +51,9 @@
 <!-- dtl:block:FieldRequiredServerError -->
                                     $Text{"This field is required."}
 <!-- dtl:block:FieldRequiredServerError -->
+<!-- dtl:block:SQLIsNotSelectServerError -->
+                                    $Text{"Only select queries are allowed."}
+<!-- dtl:block:SQLIsNotSelectServerError -->
 <!-- dtl:block:SQLSyntaxServerError -->
                                     $Text{"The syntax of your SQL query has a mistake. Please check it."}
 <!-- dtl:block:SQLSyntaxServerError -->
@@ -107,6 +117,9 @@ Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
 <!-- dtl:block:NoMatches -->
                         <tr><td colspan="$QData{"Colspan"}">$Text{"No matches found."}</td></tr>
 <!-- dtl:block:NoMatches -->
+<!-- dtl:block:NoSelectResult -->
+                        <tr><td colspan="$QData{"Colspan"}">$Text{"Query is executed."}</td></tr>
+<!-- dtl:block:NoSelectResult -->
 <!-- dtl:block:Row -->
                         <tr>
 <!-- dtl:block:Cell -->

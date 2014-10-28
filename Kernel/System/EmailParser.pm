@@ -200,40 +200,25 @@ sub GetParam {
     $Self->{HeaderObject}->combine($What);
     my $Line = $Self->{HeaderObject}->get($What) || '';
     chomp($Line);
-    my $ReturnLine = '';
-    my %Remember;
-    for my $Array ( $Self->_DecodeMimewords( String => $Line ) ) {
-        for ( @{$Array} ) {
+    my $ReturnLine;
 
-            # I don't know, but decode_mimewords() returns each mime
-            # word two times! Remember to the old one. :-(
-            if ( !$Remember{ $Array->[0] } ) {
-                if ( $Array->[0] && $Array->[1] ) {
-                    $Remember{ $Array->[0] } = 1;
-                }
-
-                # Workaround for OE problem:
-                # If a header contains =?iso-8859-1?Q?Fr=F6hlich=2C_Roman?=
-                # which is decoded ->Fröhlich, Roman<- which gets an problem
-                # because this means two email addresses. We add " at
-                # the start and at the end of this types of words mime.
-                if ( $What =~ /^(From|To|Cc)/ && $Array->[1] ) {
-                    if ( $Array->[0] !~ /^("|')/ && $Array->[0] =~ /,/ ) {
-                        $Array->[0] = '"' . $Array->[0] . '"';
-                        $Remember{ $Array->[0] } = 1;
-                    }
-                }
-                $ReturnLine .= $Self->{EncodeObject}->Convert2CharsetInternal(
-                    Text  => $Array->[0],
-                    From  => $Array->[1] || $Self->GetCharset() || 'us-ascii',
-                    Check => 1,
-                );
-            }
-            else {
-                $Remember{ $Array->[0] } = undef;
-            }
+    # We need to split address lists before decoding; see "6.2. Display of 'encoded-word's"
+    # in RFC 2047. Mail::Address routines will quote stuff if necessary (i.e. comma
+    # or semicolon found in phrase).
+    if ( $What =~ /^(From|To|Cc)/ ) {
+        for my $Address ( Mail::Address->parse($Line) ) {
+            $Address->phrase( $Self->_DecodeString( String => $Address->phrase() ) );
+            $Address->address( $Self->_DecodeString( String => $Address->address() ) );
+            $Address->comment( $Self->_DecodeString( String => $Address->comment() ) );
+            $ReturnLine .= ', ' if $ReturnLine;
+            $ReturnLine .= $Address->format();
         }
     }
+    else {
+        $ReturnLine = $Self->_DecodeString( String => $Line );
+    }
+
+    $ReturnLine //= '';
 
     # debug
     if ( $Self->{Debug} > 1 ) {
@@ -294,9 +279,10 @@ sub GetRealname {
         return $Realname;
     }
 
-    # fallback of Mail::Address
+# fallback of Mail::Address
+# use $obj->phrase() from Mail::Address because $obj->name() formats the first letter to uppercase, but sometimes it is not necessary
     for my $EmailSplit ( Mail::Address->parse( $Param{Email} ) ) {
-        $Realname = $EmailSplit->name();
+        $Realname = $EmailSplit->phrase();
     }
     return $Realname;
 }
@@ -756,7 +742,7 @@ sub PartsAttachments {
         }
 
         # trim whitespace
-        $Subject =~ s/^\s+|\n|\s+$//;
+        $Subject =~ s/^\s+|\n|\s+$//g;
         if ( length($Subject) > 246 ) {
             $Subject = substr( $Subject, 0, 246 );
         }
@@ -935,6 +921,35 @@ sub CheckMessageBody {
 }
 
 =begin Internal:
+
+=item _DecodeString()
+
+Decode all encoded substrings.
+
+    my $Result = $Self->_DecodeString(
+        String => 'some text',
+    );
+
+=cut
+
+sub _DecodeString {
+    my ( $Self, %Param ) = @_;
+
+    my $DecodedString;
+
+    for my $Entry ( $Self->_DecodeMimewords( String => $Param{String} ) ) {
+        my $Encoding = $Self->{EncodeObject}->FindAsciiSupersetEncoding(
+            Encodings => [ $Entry->[1], $Self->GetCharset() ],
+        );
+        $DecodedString .= $Self->{EncodeObject}->Convert2CharsetInternal(
+            Text  => $Entry->[0],
+            From  => $Encoding,
+            Check => 1,
+        );
+    }
+
+    return $DecodedString;
+}
 
 =item _DecodeMimewords()
 

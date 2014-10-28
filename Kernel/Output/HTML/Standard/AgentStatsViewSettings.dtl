@@ -6,6 +6,8 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+# nofilter(TidyAll::Plugin::OTRS::DTL::Select)
+
 
 <!--dtl:block:WidgetSettingsStart -->
 <input type="hidden" name="$QData{"JSONFieldName"}" class="StatsSettingsJSON" />
@@ -110,6 +112,20 @@
 <!--dtl:block:Element -->
     </fieldset>
 <!--dtl:block:Dynamic -->
+
+<!--dtl:block:ChartTypeSelection -->
+    <h2>$Text{"Select Chart Type"}</h2>
+    <fieldset class="TableLike">
+        <label>$Text{"Chart Type"}:</label>
+        <div class="Value">
+            <select id="ChartType" name="ChartType" data-selected="$Data{"ChartType"}">
+                <option value="Bar">$Text{"Multi Bar Chart"}</option>
+                <option value="Line">$Text{"Multi Line Chart"}</option>
+                <option value="StackedArea">$Text{"Stacked Area Chart"}</option>
+            </select>
+        </div>
+    </fieldset>
+<!--dtl:block:ChartTypeSelection -->
 
 <!--dtl:block:WidgetSettingsEnd -->
 <!-- dtl:js_on_document_complete -->

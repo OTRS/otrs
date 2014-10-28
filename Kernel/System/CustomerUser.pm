@@ -381,7 +381,7 @@ sub CustomerUserDataGet {
             %Customer,
             Source        => "CustomerUser$Count",
             Config        => $Self->{ConfigObject}->Get("CustomerUser$Count"),
-            CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
+            CompanyConfig => $Self->{ConfigObject}->Get( $Company{Source} // 'CustomerCompany' ),
         );
     }
     return;
@@ -743,6 +743,15 @@ sub TokenCheck {
         Value  => '',
         UserID => $Param{UserID},
     );
+
+    return 1;
+}
+
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
 
     return 1;
 }

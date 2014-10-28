@@ -113,6 +113,16 @@ my $ArticleID = $TicketObject->ArticleCreate(
 );
 
 $TicketObject->ArticleWriteAttachment(
+    Filename    => 'some.html',
+    MimeType    => 'text/html',
+    ContentType => 'text/html',
+    Content     => '<html>some html</html>',
+    ContentID   => '',
+    ArticleID   => $ArticleID,
+    UserID      => 1,
+);
+
+$TicketObject->ArticleWriteAttachment(
     Filename    => 'image.png',
     MimeType    => 'image/png',
     ContentType => 'image/png',
@@ -172,6 +182,7 @@ my @Tests = (
             'image.png'  => 1,
             'image2.png' => 1,
             'image3.png' => 1,
+            'some.html'  => 1,
             }
     },
     {
@@ -185,6 +196,7 @@ my @Tests = (
         AttachmentsInclude => 1,
         Attachment         => {
             'image4.png' => 1,
+            'some.html'  => 1,
             }
     },
     {
@@ -209,7 +221,8 @@ my @Tests = (
         ],
         AttachmentsInclude => 1,
         Attachment         => {
-            'file-2'     => 1,
+            'file-2'     => 0,
+            'some.html'  => 1,
             'image.png'  => 1,
             'image.png'  => 1,
             'image2.png' => 1,
@@ -225,7 +238,7 @@ my @Tests = (
         ],
         AttachmentsInclude => 0,
         Attachment         => {
-            'file-2' => 1,
+            'file-2' => 0,
         },
     },
     {
@@ -284,20 +297,35 @@ for my $Test (@Tests) {
     );
     ATTACHMENT:
     for my $Filename ( sort keys %{ $Test->{Attachment} } ) {
-        next if !$Test->{Attachment}->{$Filename};
         for my $Attachment (@Attachments) {
-            if ( $Attachment->{Filename} eq $Filename ) {
+            if ( $Attachment->{Filename} eq $Filename && $Test->{Attachment}->{$Filename} ) {
                 $Self->True(
                     1,
                     "Attachment is included as expected - $Filename",
                 );
                 next ATTACHMENT;
             }
+            elsif ( $Attachment->{Filename} eq $Filename && !$Test->{Attachment}->{$Filename} ) {
+                $Self->True(
+                    0,
+                    "Attachment is included, but would 've not been expected - $Filename",
+                );
+                next ATTACHMENT;
+            }
         }
-        $Self->True(
-            0,
-            "Attachment is not included as expected - $Filename",
-        );
+        if ( $Test->{Attachment}->{$Filename} ) {
+            $Self->True(
+                0,
+                "Attachment is not included, but would 've been expected - $Filename",
+            );
+        }
+        else {
+            $Self->True(
+                1,
+                "Attachment is not included as expected - $Filename",
+            );
+        }
+
     }
 }
 

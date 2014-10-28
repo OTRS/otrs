@@ -251,7 +251,7 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="$Text{"Toggle this widget"}"><i class="icon-caret-right"></i><i class="icon-caret-down"></i></a>
                     </div>
-                    <h2>$Text{"Article Filter"} <span class="FieldExplanation">($Text{"Only for ArticleCreate event"})</span></h2>
+                    <h2>$Text{"Article Filter"}  <span class="FieldExplanation">($Text{"Only for ArticleCreate and ArticleSend event"})</span></h2>
                 </div>
 
                 <div class="Content">
@@ -260,21 +260,30 @@
                         <label for="ArticleTypeID">$Text{"Article type"}: </label>
                         <div class="Field">
                             $Data{"ArticleTypesStrg"}
-                            <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate and ArticleSend event"})</p>
+                            <div id="ArticleTypeIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="ArticleSenderTypeID">$Text{"Article sender type"}: </label>
                         <div class="Field">
                             $Data{"ArticleSenderTypesStrg"}
-                            <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate and ArticleSend event"})</p>
+                            <div id="ArticleSenderTypeIDServerError" class="TooltipErrorMessage">
+                                <p>$Text{"If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="ArticleSubjectMatch">$Text{"Subject match"}: </label>
                         <div class="Field">
-                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc" value="$QData{"ArticleSubjectMatch"}"/>
-                            <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
+                            <input type="text" name="ArticleSubjectMatch" id="ArticleSubjectMatch" class="W50pc $QData{"ArticleSubjectMatchServerError"}" value="$QData{"ArticleSubjectMatch"}"/>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate and ArticleSend event"})</p>
+                            <div id="ArticleSubjectMatchServerError" class="TooltipErrorMessage">
+                                <p>$Text{"If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields."}</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
@@ -282,15 +291,19 @@
                             $Text{"Body match"}:
                         </label>
                         <div class="Field">
-                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc" value="$QData{"ArticleBodyMatch"}"/>
-                            <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
+                            <input type="text" name="ArticleBodyMatch" id="ArticleBodyMatch" class="W50pc $QData{"ArticleBodyMatchServerError"}" value="$QData{"ArticleBodyMatch"}"/>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate and ArticleSend event"})</p>
+                            <div id="ArticleBodyMatchServerError" class="TooltipErrorMessage">
+                                <p>$Text{"If ArticleCreate or ArticleSend is used as a trigger event, you need to specify an article filter as well. Please select at least one of the article filter fields."}</p>
+                            </div>
+
                         </div>
                         <div class="Clear"></div>
 
                         <label for="ArticleAttachmentInclude">$Text{"Include attachments to notification"}: </label>
                         <div class="Field">
                             $Data{"ArticleAttachmentIncludeStrg"}
-                            <p class="FieldExplanation">($Text{"Only for ArticleCreate event"})</p>
+                            <p class="FieldExplanation">($Text{"Only for ArticleCreate and ArticleSend event"})</p>
                         </div>
                         <div class="Clear"></div>
 

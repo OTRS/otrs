@@ -220,6 +220,8 @@ $Text{"There is no account with that login name."}
 $Text{"Login failed! Your user name or password was entered incorrectly."}
 $Text{"There is no acount with that user name."}
 $Text{"Please contact your administrator"}
+$Text{"Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."}
+$Text{"This e-mail address already exists. Please log in or reset your password."}
 $Text{"Logout"}
 $Text{"Logout successful. Thank you for using %s!"}
 $Text{"Feature not active!"}
@@ -270,6 +272,7 @@ $Text{"%s is not writable!"}
 $Text{"Cannot create %s!"}
 $Text{"Check to activate this date"}
 $Text{"You have Out of Office enabled, would you like to disable it?"}
+$Text{"News about OTRS releases!"}
 
 $Text{"Customer %s added"}
 $Text{"Role added!"}

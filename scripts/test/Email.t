@@ -42,7 +42,7 @@ my @Tests = (
         Name => 'utf8 - de',
         Data => {
             From => '"Fritz Müller" <fritz@example.com>',
-            To   => 'Hans Kölner (friend@example.com)',
+            To   => '"Hans Kölner" <friend@example.com>',
             Subject =>
                 'This is a text with öäüßöäüß to check for problems äöüÄÖüßüöä!',
             Body    => "Some Body\nwith\n\nöäüßüüäöäüß1öää?ÖÄPÜ",

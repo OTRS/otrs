@@ -787,7 +787,7 @@ sub _MaskUpdate {
             Name        => 'NewServiceID',
             SelectedID  => $JobData{NewServiceID},
             Size        => 5,
-            Multiple    => 1,
+            Multiple    => 0,
             TreeView    => $TreeView,
             Translation => 0,
             Max         => 200,
@@ -1100,6 +1100,12 @@ sub _MaskRun {
 
     if ( $Self->{Profile} ) {
         %JobData = $Self->{GenericAgentObject}->JobGet( Name => $Self->{Profile} );
+        if ( exists $JobData{SearchInArchive} && $JobData{SearchInArchive} eq 'ArchivedTickets' ) {
+            $JobData{ArchiveFlags} = ['y'];
+        }
+        if ( exists $JobData{SearchInArchive} && $JobData{SearchInArchive} eq 'AllTickets' ) {
+            $JobData{ArchiveFlags} = [ 'y', 'n' ];
+        }
     }
     else {
         $Self->{LayoutObject}->FatalError( Message => "Need Profile!" );

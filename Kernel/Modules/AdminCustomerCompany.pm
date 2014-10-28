@@ -76,9 +76,8 @@ sub Run {
         my $Note = '';
         my ( %GetParam, %Errors );
 
-        $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam(
-            Param => 'CustomerCompanyID'
-        );
+        $GetParam{CustomerCompanyID}
+            = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
 
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
@@ -146,7 +145,8 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        $GetParam{Name}   = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -294,7 +294,7 @@ sub _Edit {
         SelectedID => $Param{ValidID},
     );
 
-    for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
+    for my $Entry ( @{ $Self->{ConfigObject}->Get( $Param{Source} )->{Map} } ) {
         if ( $Entry->[0] ) {
             my $Block = 'Input';
 

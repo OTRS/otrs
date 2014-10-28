@@ -226,12 +226,13 @@ sub Run {
     # list only Active processes by default
     my @ProcessStates = ('Active');
 
-    # set AJAXDialog for proper error responses, screen display and process list
-    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
+    # set IsMainWindow and IsAjaxRequest for proper error responses, screen display and process list
+    $Self->{IsMainWindow}  = $Self->{ParamObject}->GetParam( Param => 'IsMainWindow' )  || '';
+    $Self->{IsAjaxRequest} = $Self->{ParamObject}->GetParam( Param => 'IsAjaxRequest' ) || '';
 
     # fetch also FadeAway processes to continue working with existing tickets, but not to start new
     #    ones
-    if ( !$Self->{AJAXDialog} && $Self->{Subaction} ) {
+    if ( !$Self->{IsMainWindow} && $Self->{Subaction} ) {
         push @ProcessStates, 'FadeAway'
     }
 
@@ -265,9 +266,11 @@ sub Run {
         CustomerUserID => $Self->{UserID},
     );
 
-    $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
-        Processes => $ProcessList,
-    );
+    if ( IsHashRefWithData($ProcessList) ) {
+        $ProcessList = $Self->{TicketObject}->TicketAclProcessData(
+            Processes => $ProcessList,
+        );
+    }
 
     $Self->{TicketObject}->TicketAcl(
         ReturnType     => 'Ticket',
@@ -276,12 +279,11 @@ sub Run {
         CustomerUserID => $Self->{UserID},
     );
 
-    $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
-        Processes => $FollowupProcessList,
-    );
-
-    # set AJAXDialog for proper error responses and screen display
-    $Self->{AJAXDialog} = $Self->{ParamObject}->GetParam( Param => 'AJAXDialog' ) || '';
+    if ( IsHashRefWithData($FollowupProcessList) ) {
+        $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
+            Processes => $FollowupProcessList,
+        );
+    }
 
     # if we have no subaction display the process list to start a new one
     if ( !$Self->{Subaction} ) {
@@ -307,7 +309,7 @@ sub Run {
     elsif (
         $Self->{Subaction} eq 'DisplayActivityDialogAJAX'
         && !$ProcessList->{$ProcessEntityID}
-        && $Self->{AJAXDialog}
+        && $Self->{IsMainWindow}
         )
     {
 
@@ -328,7 +330,7 @@ sub Run {
     elsif (
         $Self->{Subaction} eq 'DisplayActivityDialog'
         && !$FollowupProcessList->{$ProcessEntityID}
-        && !$Self->{AJAXDialog}
+        && !$Self->{IsMainWindow}
         )
     {
         $Self->{LayoutObject}->CustomerFatalError(
@@ -471,6 +473,7 @@ sub _RenderAjax {
         $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicField }
             = $DynamicFieldValues{$DynamicField};
     }
+    $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
@@ -505,8 +508,6 @@ sub _RenderAjax {
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
-            my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-                grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
 
             # convert possible values key => value to key => key for ACLs using a Hash slice
             my %AclData = %{$PossibleValues};
@@ -515,7 +516,6 @@ sub _RenderAjax {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %{ $Param{GetParam} },
-                DynamicField   => \%DynamicFieldCheckParam,
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data           => \%AclData,
@@ -749,7 +749,7 @@ sub _GetParam {
                 . " Process: $ProcessEntityID in _GetParam!";
 
             # does not show header and footer again
-            if ( $Self->{AJAXDialog} ) {
+            if ( $Self->{IsMainWindow} ) {
                 return $Self->{LayoutObject}->CustomerError(
                     Message => $Message,
                 );
@@ -830,7 +830,7 @@ sub _GetParam {
                 my $Message = "DynamicFieldConfig missing for field: $DynamicFieldName!";
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Message,
                     );
@@ -966,7 +966,7 @@ sub _GetParam {
                 my $Message = "Process::Default$CurrentField Config Value missing!";
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Message,
                     );
@@ -1016,7 +1016,7 @@ sub _OutputActivityDialog {
         my $Message = 'Got no ProcessEntityID or TicketID and ActivityDialogEntityID!';
 
         # does not show header and footer again
-        if ( $Self->{AJAXDialog} ) {
+        if ( $Self->{IsMainWindow} ) {
             return $Self->{LayoutObject}->CustomerError(
                 Message => $Message,
             );
@@ -1044,7 +1044,7 @@ sub _OutputActivityDialog {
                 . " ProcessEntityID '$Param{ProcessEntityID}'!";
 
             # does not show header and footer again
-            if ( $Self->{AJAXDialog} ) {
+            if ( $Self->{IsMainWindow} ) {
                 return $Self->{LayoutObject}->CustomerError(
                     Message => $Message,
                 );
@@ -1098,7 +1098,7 @@ sub _OutputActivityDialog {
             . " $ActivityActivityDialog->{Activity}!";
 
         # does not show header and footer again
-        if ( $Self->{AJAXDialog} ) {
+        if ( $Self->{IsMainWindow} ) {
             return $Self->{LayoutObject}->CustomerError(
                 Message => $Message,
             );
@@ -1118,7 +1118,7 @@ sub _OutputActivityDialog {
             . " '$ActivityActivityDialog->{ActivityDialog}'!";
 
         # does not show header and footer again
-        if ( $Self->{AJAXDialog} ) {
+        if ( $Self->{IsMainWindow} ) {
             return $Self->{LayoutObject}->CustomerError(
                 Message => $Message,
             );
@@ -1150,7 +1150,7 @@ sub _OutputActivityDialog {
     my $Output;
     my $MainBoxClass;
 
-    if ( !$Self->{AJAXDialog} ) {
+    if ( !$Self->{IsMainWindow} ) {
         $Output = $Self->{LayoutObject}->CustomerHeader(
             Type  => 'Small',
             Value => $Ticket{Number},
@@ -1174,7 +1174,7 @@ sub _OutputActivityDialog {
                 }
         );
     }
-    elsif ( $Self->{AJAXDialog} && IsHashRefWithData( \%Error ) ) {
+    elsif ( $Self->{IsMainWindow} && IsHashRefWithData( \%Error ) ) {
 
         # add rich text editor
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
@@ -1204,7 +1204,7 @@ sub _OutputActivityDialog {
     }
 
     # display process iformation
-    if ( $Self->{AJAXDialog} ) {
+    if ( $Self->{IsMainWindow} ) {
 
         # get process data
         my $Process = $Self->{ProcessObject}->ProcessGet(
@@ -1261,7 +1261,7 @@ sub _OutputActivityDialog {
     }
 
     # show close & cancel link if neccessary
-    if ( !$Self->{AJAXDialog} ) {
+    if ( !$Self->{IsMainWindow} ) {
         if ( $Param{RenderLocked} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'PropertiesLock',
@@ -1293,7 +1293,7 @@ sub _OutputActivityDialog {
                     'Process::DynamicFieldProcessManagementProcessID'
                     )
                 },
-            AJAXDialog => $Self->{AJAXDialog},
+            IsMainWindow => $Self->{IsMainWindow},
             MainBoxClass => $MainBoxClass || '',
         },
     );
@@ -1318,7 +1318,7 @@ sub _OutputActivityDialog {
                 . " '$ActivityActivityDialog->{ActivityDialog}'!";
 
             # does not show header and footer again
-            if ( $Self->{AJAXDialog} ) {
+            if ( $Self->{IsMainWindow} ) {
                 return $Self->{LayoutObject}->CustomerError(
                     Message => $Message,
                 );
@@ -1341,6 +1341,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $DynamicFieldName,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1351,7 +1352,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1380,6 +1381,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1390,7 +1392,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1415,6 +1417,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1425,7 +1428,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1450,6 +1453,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1460,7 +1464,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1485,6 +1489,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1495,7 +1500,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1520,6 +1525,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1530,7 +1536,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1554,6 +1560,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1563,7 +1570,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1590,6 +1597,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1600,7 +1608,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1628,6 +1636,7 @@ sub _OutputActivityDialog {
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $CurrentField,
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
+                DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket || {},
                 Error               => \%Error || {},
                 FormID              => $Self->{FormID},
@@ -1638,7 +1647,7 @@ sub _OutputActivityDialog {
             if ( !$Response->{Success} ) {
 
                 # does not show header and footer again
-                if ( $Self->{AJAXDialog} ) {
+                if ( $Self->{IsMainWindow} ) {
                     return $Self->{LayoutObject}->CustomerError(
                         Message => $Response->{Message},
                     );
@@ -1657,7 +1666,7 @@ sub _OutputActivityDialog {
 
     my $FooterCSSClass = 'Footer';
 
-    if ( $Self->{AJAXDialog} ) {
+    if ( $Self->{IsAjaxRequest} ) {
 
         # Due to the initial loading of
         # the first ActivityDialog after Process selection
@@ -1717,15 +1726,10 @@ sub _OutputActivityDialog {
         Data         => {},
     );
 
-    if ( !$Self->{AJAXDialog} ) {
-
-        # Add the OTRS Footer
-        $Output .= $Self->{LayoutObject}->CustomerFooter( Type => 'Small' );
-    }
-    elsif ( $Self->{AJAXDialog} && IsHashRefWithData( \%Error ) ) {
-
-        # display complete footer in ajax dialogs when there is a server error
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+    # display regular footer only in non-ajax case
+    if ( !$Self->{IsAjaxRequest} ) {
+        $Output .= $Self->{LayoutObject}
+            ->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
     }
 
     return $Output;
@@ -1833,6 +1837,14 @@ sub _RenderDynamicField {
             },
         );
     }
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:DynamicField:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
 
     return {
         Success => 1,
@@ -1901,6 +1913,15 @@ sub _RenderTitle {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Title:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -1992,6 +2013,15 @@ sub _RenderArticle {
             Name => 'rw:Article:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Article:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2161,6 +2191,15 @@ sub _RenderCustomer {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Customer:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Customer' ),
@@ -2296,6 +2335,15 @@ sub _RenderSLA {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:SLA:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2443,6 +2491,15 @@ sub _RenderService {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Service:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Service' ),
@@ -2561,6 +2618,15 @@ sub _RenderPriority {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Priority:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2694,6 +2760,15 @@ sub _RenderQueue {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Queue:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Queue' ),
@@ -2806,6 +2881,15 @@ sub _RenderState {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State:DescriptionShort',
             Data => {
                 DescriptionShort => $Param{DescriptionShort},
+            },
+        );
+    }
+
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:State:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
             },
         );
     }
@@ -2946,6 +3030,15 @@ sub _RenderType {
         );
     }
 
+    if ( $Param{DescriptionLong} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'rw:Type:DescriptionLong',
+            Data => {
+                DescriptionLong => $Param{DescriptionLong},
+            },
+        );
+    }
+
     return {
         Success => 1,
         HTML => $Self->{LayoutObject}->Output( TemplateFile => 'ProcessManagement/Type' ),
@@ -3018,131 +3111,136 @@ sub _StoreActivityDialog {
         );
     }
 
+    if ( !$IsUpload ) {
+
    # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
-    my %CheckedFields;
-    DIALOGFIELD:
-    for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
+        my %CheckedFields;
+        DIALOGFIELD:
+        for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
-        # some fields should be skipped for the customer interface
-        next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{ $Self->{SkipFields} } );
+            # some fields should be skipped for the customer interface
+            next DIALOGFIELD if ( grep { $_ eq $CurrentField } @{ $Self->{SkipFields} } );
 
-        if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+            if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
+                my $DynamicFieldName = $1;
 
            # Get the Config of the current DynamicField (the first element of the grep result array)
-            my $DynamicFieldConfig
-                = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
+                my $DynamicFieldConfig
+                    = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
-            if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-                $Self->{LayoutObject}->CustomerFatalError(
-                    Message => "DynamicFieldConfig missing for field: $DynamicFieldName!",
-                );
-            }
-
-            # Will be extended lateron for ACL Checking:
-            my $PossibleValuesFilter;
-
-            # Check DynamicField Values
-            my $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
-                DynamicFieldConfig   => $DynamicFieldConfig,
-                PossibleValuesFilter => $PossibleValuesFilter,
-                ParamObject          => $Self->{ParamObject},
-                Mandatory            => $ActivityDialog->{Fields}{$CurrentField}{Display} == 2,
-            );
-
-            if ( !IsHashRefWithData($ValidationResult) ) {
-                $Self->{LayoutObject}->CustomerFatalError(
-                    Message =>
-                        "Could not perform validation on field $DynamicFieldConfig->{Label}!",
-                );
-            }
-
-            if ( $ValidationResult->{ServerError} ) {
-                $Error{ $DynamicFieldConfig->{Name} } = 1;
-            }
-
-            # if we had an invisible field, use config's default value
-            if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
-                $TicketParam{$CurrentField} = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
-                    || '';
-            }
-
-            # else take the DynamicField Value
-            else {
-                $TicketParam{$CurrentField} =
-                    $Self->{BackendObject}->EditFieldValueGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ParamObject        => $Self->{ParamObject},
-                    LayoutObject       => $Self->{LayoutObject},
+                if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+                    $Self->{LayoutObject}->CustomerFatalError(
+                        Message => "DynamicFieldConfig missing for field: $DynamicFieldName!",
                     );
+                }
+
+                # Will be extended lateron for ACL Checking:
+                my $PossibleValuesFilter;
+
+                # Check DynamicField Values
+                my $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
+                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    PossibleValuesFilter => $PossibleValuesFilter,
+                    ParamObject          => $Self->{ParamObject},
+                    Mandatory            => $ActivityDialog->{Fields}{$CurrentField}{Display} == 2,
+                );
+
+                if ( !IsHashRefWithData($ValidationResult) ) {
+                    $Self->{LayoutObject}->CustomerFatalError(
+                        Message =>
+                            "Could not perform validation on field $DynamicFieldConfig->{Label}!",
+                    );
+                }
+
+                if ( $ValidationResult->{ServerError} ) {
+                    $Error{ $DynamicFieldConfig->{Name} } = 1;
+                }
+
+                # if we had an invisible field, use config's default value
+                if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 0 ) {
+                    $TicketParam{$CurrentField}
+                        = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue}
+                        || '';
+                }
+
+                # else take the DynamicField Value
+                else {
+                    $TicketParam{$CurrentField} =
+                        $Self->{BackendObject}->EditFieldValueGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        ParamObject        => $Self->{ParamObject},
+                        LayoutObject       => $Self->{LayoutObject},
+                        );
+                }
+
+                # In case of DynamicFields there is no NameToID translation
+                # so just take the DynamicField name
+                $CheckedFields{$CurrentField} = 1;
             }
+            elsif (
+                $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
+                || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
+                )
+            {
 
-            # In case of DynamicFields there is no NameToID translation
-            # so just take the DynamicField name
-            $CheckedFields{$CurrentField} = 1;
-        }
-        elsif (
-            $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
-            || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
-            )
-        {
+                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
 
-            next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
+                my $CustomerID = $Param{GetParam}{CustomerID} || $Self->{UserCustomerID};
+                if ( !$CustomerID ) {
+                    $Error{'CustomerID'} = 1;
+                }
+                $TicketParam{CustomerID} = $CustomerID;
 
-            my $CustomerID = $Param{GetParam}{CustomerID} || $Self->{UserCustomerID};
-            if ( !$CustomerID ) {
-                $Error{'CustomerID'} = 1;
-            }
-            $TicketParam{CustomerID} = $CustomerID;
+              # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
+                my $CustomerUserID
+                    = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
+                    || $Self->{UserID};
+                if ( !$CustomerUserID ) {
+                    $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
+                }
+                if ( !$CustomerUserID ) {
+                    $Error{'CustomerUserID'} = 1;
+                }
+                else {
+                    $TicketParam{CustomerUser} = $CustomerUserID;
+                }
+                $CheckedFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
+                $CheckedFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
 
-            # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
-            my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' )
-                || $Self->{UserID};
-            if ( !$CustomerUserID ) {
-                $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
-            }
-            if ( !$CustomerUserID ) {
-                $Error{'CustomerUserID'} = 1;
             }
             else {
-                $TicketParam{CustomerUser} = $CustomerUserID;
-            }
-            $CheckedFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
-            $CheckedFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
 
-        }
-        else {
+                # skip if we've already checked ID or Name
+                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
 
-            # skip if we've already checked ID or Name
-            next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
+                my $Result = $Self->_CheckField(
+                    Field => $Self->{NameToID}->{$CurrentField},
+                    %{ $ActivityDialog->{Fields}{$CurrentField} },
+                );
 
-            my $Result = $Self->_CheckField(
-                Field => $Self->{NameToID}->{$CurrentField},
-                %{ $ActivityDialog->{Fields}{$CurrentField} },
-            );
+                if ( !$Result && $ActivityDialog->{Fields}{$CurrentField}->{Display} == 2 ) {
 
-            if ( !$Result && $ActivityDialog->{Fields}{$CurrentField}->{Display} == 2 ) {
+                    # special case for Article (Subject & Body)
+                    if ( $CurrentField eq 'Article' ) {
+                        for my $ArticlePart (qw(Subject Body)) {
+                            if ( !$Param{GetParam}->{$ArticlePart} ) {
 
-                # special case for Article (Subject & Body)
-                if ( $CurrentField eq 'Article' ) {
-                    for my $ArticlePart (qw(Subject Body)) {
-                        if ( !$Param{GetParam}->{$ArticlePart} ) {
-
-                            # set error for each part (if any)
-                            $Error{ 'Article' . $ArticlePart } = 1;
+                                # set error for each part (if any)
+                                $Error{ 'Article' . $ArticlePart } = 1;
+                            }
                         }
                     }
-                }
 
-                # all other fields
-                else {
-                    $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
+                    # all other fields
+                    else {
+                        $Error{ $Self->{NameToID}->{$CurrentField} } = 1;
+                    }
                 }
+                elsif ($Result) {
+                    $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
+                }
+                $CheckedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
             }
-            elsif ($Result) {
-                $TicketParam{ $Self->{NameToID}->{$CurrentField} } = $Result;
-            }
-            $CheckedFields{ $Self->{NameToID}->{$CurrentField} } = 1;
         }
     }
 
@@ -3655,6 +3753,7 @@ sub _DisplayProcessList {
         PossibleNone => 1,
         Sort         => 'AlphanumericValue',
         Translation  => 0,
+        AutoComplete => 'off',
     );
 
     # add rich text editor
@@ -4101,8 +4200,8 @@ sub _GetStates {
         # be sent and the TicketStateList will send the parameter as State Type
         Type => undef,
 
-        Action => $Self->{Action},
-        UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+        Action         => $Self->{Action},
+        CustomerUserID => $Self->{UserID},
     );
 
     return \%States;
@@ -4116,8 +4215,8 @@ sub _GetTypes {
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Type = $Self->{TicketObject}->TicketTypeList(
             %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            Action         => $Self->{Action},
+            CustomerUserID => $Self->{UserID},
         );
     }
     return \%Type;

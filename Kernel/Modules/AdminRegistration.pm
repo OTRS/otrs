@@ -74,8 +74,10 @@ sub Run {
         if ( $Response{Token} ) {
             my $NextAction = $Self->{RegistrationState} ne 'registered' ? 'Register' : 'Deregister';
             return $Self->{LayoutObject}->Redirect(
-                OP =>
-                    "Action=AdminRegistration;Subaction=$NextAction;Token=$Response{Token};OTRSID=$OTRSID",
+                OP => "Action=AdminRegistration;Subaction=$NextAction;Token="
+                    . $Self->{LayoutObject}->LinkEncode( $Response{Token} )
+                    . ';OTRSID='
+                    . $Self->{LayoutObject}->LinkEncode($OTRSID),
             );
         }
 
@@ -243,7 +245,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
-        for my $Parameter (qw(Type Description OTRSID Token)) {
+        for my $Parameter (qw(SupportDataSending Type Description OTRSID Token)) {
             $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
@@ -258,10 +260,11 @@ sub Run {
         if ( !%Errors ) {
 
             $Self->{RegistrationObject}->Register(
-                Token       => $GetParam{Token},
-                OTRSID      => $GetParam{OTRSID},
-                Type        => $GetParam{Type},
-                Description => $GetParam{Description},
+                Token              => $GetParam{Token},
+                OTRSID             => $GetParam{OTRSID},
+                SupportDataSending => $GetParam{SupportDataSending} || 'No',
+                Type               => $GetParam{Type},
+                Description        => $GetParam{Description},
             );
 
             return $Self->{LayoutObject}->Redirect(
@@ -313,6 +316,17 @@ sub Run {
             Class         => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
         );
 
+        # fallback for support data sending switch
+        if ( !defined $RegistrationData{SupportDataSending} ) {
+            $RegistrationData{SupportDataSending} = 'No';
+        }
+
+        # check SupportDataSending if it is enable
+        $Param{SupportDataSendingChecked} = '';
+        if ( $RegistrationData{SupportDataSending} eq 'Yes' ) {
+            $Param{SupportDataSendingChecked} = 'checked="checked"';
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'Edit',
             Data => {
@@ -342,10 +356,13 @@ sub Run {
 
         my $RegistrationType = $Self->{ParamObject}->GetParam( Param => 'Type' );
         my $Description      = $Self->{ParamObject}->GetParam( Param => 'Description' );
+        my $SupportDataSending
+            = $Self->{ParamObject}->GetParam( Param => 'SupportDataSending' ) || 'No';
 
         my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend(
-            Type        => $RegistrationType,
-            Description => $Description,
+            Type               => $RegistrationType,
+            Description        => $Description,
+            SupportDataSending => $SupportDataSending,
         );
 
         # log change
@@ -385,8 +402,6 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-
-        $Self->{RegistrationObject}->RegistrationUpdateSend();
         my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
 
         $Self->_Overview(

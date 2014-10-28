@@ -335,6 +335,39 @@ my @Tests = (
             MimeType => 'text/html',
         },
     },
+    {
+        Name        => 'Inline Attachment',
+        ArticleData => {
+            Body =>
+                '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">Hi<img alt="" src="cid:inline835421.188799263.1394842906.6253839.53368344@Mandalore.local" style="height:16px; width:16px" /></body></html>',
+            MimeType   => 'text/html',
+            Attachment => [
+                {
+                    ContentID =>
+                        'inline835421.188799263.1394842906.6253839.53368344@Mandalore.local',
+                    Content     => 'Any',
+                    ContentType => 'image/png; name="ui-toolbar-bookmark.png"',
+                    Filename    => 'ui-toolbar-bookmark.png',
+                },
+            ],
+        },
+    },
+    {
+        Name        => 'Normal Attachment',
+        ArticleData => {
+            Body =>
+                '<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">Simple Line<br/><br/><br/>Your Ticket-Team<br/><br/>Your Agent<br/><br/>--<br/> Super Support - Waterford Business Park<br/> 5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA<br/> Email: hot@example.com - Web: <a href="http://www.example.com/" title="http://www.example.com/" target="_blank">http://www.example.com/</a><br/>--</body></html>',
+            MimeType   => 'text/html',
+            Attachment => [
+                {
+                    ContentID   => '',
+                    Content     => 'Any',
+                    ContentType => 'image/png; name="ui-toolbar-bookmark.png"',
+                    Filename    => 'ui-toolbar-bookmark.png',
+                },
+            ],
+        },
+    },
 );
 
 # test each mail with sign/crypt/sign+crypt
@@ -452,6 +485,9 @@ for my $Test (@Tests) {
 
 for my $Test (@TestVariations) {
 
+    # make a deep copy as the references gets mofified over the tests
+    $Test = Storable::dclone($Test);
+
     my $ArticleID = $TicketObject->ArticleSend(
         TicketID       => $TicketID,
         From           => $Test->{ArticleData}->{From},
@@ -538,6 +574,41 @@ for my $Test (@TestVariations) {
         $TestBody,
         "$Test->{Name} - verified body content",
     );
+
+    if ( defined $Test->{ArticleData}->{Attachment} ) {
+        my $Found;
+        my %Index = $TicketObject->ArticleAttachmentIndex(
+            ArticleID                  => $ArticleID,
+            UserID                     => 1,
+            Article                    => \%FinalArticleData,
+            StripPlainBodyAsAttachment => 0,
+        );
+
+        TESTATTACHMENT:
+        for my $Attachment ( @{ $Test->{ArticleData}->{Attachment} } ) {
+
+            next TESTATTACHMENT if !$Attachment->{Filename};
+
+            ATTACHMENTINDEX:
+            for my $AttachmentIndex ( sort keys %Index ) {
+
+                if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
+                    next ATTACHMENTINDEX;
+                }
+                $Self->Is(
+                    $Index{$AttachmentIndex}->{ContentID},
+                    '<' . $Attachment->{ContentID} . '>',
+                    "$Test->{Name} - Attachment '$Attachment->{Filename}' ContentID",
+                );
+                $Found = 1;
+                last ATTACHMENTINDEX;
+            }
+            $Self->True(
+                $Found,
+                "$Test->{Name} - Attachment '$Attachment->{Filename}' was found"
+            );
+        }
+    }
 }
 
 #

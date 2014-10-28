@@ -144,6 +144,13 @@ sub Run {
                 return;
             }
         }
+        elsif ( $GetParam{Dest} ) {
+            my ( $QueueIDParam, $QueueParam ) = split( /\|\|/, $GetParam{Dest} );
+            my $QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $QueueParam );
+            if ( $QueueIDLookup && $QueueIDLookup eq $QueueIDParam ) {
+                $Param{ToSelected} = $GetParam{Dest};
+            }
+        }
 
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
@@ -925,6 +932,17 @@ sub _MaskNew {
 
     $Param{FormID} = $Self->{FormID};
     $Param{Errors}->{QueueInvalid} = $Param{Errors}->{QueueInvalid} || '';
+
+    my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
+        OnlyDynamicFields => 1,
+    );
+
+    # create a string with the quoted dynamic field names separated by commas
+    if ( IsArrayRefWithData($DynamicFieldNames) ) {
+        for my $Field ( @{$DynamicFieldNames} ) {
+            $Param{DynamicFieldNamesStrg} .= ", '" . $Field . "'";
+        }
+    }
 
     # get list type
     my $TreeView = 0;

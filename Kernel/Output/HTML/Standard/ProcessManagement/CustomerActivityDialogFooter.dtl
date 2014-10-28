@@ -31,13 +31,17 @@ window.opener.Core.UI.Popup.FirePopupEvent('Reload');
 
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-$('select').each(function() {
-    if ($(this).find('option').length == 1) {
-        $(this).attr('disabled', 'disabled');
-        $('<input type="hidden" id="' + $(this).attr('id') + '" name="' + $(this).attr('name') + '" value="' + $(this).val() + '" />').insertAfter($(this));
+Core.Form.Validate.Init();
+
+// move help triggers into field rows for dynamic fields
+$('.Row > .FieldHelpContainer').each(function() {
+    if (!$(this).next('label').find('.Marker').length) {
+        $(this).prependTo($(this).next('label'));
+    }
+    else {
+        $(this).insertAfter($(this).next('label').find('.Marker'));
     }
 });
-Core.Form.Validate.Init();
 
 // Register event for tree selection dialog
 Core.UI.TreeSelection.InitTreeSelection();

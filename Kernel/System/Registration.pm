@@ -16,6 +16,7 @@ use Kernel::System::CacheInternal;
 use Kernel::System::Environment;
 use Kernel::System::JSON;
 use Kernel::System::Scheduler::TaskManager;
+use Kernel::System::SupportDataCollector;
 use Kernel::System::SystemData;
 use Kernel::System::WebUserAgent;
 
@@ -105,10 +106,11 @@ sub new {
     }
 
     # create additional objects
-    $Self->{EnvironmentObject} = Kernel::System::Environment->new( %{$Self} );
-    $Self->{JSONObject}        = Kernel::System::JSON->new( %{$Self} );
-    $Self->{SystemDataObject}  = Kernel::System::SystemData->new( %{$Self} );
-    $Self->{TaskObject}        = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
+    $Self->{EnvironmentObject}          = Kernel::System::Environment->new( %{$Self} );
+    $Self->{JSONObject}                 = Kernel::System::JSON->new( %{$Self} );
+    $Self->{SystemDataObject}           = Kernel::System::SystemData->new( %{$Self} );
+    $Self->{SupportDataCollectorObject} = Kernel::System::SupportDataCollector->new( %{$Self} );
+    $Self->{TaskObject}                 = Kernel::System::Scheduler::TaskManager->new( %{$Self} );
 
     $Self->{CacheInternalObject} = Kernel::System::CacheInternal->new(
         %{$Self},
@@ -182,7 +184,6 @@ sub TokenGet {
         URL  => $Self->{RegistrationURL},
         Data => {
             Action     => 'PublicRegistration',
-            Subaction  => 'GetToken',
             Subaction  => 'TokenGet',
             APIVersion => $Self->{APIVersion},
             OTRSID     => $Param{OTRSID},
@@ -275,6 +276,8 @@ sub Register {
         }
     }
 
+    my $SupportDataSending = $Param{SupportDataSending} || 'No';
+
     # create webuseragent object
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
         DBObject     => $Self->{DBObject},
@@ -292,8 +295,30 @@ sub Register {
         OSVersion   => $OSInfo{OSName},
         OTRSVersion => $Self->{ConfigObject}->Get('Version'),
         FQDN        => $Self->{ConfigObject}->Get('FQDN'),
-        DatabaseVersion => $Self->{DBObject}->Version(),
+        DatabaseVersion    => $Self->{DBObject}->Version(),
+        SupportDataSending => $SupportDataSending,
     );
+
+    # send SupportData if sending is activated
+    if ( $SupportDataSending eq 'Yes' ) {
+
+        my %SupportData = eval {
+            $Self->{SupportDataCollectorObject}->Collect();
+        };
+        if ( !$SupportData{Success} ) {
+            my $ErrorMessage = $SupportData{ErrorMessage} || $@ || 'unknown error';
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "SupportData could not be collected ($ErrorMessage)"
+            );
+        }
+
+        my $JSON = $Self->{JSONObject}->Encode(
+            Data => $SupportData{Result},
+        );
+
+        $System{SupportData} = $JSON;
+    }
 
     # load old registration data if we have this
     my %OldRegistration = $Self->RegistrationDataGet();
@@ -363,11 +388,14 @@ sub Register {
     );
 
     my %RegistrationData = (
-        State          => 'registered',
-        UniqueID       => $ResponseData->{UniqueID},
-        APIKey         => $ResponseData->{APIKey},
-        LastUpdateID   => $ResponseData->{LastUpdateID},
-        LastUpdateTime => $Self->{TimeObject}->CurrentTimestamp(),
+        State              => 'registered',
+        UniqueID           => $ResponseData->{UniqueID},
+        APIKey             => $ResponseData->{APIKey},
+        LastUpdateID       => $ResponseData->{LastUpdateID},
+        LastUpdateTime     => $Self->{TimeObject}->CurrentTimestamp(),
+        Type               => $ResponseData->{Type} || $Param{Type},
+        Description        => $ResponseData->{Description} || $Param{Description},
+        SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
     );
 
     # only add keys if the system has never been registered before
@@ -376,7 +404,10 @@ sub Register {
 
     if ( !$OldRegistration{UniqueID} ) {
 
-        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description Type)) {
+        for my $Key (
+            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type)
+            )
+        {
             $Self->{SystemDataObject}->SystemDataAdd(
                 Key    => 'Registration::' . $Key,
                 Value  => $RegistrationData{$Key} || '',
@@ -397,12 +428,26 @@ sub Register {
         }
 
         # update registration information
-        for my $Key (qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description Type)) {
-            $Self->{SystemDataObject}->SystemDataUpdate(
-                Key    => 'Registration::' . $Key,
-                Value  => $RegistrationData{$Key} || '',
-                UserID => 1,
-            );
+        for my $Key (
+            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type)
+            )
+        {
+            if ( defined $OldRegistration{$Key} ) {
+
+                $Self->{SystemDataObject}->SystemDataUpdate(
+                    Key    => 'Registration::' . $Key,
+                    Value  => $RegistrationData{$Key} || '',
+                    UserID => 1,
+                );
+            }
+            else {
+
+                $Self->{SystemDataObject}->SystemDataAdd(
+                    Key    => 'Registration::' . $Key,
+                    Value  => $RegistrationData{$Key},
+                    UserID => 1,
+                );
+            }
         }
     }
 
@@ -411,6 +456,17 @@ sub Register {
     my $DueTime = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime() + $NextUpdateSeconds,
     );
+
+    # remove all existing RegistrationUpdate scheduler task
+    my @TaskList = $Self->{TaskObject}->TaskList();
+
+    TASK:
+    for my $Task (@TaskList) {
+
+        next TASK if $Task->{Type} ne 'RegistrationUpdate';
+
+        $Self->{TaskObject}->TaskDelete( ID => $Task->{ID} );
+    }
 
     # schedule update in scheduler
     # after first update the updates will reschedule itself
@@ -429,7 +485,9 @@ sub Register {
 
 Get the registration data from the system.
 
-    my %RegistrationInfo = $RegistrationObject->RegistrationDataGet();
+    my %RegistrationInfo = $RegistrationObject->RegistrationDataGet(
+        Extended => 1,              # optional, to also get basic system data
+    );
 
 =cut
 
@@ -443,6 +501,22 @@ sub RegistrationDataGet {
 
     # return empty hash if no UniqueID is found
     return () if !$RegistrationData{UniqueID};
+
+    if ( $Param{Extended} ) {
+        $RegistrationData{SupportDataSending} //= 'No';
+        $RegistrationData{APIVersion} = $Self->{APIVersion};
+
+        # read data from environment object
+        my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
+        $RegistrationData{System} = {
+            PerlVersion => sprintf( "%vd", $^V ),
+            OSType      => $OSInfo{OS},
+            OSVersion   => $OSInfo{OSName},
+            OTRSVersion => $Self->{ConfigObject}->Get('Version'),
+            FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+            DatabaseVersion => $Self->{DBObject}->Version(),
+        };
+    }
 
     return %RegistrationData;
 }
@@ -509,6 +583,33 @@ sub RegistrationUpdateSend {
     for my $Key (qw(Type Description)) {
         next KEY if !defined $Param{$Key};
         $System{$Key} = $Param{$Key};
+    }
+
+    my $SupportDataSending
+        = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
+
+    # add support data sending flag
+    $System{SupportDataSending} = $SupportDataSending;
+
+    # send SupportData if sending is activated
+    if ( $SupportDataSending eq 'Yes' ) {
+
+        my %SupportData = eval {
+            $Self->{SupportDataCollectorObject}->Collect();
+        };
+        if ( !$SupportData{Success} ) {
+            my $ErrorMessage = $SupportData{ErrorMessage} || $@ || 'unknown error';
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "SupportData could not be collected ($ErrorMessage)"
+            );
+        }
+
+        my $JSON = $Self->{JSONObject}->Encode(
+            Data => $SupportData{Result},
+        );
+
+        $System{SupportData} = $JSON;
     }
 
     # define result
@@ -590,10 +691,11 @@ sub RegistrationUpdateSend {
 
     # gather and update provided data in SystemData table
     my %UpdateData = (
-        LastUpdateID   => $ResponseData->{UpdateID},
-        LastUpdateTime => $Self->{TimeObject}->CurrentTimestamp(),
-        Type           => $ResponseData->{Type},
-        Description    => $ResponseData->{Description},
+        LastUpdateID       => $ResponseData->{UpdateID},
+        LastUpdateTime     => $Self->{TimeObject}->CurrentTimestamp(),
+        Type               => $ResponseData->{Type},
+        Description        => $ResponseData->{Description},
+        SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
     );
 
     # if the registration server provided a new UniqueID and API key, use those.
@@ -613,11 +715,50 @@ sub RegistrationUpdateSend {
 
     for my $Key ( sort keys %UpdateData ) {
 
-        $Self->{SystemDataObject}->SystemDataUpdate(
-            Key    => 'Registration::' . $Key,
-            Value  => $UpdateData{$Key},
-            UserID => 1,
-        );
+        if ( defined $RegistrationData{$Key} ) {
+            $Self->{SystemDataObject}->SystemDataUpdate(
+                Key    => 'Registration::' . $Key,
+                Value  => $UpdateData{$Key},
+                UserID => 1,
+            );
+        }
+        else {
+            $Self->{SystemDataObject}->SystemDataAdd(
+                Key    => 'Registration::' . $Key,
+                Value  => $UpdateData{$Key},
+                UserID => 1,
+            );
+        }
+    }
+
+    # if called from the scheduler process, cleanup the redundant scheduler
+    # registration update tasks
+    if ( $Param{RegistrationUpdateTaskID} ) {
+
+        # get all existing scheduler tasks
+        my @TaskList = $Self->{TaskObject}->TaskList();
+
+        # count the redundant task in the scheduler task table
+        my @RegistrationUpdateTasks;
+
+        TASK:
+        for my $Task (@TaskList) {
+
+            next TASK if $Task->{Type} ne 'RegistrationUpdate';
+
+            next TASK if $Task->{ID} eq $Param{RegistrationUpdateTaskID};
+
+            # add the redundant task to the registration update task list
+            push @RegistrationUpdateTasks, $Task;
+        }
+
+        # delete all redundant registration update task, if some exists
+        if (@RegistrationUpdateTasks) {
+
+            for my $RegistrationUpdateTask (@RegistrationUpdateTasks) {
+                $Self->{TaskObject}->TaskDelete( ID => $RegistrationUpdateTask->{ID} );
+            }
+        }
     }
 
     $Result{Success} = 1;

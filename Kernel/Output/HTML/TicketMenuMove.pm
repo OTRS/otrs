@@ -56,6 +56,36 @@ sub Run {
         }
     }
 
+    # group check
+    if ( $Param{Config}->{Group} ) {
+        my @Items = split /;/, $Param{Config}->{Group};
+        my $AccessOk;
+        for my $Item (@Items) {
+            my ( $Permission, $Name ) = split /:/, $Item;
+            if ( !$Permission || !$Name ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Invalid config for Key Group: '$Item'! "
+                        . "Need something like '\$Permission:\$Group;'",
+                );
+            }
+            my @Groups = $Self->{GroupObject}->GroupMemberList(
+                UserID => $Self->{UserID},
+                Type   => $Permission,
+                Result => 'Name',
+            );
+            next if !@Groups;
+
+            for my $Group (@Groups) {
+                if ( $Group eq $Name ) {
+                    $AccessOk = 1;
+                    last;
+                }
+            }
+        }
+        return if !$AccessOk;
+    }
+
     # check acl
     return
         if defined $Param{ACL}->{ $Param{Config}->{Action} }

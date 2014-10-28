@@ -189,6 +189,7 @@ sub TableCreateComplex {
                 Key      => $TicketID,
                 Content  => $Ticket->{TicketNumber},
                 Link     => '$Env{"Baselink"}Action=AgentTicketZoom;TicketID=' . $TicketID,
+                Title    => "Ticket# $Ticket->{TicketNumber}",
                 CssClass => $CssClass,
             },
             {
@@ -431,11 +432,13 @@ Return
 sub SearchOptionList {
     my ( $Self, %Param ) = @_;
 
+    my $ParamHook = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
+
     # search option list
     my @SearchOptionList = (
         {
             Key  => 'TicketNumber',
-            Name => 'Ticket#',
+            Name => $ParamHook,
             Type => 'Text',
         },
         {

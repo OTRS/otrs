@@ -217,6 +217,17 @@ $Self->True(
     '#1 RepositoryGet()',
 );
 
+my @PackageList = $PackageObject->RepositoryList( Result => 'Short' );
+for my $Package (@PackageList) {
+    for my $Attribute (qw(Name Version Status MD5sum Vendor)) {
+        $Self->IsNot(
+            $Package->{$Attribute},
+            undef,
+            "RepositoryList() short - $Attribute should not be undefined",
+        );
+    }
+}
+
 my $PackageRemove = $PackageObject->RepositoryRemove(
     Name    => 'Test',
     Version => '0.0.1',

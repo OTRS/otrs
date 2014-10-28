@@ -130,10 +130,10 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field1Link -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field1Link -->
 #<!-- dtl:block:DynamicField_Field1Plain -->
-#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#                            <div title="$QData{"Title"}"><span>$Data{"Value"}</span></div>
 #<!-- dtl:block:DynamicField_Field1Plain -->
 #                        </td>
 #<!-- dtl:block:DynamicField_Field1 -->
@@ -166,10 +166,10 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field2Link -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field2Link -->
 #<!-- dtl:block:DynamicField_Field2Plain -->
-#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#                            <div title="$QData{"Title"}"><span>$Data{"Value"}</span></div>
 #<!-- dtl:block:DynamicField_Field2Plain -->
 #                        </td>
 #<!-- dtl:block:DynamicField_Field2 -->
@@ -205,10 +205,10 @@
 #                        <td>
 #                            <label>$Text{"$Data{"Label"}"}</label>
 #<!-- dtl:block:DynamicField_Field3Link -->
-#                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
+#                            <div title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 #<!-- dtl:block:DynamicField_Field3Link -->
 #<!-- dtl:block:DynamicField_Field3Plain -->
-#                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+#                            <div title="$QData{"Title"}"><span>$Data{"Value"}</span></div>
 #<!-- dtl:block:DynamicField_Field3Plain -->
 #                        </td>
 #<!-- dtl:block:DynamicField_Field3 -->
@@ -232,10 +232,10 @@
                         <td>
                             <label>$Text{"$Data{"Label"}"}</label>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
-                            <div title="$Data{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
+                            <div title="$QData{"Title"}"><a href="$Data{"Link"}" target="_blank" class="DynamicFieldLink">$Data{"Value"}</a></div>
 <!-- dtl:block:DynamicFieldTableRowRecordLink -->
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
-                            <div title="$Data{"Title"}"><span>$Data{"Value"}</span></div>
+                            <div title="$QData{"Title"}"><span>$Data{"Value"}</span></div>
 <!-- dtl:block:DynamicFieldTableRowRecordPlain -->
                         </td>
 <!-- dtl:block:DynamicFieldTableRowRecord -->
@@ -281,7 +281,7 @@
     </form>
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
-    $('.InlineActions').on('change', 'select[name=DestQueueID]', function (Event) {
+    $('.InlineActions, .OverviewActions').on('change', 'select[name=DestQueueID]', function (Event) {
         $(this).closest('form').submit();
     });
 //]]></script>

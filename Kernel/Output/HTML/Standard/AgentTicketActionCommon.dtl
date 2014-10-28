@@ -15,6 +15,7 @@
     <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
     <input type="hidden" name="Expand" id="Expand" value=""/>
     <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+    <input type="hidden" name="ReturnModule" value="$QData{"ReturnModule"}"/>
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">
@@ -159,12 +160,12 @@ $('#TypeID').bind('change', function (Event) {
                 <label for="NewQueueID">$Text{"Queue"}:</label>
                 <div class="Field">
                     $Data{"QueuesStrg"}
-                    <div id="QueueIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
-                    <div id="QueueIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
+                    <div id="NewQueueIDError" class="TooltipErrorMessage" ><p>$Text{"This field is required."}</p></div>
+                    <div id="NewQueueIDServerError" class="TooltipErrorMessage"><p>$Text{"This field is required."}</p></div>
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
     $('#NewQueueID').bind('change', function (Event) {
-        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'QueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
+        Core.AJAX.FormUpdate($('#Compose'), 'AJAXUpdate', 'NewQueueID', [ 'TypeID', 'ServiceID', 'NewOwnerID', 'OldOwnerID', 'NewResponsibleID', 'NewStateID', 'NewPriorityID' $Data{"DynamicFieldNamesStrg"} ]);
     });
 //]]></script>
 <!--dtl:js_on_document_complete-->

@@ -6,7 +6,8 @@ AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
 Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
 want to answer them with a team of agents? You're going to love OTRS!
 
-You can find a list of features in the [online documentation](http://doc.otrs.org/3.3/en/html/features-of-otrs.html).
+You can find a list of features in the
+[online documentation](http://otrs.github.io/doc/manual/admin/3.3/en/html/otrs.html#features-of-otrs).
 
 
 License

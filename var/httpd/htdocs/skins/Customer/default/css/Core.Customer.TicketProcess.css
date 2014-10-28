@@ -18,7 +18,13 @@
 
 .TicketProcess .Content {
     margin: 0;
+    padding: 0px;
 }
+
+.TicketProcess > .Content {
+    padding: 10px;
+}
+
 .TicketProcess fieldset{
     margin: 8px 0 13px;
     padding-bottom: 5px;
@@ -73,15 +79,16 @@
     color: #444444;
 }
 
-fieldset.TableLike > .Field, fieldset.TableLike > .Row > .Field {
+fieldset.TableLike > .Field, 
+fieldset.TableLike > .Row > .Field {
     line-height: 1.2em;
     min-height: 16px;
-    padding: 0 0 3px 10px;
+    padding: 3px 0px;
 }
 
 .FieldExplanation {
     color: #888888;
-    margin-left: 8pc;
+    margin-left: 236px;
 }
 
 .PopupFooter {
@@ -99,4 +106,54 @@ fieldset.TableLike > .Field, fieldset.TableLike > .Row > .Field {
 .AdviceText {
     padding-left: 13px;
 }
+
+.FieldHelpContainer {
+    position: relative;
+}
+
+.FieldHelpContainer:hover > span {
+    display: block;
+}
+
+.FieldHelpContainer .FieldHelpTrigger {
+    cursor: default;
+    z-index: 1;
+    color: #bbb;
+}
+
+.FieldHelpContainer > span {
+    background: #444444;
+    color: #fff;
+    font-size: 12px;
+    left: 15px;
+    line-height: 110%;
+    padding: 10px;
+    position: absolute;
+    z-index: 2;
+    text-align: left;
+    text-shadow: 1px 1px 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    top: 5px;
+    width: 200px;
+    display: none;
+    -webkit-opacity: 0.8;
+    -moz-opacity: 0.8;
+    -ms-opacity: 0.8;
+    -o-opacity: 0.8;
+    opacity: 0.8;
+}
+
+fieldset label {
+    width: 220px;
+    margin-top: 3px;
+}
+
+#NewProcessTicket fieldset label {
+    margin: -1px 6px 0 0 !important;
+}
+
 } /* end @media */

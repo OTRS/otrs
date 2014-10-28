@@ -602,7 +602,7 @@ sub _GetParams {
         next if !$Self->{ParamObject}->GetParam( Param => 'KeyIndex' . $KeyCounter );
         $KeyIndex++;
         for my $KeyItem (qw(KeyMapTypeStrg KeyName KeyMapNew ValueCounter)) {
-            my $KeyAux = $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter ) || '';
+            my $KeyAux = $Self->{ParamObject}->GetParam( Param => $KeyItem . $KeyCounter ) // '';
             $GetParam->{ $KeyItem . $KeyIndex } = $KeyAux;
             if ( $KeyItem eq 'ValueCounter' && $KeyAux eq '' ) {
                 $GetParam->{ $KeyItem . $KeyIndex } = 0;
@@ -621,7 +621,7 @@ sub _GetParams {
                 $Self->{DeletedString};
             $ValueIndex++;
             for my $ValueItem (qw(ValueMapTypeStrg ValueName ValueMapNew)) {
-                my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) || '';
+                my $ValAux = $Self->{ParamObject}->GetParam( Param => $ValueItem . $Suffix ) // '';
                 $GetParam->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = $ValAux;
                 $GetParam->{Error}->{ $ValueItem . $KeyIndex . '_' . $ValueIndex } = 'ServerError'
                     if $ValAux eq '';

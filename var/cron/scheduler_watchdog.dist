@@ -1,0 +1,3 @@
+
+# check scheduler status
+*/5 * * * *    $HOME/bin/otrs.Scheduler.pl -w 1 >> /dev/null

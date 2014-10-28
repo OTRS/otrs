@@ -418,7 +418,7 @@ sub ValueValidate {
             String => $Value{ValueDateTime},
         );
 
-        return if !$SystemTime;
+        return if !defined $SystemTime;
 
         # convert back to time stamp to check errors
         my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(

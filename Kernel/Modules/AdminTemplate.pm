@@ -82,9 +82,13 @@ sub Run {
 
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
-        for my $Parameter (qw(ID Name Comment ValidID Template TemplateType)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+        for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
+            $GetParam{$Parameter}
+                = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
+
+        $GetParam{'Template'}
+            = $Self->{ParamObject}->GetParam( Param => 'Template', Raw => 1 ) || '';
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
@@ -97,6 +101,16 @@ sub Run {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
+        }
+
+        # check if a standard template exist with this name
+        my $NameExists
+            = $Self->{StandardTemplateObject}
+            ->NameExistsCheck( Name => $GetParam{Name}, ID => $GetParam{ID} );
+
+        if ($NameExists) {
+            $Errors{NameExists} = 1;
+            $Errors{'NameInvalid'} = 'ServerError';
         }
 
         # if no errors occurred
@@ -191,9 +205,13 @@ sub Run {
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
 
-        for my $Parameter (qw(ID Name Comment ValidID Template TemplateType)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+        for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
+            $GetParam{$Parameter}
+                = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
+
+        $GetParam{'Template'}
+            = $Self->{ParamObject}->GetParam( Param => 'Template', Raw => 1 ) || '';
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
@@ -206,6 +224,15 @@ sub Run {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
+        }
+
+        # check if a standard template exists with this name
+        my $NameExists
+            = $Self->{StandardTemplateObject}->NameExistsCheck( Name => $GetParam{Name} );
+
+        if ($NameExists) {
+            $Errors{NameExists} = 1;
+            $Errors{'NameInvalid'} = 'ServerError';
         }
 
         # if no errors occurred
@@ -361,6 +388,14 @@ sub _Edit {
     }
     else {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+    }
+
+    # show appropriate messages for ServerError
+    if ( defined $Param{Errors}->{NameExists} && $Param{Errors}->{NameExists} == 1 ) {
+        $Self->{LayoutObject}->Block( Name => 'ExistNameServerError' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'NameServerError' );
     }
 
     # add rich text editor

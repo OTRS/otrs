@@ -358,6 +358,15 @@ sub CustomerCompanyList {
     return %Data;
 }
 
+sub DESTROY {
+    my $Self = shift;
+
+    # execute all transaction events
+    $Self->EventHandlerTransaction();
+
+    return 1;
+}
+
 1;
 
 =back

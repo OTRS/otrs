@@ -49,7 +49,7 @@
             <input type="hidden" name="ProcessEntityID" value="$QData{"ProcessEntityID"}"/>
             <input type="hidden" name="ActivityDialogEntityID" value="$QData{"ActivityDialogEntityID"}"/>
             <input type="hidden" name="Expand" id="Expand" value=""/>
-            <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="$QData{"AJAXDialog"}"/>
+            <input type="hidden" name="IsMainWindow" id="IsMainWindow" value="$QData{"IsMainWindow"}"/>
             <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
             <div class="LayoutPopup ARIARoleMain">
 <!-- dtl:block:Header -->

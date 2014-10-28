@@ -118,7 +118,7 @@ them without the ".dist" filename extension.
     shell> cp Kernel/Config.pm.dist Kernel/Config.pm
     shell> cp Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm
 
-Or if you are installing OTRS an a Windows system:
+Or if you are installing OTRS on a Windows system:
 
     shell> copy Kernel/Config.pm.dist Kernel/Config.pm
     shell> copy Kernel/Config/GenericAgent.pm.dist Kernel/Config/GenericAgent.pm
@@ -212,16 +212,8 @@ Make sure to execute it as the OTRS system user!
 
         shell> /opt/otrs/bin/Cron.sh stop
 
-12. OTRS Scheduler Service
----------------------------
-
-OTRS comes with a scheduler service that is used to perform asynchronous tasks.
-
-The OTRS RPMs will set up the Scheduler Service automatically.
-If you install from source, you can install the service by copying the
-scripts/otrs-scheduler-linux file to /etc/init.d and giving it the appropriate permissions.
-
-This will make sure the scheduler service starts when the system starts up.
+Note: From OTRS 3.3.7 OTRS Scheduler uses a cronjob to start-up and keep alive. Please make sure
+that scheduler_watchdog cronjob is activated.
 
 Notes
 =====

@@ -394,9 +394,6 @@ sub ACLGet {
             $ConfigChange = $Self->{YAMLObject}->Load( Data => $Data[7] );
         }
 
-        my $CreateUser = $Self->{UserObject}->UserLookup( UserID => $Data[10] );
-        my $ChangeUser = $Self->{UserObject}->UserLookup( UserID => $Data[11] );
-
         %Data = (
             ID             => $Data[0],
             Name           => $Data[1],
@@ -408,13 +405,18 @@ sub ACLGet {
             ConfigChange   => $ConfigChange,
             CreateTime     => $Data[8],
             ChangeTime     => $Data[9],
-            CreateBy       => $CreateUser,
-            ChangeBy       => $ChangeUser,
+            CreateBy       => $Data[10],
+            ChangeBy       => $Data[11],
         );
-
     }
 
     return if !$Data{ID};
+
+    # convert UserIDs outside of fetchrowArray, otherwise UserLooukup will rise some warnings
+    my $CreateUser = $Self->{UserObject}->UserLookup( UserID => $Data{CreateBy} );
+    my $ChangeUser = $Self->{UserObject}->UserLookup( UserID => $Data{ChangeBy} );
+    $Data{CreateBy} = $CreateUser;
+    $Data{ChangeBy} = $ChangeUser;
 
     # set cache
     $Self->{CacheObject}->Set(

@@ -45,6 +45,17 @@ sub Run {
         Data => [ 'HTML', 'CSV' ],
     );
 
+    if ( !$Self->{ConfigObject}->Get('AdminSelectBox::AllowDatabaseModification') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ExplanationOnlySelect',
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'ExplanationAllSqlQueries',
+        );
+    }
+
     # ------------------------------------------------------------ #
     # do select
     # ------------------------------------------------------------ #
@@ -63,6 +74,16 @@ sub Run {
         if ( !$Param{SQL} ) {
             $Errors{SQLInvalid} = 'ServerError';
             $Errors{ErrorType}  = 'FieldRequired';
+        }
+
+        # check if enabled all SQL queries
+        if ( !$Self->{ConfigObject}->Get('AdminSelectBox::AllowDatabaseModification') ) {
+
+            # check if SQL query is "SELECT" one
+            if ( uc( $Param{SQL} ) !~ m{ \A \s* (?:SELECT|SHOW|DESC) }smx ) {
+                $Errors{SQLInvalid} = 'ServerError';
+                $Errors{ErrorType}  = 'SQLIsNotSelect';
+            }
         }
 
         # if no errors occurred
@@ -123,12 +144,25 @@ sub Run {
 
                 # otherwise a no matches found msg is displayed
                 if ( !$MatchesFound ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'NoMatches',
-                        Data => {
-                            Colspan => scalar @Head,
-                        },
-                    );
+
+                    if ( uc( $Param{SQL} ) !~ m{ \A \s* (?:SELECT|SHOW|DESC) }smx ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'NoSelectResult',
+                            Data => {
+                                Colspan => scalar @Head,
+                            },
+                        );
+                    }
+                    else {
+
+                        $Self->{LayoutObject}->Block(
+                            Name => 'NoMatches',
+                            Data => {
+                                Colspan => scalar @Head,
+                            },
+                        );
+
+                    }
                 }
 
                 # get Separator from language file

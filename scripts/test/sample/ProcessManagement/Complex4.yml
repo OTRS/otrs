@@ -1,0 +1,320 @@
+---
+Activities:
+  A9:
+    ActivityDialogs:
+    - AD9
+    - AD10
+    - AD11
+    - AD12
+    - AD13
+    - AD14
+    - AD15
+    - AD16
+    - AD17
+    - AD18
+    - AD19
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      ActivityDialog:
+        '1': AD9
+        '10': AD18
+        '11': AD19
+        '2': AD10
+        '3': AD11
+        '4': AD12
+        '5': AD13
+        '6': AD14
+        '7': AD15
+        '8': AD16
+        '9': AD17
+    CreateTime: 2014-01-15 16:31:17
+    EntityID: A9
+    ID: 52
+    Name: Order A1 Alt
+ActivityDialogs:
+  AD10:
+    ChangeTime: 2014-01-15 16:39:10
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '2'
+      FieldOrder:
+      - Responsible
+      Fields:
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD10
+    ID: 58
+    Name: '2 Alt'
+  AD11:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '3'
+      FieldOrder:
+      - Responsible
+      Fields:
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD11
+    ID: 59
+    Name: '3 Alt'
+  AD12:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '4'
+      FieldOrder:
+      - Priority
+      Fields:
+        Priority:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD12
+    ID: 60
+    Name: '4 Alt'
+  AD13:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '5'
+      FieldOrder:
+      - SLA
+      Fields:
+        SLA:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD13
+    ID: 61
+    Name: '5 Alt'
+  AD14:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '6'
+      FieldOrder:
+      - Responsible
+      Fields:
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD14
+    ID: 62
+    Name: '6 Alt'
+  AD15:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '7'
+      FieldOrder:
+      - Priority
+      Fields:
+        Priority:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD15
+    ID: 63
+    Name: '7 Alt'
+  AD16:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '8'
+      FieldOrder:
+      - Responsible
+      Fields:
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD16
+    ID: 64
+    Name: '8 Alt'
+  AD17:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '9'
+      FieldOrder:
+      - Responsible
+      Fields:
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD17
+    ID: 65
+    Name: '9 Alt'
+  AD18:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '10'
+      FieldOrder:
+      - Responsible
+      Fields:
+        Responsible:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD18
+    ID: 66
+    Name: '10 Alt'
+  AD19:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '11'
+      FieldOrder:
+      - Service
+      Fields:
+        Service:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:39:10
+    EntityID: AD19
+    ID: 67
+    Name: '11 Alt'
+  AD9:
+    ChangeTime: 2014-01-15 19:53:37
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: '1'
+      FieldOrder:
+      - Queue
+      Fields:
+        Queue:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2014-01-15 16:31:17
+    EntityID: AD9
+    ID: 57
+    Name: '1 Alt'
+Process:
+  Activities:
+  - A9
+  ChangeTime: 2014-01-15 19:53:37
+  Config:
+    Description: Order
+    Path:
+      A9: {}
+    StartActivity: A9
+    StartActivityDialog: AD9
+  CreateTime: 2014-01-15 16:39:10
+  EntityID: P6
+  ID: 30
+  Layout:
+    A9:
+      left: '259.766662597656'
+      top: '140.216659545898'
+  Name: Order Alt
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions: []

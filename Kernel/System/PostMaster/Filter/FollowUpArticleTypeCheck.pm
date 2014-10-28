@@ -40,7 +40,19 @@ sub Run {
         }
     }
 
-    # get all article
+    # Only run if we have a follow-up article with SenderType 'customer'.
+    #   It could be that follow-ups have a different SenderType like 'system' for
+    #   automatic notifications. In these cases there is no need to hide them.
+    #   See also bug#10182 for details.
+    if (
+        !$Param{GetParam}->{'X-OTRS-FollowUp-SenderType'}
+        || $Param{GetParam}->{'X-OTRS-FollowUp-SenderType'} ne 'customer'
+        )
+    {
+        return 1;
+    }
+
+    # Get all articles.
     my @ArticleIndex = $Self->{TicketObject}->ArticleGet(
         TicketID      => $Param{TicketID},
         DynamicFields => 0,

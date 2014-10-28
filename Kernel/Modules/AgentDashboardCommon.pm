@@ -163,7 +163,7 @@ sub Run {
 
         # check CustomerID presence for all subactions that need it
         if ( $Self->{Subaction} ne 'UpdatePosition' ) {
-            if ( !$Self->{CustomerID} ) {
+            if ( !$Self->{CustomerID} || $Self->{CustomerID} =~ /[*|%]/i ) {
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
                 $Output .= $Self->{LayoutObject}->Output(
@@ -671,7 +671,13 @@ sub Run {
     # add translations for the allocation lists for regular columns
     my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
+
+        COLUMN:
         for my $Column ( sort keys %{$Columns} ) {
+
+            # dynamic fields will be translated in the next block
+            next COLUMN if $Column =~ m{ \A DynamicField_ }xms;
+
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
                 Data => {
@@ -753,6 +759,14 @@ sub _Element {
             }
         }
         return if !$PermissionOK;
+    }
+
+    # create CustomerUserObject is it was not created before
+    if ( !$Self->{CustomerUserObject} ) {
+        $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(
+            %{$Self},
+            DBObject => $Self->{SlaveDBObject},
+        );
     }
 
     # load backends

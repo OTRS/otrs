@@ -50,6 +50,9 @@ sub new {
     my @InvolvedUserID = $Self->{ParamObject}->GetArray( Param => 'InvolvedUserID' );
     $Self->{InvolvedUserID} = \@InvolvedUserID;
 
+    # get return module base64 string
+    $Self->{ReturnModule} = $Self->{ParamObject}->GetParam( Param => 'ReturnModule' ) || '';
+
     # create form id
     if ( !$Self->{FormID} ) {
         $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
@@ -128,7 +131,8 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'Properties',
         Data => {
-            FormID => $Self->{FormID},
+            FormID       => $Self->{FormID},
+            ReturnModule => $Self->{ReturnModule},
             %Ticket,
             %Param,
         },
@@ -213,7 +217,7 @@ sub Run {
         qw(
         NewStateID NewPriorityID TimeUnits ArticleTypeID Title Body Subject NewQueueID
         Year Month Day Hour Minute NewOwnerID NewOwnerType OldOwnerID NewResponsibleID
-        TypeID ServiceID SLAID Expand
+        TypeID ServiceID SLAID Expand ReturnModule
         )
         )
     {
@@ -700,6 +704,56 @@ sub Run {
 
         # add note
         my $ArticleID = '';
+        my $ReturnURL;
+
+        # set priority
+        if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
+            $Self->{TicketObject}->TicketPrioritySet(
+                TicketID   => $Self->{TicketID},
+                PriorityID => $GetParam{NewPriorityID},
+                UserID     => $Self->{UserID},
+            );
+        }
+
+        # set state
+        if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
+            $Self->{TicketObject}->TicketStateSet(
+                TicketID => $Self->{TicketID},
+                StateID  => $GetParam{NewStateID},
+                UserID   => $Self->{UserID},
+            );
+
+            # unlock the ticket after close
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $GetParam{NewStateID},
+            );
+
+            # set unlock on close state
+            if ( $StateData{TypeName} =~ /^close/i ) {
+                $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'unlock',
+                    UserID   => $Self->{UserID},
+                );
+            }
+
+            # set pending time on pending state
+            elsif ( $StateData{TypeName} =~ /^pending/i ) {
+
+                # set pending time
+                $Self->{TicketObject}->TicketPendingTimeSet(
+                    UserID   => $Self->{UserID},
+                    TicketID => $Self->{TicketID},
+                    %GetParam,
+                );
+            }
+
+            # redirect parent window to last screen overview on closed tickets
+            if ( $StateData{TypeName} =~ /^close/i ) {
+                $ReturnURL = $Self->{LastScreenOverview} || 'Action=AgentDashboard';
+            }
+        }
+
         if ( $Self->{Config}->{Note} && ( $GetParam{Subject} || $GetParam{Body} ) ) {
 
             if ( !$GetParam{Subject} ) {
@@ -821,59 +875,16 @@ sub Run {
             );
         }
 
-        # set priority
-        if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
-            $Self->{TicketObject}->TicketPrioritySet(
-                TicketID   => $Self->{TicketID},
-                PriorityID => $GetParam{NewPriorityID},
-                UserID     => $Self->{UserID},
-            );
-        }
-
-        # set state
-        if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
-            $Self->{TicketObject}->TicketStateSet(
-                TicketID => $Self->{TicketID},
-                StateID  => $GetParam{NewStateID},
-                UserID   => $Self->{UserID},
-            );
-
-            # unlock the ticket after close
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-                ID => $GetParam{NewStateID},
-            );
-
-            # set unlock on close state
-            if ( $StateData{TypeName} =~ /^close/i ) {
-                $Self->{TicketObject}->TicketLockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'unlock',
-                    UserID   => $Self->{UserID},
-                );
-            }
-
-            # set pending time on pending state
-            elsif ( $StateData{TypeName} =~ /^pending/i ) {
-
-                # set pending time
-                $Self->{TicketObject}->TicketPendingTimeSet(
-                    UserID   => $Self->{UserID},
-                    TicketID => $Self->{TicketID},
-                    %GetParam,
-                );
-            }
-
-            # redirect parent window to last screen overview on closed tickets
-            if ( $StateData{TypeName} =~ /^close/i ) {
-                return $Self->{LayoutObject}->PopupClose(
-                    URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
-                );
-            }
+        # decode the url if present and set it as return url
+        if ( IsStringWithData( $GetParam{ReturnModule} ) ) {
+            $ReturnURL = $GetParam{ReturnModule};
         }
 
         # load new URL in parent window and close popup
+        $ReturnURL ||= "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID";
+
         return $Self->{LayoutObject}->PopupClose(
-            URL => "Action=AgentTicketZoom;TicketID=$Self->{TicketID};ArticleID=$ArticleID",
+            URL => $ReturnURL,
         );
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
@@ -1422,8 +1433,7 @@ sub _Mask {
                 $SeenOldOwner{ $User->{UserID} } = 1;
                 push @OldOwners, {
                     Key   => $User->{UserID},
-                    Value => "$Counter: $User->{UserLastname} "
-                        . "$User->{UserFirstname} ($User->{UserLogin})"
+                    Value => "$Counter: $User->{UserFullname}"
                 };
                 $Counter++;
             }
@@ -1924,9 +1934,7 @@ sub _GetOldOwners {
             next USER if $UserHash{ $User->{UserID} };
 
             $UserHash{ $User->{UserID} }
-                = "$Counter: $User->{UserLastname} $User->{UserFirstname} ($User->{UserLogin})";
-        }
-        continue {
+                = "$Counter: $User->{UserFullname}";
             $Counter++;
         }
     }

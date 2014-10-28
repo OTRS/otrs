@@ -122,7 +122,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 <!-- dtl:block:PreFilledToRow -->
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', "$QData{"Email"}" );
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', $Data{"Email"} );
 <!-- dtl:block:PreFilledToRow -->
 //]]></script>
 <!--dtl:js_on_document_complete-->
@@ -190,7 +190,7 @@ $Include{"AgentCustomerSearch"}
 <!--dtl:js_on_document_complete-->
 <script type="text/javascript">//<![CDATA[
 <!-- dtl:block:PreFilledCcRow -->
-    Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', "$QData{"Email"}" );
+    Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', $Data{"Email"} );
 <!-- dtl:block:PreFilledCcRow -->
 //]]></script>
 <!--dtl:js_on_document_complete-->

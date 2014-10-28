@@ -15,6 +15,7 @@ use warnings;
 use List::Util qw( first );
 
 use Kernel::System::Stats;
+use Kernel::System::JSON;
 use Kernel::System::CSV;
 use Kernel::System::PDF;
 
@@ -52,6 +53,7 @@ sub new {
     $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
 
     # create necessary objects
+    $Self->{JSONObject}  = Kernel::System::JSON->new( %{$Self} );
     $Self->{CSVObject}   = Kernel::System::CSV->new( %{$Self} );
     $Self->{StatsObject} = Kernel::System::Stats->new( %{$Self} );
 
@@ -88,6 +90,7 @@ sub Run {
 
         # get all Stats from the db
         my $Result = $Self->{StatsObject}->GetStatsList(
+            AccessRw  => $Self->{AccessRw},
             OrderBy   => $Param{OrderBy},
             Direction => $Param{Direction},
         );
@@ -1840,12 +1843,16 @@ sub Run {
         $Self->{AccessRo} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
 
         # get params
-        for (qw(Format GraphSize StatID ExchangeAxis)) {
+        for (qw(Format GraphSize StatID ExchangeAxis Name Cached)) {
             $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
         }
-        for (qw(Format StatID)) {
-            if ( !$Param{$_} ) {
-                return $Self->{LayoutObject}->ErrorScreen( Message => "Run: Get no $_!" );
+        my @RequiredParams = (qw(Format StatID));
+        if ( $Param{Cached} ) {
+            push @RequiredParams, 'Name';
+        }
+        for my $Required (@RequiredParams) {
+            if ( !$Param{$Required} ) {
+                return $Self->{LayoutObject}->ErrorScreen( Message => "Run: Get no $Required!" );
             }
         }
 
@@ -2135,12 +2142,40 @@ sub Run {
         }
 
         # run stat...
-        my @StatArray = @{
-            $Self->{StatsObject}->StatsRun(
-                StatID   => $Param{StatID},
-                GetParam => \%GetParam,
-                )
-        };
+        my @StatArray;
+
+        # called from within the dashboard. will use the same mechanism and configuration like in
+        # the dashboard stats - the (cached) result will be the same as seen in the dashboard
+        if ( $Param{Cached} ) {
+
+            # get settings for specified stats by using the dashboard configuration for the agent
+            my %Preferences = $Self->{UserObject}->GetPreferences(
+                UserID => $Self->{UserID},
+            );
+            my $PrefKeyStatsConfiguration = 'UserDashboardStatsStatsConfiguration' . $Param{Name};
+            my $StatsSettings             = {};
+            if ( $Preferences{$PrefKeyStatsConfiguration} ) {
+                $StatsSettings = $Self->{JSONObject}->Decode(
+                    Data => $Preferences{$PrefKeyStatsConfiguration},
+                );
+            }
+            @StatArray = @{
+                $Self->{StatsObject}->StatsResultCacheGet(
+                    StatID       => $Param{StatID},
+                    UserGetParam => $StatsSettings,
+                );
+                }
+        }
+
+        # called normally within the stats area - generate stats now and use provided configuraton
+        else {
+            @StatArray = @{
+                $Self->{StatsObject}->StatsRun(
+                    StatID   => $Param{StatID},
+                    GetParam => \%GetParam,
+                );
+            };
+        }
 
         # exchange axis if selected
         if ( $Param{ExchangeAxis} ) {

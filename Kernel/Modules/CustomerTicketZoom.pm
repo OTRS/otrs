@@ -171,7 +171,7 @@ sub Run {
 
     # get params
     my %GetParam;
-    for my $Key (qw( Subject Body StateID PriorityID)) {
+    for my $Key (qw(Subject Body StateID PriorityID)) {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
@@ -223,11 +223,13 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
+            TicketID => $Self->{TicketID},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
+            TicketID => $Self->{TicketID},
         );
 
         # update Dynamic Fields Possible Values via AJAX
@@ -522,6 +524,7 @@ sub Run {
                 TicketState   => $Ticket{State},
                 TicketStateID => $Ticket{StateID},
                 %GetParam,
+                %ACLCompatGetParam,
                 DynamicFieldHTML => \%DynamicFieldHTML,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -570,6 +573,42 @@ sub Run {
             );
         }
 
+        # set state
+        my $NextState = $Self->{Config}->{StateDefault} || 'open';
+        if ( $GetParam{StateID} && $Self->{Config}->{State} ) {
+            my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
+            $NextState = $NextStateData{Name};
+        }
+
+        # change state if
+        # customer set another state
+        # or the ticket is not new
+        if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
+            $Self->{TicketObject}->StateSet(
+                TicketID => $Self->{TicketID},
+                State    => $NextState,
+                UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+
+            # set unlock on close state
+            if ( $NextState =~ /^close/i ) {
+                $Self->{TicketObject}->TicketLockSet(
+                    TicketID => $Self->{TicketID},
+                    Lock     => 'unlock',
+                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                );
+            }
+        }
+
+        # set priority
+        if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
+            $Self->{TicketObject}->TicketPrioritySet(
+                TicketID   => $Self->{TicketID},
+                PriorityID => $GetParam{PriorityID},
+                UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+        }
+
         my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID    => $Self->{TicketID},
             ArticleType => $Self->{Config}->{ArticleType},
@@ -595,43 +634,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->CustomerError();
             $Output .= $Self->{LayoutObject}->CustomerFooter();
             return $Output;
-        }
-
-        # set state
-        my $NextState = $Self->{Config}->{StateDefault} || 'open';
-        if ( $GetParam{StateID} && $Self->{Config}->{State} ) {
-            my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
-            $NextState = $NextStateData{Name};
-        }
-
-        # change state if
-        # customer set another state
-        # or the ticket is not new
-        if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
-            $Self->{TicketObject}->StateSet(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                State     => $NextState,
-                UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
-
-            # set unlock on close state
-            if ( $NextState =~ /^close/i ) {
-                $Self->{TicketObject}->TicketLockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'unlock',
-                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
-        }
-
-        # set priority
-        if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
-            $Self->{TicketObject}->TicketPrioritySet(
-                TicketID   => $Self->{TicketID},
-                PriorityID => $GetParam{PriorityID},
-                UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-            );
         }
 
         # get pre loaded attachment
@@ -795,6 +797,7 @@ sub Run {
         TicketState   => $Ticket{State},
         TicketStateID => $Ticket{StateID},
         %GetParam,
+        %ACLCompatGetParam,
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
 
@@ -819,6 +822,9 @@ sub _GetNextStates {
             %Param,
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
+
+            # %Param could contain Ticket Type as only Type, it should not be sent
+            Type => undef,
         );
     }
     return \%NextStates;
@@ -900,6 +906,9 @@ sub _Mask {
             $SelectedArticleID = $ArticleID;
         }
     }
+
+    # set display options
+    $Param{Hook} = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
 
     # ticket priority flag
     if ( $Self->{Config}->{AttributesView}->{Priority} ) {
@@ -998,8 +1007,6 @@ sub _Mask {
         'TicketID' => $Self->{TicketID}
     );
 
-    #    my $ProcessData;
-    #    my $ActivityData;
     # show process widget  and activity dialogs on process tickets
     if ($IsProcessTicket) {
 
@@ -1542,7 +1549,7 @@ sub _Mask {
 
         # check subject
         if ( !$Param{Subject} ) {
-            $Param{Subject} = "Re: $Param{Title}";
+            $Param{Subject} = "Re: " . ( $Param{Title} // '' );
         }
         $Self->{LayoutObject}->Block(
             Name => 'FollowUp',
@@ -1564,10 +1571,9 @@ sub _Mask {
 
         # build next states string
         if ( $Self->{Config}->{State} ) {
-            my %NextStates = $Self->{TicketObject}->TicketStateList(
-                TicketID       => $Self->{TicketID},
-                Action         => $Self->{Action},
-                CustomerUserID => $Self->{UserID},
+            my $NextStates = $Self->_GetNextStates(
+                %Param,
+                TicketID => $Self->{TicketID},
             );
             my %StateSelected;
             if ( $Param{StateID} ) {
@@ -1577,7 +1583,7 @@ sub _Mask {
                 $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
             }
             $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data => \%NextStates,
+                Data => $NextStates,
                 Name => 'StateID',
                 %StateSelected,
             );
@@ -1589,9 +1595,9 @@ sub _Mask {
 
         # get priority
         if ( $Self->{Config}->{Priority} ) {
-            my %Priorities = $Self->{TicketObject}->TicketPriorityList(
-                CustomerUserID => $Self->{UserID},
-                Action         => $Self->{Action},
+            my $Priorities = $Self->_GetPriorities(
+                %Param,
+                TicketID => $Self->{TicketID},
             );
             my %PrioritySelected;
             if ( $Param{PriorityID} ) {
@@ -1602,7 +1608,7 @@ sub _Mask {
                     || '3 normal';
             }
             $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data => \%Priorities,
+                Data => $Priorities,
                 Name => 'PriorityID',
                 %PrioritySelected,
             );

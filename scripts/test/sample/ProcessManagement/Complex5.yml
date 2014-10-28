@@ -1,0 +1,336 @@
+---
+Activities:
+  A13:
+    ActivityDialogs:
+    - AD4
+    ChangeTime: 2013-02-12 15:28:12
+    Config:
+      ActivityDialog:
+        '1': AD4
+    CreateTime: 2013-02-12 14:12:38
+    EntityID: A13
+    ID: '13'
+    Name: Propose change by key user
+  A14:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:33:27
+    Config: {}
+    CreateTime: 2013-02-12 14:13:28
+    EntityID: A14
+    ID: '14'
+    Name: Approve request by process owner
+  A15:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:35:22
+    Config: {}
+    CreateTime: 2013-02-12 14:29:23
+    EntityID: A15
+    ID: '15'
+    Name: Approve evaluation by cost responsible
+  A16:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:32:56
+    Config: {}
+    CreateTime: 2013-02-12 14:32:56
+    EntityID: A16
+    ID: '16'
+    Name: Approve supplier solution by key user
+  A17:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:36:11
+    Config: {}
+    CreateTime: 2013-02-12 14:36:11
+    EntityID: A17
+    ID: '17'
+    Name: Approve supplier solution by process owner
+  A18:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:40:10
+    Config: {}
+    CreateTime: 2013-02-12 14:40:10
+    EntityID: A18
+    ID: '18'
+    Name: Approve estimate by cost responsible
+  A19:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:44:19
+    Config: {}
+    CreateTime: 2013-02-12 14:44:19
+    EntityID: A19
+    ID: '19'
+    Name: Test change by key user
+  A20:
+    ActivityDialogs: []
+    ChangeTime: 2013-02-12 14:58:26
+    Config: {}
+    CreateTime: 2013-02-12 14:58:26
+    EntityID: A20
+    ID: '20'
+    Name: Close change by key user
+ActivityDialogs:
+  AD4:
+    ChangeTime: 2013-02-12 15:27:50
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Change Proposal
+      FieldOrder:
+      - Queue
+      - Type
+      - Article
+      - Priority
+      - DynamicField_Date1
+      Fields:
+        Article:
+          Config:
+            ArticleType: note-external
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_Date1:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Priority:
+          DefaultValue: 3 normal
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        Queue:
+          DefaultValue: APO System Change Control Mgmt::Demand Planning
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        Type:
+          DefaultValue: Change Request
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+      Interface:
+      - AgentInterface
+      - CustomerInterface
+      Permission: rw
+      RequiredLock: '1'
+      SubmitAdviceText: ''
+      SubmitButtonText: Submit change proposal
+    CreateTime: 2013-02-12 15:27:50
+    EntityID: AD4
+    ID: '4'
+    Name: Change proposal details
+Process:
+  Activities:
+  - A13
+  - A14
+  - A15
+  - A16
+  - A17
+  - A18
+  - A19
+  - A20
+  ChangeTime: 2013-02-12 15:30:47
+  Config:
+    Description: Change Control - APO Demand Planning Change
+    Path:
+      A13:
+        T6:
+          ActivityEntityID: A14
+          TransitionAction:
+          - TA2
+          - TA4
+      A14:
+        T7:
+          ActivityEntityID: A15
+          TransitionAction: []
+      A15:
+        T8:
+          ActivityEntityID: A16
+      A16:
+        T9:
+          ActivityEntityID: A17
+      A17:
+        T10:
+          ActivityEntityID: A18
+          TransitionAction: []
+      A18:
+        T11:
+          ActivityEntityID: A19
+          TransitionAction: []
+      A19:
+        T12:
+          ActivityEntityID: A20
+      A20: {}
+    StartActivity: A13
+    StartActivityDialog: AD4
+  CreateTime: 2013-02-12 14:11:38
+  EntityID: P7
+  ID: '7'
+  Layout:
+    A13:
+      left: '143'
+      top: '120'
+    A14:
+      left: '312'
+      top: '321'
+    A15:
+      left: '505'
+      top: '519'
+    A16:
+      left: '678'
+      top: '119'
+    A17:
+      left: '839'
+      top: '328'
+    A18:
+      left: '1058'
+      top: '507'
+    A19:
+      left: '1216'
+      top: '118'
+    A20:
+      left: '1553'
+      top: '118'
+  Name: APO DP
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TA2
+  - TA4
+  Transitions:
+  - T6
+  - T7
+  - T8
+  - T9
+  - T10
+  - T11
+  - T12
+TransitionActions:
+  TA2:
+    ChangeTime: 2013-02-12 13:51:48
+    Config:
+      Config:
+        OwnerID: '1'
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketOwnerSet
+    CreateTime: 2013-01-29 11:30:23
+    EntityID: TA2
+    ID: '2'
+    Name: Set ticket owner to root@localhost (UID 1)
+  TA4:
+    ChangeTime: 2013-02-12 15:21:01
+    Config:
+      Config:
+        Queue: APO System Change Control Mgmt::Demand Planning
+      Module: Kernel::System::ProcessManagement::TransitionAction::TicketQueueSet
+    CreateTime: 2013-02-12 15:21:01
+    EntityID: TA4
+    ID: '4'
+    Name: Set ticket queue to "APO System Change Control Mgmt::Demand Planing"
+Transitions:
+  T10:
+    ChangeTime: 2013-02-12 15:13:08
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_ProcessOwnerSupplierSolutionApproval:
+              Match: approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:41:47
+    EntityID: T10
+    ID: '10'
+    Name: Supplier solution approved by process owner
+  T11:
+    ChangeTime: 2013-02-12 15:17:25
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_CostResponsibleEstimationApproval:
+              Match: approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:45:21
+    EntityID: T11
+    ID: '11'
+    Name: Estimation approved by cost responsible
+  T12:
+    ChangeTime: 2013-02-12 14:59:32
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_KeyUserChangeTest:
+              Match: successful
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:59:32
+    EntityID: T12
+    ID: '12'
+    Name: Change tested by key user
+  T6:
+    ChangeTime: 2013-02-12 15:12:26
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_RequestedDueDate:
+              Match: .*
+              Type: Regexp
+            Type:
+              Match: Change Request
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:23:46
+    EntityID: T6
+    ID: '6'
+    Name: Change proposed by key user
+  T7:
+    ChangeTime: 2013-02-12 14:31:35
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_ProcessOwnerRequestApproval:
+              Match: approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:30:54
+    EntityID: T7
+    ID: '7'
+    Name: Request approved by process owner
+  T8:
+    ChangeTime: 2013-02-12 14:34:50
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_CostResponsibleEvaluationApproval:
+              Match: approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:34:50
+    EntityID: T8
+    ID: '8'
+    Name: Evaluation approved by cost responsible
+  T9:
+    ChangeTime: 2013-02-12 14:37:11
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_KeyUserSupplierSolutionApproval:
+              Match: approved
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2013-02-12 14:37:11
+    EntityID: T9
+    ID: '9'
+    Name: Supplier solution approved by key user

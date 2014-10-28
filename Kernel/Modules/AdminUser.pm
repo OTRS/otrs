@@ -184,6 +184,18 @@ sub Run {
             $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
         }
 
+        # check if a user with this login (username) already exits
+        my $UserLoginExists
+            = $Self->{UserObject}->UserLoginExistsCheck(
+            UserLogin => $GetParam{UserLogin},
+            UserID    => $GetParam{UserID}
+            );
+
+        if ($UserLoginExists) {
+            $Errors{UserLoginExists} = 1;
+            $Errors{'UserLoginInvalid'} = 'ServerError';
+        }
+
         # if no errors occurred
         if ( !%Errors )
         {
@@ -330,6 +342,15 @@ sub Run {
         {
             $Errors{UserEmailInvalid} = 'ServerError';
             $Errors{ErrorType}        = $CheckItemObject->CheckErrorType();
+        }
+
+        # check if a user with this login (username) already exits
+        my $UserLoginExists
+            = $Self->{UserObject}->UserLoginExistsCheck( UserLogin => $GetParam{UserLogin} );
+
+        if ($UserLoginExists) {
+            $Errors{UserLoginExists} = 1;
+            $Errors{'UserLoginInvalid'} = 'ServerError';
         }
 
         # if no errors occurred
@@ -499,6 +520,14 @@ sub _Edit {
             Name => "UserEmailServerErrorMsg",
             Data => {},
         );
+    }
+
+    # show appropriate messages for ServerError
+    if ( defined $Param{UserLoginExists} && $Param{UserLoginExists} == 1 ) {
+        $Self->{LayoutObject}->Block( Name => 'ExistUserLoginServerError' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'UserLoginServerError' );
     }
 
     my @Groups = @{ $Self->{ConfigObject}->Get('PreferencesView') };

@@ -12,12 +12,13 @@ package Kernel::GenericInterface::Operation::Session::Common;
 use strict;
 use warnings;
 
-use Kernel::System::User;
 use Kernel::System::Auth;
-use Kernel::System::Group;
 use Kernel::System::AuthSession;
-use Kernel::System::CustomerUser;
 use Kernel::System::CustomerAuth;
+use Kernel::System::CustomerGroup;
+use Kernel::System::CustomerUser;
+use Kernel::System::Group;
+use Kernel::System::User;
 use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
@@ -123,8 +124,9 @@ sub new {
     $Self->{GroupObject}   = Kernel::System::Group->new( %{$Self} );
     $Self->{AuthObject}    = Kernel::System::Auth->new( %{$Self} );
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
-    $Self->{CustomerAuthObject} = Kernel::System::CustomerAuth->new( %{$Self} );
+    $Self->{CustomerUserObject}  = Kernel::System::CustomerUser->new( %{$Self} );
+    $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
+    $Self->{CustomerAuthObject}  = Kernel::System::CustomerAuth->new( %{$Self} );
 
     return $Self;
 }
@@ -161,7 +163,7 @@ sub CreateSessionID {
     if ( defined $Param{Data}->{UserLogin} && $Param{Data}->{UserLogin} ) {
 
         # if UserLogin
-        my $PostUser = $Param{Data}->{UserLogin} || $Param{Data}->{UserLogin} || '';
+        my $PostUser = $Param{Data}->{UserLogin} || '';
 
         # check submitted data
         $User = $Self->{AuthObject}->Auth(
@@ -172,12 +174,12 @@ sub CreateSessionID {
             User  => $User,
             Valid => 1,
         );
-        $UserType = 'Agent';
+        $UserType = 'User';
     }
     elsif ( defined $Param{Data}->{CustomerUserLogin} && $Param{Data}->{CustomerUserLogin} ) {
 
         # if UserCustomerLogin
-        my $PostUser = $Param{Data}->{CustomerUserLogin} || $Param{Data}->{CustomerUserLogin} || '';
+        my $PostUser = $Param{Data}->{CustomerUserLogin} || '';
 
         # check submitted data
         $User = $Self->{CustomerAuthObject}->Auth(
@@ -193,6 +195,25 @@ sub CreateSessionID {
 
     # login is invalid
     return if !$User;
+
+    my $GroupObject = $UserType eq 'User' ? 'GroupObject' : 'CustomerGroupObject';
+
+    # get groups rw/ro
+    for my $Type (qw(rw ro)) {
+        my %GroupData = $Self->{$GroupObject}->GroupMemberList(
+            Result => 'HASH',
+            Type   => $Type,
+            UserID => $UserData{UserID},
+        );
+        for ( sort keys %GroupData ) {
+            if ( $Type eq 'rw' ) {
+                $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
+            }
+            else {
+                $UserData{"UserIsGroupRo[$GroupData{$_}]"} = 'Yes';
+            }
+        }
+    }
 
     # create new session id
     my $NewSessionID = $Self->{SessionObject}->CreateSessionID(

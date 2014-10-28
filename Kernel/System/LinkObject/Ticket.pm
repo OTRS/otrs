@@ -238,10 +238,12 @@ sub ObjectDescriptionGet {
 
     return if !%Ticket;
 
+    my $ParamHook = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
+
     # create description
     %Description = (
-        Normal => "Ticket# $Ticket{TicketNumber}",
-        Long   => "Ticket# $Ticket{TicketNumber}: $Ticket{Title}",
+        Normal => $ParamHook . "$Ticket{TicketNumber}",
+        Long   => $ParamHook . "$Ticket{TicketNumber}: $Ticket{Title}",
     );
 
     return %Description;

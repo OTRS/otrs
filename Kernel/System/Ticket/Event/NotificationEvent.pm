@@ -167,9 +167,16 @@ sub Run {
             next NOTIFICATION if !$Match;
         }
 
-        # match article types only on ArticleCreate event
+        # match article types only on ArticleCreate or ArticleSend event
         my @Attachments;
-        if ( $Param{Event} eq 'ArticleCreate' && $Param{Data}->{ArticleID} ) {
+        if (
+            (
+                ( $Param{Event} eq 'ArticleCreate' )
+                || ( $Param{Event} eq 'ArticleSend' )
+            )
+            && $Param{Data}->{ArticleID}
+            )
+        {
             my %Article = $Self->{TicketObject}->ArticleGet(
                 ArticleID     => $Param{Data}->{ArticleID},
                 UserID        => $Param{UserID},

@@ -94,6 +94,15 @@ sub new {
     # max 5 MB posts
     $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
 
+    # we need to modify the tempdir
+    # for windows because the users
+    # group do not have enough rights
+    # for the default tempdir c:\windows\temp
+    # so we use a directory in otrs as tempdir (bug#10522)
+    if ( $^O eq 'MSWin32' ) {
+        $CGITempFile::TMPDIRECTORY = $Self->{ConfigObject}->Get('TempDir');
+    }
+
     # query object (in case use already existing WebRequest, e. g. fast cgi)
     $Self->{Query} = $Param{WebRequest} || new CGI;
 

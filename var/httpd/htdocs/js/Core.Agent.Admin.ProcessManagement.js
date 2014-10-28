@@ -818,7 +818,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
             // otherwise, force the user to enter data in the modal dialog
             else {
-                Fieldname = $(UI.item).data('id').trim();
+                Fieldname = $.trim($(UI.item).data('id'));
 
                 // if Field is Mandatory set Display to "Show As Mandatory" as default
                 if ($.inArray(Fieldname, MandatoryFields) > -1) {
@@ -880,7 +880,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             var FieldID = $(this).data('entity'),
                 FieldConfig = $(this).closest('li').data('config'),
                 $Element = $(this),
-                Fieldname = $(this).closest('li').data('id').trim();
+                Fieldname = $.trim($(this).closest('li').data('id'));
 
             if (typeof FieldConfig === 'string') {
                 FieldConfig = Core.JSON.Parse(FieldConfig);
@@ -1162,8 +1162,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         // set current start and end activity (just for information purposes, not changeable)
         $.each(PathInfo, function(Activity, Transition) {
             if (Activity === StartActivityID && typeof Transition[CurrentTransitionEntityID] !== 'undefined') {
-                $('#StartActivity').text(ActivityInfo[Activity].Name);
-                $('#EndActivity').text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
+                $('#StartActivity').attr('title', ActivityInfo[Activity].Name).text(ActivityInfo[Activity].Name);
+                $('#EndActivity').attr('title', ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name).text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
 
                 StartActivityEntityID     = Activity;
                 EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityEntityID;
