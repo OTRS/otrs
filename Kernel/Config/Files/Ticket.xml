@@ -4422,6 +4422,14 @@
             <String Regex="">&gt;</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ResponseQuoteMaxLines" Required="0" Valid="0">
+        <Description Translatable="1">Defines the maximum number of quoted lines to be added to responses.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <String Regex="^[1-9][0-9]*$">99</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ComposeAddCustomerAddress" Required="1" Valid="1">
         <Description Translatable="1">Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won't be added if the article type is email-internal.</Description>
         <Group>Ticket</Group>

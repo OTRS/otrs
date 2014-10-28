@@ -1117,6 +1117,26 @@ sub Run {
             UploadCacheObject => $Self->{UploadCacheObject},
         );
 
+        # restrict number of body lines if configured
+        if (
+            $Data{Body}
+            && $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseQuoteMaxLines')
+            )
+        {
+            my $MaxLines = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseQuoteMaxLines');
+
+            # split body - one element per line
+            my @Body = split "\n", $Data{Body};
+
+            # only modify if body is longer than allowed
+            if ( scalar @Body > $MaxLines ) {
+
+                # splice to max. allowed lines and reassemble
+                @Body = @Body[ 0 .. ( $MaxLines - 1 ) ];
+                $Data{Body} = join "\n", @Body;
+            }
+        }
+
         if ( $Self->{LayoutObject}->{BrowserRichText} ) {
 
             # prepare body, subject, ReplyTo ...
