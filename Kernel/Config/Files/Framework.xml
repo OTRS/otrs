@@ -1186,6 +1186,22 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar1" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar1</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar1" Required="1" Valid="1">
         <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
@@ -1338,6 +1354,22 @@
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar2" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar2</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1496,6 +1528,22 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar3" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar3</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar3" Required="1" Valid="1">
         <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
@@ -1648,6 +1696,22 @@
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar4" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar4</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1806,6 +1870,22 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar5" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar5</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar5" Required="1" Valid="1">
         <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
@@ -1958,6 +2038,22 @@
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar6" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar6</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2116,6 +2212,22 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar7" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar7</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar7" Required="1" Valid="1">
         <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
@@ -2271,6 +2383,22 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar8" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar8</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="TimeVacationDays::Calendar8" Required="1" Valid="1">
         <Description Translatable="1">Adds the permanent vacation days for the indicated calendar. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).</Description>
         <Group>Framework</Group>
@@ -2423,6 +2551,22 @@
                 <Item Key="-10">-10</Item>
                 <Item Key="-11">-11</Item>
                 <Item Key="-12">-12</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CalendarWeekDayStart::Calendar9" Required="1" Valid="1">
+        <Description Translatable="1">Define the start day of the week for the date picker for the indicated calendar.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Time::Calendar9</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Sunday</Item>
+                <Item Key="1">Monday</Item>
+                <Item Key="2">Tuesday</Item>
+                <Item Key="3">Wednesday</Item>
+                <Item Key="4">Thursday</Item>
+                <Item Key="5">Friday</Item>
+                <Item Key="6">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>

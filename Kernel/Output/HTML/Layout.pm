@@ -2964,6 +2964,12 @@ sub BuildDateSelection {
 
     # Get first day of the week
     my $WeekDayStart = $Self->{ConfigObject}->Get('CalendarWeekDayStart');
+    if ( $Param{Calendar} ) {
+        if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
+            $WeekDayStart
+                = $Self->{ConfigObject}->Get( "CalendarWeekDayStart::Calendar" . $Param{Calendar} );
+        }
+    }
     if ( !defined $WeekDayStart ) {
         $WeekDayStart = 1;
     }
