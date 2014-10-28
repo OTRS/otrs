@@ -137,7 +137,8 @@ sub SetPermissions {
 
     # First get a canonical full filename
     my $File = $File::Find::fullname;
-    $File =~ s{/{2,}}{/}smxg;
+    # If the link is a dangling symbolic link, then fullname will be set to undef.
+    next if !defined $File;
 
     # Make sure it is inside the OTRS directory to avoid following symlinks outside
     if ( substr( $File, 0, $OTRSDirectoryLength ) ne $OTRSDirectory ) {
