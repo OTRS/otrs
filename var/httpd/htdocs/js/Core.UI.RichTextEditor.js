@@ -47,7 +47,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Instance,
             UserLanguage;
 
-        if ($EditorArea.hasClass('HasCKEInstance')) {
+        if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
             return false;
         }
 
@@ -59,16 +59,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             Core.Exception.Throw('RichTextEditor: Need exactly one EditorArea!', 'TypeError');
         }
 
-        // remove the CKEditor instance if already exists
-        Instance = CKEDITOR.instances[EditorID];
-        if (Instance) {
-            Instance.destroy(true);
-        }
+        // mark the editor textarea as linked with an RTE instance to avoid multiple instances
+        $EditorArea.addClass('HasCKEInstance');
 
         CKEDITOR.on('instanceCreated', function (Editor) {
-
-            // mark the root element as already initated
-            $EditorArea.addClass('HasCKEInstance');
 
             CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
 
