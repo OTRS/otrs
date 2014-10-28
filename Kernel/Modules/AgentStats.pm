@@ -2242,15 +2242,10 @@ sub Run {
             StatRef      => $Stat,
             ExchangeAxis => $Param{ExchangeAxis},
         );
+        my $Output;
 
-        # csv output
+        # generate csv output
         if ( $Param{Format} eq 'CSV' ) {
-            my ( $s, $m, $h, $D, $M, $Y )
-                = $Self->{TimeObject}->SystemTime2Date(
-                SystemTime => $Self->{TimeObject}->SystemTime(),
-                );
-            my $Time = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
-            my $Output;
 
             # get Separator from language file
             my $UserCSVSeparator = $Self->{LayoutObject}->{LanguageObject}->{Separator};
@@ -2270,6 +2265,22 @@ sub Run {
                 ContentType => "text/csv",
                 Content     => $Output,
             );
+        }
+
+        # generate excel output
+        elsif ( $Param{Format} eq 'Excel' ) {
+            $Output .= $Self->{CSVObject}->Array2CSV(
+                Head   => $HeadArrayRef,
+                Data   => \@StatArray,
+                Format => 'Excel',
+            );
+
+            return $Self->{LayoutObject}->Attachment(
+                Filename    => $Filename . '.xlsx',
+                ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                Content     => $Output,
+            );
+
         }
 
         # pdf or html output

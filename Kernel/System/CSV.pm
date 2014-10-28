@@ -13,6 +13,7 @@ use strict;
 use warnings;
 
 use Text::CSV;
+use Excel::Writer::XLSX;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -62,8 +63,9 @@ Returns a csv formatted string based on a array with head data.
             [ 1, 9 ],
             [ 34, 4 ],
         ],
-        Separator => ';', # optional separator (default is ;)
-        Quote     => '"', # optional quote (default is ")
+        Separator => ';',  # optional separator (default is ;)
+        Quote     => '"',  # optional quote (default is ")
+        Format    => 'CSV', # optional format [Excel|CSV ] (default is CSV)
     );
 
 =cut
@@ -89,54 +91,83 @@ sub Array2CSV {
         @Data = @{ $Param{Data} };
     }
 
-    # get separator
-    if ( !defined $Param{Separator} || $Param{Separator} eq '' ) {
-        $Param{Separator} = ';';
-    }
-
-    # get separator
-    if ( !defined $Param{Quote} ) {
-        $Param{Quote} = '"';
-    }
-
-    # create new csv backend object
-    my $CSV = Text::CSV->new(
-        {
-            quote_char          => $Param{Quote},
-            escape_char         => $Param{Quote},
-            sep_char            => $Param{Separator},
-            eol                 => '',
-            always_quote        => 1,
-            binary              => 1,
-            keep_meta_info      => 0,
-            allow_loose_quotes  => 0,
-            allow_loose_escapes => 0,
-            allow_whitespace    => 0,
-            verbatim            => 0,
-        }
-    );
+    # get format
+    $Param{Format} //= 'CSV';
 
     my $Output = '';
 
-    # if we have head param fill in header
-    if (@Head) {
-        my $Status = $CSV->combine(@Head);
-        $Output .= $CSV->string() . "\n";
-    }
+    if ( $Param{Format} eq 'Excel' ) {
 
-    # fill in data
-    for my $Row (@Data) {
-        my $Status = $CSV->combine( @{$Row} );
-        if ($Status) {
-            $Output .= $CSV->string() . "\n";
-        }
-        else {
+        open my $FileHandle, '>', \$Output;    ## no critic
+        if ( !$FileHandle ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Failed to build line: ' . $CSV->error_input(),
+                Message  => "Failed to open FileHandle: $!",
             );
+            return;
         }
+        my $Workbook  = Excel::Writer::XLSX->new($FileHandle);
+        my $Worksheet = $Workbook->add_worksheet();
+        my $Row       = 1;
+
+        $Worksheet->write_row( 0, 0, \@Head );
+
+        for my $DataRaw (@Data) {
+            $Worksheet->write_row( $Row++, 0, $DataRaw );
+        }
+        $Worksheet->set_column( 0, $Row - 1, 10 );
+        $Workbook->close();
     }
+    else {
+        # get separator
+        if ( !defined $Param{Separator} || $Param{Separator} eq '' ) {
+            $Param{Separator} = ';';
+        }
+
+        # get separator
+        if ( !defined $Param{Quote} ) {
+            $Param{Quote} = '"';
+        }
+
+        # create new csv backend object
+        my $CSV = Text::CSV->new(
+            {
+                quote_char          => $Param{Quote},
+                escape_char         => $Param{Quote},
+                sep_char            => $Param{Separator},
+                eol                 => '',
+                always_quote        => 1,
+                binary              => 1,
+                keep_meta_info      => 0,
+                allow_loose_quotes  => 0,
+                allow_loose_escapes => 0,
+                allow_whitespace    => 0,
+                verbatim            => 0,
+            }
+        );
+
+        # if we have head param fill in header
+        if (@Head) {
+            my $Status = $CSV->combine(@Head);
+            $Output .= $CSV->string() . "\n";
+        }
+
+        # fill in data
+        for my $Row (@Data) {
+            my $Status = $CSV->combine( @{$Row} );
+            if ($Status) {
+                $Output .= $CSV->string() . "\n";
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => 'Failed to build line: ' . $CSV->error_input(),
+                );
+            }
+        }
+
+    }
+
     return $Output;
 }
 

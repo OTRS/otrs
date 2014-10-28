@@ -244,6 +244,12 @@ o Name:    CPAN SOAP::Lite
            # Copyright (C) 2007-2008 Martin Kutter
            # Copyright (C) 2013 Fred Moyer
 
+o Name:    CPAN  Excel::Writer::XLSX
+  Web:     http://github.com/jmcnamara/excel-writer-xlsx
+  License: # All Rights Reserved. This module is free software.
+           # It may be used, redistributed and/or modified under the same terms as Perl itself.
+  Note:    # Copyright MM-MMXIIII, John McNamara.
+
 # --
 # JavaScript
 # --

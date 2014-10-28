@@ -86,7 +86,9 @@
 Core.Form.Validate.SetSubmitFunction($('#AdminSelectBoxForm'), function (Form) {
     Form.submit();
 
-    if ($('#ResultFormat option:selected').text() !== 'CSV') {
+    if ($('#ResultFormat option:selected').text() !== 'CSV'
+        && $('#ResultFormat option:selected').text() !== 'Excel'
+     ) {
         window.setTimeout(function(){
             Core.Form.DisableForm( $(Form) );
         }, 0);

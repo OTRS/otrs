@@ -1,4 +1,5 @@
 #4.0.0.beta5 2014-??-??
+ - 2014-10-28 Added Excel export as an alternative to CSV export.
  - 2014-10-28 Added calendar specific weekday start options for date picker.
  - 2014-10-28 Fixed bug#[8460](http://bugs.otrs.org/show_bug.cgi?id=8460) - Smart tag <OTRS_CUSTOMER_EMAIL[]> is display with HTML coding tags.
  - 2014-10-28 Added a small delay for opening the submenus of the main navigation when OpenMainMenuOnHover is enabled.
