@@ -49,6 +49,8 @@ Core.Agent = (function (TargetNS) {
          */
         var NavigationTimer = {},
             NavigationDuration = 500,
+            NavigationHoverTimer = {},
+            NavigationHoverDuration = 350,
             InitialNavigationContainerHeight = $('#NavigationContainer').css('height'),
             NavigationResizeTimeout;
 
@@ -56,7 +58,7 @@ Core.Agent = (function (TargetNS) {
          * @function
          * @private
          * @return nothing
-         *      This function set Timeout for closing nav
+         *      This function sets the Timeout for closing a subnav
          */
         function CreateSubnavCloseTimeout($Element, TimeoutFunction) {
             NavigationTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationDuration);
@@ -66,11 +68,33 @@ Core.Agent = (function (TargetNS) {
          * @function
          * @private
          * @return nothing
-         *      This function clear Timeout for nav element
+         *      This function clears the Timeout for a subnav
          */
         function ClearSubnavCloseTimeout($Element) {
             if (typeof NavigationTimer[$Element.attr('id')] !== 'undefined') {
                 clearTimeout(NavigationTimer[$Element.attr('id')]);
+            }
+        }
+
+        /**
+         * @function
+         * @private
+         * @return nothing
+         *      This function sets the Timeout for closing a subnav
+         */
+        function CreateSubnavOpenTimeout($Element, TimeoutFunction) {
+            NavigationHoverTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationHoverDuration);
+        }
+
+        /**
+         * @function
+         * @private
+         * @return nothing
+         *      This function clears the Timeout for a subnav
+         */
+        function ClearSubnavOpenTimeout($Element) {
+            if (typeof NavigationHoverTimer[$Element.attr('id')] !== 'undefined') {
+                clearTimeout(NavigationHoverTimer[$Element.attr('id')]);
             }
         }
 
@@ -84,20 +108,31 @@ Core.Agent = (function (TargetNS) {
                 // special treatment for the first menu level: by default this opens submenus only via click,
                 //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
                 if ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover')) {
-                    $Element.addClass('Active').attr('aria-expanded', true)
-                        .siblings().removeClass('Active');
 
-                    // Resize the container in order to display subitems
-                    // Due to the needed overflow: hidden property of the
-                    // container, they would be hidden otherwise
-                    $('#NavigationContainer').css('height', '500px');
+                    // Set Timeout for opening nav
+                    CreateSubnavOpenTimeout($Element, function () {
+                        $Element.addClass('Active').attr('aria-expanded', true)
+                            .siblings().removeClass('Active');
+
+                        // Resize the container in order to display subitems
+                        // Due to the needed overflow: hidden property of the
+                        // container, they would be hidden otherwise
+                        $('#NavigationContainer').css('height', '500px');
+
+                        // If Timeout is set for this nav element, clear it
+                        ClearSubnavCloseTimeout($Element);
+                    });
                 }
-
-                // If Timeout is set for this nav element, clear it
-                ClearSubnavCloseTimeout($Element);
             })
             .bind('mouseleave', function () {
+
                 var $Element = $(this);
+
+                // Clear Timeout for opening items on hover. Submenus should only be opened intentional,
+                // so if the user doesn't hover long enough, he probably doesn't want the submenu to be opened.
+                // If Timeout is set for this nav element, clear it
+                ClearSubnavOpenTimeout($Element);
+
                 if (!$Element.hasClass('Active')) {
                     return;
                 }
@@ -105,7 +140,9 @@ Core.Agent = (function (TargetNS) {
                 // Set Timeout for closing nav
                 CreateSubnavCloseTimeout($Element, function () {
                     $Element.removeClass('Active').attr('aria-expanded', false);
-                    $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                    if (!$('#Navigation > li.Active').length) {
+                        $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                    }
                 });
             })
             .bind('click', function (Event) {
