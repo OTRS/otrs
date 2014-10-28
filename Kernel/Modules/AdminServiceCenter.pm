@@ -447,7 +447,7 @@ sub _SendSupportBundle {
 
             my ( $HeadRef, $BodyRef ) = $Self->{EmailObject}->Send(
                 From          => $SenderAddress,
-                To            => 'support@otrs.com',
+                To            => 'SupportBundle@otrs.com',
                 Subject       => 'Support::Bundle::Email',
                 Type          => 'text/plain',
                 Charset       => 'utf-8',
