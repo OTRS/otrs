@@ -170,7 +170,7 @@
                         <div class="Clear"></div>
 
                         <div class="SpacingTop"></div>
-                        <label for="DefaultValue">[% Translate("Add empty value") | html %]:</label>
+                        <label for="PossibleNone">[% Translate("Add empty value") | html %]:</label>
                         <div class="Field">
                             [% Data.PossibleNoneStrg %]
                             <p class="FieldExplanation">[% Translate("Activate this option to create an empty selectable value.") | html %]</p>
