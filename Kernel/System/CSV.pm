@@ -106,16 +106,43 @@ sub Array2CSV {
             );
             return;
         }
-        my $Workbook  = Excel::Writer::XLSX->new($FileHandle);
-        my $Worksheet = $Workbook->add_worksheet();
-        my $Row       = 1;
+        my $Workbook     = Excel::Writer::XLSX->new($FileHandle);
+        my $Worksheet    = $Workbook->add_worksheet();
+        my $HeaderFormat = $Workbook->add_format(
+            bold       => 1,
+            num_format => '@',
+        );
 
-        $Worksheet->write_row( 0, 0, \@Head );
+        # Prevent Excel from auto-formatting ticket numbers as real numbers
+        my $NumberFormat = $Workbook->add_format( num_format => '#', );
 
-        for my $DataRaw (@Data) {
-            $Worksheet->write_row( $Row++, 0, $DataRaw );
+        # We will try to determine the appropriate length for each column.
+        my @ColumnLengths;
+        my $Row = 0;
+        for my $DataRaw ( \@Head, @Data ) {
+            for my $Col ( 0 .. ( scalar keys $DataRaw ) - 1 ) {
+                my $CellLength = length( $DataRaw->[$Col] );
+                $CellLength = 30 if ( $CellLength > 30 );
+                if ( !defined $ColumnLengths[$Col] || $ColumnLengths[$Col] < $CellLength ) {
+                    $ColumnLengths[$Col] = $CellLength;
+                }
+                if ( $Row == 0 && @Head ) {
+                    $Worksheet->write( $Row, $Col, "$DataRaw->[$Col]", $HeaderFormat );
+                }
+                else {
+                    $Worksheet->write( $Row, $Col, "$DataRaw->[$Col]", $NumberFormat );
+                }
+            }
+            $Row++;
         }
-        $Worksheet->set_column( 0, $Row - 1, 10 );
+
+        # Now apply column lengths.
+        my $Col = 0;
+        for my $ColumnLength (@ColumnLengths) {
+            $Worksheet->set_column( $Col, $Col, $ColumnLength );
+            $Col++;
+        }
+
         $Workbook->close();
     }
     else {
