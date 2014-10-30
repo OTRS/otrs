@@ -659,8 +659,17 @@ sub AutoResponse {
     if ( $Param{OrigHeader}->{Body} ) {
         if ( length $Param{OrigHeader}->{Body} > 86 ) {
             my @Lines = split /\n/, $Param{OrigHeader}->{Body};
+            LINE:
             for my $Line (@Lines) {
-                $Line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+                my $LineWrapped = $Line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+
+                next LINE if $LineWrapped;
+
+                # if the regex does not match then we need
+                # to add the missing new line of the split
+                # else we will lose e.g. empty lines of the body.
+                # (bug#10679)
+                $Line .= "\n";
             }
             $Param{OrigHeader}->{Body} = join '', @Lines;
         }
@@ -820,8 +829,17 @@ sub NotificationAgent {
     if ( $Param{CustomerMessageParams}->{Body} ) {
         if ( length $Param{CustomerMessageParams}->{Body} > 86 ) {
             my @Lines = split /\n/, $Param{CustomerMessageParams}->{Body};
+            LINE:
             for my $Line (@Lines) {
-                $Line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+                my $LineWrapped = $Line =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
+
+                next LINE if $LineWrapped;
+
+                # if the regex does not match then we need
+                # to add the missing new line of the split
+                # else we will lose e.g. empty lines of the body.
+                # (bug#10679)
+                $Line .= "\n";
             }
             $Param{CustomerMessageParams}->{Body} = join '', @Lines;
         }
