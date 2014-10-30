@@ -1,4 +1,5 @@
 #3.2.17 2014-??-??
+ - 2014-10-30 Fixed bug#[10679](http://bugs.otrs.org/show_bug.cgi?id=10679) - Texts in notification tags loose their empty lines and spaces.
  - 2014-10-20 Fixed bug#[10817](http://bugs.otrs.org/show_bug.cgi?id=10817) - generic agent ticket date filter 'year' one year has 365 instead of 356.
  - 2014-10-14 Fixed bug#[10704](http://bugs.otrs.org/show_bug.cgi?id=10704) - forgot password.
  - 2014-09-29 Fixed bug#[10588](http://bugs.otrs.org/show_bug.cgi?id=10588) - Search profile names with special characters break functionality.
