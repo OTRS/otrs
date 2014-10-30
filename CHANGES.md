@@ -1,3 +1,6 @@
+#3.3.11 ????-??-??
+ - 2014-10-30 Fixed bug#[10679](http://bugs.otrs.org/show_bug.cgi?id=10679) - Texts in notification tags loose their empty lines and spaces.
+
 #3.3.10 2014-11-04
  - 2014-10-28 Fixed bug#[8460](http://bugs.otrs.org/show_bug.cgi?id=8460) - Smart tag <OTRS_CUSTOMER_EMAIL[]> is display with HTML coding tags.
  - 2014-10-27 Updated SupportDataBundle email address.
