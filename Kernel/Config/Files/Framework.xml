@@ -5369,6 +5369,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="Print">Print</Item>
                 <Item Key="CSV">CSV</Item>
+                <Item Key="Excel">Excel</Item>
                 <Item Key="GD::Graph::lines">graph-lines</Item>
                 <Item Key="GD::Graph::bars">graph-bars</Item>
                 <Item Key="GD::Graph::hbars">graph-hbars</Item>
