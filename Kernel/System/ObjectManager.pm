@@ -285,6 +285,14 @@ receives them.
         },
     );
 
+To remove a key again, send undef as a value:
+
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Ticket' => {
+            Key => undef,               # this will remove the key from the hash
+        },
+    );
+
 =cut
 
 sub ObjectParamAdd {
@@ -293,7 +301,12 @@ sub ObjectParamAdd {
     for my $Package ( sort keys %Param ) {
         if ( ref( $Param{$Package} ) eq 'HASH' ) {
             for my $Key ( sort keys %{ $Param{$Package} } ) {
-                $Self->{Param}->{$Package}->{$Key} = $Param{$Package}->{$Key};
+                if ( defined $Key ) {
+                    $Self->{Param}->{$Package}->{$Key} = $Param{$Package}->{$Key};
+                }
+                else {
+                    delete $Self->{Param}->{$Package}->{$Key};
+                }
             }
         }
         else {
