@@ -102,6 +102,11 @@ div.Headline .Flag {
     line-height: 1.3;
 }
 
+.ArticleMailContent iframe {
+    background: #fff;
+    border: 1px solid #eee;
+}
+
 .DataTable tbody td a.Attachment {
     font-size: 12px;
 }

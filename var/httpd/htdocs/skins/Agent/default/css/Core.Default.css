@@ -756,6 +756,9 @@ iframe.TextOption.Customer {
 .ArticleBody {
     font-family: monospace,fixed;
     word-wrap: break-word;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 10px;
 }
 
 
