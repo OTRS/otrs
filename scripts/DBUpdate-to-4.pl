@@ -45,7 +45,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
-        LogPrefix => 'OTRS-DBUpdate-to-3.4.pl',
+        LogPrefix => 'OTRS-DBUpdate-to-4.pl',
     },
 );
 
