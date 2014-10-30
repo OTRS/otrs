@@ -227,6 +227,16 @@
                 </fieldset>
             </div>
 
+            <div id="TimeUnitsContainer" class='Hidden'>
+                <fieldset class="TableLike">
+                    <label for="TimeUnits">[% Translate("Time units") | html %]:</label>
+                    <div class="Field">
+                        [% Data.TimeUnitsSelection %]
+                    </div>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+
             <fieldset class="TableLike">
                 <label for="Display">[% Translate("Display") | html %]:</label>
                 <div class="Field">
@@ -244,10 +254,10 @@ Core.Agent.Admin.ProcessManagement.InitActivityDialogEdit();
 
 //Localizations
 Core.Agent.Admin.ProcessManagement.Localization = {
-        CancelMsg: "[% Translate("Cancel") | html %]",
-        SaveMsg: "[% Translate("Save") | html %]",
-        DialogTitle: "[% Translate("Edit Field Details") | html %]",
-        WrongArticleTypeMsg: "[% Translate("Customer interface does not support internal article types.") | html %]"
+    CancelMsg: "[% Translate("Cancel") | html %]",
+    SaveMsg: "[% Translate("Save") | html %]",
+    DialogTitle: "[% Translate("Edit Field Details") | html %]",
+    WrongArticleTypeMsg: "[% Translate("Customer interface does not support internal article types.") | html %]"
 };
 //]]></script>
 [% END %]

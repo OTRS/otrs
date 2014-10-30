@@ -476,9 +476,9 @@ sub _RenderAjax {
     my %DynamicFieldValues;
 
     # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
+    DYNAMICFIELDCONFIG:
     for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELDCONFIG if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
@@ -502,7 +502,7 @@ sub _RenderAjax {
     $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
 
     # Get the activity dialog's Submit Param's or Config Params
-    DIALOGFIELD:
+    CURRENTFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # Skip if we're working on a field that was already done with or without ID
@@ -511,7 +511,7 @@ sub _RenderAjax {
             && $FieldsProcessed{ $Self->{NameToID}{$CurrentField} }
             )
         {
-            next DIALOGFIELD;
+            next CURRENTFIELD;
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
@@ -520,13 +520,13 @@ sub _RenderAjax {
             my $DynamicFieldConfig
                 = ( grep { $_->{Name} eq $DynamicFieldName } @{ $Self->{DynamicField} } )[0];
 
-            next DIALOGFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next CURRENTFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsACLReducible',
             );
-            next DIALOGFIELD if !$IsACLReducible;
+            next CURRENTFIELD if !$IsACLReducible;
 
             my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
@@ -571,7 +571,7 @@ sub _RenderAjax {
             );
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'OwnerID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetOwners(
                 %{ $Param{GetParam} },
@@ -597,7 +597,7 @@ sub _RenderAjax {
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'ResponsibleID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetResponsibles(
                 %{ $Param{GetParam} },
@@ -623,7 +623,7 @@ sub _RenderAjax {
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'QueueID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetQueues(
                 %{ $Param{GetParam} },
@@ -646,7 +646,7 @@ sub _RenderAjax {
         }
 
         elsif ( $Self->{NameToID}{$CurrentField} eq 'StateID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetStates(
                 %{ $Param{GetParam} },
@@ -666,7 +666,7 @@ sub _RenderAjax {
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'PriorityID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetPriorities(
                 %{ $Param{GetParam} },
@@ -686,7 +686,7 @@ sub _RenderAjax {
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'ServiceID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetServices(
                 %{ $Param{GetParam} },
@@ -709,7 +709,7 @@ sub _RenderAjax {
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
         }
         elsif ( $Self->{NameToID}{$CurrentField} eq 'SLAID' ) {
-            next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
+            next CURRENTFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             # if SLA is render before service (by it order in the fields) it needs to create
             # the service list
@@ -886,13 +886,13 @@ sub _GetParam {
     $GetParam{ProcessEntityID}        = $ProcessEntityID;
 
     # Get the activitydialogs's Submit Param's or Config Params
-    DIALOGFIELD:
+    CURRENTFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         # Skip if we're working on a field that was already done with or without ID
         if ( $Self->{NameToID}{$CurrentField} && $ValuesGotten{ $Self->{NameToID}{$CurrentField} } )
         {
-            next DIALOGFIELD;
+            next CURRENTFIELD;
         }
 
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
@@ -936,7 +936,7 @@ sub _GetParam {
                 )
             {
                 $GetParam{$CurrentField} = $Value;
-                next DIALOGFIELD;
+                next CURRENTFIELD;
             }
 
             # If we didn't have a Param Value try the ticket Value
@@ -952,7 +952,7 @@ sub _GetParam {
                 )
             {
                 $GetParam{$CurrentField} = $Ticket{$CurrentField};
-                next DIALOGFIELD;
+                next CURRENTFIELD;
             }
 
             # If we had neighter submitted nor ticket param get the ActivityDialog's default Value
@@ -960,7 +960,7 @@ sub _GetParam {
             $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
             if ($Value) {
                 $GetParam{$CurrentField} = $Value;
-                next DIALOGFIELD;
+                next CURRENTFIELD;
             }
 
             # If we had no submitted, ticket or ActivityDialog default value
@@ -968,14 +968,14 @@ sub _GetParam {
             $Value = $DynamicFieldConfig->{Config}{DefaultValue};
             if ($Value) {
                 $GetParam{$CurrentField} = $Value;
-                next DIALOGFIELD;
+                next CURRENTFIELD;
             }
 
             # if all that failed then the field should not have a defined value otherwise
             # if a value (even empty) is sent, fields like Date or DateTime will mark the field as
             # used with the field display value, this could lead to unwanted field sets,
             # see bug#9159
-            next DIALOGFIELD;
+            next CURRENTFIELD;
         }
 
         # get article fields
@@ -988,6 +988,8 @@ sub _GetParam {
             );
 
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
+
+            $GetParam{TimeUnits} = $Self->{ParamObject}->GetParam( Param => 'TimeUnits' );
         }
 
         if ( $CurrentField eq 'CustomerID' ) {
@@ -1072,14 +1074,14 @@ sub _GetParam {
             }
             $GetParam{ $Self->{NameToID}{$CurrentField} }     = $Value;
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
-            next DIALOGFIELD;
+            next CURRENTFIELD;
         }
 
         # If we got ticket params, the GetParam Hash was already filled before the loop
         # and we can next out
         if ( $GetParam{ $Self->{NameToID}{$CurrentField} } ) {
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
-            next DIALOGFIELD;
+            next CURRENTFIELD;
         }
 
         # if no Submitted nore Ticket Param get ActivityDialog Config's Param
@@ -1089,10 +1091,10 @@ sub _GetParam {
         if ($Value) {
             $ValuesGotten{ $Self->{NameToID}{$CurrentField} } = 1;
             $GetParam{$CurrentField} = $Value;
-            next DIALOGFIELD;
+            next CURRENTFIELD;
         }
     }
-    REQUIREDFIELDLOOP:
+
     for my $CurrentField (qw(Queue State Lock Priority)) {
         $Value = undef;
         if ( !$ValuesGotten{ $Self->{NameToID}{$CurrentField} } ) {
@@ -1364,7 +1366,7 @@ sub _OutputActivityDialog {
         $MainBoxClass = 'MainBox';
     }
 
-    # display process iformation
+    # display process information
     if ( $Self->{IsMainWindow} ) {
 
         # get process data
@@ -1470,7 +1472,7 @@ sub _OutputActivityDialog {
     );
 
     # Loop through ActivityDialogFields and render their output
-    DIALOGFIELD:
+    CURRENTFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
         if ( !IsHashRefWithData( $ActivityDialog->{Fields}{$CurrentField} ) ) {
             my $Message = "Can't get data for Field '$CurrentField' of ActivityDialog"
@@ -1491,7 +1493,7 @@ sub _OutputActivityDialog {
         my %FieldData = %{ $ActivityDialog->{Fields}{$CurrentField} };
 
         # We render just visible ActivityDialogFields
-        next DIALOGFIELD if !$FieldData{Display};
+        next CURRENTFIELD if !$FieldData{Display};
 
         # render DynamicFields
         if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
@@ -1535,7 +1537,7 @@ sub _OutputActivityDialog {
 
             # We don't render Fields twice,
             # if there was already a Config without ID, skip this field
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderState(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1571,7 +1573,7 @@ sub _OutputActivityDialog {
         # render Queue
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'QueueID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderQueue(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1607,7 +1609,7 @@ sub _OutputActivityDialog {
         # render Priority
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'PriorityID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderPriority(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1643,7 +1645,7 @@ sub _OutputActivityDialog {
         # render Lock
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'LockID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderLock(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1679,7 +1681,7 @@ sub _OutputActivityDialog {
         # render Service
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'ServiceID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderService(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1715,7 +1717,7 @@ sub _OutputActivityDialog {
         # render SLA
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'SLAID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderSLA(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1751,7 +1753,7 @@ sub _OutputActivityDialog {
         # render Owner
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'OwnerID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderOwner(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1787,7 +1789,7 @@ sub _OutputActivityDialog {
         # render responsible
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'ResponsibleID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderResponsible(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1823,7 +1825,7 @@ sub _OutputActivityDialog {
         # render CustomerID
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'CustomerID' )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderCustomer(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1877,7 +1879,7 @@ sub _OutputActivityDialog {
                 );
             }
 
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderPendingTime(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1911,7 +1913,7 @@ sub _OutputActivityDialog {
 
         # render Title
         elsif ( $Self->{NameToID}->{$CurrentField} eq 'Title' ) {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderTitle(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1948,7 +1950,7 @@ sub _OutputActivityDialog {
             $Self->{NameToID}->{$CurrentField} eq 'Article'
             )
         {
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderArticle(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -1987,7 +1989,7 @@ sub _OutputActivityDialog {
 
             # We don't render Fields twice,
             # if there was already a Config without ID, skip this field
-            next DIALOGFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
+            next CURRENTFIELD if $RenderedFields{ $Self->{NameToID}->{$CurrentField} };
 
             my $Response = $Self->_RenderType(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
@@ -2536,6 +2538,31 @@ sub _RenderArticle {
         $Self->{LayoutObject}->Block(
             Name => 'Attachment',
             Data => $Attachment,
+        );
+    }
+
+    # show time units
+    if ( $Param{ActivityDialogField}->{Config}->{TimeUnits} ) {
+
+        if ( $Param{ActivityDialogField}->{Config}->{TimeUnits} == 1 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabel',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = '';
+        }
+        else {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'TimeUnitsLabelMandatory',
+                Data => \%Param,
+            );
+            $Param{TimeUnitsRequired} = 'Validate_Required';
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
         );
     }
 
@@ -4053,7 +4080,7 @@ sub _StoreActivityDialog {
 
    # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
         my %CheckedFields;
-        DIALOGFIELD:
+        CURRENTFIELD:
         for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
             if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
                 my $DynamicFieldName = $1;
@@ -4119,7 +4146,7 @@ sub _StoreActivityDialog {
                 )
             {
 
-                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
+                next CURRENTFIELD if $CheckedFields{ $Self->{NameToID}{'CustomerID'} };
 
                 # is not possible to a have an invisible field for this particular value
                 # on agent interface
@@ -4180,7 +4207,7 @@ sub _StoreActivityDialog {
             else {
 
                 # skip if we've already checked ID or Name
-                next DIALOGFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
+                next CURRENTFIELD if $CheckedFields{ $Self->{NameToID}->{$CurrentField} };
 
                 my $Result = $Self->_CheckField(
                     Field => $Self->{NameToID}->{$CurrentField},
@@ -4242,7 +4269,6 @@ sub _StoreActivityDialog {
 
         $ActivityEntityID = $ProcessStartpoint->{Activity};
 
-        NEEDEDLOOP:
         for my $Needed (qw(Queue State Lock Priority)) {
 
             if ( !$TicketParam{ $Self->{NameToID}->{$Needed} } ) {
@@ -4496,7 +4522,7 @@ sub _StoreActivityDialog {
     my %StoredFields;
 
     # Save loop for storing Ticket Values that were not required on the initial TicketCreate
-    DIALOGFIELD:
+    CURRENTFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
 
         if ( !IsHashRefWithData( $ActivityDialog->{Fields}{$CurrentField} ) ) {
@@ -4630,6 +4656,16 @@ sub _StoreActivityDialog {
 
                 # remove pre submitted attachments
                 $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
+
+                # time accounting
+                if ( $Param{GetParam}{TimeUnits} ) {
+                    $Self->{TicketObject}->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $ArticleID,
+                        TimeUnit  => $Param{GetParam}{TimeUnits},
+                        UserID    => $Self->{UserID},
+                    );
+                }
             }
         }
 
@@ -4664,7 +4700,7 @@ sub _StoreActivityDialog {
                 )
                 )
             {
-                next DIALOGFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
+                next CURRENTFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
 
                 if ( $ActivityDialog->{Fields}{$CurrentField}{Display} == 1 ) {
                     $Self->{LayoutObject}->FatalError(
@@ -4687,7 +4723,7 @@ sub _StoreActivityDialog {
                     # so make sure both fields are set to "Stored" ;)
                     $StoredFields{ $Self->{NameToID}{'CustomerID'} }     = 1;
                     $StoredFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
-                    next DIALOGFIELD;
+                    next CURRENTFIELD;
                 }
 
                 $Success = $Self->{TicketObject}->TicketCustomerSet(
@@ -4708,7 +4744,7 @@ sub _StoreActivityDialog {
                 $StoredFields{ $Self->{NameToID}{'CustomerUserID'} } = 1;
             }
             else {
-                next DIALOGFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
+                next CURRENTFIELD if $StoredFields{ $Self->{NameToID}{$CurrentField} };
 
                 my $TicketFieldSetSub = $CurrentField;
                 $TicketFieldSetSub =~ s{ID$}{}xms;

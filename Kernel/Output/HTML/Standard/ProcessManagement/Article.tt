@@ -88,5 +88,19 @@
 [% END %]
 </div>
 <div class="Clear"></div>
+[% RenderBlockStart("TimeUnitsLabel") %]
+<label for="TimeUnits">[% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+[% RenderBlockEnd("TimeUnitsLabel") %]
+[% RenderBlockStart("TimeUnitsLabelMandatory") %]
+<label class="Mandatory" for="TimeUnits"><span class="Marker">*</span> [% Translate("Time units") | html %] [% Translate(Config("Ticket::Frontend::TimeUnits")) | html %]:</label>
+[% RenderBlockEnd("TimeUnitsLabelMandatory") %]
+[% RenderBlockStart("TimeUnits") %]
+<div class="Field">
+    <input type="text" class="W50pc Validate_TimeUnits [% Data.TimeUnitsRequired | html %] [% Data.TimeUnitsInvalid | html %]" name="TimeUnits" id="TimeUnits" value="[% Data.TimeUnits | html %]" />
+    <div id="TimeUnitsError" class="TooltipErrorMessage"><p>[% Translate("Invalid time!") | html %]</p></div>
+    <div id="TimeUnitsServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+</div>
+<div class="Clear"></div>
+[% RenderBlockEnd("TimeUnits") %]
 <div class="FieldSeparator"></div>
 [% RenderBlockEnd("rw:Article") %]

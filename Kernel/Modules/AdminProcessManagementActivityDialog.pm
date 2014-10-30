@@ -157,10 +157,10 @@ sub Run {
 
         if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
 
-            FIELD:
+            FIELDNAME:
             for my $FieldName ( @{ $GetParam->{Fields} } ) {
-                next FIELD if !$FieldName;
-                next FIELD if !$Self->{AvailableFields}->{$FieldName};
+                next FIELDNAME if !$FieldName;
+                next FIELDNAME if !$Self->{AvailableFields}->{$FieldName};
 
                 # set fields hash
                 $ActivityDialogData->{Config}->{Fields}->{$FieldName} = {};
@@ -411,10 +411,10 @@ sub Run {
 
         if ( IsArrayRefWithData( $GetParam->{Fields} ) ) {
 
-            FIELD:
+            FIELDNAME:
             for my $FieldName ( @{ $GetParam->{Fields} } ) {
-                next FIELD if !$FieldName;
-                next FIELD if !$Self->{AvailableFields}->{$FieldName};
+                next FIELDNAME if !$FieldName;
+                next FIELDNAME if !$Self->{AvailableFields}->{$FieldName};
 
                 # set fields hash
                 $ActivityDialogData->{Config}->{Fields}->{$FieldName} = {};
@@ -861,6 +861,19 @@ sub _ShowEdit {
         Name          => 'ArticleType',
         ID            => 'ArticleType',
         Sort          => 'Alphanumeric',
+        Translation   => 1,
+    );
+
+    # create TimeUnits selection
+    $Param{TimeUnitsSelection} = $Self->{LayoutObject}->BuildSelection(
+        Data => {
+            0 => 'Do not show Field',
+            1 => 'Show Field',
+            2 => 'Show Field As Mandatory',
+        },
+        SelectedValue => 0,
+        Name          => 'TimeUnits',
+        ID            => 'TimeUnits',
         Translation   => 1,
     );
 
