@@ -770,6 +770,10 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
         <ul class="Hidden">
             <li id="TemplateListItem">
                 <h3>
+                    <div class="UnreadArticles Remarkable" title="[% Translate("Mark this article as read") | html %]">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
                     <i class="fa fa-info-circle" title="[% Translate("Important") | html %]"></i>
                     <em></em>
                     <strong class="Type"></strong>
@@ -818,8 +822,8 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
 <script type="text/javascript">//<![CDATA[
 
 [% IF Config("ChronicalViewEnabled") == 1 %]
-
-var ListObjects = [
+var TicketID    = [% Data.TicketID | JSON %],
+    ListObjects = [
 [% FOREACH Item IN Data.Items %]
     {
         'orientation'   : [% Item.Orientation | JSON %],
@@ -841,6 +845,7 @@ var ListObjects = [
             'cc'     : [% Item.ArticleData.Cc | truncate(75) | JSON %],
             'bcc'    : [% Item.ArticleData.Bcc | truncate(75) | JSON %],
             'is_important' : [% Item.ArticleData.ArticleIsImportant | JSON %],
+            'is_seen' : [% Item.ArticleData.ArticleIsSeen | JSON %],
             'text'   : [% IF Item.IsChatArticle %][% Item.ArticleData.BodyChat | JSON %][% ELSE %][% Item.ArticleData.Body | truncate(200) | JSON %][% END %],
             'text_long' : [% IF Item.IsChatArticle %][% Item.ArticleData.Body %][% ELSE %][% IF !Item.ArticleData.AttachmentIDOfHTMLBody %][% Item.ArticleData.Body | JSON %][% ELSE %]""[% END %][% END %],
             'attachment_id' : [% Item.ArticleData.AttachmentIDOfHTMLBody | JSON %],
@@ -851,7 +856,7 @@ var ListObjects = [
 [% END %]
 ];
 
-Core.Agent.TicketZoom.ChronicalView.Init(ListObjects);
+Core.Agent.TicketZoom.ChronicalView.Init(TicketID, ListObjects);
 
 [% END %]
 

@@ -551,7 +551,8 @@ dd {
 /**
  * @subsection  "Unread" star
  */
-span.UnreadArticles {
+span.UnreadArticles,
+div.UnreadArticles {
     display: block;
     width: 16px;
     height: 15px;
@@ -561,7 +562,8 @@ span.UnreadArticles {
     padding: 0px 3px !important;
 }
 
-span.UnreadArticles i {
+span.UnreadArticles i,
+div.UnreadArticles i {
     display: block;
     position: absolute;
     left: 0px;
@@ -571,11 +573,13 @@ span.UnreadArticles i {
     color: #ddd;
 }
 
-span.UnreadArticles em {
+span.UnreadArticles em,
+div.UnreadArticles em {
     display: none;
 }
 
-span.UnreadArticles i:first-child {
+span.UnreadArticles i:first-child,
+div.UnreadArticles i:first-child {
     color: #777 !important;
     font-size: 16px;
     z-index: 1;
@@ -583,11 +587,13 @@ span.UnreadArticles i:first-child {
     top: -1px;
 }
 
-span.UnreadArticles.Remarkable i {
+span.UnreadArticles.Remarkable i,
+div.UnreadArticles.Remarkable i {
     color: #F2BD0E;
 }
 
-span.UnreadArticles.Ordinary {
+span.UnreadArticles.Ordinary,
+div.UnreadArticles.Ordinary {
     color: #ddd;
 }
 

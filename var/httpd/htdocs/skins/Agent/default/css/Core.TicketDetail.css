@@ -420,7 +420,12 @@ div.Headline .Flag {
     color: #000;
 }
 
-.ChronicalView > ul > li h3 strong {
+.ChronicalView > ul > li.HasArticle h3 strong {
+    font-weight: bold;
+}
+
+.ChronicalView > ul > li h3 strong,
+.ChronicalView > ul > li.Seen h3 strong {
     font-weight: normal;
 }
 
@@ -762,5 +767,26 @@ div.Headline .Flag {
     border-left-color: #BFD39C;
 }
 
+.ChronicalView > ul > li.Seen div.UnreadArticles,
+.ChronicalView li div.UnreadArticles {
+    display: none;
+}
+
+.ChronicalView li.HasArticle div.UnreadArticles {
+    padding: 0px !important;
+    margin-left: 0px;
+    display: inline-block;
+    height: 10px;
+    width: 12px;
+    cursor: pointer;
+}
+
+.ChronicalView div.UnreadArticles i:first-child {
+    font-size: 13px;
+}
+
+.ChronicalView div.UnreadArticles i {
+    font-size: 11px;
+}
 
 } /* end @media */

@@ -2040,7 +2040,7 @@ sub _ArticleTree {
         }
     }
 
-    # show chronical view
+    # show timeline view
     else {
 
         # get ticket history
@@ -2282,12 +2282,18 @@ sub _ArticleTree {
                     $Item->{ArticleData}->{MSSecurityRestricted} = 'security="restricted"';
                 }
 
-                my %ArticleFlags = $Self->{TicketObject}->ArticleFlagGet(
+                my %ArticleFlagsAll = $Self->{TicketObject}->ArticleFlagGet(
                     ArticleID => $Item->{ArticleID},
                     UserID    => 1,
                 );
 
-                $Item->{ArticleData}->{ArticleIsImportant} = $ArticleFlags{Important};
+                my %ArticleFlagsMe = $Self->{TicketObject}->ArticleFlagGet(
+                    ArticleID => $Item->{ArticleID},
+                    UserID    => $Self->{UserID},
+                );
+
+                $Item->{ArticleData}->{ArticleIsImportant} = $ArticleFlagsAll{Important};
+                $Item->{ArticleData}->{ArticleIsSeen}      = $ArticleFlagsMe{Seen};
 
                 if (
                     $Item->{ArticleData}->{ArticleType} eq 'chat-external'
@@ -2396,6 +2402,9 @@ sub _ArticleTree {
                 push @{ $Param{Items} }, $SubItem;
             }
         }
+
+        # set TicketID for usage in JS
+        $Param{TicketID} = $Self->{TicketID};
 
         $Self->{LayoutObject}->Block(
             Name => 'ChronicalView',

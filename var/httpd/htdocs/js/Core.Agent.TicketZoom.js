@@ -55,10 +55,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @return nothing
      *      Mark an article as seen in frontend and backend.
      */
-    TargetNS.MarkAsSeen = function (TicketID, ArticleID) {
+    TargetNS.MarkAsSeen = function (TicketID, ArticleID, Timeout = 3000) {
         TargetNS.MarkAsSeenTimeout = window.setTimeout(function () {
             // Mark old row as readed
             $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+            $('.ChronicalView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
+                $(this).closest('li').addClass('Seen');
+            });
 
             // Mark article as seen in backend
             var Data = {
@@ -72,7 +75,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
                 Data,
                 function () {}
             );
-        }, 3000);
+        }, parseInt(Timeout, 10));
     };
 
     /**
