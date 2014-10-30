@@ -435,7 +435,6 @@ div.Headline .Flag {
 }
 
 .ChronicalView > ul > li p {
-    white-space: pre-wrap;
     max-height: 45px;
     overflow: hidden;
     position: relative;
