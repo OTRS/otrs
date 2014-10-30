@@ -2852,7 +2852,6 @@ sub Data {
         'Locked' => 'Sperre',
         'Linked Objects' => 'Verknüpfte Objekte',
         'Change Queue' => 'Queue ändern',
-        'Dialogs' => 'Dialoge',
         'There are no dialogs available at this point in the process.' =>
             'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
@@ -2877,8 +2876,6 @@ sub Data {
         'Full Article Text' => 'Vollständiger Artikeltext',
         'No more events found. Please try changing the filter settings.' =>
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
-        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
-            'Dies ist ein Chat-Protokoll. Bitte öffnen Sie die Detail-Ansicht, um das komplette Protokoll zu sehen.',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Zum Schutz Ihrer Privatsphäre wurden entfernte Inhalte blockiert.',
@@ -3005,9 +3002,6 @@ sub Data {
         'Send a bugreport' => 'einen Fehlerbericht senden',
         'go back to the previous page' => 'zurück zur vorhergehenden Seite',
         'Error Details' => 'Fehlerdetails',
-
-        # Template: Footer
-        'Top of page' => 'Zum Anfang der Seite',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
@@ -3367,7 +3361,7 @@ sub Data {
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
             'Kontrolliert, ob es dem Admin erlaubt ist, eine gespeicherte Systemkonfiguration in SysConfig zu importieren.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
-            '',
+            'Überprüft ob der Administrator die Berechtigung besitzt Änderungen in der Datenbank über die AdminSelectBox zu tätigen.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Kontrolliert ob die Ticket- und Artikel "Gesehen"-Fähnchen entfernt werden, wenn ein Ticket archiviert wird.',
         'Converts HTML mails into text messages.' => 'Konvertiert HTML E-Mails in Textnachrichten.',
@@ -3439,6 +3433,8 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues',
+        'Define the start day of the week for the date picker for the indicated calendar.' =>
+            '',
         'Define the start day of the week for the date picker.' => 'Definiert den Beginn einer Woche für den Datumswähler.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Definiert einen Punkt, welcher ein LinedIn-Symbol am Endes der Kundeninformation hinzufügt.',
@@ -3692,68 +3688,68 @@ sub Data {
         'Defines the default ticket order of a search result in the customer interface. Up: oldest on top. Down: latest on top.' =>
             '',
         'Defines the default ticket priority in the close ticket screen of the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Schließen\'-Oberfläche im Agenten-Interface.',
         'Defines the default ticket priority in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Sammelaktion\'-Oberfläche im Agenten-Interface.',
         'Defines the default ticket priority in the ticket free text screen of the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Freie Felder\'-Oberfläche im Agenten-Interface.',
         'Defines the default ticket priority in the ticket note screen of the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Notiz\'-Oberfläche im Agenten-Interface.',
         'Defines the default ticket priority in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Besitzer\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default ticket priority in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Warten\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default ticket priority in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Priorität\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default ticket priority in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität in der \'Verantwortlicher\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default ticket type for new customer tickets in the customer interface.' =>
-            '',
+            'Definiert die Standard-Ticketpriorität für neue Kundentickets im Kunden-Interface.',
         'Defines the default type for article in the customer interface.' =>
             'Definiert den Standard-Typ für Artikel im Kunden-Interface.',
         'Defines the default type of forwarded message in the ticket forward screen of the agent interface.' =>
             '',
-        'Defines the default type of the article for this operation.' => '',
+        'Defines the default type of the article for this operation.' => 'Definiert den Standard-Artikeltyp für diese Operation.',
         'Defines the default type of the message in the email outbound screen of the agent interface.' =>
             'Definiert den Standard-Typ der ausgehenden E-Mail.',
         'Defines the default type of the note in the close ticket screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Notiz\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket bulk screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Sammelaktion\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket free text screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Freie Felder\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket note screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Notiz\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Besitzer\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default type of the note in the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Warten\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default type of the note in the ticket phone inbound screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'eingehender Telefonanruf\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket phone outbound screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'ausgehender Telefonanruf\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Priorität\'-Oberfläche im TicketZoom im Agenten-Interface.',
         'Defines the default type of the note in the ticket responsible screen of the agent interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp in der \'Verantwortlicher\'-Oberfläche im Agenten-Interface.',
         'Defines the default type of the note in the ticket zoom screen of the customer interface.' =>
-            '',
+            'Definiert den Standard-Notiztyp im TicketZoom im Kunden-Interface.',
         'Defines the default used Frontend-Module if no Action parameter given in the url on the agent interface.' =>
-            '',
+            'Definiert das standardmäßig genutzte Frontend-Modul im Agenten-Interface, wenn kein Action-Paramenter in der URL übergeben wurde.',
         'Defines the default used Frontend-Module if no Action parameter given in the url on the customer interface.' =>
-            '',
+            'Definiert das standardmäßig genutzte Frontend-Modul im Kunden-Interface, wenn kein Action-Paramenter in der URL übergeben wurde.',
         'Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system.' =>
-            '',
+            'Definiert den Standard-Wert für den Action-Paramenter im Public-Frontend. Der Action-Paramter wird in System-Skripten vewendet.',
         'Defines the default viewable sender types of a ticket (default: customer).' =>
-            '',
+            'Definiert die standardmäßigen sichtbaren Sendertypen eines Tickets (Standard: Kunde).',
         'Defines the dynamic fields that are used for displaying on calendar events.' =>
             'Definiert die dynamischen Felder, die benutzt werden um Kalender-Events anzuzeigen.',
         'Defines the filter that processes the text in the articles, in order to highlight URLs.' =>
-            '',
+            'Definiert den Filter, der Text in Artikeln verarbeitet, um URLs zu highlighten.',
         'Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From).' =>
             '',
         'Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            '',
+            'Definiert den Full Qualified Domain Name des OTRS Systems. Diese Einstellung wird als Variable OTRS_CONFIG_FQDN genutzt, welche in allen Nachrichten-Formularen zu finden ist oder um Links zu Tickets in Ihrem OTRS System zu generieren.',
         'Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every user for these groups).' =>
             '',
         'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
@@ -3844,6 +3840,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => 'Bestimmt die maximale Anzahl an Seiten pro PDF-Datei.',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => 'Bestimmt die Maximalgröße (in MB) der Protokolldatei.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
@@ -3865,9 +3863,9 @@ sub Data {
         'Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn\'t work as admin).' =>
             '',
         'Defines the module to generate html refresh headers of html sites, in the customer interface.' =>
-            '',
+            'Definiert das Modul welches HTML-Refresh-Header der HTML-Seiten im Kunden-Interface generiert.',
         'Defines the module to generate html refresh headers of html sites.' =>
-            '',
+            'Definiert das Modul welches HTML-Refresh-Header der HTML-Seiten generiert.',
         'Defines the module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. Any of the "SMTP" mechanisms use a specified (external) mailserver. "DoNotSendEmail" doesn\'t send emails and it is useful for test systems.' =>
             '',
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
@@ -4725,7 +4723,7 @@ sub Data {
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '',
         'Service update notification' => 'Service-Update-Benachrichtigung',
-        'Service view' => 'Dienstansicht',
+        'Service view' => 'Ansicht nach Services',
         'Set sender email addresses for this system.' => 'Absendeadressen für dieses System verwalten.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -5193,6 +5191,14 @@ sub Data {
             '',
         'The headline shown in the customer interface.' => 'Die in der Kundenoberfläche angezeigte Überschrift.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',

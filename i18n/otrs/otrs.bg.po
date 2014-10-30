@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-10-16 13:13+0000\n"
+"PO-Revision-Date: 2014-10-30 11:05+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/projects/p/OTRS/language/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -9110,10 +9110,6 @@ msgid "Change Queue"
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "Dialogs"
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
 msgstr ""
 
@@ -9199,10 +9195,6 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9571,10 +9563,6 @@ msgstr ""
 
 #. Template: Error
 msgid "Error Details"
-msgstr ""
-
-#. Template: Footer
-msgid "Top of page"
 msgstr ""
 
 #. Template: FooterJS
@@ -10726,6 +10714,10 @@ msgid "Define the max depth of queues."
 msgstr ""
 
 #. SysConfig
+msgid "Define the start day of the week for the date picker for the indicated calendar."
+msgstr ""
+
+#. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr ""
 
@@ -11591,6 +11583,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the maximum number of quoted lines to be added to responses."
 msgstr ""
 
 #. SysConfig
@@ -14767,6 +14763,22 @@ msgstr ""
 
 #. SysConfig
 msgid "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
 msgstr ""
 
 #. SysConfig

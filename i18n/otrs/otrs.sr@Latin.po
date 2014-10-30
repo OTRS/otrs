@@ -15054,3 +15054,27 @@ msgstr ""
 msgid "Write a new, outgoing mail"
 msgstr ""
 
+#. SysConfig
+msgid "Define the start day of the week for the date picker for the indicated calendar."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the maximum number of quoted lines to be added to responses."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
+msgstr ""
+

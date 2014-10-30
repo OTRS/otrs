@@ -370,7 +370,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' =>
             'Такой адрес электронной почты уже существует. Пожалуйста, войдите, или сбросьте свой пароль.',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'Этот адрес почты не разрешен для регистрации. Обратитесь к персоналу поддержки',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Новая учетная запись создана. Информация о логине отправлена на %s. Проверьте свою почту.',
         'Please press Back and try again.' => 'Нажмите «Назад» и попробуйте еще раз',
@@ -420,9 +420,9 @@ sub Data {
         'Redo' => 'Повторить',
         'Scheduler process is registered but might not be running.' => 'Процесс планировщика зарегистрирован, но может не быть запущен.',
         'Scheduler is not running.' => 'Планировщик не запущен.',
-        'Can\'t contact registration server. Please try again later.' => '',
+        'Can\'t contact registration server. Please try again later.' => 'Не удалось соединиться с сервером, попробуйте повторить позже.',
         'No content received from registration server. Please try again later.' =>
-            '',
+            'Данные не получены с сервера регистрации. Повторите запрос позже.',
         'Problems processing server result. Please try again later.' => 'Проблемы, обрабатывающие результат сервера. Попробуйте еще раз позже.',
         'Username and password do not match. Please try again.' => 'Имя пользователя и пароль не соовпадают. Попробуйте еще раз.',
         'The selected process is invalid!' => 'Выбранный процесс - неправильный!',
@@ -591,7 +591,7 @@ sub Data {
         'Setting character_set_client needs to be utf8.' => 'Значение кодировки для клиента должно быть UNICODE or UTF8.',
         'Server Database Charset' => 'Кодировка для сервера базы данных',
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Значение кодировки для сервера базы данных должно быть UNICODE или UTF8. ',
-        'Table Charset' => '',
+        'Table Charset' => 'Кодировка для таблицы',
         'There were tables found which do not have utf8 as charset.' => 'Найдены таблицы в кодировке, отличной от utf8.',
         'Maximum Query Size' => 'Максимальный размер запроса',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
@@ -599,7 +599,7 @@ sub Data {
         'Query Cache Size' => '',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             'Значение параметра \'query_cache_size\' следует использовать (больше 10 МВ, но не более 512МВ).',
-        'Default Storage Engine' => '',
+        'Default Storage Engine' => 'Метод доступа по умолчанию',
         'Tables with a different storage engine than the default engine were found.' =>
             '',
         'MySQL 5.x or higher is required.' => 'Требуется MySQL 5.х или выше',
@@ -1289,10 +1289,10 @@ sub Data {
         'No create time settings.' => 'Без учета времени создания',
         'Ticket created' => 'Заявка создана',
         'Ticket created between' => 'Заявка создана между ',
-        'Last changed times' => '',
+        'Last changed times' => 'Время последнего изменения.',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
+        'Ticket last changed' => 'Последнее изменение заявки',
+        'Ticket last changed between' => 'Время последнего изменения заявки между',
         'Change times' => 'Когда изменена',
         'No change time settings.' => 'Не изменять параметры времени',
         'Ticket changed' => 'Заявка изменена',
@@ -1405,9 +1405,9 @@ sub Data {
         'Asynchronous' => 'Асинхронно',
         'This invoker will be triggered by the configured events.' => '',
         'Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).' =>
-            '',
+            'Асинхронные триггеры событий будут обрабатываться Планировщиком OTRS в фоновом режиме (рекомендуется)',
         'Synchronous event triggers would be processed directly during the web request.' =>
-            '',
+            'Синхронные триггеры событий будут обрабатываться непосредственно при веб-запросе.',
         'Save and continue' => 'Сохранить и продолжить',
         'Delete this Invoker' => '',
 
@@ -1442,10 +1442,10 @@ sub Data {
         'Add new operation' => '',
         'Change operation %s' => '',
         'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Operation Details' => 'Детали операции',
         'The name is typically used to call up this web service operation from a remote system.' =>
-            '',
-        'Please provide a unique name for this web service.' => '',
+            'Имя обычно используется для вызова этой операции веб-сервиса из удаленной системы.',
+        'Please provide a unique name for this web service.' => 'Укажите уникальное имя для этого веб-сервиса.',
         'Mapping for incoming request data' => '',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
             '',
@@ -1497,7 +1497,7 @@ sub Data {
         'The full path and name of the SSL certificate file.' => 'Полный путь и имя файла SSL сертификата.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => 'например, /opt/otrs/var/certificates/REST/ssl.crt',
         'Certificate Password File' => 'Пароль файла сертификата',
-        'The full path and name of the SSL key file.' => '',
+        'The full path and name of the SSL key file.' => 'Полный путь и имя файла ключа SSL.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'например, /opt/otrs/var/certificates/REST/ssl.key',
         'Certification Authority (CA) File' => '',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
@@ -1584,7 +1584,7 @@ sub Data {
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             '',
         'Delete webservice' => 'Удалить веб-сервис',
-        'Delete operation' => '',
+        'Delete operation' => 'Операция удаления',
         'Delete invoker' => '',
         'Clone webservice' => 'Скопировать веб-сервис',
         'Import webservice' => 'Импортировать веб-сервис',
@@ -1784,7 +1784,7 @@ sub Data {
         'AND Condition' => 'Условие "И"(AND)',
         'Check email header' => 'Проверить заголовок письма',
         'Negate' => 'Отрицание ("НЕ")',
-        'Look for value' => '',
+        'Look for value' => 'Посмотреть значение',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Это поле должно быть корректным регулярным выражением либо буквально совпадающей строкой.',
         'Set Email Headers' => 'Выставить заголовки письма',
@@ -2098,8 +2098,7 @@ sub Data {
         'OTRS Group will not pass on your details to third parties unless required for business transactions.' =>
             'OTRS Group не будет передавать ваши персональные данные третьим лицам, пока это не требуется для деловых отношений.',
         'OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order.' =>
-            'OTRS Group будет передавать ваши персональные данные только
-уполномоченным публичным организациям и властям, если этого требует закон или в судебном порядке.',
+            'OTRS Group будет передавать ваши персональные данные только уполномоченным публичным организациям и властям, если этого требует закон или в судебном порядке.',
         'Amendment of Data Protection Policy' => 'Поправка к Политике защиты данных',
         'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
             '',
@@ -2864,7 +2863,6 @@ sub Data {
         'Locked' => 'Блокировка',
         'Linked Objects' => 'Связанные объекты',
         'Change Queue' => 'Сменить очередь',
-        'Dialogs' => 'Диалоги',
         'There are no dialogs available at this point in the process.' =>
             'Нет диалогов доступных в этой части процесса',
         'This item has no articles yet.' => 'Этот элемент пока не имеет заметок.',
@@ -2888,8 +2886,6 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
-            '',
-        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
             '',
 
         # Template: AttachmentBlocker
@@ -3017,9 +3013,6 @@ sub Data {
         'Send a bugreport' => 'Отправить сообщение об ошибке',
         'go back to the previous page' => 'перейти на предыдущую страницу',
         'Error Details' => 'Детали ошибки',
-
-        # Template: Footer
-        'Top of page' => 'В начало страницы',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
@@ -3451,6 +3444,8 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Задайте имя динамического поля для начала периода. Это поле надо создать как Тип "Заявка": "Date / Time" и активировать для экранов создания заявки и/или любого другого действия с заявкой.',
         'Define the max depth of queues.' => 'Задайте максимальный уровень вложенности для очередей',
+        'Define the start day of the week for the date picker for the indicated calendar.' =>
+            '',
         'Define the start day of the week for the date picker.' => 'Укажите первый день недели для использовании при выборе даты',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
@@ -3856,6 +3851,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             'Задает максимальную длину (в символах) для данных Планировщика. Внимание: Не изменяйте этот параметр, не проверив текущее значение в БД для "task_data" полученное из таблицы "scheduler_data_list".',
         'Defines the maximum number of pages per PDF file.' => 'Задает максимальное количество страниц для PDF файла',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => 'Задает максимальный размер (в MB) для файла журнала.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Задает модуль который показывает основные уведомления в интерфейсе агента. Либо "Text", если настроен, либо содержимое "File" будет отображаться.',
@@ -5206,6 +5203,14 @@ sub Data {
         'The headline shown in the customer interface.' => 'Заголовок, отображаемый в интерфейсе клиента.',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Идентфикатор заявки, например, Заявка№, Звонок#. По умолчанию - Ticket#.',
+        'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
+            '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Логотип, отображаемый в заголовке экрана в интерфейсе агента. URL ссылка может быть относительным URL на каталог с файлами (skin) или быть полным URL на внешний веб-сервер.',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>

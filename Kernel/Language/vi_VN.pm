@@ -979,12 +979,12 @@ sub Data {
         'Upload ACL configuration' => 'Cấu hình tải lên ACL',
         'Import ACL configuration(s)' => 'Nhập khẩu cấu hình ACL (s)',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Để tạo một ACL mới bạn có thể ACL nhập khẩu được xuất khẩu từ một hệ thống khác hoặc tạo một hình mới hoàn thành.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Những thay đổi trong ACL ở đây chỉ ảnh hưởng đến hành vi của hệ thống, nếu bạn triển khai các dữ liệu ACL sau đó. Bằng cách triển khai các dữ liệu ACL, những thay đổi mới được thực hiện sẽ được ghi vào cấu hình.',
+        'ACLs' => 'Danh sách kiểm soát truy cập',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'Xin lưu ý: Bảng này đại diện cho thứ tự thực hiện các ACL. Nếu bạn cần thay đổi thứ tự mà ACL được thực hiện, hãy thay đổi tên của các ACL bị ảnh hưởng.',
         'ACL name' => 'tên ACL = Danh sách kiểm soát truy cập',
         'Validity' => 'Hiệu lực',
         'Copy' => 'Bản sao',
@@ -1047,13 +1047,13 @@ sub Data {
         'Options of the current customer user data' => '',
         'Ticket owner options' => 'Sự lựa chọn chủ sở hữu vé',
         'Ticket responsible options' => '',
-        'Options of the current user who requested this action' => '',
-        'Options of the ticket data' => '',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of the current user who requested this action' => 'Các tùy chọn của người dùng hiện tại yêu cầu hành động này',
+        'Options of the ticket data' => 'Tùy chọn các dữ liệu của vé',
+        'Options of ticket dynamic fields internal key values' => 'Tùy chọn của vé lĩnh vực năng động giá trị chính của nội bộ',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
             '',
-        'Config options' => '',
-        'Example response' => '',
+        'Config options' => 'Tùy chọn cấu hình',
+        'Example response' => 'Ví dụ phản hồi',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Quản lý khách hàng',
@@ -2851,7 +2851,6 @@ sub Data {
         'Locked' => 'Đã khóa',
         'Linked Objects' => '',
         'Change Queue' => '',
-        'Dialogs' => '',
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
@@ -2875,8 +2874,6 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
-            '',
-        'This is a chat log. Please zoom this entry in order to see the complete log.' =>
             '',
 
         # Template: AttachmentBlocker
@@ -3004,9 +3001,6 @@ sub Data {
         'Send a bugreport' => '',
         'go back to the previous page' => '',
         'Error Details' => '',
-
-        # Template: Footer
-        'Top of page' => '',
 
         # Template: FooterJS
         'If you now leave this page, all open popup windows will be closed, too!' =>
@@ -3438,6 +3432,8 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
         'Define the max depth of queues.' => '',
+        'Define the start day of the week for the date picker for the indicated calendar.' =>
+            '',
         'Define the start day of the week for the date picker.' => '',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             '',
@@ -3843,6 +3839,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
@@ -5192,6 +5190,14 @@ sub Data {
             '',
         'The headline shown in the customer interface.' => '',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
+            '',
+        'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
             '',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             '',

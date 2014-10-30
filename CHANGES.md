@@ -1,4 +1,5 @@
 #4.0.0.beta5 2014-11-04
+ - 2014-10-30 Updated translation files, thanks to all translators.
  - 2014-10-30 Fixed bug#[10656](http://bugs.otrs.org/show_bug.cgi?id=10656) - Generated CSV file cannot display Chinese characters in MS Excel.
  - 2014-10-28 Added Excel export as an alternative to CSV export.
  - 2014-10-28 Added calendar specific weekday start options for date picker.
