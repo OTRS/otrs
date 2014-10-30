@@ -1528,7 +1528,7 @@ sub ProcessImport {
 
         # check if EntityID matched the format (it could be that a process from 3.3.x is been
         #    imported)
-        if ( $NewEntityID !~ m{\A Process - [0-9a-f]{32}? \z}msx ) {
+        if ( $NewEntityID !~ m{\A Process - [0-9a-f]{32} \z}msx ) {
 
             # generate new EntityIDs
             $NewEntityID = $Self->{EntityObject}->EntityIDGenerate(
