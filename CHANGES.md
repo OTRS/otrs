@@ -1,4 +1,4 @@
-#3.3.10 ????-??-??
+#3.3.10 2014-11-04
  - 2014-10-28 Fixed bug#[8460](http://bugs.otrs.org/show_bug.cgi?id=8460) - Smart tag <OTRS_CUSTOMER_EMAIL[]> is display with HTML coding tags.
  - 2014-10-27 Updated SupportDataBundle email address.
  - 2014-10-27 Fixed bug#[10587](http://bugs.otrs.org/show_bug.cgi?id=10587) - Find.pm "Can't cd to .." error in DynamicField subdirectories.
