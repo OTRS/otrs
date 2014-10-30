@@ -55,7 +55,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      * @return nothing
      *      Mark an article as seen in frontend and backend.
      */
-    TargetNS.MarkAsSeen = function (TicketID, ArticleID, Timeout = 3000) {
+    TargetNS.MarkAsSeen = function (TicketID, ArticleID, Timeout) {
+
+        // assign default timeout
+        if (typeof Timeout === 'undefined') {
+            Timeout = 3000;
+        }
+
         TargetNS.MarkAsSeenTimeout = window.setTimeout(function () {
             // Mark old row as readed
             $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
