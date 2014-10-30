@@ -120,7 +120,7 @@ sub Array2CSV {
         my @ColumnLengths;
         my $Row = 0;
         for my $DataRaw ( \@Head, @Data ) {
-            for my $Col ( 0 .. ( scalar keys $DataRaw ) - 1 ) {
+            for my $Col ( 0 .. ( scalar @{$DataRaw // []} ) - 1 ) {
                 my $CellLength = length( $DataRaw->[$Col] );
                 $CellLength = 30 if ( $CellLength > 30 );
                 if ( !defined $ColumnLengths[$Col] || $ColumnLengths[$Col] < $CellLength ) {
