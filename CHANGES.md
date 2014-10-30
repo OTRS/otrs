@@ -1,3 +1,6 @@
+#4.0.0.? ????-??-??
+ - 2014-10-30 Fixed bug#[10679](http://bugs.otrs.org/show_bug.cgi?id=10679) - Texts in notification tags loose their empty lines and spaces.
+
 #4.0.0.beta5 2014-11-04
  - 2014-10-30 Updated translation files, thanks to all translators.
  - 2014-10-30 Fixed bug#[10656](http://bugs.otrs.org/show_bug.cgi?id=10656) - Generated CSV file cannot display Chinese characters in MS Excel.
