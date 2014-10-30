@@ -86,11 +86,6 @@ sub Run {
         exit 0;
     }
 
-    if ( $^O ne 'MSWin32' && $> != 0 ) {    # $EFFECTIVE_USER_ID
-        print STDERR "ERROR: Please run this script as superuser (root).\n";
-        exit 1;
-    }
-
     Getopt::Long::GetOptions(
         'help'             => \$Help,
         'otrs-user=s'      => \$OtrsUser,
@@ -99,6 +94,16 @@ sub Run {
         'dry-run'          => \$DryRun,
         'skip-article-dir' => \$SkipArticleDir,
     );
+
+    if (defined $Help) {
+        PrintUsage();
+        exit 0;
+    }
+
+    if ( $^O ne 'MSWin32' && $> != 0 ) {    # $EFFECTIVE_USER_ID
+        print STDERR "ERROR: Please run this script as superuser (root).\n";
+        exit 1;
+    }
 
     # check params
     $OtrsUserID = getpwnam $OtrsUser;
