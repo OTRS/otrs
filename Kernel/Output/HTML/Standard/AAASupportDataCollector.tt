@@ -139,6 +139,8 @@
 [% Translate("Groups") | html %]
 [% Translate("Dynamic Fields") | html %]
 [% Translate("Dynamic Field Values") | html %]
+[% Translate("Invalid Dynamic Fields") | html %]
+[% Translate("Invalid Dynamic Field Values") | html %]
 [% Translate("GenericInterface Webservices") | html %]
 [% Translate("Processes") | html %]
 [% Translate("Months Between First And Last Ticket") | html %]
