@@ -84,7 +84,7 @@ sub Run {
             Label      => "Invalid Dynamic Fields",
         },
         {
-            SQL        => "
+            SQL => "
                 SELECT count(*)
                 FROM dynamic_field_value
                     JOIN dynamic_field ON dynamic_field.id = dynamic_field_value.field_id
