@@ -203,6 +203,9 @@
 [% Translate("Webserver Version") | html %]
 [% Translate("Could not determine webserver version.") | html %]
 
+# Webserver/Apache/LoadedModules.pm
+[% Translate("Loaded Apache Modules") | html %]
+
 # Webserver/Apache/Performance.pm
 [% Translate("CGI Accelerator Usage") | html %]
 [% Translate("You should use FastCGI or mod_perl to increase your performance.") | html %]
