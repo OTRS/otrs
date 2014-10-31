@@ -208,6 +208,9 @@ $Text{"Environment Variables"}
 $Text{"Webserver Version"}
 $Text{"Could not determine webserver version."}
 
+# Webserver/Apache/LoadedModules.pm
+$Text{"Loaded Apache Modules"}
+
 # Webserver/Apache/Performance.pm
 $Text{"CGI Accelerator Usage"}
 $Text{"You should use FastCGI or mod_perl to increase your performance."}
