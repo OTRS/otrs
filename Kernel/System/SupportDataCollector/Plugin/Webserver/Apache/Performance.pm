@@ -30,8 +30,6 @@ sub Run {
         return $Self->GetResults();
     }
 
-    my @Result;
-
     # Check for CGI accelerator
     if ( $ENV{MOD_PERL} ) {
         $Self->AddResultOk(
