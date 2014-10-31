@@ -30,11 +30,11 @@ sub Run {
         return $Self->GetResults();
     }
 
-    for (my $Module = Apache2::Module::top_module(); $Module; $Module = $Module->next) {
+    for ( my $Module = Apache2::Module::top_module(); $Module; $Module = $Module->next() ) {
         $Self->AddResultInformation(
             Identifier => $Module->name(),
             Label      => $Module->name(),
-            Value      => $Module->ap_api_major_version() . '.' . $Module->ap_api_minor_version,
+            Value      => $Module->ap_api_major_version() . '.' . $Module->ap_api_minor_version(),
         );
     }
 
