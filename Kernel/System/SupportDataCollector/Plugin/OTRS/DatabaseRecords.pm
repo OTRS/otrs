@@ -92,7 +92,7 @@ sub Run {
                 SELECT count(*)
                 FROM dynamic_field_value
                     JOIN dynamic_field ON dynamic_field.id = dynamic_field_value.field_id
-                WHERE dynamic_field.valid_id <> 1",
+                WHERE dynamic_field.valid_id > 1",
             Identifier => 'InvalidDynamicFieldValueCount',
             Label      => "Invalid Dynamic Field Values",
         },
