@@ -144,6 +144,8 @@ $Text{"Roles"}
 $Text{"Groups"}
 $Text{"Dynamic Fields"}
 $Text{"Dynamic Field Values"}
+$Text{"Invalid Dynamic Fields"}
+$Text{"Invalid Dynamic Field Values"}
 $Text{"GenericInterface Webservices"}
 $Text{"Processes"}
 $Text{"Months Between First And Last Ticket"}

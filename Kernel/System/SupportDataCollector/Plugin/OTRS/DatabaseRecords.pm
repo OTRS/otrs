@@ -79,6 +79,20 @@ sub Run {
             Label      => "Dynamic Field Values",
         },
         {
+            SQL        => "SELECT count(*) FROM dynamic_field WHERE valid_id > 1",
+            Identifier => 'InvalidDynamicFieldCount',
+            Label      => "Invalid Dynamic Fields",
+        },
+        {
+            SQL        => "
+                SELECT count(*)
+                FROM dynamic_field_value
+                    JOIN dynamic_field ON dynamic_field.id = dynamic_field_value.field_id
+                WHERE dynamic_field.valid_id <> 1",
+            Identifier => 'InvalidDynamicFieldValueCount',
+            Label      => "Invalid Dynamic Field Values",
+        },
+        {
             SQL        => "SELECT count(*) FROM gi_webservice_config",
             Identifier => 'WebserviceCount',
             Label      => "GenericInterface Webservices",
