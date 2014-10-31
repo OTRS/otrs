@@ -137,9 +137,10 @@ sub Request {
     my $Response;
 
     {
-
-        # set HTTPS proxy for ssl requests, localize %ENV because of mod_perl
-        local %ENV = %ENV;
+        # Set HTTPS proxy for ssl requests. We must not use "local %ENV" here!
+        # See http://bugs.otrs.org/show_bug.cgi?id=10577.
+        # It should also not be needed as we have PerlOptions +SetupEnv in our apache
+        #   configuration, and %ENV will be repopulated for every request.
 
         # if a proxy is set, extract it and use it as environment variables for HTTPS
         if ( $Self->{Proxy} =~ /:\/\/(.*)\// ) {
