@@ -130,17 +130,49 @@ sub Run {
     }
 
     # get involved tickets, filtering empty TicketIDs
+    my @ValidTicketIDs;
     my @TicketIDs
         = grep {$_}
         $Self->{ParamObject}->GetArray( Param => 'TicketID' );
 
-    # check needed stuff
-    if ( !@TicketIDs ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => 'No TicketID is given!',
-            Comment => 'You need at least one selected ticket!',
-        );
+    # check if only locked tickets have been selected
+    if ( $Self->{Config}->{RequiredLock} ) {
+        for my $TicketID (@TicketIDs) {
+            if ( $Self->{TicketObject}->TicketLockGet( TicketID => $TicketID ) ) {
+                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                    TicketID => $TicketID,
+                    OwnerID  => $Self->{UserID},
+                );
+                if ($AccessOk) {
+                    push @ValidTicketIDs, $TicketID;
+                }
+            }
+            else {
+                push @ValidTicketIDs, $TicketID;
+            }
+        }
     }
+    else {
+        @ValidTicketIDs = @TicketIDs;
+    }
+
+    # check needed stuff
+    if ( !@ValidTicketIDs ) {
+        if ( $Self->{Config}->{RequiredLock} ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'No selectable TicketID is given!',
+                Comment =>
+                    'You either selected no ticket or only tickets which are locked by other agents',
+            );
+        }
+        else {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'No TicketID is given!',
+                Comment => 'You need to select at least one ticket',
+            );
+        }
+    }
+
     my $Output .= $Self->{LayoutObject}->Header(
         Type => 'Small',
     );
@@ -282,6 +314,7 @@ sub Run {
 
     # process tickets
     my @TicketIDSelected;
+    my @TicketIDIgnored;
     my $LockedTickets = '';
     my $ActionFlag    = 0;
     my $Counter       = 1;
@@ -326,10 +359,14 @@ sub Run {
                 );
                 if ( !$AccessOk ) {
                     $Output .= $Self->{LayoutObject}->Notify(
-                        Data => "$Ticket{TicketNumber}: "
+                        Priority => 'Error',
+                        Data     => "$Ticket{TicketNumber}: "
                             . $Self->{LayoutObject}->{LanguageObject}
-                            ->Translate("Ticket is locked by another agent."),
+                            ->Translate(
+                            "Ticket is locked by another agent and will be ignored!"
+                            ),
                     );
+                    push @TicketIDIgnored, $Ticket{TicketNumber};
                     next TICKET_ID;
                 }
             }
@@ -729,9 +766,10 @@ sub Run {
         %Param,
         %GetParam,
         %Time,
-        TicketIDs     => \@TicketIDSelected,
-        LockedTickets => $LockedTickets,
-        Errors        => \%Error,
+        TicketIDs        => \@TicketIDSelected,
+        LockedTickets    => $LockedTickets,
+        TicketIDsIgnored => \@TicketIDIgnored,
+        Errors           => \%Error,
     );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',
