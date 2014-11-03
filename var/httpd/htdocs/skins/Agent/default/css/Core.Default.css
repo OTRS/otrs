@@ -679,6 +679,13 @@ td.Highlight a.ui-state-default {
 
 .ui-autocomplete {
     z-index: 20 !important;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.ui-autocomplete .ui-menu-item {
+    font-size: 11px;
 }
 
 .ui-overlay-autocomplete {
