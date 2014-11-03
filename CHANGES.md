@@ -1,4 +1,5 @@
 #3.3.11 ????-??-??
+ - 2014-11-03 Fixed bug#[10845](http://bugs.otrs.org/show_bug.cgi?id=10845) - No date search if TimeInputFormat is Input.
  - 2014-11-03 Fixed bug#[10706](http://bugs.otrs.org/show_bug.cgi?id=10706) - dashboard settings are lost by different user login.
  - 2014-10-31 Fixed bug#[10577](http://bugs.otrs.org/show_bug.cgi?id=10577) - Service Center does not show MOD_PERL version on Ubuntu 14.04.
  - 2014-10-30 Fixed bug#[10679](http://bugs.otrs.org/show_bug.cgi?id=10679) - Texts in notification tags loose their empty lines and spaces.
