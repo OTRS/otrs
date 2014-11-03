@@ -117,69 +117,92 @@ X-OTRS-Login: [% Env("Baselink") %]
                 </div>
                 <div class="Content">
                     <p class="SpacingTop Center">
-                        [% Translate("In order to experience OTRS, you'll need to enable JavaScript in your browser.") | html %]</p>
-                    </div>
+                            [% Translate("In order to experience OTRS, you'll need to enable JavaScript in your browser.") | html %]
+                    </p>
                 </div>
-                </noscript>
+            </div>
+            </noscript>
 
-                <div class="WidgetSimple Hidden" id="OldBrowser">
-                    <div class="Header">
-                        <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
-                    </div>
-                    <div class="Content">
-                        <p class="SpacingTop Center">
-                            [% Translate("The browser you are using is too old.") | html %]
-                            [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | html %]
-                            [% Translate("Please see the documentation or ask your admin for further information.") | html %]
-                        </p>
-                    </div>
+            <div class="WidgetSimple Hidden" id="OldBrowser">
+                <div class="Header">
+                    <h2 class="Center">[% Translate("Browser Warning") | html %]</h2>
                 </div>
+                <div class="Content">
+                    <p class="SpacingTop Center">
+                        [% Translate("The browser you are using is too old.") | html %]
+                        [% Translate("OTRS runs with a huge lists of browsers, please upgrade to one of these.") | html %]
+                        [% Translate("Please see the documentation or ask your admin for further information.") | html %]
+                    </p>
+                </div>
+            </div>
 
 [% RenderBlockStart("SystemMaintenance") %]
-                <div class="MessageBox WithIcon" id="SystemMaintenance">
-                    <i class="fa fa-exclamation-circle"></i>
-                    <p>
-                        [% Translate(Data.LoginMessage) | html %]
-                    </p>
-                </div>
+            <div class="MessageBox WithIcon" id="SystemMaintenance">
+                <i class="fa fa-exclamation-circle"></i>
+                <p>
+                    [% Translate(Data.LoginMessage) | html %]
+                </p>
+            </div>
 [% RenderBlockEnd("SystemMaintenance") %]
 
-                <div id="LoginBox">
-                    <p class="Error Center Spacing">
+[% RenderBlockStart("PreLogin") %]
+            <div id="LoginBox" class="PreLogin">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2 class="Center">[% Translate("Welcome to %s", Config("ProductName")) | html %]</h2>
+                    </div>
+                    <div class="Content">
+                        <p class="Center">
+                            [% Translate("One moment please, you are being redirected...") | html %]
+                        </p>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                            <input type="hidden" name="Action" value="Login" />
+                            <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                            <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+[% RenderBlockEnd("PreLogin") %]
+
+[% RenderBlockStart("LoginBox") %]
+            <div id="LoginBox">
+                <p class="Error Center Spacing">
                         [% Data.Message | html %]
-                    </p>
-                    <div class="WidgetSimple">
-                        <div class="Header">
-                            <h2 class="Center">[% Translate("Welcome to %s", Config("ProductName")) | html %]</h2>
-                        </div>
-                        <div class="Content">
-                            <p class="Error Center Spacing"></p>
+                </p>
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2 class="Center">[% Translate("Welcome to %s", Config("ProductName")) | html %]</h2>
+                    </div>
+                    <div class="Content">
+                        <p class="Error Center Spacing"></p>
 
-                            <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate">
-                                <input type="hidden" name="Action" value="Login" />
-                                <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
-                                <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
-                                <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
-                                <fieldset class="TableLike">
-                                    <label for="User" class="Mandatory">
-                                        <span class="Marker">*</span>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate">
+                            <input type="hidden" name="Action" value="Login" />
+                            <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                            <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                            <fieldset class="TableLike">
+                                <label for="User" class="Mandatory">
+                                    <span class="Marker">*</span>
                                         [% Translate("Username") | html %]:
-                                    </label>
-                                    <div class="Field">
-                                        <input type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
-                                        <div id="UserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                                    </div>
-                                    <div class="Clear"></div>
+                                </label>
+                                <div class="Field">
+                                    <input type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
+                                    <div id="UserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
 
-                                    <label for="Password" class="Mandatory">
-                                        <span class="Marker">*</span>
+                                <label for="Password" class="Mandatory">
+                                    <span class="Marker">*</span>
                                         [% Translate("Password") | html %]:
-                                    </label>
-                                    <div class="Field">
-                                        <input type="password" id="Password" name="Password" class="W75pc Validate_Required" />
-                                        <div id="PasswordError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                                    </div>
-                                    <div class="Clear"></div>
+                                </label>
+                                <div class="Field">
+                                    <input type="password" id="Password" name="Password" class="W75pc Validate_Required" />
+                                    <div id="PasswordError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
 
 <!--
 # TODO: Implement
@@ -188,58 +211,59 @@ X-OTRS-Login: [% Env("Baselink") %]
 #                                    <label for="Remember">Remember my login on this computer</label>
 #                                </div>
 #                                <div class="Clear"></div>
-                                    -->
+                                -->
 
-                                    <div class="Field SpacingTopSmall">
-                                        <button type="submit" id="LoginButton" class="Primary CallForAction" value="[% Translate("Login") | html %]" disabled="disabled"><span>[% Translate("Login") | html %]</span></button>
-                                    </div>
-                                    <div class="Clear"></div>
-                                </fieldset>
-                            </form>
-                        </div>
+                                <div class="Field SpacingTopSmall">
+                                    <button type="submit" id="LoginButton" class="Primary CallForAction" value="[% Translate("Login") | html %]" disabled="disabled"><span>[% Translate("Login") | html %]</span></button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
                     </div>
-[% RenderBlockStart("LostPasswordLink") %]
-                    <p class="Center SpacingTop">
-                        <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
-                    </p>
                 </div>
+[% RenderBlockStart("LostPasswordLink") %]
+                <p class="Center SpacingTop">
+                    <a href="#" id="LostPassword">[% Translate("Lost your password?") | html %]</a>
+                </p>
+            </div>
 [% RenderBlockEnd("LostPasswordLink") %]
+[% RenderBlockEnd("LoginBox") %]
 
 [% RenderBlockStart("LostPassword") %]
-                <div id="PasswordBox" class="Hidden">
-                    <div class="WidgetSimple">
-                        <div class="Header">
-                            <h2 class="Center Spacing">[% Translate("Request New Password") | html %]</h2>
-                        </div>
-                        <div class="Content">
-                            <p class="Error Center Spacing"></p>
-                            <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" class="Validate">
-                                <input type="hidden" name="Action" value="LostPassword"/>
-                                <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
-
-                                <fieldset class="TableLike">
-                                    <label for="PasswordUser" class="Mandatory">
-                                        <span class="Marker">*</span>
-                                        [% Translate("Username") | html %]:
-                                    </label>
-                                    <div class="Field">
-                                        <input type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly="readonly"/>
-                                        <div id="PasswordUserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
-                                    </div>
-                                    <div class="Clear"></div>
-
-                                    <div class="Field SpacingTop">
-                                        <button type="submit" Class="Primary CallForAction" value="[% Translate("Request New Password") | html %]" disabled="disabled"><span>[% Translate("Request New Password") | html %]</span></button>
-                                    </div>
-                                    <div class="Clear"></div>
-                                </fieldset>
-                            </form>
-                        </div>
+            <div id="PasswordBox" class="Hidden">
+                <div class="WidgetSimple">
+                    <div class="Header">
+                        <h2 class="Center Spacing">[% Translate("Request New Password") | html %]</h2>
                     </div>
-                    <p class="Center SpacingTop">
-                        <a href="" id="BackToLogin">&larr; [% Translate("Back to login") | html %]</a>
-                    </p>
+                    <div class="Content">
+                        <p class="Error Center Spacing"></p>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" class="Validate">
+                            <input type="hidden" name="Action" value="LostPassword"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+
+                            <fieldset class="TableLike">
+                                <label for="PasswordUser" class="Mandatory">
+                                    <span class="Marker">*</span>
+                                        [% Translate("Username") | html %]:
+                                </label>
+                                <div class="Field">
+                                    <input type="text" id="PasswordUser" name="User" value="" class="W75pc Validate_Required" readonly="readonly"/>
+                                    <div id="PasswordUserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <div class="Field SpacingTop">
+                                    <button type="submit" Class="Primary CallForAction" value="[% Translate("Request New Password") | html %]" disabled="disabled"><span>[% Translate("Request New Password") | html %]</span></button>
+                                </div>
+                                <div class="Clear"></div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
+                <p class="Center SpacingTop">
+                    <a href="" id="BackToLogin">&larr; [% Translate("Back to login") | html %]</a>
+                </p>
+            </div>
 [% RenderBlockEnd("LostPassword") %]
 
 # --
@@ -247,8 +271,8 @@ X-OTRS-Login: [% Env("Baselink") %]
 # --
 [% Data.Motd %]
 
-            </div>
         </div>
+    </div>
 [% WRAPPER JSOnDocumentComplete %]
     <script type="text/javascript">//<![CDATA[
         Core.Agent.Login.Init([% Data.LoginFailed %]);

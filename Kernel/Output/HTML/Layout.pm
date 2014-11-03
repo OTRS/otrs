@@ -746,6 +746,22 @@ sub Login {
         }
     }
 
+    # show prelogin block, if in prelogin mode (e.g. SSO login)
+    if ( defined $Param{'Mode'} && $Param{'Mode'} eq 'PreLogin' ) {
+        $Self->Block(
+            Name => 'PreLogin',
+            Data => \%Param,
+        );
+    }
+
+    # if not in PreLogin mode, show normal login form
+    else {
+        $Self->Block(
+            Name => 'LoginBox',
+            Data => \%Param,
+        );
+    }
+
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'Login', Data => \%Param );
 
@@ -3167,6 +3183,22 @@ sub CustomerLogin {
                 },
             );
         }
+    }
+
+    # show prelogin block, if in prelogin mode (e.g. SSO login)
+    if ( defined $Param{'Mode'} && $Param{'Mode'} eq 'PreLogin' ) {
+        $Self->Block(
+            Name => 'PreLogin',
+            Data => \%Param,
+        );
+    }
+
+    # if not in PreLogin mode, show normal login form
+    else {
+        $Self->Block(
+            Name => 'LoginBox',
+            Data => \%Param,
+        );
     }
 
     # create & return output

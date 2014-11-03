@@ -211,7 +211,21 @@ sub Run {
     $Param{Action} =~ s/\W//g;
 
     # check request type
-    if ( $Param{Action} eq 'Login' ) {
+    if ( $Param{Action} eq 'PreLogin' ) {
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        # login screen
+        $LayoutObject->Print(
+            Output => \$LayoutObject->CustomerLogin(
+                Title => 'Login',
+                Mode  => 'PreLogin',
+                %Param,
+            ),
+        );
+
+        return;
+    }
+    elsif ( $Param{Action} eq 'Login' ) {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
@@ -410,7 +424,7 @@ sub Run {
 
         # redirect with new session id and old params
         # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
-        if ( $Param{RequestedURL} =~ /Action=(Logout|Login|LostPassword)/ ) {
+        if ( $Param{RequestedURL} =~ /Action=(Logout|Login|LostPassword|PreLogin)/ ) {
             $Param{RequestedURL} = '';
         }
 
@@ -881,7 +895,7 @@ sub Run {
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
             print $LayoutObject->Redirect(
-                OP => "Action=Login;RequestedURL=$Param{RequestedURL}",
+                OP => "Action=PreLogin;RequestedURL=$Param{RequestedURL}",
             );
             return;
         }
@@ -929,11 +943,24 @@ sub Run {
                     }
             );
 
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-            # redirect to alternate login
-            if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
+            # create AuthObject
+            my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
+            if ( $AuthObject->GetOption( What => 'PreAuth' ) ) {
 
+                # automatic re-login
+                $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+                print $LayoutObject->Redirect(
+                    OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
+                );
+                return;
+            }
+            # redirect to alternate login
+            elsif ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
+
+                # redirect to alternate login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
                 print $LayoutObject->Redirect(
                     ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')

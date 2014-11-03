@@ -1,4 +1,5 @@
 #4.0.0.? ????-??-??
+ - 2014-11-03 Fixed bug#[10786](http://bugs.otrs.org/show_bug.cgi?id=10786) - TimeZoneUserBrowserAutoOffset not working with SSO.
  - 2014-10-31 Fixed bug#[10577](http://bugs.otrs.org/show_bug.cgi?id=10577) - Service Center does not show MOD_PERL version on Ubuntu 14.04.
  - 2014-10-30 Fixed bug#[10679](http://bugs.otrs.org/show_bug.cgi?id=10679) - Texts in notification tags loose their empty lines and spaces.
 

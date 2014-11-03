@@ -36,7 +36,8 @@
 
 #Login,
 #Reset,
-#Signup {
+#Signup,
+#PreLogin {
     width: 500px;
     height: 260px;
     padding-left: 142px;
@@ -52,7 +53,8 @@
 
 .RTL #Login,
 .RTL #Reset,
-.RTL #Signup {
+.RTL #Signup,
+.RTL #PreLogin {
     padding: 0 142px 0 0;
     float: right;
 }

@@ -42,6 +42,18 @@ X-OTRS-Login: [% Env("Baselink") %]
 
     <div id="Slider">
         <div id="SlideArea">
+[% RenderBlockStart("PreLogin") %]
+            <div id="PreLogin">
+                <p>[% Translate("One moment please, you are being redirected...") | html %]</p>
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
+                    <input type="hidden" name="Action" value="Login" />
+                    <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                    <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
+                </form>
+            </div>
+[% RenderBlockEnd("PreLogin") %]
+[% RenderBlockStart("LoginBox") %]
             <div id="Login">
                 <h2>[% Translate("Login") | html %]</h2>
                 <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
@@ -71,6 +83,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                 <p>[% Translate("Not yet registered?") | html %] <a href="#Signup">[% Translate("Sign up now") | html %]</a>.</p>
 [% RenderBlockEnd("CreateAccountLink") %]
             </div>
+[% RenderBlockEnd("LoginBox") %]
 [% RenderBlockStart("LostPassword") %]
             <div id="Reset">
                 <a href="#Login" class="InlineNavigation">&larr; [% Translate("Back") | html %]</a>

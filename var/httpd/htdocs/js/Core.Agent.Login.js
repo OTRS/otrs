@@ -56,6 +56,11 @@ Core.Agent.Login = (function (TargetNS) {
         if (LoginFailed) {
             Core.UI.Shake($('#LoginBox'));
         }
+
+        // if in PreLogin mode, automatically submit form
+        if ( $('#LoginBox').hasClass('PreLogin') ) {
+            $('#LoginBox form').submit();
+        }
     };
 
     return TargetNS;
