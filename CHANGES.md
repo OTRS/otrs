@@ -195,6 +195,7 @@
  - 2013-12-12 Added additional information to install commands for different distributions (see perl bin/otrs.CheckModules.pl -h) for more information.
 
 #3.3.9 2014-09-09
+ - 2014-11-03 Fixed bug#[10845](http://bugs.otrs.org/show_bug.cgi?id=10845) - No date search if TimeInputFormat is Input.
  - 2014-10-14 Fixed bug#[8535](http://bugs.otrs.org/show_bug.cgi?id=8535) - Only first 1000 Tickets are shown in CustomerInterface.
  - 2014-10-14 Fixed bug#[10729](http://bugs.otrs.org/show_bug.cgi?id=10729) - Dynamic Fields are shown incorrect at Ticket Overview, thanks to S7.
  - 2014-09-12 Fixed bug#[10710](http://bugs.otrs.org/show_bug.cgi?id=10710) - Adding agent with username that has already existed in AdminUser leads to SQL error message, thanks to S7.
