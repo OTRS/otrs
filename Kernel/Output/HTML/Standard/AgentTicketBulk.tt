@@ -13,7 +13,6 @@
     <input type="hidden" name="Subaction" value="Do"/>
     <input type="hidden" name="NoteFormID" value="[% Data.NoteFormID | html %]"/>
     <input type="hidden" name="EmailFormID" value="[% Data.EmailFormID | html %]"/>
-    <input type="hidden" name="IgnoredLockedTicketNumbers" value="[% Data.IgnoredLockedTicketNumbers | html %]"/>
 
     <div class="LayoutPopup ARIARoleMain">
         <div class="Header">

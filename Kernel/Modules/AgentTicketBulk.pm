@@ -314,7 +314,6 @@ sub Run {
 
     # process tickets
     my @TicketIDSelected;
-    my @TicketIDIgnored;
     my $LockedTickets = '';
     my $ActionFlag    = 0;
     my $Counter       = 1;
@@ -366,7 +365,6 @@ sub Run {
                             "Ticket is locked by another agent and will be ignored!"
                             ),
                     );
-                    push @TicketIDIgnored, $Ticket{TicketNumber};
                     next TICKET_ID;
                 }
             }
@@ -768,7 +766,6 @@ sub Run {
         %Time,
         TicketIDs        => \@TicketIDSelected,
         LockedTickets    => $LockedTickets,
-        TicketIDsIgnored => \@TicketIDIgnored,
         Errors           => \%Error,
     );
     $Output .= $Self->{LayoutObject}->Footer(
