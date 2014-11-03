@@ -1,4 +1,5 @@
 #4.0.0.? ????-??-??
+ - 2014-11-03 Fixed bug#[10706](http://bugs.otrs.org/show_bug.cgi?id=10706) - dashboard settings are lost by different user login.
  - 2014-11-03 Fixed bug#[10786](http://bugs.otrs.org/show_bug.cgi?id=10786) - TimeZoneUserBrowserAutoOffset not working with SSO.
  - 2014-11-03 Fixed bug#[10613](http://bugs.otrs.org/show_bug.cgi?id=10613) - Tickets can be selected for bulk, even if locked.
  - 2014-10-31 Fixed bug#[10577](http://bugs.otrs.org/show_bug.cgi?id=10577) - Service Center does not show MOD_PERL version on Ubuntu 14.04.
