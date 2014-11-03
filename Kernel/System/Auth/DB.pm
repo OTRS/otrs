@@ -80,7 +80,7 @@ sub Auth {
     my $GetPw      = '';
 
     # sql query
-    my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID} "
+    my $SQL = "SELECT $Self->{UserTableUserPW}, $Self->{UserTableUserID}, $Self->{UserTableUser} "
         . " FROM "
         . " $Self->{UserTable} "
         . " WHERE "
@@ -91,6 +91,7 @@ sub Auth {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $GetPw  = $Row[0];
         $UserID = $Row[1];
+        $User   = $Row[2];
     }
 
     # crypt given pw
