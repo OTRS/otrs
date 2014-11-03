@@ -197,16 +197,7 @@ sub Run {
     $Self->{TicketObject} = $Kernel::OM->Get('Kernel::System::Ticket');
 
     for my $Key ( sort keys %CommonObject ) {
-        if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
-            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
-        }
-        else {
-
-            # print error
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-                ->FatalError( Comment => 'Please contact your administrator' );
-            return;
-        }
+        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }
 
     # get common application and add-on application params

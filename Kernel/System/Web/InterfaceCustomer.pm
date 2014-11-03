@@ -198,17 +198,7 @@ sub Run {
     # application and add on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('CustomerFrontend::CommonObject') };
     for my $Key ( sort keys %CommonObject ) {
-        if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
-
-            # workaround for bug# 977 - do not use GroupObject in Kernel::System::Ticket
-            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self}, GroupObject => undef );
-        }
-        else {
-
-            # print error
-            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-            $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
-        }
+        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }
 
     # get common application and add on application params

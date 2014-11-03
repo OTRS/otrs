@@ -193,16 +193,7 @@ sub Run {
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };
     for my $Key ( sort keys %CommonObject ) {
-        if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
-            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
-        }
-        else {
-
-            # print error
-            $Self->{LayoutObject}->CustomerFatalError(
-                Comment => 'Please contact your administrator',
-            );
-        }
+        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }
 
     # run modules if a version value exists
