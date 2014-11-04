@@ -316,6 +316,7 @@ sub Preferences {
             keys %{ $Self->{Config}->{DefaultColumns} };
     }
 
+    # check if the user has filter preferences for this widget
     my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
         UserID => $Self->{UserID},
     );
