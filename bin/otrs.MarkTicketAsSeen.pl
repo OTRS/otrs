@@ -29,18 +29,24 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Std;
+use Time::HiRes qw(usleep);
 
 use Kernel::System::ObjectManager;
 
 # get options
-my %Opts = ();
-getopts( 'ha', \%Opts );
+my %Opts;
+getopts( 'hab', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.MarkTicketAsSeen.pl - mark tickets as seen by the agent\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n\n";
-    print "usage: otrs.MarkTicketAsSeen.pl [-a]\n\n";
+    print "usage: otrs.MarkTicketAsSeen.pl [-a] [-b sleeptime per ticket in microseconds]\n\n";
     print "If you pass '-a' it will update ALL tickets, otherwise only non-closed\n";
     print "tickets will be updated.\n";
+    exit 1;
+}
+
+if ( $Opts{b} && $Opts{b} !~ m{ \A \d+ \z }xms ) {
+    print STDERR "ERROR: sleeptime needs to be a numeric value! e.g. 1000\n";
     exit 1;
 }
 
@@ -69,8 +75,11 @@ my %Users = $Kernel::OM->Get('Kernel::System::User')->UserList(
     Valid => 1,
 );
 
+# get ticket object
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
 # get all tickets
-my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+my @TicketIDs = $TicketObject->TicketSearch(
 
     # result (required)
     Result  => 'ARRAY',
@@ -87,19 +96,23 @@ my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
 
 my $TicketCount = scalar @TicketIDs;
 my $Count       = 0;
+
+TICKETID:
 for my $TicketID (@TicketIDs) {
+
     $Count++;
-    my $TicketObject = Kernel::System::Ticket->new();
 
     # check permission
     my %UserAccess;
     for my $UserID ( sort keys %Users ) {
+
         my $Access = $TicketObject->TicketPermission(
             Type     => 'ro',
             TicketID => $TicketID,
             LogNo    => 1,
             UserID   => $UserID,
         );
+
         $UserAccess{$UserID} = $Access;
     }
 
@@ -108,8 +121,10 @@ for my $TicketID (@TicketIDs) {
         TicketID => $TicketID,
         UserID   => 1,
     );
+
     my @Data;
     for my $ArticleID (@ArticleIndex) {
+
         USERID:
         for my $UserID ( sort keys %Users ) {
 
@@ -150,7 +165,12 @@ for my $TicketID (@TicketIDs) {
     }
 
     print "NOTICE: $Count of $TicketCount tickets.\n";
+
+    next TICKETID if !$Opts{b};
+
+    Time::HiRes::usleep( $Opts{b} );
 }
+
 print "NOTICE: done.\n";
 
 exit 0;
