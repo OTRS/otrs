@@ -1064,11 +1064,19 @@ sub _Mask {
 
     # reload parent window
     if ( $Param{TicketsWereLocked} ) {
+
+        my $URL = $Self->{LastScreenOverview};
+
+        # add session if no cookies are enabled
+        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+            $URL .= ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
+        }
+
         $Self->{LayoutObject}->Block(
             Name => 'ParentReload',
             Data => {
-                URL => $Self->{LastScreenOverview},
-                }
+                URL => $URL,
+            },
         );
 
         # show undo link
