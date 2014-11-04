@@ -237,4 +237,9 @@ for my $ID (@IDs) {
     );
 }
 
+# reset cache
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    Type => 'Type',
+);
+
 1;
