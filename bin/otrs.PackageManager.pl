@@ -33,7 +33,7 @@ use Getopt::Std;
 
 use Kernel::System::ObjectManager;
 
-# common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.PackageManager.pl',
@@ -42,7 +42,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 # get options
 my %Opts;
-getopt( 'hapofdv', \%Opts );
+getopt( 'apodv', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
@@ -485,7 +485,7 @@ elsif ( $Opts{a} eq 'list' ) {
 }
 elsif ( $Opts{a} eq 'list-repository' ) {
     my $Count = 0;
-    my %List  = ();
+    my %List ;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') ) {
         %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
     }
@@ -590,7 +590,7 @@ elsif ( $Opts{a} eq 'index' ) {
     elsif ( !-d $Opts{d} ) {
         die "ERROR: invalid package root location '$Opts{d}'";
     }
-    my @Dirs = ();
+    my @Dirs;
     print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
     print "<otrs_package_list version=\"1.0\">\n";
     BuildPackageIndex( $Opts{d} );

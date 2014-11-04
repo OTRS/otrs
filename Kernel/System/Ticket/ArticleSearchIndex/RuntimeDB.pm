@@ -20,44 +20,17 @@ our @ObjectDependencies = (
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
     return 1;
 }
 
 sub ArticleIndexDelete {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(ArticleID UserID)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
     return 1;
 }
 
 sub ArticleIndexDeleteTicket {
     my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for (qw(TicketID UserID)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
 
     return 1;
 }

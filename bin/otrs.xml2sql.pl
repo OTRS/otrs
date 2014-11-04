@@ -33,7 +33,7 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 
 my %Opts;
-getopt( 'htonf', \%Opts );
+getopt( 'tonf', \%Opts );
 if ( $Opts{'h'} || !%Opts ) {
     print <<"EOF";
 $0 - tool to generate database specific SQL from the XML database definition files used by OTRS
@@ -97,7 +97,7 @@ elsif ( !-f $Opts{f} ) {
 
 for my $DatabaseType (@DatabaseType) {
 
-    # create common objects
+    # create object manager
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.xml2sql.pl',

@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'h', \%Opts );
+getopt( '', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.CleanTicketIndex.pl - clean static index\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -53,7 +53,7 @@ my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::IndexModule');
 
 print "Module is $Module\n";
 
-if ( $Module =~ /StaticDB/ ) {
+if ( $Module !~ /StaticDB/ ) {
     print "You are using $Module as index, you should not clean it.\n";
     exit 0;
 }
@@ -86,7 +86,7 @@ while ( my @Row = $DBObject->FetchrowArray() ) {
 }
 
 $DBObject->Prepare(
-    SQL => 'SELECT count(*) from ticket_lock_index'
+    SQL => 'SELECT count(*) from ticket_lock_index',
 );
 
 while ( my @Row = $DBObject->FetchrowArray() ) {

@@ -37,7 +37,7 @@ use Kernel::System::ObjectManager;
 # get file version
 use vars qw($Debug);
 
-# common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.ExportStatsToOPM.pl',
@@ -51,12 +51,12 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 # get options and params
 # ---------------------------------------------------------- #
 
-my %Opts           = ();
+my %Opts;
 my $PackageName    = 'ExportStatsToOPM';
 my $PackageVersion = '1.0.0';
 my $DeleteStats    = 0;
 
-getopt( 'dhvn', \%Opts );
+getopt( 'dvn', \%Opts );
 
 # check needed params
 if ( $Opts{'h'} ) {
@@ -118,8 +118,8 @@ if ( !$OPMFlag ) {
 # get all stats of the system
 
 my $StatsListRef  = $Kernel::OM->Get('Kernel::System::Stats')->GetStatsList();
-my %FileListcheck = ();
-my @Filelist      = ();
+my %FileListcheck;
+my @Filelist     ;
 for my $StatID ( @{$StatsListRef} ) {
 
     # use Stats export function
@@ -161,7 +161,7 @@ for my $StatID ( @{$StatsListRef} ) {
 # build the package
 # ---------------------------------------------------------- #
 
-my %OPMS = ();
+my %OPMS;
 my ( $s, $m, $h, $D, $M, $Y )
     = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
     SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
@@ -183,7 +183,7 @@ $OPMS{Description}[1]{Lang}    = 'en';
 # build file list
 my $FileListString = '';
 for (@Filelist) {
-    my %Hash = ();
+    my %Hash;
     $Hash{Location}   = "var/Stats/" . $_;
     $Hash{Permission} = '644';
     push( @{ $OPMS{Filelist} }, \%Hash );

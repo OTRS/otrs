@@ -12,6 +12,8 @@ package Kernel::System::GenericAgent;
 use strict;
 use warnings;
 
+use Time::HiRes qw(usleep);
+
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -169,7 +171,8 @@ run a generic agent job
 
     $GenericAgentObject->JobRun(
         Job          => 'JobName',
-        OnlyTicketID => 123, # optional, for event based Job execution
+        OnlyTicketID => 123,     # (optional) for event based Job execution
+        SleepTime    => 100_000  # (optional) sleeptime per ticket in microseconds
         UserID       => 1,
     );
 
@@ -479,15 +482,22 @@ sub JobRun {
     }
 
     # process each ticket
-    for ( sort keys %Tickets ) {
+    TICKETID:
+    for my $TicketID ( sort keys %Tickets ) {
+
         $Self->_JobRunTicket(
             Config       => \%Job,
             Job          => $Param{Job},
-            TicketID     => $_,
-            TicketNumber => $Tickets{$_},
+            TicketID     => $TicketID,
+            TicketNumber => $Tickets{$TicketID},
             UserID       => $Param{UserID},
         );
+
+        next TICKETID if !$Param{SleepTime};
+
+        Time::HiRes::usleep( $Param{SleepTime} );
     }
+
     return 1;
 }
 

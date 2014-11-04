@@ -52,14 +52,14 @@ EOF
 }
 
 # get options
-my %Opts = ();
-getopt( 'hctabiwd:', \%Opts );
+my %Opts;
+getopt( 'ctabiwd:', \%Opts );
 if ( $Opts{h} ) {
     PrintHelp();
     exit 1;
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GenericInterfaceDebugRead.pl',

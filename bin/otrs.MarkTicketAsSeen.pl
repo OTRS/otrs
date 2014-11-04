@@ -35,7 +35,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopts( 'hab', \%Opts );
+getopt( 'ab', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.MarkTicketAsSeen.pl - mark tickets as seen by the agent\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n\n";
@@ -55,6 +55,12 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'otrs.MarkTicketAsSeen.pl',
     },
+);
+
+# disable cache
+$Kernel::OM->Get('Kernel::System::Cache')->Configure(
+    CacheInMemory  => 0,
+    CacheInBackend => 1,
 );
 
 # disable ticket events

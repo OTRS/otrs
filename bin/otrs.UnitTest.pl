@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'hdnops', \%Opts );
+getopt( 'dnops', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.UnitTest.pl - Run OTRS unit tests\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -49,7 +49,7 @@ EOF
     exit 1;
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.UnitTest',

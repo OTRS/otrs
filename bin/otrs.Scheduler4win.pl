@@ -52,8 +52,8 @@ my $Service = 'OTRSScheduler';
 my $ServiceStatus = {};
 
 # get options
-my %Opts = ();
-getopt( 'hafw', \%Opts );
+my %Opts;
+getopt( 'aw', \%Opts );
 
 BEGIN {
 

@@ -44,14 +44,14 @@ EOF
 }
 
 # get options
-my %Opts = ();
-getopt( 'ho', \%Opts );
+my %Opts;
+getopt( 'o', \%Opts );
 if ( $Opts{h} ) {
     PrintHelp();
     exit 1;
 }
 
-# create common objects
+# create object manager
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

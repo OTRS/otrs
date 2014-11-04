@@ -46,8 +46,8 @@ sub Run {
     my $CommonObjectRefresh = 50;
 
     # get options
-    my %Opts = ();
-    getopt( 'ho', \%Opts );
+    my %Opts;
+    getopt( 'o', \%Opts );
     if ( $Opts{h} ) {
         print <<EOF;
 otrs.SuppportBundle.pl - creates a bundle of support information

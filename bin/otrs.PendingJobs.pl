@@ -28,21 +28,31 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use Getopt::Std;
+
 use Kernel::System::ObjectManager;
 
-# common objects
+# get options
+my %Opts;
+getopt( '', \%Opts );
+if ( $Opts{h} ) {
+    print "otrs.PendingJobs.pl - check pending tickets\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "usage: otrs.PendingJobs.pl\n";
+    exit 1;
+}
+
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.PendingJobs.pl',
     },
 );
 
-# check args
-my $Command = shift || '--help';
-print "otrs.PendingJobs.pl - check pending tickets\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+# get state object
+my $StateObject = $Kernel::OM->Get('Kernel::System::State');
 
-my @PendingAutoStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+my @PendingAutoStateIDs = $StateObject->StateGetStatesByType(
     Type   => 'PendingAuto',
     Result => 'ID',
 );
@@ -52,26 +62,29 @@ if ( !@PendingAutoStateIDs ) {
     exit 0;
 }
 
+# get ticket object
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
 # do ticket auto jobs
-my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+my @TicketIDs = $TicketObject->TicketSearch(
     Result   => 'ARRAY',
     StateIDs => [@PendingAutoStateIDs],
     UserID   => 1,
 );
 
+my %States = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StateAfterPending') };
+
 TICKETID:
 for my $TicketID (@TicketIDs) {
 
     # get ticket data
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         UserID        => 1,
         DynamicFields => 0,
     );
 
     next TICKETID if $Ticket{UntilTime} >= 1;
-
-    my %States = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::StateAfterPending') };
 
     # error handling
     if ( !$States{ $Ticket{State} } ) {
@@ -84,7 +97,7 @@ for my $TicketID (@TicketIDs) {
         " Update ticket state for ticket $Ticket{TicketNumber} ($TicketID) to '$States{$Ticket{State}}'...";
 
     # set new state
-    my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->StateSet(
+    my $Success = $TicketObject->StateSet(
         TicketID => $TicketID,
         State    => $States{ $Ticket{State} },
         UserID   => 1,
@@ -97,13 +110,13 @@ for my $TicketID (@TicketIDs) {
     }
 
     # get state type for new state
-    my %State = $Kernel::OM->Get('Kernel::System::State')->StateGet(
+    my %State = $StateObject->StateGet(
         Name => $States{ $Ticket{State} },
     );
     if ( $State{TypeName} eq 'closed' ) {
 
         # set new ticket lock
-        $Kernel::OM->Get('Kernel::System::Ticket')->LockSet(
+        $TicketObject->LockSet(
             TicketID     => $TicketID,
             Lock         => 'unlock',
             UserID       => 1,
@@ -114,7 +127,7 @@ for my $TicketID (@TicketIDs) {
 }
 
 # do ticket reminder notification jobs
-@TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+@TicketIDs = $TicketObject->TicketSearch(
     Result    => 'ARRAY',
     StateType => 'pending reminder',
     UserID    => 1,
@@ -124,7 +137,7 @@ TICKETID:
 for my $TicketID (@TicketIDs) {
 
     # get ticket data
-    my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         UserID        => 1,
         DynamicFields => 0,
@@ -133,7 +146,7 @@ for my $TicketID (@TicketIDs) {
     next TICKETID if $Ticket{UntilTime} >= 1;
 
     # get used calendar
-    my $Calendar = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCalendarGet(
+    my $Calendar = $TicketObject->TicketCalendarGet(
         %Ticket,
     );
 
@@ -161,7 +174,7 @@ for my $TicketID (@TicketIDs) {
 
     # send the reminder to all queue subscribers and owner, if ticket is unlocked
     else {
-        @UserID = $Kernel::OM->Get('Kernel::System::Ticket')->GetSubscribedUserIDsByQueueID(
+        @UserID = $TicketObject->GetSubscribedUserIDsByQueueID(
             QueueID => $Ticket{QueueID},
         );
         push @UserID, $Ticket{OwnerID};
@@ -200,7 +213,7 @@ for my $TicketID (@TicketIDs) {
             );
 
         # get ticket history
-        my @Lines = $Kernel::OM->Get('Kernel::System::Ticket')->HistoryGet(
+        my @Lines = $TicketObject->HistoryGet(
             TicketID => $Ticket{TicketID},
             UserID   => 1,
         );
@@ -220,7 +233,7 @@ for my $TicketID (@TicketIDs) {
         next USERID if $Sent;
 
         # send agent notification
-        $Kernel::OM->Get('Kernel::System::Ticket')->SendAgentNotification(
+        $TicketObject->SendAgentNotification(
             TicketID              => $Ticket{TicketID},
             Type                  => 'PendingReminder',
             RecipientID           => $UserID,
@@ -232,4 +245,4 @@ for my $TicketID (@TicketIDs) {
     }
 }
 
-exit;
+exit 0;

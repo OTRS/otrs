@@ -38,7 +38,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'hqtd', \%Opts );
+getopt( 'qtd', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PostMaster.pl - OTRS cmd postmaster\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -56,7 +56,7 @@ if ( !$Opts{q} ) {
     $Opts{q} = '';
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.PostMaster.pl',

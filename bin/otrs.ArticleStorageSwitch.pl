@@ -35,7 +35,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'hsdcCb', \%Opts );
+getopt( 'sdcCb', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.ArticleStorageSwitch.pl - to move storage content\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -72,7 +72,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 # disable cache
 $Kernel::OM->Get('Kernel::System::Cache')->Configure(
     CacheInMemory  => 0,
-    CacheInBackend => 0,
+    CacheInBackend => 1,
 );
 
 # disable ticket events

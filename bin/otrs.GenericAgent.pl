@@ -35,17 +35,21 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 
 # get options
-my %Opts = ();
-getopt( 'fcdlb', \%Opts );
+my %Opts;
+getopt( 'clbs', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.GenericAgent.pl - OTRS generic agent\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
-    print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
-    print "[-l <limit>] [-f force]\n";
-    print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
+    print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d debug] ";
+    print "[-l <limit>] [-f force] [-s sleeptime per ticket in microseconds]\n";
+    print "usage: otrs.GenericAgent.pl [-c db] [-d debug] [-l <limit>] ";
     print "[-b <BACKGROUND_INTERVAL_IN_MIN> (note: only 10,20,30,40,50,60,... minutes make ";
-    print "sense)] [-f force]\n";
-    print "Use -d for debug mode.\n";
+    print "sense)] [-f force] [-s sleeptime per ticket in microseconds]\n";
+    exit 1;
+}
+
+if ( $Opts{s} && $Opts{s} !~ m{ \A \d+ \z }xms ) {
+    print STDERR "ERROR: sleeptime needs to be a numeric value! e.g. 1000\n";
     exit 1;
 }
 
@@ -62,6 +66,7 @@ if ( !$Opts{l} ) {
 # set generic agent uid
 my $UserIDOfGenericAgent = 1;
 
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GenericAgent.pl',
@@ -70,6 +75,12 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
         NoticeSTDOUT => 1,
         Debug        => $Opts{d},
     },
+);
+
+# disable cache
+$Kernel::OM->Get('Kernel::System::Cache')->Configure(
+    CacheInMemory  => 0,
+    CacheInBackend => 1,
 );
 
 # get generic agent config (job file)
@@ -141,7 +152,8 @@ while (1) {
 
 # delete pid lock
 $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => $JobName );
-exit(0);
+
+exit 0;
 
 sub ExecuteConfigJobs {
 
@@ -161,6 +173,7 @@ sub ExecuteDBJobs {
 
     # process all jobs
     my %DBJobs = $Kernel::OM->Get('Kernel::System::GenericAgent')->JobList();
+
     DBJOB:
     for my $DBJob ( sort keys %DBJobs ) {
 
@@ -234,9 +247,10 @@ sub ExecuteDBJobs {
 
         # log event
         $Kernel::OM->Get('Kernel::System::GenericAgent')->JobRun(
-            Job    => $DBJob,
-            Limit  => $Opts{l},
-            UserID => $UserIDOfGenericAgent,
+            Job       => $DBJob,
+            Limit     => $Opts{l},
+            SleepTime => $Opts{s},
+            UserID    => $UserIDOfGenericAgent,
         );
     }
 }

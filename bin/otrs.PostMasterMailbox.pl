@@ -34,8 +34,8 @@ use Kernel::System::MailAccount;
 use Kernel::System::ObjectManager;
 
 # get options
-my %Opts = ();
-getopt( 'upshdftb', \%Opts );
+my %Opts;
+getopt( 'upsdtb', \%Opts );
 if ( $Opts{h} ) {
     print "PostMasterMailbox.pl - Fetch mail accounts for OTRS\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -56,7 +56,7 @@ if ( $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
     exit 1;
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.PostMasterMailbox.pl',

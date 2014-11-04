@@ -32,7 +32,7 @@ use Getopt::Long;
 
 use Kernel::System::ObjectManager;
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.TicketDelete.pl',
@@ -40,9 +40,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 my $Help            = '';
-my @TicketNumbers   = ();
-my @TicketIDs       = ();
-my @DeleteTicketIDs = ();
+my @TicketNumbers  ;
+my @TicketIDs      ;
+my @DeleteTicketIDs;
 
 GetOptions(
     'help'              => \$Help,
@@ -126,7 +126,7 @@ else {
     exit 1;
 }
 
-exit(0);
+exit 0;
 
 sub DeleteTickets {
     my (%Params) = @_;

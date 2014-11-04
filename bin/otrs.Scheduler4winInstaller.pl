@@ -37,8 +37,8 @@ use Win32::Daemon;
 use Kernel::System::ObjectManager;
 
 # get options
-my %Opts = ();
-getopt( 'ha', \%Opts );
+my %Opts;
+getopt( 'a', \%Opts );
 
 BEGIN {
 

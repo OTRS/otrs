@@ -76,8 +76,8 @@ sub Run {
     );
 
     # get options
-    my %Opts = ();
-    getopt( 'hqugtramcf', \%Opts );
+    my %Opts;
+    getopt( 'qugtramcf', \%Opts );
 
     if ( $Opts{h} ) {
         print <<EOF;
@@ -163,7 +163,7 @@ EOF
     my $Counter = 1;
 
     # create tickets
-    my @TicketIDs = ();
+    my @TicketIDs;
     for ( 1 .. $Opts{'t'} ) {
         my $TicketUserID =
 
@@ -288,7 +288,7 @@ EOF
             QueueID => 1,
             UserID  => 1,
         );
-        my @StateList = ();
+        my @StateList;
         for ( sort keys %States ) {
             push( @StateList, $_ );
         }
@@ -296,7 +296,7 @@ EOF
             QueueID => 1,
             UserID  => 1,
         );
-        my @PriorityList = ();
+        my @PriorityList;
         for ( sort keys %Priorities ) {
             push( @PriorityList, $_ );
         }
@@ -311,7 +311,7 @@ EOF
             my @Files = glob $Kernel::OM->Get('Kernel::Config')->Get('Home')
                 . '/scripts/test/sample/PostMaster/PostMaster-Test*.box';
             my $File    = $Files[ int( rand( $#Files + 1 ) ) ];
-            my @Content = ();
+            my @Content;
             my $Input;
             open( $Input, '<', $File ) || die $!;    ## no critic
 
@@ -506,7 +506,7 @@ sub RandomBody {
 }
 
 sub QueueGet {
-    my @QueueIDs = ();
+    my @QueueIDs;
     my %Queues   = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues();
     for ( sort keys %Queues ) {
         push @QueueIDs, $_;
@@ -518,7 +518,7 @@ sub QueueCreate {
     my $Count = shift || return;
     my @GroupIDs = @{ shift() };
 
-    my @QueueIDs = ();
+    my @QueueIDs;
     for ( 1 .. $Count ) {
         my $Name = 'fill-up-queue' . int( rand(100_000_000) );
         my $ID   = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
@@ -547,7 +547,7 @@ sub QueueCreate {
 }
 
 sub GroupGet {
-    my @GroupIDs = ();
+    my @GroupIDs;
     my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupList( Valid => 1 );
     for ( sort keys %Groups ) {
         push @GroupIDs, $_;
@@ -558,7 +558,7 @@ sub GroupGet {
 sub GroupCreate {
     my $Count = shift || return;
 
-    my @GroupIDs = ();
+    my @GroupIDs;
     for ( 1 .. $Count ) {
         my $Name = 'fill-up-group' . int( rand(100_000_000) );
         my $ID   = $Kernel::OM->Get('Kernel::System::Group')->GroupAdd(
@@ -590,7 +590,7 @@ sub GroupCreate {
 }
 
 sub UserGet {
-    my @UserIDs = ();
+    my @UserIDs;
     my %Users   = $Kernel::OM->Get('Kernel::System::User')->UserList(
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
@@ -605,7 +605,7 @@ sub UserCreate {
     my $Count = shift || return;
     my @GroupIDs = @{ shift() };
 
-    my @UserIDs = ();
+    my @UserIDs;
     for ( 1 .. $Count ) {
         my $Name = 'fill-up-user' . int( rand(100_000_000) );
         my $ID   = $Kernel::OM->Get('Kernel::System::User')->UserAdd(

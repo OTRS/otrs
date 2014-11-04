@@ -1,4 +1,5 @@
 #4.0.0.? ????-??-??
+ - 2014-11-04 Added the possibility to define a sleeptime to a lot of .pl scripts.
  - 2014-11-04 Fixed bug#[10838](http://bugs.otrs.org/show_bug.cgi?id=10838) - Adding types with same name in AdminType leads to SQL error message.
  - 2014-11-03 Fixed bug#[10799](http://bugs.otrs.org/show_bug.cgi?id=10799) - AgentTicketFreeText displays Service on top of queue.
  - 2014-11-03 Fixed bug#[10842](http://bugs.otrs.org/show_bug.cgi?id=10842) - Customers missing when searching..

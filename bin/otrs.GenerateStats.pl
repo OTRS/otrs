@@ -32,7 +32,7 @@ use Getopt::Long;
 
 use Kernel::System::ObjectManager;
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GenerateStats.pl',
@@ -44,7 +44,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 
 # get options
 Getopt::Long::Configure('no_ignore_case');
-my %Opts = ();
+my %Opts;
 GetOptions(
     'number|n=n'     => \$Opts{n},
     'param|p=s'      => \$Opts{p},
@@ -141,7 +141,7 @@ my ( $s, $m, $h, $D, $M, $Y ) =
     SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
     );
 
-my %GetParam = ();
+my %GetParam;
 my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $StatID );
 
 if ( $Stat->{StatType} eq 'static' ) {
