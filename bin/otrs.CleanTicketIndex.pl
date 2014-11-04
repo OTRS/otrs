@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'hsdcCb', \%Opts );
+getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.CleanTicketIndex.pl - clean static index\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -42,9 +42,10 @@ if ( $Opts{h} ) {
     exit 1;
 }
 
-# common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
+        LogPrefix => 'otrs.CleanTicketIndex.pl',
     },
 );
 
