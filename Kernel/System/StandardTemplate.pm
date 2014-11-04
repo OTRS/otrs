@@ -80,7 +80,7 @@ sub StandardTemplateAdd {
         }
     }
 
-    # check if a standard template with this name already exits
+    # check if a standard template with this name already exists
     if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -266,7 +266,7 @@ sub StandardTemplateUpdate {
         }
     }
 
-    # check if a standard template with this name already exits
+    # check if a standard template with this name already exists
     if ( $Self->NameExistsCheck( Name => $Param{Name}, ID => $Param{ID} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -457,7 +457,7 @@ sub StandardTemplateList {
 
 =item NameExistsCheck()
 
-    return 1 if another standard template with this name already exits
+    return 1 if another standard template with this name already exists
 
         $Exist = $StandardTemplateObject->NameExistsCheck(
             Name => 'Some::Template',
