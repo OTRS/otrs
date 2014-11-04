@@ -226,7 +226,8 @@ $Self->True(
     'TypeList() - all types',
 );
 
-# delete created type
+# Since there are no tickets that rely on our test types, we can remove them again
+#   from the DB.
 for my $ID (@IDs) {
     my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => "DELETE FROM ticket_type WHERE id = $ID",
@@ -237,7 +238,7 @@ for my $ID (@IDs) {
     );
 }
 
-# reset cache
+# Make sure the cache is correct.
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
     Type => 'Type',
 );
