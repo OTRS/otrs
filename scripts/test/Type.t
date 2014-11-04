@@ -14,6 +14,7 @@ use utf8;
 use vars (qw($Self));
 
 use Kernel::System::ObjectManager;
+my @IDs;
 
 # get needed objects
 my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
@@ -30,6 +31,20 @@ my $TypeID = $TypeObject->TypeAdd(
 $Self->True(
     $TypeID,
     'TypeAdd()',
+);
+
+push( @IDs, $TypeID );
+
+# add type with existing name
+my $TypeIDWrong = $TypeObject->TypeAdd(
+    Name    => $TypeNameRand0,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->False(
+    $TypeIDWrong,
+    'TypeAdd( - Try to add type with existing name',
 );
 
 # get the type by using the type id
@@ -110,6 +125,80 @@ $Self->Is(
     'TypeLookup() - Type',
 );
 
+# add another type
+my $TypeSecondName = $TypeNameRand0 . '2';
+my $TypeIDSecond   = $TypeObject->TypeAdd(
+    Name    => $TypeSecondName,
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->True(
+    $TypeIDSecond,
+    "TypeAdd() - Name: \'$TypeSecondName\' ID: \'$TypeIDSecond\'",
+);
+
+push( @IDs, $TypeIDSecond );
+
+# update with existing name
+my $TypeUpdateWrong = $TypeObject->TypeUpdate(
+    ID      => $TypeIDSecond,
+    Name    => $TypeNameRand0 . '1',
+    ValidID => 1,
+    UserID  => 1,
+);
+
+$Self->False(
+    $TypeUpdateWrong,
+    "TypeUpdate() - Try to update the type with existing name",
+);
+
+# check function NameExistsCheck()
+# check does it exist a type with certain Name or
+# check is it possible to set Name for type with certain ID
+my $Exist = $TypeObject->NameExistsCheck(
+    Name => $TypeSecondName,
+);
+$Self->True(
+    $Exist,
+    "NameExistsCheck() - A type with \'$TypeSecondName\' already exists!",
+);
+
+# there is a type with certain name, now check if there is another one
+$Exist = $TypeObject->NameExistsCheck(
+    Name => $TypeSecondName,
+    ID   => $TypeIDSecond,
+);
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - Another type \'$TypeSecondName\' for ID=$TypeIDSecond does not exists!",
+);
+$Exist = $TypeObject->NameExistsCheck(
+    Name => $TypeSecondName,
+    ID   => $TypeID,
+);
+$Self->True(
+    $Exist,
+    "NameExistsCheck() - Another type \'$TypeSecondName\' for ID=$TypeID already exists!",
+);
+
+# check is there a type whose name has been updated in the meantime
+$Exist = $TypeObject->NameExistsCheck(
+    Name => $TypeNameRand0,
+);
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - A type with \'$TypeNameRand0\' does not exists!",
+);
+$Exist = $TypeObject->NameExistsCheck(
+    Name => $TypeNameRand0,
+    ID   => $TypeID,
+);
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - Another type \'$TypeNameRand0\' for ID=$TypeID does not exists!",
+);
+
 # perform 2 different TypeLists to check the caching
 my %TypeListValid = $TypeObject->TypeList( Valid => 1 );
 
@@ -136,5 +225,16 @@ $Self->True(
     $Hit,
     'TypeList() - all types',
 );
+
+# delete created type
+for my $ID (@IDs) {
+    my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM ticket_type WHERE id = $ID",
+    );
+    $Self->True(
+        $Success,
+        "TypeDelete() - $ID",
+    );
+}
 
 1;
