@@ -58,7 +58,7 @@ sub Run {
         'invalid-users|i' => \$Opts{InvalidUsers},
         'help|h'          => \$Opts{h},
         'break|b=s'       => \$Opts{b},
-    ) or die 'Invalid argument';
+    ) || die 'Invalid argument';
 
     if ( $Opts{h} || ( !$Opts{Archived} && !$Opts{InvalidUsers} ) ) {
         print <<EOF;
@@ -354,7 +354,8 @@ sub CleanupInvalidUsers {
                     UserID      => 1,
                 );
 
-                print "    Removing ticket watcher entries of ticket $Count for user $User{UserLogin}\n";
+                print
+                    "    Removing ticket watcher entries of ticket $Count for user $User{UserLogin}\n";
 
                 next ROW if !$Param{b};
 
