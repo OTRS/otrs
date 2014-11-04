@@ -50,19 +50,18 @@ sub new {
     $Self->{PrefKeyColumnFiltersRealKeys}
         = 'UserDashboardTicketGenericColumnFiltersRealKeys' . $Self->{Name};
 
-    # get JSON object
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
-
-    # get config object
+    # get needed objects
+    my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
     if ($RemoveFilters) {
-        $Self->{UserObject}->SetPreferences(
+        $UserObject->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Self->{PrefKeyColumnFilters},
             Value  => '',
         );
-        $Self->{UserObject}->SetPreferences(
+        $UserObject->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Self->{PrefKeyColumnFiltersRealKeys},
             Value  => '',
@@ -80,7 +79,7 @@ sub new {
         if ( !$ConfigObject->Get('DemoSystem') ) {
 
             # check if the user has filter preferences for this widget
-            my %Preferences = $Self->{UserObject}->GetPreferences(
+            my %Preferences = $UserObject->GetPreferences(
                 UserID => $Self->{UserID},
             );
             my $ColumnPrefValues;
@@ -99,7 +98,7 @@ sub new {
                 $ColumnPrefValues->{$Column} = $Self->{GetColumnFilterSelect}->{$Column};
             }
 
-            $Self->{UserObject}->SetPreferences(
+            $UserObject->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $Self->{PrefKeyColumnFilters},
                 Value  => $JSONObject->Encode( Data => $ColumnPrefValues ),
@@ -140,7 +139,7 @@ sub new {
                 }
                 $ColumnPrefRealKeysValues->{$Column} = $Self->{ColumnFilter}->{$Column};
             }
-            $Self->{UserObject}->SetPreferences(
+            $UserObject->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $Self->{PrefKeyColumnFiltersRealKeys},
                 Value  => $JSONObject->Encode( Data => $ColumnPrefRealKeysValues ),
@@ -150,7 +149,7 @@ sub new {
     }
 
     # check if the user has filter preferences for this widget
-    my %Preferences = $Self->{UserObject}->GetPreferences(
+    my %Preferences = $UserObject->GetPreferences(
         UserID => $Self->{UserID},
     );
 
@@ -197,7 +196,7 @@ sub new {
     if ( $Self->{Filter} ) {
 
         # update session
-        $Self->{SessionObject}->UpdateSessionID(
+        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $PreferencesKey,
             Value     => $Self->{Filter},
@@ -205,7 +204,7 @@ sub new {
 
         # update preferences
         if ( !$ConfigObject->Get('DemoSystem') ) {
-            $Self->{UserObject}->SetPreferences(
+            $UserObject->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $PreferencesKey,
                 Value  => $Self->{Filter},
@@ -317,8 +316,7 @@ sub Preferences {
             keys %{ $Self->{Config}->{DefaultColumns} };
     }
 
-    # check if the user has filter preferences for this widget
-    my %Preferences = $Self->{UserObject}->GetPreferences(
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
         UserID => $Self->{UserID},
     );
 
@@ -528,8 +526,11 @@ sub Run {
         $CacheKey .= '-' . $Param{CustomerID};
     }
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # check cache
-    my $TicketIDs = $Self->{CacheObject}->Get(
+    my $TicketIDs = $CacheObject->Get(
         Type => 'Dashboard',
         Key  => $CacheKey . '-' . $Self->{Filter} . '-List',
     );
@@ -594,7 +595,7 @@ sub Run {
     }
 
     # check cache
-    my $Summary = $Self->{CacheObject}->Get(
+    my $Summary = $CacheObject->Get(
         Type => 'Dashboard',
         Key  => $CacheKey . '-Summary',
     );
@@ -645,13 +646,13 @@ sub Run {
 
     # set cache
     if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Dashboard',
             Key   => $CacheKey . '-Summary',
             Value => $Summary,
             TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Dashboard',
             Key   => $CacheKey . '-' . $Self->{Filter} . '-List',
             Value => $TicketIDs,
@@ -1341,8 +1342,9 @@ sub Run {
         # save column content
         my $DataValue;
 
-        # get dynamic field backend object
+        # get needed objects
         my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+        my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
 
         # show all needed columns
         COLUMN:
@@ -1463,7 +1465,7 @@ sub Run {
                 elsif ( $Column eq 'Owner' ) {
 
                     # get owner info
-                    my %OwnerInfo = $Self->{UserObject}->GetUserData(
+                    my %OwnerInfo = $UserObject->GetUserData(
                         UserID => $Ticket{OwnerID},
                     );
                     $DataValue = $OwnerInfo{'UserFirstname'} . ' ' . $OwnerInfo{'UserLastname'};
@@ -1471,7 +1473,7 @@ sub Run {
                 elsif ( $Column eq 'Responsible' ) {
 
                     # get responsible info
-                    my %ResponsibleInfo = $Self->{UserObject}->GetUserData(
+                    my %ResponsibleInfo = $UserObject->GetUserData(
                         UserID => $Ticket{ResponsibleID},
                     );
                     $DataValue
@@ -1871,7 +1873,7 @@ sub _SearchParamsGet {
     # read user preferences and config to get columns that
     # should be shown in the dashboard widget (the preferences
     # have precedence)
-    my %Preferences = $Self->{UserObject}->GetPreferences(
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
         UserID => $Self->{UserID},
     );
 
@@ -1982,6 +1984,9 @@ sub _SearchParamsGet {
         }
     }
 
+    # get queue object
+    my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
+
     STRING:
     for my $String (@Params) {
         next STRING if !$String;
@@ -2054,7 +2059,7 @@ sub _SearchParamsGet {
     }
 
     # define filter attributes
-    my @MyQueues = $Self->{QueueObject}->GetAllCustomQueues(
+    my @MyQueues = $QueueObject->GetAllCustomQueues(
         UserID => $Self->{UserID},
     );
     if ( !@MyQueues ) {
@@ -2062,7 +2067,7 @@ sub _SearchParamsGet {
     }
 
     # get all queues the agent is allowed to see (for my services)
-    my %ViewableQueues = $Self->{QueueObject}->GetAllQueues(
+    my %ViewableQueues = $QueueObject->GetAllQueues(
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
