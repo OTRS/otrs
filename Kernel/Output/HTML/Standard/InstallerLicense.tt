@@ -18,12 +18,17 @@
 [% InsertTemplate("InstallerLicenseText.tt") %]
 
             <div id="InstallerContinueWithJS" class="SpacingTop Right">
+                <form action="[% Env("CGIHandle") %]" method="post" class="SpacingTop PreventMultipleSubmits"">
+                    <button type="submit" class="CallForAction" value="[% Translate("Don't accept license") | html %]">
+                        <span>[% Translate("Don't accept license") | html %]</span>
+                    </button>
+                </form>
+                [% Translate("or") | html %]
                 <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
                     <input type="hidden" name="Subaction" value="Start">
-                    <button class="Primary" type="submit" value="[% Translate("Accept license") | html %]">[% Translate("Accept license") | html %]</button>
-                </form>
-                <form action="[% Env("CGIHandle") %]" method="post" class="SpacingTop PreventMultipleSubmits"">
-                    <button type="submit" value="[% Translate("Don't accept license") | html %]">[% Translate("Don't accept license") | html %]</button>
+                    <button class="Primary CallForAction" type="submit" value="[% Translate("Accept license and continue") | html %]">
+                        <span>[% Translate("Accept license and continue") | html %]</span>
+                    </button>
                 </form>
             </div>
         </div>

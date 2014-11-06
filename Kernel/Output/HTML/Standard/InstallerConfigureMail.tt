@@ -141,11 +141,13 @@
                     <div class="Clear"></div>
 
                 </fieldset>
-            </div>
 
-            <div id="InstallerContinueWithJS" class="Spacing Right">
-                <button class="Primary" type="button" id="ButtonCheckMail"  value="[% Translate("Check mail configuration") | html %]">[% Translate("Check mail configuration") | html %]</button>
-                <button type="button" id="ButtonSkipMail" value="[% Translate("Skip this step") | html %]">[% Translate("Skip this step") | html %]</button>
+                <div id="InstallerContinueWithJS" class="SpacingTop Right">
+                    <button class="Primary CallForAction" type="button" id="ButtonCheckMail" value="[% Translate("Check mail configuration") | html %]"><span>[% Translate("Check mail configuration") | html %]</span></button>
+                    [% Translate("or") | html %]
+                    <button type="button" id="ButtonSkipMail" class="CallForAction" value="[% Translate("Skip this step") | html %]"><span>[% Translate("Skip this step") | html %]</span></button>
+                </div>
+
             </div>
         </div>
     </form>

@@ -15,6 +15,10 @@
     display: none;
 }
 
+#InstallerContinueWithJS form {
+    display: inline;
+}
+
 div.License {
    font-family: monospace;
    white-space: pre;
