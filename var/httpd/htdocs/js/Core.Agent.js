@@ -150,6 +150,9 @@ Core.Agent = (function (TargetNS) {
                     $Target = $(Event.target);
                 if ($Element.hasClass('Active')) {
                     $Element.removeClass('Active').attr('aria-expanded', false);
+
+                    // restore initial container height
+                    $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
                 }
                 else {
                     $Element.addClass('Active').attr('aria-expanded', true)
