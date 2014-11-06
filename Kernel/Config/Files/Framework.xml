@@ -12,11 +12,22 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::DebugMode" Required="0" Valid="1" ConfigLevel="100">
-        <Description Translatable="1">Enables or disable the debug mode over frontend interface.</Description>
+        <Description Translatable="1">Enables or disables the debug mode over frontend interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::TemplateCache" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
