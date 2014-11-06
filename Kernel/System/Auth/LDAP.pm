@@ -205,7 +205,7 @@ sub Auth {
     $Result = $LDAP->search(
         base   => $Self->{BaseDN},
         filter => $Filter,
-        attrs  => ['1.1'],
+        attrs  => [ $Self->{UID} ],
     );
     if ( $Result->code() ) {
         $Self->{LogObject}->Log(
@@ -219,12 +219,14 @@ sub Auth {
 
     # get whole user dn
     my $UserDN = '';
+    my $User   = '';
     for my $Entry ( $Result->all_entries() ) {
         $UserDN = $Entry->dn();
+        $User   = $Entry->get_value( $Self->{UID} );
     }
 
     # log if there is no LDAP user entry
-    if ( !$UserDN ) {
+    if ( !$UserDN || !$User ) {
 
         # failed login note
         $Self->{LogObject}->Log(
@@ -341,7 +343,7 @@ sub Auth {
     # take down session
     $LDAP->unbind();
     $LDAP->disconnect();
-    return $Param{User};
+    return $User;
 }
 
 sub _ConvertTo {
