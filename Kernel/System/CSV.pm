@@ -113,24 +113,27 @@ sub Array2CSV {
             num_format => '@',
         );
 
-        # Prevent Excel from auto-formatting ticket numbers as real numbers
-        my $NumberFormat = $Workbook->add_format( num_format => '#', );
-
         # We will try to determine the appropriate length for each column.
         my @ColumnLengths;
         my $Row = 0;
         for my $DataRaw ( \@Head, @Data ) {
-            for my $Col ( 0 .. ( scalar @{$DataRaw // []} ) - 1 ) {
+            for my $Col ( 0 .. ( scalar @{ $DataRaw // [] } ) - 1 ) {
                 my $CellLength = length( $DataRaw->[$Col] );
                 $CellLength = 30 if ( $CellLength > 30 );
                 if ( !defined $ColumnLengths[$Col] || $ColumnLengths[$Col] < $CellLength ) {
                     $ColumnLengths[$Col] = $CellLength;
                 }
                 if ( $Row == 0 && @Head ) {
+                    # Format header nicely if present.
                     $Worksheet->write( $Row, $Col, "$DataRaw->[$Col]", $HeaderFormat );
                 }
                 else {
-                    $Worksheet->write( $Row, $Col, "$DataRaw->[$Col]", $NumberFormat );
+                    # There are major problems with data recognition in Excel. OTRS
+                    #   ticket numbers will be recognized as numbers, but they are so big that
+                    #   Excel will (incorrectly) round them. Prevent this by using write_string()
+                    #   to protect the data. This might trigger formatting notifications in Excel,
+                    #   but these can be turned off.
+                    $Worksheet->write_string( $Row, $Col, "$DataRaw->[$Col]" );
                 }
             }
             $Row++;
