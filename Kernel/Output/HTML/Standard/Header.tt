@@ -117,9 +117,11 @@ if ($('#ToolBar li.ChatRequests').length) {
             Data,
             function(Response) {
 
-                if (Response) {
+                var JSON = Core.JSON.Parse(Response);
 
-                    if (parseInt(Response.IsDnD, 10) === 1) {
+                if ( JSON && typeof JSON === 'object' && JSON.Count ) {
+
+                    if (parseInt(JSON.IsDnD, 10) === 1) {
                         $('.ChatRequests').fadeIn(function() {
                                 $(this).removeClass('Hidden');
                             })
@@ -139,7 +141,7 @@ if ($('#ToolBar li.ChatRequests').length) {
 
                     if (!$('.ChatRequests').hasClass('DnD')) {
 
-                        if (parseInt(Response.Count, 10) < 1) {
+                        if (parseInt(JSON.Count, 10) < 1) {
                             $('.ChatRequests').fadeOut(function() {
                                 $(this).addClass('Hidden');
                             });
@@ -150,10 +152,10 @@ if ($('#ToolBar li.ChatRequests').length) {
                             });
                         }
                     }
-                    $('.ChatRequests').find('.Counter').text(Response.Count);
+                    $('.ChatRequests').find('.Counter').text(JSON.Count);
                 }
             },
-            'json'
+            'text'
         );
 
     }, 10000);
