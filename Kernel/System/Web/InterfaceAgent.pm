@@ -531,6 +531,7 @@ sub Run {
             Output => \$LayoutObject->Login(
                 Title   => 'Logout',
                 Message => $LogoutMessage,
+                IsLogout => 1,
                 %Param,
             ),
         );

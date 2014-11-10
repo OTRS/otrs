@@ -15,7 +15,7 @@ X-OTRS-Login: [% Env("Baselink") %]
 <!-- start login -->
 <div id="MainBox" class="Login ARIARoleMain">
 [% RenderBlockStart("Message") %]
-    <div class="ErrorBox"><span>[% Data.Message | html %]</span></div>
+    <div class="[% IF Data.IsLogout %]SuccessBox[% ELSE %]ErrorBox[% END %]"><span>[% Data.Message | html %]</span></div>
 [% RenderBlockEnd("Message") %]
     <noscript>
     <div id="NoJavaScript">

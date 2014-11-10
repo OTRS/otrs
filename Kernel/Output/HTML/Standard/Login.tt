@@ -168,8 +168,8 @@ X-OTRS-Login: [% Env("Baselink") %]
 
 [% RenderBlockStart("LoginBox") %]
             <div id="LoginBox">
-                <p class="Error Center Spacing">
-                        [% Data.Message | html %]
+                <p class="[% IF !Data.IsLogout %]Error [% END %]Center Spacing">
+                    [% Data.Message | html %]
                 </p>
                 <div class="WidgetSimple">
                     <div class="Header">

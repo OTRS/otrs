@@ -196,22 +196,23 @@
  * @note        Error fields for forms
  */
 
-.ErrorBox {
-    display: block;
-    margin: -13px 136px 20px;
-    padding: 5px 8px 4px;
-    color: #FFF;
-    background: #D41111;
-    cursor: default;
-}
-
+.ErrorBox,
+.SuccessBox,
 .WarningBox {
     display: block;
     margin: -13px 136px 20px;
     padding: 5px 8px 4px;
+    cursor: default;
+}
+
+.ErrorBox {
+    color: #FFF;
+    background: #D41111;
+}
+
+.WarningBox {
     color: #555;
     background: #FFDD50;
-    cursor: default;
 }
 
 .WarningBox.WithIcon {
@@ -225,6 +226,10 @@
     top: 6px;
 }
 
+.SuccessBox {
+    color: #FFF;
+    background: #08A503;
+}
 
 /**
  * @subsection  Login Content

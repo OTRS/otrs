@@ -510,6 +510,7 @@ sub Run {
             Output => \$LayoutObject->CustomerLogin(
                 Title   => 'Logout',
                 Message => $LogoutMessage,
+                IsLogout => 1,
                 %Param,
             ),
         );
