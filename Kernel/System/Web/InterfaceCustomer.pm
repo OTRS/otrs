@@ -508,9 +508,9 @@ sub Run {
 
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
-                Title   => 'Logout',
-                Message => $LogoutMessage,
-                IsLogout => 1,
+                Title       => 'Logout',
+                Message     => $LogoutMessage,
+                MessageType => 'Logout',
                 %Param,
             ),
         );
