@@ -73,6 +73,7 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#SetArticleFilter').bind('click', function (Event) {
+        $('#EventTypeFilterDialog').find('form').css('width', '500px');
         Core.UI.Dialog.ShowContentDialog($('#EventTypeFilterDialog'), [% Translate("Event Type Filter") | JSON %], '20px', 'Center', true, [
             {
                 Label: [% Translate("Apply") | JSON %],
