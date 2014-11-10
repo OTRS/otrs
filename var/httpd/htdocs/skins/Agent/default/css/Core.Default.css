@@ -615,6 +615,10 @@ span.ImportantArticles em {
     display: none;
 }
 
+span.ImportantArticles i {
+    color: #C10505;
+}
+
 /**
  * @subsection  Charts
  */
