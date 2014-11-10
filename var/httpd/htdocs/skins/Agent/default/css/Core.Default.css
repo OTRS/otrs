@@ -505,6 +505,7 @@ dd {
 .Flag.Small {
     width: 17px;
     height: 8px;
+    margin: 0px auto;
 }
 
 .Flag span {

@@ -41,15 +41,6 @@
     background: #FCB24B;
 }
 
-.DataTable tbody tr:hover td .Flag.Small,
-.TableSmall tbody tr:hover td .Flag.Small,
-.DataTable tbody tr:active td.Clickable .Flag.Small,
-.TableSmall tbody tr:active td.Clickable .Flag.Small {
-    border: 1px solid #999;
-    width: 15px;
-    height: 7px;
-}
-
 /**
  * @subsection  Generic table elements
  */
@@ -504,6 +495,7 @@ thead .headerSortDown a {
     display: block;
     position: relative;
     font-size: 14px;
+    width: 30px;
 }
 
 .TableSmall tbody td span.Direction i,
@@ -514,7 +506,8 @@ thead .headerSortDown a {
 .TableSmall tbody td span.Direction.Incoming .fa-long-arrow-left,
 .DataTable tbody td span.Direction.Incoming .fa-long-arrow-left {
     position: absolute;
-    left: 2px;
+    left: auto;
+    right: 4px;
     top: 4px;
     color: #000;
     font-size: 12px;
