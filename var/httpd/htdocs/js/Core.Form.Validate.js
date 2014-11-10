@@ -254,7 +254,7 @@ Core.Form.Validate = (function (TargetNS) {
         // JS takes new lines '\n\r' in textarea elements as 1 character '\n' for length
         // calculation purposes therefore is needed to re-add the '\r' to get the correct length
         // for validation and match to perl and database criteria
-        return ( Value.replace(/\n\r?/g, "\n\r").length <= $(Element).attr('maxlength') );
+        return ( Value.replace(/\n\r?/g, "\n\r").length <= $(Element).data('maxlength') );
     }, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value, Element) {
