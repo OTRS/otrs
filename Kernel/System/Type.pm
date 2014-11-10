@@ -80,6 +80,15 @@ sub TypeAdd {
         }
     }
 
+    # check if a type with this name already exists
+    if ( $Self->NameExistsCheck( Name => $Param{Name} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A type with name '$Param{Name}' already exists!"
+        );
+        return;
+    }
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -249,6 +258,15 @@ sub TypeUpdate {
         }
     }
 
+    # check if a type with this name already exists
+    if ( $Self->NameExistsCheck( Name => $Param{Name}, ID => $Param{ID} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "A type with name '$Param{Name}' already exists!"
+        );
+        return;
+    }
+
     # sql
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE ticket_type SET name = ?, valid_id = ?, '
@@ -387,6 +405,39 @@ sub TypeLookup {
     return $ReturnData;
 }
 
+=item NameExistsCheck()
+
+    return 1 if another type with this name already exits
+
+        $Exist = $TypeObject->NameExistsCheck(
+            Name => 'Some::Template',
+            ID => 1, # optional
+        );
+
+=cut
+
+sub NameExistsCheck {
+    my ( $Self, %Param ) = @_;
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    return if !$DBObject->Prepare(
+        SQL  => 'SELECT id FROM ticket_type WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+
+    # fetch the result
+    my $Flag;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
+            $Flag = 1;
+        }
+    }
+    if ($Flag) {
+        return 1;
+    }
+    return 0;
+}
 1;
 
 =back

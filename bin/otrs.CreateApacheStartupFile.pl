@@ -43,7 +43,7 @@ EOF
 }
 
 {
-    # common objects
+    # create object manager
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.CreateApacheStartupFile.pl',

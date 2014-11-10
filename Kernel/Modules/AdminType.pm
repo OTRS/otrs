@@ -90,6 +90,16 @@ sub Run {
             );
         }
 
+        # check if a type exists with this name
+        my $NameExists
+            = $Self->{TypeObject}
+            ->NameExistsCheck( Name => $GetParam{Name}, ID => $GetParam{ID} );
+
+        if ($NameExists) {
+            $Errors{NameExists} = 1;
+            $Errors{'NameInvalid'} = 'ServerError';
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -168,6 +178,14 @@ sub Run {
             if ( !$GetParam{$Needed} ) {
                 $Errors{ $Needed . 'Invalid' } = 'ServerError';
             }
+        }
+
+        # check if a type exists with this name
+        my $NameExists
+            = $Self->{TypeObject}->NameExistsCheck( Name => $GetParam{Name} );
+        if ($NameExists) {
+            $Errors{NameExists} = 1;
+            $Errors{'NameInvalid'} = 'ServerError';
         }
 
         # if no errors occurred
@@ -264,6 +282,13 @@ sub _Edit {
         $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
     }
 
+    # show appropriate messages for ServerError
+    if ( defined $Param{Errors}->{NameExists} && $Param{Errors}->{NameExists} == 1 ) {
+        $Self->{LayoutObject}->Block( Name => 'ExistNameServerError' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'NameServerError' );
+    }
     return 1;
 }
 

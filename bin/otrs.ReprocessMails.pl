@@ -35,7 +35,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'h', \%Opts );
+getopt( '', \%Opts );
 if ( $Opts{'h'} ) {
     print "otrs.ReprocessMails.pl - reprocess mails from spool directory\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -43,7 +43,7 @@ if ( $Opts{'h'} ) {
     exit 1;
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.ReprocessMails.pl',

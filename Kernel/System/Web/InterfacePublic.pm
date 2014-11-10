@@ -75,9 +75,11 @@ sub new {
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
+
+        # Don't autoconnect as this would cause internal server errors on failure.
         'Kernel::System::DB' => {
             AutoConnectNo => 1,
-        }
+        },
     );
 
     $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
@@ -162,12 +164,19 @@ sub Run {
         },
     );
 
+    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBCanConnect = $Self->{DBObject}->Connect();
+
+    # Restore original behaviour of Kernel::System::DB for all objects created in future
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::DB' => {
+            AutoConnectNo => undef,
+        },
+    );
+
     # create common framework objects 2/3
     $Self->{LayoutObject} = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # check common objects
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-    my $DBCanConnect = $Self->{DBObject}->Connect();
     if ( !$DBCanConnect ) {
         $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
     }
@@ -184,16 +193,7 @@ sub Run {
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };
     for my $Key ( sort keys %CommonObject ) {
-        if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
-            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
-        }
-        else {
-
-            # print error
-            $Self->{LayoutObject}->CustomerFatalError(
-                Comment => 'Please contact your administrator',
-            );
-        }
+        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }
 
     # run modules if a version value exists

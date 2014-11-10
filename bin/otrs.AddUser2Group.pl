@@ -30,7 +30,7 @@ use lib dirname($RealBin) . '/Custom';
 
 use Kernel::System::ObjectManager;
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.AddUser2Group',
@@ -41,7 +41,7 @@ my %Param;
 my %Opts;
 
 use Getopt::Std;
-getopt( 'guph', \%Opts );
+getopt( 'gup', \%Opts );
 
 if ( $Opts{h} || !$Opts{g} || !$Opts{u} || !$Opts{p} ) {
     print STDERR

@@ -34,16 +34,15 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'htl', \%Opts );
+getopt( 'tl', \%Opts );
 if ( $Opts{h} || !$Opts{t} ) {
-    print
-        "otrs.GetTicketThread.pl - Prints out a ticket with all its articles.\n";
+    print "otrs.GetTicketThread.pl - Prints out a ticket with all its articles.\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.GetTicketThread.pl -t <TicketID> [-l article limit]\n";
     exit 1;
 }
 
-# common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.GetTicketThread.pl',

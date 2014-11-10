@@ -139,6 +139,8 @@
 [% Translate("Groups") | html %]
 [% Translate("Dynamic Fields") | html %]
 [% Translate("Dynamic Field Values") | html %]
+[% Translate("Invalid Dynamic Fields") | html %]
+[% Translate("Invalid Dynamic Field Values") | html %]
 [% Translate("GenericInterface Webservices") | html %]
 [% Translate("Processes") | html %]
 [% Translate("Months Between First And Last Ticket") | html %]
@@ -202,6 +204,9 @@
 # Webserver/Version.pm
 [% Translate("Webserver Version") | html %]
 [% Translate("Could not determine webserver version.") | html %]
+
+# Webserver/Apache/LoadedModules.pm
+[% Translate("Loaded Apache Modules") | html %]
 
 # Webserver/Apache/Performance.pm
 [% Translate("CGI Accelerator Usage") | html %]

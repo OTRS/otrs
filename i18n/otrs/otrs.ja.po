@@ -3,11 +3,12 @@
 # Kentaro Hori <kentaro0919@gmail.com>, 2014
 # Kozo Sakurai <sakurai@io-architect.com>, 2014
 # Makoto Miida, 2014
+# Makoto Miida, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-10-16 13:13+0000\n"
+"PO-Revision-Date: 2014-10-30 11:05+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2263,7 +2264,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Default Admin Password"
-msgstr ""
+msgstr "管理者のデフォルトパスワード"
 
 #. Template: AAASupportDataCollector
 msgid "Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account."
@@ -9114,10 +9115,6 @@ msgid "Change Queue"
 msgstr "キュー変更"
 
 #. Template: AgentTicketZoom
-msgid "Dialogs"
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
 msgstr ""
 
@@ -9203,10 +9200,6 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9576,10 +9569,6 @@ msgstr "直前のページに戻る"
 #. Template: Error
 msgid "Error Details"
 msgstr "エラー詳細"
-
-#. Template: Footer
-msgid "Top of page"
-msgstr "ページトップへ"
 
 #. Template: FooterJS
 msgid "If you now leave this page, all open popup windows will be closed, too!"
@@ -10730,6 +10719,10 @@ msgid "Define the max depth of queues."
 msgstr ""
 
 #. SysConfig
+msgid "Define the start day of the week for the date picker for the indicated calendar."
+msgstr ""
+
+#. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "日付ピッカーにおける週の開始曜日を設定します。"
 
@@ -11596,6 +11589,10 @@ msgstr ""
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
 msgstr "PDFファイルごとの最大ページ数を定義します。"
+
+#. SysConfig
+msgid "Defines the maximum number of quoted lines to be added to responses."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
@@ -14777,6 +14774,22 @@ msgstr "顧客インターフェイスの見出し"
 #. SysConfig
 msgid "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#."
 msgstr "例えばTicket#, Call#, MyTicket#などのチケットの識別子です。デフォルトはTicket#です。"
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
+msgstr ""
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."

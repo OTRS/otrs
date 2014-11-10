@@ -34,7 +34,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 Getopt::Long::Configure('no_ignore_case');
-my %Opts = ();
+my %Opts;
 GetOptions(
     'expired|e' => \$Opts{e},
     'all|a'     => \$Opts{a},

@@ -129,7 +129,7 @@
             <form action="[% Env("CGIHandle") %]" method="post" class="PreventMultipleSubmits">
                 <input type="hidden" name="Action" value="Installer">
                 <input type="hidden" name="Subaction" value="License">
-                <button class="Primary" type="submit">[% Translate("Next") | html %]</button>
+                <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
             </form>
         </div>
     </div>

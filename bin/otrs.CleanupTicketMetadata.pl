@@ -29,24 +29,36 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
 use Getopt::Long;
+use Time::HiRes qw(usleep);
 
 use Kernel::System::ObjectManager;
 
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.CleanupTicketMetadata.pl',
     },
 );
 
+# disable cache
+$Kernel::OM->Get('Kernel::System::Cache')->Configure(
+    CacheInMemory  => 0,
+    CacheInBackend => 1,
+);
+
+# disable ticket events
+$Kernel::OM->Get('Kernel::Config')->{'Ticket::EventModulePost'} = {};
+
 sub Run {
 
-    my %Opts = ();
+    my %Opts;
     Getopt::Long::Configure('no_ignore_case');
     GetOptions(
         'archived|a'      => \$Opts{Archived},
         'invalid-users|i' => \$Opts{InvalidUsers},
         'help|h'          => \$Opts{h},
-    );
+        'break|b=s'       => \$Opts{b},
+    ) || die 'Invalid argument';
 
     if ( $Opts{h} || ( !$Opts{Archived} && !$Opts{InvalidUsers} ) ) {
         print <<EOF;
@@ -55,13 +67,13 @@ Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 
 Usage:
 
-    otrs.CleanupTicketMetadata.pl --archived
+    otrs.CleanupTicketMetadata.pl --archived [-b sleeptime per ticket in microseconds]
 
     # Deletes ticket/article seen flags and ticket watcher entries for archived tickets.
     # This does not regularly need to be run as this data will automatically be removed
     #   when tickets are archived (depending on your system's configuration).
 
-    otrs.CleanupTicketMetadata.pl --invalid-users
+    otrs.CleanupTicketMetadata.pl --invalid-users [-b sleeptime per ticket in microseconds]
 
     # Deletes ticket/article seen flags and ticket watcher entries of users which have been
     #   invalid for more than a month. Run this to clean up this kind of data after invalidating
@@ -71,24 +83,31 @@ EOF
         exit 1;
     }
 
-    CleanupArchived()     if ( $Opts{Archived} );
-    CleanupInvalidUsers() if ( $Opts{InvalidUsers} );
+    if ( $Opts{b} && $Opts{b} !~ m{ \A \d+ \z }xms ) {
+        print STDERR "ERROR: sleeptime needs to be a numeric value! e.g. 1000\n";
+        exit 1;
+    }
+
+    CleanupArchived(%Opts)     if $Opts{Archived};
+    CleanupInvalidUsers(%Opts) if $Opts{InvalidUsers};
 }
 
 sub CleanupArchived {
-    my ( $Self, %Param ) = @_;
+    my (%Param) = @_;
 
-    # Refresh common objects after a certain number of loop iterations.
-    #   This will call event handlers and clean up caches to avoid excessive mem usage.
-    my $CommonObjectRefresh = 50;
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
+    if ( !$ConfigObject->Get('Ticket::ArchiveSystem') ) {
         print "Ticket::ArchiveSystem is not enabled!\n";
         return;
     }
 
-    my $DBObject = Kernel::System::DB->new();
-    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
+    # get needed objects
+    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    if ( $ConfigObject->Get('Ticket::ArchiveSystem::RemoveSeenFlags') ) {
 
         print "Checking for archived tickets with seen flags...\n";
 
@@ -104,19 +123,20 @@ sub CleanupArchived {
         );
 
         my $Count = 0;
-
+        ROW:
         while ( my @Row = $DBObject->FetchrowArray() ) {
 
-            $Kernel::OM->Get('Kernel::System::Ticket')->TicketFlagDelete(
+            $TicketObject->TicketFlagDelete(
                 TicketID => $Row[0],
                 Key      => 'Seen',
                 AllUsers => 1,
             );
 
-            if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "    Removing seen flags of ticket $Count\n";
-                $Kernel::OM->ObjectsDiscard();
-            }
+            print "    Removing seen flags of ticket $Count\n";
+
+            next ROW if !$Param{b};
+
+            Time::HiRes::usleep( $Param{b} );
         }
 
         print "Done (changed $Count tickets).\n";
@@ -135,28 +155,28 @@ sub CleanupArchived {
         );
 
         $Count = 0;
-
+        ROW:
         while ( my @Row = $DBObject->FetchrowArray() ) {
 
-            $Kernel::OM->Get('Kernel::System::Ticket')->ArticleFlagDelete(
+            $TicketObject->ArticleFlagDelete(
                 ArticleID => $Row[0],
                 Key       => 'Seen',
                 AllUsers  => 1,
             );
 
-            if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "    Removing seen flags of article $Count\n";
-                $Kernel::OM->ObjectsDiscard();
-            }
+            print "    Removing seen flags of article $Count\n";
 
+            next ROW if !$Param{b};
+
+            Time::HiRes::usleep( $Param{b} );
         }
-        print "Done (changed $Count articles).\n";
 
+        print "Done (changed $Count articles).\n";
     }
 
     if (
-        $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
-        && $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Watcher')
+        $ConfigObject->Get('Ticket::ArchiveSystem::RemoveTicketWatchers')
+        && $ConfigObject->Get('Ticket::Watcher')
         )
     {
 
@@ -173,32 +193,28 @@ sub CleanupArchived {
         );
 
         my $Count = 0;
-
+        ROW:
         while ( my @Row = $DBObject->FetchrowArray() ) {
 
-            $Kernel::OM->Get('Kernel::System::Ticket')->TicketWatchUnsubscribe(
+            $TicketObject->TicketWatchUnsubscribe(
                 TicketID => $Row[0],
                 AllUsers => 1,
                 UserID   => 1,
             );
 
-            if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "    Removing ticket watcher entries of ticket $Count\n";
-                $Kernel::OM->ObjectsDiscard();
-            }
+            print "    Removing ticket watcher entries of ticket $Count\n";
+
+            next ROW if !$Param{b};
+
+            Time::HiRes::usleep( $Param{b} );
         }
 
         print "Done (changed $Count tickets).\n";
-
     }
 }
 
 sub CleanupInvalidUsers {
-    my ( $Self, %Param ) = @_;
-
-    # Refresh common objects after a certain number of loop iterations.
-    #   This will call event handlers and clean up caches to avoid excessive mem usage.
-    my $CommonObjectRefresh = 50;
+    my (%Param) = @_;
 
     my $InvalidID = 2;
 
@@ -206,12 +222,18 @@ sub CleanupInvalidUsers {
     my $Offset        = 60 * 60 * 24 * 31;
     my $InvalidBefore = $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - $Offset;
 
+    # get user object
+    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # First, find all invalid users which are invalid for more than one month
-    my %AllUsers = $Kernel::OM->Get('Kernel::System::User')->UserList( Valid => 0 );
+    my %AllUsers = $UserObject->UserList( Valid => 0 );
     my @CleanupInvalidUsers;
     USERID:
     for my $UserID ( sort keys %AllUsers ) {
-        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $UserID );
+
+        my %User = $UserObject->GetUserData(
+            UserID => $UserID,
+        );
 
         # Only take invalid users
         next USERID if ( $User{ValidID} != $InvalidID );
@@ -220,6 +242,7 @@ sub CleanupInvalidUsers {
         my $InvalidTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
             String => $User{ChangeTime},
         );
+
         next USERID if ( $InvalidTime >= $InvalidBefore );
 
         push @CleanupInvalidUsers, $UserID;
@@ -232,10 +255,16 @@ sub CleanupInvalidUsers {
 
     print "Cleanup for " . ( scalar @CleanupInvalidUsers ) . " starting...";
 
-    my $DBObject = Kernel::System::DB->new();
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     for my $UserID (@CleanupInvalidUsers) {
-        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $UserID );
+
+        my %User = $UserObject->GetUserData(
+            UserID => $UserID,
+        );
 
         print "\nChecking for tickets with seen flags for user $User{UserLogin}...\n";
 
@@ -251,19 +280,20 @@ sub CleanupInvalidUsers {
         );
 
         my $Count = 0;
-
+        ROW:
         while ( my @Row = $DBObject->FetchrowArray() ) {
 
-            $Kernel::OM->Get('Kernel::System::Ticket')->TicketFlagDelete(
+            $TicketObject->TicketFlagDelete(
                 TicketID => $Row[0],
                 Key      => 'Seen',
                 UserID   => $UserID,
             );
 
-            if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "    Removing seen flags of ticket $Count for user $User{UserLogin}\n";
-                $Kernel::OM->ObjectsDiscard();
-            }
+            print "    Removing seen flags of ticket $Count for user $User{UserLogin}\n";
+
+            next ROW if !$Param{b};
+
+            Time::HiRes::usleep( $Param{b} );
         }
 
         print "Done (changed $Count tickets for user $User{UserLogin}).\n";
@@ -282,25 +312,25 @@ sub CleanupInvalidUsers {
         );
 
         $Count = 0;
-
+        ROW:
         while ( my @Row = $DBObject->FetchrowArray() ) {
 
-            $Kernel::OM->Get('Kernel::System::Ticket')->ArticleFlagDelete(
+            $TicketObject->ArticleFlagDelete(
                 ArticleID => $Row[0],
                 Key       => 'Seen',
                 UserID    => $UserID,
             );
 
-            if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                print "    Removing seen flags of article $Count for user $User{UserLogin}\n";
-                $Kernel::OM->ObjectsDiscard();
-            }
+            print "    Removing seen flags of article $Count for user $User{UserLogin}\n";
 
+            next ROW if !$Param{b};
+
+            Time::HiRes::usleep( $Param{b} );
         }
+
         print "Done (changed $Count articles for user $User{UserLogin}).\n";
 
-        if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Watcher') )
-        {
+        if ( $ConfigObject->Get('Ticket::Watcher') ) {
 
             print "Checking for tickets with ticket watcher entries for user $User{UserLogin}...\n";
 
@@ -315,27 +345,26 @@ sub CleanupInvalidUsers {
             );
 
             my $Count = 0;
-
+            ROW:
             while ( my @Row = $DBObject->FetchrowArray() ) {
 
-                $Kernel::OM->Get('Kernel::System::Ticket')->TicketWatchUnsubscribe(
+                $TicketObject->TicketWatchUnsubscribe(
                     TicketID    => $Row[0],
                     WatchUserID => $UserID,
                     UserID      => 1,
                 );
 
-                if ( $Count++ % $CommonObjectRefresh == 0 ) {
-                    print
-                        "    Removing ticket watcher entries of ticket $Count for user $User{UserLogin}\n";
-                    $Kernel::OM->ObjectsDiscard();
-                }
+                print
+                    "    Removing ticket watcher entries of ticket $Count for user $User{UserLogin}\n";
+
+                next ROW if !$Param{b};
+
+                Time::HiRes::usleep( $Param{b} );
             }
 
             print "Done (changed $Count tickets for user $User{UserLogin}).\n";
-
         }
     }
-
 }
 
 Run();

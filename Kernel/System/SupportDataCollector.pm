@@ -64,7 +64,8 @@ sub new {
 collect system data
 
     my %Result = $SupportDataCollectorObject->Collect(
-        UseCache => 1,      # optional, (to get data from cache if any)
+        UseCache   => 1,    # (optional) to get data from cache if any
+        WebTimeout => 60,   # (optional)
     );
 
     returns in case of error
@@ -117,7 +118,7 @@ sub Collect {
     # Data must be collected in a web request context to be able to collect webserver data.
     #   If called from CLI, make a web request to collect the data.
     if ( !$ENV{GATEWAY_INTERFACE} ) {
-        return $Self->CollectByWebRequest();
+        return $Self->CollectByWebRequest( WebTimeout => $Param{WebTimeout} );
     }
 
     # Look for all plugins in the FS
@@ -174,7 +175,7 @@ sub Collect {
 }
 
 sub CollectByWebRequest {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
     # Create a challenge token to authenticate this request without customer/agent login.
     #   PublicSupportDataCollector requires this ChallengeToken.
@@ -226,7 +227,7 @@ sub CollectByWebRequest {
 
     # create webuseragent object
     my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-        Timeout => 20,
+        Timeout => $Param{WebTimeout} || 20,
     );
 
     # define result

@@ -45,7 +45,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
-        LogPrefix => 'OTRS-DBUpdate-to-3.4.pl',
+        LogPrefix => 'OTRS-DBUpdate-to-4.pl',
     },
 );
 
@@ -455,7 +455,7 @@ sub _MigrateProcessManagementEntityIDs {
         for my $EntityID ( sort keys %PartList ) {
 
             next ENTITYID if !$EntityID;
-            next ENTITYID if $EntityID =~ m{\A $Part - [0-9a-f]{32}? \z}msx;
+            next ENTITYID if $EntityID =~ m{\A $Part - [0-9a-f]{32} \z}msx;
 
             my $NewEntityID = $EntityObject->EntityIDGenerate(
                 EntityType => $Part,
@@ -478,7 +478,7 @@ sub _MigrateProcessManagementEntityIDs {
     PROCESS:
     for my $Process ( @{ $ProcessManagementList{Process} } ) {
 
-        next PROCESS if $Process->{EntityID} =~ m{\A Process - [0-9a-f]{32}? \z}msx;
+        next PROCESS if $Process->{EntityID} =~ m{\A Process - [0-9a-f]{32} \z}msx;
 
         if ( !$EntityLookup{Process}->{ $Process->{EntityID} } ) {
             die "Error: No new EntityID was created for Process: $Process->{EntityID}";
@@ -598,7 +598,7 @@ sub _MigrateProcessManagementEntityIDs {
     ACTIVITY:
     for my $Activity ( @{ $ProcessManagementList{Activity} } ) {
 
-        next ACTIVITY if $Activity->{EntityID} =~ m{\A Activity - [0-9a-f]{32}? \z}msx;
+        next ACTIVITY if $Activity->{EntityID} =~ m{\A Activity - [0-9a-f]{32} \z}msx;
 
         if ( !$EntityLookup{Activity}->{ $Activity->{EntityID} } ) {
             die "Error: No new EntityID was created for Activity: $Activity->{EntityID}";
@@ -648,7 +648,7 @@ sub _MigrateProcessManagementEntityIDs {
         CURRENTPART:
         for my $CurrentPart ( @{ $ProcessManagementList{$PartName} } ) {
 
-            next CURRENTPART if $CurrentPart->{EntityID} =~ m{\A $PartName - [0-9a-f]{32}? \z}msx;
+            next CURRENTPART if $CurrentPart->{EntityID} =~ m{\A $PartName - [0-9a-f]{32} \z}msx;
 
             if ( !$EntityLookup{$PartName}->{ $CurrentPart->{EntityID} } ) {
                 die "Error: No new EntityID was created for $PartName: $CurrentPart->{EntityID}";
@@ -729,7 +729,7 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
-                    if ( $EntityID =~ m{\A Process - [0-9a-f]{32}? \z}msx ) {
+                    if ( $EntityID =~ m{\A Process - [0-9a-f]{32} \z}msx ) {
                         push @NewProcesses, $EntityID;
                         next ENTITY;
                     }
@@ -760,7 +760,7 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
-                    if ( $EntityID =~ m{\A Activity - [0-9a-f]{32}? \z}msx ) {
+                    if ( $EntityID =~ m{\A Activity - [0-9a-f]{32} \z}msx ) {
                         push @NewActivities, $EntityID;
                         next ENTITY;
                     }
@@ -791,7 +791,7 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
-                    if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32}? \z}msx ) {
+                    if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32} \z}msx ) {
                         push @NewActivityDialogs, $EntityID;
                         next ENTITY;
                     }
@@ -815,7 +815,7 @@ sub _MigrateProcessManagementEntityIDs {
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{ActivityDialog} } ) {
 
-                    if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32}? \z}msx ) {
+                    if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32} \z}msx ) {
                         push @NewActivityDialogs, $EntityID;
                         next ENTITY;
                     }
@@ -837,7 +837,7 @@ sub _MigrateProcessManagementEntityIDs {
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{Process} } ) {
 
-                    if ( $EntityID =~ m{\A Process - [0-9a-f]{32}? \z}msx ) {
+                    if ( $EntityID =~ m{\A Process - [0-9a-f]{32} \z}msx ) {
                         push @NewProcesses, $EntityID;
                         next ENTITY;
                     }

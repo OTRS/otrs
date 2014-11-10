@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.AddCustomer2Group.pl - Add Customer to a Group
+# bin/otrs.AddCustomer2Group.pl - add customer to a group
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
@@ -28,36 +28,37 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+use Getopt::Std;
+
 use Kernel::System::ObjectManager;
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.AddCustomer2Group',
     },
 );
 
-my %Param;
+# get options
 my %Opts;
-
-use Getopt::Std;
-getopt( 'guph', \%Opts );
+getopt( 'gup', \%Opts );
 
 if ( $Opts{h} || !$Opts{g} || !$Opts{u} || !$Opts{p} ) {
-    print STDERR
-        "Usage: $0 -u customerlogin -g groupname -p ro|rw\n";
-    exit;
+    print "otrs.AddCustomer2Group.pl - add customer to a group\n";
+    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "usage: otrs.AddCustomer2Group.pl -u customerlogin -g groupname -p ro|rw\n";
+    exit 1;
 }
 
-# ID adding the permissions
-$Param{UserID} = '1';
-
-# valid id
-$Param{ValidID} = '1';
-
-$Param{Permission}->{ $Opts{p} } = 1;
-$Param{UID}                      = $Opts{u};
-$Param{Group}                    = $Opts{g};
+my %Param = (
+    UserID     => '1',
+    ValidID    => '1',
+    UID        => $Opts{u},
+    Group      => $Opts{g},
+    Permission => {
+        $Opts{p} => 1,
+    },
+);
 
 my $CustomerName = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
     UserLogin => $Param{UID},
@@ -83,6 +84,5 @@ if ( !$Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberAdd(%Param) 
     print STDERR "ERROR: Can't add Customer to group\n";
     exit 1;
 }
-else {
-    exit(0);
-}
+
+exit 0;

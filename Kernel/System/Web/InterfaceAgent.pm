@@ -78,9 +78,11 @@ sub new {
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
+
+        # Don't autoconnect as this would cause internal server errors on failure.
         'Kernel::System::DB' => {
             AutoConnectNo => 1,
-        }
+        },
     );
 
     $Self->{EncodeObject}  = $Kernel::OM->Get('Kernel::System::Encode');
@@ -164,9 +166,15 @@ sub Run {
         $CookieSecureAttribute = 1;
     }
 
-    # check common objects
     $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
     my $DBCanConnect = $Self->{DBObject}->Connect();
+
+    # Restore original behaviour of Kernel::System::DB for all objects created in future
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::DB' => {
+            AutoConnectNo => undef,
+        },
+    );
     if ( !$DBCanConnect || $Self->{ParamObject}->Error() ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {
@@ -189,16 +197,7 @@ sub Run {
     $Self->{TicketObject} = $Kernel::OM->Get('Kernel::System::Ticket');
 
     for my $Key ( sort keys %CommonObject ) {
-        if ( $Self->{MainObject}->Require( $CommonObject{$Key} ) ) {
-            $Self->{$Key} = $CommonObject{$Key}->new( %{$Self} );
-        }
-        else {
-
-            # print error
-            $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-                ->FatalError( Comment => 'Please contact your administrator' );
-            return;
-        }
+        $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }
 
     # get common application and add-on application params
@@ -211,7 +210,22 @@ sub Run {
     $Param{Action} =~ s/\W//g;
 
     # check request type
-    if ( $Param{Action} eq 'Login' ) {
+    if ( $Param{Action} eq 'PreLogin' ) {
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+        $Param{RequestedURL} = $Param{RequestedURL} || "Action=AgentDashboard";
+
+        # login screen
+        $LayoutObject->Print(
+            Output => \$LayoutObject->Login(
+                Title => 'Login',
+                Mode  => 'PreLogin',
+                %Param,
+            ),
+        );
+
+        return;
+    }
+    elsif ( $Param{Action} eq 'Login' ) {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
@@ -369,6 +383,7 @@ sub Run {
                 $TimeOffset = $TimeOffset / 60;
                 $TimeOffset =~ s/-/+/;
             }
+
             $Self->{UserObject}->SetPreferences(
                 UserID => $UserData{UserID},
                 Key    => 'UserTimeZone',
@@ -421,7 +436,7 @@ sub Run {
 
         # redirect with new session id and old params
         # prepare old redirect URL -- do not redirect to Login or Logout (loop)!
-        if ( $Param{RequestedURL} =~ /Action=(Logout|Login|LostPassword)/ ) {
+        if ( $Param{RequestedURL} =~ /Action=(Logout|Login|LostPassword|PreLogin)/ ) {
             $Param{RequestedURL} = '';
         }
 
@@ -514,8 +529,9 @@ sub Run {
 
         $LayoutObject->Print(
             Output => \$LayoutObject->Login(
-                Title   => 'Logout',
-                Message => $LogoutMessage,
+                Title       => 'Logout',
+                Message     => $LogoutMessage,
+                MessageType => 'Logout',
                 %Param,
             ),
         );
@@ -690,7 +706,7 @@ sub Run {
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
             print $LayoutObject->Redirect(
-                OP => "Action=Login&RequestedURL=$Param{RequestedURL}",
+                OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
             );
             return;
         }
@@ -748,7 +764,7 @@ sub Run {
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
                 print $LayoutObject->Redirect(
-                    OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
+                    OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
                 );
                 return;
             }

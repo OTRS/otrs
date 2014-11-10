@@ -33,7 +33,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'hn', \%Opts );
+getopt( 'n', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 $0 - generate caches for dashboard stats widgets

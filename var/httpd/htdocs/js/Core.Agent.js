@@ -150,6 +150,9 @@ Core.Agent = (function (TargetNS) {
                     $Target = $(Event.target);
                 if ($Element.hasClass('Active')) {
                     $Element.removeClass('Active').attr('aria-expanded', false);
+
+                    // restore initial container height
+                    $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
                 }
                 else {
                     $Element.addClass('Active').attr('aria-expanded', true)
@@ -205,6 +208,10 @@ Core.Agent = (function (TargetNS) {
                         $('#Navigation').after('<i class="fa fa-check"></i>').next('.fa-check').css('left', $('#Navigation').outerWidth() + 10).delay(200).fadeIn(function() {
                             $(this).delay(1500).fadeOut();
                         });
+
+                        // make sure to re-size the nav container to its initial height after
+                        // dragging is finished in case a sub menu was open when the user started dragging.
+                        $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
                     }
                 }
             );

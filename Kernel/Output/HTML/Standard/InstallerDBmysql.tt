@@ -52,7 +52,7 @@
 [% RenderBlockEnd("DatabaseMySQLUseExisting") %]
 
                     <div class="Field">
-                        <button class="Primary" type="button" id="ButtonCheckDB">[% Translate("Check database settings") | html %]</button>
+                        <button class="Primary CallForAction" type="button" id="ButtonCheckDB"><span>[% Translate("Check database settings") | html %]</span></button>
                     </div>
                     <div class="Clear"></div>
                 </fieldset>
@@ -121,8 +121,8 @@
 [% RenderBlockEnd("DatabaseMySQLCreate") %]
 
                 <div class="Spacing Right">
-                    <button type="button" id="ButtonBack">[% Translate("Back") | html %]</button>
-                    <button class="Primary HideMe" type="submit" id="FormDBSubmit" disabled>[% Translate("Next") | html %]</button>
+                    <button type="button" class="CallForAction" id="ButtonBack"><span>[% Translate("Back") | html %]</span></button>
+                    <button class="Primary CallForAction HideMe" type="submit" id="FormDBSubmit" disabled><span>[% Translate("Next") | html %]</span></button>
                 </div>
             </div>
         </div>

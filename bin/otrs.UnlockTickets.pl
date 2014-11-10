@@ -32,7 +32,7 @@ use Kernel::System::ObjectManager;
 
 my $Debug = 0;
 
-# common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.UnlockTickets.pl',

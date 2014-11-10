@@ -41,7 +41,7 @@ my %Compare;
 
 # get options
 my %Opts;
-getopt( 'habd', \%Opts );
+getopt( 'abd', \%Opts );
 if ( exists $Opts{h} || !keys %Opts ) {
     print "otrs.CheckSum.pl - OTRS check sum\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -157,5 +157,6 @@ sub ProcessDirectory {
             }
         }
     }
+
     return 1;
 }

@@ -1,11 +1,13 @@
 #
 # Translators:
+# Martin Gruner <martin.gruner@otrs.com>, 2014
+# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-10-16 13:13+0000\n"
+"PO-Revision-Date: 2014-10-30 11:11+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -1264,7 +1266,7 @@ msgstr "Такой адрес электронной почты уже суще�
 
 #. Template: AAABase
 msgid "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Этот адрес почты не разрешен для регистрации. Обратитесь к персоналу поддержки"
 
 #. Template: AAABase
 msgid "New account created. Sent login information to %s. Please check your email."
@@ -1448,11 +1450,11 @@ msgstr "Планировщик не запущен."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Не удалось соединиться с сервером, попробуйте повторить позже."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "Данные не получены с сервера регистрации. Повторите запрос позже."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
@@ -2028,7 +2030,7 @@ msgstr "Значение кодировки для сервера базы да�
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
-msgstr ""
+msgstr "Кодировка для таблицы"
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
@@ -2052,7 +2054,7 @@ msgstr "Значение параметра 'query_cache_size' следует и
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "Метод доступа по умолчанию"
 
 #. Template: AAASupportDataCollector
 msgid "Tables with a different storage engine than the default engine were found."
@@ -4404,7 +4406,7 @@ msgstr "Заявка создана между "
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Время последнего изменения."
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
@@ -4412,11 +4414,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Последнее изменение заявки"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Время последнего изменения заявки между"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -4816,11 +4818,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended)."
-msgstr ""
+msgstr "Асинхронные триггеры событий будут обрабатываться Планировщиком OTRS в фоновом режиме (рекомендуется)"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Synchronous event triggers would be processed directly during the web request."
-msgstr ""
+msgstr "Синхронные триггеры событий будут обрабатываться непосредственно при веб-запросе."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
@@ -4944,15 +4946,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Детали операции"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The name is typically used to call up this web service operation from a remote system."
-msgstr ""
+msgstr "Имя обычно используется для вызова этой операции веб-сервиса из удаленной системы."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "Укажите уникальное имя для этого веб-сервиса."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -5112,7 +5114,7 @@ msgstr "Пароль файла сертификата"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL key file."
-msgstr ""
+msgstr "Полный путь и имя файла ключа SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
@@ -5380,7 +5382,7 @@ msgstr "Удалить веб-сервис"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
-msgstr ""
+msgstr "Операция удаления"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
@@ -6008,7 +6010,7 @@ msgstr "Отрицание (\"НЕ\")"
 
 #. Template: AdminPostMasterFilter
 msgid "Look for value"
-msgstr ""
+msgstr "Посмотреть значение"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
@@ -6928,8 +6930,7 @@ msgstr "OTRS Group не будет передавать ваши персона�
 
 #. Template: AdminRegistration
 msgid "OTRS Group will only pass on your details to entitled public institutions and authorities if required by law or court order."
-msgstr "OTRS Group будет передавать ваши персональные данные только \n"
-"уполномоченным публичным организациям и властям, если этого требует закон или в судебном порядке."
+msgstr "OTRS Group будет передавать ваши персональные данные только уполномоченным публичным организациям и властям, если этого требует закон или в судебном порядке."
 
 #. Template: AdminRegistration
 msgid "Amendment of Data Protection Policy"
@@ -9112,10 +9113,6 @@ msgid "Change Queue"
 msgstr "Сменить очередь"
 
 #. Template: AgentTicketZoom
-msgid "Dialogs"
-msgstr "Диалоги"
-
-#. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
 msgstr "Нет диалогов доступных в этой части процесса"
 
@@ -9201,10 +9198,6 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9574,10 +9567,6 @@ msgstr "перейти на предыдущую страницу"
 #. Template: Error
 msgid "Error Details"
 msgstr "Детали ошибки"
-
-#. Template: Footer
-msgid "Top of page"
-msgstr "В начало страницы"
 
 #. Template: FooterJS
 msgid "If you now leave this page, all open popup windows will be closed, too!"
@@ -10728,6 +10717,10 @@ msgid "Define the max depth of queues."
 msgstr "Задайте максимальный уровень вложенности для очередей"
 
 #. SysConfig
+msgid "Define the start day of the week for the date picker for the indicated calendar."
+msgstr ""
+
+#. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Укажите первый день недели для использовании при выборе даты"
 
@@ -11594,6 +11587,10 @@ msgstr "Задает максимальную длину (в символах) �
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
 msgstr "Задает максимальное количество страниц для PDF файла"
+
+#. SysConfig
+msgid "Defines the maximum number of quoted lines to be added to responses."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
@@ -14770,6 +14767,22 @@ msgstr "Заголовок, отображаемый в интерфейсе к�
 #. SysConfig
 msgid "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#."
 msgstr "Идентфикатор заявки, например, Заявка№, Звонок#. По умолчанию - Ticket#."
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
+msgstr ""
 
 #. SysConfig
 msgid "The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."

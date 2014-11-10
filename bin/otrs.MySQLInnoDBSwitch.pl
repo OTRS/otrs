@@ -33,7 +33,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'f', \%Opts );
+getopt( '', \%Opts );
 if ( $Opts{h} ) {
     print <<EOF;
 otrs.MySQLInnoDBSwitch.pl - convert all MyISAM tables to InnoDB
@@ -57,7 +57,7 @@ if ( <STDIN> ne "yes\n" ) {
     exit 1;
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.MySQLInnoDBSwitch.pl',

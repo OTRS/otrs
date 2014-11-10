@@ -35,7 +35,7 @@ print "otrs.RegistrationUpdate.pl - send system registration update\n";
 print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
 
 # ---
-# common objects
+# create object manager
 # ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

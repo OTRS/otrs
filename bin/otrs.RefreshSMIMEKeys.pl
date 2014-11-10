@@ -34,8 +34,8 @@ use Getopt::Std;
 use Kernel::System::ObjectManager;
 
 # get options
-my %Opts = ();
-getopt( 'hdf', \%Opts );
+my %Opts;
+getopt( 'd', \%Opts );
 
 if ( $Opts{h} ) {
     print "otrs.RefreshSMIMEKeys.pl - fix SMIME certificates private keys and"
@@ -53,7 +53,7 @@ if ( $Opts{d} && lc $Opts{d} eq 'short' ) {
 }
 
 # ---
-# common objects
+# create object manager
 # ---
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

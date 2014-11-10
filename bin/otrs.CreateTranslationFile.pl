@@ -74,7 +74,7 @@ Optional Parameters
 EOF
 }
 
-# common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.CreateTranslationFile.pl',
@@ -249,7 +249,7 @@ sub HandleLanguage {
         print "\nReading template files:\n";
     }
 
-    my @TranslationStrings = ();
+    my @TranslationStrings;
 
     for my $File (@List) {
 

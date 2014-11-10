@@ -34,7 +34,7 @@ use Kernel::Output::Template::Provider;
 
 # get options
 my %Options;
-getopt( 'hd', \%Options );
+getopt( 'd', \%Options );
 if ( exists $Options{h} || !$Options{d} ) {
     print <<EOF;
 $0 - migrate DTL templates to TT

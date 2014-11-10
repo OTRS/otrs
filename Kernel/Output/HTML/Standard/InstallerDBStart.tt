@@ -41,7 +41,7 @@
                 </fieldset>
 
                 <div class="Spacing Right">
-                    <button class="Primary" type="submit" id="FormDBSubmit">[% Translate("Next") | html %]</button>
+                    <button class="Primary CallForAction" type="submit" id="FormDBSubmit"><span>[% Translate("Next") | html %]</span></button>
                 </div>
                 <div class="Clear"></div>
             </div>

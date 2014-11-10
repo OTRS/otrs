@@ -171,6 +171,7 @@ sub Run {
     my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
     $Output .= $Self->AgentPreferencesForm( UserData => \%UserData );
     $Output .= $Self->{LayoutObject}->Footer();
+
     return $Output;
 }
 

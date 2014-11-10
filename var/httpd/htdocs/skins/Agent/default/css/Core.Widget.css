@@ -68,7 +68,6 @@ ul.Tablelike li.Header {;
     text-transform: uppercase;
     background: #eeeeee;
     border-top: 1px solid #FFF;
-    border-radius: 0;
 }
 
 ul.Tablelike + ul.Tablelike.AllocationList {
@@ -239,12 +238,6 @@ ul.Tablelike li.Header + li {
 
 .WidgetBox > .Content {
     background: #ffffff;
-    background: -moz-linear-gradient(top,  #ebebeb 0%, #ffffff 50%, #ffffff 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebebeb), color-stop(50%,#ffffff), color-stop(100%,#ffffff));
-    background: -webkit-linear-gradient(top,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
-    background: -o-linear-gradient(top,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
-    background: -ms-linear-gradient(top,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
-    background: linear-gradient(to bottom,  #ebebeb 0%,#ffffff 50%,#ffffff 100%);
     min-height: 200px;
     border-left: 1px solid #C6C5C4;
     border-right: 1px solid #C6C5C4;
@@ -429,7 +422,6 @@ ul.Tablelike li.Header + li {
     display: inline-block;
     cursor: pointer;
     transition: all ease-in 0.2s;
-    border-radius: 0px;
 }
 
 .cke_dialog_footer_buttons a.cke_dialog_ui_button {
@@ -571,12 +563,6 @@ input.FilterBox {
     color: #333;
     font: bold 11px/14px "Helvetica Neue",Helvetica,Arial,sans-serif;
     background: #f2f2f2;
-    background: -moz-linear-gradient(top,  #f2f2f2 0%, #e0e0e0 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e0e0e0));
-    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
-    background: -o-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
-    background: -ms-linear-gradient(top,  #f2f2f2 0%,#e0e0e0 100%);
-    background: linear-gradient(to bottom,  #f2f2f2 0%,#e0e0e0 100%);
     border: 1px solid #888;
     text-shadow: 0 1px 0 #FFF;
     vertical-align: baseline;
@@ -598,12 +584,6 @@ input.FilterBox {
 .SearchBox button:active {
     padding: 4px 3px 3px;
     background: #e4e4e4;
-    background: -moz-linear-gradient(top,  #e4e4e4 0%, #d1d1d1 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e4e4e4), color-stop(100%,#d1d1d1));
-    background: -webkit-linear-gradient(top,  #e4e4e4 0%,#d1d1d1 100%);
-    background: -o-linear-gradient(top,  #e4e4e4 0%,#d1d1d1 100%);
-    background: -ms-linear-gradient(top,  #e4e4e4 0%,#d1d1d1 100%);
-    background: linear-gradient(to bottom,  #e4e4e4 0%,#d1d1d1 100%);
     outline: none;
 }
 
@@ -666,16 +646,9 @@ input.FilterBox {
     float: left;
     list-style: none;
     border-style: solid;
-    border-width: 1px 0;
+    border-width: 1px 0px;
     border-color: #CCC;
     background-color: #EEE;
-    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#eeeeee));
-    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
-    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
-    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 100%);
-    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 100%);
-
 }
 
 #ProgressBar li > span {
@@ -690,11 +663,10 @@ input.FilterBox {
     color: #484848;
     text-decoration: none;
     font: 13px/18px Helvetica Neue, sans-serif;
-    text-shadow: 1px solid #FCFCFC;
     display: block;
     height: 42px;
     border-style: solid;
-    border-width: 1px 0;
+    border-width: 1px 0px;
     border-color: #F4F4F4;
     background: url(../img/ProgressBarIsolator.png) no-repeat left 6px;
     cursor: default;
@@ -711,35 +683,25 @@ input.FilterBox {
 
 #ProgressBar li:first-child, #ProgressBar li.First {
     border-left-width: 1px;
-    border-radius: 4px 0 0 4px;
 }
 
 #ProgressBar li:first-child a, #ProgressBar li.First a {
     border-left-width: 1px;
     padding-left: 14px;
     background: none;
-    border-radius: 4px 0 0 3px;
 }
 
 #ProgressBar li:last-child, #ProgressBar li.Last {
     border-right-width: 1px;
-    border-radius: 0 4px 4px 0;
 }
 
 #ProgressBar li:last-child a, #ProgressBar li.Last a {
     border-right-width: 1px;
     padding-right: 14px;
-    border-radius: 0 4px 4px 0;
 }
 
 #ProgressBar .Highlighted {
     background-color: #fbb42c;
-    background: -moz-linear-gradient(top,  #ffdea3 0%, #fbb42c 20%, #f6af1d 50%, #f3970d 50%, #e87f07 90%, #dd6a05 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffdea3), color-stop(20%,#fbb42c), color-stop(50%,#f6af1d), color-stop(50%,#f3970d), color-stop(90%,#e87f07), color-stop(100%,#dd6a05));
-    background: -webkit-linear-gradient(top,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
-    background: -o-linear-gradient(top,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
-    background: -ms-linear-gradient(top,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
-    background: linear-gradient(to bottom,  #ffdea3 0%,#fbb42c 20%,#f6af1d 50%,#f3970d 50%,#e87f07 90%,#dd6a05 100%);
     border-top-color: #9b6937;
     border-bottom-color: #996634;
 }
@@ -775,22 +737,12 @@ input.FilterBox {
 
 #ProgressBar .Active {
     border-right: 1px solid #9b6937;
-    border-radius: 0 4px 4px 0;
     position: relative;
     z-index: 2;
 }
 
-#ProgressBar li:first-child.Active {
-    border-radius: 4px;
-}
-
 #ProgressBar .Active a {
     border-right: 1px solid #f2bf5c;
-    border-radius: 0 4px 4px 0;
-}
-
-#ProgressBar li:first-child.Active a {
-    border-radius: 4px;
 }
 
 #ProgressBar .Active + li {
@@ -808,9 +760,6 @@ input.FilterBox {
 
 #ProgressBar .Visited {
     background-color: #DDD;
-    background: -moz-linear-gradient(top, #EEE, #DDD);
-    background: -webkit-gradient(linear, 0 0, 0 100%, from(#EEE), to(#FFF));
-    background: linear-gradient(top, #EEE, #DDD);
 }
 
 #ProgressBar .Visited.Active {

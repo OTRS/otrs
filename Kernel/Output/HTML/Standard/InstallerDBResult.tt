@@ -41,12 +41,12 @@
                 <div class="Center">
 [% RenderBlockStart("DatabaseResultBack") %]
                     <input type="hidden" name="Subaction" value="Start">
-                    <button class="Primary" type="submit">[% Translate("Back") | html %]</button>
+                    <button class="Primary CallForAction" type="submit"><span>[% Translate("Back") | html %]</span></button>
 [% RenderBlockEnd("DatabaseResultBack") %]
 
 [% RenderBlockStart("DatabaseResultNext") %]
                     <input type="hidden" name="Subaction" value="System">
-                    <button class="Primary" type="submit">[% Translate("Next") | html %]</button>
+                    <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
 [% RenderBlockEnd("DatabaseResultNext") %]
                 </div>
             </div>

@@ -34,7 +34,7 @@ use Time::HiRes qw(time);
 use Kernel::System::ObjectManager;
 use Kernel::System::Cache;
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.AddGroup.pl',

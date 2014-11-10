@@ -2,18 +2,21 @@
 # Translators:
 # Ettore Atalan <atalanttore@googlemail.com>, 2014
 # jb_otrs <jens.bothe@otrs.com>, 2014
+# jb_otrs <jens.bothe@otrs.com>, 2014
+# mab_otrs <marc.bonsels@otrs.com>, 2014
 # mab_otrs <marc.bonsels@otrs.com>, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014
+# ru_otrs <robert.ullrich@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-10-16 13:18+0000\n"
-"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
+"PO-Revision-Date: 2014-10-30 11:07+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9118,10 +9121,6 @@ msgid "Change Queue"
 msgstr "Queue ändern"
 
 #. Template: AgentTicketZoom
-msgid "Dialogs"
-msgstr "Dialoge"
-
-#. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
 msgstr "Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung."
 
@@ -9208,10 +9207,6 @@ msgstr "Vollständiger Artikeltext"
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
 msgstr "Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern."
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
-msgstr "Dies ist ein Chat-Protokoll. Bitte öffnen Sie die Detail-Ansicht, um das komplette Protokoll zu sehen."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -9580,10 +9575,6 @@ msgstr "zurück zur vorhergehenden Seite"
 #. Template: Error
 msgid "Error Details"
 msgstr "Fehlerdetails"
-
-#. Template: Footer
-msgid "Top of page"
-msgstr "Zum Anfang der Seite"
 
 #. Template: FooterJS
 msgid "If you now leave this page, all open popup windows will be closed, too!"
@@ -10503,7 +10494,7 @@ msgstr "Kontrolliert, ob es dem Admin erlaubt ist, eine gespeicherte Systemkonfi
 
 #. SysConfig
 msgid "Controls if the admin is allowed to make changes to the database via AdminSelectBox."
-msgstr ""
+msgstr "Überprüft ob der Administrator die Berechtigung besitzt Änderungen in der Datenbank über die AdminSelectBox zu tätigen."
 
 #. SysConfig
 msgid "Controls if the ticket and article seen flags are removed when a ticket is archived."
@@ -10732,6 +10723,10 @@ msgstr "Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manu
 #. SysConfig
 msgid "Define the max depth of queues."
 msgstr "Definiert die maximale Tiefe von Queues"
+
+#. SysConfig
+msgid "Define the start day of the week for the date picker for the indicated calendar."
+msgstr ""
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
@@ -11287,39 +11282,39 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default ticket priority in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Schließen'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Sammelaktion'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Freie Felder'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Notiz'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Besitzer'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Warten'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Priorität'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität in der 'Verantwortlicher'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default ticket type for new customer tickets in the customer interface."
-msgstr ""
+msgstr "Definiert die Standard-Ticketpriorität für neue Kundentickets im Kunden-Interface."
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
@@ -11331,7 +11326,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default type of the article for this operation."
-msgstr ""
+msgstr "Definiert den Standard-Artikeltyp für diese Operation."
 
 #. SysConfig
 msgid "Defines the default type of the message in the email outbound screen of the agent interface."
@@ -11339,63 +11334,63 @@ msgstr "Definiert den Standard-Typ der ausgehenden E-Mail."
 
 #. SysConfig
 msgid "Defines the default type of the note in the close ticket screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Notiz'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket bulk screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Sammelaktion'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket free text screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Freie Felder'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket note screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Notiz'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket owner screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Besitzer'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket pending screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Warten'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket phone inbound screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'eingehender Telefonanruf'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket phone outbound screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'ausgehender Telefonanruf'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket priority screen of a zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Priorität'-Oberfläche im TicketZoom im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket responsible screen of the agent interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp in der 'Verantwortlicher'-Oberfläche im Agenten-Interface."
 
 #. SysConfig
 msgid "Defines the default type of the note in the ticket zoom screen of the customer interface."
-msgstr ""
+msgstr "Definiert den Standard-Notiztyp im TicketZoom im Kunden-Interface."
 
 #. SysConfig
 msgid "Defines the default used Frontend-Module if no Action parameter given in the url on the agent interface."
-msgstr ""
+msgstr "Definiert das standardmäßig genutzte Frontend-Modul im Agenten-Interface, wenn kein Action-Paramenter in der URL übergeben wurde."
 
 #. SysConfig
 msgid "Defines the default used Frontend-Module if no Action parameter given in the url on the customer interface."
-msgstr ""
+msgstr "Definiert das standardmäßig genutzte Frontend-Modul im Kunden-Interface, wenn kein Action-Paramenter in der URL übergeben wurde."
 
 #. SysConfig
 msgid "Defines the default value for the action parameter for the public frontend. The action parameter is used in the scripts of the system."
-msgstr ""
+msgstr "Definiert den Standard-Wert für den Action-Paramenter im Public-Frontend. Der Action-Paramter wird in System-Skripten vewendet."
 
 #. SysConfig
 msgid "Defines the default viewable sender types of a ticket (default: customer)."
-msgstr ""
+msgstr "Definiert die standardmäßigen sichtbaren Sendertypen eines Tickets (Standard: Kunde)."
 
 #. SysConfig
 msgid "Defines the dynamic fields that are used for displaying on calendar events."
@@ -11403,7 +11398,7 @@ msgstr "Definiert die dynamischen Felder, die benutzt werden um Kalender-Events 
 
 #. SysConfig
 msgid "Defines the filter that processes the text in the articles, in order to highlight URLs."
-msgstr ""
+msgstr "Definiert den Filter, der Text in Artikeln verarbeitet, um URLs zu highlighten."
 
 #. SysConfig
 msgid "Defines the format of responses in the ticket compose screen of the agent interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | html %] is only realname of From)."
@@ -11411,7 +11406,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the fully qualified domain name of the system. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system."
-msgstr ""
+msgstr "Definiert den Full Qualified Domain Name des OTRS Systems. Diese Einstellung wird als Variable OTRS_CONFIG_FQDN genutzt, welche in allen Nachrichten-Formularen zu finden ist oder um Links zu Tickets in Ihrem OTRS System zu generieren."
 
 #. SysConfig
 msgid "Defines the groups every customer user will be in (if CustomerGroupSupport is enabled and you don't want to manage every user for these groups)."
@@ -11602,6 +11597,10 @@ msgid "Defines the maximum number of pages per PDF file."
 msgstr "Bestimmt die maximale Anzahl an Seiten pro PDF-Datei."
 
 #. SysConfig
+msgid "Defines the maximum number of quoted lines to be added to responses."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
 msgstr "Bestimmt die Maximalgröße (in MB) der Protokolldatei."
 
@@ -11647,11 +11646,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module to generate html refresh headers of html sites, in the customer interface."
-msgstr ""
+msgstr "Definiert das Modul welches HTML-Refresh-Header der HTML-Seiten im Kunden-Interface generiert."
 
 #. SysConfig
 msgid "Defines the module to generate html refresh headers of html sites."
-msgstr ""
+msgstr "Definiert das Modul welches HTML-Refresh-Header der HTML-Seiten generiert."
 
 #. SysConfig
 msgid "Defines the module to send emails. \"Sendmail\" directly uses the sendmail binary of your operating system. Any of the \"SMTP\" mechanisms use a specified (external) mailserver. \"DoNotSendEmail\" doesn't send emails and it is useful for test systems."
@@ -13743,7 +13742,7 @@ msgstr "Service-Update-Benachrichtigung"
 
 #. SysConfig
 msgid "Service view"
-msgstr "Dienstansicht"
+msgstr "Ansicht nach Services"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -14775,6 +14774,22 @@ msgstr "Die in der Kundenoberfläche angezeigte Überschrift."
 
 #. SysConfig
 msgid "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
 msgstr ""
 
 #. SysConfig

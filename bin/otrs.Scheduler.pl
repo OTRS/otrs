@@ -39,8 +39,8 @@ use Kernel::System::VariableCheck qw(:all);
 my $PIDName = 'otrs.Scheduler';
 
 # get options
-my %Opts = ();
-getopt( 'hfapw', \%Opts );
+my %Opts;
+getopt( 'apw', \%Opts );
 
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {

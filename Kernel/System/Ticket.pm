@@ -5252,7 +5252,10 @@ sub HistoryTicketGet {
         }
         elsif ( $Row[1] eq 'TicketDynamicFieldUpdate' ) {
 
-            if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(?:(.+?))?$/ ) {
+            # take care about different values between 3.3 and 4
+            # 3.x: %%FieldName%%test%%Value%%TestValue1
+            # 4.x: %%FieldName%%test%%Value%%TestValue1%%OldValue%%OldTestValue1
+            if ( $Row[0] =~ /^\%\%FieldName\%\%(.+?)\%\%Value\%\%(.*?)(?:\%\%|$)/ ) {
 
                 my $FieldName = $1;
                 my $Value = $2 || '';

@@ -93,6 +93,7 @@ bin/DatabaseInstall.pl
 
 # OTRSBusiness
 OTRSBusiness.*
+bin/otrs.CleanUpChats.pl
 Kernel/Language/de_OTRSBusiness.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*
@@ -109,6 +110,7 @@ Kernel/Output/HTML/Standard/PublicChat.tt
 Kernel/Output/HTML/Standard/AgentTicketAttachmentView.tt
 Kernel/Output/HTML/Standard/*ContactWithData*
 scripts/test/Chat
+var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
 var/httpd/htdocs/js/*ChronicalView*
 var/httpd/htdocs/js/Core.Agent.TicketAttachmentView.js

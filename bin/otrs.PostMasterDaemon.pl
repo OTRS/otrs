@@ -41,7 +41,7 @@ my $MaxConnects     = 30;
 $SIG{CHLD} = \&StopChild;
 
 my $Children = 0;
-my %Children = ();
+my %Children;
 
 my $Server = IO::Socket::INET->new(
     LocalPort => 5555,
@@ -77,7 +77,7 @@ sub MakeNewChild {
         while ( my $Client = $Server->accept() ) {
             $MaxConnectsCount++;
             print $Client "* --OK-- ($PID/$$)\n";
-            my @Input = ();
+            my @Input;
             my $Data  = 0;
             while ( my $Line = <$Client> ) {
                 if ( $Line =~ /^\* --END EMAIL--$/ ) {
@@ -120,7 +120,7 @@ sub StopChild {
 sub PipeEmail {
     my (@Email) = @_;
 
-    # create common objects
+    # create object manager
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.PostMasterDaemon.pl',

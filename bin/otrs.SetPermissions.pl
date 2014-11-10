@@ -38,7 +38,7 @@ my $OTRSDirectoryLength = length($OTRSDirectory);
 my $OtrsUser   = 'otrs';    # default otrs
 my $WebGroup   = '';        # no default, too different
 my $AdminGroup = 'root';    # default root
-my ( $Help, $DryRun, $SkipArticleDir, $OtrsUserID, $WebGroupID, $AdminGroupID );
+my ( $Help, $DryRun, $SkipArticleDir, @SkipRegex, $OtrsUserID, $WebGroupID, $AdminGroupID );
 
 sub PrintUsage {
     print <<EOF;
@@ -49,7 +49,10 @@ Usage: otrs.SetPermissions.pl
     --web-group=<WEB_GROUP>         # web server group ('www', 'www-data' or similar)
     [--otrs-user=<OTRS_USER>]       # OTRS user, defaults to 'otrs'
     [--admin-group=<ADMIN_GROUP>]   # admin group, defaults to 'root'
-    [--skip-article-dir]            # don't change var/article as it might take too long
+    [--skip-article-dir]            # Skip var/article as it might take too long on some systems.
+    [--skip-regex="..."]            # Add another skip regex like "^/var/my/directory".
+                                    # Paths start with / but are relative to the OTRS directory.
+                                    # --skip-regex can be specified multiple times.
     [--dry-run]                     # only report, don't change
     [--help]
 
@@ -64,6 +67,8 @@ my @IgnoreFiles = (
     qr{^/\.tidyall}smx,
     qr{^/\.tx}smx,
     qr{^/\.settings}smx,
+    qr{^/\.ssh}smx,
+    qr{^/\.gpg}smx,
 );
 
 # Files to be marked as executable.
@@ -86,11 +91,6 @@ sub Run {
         exit 0;
     }
 
-    if ( $^O ne 'MSWin32' && $> != 0 ) {    # $EFFECTIVE_USER_ID
-        print STDERR "ERROR: Please run this script as superuser (root).\n";
-        exit 1;
-    }
-
     Getopt::Long::GetOptions(
         'help'             => \$Help,
         'otrs-user=s'      => \$OtrsUser,
@@ -98,7 +98,18 @@ sub Run {
         'admin-group=s'    => \$AdminGroup,
         'dry-run'          => \$DryRun,
         'skip-article-dir' => \$SkipArticleDir,
+        'skip-regex=s'     => \@SkipRegex,
     );
+
+    if (defined $Help) {
+        PrintUsage();
+        exit 0;
+    }
+
+    if ( $^O ne 'MSWin32' && $> != 0 ) {    # $EFFECTIVE_USER_ID
+        print STDERR "ERROR: Please run this script as superuser (root).\n";
+        exit 1;
+    }
 
     # check params
     $OtrsUserID = getpwnam $OtrsUser;
@@ -119,6 +130,9 @@ sub Run {
 
     if ( defined $SkipArticleDir ) {
         push @IgnoreFiles, qr{^/var/article}smx;
+    }
+    for my $Regex (@SkipRegex) {
+        push @IgnoreFiles, qr{$Regex}smx;
     }
 
     print "Setting permissions on $OTRSDirectory\n";
@@ -152,6 +166,7 @@ sub SetPermissions {
     for my $IgnoreRegex (@IgnoreFiles) {
         if ( $RelativeFile =~ $IgnoreRegex ) {
             $File::Find::prune = 1;    # don't descend into subdirectories
+            print "Skipping $RelativeFile\n";
             return;
         }
     }

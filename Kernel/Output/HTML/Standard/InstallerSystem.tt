@@ -115,7 +115,7 @@ $('select#LogModule').bind('change', function(){
                 </fieldset>
 
                 <div class="SpacingTop Right">
-                    <button class="Primary" type="submit"}">[% Translate("Next") | html %]</button>
+                    <button class="Primary CallForAction" type="submit"><span>[% Translate("Next") | html %]</span></button>
                 </div>
             </div>
         </div>

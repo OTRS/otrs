@@ -689,6 +689,8 @@ input[type=text].ArticleFreeKey {
     font-size: 11px;
     max-height: 100px;
     overflow: auto;
+    background: #fff;
+    border: 1px solid #eee;
 }
 
 } /* end @media */

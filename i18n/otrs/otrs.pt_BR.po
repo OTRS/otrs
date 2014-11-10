@@ -3,11 +3,12 @@
 # José Junior <joserribeiro26@gmail.com>, 2014
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014
+# MBaeta <matheus.baeta@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-10-16 13:13+0000\n"
+"PO-Revision-Date: 2014-10-30 11:05+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -9113,10 +9114,6 @@ msgid "Change Queue"
 msgstr "Alterar Fila"
 
 #. Template: AgentTicketZoom
-msgid "Dialogs"
-msgstr ""
-
-#. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
 msgstr "Não existem diálogos disponíveis neste ponto do processo."
 
@@ -9202,10 +9199,6 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
-
-#. Template: AgentTicketZoom
-msgid "This is a chat log. Please zoom this entry in order to see the complete log."
 msgstr ""
 
 #. Template: AttachmentBlocker
@@ -9575,10 +9568,6 @@ msgstr "retornar à página anterior"
 #. Template: Error
 msgid "Error Details"
 msgstr "Detalhes do Erro"
-
-#. Template: Footer
-msgid "Top of page"
-msgstr "Topo da Página"
 
 #. Template: FooterJS
 msgid "If you now leave this page, all open popup windows will be closed, too!"
@@ -10729,6 +10718,10 @@ msgid "Define the max depth of queues."
 msgstr "Define a profundidade máxima das filas."
 
 #. SysConfig
+msgid "Define the start day of the week for the date picker for the indicated calendar."
+msgstr ""
+
+#. SysConfig
 msgid "Define the start day of the week for the date picker."
 msgstr "Defina o dia de início da semana para o selecionador de data."
 
@@ -11594,6 +11587,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the maximum number of quoted lines to be added to responses."
 msgstr ""
 
 #. SysConfig
@@ -14770,6 +14767,22 @@ msgstr ""
 
 #. SysConfig
 msgid "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"default\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"ivory-slim\". See \"AgentLogo\" for further description."
+msgstr ""
+
+#. SysConfig
+msgid "The logo shown in the header of the agent interface for the skin \"slim\". See \"AgentLogo\" for further description."
 msgstr ""
 
 #. SysConfig

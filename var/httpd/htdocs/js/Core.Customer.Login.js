@@ -67,6 +67,7 @@ Core.Customer.Login = (function (TargetNS) {
             $('#Login').hide();
             $('#Reset').hide();
             $('#Signup').hide();
+            $('#PreLogin').hide();
             $('#OldBrowser').show();
             return;
         }
@@ -75,6 +76,11 @@ Core.Customer.Login = (function (TargetNS) {
         Core.Form.EnableForm($('#Login form, #Reset form, #Signup form'));
 
         $('#TimeOffset').val(Diff);
+
+        if ( $('#PreLogin').length ) {
+            $('#PreLogin form').submit();
+            return;
+        }
 
         $Inputs
             .focus(function () {

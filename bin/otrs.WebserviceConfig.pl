@@ -33,7 +33,7 @@ use Kernel::System::ObjectManager;
 
 # get options
 my %Opts;
-getopt( 'hiafn', \%Opts );
+getopt( 'iafn', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.WebserviceConfig.pl - read/write/list webservice config\n";
     print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
@@ -50,7 +50,7 @@ if ( $Opts{h} ) {
     exit 1;
 }
 
-# create common objects
+# create object manager
 local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.WebserviceConfig.pl',
