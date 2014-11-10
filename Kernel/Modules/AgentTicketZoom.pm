@@ -2159,7 +2159,6 @@ sub _ArticleTree {
 
         # incoming types
         my @TypesIncoming = qw(
-            NewTicket
             EmailCustomer
             AddNoteCustomer
             PhoneCallCustomer
@@ -2184,7 +2183,6 @@ sub _ArticleTree {
             @TypesInternal,
             @TypesIncoming,
             'PhoneCallCustomer',
-            'NewTicket',
         );
 
         my %HistoryItems;
@@ -2229,6 +2227,7 @@ sub _ArticleTree {
                 }
                 else {
                     $Item->{Class} = 'NewTicket';
+                    delete $Item->{ArticleID};
                     delete $Item->{Name};
                 }
             }
