@@ -166,17 +166,13 @@ sub EditFieldRender {
     );
 
  # create field HTML
- # the XHTML definition does not support maxlenght attribute for a textarea field, therefore
- # is needed to be set by JS code (otherwise wc3 validator will complain about it)
+ # the XHTML definition does not support maxlenght attribute for a textarea field,
+ # we use data-maxlength instead
  # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
  # validation framework might generate an error while the user is still capable to enter text in the
  # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
-<textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" rows="$RowsNumber" cols="$ColsNumber" >$ValueEscaped</textarea>
-EOF
-
-    $Param{LayoutObject}->AddJSOnDocumentComplete( Code => <<"EOF");
-\$('#$FieldName').attr('maxlength','$Self->{MaxLength}');
+<textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" rows="$RowsNumber" cols="$ColsNumber" data-maxlength="$Self->{MaxLength}">$ValueEscaped</textarea>
 EOF
 
     # for client side validation

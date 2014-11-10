@@ -87,15 +87,17 @@ div.EventDetails {
     font: 11px Arial !important;
 }
 
-/* DashboardUserOnline */
+/* User lists, DashboardUserOnline */
 
+.DashboardUser .UserRow,
 .DashboardUserOnline .UserRow {
     padding-top: 3px;
     clear: both;
 }
 
 .DashboardUserOnline .UserRow a:first-child,
-.DashboardUserOnline .UserRow span:first-child {
+.DashboardUserOnline .UserRow span:first-child,
+.DashboardUser .UserRow span:first-child {
     float: left;
     width: 80%;
     padding-bottom: 3px;

@@ -419,7 +419,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" ></textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800"></textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -444,7 +444,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >Multi
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">Multi
 Line</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
@@ -471,7 +471,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >&lt;special chars=&quot;äüø&quot;&gt;</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">&lt;special chars=&quot;äüø&quot;&gt;</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -498,7 +498,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -528,7 +528,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -558,7 +558,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.
@@ -586,7 +586,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >A Value</textarea>
+<textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">A Value</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         This field is required or The field content is too long! Maximum size is 3800 characters.
@@ -616,7 +616,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >A Value</textarea>
+<textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">A Value</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         The field content is too long! Maximum size is 3800 characters.

@@ -146,6 +146,13 @@ Core.Agent = (function (TargetNS) {
                 });
             })
             .bind('click', function (Event) {
+
+                // if OpenMainMenuOnHover is enabled, clicking the item
+                // should lead to the link as regular
+                if (Core.Config.Get('OpenMainMenuOnHover')) {
+                    return true;
+                }
+
                 var $Element = $(this),
                     $Target = $(Event.target);
                 if ($Element.hasClass('Active')) {

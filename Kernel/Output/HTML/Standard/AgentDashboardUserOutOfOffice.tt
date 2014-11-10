@@ -13,13 +13,13 @@
 </span>
 [% RenderBlockEnd("ContentSmallTicketGenericNavBar") %]
 
-<table class="DataTable">
+<table class="DataTable DashboardUser">
     <tbody>
 [% RenderBlockStart("ContentSmallUserOutOfOfficeRow") %]
         <tr>
             <td>
-                <p title="[% Data.UserEmail | html %]">
-                    [% Data.UserFullname | html %] [% Translate("until") | html %] [% Data.OutOfOfficeUntil | Localize("Date") %]
+                <p class="UserRow" title="[% Data.UserEmail | html %]">
+                    <span>[% Data.UserFullname | html %] [% Translate("until") | html %] [% Data.OutOfOfficeUntil | Localize("Date") %]</span>
                 </p>
             </td>
         </tr>
