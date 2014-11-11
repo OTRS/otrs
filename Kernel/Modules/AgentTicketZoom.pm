@@ -1905,6 +1905,9 @@ sub _ArticleItem {
                     }
                 } sort values %StandardResponseHash;
 
+                # use this array twice (also for Reply All), so copy it first
+                my @StandardResponseArrayReplyAll = @StandardResponseArray;
+
                 unshift(
                     @StandardResponseArray,
                     {
@@ -1971,9 +1974,8 @@ sub _ArticleItem {
                     }
                 }
                 if ( $RecipientCount > 1 ) {
-                    shift(@StandardResponseArray);
                     unshift(
-                        @StandardResponseArray,
+                        @StandardResponseArrayReplyAll,
                         {
                             Key   => '0',
                             Value => '- '
@@ -1985,7 +1987,7 @@ sub _ArticleItem {
                     $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
                         Name => 'ResponseID',
                         ID   => 'ResponseIDAll',
-                        Data => \@StandardResponseArray,
+                        Data => \@StandardResponseArrayReplyAll,
                     );
 
                     $Self->{LayoutObject}->Block(
