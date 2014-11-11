@@ -337,8 +337,10 @@ sub UserAdd {
     # check needed stuff
     for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -355,8 +357,7 @@ sub UserAdd {
     # check email address
     if (
         $Param{UserEmail}
-        && !$Kernel::OM->Get('Kernel::System::CheckItem')
-        ->CheckEmail( Address => $Param{UserEmail} )
+        && !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{UserEmail} )
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -422,10 +423,17 @@ sub UserAdd {
     );
 
     # set password
-    $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+    $Self->SetPassword(
+        UserLogin => $Param{UserLogin},
+        PW        => $Param{UserPw}
+    );
 
     # set email address
-    $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
+    $Self->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserEmail',
+        Value  => $Param{UserEmail}
+    );
 
     # delete cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -461,14 +469,22 @@ sub UserUpdate {
     # check needed stuff
     for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check if a user with this login (username) already exits
-    if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin}, UserID => $Param{UserID} ) ) {
+    if (
+        $Self->UserLoginExistsCheck(
+            UserLogin => $Param{UserLogin},
+            UserID    => $Param{UserID}
+        )
+        )
+    {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "A user with username '$Param{UserLogin}' already exists!"
@@ -479,8 +495,7 @@ sub UserUpdate {
     # check email address
     if (
         $Param{UserEmail}
-        && !$Kernel::OM->Get('Kernel::System::CheckItem')
-        ->CheckEmail( Address => $Param{UserEmail} )
+        && !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{UserEmail} )
         )
     {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -511,7 +526,10 @@ sub UserUpdate {
 
     # check pw
     if ( $Param{UserPw} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPw}
+        );
     }
 
     # set email address
@@ -669,8 +687,10 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -818,8 +838,10 @@ sub UserLookup {
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin or UserID!'
+        );
         return;
     }
 
@@ -1098,8 +1120,10 @@ sub SetPreferences {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1195,8 +1219,10 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need UserID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need UserID!"
+        );
         return;
     }
     my $Token = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
@@ -1229,8 +1255,10 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Token and UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Token and UserID!'
+        );
         return;
     }
 
