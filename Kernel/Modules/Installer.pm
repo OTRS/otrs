@@ -109,7 +109,9 @@ sub Run {
     if ( $Self->{Subaction} ne 'CheckRequirements' ) {
         $Self->{LayoutObject}->Block(
             Name => 'Steps',
-            Data => { Steps => scalar @Steps, },
+            Data => {
+                Steps => scalar @Steps,
+            },
         );
 
         # mapping of subactions to steps
@@ -314,13 +316,11 @@ sub Run {
         my $GeneratedPassword = $Self->{MainObject}->GenerateRandomString();
 
         if ( $DBType eq 'mysql' ) {
-            my $PasswordExplanation
-                = $DBInstallType eq 'CreateDB'
+            my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $Self->{LayoutObject}->{LanguageObject}->Get(
                 'If you have set a root password for your database, it must be entered here. If not, leave this field empty.'
                 )
-                : $Self->{LayoutObject}->{LanguageObject}
-                ->Get('Enter the password for the database user.');
+                : $Self->{LayoutObject}->{LanguageObject}->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -361,12 +361,10 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'mssql' ) {
-            my $PasswordExplanation
-                = $DBInstallType eq 'CreateDB'
+            my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $Self->{LayoutObject}->{LanguageObject}
                 ->Get('Enter the password for the administrative database user.')
-                : $Self->{LayoutObject}->{LanguageObject}
-                ->Get('Enter the password for the database user.');
+                : $Self->{LayoutObject}->{LanguageObject}->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -409,12 +407,10 @@ sub Run {
             return $Output;
         }
         elsif ( $DBType eq 'postgresql' ) {
-            my $PasswordExplanation
-                = $DBInstallType eq 'CreateDB'
+            my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $Self->{LayoutObject}->{LanguageObject}
                 ->Get('Enter the password for the administrative database user.')
-                : $Self->{LayoutObject}->{LanguageObject}
-                ->Get('Enter the password for the database user.');
+                : $Self->{LayoutObject}->{LanguageObject}->Get('Enter the password for the database user.');
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => "$Title - "
@@ -583,9 +579,8 @@ sub Run {
             }
 
             # set DSN for Config.pm
-            $DB{ConfigDSN}
-                = 'DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost}';
-            $DB{DSN} = "DBI:ODBC:driver={SQL Server};Database=$DB{DBName};Server=$DB{DBHost}";
+            $DB{ConfigDSN} = 'DBI:ODBC:driver={SQL Server};Database=$Self->{Database};Server=$Self->{DatabaseHost}';
+            $DB{DSN}       = "DBI:ODBC:driver={SQL Server};Database=$DB{DBName};Server=$DB{DBHost}";
         }
         elsif ( $DB{DBType} eq 'postgresql' ) {
 
@@ -597,16 +592,14 @@ sub Run {
             }
 
             # set DSN for Config.pm
-            $DB{ConfigDSN}
-                = 'DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}';
-            $DB{DSN} = "DBI:Pg:dbname=$DB{DBName};host=$DB{DBHost}";
+            $DB{ConfigDSN} = 'DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}';
+            $DB{DSN}       = "DBI:Pg:dbname=$DB{DBName};host=$DB{DBHost}";
         }
         elsif ( $DB{DBType} eq 'oracle' ) {
 
             # set DSN for Config.pm
-            $DB{ConfigDSN}
-                = 'DBI:Oracle:host=$Self->{DatabaseHost};' . "sid=$DB{DBSID};port=$DB{DBPort}";
-            $DB{DSN} = "DBI:Oracle:host=$DB{DBHost};sid=$DB{DBSID};port=$DB{DBPort}";
+            $DB{ConfigDSN} = 'DBI:Oracle:host=$Self->{DatabaseHost};' . "sid=$DB{DBSID};port=$DB{DBPort}";
+            $DB{DSN}       = "DBI:Oracle:host=$DB{DBHost};sid=$DB{DBSID};port=$DB{DBPort}";
             $Self->{ConfigObject}->Set(
                 Key   => 'Database::Connect',
                 Value => "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'",
@@ -633,7 +626,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -1091,8 +1086,8 @@ sub ReConfigure {
             # replace config with %Param
             for my $Key ( sort keys %Param ) {
 
-             # database passwords can contain characters like '@' or '$' and should be single-quoted
-             # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
+                # database passwords can contain characters like '@' or '$' and should be single-quoted
+                # same goes for database hosts which can be like 'myserver\instance name' for MS SQL
                 if ( $Key eq 'DatabasePw' || $Key eq 'DatabaseHost' ) {
                     $NewConfig =~
                         s/(\$Self->{("|'|)$Key("|'|)} =.+?('|"));/\$Self->{'$Key'} = '$Param{$Key}';/g;
@@ -1294,7 +1289,10 @@ sub CheckMailConfiguration {
 
     # if config option smtp and no smtp host given, return with error
     if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
-        return ( Successful => 0, Message => 'No SMTP Host given!' );
+        return (
+            Successful => 0,
+            Message    => 'No SMTP Host given!'
+        );
     }
 
     # check outbound mail configuration
@@ -1364,7 +1362,10 @@ sub CheckMailConfiguration {
 
     for (qw(InboundUser InboundPassword InboundHost)) {
         if ( !$Self->{ParamObject}->GetParam( Param => $_ ) ) {
-            return ( Successful => 0, Message => "Missing parameter: $_!" );
+            return (
+                Successful => 0,
+                Message    => "Missing parameter: $_!"
+            );
         }
     }
 

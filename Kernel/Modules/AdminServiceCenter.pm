@@ -233,7 +233,7 @@ sub _GenerateSupportBundle {
     my ( $Self, %Param ) = @_;
 
     my $RandomID = $Self->{MainObject}->GenerateRandomString(
-        Length => 8,
+        Length     => 8,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
 
@@ -307,8 +307,7 @@ sub _DownloadSupportBundle {
         );
     }
 
-    my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
+    my $TempDir  = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
     my $Location = $TempDir . '/' . $Filename;
 
     my $Content = $Self->{MainObject}->FileRead(
@@ -354,8 +353,7 @@ sub _SendSupportBundle {
     my $Success;
     if ($Filename) {
 
-        my $TempDir
-            = $Self->{ConfigObject}->Get('TempDir')
+        my $TempDir = $Self->{ConfigObject}->Get('TempDir')
             . '/SupportBundleDownloadCache/'
             . $RandomID;
         my $Location = $TempDir . '/' . $Filename;

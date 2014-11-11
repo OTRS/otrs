@@ -17,12 +17,11 @@ use Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo;
 
 use Kernel::System::VariableCheck qw(:all);
 
-my $ConfigObject = Kernel::Config->new();
-my $ValidationObject
-    = Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo->new(
+my $ConfigObject     = Kernel::Config->new();
+my $ValidationObject = Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo->new(
     %{$Self},
     ConfigObject => $ConfigObject,
-    );
+);
 
 # Sanity check
 $Self->Is(

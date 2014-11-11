@@ -435,7 +435,10 @@ sub Do {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
 
@@ -492,7 +495,10 @@ sub Do {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PreDo( SQL => $Param{SQL}, Bind => \@Array );
+        $DBListener->PreDo(
+            SQL  => $Param{SQL},
+            Bind => \@Array
+        );
     }
 
     # send sql to database
@@ -506,7 +512,10 @@ sub Do {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PostDo( SQL => $Param{SQL}, Bind => \@Array );
+        $DBListener->PostDo(
+            SQL  => $Param{SQL},
+            Bind => \@Array
+        );
     }
 
     return 1;
@@ -558,7 +567,10 @@ sub Prepare {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
     if ( defined $Param{Encode} ) {
@@ -623,7 +635,10 @@ sub Prepare {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PrePrepare( SQL => $SQL, Bind => \@Array );
+        $DBListener->PrePrepare(
+            SQL  => $SQL,
+            Bind => \@Array
+        );
     }
 
     # do
@@ -646,7 +661,10 @@ sub Prepare {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PostPrepare( SQL => $SQL, Bind => \@Array );
+        $DBListener->PostPrepare(
+            SQL  => $SQL,
+            Bind => \@Array
+        );
     }
 
     # slow log feature
@@ -1096,7 +1114,10 @@ sub QueryCondition {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1313,12 +1334,12 @@ sub QueryCondition {
                         $Type = '!=';
                     }
 
-# check if database supports LIKE in large text types
-# the first condition is a little bit opaque
-# CaseSensitive of the database defines, if the database handles case sensitivity or not
-# and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-# so if the database dont support case sensitivity or the configuration of the customer database want to do this
-# then we prevent the LOWER() statements.
+        # check if database supports LIKE in large text types
+        # the first condition is a little bit opaque
+        # CaseSensitive of the database defines, if the database handles case sensitivity or not
+        # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+        # so if the database dont support case sensitivity or the configuration of the customer database want to do this
+        # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type '$Word'";
                     }
@@ -1350,12 +1371,12 @@ sub QueryCondition {
                         $Type = '=';
                     }
 
-# check if database supports LIKE in large text types
-# the first condition is a little bit opaque
-# CaseSensitive of the database defines, if the database handles case sensitivity or not
-# and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
-# so if the database dont support case sensitivity or the configuration of the customer database want to do this
-# then we prevent the LOWER() statements.
+        # check if database supports LIKE in large text types
+        # the first condition is a little bit opaque
+        # CaseSensitive of the database defines, if the database handles case sensitivity or not
+        # and the parameter $CaseSensitive defines, if the customer database should do case sensitive statements or not.
+        # so if the database dont support case sensitivity or the configuration of the customer database want to do this
+        # then we prevent the LOWER() statements.
                     if ( !$Self->GetDatabaseFunction('CaseSensitive') || $CaseSensitive ) {
                         $SQLA .= "$Key $Type '$Word'";
                     }
@@ -1479,7 +1500,10 @@ sub QueryStringEscape {
     # check needed stuff
     for my $Key (qw(QueryString)) {
         if ( !defined $Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

@@ -794,8 +794,7 @@ sub _MigrateOldSettings {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $ModuleAttributes{$ToolbarModule} } ) {
-            $Setting->{$ToolbarModule}->{$Attribute}
-                = $ModuleAttributes{$ToolbarModule}->{$Attribute};
+            $Setting->{$ToolbarModule}->{$Attribute} = $ModuleAttributes{$ToolbarModule}->{$Attribute};
         }
 
         # set new setting,

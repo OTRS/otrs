@@ -43,8 +43,7 @@ sub new {
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::NavBar::CacheTTL') || 900 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Process::NavBar::CacheTTL') || 900 );
 
     return $Self;
 }
@@ -84,13 +83,11 @@ sub Run {
     else {
 
         # create objects (only create objects if no cache, to increse performance)
-        $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-        $Self->{ActivityDialogObject}
-            = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
-        $Self->{TransitionActionObject}
-            = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
-        $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
-        $Self->{ProcessObject}    = Kernel::System::ProcessManagement::Process->new(
+        $Self->{ActivityObject}         = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+        $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
+        $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
+        $Self->{TransitionObject}       = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
+        $Self->{ProcessObject}          = Kernel::System::ProcessManagement::Process->new(
             %{$Self},
             ActivityObject         => $Self->{ActivityObject},
             ActivityDialogObject   => $Self->{ActivityDialogObject},

@@ -112,7 +112,10 @@ sub PIDCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
@@ -173,7 +176,10 @@ sub PIDGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
@@ -223,7 +229,10 @@ sub PIDDelete {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
@@ -267,14 +276,20 @@ sub PIDUpdate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
     my %PID = $Self->PIDGet( Name => $Param{Name} );
 
     if ( !%PID ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Can not get PID' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Can not get PID'
+        );
         return;
     }
 

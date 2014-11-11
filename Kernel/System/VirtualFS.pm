@@ -129,7 +129,10 @@ sub Read {
     # check needed stuff
     for (qw(Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -203,7 +206,10 @@ sub Write {
     # check needed stuff
     for (qw(Filename Content Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -262,7 +268,7 @@ sub Write {
 
     # update backend key
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
+        SQL  => 'UPDATE virtual_fs SET backend_key = ? WHERE id = ?',
         Bind => [ \$BackendKey, \$FileID ],
     );
 
@@ -288,7 +294,10 @@ sub Delete {
     # check needed stuff
     for (qw(Filename)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

@@ -113,7 +113,10 @@ sub SearchProfileAdd {
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -174,7 +177,10 @@ sub SearchProfileGet {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -207,8 +213,12 @@ sub SearchProfileGet {
             $Result{ $Data[1] } = $Data[2];
         }
     }
-    $Self->{CacheInternalObject}
-        ->Set( TTL => 60, Type => 'SearchProfile', Key => $CacheKey, Value => \%Result );
+    $Self->{CacheInternalObject}->Set(
+        TTL   => 60,
+        Type  => 'SearchProfile',
+        Key   => $CacheKey,
+        Value => \%Result
+    );
 
     return %Result;
 }
@@ -231,7 +241,10 @@ sub SearchProfileDelete {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -274,7 +287,10 @@ sub SearchProfileList {
     # check needed stuff
     for (qw(Base UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -300,7 +316,10 @@ sub SearchProfileList {
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $Result{ $Data[0] } = $Data[0];
     }
-    $Self->{CacheInternalObject}->Set( Key => $Login, Value => \%Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $Login,
+        Value => \%Result
+    );
     return %Result;
 }
 

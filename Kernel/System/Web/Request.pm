@@ -92,7 +92,7 @@ sub new {
     use CGI::Carp;
 
     # max 5 MB posts
-    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5; ## no critic
+    $CGI::POST_MAX = $Self->{ConfigObject}->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
 
     # we need to modify the tempdir
     # for windows because the users

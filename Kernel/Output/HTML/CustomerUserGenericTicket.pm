@@ -125,8 +125,7 @@ sub Run {
 
     # note:
     # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
-    my $CustomerIDEscaped
-        = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
+    my $CustomerIDEscaped = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
 
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};
@@ -181,8 +180,7 @@ sub Run {
                 && $TicketSearch{ $TimeType . 'TimeStartYear' }
                 )
             {
-                $TicketSearch{ $TimeType . 'TimeNewerDate' }
-                    = $TicketSearch{ $TimeType . 'TimeStartYear' } . '-'
+                $TicketSearch{ $TimeType . 'TimeNewerDate' } = $TicketSearch{ $TimeType . 'TimeStartYear' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStartMonth' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStartDay' }
                     . ' 00:00:00';
@@ -193,8 +191,7 @@ sub Run {
                 && $TicketSearch{ $TimeType . 'TimeStopYear' }
                 )
             {
-                $TicketSearch{ $TimeType . 'TimeOlderDate' }
-                    = $TicketSearch{ $TimeType . 'TimeStopYear' } . '-'
+                $TicketSearch{ $TimeType . 'TimeOlderDate' } = $TicketSearch{ $TimeType . 'TimeStopYear' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStopMonth' } . '-'
                     . $TicketSearch{ $TimeType . 'TimeStopDay' }
                     . ' 23:59:59';

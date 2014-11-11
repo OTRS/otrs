@@ -93,7 +93,9 @@ sub Run {
 
         # redirect
         if ($Run) {
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}",
+            );
         }
 
         # redirect
@@ -349,9 +351,15 @@ sub Run {
     # ---------------------------------------------------------- #
     # overview of all generic agent jobs
     # ---------------------------------------------------------- #
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd', );
-    $Self->{LayoutObject}->Block( Name => 'Overview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionAdd',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+    );
     my %Jobs = $Self->{GenericAgentObject}->JobList();
 
     # if there are any data, it is shown
@@ -624,7 +632,7 @@ sub _MaskUpdate {
                 Next   => 'within the next ...',
                 Before => 'more than ... ago',
             },
-            Name => $Type . 'TimePointStart',
+            Name       => $Type . 'TimePointStart',
             SelectedID => $JobData{ $Type . 'TimePointStart' } || 'Last',
         );
         $JobData{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->BuildSelection(
@@ -698,11 +706,15 @@ sub _MaskUpdate {
             '1' => 'No',
             '0' => 'Yes'
         },
-        Name => 'NewSendNoNotification',
+        Name       => 'NewSendNoNotification',
         SelectedID => $JobData{NewSendNoNotification} || 0,
     );
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Edit',
         Data => {
@@ -733,7 +745,9 @@ sub _MaskUpdate {
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
         $JobData{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Type,
             Name        => 'TypeIDs',
@@ -792,7 +806,9 @@ sub _MaskUpdate {
             Translation => 0,
             Max         => 200,
         );
-        my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => $Self->{UserID},
+        );
         $JobData{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%SLA,
             Name        => 'SLAIDs',
@@ -860,7 +876,7 @@ sub _MaskUpdate {
                 NotArchivedTickets => 'Unarchived tickets',
                 AllTickets         => 'All tickets',
             },
-            Name => 'SearchInArchive',
+            Name       => 'SearchInArchive',
             SelectedID => $JobData{SearchInArchive} || 'AllTickets',
         );
 
@@ -974,8 +990,7 @@ sub _MaskUpdate {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $PossibleValues->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }
@@ -1032,7 +1047,7 @@ sub _MaskUpdate {
         $Self->{LayoutObject}->Block(
             Name => 'EventRow',
             Data => {
-                Event => $Event,
+                Event     => $Event,
                 EventType => $EventType || '-',
             },
         );
@@ -1180,8 +1195,12 @@ sub _MaskRun {
         %DynamicFieldSearchParameters,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList', );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionList',
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Result',
         Data => {
@@ -1214,8 +1233,10 @@ sub _MaskRun {
                 $Data{Subject} = $Data{Title};
             }
 
-            $Data{Age}
-                = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+            $Data{Age} = $Self->{LayoutObject}->CustomerAge(
+                Age   => $Data{Age},
+                Space => ' '
+            );
             $Data{css} = "PriorityID-$Data{PriorityID}";
 
             # user info

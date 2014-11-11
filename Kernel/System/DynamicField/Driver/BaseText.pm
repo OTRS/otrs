@@ -290,12 +290,12 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Max  => $Param{ValueMaxChars} || '',
         );
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {

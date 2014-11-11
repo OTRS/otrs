@@ -266,7 +266,7 @@ for my $UTF8Test (@UTF8Tests) {
     $Self->{EncodeObject}->EncodeInput( \$TestData{SelectData} );
 
     my $Result = $DBObject->Do(
-        SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
+        SQL  => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
         Bind => [ \$Counter, \$TestData{InsertData} ],
     );
     $Self->True(

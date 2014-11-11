@@ -621,8 +621,8 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedActivityDialogsList[1],
             EntityID => $RandomID . '-2-U',
-            Name => "ActivityDialog-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
-            Config => {
+            Name     => "ActivityDialog-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
+            Config   => {
                 DescriptionShort =>
                     'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ--U',
                 Fields => {

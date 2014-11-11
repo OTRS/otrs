@@ -104,18 +104,15 @@ sub new {
     $Self->{YAMLObject}         = Kernel::System::YAML->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
 
-    $Self->{EntityObject} = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-    $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
-    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
+    $Self->{EntityObject}           = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+    $Self->{ActivityObject}         = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{StateObject}            = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
+    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -262,7 +259,10 @@ sub ProcessDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -360,7 +360,10 @@ sub ProcessGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{EntityID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or EntityID!'
+        );
         return;
     }
 
@@ -539,8 +542,7 @@ sub ProcessGet {
                 my $TransitionPath = $Data{Config}->{Path}->{$ActivityEntityID};
                 for my $TransitionEntityID ( sort keys %{$TransitionPath} ) {
 
-                    my $TransitionActionPath
-                        = $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
+                    my $TransitionActionPath = $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
                         ->{Action};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
                         for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
@@ -563,8 +565,7 @@ sub ProcessGet {
                 my $TransitionPath = $Data{Config}->{Path}->{$ActivityEntityID};
                 for my $TransitionEntityID ( sort keys %{$TransitionPath} ) {
 
-                    my $TransitionActionPath
-                        = $TransitionPath->{$TransitionEntityID}->{TransitionAction};
+                    my $TransitionActionPath = $TransitionPath->{$TransitionEntityID}->{TransitionAction};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
                         for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
                             push @TransitionActions, $TransitionActionEntityID;
@@ -618,7 +619,10 @@ sub ProcessUpdate {
     # check needed stuff
     for my $Key (qw(ID EntityID Name StateEntityID Layout Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -629,7 +633,7 @@ sub ProcessUpdate {
             SELECT id FROM pm_process
             WHERE $Self->{Lower}(entity_id) = $Self->{Lower}(?)
             AND id != ?",
-        Bind => [ \$Param{EntityID}, \$Param{ID} ],
+        Bind  => [ \$Param{EntityID}, \$Param{ID} ],
         LIMIT => 1,
     );
 
@@ -1259,8 +1263,7 @@ sub ProcessDump {
         next TRANSITION if !IsHashRefWithData($TransitionData);
 
         # set ConfitionLinking as it is stored oudise the condition hash
-        $TransitionData->{Config}->{Condition}->{Type}
-            = $TransitionData->{Config}->{ConditionLinking} || '';
+        $TransitionData->{Config}->{Condition}->{Type} = $TransitionData->{Config}->{ConditionLinking} || '';
 
         $TransitionDump{ $TransitionData->{EntityID} } = {
             Name       => $TransitionData->{Name},
@@ -1271,8 +1274,7 @@ sub ProcessDump {
     }
 
     # get TransitionActions
-    my $TransitionActionsList
-        = $Self->{TransitionActionObject}->TransitionActionListGet( UserID => 1 );
+    my $TransitionActionsList = $Self->{TransitionActionObject}->TransitionActionListGet( UserID => 1 );
 
     my %TransitionActionDump;
 
@@ -1533,8 +1535,7 @@ sub ProcessImport {
     if ( $Param{OverwriteExistingEntities} ) {
 
         # keep entities
-        $EntityMapping{Process}->{ $ProcessData->{Process}->{EntityID} }
-            = $ProcessData->{Process}->{EntityID};
+        $EntityMapping{Process}->{ $ProcessData->{Process}->{EntityID} } = $ProcessData->{Process}->{EntityID};
 
         for my $PartName (qw(Activity ActivityDialog Transition TransitionAction)) {
             for my $PartEntityID ( sort keys %{ $ProcessData->{ $PartNameMap{$PartName} } } ) {
@@ -1928,8 +1929,7 @@ sub _ImportedEntitiesUpdate {
                 for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
                     # set new transition action EntityID from process path aticivity transition
-                    my $NewTransitionActionEntityID
-                        = $EntityMapping{TransitionActions}->{$TransitionActionEntityID};
+                    my $NewTransitionActionEntityID = $EntityMapping{TransitionActions}->{$TransitionActionEntityID};
                     if ( !$NewTransitionActionEntityID ) {
                         my $Message = "Could not find a entity mapping for Transition Action: "
                             . "$TransitionActionEntityID";
@@ -1946,8 +1946,7 @@ sub _ImportedEntitiesUpdate {
                 }
 
                 # set new activity EntityID stored in the transition
-                my $NewDestinationActivityEntityID
-                    = $EntityMapping{Activities}->{ $Transition->{ActivityEntityID} };
+                my $NewDestinationActivityEntityID = $EntityMapping{Activities}->{ $Transition->{ActivityEntityID} };
                 if ( !$NewDestinationActivityEntityID ) {
                     my $Message = "Could not find a entity mapping for Activity: "
                         . "$Transition->{ActivityEntityID}";
@@ -1965,8 +1964,7 @@ sub _ImportedEntitiesUpdate {
                 # set new transition EntityID
                 my $NewTransitionEntityID = $EntityMapping{Transitions}->{$TransitionEntityID};
                 if ( !$NewTransitionEntityID ) {
-                    my $Message
-                        = "Could not find a entity mapping for Transition: $TransitionEntityID";
+                    my $Message = "Could not find a entity mapping for Transition: $TransitionEntityID";
                     $Self->{LogObject}->Log(
                         Priority => 'Error',
                         Message  => $Message,
@@ -1978,8 +1976,7 @@ sub _ImportedEntitiesUpdate {
                 }
 
                 # set new transition to its entity hash key
-                $NewProcess->{Config}->{Path}->{$NewActivityEntityID}->{$NewTransitionEntityID}
-                    = $NewTransition;
+                $NewProcess->{Config}->{Path}->{$NewActivityEntityID}->{$NewTransitionEntityID} = $NewTransition;
             }
         }
     }
@@ -2021,8 +2018,7 @@ sub _ImportedEntitiesUpdate {
             my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
 
             # set new actvity dialog EntityID
-            my $NewActivityDialogEntityID
-                = $EntityMapping{ActivityDialogs}->{$ActivityDialogEntityID};
+            my $NewActivityDialogEntityID = $EntityMapping{ActivityDialogs}->{$ActivityDialogEntityID};
             if ( !$NewActivityDialogEntityID ) {
                 my $Message = "Could not find a entity mapping for Activity Dialog: "
                     . "$ActivityDialogEntityID";
@@ -2060,8 +2056,7 @@ sub _ImportedEntitiesUpdate {
             # set new part EntityID
             my $NewEntityID = $EntityMapping{ $PartNameMap{$PartName} }->{$CurrentEntityID};
             if ( !$NewEntityID ) {
-                my $Message
-                    = "Could not find a entity mapping for $PartName: $CurrentEntityID";
+                my $Message = "Could not find a entity mapping for $PartName: $CurrentEntityID";
                 $Self->{LogObject}->Log(
                     Priority => 'Error',
                     Message  => $Message,
@@ -2076,8 +2071,7 @@ sub _ImportedEntitiesUpdate {
 
             # set non changing attributes
             for my $Attribute (qw(Name Config)) {
-                $NewParts{ $PartNameMap{$PartName} }->{$NewEntityID}->{$Attribute}
-                    = $CurrentPart->{$Attribute};
+                $NewParts{ $PartNameMap{$PartName} }->{$NewEntityID}->{$Attribute} = $CurrentPart->{$Attribute};
             }
         }
     }

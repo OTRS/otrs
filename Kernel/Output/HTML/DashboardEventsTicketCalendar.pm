@@ -81,8 +81,7 @@ sub Run {
     my $Queues = $Self->{ConfigObject}->{DashboardEventsTicketCalendar}->{Queues};
 
     # get start and end time from config
-    my $StartTimeDynamicField
-        = $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::DynamicFieldStartTime')
+    my $StartTimeDynamicField = $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::DynamicFieldStartTime')
         || 'TicketCalendarStartTime';
     my $EndTimeDynamicField =
         $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::DynamicFieldEndTime')
@@ -94,10 +93,8 @@ sub Run {
         UserID => $Self->{UserID},
     );
 
-    my $EventTicketFields
-        = $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::TicketFieldsForEvents');
-    my $EventDynamicFields
-        = $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::DynamicFieldsForEvents');
+    my $EventTicketFields  = $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::TicketFieldsForEvents');
+    my $EventDynamicFields = $Self->{ConfigObject}->Get('DashboardEventsTicketCalendar::DynamicFieldsForEvents');
 
     my %DynamicFieldTimeSearch = (
         'DynamicField_' . $StartTimeDynamicField => {
@@ -236,8 +233,7 @@ sub Run {
 
                         # translate state and priority name
                         if ( ( $Key eq 'State' || $Key eq 'Priority' ) && $TicketDetail{$Key} ) {
-                            $TicketDetail{$Key} = $Self->{LayoutObject}->{LanguageObject}
-                                ->Get( $TicketDetail{$Key} );
+                            $TicketDetail{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get( $TicketDetail{$Key} );
                         }
 
                         $Self->{LayoutObject}->Block(
@@ -269,8 +265,7 @@ sub Run {
                         # check if we need to format the date
                         my $InfoValue = $TicketDetail{ 'DynamicField_' . $Item };
                         if ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'DateTime' ) {
-                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}
-                                ->FormatTimeString($InfoValue);
+                            $InfoValue = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString($InfoValue);
                         }
                         elsif ( $Self->{DynamicFieldLookup}->{$Item}->{FieldType} eq 'Date' ) {
                             $InfoValue = $Self->{LayoutObject}->{LanguageObject}

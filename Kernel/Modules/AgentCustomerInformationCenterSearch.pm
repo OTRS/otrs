@@ -65,8 +65,7 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
 
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
@@ -99,7 +98,11 @@ sub Run {
         my @Result;
         CUSTOMERID:
         for my $CustomerID ( sort keys %CustomerCompanyList ) {
-            push @Result, { Label => $CustomerCompanyList{$CustomerID}, Value => $CustomerID };
+            push @Result,
+                {
+                Label => $CustomerCompanyList{$CustomerID},
+                Value => $CustomerID
+                };
             last CUSTOMERID if scalar @Result >= $MaxResults;
         }
 
@@ -130,7 +133,10 @@ sub Run {
                 User => $CustomerLogin,
             );
             push @Result,
-                { Label => $CustomerList{$CustomerLogin}, Value => $CustomerData{UserCustomerID} };
+                {
+                Label => $CustomerList{$CustomerLogin},
+                Value => $CustomerData{UserCustomerID}
+                };
 
             last CUSTOMERLOGIN if $Count++ >= $MaxResults;
         }

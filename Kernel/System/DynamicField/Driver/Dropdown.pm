@@ -69,8 +69,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custmom extensions
-    my $DynamicFieldDriverExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Dropdown');
+    my $DynamicFieldDriverExtensions = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Dropdown');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {

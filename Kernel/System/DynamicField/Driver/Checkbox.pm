@@ -69,8 +69,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custmom extensions
-    my $DynamicFieldDriverExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Checkbox');
+    my $DynamicFieldDriverExtensions = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Checkbox');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -596,8 +595,7 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem
-                    = $Item eq 1
+                my $DisplayItem = $Item eq 1
                     ? 'Checked'
                     : $Item eq -1 ? 'Unchecked'
                     :               '';
@@ -622,8 +620,7 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue
-                = $Value eq 1
+            $DisplayValue = $Value eq 1
                 ? 'Checked'
                 : $Value eq -1 ? 'Unchecked'
                 :                '';
@@ -832,8 +829,7 @@ sub ColumnFilterValuesGet {
     for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
 
         my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
-        $ColumnFilterValues->{$ValueKey}
-            = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
+        $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
     }
 
     return $ColumnFilterValues;

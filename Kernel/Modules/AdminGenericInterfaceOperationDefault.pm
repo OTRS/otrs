@@ -185,13 +185,12 @@ sub _AddAction {
     }
 
     my $Config = {
-        Type => $GetParam{OperationType},
+        Type        => $GetParam{OperationType},
         Description => $Self->{ParamObject}->GetParam( Param => 'Description' ) || '',
     };
 
     my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
-    $MappingInbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
+    $MappingInbound = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
 
     if ($MappingInbound) {
         $Config->{MappingInbound} = {
@@ -200,8 +199,7 @@ sub _AddAction {
     }
 
     my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
-    $MappingOutbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
+    $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
 
     if ($MappingOutbound) {
         $Config->{MappingOutbound} = {
@@ -219,8 +217,7 @@ sub _AddAction {
         );
     }
 
-    my $RedirectURL
-        = "Action=AdminGenericInterfaceOperationDefault;Subaction=Change;WebserviceID=$WebserviceID;";
+    my $RedirectURL = "Action=AdminGenericInterfaceOperationDefault;Subaction=Change;WebserviceID=$WebserviceID;";
     $RedirectURL
         .= 'Operation=' . $Self->{LayoutObject}->LinkEncode( $GetParam{Operation} ) . ';';
 
@@ -304,8 +301,7 @@ sub _ChangeAction {
         );
     }
 
-    my $OperationConfig
-        = $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} };
+    my $OperationConfig = $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam{OldOperation} };
 
     # Operation was renamed, avoid conflicts
     if ( $GetParam{OldOperation} ne $GetParam{Operation} ) {
@@ -340,8 +336,7 @@ sub _ChangeAction {
 
     # Now handle mappings. If mapping types were not changed, keep the mapping configuration.
     my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
-    $MappingInbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
+    $MappingInbound = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
 
     # No inbound mapping set, make sure it is not present in the configuration.
     if ( !$MappingInbound ) {
@@ -357,8 +352,7 @@ sub _ChangeAction {
     }
 
     my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
-    $MappingOutbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
+    $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
 
     # No outbound mapping set, make sure it is not present in the configuration.
     if ( !$MappingOutbound ) {
@@ -391,8 +385,7 @@ sub _ChangeAction {
 
     # Save and finish button: go to Webservice.
     if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-        $RedirectURL
-            = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+        $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
     }
 
@@ -485,8 +478,7 @@ sub _ShowScreen {
     # Inbound mapping
     my @MappingList = sort keys %{$Mappings};
 
-    my $MappingInbound
-        = $Self->_MappingTypeCheck( MappingType => $Param{MappingInbound} )
+    my $MappingInbound = $Self->_MappingTypeCheck( MappingType => $Param{MappingInbound} )
         ? $Param{MappingInbound}
         : '';
 
@@ -514,8 +506,7 @@ sub _ShowScreen {
     }
 
     # Outbound mapping
-    my $MappingOutbound
-        = $Self->_MappingTypeCheck( MappingType => $Param{MappingOutbound} )
+    my $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $Param{MappingOutbound} )
         ? $Param{MappingOutbound}
         : '';
 

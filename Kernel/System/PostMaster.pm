@@ -295,11 +295,15 @@ sub Run {
             # send mail && create new article
             # get queue if of From: and To:
             if ( !$Param{QueueID} ) {
-                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID( Params => $GetParam, );
+                $Param{QueueID} = $Self->{DestQueueObject}->GetQueueID(
+                    Params => $GetParam,
+                );
             }
 
             # check if trusted returns a new queue id
-            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
+            my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+                Params => $GetParam,
+            );
             if ($TQueueID) {
                 $Param{QueueID} = $TQueueID;
             }
@@ -381,7 +385,9 @@ sub Run {
         }
 
         # check if trusted returns a new queue id
-        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID( Params => $GetParam, );
+        my $TQueueID = $Self->{DestQueueObject}->GetTrustedQueueID(
+            Params => $GetParam,
+        );
         if ($TQueueID) {
             $Param{QueueID} = $TQueueID;
         }
@@ -482,7 +488,9 @@ sub CheckFollowUp {
                 MessageID => "<$Reference>",
             );
             next if !$TicketID;
-            my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
+            my $Tn = $Self->{TicketObject}->TicketNumberLookup(
+                TicketID => $TicketID,
+            );
             if ( $TicketID && $Tn ) {
                 return ( $Tn, $TicketID );
             }
@@ -581,7 +589,7 @@ sub GetEmailParams {
         if ( $Self->{Debug} > 2 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
+                Message  => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
             );
         }
         $GetParam{$Param} = $Self->{ParserObject}->GetParam( WHAT => $Param );
@@ -647,7 +655,7 @@ sub GetEmailParams {
         if ( !$Self->{TicketObject}->ArticleTypeLookup( ArticleType => $GetParam{$Key} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
+                Message  => "Can't find article type '$GetParam{$Key}' in db, take 'email-external'",
             );
             $GetParam{$Key} = 'email-external';
         }

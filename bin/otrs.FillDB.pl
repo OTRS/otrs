@@ -68,18 +68,17 @@ sub _CommonObjects {
         LogPrefix => 'OTRS-otrs.FillDB.pl',
         %Objects,
     );
-    $Objects{TimeObject}         = Kernel::System::Time->new(%Objects);
-    $Objects{MainObject}         = Kernel::System::Main->new(%Objects);
-    $Objects{DBObject}           = Kernel::System::DB->new(%Objects);
-    $Objects{UserObject}         = Kernel::System::User->new(%Objects);
-    $Objects{CustomerUserObject} = Kernel::System::CustomerUser->new(%Objects);
-    $Objects{GroupObject}        = Kernel::System::Group->new(%Objects);
-    $Objects{QueueObject}        = Kernel::System::Queue->new(%Objects);
-    $Objects{TicketObject}       = Kernel::System::Ticket->new(%Objects);
-    $Objects{LinkObject}         = Kernel::System::LinkObject->new(%Objects);
-    $Objects{DynamicFieldObject} = Kernel::System::DynamicField->new(%Objects);
-    $Objects{DynamicFieldBackendObject}
-        = Kernel::System::DynamicField::Backend->new(%Objects);
+    $Objects{TimeObject}                = Kernel::System::Time->new(%Objects);
+    $Objects{MainObject}                = Kernel::System::Main->new(%Objects);
+    $Objects{DBObject}                  = Kernel::System::DB->new(%Objects);
+    $Objects{UserObject}                = Kernel::System::User->new(%Objects);
+    $Objects{CustomerUserObject}        = Kernel::System::CustomerUser->new(%Objects);
+    $Objects{GroupObject}               = Kernel::System::Group->new(%Objects);
+    $Objects{QueueObject}               = Kernel::System::Queue->new(%Objects);
+    $Objects{TicketObject}              = Kernel::System::Ticket->new(%Objects);
+    $Objects{LinkObject}                = Kernel::System::LinkObject->new(%Objects);
+    $Objects{DynamicFieldObject}        = Kernel::System::DynamicField->new(%Objects);
+    $Objects{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new(%Objects);
 
     return \%Objects;
 }
@@ -209,8 +208,7 @@ EOF
         if ( $Opts{f} ) {
 
             # bulk-insert the flags directly for improved performance
-            my $SQL
-                = 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by) VALUES ';
+            my $SQL = 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by) VALUES ';
             my @Values;
             for my $UserID (@UserIDs) {
                 push @Values, "($TicketID, 'Seen', 1, current_timestamp, $UserID)";
@@ -238,7 +236,7 @@ EOF
                     HistoryType    => 'AddNote',
                     HistoryComment => 'Some free text!',
                     UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
-                    NoAgentNotify => 1,    # if you don't want to send agent notifications
+                    NoAgentNotify  => 1,                                 # if you don't want to send agent notifications
                 );
 
                 if ( $Opts{f} ) {
@@ -370,7 +368,7 @@ EOF
                 HistoryType    => 'AddNote',
                 HistoryComment => 'Some free text!',
                 UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
-                NoAgentNotify => 1,    # if you don't want to send agent notifications
+                NoAgentNotify  => 1,                                    # if you don't want to send agent notifications
             );
             print "NOTICE: Article added to Ticket '$TicketID/$ArticleID'.\n";
 
@@ -384,9 +382,9 @@ EOF
                 }
             }
             $CommonObjects->{TicketObject}->StateSet(
-                StateID  => $StateID,
-                TicketID => $TicketID,
-                SendNoNotification => 1,    # optional 1|0 (send no agent and customer notification)
+                StateID            => $StateID,
+                TicketID           => $TicketID,
+                SendNoNotification => 1,           # optional 1|0 (send no agent and customer notification)
                 UserID => $UserIDs[ int( rand($#UserIDs) ) ],
             );
             print "NOTICE: State updated of Ticket '$TicketID/$States{$StateID}'.\n";

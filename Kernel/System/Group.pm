@@ -106,7 +106,10 @@ sub GroupLookup {
 
     # check needed stuff
     if ( !$Param{Group} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Group or GroupID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Group or GroupID!'
+        );
         return;
     }
 
@@ -156,7 +159,10 @@ sub GroupLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Result
+    );
 
     # return result
     return $Result;
@@ -181,7 +187,10 @@ sub GroupAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -242,7 +251,10 @@ sub GroupGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -286,7 +298,10 @@ sub GroupUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -391,7 +406,10 @@ sub GroupMemberAdd {
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -511,12 +529,18 @@ sub GroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or GroupID!'
+        );
         return;
     }
 
@@ -547,7 +571,10 @@ sub GroupMemberList {
                 Result => 'ID',
             );
             if (@Member) {
-                my @ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member, );
+                my @ResultGroupRole = $Self->GroupRoleMemberList(
+                    %Param,
+                    RoleIDs => \@Member,
+                );
                 push @Result, @ResultGroupRole;
             }
         }
@@ -569,7 +596,10 @@ sub GroupMemberList {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Result );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \@Result
+        );
 
         return @Result;
     }
@@ -608,7 +638,10 @@ sub GroupMemberList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Result
+    );
 
     return %Result;
 
@@ -631,7 +664,10 @@ sub GroupMemberInvolvedList {
     # check needed stuff
     for my $Attribute (qw(UserID Type)) {
         if ( !$Param{$Attribute} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Attribute!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Attribute!"
+            );
             return;
         }
     }
@@ -730,7 +766,10 @@ sub GroupMemberInvolvedList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%AllUsers );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%AllUsers
+    );
 
     return %AllUsers;
 }
@@ -774,7 +813,10 @@ sub GroupGroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -878,7 +920,10 @@ sub GroupGroupMemberList {
 
         # set cache
         if ( $Param{UserID} || $Param{GroupID} ) {
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ID );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => \@ID
+            );
         }
         return @ID;
     }
@@ -886,14 +931,20 @@ sub GroupGroupMemberList {
 
         # set cache
         if ( $Param{UserID} || $Param{GroupID} ) {
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Name );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => \@Name
+            );
         }
         return @Name;
     }
 
     # set cache
     if ( $Param{UserID} || $Param{GroupID} ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Data
+        );
     }
     return %Data;
 }
@@ -940,7 +991,10 @@ sub GroupRoleMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1049,7 +1103,10 @@ sub GroupRoleMemberList {
 
         # set cache
         if ( $Param{RoleID} || $Param{GroupID} ) {
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ID );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => \@ID
+            );
         }
         return @ID;
     }
@@ -1057,14 +1114,20 @@ sub GroupRoleMemberList {
 
         # set cache
         if ( $Param{RoleID} || $Param{GroupID} ) {
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Name );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => \@Name
+            );
         }
         return @Name;
     }
 
     # set cache
     if ( $Param{RoleID} || $Param{GroupID} ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Data
+        );
     }
     return %Data;
 }
@@ -1097,7 +1160,10 @@ sub GroupRoleMemberAdd {
     # check needed stuff
     for (qw(RID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1206,7 +1272,10 @@ sub GroupUserRoleMemberList {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Result!'
+        );
         return;
     }
 
@@ -1309,7 +1378,10 @@ sub GroupUserRoleMemberList {
 
         # set cache
         if ( $Param{RoleID} || $Param{UserID} ) {
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ID );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => \@ID
+            );
         }
         return @ID;
     }
@@ -1317,14 +1389,20 @@ sub GroupUserRoleMemberList {
 
         # set cache
         if ( $Param{RoleID} || $Param{UserID} ) {
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Name );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => \@Name
+            );
         }
         return @Name;
     }
 
     # set cache
     if ( $Param{RoleID} || $Param{UserID} ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Data
+        );
     }
     return %Data;
 }
@@ -1348,14 +1426,17 @@ sub GroupUserRoleMemberAdd {
     # check needed stuff
     for (qw(RID UID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
+        SQL  => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
 
@@ -1405,7 +1486,10 @@ sub RoleLookup {
 
     # check needed stuff
     if ( !$Param{Role} && !$Param{RoleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Role or RoleID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Role or RoleID!'
+        );
         return;
     }
 
@@ -1455,7 +1539,10 @@ sub RoleLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Result
+    );
 
     # return result
     return $Result;
@@ -1485,7 +1572,10 @@ sub RoleGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -1527,7 +1617,10 @@ sub RoleAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1584,7 +1677,10 @@ sub RoleUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

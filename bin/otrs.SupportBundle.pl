@@ -51,11 +51,10 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-otrs.SuppportBundle.pl',
     %CommonObject,
 );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SupportBundleGeneratorObject}
-    = Kernel::System::SupportBundleGenerator->new(%CommonObject);
+$CommonObject{TimeObject}                   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}                   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}                     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SupportBundleGeneratorObject} = Kernel::System::SupportBundleGenerator->new(%CommonObject);
 
 # get options
 my %Opts = ();

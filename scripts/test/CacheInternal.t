@@ -48,10 +48,16 @@ my @Tests = (
         Result => 123,
     },
     {
-        Name   => 'Simple',
-        Key    => 'Key2',
-        Input  => { 1 => 'a', 2 => 'b' },
-        Result => { 1 => 'a', 2 => 'b' },
+        Name  => 'Simple',
+        Key   => 'Key2',
+        Input => {
+            1 => 'a',
+            2 => 'b'
+        },
+        Result => {
+            1 => 'a',
+            2 => 'b'
+        },
     }
 );
 

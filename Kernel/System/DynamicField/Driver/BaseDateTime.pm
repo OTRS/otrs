@@ -384,7 +384,9 @@ sub DisplayValueRender {
     if ( defined $Param{Value} ) {
         $Value = $Param{LayoutObject}->Output(
             Template => '$TimeShort{"$Data{"Value"}"}',
-            Data => { Value => $Param{Value}, },
+            Data     => {
+                Value => $Param{Value},
+            },
         );
     }
 
@@ -505,8 +507,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDateTime';
 
     # set as checked if necessary
-    my $FieldChecked
-        = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
 
     my $HTMLString = <<"EOF";
     <input type="hidden" id="$FieldName" name="$FieldName" value="1"/>
@@ -547,7 +548,7 @@ EOF
                 month  => 'month(s)',
                 year   => 'year(s)',
             },
-            Name => $FieldName . 'Format',
+            Name       => $FieldName . 'Format',
             SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || 'day',
         );
 
@@ -662,8 +663,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type }
-                    = $Param{Profile}->{ $Prefix . $Type };
+                $DynamicFieldValues{ $Prefix . $Type } = $Param{Profile}->{ $Prefix . $Type };
             }
             else {
                 return;
@@ -718,8 +718,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                    = $Param{Profile}->{ $Prefix . $Type . $Part };
+                $DynamicFieldValues{ $Prefix . $Type . $Part } = $Param{Profile}->{ $Prefix . $Type . $Part };
             }
             else {
                 return;
@@ -939,16 +938,14 @@ sub SearchFieldParameterBuild {
             };
         }
 
-        my $ValueStart
-            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+        my $ValueStart = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
             . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartSecond' };
 
-        my $ValueStop
-            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+        my $ValueStop = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
             . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'

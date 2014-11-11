@@ -22,7 +22,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -37,7 +40,10 @@ sub Connect {
     );
 
     if ( !$PopObject ) {
-        return ( Successful => 0, Message => "$Type: Can't connect to $Param{Host}" );
+        return (
+            Successful => 0,
+            Message    => "$Type: Can't connect to $Param{Host}"
+        );
     }
 
     $PopObject->starttls(

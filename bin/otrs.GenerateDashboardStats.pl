@@ -95,8 +95,7 @@ sub Run {
             Value => 1,
         );
 
-        my $UserWidgetConfigSetting
-            = 'UserDashboardStatsStatsConfiguration' . ( 1000 + $StatID ) . "-Stats";
+        my $UserWidgetConfigSetting = 'UserDashboardStatsStatsConfiguration' . ( 1000 + $StatID ) . "-Stats";
 
         # Calculate the cache for each user, if needed. If several users have the same settings
         #   for a stat, the cache will not be recalculated.

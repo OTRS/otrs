@@ -743,7 +743,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             DynamicField_CheckboxFieldUsed => 1,
         },
         Success => 1,
@@ -764,7 +764,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             DynamicField_CheckboxFieldUsed => 1,
         },
         Success => 1,
@@ -859,7 +859,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             DynamicField_CheckboxFieldUsed => 0,
         },
         Success => 1,
@@ -880,7 +880,7 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+            DynamicField_CheckboxField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
             DynamicField_CheckboxFieldUsed => 0,
         },
         Success => 1,
@@ -1271,7 +1271,7 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => [ 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß', 'Foo' ],
-        Success => 1,
+        Success         => 1,
     },
     {
         Name   => 'Multiselect: empty template and UTF8 ParamObject (Normal MultiValue)',
@@ -1288,7 +1288,7 @@ my @Tests = (
             ReturnTemplateStructure => 0,
         },
         ExpectedResults => [ 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß', 'Foo' ],
-        Success => 1,
+        Success         => 1,
     },
     {
         Name   => 'Multiselect: UTF8 template and empty ParamObject (ValueStructure MultiValue)',
@@ -1303,7 +1303,7 @@ my @Tests = (
             ReturnValueStructure    => 1,
             ReturnTemplateStructure => 0,
         },
-        Success => 1,
+        Success         => 1,
         ExpectedResults => [ 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß', 'Foo' ],
     },
     {
@@ -1320,7 +1320,7 @@ my @Tests = (
             ReturnValueStructure    => 1,
             ReturnTemplateStructure => 0,
         },
-        Success => 1,
+        Success         => 1,
         ExpectedResults => [ 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß', 'Foo' ],
     },
     {
@@ -2009,7 +2009,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Template           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 1,
             },
             ParamObject             => $ParamObject,
@@ -2045,7 +2045,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 1,
             },
             TransformDates          => 0,
@@ -2103,7 +2103,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Template           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 1,
             },
             ParamObject             => $ParamObject,
@@ -2153,7 +2153,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 1,
             },
             TransformDates          => 0,
@@ -2225,7 +2225,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Template           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 1,
             },
             ParamObject             => $ParamObject,
@@ -2275,7 +2275,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 1,
             },
             TransformDates          => 0,
@@ -2323,7 +2323,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Template           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 0,
             },
             ParamObject             => $ParamObject,
@@ -2358,7 +2358,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 0,
             },
             TransformDates          => 0,
@@ -2391,7 +2391,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Template           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 0,
             },
             ParamObject             => $ParamObject,
@@ -2433,7 +2433,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 0,
             },
             TransformDates          => 0,
@@ -2473,7 +2473,7 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Template           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 0,
             },
             ParamObject             => $ParamObject,
@@ -2515,7 +2515,7 @@ my @Tests = (
             Template           => {},
             ParamObject        => $ParamObject,
             CGIParam           => {
-                DynamicField_DateField => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
+                DynamicField_DateField     => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 DynamicField_DateFieldUsed => 0,
             },
             TransformDates          => 0,

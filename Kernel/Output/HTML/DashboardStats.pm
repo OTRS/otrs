@@ -90,7 +90,9 @@ sub Preferences {
 
         # load static module
         my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
-        $Self->{LayoutObject}->Block( Name => 'Static', );
+        $Self->{LayoutObject}->Block(
+            Name => 'Static',
+        );
         for my $ParamItem ( @{$Params} ) {
 
             next if $ParamItem->{Name} eq 'GraphSize';
@@ -220,8 +222,7 @@ sub Preferences {
                                 @{ $ObjectAttribute->{SortIndividual} };
                         }
                         else {
-                            @Sorted
-                                = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
+                            @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
                         }
 
                         for (@Sorted) {
@@ -265,8 +266,7 @@ sub Preferences {
                             && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
                             )
                         {
-                            $ObjectAttribute->{SelectedValues}
-                                = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
+                            $ObjectAttribute->{SelectedValues} = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
                         }
 
                         $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
@@ -292,8 +292,7 @@ sub Preferences {
                             && $StatsSettings->{ $Use . $ObjectAttribute->{Element} }
                             )
                         {
-                            $ObjectAttribute->{SelectedValues}
-                                = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
+                            $ObjectAttribute->{SelectedValues} = $StatsSettings->{ $Use . $ObjectAttribute->{Element} };
                         }
 
                         $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
@@ -408,25 +407,22 @@ sub Preferences {
                                     last if $SelectedID eq $_;
                                 }
 
-                                $BlockData{TimeRelativeUnit}
-                                    = $Self->{LayoutObject}->BuildSelection(
-                                    Name       => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
-                                    Data       => \%TimeScaleOption,
-                                    Class      => 'TimeRelativeUnitGeneric',
-                                    Sort       => 'IndividualKey',
-                                    SelectedID => $SelectedID || '',
+                                $BlockData{TimeRelativeUnit} = $Self->{LayoutObject}->BuildSelection(
+                                    Name           => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
+                                    Data           => \%TimeScaleOption,
+                                    Class          => 'TimeRelativeUnitGeneric',
+                                    Sort           => 'IndividualKey',
+                                    SelectedID     => $SelectedID || '',
                                     SortIndividual => [
                                         'Second', 'Minute', 'Hour', 'Day',
                                         'Week', 'Month', 'Year'
                                     ],
-                                    );
+                                );
                             }
-                            $BlockData{TimeRelativeCountMax}
-                                = $ObjectAttribute->{TimeRelativeCount};
+                            $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
                             $BlockData{TimeRelativeUnitMax}
                                 = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
-                            $BlockData{TimeRelativeMaxSeconds}
-                                = $ObjectAttribute->{TimeRelativeCount}
+                            $BlockData{TimeRelativeMaxSeconds} = $ObjectAttribute->{TimeRelativeCount}
                                 * $Self->_TimeInSeconds(
                                 TimeUnit => $ObjectAttribute->{TimeRelativeUnit}
                                 );
@@ -504,12 +500,20 @@ sub Preferences {
 
             # Show this Block if no value series or restrictions are selected
             if ( !$Flag ) {
-                $Self->{LayoutObject}->Block( Name => 'NoElement', );
+                $Self->{LayoutObject}->Block(
+                    Name => 'NoElement',
+                );
             }
         }
     }
-    my %YesNo        = ( 0 => 'No',      1 => 'Yes' );
-    my %ValidInvalid = ( 0 => 'invalid', 1 => 'valid' );
+    my %YesNo = (
+        0 => 'No',
+        1 => 'Yes'
+    );
+    my %ValidInvalid = (
+        0 => 'invalid',
+        1 => 'valid'
+    );
     $Stat->{SumRowValue}                = $YesNo{ $Stat->{SumRow} };
     $Stat->{SumColValue}                = $YesNo{ $Stat->{SumCol} };
     $Stat->{CacheValue}                 = $YesNo{ $Stat->{Cache} };
@@ -661,8 +665,9 @@ sub _Timeoutput {
     }
 
     # get time
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     my $Element = $Param{Element};
     my %TimeConfig;
 
@@ -770,7 +775,7 @@ sub _TimeScaleBuildSelection {
             Month  => 'month(s)',
             Year   => 'year(s)',
         },
-        Sort => 'IndividualKey',
+        Sort           => 'IndividualKey',
         SortIndividual => [ 'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year' ]
     );
 

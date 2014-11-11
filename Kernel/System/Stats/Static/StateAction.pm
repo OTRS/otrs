@@ -175,7 +175,10 @@ sub _GetDBDataPerDay {
     my $SQL   = 'SELECT count(*) FROM ticket_history '
         . 'WHERE history_type_id = ? AND create_time >= ? AND create_time <= ?';
 
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{StateID}, \$Start, \$End ] );
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$Param{StateID}, \$Start, \$End ]
+    );
 
     my $DayData = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {

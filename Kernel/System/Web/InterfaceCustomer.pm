@@ -198,13 +198,19 @@ sub Run {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
-        my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
+        my $PostPw = $Self->{ParamObject}->GetParam(
+            Param => 'Password',
+            Raw   => 1
+        ) || '';
 
         # create AuthObject
         my $AuthObject = Kernel::System::CustomerAuth->new( %{$Self} );
 
         # check submitted data
-        my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
+        my $User = $AuthObject->Auth(
+            User => $PostUser,
+            Pw   => $PostPw
+        );
 
         # login is vailid
         if ( !$User ) {
@@ -237,7 +243,10 @@ sub Run {
         }
 
         # login is successful
-        my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->CustomerUserDataGet(
+            User  => $User,
+            Valid => 1
+        );
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {
@@ -392,7 +401,9 @@ sub Run {
         }
 
         # get session data
-        my %UserData = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+        my %UserData = $Self->{SessionObject}->GetSessionIDData(
+            SessionID => $Param{SessionID},
+        );
 
         # create new LayoutObject with new '%Param' and '%UserData'
         my $LayoutObject = Kernel::Output::HTML::Layout->new(
@@ -440,7 +451,10 @@ sub Run {
     elsif ( $Param{Action} eq 'CustomerLostPassword' ) {
 
         # new layout object
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            Lang => $Param{Lang},
+        );
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('CustomerPanelLostPassword') ) {
@@ -557,8 +571,10 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        my $Success
-            = $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        my $Success = $Self->{UserObject}->SetPassword(
+            UserLogin => $User,
+            PW        => $UserData{NewPW}
+        );
 
         if ( !$Success ) {
             $LayoutObject->Print(
@@ -857,7 +873,10 @@ sub Run {
         if ( !$ModuleReg ) {
 
             # new layout object
-            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                Lang => $Param{Lang},
+            );
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -1031,7 +1050,9 @@ sub Run {
     }
 
     # print an error screen
-    my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+    my %Data = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
     my $LayoutObject = Kernel::Output::HTML::Layout->new(
         %{$Self},
         %Param,

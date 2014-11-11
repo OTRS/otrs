@@ -407,12 +407,12 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Max  => $Param{ValueMaxChars} || '',
         );
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {
@@ -972,8 +972,7 @@ sub ColumnFilterValuesGet {
         for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
 
             my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
-            $ColumnFilterValues->{$ValueKey}
-                = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
+            $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}->{LanguageObject}->Get($OriginalValueName);
         }
     }
 

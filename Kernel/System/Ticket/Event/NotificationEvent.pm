@@ -59,13 +59,19 @@ sub Run {
     # check needed stuff
     for (qw(Event Data Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }
@@ -269,7 +275,10 @@ sub _SendNotificationToRecipients {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Notification)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -618,11 +627,10 @@ sub _SendNotification {
             $DisplayValue = $ValueStrg->{Value};
 
             # get display key value
-            my $KeyValueStrg
-                = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
+            my $KeyValueStrg = $Self->{TicketObject}->{DynamicFieldBackendObject}->ReadableValueRender(
                 DynamicFieldConfig => $DynamicField,
                 Value              => $DisplayKeyValue,
-                );
+            );
             $DisplayKeyValue = $KeyValueStrg->{Value};
         }
 
@@ -772,7 +780,7 @@ sub _SendNotification {
             # prepare subject (insert old subject)
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             for my $Type (qw(Subject Body)) {

@@ -118,8 +118,8 @@ my %TestActivityDialogs = (
                 Display          => '1'
             },
         },
-        Interface => [ 'AgentInterface', 'CustomerInterface' ],
-        Name => 'AD1',
+        Interface        => [ 'AgentInterface', 'CustomerInterface' ],
+        Name             => 'AD1',
         Permission       => '',
         RequiredLock     => '',
         SubmitAdviceText => '',

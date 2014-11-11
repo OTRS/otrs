@@ -323,7 +323,7 @@ my @Tests = (
         Name   => 'Multiple Values Multiselect',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Multiselect},
-            Value => [ 'Value1', 'Value2' ],
+            Value              => [ 'Value1', 'Value2' ],
         },
         ExpectedResults => {
             Value => 'Value1, Value2',

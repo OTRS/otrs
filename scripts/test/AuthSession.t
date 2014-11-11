@@ -99,7 +99,7 @@ for my $ModuleFile (@BackendModuleFiles) {
             'LongStringNew' . $Count => $LongString,
             UserTest                 => 'SomeÄÖÜß.',
             UserType                 => 'User',
-            SomeComplexData => {    # verify that complex data can be stored too
+            SomeComplexData          => {                     # verify that complex data can be stored too
                 'CaseSensitive' => 1,
             },
         );

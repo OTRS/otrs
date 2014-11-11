@@ -174,7 +174,7 @@ sub new {
 
     # get the dynamic fields
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid => 1,
+        Valid      => 1,
         ObjectType => [ 'Ticket', 'Article' ],
     );
 

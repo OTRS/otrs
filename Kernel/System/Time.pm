@@ -121,7 +121,10 @@ sub SystemTime2TimeStamp {
 
     # check needed stuff
     if ( !defined $Param{SystemTime} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SystemTime!'
+        );
         return;
     }
 
@@ -169,13 +172,15 @@ sub SystemTime2Date {
 
     # check needed stuff
     if ( !defined $Param{SystemTime} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SystemTime!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SystemTime!'
+        );
         return;
     }
 
     # get time format
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-        = localtime $Param{SystemTime};    ## no critic
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{SystemTime};    ## no critic
     $Year  = $Year + 1900;
     $Month = $Month + 1;
     $Month = sprintf "%02d", $Month;
@@ -204,7 +209,10 @@ sub TimeStamp2SystemTime {
 
     # check needed stuff
     if ( !$Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need String!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need String!'
+        );
         return;
     }
 
@@ -346,7 +354,10 @@ sub Date2SystemTime {
     # check needed stuff
     for (qw(Year Month Day Hour Minute Second)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -452,7 +463,10 @@ sub WorkingTime {
     # check needed stuff
     for (qw(StartTime StopTime)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -461,10 +475,8 @@ sub WorkingTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours        = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
@@ -488,20 +500,17 @@ sub WorkingTime {
     );
 
     my $Counted = 0;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay )
-        = localtime $Param{StartTime};    ## no critic
+    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};    ## no critic
     $AYear  = $AYear + 1900;
     $AMonth = $AMonth + 1;
     my $ADate = "$AYear-$AMonth-$ADay";
-    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay )
-        = localtime $Param{StopTime};     ## no critic
+    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime $Param{StopTime};     ## no critic
     $BYear  = $BYear + 1900;
     $BMonth = $BMonth + 1;
     my $BDate = "$BYear-$BMonth-$BDay";
 
     while ( $Param{StartTime} < $Param{StopTime} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = localtime $Param{StartTime};    ## no critic
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime};       ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
         my $CDate = "$Year-$Month-$Day";
@@ -597,7 +606,10 @@ sub DestinationTime {
     # check needed stuff
     for (qw(StartTime Time)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -606,15 +618,13 @@ sub DestinationTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours        = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
-            $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
-            $Zone = $Zone * 3600;                                                          # 60 * 60
+            $Zone             = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
+            $Zone             = $Zone * 3600;                                                            # 60 * 60
             $Param{StartTime} = $Param{StartTime} + $Zone;
         }
     }
@@ -639,7 +649,7 @@ sub DestinationTime {
         $LoopCounter++;
         last if $LoopCounter > 100;
 
-        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;  ## no critic
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
         $Year  = $Year + 1900;
         $Month = $Month + 1;
 
@@ -733,8 +743,7 @@ sub DestinationTime {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
             # reduce destination time diff between today and tomorrow
-            my ( $NextSecond, $NextMinute, $NextHour, $NextDay, $NextMonth, $NextYear )
-                = localtime $CTime;    ## no critic
+            my ( $NextSecond, $NextMinute, $NextHour, $NextDay, $NextMonth, $NextYear ) = localtime $CTime; ## no critic
             $NextYear  = $NextYear + 1900;
             $NextMonth = $NextMonth + 1;
 

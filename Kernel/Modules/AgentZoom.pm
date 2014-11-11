@@ -47,8 +47,7 @@ sub Run {
         $Redirect =~ s/AgentZoom/AgentTicketZoom/;
     }
     else {
-        $Redirect
-            = $Self->{LayoutObject}->{Baselink}
+        $Redirect = $Self->{LayoutObject}->{Baselink}
             . 'Action=AgentTicketZoom;TicketID='
             . $Self->{TicketID};
     }

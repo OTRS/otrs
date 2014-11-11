@@ -59,10 +59,9 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CommonObject} = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
+    $Self->{TicketCommonObject} = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
 
     return $Self;
 }

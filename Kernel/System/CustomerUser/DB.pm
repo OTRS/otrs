@@ -51,10 +51,9 @@ sub new {
         || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
         || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
-    $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
-    $Self->{ExcludePrimaryCustomerID}
-        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
-    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
+    $Self->{ReadOnly}                 = $Self->{CustomerUserMap}->{ReadOnly};
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{SearchPrefix}             = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
     # charset settings
     $Self->{SourceCharset}       = $Self->{CustomerUserMap}->{Params}->{SourceCharset}       || '';
@@ -119,7 +118,10 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -166,7 +168,10 @@ sub CustomerName {
 
     # get data
     my $SQLConvert = $Self->_ConvertTo($SQL);
-    return if !$Self->{DBObject}->Prepare( SQL => $SQLConvert, Limit => 1 );
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQLConvert,
+        Limit => 1
+    );
     my @NameParts;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         for my $Field (@Row) {
@@ -447,7 +452,10 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -515,7 +523,10 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -613,7 +624,10 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
@@ -625,12 +639,18 @@ sub CustomerUserAdd {
             # skip UserLogin, will be checked later
             next ENTRY if ( $Entry->[0] eq 'UserLogin' );
 
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -645,7 +665,10 @@ sub CustomerUserAdd {
 
     # check if user login exists
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -683,8 +706,7 @@ sub CustomerUserAdd {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -692,8 +714,7 @@ sub CustomerUserAdd {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
             }
             else {
                 $Value{ $Entry->[0] } = "''";
@@ -730,7 +751,10 @@ sub CustomerUserAdd {
 
     # set password
     if ( $Param{UserPassword} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPassword}
+        );
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
@@ -743,14 +767,20 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -797,8 +827,7 @@ sub CustomerUserUpdate {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -806,8 +835,7 @@ sub CustomerUserUpdate {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
             }
             else {
                 $Value{ $Entry->[0] } = "''";
@@ -863,7 +891,10 @@ sub CustomerUserUpdate {
 
     # check pw
     if ( $Param{UserPassword} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPassword}
+        );
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
@@ -882,13 +913,19 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
     my $CryptedPw = '';
@@ -1052,7 +1089,10 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1066,7 +1106,10 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1120,7 +1163,10 @@ sub _CustomerUserCacheClear {
     return if !$Self->{CacheObject};
 
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 

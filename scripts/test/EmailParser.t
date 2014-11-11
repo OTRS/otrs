@@ -99,15 +99,13 @@ $Self->Is(
 );
 
 $Self->Is(
-    $EmailParserObject
-        ->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
 );
 
 $Self->Is(
-    $EmailParserObject
-        ->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
 );

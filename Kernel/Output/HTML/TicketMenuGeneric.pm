@@ -32,7 +32,10 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Ticket!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Ticket!'
+        );
         return;
     }
 

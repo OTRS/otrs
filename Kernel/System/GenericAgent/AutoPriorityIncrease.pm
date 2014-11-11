@@ -67,8 +67,9 @@ sub Run {
     if ( !$LatestAutoIncrease ) {
         $LatestAutoIncrease = $Ticket{Created};
     }
-    $LatestAutoIncrease
-        = $Self->{TimeObject}->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
+    $LatestAutoIncrease = $Self->{TimeObject}->TimeStamp2SystemTime(
+        String => $LatestAutoIncrease,
+    );
     if (
         ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
         > $Param{New}->{TimeInterval}
@@ -92,8 +93,7 @@ sub Run {
     }
 
     # increase priority
-    my $Priority
-        = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
+    my $Priority = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
 
     # do nothing if already highest priority
     if ( !$Priority ) {

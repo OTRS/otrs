@@ -44,8 +44,7 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
-    my $RemoveFilters
-        = $Self->{ParamObject}->GetParam( Param => 'RemoveFilters' )
+    my $RemoveFilters = $Self->{ParamObject}->GetParam( Param => 'RemoveFilters' )
         || $Param{RemoveFilters}
         || 0;
 
@@ -60,9 +59,8 @@ sub new {
     }
 
     # save column filters
-    $Self->{PrefKeyColumnFilters} = 'UserDashboardTicketGenericColumnFilters' . $Self->{Name};
-    $Self->{PrefKeyColumnFiltersRealKeys}
-        = 'UserDashboardTicketGenericColumnFiltersRealKeys' . $Self->{Name};
+    $Self->{PrefKeyColumnFilters}         = 'UserDashboardTicketGenericColumnFilters' . $Self->{Name};
+    $Self->{PrefKeyColumnFiltersRealKeys} = 'UserDashboardTicketGenericColumnFiltersRealKeys' . $Self->{Name};
 
     if ($RemoveFilters) {
         $Self->{UserObject}->SetPreferences(
@@ -174,8 +172,7 @@ sub new {
         $Self->{GetColumnFilterSelect} = $PreferencesColumnFilters;
         my @ColumnFilters = keys %{$PreferencesColumnFilters};    ## no critic
         for my $Field (@ColumnFilters) {
-            $Self->{GetColumnFilter}->{ $Field . $Self->{Name} }
-                = $PreferencesColumnFilters->{$Field};
+            $Self->{GetColumnFilter}->{ $Field . $Self->{Name} } = $PreferencesColumnFilters->{$Field};
         }
     }
 
@@ -431,8 +428,7 @@ sub FilterContent {
 
     # make sure that even a value of 0 is passed as a Selected value, e.g. Unchecked value of a
     # checkbox dynamic field.
-    my $SelectedValue
-        = defined $Self->{GetColumnFilter}->{ $HeaderColumn . $Self->{Name} }
+    my $SelectedValue = defined $Self->{GetColumnFilter}->{ $HeaderColumn . $Self->{Name} }
         ? $Self->{GetColumnFilter}->{ $HeaderColumn . $Self->{Name} }
         : '';
 
@@ -799,8 +795,7 @@ sub Run {
                 $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Service Time');
             }
             elsif ( $HeaderColumn eq 'EscalationResponseTime' ) {
-                $TranslatedWord
-                    = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
+                $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
             }
             elsif ( $HeaderColumn eq 'EscalationSolutionTime' ) {
                 $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time');
@@ -1075,7 +1070,7 @@ sub Run {
                     },
                 );
 
-             # check if the dynamic field is sortable and filtrable (sortable check was made before)
+                # check if the dynamic field is sortable and filtrable (sortable check was made before)
                 if ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
 
                     # variable to save the filter's html code
@@ -1296,16 +1291,14 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman}
-                        = $Self->{LayoutObject}->CustomerAgeInHours(
+                    $EscalationData{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
                         Age   => $EscalationData{EscalationTime},
                         Space => ' ',
-                        );
-                    $EscalationData{EscalationTimeWorkingTime}
-                        = $Self->{LayoutObject}->CustomerAgeInHours(
+                    );
+                    $EscalationData{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
                         Age   => $EscalationData{EscalationTimeWorkingTime},
                         Space => ' ',
-                        );
+                    );
                     if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 )
                     {
                         $EscalationData{EscalationClass} = 'Warning';
@@ -1385,8 +1378,7 @@ sub Run {
                     my %ResponsibleInfo = $Self->{UserObject}->GetUserData(
                         UserID => $Ticket{ResponsibleID},
                     );
-                    $DataValue
-                        = $ResponsibleInfo{'UserFirstname'} . ' '
+                    $DataValue = $ResponsibleInfo{'UserFirstname'} . ' '
                         . $ResponsibleInfo{'UserLastname'};
                 }
                 elsif (
@@ -1423,7 +1415,7 @@ sub Run {
                         Data => {
                             Title => "$DataValue " || '',
                             WholeTitle => $WholeTitle,
-                            Class => $CSSClass || '',
+                            Class      => $CSSClass || '',
                         },
                     );
 
@@ -1647,12 +1639,11 @@ sub _GetColumnValues {
             if ( IsArrayRefWithData($TicketIDs) ) {
 
                 # get the historical values for the field
-                $ColumnFilterValues{$HeaderColumn}
-                    = $Self->{BackendObject}->ColumnFilterValuesGet(
+                $ColumnFilterValues{$HeaderColumn} = $Self->{BackendObject}->ColumnFilterValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     LayoutObject       => $Self->{LayoutObject},
                     TicketIDs          => $TicketIDs,
-                    );
+                );
             }
             else {
 
@@ -1926,7 +1917,7 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            Locks => [ 'lock', 'tmp_lock' ],
+            Locks    => [ 'lock', 'tmp_lock' ],
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],

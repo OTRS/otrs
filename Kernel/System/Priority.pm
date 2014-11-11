@@ -165,7 +165,10 @@ sub PriorityGet {
     # check needed stuff
     for (qw(PriorityID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -223,7 +226,10 @@ sub PriorityAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -278,7 +284,10 @@ sub PriorityUpdate {
     # check needed stuff
     for (qw(PriorityID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -334,7 +343,10 @@ sub PriorityLookup {
 
     # check needed stuff
     if ( !$Param{Priority} && !$Param{PriorityID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Priority or PriorityID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Priority or PriorityID!'
+        );
         return;
     }
 

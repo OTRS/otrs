@@ -463,9 +463,8 @@ for my $Test (@Tests) {
                 "$Test->{Name} | Activity Activities structure is ARRAY",
             );
 
-            my @ExpectedActivityDialogs
-                = map { $AddedActivities{ $Activity->{ID} }->{Config}->{ActivityDialog}->{$_} }
-                sort  { $a <=> $b }
+            my @ExpectedActivityDialogs = map { $AddedActivities{ $Activity->{ID} }->{Config}->{ActivityDialog}->{$_} }
+                sort { $a <=> $b }
                 keys %{ $AddedActivities{ $Activity->{ID} }->{Config}->{ActivityDialog} };
             $Self->IsDeeply(
                 $Activity->{ActivityDialogs},
@@ -490,8 +489,7 @@ for my $Test (@Tests) {
                 . $ActivityDialogNames;
         }
         else {
-            $CacheKey
-                = 'ActivityGet::EntityID::'
+            $CacheKey = 'ActivityGet::EntityID::'
                 . $Test->{Config}->{EntityID}
                 . '::ActivityDialogNames::'
                 . $ActivityDialogNames;

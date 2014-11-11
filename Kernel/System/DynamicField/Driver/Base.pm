@@ -34,7 +34,10 @@ sub ValueIsDifferent {
     return if !defined $Param{Value2} && $Param{Value1} eq '';
 
     # compare the results
-    return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+    return DataIsDifferent(
+        Data1 => \$Param{Value1},
+        Data2 => \$Param{Value2}
+    );
 }
 
 sub ValueDelete {
@@ -105,7 +108,10 @@ sub EditLabelRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig FieldName)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

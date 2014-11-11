@@ -1574,8 +1574,8 @@ my @Tests = (
         },
     },
 
-  # Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket
-  # and move it to Queue1
+    # Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket
+    # and move it to Queue1
     {
         ProcessTransition => {
             Config => {
@@ -1720,8 +1720,8 @@ my @Tests = (
             }
     },
 
-# Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket 1
-# back to A1 and move it back to Queue3
+    # Transition + QueueMove TransitionAction on matching Transition change ActivityEntityID on Ticket 1
+    # back to A1 and move it back to Queue3
     {
         ProcessTransition => {
             Config => {
@@ -1982,8 +1982,7 @@ for my $Test (@Tests) {
         }
 
         # execute process object call
-        my $Result
-            = $ProcessObject->ProcessTicketProcessSet( %{ $Test->{ProcessTicketProcessSet} } );
+        my $Result = $ProcessObject->ProcessTicketProcessSet( %{ $Test->{ProcessTicketProcessSet} } );
 
         if ( $Test->{ProcessTicketProcessSet}{TestType} eq 'False' ) {
 
@@ -2041,8 +2040,7 @@ for my $Test (@Tests) {
         }
 
         # execute process object call
-        my $Result
-            = $ProcessObject->ProcessTicketActivitySet( %{ $Test->{ProcessTicketActivitySet} } );
+        my $Result = $ProcessObject->ProcessTicketActivitySet( %{ $Test->{ProcessTicketActivitySet} } );
 
         if ( $Test->{ProcessTicketActivitySet}{TestType} eq 'False' ) {
 

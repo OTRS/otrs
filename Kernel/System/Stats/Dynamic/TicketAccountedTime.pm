@@ -567,8 +567,7 @@ sub GetObjectAttributes {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
 
@@ -768,8 +767,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -914,11 +912,10 @@ sub _ReportingValues {
                 next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
-                    );
+                );
 
                 # add new search parameter
                 $TicketSearch{$ParameterName} = $DynamicFieldStatsSearchParameter;

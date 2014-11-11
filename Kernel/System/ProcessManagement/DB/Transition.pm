@@ -95,8 +95,7 @@ sub new {
     $Self->{YAMLObject}  = Kernel::System::YAML->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -249,7 +248,10 @@ sub TransitionDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -303,7 +305,10 @@ sub TransitionGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{EntityID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or EntityID!'
+        );
         return;
     }
 
@@ -404,7 +409,10 @@ sub TransitionUpdate {
     # check needed stuff
     for my $Key (qw(ID EntityID Name Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -415,7 +423,7 @@ sub TransitionUpdate {
             SELECT id FROM pm_transition
             WHERE $Self->{Lower}(entity_id) = $Self->{Lower}(?)
             AND id != ?",
-        Bind => [ \$Param{EntityID}, \$Param{ID} ],
+        Bind  => [ \$Param{EntityID}, \$Param{ID} ],
         LIMIT => 1,
     );
 

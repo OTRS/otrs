@@ -75,8 +75,7 @@ $Param{UserLogin}                = $Opts{u};
 $Param{Group}                    = $Opts{g};
 
 unless (
-    $Param{UID}
-    =
+    $Param{UID} =
     $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} )
     )
 {

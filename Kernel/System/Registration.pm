@@ -164,7 +164,10 @@ sub TokenGet {
     # check needed parameters
     for (qw(OTRSID Password)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -271,7 +274,10 @@ sub Register {
     # check needed parameters
     for (qw(Token OTRSID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -290,11 +296,11 @@ sub Register {
     # load operating system info from environment object
     my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
     my %System = (
-        PerlVersion => sprintf( "%vd", $^V ),
-        OSType      => $OSInfo{OS},
-        OSVersion   => $OSInfo{OSName},
-        OTRSVersion => $Self->{ConfigObject}->Get('Version'),
-        FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+        PerlVersion        => sprintf( "%vd", $^V ),
+        OSType             => $OSInfo{OS},
+        OSVersion          => $OSInfo{OSName},
+        OTRSVersion        => $Self->{ConfigObject}->Get('Version'),
+        FQDN               => $Self->{ConfigObject}->Get('FQDN'),
         DatabaseVersion    => $Self->{DBObject}->Version(),
         SupportDataSending => $SupportDataSending,
     );
@@ -509,11 +515,11 @@ sub RegistrationDataGet {
         # read data from environment object
         my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
         $RegistrationData{System} = {
-            PerlVersion => sprintf( "%vd", $^V ),
-            OSType      => $OSInfo{OS},
-            OSVersion   => $OSInfo{OSName},
-            OTRSVersion => $Self->{ConfigObject}->Get('Version'),
-            FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+            PerlVersion     => sprintf( "%vd", $^V ),
+            OSType          => $OSInfo{OS},
+            OSVersion       => $OSInfo{OSName},
+            OTRSVersion     => $Self->{ConfigObject}->Get('Version'),
+            FQDN            => $Self->{ConfigObject}->Get('FQDN'),
             DatabaseVersion => $Self->{DBObject}->Version(),
         };
     }
@@ -570,11 +576,11 @@ sub RegistrationUpdateSend {
     # read data from environment object
     my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
     my %System = (
-        PerlVersion => sprintf( "%vd", $^V ),
-        OSType      => $OSInfo{OS},
-        OSVersion   => $OSInfo{OSName},
-        OTRSVersion => $Self->{ConfigObject}->Get('Version'),
-        FQDN        => $Self->{ConfigObject}->Get('FQDN'),
+        PerlVersion     => sprintf( "%vd", $^V ),
+        OSType          => $OSInfo{OS},
+        OSVersion       => $OSInfo{OSName},
+        OTRSVersion     => $Self->{ConfigObject}->Get('Version'),
+        FQDN            => $Self->{ConfigObject}->Get('FQDN'),
         DatabaseVersion => $Self->{DBObject}->Version(),
     );
 
@@ -585,8 +591,7 @@ sub RegistrationUpdateSend {
         $System{$Key} = $Param{$Key};
     }
 
-    my $SupportDataSending
-        = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
+    my $SupportDataSending = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
 
     # add support data sending flag
     $System{SupportDataSending} = $SupportDataSending;
@@ -786,7 +791,10 @@ sub Deregister {
     # check needed parameters
     for (qw(Token OTRSID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

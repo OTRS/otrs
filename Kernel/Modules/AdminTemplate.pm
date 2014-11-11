@@ -46,13 +46,14 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID, );
+        my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+            ID => $ID,
+        );
 
         my @SelectedAttachment;
-        my %SelectedAttachmentData
-            = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+        my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
             StandardTemplateID => $ID,
-            );
+        );
         for my $Key ( sort keys %SelectedAttachmentData ) {
             push @SelectedAttachment, $Key;
         }
@@ -83,12 +84,13 @@ sub Run {
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
-            $GetParam{$Parameter}
-                = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
-        $GetParam{'Template'}
-            = $Self->{ParamObject}->GetParam( Param => 'Template', Raw => 1 ) || '';
+        $GetParam{'Template'} = $Self->{ParamObject}->GetParam(
+            Param => 'Template',
+            Raw   => 1
+        ) || '';
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
@@ -104,9 +106,10 @@ sub Run {
         }
 
         # check if a standard template exist with this name
-        my $NameExists
-            = $Self->{StandardTemplateObject}
-            ->NameExistsCheck( Name => $GetParam{Name}, ID => $GetParam{ID} );
+        my $NameExists = $Self->{StandardTemplateObject}->NameExistsCheck(
+            Name => $GetParam{Name},
+            ID   => $GetParam{ID}
+        );
 
         if ($NameExists) {
             $Errors{NameExists} = 1;
@@ -134,13 +137,12 @@ sub Run {
                     my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
                     # set attachment to standard template relation
-                    my $Success
-                        = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                    my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
                         AttachmentID       => $AttachmentID,
                         StandardTemplateID => $GetParam{ID},
                         Active             => $Active,
                         UserID             => $Self->{UserID},
-                        );
+                    );
                 }
 
                 $Self->_Overview();
@@ -206,12 +208,13 @@ sub Run {
         my ( %GetParam, %Errors );
 
         for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
-            $GetParam{$Parameter}
-                = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
 
-        $GetParam{'Template'}
-            = $Self->{ParamObject}->GetParam( Param => 'Template', Raw => 1 ) || '';
+        $GetParam{'Template'} = $Self->{ParamObject}->GetParam(
+            Param => 'Template',
+            Raw   => 1
+        ) || '';
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
@@ -227,8 +230,7 @@ sub Run {
         }
 
         # check if a standard template exists with this name
-        my $NameExists
-            = $Self->{StandardTemplateObject}->NameExistsCheck( Name => $GetParam{Name} );
+        my $NameExists = $Self->{StandardTemplateObject}->NameExistsCheck( Name => $GetParam{Name} );
 
         if ($NameExists) {
             $Errors{NameExists} = 1;
@@ -239,11 +241,10 @@ sub Run {
         if ( !%Errors ) {
 
             # add template
-            my $StandardTemplateID
-                = $Self->{StandardTemplateObject}->StandardTemplateAdd(
+            my $StandardTemplateID = $Self->{StandardTemplateObject}->StandardTemplateAdd(
                 %GetParam,
                 UserID => $Self->{UserID},
-                );
+            );
             if ($StandardTemplateID) {
 
                 my %AttachmentsAll = $Self->{StdAttachmentObject}->StdAttachmentList();
@@ -256,13 +257,12 @@ sub Run {
                     my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
                     # set attachment to standard template relation
-                    my $Success
-                        = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                    my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
                         AttachmentID       => $AttachmentID,
                         StandardTemplateID => $StandardTemplateID,
                         Active             => $Active,
                         UserID             => $Self->{UserID},
-                        );
+                    );
                 }
 
                 $Self->_Overview();
@@ -450,7 +450,9 @@ sub _Overview {
 
         my %ListGet;
         for my $ID ( sort keys %List ) {
-            %{ $ListGet{$ID} } = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID, );
+            %{ $ListGet{$ID} } = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                ID => $ID,
+            );
             $ListGet{$ID}->{SortName} = $ListGet{$ID}->{TemplateType} . $ListGet{$ID}->{Name};
         }
 
@@ -461,10 +463,9 @@ sub _Overview {
 
             my %Data = %{ $ListGet{$ID} };
             my @SelectedAttachment;
-            my %SelectedAttachmentData
-                = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
                 StandardTemplateID => $ID,
-                );
+            );
             for my $Key ( sort keys %SelectedAttachmentData ) {
                 push @SelectedAttachment, $Key;
             }

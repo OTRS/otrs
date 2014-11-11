@@ -97,8 +97,7 @@ sub new {
     $Self->{UserObject}  = Kernel::System::User->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('ACL::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('ACL::CacheTTL') || 3600 );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -262,7 +261,10 @@ sub ACLDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -329,7 +331,10 @@ sub ACLGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -455,7 +460,10 @@ sub ACLUpdate {
     # check needed stuff
     for my $Key (qw(ID Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -493,7 +501,7 @@ sub ACLUpdate {
             SELECT id FROM acl
             WHERE $Self->{Lower}(name) = $Self->{Lower}(?)
             AND id != ?",
-        Bind => [ \$Param{Name}, \$Param{ID} ],
+        Bind  => [ \$Param{Name}, \$Param{ID} ],
         LIMIT => 1,
     );
 
@@ -726,8 +734,7 @@ sub ACLListGet {
             FROM acl ';
     if ( $ValidIDsStrg ne 'ALL' ) {
 
-        my $ValidIDsStrgDB
-            = join ',', map $Self->{DBObject}->Quote( $_, 'Integer' ), @{ $Param{ValidIDs} };
+        my $ValidIDsStrgDB = join ',', map $Self->{DBObject}->Quote( $_, 'Integer' ), @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }

@@ -219,7 +219,7 @@ sub CollectByWebRequest {
     # Create a challenge token to authenticate this request without customer/agent login.
     #   PublicSupportDataCollector requires this ChallengeToken.
     my $ChallengeToken = $Self->{MainObject}->GenerateRandomString(
-        Length => 32,
+        Length     => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 

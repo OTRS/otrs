@@ -71,8 +71,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custmom extensions
-    my $DynamicFieldDriverExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::TextArea');
+    my $DynamicFieldDriverExtensions = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::TextArea');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -133,12 +132,10 @@ sub EditFieldRender {
     }
 
     # set the rows number
-    my $RowsNumber
-        = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
+    my $RowsNumber = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
 
     # set the cols number
-    my $ColsNumber
-        = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
+    my $ColsNumber = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldTextArea';
@@ -167,12 +164,12 @@ sub EditFieldRender {
         Text => $FieldLabel,
     );
 
- # create field HTML
- # the XHTML definition does not support maxlength attribute for a textarea field, therefor
- # we use data-maxlength instead
- # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
- # validation framework might generate an error while the user is still capable to enter text in the
- # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
+    # create field HTML
+    # the XHTML definition does not support maxlength attribute for a textarea field, therefor
+    # we use data-maxlength instead
+    # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
+    # validation framework might generate an error while the user is still capable to enter text in the
+    # textarea. Otherwise the maxlenght property will prevent to enter more text than the maximum.
     my $HTMLString = <<"EOF";
 <textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" rows="$RowsNumber" cols="$ColsNumber" data-maxlength="$Self->{MaxLength}">$ValueEscaped</textarea>
 EOF
@@ -250,9 +247,8 @@ sub EditFieldValueValidate {
     }
 
     if ( length $Value > $Self->{MaxLength} ) {
-        $ServerError = 1;
-        $ErrorMessage
-            = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+        $ServerError  = 1;
+        $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
     }
 
     # create resulting structure
@@ -287,7 +283,7 @@ sub DisplayValueRender {
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {

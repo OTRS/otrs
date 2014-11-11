@@ -22,7 +22,10 @@ sub _Connect {
     # check needed stuff
     for (qw(MailHost FQDN)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

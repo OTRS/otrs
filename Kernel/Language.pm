@@ -355,7 +355,9 @@ sub FormatTimeString {
         # Add user time zone diff, but only if we actually display the time!
         # Otherwise the date might be off by one day because of the TimeZone diff.
         if ( $Self->{TimeZone} && $Config ne 'DateFormatShort' ) {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => "$Y-$M-$D $T",
+            );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
             my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $TimeStamp,
@@ -473,7 +475,10 @@ sub Time {
     # check needed stuff
     for (qw(Action Format)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

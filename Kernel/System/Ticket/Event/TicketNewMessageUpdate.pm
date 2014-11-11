@@ -36,7 +36,10 @@ sub Run {
     # check needed stuff
     for my $Parameter (qw(Data Event Config)) {
         if ( !$Param{$Parameter} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Parameter!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Parameter!"
+            );
             return;
         }
     }

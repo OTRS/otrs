@@ -149,11 +149,16 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, SLAData => \%SLAData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam => \%GetParam,
+                                SLAData  => \%SLAData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -481,7 +486,10 @@ sub _MaskNew {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminSLA', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSLA',
+        Data         => \%Param
+    );
 }
 
 1;

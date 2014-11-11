@@ -53,16 +53,13 @@ sub new {
     $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
     $Self->{ActivityObject}     = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
 
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
     $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
 
-    $Self->{TransitionObject}
-        = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
 
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     return $Self;
 }
@@ -106,8 +103,7 @@ sub Run {
             Param => 'FileUpload',
         );
 
-        my $OverwriteExistingEntities
-            = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' );
+        my $OverwriteExistingEntities = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' );
 
         # import the process YAML file
         my %ProcessImport = $Self->{ProcessObject}->ProcessImport(
@@ -220,8 +216,7 @@ sub Run {
                 );
 
                 # list all assigned dialogs
-                my $AssignedDialogs
-                    = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
+                my $AssignedDialogs = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
                 if ( $AssignedDialogs && %{$AssignedDialogs} ) {
 
                     $Self->{LayoutObject}->Block(
@@ -230,8 +225,7 @@ sub Run {
 
                     for my $AssignedDialog ( sort keys %{$AssignedDialogs} ) {
 
-                        my $AssignedDialogEntityID
-                            = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
+                        my $AssignedDialogEntityID = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
                             ->{ActivityDialog}->{$AssignedDialog};
 
                         $Self->{LayoutObject}->Block(
@@ -296,8 +290,7 @@ sub Run {
                 }
 
                 # list all assigned fields
-                my $AssignedFields
-                    = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
+                my $AssignedFields = $ProcessData->{ActivityDialogs}->{$ActivityDialogEntityID}->{Config}
                     ->{FieldOrder};
                 if ( $AssignedFields && @{$AssignedFields} ) {
 
@@ -471,8 +464,7 @@ sub Run {
                 );
 
                 # list config
-                my $Config
-                    = $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config}
+                my $Config = $ProcessData->{TransitionActions}->{$TransitionActionEntityID}->{Config}
                     ->{Config};
                 if ( $Config && %{$Config} ) {
 
@@ -509,8 +501,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'Logo',
                 Data => {
-                    LogoURL => $Param{LogoURL}
-                        = $Self->{ConfigObject}->Get('Frontend::WebPath') . $Logo->{URL},
+                    LogoURL => $Param{LogoURL} = $Self->{ConfigObject}->Get('Frontend::WebPath') . $Logo->{URL},
                 },
             );
         }
@@ -947,7 +938,7 @@ sub Run {
 
         if ( $Self->{ParamObject}->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
 
-          # if the user would like to continue editing the process, just redirect to the edit screen
+            # if the user would like to continue editing the process, just redirect to the edit screen
             return $Self->{LayoutObject}->Redirect(
                 OP =>
                     "Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcessData->{EntityID}"
@@ -1063,8 +1054,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ProcessSync' ) {
 
-        my $Location
-            = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
+        my $Location = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
         my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
             ResultType => 'FILE',
@@ -1337,8 +1327,7 @@ sub Run {
             my $ElementMethod = $Element . 'ListGet';
 
             # get a list of all elements with details
-            my $ElementList
-                = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+            my $ElementList = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
@@ -1540,8 +1529,7 @@ sub _ShowEdit {
             my $ElementMethod = $Element . 'ListGet';
 
             # get a list of all elements with details
-            my $ElementList
-                = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+            my $ElementList = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {

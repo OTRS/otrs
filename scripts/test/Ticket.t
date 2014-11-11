@@ -69,7 +69,10 @@ $Self->True(
     'TicketCreate()',
 );
 
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, Extended => 1 );
+my %Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    Extended => 1
+);
 $Self->Is(
     $Ticket{Title},
     'Some Ticket_Title',
@@ -244,7 +247,7 @@ If you feel the urge to write Perl modules, perlnewmod will give you good advice
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
 );
 
 $Self->True(
@@ -1352,10 +1355,9 @@ my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2
     SystemTime => $Self->{TimeObject}->SystemTime(),
 );
 
-my ( $StopSec, $StopMin, $StopHour, $StopDay, $StopMonth, $StopYear )
-    = $Self->{TimeObject}->SystemTime2Date(
+my ( $StopSec, $StopMin, $StopHour, $StopDay, $StopMonth, $StopYear ) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime => $Self->{TimeObject}->SystemTime() - 60 * 60 * 24,
-    );
+);
 
 my %TicketStatus = $TicketObject->HistoryTicketStatusGet(
     StopYear   => $Year,
@@ -2058,7 +2060,9 @@ my @NewStates = $StateObject->StateGetStatesByType(
 
 # make sure we dont have valid states for state type new
 for my $NewStateID (@NewStates) {
-    my %State = $StateObject->StateGet( ID => $NewStateID, );
+    my %State = $StateObject->StateGet(
+        ID => $NewStateID,
+    );
     $StateObject->StateUpdate(
         %State,
         ValidID => 2,
@@ -2081,7 +2085,9 @@ $Self->False(
 
 # activate states again
 for my $NewStateID (@NewStates) {
-    my %State = $StateObject->StateGet( ID => $NewStateID, );
+    my %State = $StateObject->StateGet(
+        ID => $NewStateID,
+    );
     $StateObject->StateUpdate(
         %State,
         ValidID => 1,

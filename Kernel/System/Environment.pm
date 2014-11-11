@@ -288,7 +288,8 @@ sub PerlInfoGet {
 
     # collect perl data
     my %EnvPerl = (
-        PerlVersion => sprintf "%vd", $^V,
+        PerlVersion => sprintf "%vd",
+        $^V,
     );
 
     my %Modules;

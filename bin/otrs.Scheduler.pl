@@ -294,8 +294,7 @@ sub _Start {
 
         # delete old log files
         my $DaysToKeep = $CommonObject{ConfigObject}->Get('Scheduler::Log::DaysToKeep') || 10;
-        my $DaysToKeepSystemTime
-            = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
+        my $DaysToKeepSystemTime = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
         my @LogFiles = glob("$LogPath/*.log");
 
@@ -638,7 +637,7 @@ sub _AutoRestart {
     # Log daemon start-up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message => $Param{Message} || 'Unknown reason to restart',
+        Message  => $Param{Message} || 'Unknown reason to restart',
     );
 
     # delete process ID lock
@@ -803,7 +802,7 @@ sub _WatchDog {
         }
     }
 
- # if there is a $ProcessID and it is not -1 then it means that the scheduler is running, nothing to
- #   do here
+    # if there is a $ProcessID and it is not -1 then it means that the scheduler is running, nothing to
+    #   do here
     return $ExitCode;
 }

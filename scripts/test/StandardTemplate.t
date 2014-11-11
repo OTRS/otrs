@@ -128,10 +128,9 @@ for my $Test (@Tests) {
     }
 
     # test StandardTemplateList()
-    my %StandardTemplates = $StandardTemplateObject->StandardTemplateList();
-    my %AnswerStandardTemplates = $StandardTemplateObject->StandardTemplateList( Type => 'Answer' );
-    my %ForwardStandardTemplates
-        = $StandardTemplateObject->StandardTemplateList( Type => 'Forward' );
+    my %StandardTemplates        = $StandardTemplateObject->StandardTemplateList();
+    my %AnswerStandardTemplates  = $StandardTemplateObject->StandardTemplateList( Type => 'Answer' );
+    my %ForwardStandardTemplates = $StandardTemplateObject->StandardTemplateList( Type => 'Forward' );
 
     $Self->IsNotDeeply(
         \%StandardTemplates,

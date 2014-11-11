@@ -119,7 +119,10 @@ sub StdAttachmentAdd {
     # check needed stuff
     for (qw(Name ValidID Content ContentType Filename UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -143,7 +146,7 @@ sub StdAttachmentAdd {
     );
 
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
+        SQL  => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
         Bind => [ \$Param{Name}, \$Param{ContentType}, ],
     );
     my $ID;
@@ -168,7 +171,10 @@ sub StdAttachmentGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -227,7 +233,10 @@ sub StdAttachmentUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -285,7 +294,10 @@ sub StdAttachmentDelete {
     # check needed stuff
     for (qw(ID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -366,7 +378,10 @@ sub StdAttachmentLookup {
         $SQL = 'SELECT name FROM standard_attachment WHERE id = ?';
         push @Bind, \$Param{StdAttachmentID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->{$CacheKey} = $Row[0];
     }
@@ -400,7 +415,10 @@ sub StdAttachmentsByResponseID {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no ID!'
+        );
         return;
     }
 
@@ -474,7 +492,10 @@ sub StdAttachmentSetResponses {
     # check needed stuff
     for (qw(ID AttachmentIDsRef UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -654,7 +675,10 @@ sub StdAttachmentStandardTemplateMemberList {
     }
 
     # return result
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
     return %Data;
 }
 

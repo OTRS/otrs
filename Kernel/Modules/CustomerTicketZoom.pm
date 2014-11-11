@@ -95,13 +95,11 @@ sub new {
     $Self->{FollowUpDynamicField} = \@CustomerDynamicFields;
 
     # create additional objects for process management
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new(%Param);
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
+    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new(%Param);
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
 
-    $Self->{TransitionObject} = Kernel::System::ProcessManagement::Transition->new(%Param);
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
+    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::Transition->new(%Param);
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
 
     $Self->{ProcessObject} = Kernel::System::ProcessManagement::Process->new(
         %Param,
@@ -203,8 +201,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -343,7 +340,9 @@ sub Run {
         );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
@@ -453,8 +452,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -756,8 +754,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $PossibleValues->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                         keys %Filter;
                 }
             }
@@ -866,8 +863,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( sort keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -1070,9 +1066,8 @@ sub _Mask {
             # to a regular array in correct order:
             # ('AD1', 'AD3', 'AD2')
 
-            my @TmpActivityDialogList
-                = map { $NextActivityDialogs->{$_} }
-                sort  { $a <=> $b } keys %{$NextActivityDialogs};
+            my @TmpActivityDialogList = map { $NextActivityDialogs->{$_} }
+                sort { $a <=> $b } keys %{$NextActivityDialogs};
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
@@ -1114,10 +1109,9 @@ sub _Mask {
 
             my @PossibleActivityDialogs;
             if (@PermissionActivityDialogList) {
-                @PossibleActivityDialogs
-                    = $Self->{TicketObject}->TicketAclActivityDialogData(
+                @PossibleActivityDialogs = $Self->{TicketObject}->TicketAclActivityDialogData(
                     ActivityDialogs => \@PermissionActivityDialogList
-                    );
+                );
             }
 
             # reformat the @PossibleActivityDialogs that is of the structure:
@@ -1126,8 +1120,7 @@ sub _Mask {
             # e.g.:
             # 1 => 'AD1',
             # 2 => 'AD3',
-            %{$NextActivityDialogs}
-                = map { $_ => $PossibleActivityDialogs[ $_ - 1 ] }
+            %{$NextActivityDialogs} = map { $_ => $PossibleActivityDialogs[ $_ - 1 ] }
                 1 .. scalar @PossibleActivityDialogs;
 
             $Self->{LayoutObject}->Block(
@@ -1438,7 +1431,9 @@ sub _Mask {
             my %AtmIndex = %{ $Article{Atms} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachment',
-                Data => { Key => 'Attachment', },
+                Data => {
+                    Key => 'Attachment',
+                },
             );
             for my $FileID ( sort keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$FileID} };
@@ -1518,8 +1513,9 @@ sub _Mask {
     }
 
     # check follow up permissions
-    my $FollowUpPossible
-        = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
+    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+        QueueID => $Article{QueueID},
+    );
     my %State = $Self->{StateObject}->StateGet(
         ID => $Article{StateID},
     );
@@ -1685,8 +1681,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updatable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw( ServiceID SLAID PriorityID StateID );
+        @UpdatableFields = qw( ServiceID SLAID PriorityID StateID );
     }
 
     # cycle trough the activated Dynamic Fields for this screen

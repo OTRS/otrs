@@ -150,7 +150,7 @@ sub Run {
 
     my @Files = $Self->{MainObject}->DirectoryRead(
         Directory => $Directory,
-        Filter => [ '*.t', '*/*.t', '*/*/*.t', '*/*/*/*.t', '*/*/*/*/*.t', '*/*/*/*/*/*.t' ],
+        Filter    => [ '*.t', '*/*.t', '*/*/*.t', '*/*/*/*.t', '*/*/*/*/*.t', '*/*/*/*/*/*.t' ],
     );
 
     my $StartTime = $Self->{TimeObject}->SystemTime();
@@ -565,7 +565,10 @@ sub _DataDiff {
     # check needed stuff
     for (qw(Data1 Data2)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -621,7 +624,10 @@ sub _DataDiff {
 
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
+                    return 1 if $Self->_DataDiff(
+                        Data1 => $A[$Count],
+                        Data2 => $B[$Count]
+                    );
                     next;
                 }
                 return 1;
@@ -656,7 +662,10 @@ sub _DataDiff {
 
             # return if values are different
             if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
+                return 1 if $Self->_DataDiff(
+                    Data1 => $A{$Key},
+                    Data2 => $B{$Key}
+                );
                 delete $A{$Key};
                 delete $B{$Key};
                 next;
@@ -670,7 +679,10 @@ sub _DataDiff {
     }
 
     if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if $Self->_DataDiff( Data1 => ${ $Param{Data1} }, Data2 => ${ $Param{Data2} } );
+        return 1 if $Self->_DataDiff(
+            Data1 => ${ $Param{Data1} },
+            Data2 => ${ $Param{Data2} }
+        );
         return;
     }
 

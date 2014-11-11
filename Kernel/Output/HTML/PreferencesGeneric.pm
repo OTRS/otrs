@@ -33,8 +33,7 @@ sub Param {
     my @Params;
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined $GetParam ) {
-        $GetParam
-            = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
+        $GetParam = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} }
             : $Self->{ConfigItem}->{DataSelected};
     }

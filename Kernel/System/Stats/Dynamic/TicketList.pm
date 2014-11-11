@@ -126,8 +126,7 @@ sub GetObjectAttributes {
     );
 
     my %TicketAttributes = %{ $Self->_TicketAttributes() };
-    my %OrderBy
-        = map { $_ => $TicketAttributes{$_} } grep { $_ ne 'Number' } keys %TicketAttributes;
+    my %OrderBy = map { $_ => $TicketAttributes{$_} } grep { $_ ne 'Number' } keys %TicketAttributes;
 
     # remove non sortable (and orderable) Dynamic Fields
     DYNAMICFIELD:
@@ -647,8 +646,7 @@ sub GetObjectAttributes {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
 
@@ -770,11 +768,10 @@ sub GetStatTable {
                 next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{Restrictions}->{$ParameterName},
-                    );
+                );
 
                 # add new search parameter
                 $DynamicFieldRestrictions{$ParameterName} = $DynamicFieldStatsSearchParameter;
@@ -1083,8 +1080,7 @@ sub GetStatTable {
 
         # add the accounted time if needed
         if ( $TicketAttributes{AccountedTime} ) {
-            $Ticket{AccountedTime}
-                = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID );
+            $Ticket{AccountedTime} = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID );
         }
 
         $Ticket{SolutionTime}                ||= '';
@@ -1255,8 +1251,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -1345,7 +1340,7 @@ sub _TicketAttributes {
     my $Self = shift;
 
     my %TicketAttributes = (
-        Number => 'Number',    # only a counter for a better readability
+        Number       => 'Number',                                     # only a counter for a better readability
         TicketNumber => $Self->{ConfigObject}->Get('Ticket::Hook'),
 
         #TicketID       => 'TicketID',
@@ -1370,7 +1365,7 @@ sub _TicketAttributes {
 
         #LockID         => 'LockID',
         UnlockTimeout       => 'UnlockTimeout',
-        AccountedTime       => 'Accounted time',       # the same wording is in AgentTicketPrint.dtl
+        AccountedTime       => 'Accounted time',        # the same wording is in AgentTicketPrint.dtl
         RealTillTimeNotUsed => 'RealTillTimeNotUsed',
 
         #GroupID        => 'GroupID',
@@ -1447,8 +1442,7 @@ sub _TicketAttributes {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
         next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-        $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-            = $DynamicFieldConfig->{Label}
+        $TicketAttributes{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldConfig->{Label}
     }
 
     return \%TicketAttributes;

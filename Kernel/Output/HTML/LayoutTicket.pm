@@ -196,7 +196,10 @@ sub AgentCustomerViewTable {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'AgentCustomerTableView',
+        Data         => \%Param
+    );
 }
 
 sub AgentQueueListOption {
@@ -236,8 +239,7 @@ sub AgentQueueListOption {
             );
             $Self->FatalError();
         }
-        $Param{OnChange}
-            = "Core.AJAX.FormUpdate(\$('#"
+        $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Param{Name} . "'), '"
             . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
@@ -262,8 +264,7 @@ sub AgentQueueListOption {
     }
 
     # build tree list
-    $Param{MoveQueuesStrg}
-        = '<select name="'
+    $Param{MoveQueuesStrg} = '<select name="'
         . $Param{Name}
         . '" id="'
         . $Param{Name}
@@ -292,7 +293,10 @@ sub AgentQueueListOption {
         my $UpQueue = $Param{Data}->{$_};
         $UpQueue =~ s/^(.*)::.+?$/$1/g;
         if ( !$Queue[$MaxLevel] && $Queue[-1] ne '' ) {
-            $Queue[-1] = $Self->Ascii2Html( Text => $Queue[-1], Max => 50 - $#Queue );
+            $Queue[-1] = $Self->Ascii2Html(
+                Text => $Queue[-1],
+                Max  => 50 - $#Queue
+            );
             my $Space = '';
             for ( my $i = 0; $i < $#Queue; $i++ ) {
                 $Space .= '&nbsp;&nbsp;';
@@ -969,8 +973,7 @@ sub TicketListShow {
 
                 my %Columns;
                 for my $ColumnName ( sort @ColumnsAvailable ) {
-                    $Columns{Columns}->{$ColumnName}
-                        = ( grep { $ColumnName eq $_ } @ColumnsEnabled ) ? 1 : 0;
+                    $Columns{Columns}->{$ColumnName} = ( grep { $ColumnName eq $_ } @ColumnsEnabled ) ? 1 : 0;
                 }
 
                 $Env->{LayoutObject}->Block(

@@ -153,8 +153,7 @@ sub ProviderGenerateResponse {
     my $Response;
 
     if ( !$Param{Success} ) {
-        $Response
-            = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
+        $Response = HTTP::Response->new( 500 => ( $Param{ErrorMessage} || 'Internal Server Error' ) );
         $Response->protocol('HTTP/1.0');
         $Response->content_type("text/plain; charset=UTF-8");
         $Response->date(time);
@@ -162,8 +161,7 @@ sub ProviderGenerateResponse {
     else {
 
         # generate a request string from the data
-        my $Request
-            = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
+        my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
         $Response = HTTP::Response->new( 200 => "OK" );
         $Response->protocol('HTTP/1.0');

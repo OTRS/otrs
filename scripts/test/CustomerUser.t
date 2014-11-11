@@ -252,8 +252,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerIDList() - no SearchTerm - $UserID (CaseSensitive = 0)",
     );
 
-    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive}
-        = $CustomerDatabaseCaseSensitiveDefault;
+    $ConfigObject->{CustomerUser}->{Params}->{CaseSensitive} = $CustomerDatabaseCaseSensitiveDefault;
 
     # END CaseSensitive
 
@@ -513,7 +512,10 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
                 "SetPassword() - $Config - $UserID - $Password",
             );
 
-            my $Ok = $CustomerAuth->Auth( User => $UserID, Pw => $Password );
+            my $Ok = $CustomerAuth->Auth(
+                User => $UserID,
+                Pw   => $Password
+            );
             $Self->True(
                 $Ok,
                 "Auth() - $Config - $UserID - $Password",

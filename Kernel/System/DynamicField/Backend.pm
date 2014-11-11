@@ -209,8 +209,7 @@ sub new {
     }
 
     # get the Dynamic Field Backend custmom extensions
-    my $DynamicFieldBackendExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Backend');
+    my $DynamicFieldBackendExtensions = $Self->{ConfigObject}->Get('DynamicFields::Extension::Backend');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldBackendExtensions} ) {
@@ -283,7 +282,10 @@ sub EditFieldRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig LayoutObject ParamObject)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -375,7 +377,10 @@ sub DisplayValueRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig LayoutObject)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -437,7 +442,10 @@ sub ValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -541,7 +549,10 @@ sub ValueIsDifferent {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -580,7 +591,10 @@ sub ValueIsDifferent {
     # use Kernel::System::VariableCheck::DataIsDifferent() as a fall back if function is not
     #    defined in the backend
     if ( !$Self->{$DynamicFieldBackend}->can('ValueIsDifferent') ) {
-        return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+        return DataIsDifferent(
+            Data1 => \$Param{Value1},
+            Data2 => \$Param{Value2}
+        );
     }
 
     # call ValueIsDifferent on the specific backend
@@ -606,7 +620,10 @@ sub ValueDelete {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -662,7 +679,10 @@ sub AllValuesDelete {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -719,7 +739,10 @@ sub ValueValidate {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -782,7 +805,10 @@ sub ValueGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -843,7 +869,10 @@ sub SearchSQLGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig TableAlias Operator)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -902,7 +931,10 @@ sub SearchSQLOrderFieldGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig TableAlias)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -998,14 +1030,20 @@ sub EditFieldValueGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
 
     # check for the data source
     if ( !$Param{ParamObject} && !$Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ParamObject or Template!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ParamObject or Template!"
+        );
         return;
     }
 
@@ -1086,7 +1124,10 @@ sub EditFieldValueValidate {
 
     # check needed stuff
     if ( !$Param{DynamicFieldConfig} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!"
+        );
         return;
     }
 
@@ -1187,7 +1228,10 @@ sub SearchFieldRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig LayoutObject Profile)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1309,14 +1353,20 @@ sub SearchFieldValueGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
 
     # check ParamObject and Profile
     if ( !$Param{ParamObject} && !$Param{Profile} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ParamObject or Profile!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ParamObject or Profile!"
+        );
         return;
     }
 
@@ -1485,7 +1535,10 @@ sub SearchFieldParameterBuild {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig Profile)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1551,7 +1604,10 @@ sub ReadableValueRender {
 
     # check needed stuff
     if ( !$Param{DynamicFieldConfig} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!"
+        );
         return;
     }
 
@@ -1639,7 +1695,10 @@ sub TemplateValueTypeGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig FieldType)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1712,7 +1771,10 @@ sub RandomValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1800,7 +1862,10 @@ sub HistoricalValuesGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1865,7 +1930,10 @@ sub ValueLookup {
 
     # check needed stuff
     if ( !$Param{DynamicFieldConfig} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DynamicFieldConfig!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DynamicFieldConfig!"
+        );
         return;
     }
 
@@ -1941,7 +2009,10 @@ sub HasBehavior {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig Behavior)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2021,7 +2092,10 @@ sub PossibleValuesGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2122,7 +2196,10 @@ sub BuildSelectionDataGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig PossibleValues)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2206,7 +2283,10 @@ sub StatsFieldParameterBuild {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2278,7 +2358,10 @@ sub StatsSearchFieldParameterBuild {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig Value)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2356,7 +2439,10 @@ sub ObjectMatch {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectAttributes)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2382,7 +2468,10 @@ sub ObjectMatch {
     }
 
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Value!"
+        );
         return;
     }
 
@@ -2441,7 +2530,10 @@ sub ColumnFilterValuesGet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig LayoutObject TicketIDs)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

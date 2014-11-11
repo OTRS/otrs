@@ -55,10 +55,10 @@ $CommonObject{ParserObject} = Kernel::System::EmailParser->new(
     NoHTMLChecks => 1,
     %CommonObject,
 );
-my $MSGID   = $CommonObject{ParserObject}->GetParam( WHAT => 'Message-ID' ) || 'No Message-ID';
-my $Touch   = 0;
-my $NoTouch = 0;
-my $Counter = 0;
+my $MSGID                     = $CommonObject{ParserObject}->GetParam( WHAT => 'Message-ID' ) || 'No Message-ID';
+my $Touch                     = 0;
+my $NoTouch                   = 0;
+my $Counter                   = 0;
 my $CompressAttachmentMinSize = $CommonObject{ConfigObject}->Get('CompressAttachmentMinSize')
     || ( 1014 * 3 );
 my $CompressAttachmentMaxSize = $CommonObject{ConfigObject}->Get('CompressAttachmentMaxSize')

@@ -67,8 +67,7 @@ sub new {
 
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
-    my %SeleniumTestsConfig
-        = %{ $Param{UnitTestObject}->{ConfigObject}->Get('SeleniumTestsConfig') // {} };
+    my %SeleniumTestsConfig = %{ $Param{UnitTestObject}->{ConfigObject}->Get('SeleniumTestsConfig') // {} };
 
     if ( !%SeleniumTestsConfig ) {
         my $Self = bless {}, $Class;
@@ -107,8 +106,7 @@ sub new {
         $Self->{BaseURL} = '127.0.0.1';
     }
 
-    $Self->{BaseURL}
-        = $Self->{UnitTestObject}->{ConfigObject}->Get('HttpType') . '://' . $Self->{BaseURL};
+    $Self->{BaseURL} = $Self->{UnitTestObject}->{ConfigObject}->Get('HttpType') . '://' . $Self->{BaseURL};
 
     return $Self;
 }
@@ -204,7 +202,10 @@ sub Login {
     # check needed stuff
     for (qw(Type User Password)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

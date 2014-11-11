@@ -38,12 +38,11 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}     = Kernel::System::JSON->new( %{$Self} );
-    $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-    $Self->{TransitionObject}
-        = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{JSONObject}       = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ProcessObject}    = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}     = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ActivityObject}   = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
 
     return $Self;
 }
@@ -178,13 +177,10 @@ sub Run {
                 Subaction => 'TransitionEdit'    # always use edit screen
             );
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -352,13 +348,10 @@ sub Run {
                 Subaction => 'TransitionEdit'               # always use edit screen
             );
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -431,8 +424,7 @@ sub _GetTransitionConfig {
 
     my %TransitionConfig;
     $TransitionConfig{Transition} = ();
-    $TransitionConfig{Transition}->{ $Param{EntityID} }
-        = $ProcessDump->{Transition}->{ $Param{EntityID} };
+    $TransitionConfig{Transition}->{ $Param{EntityID} } = $ProcessDump->{Transition}->{ $Param{EntityID} };
 
     return \%TransitionConfig;
 }
@@ -480,9 +472,9 @@ sub _ShowEdit {
     );
 
     $Param{FreshConditionLinking} = $Self->{LayoutObject}->BuildSelection(
-        Data => [ 'and', 'or', 'xor' ],
-        Name => "ConditionLinking[_INDEX_]",
-        Sort => 'AlphanumericKey',
+        Data        => [ 'and', 'or', 'xor' ],
+        Name        => "ConditionLinking[_INDEX_]",
+        Sort        => 'AlphanumericKey',
         Translation => 1,
         Class       => 'W50pc',
     );
@@ -491,10 +483,10 @@ sub _ShowEdit {
         Data => {
             'String' => 'String',
 
-# disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-# TODO: implement a possibility to enter the data in a correct way in the GUI
-#'Hash'   => 'Hash',
-#'Array'  => 'Array',
+          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+          # TODO: implement a possibility to enter the data in a correct way in the GUI
+          #'Hash'   => 'Hash',
+          #'Array'  => 'Array',
             'Regexp' => 'Regexp',
             'Module' => 'Transition Validation Module'
         },
@@ -507,10 +499,10 @@ sub _ShowEdit {
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
         $Param{OverallConditionLinking} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ 'and', 'or', 'xor' ],
-            Name => 'OverallConditionLinking',
-            ID   => 'OverallConditionLinking',
-            Sort => 'AlphanumericKey',
+            Data        => [ 'and', 'or', 'xor' ],
+            Name        => 'OverallConditionLinking',
+            ID          => 'OverallConditionLinking',
+            Sort        => 'AlphanumericKey',
             Translation => 1,
             Class       => 'W50pc',
             SelectedID  => $TransitionData->{Config}->{ConditionLinking},
@@ -523,9 +515,9 @@ sub _ShowEdit {
             my %ConditionData = %{ $TransitionData->{Config}->{Condition}->{$Condition} };
 
             my $ConditionLinking = $Self->{LayoutObject}->BuildSelection(
-                Data => [ 'and', 'or', 'xor' ],
-                Name => "ConditionLinking[$Condition]",
-                Sort => 'AlphanumericKey',
+                Data        => [ 'and', 'or', 'xor' ],
+                Name        => "ConditionLinking[$Condition]",
+                Sort        => 'AlphanumericKey',
                 Translation => 1,
                 Class       => 'W50pc',
                 SelectedID  => $ConditionData{Type},
@@ -547,10 +539,10 @@ sub _ShowEdit {
                     Data => {
                         'String' => 'String',
 
-# disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-# TODO: implement a possibility to enter the data in a correct way in the GUI
-#'Hash'   => 'Hash',
-#'Array'  => 'Array',
+          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+          # TODO: implement a possibility to enter the data in a correct way in the GUI
+          #'Hash'   => 'Hash',
+          #'Array'  => 'Array',
                         'Regexp' => 'Regexp',
                         'Module' => 'Transition Validation Module'
                     },
@@ -591,18 +583,18 @@ sub _ShowEdit {
     else {
 
         $Param{OverallConditionLinking} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ 'and', 'or', 'xor' ],
-            Name => 'OverallConditionLinking',
-            ID   => 'OverallConditionLinking',
-            Sort => 'AlphanumericKey',
+            Data        => [ 'and', 'or', 'xor' ],
+            Name        => 'OverallConditionLinking',
+            ID          => 'OverallConditionLinking',
+            Sort        => 'AlphanumericKey',
             Translation => 1,
             Class       => 'W50pc',
         );
 
         $Param{ConditionLinking} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ 'and', 'or', 'xor' ],
-            Name => 'ConditionLinking[_INDEX_]',
-            Sort => 'AlphanumericKey',
+            Data        => [ 'and', 'or', 'xor' ],
+            Name        => 'ConditionLinking[_INDEX_]',
+            Sort        => 'AlphanumericKey',
             Translation => 1,
             Class       => 'W50pc',
         );
@@ -611,10 +603,10 @@ sub _ShowEdit {
             Data => {
                 'String' => 'String',
 
-# disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
-# TODO: implement a possibility to enter the data in a correct way in the GUI
-#'Hash'   => 'Hash',
-#'Array'  => 'Array',
+          # disable hash and array selection here, because there is no practical way to enter the needed data in the GUI
+          # TODO: implement a possibility to enter the data in a correct way in the GUI
+          #'Hash'   => 'Hash',
+          #'Array'  => 'Array',
                 'Regexp' => 'Regexp',
                 'Module' => 'Transition Validation Module'
             },

@@ -144,7 +144,10 @@ sub ActivityDialogGet {
     my $ActivityDialog = $Self->{ConfigObject}->Get('Process::ActivityDialog');
 
     if ( !IsHashRefWithData($ActivityDialog) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ActivityDialog config!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ActivityDialog config!'
+        );
         return;
     }
 
@@ -225,7 +228,10 @@ sub ActivityDialogCompletedCheck {
 
     for my $Needed (qw(ActivityDialogEntityID Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -238,11 +244,10 @@ sub ActivityDialogCompletedCheck {
         return;
     }
 
-    my $ActivityDialog
-        = $Self->ActivityDialogGet(
+    my $ActivityDialog = $Self->ActivityDialogGet(
         ActivityDialogEntityID => $Param{ActivityDialogEntityID},
         Interface              => 'all',
-        );
+    );
     if ( !$ActivityDialog ) {
         $Self->{LogObject}->Log(
             Priority => 'error',

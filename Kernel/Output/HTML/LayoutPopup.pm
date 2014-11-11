@@ -49,7 +49,10 @@ sub PopupClose {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{URL} && !$Param{Reload} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need URL or Reload!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need URL or Reload!'
+        );
         return;
     }
 

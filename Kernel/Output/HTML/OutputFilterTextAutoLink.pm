@@ -32,7 +32,10 @@ sub Pre {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 
@@ -44,7 +47,10 @@ sub Post {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 

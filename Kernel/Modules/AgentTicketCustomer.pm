@@ -119,10 +119,9 @@ sub Run {
             || 0;
         my $CustomerUserOption = $Self->{ParamObject}->GetParam( Param => 'CustomerUserOption' )
             || '';
-        $Param{CustomerUserID} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
-        $Param{CustomerID}     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
-        $Param{SelectedCustomerUser}
-            = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
+        $Param{CustomerUserID}       = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' )       || '';
+        $Param{CustomerID}           = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )           || '';
+        $Param{SelectedCustomerUser} = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
 
         # use customer login instead of email address if applicable
         if ( $Param{SelectedCustomerUser} ne '' ) {
@@ -134,8 +133,9 @@ sub Run {
 
             # search customer
             my %CustomerUserList = ();
-            %CustomerUserList
-                = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserID}, );
+            %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                Search => $Param{CustomerUserID},
+            );
 
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
@@ -167,10 +167,12 @@ sub Run {
 
         # get customer user and customer id
         elsif ($ExpandCustomerName2) {
-            my %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUserOption, );
-            my %CustomerUserList
-                = $Self->{CustomerUserObject}->CustomerSearch( UserLogin => $CustomerUserOption, );
+            my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $CustomerUserOption,
+            );
+            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                UserLogin => $CustomerUserOption,
+            );
             for my $KeyCustomerUser ( sort keys %CustomerUserList ) {
                 $Param{CustomerUserID} = $KeyCustomerUser;
             }
@@ -270,7 +272,10 @@ sub Form {
     }
 
     $Output
-        .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCustomer', Data => \%Param );
+        .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketCustomer',
+        Data         => \%Param
+        );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',
     );

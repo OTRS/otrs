@@ -50,10 +50,9 @@ sub new {
     }
 
     # charset settings
-    $Self->{SourceCharset} = $Self->{CustomerCompanyMap}->{Params}->{SourceCharset} || '';
-    $Self->{DestCharset}   = $Self->{CustomerCompanyMap}->{Params}->{DestCharset}   || '';
-    $Self->{CharsetConvertForce}
-        = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
+    $Self->{SourceCharset}       = $Self->{CustomerCompanyMap}->{Params}->{SourceCharset}       || '';
+    $Self->{DestCharset}         = $Self->{CustomerCompanyMap}->{Params}->{DestCharset}         || '';
+    $Self->{CharsetConvertForce} = $Self->{CustomerCompanyMap}->{Params}->{CharsetConvertForce} || '';
 
     # db connection settings, disable Encode utf8 if source db is no utf8
     my %DatabasePreferences;
@@ -147,8 +146,7 @@ sub CustomerCompanyList {
                 $SQL .= " AND ";
             }
 
-            my $CustomerCompanySearchFields
-                = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
+            my $CustomerCompanySearchFields = $Self->{CustomerCompanyMap}->{CustomerCompanySearchFields};
 
             if ( $CustomerCompanySearchFields && ref $CustomerCompanySearchFields eq 'ARRAY' ) {
 
@@ -171,8 +169,7 @@ sub CustomerCompanyList {
     $SQL = $Self->_ConvertTo($SQL);
 
     # sql
-    my $CompleteSQL
-        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
+    my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
 
     # ask database
@@ -207,7 +204,10 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need CustomerID!'
+        );
         return;
     }
 
@@ -287,8 +287,10 @@ sub CustomerCompanyAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'CustomerCompany backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CustomerCompany backend is read only!'
+        );
         return;
     }
 
@@ -334,14 +336,20 @@ sub CustomerCompanyUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -434,7 +442,10 @@ sub _CustomerCompanyCacheClear {
     return if !$Self->{CacheObject};
 
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need CustomerID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need CustomerID!'
+        );
         return;
     }
 

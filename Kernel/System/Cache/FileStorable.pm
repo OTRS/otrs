@@ -58,7 +58,10 @@ sub Set {
 
     for my $Needed (qw(Type Key Value TTL)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -106,7 +109,10 @@ sub Get {
     # check needed stuff
     for my $Needed (qw(Type Key)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -139,7 +145,10 @@ sub Delete {
     # check needed stuff
     for my $Needed (qw(Type Key)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -159,7 +168,7 @@ sub CleanUp {
 
     my @TypeList = $Self->{MainObject}->DirectoryRead(
         Directory => $Self->{CacheDirectory},
-        Filter => $Param{Type} || '*',
+        Filter    => $Param{Type} || '*',
     );
 
     return 1 if !@TypeList;
@@ -217,7 +226,10 @@ sub _GetFilenameAndCacheDirectory {
 
     for my $Needed (qw(Type Key)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

@@ -104,8 +104,7 @@ $Self->Is(
 );
 
 # Working with CSVString with \n
-my $String
-    = '"field1";"field2";"field3"' . "\n" . '"a' . "\n"
+my $String = '"field1";"field2";"field3"' . "\n" . '"a' . "\n"
     . 'b";"FirstLine' . "\n"
     . 'SecondLine";"4"' . "\n";
 $Array = $CSVObject->CSV2Array(
@@ -141,8 +140,7 @@ $Self->Is(
 );
 
 # Working with CSVString with \r
-$String
-    = '"field1";"field2";"field3"' . "\r" . '"a' . "\r"
+$String = '"field1";"field2";"field3"' . "\r" . '"a' . "\r"
     . 'b";"FirstLine' . "\r"
     . 'SecondLine";"4"' . "\r";
 $Array = $CSVObject->CSV2Array(

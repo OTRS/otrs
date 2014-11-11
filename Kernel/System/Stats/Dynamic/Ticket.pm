@@ -543,8 +543,7 @@ sub GetObjectAttributes {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
 
@@ -621,11 +620,10 @@ sub GetStatElement {
                 next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $Self->{BackendObject}->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
-                    );
+                );
 
                 # add new search parameter
                 $Param{$ParameterName} = $DynamicFieldStatsSearchParameter;
@@ -641,8 +639,7 @@ sub GetStatElement {
                 }
             }
             else {
-                $Param{$ParameterName}
-                    = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
+                $Param{$ParameterName} = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
         }
     }
@@ -739,8 +736,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(

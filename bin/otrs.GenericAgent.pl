@@ -83,8 +83,11 @@ $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject, Debug => $Opts{d}, );
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(
+    %CommonObject,
+    Debug => $Opts{d},
+);
+$CommonObject{QueueObject}        = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
     %CommonObject,
     Debug        => $Opts{d},
@@ -200,10 +203,9 @@ sub ExecuteDBJobs {
         next if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
-            );
+        );
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . '0';
         }

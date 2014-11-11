@@ -272,9 +272,18 @@ for my $Module (@NeededModules) {
 if ($AllModules) {
     print "\nBundled modules:\n\n";
 
-    my %PerlInfo = Kernel::System::Environment->PerlInfoGet( BundledModules => 1, );
+    my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
+        BundledModules => 1,
+    );
     for my $Module ( sort keys %{ $PerlInfo{Modules} } ) {
-        _Check( { Module => $Module, Required => 1, }, $Depends, $NoColors );
+        _Check(
+            {
+                Module   => $Module,
+                Required => 1,
+            },
+            $Depends,
+            $NoColors
+        );
     }
 }
 

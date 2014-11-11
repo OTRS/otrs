@@ -144,10 +144,9 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 my $Home = $CommonObject{ConfigObject}->Get('Home');
 chdir($Home);
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-    = $CommonObject{TimeObject}->SystemTime2Date(
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $CommonObject{TimeObject}->SystemTime2Date(
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
-    );
+);
 
 # create directory name - this looks like 2013-09-09_22-19'
 my $Directory = sprintf( "$Opts{d}/%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );
@@ -294,10 +293,9 @@ if ( defined $Opts{r} ) {
     }
 
     for ( 0 .. $Opts{r} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $SystemTime,
-            );
+        );
 
         # legacy, old directories could be in the format 2013-4-8
         $LeaveBackups{ sprintf( "%04d-%01d-%01d", $Year, $Month, $Day ) } = 1;

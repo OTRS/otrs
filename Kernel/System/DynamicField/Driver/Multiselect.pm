@@ -67,8 +67,7 @@ sub new {
     };
 
     # get the Dynamic Field Backend custmom extensions
-    my $DynamicFieldDriverExtensions
-        = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Multiselect');
+    my $DynamicFieldDriverExtensions = $Self->{ConfigObject}->Get('DynamicFields::Extension::Driver::Multiselect');
 
     EXTENSION:
     for my $ExtensionKey ( sort keys %{$DynamicFieldDriverExtensions} ) {
@@ -197,7 +196,10 @@ sub ValueIsDifferent {
     }
 
     # compare the results
-    return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+    return DataIsDifferent(
+        Data1 => \$Param{Value1},
+        Data2 => \$Param{Value2}
+    );
 }
 
 sub ValueValidate {

@@ -43,8 +43,7 @@ sub new {
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
 
-    $Self->{SmallViewColumnHeader}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
+    $Self->{SmallViewColumnHeader} = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
 
     # set pref for columns key
     $Self->{PrefKeyColumns} = 'UserFilterColumnsEnabled' . '-' . $Self->{Action};
@@ -67,11 +66,9 @@ sub new {
     }
 
     # get the configured dyanmic fields from the Small Overview setting as a basis
-    my %DefaultDynamicFields
-        = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
+    my %DefaultDynamicFields = %{ $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField} || {} };
 
-    my %DefaultColumns
-        = map { 'DynamicField_' . $_ => $DefaultDynamicFields{$_} } sort keys %DefaultDynamicFields;
+    my %DefaultColumns = map { 'DynamicField_' . $_ => $DefaultDynamicFields{$_} } sort keys %DefaultDynamicFields;
 
     # take general settings (Frontend::Agent) if not defined for the screen
     $Self->{Config}->{DefaultColumns} //= $Self->{ConfigObject}->Get('DefaultOverviewColumns');
@@ -81,8 +78,7 @@ sub new {
 
     # configure columns
     my @ColumnsAvailable = grep { $DefaultColumns{$_} ne '0' } sort keys %DefaultColumns;
-    my @ColumnsEnabled
-        = grep { $DefaultColumns{$_} eq '2' } sort _DefaultColumnSort keys %DefaultColumns;
+    my @ColumnsEnabled   = grep { $DefaultColumns{$_} eq '2' } sort _DefaultColumnSort keys %DefaultColumns;
 
     # if preference settings are available, take them
     if ( $Preferences{ $Self->{PrefKeyColumns} } ) {
@@ -184,8 +180,7 @@ sub new {
 
         # if the dynamic field is filtrable add it to the AvailableFilterableColumns hash
         if ($IsFiltrable) {
-            $Self->{AvailableFilterableColumns}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                = 1;
+            $Self->{AvailableFilterableColumns}->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = 1;
         }
     }
 
@@ -342,7 +337,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -406,7 +404,7 @@ sub Run {
             # prepare subject
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             # create human age
@@ -437,8 +435,10 @@ sub Run {
                     if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                         return $Self->{LayoutObject}->FatalError();
                     }
-                    my $Object
-                        = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Article{TicketID}, );
+                    my $Object = $Menus{$Menu}->{Module}->new(
+                        %{$Self},
+                        TicketID => $Article{TicketID},
+                    );
 
                     # run module
                     my $Item = $Object->Run(
@@ -589,7 +589,9 @@ sub Run {
             if ( $Item eq 'New Article' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewNavBarPageFlagEmpty',
-                    Data => { Name => $Item, }
+                    Data => {
+                        Name => $Item,
+                        }
                 );
             }
             else {
@@ -650,8 +652,7 @@ sub Run {
 
                 if ( $Column eq 'Title' ) {
 
-                    $TranslatedWord
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('From') . ' / ';
+                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('From') . ' / ';
 
                     if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
                         $TranslatedWord .= $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
@@ -833,8 +834,7 @@ sub Run {
                     $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Service Time');
                 }
                 elsif ( $Column eq 'EscalationResponseTime' ) {
-                    $TranslatedWord
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
+                    $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('First Response Time');
                 }
                 elsif ( $Column eq 'EscalationSolutionTime' ) {
                     $TranslatedWord = $Self->{LayoutObject}->{LanguageObject}->Get('Solution Time');
@@ -1031,8 +1031,7 @@ sub Run {
                         }
 
                         # add title description
-                        my $TitleDesc
-                            = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
+                        my $TitleDesc = $OrderBy eq 'Down' ? 'sorted ascending' : 'sorted descending';
                         $TitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($TitleDesc);
                         $Title .= ', ' . $TitleDesc;
                     }
@@ -1042,8 +1041,7 @@ sub Run {
                         $CSS .= ' FilterActive';
                         $FilterTitleDesc = 'filter active';
                     }
-                    $FilterTitleDesc
-                        = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
+                    $FilterTitleDesc = $Self->{LayoutObject}->{LanguageObject}->Get($FilterTitleDesc);
                     $FilterTitle .= ', ' . $FilterTitleDesc;
 
                     $Self->{LayoutObject}->Block(
@@ -1356,20 +1354,17 @@ sub Run {
                 # escalation column
                 my %EscalationData;
                 if ( $TicketColumn eq 'EscalationTime' ) {
-                    $EscalationData{EscalationTime} = $Article{EscalationTime};
-                    $EscalationData{EscalationDestinationDate}
-                        = $Article{EscalationDestinationDate};
+                    $EscalationData{EscalationTime}            = $Article{EscalationTime};
+                    $EscalationData{EscalationDestinationDate} = $Article{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman}
-                        = $Self->{LayoutObject}->CustomerAgeInHours(
+                    $EscalationData{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
                         Age   => $EscalationData{EscalationTime},
                         Space => ' ',
-                        );
-                    $EscalationData{EscalationTimeWorkingTime}
-                        = $Self->{LayoutObject}->CustomerAgeInHours(
+                    );
+                    $EscalationData{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
                         Age   => $EscalationData{EscalationTimeWorkingTime},
                         Space => ' ',
-                        );
+                    );
                     if (
                         defined $Article{EscalationTime}
                         && $Article{EscalationTime} < 60 * 60 * 1
@@ -1652,12 +1647,11 @@ sub _GetColumnValues {
             if ( IsArrayRefWithData($TicketIDs) ) {
 
                 # get the historical values for the field
-                $ColumnFilterValues{$HeaderColumn}
-                    = $Self->{BackendObject}->ColumnFilterValuesGet(
+                $ColumnFilterValues{$HeaderColumn} = $Self->{BackendObject}->ColumnFilterValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     LayoutObject       => $Self->{LayoutObject},
                     TicketIDs          => $TicketIDs,
-                    );
+                );
             }
             else {
 

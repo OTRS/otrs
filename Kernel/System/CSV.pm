@@ -87,7 +87,10 @@ sub Array2CSV {
     # check required params
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Got no $_ param!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Got no $_ param!"
+            );
             return;
         }
     }

@@ -451,8 +451,7 @@ sub _ShowScreen {
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
-            $OrderNamesList{$OrderNumber}
-                = $OrderNumber . ' - '
+            $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
                 . $DynamicfieldNamesList{$OrderNumber}
         }

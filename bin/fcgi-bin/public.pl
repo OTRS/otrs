@@ -43,8 +43,10 @@ my $Debug = 0;
 while ( my $WebRequest = new CGI::Fast ) {
 
     # create new object
-    my $Interface
-        = Kernel::System::Web::InterfacePublic->new( Debug => $Debug, WebRequest => $WebRequest );
+    my $Interface = Kernel::System::Web::InterfacePublic->new(
+        Debug      => $Debug,
+        WebRequest => $WebRequest
+    );
 
     # execute object
     $Interface->Run();

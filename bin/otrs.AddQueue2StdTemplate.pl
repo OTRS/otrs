@@ -79,8 +79,7 @@ if ( !$QueueID ) {
 }
 
 # check template
-my $StandardTemplateID
-    = $CommonObject{StandardTemplateObject}->StandardTemplateLookup( StandardTemplate => $Opts{t} );
+my $StandardTemplateID = $CommonObject{StandardTemplateObject}->StandardTemplateLookup( StandardTemplate => $Opts{t} );
 if ( !$StandardTemplateID ) {
     print STDERR "ERROR: Found no Standard Template for $Opts{t}\n";
     exit 1;

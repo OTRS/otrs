@@ -105,6 +105,9 @@ my $StaticPath = sub {
 # Create a Static middleware to serve static files directly without invoking the OTRS
 #   application handler.
 builder {
-    enable "Static", path => $StaticPath, root => "$Bin/../../var/httpd/htdocs", pass_trough => 0;
+    enable "Static",
+        path        => $StaticPath,
+        root        => "$Bin/../../var/httpd/htdocs",
+        pass_trough => 0;
     $App;
 }

@@ -116,15 +116,13 @@ sub Run {
     for my $Attr ( grep { defined $Ticket{$_} } sort keys %TicketAttr2Event ) {
 
         # the decay time is configured in minutes
-        my $DecayTimeInSeconds
-            = $Self->{ConfigObject}->Get('OTRSEscalationEvents::DecayTime') || 0;
+        my $DecayTimeInSeconds = $Self->{ConfigObject}->Get('OTRSEscalationEvents::DecayTime') || 0;
         $DecayTimeInSeconds *= 60;
 
         # get the last time this event was triggered
         # search in reverse order, as @HistoryLines sorted ascendingly by CreateTime
         if ($DecayTimeInSeconds) {
-            my $PrevEventLine
-                = first { $_->{HistoryType} eq $TicketAttr2Event{$Attr} }
+            my $PrevEventLine = first { $_->{HistoryType} eq $TicketAttr2Event{$Attr} }
             reverse @HistoryLines;
             if ( $PrevEventLine && $PrevEventLine->{CreateTime} ) {
                 my $PrevEventTime = $Self->{TimeObject}->TimeStamp2SystemTime(

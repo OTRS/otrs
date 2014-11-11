@@ -124,12 +124,18 @@ sub SystemDataAdd {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Value!"
+        );
         return;
     }
 
@@ -179,7 +185,10 @@ sub SystemDataGet {
 
     # check needed stuff
     if ( !$Param{Key} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Key!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Key!"
+        );
         return;
     }
 
@@ -205,7 +214,7 @@ sub SystemDataGet {
 
     # set cache
     $Self->{CacheInternalObject}->Set(
-        Key => $CacheKey,
+        Key   => $CacheKey,
         Value => $Value || '',
     );
 
@@ -236,7 +245,10 @@ sub SystemDataGroupGet {
 
     # check needed stuff
     if ( !$Param{Group} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Group!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Group!"
+        );
         return;
     }
 
@@ -298,12 +310,18 @@ sub SystemDataUpdate {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Value!"
+        );
         return;
     }
 
@@ -357,7 +375,10 @@ sub SystemDataDelete {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -411,8 +432,10 @@ sub _SystemDataCacheKeyDelete {
 
     # check needed stuff
     if ( !$Param{Key} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "_SystemDataCacheKeyDelete: need 'Key'!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "_SystemDataCacheKeyDelete: need 'Key'!"
+        );
         return;
     }
 

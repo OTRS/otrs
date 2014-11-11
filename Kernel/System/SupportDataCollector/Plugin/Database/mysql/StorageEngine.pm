@@ -51,7 +51,7 @@ sub Run {
             Identifier => 'TablesWithDifferentStorageEngine',
             Label      => 'Table Storage Engine',
             Value      => join( ', ', @TablesWithDifferentStorageEngine ),
-            Message => 'Tables with a different storage engine than the default engine were found.'
+            Message    => 'Tables with a different storage engine than the default engine were found.'
         );
     }
     else {

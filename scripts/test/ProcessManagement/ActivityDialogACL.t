@@ -784,8 +784,7 @@ my $ProcessConfigSub = sub {
             # Put the Config of the Original Key into
             # Key DynamicField_OrderStatus389230238
             $Config->{'Process::ActivityDialog'}{$ActivityDialog}{Fields}
-                { $DynamicFieldsLookup{$Field} }
-                =
+                { $DynamicFieldsLookup{$Field} } =
                 $Config->{'Process::ActivityDialog'}{$ActivityDialog}{Fields}{$Field};
 
             # Delete the old key
@@ -915,8 +914,7 @@ $Self->IsDeeply(
 
 # Check if Rootuser gets all Activity Dialogs delivered for checking
 my $ActivityDialogsArray = [ 'AD3', 'AD5', 'AD6' ];
-my @ActivityDialogs
-    = $TicketObject->TicketAclActivityDialogData( ActivityDialogs => $ActivityDialogsArray );
+my @ActivityDialogs = $TicketObject->TicketAclActivityDialogData( ActivityDialogs => $ActivityDialogsArray );
 
 $Self->IsDeeply(
     \@ActivityDialogs,

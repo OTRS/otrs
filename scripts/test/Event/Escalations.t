@@ -127,8 +127,7 @@ for my $Hours ( sort keys %WorkingHours ) {
         time(),
         int( rand 1_000_000 );
     my $StartingSystemTime = $TimeObject->SystemTime();
-    my $StartingTimeStamp
-        = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
+    my $StartingTimeStamp = $TimeObject->SystemTime2TimeStamp( SystemTime => $StartingSystemTime );
 
     # set schedule on each day
     my %Week;
@@ -166,7 +165,7 @@ for my $Hours ( sort keys %WorkingHours ) {
             SalutationID        => 1,
             SignatureID         => 1,
             UserID              => 1,
-            Comment => "Queue for OTRSEscalationEvents.t for test run at $StartingTimeStamp",
+            Comment             => "Queue for OTRSEscalationEvents.t for test run at $StartingTimeStamp",
         );
         $Self->True( $QueueID, "QueueAdd() $QueueName" );
 
@@ -351,7 +350,7 @@ for my $Hours ( sort keys %WorkingHours ) {
 
         if ( $WorkingHours{$Hours} ) {
 
-          # check whether events were triggered: first response escalation, solution time escalation
+            # check whether events were triggered: first response escalation, solution time escalation
             $NumEvents{EscalationSolutionTimeStart}++;
             $NumEvents{EscalationResponseTimeStart}++;
         }

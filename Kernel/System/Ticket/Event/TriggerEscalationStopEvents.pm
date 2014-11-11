@@ -36,13 +36,19 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Event UserID Config)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     for my $Needed (qw(OldTicketData TicketID)) {
         if ( !$Param{Data}->{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in Data!"
+            );
             return;
         }
     }

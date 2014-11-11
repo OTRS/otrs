@@ -31,7 +31,10 @@ sub new {
             $Self->{$_} = $Param{$_};
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
         }
     }
     return $Self;
@@ -88,7 +91,10 @@ sub Check {
             push( @Email, $Line . "\n" );
         }
 
-        my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => \@Email, );
+        my $ParserObject = Kernel::System::EmailParser->new(
+            %{$Self},
+            Email => \@Email,
+        );
 
         use MIME::Parser;
         my $Parser = MIME::Parser->new();
@@ -143,8 +149,9 @@ sub Check {
 
                 # filter email addresses avoiding repeated and save on hash to search
                 for my $EmailAddress (@EmailAddressOnField) {
-                    my $CleanEmailAddress
-                        = $ParserObject->GetEmailAddress( Email => $EmailAddress, );
+                    my $CleanEmailAddress = $ParserObject->GetEmailAddress(
+                        Email => $EmailAddress,
+                    );
                     $EmailsToSearch{$CleanEmailAddress} = '1';
                 }
             }
@@ -153,8 +160,9 @@ sub Check {
             # extract every resulting cert and put it into an hash of hashes avoiding repeated
             my %PrivateKeys;
             for my $EmailAddress ( sort keys %EmailsToSearch ) {
-                my @PrivateKeysResult
-                    = $Self->{CryptObject}->PrivateSearch( Search => $EmailAddress, );
+                my @PrivateKeysResult = $Self->{CryptObject}->PrivateSearch(
+                    Search => $EmailAddress,
+                );
                 for my $Cert (@PrivateKeysResult) {
                     $PrivateKeys{ $Cert->{Filename} } = $Cert;
                 }
@@ -191,7 +199,7 @@ sub Check {
                 push(
                     @Return,
                     {
-                        Key => 'Crypted',
+                        Key   => 'Crypted',
                         Value => $Decrypt{Message} || 'Successful decryption',
                         %Decrypt,
                     }
@@ -201,12 +209,14 @@ sub Check {
                 my $EmailContent = $Decrypt{Data};
 
                 # now check if the data contains a signature too
-                %SignCheck = $Self->{CryptObject}->Verify( Message => $Decrypt{Data}, );
+                %SignCheck = $Self->{CryptObject}->Verify(
+                    Message => $Decrypt{Data},
+                );
 
                 if ( $SignCheck{SignatureFound} ) {
 
-                  # If the signature was verified well, use the stripped content to store the email.
-                  #   Now it contains only the email without other SMIME generated data.
+                    # If the signature was verified well, use the stripped content to store the email.
+                    #   Now it contains only the email without other SMIME generated data.
                     $EmailContent = $SignCheck{Content} if $SignCheck{Successful};
 
                     push(
@@ -220,8 +230,7 @@ sub Check {
                 }
 
                 # parse the decrypted email body
-                my $ParserObject
-                    = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
+                my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
                 my $Body = $ParserObject->GetMessageBody();
 
                 # from RFC 3850
@@ -335,7 +344,9 @@ sub Check {
             }
 
             # check sign and get clear content
-            %SignCheck = $Self->{CryptObject}->Verify( Message => $Message, );
+            %SignCheck = $Self->{CryptObject}->Verify(
+                Message => $Message,
+            );
 
             # parse and update clear content
             if ( %SignCheck && $SignCheck{Successful} && $SignCheck{Content} ) {
@@ -345,7 +356,10 @@ sub Check {
                 for (@Lines) {
                     push( @Email, $_ . "\n" );
                 }
-                my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => \@Email, );
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Email => \@Email,
+                );
                 my $Body = $ParserObject->GetMessageBody();
 
                 # from RFC 3850

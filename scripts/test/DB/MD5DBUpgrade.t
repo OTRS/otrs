@@ -65,8 +65,7 @@ if (
     )
 {
     $Self->True(
-        $Self->{DBObject}
-            ->Do( SQL => 'UPDATE test_md5_conversion SET message_id_md5 = MD5(message_id)' ) || 0,
+        $Self->{DBObject}->Do( SQL => 'UPDATE test_md5_conversion SET message_id_md5 = MD5(message_id)' ) || 0,
         "UPDATE statement",
     );
 }

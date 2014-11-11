@@ -227,8 +227,7 @@ sub HandleLanguage {
     my $Data = '';
     my %UsedWords;
     my %UsedWordsMisc;
-    my $Directory
-        = $IsSubTranslation
+    my $Directory = $IsSubTranslation
         ? "$ModuleDirectory/Kernel/Output/HTML/$DefaultTheme"
         : "$Home/Kernel/Output/HTML/$DefaultTheme";
 
@@ -367,8 +366,7 @@ sub HandleLanguage {
         $UsedWordsMisc{$String} = 1;
 
         # lookup for existing translation
-        $UsedWords{$String}
-            = ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
+        $UsedWords{$String} = ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
             ->{$String};
 
         my $Translation = $UsedWords{$String} || '';

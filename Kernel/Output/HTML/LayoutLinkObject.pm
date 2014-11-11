@@ -281,7 +281,7 @@ sub LinkObjectTableCreateComplex {
             Name => 'TableComplexBlock',
             Data => {
                 BlockDescription => $BlockDescription,
-                Blockname => $Block->{Blockname} || '',
+                Blockname        => $Block->{Blockname} || '',
             },
         );
 
@@ -400,7 +400,10 @@ sub LinkObjectTableCreateSimple {
 
     # check needed stuff
     if ( !$Param{LinkListWithData} || ref $Param{LinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LinkListWithData!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need LinkListWithData!'
+        );
         return;
     }
 
@@ -524,7 +527,10 @@ sub LinkObjectSelectableObjectList {
 
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Object!'
+        );
         return;
     }
 
@@ -630,7 +636,10 @@ sub LinkObjectSearchOptionList {
 
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Object!'
+        );
         return;
     }
 

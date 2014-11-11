@@ -413,8 +413,7 @@ for my $Test (@Tests) {
         );
 
         # check cache
-        my $CacheKey
-            = 'ACLGet::ID::'
+        my $CacheKey = 'ACLGet::ID::'
             . $Test->{Config}->{ID};
 
         my $Cache = $ACLObject->{CacheObject}->Get(

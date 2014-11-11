@@ -149,7 +149,10 @@ sub CustomerCompanyAdd {
     # check needed stuff
     for (qw(CustomerID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -204,7 +207,10 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need CustomerID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need CustomerID!"
+        );
         return;
     }
 
@@ -254,8 +260,10 @@ sub CustomerCompanyUpdate {
 
     # check needed stuff
     if ( !$Param{CustomerCompanyID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need CustomerCompanyID or CustomerID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need CustomerCompanyID or CustomerID!"
+        );
         return;
     }
 

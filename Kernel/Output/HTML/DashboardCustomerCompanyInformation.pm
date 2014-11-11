@@ -79,8 +79,7 @@ sub Run {
             ValidID => $CustomerCompany{ValidID},
         );
 
-        $CustomerCompany{ValidID}
-            = $Self->{LayoutObject}->{LanguageObject}->Get( $CustomerCompany{ValidID} );
+        $CustomerCompany{ValidID} = $Self->{LayoutObject}->{LanguageObject}->Get( $CustomerCompany{ValidID} );
     }
 
     ENTRY:

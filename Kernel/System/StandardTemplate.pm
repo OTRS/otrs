@@ -117,7 +117,10 @@ sub StandardTemplateAdd {
     # check needed stuff
     for (qw(Name ValidID Template ContentType UserID TemplateType)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -144,7 +147,7 @@ sub StandardTemplateAdd {
     );
     my $ID;
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM standard_template WHERE name = ? AND change_by = ?',
+        SQL  => 'SELECT id FROM standard_template WHERE name = ? AND change_by = ?',
         Bind => [ \$Param{Name}, \$Param{UserID}, ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -188,7 +191,10 @@ sub StandardTemplateGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -235,7 +241,10 @@ sub StandardTemplateDelete {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -285,13 +294,22 @@ sub StandardTemplateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TemplateType ContentType UserID TemplateType)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check if a standard template with this name already exits
-    if ( $Self->NameExistsCheck( Name => $Param{Name}, ID => $Param{ID} ) ) {
+    if (
+        $Self->NameExistsCheck(
+            Name => $Param{Name},
+            ID   => $Param{ID}
+        )
+        )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "A standard template with name '$Param{Name}' already exists!"
@@ -369,7 +387,10 @@ sub StandardTemplateLookup {
         $SQL    = 'SELECT name FROM standard_template WHERE id = ?';
         @Bind   = ( \$Param{StandardTemplateID} );
     }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
@@ -378,7 +399,10 @@ sub StandardTemplateLookup {
 
     # check if data exists
     if ( !exists $Self->{"StandardTemplate$Suffix"} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Found no \$$Suffix!"
+        );
         return;
     }
 

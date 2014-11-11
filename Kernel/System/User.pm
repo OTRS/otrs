@@ -148,7 +148,10 @@ sub GetUserData {
 
     # check needed stuff
     if ( !$Param{User} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User or UserID!'
+        );
         return;
     }
 
@@ -171,16 +174,14 @@ sub GetUserData {
 
     my $CacheKey;
     if ( $Param{User} ) {
-        $CacheKey
-            = 'GetUserData::User::'
+        $CacheKey = 'GetUserData::User::'
             . $Param{User} . '::'
             . $Param{Valid} . '::'
             . $FirstnameLastNameOrder . '::'
             . $Param{NoOutOfOffice};
     }
     else {
-        $CacheKey
-            = 'GetUserData::UserID::'
+        $CacheKey = 'GetUserData::UserID::'
             . $Param{UserID} . '::'
             . $Param{Valid} . '::'
             . $FirstnameLastNameOrder . '::'
@@ -258,7 +259,10 @@ sub GetUserData {
         if ( !$Hit ) {
 
             # set cache
-            $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => {} );
+            $Self->{CacheInternalObject}->Set(
+                Key   => $CacheKey,
+                Value => {}
+            );
             return;
         }
     }
@@ -357,7 +361,10 @@ sub GetUserData {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }
@@ -384,7 +391,10 @@ sub UserAdd {
     # check needed stuff
     for (qw(UserFirstname UserLastname UserLogin UserEmail ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -464,10 +474,17 @@ sub UserAdd {
     );
 
     # set password
-    $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+    $Self->SetPassword(
+        UserLogin => $Param{UserLogin},
+        PW        => $Param{UserPw}
+    );
 
     # set email address
-    $Self->SetPreferences( UserID => $UserID, Key => 'UserEmail', Value => $Param{UserEmail} );
+    $Self->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserEmail',
+        Value  => $Param{UserEmail}
+    );
 
     # delete cache
     $Self->{CacheInternalObject}->CleanUp();
@@ -499,13 +516,22 @@ sub UserUpdate {
     # check needed stuff
     for (qw(UserID UserFirstname UserLastname UserLogin ValidID ChangeUserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check if a user with this login (username) already exits
-    if ( $Self->UserLoginExistsCheck( UserLogin => $Param{UserLogin}, UserID => $Param{UserID} ) ) {
+    if (
+        $Self->UserLoginExistsCheck(
+            UserLogin => $Param{UserLogin},
+            UserID    => $Param{UserID}
+        )
+        )
+    {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "A user with username '$Param{UserLogin}' already exists!"
@@ -547,7 +573,10 @@ sub UserUpdate {
 
     # check pw
     if ( $Param{UserPw} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPw} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPw}
+        );
     }
 
     # set email address
@@ -653,7 +682,7 @@ sub UserSearch {
 
     # get data
     return if !$Self->{DBObject}->Prepare(
-        SQL => $SQL,
+        SQL   => $SQL,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
 
@@ -686,14 +715,20 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
     # get old user data
     my %User = $Self->GetUserData( User => $Param{UserLogin} );
     if ( !$User{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'No such User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'No such User!'
+        );
         return;
     }
 
@@ -821,7 +856,10 @@ sub UserLookup {
 
     # check needed stuff
     if ( !$Param{UserLogin} && !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin or UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin or UserID!'
+        );
         return;
     }
 
@@ -857,7 +895,10 @@ sub UserLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $ID );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $ID
+        );
 
         return $ID;
     }
@@ -892,7 +933,10 @@ sub UserLookup {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Login );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => $Login
+        );
 
         return $Login;
     }
@@ -1068,7 +1112,10 @@ sub SetPreferences {
     # check needed stuff
     for (qw(Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1141,7 +1188,10 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID!"
+        );
         return;
     }
     my $Token = $Self->{MainObject}->GenerateRandomString(
@@ -1174,7 +1224,10 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Token and UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Token and UserID!'
+        );
         return;
     }
 

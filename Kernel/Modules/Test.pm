@@ -105,7 +105,10 @@ sub Run {
     );
 
     # get test page
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'Test', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'Test',
+        Data         => \%Param
+    );
 
     # get test page footer
     $Output .= $Self->{LayoutObject}->Footer();

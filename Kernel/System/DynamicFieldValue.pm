@@ -89,8 +89,7 @@ sub new {
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 60 * 60 * 12 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 60 * 60 * 12 );
 
     return $Self;
 }
@@ -124,7 +123,10 @@ sub ValueSet {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID Value)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -238,7 +240,10 @@ sub ValueGet {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -333,14 +338,17 @@ sub ValueDelete {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
 
     # delete dynamic field value
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM dynamic_field_value WHERE field_id = ? AND object_id = ?',
+        SQL  => 'DELETE FROM dynamic_field_value WHERE field_id = ? AND object_id = ?',
         Bind => [ \$Param{FieldID}, \$Param{ObjectID} ],
     );
 
@@ -369,7 +377,10 @@ sub AllValuesDelete {
     # check needed stuff
     for my $Needed (qw(FieldID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -436,7 +447,8 @@ sub ValueValidate {
 
         if ( $Value{ValueInt} !~ m{\A  -? \d+ \z}smx ) {
             $Self->{LogObject}->Log(
-                Priority => 'error', Message => "Invalid Integer '$Value{ValueInt}'!"
+                Priority => 'error',
+                Message  => "Invalid Integer '$Value{ValueInt}'!"
             );
 
             return;
@@ -471,7 +483,10 @@ sub HistoricalValueGet {
     # check needed stuff
     for my $Needed (qw(FieldID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -543,7 +558,10 @@ sub _DeleteFromCache {
     # check needed stuff
     for my $Needed (qw(FieldID ObjectID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

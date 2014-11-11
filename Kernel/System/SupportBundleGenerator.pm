@@ -98,7 +98,7 @@ sub new {
     $Self->{Home} =~ s{\/\z}{};
 
     $Self->{RandomID} = $Self->{MainObject}->GenerateRandomString(
-        Length => 8,
+        Length     => 8,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
 
@@ -143,8 +143,7 @@ sub Generate {
     my %SupportFiles;
 
     # get the list of installed packages
-    ( $SupportFiles{PackageListContent}, $SupportFiles{PackageListFilename} )
-        = $Self->GeneratePackageList();
+    ( $SupportFiles{PackageListContent}, $SupportFiles{PackageListFilename} ) = $Self->GeneratePackageList();
     if ( !$SupportFiles{PackageListFilename} ) {
         my $Message = 'Can not generate the list of installed packages!';
         $Self->{LogObject}->Log(
@@ -173,8 +172,7 @@ sub Generate {
     }
 
     # get the support data
-    ( $SupportFiles{SupportDataContent}, $SupportFiles{SupportDataFilename} )
-        = $Self->GenerateSupportData();
+    ( $SupportFiles{SupportDataContent}, $SupportFiles{SupportDataFilename} ) = $Self->GenerateSupportData();
     if ( !$SupportFiles{SupportDataFilename} ) {
         my $Message = 'Can not collect the support data!';
         $Self->{LogObject}->Log(
@@ -317,8 +315,7 @@ Returns:
 sub GenerateCustomFilesArchive {
     my ( $Self, %Param ) = @_;
 
-    my $TempDir
-        = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle';
+    my $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundle';
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;
@@ -590,7 +587,10 @@ sub _GetCustomFileList {
     # check needed stuff
     for my $Needed (qw(Directory)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

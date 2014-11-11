@@ -92,7 +92,7 @@ sub Run {
             if ( $Self->{Debug} >= 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
+                    Message  => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
                 );
             }
         }

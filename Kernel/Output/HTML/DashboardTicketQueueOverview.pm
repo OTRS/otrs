@@ -181,7 +181,9 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketQueueOverviewQueueName',
-            Data => { QueueName => $Queue, }
+            Data => {
+                QueueName => $Queue,
+                }
         );
 
         # iterate over states

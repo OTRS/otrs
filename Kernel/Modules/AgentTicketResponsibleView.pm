@@ -131,8 +131,7 @@ sub Run {
 
         # if no filter from web request, try from user preferences
         if ( !defined $FilterValue || $FilterValue eq '' ) {
-            $FilterValue
-                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+            $FilterValue = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
         }
 
         next DYNAMICFIELD if !defined $FilterValue;
@@ -152,7 +151,9 @@ sub Run {
     }
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
-        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output = $Self->{LayoutObject}->Header(
+            Refresh => $Refresh,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->{LayoutObject}->Print( Output => \$Output );
         $Output = '';
@@ -198,7 +199,7 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                StateType => [ 'pending reminder', 'pending auto' ],
+                StateType      => [ 'pending reminder', 'pending auto' ],
                 ResponsibleIDs => [ $Self->{UserID} ],
                 OrderBy        => $OrderBy,
                 SortBy         => $SortByS,

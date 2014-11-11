@@ -181,9 +181,8 @@ sub new {
     );
 
     # create ProcessManagement objects
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
+    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
 
     # init of event handler
     $Self->EventHandlerInit(
@@ -271,7 +270,10 @@ sub TicketCheckNumber {
 
     # check needed stuff
     if ( !$Param{Tn} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TN!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TN!'
+        );
         return;
     }
 
@@ -360,7 +362,10 @@ sub TicketCreate {
     # check needed stuff
     for my $Needed (qw(OwnerID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -523,10 +528,10 @@ sub TicketCreate {
 
     # add history entry
     $Self->HistoryAdd(
-        TicketID    => $TicketID,
-        QueueID     => $Param{QueueID},
-        HistoryType => 'NewTicket',
-        Name => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
+        TicketID     => $TicketID,
+        QueueID      => $Param{QueueID},
+        HistoryType  => 'NewTicket',
+        Name         => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
         CreateUserID => $Param{UserID},
     );
 
@@ -557,7 +562,7 @@ sub TicketCreate {
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
         $Self->TicketCustomerSet(
             TicketID => $TicketID,
-            No => $Param{CustomerNo} || $Param{CustomerID} || '',
+            No       => $Param{CustomerNo} || $Param{CustomerID} || '',
             User => $Param{CustomerUser} || '',
             UserID => $Param{UserID},
         );
@@ -569,7 +574,7 @@ sub TicketCreate {
     # log ticket creation
     $Self->{LogObject}->Log(
         Priority => 'info',
-        Message => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
+        Message  => "New Ticket [$Param{TN}/" . substr( $Param{Title}, 0, 15 ) . "] created "
             . "(TicketID=$TicketID,Queue=$Param{Queue},Priority=$Param{Priority},State=$Param{State})",
     );
 
@@ -605,7 +610,10 @@ sub TicketDelete {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -710,7 +718,10 @@ sub TicketIDLookup {
 
     # check needed stuff
     if ( !$Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketNumber!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketNumber!'
+        );
         return;
     }
 
@@ -744,7 +755,10 @@ sub TicketNumberLookup {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -809,7 +823,10 @@ sub TicketSubjectBuild {
 
     # check needed stuff
     if ( !defined $Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketNumber!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketNumber!"
+        );
         return;
     }
     my $Subject = $Param{Subject} || '';
@@ -887,7 +904,10 @@ sub TicketSubjectClean {
 
     # check needed stuff
     if ( !defined $Param{TicketNumber} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketNumber!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketNumber!"
+        );
         return;
     }
 
@@ -1055,7 +1075,10 @@ sub TicketGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
     $Param{Extended} ||= '';
@@ -1268,7 +1291,10 @@ sub _TicketCacheClear {
 
     for my $Needed (qw(TicketID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1300,7 +1326,10 @@ sub _TicketGetExtended {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1320,7 +1349,10 @@ sub _TicketGetFirstResponse {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1382,7 +1414,10 @@ sub _TicketGetClosed {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1465,7 +1500,10 @@ sub _TicketGetFirstLock {
     # check needed stuff
     for my $Needed (qw(TicketID Ticket)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1515,7 +1553,10 @@ sub TicketTitleUpdate {
     # check needed stuff
     for my $Needed (qw(Title TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1580,7 +1621,10 @@ sub TicketUnlockTimeoutUpdate {
     # check needed stuff
     for my $Needed (qw(UnlockTimeout TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1638,7 +1682,10 @@ sub TicketQueueID {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -1763,7 +1810,10 @@ sub TicketQueueSet {
     # check needed stuff
     for my $Needed (qw(TicketID QueueID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1834,7 +1884,7 @@ sub TicketQueueSet {
                     RecipientID           => $UserID,
                     CustomerMessageParams => {
                         Queue => $Queue,
-                        Body => $Param{Comment} || '',
+                        Body  => $Param{Comment} || '',
                     },
                     TicketID => $Param{TicketID},
                     UserID   => $Param{UserID},
@@ -1885,7 +1935,10 @@ sub TicketMoveQueueList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
@@ -1963,7 +2016,10 @@ sub TicketTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or CustomerUserID!'
+        );
         return;
     }
 
@@ -2017,7 +2073,10 @@ sub TicketTypeSet {
     # check needed stuff
     for my $Needed (qw(TicketID TypeID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2062,9 +2121,9 @@ sub TicketTypeSet {
 
     # history insert
     $Self->HistoryAdd(
-        TicketID    => $Param{TicketID},
-        HistoryType => 'TypeUpdate',
-        Name        => "\%\%$TicketNew{Type}\%\%$Param{TypeID}\%\%$Ticket{Type}\%\%$Ticket{TypeID}",
+        TicketID     => $Param{TicketID},
+        HistoryType  => 'TypeUpdate',
+        Name         => "\%\%$TicketNew{Type}\%\%$Param{TypeID}\%\%$Ticket{Type}\%\%$Ticket{TypeID}",
         CreateUserID => $Param{UserID},
     );
 
@@ -2132,7 +2191,9 @@ sub TicketServiceList {
     }
     my %Services;
     if ( !$Param{CustomerUserID} ) {
-        %Services = $Self->{ServiceObject}->ServiceList( UserID => 1, );
+        %Services = $Self->{ServiceObject}->ServiceList(
+            UserID => 1,
+        );
     }
     else {
         %Services = $Self->{ServiceObject}->CustomerUserServiceMemberList(
@@ -2185,7 +2246,10 @@ sub TicketServiceSet {
     # check needed stuff
     for my $Needed (qw(TicketID ServiceID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2273,7 +2337,10 @@ sub TicketEscalationPreferences {
     # check needed stuff
     for my $Needed (qw(Ticket UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2349,7 +2416,10 @@ sub TicketEscalationDateCalculation {
     # check needed stuff
     for my $Needed (qw(Ticket UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2484,7 +2554,10 @@ sub TicketEscalationIndexBuild {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2796,13 +2869,19 @@ sub TicketSLAList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or CustomerUserID!'
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID or TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID or TicketID!'
+        );
         return;
     }
 
@@ -2860,7 +2939,10 @@ sub TicketSLASet {
     # check needed stuff
     for my $Needed (qw(TicketID SLAID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2958,12 +3040,18 @@ sub TicketCustomerSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     if ( !defined $Param{No} && !defined $Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or No for update!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User or No for update!'
+        );
         return;
     }
 
@@ -3046,7 +3134,10 @@ sub TicketPermission {
     # check needed stuff
     for my $Needed (qw(Type TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -3153,7 +3244,10 @@ sub TicketCustomerPermission {
     # check needed stuff
     for my $Needed (qw(Type TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -3253,7 +3347,10 @@ sub GetSubscribedUserIDsByQueueID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -3273,7 +3370,10 @@ sub GetSubscribedUserIDsByQueueID {
     # check if user is valid and check permissions
     my @CleanUserIDs;
     for my $UserID (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $UserID,
+            Valid  => 1
+        );
         next if !%User;
 
         # just send emails to permitted agents
@@ -3351,7 +3451,10 @@ sub TicketPendingTimeSet {
     if ( !$Param{String} && !$Param{Diff} ) {
         for my $Needed (qw(Year Month Day Hour Minute TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Need $Needed!"
+                );
                 return;
             }
         }
@@ -3363,7 +3466,10 @@ sub TicketPendingTimeSet {
     {
         for my $Needed (qw(Diff TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Need $Needed!"
+                );
                 return;
             }
         }
@@ -3371,7 +3477,10 @@ sub TicketPendingTimeSet {
     else {
         for my $Needed (qw(String TicketID UserID)) {
             if ( !defined $Param{$Needed} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Need $Needed!"
+                );
                 return;
             }
         }
@@ -3404,14 +3513,17 @@ sub TicketPendingTimeSet {
     my $Time = 0;
     if ( !$PendingTimeNull ) {
         if ( $Param{String} ) {
-            $Time = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{String}, );
+            $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{String},
+            );
             ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
-                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Time, );
+                = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Time,
+                );
         }
         elsif ( $Param{Diff} ) {
             $Time = $Self->{TimeObject}->SystemTime() + ( $Param{Diff} * 60 );
-            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} )
-                =
+            ( $Param{Sec}, $Param{Minute}, $Param{Hour}, $Param{Day}, $Param{Month}, $Param{Year} ) =
                 $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Time,
                 );
@@ -3479,7 +3591,10 @@ sub TicketLockGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -3537,12 +3652,18 @@ sub TicketLockSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID LockID Lock)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     if ( !$Param{Lock} && !$Param{LockID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LockID or Lock!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need LockID or Lock!'
+        );
         return;
     }
 
@@ -3797,12 +3918,18 @@ sub TicketStateSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need StateID or State!'
+        );
         return;
     }
 
@@ -3816,7 +3943,10 @@ sub TicketStateSet {
         %State = $Self->{StateObject}->StateGet( ID => $Param{StateID} );
     }
     if ( !%State ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need StateID or State!'
+        );
         return;
     }
 
@@ -3911,13 +4041,19 @@ sub TicketStateList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or CustomerUserID!'
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{QueueID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID, TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID, TicketID!'
+        );
         return;
     }
 
@@ -3940,8 +4076,7 @@ sub TicketStateList {
             );
             return;
         }
-        my @StateType
-            = @{ $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Action}")->{StateType} };
+        my @StateType = @{ $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Action}")->{StateType} };
         %States = $Self->{StateObject}->StateGetStatesByType(
             StateType => \@StateType,
             Result    => 'HASH',
@@ -3950,7 +4085,9 @@ sub TicketStateList {
 
     # get whole states list
     else {
-        %States = $Self->{StateObject}->StateList( UserID => $Param{UserID}, );
+        %States = $Self->{StateObject}->StateList(
+            UserID => $Param{UserID},
+        );
     }
 
     # workflow
@@ -3988,7 +4125,10 @@ sub OwnerCheck {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -4084,12 +4224,18 @@ sub TicketOwnerSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     if ( !$Param{NewUserID} && !$Param{NewUser} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need NewUserID or NewUser!'
+        );
         return;
     }
 
@@ -4196,7 +4342,10 @@ sub TicketOwnerList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
@@ -4215,7 +4364,11 @@ sub TicketOwnerList {
     }
     my @UserInfo;
     for my $UserID (@UserID) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Cache => 1, Valid => 1 );
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $UserID,
+            Cache  => 1,
+            Valid  => 1
+        );
         next if !%User;
         push @UserInfo, \%User;
     }
@@ -4265,12 +4418,18 @@ sub TicketResponsibleSet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     if ( !$Param{NewUserID} && !$Param{NewUser} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need NewUserID or NewUser!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need NewUserID or NewUser!'
+        );
         return;
     }
 
@@ -4382,7 +4541,10 @@ sub TicketResponsibleList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
@@ -4459,7 +4621,10 @@ sub TicketInvolvedAgentsList {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -4538,7 +4703,10 @@ sub TicketPrioritySet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID PriorityID Priority)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -4626,7 +4794,10 @@ sub TicketPriorityList {
 
     # check needed stuff
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or CustomerUserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or CustomerUserID!'
+        );
         return;
     }
 
@@ -4672,7 +4843,10 @@ sub HistoryTicketStatusGet {
     # check needed stuff
     for my $Needed (qw(StopYear StopMonth StopDay StartYear StartMonth StartDay)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -4784,7 +4958,10 @@ sub HistoryTicketGet {
     # check needed stuff
     for my $Needed (qw(TicketID StopYear StopMonth StopDay)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -4797,8 +4974,7 @@ sub HistoryTicketGet {
         $Param{$DateParameter} = sprintf( "%02d", $Param{$DateParameter} );
     }
 
-    my $CacheKey
-        = 'HistoryTicketGet::'
+    my $CacheKey = 'HistoryTicketGet::'
         . join( '::', map { ( $_ || 0 ) . "::$Param{$_}" } sort keys %Param );
 
     my $Cached = $Self->{CacheInternalObject}->Get( Key => $CacheKey );
@@ -4817,7 +4993,7 @@ sub HistoryTicketGet {
                 AND th.ticket_id = ?
                 AND th.create_time <= ?
             ORDER BY th.create_time, th.id ASC',
-        Bind => [ \$Param{TicketID}, \$Time ],
+        Bind  => [ \$Param{TicketID}, \$Time ],
         Limit => 3000,
     );
 
@@ -4976,7 +5152,10 @@ sub HistoryTicketGet {
 
     # if the request is for the last month or older, cache it
     if ( "$Year-$Month" gt "$Param{StopYear}-$Param{StopMonth}" ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Ticket );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Ticket
+        );
     }
 
     return %Ticket;
@@ -4995,7 +5174,10 @@ sub HistoryTypeLookup {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Type!'
+        );
         return;
     }
 
@@ -5049,7 +5231,10 @@ sub HistoryAdd {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -5061,7 +5246,10 @@ sub HistoryAdd {
     # check needed stuff
     for my $Needed (qw(TicketID CreateUserID HistoryTypeID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5170,7 +5358,10 @@ sub HistoryGet {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5232,7 +5423,10 @@ sub HistoryDelete {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5269,7 +5463,10 @@ sub TicketAccountedTimeGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -5308,7 +5505,10 @@ sub TicketAccountTime {
     # check needed stuff
     for my $Needed (qw(TicketID ArticleID TimeUnit UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5378,7 +5578,10 @@ sub TicketMerge {
     # check needed stuff
     for my $Needed (qw(MainTicketID MergeTicketID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5393,7 +5596,7 @@ sub TicketMerge {
     # bug 9635
     # do the same with article_search (harmless if not used)
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE article_search SET ticket_id = ? WHERE ticket_id = ?',
+        SQL  => 'UPDATE article_search SET ticket_id = ? WHERE ticket_id = ?',
         Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
@@ -5567,7 +5770,10 @@ sub TicketWatchGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
@@ -5639,7 +5845,10 @@ sub TicketWatchSubscribe {
     # check needed stuff
     for my $Needed (qw(TicketID WatchUserID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5705,7 +5914,10 @@ sub TicketWatchUnsubscribe {
     # check needed stuff
     for my $Needed (qw(TicketID UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5755,7 +5967,7 @@ sub TicketWatchUnsubscribe {
     }
     else {
         return if !$Self->{DBObject}->Do(
-            SQL => 'DELETE FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
+            SQL  => 'DELETE FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
             Bind => [ \$Param{TicketID}, \$Param{WatchUserID} ],
         );
 
@@ -5804,7 +6016,10 @@ sub TicketFlagSet {
     # check needed stuff
     for my $Needed (qw(TicketID Key Value UserID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -5877,14 +6092,20 @@ sub TicketFlagDelete {
     # check needed stuff
     for my $Needed (qw(TicketID Key)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
 
     # only one of these parameters is needed
     if ( !$Param{UserID} && !$Param{AllUsers} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID or AllUsers param!"
+        );
         return;
     }
 
@@ -5975,13 +6196,19 @@ sub TicketFlagGet {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
     # check optional
     if ( !$Param{UserID} && !$Param{AllUsers} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or AllUsers param!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID or AllUsers param!"
+        );
         return;
     }
 
@@ -6001,7 +6228,7 @@ sub TicketFlagGet {
                 FROM ticket_flag
                 WHERE ticket_id = ?
                     AND create_by = ?',
-            Bind => [ \$Param{TicketID}, \$Param{UserID} ],
+            Bind  => [ \$Param{TicketID}, \$Param{UserID} ],
             Limit => 1500,
         );
 
@@ -6010,7 +6237,10 @@ sub TicketFlagGet {
         }
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Flag );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Flag
+        );
 
         return %Flag;
 
@@ -6188,8 +6418,12 @@ sub TicketAcl {
     my %ChecksDatabase;
     if ( $Param{Action} ) {
         undef $Self->{TicketAclActionData};
-        $Checks{Frontend}         = { Action => $Param{Action}, };
-        $ChecksDatabase{Frontend} = { Action => $Param{Action}, };
+        $Checks{Frontend} = {
+            Action => $Param{Action},
+        };
+        $ChecksDatabase{Frontend} = {
+            Action => $Param{Action},
+        };
     }
 
     # use ticket data if ticket id is given
@@ -6206,15 +6440,12 @@ sub TicketAcl {
 
         # get used dynamic fields where Activty and Process Entities IDs are Stored
         # (ProcessManagement)
-        my $ActivityEntityIDField
-            = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
-        my $ProcessEntityIDField
-            = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+        my $ActivityEntityIDField = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+        my $ProcessEntityIDField  = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
 
         # check for ActivityEntityID
         if ( $Ticket{ 'DynamicField_' . $ActivityEntityIDField } ) {
-            $ChecksDatabase{Process}{ActivityEntityID}
-                = $Ticket{ 'DynamicField_' . $ActivityEntityIDField };
+            $ChecksDatabase{Process}{ActivityEntityID} = $Ticket{ 'DynamicField_' . $ActivityEntityIDField };
 
             if ( $ChecksDatabase{Process}{ActivityEntityID} ) {
                 my $Activity = $Self->{ActivityObject}->ActivityGet(
@@ -6232,8 +6463,7 @@ sub TicketAcl {
 
         # check for ProcessEntityID
         if ( $Ticket{ 'DynamicField_' . $ProcessEntityIDField } ) {
-            $ChecksDatabase{Process}{ProcessEntityID}
-                = $Ticket{ 'DynamicField_' . $ProcessEntityIDField };
+            $ChecksDatabase{Process}{ProcessEntityID} = $Ticket{ 'DynamicField_' . $ProcessEntityIDField };
         }
 
         # take over the ChecksDatabase to the Checks hash as basis
@@ -6320,8 +6550,7 @@ sub TicketAcl {
             ref $ChecksDatabase{Ticket}->{$TicketAttribute} eq 'ARRAY'
             && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
 
-        $ChecksDatabase{DynamicField}->{$TicketAttribute}
-            = $ChecksDatabase{Ticket}->{$TicketAttribute};
+        $ChecksDatabase{DynamicField}->{$TicketAttribute} = $ChecksDatabase{Ticket}->{$TicketAttribute};
     }
 
     # use user data
@@ -6540,16 +6769,16 @@ sub TicketAcl {
     }
     elsif ( $Param{Type} ) {
 
-       # TODO Attention!
-       #
-       # The parameter type can contain not only the wanted ticket type, because also
-       # some other functions in Kernel/System/Ticket.pm use a type paremeter, for example
-       # MoveList() etc... These functions could be rewritten to not
-       # use a Type parameter, or the functions that call TicketAcl() could be modified to
-       # not just pass the complete Param-Hash, but instead a new parameter, like FrontEndParameter.
-       #
-       # As a workaround we lookup the TypeList first, and compare if the type parameter
-       # is found in the list, so we can be more sure that it is the type that we want here.
+        # TODO Attention!
+        #
+        # The parameter type can contain not only the wanted ticket type, because also
+        # some other functions in Kernel/System/Ticket.pm use a type paremeter, for example
+        # MoveList() etc... These functions could be rewritten to not
+        # use a Type parameter, or the functions that call TicketAcl() could be modified to
+        # not just pass the complete Param-Hash, but instead a new parameter, like FrontEndParameter.
+        #
+        # As a workaround we lookup the TypeList first, and compare if the type parameter
+        # is found in the list, so we can be more sure that it is the type that we want here.
 
         # lookup the type list (workaround for described problem)
         my %TypeList = reverse $Self->{TypeObject}->TypeList();
@@ -7376,8 +7605,7 @@ sub TicketAcl {
                 #   that are already in the %PossibleActivityDialogs Hash
                 # 2. map line: Just those that were found will form become keys
                 #   of the %PossibleActivityDialogs Hash
-                %PossibleActivityDialogs
-                    = map { $_ => 1 } grep { $PossibleActivityDialogs{$_} }
+                %PossibleActivityDialogs = map { $_ => 1 } grep { $PossibleActivityDialogs{$_} }
                     @{ $Step{Possible}{'ActivityDialog'} };
             }
         }
@@ -7396,8 +7624,7 @@ sub TicketAcl {
 
                 # Reformat @{ $Step{PossibleNot}->{'ActivityDialog'} } array so that each array
                 # value becomes a hashkey with hashvalue 1
-                %PossibleNotActivityDialogs
-                    = map { $_ => 1 } @{ $Step{PossibleNot}{'ActivityDialog'} };
+                %PossibleNotActivityDialogs = map { $_ => 1 } @{ $Step{PossibleNot}{'ActivityDialog'} };
             }
             else {
 
@@ -7435,8 +7662,7 @@ sub TicketAcl {
                 #   that are already in the %PossibleProcesses Hash
                 # 2. map line: Just those that were found will form become keys
                 #   of the %PossibleProcesses Hash
-                %PossibleProcesses
-                    = map { $_ => 1 } grep { $PossibleProcesses{$_} }
+                %PossibleProcesses = map { $_ => 1 } grep { $PossibleProcesses{$_} }
                     @{ $Step{Possible}{'Process'} };
             }
         }
@@ -7455,8 +7681,7 @@ sub TicketAcl {
 
                 # Reformat @{ $Step{PossibleNot}->{'Process'} } array so that each array
                 # value becomes a hashkey with hashvalue 1
-                %PossibleNotProcesses
-                    = map { $_ => 1 } @{ $Step{PossibleNot}{'Process'} };
+                %PossibleNotProcesses = map { $_ => 1 } @{ $Step{PossibleNot}{'Process'} };
             }
             else {
 
@@ -7616,8 +7841,7 @@ sub TicketAcl {
         # in %PossibleActivityDialogs
         # map part: reformat array returned by grep
         # to become the new AllActivityDialogs hash
-        %AllActivityDialogs
-            = map { $_ => 1 } grep { $PossibleActivityDialogs{$_} } keys %AllActivityDialogs;
+        %AllActivityDialogs = map { $_ => 1 } grep { $PossibleActivityDialogs{$_} } keys %AllActivityDialogs;
     }
 
     if ( IsHashRefWithData( \%PossibleNotActivityDialogs ) ) {
@@ -7626,8 +7850,7 @@ sub TicketAcl {
         # in the %PossibleNotActivityDialogs
         # map part: reformat array returned by grep
         # to become the new AllActivityDialogs hash
-        %AllActivityDialogs
-            = map { $_ => 1 } grep { !$PossibleNotActivityDialogs{$_} } keys %AllActivityDialogs;
+        %AllActivityDialogs = map { $_ => 1 } grep { !$PossibleNotActivityDialogs{$_} } keys %AllActivityDialogs;
     }
     if (%AllActivityDialogs) {
         %{ $Self->{TicketAclActivityDialogData} } = %AllActivityDialogs;
@@ -7652,8 +7875,7 @@ sub TicketAcl {
         # map part: reformat array returned by grep
         # to become the new AllProcesses hash
 
-        %AllProcesses
-            = map { $_ => 1 } grep { $PossibleProcesses{$_} } keys %AllProcesses;
+        %AllProcesses = map { $_ => 1 } grep { $PossibleProcesses{$_} } keys %AllProcesses;
     }
 
     if ( IsHashRefWithData( \%PossibleNotProcesses ) ) {
@@ -7662,8 +7884,7 @@ sub TicketAcl {
         # in the %PossibleNotProcesses
         # map part: reformat array returned by grep
         # to become the new AllProcesses hash
-        %AllProcesses
-            = map { $_ => 1 } grep { !$PossibleNotProcesses{$_} } keys %AllProcesses;
+        %AllProcesses = map { $_ => 1 } grep { !$PossibleNotProcesses{$_} } keys %AllProcesses;
     }
     if (%AllProcesses) {
         %{ $Self->{TicketAclProcessData} } = %AllProcesses;
@@ -7729,7 +7950,10 @@ sub TicketArticleStorageSwitch {
     # check needed stuff
     for my $Needed (qw(TicketID Source Destination UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -8005,8 +8229,7 @@ sub TicketCheckForProcessType {
         return;
     }
 
-    my $DynamicFieldName
-        = $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
+    my $DynamicFieldName = $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
 
     return if !$DynamicFieldName;
     $DynamicFieldName = 'DynamicField_' . $DynamicFieldName;
@@ -8096,8 +8319,7 @@ sub TicketAclProcessData {
     }
 
     # Limit the processes to the ones allowed by acls
-    my %ACLValidatedProcesses
-        = map { $_ => $Param{Processes}->{$_} }
+    my %ACLValidatedProcesses = map { $_ => $Param{Processes}->{$_} }
         grep { $Self->{TicketAclProcessData}->{$_} } keys %{ $Param{Processes} };
 
     return \%ACLValidatedProcesses;
