@@ -43,9 +43,10 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             return false;
         });
 
-        $('#AddEvent').bind('click', function (){
+        $('#AddEvent').bind('click', function (Event){
             if ( $('#EventType').val() !== null ) {
                 TargetNS.AddEvent( $('#EventType').val() );
+                return false;
             }
         });
 

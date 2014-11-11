@@ -242,7 +242,10 @@
 [% RenderBlockStart("EventAdd") %]
                             [% Data.EventStrg %]
 [% RenderBlockEnd("EventAdd") %]
-                            <button type="button" id="AddEvent" class="Add GenericInterfaceSpacing" name="AddEvent" value="Add Event">Add Event</button>
+                            <a href="#" id="AddEvent" class="AddEvent">
+                                <i class="fa fa-plus-square-o"></i>
+                                <span class="InvisibleText">[% Translate("Add Event") | html %]</span>
+                            </a>
                             <p class="FieldExplanation">
                                 [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].
                             </p>
