@@ -1,4 +1,5 @@
 #3.3.11 ????-??-??
+ - 2014-11-11 Fixed bug#[8781](http://bugs.otrs.org/show_bug.cgi?id=8781) - 508 Compliance: In Ticket Overviews the title attribute of large view link is incorrect.
  - 2014-11-10 Fixed bug#[10669](http://bugs.otrs.org/show_bug.cgi?id=10669) - Maxlength validation of textarea dynamic fields does not work correctly in IE.
  - 2014-11-10 Fixed bug#[10471](http://bugs.otrs.org/show_bug.cgi?id=10471) - Missing translations for tooltips of TicketOverviewSmall columns.
  - 2014-11-10 Fixed bug#[10850](http://bugs.otrs.org/show_bug.cgi?id=10850) - Double-quoted special characters in title of dynamic field sidebar output in TicketZoom.

@@ -559,7 +559,7 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewPreview</Item>
-                <Item Key="Name">Preview</Item>
+                <Item Key="Name">Large</Item>
                 <Item Key="NameShort">L</Item>
                 <Item Key="ModulePriority">300</Item>
                 <Item Key="CustomerInfo">0</Item>
