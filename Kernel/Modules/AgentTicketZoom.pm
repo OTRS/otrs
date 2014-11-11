@@ -2945,6 +2945,9 @@ sub _ArticleMenu {
                     }
                 } sort values %StandardResponseHash;
 
+                # use this array twice (also for Reply All), so copy it first
+                my @StandardResponseArrayReplyAll = @StandardResponseArray;
+
                 unshift(
                     @StandardResponseArray,
                     {
@@ -3003,13 +3006,20 @@ sub _ArticleMenu {
                     }
                 }
                 if ( $RecipientCount > 1 ) {
-                    $Param{StandardResponses}->{0} = '- '
-                        . $Self->{LayoutObject}->{LanguageObject}->Translate('Reply All') . ' -';
+                    unshift(
+                        @StandardResponseArrayReplyAll,
+                        {
+                            Key   => '0',
+                            Value => '- '
+                                . $Self->{LayoutObject}->{LanguageObject}->Translate('Reply All') . ' -',
+                            Selected => 1,
+                        }
+                    );
 
                     $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
                         Name => 'ResponseID',
                         ID   => 'ResponseIDAll' . $Article{ArticleID},
-                        Data => $Param{StandardResponses},
+                        Data => \@StandardResponseArrayReplyAll,
                     );
 
                     push @MenuItems, {
@@ -3021,7 +3031,7 @@ sub _ArticleMenu {
                         Action                => 'AgentTicketCompose',
                         FormID                => 'ReplyAll' . $Article{ArticleID},
                         ReplyAll              => 1,
-                        ResponseElementID     => 'ResponseIDAll',
+                        ResponseElementID     => 'ResponseIDAll' . $Article{ArticleID},
                         Type                  => $Param{Type},
                     };
                 }
