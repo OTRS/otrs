@@ -430,12 +430,7 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" ></textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800"></textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -460,13 +455,8 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >Multi
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">Multi
 Line</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -492,12 +482,7 @@ EOF
         },
         ExpectedResults => {
             Field => <<"EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >&lt;special chars=&quot;äüø&quot;&gt;</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">&lt;special chars=&quot;äüø&quot;&gt;</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -524,12 +509,7 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -559,12 +539,7 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -594,12 +569,7 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -627,12 +597,7 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >A Value</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass Validate_Required Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">A Value</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"This field is required or"} \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
@@ -662,12 +627,7 @@ EOF
         },
         ExpectedResults => {
             Field => << "EOF",
-<textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" >A Value</textarea>
-<!--dtl:js_on_document_complete-->
-<script type="text/javascript">//<![CDATA[
-  \$('#DynamicField_$DynamicFieldConfigs{TextArea}->{Name}').attr('maxlength','3800');
-//]]></script>
-<!--dtl:js_on_document_complete-->
+<textarea class="DynamicFieldTextArea MyClass ServerError Validate_MaxLength" id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" name="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}" title="$DynamicFieldConfigs{TextArea}->{LabelEscaped}" rows="7" cols="42" data-maxlength="3800">A Value</textarea>
 <div id="DynamicField_$DynamicFieldConfigs{TextArea}->{Name}Error" class="TooltipErrorMessage">
     <p>
         \$Text{"The field content is too long!"} \$Text{"Maximum size is %s characters.", "3800"}
