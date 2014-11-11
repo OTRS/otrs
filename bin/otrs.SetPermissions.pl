@@ -187,7 +187,8 @@ sub SetFilePermissions {
     if ( -d $File ) {
 
         # SETGID for all directories so that both OTRS and the web server can write to the files.
-        $TargetPermission = 02770;
+        # Other users should be able to read and cd to the directories.
+        $TargetPermission = 02775;
     }
     else {
         # Executable bit for script files.
@@ -213,7 +214,7 @@ sub SetFilePermissions {
     # Special treatment for toplevel folder: this must be readonly,
     #   otherwise procmail will refuse to read .procmailrc (see bug#9391).
     if ( $RelativeFile eq '/' ) {
-        $TargetPermission = 0750;
+        $TargetPermission = 0755;
     }
 
     my $Stat = File::stat::stat($File);
