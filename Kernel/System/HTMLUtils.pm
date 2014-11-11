@@ -818,11 +818,11 @@ sub LinkQuote {
             )*
             (?:                                    # param string
                 [\?]                               # if param string is there, "?" must be present
-                [a-zA-Z0-9&;=%]*                   # param string content, this will also catch entities like &amp;
+                [a-zA-Z0-9&;=%-_]*                 # param string content, this will also catch entities like &amp;
             )?
             (?:                                    # link hash string
                 [\#]                               #
-                [a-zA-Z0-9&;=%]*                   # hash string content, this will also catch entities like &amp;
+                [a-zA-Z0-9&;=%-_]*                 # hash string content, this will also catch entities like &amp;
             )?
         )
         (?=                                        # $4
