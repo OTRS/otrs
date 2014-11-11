@@ -559,7 +559,7 @@ my @Tests = (
                         RouteOperationMapping => {
                             TestSimple => {
                                 RequestMethod => [ 'GET', 'POST' ],
-                                Route => '/Test',
+                                Route         => '/Test',
                             },
                         },
                     },

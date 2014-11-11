@@ -207,10 +207,9 @@ for my $TicketID (@TicketIDs) {
         );
 
         # check if a reminder has already been sent today
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
             SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-            );
+        );
 
         # get ticket history
         my @Lines = $TicketObject->HistoryGet(

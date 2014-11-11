@@ -150,7 +150,7 @@ sub Auth {
             $AuthSyncBackend = $ConfigObject->Get("AuthModule{$Count}::UseSyncBackend");
         }
 
-    # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
+        # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
 
         # sync with configured auth backend
         if ( defined $AuthSyncBackend ) {
@@ -258,8 +258,7 @@ sub Auth {
 
     # on system maintenance just admin users
     # should be allowed to get into the system
-    my $ActiveMaintenance
-        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
+    my $ActiveMaintenance = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
 
     # reset failed logins
     $UserObject->SetPreferences(

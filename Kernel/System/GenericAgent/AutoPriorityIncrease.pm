@@ -72,7 +72,9 @@ sub Run {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    $LatestAutoIncrease = $TimeObject->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
+    $LatestAutoIncrease = $TimeObject->TimeStamp2SystemTime(
+        String => $LatestAutoIncrease,
+    );
 
     if (
         ( $TimeObject->SystemTime() - $LatestAutoIncrease )

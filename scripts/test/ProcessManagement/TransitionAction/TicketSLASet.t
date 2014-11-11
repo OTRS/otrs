@@ -22,8 +22,7 @@ my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
 my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject    = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketSLASet');
+my $ModuleObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketSLASet');
 
 # define variables
 my $UserID     = 1;

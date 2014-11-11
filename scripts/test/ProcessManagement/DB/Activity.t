@@ -17,13 +17,12 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-my $CacheObject    = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ActivityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-my $ActivityDialogObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $EntityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -472,9 +471,8 @@ for my $Test (@Tests) {
                 "$Test->{Name} | Activity Activities structure is ARRAY",
             );
 
-            my @ExpectedActivityDialogs
-                = map { $AddedActivities{ $Activity->{ID} }->{Config}->{ActivityDialog}->{$_} }
-                sort  { $a <=> $b }
+            my @ExpectedActivityDialogs = map { $AddedActivities{ $Activity->{ID} }->{Config}->{ActivityDialog}->{$_} }
+                sort { $a <=> $b }
                 keys %{ $AddedActivities{ $Activity->{ID} }->{Config}->{ActivityDialog} };
             $Self->IsDeeply(
                 $Activity->{ActivityDialogs},
@@ -499,8 +497,7 @@ for my $Test (@Tests) {
                 . $ActivityDialogNames;
         }
         else {
-            $CacheKey
-                = 'ActivityGet::EntityID::'
+            $CacheKey = 'ActivityGet::EntityID::'
                 . $Test->{Config}->{EntityID}
                 . '::ActivityDialogNames::'
                 . $ActivityDialogNames;

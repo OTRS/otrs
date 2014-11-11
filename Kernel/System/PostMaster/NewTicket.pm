@@ -48,8 +48,10 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(InmailUserID GetParam)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -80,7 +82,7 @@ sub Run {
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!"
+                Message  => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!"
             );
         }
     }
@@ -107,7 +109,9 @@ sub Run {
     }
 
     # get sender email
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        Line => $GetParam{From},
+    );
     for my $Address (@EmailAddresses) {
         $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
             Email => $Address,
@@ -264,15 +268,14 @@ sub Run {
     # set pending time
     if ( $GetParam{'X-OTRS-State-PendingTime'} ) {
 
-# You can specify absolute dates like "2010-11-20 00:00:00" or relative dates, based on the arrival time of the email.
-# Use the form "+ $Number $Unit", where $Unit can be 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' (days).
-# Only one unit can be specified. Examples of valid settings: "+50s" (pending in 50 seconds), "+30m" (30 minutes),
-# "+12d" (12 days). Note that settings like "+1d 12h" are not possible. You can specify "+36h" instead.
+  # You can specify absolute dates like "2010-11-20 00:00:00" or relative dates, based on the arrival time of the email.
+  # Use the form "+ $Number $Unit", where $Unit can be 's' (seconds), 'm' (minutes), 'h' (hours) or 'd' (days).
+  # Only one unit can be specified. Examples of valid settings: "+50s" (pending in 50 seconds), "+30m" (30 minutes),
+  # "+12d" (12 days). Note that settings like "+1d 12h" are not possible. You can specify "+36h" instead.
 
         my $TargetTimeStamp = $GetParam{'X-OTRS-State-PendingTime'};
 
-        my ( $Sign, $Number, $Unit )
-            = $TargetTimeStamp =~ m{^\s*([+-]?)\s*(\d+)\s*([smhd]?)\s*$}smx;
+        my ( $Sign, $Number, $Unit ) = $TargetTimeStamp =~ m{^\s*([+-]?)\s*(\d+)\s*([smhd]?)\s*$}smx;
 
         if ($Number) {
             $Sign ||= '+';
@@ -331,10 +334,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $DynamicFieldObject->DynamicFieldGet(
+            my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,
@@ -502,10 +504,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $DynamicFieldObject->DynamicFieldGet(
+            my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $DynamicFieldBackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,

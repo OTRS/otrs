@@ -342,9 +342,7 @@ sub ProviderGenerateResponse {
     if ($SOAPResult) {
         push @CallData, $SOAPResult;
     }
-    my $Serialized = SOAP::Serializer
-        ->autotype(0)
-        ->default_ns( $Self->{TransportConfig}->{Config}->{NameSpace} )
+    my $Serialized = SOAP::Serializer->autotype(0)->default_ns( $Self->{TransportConfig}->{Config}->{NameSpace} )
         ->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
@@ -445,9 +443,7 @@ sub RequesterPerformRequest {
     }
 
     # prepare method
-    my $SOAPMethod = SOAP::Data
-        ->name( $Param{Operation} )
-        ->uri( $Config->{NameSpace} );
+    my $SOAPMethod = SOAP::Data->name( $Param{Operation} )->uri( $Config->{NameSpace} );
     if ( ref $SOAPMethod ne 'SOAP::Data' ) {
         return {
             Success      => 0,
@@ -522,13 +518,10 @@ sub RequesterPerformRequest {
 
     # prepare connect
     my $SOAPHandle = eval {
-        SOAP::Lite
-            ->autotype(0)
-            ->default_ns( $Config->{NameSpace} )
-            ->proxy(
+        SOAP::Lite->autotype(0)->default_ns( $Config->{NameSpace} )->proxy(
             $URL,
             timeout => 60,
-            );
+        );
     };
     my $SOAPHandleFault = $@ || '';
     if ($SOAPHandleFault) {
@@ -603,8 +596,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'SOAP Transport: Could not get XML data sent to remote system',
         };
     }
-    my $XMLRequest
-        = $SOAPResult->context()->transport()->proxy()->http_response()->request()->content();
+    my $XMLRequest = $SOAPResult->context()->transport()->proxy()->http_response()->request()->content();
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -683,7 +675,7 @@ sub RequesterPerformRequest {
     # all OK - return result
     return {
         Success => 1,
-        Data => $Body->{ $Param{Operation} . 'Response' } || undef,
+        Data    => $Body->{ $Param{Operation} . 'Response' } || undef,
     };
 }
 

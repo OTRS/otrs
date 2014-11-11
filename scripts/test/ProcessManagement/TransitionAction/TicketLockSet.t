@@ -20,8 +20,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
-my $ModuleObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketLockSet');
+my $ModuleObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction::TicketLockSet');
 
 # define variables
 my $UserID     = 1;

@@ -83,12 +83,10 @@ sub Run {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $ProcessIDField
-        = $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
+    my $ProcessIDField  = $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
     my $ProcessEntityID = $Ticket{"DynamicField_$ProcessIDField"};
 
-    my $ActivityIDField
-        = $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
+    my $ActivityIDField  = $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
     my $ActivityEntityID = $Ticket{"DynamicField_$ActivityIDField"};
 
     # ticket can be ignored if it is no process ticket. Don't set the cache key in this case as

@@ -41,7 +41,7 @@ my @Tests = (
         Name   => 'JSON - simple'
     },
     {
-        Input => [ 1, 2, "3", "Foo", 5 ],
+        Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => '[1,2,"3","Foo",5]',
         Name   => 'JSON - simple'
     },
@@ -120,7 +120,7 @@ for my $Test (@Tests) {
         Name        => 'JSON - simple'
     },
     {
-        Result => [ 1, 2, "3", "Foo", 5 ],
+        Result      => [ 1, 2, "3", "Foo", 5 ],
         InputDecode => '[1,2,"3","Foo",5]',
         Name        => 'JSON - simple'
     },

@@ -39,7 +39,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %VisibleType = ( CustomerUserLogin => 'Customer', Service => 'Service', );
+    my %VisibleType = (
+        CustomerUserLogin => 'Customer',
+        Service           => 'Service',
+    );
 
     # set search limit
     my $SearchLimit = 200;
@@ -76,9 +79,7 @@ sub Run {
             $Param{Name} = q{};
         }
         else {
-            $Param{Name}
-                = $Self->{CustomerUserObject}
-                ->CustomerName( UserLogin => $Param{CustomerUserLogin} )
+            $Param{Name} = $Self->{CustomerUserObject}->CustomerName( UserLogin => $Param{CustomerUserLogin} )
                 . " ($Param{CustomerUserLogin})";
         }
 
@@ -129,10 +130,10 @@ sub Run {
         );
 
         # search customer user
-        my %CustomerUserList
-            = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserSearch}, );
-        my @CustomerUserKeyList
-            = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
+        my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{CustomerUserSearch},
+        );
+        my @CustomerUserKeyList = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
 
         # set max count
         my $MaxCount = @CustomerUserKeyList;
@@ -227,10 +228,8 @@ sub Run {
         $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
 
-        my @CustomerUserLoginsSelected
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @CustomerUserLoginsAll
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @CustomerUserLoginsSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @CustomerUserLoginsAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
         # create hash with selected customer users
         my %CustomerUserLoginsSelected;
@@ -272,10 +271,10 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # search customer user
-        my %CustomerUserList
-            = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserSearch}, );
-        my @CustomerUserKeyList
-            = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
+        my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{CustomerUserSearch},
+        );
+        my @CustomerUserKeyList = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
 
         # count results
         my $CustomerUserCount = @CustomerUserKeyList;
@@ -301,8 +300,7 @@ sub Run {
                 my $UserName = $Self->{CustomerUserObject}->CustomerName(
                     UserLogin => $CustomerUserKeyList[ $Counter - 1 ]
                 );
-                $UserRowParam{ $User{UserID} }
-                    = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
+                $UserRowParam{ $User{UserID} } = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
             }
         }
 
@@ -333,9 +331,18 @@ sub _Change {
     my %Data        = %{ $Param{Data} };
     my $Type        = $Param{Type} || 'CustomerUser';
     my $NeType      = $Type eq 'Service' ? 'CustomerUser' : 'Service';
-    my %VisibleType = ( CustomerUser => 'Customer', Service => 'Service', );
-    my %Subaction   = ( CustomerUser => 'Change', Service => 'ServiceEdit', );
-    my %IDStrg      = ( CustomerUser => 'ID', Service => 'ServiceID', );
+    my %VisibleType = (
+        CustomerUser => 'Customer',
+        Service      => 'Service',
+    );
+    my %Subaction = (
+        CustomerUser => 'Change',
+        Service      => 'ServiceEdit',
+    );
+    my %IDStrg = (
+        CustomerUser => 'ID',
+        Service      => 'ServiceID',
+    );
 
     my @ItemList = ();
 
@@ -487,10 +494,14 @@ sub _Overview {
             CustomerUserSearch => $Param{CustomerUserSearch},
         },
     );
-    $Self->{LayoutObject}->Block( Name => 'Default', );
+    $Self->{LayoutObject}->Block(
+        Name => 'Default',
+    );
 
     # output filter and default block
-    $Self->{LayoutObject}->Block( Name => 'Filter', );
+    $Self->{LayoutObject}->Block(
+        Name => 'Filter',
+    );
 
     # output result block
     $Self->{LayoutObject}->Block(

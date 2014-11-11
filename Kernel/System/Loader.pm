@@ -120,7 +120,7 @@ sub MinifyFiles {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }
@@ -255,7 +255,7 @@ sub GetMinifiedFile {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }

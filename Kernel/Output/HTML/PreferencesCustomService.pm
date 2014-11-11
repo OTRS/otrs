@@ -52,8 +52,7 @@ sub Param {
     );
 
     if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' ) ) {
-        @CustomServiceIDs
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' );
+        @CustomServiceIDs = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'ServiceID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomServiceIDs[0] ) {
         @CustomServiceIDs = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices(

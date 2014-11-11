@@ -89,16 +89,13 @@ sub new {
 
         return sub {
             if ( $Format eq 'TimeLong' ) {
-                return $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $_[0], 'DateFormat' );
+                return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat' );
             }
             elsif ( $Format eq 'TimeShort' ) {
-                return $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $_[0], 'DateFormat', 'NoSeconds' );
+                return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat', 'NoSeconds' );
             }
             elsif ( $Format eq 'Date' ) {
-                return $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $_[0], 'DateFormatShort' );
+                return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormatShort' );
             }
             return;
         };

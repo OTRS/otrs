@@ -229,13 +229,19 @@ sub Run {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
-        my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
+        my $PostPw = $Self->{ParamObject}->GetParam(
+            Param => 'Password',
+            Raw   => 1
+        ) || '';
 
         # create AuthObject
         my $AuthObject = $Kernel::OM->Get('Kernel::System::CustomerAuth');
 
         # check submitted data
-        my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
+        my $User = $AuthObject->Auth(
+            User => $PostUser,
+            Pw   => $PostPw
+        );
 
         my $Expires = '+' . $Self->{ConfigObject}->Get('SessionMaxTime') . 's';
         if ( !$Self->{ConfigObject}->Get('SessionUseCookieAfterBrowserClose') ) {
@@ -290,7 +296,10 @@ sub Run {
         }
 
         # login is successful
-        my %UserData = $Self->{UserObject}->CustomerUserDataGet( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->CustomerUserDataGet(
+            User  => $User,
+            Valid => 1
+        );
 
         # check if the browser supports cookies
         if ( $Self->{ParamObject}->GetCookie( Key => 'OTRSBrowserHasCookie' ) ) {
@@ -464,7 +473,9 @@ sub Run {
         }
 
         # get session data
-        my %UserData = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+        my %UserData = $Self->{SessionObject}->GetSessionIDData(
+            SessionID => $Param{SessionID},
+        );
 
         # create new LayoutObject with new '%Param' and '%UserData'
         $Kernel::OM->ObjectParamAdd(
@@ -639,8 +650,10 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        my $Success
-            = $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        my $Success = $Self->{UserObject}->SetPassword(
+            UserLogin => $User,
+            PW        => $UserData{NewPW}
+        );
 
         if ( !$Success ) {
             $LayoutObject->Print(
@@ -744,12 +757,10 @@ sub Run {
 
         # check for mail address restrictions
         my @Whitelist = @{
-            $Self->{ConfigObject}
-                ->Get('CustomerPanelCreateAccount::MailRestrictions::Whitelist') // []
+            $Self->{ConfigObject}->Get('CustomerPanelCreateAccount::MailRestrictions::Whitelist') // []
         };
         my @Blacklist = @{
-            $Self->{ConfigObject}
-                ->Get('CustomerPanelCreateAccount::MailRestrictions::Blacklist') // []
+            $Self->{ConfigObject}->Get('CustomerPanelCreateAccount::MailRestrictions::Blacklist') // []
         };
 
         my $WhitelistMatched;
@@ -958,6 +969,7 @@ sub Run {
                 );
                 return;
             }
+
             # redirect to alternate login
             elsif ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
 
@@ -1193,7 +1205,9 @@ sub Run {
     }
 
     # print an error screen
-    my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+    my %Data = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             %Param,

@@ -750,7 +750,8 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateTime},
             Value1             => '2013-08-21 16:45:00',
-            Value2             => '2013-08-21 16:45:01',,
+            Value2             => '2013-08-21 16:45:01',
+            ,
         },
         Success => 1,
     },
@@ -806,7 +807,8 @@ my @Tests = (
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{Date},
             Value1             => '2013-08-21 00:00:00',
-            Value2             => '2013-08-22 00:00:00',,
+            Value2             => '2013-08-22 00:00:00',
+            ,
         },
         Success => 1,
     },

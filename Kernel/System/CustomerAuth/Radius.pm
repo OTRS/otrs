@@ -34,15 +34,12 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config
-    $Self->{Die}
-        = $ConfigObject->Get( 'Customer::AuthModule::Radius::Die' . $Param{Count} );
+    $Self->{Die} = $ConfigObject->Get( 'Customer::AuthModule::Radius::Die' . $Param{Count} );
 
     # get user table
-    $Self->{RadiusHost}
-        = $ConfigObject->Get( 'Customer::AuthModule::Radius::Host' . $Param{Count} )
+    $Self->{RadiusHost} = $ConfigObject->Get( 'Customer::AuthModule::Radius::Host' . $Param{Count} )
         || die "Need Customer::AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret}
-        = $ConfigObject->Get( 'Customer::AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret} = $ConfigObject->Get( 'Customer::AuthModule::Radius::Password' . $Param{Count} )
         || die "Need Customer::AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
@@ -53,13 +50,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need What!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -70,8 +71,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need User!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 

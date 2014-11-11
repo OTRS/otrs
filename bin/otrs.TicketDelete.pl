@@ -39,9 +39,9 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
-my $Help            = '';
-my @TicketNumbers  ;
-my @TicketIDs      ;
+my $Help = '';
+my @TicketNumbers;
+my @TicketIDs;
 my @DeleteTicketIDs;
 
 GetOptions(

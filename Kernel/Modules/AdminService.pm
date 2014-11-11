@@ -133,11 +133,15 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, ServiceData => \%ServiceData ) )
+                        if (
+                            !$Object->Run(
+                                GetParam    => \%GetParam,
+                                ServiceData => \%ServiceData
+                            )
+                            )
                         {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
@@ -182,8 +186,7 @@ sub Run {
         if ( !$Self->{ConfigObject}->Get('Ticket::Service') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => $Self->{LayoutObject}->{LanguageObject}
-                    ->Translate( "Please activate %s first!", "Service" ),
+                Data => $Self->{LayoutObject}->{LanguageObject}->Translate( "Please activate %s first!", "Service" ),
                 Link =>
                     $Self->{LayoutObject}->{Baselink}
                     . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
@@ -368,6 +371,9 @@ sub _MaskNew {
     }
 
     # generate output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminService', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminService',
+        Data         => \%Param
+    );
 }
 1;

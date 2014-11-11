@@ -113,8 +113,10 @@ sub CustomerCompanyAdd {
     # check needed stuff
     for (qw(CustomerID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -169,8 +171,10 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need CustomerID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need CustomerID!"
+        );
         return;
     }
 
@@ -223,8 +227,10 @@ sub CustomerCompanyUpdate {
 
     # check needed stuff
     if ( !$Param{CustomerCompanyID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need CustomerCompanyID or CustomerID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need CustomerCompanyID or CustomerID!"
+        );
         return;
     }
 

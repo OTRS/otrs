@@ -372,10 +372,9 @@ sub DESTROY {
     if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
         for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
 
-            my %CustomerUser
-                = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
                 User => $TestCustomerUser,
-                );
+            );
 
             my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
                 %CustomerUser,

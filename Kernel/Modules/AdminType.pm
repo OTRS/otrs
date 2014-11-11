@@ -91,9 +91,10 @@ sub Run {
         }
 
         # check if a type exists with this name
-        my $NameExists
-            = $Self->{TypeObject}
-            ->NameExistsCheck( Name => $GetParam{Name}, ID => $GetParam{ID} );
+        my $NameExists = $Self->{TypeObject}->NameExistsCheck(
+            Name => $GetParam{Name},
+            ID   => $GetParam{ID}
+        );
 
         if ($NameExists) {
             $Errors{NameExists} = 1;
@@ -181,8 +182,7 @@ sub Run {
         }
 
         # check if a type exists with this name
-        my $NameExists
-            = $Self->{TypeObject}->NameExistsCheck( Name => $GetParam{Name} );
+        my $NameExists = $Self->{TypeObject}->NameExistsCheck( Name => $GetParam{Name} );
         if ($NameExists) {
             $Errors{NameExists} = 1;
             $Errors{'NameInvalid'} = 'ServerError';

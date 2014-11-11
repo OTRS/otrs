@@ -331,8 +331,7 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'UsedError';
 
-        my $FieldRequiredMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -675,8 +674,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDateTime';
 
     # set as checked if necessary
-    my $FieldChecked
-        = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
 
     my $HTMLString = <<"EOF";
     <input type="hidden" id="$FieldName" name="$FieldName" value="1"/>
@@ -717,7 +715,7 @@ EOF
                 month  => 'month(s)',
                 year   => 'year(s)',
             },
-            Name => $FieldName . 'Format',
+            Name       => $FieldName . 'Format',
             SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || 'day',
         );
 
@@ -821,8 +819,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type }
-                    = $Param{Profile}->{ $Prefix . $Type };
+                $DynamicFieldValues{ $Prefix . $Type } = $Param{Profile}->{ $Prefix . $Type };
             }
             else {
                 return;
@@ -877,8 +874,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                    = $Param{Profile}->{ $Prefix . $Type . $Part };
+                $DynamicFieldValues{ $Prefix . $Type . $Part } = $Param{Profile}->{ $Prefix . $Type . $Part };
             }
             else {
                 return;
@@ -1025,10 +1021,9 @@ sub SearchFieldParameterBuild {
             if ( $Start eq 'Before' ) {
 
                 # we must subtract the diff because it is in the past
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-                    = $TimeObject->SystemTime2Date(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
                     SystemTime => $Now - $DiffTimeSeconds,
-                    );
+                );
 
                 # use the last hour from diff time as it will be the upper limit strict
                 my $SystemTime = $TimeObject->Date2SystemTime(
@@ -1052,10 +1047,9 @@ sub SearchFieldParameterBuild {
             }
             elsif ( $Start eq 'Last' ) {
 
-                my ( $NSec, $NMin, $NHour, $NDay, $NMonth, $NYear, $NWeekDay )
-                    = $TimeObject->SystemTime2Date(
+                my ( $NSec, $NMin, $NHour, $NDay, $NMonth, $NYear, $NWeekDay ) = $TimeObject->SystemTime2Date(
                     SystemTime => $Now,
-                    );
+                );
 
                 # use the last hour from today as it will be the upper limit relative
                 my $NowSystemTime = $TimeObject->Date2SystemTime(
@@ -1072,10 +1066,9 @@ sub SearchFieldParameterBuild {
                 );
 
                 # we must subtract the diff because it is in the past
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-                    = $TimeObject->SystemTime2Date(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
                     SystemTime => $Now - $DiffTimeSeconds,
-                    );
+                );
 
                 # use the first hour from diff time as it will be the lower limit relative
                 my $SystemTime = $TimeObject->Date2SystemTime(
@@ -1096,17 +1089,15 @@ sub SearchFieldParameterBuild {
                 $Parameter{SmallerThanEquals} = $NowTimeStamp;
 
                 # set the display value
-                $DisplayValue
-                    = $Year . '-' . $Month . '-' . $Day
+                $DisplayValue = $Year . '-' . $Month . '-' . $Day
                     . ' - '
                     . $NYear . '-' . $NMonth . '-' . $NDay;
             }
             elsif ( $Start eq 'Next' ) {
 
-                my ( $NSec, $NMin, $NHour, $NDay, $NMonth, $NYear, $NWeekDay )
-                    = $TimeObject->SystemTime2Date(
+                my ( $NSec, $NMin, $NHour, $NDay, $NMonth, $NYear, $NWeekDay ) = $TimeObject->SystemTime2Date(
                     SystemTime => $Now,
-                    );
+                );
 
                 # use the first hour from today as it will be the lower limit relative
                 my $NowSystemTime = $TimeObject->Date2SystemTime(
@@ -1123,10 +1114,9 @@ sub SearchFieldParameterBuild {
                 );
 
                 # we must add the diff because it is in the future
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-                    = $TimeObject->SystemTime2Date(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
                     SystemTime => $Now + $DiffTimeSeconds,
-                    );
+                );
 
                 # use the last hour from diff time as it will be the upper limit relative
                 my $SystemTime = $TimeObject->Date2SystemTime(
@@ -1147,18 +1137,16 @@ sub SearchFieldParameterBuild {
                 $Parameter{SmallerThanEquals} = $TimeStamp;
 
                 # set the display value
-                $DisplayValue
-                    = $NYear . '-' . $NMonth . '-' . $NDay
+                $DisplayValue = $NYear . '-' . $NMonth . '-' . $NDay
                     . ' - '
                     . $Year . '-' . $Month . '-' . $Day;
             }
             elsif ( $Start eq 'After' ) {
 
                 # we must add the diff because it is in the future
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-                    = $TimeObject->SystemTime2Date(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
                     SystemTime => $Now + $DiffTimeSeconds,
-                    );
+                );
 
                 # use the last hour from diff time as it will be the lower limit strict
                 my $SystemTime = $TimeObject->Date2SystemTime(
@@ -1188,29 +1176,25 @@ sub SearchFieldParameterBuild {
             };
         }
 
-        my $ValueStart
-            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+        my $ValueStart = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
             . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartSecond' };
 
-        my $ValueStop
-            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+        my $ValueStop = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
             . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'
             . $Value->{ValueStop}->{ $Prefix . 'StopMinute' } . ':'
             . $Value->{ValueStop}->{ $Prefix . 'StopSecond' };
 
-        my $DisplayValueStart
-            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+        my $DisplayValueStart = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartDay' };
 
-        my $DisplayValueStop
-            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+        my $DisplayValueStop = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopDay' };
 

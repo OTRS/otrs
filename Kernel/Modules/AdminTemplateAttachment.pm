@@ -122,10 +122,8 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new templates
-        my @TemplatesSelected
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @TemplatesAll
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @TemplatesSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @TemplatesAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
         my $AttachmentID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -157,10 +155,8 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new attachments
-        my @AttachmentsSelected
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @AttachmentsAll
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @AttachmentsSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @AttachmentsAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
         my $TemplateID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -200,7 +196,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Template';
     my $NeType = $Type eq 'Attachment' ? 'Template' : 'Attachment';
 
-    my %VisibleType = ( Template => 'Template', Attachment => 'Attachment', );
+    my %VisibleType = (
+        Template   => 'Template',
+        Attachment => 'Attachment',
+    );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );

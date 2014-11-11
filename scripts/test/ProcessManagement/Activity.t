@@ -203,7 +203,7 @@ my @Tests = (
             },
         },
         Config => {
-            Interface => [ 'AgentInterface', 'CustomerInterface' ],
+            Interface        => [ 'AgentInterface', 'CustomerInterface' ],
             ActivityEntityID => 'A1' . $RandomID,
         },
         ExpectedActivityDialogs => {
@@ -623,8 +623,7 @@ for my $Test (@Tests) {
         );
 
         # create the expected acitivity list manually
-        my %ExpectedActivities
-            = map { $_ => $Test->{Activities}->{$_}->{Name} } keys %{ $Test->{Activities} };
+        my %ExpectedActivities = map { $_ => $Test->{Activities}->{$_}->{Name} } keys %{ $Test->{Activities} };
 
         $Self->IsDeeply(
             $ActivityList,

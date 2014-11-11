@@ -82,8 +82,9 @@ sub Run {
         # remove certificate and private key if exists
         else {
             my $Certificate = $Self->{CryptObject}->CertificateGet( Filename => $Filename );
-            my %Attributes
-                = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate, );
+            my %Attributes = $Self->{CryptObject}->CertificateAttributes(
+                Certificate => $Certificate,
+            );
 
             %Result = $Self->{CryptObject}->CertificateRemove( Filename => $Filename );
             push @Result, \%Result if %Result;
@@ -177,15 +178,16 @@ sub Run {
         if ( !%Errors ) {
 
             # add certificate
-            my %Result
-                = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
+            my %Result = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
             my @Result;
             push @Result, \%Result if %Result;
 
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
 
-            $Output .= $Self->_Overview( Result => \@Result, );
+            $Output .= $Self->_Overview(
+                Result => \@Result,
+            );
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSMIME',
@@ -254,7 +256,9 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
 
-            $Output .= $Self->_Overview( Result => \@Result, );
+            $Output .= $Self->_Overview(
+                Result => \@Result,
+            );
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSMIME',
@@ -558,8 +562,7 @@ sub _Overview {
     if ( !$Self->{ConfigObject}->Get('SMIME') ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}
-                ->Translate( "Please activate %s first!", "SMIME" ),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Please activate %s first!", "SMIME" ),
             Link =>
                 $Self->{LayoutObject}->{Baselink}
                 . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
@@ -584,8 +587,7 @@ sub _Overview {
     if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('SMIME') ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}
-                ->Translate( "Cannot create %s!", "CryptObject" ),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
             Link =>
                 $Self->{LayoutObject}->{Baselink}
                 . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
@@ -594,8 +596,7 @@ sub _Overview {
     if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}
-                ->Translate("' . $Self->{CryptObject}->Check() . '"),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("' . $Self->{CryptObject}->Check() . '"),
         );
     }
 
@@ -667,7 +668,9 @@ sub _SignerCertificateOverview {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{CertFingerprint} ) {
-        return $Self->{LayoutObject}->ErrorScreen( Message => 'Needed Fingerprint', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'Needed Fingerprint',
+        );
     }
 
     my @SignerCertResults = $Self->{CryptObject}->PrivateSearch(
@@ -766,8 +769,7 @@ sub _SignerCertificateOverview {
     if ( !$Self->{ConfigObject}->Get('SMIME') ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}
-                ->Translate( "Please activate %s first!", "SMIME" ),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Please activate %s first!", "SMIME" ),
             Link =>
                 $Self->{LayoutObject}->{Baselink}
                 . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
@@ -793,8 +795,7 @@ sub _SignerCertificateOverview {
     if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('SMIME') ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}
-                ->Translate( "Cannot create %s!", "CryptObject" ),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
             Link =>
                 $Self->{LayoutObject}->{Baselink}
                 . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
@@ -803,8 +804,7 @@ sub _SignerCertificateOverview {
     if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}
-                ->Translate("' . $Self->{CryptObject}->Check() . '"),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("' . $Self->{CryptObject}->Check() . '"),
         );
     }
 
@@ -840,7 +840,10 @@ sub _CertificateRead {
     );
 
     $Output
-        .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminSMIMECertRead', Data => \%Param );
+        .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSMIMECertRead',
+        Data         => \%Param
+        );
 
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',

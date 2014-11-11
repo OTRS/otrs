@@ -111,8 +111,7 @@ $Selenium->RunTest(
             # Use type_ok() instead and emulate the key events.
             # see http://jira.openqa.org/browse/SRC-760
             $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->clear();
-            $Selenium->find_element( "input.CustomerAutoComplete", 'css' )
-                ->send_keys($AutocompleteInput);
+            $Selenium->find_element( "input.CustomerAutoComplete", 'css' )->send_keys($AutocompleteInput);
 
             # wait for autocomplete to load
             sleep 0.2;

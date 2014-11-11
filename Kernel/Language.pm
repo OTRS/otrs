@@ -368,7 +368,9 @@ sub FormatTimeString {
         # get time object
         my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-        my $TimeStamp = $TimeObject->TimeStamp2SystemTime( String => "$Y-$M-$D $h:$m:$s", );
+        my $TimeStamp = $TimeObject->TimeStamp2SystemTime(
+            String => "$Y-$M-$D $h:$m:$s",
+        );
 
         # Add user time zone diff, but only if we actually display the time!
         # Otherwise the date might be off by one day because of the TimeZone diff.

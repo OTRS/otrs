@@ -74,7 +74,7 @@ my $FileWriteSleep = sub {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }

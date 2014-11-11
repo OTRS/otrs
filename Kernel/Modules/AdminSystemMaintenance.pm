@@ -41,9 +41,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $SystemMaintenanceID
-        = $Self->{ParamObject}->GetParam( Param => 'SystemMaintenanceID' ) || '';
-    my $WantSessionID = $Self->{ParamObject}->GetParam( Param => 'WantSessionID' ) || '';
+    my $SystemMaintenanceID = $Self->{ParamObject}->GetParam( Param => 'SystemMaintenanceID' ) || '';
+    my $WantSessionID       = $Self->{ParamObject}->GetParam( Param => 'WantSessionID' )       || '';
 
     my $SessionVisibility = 'Collapsed';
 
@@ -175,11 +174,10 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $Self->{LayoutObject}
-            ->Redirect(
+        return $Self->{LayoutObject}->Redirect(
             OP =>
                 "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Saved=1"
-            );
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -207,10 +205,9 @@ sub Run {
         for my $Key (qw(StartDate StopDate)) {
 
             # try to convert SystemTime to TimeStamp
-            $SystemMaintenanceData->{ $Key . 'TimeStamp' }
-                = $Self->{TimeObject}->SystemTime2TimeStamp(
+            $SystemMaintenanceData->{ $Key . 'TimeStamp' } = $Self->{TimeObject}->SystemTime2TimeStamp(
                 SystemTime => $SystemMaintenanceData->{$Key},
-                );
+            );
         }
 
         # check for valid system maintenance data
@@ -346,11 +343,10 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $Self->{LayoutObject}
-            ->Redirect(
+        return $Self->{LayoutObject}->Redirect(
             OP =>
                 "Action=$Self->{Action};Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SystemMaintenanceID;Saved=1"
-            );
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -410,10 +406,9 @@ sub Run {
                 for my $Key (qw(StartDate StopDate)) {
 
                     # try to convert SystemTime to TimeStamp
-                    $SystemMaintenance->{ $Key . 'TimeStamp' }
-                        = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    $SystemMaintenance->{ $Key . 'TimeStamp' } = $Self->{TimeObject}->SystemTime2TimeStamp(
                         SystemTime => $SystemMaintenance->{$Key},
-                        );
+                    );
                 }
 
                 # create blocks
@@ -609,8 +604,7 @@ sub _GetParams {
         )
     {
         my $EmptyValue = ( $ParamName eq 'ShowLoginMessage' ? 0 : undef );
-        $GetParam->{$ParamName}
-            = $Self->{ParamObject}->GetParam( Param => $ParamName ) || $EmptyValue;
+        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || $EmptyValue;
     }
 
     ITEM:

@@ -58,7 +58,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'NewTicket',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
 );
 
 $Self->True(
@@ -78,7 +78,7 @@ $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'NewTicket',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
 );
 
 $Self->True(

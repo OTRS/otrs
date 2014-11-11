@@ -91,8 +91,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} && !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Name or ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name or ID!'
+        );
         return;
     }
 
@@ -175,8 +177,10 @@ sub NotificationAdd {
     # check needed stuff
     for (qw(Name Subject Body Type Charset Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -269,8 +273,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(ID Name Subject Body Type Charset Data UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -335,8 +341,10 @@ sub NotificationDelete {
     # check needed stuff
     for (qw(ID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -366,7 +374,7 @@ sub NotificationDelete {
 
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message => "NotificationEvent notification '$Check{Name}' deleted (UserID=$Param{UserID}).",
+        Message  => "NotificationEvent notification '$Check{Name}' deleted (UserID=$Param{UserID}).",
     );
 
     return 1;
@@ -385,8 +393,10 @@ sub NotificationEventCheck {
 
     # check needed stuff
     if ( !$Param{Event} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 

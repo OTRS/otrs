@@ -34,14 +34,11 @@ sub new {
     # preferences table data
     $Self->{PreferencesTable} = $ConfigObject->Get('CustomerPreferences')->{Params}->{Table}
         || 'customer_preferences';
-    $Self->{PreferencesTableKey}
-        = $ConfigObject->Get('CustomerPreferences')->{Params}->{TableKey}
+    $Self->{PreferencesTableKey} = $ConfigObject->Get('CustomerPreferences')->{Params}->{TableKey}
         || 'preferences_key';
-    $Self->{PreferencesTableValue}
-        = $ConfigObject->Get('CustomerPreferences')->{Params}->{TableValue}
+    $Self->{PreferencesTableValue} = $ConfigObject->Get('CustomerPreferences')->{Params}->{TableValue}
         || 'preferences_value';
-    $Self->{PreferencesTableUserID}
-        = $ConfigObject->Get('CustomerPreferences')->{Params}->{TableUserID}
+    $Self->{PreferencesTableUserID} = $ConfigObject->Get('CustomerPreferences')->{Params}->{TableUserID}
         || 'user_id';
 
     # set lower if database is case sensitive

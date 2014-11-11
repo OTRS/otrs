@@ -104,8 +104,7 @@ sub Run {
             Data => \%Param,
         );
 
-        my $Block
-            = $Self->{RegistrationState} ne 'registered'
+        my $Block = $Self->{RegistrationState} ne 'registered'
             ? 'OTRSIDRegistration'
             : 'OTRSIDDeregistration';
 
@@ -139,8 +138,7 @@ sub Run {
             Data => \%Param,
         );
 
-        my $Block
-            = $Self->{RegistrationState} ne 'registered'
+        my $Block = $Self->{RegistrationState} ne 'registered'
             ? 'OTRSIDRegistration'
             : 'OTRSIDDeregistration';
         $Self->{LayoutObject}->Block(
@@ -352,10 +350,9 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $RegistrationType = $Self->{ParamObject}->GetParam( Param => 'Type' );
-        my $Description      = $Self->{ParamObject}->GetParam( Param => 'Description' );
-        my $SupportDataSending
-            = $Self->{ParamObject}->GetParam( Param => 'SupportDataSending' ) || 'No';
+        my $RegistrationType   = $Self->{ParamObject}->GetParam( Param => 'Type' );
+        my $Description        = $Self->{ParamObject}->GetParam( Param => 'Description' );
+        my $SupportDataSending = $Self->{ParamObject}->GetParam( Param => 'SupportDataSending' ) || 'No';
 
         my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend(
             Type               => $RegistrationType,

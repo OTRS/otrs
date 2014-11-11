@@ -45,8 +45,7 @@ sub Run {
 
         # get template data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardTemplateData
-            = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID );
+        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID );
 
         # get queues
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
@@ -126,10 +125,8 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new templates
-        my @TemplatesSelected
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @TemplatesAll
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @TemplatesSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @TemplatesAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
         my $QueueID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -159,10 +156,8 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get new queues
-        my @QueuesSelected
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @QueuesAll
-            = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @QueuesSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
+        my @QueuesAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
 
         my $TemplateID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
@@ -202,7 +197,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Template';
     my $NeType = $Type eq 'Queue' ? 'Template' : 'Queue';
 
-    my %VisibleType = ( Template => 'Template', Queue => 'Queue', );
+    my %VisibleType = (
+        Template => 'Template',
+        Queue    => 'Queue',
+    );
 
     my $MyType = $VisibleType{$Type};
 

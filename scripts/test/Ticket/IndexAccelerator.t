@@ -353,7 +353,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         'Merge tickets',
     );
 
-# verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
+    # verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
     $Self->Is(
         $TicketObject->TicketAccountedTimeGet( TicketID => $TicketIDs[0] ),
         $AccountedTimes[0] + $AccountedTimes[ $ArraySize - 1 ],

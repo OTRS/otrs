@@ -77,19 +77,17 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
     }
     else {
         my $DynamicField
-            = $Kernel::OM->Get('Kernel::System::DynamicField')
-            ->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+            = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
             $DynamicField->{ValidID} = 1;
-            my $SuccessUpdate
-                = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldUpdate(
+            my $SuccessUpdate = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldUpdate(
                 %{$DynamicField},
                 Reorder => 0,
                 UserID  => 1,
                 ValidID => 1,
-                );
+            );
 
             # verify dynamic field creation
             $Self->True(
@@ -581,8 +579,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . ": $Ticket{TicketNumber}";
                     }
@@ -609,8 +606,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . ":$Ticket{TicketNumber}";
                     }
@@ -637,8 +633,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . $Ticket{TicketNumber};
                     }

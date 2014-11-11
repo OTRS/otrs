@@ -53,10 +53,9 @@ sub new {
         || die "Need CustomerUser->CustomerKey in Kernel/Config.pm!";
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
         || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
-    $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
-    $Self->{ExcludePrimaryCustomerID}
-        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
-    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
+    $Self->{ReadOnly}                 = $Self->{CustomerUserMap}->{ReadOnly};
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{SearchPrefix}             = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
     if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
@@ -110,8 +109,10 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -248,8 +249,7 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                my $PostMasterSearch
-                    = '%' . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . '%';
+                my $PostMasterSearch = '%' . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . '%';
                 push @Bind, \$PostMasterSearch;
 
                 if ( $Self->{CaseSensitive} ) {
@@ -462,8 +462,10 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -530,8 +532,10 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -616,10 +620,9 @@ sub CustomerUserDataGet {
 
     # add last login timestamp
     if ( $Preferences{UserLastLogin} ) {
-        $Preferences{UserLastLoginTimestamp}
-            = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
+        $Preferences{UserLastLoginTimestamp} = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $Preferences{UserLastLogin},
-            );
+        );
     }
 
     # cache request
@@ -640,8 +643,10 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
@@ -653,14 +658,18 @@ sub CustomerUserAdd {
             # skip UserLogin, will be checked later
             next ENTRY if ( $Entry->[0] eq 'UserLogin' );
 
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -679,8 +688,10 @@ sub CustomerUserAdd {
 
     # check if user login exists
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -721,8 +732,7 @@ sub CustomerUserAdd {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] }
-                    = $Param{ $Entry->[0] };
+                $Value{ $Entry->[0] } = $Param{ $Entry->[0] };
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -780,7 +790,10 @@ sub CustomerUserAdd {
 
     $SQL .= ')';
 
-    return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
 
     # log notice
     $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -790,7 +803,10 @@ sub CustomerUserAdd {
 
     # set password
     if ( $Param{UserPassword} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPassword}
+        );
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
@@ -803,16 +819,20 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -911,7 +931,10 @@ sub CustomerUserUpdate {
     }
     push @Bind, \$Param{ID};
 
-    return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
 
     # check if we need to update Customer Preferences
     if ( $Param{UserLogin} ne $UserData{UserLogin} ) {
@@ -931,7 +954,10 @@ sub CustomerUserUpdate {
 
     # check pw
     if ( $Param{UserPassword} ) {
-        $Self->SetPassword( UserLogin => $Param{UserLogin}, PW => $Param{UserPassword} );
+        $Self->SetPassword(
+            UserLogin => $Param{UserLogin},
+            PW        => $Param{UserPassword}
+        );
     }
 
     $Self->_CustomerUserCacheClear( UserLogin => $Param{UserLogin} );
@@ -950,22 +976,25 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
     my $CryptedPw = '';
 
     # get crypt type
-    my $CryptType
-        = $Kernel::OM->Get('Kernel::Config')->Get('Customer::AuthModule::DB::CryptType') || 'sha2';
+    my $CryptType = $Kernel::OM->Get('Kernel::Config')->Get('Customer::AuthModule::DB::CryptType') || 'sha2';
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -1092,7 +1121,7 @@ sub SetPassword {
         }
 
         return if !$Self->{DBObject}->Do(
-            SQL => $SQL,
+            SQL  => $SQL,
             Bind => [ \$CryptedPw, \$Param{UserLogin} ],
         );
 
@@ -1129,8 +1158,10 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1144,8 +1175,10 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1164,8 +1197,10 @@ sub _CustomerUserCacheClear {
     return if !$Self->{CacheObject};
 
     if ( !$Param{UserLogin} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 

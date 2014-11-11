@@ -17,12 +17,11 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ActivityDialogObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject          = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $EntityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -655,8 +654,8 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedActivityDialogsList[1],
             EntityID => $RandomID . '-2-U',
-            Name => "ActivityDialog-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
-            Config => {
+            Name     => "ActivityDialog-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
+            Config   => {
                 DescriptionShort =>
                     'a Description -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ--U',
                 Fields => {

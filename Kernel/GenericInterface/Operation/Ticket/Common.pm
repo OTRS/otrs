@@ -58,10 +58,9 @@ sub Init {
     }
 
     # get webservice configuration
-    my $Webservice
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $Param{WebserviceID},
-        );
+    );
 
     if ( !IsHashRefWithData($Webservice) ) {
         return {
@@ -74,7 +73,7 @@ sub Init {
 
     # get the dynamic fields
     my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid => 1,
+        Valid      => 1,
         ObjectType => [ 'Ticket', 'Article' ],
     );
 
@@ -317,8 +316,7 @@ sub ValidateCustomer {
 
         # return false if customer is not valid
         if (
-            $Kernel::OM->Get('Kernel::System::Valid')
-            ->ValidLookup( ValidID => $CustomerData{ValidID} ) ne 'valid'
+            $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $CustomerData{ValidID} ) ne 'valid'
             )
         {
             return;
@@ -486,8 +484,7 @@ sub ValidateSLA {
         && !$Param{ServiceID}
         )
     {
-        $ServiceID
-            = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup( Name => $Param{Service} )
+        $ServiceID = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup( Name => $Param{Service} )
             || 0;
     }
     else {
@@ -868,8 +865,7 @@ sub ValidateFrom {
     # check email address
     for my $Email ( Mail::Address->parse( $Param{From} ) ) {
         if (
-            !$Kernel::OM->Get('Kernel::System::CheckItem')
-            ->CheckEmail( Address => $Email->address() )
+            !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Email->address() )
             )
         {
             return;
@@ -1338,12 +1334,10 @@ sub CheckCreatePermissions {
 
     my %QueueData;
     if ( defined $Param{Ticket}->{Queue} && $Param{Ticket}->{Queue} ne '' ) {
-        %QueueData = $Kernel::OM->Get('Kernel::System::Queue')
-            ->QueueGet( Name => $Param{Ticket}->{Queue} );
+        %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( Name => $Param{Ticket}->{Queue} );
     }
     else {
-        %QueueData = $Kernel::OM->Get('Kernel::System::Queue')
-            ->QueueGet( ID => $Param{Ticket}->{QueueID} );
+        %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet( ID => $Param{Ticket}->{QueueID} );
     }
 
     # permission check, can we create new tickets in queue

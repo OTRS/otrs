@@ -107,7 +107,9 @@ sub Run {
             %Article,
         },
     );
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
     return $Output;
 }
 

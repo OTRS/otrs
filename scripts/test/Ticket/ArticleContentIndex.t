@@ -147,7 +147,7 @@ $Self->Is(
 
 $Self->Is(
     $TicketObject->ArticleCount(
-        TicketID => $TicketID,
+        TicketID      => $TicketID,
         ArticleTypeID => [ @ArticleTypeIDs[ 0, 1 ] ],
     ),
     6,

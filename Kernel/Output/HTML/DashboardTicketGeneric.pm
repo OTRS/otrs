@@ -46,9 +46,8 @@ sub new {
     }
 
     # save column filters
-    $Self->{PrefKeyColumnFilters} = 'UserDashboardTicketGenericColumnFilters' . $Self->{Name};
-    $Self->{PrefKeyColumnFiltersRealKeys}
-        = 'UserDashboardTicketGenericColumnFiltersRealKeys' . $Self->{Name};
+    $Self->{PrefKeyColumnFilters}         = 'UserDashboardTicketGenericColumnFilters' . $Self->{Name};
+    $Self->{PrefKeyColumnFiltersRealKeys} = 'UserDashboardTicketGenericColumnFiltersRealKeys' . $Self->{Name};
 
     # get needed objects
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
@@ -165,8 +164,7 @@ sub new {
         $Self->{GetColumnFilterSelect} = $PreferencesColumnFilters;
         my @ColumnFilters = keys %{$PreferencesColumnFilters};    ## no critic
         for my $Field (@ColumnFilters) {
-            $Self->{GetColumnFilter}->{ $Field . $Self->{Name} }
-                = $PreferencesColumnFilters->{$Field};
+            $Self->{GetColumnFilter}->{ $Field . $Self->{Name} } = $PreferencesColumnFilters->{$Field};
         }
     }
 
@@ -217,7 +215,7 @@ sub new {
 
     $Self->{PrefKeyShown}   = 'UserDashboardPref' . $Self->{Name} . '-Shown';
     $Self->{PrefKeyColumns} = 'UserDashboardPref' . $Self->{Name} . '-Columns';
-    $Self->{PageShown} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKeyShown} }
+    $Self->{PageShown}      = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{ $Self->{PrefKeyShown} }
         || $Self->{Config}->{Limit};
     $Self->{StartHit} = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
 
@@ -276,18 +274,17 @@ sub new {
     if ( $Self->{Config}->{IsProcessWidget} ) {
 
         # get process management configuration
-        $Self->{ProcessManagementProcessID} = $Kernel::OM->Get('Kernel::Config')
-            ->Get('Process::DynamicFieldProcessManagementProcessID');
-        $Self->{ProcessManagementActivityID} = $Kernel::OM->Get('Kernel::Config')
-            ->Get('Process::DynamicFieldProcessManagementActivityID');
+        $Self->{ProcessManagementProcessID}
+            = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID');
+        $Self->{ProcessManagementActivityID}
+            = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID');
 
         # get the list of processes in the system
-        my $ProcessListHash
-            = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessList(
+        my $ProcessListHash = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->ProcessList(
             ProcessState => [ 'Active', 'FadeAway', 'Inactive' ],
             Interface    => 'all',
             Silent       => 1,
-            );
+        );
 
         # use only the process EntityIDs
         @{ $Self->{ProcessList} } = sort keys %{$ProcessListHash};
@@ -445,11 +442,10 @@ sub FilterContent {
     if ( $HeaderColumn =~ m/^DynamicField_/ && !defined $Self->{DynamicField} ) {
 
         # get the dynamic fields for this screen
-        $Self->{DynamicField}
-            = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
             Valid      => 0,
             ObjectType => ['Ticket'],
-            );
+        );
     }
 
     # get column values for to build the filters later
@@ -460,8 +456,7 @@ sub FilterContent {
 
     # make sure that even a value of 0 is passed as a Selected value, e.g. Unchecked value of a
     # check-box dynamic field.
-    my $SelectedValue
-        = defined $Self->{GetColumnFilter}->{ $HeaderColumn . $Self->{Name} }
+    my $SelectedValue = defined $Self->{GetColumnFilter}->{ $HeaderColumn . $Self->{Name} }
         ? $Self->{GetColumnFilter}->{ $HeaderColumn . $Self->{Name} }
         : '';
 
@@ -880,23 +875,19 @@ sub Run {
             # translate the column name to write it in the current language
             my $TranslatedWord;
             if ( $HeaderColumn eq 'EscalationTime' ) {
-                $TranslatedWord
-                    = $LayoutObject->{LanguageObject}->Translate('Service Time');
+                $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Service Time');
             }
             elsif ( $HeaderColumn eq 'EscalationResponseTime' ) {
-                $TranslatedWord
-                    = $LayoutObject->{LanguageObject}->Translate('First Response Time');
+                $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('First Response Time');
             }
             elsif ( $HeaderColumn eq 'EscalationSolutionTime' ) {
-                $TranslatedWord
-                    = $LayoutObject->{LanguageObject}->Translate('Solution Time');
+                $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Solution Time');
             }
             elsif ( $HeaderColumn eq 'EscalationUpdateTime' ) {
                 $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Update Time');
             }
             elsif ( $HeaderColumn eq 'PendingTime' ) {
-                $TranslatedWord
-                    = $LayoutObject->{LanguageObject}->Translate('Pending till');
+                $TranslatedWord = $LayoutObject->{LanguageObject}->Translate('Pending till');
             }
             else {
                 $TranslatedWord = $LayoutObject->{LanguageObject}->Translate($HeaderColumn);
@@ -1162,7 +1153,7 @@ sub Run {
                     },
                 );
 
-            # check if the dynamic field is sortable and filterable (sortable check was made before)
+                # check if the dynamic field is sortable and filterable (sortable check was made before)
                 if ( $Self->{ValidFilterableColumns}->{$DynamicFieldName} ) {
 
                     # variable to save the filter's HTML code
@@ -1388,16 +1379,14 @@ sub Run {
                     $EscalationData{EscalationTime}            = $Ticket{EscalationTime};
                     $EscalationData{EscalationDestinationDate} = $Ticket{EscalationDestinationDate};
 
-                    $EscalationData{EscalationTimeHuman}
-                        = $LayoutObject->CustomerAgeInHours(
+                    $EscalationData{EscalationTimeHuman} = $LayoutObject->CustomerAgeInHours(
                         Age   => $EscalationData{EscalationTime},
                         Space => ' ',
-                        );
-                    $EscalationData{EscalationTimeWorkingTime}
-                        = $LayoutObject->CustomerAgeInHours(
+                    );
+                    $EscalationData{EscalationTimeWorkingTime} = $LayoutObject->CustomerAgeInHours(
                         Age   => $EscalationData{EscalationTimeWorkingTime},
                         Space => ' ',
-                        );
+                    );
                     if ( defined $Ticket{EscalationTime} && $Ticket{EscalationTime} < 60 * 60 * 1 )
                     {
                         $EscalationData{EscalationClass} = 'Warning';
@@ -1477,8 +1466,7 @@ sub Run {
                     my %ResponsibleInfo = $UserObject->GetUserData(
                         UserID => $Ticket{ResponsibleID},
                     );
-                    $DataValue
-                        = $ResponsibleInfo{'UserFirstname'} . ' '
+                    $DataValue = $ResponsibleInfo{'UserFirstname'} . ' '
                         . $ResponsibleInfo{'UserLastname'};
                 }
                 elsif (
@@ -1499,10 +1487,9 @@ sub Run {
                     # get customer name
                     my $CustomerName;
                     if ( $Ticket{CustomerUserID} ) {
-                        $CustomerName
-                            = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
+                        $CustomerName = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
                             UserLogin => $Ticket{CustomerUserID},
-                            );
+                        );
                     }
                     $DataValue = $CustomerName;
                 }
@@ -1516,7 +1503,7 @@ sub Run {
                         Data => {
                             Title => "$DataValue " || '',
                             WholeTitle => $WholeTitle,
-                            Class => $CSSClass || '',
+                            Class      => $CSSClass || '',
                         },
                     );
 
@@ -1723,12 +1710,11 @@ sub _GetColumnValues {
             $FunctionName = 'CustomerFilterValuesGet';
         }
 
-        $ColumnFilterValues{$HeaderColumn}
-            = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->$FunctionName(
+        $ColumnFilterValues{$HeaderColumn} = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->$FunctionName(
             TicketIDs    => $TicketIDs,
             HeaderColumn => $HeaderColumn,
             UserID       => $Self->{UserID},
-            );
+        );
     }
     else {
         DYNAMICFIELD:
@@ -1754,12 +1740,11 @@ sub _GetColumnValues {
             if ( IsArrayRefWithData($TicketIDs) ) {
 
                 # get the historical values for the field
-                $ColumnFilterValues{$HeaderColumn}
-                    = $BackendObject->ColumnFilterValuesGet(
+                $ColumnFilterValues{$HeaderColumn} = $BackendObject->ColumnFilterValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     LayoutObject       => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
                     TicketIDs          => $TicketIDs,
-                    );
+                );
             }
             else {
 
@@ -2078,10 +2063,9 @@ sub _SearchParamsGet {
     # set the service ids to an array of non existing service ids (0)
     my @MyServiceIDs = (0);
     if ( $Self->{UseTicketService} ) {
-        @MyServiceIDs
-            = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices(
+        @MyServiceIDs = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices(
             UserID => $Self->{UserID},
-            );
+        );
 
         if ( !defined $MyServiceIDs[0] ) {
             @MyServiceIDs = (0);
@@ -2091,7 +2075,7 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            Locks => [ 'lock', 'tmp_lock' ],
+            Locks    => [ 'lock', 'tmp_lock' ],
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],

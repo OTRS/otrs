@@ -180,13 +180,12 @@ sub CollectByWebRequest {
     # Create a challenge token to authenticate this request without customer/agent login.
     #   PublicSupportDataCollector requires this ChallengeToken.
     my $ChallengeToken = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
-        Length => 32,
+        Length     => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],    # hexadecimal
     );
 
     if (
-        $Kernel::OM->Get('Kernel::System::SystemData')
-        ->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' )
+        $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' )
         )
     {
         $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataUpdate(

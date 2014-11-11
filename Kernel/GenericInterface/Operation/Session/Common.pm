@@ -93,8 +93,7 @@ sub CreateSessionID {
     # login is invalid
     return if !$User;
 
-    my $GroupObjectName
-        = $UserType eq 'User' ? 'Kernel::System::Group' : 'Kernel::System::CustomerGroup';
+    my $GroupObjectName = $UserType eq 'User' ? 'Kernel::System::Group' : 'Kernel::System::CustomerGroup';
 
     # get groups rw/ro
     for my $Type (qw(rw ro)) {

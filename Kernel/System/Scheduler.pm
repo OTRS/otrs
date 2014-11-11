@@ -68,8 +68,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{PIDUpdateTime}
-        = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 60;
+    $Self->{PIDUpdateTime} = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 60;
 
     $Kernel::OM->Get('Kernel::System::Cache')->Configure(
         CacheInMemory => 0,
@@ -120,8 +119,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Task $TaskItem->{ID} will be deleted bacause type is not set!",
             );
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-                ->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
 
             next TASKITEM;
         }
@@ -134,16 +132,13 @@ sub Run {
         next TASKITEM if ( $TaskDueTime gt $SystemTime );
 
         # get task data
-        my %TaskData
-            = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-            ->TaskGet( ID => $TaskItem->{ID} );
+        my %TaskData = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskGet( ID => $TaskItem->{ID} );
         if ( !%TaskData ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Got invalid task data!',
             );
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-                ->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
 
             # skip if cant get task data
             next TASKITEM;
@@ -154,8 +149,7 @@ sub Run {
                 Priority => 'error',
                 Message  => 'Got invalid data inside task data!',
             );
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-                ->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
 
             # skip if can't get task data -> data
             next TASKITEM;
@@ -175,8 +169,7 @@ sub Run {
                 Message  => "Can't create $TaskItem->{Type} task handler object! $@",
             );
 
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-                ->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
 
             # skip if can't create task handler
             next TASKITEM;
@@ -210,8 +203,7 @@ sub Run {
                 );
 
                 # delete the task
-                $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-                    ->TaskDelete( ID => $TaskItem->{ID} );
+                $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
 
                 next TASKITEM;
             }
@@ -225,8 +217,7 @@ sub Run {
         else {
 
             # delete the task
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')
-                ->TaskDelete( ID => $TaskItem->{ID} );
+            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
         }
     }
 

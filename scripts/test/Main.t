@@ -661,7 +661,7 @@ my $NoHexChar;
 COUNTER:
 for my $Counter ( 1 .. 1000 ) {
     my $HexString = $MainObject->GenerateRandomString(
-        Length => 32,
+        Length     => 32,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
     if ( $HexString =~ m{[^0-9a-f]}xms ) {

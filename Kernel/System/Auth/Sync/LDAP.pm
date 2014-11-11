@@ -57,35 +57,28 @@ sub new {
         );
         return;
     }
-    $Self->{Count}  = $Param{Count} || '';
-    $Self->{Die}    = $ConfigObject->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
-    $Self->{Host}   = $ConfigObject->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
-    $Self->{BaseDN} = $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
-    $Self->{UID}    = $ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} );
-    $Self->{SearchUserDN}
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
-    $Self->{SearchUserPw}
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
-    $Self->{GroupDN} = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )
+    $Self->{Count}        = $Param{Count} || '';
+    $Self->{Die}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
+    $Self->{Host}         = $ConfigObject->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
+    $Self->{BaseDN}       = $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
+    $Self->{UID}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} );
+    $Self->{SearchUserDN} = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
+    $Self->{SearchUserPw} = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
+    $Self->{GroupDN}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )
         || '';
-    $Self->{AccessAttr}
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
+    $Self->{AccessAttr} = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
         || 'memberUid';
-    $Self->{UserAttr}
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
+    $Self->{UserAttr} = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
         || 'DN';
-    $Self->{DestCharset}
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
+    $Self->{DestCharset} = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
         || 'utf-8';
 
     # ldap filter always used
-    $Self->{AlwaysFilter}
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
+    $Self->{AlwaysFilter} = $ConfigObject->Get( 'AuthSyncModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
 
     # Net::LDAP new params
     if ( $ConfigObject->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params}
-            = $ConfigObject->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} );
+        $Self->{Params} = $ConfigObject->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} );
     }
     else {
         $Self->{Params} = {};
@@ -99,8 +92,10 @@ sub Sync {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need User!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
@@ -133,7 +128,10 @@ sub Sync {
     }
     my $Result;
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-        $Result = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+        $Result = $LDAP->bind(
+            dn       => $Self->{SearchUserDN},
+            password => $Self->{SearchUserPw}
+        );
     }
     else {
         $Result = $LDAP->bind();
@@ -219,8 +217,7 @@ sub Sync {
     my %SystemRolesByName = reverse %SystemRoles;
 
     # sync user from ldap
-    my $UserSyncMap
-        = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserSyncMap' . $Self->{Count} );
+    my $UserSyncMap = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserSyncMap' . $Self->{Count} );
     if ($UserSyncMap) {
 
         # get whole user dn
@@ -320,8 +317,10 @@ sub Sync {
                         $GroupObject->GroupMemberAdd(
                             GID        => $SystemGroupsByName{$Group},
                             UID        => $UserID,
-                            Permission => { rw => 1, },
-                            UserID     => 1,
+                            Permission => {
+                                rw => 1,
+                            },
+                            UserID => 1,
                         );
                     }
                 }

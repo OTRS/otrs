@@ -160,8 +160,7 @@ sub SystemTime2Date {
     }
 
     # get time format
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-        = localtime $Param{SystemTime};    ## no critic
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{SystemTime};    ## no critic
     $Year  += 1900;
     $Month += 1;
     $Month = sprintf "%02d", $Month;
@@ -434,10 +433,8 @@ sub WorkingTime {
     my $TimeVacationDaysOneTime = $ConfigObject->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $ConfigObject->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours        = $ConfigObject->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $ConfigObject->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
@@ -461,24 +458,21 @@ sub WorkingTime {
     );
 
     my $Counted = 0;
-    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay )
-        = localtime $Param{StartTime};    ## no critic
+    my ( $ASec, $AMin, $AHour, $ADay, $AMonth, $AYear, $AWDay ) = localtime $Param{StartTime};    ## no critic
     $AYear  += 1900;
     $AMonth += 1;
     my $ADate = "$AYear-$AMonth-$ADay";
-    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay )
-        = localtime $Param{StopTime};     ## no critic
+    my ( $BSec, $BMin, $BHour, $BDay, $BMonth, $BYear, $BWDay ) = localtime $Param{StopTime};     ## no critic
     $BYear  += 1900;
     $BMonth += 1;
     my $BDate = "$BYear-$BMonth-$BDay";
 
     while ( $Param{StartTime} < $Param{StopTime} ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = localtime $Param{StartTime};    ## no critic
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = localtime $Param{StartTime};       ## no critic
         $Year  += 1900;
         $Month += 1;
-        my $CDate = "$Year-$Month-$Day";
-        my $CTime00 = $Param{StartTime} - ( ( $Hour * 60 + $Min ) * 60 + $Sec );    # 00:00:00
+        my $CDate   = "$Year-$Month-$Day";
+        my $CTime00 = $Param{StartTime} - ( ( $Hour * 60 + $Min ) * 60 + $Sec );                  # 00:00:00
 
         # count nothing because of vacation
         if (
@@ -595,10 +589,8 @@ sub DestinationTime {
     my $TimeVacationDaysOneTime = $ConfigObject->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours
-                = $ConfigObject->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays
-                = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours        = $ConfigObject->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays        = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
             $TimeVacationDaysOneTime = $ConfigObject->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
@@ -627,10 +619,10 @@ sub DestinationTime {
         $LoopCounter++;
         last LOOP if $LoopCounter > 600;
 
-        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;  ## no critic
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year, $WDay ) = localtime $CTime;    ## no critic
         $Year  += 1900;
         $Month += 1;
-        my $CTime00 = $CTime - ( ( $Hour * 60 + $Minute ) * 60 + $Second );             # 00:00:00
+        my $CTime00 = $CTime - ( ( $Hour * 60 + $Minute ) * 60 + $Second );               # 00:00:00
 
         # Skip vacation days, or days without working hours, do not count.
         if (

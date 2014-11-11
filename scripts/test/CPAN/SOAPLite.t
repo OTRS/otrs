@@ -60,16 +60,14 @@ if ( !$Host ) {
 }
 
 # prepare RPC config
-my $Proxy
-    = $ConfigObject->Get('HttpType')
+my $Proxy = $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
     . '/rpc.pl';
 
-my $URI
-    = $ConfigObject->Get('HttpType')
+my $URI = $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/Core';

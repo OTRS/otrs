@@ -168,8 +168,7 @@ sub Auth {
 
     # on system maintenance customers
     # shouldn't be allowed get into the system
-    my $ActiveMaintenance
-        = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
+    my $ActiveMaintenance = $Kernel::OM->Get('Kernel::System::SystemMaintenance')->SystemMaintenanceIsActive();
 
     # check if system maintenance is active
     if ($ActiveMaintenance) {

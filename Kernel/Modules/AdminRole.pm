@@ -39,11 +39,12 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID
-            = $Self->{ParamObject}->GetParam( Param => 'ID' )
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' )
             || $Self->{ParamObject}->GetParam( Param => 'RoleID' )
             || '';
-        my %Data = $Self->{GroupObject}->RoleGet( ID => $ID, );
+        my %Data = $Self->{GroupObject}->RoleGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -288,7 +289,9 @@ sub _Overview {
         Data => {},
     );
 
-    my %List = $Self->{GroupObject}->RoleList( ValidID => 0, );
+    my %List = $Self->{GroupObject}->RoleList(
+        ValidID => 0,
+    );
 
     # if there is data available, it is shown
     if (%List) {

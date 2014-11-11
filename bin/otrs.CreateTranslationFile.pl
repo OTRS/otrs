@@ -94,8 +94,7 @@ my $BreakLineAfterChars = 60;
 
     # check params
     if ( $Opts{l} && $Opts{l} eq 'all' ) {
-        my %DefaultUsedLanguages
-            = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
+        my %DefaultUsedLanguages = %{ $Kernel::OM->Get('Kernel::Config')->Get('DefaultUsedLanguages') };
         @Languages = sort keys %DefaultUsedLanguages;
 
         # ignore en*.pm files
@@ -235,8 +234,7 @@ sub HandleLanguage {
 
     # open .tt files and write new translation file
     my %UsedWords;
-    my $Directory
-        = $IsSubTranslation
+    my $Directory = $IsSubTranslation
         ? "$ModuleDirectory/Kernel/Output/HTML/$DefaultTheme"
         : "$Home/Kernel/Output/HTML/$DefaultTheme";
 
@@ -334,8 +332,7 @@ sub HandleLanguage {
         next STRING if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$String};
 
         # lookup for existing translation
-        $UsedWords{$String}
-            = $POTranslations{$String}
+        $UsedWords{$String} = $POTranslations{$String}
             || ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
             ->{$String};
 

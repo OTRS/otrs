@@ -440,7 +440,7 @@ for my $Test (@Tests) {
             HistoryType    => 'OwnerUpdate',
             HistoryComment => 'Some free text!',
             UserID         => 1,
-            NoAgentNotify => 1,    # if you don't want to send agent notifications
+            NoAgentNotify  => 1,                                         # if you don't want to send agent notifications
         );
         $Self->True(
             $ArticleID,
@@ -462,8 +462,7 @@ for my $Test (@Tests) {
             ArticleID => $ArticleID,
             UserID    => $UserID,
         );
-        my $AttachmentID
-            = grep { $AttachmentIndex{$_}->{Filename} eq $Test->{Config}->{Filename} }
+        my $AttachmentID = grep { $AttachmentIndex{$_}->{Filename} eq $Test->{Config}->{Filename} }
             keys %AttachmentIndex;
         $Self->IsDeeply(
             $AttachmentIndex{$AttachmentID},

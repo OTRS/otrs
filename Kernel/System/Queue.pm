@@ -441,8 +441,7 @@ sub GetAllQueues {
         return if !@GroupIDs;
 
         my $GroupString = join ', ', sort @GroupIDs;
-        $CacheKey
-            = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
+        $CacheKey = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
 
         # check cache
         my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -503,8 +502,10 @@ sub GetAllCustomQueues {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -557,8 +558,10 @@ sub QueueLookup {
 
     # check needed stuff
     if ( !$Param{Queue} && !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no Queue or QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no Queue or QueueID!'
+        );
         return;
     }
 
@@ -609,8 +612,10 @@ sub GetFollowUpOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -648,8 +653,10 @@ sub GetFollowUpLockOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -675,8 +682,10 @@ sub GetQueueGroupID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -738,8 +747,10 @@ sub QueueAdd {
 
     for (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID UserID FollowUpID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -771,8 +782,8 @@ sub QueueAdd {
             . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '
             . ' ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
-            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
+            \$Param{Name},     \$Param{GroupID},        \$Param{UnlockTimeout}, \$Param{SystemAddressID},
+            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID},  \$Param{SignatureID},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
             \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
             \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{ValidID},
@@ -798,8 +809,7 @@ sub QueueAdd {
         Type => $Self->{CacheType},
     );
 
-    my $StandardTemplate2QueueByCreating
-        = $ConfigObject->Get('StandardTemplate2QueueByCreating');
+    my $StandardTemplate2QueueByCreating = $ConfigObject->Get('StandardTemplate2QueueByCreating');
 
     # add default responses (if needed), add response by name
     if (
@@ -831,8 +841,7 @@ sub QueueAdd {
     }
 
     # get standard template id
-    my $StandardTemplateID2QueueByCreating
-        = $ConfigObject->Get(' StandardTemplate2QueueByCreating');
+    my $StandardTemplateID2QueueByCreating = $ConfigObject->Get(' StandardTemplate2QueueByCreating');
 
     # get queue data with updated name for QueueCreate event
     my %Queue = $Self->QueueGet( Name => $Param{Name} );
@@ -883,8 +892,10 @@ sub QueueGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -1036,8 +1047,10 @@ sub QueueUpdate {
         )
     {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1062,8 +1075,10 @@ sub QueueUpdate {
         $Param{$Time} = $Param{$Time} || 0;
 
         if ( $Param{$Time} !~ m{^\d+$}smx ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "$Time is not numeric!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Time is not numeric!"
+            );
             return;
         }
     }

@@ -336,18 +336,15 @@ sub _DynamicFieldsListShow {
                 );
 
                 # get the object type display name
-                my $ObjectTypeName
-                    = $Self->{ObjectTypeConfig}->{ $DynamicFieldData->{ObjectType} }->{DisplayName}
+                my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $DynamicFieldData->{ObjectType} }->{DisplayName}
                     || $DynamicFieldData->{ObjectType};
 
                 # get the field type display name
-                my $FieldTypeName
-                    = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{DisplayName}
+                my $FieldTypeName = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{DisplayName}
                     || $DynamicFieldData->{FieldType};
 
                 # get the field backend dialog
-                my $ConfigDialog
-                    = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
+                my $ConfigDialog = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
                     || '';
 
                 # print each dynamic field row

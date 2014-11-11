@@ -95,8 +95,7 @@ sub Output {
 
     # if we use the HTML5 input type 'email' jQuery Validate will always validate
     # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Self->{EnvRef}->{EmailFieldType}
-        = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
+    $Self->{EnvRef}->{EmailFieldType} = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     my @TemplateFolders = (
         "$Self->{CustomTemplateDir}",
@@ -201,8 +200,8 @@ sub Output {
         $Self->FatalError();
     }
 
-# If the browser does not send the session cookie, we need to append it to all links and image urls.
-#   We cannot do this in the template preprocessor because links are often dynamically generated.
+    # If the browser does not send the session cookie, we need to append it to all links and image urls.
+    #   We cannot do this in the template preprocessor because links are often dynamically generated.
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
 
         # rewrite a hrefs
@@ -299,7 +298,7 @@ EOF
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data => \$Output,
+                Data         => \$Output,
                 TemplateFile => $Param{TemplateFile} || '',
             );
         }

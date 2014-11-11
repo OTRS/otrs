@@ -97,8 +97,10 @@ sub CheckEmail {
 
     # check needed stuff
     if ( !$Param{Address} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Address!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Address!'
+        );
         return;
     }
 

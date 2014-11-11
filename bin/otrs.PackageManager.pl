@@ -252,8 +252,9 @@ if ( $Opts{a} eq 'exportfile' ) {
 
 # build
 if ( $Opts{a} eq 'build' ) {
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
@@ -298,8 +299,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUninstallPre} ) {
@@ -331,8 +333,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroInstallPre} ) {
@@ -364,8 +367,9 @@ elsif ( $Opts{a} eq 'install' ) {
 elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroReinstallPre} ) {
@@ -439,8 +443,9 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
 elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUpgradePre} ) {
@@ -471,7 +476,10 @@ elsif ( $Opts{a} eq 'upgrade' ) {
 }
 elsif ( $Opts{a} eq 'list' ) {
     for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
-        my %Data = _MessageGet( Info => $Package->{Description}, Reformat => 'No' );
+        my %Data = _MessageGet(
+            Info     => $Package->{Description},
+            Reformat => 'No'
+        );
         print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
         print "| Version:     $Package->{Version}->{Content}\n";
@@ -485,7 +493,7 @@ elsif ( $Opts{a} eq 'list' ) {
 }
 elsif ( $Opts{a} eq 'list-repository' ) {
     my $Count = 0;
-    my %List ;
+    my %List;
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') ) {
         %List = %{ $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryList') };
     }
@@ -551,14 +559,17 @@ elsif ( $Opts{a} eq 'list-repository' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'p' ) {
-    my @Data = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my @Data = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
     for my $Tag (@Data) {
         print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
     }
 }
 elsif ( $Opts{a} eq 'parse' ) {
-    my %Structure
-        = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => $FileString, );
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $FileString,
+    );
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
             for my $Data ( @{ $Structure{$Key} } ) {
@@ -635,11 +646,8 @@ sub BuildPackageIndex {
                     print STDERR "ERROR: Can't open $OrigFile: $!\n";
                     exit 1;
                 }
-                my %Structure
-                    = $Kernel::OM->Get('Kernel::System::Package')
-                    ->PackageParse( String => ${$ContentRef} );
-                my $XML = $Kernel::OM->Get('Kernel::System::Package')
-                    ->PackageBuild( %Structure, Type => 'Index' );
+                my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse( String => ${$ContentRef} );
+                my $XML = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;
                 print "  <File>$File</File>\n";

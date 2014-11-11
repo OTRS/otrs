@@ -158,8 +158,10 @@ sub EventHandler {
     # check needed stuff
     for (qw(Data Event UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -182,8 +184,8 @@ sub EventHandler {
     MODULE:
     for my $Module ( sort keys %{$Modules} ) {
 
-      # If the module has an event configuration, determine if it should be executed for this event,
-      #   and store the result in a small cache to avoid repetition on jobs involving many tickets.
+        # If the module has an event configuration, determine if it should be executed for this event,
+        #   and store the result in a small cache to avoid repetition on jobs involving many tickets.
         if ( !defined $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } ) {
             if ( !$Modules->{$Module}->{Event} ) {
                 $Self->{ExecuteModuleOnEvent}->{$Module}->{ $Param{Event} } = 1;

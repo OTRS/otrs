@@ -106,8 +106,10 @@ sub DynamicFieldAdd {
     # check needed stuff
     for my $Key (qw(Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -245,8 +247,10 @@ sub DynamicFieldGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -356,8 +360,10 @@ sub DynamicFieldUpdate {
     # check needed stuff
     for my $Key (qw(ID Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -393,7 +399,7 @@ sub DynamicFieldUpdate {
         SQL => "SELECT id FROM dynamic_field "
             . "WHERE $Self->{Lower}(name) = $Self->{Lower}(?) "
             . "AND id != ?",
-        Bind => [ \$Param{Name}, \$Param{ID} ],
+        Bind  => [ \$Param{Name}, \$Param{ID} ],
         LIMIT => 1,
     );
 
@@ -501,8 +507,10 @@ sub DynamicFieldDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -640,8 +648,7 @@ sub DynamicFieldList {
     # get cache object
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    my $CacheKey
-        = 'DynamicFieldList::Valid::'
+    my $CacheKey = 'DynamicFieldList::Valid::'
         . $Valid
         . '::ObjectType::'
         . $ObjectType
@@ -1195,8 +1202,10 @@ sub _DynamicFieldReorder {
     # check needed stuff
     for my $Needed (qw(ID FieldOrder Mode)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => 'Need $Needed!' );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Need $Needed!'
+            );
             return;
         }
     }
@@ -1205,8 +1214,10 @@ sub _DynamicFieldReorder {
 
         # check needed stuff
         if ( !$Param{OldFieldOrder} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => 'Need OldFieldOrder!' );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => 'Need OldFieldOrder!'
+            );
             return;
         }
     }

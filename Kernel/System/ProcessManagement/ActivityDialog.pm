@@ -128,8 +128,10 @@ sub ActivityDialogGet {
     my $ActivityDialog = $Kernel::OM->Get('Kernel::Config')->Get('Process::ActivityDialog');
 
     if ( !IsHashRefWithData($ActivityDialog) ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ActivityDialog config!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ActivityDialog config!'
+        );
         return;
     }
 
@@ -210,8 +212,10 @@ sub ActivityDialogCompletedCheck {
 
     for my $Needed (qw(ActivityDialogEntityID Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -224,11 +228,10 @@ sub ActivityDialogCompletedCheck {
         return;
     }
 
-    my $ActivityDialog
-        = $Self->ActivityDialogGet(
+    my $ActivityDialog = $Self->ActivityDialogGet(
         ActivityDialogEntityID => $Param{ActivityDialogEntityID},
         Interface              => 'all',
-        );
+    );
     if ( !$ActivityDialog ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',

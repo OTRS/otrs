@@ -92,7 +92,7 @@ my @Tests = (
         Success => '0',
     },
     {
-        Name => 'Test ' . $Index . '.- Correct Request data structure - Not a real CloudService',
+        Name        => 'Test ' . $Index . '.- Correct Request data structure - Not a real CloudService',
         RequestData => {
             CloudServiceTest => [
                 {

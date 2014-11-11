@@ -152,35 +152,51 @@ my @Tests = (
         BlockData => [
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
             {
                 Name => 'b11',
-                Data => { Title => 'b11', },
+                Data => {
+                    Title => 'b11',
+                },
             },
             {
                 Name => 'b11',
-                Data => { Title => 'b11', },
+                Data => {
+                    Title => 'b11',
+                },
             },
             {
                 Name => 'b12',
-                Data => { Title => 'b12', },
+                Data => {
+                    Title => 'b12',
+                },
             },
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
             {
                 Name => 'b2',
-                Data => { Title => 'b2', },
+                Data => {
+                    Title => 'b2',
+                },
             },
             {
                 Name => 'b21',
-                Data => { Title => 'b21', },
+                Data => {
+                    Title => 'b21',
+                },
             },
             {
                 Name => 'b2',
-                Data => { Title => 'b2', },
+                Data => {
+                    Title => 'b2',
+                },
             },
         ],
         Template => '
@@ -219,7 +235,9 @@ b2
         BlockData => [
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
         ],
         Template => 'empty',
@@ -248,7 +266,9 @@ b1
         BlockData => [
             {
                 Name => 'b1',
-                Data => { Title => 'b1', },
+                Data => {
+                    Title => 'b1',
+                },
             },
         ],
         Template => "
@@ -396,7 +416,7 @@ for my $Test (@Tests) {
 
     my $Result = $LayoutObject->Output(
         Template => $Test->{Template},
-        Data => $Test->{Data} // {},
+        Data     => $Test->{Data} // {},
     );
 
     $Self->Is(

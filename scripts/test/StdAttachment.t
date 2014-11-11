@@ -270,8 +270,7 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
-    my $Success
-        = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd( %{ $Test->{Config} } );
+    my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
         $Self->True(
@@ -377,8 +376,7 @@ $Self->True(
 );
 
 for my $Test (@Tests) {
-    my %List
-        = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList( %{ $Test->{Config} } );
+    my %List              = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList( %{ $Test->{Config} } );
     my $IsHashRefWithData = IsHashRefWithData( \%List );
 
     if ( $Test->{Success} ) {

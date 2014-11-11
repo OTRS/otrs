@@ -60,7 +60,10 @@ $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,
     UnlockOnAway   => 1,
 );
-my %Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+my %Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1
+);
 
 $Self->Is(
     $Ticket{Lock},
@@ -121,7 +124,10 @@ $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,
     UnlockOnAway   => 1,
 );
-%Ticket = $TicketObject->TicketGet( TicketID => $TicketID, UserID => 1 );
+%Ticket = $TicketObject->TicketGet(
+    TicketID => $TicketID,
+    UserID   => 1
+);
 
 $Self->Is(
     $Ticket{Lock},

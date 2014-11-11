@@ -17,12 +17,11 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $TransitionActionObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+my $CacheObject            = $Kernel::OM->Get('Kernel::System::Cache');
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+my $EntityObject           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
 # set fixed time
 $HelperObject->FixedTimeSet();
@@ -37,8 +36,7 @@ my $EntityID = $EntityObject->EntityIDGenerate(
 );
 
 # get original TransitionAction list
-my $OriginalTransitionActionList
-    = $TransitionActionObject->TransitionActionList( UserID => $UserID ) || {};
+my $OriginalTransitionActionList = $TransitionActionObject->TransitionActionList( UserID => $UserID ) || {};
 
 #
 # Tests for TransitionActionAdd
@@ -205,8 +203,8 @@ my @Tests = (
         Name   => 'TransitionActionAdd Test 13: Correct UTF8',
         Config => {
             EntityID => "$RandomID-1",
-            Name   => "TransitionAction-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
-            Config => {
+            Name     => "TransitionAction-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
+            Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove',
                 Config => {
                     Key1 => '-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
@@ -540,8 +538,8 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedTransitionActionsList[1],
             EntityID => $RandomID . '-1-U',
-            Name => "TransitionAction-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
-            Config => {
+            Name     => "TransitionAction-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
+            Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove-U',
                 Config => {
                     Key1 => '-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U',

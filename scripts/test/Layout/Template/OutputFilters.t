@@ -216,7 +216,10 @@ for my $Test (@Tests) {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     for my $Key ( sort keys %{ $Test->{Config} || {} } ) {
-        $ConfigObject->Set( Key => $Key, Value => $Test->{Config}->{$Key} );
+        $ConfigObject->Set(
+            Key   => $Key,
+            Value => $Test->{Config}->{$Key}
+        );
     }
 
     my $LayoutObject = Kernel::Output::HTML::Layout->new(
@@ -238,7 +241,7 @@ for my $Test (@Tests) {
 
     my $Result = $LayoutObject->Output(
         TemplateFile => 'OutputFilters',
-        Data => $Test->{Data} // {},
+        Data         => $Test->{Data} // {},
     );
 
     $Self->Is(
@@ -249,7 +252,8 @@ for my $Test (@Tests) {
 
     $Self->Is(
         IsHashRefWithData( $LayoutObject->{TemplateProviderObject}->{UncacheableTemplates} )
-        ? 0 : 1,
+        ? 0
+        : 1,
         $Test->{IsCacheable},
         'Have uncacheable templates',
     );

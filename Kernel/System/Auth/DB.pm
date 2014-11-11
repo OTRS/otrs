@@ -40,11 +40,9 @@ sub new {
     # get user table
     $Self->{UserTable} = $ConfigObject->Get( 'DatabaseUserTable' . $Param{Count} )
         || 'users';
-    $Self->{UserTableUserID}
-        = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} )
+    $Self->{UserTableUserID} = $ConfigObject->Get( 'DatabaseUserTableUserID' . $Param{Count} )
         || 'id';
-    $Self->{UserTableUserPW}
-        = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
+    $Self->{UserTableUserPW} = $ConfigObject->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
         || 'pw';
     $Self->{UserTableUser} = $ConfigObject->Get( 'DatabaseUserTableUser' . $Param{Count} )
         || 'login';
@@ -57,13 +55,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need What!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -74,8 +76,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need User!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 
@@ -244,7 +248,7 @@ sub Auth {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
+            Message  => "User: $User authentication ok (Method: $Method, REMOTE_ADDR: $RemoteAddr).",
         );
         return $User;
     }

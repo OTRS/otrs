@@ -171,10 +171,10 @@ my @Tests = (
         Name       => 'Test ' . $TestNumber++,
         SuccessAdd => 1,
         Add        => {
-            Base => $Base,
-            Name => 'last-search' . $RandomID . '-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
-            Key  => 'Unicode-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
-            Value     => 'Any value-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',    # SCALAR|ARRAYREF
+            Base      => $Base,
+            Name      => 'last-search' . $RandomID . '-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Key       => 'Unicode-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
+            Value     => 'Any value-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',                      # SCALAR|ARRAYREF
             UserLogin => $UserID,
         },
     },
@@ -186,7 +186,7 @@ my @Tests = (
             Base      => $Base,
             Name      => 'last-search-array' . $RandomID,
             Key       => 'Array',
-            Value     => [ 'ValueOne', 'ValueTwo', 'ValueThree', 'ValueFour' ],    # SCALAR|ARRAYREF
+            Value     => [ 'ValueOne', 'ValueTwo', 'ValueThree', 'ValueFour' ],                      # SCALAR|ARRAYREF
             UserLogin => $UserID,
         },
     },
@@ -256,8 +256,10 @@ for my $Test (@Tests) {
 }
 
 # list check from DB
-my %SearchProfileList
-    = $SearchProfileObject->SearchProfileList( Base => $Base, UserLogin => $UserID );
+my %SearchProfileList = $SearchProfileObject->SearchProfileList(
+    Base      => $Base,
+    UserLogin => $UserID
+);
 for my $SearchProfileName (@SearchProfileNames) {
 
     $Self->Is(
@@ -292,8 +294,10 @@ for my $SearchProfileName (@SearchProfileNames) {
     );
 
     # check deleting from SearchProfileList
-    my %SearchProfileList
-        = $SearchProfileObject->SearchProfileList( Base => $Base, UserLogin => $UserID );
+    my %SearchProfileList = $SearchProfileObject->SearchProfileList(
+        Base      => $Base,
+        UserLogin => $UserID
+    );
 
     $Self->False(
         $SearchProfileList{$SearchProfileName},

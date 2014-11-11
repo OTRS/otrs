@@ -88,7 +88,7 @@ sub Run {
             if ( $Self->{Debug} >= 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
-                    Message => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
+                    Message  => "No number found in subject: '" . join( '', @SubjectLines ) . "'",
                 );
             }
         }

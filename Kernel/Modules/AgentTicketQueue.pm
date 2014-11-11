@@ -156,8 +156,7 @@ sub Run {
 
         # if no filter from web request, try from user preferences
         if ( !defined $FilterValue || $FilterValue eq '' ) {
-            $FilterValue
-                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+            $FilterValue = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
         }
 
         next DYNAMICFIELD if !defined $FilterValue;
@@ -196,7 +195,9 @@ sub Run {
 
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
-        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output = $Self->{LayoutObject}->Header(
+            Refresh => $Refresh,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar();
     }
 
@@ -236,7 +237,9 @@ sub Run {
     # get custom queues
     my @ViewableQueueIDs;
     if ( !$Self->{QueueID} ) {
-        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues( UserID => $Self->{UserID}, );
+        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
+            UserID => $Self->{UserID},
+        );
     }
     else {
         @ViewableQueueIDs = ( $Self->{QueueID} );
@@ -433,7 +436,10 @@ sub Run {
         $LastColumnFilter = 1;
     }
 
-    my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
+    my %NavBar = $Self->BuildQueueView(
+        QueueIDs => \@ViewableQueueIDs,
+        Filter   => $Self->{Filter}
+    );
 
     # show tickets
     $Output .= $Self->{LayoutObject}->TicketListShow(

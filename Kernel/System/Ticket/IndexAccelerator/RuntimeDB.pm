@@ -47,8 +47,10 @@ sub TicketAcceleratorIndex {
     # check needed stuff
     for (qw(UserID QueueID ShownQueueIDs)) {
         if ( !exists( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -62,9 +64,8 @@ sub TicketAcceleratorIndex {
     }
 
     # get user groups
-    my $Type = 'rw';
-    my $AgentTicketQueue
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AgentTicketQueue');
+    my $Type             = 'rw';
+    my $AgentTicketQueue = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AgentTicketQueue');
     if (
         $AgentTicketQueue
         && ref $AgentTicketQueue eq 'HASH'

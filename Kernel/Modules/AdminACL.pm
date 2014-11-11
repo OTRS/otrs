@@ -83,8 +83,7 @@ sub Run {
             Source => 'string',
         );
 
-        my $OverwriteExistingEntities
-            = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' ) || '';
+        my $OverwriteExistingEntities = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' ) || '';
 
         my $ACLImport = $Self->{ACLObject}->ACLImport(
             Content                   => $UploadStuff{Content},
@@ -217,8 +216,7 @@ sub Run {
         }
 
         # redirect to edit screen
-        return $Self->{LayoutObject}
-            ->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID" );
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID" );
     }
 
     # ------------------------------------------------------------ #
@@ -355,8 +353,7 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ACLDeploy' ) {
 
-        my $Location
-            = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+        my $Location = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
         my $ACLDump = $Self->{ACLObject}->ACLDump(
             ResultType => 'FILE',
@@ -475,7 +472,7 @@ sub Run {
         else {
 
             $ACLData = $Self->{ACLObject}->ACLListGet(
-                UserID => 1,
+                UserID   => 1,
                 ValidIDs => [ '1', '2' ],
             );
         }
@@ -584,8 +581,7 @@ sub _ShowOverview {
             );
 
             # set the valid state
-            $ACLData->{ValidID}
-                = $Self->{ValidObject}->ValidLookup( ValidID => $ACLData->{ValidID} );
+            $ACLData->{ValidID} = $Self->{ValidObject}->ValidLookup( ValidID => $ACLData->{ValidID} );
 
             # print each ACL in overview table
             $Self->{LayoutObject}->Block(
@@ -702,8 +698,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PropertiesDatabase
-        = $Self->{ConfigObject}->Get('ACLKeysLevel2::PropertiesDatabase') || {};
+    my $ACLKeysLevel2PropertiesDatabase = $Self->{ConfigObject}->Get('ACLKeysLevel2::PropertiesDatabase') || {};
     $Param{ACLKeysLevel2PropertiesDatabase} = $Self->{LayoutObject}->BuildSelection(
         Data         => $ACLKeysLevel2PropertiesDatabase,
         Name         => 'ItemAdd',
@@ -752,8 +747,7 @@ sub _ShowEdit {
 
     # get list of all possible actions
     my @PossibleActionsList;
-    my $ACLKeysLevel3Actions
-        = $Self->{ConfigObject}->Get('ACLKeysLevel3::Actions') || [];
+    my $ACLKeysLevel3Actions = $Self->{ConfigObject}->Get('ACLKeysLevel3::Actions') || [];
 
     for my $Key ( sort keys %{$ACLKeysLevel3Actions} ) {
         push @PossibleActionsList, @{ $ACLKeysLevel3Actions->{$Key} };

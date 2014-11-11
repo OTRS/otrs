@@ -177,8 +177,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
 );
 
 # add attachment only to second article
-my $Location
-    = $ConfigObject->Get('Home') . '/scripts/test/sample/StdAttachment/StdAttachment-Test1.txt';
+my $Location = $ConfigObject->Get('Home') . '/scripts/test/sample/StdAttachment/StdAttachment-Test1.txt';
 
 my $ContentRef = $MainObject->FileRead(
     Location => $Location,

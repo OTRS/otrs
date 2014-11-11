@@ -154,17 +154,23 @@ if ( $Stat->{StatType} eq 'static' ) {
     my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $StatID );
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
-            my $Value = GetParam( Param => $ParamItem->{Name}, );
+            my $Value = GetParam(
+                Param => $ParamItem->{Name},
+            );
             if ( defined $Value ) {
                 $GetParam{ $ParamItem->{Name} } =
-                    GetParam( Param => $ParamItem->{Name}, );
+                    GetParam(
+                    Param => $ParamItem->{Name},
+                    );
             }
             elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
         else {
-            my @Value = GetArray( Param => $ParamItem->{Name}, );
+            my @Value = GetArray(
+                Param => $ParamItem->{Name},
+            );
             if (@Value) {
                 $GetParam{ $ParamItem->{Name} } = \@Value;
             }
@@ -290,7 +296,8 @@ if ( $Format eq 'Print' && $Kernel::OM->Get('Kernel::System::PDF') ) {
         # if first page
         if ( $Counter == 1 ) {
             $Kernel::OM->Get('Kernel::System::PDF')->PageNew(
-                %PageParam, FooterRight => $Page . ' ' . $Counter,
+                %PageParam,
+                FooterRight => $Page . ' ' . $Counter,
             );
         }
 

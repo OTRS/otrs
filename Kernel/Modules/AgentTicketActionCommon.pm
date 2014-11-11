@@ -228,8 +228,7 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
                         ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $Self->{LayoutObject}->{LanguageObject}
-                        ->Get('Please change the owner first.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -279,12 +278,11 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
-            = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -294,8 +292,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -538,8 +535,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -937,8 +933,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID
-                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -982,8 +977,7 @@ sub Run {
             next DYNAMICFIELD if !$DynamicField;
             next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-                = $DynamicFieldValues{$DynamicField};
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
         }
 
         # get list type
@@ -1156,10 +1150,9 @@ sub Run {
                 my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
 
                 # add std. attachments to ticket
-                my %AllStdAttachments
-                    = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+                my %AllStdAttachments = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
                     StandardTemplateID => $GetParam{StandardTemplateID},
-                    );
+                );
                 for ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                     $Self->{UploadCacheObject}->FormIDAddFile(
@@ -1328,8 +1321,7 @@ sub Run {
         if ( $Self->{ReplyToArticle} && $Self->{Config}->{Subject} ) {
             my $TicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
             if ($TicketSubjectRe) {
-                $GetParam{Subject}
-                    = $TicketSubjectRe . ': ' . $Self->{ReplyToArticleContent}{Subject};
+                $GetParam{Subject} = $TicketSubjectRe . ': ' . $Self->{ReplyToArticleContent}{Subject};
             }
             else {
                 $GetParam{Subject} = 'Re: ' . $Self->{ReplyToArticleContent}{Subject};
@@ -1384,8 +1376,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -1616,7 +1607,7 @@ sub _Mask {
 
         # set move queues
         $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { %MoveQueues, '' => '-' },
+            Data           => { %MoveQueues, '' => '-' },
             Multiple       => 0,
             Size           => 0,
             Class          => 'NewQueueID',
@@ -1921,10 +1912,8 @@ sub _Mask {
             $Param{BodyRequired}    = 'Validate_Required';
         }
         else {
-            $Param{SubjectRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
-            $Param{BodyRequired}
-                = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+            $Param{SubjectRequired} = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
+            $Param{BodyRequired}    = 'Validate_DependingRequiredAND Validate_Depending_CreateArticle';
         }
 
         $Self->{LayoutObject}->Block(
@@ -2040,8 +2029,7 @@ sub _Mask {
                 }
             }
 
-            my $InvolvedAgentSize
-                = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
+            my $InvolvedAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \@InvolvedAgents,
                 SelectedID => $Self->{InvolvedUserID},
@@ -2209,7 +2197,10 @@ sub _Mask {
     # End Widget Article
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => $Self->{Action}, Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => $Self->{Action},
+        Data         => \%Param
+    );
 }
 
 sub _GetNextStates {
@@ -2322,8 +2313,7 @@ sub _GetOldOwners {
 
             next USER if $UserHash{ $User->{UserID} };
 
-            $UserHash{ $User->{UserID} }
-                = "$Counter: $User->{UserFullname}";
+            $UserHash{ $User->{UserID} } = "$Counter: $User->{UserFullname}";
             $Counter++;
         }
     }
@@ -2349,8 +2339,7 @@ sub _GetServices {
     my %Service;
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -2405,8 +2394,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw(
+        @UpdatableFields = qw(
             TypeID ServiceID SLAID NewOwnerID OldOwnerID NewResponsibleID NewStateID
             NewPriorityID
         );
@@ -2479,10 +2467,8 @@ sub _GetQuotedReplyBody {
                     String => $Param{From},
                 );
 
-                my $MessageFrom
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
-                my $EndMessage
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
+                my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
+                my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
 
                 $Param{Body} = "<br/>---- $MessageFrom $From ---<br/><br/>" . $Param{Body};
                 $Param{Body} .= "<br/>---- $EndMessage ---<br/>";
@@ -2522,10 +2508,8 @@ sub _GetQuotedReplyBody {
                     }
                 }
 
-                my $MessageFrom
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
-                my $EndMessage
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
+                my $MessageFrom = $Self->{LayoutObject}->{LanguageObject}->Translate('Message from');
+                my $EndMessage  = $Self->{LayoutObject}->{LanguageObject}->Translate('End message');
 
                 $Param{Body} = "\n---- $MessageFrom $Param{From} ---\n\n" . $Param{Body};
                 $Param{Body} .= "\n---- $EndMessage ---\n";

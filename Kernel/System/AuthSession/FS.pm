@@ -32,14 +32,13 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get more common params
-    $Self->{SessionSpool}             = $ConfigObject->Get('SessionDir');
-    $Self->{SystemID}                 = $ConfigObject->Get('SystemID');
-    $Self->{AgentSessionLimit}        = $ConfigObject->Get('AgentSessionLimit');
-    $Self->{AgentSessionPerUserLimit} = $ConfigObject->Get('AgentSessionPerUserLimit') || 2;
-    $Self->{CustomerSessionLimit}     = $ConfigObject->Get('CustomerSessionLimit');
-    $Self->{CustomerSessionPerUserLimit}
-        = $ConfigObject->Get('CustomerSessionPerUserLimit');
-    $Self->{SessionActiveTime} = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
+    $Self->{SessionSpool}                = $ConfigObject->Get('SessionDir');
+    $Self->{SystemID}                    = $ConfigObject->Get('SystemID');
+    $Self->{AgentSessionLimit}           = $ConfigObject->Get('AgentSessionLimit');
+    $Self->{AgentSessionPerUserLimit}    = $ConfigObject->Get('AgentSessionPerUserLimit') || 2;
+    $Self->{CustomerSessionLimit}        = $ConfigObject->Get('CustomerSessionLimit');
+    $Self->{CustomerSessionPerUserLimit} = $ConfigObject->Get('CustomerSessionPerUserLimit');
+    $Self->{SessionActiveTime}           = $ConfigObject->Get('SessionActiveTime') || 60 * 10;
 
     return $Self;
 }
@@ -49,8 +48,10 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
@@ -154,8 +155,10 @@ sub GetSessionIDData {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -342,8 +345,7 @@ sub CreateSessionID {
     my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
     my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
 
-    my $StateContent
-        = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
+    my $StateContent = $UserType . '####' . $UserLogin . '####' . $UserSessionStart . '####' . $UserLastRequest;
 
     # write state file
     $MainObject->FileWrite(
@@ -364,8 +366,10 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -407,8 +411,10 @@ sub UpdateSessionID {
     # check needed stuff
     for (qw(SessionID Key)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -574,8 +580,7 @@ sub DESTROY {
         my $UserSessionStart = $Self->{Cache}->{$SessionID}->{UserSessionStart} || '';
         my $UserLastRequest  = $Self->{Cache}->{$SessionID}->{UserLastRequest}  || '';
 
-        my $StateContent
-            = $UserType . '####'
+        my $StateContent = $UserType . '####'
             . $UserLogin . '####'
             . $UserSessionStart . '####'
             . $UserLastRequest;

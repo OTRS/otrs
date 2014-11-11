@@ -27,8 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # set syslog facility
-    $Self->{SysLogFacility}
-        = $Kernel::OM->Get('Kernel::Config')->Get('LogModule::SysLog::Facility') || 'user';
+    $Self->{SysLogFacility} = $Kernel::OM->Get('Kernel::Config')->Get('LogModule::SysLog::Facility') || 'user';
 
     return $Self;
 }

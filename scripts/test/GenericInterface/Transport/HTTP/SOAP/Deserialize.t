@@ -289,9 +289,7 @@ for my $Test (@Tests) {
             '<Response xsi:nil="true" />' .
             $SOAPTagEnd;
     }
-    my $Content = SOAP::Serializer
-        ->autotype(0)
-        ->envelope(@CallData);
+    my $Content = SOAP::Serializer->autotype(0)->envelope(@CallData);
 
     $Self->Is(
         $Content,

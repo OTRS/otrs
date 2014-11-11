@@ -58,8 +58,7 @@ sub new {
         $Self->{$Needed} = $Param{$Needed};
     }
 
-    $Self->{Config}
-        = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketUpdate');
+    $Self->{Config} = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::TicketUpdate');
 
     return $Self;
 }
@@ -1903,8 +1902,7 @@ sub _TicketUpdate {
 
             # use data from customer user (if customer user is in database)
             if ( IsHashRefWithData( \%CustomerUserData ) ) {
-                $From
-                    = '"'
+                $From = '"'
                     . $CustomerUserData{UserFirstname} . ' '
                     . $CustomerUserData{UserLastname} . '"'
                     . ' <' . $CustomerUserData{UserEmail} . '>';

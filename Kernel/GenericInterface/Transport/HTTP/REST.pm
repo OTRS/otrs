@@ -182,7 +182,7 @@ sub ProviderProcessRequest {
 
     if ( !$Operation ) {
         return $Self->_Error(
-            Summary => "HTTP::REST Error while determine Operation for request URI '$RequestURI'.",
+            Summary   => "HTTP::REST Error while determine Operation for request URI '$RequestURI'.",
             HTTPError => 500,
         );
     }
@@ -521,8 +521,7 @@ sub RequesterPerformRequest {
         )
         )
     {
-        my $ErrorMessage
-            = "REST Transport: Have no Invoker <-> Controller mapping for Invoker '$Param{Operation}'.";
+        my $ErrorMessage = "REST Transport: Have no Invoker <-> Controller mapping for Invoker '$Param{Operation}'.";
 
         # log to debugger
         $Self->{DebuggerObject}->Error(
@@ -663,8 +662,7 @@ sub RequesterPerformRequest {
 
     my $ResponseCode = $RestClient->responseCode();
     my $ResponseError;
-    my $ErrorMessage
-        = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
+    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
         . $Config->{Host} . "'.";
 
     if ( !IsStringWithData($ResponseCode) ) {
@@ -734,7 +732,7 @@ sub RequesterPerformRequest {
     # all OK - return result
     return {
         Success => 1,
-        Data => $Result || undef,
+        Data    => $Result || undef,
     };
 }
 

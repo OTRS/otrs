@@ -332,9 +332,8 @@ sub TicketAcl {
     my %NewTmpData = %Data;
 
     # get the debug parameters
-    $Self->{ACLDebug} = $ConfigObject->Get('TicketACL::Debug::Enabled') || 0;
-    $Self->{ACLDebugLogPriority}
-        = $ConfigObject->Get('TicketACL::Debug::LogPriority') || 'debug';
+    $Self->{ACLDebug}            = $ConfigObject->Get('TicketACL::Debug::Enabled')     || 0;
+    $Self->{ACLDebugLogPriority} = $ConfigObject->Get('TicketACL::Debug::LogPriority') || 'debug';
 
     my $ACLDebugConfigFilters = $ConfigObject->Get('TicketACL::Debug::Filter') || {};
     for my $FilterName ( sort keys %{$ACLDebugConfigFilters} ) {
@@ -736,9 +735,9 @@ sub TicketAcl {
             {
                 $UseNewParams = 1;
 
-           # reset return data as it will be filled with just the Possible Items excluded the ones
-           # that are not in the possible section, this is the same as remove all missing items from
-           # the original data
+                # reset return data as it will be filled with just the Possible Items excluded the ones
+                # that are not in the possible section, this is the same as remove all missing items from
+                # the original data
                 %NewTmpData = ();
 
                 # debug log
@@ -1067,8 +1066,12 @@ sub _GetChecks {
     my %ChecksDatabase;
 
     if ( $Param{Action} ) {
-        $Checks{Frontend}         = { Action => $Param{Action}, };
-        $ChecksDatabase{Frontend} = { Action => $Param{Action}, };
+        $Checks{Frontend} = {
+            Action => $Param{Action},
+        };
+        $ChecksDatabase{Frontend} = {
+            Action => $Param{Action},
+        };
     }
 
     # get config object
@@ -1090,21 +1093,17 @@ sub _GetChecks {
 
         # get used dynamic fields where Activity and Process Entities IDs are Stored
         # (ProcessManagement)
-        my $ActivityEntityIDField
-            = $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
-        my $ProcessEntityIDField
-            = $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
+        my $ActivityEntityIDField = $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
+        my $ProcessEntityIDField  = $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
         # check for ActivityEntityID
         if ( $Ticket{ 'DynamicField_' . $ActivityEntityIDField } ) {
-            $ChecksDatabase{Process}->{ActivityEntityID}
-                = $Ticket{ 'DynamicField_' . $ActivityEntityIDField };
+            $ChecksDatabase{Process}->{ActivityEntityID} = $Ticket{ 'DynamicField_' . $ActivityEntityIDField };
         }
 
         # check for ProcessEntityID
         if ( $Ticket{ 'DynamicField_' . $ProcessEntityIDField } ) {
-            $ChecksDatabase{Process}->{ProcessEntityID}
-                = $Ticket{ 'DynamicField_' . $ProcessEntityIDField };
+            $ChecksDatabase{Process}->{ProcessEntityID} = $Ticket{ 'DynamicField_' . $ProcessEntityIDField };
         }
 
         # take over the ChecksDatabase to the Checks hash as basis
@@ -1122,11 +1121,10 @@ sub _GetChecks {
     # check for ActivityDialogEntityID if set as parameter (ProcessManagement)
     if ( ( $CheckAll || $RequiredChecks{Process} ) && $Param{ActivityDialogEntityID} ) {
 
-        my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')
-            ->ActivityDialogGet(
+        my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')->ActivityDialogGet(
             ActivityDialogEntityID => $Param{ActivityDialogEntityID},
             Interface              => $Interface,
-            );
+        );
 
         if ( IsHashRefWithData($ActivityDialog) ) {
             $Checks{Process}->{ActivityDialogEntityID} = $Param{ActivityDialogEntityID};
@@ -1180,8 +1178,7 @@ sub _GetChecks {
             ref $ChecksDatabase{Ticket}->{$TicketAttribute} eq 'ARRAY'
             && !IsArrayRefWithData( $ChecksDatabase{Ticket}->{$TicketAttribute} );
 
-        $ChecksDatabase{DynamicField}->{$TicketAttribute}
-            = $ChecksDatabase{Ticket}->{$TicketAttribute};
+        $ChecksDatabase{DynamicField}->{$TicketAttribute} = $ChecksDatabase{Ticket}->{$TicketAttribute};
     }
 
     # use user data
@@ -1454,16 +1451,16 @@ sub _GetChecks {
         }
         elsif ( $Param{Type} ) {
 
-       # TODO Attention!
-       #
-       # The parameter type can contain not only the wanted ticket type, because also
-       # some other functions in Kernel/System/Ticket.pm use a type parameter, for example
-       # MoveList() etc... These functions could be rewritten to not
-       # use a Type parameter, or the functions that call TicketAcl() could be modified to
-       # not just pass the complete Param-Hash, but instead a new parameter, like FrontEndParameter.
-       #
-       # As a workaround we lookup the TypeList first, and compare if the type parameter
-       # is found in the list, so we can be more sure that it is the type that we want here.
+            # TODO Attention!
+            #
+            # The parameter type can contain not only the wanted ticket type, because also
+            # some other functions in Kernel/System/Ticket.pm use a type parameter, for example
+            # MoveList() etc... These functions could be rewritten to not
+            # use a Type parameter, or the functions that call TicketAcl() could be modified to
+            # not just pass the complete Param-Hash, but instead a new parameter, like FrontEndParameter.
+            #
+            # As a workaround we lookup the TypeList first, and compare if the type parameter
+            # is found in the list, so we can be more sure that it is the type that we want here.
 
             # lookup the type list (workaround for described problem)
             my %TypeList = reverse $TypeObject->TypeList();

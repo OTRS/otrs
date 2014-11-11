@@ -121,8 +121,10 @@ sub TokenGet {
     # check needed parameters
     for (qw(OTRSID Password)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -241,8 +243,10 @@ sub Register {
     # check needed parameters
     for (qw(Token OTRSID Type)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -255,11 +259,11 @@ sub Register {
     # load operating system info from environment object
     my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
     my %System = (
-        PerlVersion => sprintf( "%vd", $^V ),
-        OSType      => $OSInfo{OS},
-        OSVersion   => $OSInfo{OSName},
-        OTRSVersion => $ConfigObject->Get('Version'),
-        FQDN        => $ConfigObject->Get('FQDN'),
+        PerlVersion        => sprintf( "%vd", $^V ),
+        OSType             => $OSInfo{OS},
+        OSVersion          => $OSInfo{OSName},
+        OTRSVersion        => $ConfigObject->Get('Version'),
+        FQDN               => $ConfigObject->Get('FQDN'),
         DatabaseVersion    => $Kernel::OM->Get('Kernel::System::DB')->Version(),
         SupportDataSending => $SupportDataSending,
     );
@@ -547,11 +551,11 @@ sub RegistrationDataGet {
         # read data from environment object
         my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
         $RegistrationData{System} = {
-            PerlVersion => sprintf( "%vd", $^V ),
-            OSType      => $OSInfo{OS},
-            OSVersion   => $OSInfo{OSName},
-            OTRSVersion => $ConfigObject->Get('Version'),
-            FQDN        => $ConfigObject->Get('FQDN'),
+            PerlVersion     => sprintf( "%vd", $^V ),
+            OSType          => $OSInfo{OS},
+            OSVersion       => $OSInfo{OSName},
+            OTRSVersion     => $ConfigObject->Get('Version'),
+            FQDN            => $ConfigObject->Get('FQDN'),
             DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
         };
     }
@@ -602,11 +606,11 @@ sub RegistrationUpdateSend {
     # read data from environment object
     my %OSInfo = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
     my %System = (
-        PerlVersion => sprintf( "%vd", $^V ),
-        OSType      => $OSInfo{OS},
-        OSVersion   => $OSInfo{OSName},
-        OTRSVersion => $ConfigObject->Get('Version'),
-        FQDN        => $ConfigObject->Get('FQDN'),
+        PerlVersion     => sprintf( "%vd", $^V ),
+        OSType          => $OSInfo{OS},
+        OSVersion       => $OSInfo{OSName},
+        OTRSVersion     => $ConfigObject->Get('Version'),
+        FQDN            => $ConfigObject->Get('FQDN'),
         DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
     );
 
@@ -617,8 +621,7 @@ sub RegistrationUpdateSend {
         $System{$Key} = $Param{$Key};
     }
 
-    my $SupportDataSending
-        = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
+    my $SupportDataSending = $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No';
 
     # add support data sending flag
     $System{SupportDataSending} = $SupportDataSending;
@@ -869,7 +872,7 @@ sub RegistrationUpdateSend {
     }
 
     return (
-        Success => 1,
+        Success      => 1,
         ReScheduleIn => $ResponseData->{NextUpdate} // ( 3600 * 7 * 24 ),
     );
 }
@@ -893,8 +896,10 @@ sub Deregister {
     # check needed parameters
     for (qw(Token OTRSID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

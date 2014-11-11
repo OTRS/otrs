@@ -85,7 +85,9 @@ sub Run {
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Key to delete!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Key to delete!',
+            );
         }
         my $Success = '';
         if ( $Type eq 'sec' ) {
@@ -123,7 +125,10 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
 
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPGP',
+            Data         => \%Param
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -233,7 +238,9 @@ sub Run {
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Key to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Key to download!',
+            );
         }
         my $KeyString = '';
         if ( $Type eq 'sec' ) {
@@ -261,7 +268,9 @@ sub Run {
         my $Key  = $Self->{ParamObject}->GetParam( Param => 'Key' )  || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Key ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Need param Key to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Key to download!',
+            );
         }
         my $Download = '';
         if ( $Type eq 'sec' ) {
@@ -295,8 +304,7 @@ sub Run {
         if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('PGP') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => $Self->{LayoutObject}->{LanguageObject}
-                    ->Translate( "Cannot create %s!", "CryptObject" ),
+                Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
                 Link =>
                     $Self->{LayoutObject}->{Baselink}
                     . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::PGP',
@@ -332,11 +340,13 @@ sub Run {
         if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => $Self->{LayoutObject}->{LanguageObject}
-                    ->Translate( $Self->{CryptObject}->Check() ),
+                Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CryptObject}->Check() ),
             );
         }
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminPGP', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPGP',
+            Data         => \%Param
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

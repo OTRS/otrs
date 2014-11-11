@@ -46,8 +46,7 @@ sub LoaderCreateAgentCSSCalls {
 
     # get host based default skin configuration
     my $SkinSelectedHostBased;
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+    my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -277,8 +276,7 @@ sub LoaderCreateCustomerCSSCalls {
         || 'default';
 
     # force a skin based on host name
-    my $DefaultSkinHostBased
-        = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
+    my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -339,8 +337,7 @@ sub LoaderCreateCustomerCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-    my $FrontendModuleRegistration
-        = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}
+    my $FrontendModuleRegistration = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}
         || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}
         || {};
 
@@ -422,8 +419,7 @@ sub LoaderCreateCustomerJSCalls {
         my $LoaderAction = $Self->{Action} || 'CustomerLogin';
         $LoaderAction = 'CustomerLogin' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList
-            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
+        my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript}
             || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript}
@@ -575,8 +571,7 @@ sub SkinValidate {
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if ( $PossibleSkin->{InternalName} eq $Param{Skin} ) {
-            my $SkinDir
-                = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
+            my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
             if ( -d $SkinDir ) {
                 $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = 1;
                 return 1;

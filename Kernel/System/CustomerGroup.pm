@@ -88,8 +88,10 @@ sub GroupMemberAdd {
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -169,14 +171,18 @@ sub GroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or GroupID!'
+        );
         return;
     }
     my %Data;
@@ -310,8 +316,10 @@ sub GroupLookup {
 
     # check needed stuff
     if ( !$Param{Group} && !$Param{GroupID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Got no Group or GroupID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Got no Group or GroupID!'
+        );
         return;
     }
 

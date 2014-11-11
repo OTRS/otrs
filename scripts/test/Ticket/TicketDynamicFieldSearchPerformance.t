@@ -85,7 +85,7 @@ for my $Counter ( 1 .. $FieldCount ) {
         Name       => "DFT$Counter$RandomID",
         Label      => 'Description',
         FieldOrder => 9999,
-        FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+        FieldType  => 'Text',                   # mandatory, selects the DF backend to use for this field
         ObjectType => 'Ticket',
         Config     => {
             DefaultValue => 'Default',

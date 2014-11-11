@@ -79,8 +79,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
         $Selenium->find_element( "#TypeID option[value='1']",  'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
-        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test state');
-        $Selenium->find_element( "#Name",    'css' )->submit();
+        $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test state');
+        $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # check overview page
         $Self->True(

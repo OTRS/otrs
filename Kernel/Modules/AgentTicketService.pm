@@ -166,8 +166,7 @@ sub Run {
 
         # if no filter from web request, try from user preferences
         if ( !defined $FilterValue || $FilterValue eq '' ) {
-            $FilterValue
-                = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
+            $FilterValue = $StoredFilters->{ 'DynamicField_' . $DynamicFieldConfig->{Name} }->{Equals};
         }
 
         next DYNAMICFIELD if !defined $FilterValue;
@@ -206,7 +205,9 @@ sub Run {
 
     my $Output;
     if ( $Self->{Subaction} ne 'AJAXFilterUpdate' ) {
-        $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+        $Output = $Self->{LayoutObject}->Header(
+            Refresh => $Refresh,
+        );
         $Output .= $Self->{LayoutObject}->NavigationBar();
     }
 
@@ -581,9 +582,8 @@ sub _MaskServiceView {
     my %Counter;
     my %UsedService;
     my @ListedServices;
-    my $Level = 0;
-    my $CustomService
-        = $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CustomService} );
+    my $Level         = 0;
+    my $CustomService = $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CustomService} );
     $Self->{HighlightAge1} = $Self->{Config}->{HighlightAge1};
     $Self->{HighlightAge2} = $Self->{Config}->{HighlightAge2};
     $Self->{Blink}         = $Self->{Config}->{Blink};

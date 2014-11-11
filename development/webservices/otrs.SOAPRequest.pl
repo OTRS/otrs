@@ -72,12 +72,9 @@ my $XMLData = '
 # ---
 
 # create a SOAP::Lite data structure from the provided XML data structure
-my $SOAPData = SOAP::Data
-    ->type( 'xml' => $XMLData );
+my $SOAPData = SOAP::Data->type( 'xml' => $XMLData );
 
-my $SOAPObject = SOAP::Lite
-    ->uri($NameSpace)
-    ->proxy($URL)
+my $SOAPObject = SOAP::Lite->uri($NameSpace)->proxy($URL)
     ->$Operation($SOAPData);
 
 # check for a fault in the soap code

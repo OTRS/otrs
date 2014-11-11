@@ -569,8 +569,10 @@ sub _DataDiff {
     # check needed stuff
     for (qw(Data1 Data2)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -627,7 +629,10 @@ sub _DataDiff {
 
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
+                    return 1 if $Self->_DataDiff(
+                        Data1 => $A[$Count],
+                        Data2 => $B[$Count]
+                    );
                     next COUNT;
                 }
                 return 1;
@@ -663,7 +668,10 @@ sub _DataDiff {
 
             # return if values are different
             if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
+                return 1 if $Self->_DataDiff(
+                    Data1 => $A{$Key},
+                    Data2 => $B{$Key}
+                );
                 delete $A{$Key};
                 delete $B{$Key};
                 next KEY;
@@ -677,7 +685,10 @@ sub _DataDiff {
     }
 
     if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if $Self->_DataDiff( Data1 => ${ $Param{Data1} }, Data2 => ${ $Param{Data2} } );
+        return 1 if $Self->_DataDiff(
+            Data1 => ${ $Param{Data1} },
+            Data2 => ${ $Param{Data2} }
+        );
         return;
     }
 
@@ -824,8 +835,8 @@ sub _Print {
             $TestFailureDetails = substr( $TestFailureDetails, 0, 200 ) . "...";
         }
 
-# Store information about failed tests, but only if we are running in a toplevel unit test object
-#   that is actually processing filed, and not in an embedded object that just runs individual tests.
+        # Store information about failed tests, but only if we are running in a toplevel unit test object
+        #   that is actually processing filed, and not in an embedded object that just runs individual tests.
         if ( ref $Self->{NotOkInfo} eq 'ARRAY' ) {
             push @{ $Self->{NotOkInfo}->[-1] }, sprintf "%s - %s", $Self->{TestCount},
                 $TestFailureDetails;

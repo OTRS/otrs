@@ -34,9 +34,8 @@ sub new {
     # create additional objects
     $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
 
-    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-    $Self->{WebserviceHistoryObject}
-        = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
+    $Self->{WebserviceObject}        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{WebserviceHistoryObject} = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
 
     return $Self;
 }
@@ -186,8 +185,7 @@ sub _GetWebserviceHistoryDetails {
             )
         {
             $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}
-                ->{Password}
-                =
+                ->{Password} =
                 $PasswordMask;
         }
     }

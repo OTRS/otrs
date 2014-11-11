@@ -78,8 +78,7 @@ sub OTRSInit {
     #   registered for a particular or for all templates, the template cannot be
     #   cached any more.
     #
-    $Self->{FilterElementPre}
-        = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre');
+    $Self->{FilterElementPre} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre');
 
     my %UncacheableTemplates;
 
@@ -143,8 +142,7 @@ sub _fetch {
 
     $self->debug("_fetch($name)") if $self->{DEBUG};
 
-    my $TemplateIsCacheable
-        = !$self->{UncacheableTemplates}->{ALL} && !$self->{UncacheableTemplates}->{$t_name};
+    my $TemplateIsCacheable = !$self->{UncacheableTemplates}->{ALL} && !$self->{UncacheableTemplates}->{$t_name};
 
     # Check in-memory template cache if we already had this template.
     $self->{_TemplateCache} //= {};
@@ -425,7 +423,7 @@ sub _PreProcessTemplateContent {
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data => \$Content,
+                Data         => \$Content,
                 TemplateFile => $TemplateFileWithoutTT || '',
             );
         }

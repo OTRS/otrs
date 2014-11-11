@@ -156,8 +156,7 @@ sub Run {
                     );
 
                     if ( !$Controller ) {
-                        $Error{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' }
-                            = 'ServerError';
+                        $Error{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' } = 'ServerError';
                         $Error{
                             'InvokerControllerMapping'
                                 . $CurrentInvoker
@@ -166,16 +165,14 @@ sub Run {
                         next INVOKER;
                     }
 
-                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller}
-                        = $Controller;
+                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller} = $Controller;
 
                     my $Command = $Self->{ParamObject}->GetParam(
                         Param => 'Command' . $CurrentInvoker
                     );
                     next INVOKER if !$Command;
 
-                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command}
-                        = $Command;
+                    $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Command} = $Command;
                 }
             }
 
@@ -210,8 +207,7 @@ sub Run {
                         next NEEDED;
                     }
 
-                    $TransportConfig->{X509}->{ 'X509' . $Needed }
-                        = $GetParam->{ 'X509' . $Needed };
+                    $TransportConfig->{X509}->{ 'X509' . $Needed } = $GetParam->{ 'X509' . $Needed };
                 }
 
                 # This param is optional so use it just if we have at least a length
@@ -252,23 +248,20 @@ sub Run {
                     );
 
                     if ( !$Route ) {
-                        $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' }
-                            = 'ServerError';
+                        $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } = 'ServerError';
                         $Error{ 'RouteOperationMapping' . $CurrentOperation . 'ServerErrorMessage' }
                             = 'This field is required';
                         next OPERATION;
                     }
 
-                    $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route}
-                        = $Route;
+                    $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route} = $Route;
 
                     my @RequestMethod = $Self->{ParamObject}->GetArray(
                         Param => 'RequestMethod' . $CurrentOperation,
                     );
                     next OPERATION if !scalar @RequestMethod;
 
-                    $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{RequestMethod}
-                        = \@RequestMethod;
+                    $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{RequestMethod} = \@RequestMethod;
                 }
             }
 
@@ -309,14 +302,12 @@ sub Run {
         );
 
         # Save button: stay in edit mode.
-        my $RedirectURL
-            = "Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Change;"
+        my $RedirectURL = "Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Change;"
             . "WebserviceID=$WebserviceID;CommunicationType=$CommunicationType;";
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+            $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
         }
 
@@ -495,8 +486,7 @@ sub _ShowEdit {
 
     # otherwise is provider
     else {
-        my $Operations
-            = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Operation};
+        my $Operations = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Operation};
         if ( IsHashRefWithData($Operations) ) {
 
             for my $CurrentOperation ( sort keys %{$Operations} ) {

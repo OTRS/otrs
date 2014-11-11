@@ -87,8 +87,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#SystemAddressID option[value='1']", 'css' )->click();
         $Selenium->find_element( "#SignatureID option[value='1']",     'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']",         'css' )->click();
-        $Selenium->find_element( "#Comment", 'css' )->send_keys('Selenium test queue');
-        $Selenium->find_element( "#Name",    'css' )->submit();
+        $Selenium->find_element( "#Comment",                           'css' )->send_keys('Selenium test queue');
+        $Selenium->find_element( "#Name",                              'css' )->submit();
 
         # check Queue - Responses page
         $Self->True(

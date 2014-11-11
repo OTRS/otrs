@@ -39,13 +39,13 @@ my @Tests = (
             },
             {
                 ArticleCreate => {
-                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
-                    SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some Agent <email@example.com>',           # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'ISO-8859-15',
+                    ArticleType => 'note-internal',                     # email-external|email-internal|phone|fax|...
+                    SenderType  => 'agent',                             # agent|system|customer
+                    From        => 'Some Agent <email@example.com>',    # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'ISO-8859-15',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
@@ -57,11 +57,11 @@ my @Tests = (
                 ArticleCreate => {
                     ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
                     SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some other Agent <email2@example.com>',    # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'UTF-8',
+                    From        => 'Some other Agent <email2@example.com>',       # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'UTF-8',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...

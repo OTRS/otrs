@@ -232,8 +232,10 @@ sub PossibleLinkList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -528,14 +530,12 @@ sub LinkAdd {
     }
 
     # get backend of source object
-    my $BackendSourceObject
-        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{SourceObject} );
+    my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{SourceObject} );
 
     return if !$BackendSourceObject;
 
     # get backend of target object
-    my $BackendTargetObject
-        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{TargetObject} );
+    my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Param{TargetObject} );
 
     return if !$BackendTargetObject;
 
@@ -779,14 +779,12 @@ sub LinkDelete {
     );
 
     # get backend of source object
-    my $BackendSourceObject
-        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{SourceObject} );
+    my $BackendSourceObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{SourceObject} );
 
     return if !$BackendSourceObject;
 
     # get backend of target object
-    my $BackendTargetObject
-        = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{TargetObject} );
+    my $BackendTargetObject = $Kernel::OM->Get( 'Kernel::System::LinkObject::' . $Existing{TargetObject} );
 
     return if !$BackendTargetObject;
 
@@ -1251,8 +1249,7 @@ sub LinkListWithData {
 
         # check if backend object can be loaded
         if (
-            !$Kernel::OM->Get('Kernel::System::Main')
-            ->Require( 'Kernel::System::LinkObject::' . $Object )
+            !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::LinkObject::' . $Object )
             )
         {
             delete $LinkList->{$Object};
@@ -1495,8 +1492,10 @@ sub ObjectLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1650,8 +1649,10 @@ sub TypeLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1915,8 +1916,10 @@ sub TypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1988,8 +1991,10 @@ sub TypeGroupList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -2143,8 +2148,10 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -2265,8 +2272,10 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 

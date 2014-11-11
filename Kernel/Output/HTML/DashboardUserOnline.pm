@@ -261,11 +261,9 @@ sub Run {
     my $Limit      = $LayoutObject->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
     # Check if agent has permission to start chats with the listed users
-    my $EnableChat = 1;
-    my $ChatStartingAgentsGroup
-        = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
-    my $ChatReceivingAgentsGroup
-        = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
+    my $EnableChat               = 1;
+    my $ChatStartingAgentsGroup  = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+    my $ChatReceivingAgentsGroup = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
 
     if (
         !$Self->{ConfigObject}->Get('ChatEngine::Active')

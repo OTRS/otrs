@@ -1084,8 +1084,8 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message  => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
-            TestType => 'False',
+            Message            => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
+            TestType           => 'False',
         },
     },
 
@@ -1508,8 +1508,7 @@ my @Tests = (
 for my $Test (@Tests) {
     if ( $Test->{Check} ) {
 
-        $TransitionObject->{TransitionDebug}
-            = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
+        $TransitionObject->{TransitionDebug} = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
 
         # Set Config
         if ( IsHashRefWithData( $Test->{Check}{Config} ) ) {
@@ -1583,10 +1582,9 @@ for my $Test (@Tests) {
             );
         }
         elsif ( $Test->{Get}{TestType} eq 'Result' ) {
-            my $GetResult
-                = $TransitionObject->TransitionGet(
+            my $GetResult = $TransitionObject->TransitionGet(
                 TransitionEntityID => $Test->{Get}{TransitionEntityID}
-                );
+            );
             my $ExpectedResult = $Test->{Get}{Result};
 
             # Get - Check given and expected result

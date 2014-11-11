@@ -194,7 +194,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'User';
     my $NeType = $Type eq 'Role' ? 'User' : 'Role';
 
-    my %VisibleType = ( Role => 'Role', User => 'Agent' );
+    my %VisibleType = (
+        Role => 'Role',
+        User => 'Agent'
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'Change',

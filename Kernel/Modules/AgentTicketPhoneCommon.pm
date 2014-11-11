@@ -173,8 +173,7 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
                         ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $Self->{LayoutObject}->{LanguageObject}
-                        ->Get('Please change the owner first.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -184,7 +183,10 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -229,8 +231,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -308,8 +309,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -515,8 +515,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $PossibleValues->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
                             keys %Filter;
                     }
                 }
@@ -694,7 +693,7 @@ sub Run {
                 $From = $LastCustomerArticle{From};
             }
 
-          # If we don't have a customer article, or if SenderType is "agent", use the agent as From.
+            # If we don't have a customer article, or if SenderType is "agent", use the agent as From.
             if ( !$From ) {
                 my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
                 $From = $TemplateGenerator->Sender(
@@ -752,8 +751,7 @@ sub Run {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
                 # set the object ID (TicketID or ArticleID) depending on the field configuration
-                my $ObjectID
-                    = $DynamicFieldConfig->{ObjectType} eq 'Article'
+                my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
                     ? $ArticleID
                     : $Self->{TicketID};
 
@@ -909,10 +907,9 @@ sub Run {
                 my $StdAttachmentObject = Kernel::System::StdAttachment->new( %{$Self} );
 
                 # add std. attachments to ticket
-                my %AllStdAttachments
-                    = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
+                my %AllStdAttachments = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
                     StandardTemplateID => $GetParam{StandardTemplateID},
-                    );
+                );
                 for ( sort keys %AllStdAttachments ) {
                     my %AttachmentsData = $StdAttachmentObject->StdAttachmentGet( ID => $_ );
                     $Self->{UploadCacheObject}->FormIDAddFile(
@@ -1137,12 +1134,12 @@ sub _MaskPhone {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid},
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid},
+        Validate             => 1,
         ValidateDateInFuture => 1,
         Calendar             => $Calendar,
     );
@@ -1155,8 +1152,7 @@ sub _MaskPhone {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( sort keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 

@@ -68,8 +68,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -83,7 +85,7 @@ sub NotificationGet {
             . ' notification_language, subject, text, content_type '
             . ' FROM notifications WHERE '
             . ' notification_type = ? AND notification_language = ?',
-        Bind => [ \$Type, \$Language, ],
+        Bind  => [ \$Type, \$Language, ],
         Limit => 1,
     );
 
@@ -232,8 +234,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(Type Charset Language Subject Body ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

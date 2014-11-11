@@ -57,8 +57,7 @@ sub new {
     bless( $Self, $Type );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Kernel::OM->Get('Kernel::Config')->Get('ACL::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Kernel::OM->Get('Kernel::Config')->Get('ACL::CacheTTL') || 3600 );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -228,8 +227,10 @@ sub ACLDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -300,8 +301,10 @@ sub ACLGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -438,8 +441,10 @@ sub ACLUpdate {
     # check needed stuff
     for my $Key (qw(ID Name ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Key!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -483,7 +488,7 @@ sub ACLUpdate {
             SELECT id FROM acl
             WHERE $Self->{Lower}(name) = $Self->{Lower}(?)
             AND id != ?",
-        Bind => [ \$Param{Name}, \$Param{ID} ],
+        Bind  => [ \$Param{Name}, \$Param{ID} ],
         LIMIT => 1,
     );
 
@@ -728,8 +733,7 @@ sub ACLListGet {
 
     if ( $ValidIDsStrg ne 'ALL' ) {
 
-        my $ValidIDsStrgDB
-            = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @{ $Param{ValidIDs} };
+        my $ValidIDsStrgDB = join ',', map { $DBObject->Quote( $_, 'Integer' ) } @{ $Param{ValidIDs} };
 
         $SQL .= "WHERE valid_id IN ($ValidIDsStrgDB)";
     }
@@ -1028,8 +1032,7 @@ sub ACLImport {
             UserID => $Param{UserID},
         );
 
-        my @ExistingACLs
-            = @{ $Self->ACLListGet( UserID => $Param{UserID} ) || [] };
+        my @ExistingACLs = @{ $Self->ACLListGet( UserID => $Param{UserID} ) || [] };
         @ExistingACLs = grep { $_->{Name} eq $ACL->{Name} } @ExistingACLs;
 
         if ( $Param{OverwriteExistingEntities} && $ExistingACLs[0] ) {
@@ -1253,8 +1256,7 @@ sub _ACLMigrateFrom33 {
 
     # convert old hash into an array using only the keys set to 0, and skip those that are set
     # to 1, set them as PossibleNot and delete the Possible->Action section form the ACL.
-    my @NewAction
-        = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
+    my @NewAction = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
         sort keys %{ $ACL->{ConfigChange}->{Possible}->{Action} };
 
     delete $ACL->{ConfigChange}->{Possible}->{Action};

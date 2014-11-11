@@ -76,16 +76,20 @@ sub Validate {
 
     for my $Needed (qw(Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
 
     # Check if we have Data to check against transitions conditions
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Data has no values!", );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Data has no values!",
+        );
         return;
     }
 

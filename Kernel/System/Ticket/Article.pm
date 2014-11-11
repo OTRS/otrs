@@ -113,8 +113,10 @@ sub ArticleCreate {
 
     # create ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleContentPath!'
+        );
         return;
     }
 
@@ -129,8 +131,10 @@ sub ArticleCreate {
     # check needed stuff
     for (qw(TicketID UserID ArticleTypeID SenderTypeID HistoryType HistoryComment)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -139,8 +143,10 @@ sub ArticleCreate {
     if ( !$Param{ContentType} ) {
         for (qw(Charset MimeType)) {
             if ( !$Param{$_} ) {
-                $Kernel::OM->Get('Kernel::System::Log')
-                    ->Log( Priority => 'error', Message => "Need $_!" );
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Need $_!"
+                );
                 return;
             }
         }
@@ -149,8 +155,10 @@ sub ArticleCreate {
     else {
         for (qw(ContentType)) {
             if ( !$Param{$_} ) {
-                $Kernel::OM->Get('Kernel::System::Log')
-                    ->Log( Priority => 'error', Message => "Need $_!" );
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Need $_!"
+                );
                 return;
             }
         }
@@ -254,8 +262,7 @@ sub ArticleCreate {
 
     # calculate MD5 of Message ID
     if ( $Param{MessageID} ) {
-        $Param{MD5}
-            = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{MessageID} );
+        $Param{MD5} = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{MessageID} );
     }
 
     # get database object
@@ -492,8 +499,7 @@ sub ArticleCreate {
         )
     {
         # get subscribed users from My Queues in form of a hash
-        my %MyQueuesUserIDs
-            = map { $_ => 1 } $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
+        my %MyQueuesUserIDs = map { $_ => 1 } $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} );
 
         # get subscribed users from My Services in form of a hash
         my %MyServicesUserIDs;
@@ -645,8 +651,7 @@ sub ArticleCreate {
                 %OwnerUserIDs = ( $Ticket{OwnerID} => 1 );
 
                 # combine both subscribed users list (this will also remove duplicates)
-                %SubscribedUserIDs
-                    = ( %MyQueuesUserIDs, %MyServicesUserIDs, %WatcherUserIDs, %OwnerUserIDs );
+                %SubscribedUserIDs = ( %MyQueuesUserIDs, %MyServicesUserIDs, %WatcherUserIDs, %OwnerUserIDs );
             }
 
             USER:
@@ -873,7 +878,7 @@ sub ArticleCreate {
             }
             if ($NewTo) {
                 $DBObject->Do(
-                    SQL => 'UPDATE article SET a_to = ? WHERE id = ?',
+                    SQL  => 'UPDATE article SET a_to = ? WHERE id = ?',
                     Bind => [ \$NewTo, \$ArticleID ],
                 );
             }
@@ -899,8 +904,10 @@ sub ArticleGetTicketIDOfMessageID {
 
     # check needed stuff
     if ( !$Param{MessageID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need MessageID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need MessageID!'
+        );
         return;
     }
     my $MD5 = $Kernel::OM->Get('Kernel::System::Main')->MD5sum( String => $Param{MessageID} );
@@ -952,8 +959,10 @@ sub ArticleGetContentPath {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -1274,13 +1283,18 @@ sub ArticleLastCustomerArticle {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
     # get article index
-    my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID}, SenderType => 'customer' );
+    my @Index = $Self->ArticleIndex(
+        TicketID   => $Param{TicketID},
+        SenderType => 'customer'
+    );
 
     # get article data
     if (@Index) {
@@ -1331,8 +1345,10 @@ sub ArticleFirstArticle {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
@@ -1369,8 +1385,10 @@ sub ArticleIndex {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -1512,8 +1530,10 @@ sub ArticleContentIndex {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1649,8 +1669,10 @@ sub ArticleGet {
 
     # check needed stuff
     if ( !$Param{ArticleID} && !$Param{TicketID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleID or TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID or TicketID!'
+        );
         return;
     }
 
@@ -1802,8 +1824,7 @@ sub ArticleGet {
         $Ticket{QueueID}        = $Row[12];
         $Ticket{AgeTimeUnix}    = $TimeObject->SystemTime()
             - $TimeObject->TimeStamp2SystemTime( String => $Row[13] );
-        $Ticket{Created}
-            = $TimeObject->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
+        $Ticket{Created} = $TimeObject->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
         $Data{ContentType} = $Row[14];
 
         $Data{CreatedBy}           = $Row[15];
@@ -2159,8 +2180,10 @@ sub ArticleCount {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -2203,7 +2226,10 @@ sub ArticleCount {
         push @Bind, \$CreateTime, \$CreateTime, \$Param{UpToArticleID};
     }
 
-    return if !$DBObject->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$DBObject->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
 
     my $Count;
     while ( my @Row = $DBObject->FetchrowArray() ) {
@@ -2262,8 +2288,10 @@ sub _ArticleGetId {
     # check needed stuff
     for (qw(TicketID MessageID From Subject IncomingTime)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2339,16 +2367,20 @@ sub ArticleUpdate {
     # check needed stuff
     for (qw(ArticleID UserID Key TicketID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check needed stuff
     if ( !defined $Param{Value} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Value!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Value!'
+        );
         return;
     }
 
@@ -2468,8 +2500,10 @@ sub ArticleSend {
     # check needed stuff
     for (qw(TicketID UserID From Body Charset MimeType)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2500,7 +2534,7 @@ sub ArticleSend {
 
     # check for base64 images in body and process them
     $Kernel::OM->Get('Kernel::System::HTMLUtils')->EmbeddedImagesExtract(
-        DocumentRef => \$Param{Body},
+        DocumentRef    => \$Param{Body},
         AttachmentsRef => $Param{Attachment} || [],
     );
 
@@ -2581,8 +2615,10 @@ sub ArticleBounce {
     # check needed stuff
     for (qw(TicketID ArticleID From To UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2659,8 +2695,10 @@ sub SendAgentNotification {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID Type RecipientID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2785,8 +2823,10 @@ sub SendCustomerNotification {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2960,7 +3000,9 @@ sub SendCustomerNotification {
     $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
-    my %OwnerPreferences = $UserObject->GetUserData( UserID => $Article{OwnerID}, );
+    my %OwnerPreferences = $UserObject->GetUserData(
+        UserID => $Article{OwnerID},
+    );
     for ( sort keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
             $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -3029,7 +3071,7 @@ sub SendCustomerNotification {
     # prepare subject (insert old subject)
     $Article{Subject} = $Self->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
@@ -3038,7 +3080,7 @@ sub SendCustomerNotification {
     }
     $Notification{Subject} = $Self->TicketSubjectBuild(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Notification{Subject} || '',
+        Subject      => $Notification{Subject} || '',
     );
 
     # prepare body (insert old email)
@@ -3123,8 +3165,10 @@ sub SendAutoResponse {
     # check needed stuff
     for (qw(TicketID UserID OrigHeader AutoResponseType)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3137,8 +3181,8 @@ sub SendAutoResponse {
 
     # get ticket
     my %Ticket = $Self->TicketGet(
-        TicketID => $Param{TicketID},
-        DynamicFields => 0,    # not needed here, TemplateGenerator will fetch the ticket on its own
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,                  # not needed here, TemplateGenerator will fetch the ticket on its own
     );
 
     # get auto default responses
@@ -3264,7 +3308,7 @@ sub SendAutoResponse {
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
-                Name => "Sent no auto response to '$Email', SendNoAutoResponseRegExp matched.",
+                Name         => "Sent no auto response to '$Email', SendNoAutoResponseRegExp matched.",
             );
 
             # log
@@ -3381,8 +3425,10 @@ sub ArticleFlagSet {
     # check needed stuff
     for (qw(ArticleID Key Value UserID)) {
         if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3459,16 +3505,20 @@ sub ArticleFlagDelete {
     # check needed stuff
     for (qw(ArticleID Key)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     if ( !$Param{AllUsers} && !$Param{UserID} ) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need AllUsers or UserID!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need AllUsers or UserID!"
+            );
             return;
         }
     }
@@ -3534,8 +3584,10 @@ sub ArticleFlagGet {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3550,7 +3602,7 @@ sub ArticleFlagGet {
             FROM article_flag
             WHERE article_id = ?
                 AND create_by = ?',
-        Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
+        Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
         Limit => 1500,
     );
 
@@ -3586,8 +3638,10 @@ sub ArticleFlagsOfTicketGet {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3603,7 +3657,7 @@ sub ArticleFlagsOfTicketGet {
             WHERE article.id = article_flag.article_id
                 AND article.ticket_id = ?
                 AND article_flag.create_by = ?',
-        Bind => [ \$Param{TicketID}, \$Param{UserID} ],
+        Bind  => [ \$Param{TicketID}, \$Param{UserID} ],
         Limit => 1500,
     );
 
@@ -3630,8 +3684,10 @@ sub ArticleAccountedTimeGet {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -3668,8 +3724,10 @@ sub ArticleAccountedTimeDelete {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -3844,8 +3902,10 @@ sub ArticleAttachmentIndex {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

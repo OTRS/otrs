@@ -36,8 +36,7 @@ sub TicketCreateNumber {
     # get needed config options
     my $CounterLog = $ConfigObject->Get('Ticket::CounterLog');
     my $SystemID   = $ConfigObject->Get('SystemID');
-    my $MinSize
-        = $ConfigObject->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
+    my $MinSize    = $ConfigObject->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
         || $ConfigObject->Get('Ticket::NumberGenerator::MinCounterSize')
         || 5;
 
@@ -136,8 +135,7 @@ sub GetTNByString {
 
     my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
     my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
-    my $MinSize
-        = $ConfigObject->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
+    my $MinSize           = $ConfigObject->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
         || $ConfigObject->Get('Ticket::NumberGenerator::MinCounterSize')
         || 5;
     my $MaxSize = $MinSize + 5;

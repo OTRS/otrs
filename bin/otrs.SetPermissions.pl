@@ -101,7 +101,7 @@ sub Run {
         'skip-regex=s'     => \@SkipRegex,
     );
 
-    if (defined $Help) {
+    if ( defined $Help ) {
         PrintUsage();
         exit 0;
     }
@@ -151,6 +151,7 @@ sub SetPermissions {
 
     # First get a canonical full filename
     my $File = $File::Find::fullname;
+
     # If the link is a dangling symbolic link, then fullname will be set to undef.
     return if !defined $File;
 

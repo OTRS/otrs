@@ -386,19 +386,18 @@ sub ObjectsDiscard {
 
             # undef happens to be the value that uses the least amount
             # of memory in Perl, and we are only interested in the keys
-            $ReverseDependencies{$Dependency}->{$Object}
-                = undef;
+            $ReverseDependencies{$Dependency}->{$Object} = undef;
         }
         push @AllObjects, $Object;
     }
 
-# During an OTRS package upgrade the packagesetup code module has just
-# recently been copied to it's location in the file system.
-# In a persistent Perl environment an old version of the module might still be loaded,
-# as watchdogs like Apache2::Reload haven't had a chance to reload it.
-# So we need to make sure that the new version is being loaded.
-# Kernel::System::Main::Require() checks the relative file path, so we need to remove that from %INC.
-# This is only needed in persistent Perl environment, but does no harm in a CGI environment.
+    # During an OTRS package upgrade the packagesetup code module has just
+    # recently been copied to it's location in the file system.
+    # In a persistent Perl environment an old version of the module might still be loaded,
+    # as watchdogs like Apache2::Reload haven't had a chance to reload it.
+    # So we need to make sure that the new version is being loaded.
+    # Kernel::System::Main::Require() checks the relative file path, so we need to remove that from %INC.
+    # This is only needed in persistent Perl environment, but does no harm in a CGI environment.
     if ( $Param{ForcePackageReload} ) {
 
         my @Objects;

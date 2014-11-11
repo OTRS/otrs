@@ -53,10 +53,9 @@ $Selenium->RunTest(
         $Failed = $Selenium->execute_script(
             "return \$('p.result span.failed').text()"
         );
-        $Total
-            = $Selenium->execute_script(
+        $Total = $Selenium->execute_script(
             "return \$('p.result span.total').text()"
-            );
+        );
 
         $Self->True( $Passed, 'Found passed tests' );
         $Self->Is( $Passed, $Total, 'Total number of tests' );

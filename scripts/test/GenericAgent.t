@@ -69,8 +69,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField
-            = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
@@ -132,7 +131,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
 );
 
 $Self->True(

@@ -43,15 +43,17 @@ sub new {
     $Self->{MainObject}   = $Param{MainObject}   || $Kernel::OM->Get('Kernel::System::Main');
     $Self->{DBObject}     = $Param{DBObject}     || $Kernel::OM->Get('Kernel::System::DB');
     $Self->{TicketObject} = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
-    $Self->{LayoutObject}
-        = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    $Self->{LayoutObject} = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     for (qw(UserID ArticleID)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
         }
     }
 
@@ -272,7 +274,9 @@ sub Check {
             my $Crypted = $Entity->parts(1)->as_string();
 
             # decrypt it
-            my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Crypted, );
+            my %Decrypt = $Self->{CryptObject}->Decrypt(
+                Message => $Crypted,
+            );
             if ( $Decrypt{Successful} ) {
                 $Entity = $Parser->parse_data( $Decrypt{Data} );
                 my $Head = $Entity->head();

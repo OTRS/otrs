@@ -229,13 +229,19 @@ sub Run {
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
-        my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
+        my $PostPw = $Self->{ParamObject}->GetParam(
+            Param => 'Password',
+            Raw   => 1
+        ) || '';
 
         # create AuthObject
         my $AuthObject = $Kernel::OM->Get('Kernel::System::Auth');
 
         # check submitted data
-        my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
+        my $User = $AuthObject->Auth(
+            User => $PostUser,
+            Pw   => $PostPw
+        );
 
         # login is invalid
         if ( !$User ) {
@@ -290,7 +296,10 @@ sub Run {
         }
 
         # login is successful
-        my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1
+        );
 
         # check if the browser supports cookies
 
@@ -580,7 +589,10 @@ sub Run {
         }
 
         # get user data
-        my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1
+        );
         if ( !$UserData{UserID} ) {
 
             # Security: pretend that password reset instructions were actually sent to
@@ -659,7 +671,10 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        $Self->{UserObject}->SetPassword(
+            UserLogin => $User,
+            PW        => $UserData{NewPW}
+        );
 
         # send notify email
         my $Body = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
@@ -999,15 +1014,16 @@ sub Run {
     }
 
     # print an error screen
-    my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+    my %Data = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
             %Param,
             %Data,
         },
     );
-    $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-        ->FatalError( Comment => 'Please contact your administrator' );
+    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Comment => 'Please contact your administrator' );
     return;
 }
 

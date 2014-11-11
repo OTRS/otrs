@@ -16,18 +16,16 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $MainObject         = $Kernel::OM->Get('Kernel::System::Main');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $HelperObject       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ActivityObject     = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-my $ActivityDialogObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-my $ProcessObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
-my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-my $TransitionActionObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
+my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
+my $MainObject             = $Kernel::OM->Get('Kernel::System::Main');
+my $DynamicFieldObject     = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $HelperObject           = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ActivityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+my $ActivityDialogObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $ProcessObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+my $TransitionObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+my $YAMLObject             = $Kernel::OM->Get('Kernel::System::YAML');
 
 # define needed variables
 my $RandomID = $HelperObject->GetRandomID();
@@ -99,8 +97,7 @@ my $CheckProcess = sub {
     my $ActivityListGet = $ActivityObject->ActivityListGet( UserID => $UserID );
     my $ActivityDialogListGet = $ActivityDialogObject->ActivityDialogListGet( UserID => $UserID );
     my $TransitionListGet = $TransitionObject->TransitionListGet( UserID => $UserID );
-    my $TransitionActionListGet
-        = $TransitionActionObject->TransitionActionListGet( UserID => $UserID );
+    my $TransitionActionListGet = $TransitionActionObject->TransitionActionListGet( UserID => $UserID );
 
     # check process start activity and start activity dialog
     for my $PartName (qw(Activity ActivityDialog)) {
@@ -161,11 +158,9 @@ my $CheckProcess = sub {
             next ACTIVITY if $Activity->{Name} ne $ActivityName;
 
             # locate the transition and its name
-            my $OriginalTransitions
-                = $ProcessData->{Process}->{Config}->{Path}->{$OriginalActivityEntityID};
+            my $OriginalTransitions = $ProcessData->{Process}->{Config}->{Path}->{$OriginalActivityEntityID};
             for my $OriginalTransitionEntityID ( sort keys %{$OriginalTransitions} ) {
-                my $TransitionName
-                    = $ProcessData->{Transitions}->{$OriginalTransitionEntityID}->{Name};
+                my $TransitionName = $ProcessData->{Transitions}->{$OriginalTransitionEntityID}->{Name};
 
                 # search added translation for the transition name
                 TRANSITION:
@@ -175,8 +170,7 @@ my $CheckProcess = sub {
                     # locate the destination activity and its name
                     my $OriginalDestinationActivityEntityID
                         = $OriginalTransitions->{$OriginalTransitionEntityID}->{ActivityEntityID};
-                    my $DestinationActivityName
-                        = $ProcessData->{Activities}->{$OriginalDestinationActivityEntityID}
+                    my $DestinationActivityName = $ProcessData->{Activities}->{$OriginalDestinationActivityEntityID}
                         ->{Name};
 
                     # search added activities for the destination activity name
@@ -217,8 +211,7 @@ my $CheckProcess = sub {
                     }
 
                     # test if transition actions entities match
-                    my $CurrentTransitionActions
-                        = $Process->{Config}->{Path}->{ $Activity->{EntityID} }
+                    my $CurrentTransitionActions = $Process->{Config}->{Path}->{ $Activity->{EntityID} }
                         ->{ $Transition->{EntityID} }->{TransitionAction} || [];
                     $Self->IsDeeply(
                         $CurrentTransitionActions,
@@ -246,13 +239,11 @@ my $CheckProcess = sub {
             next ACTIVITY if $Activity->{Name} ne $OriginalActivityName;
 
             # locate each activity dialog and its names
-            my $OriginalActivityDialogs
-                = $ProcessData->{Activities}->{$OriginalActivityEntityID}->{Config}
+            my $OriginalActivityDialogs = $ProcessData->{Activities}->{$OriginalActivityEntityID}->{Config}
                 ->{ActivityDialog};
             my %ExpectedActivityDialogEntityIDs;
             for my $OrderKey ( sort keys %{$OriginalActivityDialogs} ) {
-                my $ActivityDialogName
-                    = $ProcessData->{ActivityDialogs}->{ $OriginalActivityDialogs->{$OrderKey} }
+                my $ActivityDialogName = $ProcessData->{ActivityDialogs}->{ $OriginalActivityDialogs->{$OrderKey} }
                     ->{Name};
 
                 # search added activity dialogs for the activity dialog name and remember it
@@ -288,8 +279,7 @@ my $CheckProcess = sub {
 
         # locate process part and its name
         for my $OriginalPartEntityID ( sort keys %{ $ProcessData->{ $PartNameMap{$PartName} } } ) {
-            my $OriginalPartName
-                = $ProcessData->{ $PartNameMap{$PartName} }->{$OriginalPartEntityID}->{Name};
+            my $OriginalPartName = $ProcessData->{ $PartNameMap{$PartName} }->{$OriginalPartEntityID}->{Name};
 
             # search added parts for the part name
             PART:

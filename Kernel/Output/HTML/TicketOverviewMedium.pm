@@ -37,8 +37,7 @@ sub new {
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewMedium")->{DynamicField};
+    $Self->{DynamicFieldFilter} = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewMedium")->{DynamicField};
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -144,9 +143,9 @@ sub ActionRow {
                 $Self->{LayoutObject}->Block(
                     Name => $Item->{Block},
                     Data => {
-                        ID   => $Item->{ID},
-                        Name => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
-                        Link => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
+                        ID          => $Item->{ID},
+                        Name        => $Self->{LayoutObject}->{LanguageObject}->Translate( $Item->{Name} ),
+                        Link        => $Self->{LayoutObject}->{Baselink} . $Item->{Link},
                         Description => $Item->{Description},
                         Block       => $Item->{Block},
                         Class       => $Class,
@@ -191,7 +190,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -304,7 +306,10 @@ sub _Show {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -349,7 +354,10 @@ sub _Show {
     %Article = ( %UserInfo, %Article );
 
     # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Article{Age},
+        Space => ' '
+    );
 
     # fetch all std. templates ...
     my %StandardTemplates = $Self->{QueueObject}->QueueStandardTemplateMemberList(
@@ -381,8 +389,7 @@ sub _Show {
         my %Actions = %{ $Self->{ConfigObject}->Get('Frontend::Module') };
 
         # only use those Actions that stats with AgentTicket
-        %PossibleActions
-            = map { ++$Counter => $_ }
+        %PossibleActions = map { ++$Counter => $_ }
             grep { substr( $_, 0, length 'AgentTicket' ) eq 'AgentTicket' }
             sort keys %Actions;
     }
@@ -412,7 +419,10 @@ sub _Show {
             if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
+            my $Object = $Menus{$Menu}->{Module}->new(
+                %{$Self},
+                TicketID => $Param{TicketID},
+            );
 
             # run module
             my $Item = $Object->Run(
@@ -477,7 +487,7 @@ sub _Show {
     # prepare subject
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
     );
 
     $Self->{LayoutObject}->Block(
@@ -576,7 +586,10 @@ sub _Show {
                 );
 
                 # run module
-                my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                my @Data = $Object->Check(
+                    Article => \%Article,
+                    %Param, Config => $Jobs{$Job}
+                );
 
                 for my $DataRef (@Data) {
                     $Self->{LayoutObject}->Block(
@@ -586,7 +599,10 @@ sub _Show {
                 }
 
                 # filter option
-                $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                $Object->Filter(
+                    Article => \%Article,
+                    %Param, Config => $Jobs{$Job}
+                );
             }
         }
     }
@@ -941,7 +957,7 @@ sub _Show {
     # create & return output
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewMedium',
-        Data => { %Param, %Article, %AclAction },
+        Data         => { %Param, %Article, %AclAction },
     );
 
     return \$Output;

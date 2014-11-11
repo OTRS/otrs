@@ -535,14 +535,13 @@ sub TicketSearch {
         my $Index = 1;
         for my $Key ( sort keys %{ $Param{NotTicketFlag} } ) {
             $SQLFrom .= "LEFT JOIN ticket_flag ntf$Index ON st.id = ntf$Index.ticket_id  "
-                     . " AND ntf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'"
-                     . " AND ntf$Index.create_by = "
-                        . $DBObject->Quote( $TicketFlagUserID, 'Integer' )
-                     . ' ';
+                . " AND ntf$Index.ticket_key = '" . $DBObject->Quote($Key) . "'"
+                . " AND ntf$Index.create_by = "
+                . $DBObject->Quote( $TicketFlagUserID, 'Integer' )
+                . ' ';
             $Index++;
         }
     }
-
 
     # current type lookup
     if ( $Param{Types} ) {
@@ -1088,7 +1087,7 @@ sub TicketSearch {
             return if !defined $Value;
 
             $SQLExt .= " AND (ntf$Index.ticket_value IS NULL "
-                       . "OR ntf$Index.ticket_value <> '" . $DBObject->Quote($Value) . "')";
+                . "OR ntf$Index.ticket_value <> '" . $DBObject->Quote($Value) . "')";
 
             $Index++;
         }
@@ -1243,8 +1242,7 @@ sub TicketSearch {
 
         for my $Operator ( sort keys %{$SearchParam} ) {
 
-            my @SearchParams
-                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+            my @SearchParams = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
                 ? @{ $SearchParam->{$Operator} }
                 : ( $SearchParam->{$Operator} );
 
@@ -1890,7 +1888,7 @@ sub TicketSearch {
         # get close state ids
         my @List = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
             StateType => [ 'pending reminder', 'pending auto' ],
-            Result => 'ID',
+            Result    => 'ID',
         );
         if (@List) {
             $SQLExt .= " AND st.ticket_state_id IN (${\(join ', ', sort @List)}) ";
@@ -2046,9 +2044,9 @@ sub TicketSearch {
 
                     if ( $TicketDynamicFieldName2Config{$DynamicFieldName} ) {
 
-                       # Join the table for this dynamic field; use a left outer join in this case.
-                       # With an INNER JOIN we'd limit the result set to tickets which have an entry
-                       #   for the DF which is used for sorting.
+                        # Join the table for this dynamic field; use a left outer join in this case.
+                        # With an INNER JOIN we'd limit the result set to tickets which have an entry
+                        #   for the DF which is used for sorting.
                         $SQLFrom
                             .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                             ON (st.id = dfv$DynamicFieldJoinCounter.object_id
@@ -2068,8 +2066,7 @@ sub TicketSearch {
                             $DBObject->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
 
-                    $DynamicFieldJoinTables{ $DynamicField->{Name} }
-                        = "dfv$DynamicFieldJoinCounter";
+                    $DynamicFieldJoinTables{ $DynamicField->{Name} } = "dfv$DynamicFieldJoinCounter";
 
                     $DynamicFieldJoinCounter++;
                 }
@@ -2130,7 +2127,10 @@ sub TicketSearch {
     my @TicketIDs;
     my $Count;
     return
-        if !$DBObject->Prepare( SQL => $SQLSelect . $SQLFrom . $SQLExt, Limit => $Limit );
+        if !$DBObject->Prepare(
+        SQL   => $SQLSelect . $SQLFrom . $SQLExt,
+        Limit => $Limit
+        );
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];

@@ -74,8 +74,10 @@ sub StandardTemplateAdd {
     # check needed stuff
     for (qw(Name ValidID Template ContentType UserID TemplateType)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -105,7 +107,7 @@ sub StandardTemplateAdd {
     );
 
     return if !$DBObject->Prepare(
-        SQL => 'SELECT id FROM standard_template WHERE name = ? AND change_by = ?',
+        SQL  => 'SELECT id FROM standard_template WHERE name = ? AND change_by = ?',
         Bind => [ \$Param{Name}, \$Param{UserID}, ],
     );
 
@@ -153,7 +155,10 @@ sub StandardTemplateGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -205,7 +210,10 @@ sub StandardTemplateDelete {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'Need ID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -260,14 +268,22 @@ sub StandardTemplateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TemplateType ContentType UserID TemplateType)) {
         if ( !defined( $Param{$_} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check if a standard template with this name already exists
-    if ( $Self->NameExistsCheck( Name => $Param{Name}, ID => $Param{ID} ) ) {
+    if (
+        $Self->NameExistsCheck(
+            Name => $Param{Name},
+            ID   => $Param{ID}
+        )
+        )
+    {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "A standard template with name '$Param{Name}' already exists!"
@@ -364,8 +380,10 @@ sub StandardTemplateLookup {
 
     # check if data exists
     if ( !exists $Self->{"StandardTemplate$Suffix"} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Found no \$$Suffix!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Found no \$$Suffix!"
+        );
         return;
     }
 

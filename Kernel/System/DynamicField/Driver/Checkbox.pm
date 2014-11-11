@@ -302,8 +302,7 @@ EOF
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
-        my $FieldRequiredMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -600,8 +599,7 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem
-                    = $Item eq 1
+                my $DisplayItem = $Item eq 1
                     ? 'Checked'
                     : $Item eq -1 ? 'Unchecked'
                     :               '';
@@ -626,8 +624,7 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue
-                = $Value eq 1
+            $DisplayValue = $Value eq 1
                 ? 'Checked'
                 : $Value eq -1 ? 'Unchecked'
                 :                '';
@@ -781,11 +778,10 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues
-        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
-        );
+    );
 
     # return the historical values from database
     return $HistoricalValues;
@@ -820,12 +816,11 @@ sub ColumnFilterValuesGet {
     };
 
     # get historical values from database
-    my $ColumnFilterValues
-        = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Integer',
-        );
+    );
 
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {
@@ -838,8 +833,7 @@ sub ColumnFilterValuesGet {
     for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
 
         my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
-        $ColumnFilterValues->{$ValueKey}
-            = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
+        $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
     }
 
     return $ColumnFilterValues;

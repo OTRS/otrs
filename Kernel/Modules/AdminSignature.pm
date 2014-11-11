@@ -44,7 +44,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SignatureObject}->SignatureGet( ID => $ID, );
+        my %Data = $Self->{SignatureObject}->SignatureGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -69,10 +71,12 @@ sub Run {
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Text Comment ValidID)) {
-            $GetParam{$Parameter}
-                = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
-        $GetParam{'Text'} = $Self->{ParamObject}->GetParam( Param => 'Text', Raw => 1 ) || '';
+        $GetParam{'Text'} = $Self->{ParamObject}->GetParam(
+            Param => 'Text',
+            Raw   => 1
+        ) || '';
 
         # get content type
         my $ContentType = 'text/plain';
@@ -157,10 +161,12 @@ sub Run {
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID)) {
-            $GetParam{$Parameter}
-                = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
         }
-        $GetParam{'Text'} = $Self->{ParamObject}->GetParam( Param => 'Text', Raw => 1 ) || '';
+        $GetParam{'Text'} = $Self->{ParamObject}->GetParam(
+            Param => 'Text',
+            Raw   => 1
+        ) || '';
 
         # get content type
         my $ContentType = 'text/plain';
@@ -322,7 +328,9 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SignatureObject}->SignatureList( Valid => 0, );
+    my %List = $Self->{SignatureObject}->SignatureList(
+        Valid => 0,
+    );
 
     # if there are any results, they are shown
     if (%List) {

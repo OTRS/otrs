@@ -52,8 +52,7 @@ $Selenium->RunTest(
             my $Element = $Selenium->find_element( "select#UserLanguage", 'css' );
 
             # select the current language & submit
-            $Element
-                = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
+            $Element = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
             $Element->click();
             $Element->submit();
 

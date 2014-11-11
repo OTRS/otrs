@@ -115,7 +115,7 @@ sub GetResults {
 
     return (
         Success => 1,
-        Result => $Self->{Results} // [],
+        Result  => $Self->{Results} // [],
     );
 }
 

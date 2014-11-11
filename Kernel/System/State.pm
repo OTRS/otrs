@@ -83,8 +83,10 @@ sub StateAdd {
     # check needed stuff
     for (qw(Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -158,8 +160,10 @@ sub StateGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need ID or Name!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need ID or Name!"
+        );
         return;
     }
 
@@ -257,8 +261,10 @@ sub StateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -321,14 +327,18 @@ sub StateGetStatesByType {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Result!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Result!'
+        );
         return;
     }
 
     if ( !$Param{Type} && !$Param{StateType} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Type or StateType!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Type or StateType!'
+        );
         return;
     }
 
@@ -479,7 +489,10 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 
@@ -544,8 +557,10 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( State => 'error', Message => 'Need State or StateID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            State   => 'error',
+            Message => 'Need State or StateID!'
+        );
         return;
     }
 
@@ -609,7 +624,10 @@ sub StateTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log( Priority => 'error', Message => 'UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 

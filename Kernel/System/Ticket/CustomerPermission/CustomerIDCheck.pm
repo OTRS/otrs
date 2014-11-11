@@ -36,16 +36,17 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # disable output of customer company tickets if configured
     return
-        if $Kernel::OM->Get('Kernel::Config')
-        ->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+        if $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     # get ticket data
     my %Ticket = $Kernel::OM->Get('Kernel::System::Ticket')->TicketGet(

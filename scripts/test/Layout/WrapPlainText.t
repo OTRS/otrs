@@ -30,8 +30,8 @@ my $MaxCharacters = $ConfigObject->Get('Ticket::Frontend::TextAreaEmail');
 
 my @Tests = (
     {
-        Name => 'WrapPlainText() - #1 Check if already cleanly wrapped text is not changed.',
-        Type => 'Is',
+        Name          => 'WrapPlainText() - #1 Check if already cleanly wrapped text is not changed.',
+        Type          => 'Is',
         MaxCharacters => 80,
         String        => "123456789_123456789_123456789_ 123456789_123456789_
 123456789_123456789_123456789_ 123456789_123456789_

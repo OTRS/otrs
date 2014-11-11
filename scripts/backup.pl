@@ -138,10 +138,9 @@ for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
 my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 chdir($Home);
 
-my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-    = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
+my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
     SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-    );
+);
 
 # create directory name - this looks like 2013-09-09_22-19'
 my $Directory = sprintf( "$Opts{d}/%04d-%02d-%02d_%02d-%02d", $Year, $Month, $Day, $Hour, $Min );

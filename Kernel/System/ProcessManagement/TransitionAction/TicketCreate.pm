@@ -193,8 +193,7 @@ sub Run {
     for my $Attribute (qw(Queue State Lock Priority)) {
 
         if ( !$TicketParam{$Attribute} && !$TicketParam{ $Attribute . "ID" } ) {
-            $TicketParam{$Attribute}
-                = $Kernel::OM->Get('Kernel::Config')->Get("Process::Default$Attribute") || '';
+            $TicketParam{$Attribute} = $Kernel::OM->Get('Kernel::Config')->Get("Process::Default$Attribute") || '';
         }
     }
 

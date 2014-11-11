@@ -74,8 +74,7 @@ sub Run {
         }
     }
 
-    my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')
-        ->GetSystemAddress( QueueID => $Ticket{QueueID} );
+    my %FromQueue = $Kernel::OM->Get('Kernel::System::Queue')->GetSystemAddress( QueueID => $Ticket{QueueID} );
 
     $Kernel::OM->Get('Kernel::System::Ticket')->ArticleSend(
         %Article,

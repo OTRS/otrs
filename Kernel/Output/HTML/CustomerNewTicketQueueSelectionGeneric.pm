@@ -105,8 +105,7 @@ sub Run {
             $String =~ s/<Queue>/$QueueData{Name}/g;
             $String =~ s/<QueueComment>/$QueueData{Comment}/g;
             if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') ne 'Queue' ) {
-                my %SystemAddressData
-                    = $Self->{SystemAddress}->SystemAddressGet( ID => $QueueData{SystemAddressID} );
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet( ID => $QueueData{SystemAddressID} );
                 $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $String =~ s/<Email>/$SystemAddressData{Name}/g;
             }

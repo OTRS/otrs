@@ -46,15 +46,19 @@ sub Run {
     # check needed stuff
     for (qw(Event Data Config UserID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }
@@ -300,8 +304,10 @@ sub _SendNotificationToRecipients {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Notification)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1004,7 +1010,7 @@ sub _SendNotification {
             # prepare subject (insert old subject)
             $Article{Subject} = $TicketObject->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             if ( $Notification{Body} =~ /${Start}$ArticleItem(SUBJECT)\[(.+?)\]${End}/ ) {

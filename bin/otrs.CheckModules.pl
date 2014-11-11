@@ -114,7 +114,11 @@ if ( _CheckActiveStatePerl() ) {
 my $AllModules;
 my $PackageList;
 my $Help;
-GetOptions( all => \$AllModules, list => \$PackageList, h => \$Help );
+GetOptions(
+    all  => \$AllModules,
+    list => \$PackageList,
+    h    => \$Help
+);
 
 # check needed params
 if ($Help) {
@@ -549,10 +553,19 @@ else {
     if ($AllModules) {
         print "\nBundled modules:\n\n";
 
-        my %PerlInfo = Kernel::System::Environment->PerlInfoGet( BundledModules => 1, );
+        my %PerlInfo = Kernel::System::Environment->PerlInfoGet(
+            BundledModules => 1,
+        );
 
         for my $Module ( sort keys %{ $PerlInfo{Modules} } ) {
-            _Check( { Module => $Module, Required => 1, }, $Depends, $NoColors );
+            _Check(
+                {
+                    Module   => $Module,
+                    Required => 1,
+                },
+                $Depends,
+                $NoColors
+            );
         }
     }
 }

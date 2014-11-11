@@ -225,8 +225,7 @@ sub EditFieldRender {
     );
 
     if ( $FieldConfig->{TreeView} ) {
-        my $TreeSelectionMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
+        my $TreeSelectionMessage = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
@@ -237,8 +236,7 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
-        my $FieldRequiredMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -421,12 +419,12 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Max  => $Param{ValueMaxChars} || '',
         );
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {
@@ -537,8 +535,7 @@ sub SearchFieldRender {
     );
 
     if ( $FieldConfig->{TreeView} ) {
-        my $TreeSelectionMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
+        my $TreeSelectionMessage = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
@@ -660,11 +657,10 @@ sub StatsFieldParameterBuild {
     my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     # get historical values from database
-    my $HistoricalValues
-        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text,',
-        );
+    );
 
     # add historic values to current values (if they don't exist anymore)
     for my $Key ( sort keys %{$HistoricalValues} ) {
@@ -789,11 +785,10 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues
-        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
-        );
+    );
 
     # return the historical values from database
     return $HistoricalValues;
@@ -975,12 +970,11 @@ sub ColumnFilterValuesGet {
     my $SelectionData = $FieldConfig->{PossibleValues};
 
     # get column filter values from database
-    my $ColumnFilterValues
-        = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
-        );
+    );
 
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {
@@ -995,8 +989,7 @@ sub ColumnFilterValuesGet {
         for my $ValueKey ( sort keys %{$ColumnFilterValues} ) {
 
             my $OriginalValueName = $ColumnFilterValues->{$ValueKey};
-            $ColumnFilterValues->{$ValueKey}
-                = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
+            $ColumnFilterValues->{$ValueKey} = $Param{LayoutObject}->{LanguageObject}->Translate($OriginalValueName);
         }
     }
 

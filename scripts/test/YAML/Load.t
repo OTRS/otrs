@@ -39,7 +39,7 @@ my @Tests = (
         Name   => 'YAML - simple',
     },
     {
-        Input => [ 1, 2, "3", "Foo", 5 ],
+        Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => "---\n- 1\n- 2\n- '3'\n- Foo\n- 5\n",
         Name   => 'YAML - simple',
     },
@@ -122,7 +122,7 @@ for my $Test (@Tests) {
         Name      => 'YAML - simple'
     },
     {
-        Result => [ 1, 2, "3", "Foo", 5 ],
+        Result    => [ 1, 2, "3", "Foo", 5 ],
         InputLoad => "---\n- 1\n- 2\n- '3'\n- Foo\n- 5\n",
         Name      => 'YAML - simple'
     },

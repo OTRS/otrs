@@ -27,8 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # get config options
-    $Self->{PostmasterMaxEmails}
-        = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterMaxEmails') || 40;
+    $Self->{PostmasterMaxEmails} = $Kernel::OM->Get('Kernel::Config')->Get('PostmasterMaxEmails') || 40;
 
     # create logfile name
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = localtime(time);    ## no critic

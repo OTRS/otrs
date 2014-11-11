@@ -223,7 +223,11 @@ sub Run {
         my %DeployInfo = $Self->{PackageObject}->DeployCheckInfo();
         $Self->{LayoutObject}->Block(
             Name => 'Package',
-            Data => { %Param, %Frontend, Name => $Name, Version => $Version, },
+            Data => {
+                %Param, %Frontend,
+                Name    => $Name,
+                Version => $Version,
+            },
         );
 
         my @RepositoryList = $Self->{PackageObject}->RepositoryList(
@@ -298,7 +302,10 @@ sub Run {
                 if ( $Key =~ /^(Description|Filelist)$/ ) {
                     $Self->{LayoutObject}->Block(
                         Name => "PackageItem$Key",
-                        Data => { Tag => $Key, %{ $Structure{$Key} } },
+                        Data => {
+                            Tag => $Key,
+                            %{ $Structure{$Key} }
+                        },
                     );
                 }
                 elsif ( $Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/ ) {
@@ -309,14 +316,21 @@ sub Run {
                                 if ( $Hash->{Tag} =~ /^Table/ ) {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabase",
-                                        Data => { %{$Hash}, TagName => $Key, Type => $Type },
+                                        Data => {
+                                            %{$Hash},
+                                            TagName => $Key,
+                                            Type    => $Type
+                                        },
                                     );
                                     push @DatabaseBuffer, $Hash;
                                 }
                                 else {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSub",
-                                        Data => { %{$Hash}, TagName => $Key, },
+                                        Data => {
+                                            %{$Hash},
+                                            TagName => $Key,
+                                        },
                                     );
                                     push @DatabaseBuffer, $Hash;
                                 }
@@ -331,7 +345,10 @@ sub Run {
                                 for my $SQL (@SQL) {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSQL",
-                                        Data => { TagName => $Key, SQL => $SQL, },
+                                        Data => {
+                                            TagName => $Key,
+                                            SQL     => $SQL,
+                                        },
                                     );
                                 }
                                 @DatabaseBuffer = ();
@@ -342,7 +359,10 @@ sub Run {
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'PackageItemGeneric',
-                        Data => { Tag => $Key, %{ $Structure{$Key} } },
+                        Data => {
+                            Tag => $Key,
+                            %{ $Structure{$Key} }
+                        },
                     );
                 }
             }
@@ -352,7 +372,10 @@ sub Run {
                     if ( $Key =~ /^(Description|ChangeLog)$/ ) {
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItem$Key",
-                            Data => { %{$Hash}, Tag => $Key, },
+                            Data => {
+                                %{$Hash},
+                                Tag => $Key,
+                            },
                         );
                     }
                     elsif ( $Key =~ /^Code/ ) {
@@ -363,17 +386,22 @@ sub Run {
                         );
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemCode",
-                            Data => { Tag => $Key, %{$Hash} },
+                            Data => {
+                                Tag => $Key,
+                                %{$Hash}
+                            },
                         );
                     }
                     elsif ( $Key =~ /^(Intro)/ ) {
                         if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
-                            $Hash->{Content}
-                                = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
+                            $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
                         }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemIntro",
-                            Data => { %{$Hash}, Tag => $Key, },
+                            Data => {
+                                %{$Hash},
+                                Tag => $Key,
+                            },
                         );
                     }
                     elsif ( $Hash->{Tag} =~ /^(File)$/ ) {
@@ -443,7 +471,10 @@ sub Run {
                     else {
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemGeneric",
-                            Data => { %{$Hash}, Tag => $Key, },
+                            Data => {
+                                %{$Hash},
+                                Tag => $Key,
+                            },
                         );
                     }
                 }
@@ -520,7 +551,10 @@ sub Run {
 
             $Self->{LayoutObject}->Block(
                 Name => 'PackageDownloadRemote',
-                Data => { %Param, %Frontend, File => $File, },
+                Data => {
+                    %Param, %Frontend,
+                    File => $File,
+                },
             );
         }
 
@@ -544,7 +578,10 @@ sub Run {
                 if ( $Key =~ /^(Description|Filelist)$/ ) {
                     $Self->{LayoutObject}->Block(
                         Name => "PackageItem$Key",
-                        Data => { Tag => $Key, %{ $Structure{$Key} } },
+                        Data => {
+                            Tag => $Key,
+                            %{ $Structure{$Key} }
+                        },
                     );
                 }
                 elsif ( $Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/ ) {
@@ -554,14 +591,21 @@ sub Run {
                                 if ( $Hash->{Tag} =~ /^Table/ ) {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabase",
-                                        Data => { %{$Hash}, TagName => $Key, Type => $Type },
+                                        Data => {
+                                            %{$Hash},
+                                            TagName => $Key,
+                                            Type    => $Type
+                                        },
                                     );
                                     push @DatabaseBuffer, $Hash;
                                 }
                                 else {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSub",
-                                        Data => { %{$Hash}, TagName => $Key, },
+                                        Data => {
+                                            %{$Hash},
+                                            TagName => $Key,
+                                        },
                                     );
                                     push @DatabaseBuffer, $Hash;
                                 }
@@ -576,7 +620,10 @@ sub Run {
                                 for my $SQL (@SQL) {
                                     $Self->{LayoutObject}->Block(
                                         Name => "PackageItemDatabaseSQL",
-                                        Data => { TagName => $Key, SQL => $SQL, },
+                                        Data => {
+                                            TagName => $Key,
+                                            SQL     => $SQL,
+                                        },
                                     );
                                 }
                                 @DatabaseBuffer = ();
@@ -587,7 +634,10 @@ sub Run {
                 else {
                     $Self->{LayoutObject}->Block(
                         Name => 'PackageItemGeneric',
-                        Data => { Tag => $Key, %{ $Structure{$Key} } },
+                        Data => {
+                            Tag => $Key,
+                            %{ $Structure{$Key} }
+                        },
                     );
                 }
             }
@@ -596,7 +646,10 @@ sub Run {
                     if ( $Key =~ /^(Description|ChangeLog)$/ ) {
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItem$Key",
-                            Data => { %{$Hash}, Tag => $Key, },
+                            Data => {
+                                %{$Hash},
+                                Tag => $Key,
+                            },
                         );
                     }
                     elsif ( $Key =~ /^Code/ ) {
@@ -607,17 +660,22 @@ sub Run {
                         );
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemCode",
-                            Data => { Tag => $Key, %{$Hash} },
+                            Data => {
+                                Tag => $Key,
+                                %{$Hash}
+                            },
                         );
                     }
                     elsif ( $Key =~ /^(Intro)/ ) {
                         if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
-                            $Hash->{Content}
-                                = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
+                            $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
                         }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemIntro",
-                            Data => { %{$Hash}, Tag => $Key, },
+                            Data => {
+                                %{$Hash},
+                                Tag => $Key,
+                            },
                         );
                     }
                     elsif ( $Hash->{Tag} =~ /^(File)$/ ) {
@@ -650,7 +708,10 @@ sub Run {
                     else {
                         $Self->{LayoutObject}->Block(
                             Name => 'PackageItemGeneric',
-                            Data => { %{$Hash}, Tag => $Key, },
+                            Data => {
+                                %{$Hash},
+                                Tag => $Key,
+                            },
                         );
                     }
                 }
@@ -820,12 +881,17 @@ sub Run {
         }
 
         # check if we have to show reinstall intro pre
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
+        my %Structure = $Self->{PackageObject}->PackageParse(
+            String => $Package,
+        );
 
         # intro screen
         my %Data;
         if ( $Structure{IntroReinstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroReinstall}, Type => 'pre' );
+            %Data = $Self->_MessageGet(
+                Info => $Structure{IntroReinstall},
+                Type => 'pre'
+            );
         }
         if ( %Data && !$IntroReinstallPre ) {
             $Self->{LayoutObject}->Block(
@@ -895,7 +961,9 @@ sub Run {
         }
 
         # check if we have to show reinstall intro pre
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
+        my %Structure = $Self->{PackageObject}->PackageParse(
+            String => $Package,
+        );
 
         # intro screen
         if ( !$Self->{PackageObject}->PackageReinstall( String => $Package ) ) {
@@ -903,7 +971,10 @@ sub Run {
         }
         my %Data;
         if ( $Structure{IntroReinstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroReinstall}, Type => 'post' );
+            %Data = $Self->_MessageGet(
+                Info => $Structure{IntroReinstall},
+                Type => 'post'
+            );
         }
         if ( %Data && !$IntroReinstallPost ) {
             $Self->{LayoutObject}->Block(
@@ -954,12 +1025,17 @@ sub Run {
         }
 
         # check if we have to show uninstall intro pre
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
+        my %Structure = $Self->{PackageObject}->PackageParse(
+            String => $Package,
+        );
 
         # intro screen
         my %Data;
         if ( $Structure{IntroUninstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroUninstall}, Type => 'pre' );
+            %Data = $Self->_MessageGet(
+                Info => $Structure{IntroUninstall},
+                Type => 'pre'
+            );
         }
         if ( %Data && !$IntroUninstallPre ) {
             $Self->{LayoutObject}->Block(
@@ -1028,7 +1104,9 @@ sub Run {
         }
 
         # parse package
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
+        my %Structure = $Self->{PackageObject}->PackageParse(
+            String => $Package,
+        );
 
         # unsinstall the package
         if ( !$Self->{PackageObject}->PackageUninstall( String => $Package ) ) {
@@ -1038,7 +1116,10 @@ sub Run {
         # intro screen
         my %Data;
         if ( $Structure{IntroUninstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroUninstall}, Type => 'post' );
+            %Data = $Self->_MessageGet(
+                Info => $Structure{IntroUninstall},
+                Type => 'post'
+            );
         }
         if ( %Data && !$IntroUninstallPost ) {
             my %Data = $Self->_MessageGet( Info => $Structure{IntroUninstallPost} );
@@ -1106,8 +1187,7 @@ sub Run {
             }
         }
         if ( !%Errors ) {
-            my $Feedback
-                = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
+            my $Feedback = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
 
             if ($Feedback) {
                 return $Self->_UpgradeHandling(
@@ -1142,7 +1222,9 @@ sub Run {
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
         }
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
+        my %Structure = $Self->{PackageObject}->PackageParse(
+            String => $Package,
+        );
         my $File = $Self->{PackageObject}->PackageBuild(%Structure);
         return $Self->{LayoutObject}->Attachment(
             Content     => $File,
@@ -1179,9 +1261,9 @@ sub Run {
     my $FromCloud = ( $RepositoryCloudList->{$Source} ? 1 : 0 );
 
     $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
-        Data => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
-        Name => 'Source',
-        Max  => 40,
+        Data        => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
+        Name        => 'Source',
+        Max         => 40,
         Translation => 0,
         SelectedID  => $Source,
         Class       => "W100pc",
@@ -1198,7 +1280,9 @@ sub Run {
             FromCloud => $FromCloud,
         );
         if ( !@List ) {
-            $OutputNotify .= $Self->{LayoutObject}->Notify( Priority => 'Error', );
+            $OutputNotify .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+            );
             if ( !$OutputNotify ) {
                 $OutputNotify .= $Self->{LayoutObject}->Notify(
                     Priority => 'Info',
@@ -1238,13 +1322,19 @@ sub Run {
             if ( $Data->{Upgrade} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackageUpgrade',
-                    Data => { %{$Data}, Source => $Source, },
+                    Data => {
+                        %{$Data},
+                        Source => $Source,
+                    },
                 );
             }
             elsif ( !$Data->{Installed} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackageInstall',
-                    Data => { %{$Data}, Source => $Source, },
+                    Data => {
+                        %{$Data},
+                        Source => $Source,
+                    },
                 );
             }
         }
@@ -1385,8 +1475,7 @@ sub Run {
             && $VerificationData{ $Package->{Name}->{Content} } eq 'unknown'
             )
         {
-            $UnknownVerficationPackages{ $Package->{Name}->{Content} }
-                = $Package->{Version}->{Content};
+            $UnknownVerficationPackages{ $Package->{Name}->{Content} } = $Package->{Version}->{Content};
         }
 
     }
@@ -1681,7 +1770,10 @@ sub _InstallHandling {
     # intro screen
     my %Data;
     if ( $Structure{IntroInstall} ) {
-        %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
+        %Data = $Self->_MessageGet(
+            Info => $Structure{IntroInstall},
+            Type => 'pre'
+        );
     }
 
     # get cloud repositories
@@ -1729,14 +1821,20 @@ sub _InstallHandling {
 
     # install package
     elsif (
-        $Self->{PackageObject}->PackageInstall( String => $Param{Package}, FromCloud => $FromCloud )
+        $Self->{PackageObject}->PackageInstall(
+            String    => $Param{Package},
+            FromCloud => $FromCloud
+        )
         )
     {
 
         # intro screen
         my %Data;
         if ( $Structure{IntroInstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
+            %Data = $Self->_MessageGet(
+                Info => $Structure{IntroInstall},
+                Type => 'post'
+            );
         }
         if (%Data) {
             $Self->{LayoutObject}->Block(
@@ -1789,12 +1887,17 @@ sub _UpgradeHandling {
     my $IntroUpgradePre = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' ) || '';
 
     # check if we have to show upgrade intro pre
-    my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package}, );
+    my %Structure = $Self->{PackageObject}->PackageParse(
+        String => $Param{Package},
+    );
 
     # intro screen
     my %Data;
     if ( $Structure{IntroUpgrade} ) {
-        %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'pre' );
+        %Data = $Self->_MessageGet(
+            Info => $Structure{IntroUpgrade},
+            Type => 'pre'
+        );
     }
     if ( %Data && !$IntroUpgradePre ) {
         $Self->{LayoutObject}->Block(
@@ -1826,7 +1929,10 @@ sub _UpgradeHandling {
         # intro screen
         my %Data;
         if ( $Structure{IntroUpgrade} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'post' );
+            %Data = $Self->_MessageGet(
+                Info => $Structure{IntroUpgrade},
+                Type => 'post'
+            );
         }
         if (%Data) {
             $Self->{LayoutObject}->Block(

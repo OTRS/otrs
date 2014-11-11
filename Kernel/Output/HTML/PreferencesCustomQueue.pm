@@ -51,12 +51,11 @@ sub Param {
     if ( $Param{UserData}->{UserID} ) {
         %QueueData = $QueueObject->GetAllQueues(
             UserID => $Param{UserData}->{UserID},
-            Type => $Self->{ConfigItem}->{Permission} || 'ro',
+            Type   => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
     if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' ) ) {
-        @CustomQueueIDs
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' );
+        @CustomQueueIDs = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomQueueIDs[0] ) {
         @CustomQueueIDs = $QueueObject->GetAllCustomQueues(

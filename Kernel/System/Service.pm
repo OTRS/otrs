@@ -605,7 +605,9 @@ sub ServiceAdd {
 
     # get parent name
     if ( $Param{ParentID} ) {
-        my $ParentName = $Self->ServiceLookup( ServiceID => $Param{ParentID}, );
+        my $ParentName = $Self->ServiceLookup(
+            ServiceID => $Param{ParentID},
+        );
         if ($ParentName) {
             $Param{FullName} = $ParentName . '::' . $Param{Name};
         }
@@ -711,7 +713,9 @@ sub ServiceUpdate {
     }
 
     # get old name of service
-    my $OldServiceName = $Self->ServiceLookup( ServiceID => $Param{ServiceID}, );
+    my $OldServiceName = $Self->ServiceLookup(
+        ServiceID => $Param{ServiceID},
+    );
 
     if ( !$OldServiceName ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -799,7 +803,7 @@ sub ServiceUpdate {
     for my $Child (@Childs) {
         $Child->{Name} =~ s{ \A ( \Q$OldServiceName\E ) :: }{$Param{FullName}::}xms;
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE service SET name = ? WHERE id = ?',
+            SQL  => 'UPDATE service SET name = ? WHERE id = ?',
             Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
         );
     }
@@ -1076,7 +1080,7 @@ sub CustomerUserServiceMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
+        SQL  => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID} ],
     );
 
@@ -1245,8 +1249,10 @@ sub GetAllCustomServices {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 

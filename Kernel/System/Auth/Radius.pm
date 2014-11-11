@@ -39,8 +39,7 @@ sub new {
     # get user table
     $Self->{RadiusHost} = $ConfigObject->Get( 'AuthModule::Radius::Host' . $Param{Count} )
         || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret}
-        = $ConfigObject->Get( 'AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret} = $ConfigObject->Get( 'AuthModule::Radius::Password' . $Param{Count} )
         || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
@@ -51,8 +50,10 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need What!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
@@ -67,8 +68,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need User!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 

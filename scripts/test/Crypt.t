@@ -28,7 +28,7 @@ $ConfigObject->Set(
     Value => '--batch --no-tty --yes',
 );
 $ConfigObject->Set(
-    Key => 'PGP::Key::Password',
+    Key   => 'PGP::Key::Password',
     Value => { '04A17B7A' => 'somepass' },
 );
 
@@ -37,7 +37,10 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/gpg' ) {
-        $ConfigObject->Set( Key => 'PGP::Bin', Value => '/opt/local/bin/gpg' );
+        $ConfigObject->Set(
+            Key   => 'PGP::Bin',
+            Value => '/opt/local/bin/gpg'
+        );
     }
 }
 

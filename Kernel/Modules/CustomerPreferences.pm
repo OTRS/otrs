@@ -82,13 +82,19 @@ sub Run {
         for my $ParamItem (@Params) {
             my @Array = $Self->{ParamObject}->GetArray(
                 Param => $ParamItem->{Name},
-                Raw => $ParamItem->{Raw} || 0,
+                Raw   => $ParamItem->{Raw} || 0,
             );
             $GetParam{ $ParamItem->{Name} } = \@Array;
         }
         my $Message  = '';
         my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+        if (
+            $Object->Run(
+                GetParam => \%GetParam,
+                UserData => \%UserData
+            )
+            )
+        {
             $Message = $Object->Message();
         }
         else {
@@ -195,7 +201,9 @@ sub CustomerPreferencesForm {
 
         $Self->{LayoutObject}->Block(
             Name => 'Head',
-            Data => { Header => $Column, },
+            Data => {
+                Header => $Column,
+            },
         );
 
         # sort

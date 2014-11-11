@@ -50,8 +50,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # find tickets with reached times in near future
-    my $PendingReminderStateTypes
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingReminderStateType');
+    my $PendingReminderStateTypes = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingReminderStateType');
 
     my %Map = (
         Escalation => [

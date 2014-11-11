@@ -129,8 +129,10 @@ sub Crypt {
     # check needed stuff
     for (qw(Message)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -156,12 +158,13 @@ sub Crypt {
     my ( $FHCrypted, $CryptedFile ) = $FileTempObject->TempFile();
     close $FHCrypted;
 
-    my $Options
-        = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
+    my $Options    = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't crypt: $LogMessage!"
+        );
         return;
     }
 
@@ -194,8 +197,10 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -234,8 +239,7 @@ sub Decrypt {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options
-        = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
+    my $Options = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
         . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
@@ -253,8 +257,10 @@ sub Decrypt {
     }
 
     if ($LogMessage) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't decrypt: $LogMessage!"
+        );
         return (
             Successful => 0,
             Message    => $LogMessage,
@@ -299,8 +305,10 @@ sub Sign {
     # check needed stuff
     for (qw(Message)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -321,8 +329,7 @@ sub Sign {
     my ( $Private, $Secret ) = $Self->PrivateGet(%Attributes);
 
     # get the related certificates
-    my @RelatedCertificates
-        = $Self->SignerCertRelationGet( CertFingerprint => $Attributes{Fingerprint} );
+    my @RelatedCertificates = $Self->SignerCertRelationGet( CertFingerprint => $Attributes{Fingerprint} );
 
     # get temp file object
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
@@ -362,8 +369,7 @@ sub Sign {
     print $FHSecret $Secret;
     close $FHSecret;
 
-    my $Options
-        = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
+    my $Options = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
         . " -text -binary -passin file:$SecretFile";
 
     # add the certfile parameter
@@ -421,8 +427,10 @@ sub Verify {
 
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Need Message!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need Message!"
+        );
         return;
     }
 
@@ -444,8 +452,7 @@ sub Verify {
         $CertificateOption = "-CAfile $Param{CACert}";
     }
 
-    my $Options
-        = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+    my $Options = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
         . "-CApath $Self->{CertPath} $CertificateOption $SignedFile";
 
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
@@ -606,11 +613,15 @@ sub CertificateAdd {
 
     # check needed stuff
     if ( !$Param{Certificate} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Certificate!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Certificate!'
+        );
         return;
     }
-    my %Attributes = $Self->CertificateAttributes( Certificate => $Param{Certificate}, );
+    my %Attributes = $Self->CertificateAttributes(
+        Certificate => $Param{Certificate},
+    );
     my %Result;
 
     if ( !$Attributes{Hash} ) {
@@ -674,8 +685,10 @@ sub CertificateAdd {
             return %Result;
         }
 
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Can't write $File: $!!"
+        );
         %Result = (
             Successful => 0,
             Message    => "Can't write $File: $!!",
@@ -866,8 +879,10 @@ sub CertificateAttributes {
 
     my %Attributes;
     if ( !$Param{Certificate} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Certificate!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Certificate!'
+        );
         return;
     }
 
@@ -1043,8 +1058,10 @@ sub PrivateAdd {
     # check needed stuff
     for my $Needed (qw(Private Secret)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1054,8 +1071,10 @@ sub PrivateAdd {
     # get private attributes
     my %Attributes = $Self->PrivateAttributes(%Param);
     if ( !$Attributes{Modulus} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'No Private Key!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'No Private Key!'
+        );
         %Result = (
             Successful => 0,
             Message    => 'No private key',
@@ -1121,8 +1140,10 @@ sub PrivateAdd {
             return %Result;
         }
         else {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Can't write $File: $!!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Can't write $File: $!!"
+            );
             %Result = (
                 Successful => 0,
                 Message    => "Can't write $File: $!!",
@@ -1131,8 +1152,10 @@ sub PrivateAdd {
         }
     }
 
-    $Kernel::OM->Get('Kernel::System::Log')
-        ->Log( Priority => 'error', Message => 'Can\'t add invalid private key!' );
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'error',
+        Message  => 'Can\'t add invalid private key!'
+    );
     %Result = (
         Successful => 0,
         Message    => 'Can\'t add invalid private key!',
@@ -1339,8 +1362,10 @@ sub PrivateAttributes {
 
     for my $Needed (qw(Private Secret)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1367,7 +1392,9 @@ sub PrivateAttributes {
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
 
     my %Attributes;
-    my %Option = ( Modulus => '-modulus', );
+    my %Option = (
+        Modulus => '-modulus',
+    );
     my ( $FH, $Filename ) = $FileTempObject->TempFile();
     print $FH $Param{Private};
     close $FH;
@@ -1415,8 +1442,10 @@ sub SignerCertRelationAdd {
     # check needed stuff
     for my $Needed (qw( CertFingerprint CAFingerprint UserID )) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -1491,8 +1520,10 @@ sub SignerCertRelationGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{CertFingerprint} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Needed ID or CertFingerprint!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Needed ID or CertFingerprint!'
+        );
         return;
     }
 
@@ -1610,7 +1641,7 @@ sub SignerCertRelationExists {
         my $Success = $DBObject->Prepare(
             SQL => 'SELECT id FROM smime_signer_cert_relations '
                 . 'WHERE cert_fingerprint = ? AND ca_fingerprint = ?',
-            Bind => [ \$Param{CertFingerprint}, \$Param{CAFingerprint} ],
+            Bind  => [ \$Param{CertFingerprint}, \$Param{CAFingerprint} ],
             Limit => 1,
         );
 
@@ -1683,8 +1714,10 @@ sub SignerCertRelationDelete {
 
     # check needed stuff
     if ( !$Param{CertFingerprint} && !$Param{ID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need ID or CertFingerprint!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ID or CertFingerprint!'
+        );
         return;
     }
 
@@ -1827,8 +1860,7 @@ sub _Init {
     $Self->{PrivatePath} = $ConfigObject->Get('SMIME::PrivatePath');
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $ConfigObject->Get('SMIME::CacheTTL') || 86400 );
+    $Self->{CacheTTL} = int( $ConfigObject->Get('SMIME::CacheTTL') || 86400 );
 
     if ( $^O =~ m{mswin}i ) {
 
@@ -1845,8 +1877,7 @@ sub _Init {
     $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';
 
     # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd}
-        = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+    $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
     # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
     $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
@@ -1918,7 +1949,7 @@ sub _FetchAttributesFromCert {
             if ( $Line =~ m{\A $Filters{$Filter} \z}xms ) {
                 $AttributesRef->{$Filter} = $1 || '';
 
-          # delete the match key from filter  to don't search again this value and improve the speed
+                # delete the match key from filter  to don't search again this value and improve the speed
                 delete $Filters{$Filter};
                 last FILTER;
             }
@@ -1935,8 +1966,18 @@ sub _FetchAttributesFromCert {
     }
 
     my %Month = (
-        Jan => '01', Feb => '02', Mar => '03', Apr => '04', May => '05', Jun => '06',
-        Jul => '07', Aug => '08', Sep => '09', Oct => '10', Nov => '11', Dec => '12',
+        Jan => '01',
+        Feb => '02',
+        Mar => '03',
+        Apr => '04',
+        May => '05',
+        Jun => '06',
+        Jul => '07',
+        Aug => '08',
+        Sep => '09',
+        Oct => '10',
+        Nov => '11',
+        Dec => '12',
     );
 
     for my $DateType ( 'StartDate', 'EndDate' ) {
@@ -1984,8 +2025,10 @@ sub _CertificateFilename {
     # check needed stuff
     for my $Needed (qw(Fingerprint Hash)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2017,8 +2060,10 @@ sub _PrivateFilename {
     # check needed stuff
     for my $Needed (qw(Hash Modulus)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -2358,8 +2403,7 @@ sub _ReHashCertificates {
     for my $WrongCertificate (@WrongCertificatesList) {
 
         # recreate the certificate file name
-        my $WrongCertificateFile
-            = "$Self->{CertPath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
+        my $WrongCertificateFile = "$Self->{CertPath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
 
         # check if certificate exists
         if ( !-e $WrongCertificateFile ) {
@@ -2407,8 +2451,7 @@ sub _ReHashCertificates {
         }
 
         # set wrong private key
-        my $WrongPrivateKeyFile
-            = "$Self->{PrivatePath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
+        my $WrongPrivateKeyFile = "$Self->{PrivatePath}/$WrongCertificate->{Hash}.$WrongCertificate->{Index}";
 
         # check if certificate has a private key and secret
         # if has a private key it must have a private secret

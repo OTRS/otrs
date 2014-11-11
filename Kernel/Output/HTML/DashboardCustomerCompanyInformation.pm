@@ -60,8 +60,7 @@ sub Run {
         CustomerID => $Param{CustomerID},
     );
 
-    my $CustomerCompanyConfig
-        = $Kernel::OM->Get('Kernel::Config')->Get( $CustomerCompany{Source} || '' );
+    my $CustomerCompanyConfig = $Kernel::OM->Get('Kernel::Config')->Get( $CustomerCompany{Source} || '' );
     return if ref $CustomerCompanyConfig ne 'HASH';
     return if ref $CustomerCompanyConfig->{Map} ne 'ARRAY';
 
@@ -76,8 +75,7 @@ sub Run {
             ValidID => $CustomerCompany{ValidID},
         );
 
-        $CustomerCompany{ValidID}
-            = $LayoutObject->{LanguageObject}->Translate( $CustomerCompany{ValidID} );
+        $CustomerCompany{ValidID} = $LayoutObject->{LanguageObject}->Translate( $CustomerCompany{ValidID} );
     }
 
     ENTRY:

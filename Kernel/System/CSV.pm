@@ -76,8 +76,10 @@ sub Array2CSV {
     # check required params
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Got no $_ param!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Got no $_ param!"
+            );
             return;
         }
     }
@@ -124,6 +126,7 @@ sub Array2CSV {
                     $ColumnLengths[$Col] = $CellLength;
                 }
                 if ( $Row == 0 && @Head ) {
+
                     # Format header nicely if present.
                     $Worksheet->write( $Row, $Col, "$DataRaw->[$Col]", $HeaderFormat );
                 }

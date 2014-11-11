@@ -575,17 +575,15 @@ sub GetObjectAttributes {
                 my %Filter = $TicketObject->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
 
         # get field html
-        my $DynamicFieldStatsParameter
-            = $DynamicFieldBackendObject->StatsFieldParameterBuild(
+        my $DynamicFieldStatsParameter = $DynamicFieldBackendObject->StatsFieldParameterBuild(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
-            );
+        );
 
         if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
 
@@ -600,8 +598,7 @@ sub GetObjectAttributes {
             if ( $DynamicFieldStatsParameter->{Block} eq 'Time' ) {
 
                 # create object attributes (date/time fields)
-                my $TimePeriodFormat
-                    = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
+                my $TimePeriodFormat = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
 
                 my %ObjectAttribute = (
                     Name             => $DynamicFieldStatsParameter->{Name},
@@ -698,12 +695,11 @@ sub GetStatElement {
                 next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
                     Operator           => $Operator,
-                    );
+                );
 
                 # add new search parameter
                 if ( !IsHashRefWithData( $Param{"DynamicField_$FieldName"} ) ) {
@@ -731,8 +727,7 @@ sub GetStatElement {
             }
             else {
                 $Param{$ParameterName}
-                    = $Self->{DBSlaveObject}
-                    ->QueryStringEscape( QueryString => $Param{$ParameterName} );
+                    = $Self->{DBSlaveObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
         }
     }
@@ -842,8 +837,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $QueueObject->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $QueueObject->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $QueueObject->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(

@@ -513,8 +513,7 @@ sub _ShowScreen {
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
-            $OrderNamesList{$OrderNumber}
-                = $OrderNumber . ' - '
+            $OrderNamesList{$OrderNumber} = $OrderNumber . ' - '
                 . $CurrentlyText
                 . $DynamicfieldNamesList{$OrderNumber}
         }
@@ -698,12 +697,10 @@ sub GetParamRegexList {
             next REGEXENTRY if !$GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
 
             $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID }
-                = $Self->{ParamObject}
-                ->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
+                = $Self->{ParamObject}->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
 
-            my $RegEx = $GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
-            my $CustomerRegExErrorMessage
-                = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
+            my $RegEx                     = $GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
+            my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };
 
             # is the regex valid?
             my $RegExCheck = eval {
@@ -720,22 +717,19 @@ sub GetParamRegexList {
                 # /opt/otrs/bin/cgi-bin/../../Kernel/Modules/AdminDynamicFieldText.pm line 452..
                 my $ServerErrorMessage = $@;
                 $ServerErrorMessage =~ s{ (in \s regex); .*$ }{ $1 }xms;
-                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' }
-                    = $ServerErrorMessage;
+                $Errors->{ 'RegEx_' . $CurrentRegExEntryID . 'ServerErrorMessage' } = $ServerErrorMessage;
 
                 $CurrentEntryErrors = 1;
             }
 
             # check required error message for regex
             if ( !$CustomerRegExErrorMessage ) {
-                $Errors->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerError' }
-                    = 'ServerError';
+                $Errors->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID . 'ServerError' } = 'ServerError';
                 $Errors->{
                     'CustomerRegExErrorMessage_'
                         . $CurrentRegExEntryID
                         . 'ServerErrorMessage'
-                    }
-                    = 'This field is required.';
+                } = 'This field is required.';
 
                 $CurrentEntryErrors = 1;
             }

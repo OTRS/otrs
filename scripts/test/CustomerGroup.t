@@ -163,9 +163,8 @@ for my $Test (@Tests) {
             next PERMISSION if !$Test->{Config}->{Permission}->{$Permission};
 
             # check cache internal is empty
-            my $CacheKey
-                = "GroupMemberList::" . $Permission . "::ID::UserID::$Test->{Config}->{UID}";
-            my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            my $CacheKey = "GroupMemberList::" . $Permission . "::ID::UserID::$Test->{Config}->{UID}";
+            my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
                 Type => 'CustomerGroup',
                 Key  => $CacheKey,
             );
@@ -325,7 +324,7 @@ $ResetMembership->(
 
 # set AlwaysGroups
 $ConfigObject->Set(
-    Key => 'CustomerGroupAlwaysGroups',
+    Key   => 'CustomerGroupAlwaysGroups',
     Value => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
 );
 
@@ -492,8 +491,8 @@ $ResetMembership->(
                 UserID => $UserID,
             },
         ],
-        ExpectedResult => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
-        Success        => 1,
+        ExpectedResult  => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
+        Success         => 1,
         ResetMembership => 0,
     },
     {
@@ -516,8 +515,10 @@ $ResetMembership->(
             UserID  => $UID,
             GroupID => undef,
         },
-        ExpectedResult => { $GID1 => $GroupObject->GroupLookup( GroupID => $GID1 ), },
-        Success        => 1,
+        ExpectedResult => {
+            $GID1 => $GroupObject->GroupLookup( GroupID => $GID1 ),
+        },
+        Success         => 1,
         ResetMembership => 1,
     },
     {
@@ -543,8 +544,8 @@ $ResetMembership->(
                 UserID => $UserID,
             },
         ],
-        ExpectedResult => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
-        Success        => 1,
+        ExpectedResult  => [ $GroupObject->GroupLookup( GroupID => $GID1 ) ],
+        Success         => 1,
         ResetMembership => 0,
     },
     {
@@ -567,8 +568,10 @@ $ResetMembership->(
             UserID  => undef,
             GroupID => $GID1,
         },
-        ExpectedResult => { $UID => $GroupObject->GroupLookup( GroupID => $GID1 ), },
-        Success        => 1,
+        ExpectedResult => {
+            $UID => $GroupObject->GroupLookup( GroupID => $GID1 ),
+        },
+        Success         => 1,
         ResetMembership => 1,
     },
     {
@@ -799,8 +802,7 @@ for my $Test (@Tests) {
         }
 
         # set cache key
-        my $CacheKey
-            = 'GroupMemberList::'
+        my $CacheKey = 'GroupMemberList::'
             . $Test->{Config}->{Type} . '::'
             . $Test->{Config}->{Result} . '::';
         if ( $Test->{Config}->{UserID} ) {
@@ -896,7 +898,7 @@ for my $Test (@Tests) {
     {
         Name   => 'Correct Group',
         Config => {
-            Group => $GroupObject->GroupLookup( GroupID => $GID1 ),
+            Group   => $GroupObject->GroupLookup( GroupID => $GID1 ),
             GroupID => undef,
         },
         ExpectedResult => $GID1,

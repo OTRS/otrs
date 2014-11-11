@@ -60,7 +60,7 @@ sub new {
     $Self->{Home} =~ s{\/\z}{};
 
     $Self->{RandomID} = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
-        Length => 8,
+        Length     => 8,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
 
@@ -105,8 +105,7 @@ sub Generate {
     my %SupportFiles;
 
     # get the list of installed packages
-    ( $SupportFiles{PackageListContent}, $SupportFiles{PackageListFilename} )
-        = $Self->GeneratePackageList();
+    ( $SupportFiles{PackageListContent}, $SupportFiles{PackageListFilename} ) = $Self->GeneratePackageList();
     if ( !$SupportFiles{PackageListFilename} ) {
         my $Message = 'Can not generate the list of installed packages!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -135,8 +134,7 @@ sub Generate {
     }
 
     # get the support data
-    ( $SupportFiles{SupportDataContent}, $SupportFiles{SupportDataFilename} )
-        = $Self->GenerateSupportData();
+    ( $SupportFiles{SupportDataContent}, $SupportFiles{SupportDataFilename} ) = $Self->GenerateSupportData();
     if ( !$SupportFiles{SupportDataFilename} ) {
         my $Message = 'Can not collect the support data!';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -426,8 +424,7 @@ Returns:
 sub GeneratePackageList {
     my ( $Self, %Param ) = @_;
 
-    my @PackageList
-        = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList( Result => 'Short' );
+    my @PackageList = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList( Result => 'Short' );
 
     # get csv object
     my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
@@ -572,8 +569,10 @@ sub _GetCustomFileList {
     # check needed stuff
     for my $Needed (qw(Directory)) {
         if ( !$Param{$Needed} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

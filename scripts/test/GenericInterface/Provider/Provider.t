@@ -220,8 +220,7 @@ my $ScriptAlias   = $ConfigObject->Get('ScriptAlias');
 my $ApacheBaseURL = "http://$Host/${ScriptAlias}/nph-genericinterface.pl/";
 my $PlackBaseURL;
 if ( $ConfigObject->Get('UnitTestPlackServerPort') ) {
-    $PlackBaseURL
-        = "http://localhost:"
+    $PlackBaseURL = "http://localhost:"
         . $ConfigObject->Get('UnitTestPlackServerPort')
         . '/nph-genericinterface.pl/';
 }
@@ -267,10 +266,9 @@ for my $Test (@Tests) {
                 if ( $RequestMethod eq 'post' ) {
 
                     # prepare CGI environment variables
-                    $ENV{REQUEST_URI}
-                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess";
+                    $ENV{REQUEST_URI}    = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess";
                     $ENV{REQUEST_METHOD} = 'POST';
-                    $RequestData = $CreateQueryString->(
+                    $RequestData         = $CreateQueryString->(
                         $Self,
                         Data   => $Test->{RequestData},
                         Encode => 0,
@@ -281,8 +279,7 @@ for my $Test (@Tests) {
                 else {    # GET
 
                     # prepare CGI environment variables
-                    $ENV{REQUEST_URI}
-                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?"
+                    $ENV{REQUEST_URI} = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?"
                         . $CreateQueryString->(
                         $Self,
                         Data   => $Test->{RequestData},
@@ -334,9 +331,9 @@ for my $Test (@Tests) {
             }
             else {
 
-               # If an early error occurred, GI cannot generate a valid HTTP error response yet,
-               #   because the transport object was not yet initialized. In these cases, apache will
-               #   generate this response, but here we do not use apache.
+                # If an early error occurred, GI cannot generate a valid HTTP error response yet,
+                #   because the transport object was not yet initialized. In these cases, apache will
+                #   generate this response, but here we do not use apache.
                 if ( !$Test->{EarlyError} ) {
                     $Self->True(
                         index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,
@@ -379,8 +376,7 @@ for my $Test (@Tests) {
                     $Response = LWP::UserAgent->new()->$RequestMethod($URL);
                 }
                 else {    # POST
-                    $Response
-                        = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
+                    $Response = LWP::UserAgent->new()->$RequestMethod( $URL, Content => $QueryString );
                 }
                 chomp( $ResponseData = $Response->decoded_content() );
 

@@ -199,7 +199,10 @@ sub ValueIsDifferent {
     }
 
     # compare the results
-    return DataIsDifferent( Data1 => \$Param{Value1}, Data2 => \$Param{Value2} );
+    return DataIsDifferent(
+        Data1 => \$Param{Value1},
+        Data2 => \$Param{Value2}
+    );
 }
 
 sub ValueValidate {
@@ -321,8 +324,7 @@ sub EditFieldRender {
     );
 
     if ( $FieldConfig->{TreeView} ) {
-        my $TreeSelectionMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
+        my $TreeSelectionMessage = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
         $HTMLString
             .= ' <a href="#" title="'
             . $TreeSelectionMessage
@@ -333,8 +335,7 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
-        my $FieldRequiredMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -602,8 +603,7 @@ sub DisplayValueRender {
     }
 
     # get specific field settings
-    my $FieldConfig
-        = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{Multiselect} || {};
+    my $FieldConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver')->{Multiselect} || {};
 
     # set new line separator
     my $ItemSeparator = $FieldConfig->{ItemSeparator} || ', ';
@@ -700,11 +700,10 @@ sub StatsFieldParameterBuild {
     my $Values = $Param{DynamicFieldConfig}->{Config}->{PossibleValues};
 
     # get historical values from database
-    my $HistoricalValues
-        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text,',
-        );
+    );
 
     # add historic values to current values (if they don't exist anymore)
     for my $Key ( sort keys %{$HistoricalValues} ) {
@@ -832,11 +831,10 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues
-        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
-        );
+    );
 
     # return the historical values from database
     return $HistoricalValues;

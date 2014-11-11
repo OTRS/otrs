@@ -60,8 +60,8 @@ my $Params = {
     AllArticles   => 1,                       # optional, if set to 1,
                                               # all ticket articles are included in response
                                               # more options to be found in
-         # /Kernel/GenericInterface/Operation/Ticket/TicketGet.pm's
-         # Run() subroutine documentation.
+                                              # /Kernel/GenericInterface/Operation/Ticket/TicketGet.pm's
+                                              # Run() subroutine documentation.
 };
 
 my @RequestParam;

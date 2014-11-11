@@ -55,13 +55,11 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get the debug parameters
-    $Self->{TransitionDebug}
-        = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
+    $Self->{TransitionDebug} = $ConfigObject->Get('ProcessManagement::Transition::Debug::Enabled') || 0;
     $Self->{TransitionDebugLogPriority}
         = $ConfigObject->Get('ProcessManagement::Transition::Debug::LogPriority') || 'debug';
 
-    my $TransitionDebugConfigFilters
-        = $ConfigObject->Get('ProcessManagement::Transition::Debug::Filter') || {};
+    my $TransitionDebugConfigFilters = $ConfigObject->Get('ProcessManagement::Transition::Debug::Filter') || {};
 
     for my $FilterName ( sort keys %{$TransitionDebugConfigFilters} ) {
 

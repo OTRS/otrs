@@ -13,10 +13,9 @@ use utf8;
 
 use vars (qw($Self));
 
-my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $WebserviceHistoryObject
-    = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+my $HelperObject            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $WebserviceObject        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
 
 my $RandomID = $HelperObject->GetRandomID();
 
@@ -208,7 +207,7 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config => { 1 => 1 },
+            Config  => { 1 => 1 },
             ValidID => 1,
             UserID  => 1,
         },

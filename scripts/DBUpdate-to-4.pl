@@ -341,8 +341,7 @@ sub _MigrateFontAwesome {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $ModuleAttributes{$ToolbarModule} } ) {
-            $Setting->{$ToolbarModule}->{$Attribute}
-                = $ModuleAttributes{$ToolbarModule}->{$Attribute};
+            $Setting->{$ToolbarModule}->{$Attribute} = $ModuleAttributes{$ToolbarModule}->{$Attribute};
         }
 
         # set new setting,
@@ -394,8 +393,7 @@ sub _MigrateFontAwesome {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $CustomerUserAttributes{$CustomerUserModule} } ) {
-            $Setting->{$CustomerUserModule}->{$Attribute}
-                = $CustomerUserAttributes{$CustomerUserModule}->{$Attribute};
+            $Setting->{$CustomerUserModule}->{$Attribute} = $CustomerUserAttributes{$CustomerUserModule}->{$Attribute};
         }
 
         # set new setting,
@@ -418,15 +416,12 @@ Migrate process management EntityIDs from consecutive to GUID style.
 =cut
 
 sub _MigrateProcessManagementEntityIDs {
-    my $ProcessObject  = Kernel::System::ProcessManagement::DB::Process->new();
-    my $EntityObject   = Kernel::System::ProcessManagement::DB::Entity->new();
-    my $ActivityObject = Kernel::System::ProcessManagement::DB::Activity->new();
-    my $ActivityDialogObject
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
-    my $TransitionObject
-        = Kernel::System::ProcessManagement::DB::Transition->new();
-    my $TransitionActionObject
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new();
+    my $ProcessObject          = Kernel::System::ProcessManagement::DB::Process->new();
+    my $EntityObject           = Kernel::System::ProcessManagement::DB::Entity->new();
+    my $ActivityObject         = Kernel::System::ProcessManagement::DB::Activity->new();
+    my $ActivityDialogObject   = Kernel::System::ProcessManagement::DB::ActivityDialog->new();
+    my $TransitionObject       = Kernel::System::ProcessManagement::DB::Transition->new();
+    my $TransitionActionObject = Kernel::System::ProcessManagement::DB::TransitionAction->new();
 
     # get current process management data from the DB
     my %ProcessManagementList;
@@ -513,9 +508,8 @@ sub _MigrateProcessManagementEntityIDs {
         for my $Attribute (qw(Activity ActivityDialog)) {
             next ATTRIBUTE if !$Process->{Config}->{"Start$Attribute"};
 
-            my $AttributeEntityID = $Process->{Config}->{"Start$Attribute"};
-            my $NewAttributeEntityID
-                = $EntityLookup{$Attribute}->{$AttributeEntityID};
+            my $AttributeEntityID    = $Process->{Config}->{"Start$Attribute"};
+            my $NewAttributeEntityID = $EntityLookup{$Attribute}->{$AttributeEntityID};
             if ( !$NewAttributeEntityID ) {
                 die "Error: No new EntityID was created for $Attribute: $AttributeEntityID";
             }
@@ -544,8 +538,7 @@ sub _MigrateProcessManagementEntityIDs {
                     for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
                         # set new transition action EntityID from process path activity transition
-                        my $NewTransitionActionEntityID
-                            = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
+                        my $NewTransitionActionEntityID = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
                         if ( !$NewTransitionActionEntityID ) {
                             die
                                 "Error: No new EntityID was created for TransitionAction: $TransitionActionEntityID";
@@ -554,8 +547,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
 
                     # set new activity EntityID stored in the transition
-                    my $NewDestinationActivityEntityID
-                        = $EntityLookup{Activity}->{ $Transition->{ActivityEntityID} };
+                    my $NewDestinationActivityEntityID = $EntityLookup{Activity}->{ $Transition->{ActivityEntityID} };
                     if ( !$NewDestinationActivityEntityID ) {
                         die
                             "Error: No new EntityID was created for Activity: $Transition->{ActivityEntityID}";
@@ -570,8 +562,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
 
                     # set new transition to its entity hash key
-                    $NewPath{$NewActivityEntityID}->{$NewTransitionEntityID}
-                        = $NewTransition;
+                    $NewPath{$NewActivityEntityID}->{$NewTransitionEntityID} = $NewTransition;
                 }
             }
         }
@@ -621,14 +612,12 @@ sub _MigrateProcessManagementEntityIDs {
             my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
 
             # set new activity dialog EntityID
-            my $NewActivityDialogEntityID
-                = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
+            my $NewActivityDialogEntityID = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
             if ( !$NewActivityDialogEntityID ) {
                 die
                     "Error: No new EntityID was created for ActivityDialog: $ActivityDialogEntityID";
             }
-            $Activity->{Config}->{ActivityDialog}->{$OrderKey}
-                = $NewActivityDialogEntityID;
+            $Activity->{Config}->{ActivityDialog}->{$OrderKey} = $NewActivityDialogEntityID;
         }
 
         # update dynamic fields
@@ -803,8 +792,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
                     push @NewActivityDialogs, $NewEntityID;
                 }
-                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID}
-                    = \@NewActivityDialogs;
+                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID} = \@NewActivityDialogs;
             }
         }
 
@@ -930,8 +918,7 @@ sub _MigrateProcessManagementEntityIDs {
 
     if ($DeployProcesses) {
 
-        my $Location
-            = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
         my $ProcessDump = ${ProcessObject}->ProcessDump(
@@ -967,8 +954,7 @@ sub _MigrateProcessManagementEntityIDs {
 
     # deploy ACLs
     if ($DeployACLs) {
-        my $Location
-            = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
         my $ACLDump = $ACLObject->ACLDump(
             ResultType => 'FILE',
@@ -1083,8 +1069,8 @@ Migrate process management Dynamic Fields to use their own driver.
 
 sub _MigrateProcessManagementDynamicFieldTypes {
 
-    my $ProcessManagementProcessID = $Kernel::OM->Get('Kernel::Config')
-        ->Get('Process::DynamicFieldProcessManagementProcessID') || '';
+    my $ProcessManagementProcessID
+        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementProcessID') || '';
 
     if ( !$ProcessManagementProcessID ) {
         print "\tProcess Management dynamic field for Process ID configuration is invalid!\n";
@@ -1092,8 +1078,8 @@ sub _MigrateProcessManagementDynamicFieldTypes {
         return;
     }
 
-    my $ProcessManagementActivityID = $Kernel::OM->Get('Kernel::Config')
-        ->Get('Process::DynamicFieldProcessManagementActivityID') || '';
+    my $ProcessManagementActivityID
+        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID') || '';
 
     if ( !$ProcessManagementActivityID ) {
         print "\tProcess Management dynamic field for Activity ID configuration is invalid!\n";
@@ -1285,8 +1271,7 @@ sub _MigrateDBACLs {
 
         # convert old hash into an array using only the keys set to 0, and skip those that are set
         # to 1, set them as PossibleNot and delete the Possible->Action section form the ACL.
-        my @NewAction
-            = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
+        my @NewAction = grep { $ACL->{ConfigChange}->{Possible}->{Action}->{$_} == 0 }
             sort keys %{ $ACL->{ConfigChange}->{Possible}->{Action} };
 
         delete $ACL->{ConfigChange}->{Possible}->{Action};
@@ -1313,8 +1298,7 @@ sub _MigrateDBACLs {
                 . " possible, please check all ACLs and deploy them manually!\n";
         }
         else {
-            my $Location
-                = $Kernel::OM->Get('Kernel::Config')->Get('Home')
+            my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
                 . '/Kernel/Config/Files/ZZZACL.pm';
 
             my $ACLDump = $ACLObject->ACLDump(
@@ -1480,7 +1464,11 @@ sub _MigrateDTLInSysConfig {
         )
         )
     {
-        push @SettingsToTT, { Key => 'Ticket::Frontend::' . $Item, SubKey => 'Subject' };
+        push @SettingsToTT,
+            {
+            Key    => 'Ticket::Frontend::' . $Item,
+            SubKey => 'Subject'
+            };
     }
 
     # include menu settings
@@ -1491,13 +1479,21 @@ sub _MigrateDTLInSysConfig {
         if ( IsHashRefWithData($SysConfigEntry) ) {
 
             for my $Item ( sort keys %{$SysConfigEntry} ) {
-                push @SettingsToTT, { Key => $SettingName, SubKey => $Item };
+                push @SettingsToTT,
+                    {
+                    Key    => $SettingName,
+                    SubKey => $Item
+                    };
             }
         }
     }
 
     # add no hash setting
-    push @SettingsToTT, { Key => 'Ticket::Frontend::ResponseFormat', SubKey => '' };
+    push @SettingsToTT,
+        {
+        Key    => 'Ticket::Frontend::ResponseFormat',
+        SubKey => ''
+        };
 
     SETTING:
     for my $Values (@SettingsToTT) {

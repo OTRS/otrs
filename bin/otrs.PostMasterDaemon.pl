@@ -78,7 +78,7 @@ sub MakeNewChild {
             $MaxConnectsCount++;
             print $Client "* --OK-- ($PID/$$)\n";
             my @Input;
-            my $Data  = 0;
+            my $Data = 0;
             while ( my $Line = <$Client> ) {
                 if ( $Line =~ /^\* --END EMAIL--$/ ) {
                     $Data = 0;

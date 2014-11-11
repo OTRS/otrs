@@ -40,10 +40,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my %GetParam = ();
-    my @Params
-        = (
+    my @Params   = (
         qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy)
-        );
+    );
     for my $Parameter (@Params) {
         $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
     }
@@ -373,11 +372,11 @@ sub _MaskUpdateMailAccount {
     );
 
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
-        Name => 'QueueID',
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
+        Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
@@ -440,11 +439,11 @@ sub _MaskAddMailAccount {
     );
 
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
-        Name => 'QueueID',
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
+        Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
-        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
     $Self->{LayoutObject}->Block(
         Name => 'Overview',

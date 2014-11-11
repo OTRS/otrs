@@ -332,9 +332,7 @@ for my $Test (@SoapTests) {
     if ($SOAPResult) {
         push @CallData, $SOAPResult;
     }
-    my $Content = SOAP::Serializer
-        ->autotype(0)
-        ->envelope(@CallData);
+    my $Content = SOAP::Serializer->autotype(0)->envelope(@CallData);
     my $SerializedFault = $@ || '';
     $Self->Is(
         $SerializedFault,

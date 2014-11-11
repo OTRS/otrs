@@ -16,10 +16,9 @@ use vars (qw($Self));
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $ValidationObject
-    = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo');
+my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
+my $HelperObject     = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ValidationObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo');
 
 # sanity check
 $Self->Is(

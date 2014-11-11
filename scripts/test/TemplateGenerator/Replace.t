@@ -142,7 +142,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
 );
 $Self->IsNot(
     $ArticleID,
@@ -254,7 +254,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'OTRS dynamic field value (text)',    # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (text)',                # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -263,7 +263,7 @@ my @Tests = (
         Result   => 'Test otrs',
     },
     {
-        Name => 'OTRS dynamic field (Dropdown)',      # <OTRS_TICKET_DynamicField_*>
+        Name => 'OTRS dynamic field (Dropdown)',                  # <OTRS_TICKET_DynamicField_*>
         Data => {
             From => 'test@home.com',
         },
@@ -272,7 +272,7 @@ my @Tests = (
         Result   => 'Test 1',
     },
     {
-        Name => 'OTRS dynamic field value (Dropdown)',    # <OTRS_TICKET_DynamicField_*_Value>
+        Name => 'OTRS dynamic field value (Dropdown)',            # <OTRS_TICKET_DynamicField_*_Value>
         Data => {
             From => 'test@home.com',
         },
@@ -281,7 +281,7 @@ my @Tests = (
         Result   => 'Test A',
     },
     {
-        Name => 'OTRS config value',                      # <OTRS_CONFIG_*>
+        Name => 'OTRS config value',                              # <OTRS_CONFIG_*>
         Data => {
             From => 'test@home.com',
         },

@@ -60,10 +60,9 @@ sub LoadPreferences {
     $Self->{'DB::Encode'} = 0;
 
     # shell setting
-    $Self->{'DB::Comment'}     = '-- ';
-    $Self->{'DB::ShellCommit'} = ';';
-    $Self->{'DB::ShellConnect'}
-        = "SET DEFINE OFF;\nSET SQLBLANKLINES ON";    # must be on separate lines!
+    $Self->{'DB::Comment'}      = '-- ';
+    $Self->{'DB::ShellCommit'}  = ';';
+    $Self->{'DB::ShellConnect'} = "SET DEFINE OFF;\nSET SQLBLANKLINES ON";    # must be on separate lines!
 
     # init sql setting on db connect
     $Self->{'DB::Connect'} = "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'";
@@ -99,8 +98,10 @@ sub DatabaseCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -113,8 +114,10 @@ sub DatabaseDrop {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need Name!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -592,8 +595,10 @@ sub IndexCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -626,8 +631,10 @@ sub IndexDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -652,8 +659,10 @@ sub ForeignKeyCreate {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -682,8 +691,10 @@ sub ForeignKeyDrop {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -711,8 +722,10 @@ sub UniqueCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -749,8 +762,10 @@ sub UniqueDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

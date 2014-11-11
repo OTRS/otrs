@@ -257,8 +257,7 @@ sub EditFieldRender {
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'UsedError';
 
-        my $FieldRequiredMessage
-            = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -593,8 +592,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDateTime';
 
     # set as checked if necessary
-    my $FieldChecked
-        = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
 
     my $HTMLString = <<"EOF";
     <input type="hidden" id="$FieldName" name="$FieldName" value="1"/>
@@ -635,7 +633,7 @@ EOF
                 month  => 'month(s)',
                 year   => 'year(s)',
             },
-            Name => $FieldName . 'Format',
+            Name       => $FieldName . 'Format',
             SelectedID => $Value->{Format}->{ $FieldName . 'Format' } || 'day',
         );
 
@@ -747,8 +745,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type }
-                    = $Param{Profile}->{ $Prefix . $Type };
+                $DynamicFieldValues{ $Prefix . $Type } = $Param{Profile}->{ $Prefix . $Type };
             }
             else {
                 return;
@@ -803,8 +800,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                    = $Param{Profile}->{ $Prefix . $Type . $Part };
+                $DynamicFieldValues{ $Prefix . $Type . $Part } = $Param{Profile}->{ $Prefix . $Type . $Part };
             }
             else {
                 return;
@@ -1027,16 +1023,14 @@ sub SearchFieldParameterBuild {
             };
         }
 
-        my $ValueStart
-            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+        my $ValueStart = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
             . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartSecond' };
 
-        my $ValueStop
-            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+        my $ValueStop = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
             . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'
@@ -1170,11 +1164,10 @@ sub HistoricalValuesGet {
     my ( $Self, %Param ) = @_;
 
     # get historical values from database
-    my $HistoricalValues
-        = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
+    my $HistoricalValues = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->HistoricalValueGet(
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'DateTime',
-        );
+    );
 
     # return the historical values from database
     return $HistoricalValues;

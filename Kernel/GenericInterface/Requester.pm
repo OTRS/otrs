@@ -102,10 +102,9 @@ sub Run {
 
     my $WebserviceID = $Param{WebserviceID};
 
-    my $Webservice
-        = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+    my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
         ID => $WebserviceID,
-        );
+    );
 
     if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(

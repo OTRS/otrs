@@ -46,8 +46,10 @@ sub FormIDRemove {
 
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -67,8 +69,10 @@ sub FormIDAddFile {
 
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -120,8 +124,10 @@ sub FormIDRemoveFile {
 
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -148,8 +154,10 @@ sub FormIDGetAllFilesData {
     my @Data;
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -163,7 +171,7 @@ sub FormIDGetAllFilesData {
             FROM web_upload_cache
             WHERE form_id = ?
             ORDER BY create_time_unix',
-        Bind => [ \$Param{FormID} ],
+        Bind   => [ \$Param{FormID} ],
         Encode => [ 1, 1, 1, 0, 1, 1 ],
     );
 
@@ -213,8 +221,10 @@ sub FormIDGetAllFilesMeta {
     my @Data;
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

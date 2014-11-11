@@ -126,12 +126,12 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Max  => $Param{ValueMaxChars} || '',
         );
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {
@@ -163,16 +163,14 @@ sub ColumnFilterValuesGet {
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
 
     # set PossibleValues
-    my $SelectionData
-        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityList();
+    my $SelectionData = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityList();
 
     # get column filter values from database
-    my $ColumnFilterValues
-        = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
+    my $ColumnFilterValues = $Kernel::OM->Get('Kernel::System::Ticket::ColumnFilter')->DynamicFieldFilterValuesGet(
         TicketIDs => $Param{TicketIDs},
         FieldID   => $Param{DynamicFieldConfig}->{ID},
         ValueType => 'Text',
-        );
+    );
 
     # get the display value if still exist in dynamic field configuration
     for my $Key ( sort keys %{$ColumnFilterValues} ) {

@@ -574,17 +574,15 @@ sub GetObjectAttributes {
                 my %Filter = $TicketObject->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $PossibleValues->{$_} } keys %Filter;
+                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
         }
 
         # get field html
-        my $DynamicFieldStatsParameter
-            = $DynamicFieldBackendObject->StatsFieldParameterBuild(
+        my $DynamicFieldStatsParameter = $DynamicFieldBackendObject->StatsFieldParameterBuild(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
-            );
+        );
 
         if ( IsHashRefWithData($DynamicFieldStatsParameter) ) {
 
@@ -598,8 +596,7 @@ sub GetObjectAttributes {
             if ( $DynamicFieldStatsParameter->{Block} eq 'Time' ) {
 
                 # create object attributes (date/time fields)
-                my $TimePeriodFormat
-                    = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
+                my $TimePeriodFormat = $DynamicFieldStatsParameter->{TimePeriodFormat} || 'DateInputFormatLong';
 
                 my %ObjectAttribute = (
                     Name             => $DynamicFieldStatsParameter->{Name},
@@ -826,8 +823,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $QueueObject->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $QueueObject->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $QueueObject->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -996,12 +992,11 @@ sub _ReportingValues {
                 next DYNAMICFIELD if !$IsStatsCondition;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $DynamicFieldBackendObject->StatsSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
                     Operator           => $Operator,
-                    );
+                );
 
                 # add new search parameter
                 if ( !IsHashRefWithData( $TicketSearch{"DynamicField_$FieldName"} ) ) {
@@ -1175,8 +1170,7 @@ sub _ReportingValues {
     # min max for solution working time
     if ( $SelectedKindsOfReporting{SolutionMinWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMinWorkingTime}
-                = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
+            $Reporting{SolutionMinWorkingTime} = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMinWorkingTime} = 0;
@@ -1184,8 +1178,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{SolutionMaxWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMaxWorkingTime}
-                = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
+            $Reporting{SolutionMaxWorkingTime} = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMaxWorkingTime} = 0;
@@ -1213,8 +1206,7 @@ sub _ReportingValues {
     # min max for response working time
     if ( $SelectedKindsOfReporting{ResponseMinWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMinWorkingTime}
-                = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
+            $Reporting{ResponseMinWorkingTime} = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMinWorkingTime} = 0;
@@ -1222,8 +1214,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{ResponseMaxWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMaxWorkingTime}
-                = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
+            $Reporting{ResponseMaxWorkingTime} = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMaxWorkingTime} = 0;

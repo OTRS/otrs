@@ -182,15 +182,13 @@ EOF
         if ( $Opts{f} ) {
 
             # bulk-insert the flags directly for improved performance
-            my $SQL
-                = 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by) VALUES ';
+            my $SQL = 'INSERT INTO ticket_flag (ticket_id, ticket_key, ticket_value, create_time, create_by) VALUES ';
             my @Values;
             for my $UserID (@UserIDs) {
                 push @Values, "($TicketID, 'Seen', 1, current_timestamp, $UserID)";
             }
             while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
-                $Kernel::OM->Get('Kernel::System::DB')
-                    ->Do( SQL => $SQL . join( ',', @ValuesPart ) );
+                $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL . join( ',', @ValuesPart ) );
             }
         }
 
@@ -212,7 +210,7 @@ EOF
                     HistoryType    => 'AddNote',
                     HistoryComment => 'Some free text!',
                     UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
-                    NoAgentNotify => 1,    # if you don't want to send agent notifications
+                    NoAgentNotify  => 1,                                 # if you don't want to send agent notifications
                 );
 
                 if ( $Opts{f} ) {
@@ -225,8 +223,7 @@ EOF
                         push @Values, "($ArticleID, 'Seen', 1, current_timestamp, $UserID)";
                     }
                     while ( my @ValuesPart = splice( @Values, 0, 50 ) ) {
-                        $Kernel::OM->Get('Kernel::System::DB')
-                            ->Do( SQL => $SQL . join( ',', @ValuesPart ) );
+                        $Kernel::OM->Get('Kernel::System::DB')->Do( SQL => $SQL . join( ',', @ValuesPart ) );
                     }
                 }
 
@@ -237,12 +234,11 @@ EOF
                     next DYNAMICFIELD if $DynamicFieldConfig->{InternalField};
 
                     # set a random value
-                    my $Result
-                        = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
+                    my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                         DynamicFieldConfig => $DynamicFieldConfig,
                         ObjectID           => $ArticleID,
                         UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
-                        );
+                    );
 
                     if ( $Result->{Success} ) {
                         print "NOTICE: Article with ID '$ArticleID' set dynamic field "
@@ -260,12 +256,11 @@ EOF
                 next DYNAMICFIELD if $DynamicFieldConfig->{InternalField};
 
                 # set a random value
-                my $Result
-                    = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
+                my $Result = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->RandomValueSet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     ObjectID           => $TicketID,
                     UserID             => $UserIDs[ int( rand($#UserIDs) ) ],
-                    );
+                );
 
                 if ( $Result->{Success} ) {
                     print "NOTICE: Ticket with ID '$TicketID' set dynamic field "
@@ -310,7 +305,7 @@ EOF
             # add email
             my @Files = glob $Kernel::OM->Get('Kernel::Config')->Get('Home')
                 . '/scripts/test/sample/PostMaster/PostMaster-Test*.box';
-            my $File    = $Files[ int( rand( $#Files + 1 ) ) ];
+            my $File = $Files[ int( rand( $#Files + 1 ) ) ];
             my @Content;
             my $Input;
             open( $Input, '<', $File ) || die $!;    ## no critic
@@ -347,7 +342,7 @@ EOF
                 HistoryType    => 'AddNote',
                 HistoryComment => 'Some free text!',
                 UserID         => $UserIDs[ int( rand($#UserIDs) ) ],
-                NoAgentNotify => 1,    # if you don't want to send agent notifications
+                NoAgentNotify  => 1,                                    # if you don't want to send agent notifications
             );
             print "NOTICE: Article added to Ticket '$TicketID/$ArticleID'.\n";
 
@@ -362,9 +357,9 @@ EOF
                 }
             }
             $Kernel::OM->Get('Kernel::System::Ticket')->StateSet(
-                StateID  => $StateID,
-                TicketID => $TicketID,
-                SendNoNotification => 1,    # optional 1|0 (send no agent and customer notification)
+                StateID            => $StateID,
+                TicketID           => $TicketID,
+                SendNoNotification => 1,           # optional 1|0 (send no agent and customer notification)
                 UserID => $UserIDs[ int( rand($#UserIDs) ) ],
             );
             print "NOTICE: State updated of Ticket '$TicketID/$States{$StateID}'.\n";
@@ -507,7 +502,7 @@ sub RandomBody {
 
 sub QueueGet {
     my @QueueIDs;
-    my %Queues   = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues();
+    my %Queues = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues();
     for ( sort keys %Queues ) {
         push @QueueIDs, $_;
     }
@@ -591,7 +586,7 @@ sub GroupCreate {
 
 sub UserGet {
     my @UserIDs;
-    my %Users   = $Kernel::OM->Get('Kernel::System::User')->UserList(
+    my %Users = $Kernel::OM->Get('Kernel::System::User')->UserList(
         Type  => 'Short',    # Short|Long
         Valid => 1,          # not required
     );

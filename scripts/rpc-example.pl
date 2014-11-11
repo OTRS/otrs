@@ -26,7 +26,10 @@ use SOAP::Lite;
 
 my $User = 'some_user';
 my $Pw   = 'some_pass';
-my $RPC = new SOAP::Lite( proxy => 'http://127.0.0.1/otrs/rpc.pl', uri => 'http://localhost/Core' );
+my $RPC  = new SOAP::Lite(
+    proxy => 'http://127.0.0.1/otrs/rpc.pl',
+    uri   => 'http://localhost/Core'
+);
 
 # create a new ticket number
 print "NOTICE: TicketObject->TicketCreateNumber()\n";

@@ -95,8 +95,7 @@ sub Run {
 
     # Get mapping of history types to readable strings
     my %HistoryTypes;
-    my %HistoryTypeConfig
-        = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryTypes') // {} };
+    my %HistoryTypeConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryTypes') // {} };
     for my $Entry ( sort keys %HistoryTypeConfig ) {
         %HistoryTypes = (
             %HistoryTypes,

@@ -1011,7 +1011,7 @@ for my $Query (@Queries) {
 # select's
 for my $Query (@Queries) {
     my $Condition = $DBObject->QueryCondition(
-        Key => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
+        Key          => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
         Value        => $Query->{Query},
         SearchPrefix => '*',
         SearchSuffix => '*',

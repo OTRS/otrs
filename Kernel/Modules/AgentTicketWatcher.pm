@@ -37,7 +37,9 @@ sub Run {
     # check if feature is active
     # ------------------------------------------------------------ #
     if ( !$Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        return $Self->{LayoutObject}->ErrorScreen( Message => 'Feature is not active', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'Feature is not active',
+        );
     }
 
     # ------------------------------------------------------------ #

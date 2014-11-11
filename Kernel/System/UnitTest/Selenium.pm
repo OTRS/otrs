@@ -70,8 +70,7 @@ sub new {
 
     $Param{UnitTestObject}->True( 1, "Starting up Selenium scenario..." );
 
-    my %SeleniumTestsConfig
-        = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
+    my %SeleniumTestsConfig = %{ $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {} };
 
     if ( !%SeleniumTestsConfig ) {
         my $Self = bless {}, $Class;
@@ -110,8 +109,7 @@ sub new {
         $Self->{BaseURL} = '127.0.0.1';
     }
 
-    $Self->{BaseURL}
-        = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://' . $Self->{BaseURL};
+    $Self->{BaseURL} = $Kernel::OM->Get('Kernel::Config')->Get('HttpType') . '://' . $Self->{BaseURL};
 
     return $Self;
 }

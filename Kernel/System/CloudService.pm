@@ -518,8 +518,7 @@ sub OperationResultGet {
     }
 
     # if not found return an error
-    my $Message
-        = "No Results from CloudService:'$Param{CloudService}' Operation:'$Param{Operation}'";
+    my $Message = "No Results from CloudService:'$Param{CloudService}' Operation:'$Param{Operation}'";
     if ( $Param{InstanceName} ) {
         $Message .= " InstanceName:'$Param{InstanceName}'!";
     }

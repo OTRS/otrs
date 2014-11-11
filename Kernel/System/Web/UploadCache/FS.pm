@@ -48,8 +48,10 @@ sub FormIDRemove {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need FormID!'
+        );
         return;
     }
 
@@ -63,7 +65,9 @@ sub FormIDRemove {
 
     my @Data;
     for my $File (@List) {
-        $MainObject->FileDelete( Location => $File, );
+        $MainObject->FileDelete(
+            Location => $File,
+        );
     }
 
     return 1;
@@ -74,8 +78,10 @@ sub FormIDAddFile {
 
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -131,8 +137,10 @@ sub FormIDRemoveFile {
 
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $_!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -168,8 +176,10 @@ sub FormIDGetAllFilesData {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need FormID!'
+        );
         return;
     }
 
@@ -214,19 +224,19 @@ sub FormIDGetAllFilesData {
         }
         my $Content = $MainObject->FileRead(
             Location => $File,
-            Mode     => 'binmode',    # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next FILE if !$Content;
 
         my $ContentType = $MainObject->FileRead(
             Location => "$File.ContentType",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next FILE if !$ContentType;
 
         my $ContentID = $MainObject->FileRead(
             Location => "$File.ContentID",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next FILE if !$ContentID;
 
@@ -237,7 +247,7 @@ sub FormIDGetAllFilesData {
 
         my $Disposition = $MainObject->FileRead(
             Location => "$File.Disposition",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
 
         # strip filename
@@ -263,8 +273,10 @@ sub FormIDGetAllFilesMeta {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{FormID} ) {
-        $Kernel::OM->Get('Kernel::System::Log')
-            ->Log( Priority => 'error', Message => 'Need FormID!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need FormID!'
+        );
         return;
     }
 
@@ -310,13 +322,13 @@ sub FormIDGetAllFilesMeta {
 
         my $ContentType = $MainObject->FileRead(
             Location => "$File.ContentType",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next FILE if !$ContentType;
 
         my $ContentID = $MainObject->FileRead(
             Location => "$File.ContentID",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
         next FILE if !$ContentID;
 
@@ -327,7 +339,7 @@ sub FormIDGetAllFilesMeta {
 
         my $Disposition = $MainObject->FileRead(
             Location => "$File.Disposition",
-            Mode     => 'binmode',             # optional - binmode|utf8
+            Mode     => 'binmode',                                             # optional - binmode|utf8
         );
 
         # strip filename

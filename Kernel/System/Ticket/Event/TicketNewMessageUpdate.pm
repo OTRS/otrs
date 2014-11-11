@@ -34,8 +34,10 @@ sub Run {
     # check needed stuff
     for my $Parameter (qw(Data Event Config)) {
         if ( !$Param{$Parameter} ) {
-            $Kernel::OM->Get('Kernel::System::Log')
-                ->Log( Priority => 'error', Message => "Need $Parameter!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Parameter!"
+            );
             return;
         }
     }
@@ -62,11 +64,12 @@ sub Run {
         );
 
         my %Article = $TicketObject->ArticleGet(
-            ArticleID => $Param{Data}->{ArticleID},
+            ArticleID     => $Param{Data}->{ArticleID},
             DynamicFields => 0,
         );
 
-        if (%Article && $Article{SenderType} eq 'agent') {
+        if ( %Article && $Article{SenderType} eq 'agent' ) {
+
             # set the seen flag to 1 for the agent who created the article
             $TicketObject->ArticleFlagSet(
                 ArticleID => $Param{Data}->{ArticleID},
