@@ -139,7 +139,10 @@ sub Run {
     # check common objects
     $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
     if ( !$Self->{DBObject} || $Self->{ParamObject}->Error() ) {
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            Lang => $Param{Lang},
+        );
         if ( !$Self->{DBObject} ) {
             $LayoutObject->FatalError(
                 Comment => 'Please contact your administrator',
@@ -169,7 +172,10 @@ sub Run {
         else {
 
             # print error
-            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                Lang => $Param{Lang},
+            );
             $LayoutObject->FatalError( Comment => 'Please contact your administrator' );
             return;
         }
@@ -188,17 +194,26 @@ sub Run {
     if ( $Param{Action} eq 'Login' ) {
 
         # new layout object
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            Lang => $Param{Lang},
+        );
 
         # get params
         my $PostUser = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
-        my $PostPw = $Self->{ParamObject}->GetParam( Param => 'Password', Raw => 1 ) || '';
+        my $PostPw = $Self->{ParamObject}->GetParam(
+            Param => 'Password',
+            Raw   => 1
+        ) || '';
 
         # create AuthObject
         my $AuthObject = Kernel::System::Auth->new( %{$Self} );
 
         # check submitted data
-        my $User = $AuthObject->Auth( User => $PostUser, Pw => $PostPw );
+        my $User = $AuthObject->Auth(
+            User => $PostUser,
+            Pw   => $PostPw
+        );
 
         # login is invalid
         if ( !$User ) {
@@ -231,7 +246,10 @@ sub Run {
         }
 
         # login is successful
-        my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1
+        );
 
         # check needed data
         if ( !$UserData{UserID} || !$UserData{UserLogin} ) {
@@ -369,7 +387,10 @@ sub Run {
         if ( !$Self->{SessionObject}->CheckSessionID( SessionID => $Param{SessionID} ) ) {
 
             # new layout object
-            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                Lang => $Param{Lang},
+            );
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('LoginURL') ) {
@@ -445,7 +466,10 @@ sub Run {
     elsif ( $Param{Action} eq 'LostPassword' ) {
 
         # new layout object
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            Lang => $Param{Lang},
+        );
 
         # check feature
         if ( !$Self->{ConfigObject}->Get('LostPassword') ) {
@@ -483,7 +507,10 @@ sub Run {
         }
 
         # get user data
-        my %UserData = $Self->{UserObject}->GetUserData( User => $User, Valid => 1 );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            User  => $User,
+            Valid => 1
+        );
         if ( !$UserData{UserID} ) {
 
             # Security: pretend that password reset instructions were actually sent to
@@ -562,7 +589,10 @@ sub Run {
         $UserData{NewPW} = $Self->{UserObject}->GenerateRandomPassword();
 
         # update new password
-        $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
+        $Self->{UserObject}->SetPassword(
+            UserLogin => $User,
+            PW        => $UserData{NewPW}
+        );
 
         # send notify email
         my $Body = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
@@ -602,7 +632,10 @@ sub Run {
     elsif ( !$Param{SessionID} ) {
 
         # new layout object
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+        my $LayoutObject = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            Lang => $Param{Lang},
+        );
 
         # create AuthObject
         my $AuthObject = Kernel::System::Auth->new( %{$Self} );
@@ -696,7 +729,10 @@ sub Run {
         if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'User' ) {
 
             # new layout object
-            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                Lang => $Param{Lang},
+            );
 
             # redirect to alternate login
             if ( $Self->{ConfigObject}->Get('LoginURL') ) {
@@ -722,7 +758,10 @@ sub Run {
         if ( !$ModuleReg ) {
 
             # new layout object
-            my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self}, Lang => $Param{Lang}, );
+            my $LayoutObject = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                Lang => $Param{Lang},
+            );
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -895,7 +934,9 @@ sub Run {
     }
 
     # print an error screen
-    my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+    my %Data = $Self->{SessionObject}->GetSessionIDData(
+        SessionID => $Param{SessionID},
+    );
     my $LayoutObject = Kernel::Output::HTML::Layout->new(
         %{$Self},
         %Param,

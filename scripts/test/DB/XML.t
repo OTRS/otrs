@@ -1038,7 +1038,7 @@ for my $UTF8Test (@UTF8Tests) {
     my %TestData = %{$UTF8Test};
 
     my $Result = $DBObject->Do(
-        SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
+        SQL  => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
         Bind => [ \$Counter, \$TestData{InsertData} ],
     );
     $Self->True(

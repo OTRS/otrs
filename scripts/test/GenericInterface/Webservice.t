@@ -214,7 +214,7 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config => { 1 => 1 },
+            Config  => { 1 => 1 },
             ValidID => 1,
             UserID  => 1,
         },

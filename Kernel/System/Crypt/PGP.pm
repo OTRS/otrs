@@ -72,7 +72,10 @@ sub Crypt {
     # check needed stuff
     for my $ParamName (qw( Message Key )) {
         if ( !$Param{$ParamName} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $ParamName!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $ParamName!"
+            );
             return;
         }
     }
@@ -90,8 +93,7 @@ sub Crypt {
 
     my ( $FHCrypt, $FilenameCrypt ) = $Self->{FileTempObject}->TempFile();
     close $FHCrypt;
-    my $GPGOptions
-        = "--always-trust --yes --encrypt --armor -o $FilenameCrypt -r $Param{Key} $Filename";
+    my $GPGOptions = "--always-trust --yes --encrypt --armor -o $FilenameCrypt -r $Param{Key} $Filename";
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
     # get crypted content
@@ -122,7 +124,10 @@ sub Decrypt {
     # check needed stuff
     for (qw(Message)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -172,14 +177,16 @@ sub Sign {
     # check needed stuff
     for (qw(Message Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     my %PasswordHash = %{ $Self->{ConfigObject}->Get('PGP::Key::Password') };
-    my $Pw = $PasswordHash{ $Param{Key} } || '';
-    my $SigType
-        = $Param{Type} && $Param{Type} eq 'Detached'
+    my $Pw           = $PasswordHash{ $Param{Key} } || '';
+    my $SigType      = $Param{Type} && $Param{Type} eq 'Detached'
         ? '--detach-sign --armor'
         : '--clearsign';
 
@@ -197,8 +204,7 @@ sub Sign {
     my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
     print $FHPhrase $Pw;
     close $FHPhrase;
-    my $GPGOptions
-        = qq{--passphrase-fd 0 --default-key $Param{Key} -o $FileSign $SigType $Filename};
+    my $GPGOptions = qq{--passphrase-fd 0 --default-key $Param{Key} -o $FileSign $SigType $Filename};
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
 
     # error
@@ -213,7 +219,7 @@ sub Sign {
     # get signed content
     my $SignedDataRef = $Self->{MainObject}->FileRead(
         Location => $FileSign,
-        Mode => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
+        Mode     => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
     );
     return $$SignedDataRef;
 }
@@ -252,7 +258,10 @@ sub Verify {
 
     # check needed stuff
     if ( !$Param{Message} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Message!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Message!'
+        );
         return;
     }
 
@@ -760,9 +769,8 @@ sub SecretKeyDelete {
         );
         return;
     }
-    my $GPGOptions
-        = '--status-fd 1 --delete-secret-key ' . quotemeta( $Keys[0]->{FingerprintShort} );
-    my $Message = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+    my $GPGOptions = '--status-fd 1 --delete-secret-key ' . quotemeta( $Keys[0]->{FingerprintShort} );
+    my $Message    = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
     my %LogMessage = $Self->_HandleLog( LogString => $Message );
 
@@ -850,7 +858,10 @@ sub _DecryptPart {
     # check needed stuff
     for (qw(Key Password Filename)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -860,8 +871,7 @@ sub _DecryptPart {
     my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
     print $FHPhrase $Param{Password};
     close $FHPhrase;
-    my $GPGOptions
-        = qq{--batch --passphrase-fd 0 --yes --decrypt -o $FileDecrypt $Param{Filename}};
+    my $GPGOptions = qq{--batch --passphrase-fd 0 --yes --decrypt -o $FileDecrypt $Param{Filename}};
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
     if ( $LogMessage =~ /failed/i ) {
         $Self->{LogObject}->Log(
@@ -900,7 +910,10 @@ sub _HandleLog {
     # check needed stuff
     for (qw(LogString)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -986,9 +999,9 @@ sub _ParseGPGKeyList {
             }
 
             $Key{Bit}              = $Fields[2];
-            $Key{Key}              = substr( $Fields[4], -8, 8 );  # only use last 8 chars of key-ID
-                                                                   # in order to be compatible with
-                                                                   # previous parser
+            $Key{Key}              = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
+                                                                     # in order to be compatible with
+                                                                     # previous parser
             $Key{Created}          = $Fields[5];
             $Key{Expires}          = $Fields[6] || 'never';
             $Key{Identifier}       = $Fields[9];
@@ -1036,19 +1049,17 @@ sub _ParseGPGKeyList {
 
         # convert system time to timestamp
         if ( $Key{Created} !~ /-/ ) {
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-                = $Self->{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Key{Created},
-                );
+            );
             $Key{Created} = "$Year-$Month-$Day";
         }
 
         # expires
         if ( $Key{Expires} =~ /^\d*$/ ) {
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-                = $Self->{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Key{Expires},
-                );
+            );
             $Key{Expires} = "$Year-$Month-$Day";
         }
     }
@@ -1062,7 +1073,10 @@ sub _CryptedWithKey {
 
     # check needed stuff
     if ( !$Param{File} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need File!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need File!"
+        );
         return;
     }
 
@@ -1074,8 +1088,7 @@ sub _CryptedWithKey {
     my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
     print $FHPhrase '_no_this_is_not_the_@correct@_passphrase_';
     close $FHPhrase;
-    my $GPGOptions
-        = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt $Param{File}};
+    my $GPGOptions     = qq{--batch --passphrase-fd 0 --always-trust --yes --decrypt $Param{File}};
     my @GPGOutputLines = qx{$Self->{GPGBin} $GPGOptions <$FilePhrase 2>&1};
 
     my @Keys;

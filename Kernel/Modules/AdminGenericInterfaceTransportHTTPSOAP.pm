@@ -242,8 +242,7 @@ sub Run {
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+            $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
         }
 
@@ -266,8 +265,7 @@ sub _ShowEdit {
     # configuration
     $Param{Type}           = 'HTTP::SOAP';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
-    my $TransportConfig
-        = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
+    my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
     # extract display parameters from transport config
     $Param{Endpoint}            = $TransportConfig->{Endpoint};
@@ -337,8 +335,8 @@ sub _ShowEdit {
 
         # create SOAPActionSeparator select
         $Param{SOAPActionSeparatorStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ '#', '/' ],
-            Name => 'SOAPActionSeparator',
+            Data          => [ '#', '/' ],
+            Name          => 'SOAPActionSeparator',
             SelectedValue => $SelectedSeparator,
             Sort          => 'AlphaNumericValue',
         );

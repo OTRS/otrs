@@ -46,7 +46,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID, );
+        my %Data = $Self->{StandardResponseObject}->StandardResponseGet(
+            ID => $ID,
+        );
 
         my @SelectedAttachment;
         my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
@@ -198,10 +200,9 @@ sub Run {
         if ( !%Errors ) {
 
             # add response
-            my $StandardResponseID
-                = $Self->{StandardResponseObject}->StandardResponseAdd(
+            my $StandardResponseID = $Self->{StandardResponseObject}->StandardResponseAdd(
                 %GetParam, UserID => $Self->{UserID}
-                );
+            );
             if ($StandardResponseID) {
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
@@ -373,7 +374,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID, );
+            my %Data = $Self->{StandardResponseObject}->StandardResponseGet(
+                ID => $ID,
+            );
             my @SelectedAttachment;
             my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
                 ID => $ID,

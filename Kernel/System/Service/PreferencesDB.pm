@@ -56,7 +56,10 @@ sub ServicePreferencesSet {
     # check needed stuff
     for (qw(ServiceID Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -90,7 +93,10 @@ sub ServicePreferencesGet {
     # check needed stuff
     for (qw(ServiceID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

@@ -294,7 +294,7 @@ sub FileRead {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -409,7 +409,7 @@ sub FileWrite {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -521,7 +521,7 @@ sub FileDelete {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -584,7 +584,7 @@ sub FileGetMTime {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -733,7 +733,10 @@ sub Dump {
 
     # check needed data
     if ( !defined $Data ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need \$String in Dump()!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need \$String in Dump()!"
+        );
         return;
     }
 
@@ -742,7 +745,10 @@ sub Dump {
         $Type = 'binary';
     }
     if ( $Type ne 'ascii' && $Type ne 'binary' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid Type '$Type'!"
+        );
         return;
     }
 

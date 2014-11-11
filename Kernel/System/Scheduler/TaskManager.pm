@@ -112,7 +112,10 @@ sub TaskAdd {
     # check needed stuff
     for my $Key (qw(Type Data)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -199,7 +202,10 @@ sub TaskGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -254,7 +260,10 @@ sub TaskDelete {
     # check needed stuff
     for my $Key (qw(ID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

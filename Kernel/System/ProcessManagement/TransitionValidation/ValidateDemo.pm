@@ -92,14 +92,20 @@ sub Validate {
 
     for my $Needed (qw(Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
 
     # Check if we have Data to check against transitions conditions
     if ( !IsHashRefWithData( $Param{Data} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Data has no values!", );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Data has no values!",
+        );
         return;
     }
 

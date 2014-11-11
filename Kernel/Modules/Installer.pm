@@ -189,8 +189,10 @@ sub Run {
 
         # build the select field for the InstallerDBStart.dtl
         $Param{SelectDBType} = $Self->{LayoutObject}->BuildSelection(
-            Data => { MySQL => 'MySQL', },
-            Name => 'DBType',
+            Data => {
+                MySQL => 'MySQL',
+            },
+            Name       => 'DBType',
             SelectedID => 'MySQL',
         );
 
@@ -294,7 +296,9 @@ sub Run {
 
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Creating database '$DB{Database}'", },
+                Data => {
+                    Item => "Creating database '$DB{Database}'",
+                },
             );
             if ( !$DBH->do($DBCreate) ) {
                 $Self->{LayoutObject}->Block(
@@ -303,7 +307,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -330,7 +336,9 @@ sub Run {
             $DBH->do("use $DB{Database}");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Creating tables 'otrs-schema.mysql.sql'", },
+                Data => {
+                    Item => "Creating tables 'otrs-schema.mysql.sql'",
+                },
             );
             for (@SQL) {
                 if ( !$DBH->do($_) ) {
@@ -340,7 +348,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultItemMessage',
-                        Data => { Message => $DBI::errstr, },
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultBack',
@@ -380,7 +390,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultItemMessage',
-                        Data => { Message => $DBI::errstr, },
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultBack',
@@ -407,7 +419,9 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data =>
-                    { Item => "Foreign Keys 'otrs-schema-post.mysql.sql'", },
+                    {
+                    Item => "Foreign Keys 'otrs-schema-post.mysql.sql'",
+                    },
             );
             for (@SQL) {
                 if ( !$DBH->do($_) ) {
@@ -417,7 +431,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultItemMessage',
-                        Data => { Message => $DBI::errstr, },
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultBack',
@@ -457,7 +473,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -480,7 +498,9 @@ sub Run {
             # Reload the grant tables of your mysql-daemon
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => 'Reloading grant tables', },
+                Data => {
+                    Item => 'Reloading grant tables',
+                },
             );
             if ( !$DBH->do('FLUSH PRIVILEGES') ) {
                 $Self->{LayoutObject}->Block(
@@ -489,7 +509,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -577,7 +599,9 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Drop database '$DB{Database}'", },
+                Data => {
+                    Item => "Drop database '$DB{Database}'",
+                },
             );
             if ( !$DBH->do("DROP DATABASE $DB{Database}") ) {
                 $Self->{LayoutObject}->Block(
@@ -586,7 +610,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -826,7 +852,9 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'CountryStr',
-            Data => { CountryStr => $CountryStr, },
+            Data => {
+                CountryStr => $CountryStr,
+            },
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -918,8 +946,7 @@ MAILTEXT
 
                 $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
                 my $SendObject = Kernel::System::Email->new( %{$Self} );
-                my $From
-                    = "$RegistrationInfo{Firstname} $RegistrationInfo{Lastname} <$RegistrationInfo{Email}>";
+                my $From       = "$RegistrationInfo{Firstname} $RegistrationInfo{Lastname} <$RegistrationInfo{Email}>";
                 my $RegistrationDone = $SendObject->Send(
                     From     => $From,
                     To       => 'register@otrs.com',
@@ -1175,7 +1202,10 @@ sub CheckMailConfiguration {
 
     # if config option smtp and no smtp host given, return with error
     if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
-        return ( Successful => 0, Message => 'No SMTP Host given!' );
+        return (
+            Successful => 0,
+            Message    => 'No SMTP Host given!'
+        );
     }
 
     # check outbound mail configuration
@@ -1245,7 +1275,10 @@ sub CheckMailConfiguration {
 
     for (qw(InboundUser InboundPassword InboundHost)) {
         if ( !$Self->{ParamObject}->GetParam( Param => $_ ) ) {
-            return ( Successful => 0, Message => "Missing parameter: $_!" );
+            return (
+                Successful => 0,
+                Message    => "Missing parameter: $_!"
+            );
         }
     }
 

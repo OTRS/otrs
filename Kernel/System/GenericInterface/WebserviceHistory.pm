@@ -114,7 +114,10 @@ sub WebserviceHistoryAdd {
     # check needed stuff
     for my $Key (qw(WebserviceID Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -174,7 +177,10 @@ sub WebserviceHistoryGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -221,7 +227,10 @@ sub WebserviceHistoryUpdate {
     # check needed stuff
     for my $Key (qw(ID WebserviceID Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -263,7 +272,10 @@ sub WebserviceHistoryDelete {
     # check needed stuff
     for my $Key (qw(WebserviceID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -294,7 +306,10 @@ sub WebserviceHistoryList {
     # check needed stuff
     for my $Key (qw(WebserviceID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

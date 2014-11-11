@@ -117,7 +117,10 @@ sub ValidList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }
@@ -141,7 +144,10 @@ sub ValidLookup {
 
     # check needed stuff
     if ( !$Param{Valid} && !$Param{ValidID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Valid or ValidID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Valid or ValidID!'
+        );
         return;
     }
 

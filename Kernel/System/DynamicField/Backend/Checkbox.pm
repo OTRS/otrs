@@ -54,8 +54,7 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -561,8 +560,7 @@ sub SearchFieldParameterBuild {
             for my $Item ( @{$Value} ) {
 
                 # set the display value
-                my $DisplayItem
-                    = $Item eq 1
+                my $DisplayItem = $Item eq 1
                     ? 'Checked'
                     : $Item eq -1 ? 'Unchecked'
                     :               '';
@@ -587,8 +585,7 @@ sub SearchFieldParameterBuild {
         else {
 
             # set the display value
-            $DisplayValue
-                = $Value eq 1
+            $DisplayValue = $Value eq 1
                 ? 'Checked'
                 : $Value eq -1 ? 'Unchecked'
                 :                '';

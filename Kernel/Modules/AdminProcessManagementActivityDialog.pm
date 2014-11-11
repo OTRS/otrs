@@ -40,16 +40,13 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{ProcessObject}      = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ProcessObject}
-        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{ActivityObject}
-        = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+    $Self->{JSONObject}           = Kernel::System::JSON->new( %{$Self} );
+    $Self->{DynamicFieldObject}   = Kernel::System::DynamicField->new( %{$Self} );
+    $Self->{ProcessObject}        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}         = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ProcessObject}        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
     # create available Fields list
     $Self->{AvailableFields} = {
@@ -177,8 +174,7 @@ sub Run {
                 next FIELDDETAIL if !$FieldDetail;
                 next FIELDDETAIL if !$ActivityDialogData->{Config}->{Fields}->{$FieldDetail};
 
-                $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
-                    = $GetParam->{FieldDetails}->{$FieldDetail};
+                $ActivityDialogData->{Config}->{Fields}->{$FieldDetail} = $GetParam->{FieldDetails}->{$FieldDetail};
             }
         }
 
@@ -188,8 +184,7 @@ sub Run {
             CustomerInterface => ['CustomerInterface'],
             BothInterfaces    => [ 'AgentInterface', 'CustomerInterface' ],
         );
-        $ActivityDialogData->{Config}->{Interface}
-            = $Interfaces{ $ActivityDialogData->{Config}->{Interface} };
+        $ActivityDialogData->{Config}->{Interface} = $Interfaces{ $ActivityDialogData->{Config}->{Interface} };
 
         if ( !$ActivityDialogData->{Config}->{Interface} ) {
             $ActivityDialogData->{Config}->{Interface} = $Interfaces{Agent};
@@ -431,16 +426,14 @@ sub Run {
                 next FIELDDETAIL if !$FieldDetail;
                 next FIELDDETAIL if !$ActivityDialogData->{Config}->{Fields}->{$FieldDetail};
 
-                $ActivityDialogData->{Config}->{Fields}->{$FieldDetail}
-                    = $GetParam->{FieldDetails}->{$FieldDetail};
+                $ActivityDialogData->{Config}->{Fields}->{$FieldDetail} = $GetParam->{FieldDetails}->{$FieldDetail};
             }
         }
 
         # set default values for fields in case they don't have details
         for my $FieldName ( sort keys %{ $ActivityDialogData->{Config}->{Fields} } ) {
             if ( !IsHashRefWithData( $ActivityDialogData->{Config}->{Fields}->{$FieldName} ) ) {
-                $ActivityDialogData->{Config}->{Fields}->{$FieldName}->{DescriptionShort}
-                    = $FieldName;
+                $ActivityDialogData->{Config}->{Fields}->{$FieldName}->{DescriptionShort} = $FieldName;
             }
         }
 
@@ -450,8 +443,7 @@ sub Run {
             CustomerInterface => ['CustomerInterface'],
             BothInterfaces    => [ 'AgentInterface', 'CustomerInterface' ],
         );
-        $ActivityDialogData->{Config}->{Interface}
-            = $Interfaces{ $ActivityDialogData->{Config}->{Interface} };
+        $ActivityDialogData->{Config}->{Interface} = $Interfaces{ $ActivityDialogData->{Config}->{Interface} };
 
         if ( !$ActivityDialogData->{Config}->{Interface} ) {
             $ActivityDialogData->{Config}->{Interface} = $Interfaces{Agent};
@@ -630,8 +622,7 @@ sub _GetActivityDialogConfig {
 
     my %ActivityDialogConfig;
     $ActivityDialogConfig{ActivityDialog} = ();
-    $ActivityDialogConfig{ActivityDialog}->{ $Param{EntityID} }
-        = $ProcessDump->{ActivityDialog}->{ $Param{EntityID} };
+    $ActivityDialogConfig{ActivityDialog}->{ $Param{EntityID} } = $ProcessDump->{ActivityDialog}->{ $Param{EntityID} };
 
     return \%ActivityDialogConfig;
 }
@@ -757,8 +748,7 @@ sub _ShowEdit {
             $ActivityDialogData->{Config}->{Interface} = 'BothInterfaces';
         }
         elsif ( $InterfaceLength == 1 ) {
-            $ActivityDialogData->{Config}->{Interface}
-                = $ActivityDialogData->{Config}->{Interface}->[0];
+            $ActivityDialogData->{Config}->{Interface} = $ActivityDialogData->{Config}->{Interface}->[0];
         }
         else {
             $ActivityDialogData->{Config}->{Interface} = 'AgentInterface';

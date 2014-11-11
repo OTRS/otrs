@@ -606,8 +606,7 @@ sub _ShowScreen {
 
                 # if the original value was empty it has been changed in _GetParams to a predefined
                 # string and need to be set to the original value again
-                $KeyClone
-                    = $Param{'PossibleValueErrors'}->{'KeyDuplicateError'}->{$Key};
+                $KeyClone = $Param{'PossibleValueErrors'}->{'KeyDuplicateError'}->{$Key};
 
                 # set the error class
                 $KeyError     = 'ServerError';

@@ -125,8 +125,7 @@ sub Run {
 
     # note:
     # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
-    my $CustomerIDEscaped
-        = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
+    my $CustomerIDEscaped = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
 
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};

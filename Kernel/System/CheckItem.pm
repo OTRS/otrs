@@ -118,7 +118,10 @@ sub CheckEmail {
 
     # check needed stuff
     if ( !$Param{Address} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Address!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Address!'
+        );
         return;
     }
 

@@ -40,12 +40,11 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}       = Kernel::System::JSON->new( %{$Self} );
-    $Self->{ProcessObject}    = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}     = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
+    $Self->{JSONObject}             = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ProcessObject}          = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}           = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     return $Self;
 }
@@ -65,8 +64,7 @@ sub Run {
     );
 
     # get available transitions
-    $Self->{TransitionList}
-        = $Self->{TransitionObject}->TransitionListGet( UserID => $Self->{UserID} );
+    $Self->{TransitionList} = $Self->{TransitionObject}->TransitionListGet( UserID => $Self->{UserID} );
 
     # get available transition actions
     $Self->{TransitionActionList}
@@ -136,8 +134,7 @@ sub Run {
 
         # insert the "new" transition entry into path hash
         $ProcessData->{ $TransferData->{ProcessEntityID} }->{Path}
-            ->{ $DataToMerge->{StartActivityEntityID} }->{ $DataToMerge->{NewTransitionEntityID} }
-            = {
+            ->{ $DataToMerge->{StartActivityEntityID} }->{ $DataToMerge->{NewTransitionEntityID} } = {
             TransitionAction => $DataToMerge->{NewTransitionActions},
             ActivityEntityID => $DataToMerge->{NewTransitionActivityID},
             };
@@ -155,13 +152,10 @@ sub Run {
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # when redirecting to the transition dialog, we need the new TransitionID
             # because the ID was possibly changed in this dialog
@@ -294,8 +288,7 @@ sub _ShowEdit {
         next TRANSITIONACTION if !$TransitionActionConfig;
         next TRANSITIONACTION if !$TransitionActionConfig->{EntityID};
 
-        $AvailableTransitionActionsLookup{ $TransitionActionConfig->{EntityID} }
-            = $TransitionActionConfig;
+        $AvailableTransitionActionsLookup{ $TransitionActionConfig->{EntityID} } = $TransitionActionConfig;
     }
 
     # collect possible transitions and build selection

@@ -59,9 +59,8 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CommonObject} = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{SessionCommonObject}
-        = Kernel::GenericInterface::Operation::Session::Common->new( %{$Self} );
+    $Self->{CommonObject}        = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
+    $Self->{SessionCommonObject} = Kernel::GenericInterface::Operation::Session::Common->new( %{$Self} );
 
     return $Self;
 }

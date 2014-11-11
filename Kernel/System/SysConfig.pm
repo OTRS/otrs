@@ -146,7 +146,10 @@ sub WriteDefault {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -222,7 +225,10 @@ sub Download {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -285,7 +291,10 @@ sub Upload {
     # check needed stuff
     for (qw(Content)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -328,7 +337,10 @@ sub CreateConfig {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -365,7 +377,10 @@ sub CreateConfig {
                     elsif (
                         ( defined $A1 && !defined $A2 )
                         || ( !defined $A1 && defined $A2 )
-                        || $Self->_DataDiff( Data1 => \$A1, Data2 => \$A2 )
+                        || $Self->_DataDiff(
+                            Data1 => \$A1,
+                            Data2 => \$A2
+                        )
                         || ( $Config{Valid} && !$ConfigDefault{Valid} )
                         )
                     {
@@ -436,7 +451,10 @@ sub ConfigItemUpdate {
     # check needed stuff
     for (qw(Valid Key Value)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -569,7 +587,10 @@ sub ConfigItemGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -604,9 +625,11 @@ sub ConfigItemGet {
     if ( $ConfigItem->{Setting}->[1]->{String} ) {
 
         # fill default
-        $ConfigItem->{Setting}->[1]->{String}->[1]->{Default}
-            = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
-        my $String = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        $ConfigItem->{Setting}->[1]->{String}->[1]->{Default} = $ConfigItem->{Setting}->[1]->{String}->[1]->{Content};
+        my $String = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($String) ) {
             $ConfigItem->{Setting}->[1]->{String}->[1]->{Content} = $String;
         }
@@ -616,7 +639,10 @@ sub ConfigItemGet {
         # fill default
         $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Default}
             = $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content};
-        my $TextArea = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $TextArea = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($TextArea) ) {
             $ConfigItem->{Setting}->[1]->{TextArea}->[1]->{Content} = $TextArea;
         }
@@ -626,13 +652,19 @@ sub ConfigItemGet {
         # fill default
         $ConfigItem->{Setting}->[1]->{Option}->[1]->{Default}
             = $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID};
-        my $Option = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $Option = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($Option) ) {
             $ConfigItem->{Setting}->[1]->{Option}->[1]->{SelectedID} = $Option;
         }
     }
     if ( $ConfigItem->{Setting}->[1]->{Hash} ) {
-        my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $HashRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($HashRef) ) {
             my @Array;
             if ( ref $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} eq 'ARRAY' ) {
@@ -645,7 +677,12 @@ sub ConfigItemGet {
             }
             for my $Key ( sort keys %Hash ) {
                 if ( ref $Hash{$Key} eq 'ARRAY' ) {
-                    my @Array = ( undef, { Content => '', } );
+                    my @Array = (
+                        undef,
+                        {
+                            Content => '',
+                        }
+                    );
                     @{ $Array[1]{Item} } = (undef);
                     for my $Content ( @{ $Hash{$Key} } ) {
                         push( @{ $Array[1]{Item} }, { Content => $Content } );
@@ -660,12 +697,20 @@ sub ConfigItemGet {
                     );
                 }
                 elsif ( ref $Hash{$Key} eq 'HASH' ) {
-                    my @Array = ( undef, { Content => '', } );
+                    my @Array = (
+                        undef,
+                        {
+                            Content => '',
+                        }
+                    );
                     @{ $Array[1]{Item} } = (undef);
                     for my $Key2 ( sort keys %{ $Hash{$Key} } ) {
                         push(
                             @{ $Array[1]{Item} },
-                            { Content => $Hash{$Key}{$Key2}, Key => $Key2 }
+                            {
+                                Content => $Hash{$Key}{$Key2},
+                                Key     => $Key2
+                            }
                         );
                     }
                     push(
@@ -712,7 +757,10 @@ sub ConfigItemGet {
         }
     }
     if ( $ConfigItem->{Setting}->[1]->{Array} ) {
-        my $ArrayRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $ArrayRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($ArrayRef) ) {
             @{ $ConfigItem->{Setting}->[1]->{Array}->[1]->{Item} } = (undef);
             my @Array;
@@ -722,13 +770,18 @@ sub ConfigItemGet {
             for my $Key (@Array) {
                 push(
                     @{ $ConfigItem->{Setting}->[1]->{Array}->[1]->{Item} },
-                    { Content => $Key, },
+                    {
+                        Content => $Key,
+                    },
                 );
             }
         }
     }
     if ( $ConfigItem->{Setting}->[1]->{FrontendModuleReg} ) {
-        my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $HashRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($HashRef) ) {
             @{ $ConfigItem->{Setting}->[1]->{FrontendModuleReg} } = (undef);
             my %Hash;
@@ -830,7 +883,10 @@ sub ConfigItemGet {
         }
     }
     if ( $ConfigItem->{Setting}->[1]->{TimeWorkingHours} ) {
-        my $DaysRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $DaysRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($DaysRef) ) {
             @{ $ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} } = (undef);
             my %Days;
@@ -840,7 +896,12 @@ sub ConfigItemGet {
             for my $Day ( sort keys %Days ) {
                 my @Array = (undef);
                 for my $Hour ( @{ $Days{$Day} } ) {
-                    push( @Array, { Content => $Hour, } );
+                    push(
+                        @Array,
+                        {
+                            Content => $Hour,
+                        }
+                    );
                 }
                 push(
                     @{ $ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} },
@@ -853,7 +914,10 @@ sub ConfigItemGet {
         }
     }
     if ( $ConfigItem->{Setting}->[1]->{TimeVacationDays} ) {
-        my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $HashRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($HashRef) ) {
             @{ $ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item} } = (undef);
             my %Hash;
@@ -879,7 +943,10 @@ sub ConfigItemGet {
         }
     }
     if ( $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime} ) {
-        my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $HashRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($HashRef) ) {
             @{ $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item} } = (undef);
             my %Hash;
@@ -912,7 +979,10 @@ sub ConfigItemGet {
     if ( $ConfigItem->{Setting}->[1]->{DateTime} ) {
 
         # get data into a perl Hash
-        my $HashRef = $Self->_ModGet( ConfigName => $ConfigItem->{Name}, Level => $Level );
+        my $HashRef = $Self->_ModGet(
+            ConfigName => $ConfigItem->{Name},
+            Level      => $Level
+        );
         if ( !$Param{Default} && defined($HashRef) ) {
 
             # set perl hash into the correct XML structure for a DateTime setting
@@ -929,8 +999,7 @@ sub ConfigItemGet {
             #    },
             # ],
             for my $Part (qw(Year Month Day Hour Minute)) {
-                $ConfigItem->{Setting}->[1]->{DateTime}->[1]->{$Part}->[1]->{Content}
-                    = $HashRef->{$Part};
+                $ConfigItem->{Setting}->[1]->{DateTime}->[1]->{$Part}->[1]->{Content} = $HashRef->{$Part};
             }
         }
     }
@@ -954,7 +1023,10 @@ sub ConfigItemGet {
         elsif (
             ( defined $A1 && !defined $A2 )
             || ( !defined $A1 && defined $A2 )
-            || $Self->_DataDiff( Data1 => \$A1, Data2 => \$A2 )
+            || $Self->_DataDiff(
+                Data1 => \$A1,
+                Data2 => \$A2
+            )
             )
         {
             $ConfigItem->{Diff} = 1;
@@ -1015,7 +1087,10 @@ sub ConfigItemReset {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1027,7 +1102,11 @@ sub ConfigItemReset {
     my ($B);
     eval "\$B = $A";
 
-    $Self->ConfigItemUpdate( Key => $Param{Name}, Value => $B, Valid => $ConfigItemDefault{Valid} );
+    $Self->ConfigItemUpdate(
+        Key   => $Param{Name},
+        Value => $B,
+        Valid => $ConfigItemDefault{Valid}
+    );
     return 1;
 }
 
@@ -1073,7 +1152,10 @@ sub ConfigSubGroupList {
     # check needed stuff
     for (qw(Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1121,7 +1203,10 @@ sub ConfigSubGroupConfigItemList {
     # check needed stuff
     for (qw(Group SubGroup)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1189,7 +1274,10 @@ sub ConfigItemSearch {
     # check needed stuff
     for (qw(Search)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1272,7 +1360,7 @@ sub ConfigItemSearch {
                         if ( !$Used{ $Group . '::' . $SubGroup } ) {
                             my $Description = $ItemHash{Description}[$Index]{Content};
 
-                        # compare with the English description and also with the translated sentence
+                            # compare with the English description and also with the translated sentence
                             if (
                                 ( $Description =~ /\Q$Param{Search}\E/i )
                                 || (
@@ -1562,7 +1650,10 @@ sub _Init {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1732,7 +1823,10 @@ sub _DataDiff {
     # check needed stuff
     for (qw(Data1 Data2)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1788,7 +1882,10 @@ sub _DataDiff {
 
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if $Self->_DataDiff( Data1 => $A[$Count], Data2 => $B[$Count] );
+                    return 1 if $Self->_DataDiff(
+                        Data1 => $A[$Count],
+                        Data2 => $B[$Count]
+                    );
                     next;
                 }
                 return 1;
@@ -1823,7 +1920,10 @@ sub _DataDiff {
 
             # return if values are different
             if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if $Self->_DataDiff( Data1 => $A{$Key}, Data2 => $B{$Key} );
+                return 1 if $Self->_DataDiff(
+                    Data1 => $A{$Key},
+                    Data2 => $B{$Key}
+                );
                 delete $A{$Key};
                 delete $B{$Key};
                 next;
@@ -1837,7 +1937,10 @@ sub _DataDiff {
     }
 
     if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if $Self->_DataDiff( Data1 => ${ $Param{Data1} }, Data2 => ${ $Param{Data2} } );
+        return 1 if $Self->_DataDiff(
+            Data1 => ${ $Param{Data1} },
+            Data2 => ${ $Param{Data2} }
+        );
         return;
     }
 
@@ -1880,7 +1983,10 @@ sub _FileWriteAtomic {
 
     for (qw(Filename Content)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1919,7 +2025,10 @@ sub _ConfigItemTranslatableStrings {
     # check needed stuff
     for (qw(Data)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2004,7 +2113,10 @@ sub _XML2Perl {
     # check needed stuff
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2057,8 +2169,7 @@ sub _XML2Perl {
                     $SubHash{
                         $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
                             ->{Key}
-                        }
-                        = $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
+                        } = $ConfigItem->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]->{Item}->[$Index]
                         ->{Content};
                 }
                 $Hash{ $Array[$Item]->{Key} } = \%SubHash;

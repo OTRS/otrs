@@ -46,7 +46,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+            ID => $ID,
+        );
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -274,11 +276,11 @@ sub _Edit {
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'AddressID',
+        Data        => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     $Self->{LayoutObject}->Block(
@@ -350,7 +352,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+            my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+                ID => $ID,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

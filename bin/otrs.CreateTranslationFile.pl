@@ -227,8 +227,7 @@ sub HandleLanguage {
     my $Data = '';
     my %UsedWords;
     my %UsedWordsMisc;
-    my $Directory
-        = $IsSubTranslation
+    my $Directory = $IsSubTranslation
         ? "$ModuleDirectory/Kernel/Output/HTML/$DefaultTheme"
         : "$Home/Kernel/Output/HTML/$DefaultTheme";
 
@@ -367,8 +366,7 @@ sub HandleLanguage {
         $UsedWordsMisc{$String} = 1;
 
         # lookup for existing translation
-        $UsedWords{$String}
-            = ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
+        $UsedWords{$String} = ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
             ->{$String};
 
         my $Translation = $UsedWords{$String} || '';
@@ -491,10 +489,9 @@ EOF
             if ( $_ =~ /\$\$START\$\$/ && !$MetaData{DataPrinted} ) {
                 $MetaData{DataPrinted} = 1;
 
-                my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                    = $CommonObject{TimeObject}->SystemTime2Date(
+                my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CommonObject{TimeObject}->SystemTime2Date(
                     SystemTime => $CommonObject{TimeObject}->SystemTime(),
-                    );
+                );
 
                 $NewOut .= <<"EOF";
     # Last translation file sync: $Year-$Month-$Day $Hour:$Min:$Sec

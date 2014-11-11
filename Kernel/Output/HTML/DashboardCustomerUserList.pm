@@ -86,14 +86,12 @@ sub Run {
 
     return if !$Param{CustomerID};
 
-    my $CustomerIDs
-        = { $Self->{CustomerUserObject}->CustomerSearch( CustomerID => $Param{CustomerID} ) };
+    my $CustomerIDs = { $Self->{CustomerUserObject}->CustomerSearch( CustomerID => $Param{CustomerID} ) };
 
     # add page nav bar
     my $Total = scalar keys %{$CustomerIDs};
 
-    my $LinkPage
-        = 'Subaction=Element;Name='
+    my $LinkPage = 'Subaction=Element;Name='
         . $Self->{Name} . ';'
         . 'CustomerID='
         . $Self->{LayoutObject}->LinkEncode( $Param{CustomerID} ) . ';';
@@ -165,8 +163,7 @@ sub Run {
         );
     }
 
-    my @CustomerKeys
-        = sort { lc( $CustomerIDs->{$a} ) cmp lc( $CustomerIDs->{$b} ) } keys %{$CustomerIDs};
+    my @CustomerKeys = sort { lc( $CustomerIDs->{$a} ) cmp lc( $CustomerIDs->{$b} ) } keys %{$CustomerIDs};
     @CustomerKeys = splice @CustomerKeys, $Self->{StartHit} - 1, $Self->{PageShown};
 
     for my $CustomerKey (@CustomerKeys) {

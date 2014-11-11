@@ -186,7 +186,7 @@ sub Run {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            Locks => [ 'lock', 'tmp_lock' ],
+            Locks    => [ 'lock', 'tmp_lock' ],
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],

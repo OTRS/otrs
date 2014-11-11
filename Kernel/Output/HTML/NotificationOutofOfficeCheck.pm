@@ -40,8 +40,7 @@ sub Run {
     my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
         String => $Start,
     );
-    my $End
-        = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
+    my $End     = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
     my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
         String => $End,
     );

@@ -271,7 +271,7 @@ my @Tests = (
         SuccessAdd    => 1,
         SuccessUpdate => 1,
         Add           => {
-            Name => 'NotificationNameSuccess-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ' . $RandomID,
+            Name    => 'NotificationNameSuccess-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ' . $RandomID,
             Subject => 'Notification subject-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Body    => 'Body for notification-äüßÄÖÜ€исáéíúúÁÉÍÚñÑ',
             Type    => 'text/plain',
@@ -576,8 +576,7 @@ $Self->Is(
     "Added Notification IDs- Right structure",
 );
 
-my @IDs
-    = $NotificationEventObject->NotificationEventCheck( Event => 'AnEventForThisTest' . $RandomID );
+my @IDs = $NotificationEventObject->NotificationEventCheck( Event => 'AnEventForThisTest' . $RandomID );
 @IDs = sort @IDs;
 
 # verify NotificationEventCheck

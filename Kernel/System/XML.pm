@@ -112,7 +112,10 @@ sub XMLHashAdd {
     # check needed stuff
     for (qw(Type XMLHash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -184,7 +187,10 @@ sub XMLHashUpdate {
     # check needed stuff
     for (qw(Type Key XMLHash)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -218,7 +224,10 @@ sub XMLHashGet {
     # check needed stuff
     for (qw(Type Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -286,7 +295,10 @@ sub XMLHashDelete {
     # check needed stuff
     for (qw(Type Key)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -298,7 +310,7 @@ sub XMLHashDelete {
     );
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
+        SQL  => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{Type}, \$Param{Key} ],
     );
 
@@ -324,7 +336,10 @@ sub XMLHashMove {
     # check needed stuff
     for (qw(OldType OldKey NewType NewKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -341,7 +356,7 @@ sub XMLHashMove {
 
     # delete existing xml hash
     $Self->{DBObject}->Do(
-        SQL => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
+        SQL  => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{NewType}, \$Param{NewKey} ],
     );
 
@@ -387,7 +402,10 @@ sub XMLHashSearch {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Type!'
+        );
         return;
     }
 
@@ -483,7 +501,10 @@ sub XMLHashList {
 
     # check needed stuff
     if ( !$Param{Type} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Type!'
+        );
         return;
     }
 
@@ -645,7 +666,11 @@ sub XMLHash2D {
     for my $Item ( @{ $Param{XMLHash} } ) {
         if ( ref $Item eq 'HASH' ) {
             for ( sort keys %{$Item} ) {
-                $Self->_XMLHash2D( Key => $Item->{Tag}, Item => $Item, Counter => $Count );
+                $Self->_XMLHash2D(
+                    Key     => $Item->{Tag},
+                    Item    => $Item,
+                    Counter => $Count
+                );
             }
         }
         $Count++;
@@ -668,7 +693,10 @@ sub XMLStructure2XMLHash {
 
     # check needed stuff
     if ( !defined $Param{XMLStructure} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'XMLStructure not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'XMLStructure not defined!'
+        );
         return;
     }
 
@@ -681,7 +709,11 @@ sub XMLStructure2XMLHash {
 
     for my $Item ( @{ $Param{XMLStructure} } ) {
         if ( ref $Item eq 'HASH' ) {
-            $Self->_XMLStructure2XMLHash( Key => $Item->{Tag}, Item => $Item, Type => 'ARRAY' );
+            $Self->_XMLStructure2XMLHash(
+                Key  => $Item->{Tag},
+                Item => $Item,
+                Type => 'ARRAY'
+            );
         }
     }
     $Self->{XMLHashReturn} = 0;
@@ -704,7 +736,10 @@ sub XMLParse {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
@@ -769,7 +804,10 @@ sub XMLParse {
             $Self->{XMLQuote} = 0;
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "C-Parser: $@!"
+            );
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!'
@@ -834,7 +872,10 @@ sub _XMLHashAddAutoIncrement {
     # check needed stuff
     for (qw(Type KeyAutoIncrement)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -912,7 +953,10 @@ sub _ElementBuild {
     for ( 0 .. $#Sub ) {
         for my $K ( @{ $Sub[$_] } ) {
             if ( defined $K ) {
-                $Output .= $Self->_ElementBuild( %{$K}, Key => $Tag[$_], );
+                $Output .= $Self->_ElementBuild(
+                    %{$K},
+                    Key => $Tag[$_],
+                );
             }
         }
     }
@@ -958,13 +1002,21 @@ sub _XMLHash2D {
             if ( defined $Param{Item}->{$_} && ref $Param{Item}->{$_} ne 'ARRAY' ) {
                 $Self->{XMLHash}->{ $Key . "{'$_'}" } = $Param{Item}->{$_};
             }
-            $Self->_XMLHash2D( Key => $_, Item => $Param{Item}->{$_}, Counter => $Param{Counter} );
+            $Self->_XMLHash2D(
+                Key     => $_,
+                Item    => $Param{Item}->{$_},
+                Counter => $Param{Counter}
+            );
         }
         $Self->{XMLLevel} = $Self->{XMLLevel} - 1;
     }
     elsif ( ref $Param{Item} eq 'ARRAY' ) {
         for ( @{ $Param{Item} } ) {
-            $Self->_XMLHash2D( Key => $Param{Key}, Item => $_, Counter => $Param{Counter} );
+            $Self->_XMLHash2D(
+                Key     => $Param{Key},
+                Item    => $_,
+                Counter => $Param{Counter}
+            );
         }
     }
 
@@ -1002,8 +1054,7 @@ sub _XMLStructure2XMLHash {
                 }
                 if ( $_ !~ /^Tag/ ) {
                     $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
-                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1016,8 +1067,7 @@ sub _XMLStructure2XMLHash {
                     $Self->{XMLHash2}->{ $Self->{XMLLevelTag}->{1} }
                         ->[ $Self->{XMLLevelCount}->{1}->{ $Self->{XMLLevelTag}->{1} } ]
                         ->{ $Self->{XMLLevelTag}->{2} }
-                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1032,8 +1082,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{2} }
                         ->[ $Self->{XMLLevelCount}->{2}->{ $Self->{XMLLevelTag}->{2} } ]
                         ->{ $Self->{XMLLevelTag}->{3} }
-                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1050,8 +1099,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{3} }
                         ->[ $Self->{XMLLevelCount}->{3}->{ $Self->{XMLLevelTag}->{3} } ]
                         ->{ $Self->{XMLLevelTag}->{4} }
-                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1070,8 +1118,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{4} }
                         ->[ $Self->{XMLLevelCount}->{4}->{ $Self->{XMLLevelTag}->{4} } ]
                         ->{ $Self->{XMLLevelTag}->{5} }
-                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1092,8 +1139,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{5} }
                         ->[ $Self->{XMLLevelCount}->{5}->{ $Self->{XMLLevelTag}->{5} } ]
                         ->{ $Self->{XMLLevelTag}->{6} }
-                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1116,8 +1162,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{6} }
                         ->[ $Self->{XMLLevelCount}->{6}->{ $Self->{XMLLevelTag}->{6} } ]
                         ->{ $Self->{XMLLevelTag}->{7} }
-                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1142,8 +1187,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{7} }
                         ->[ $Self->{XMLLevelCount}->{7}->{ $Self->{XMLLevelTag}->{7} } ]
                         ->{ $Self->{XMLLevelTag}->{8} }
-                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1170,8 +1214,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{8} }
                         ->[ $Self->{XMLLevelCount}->{8}->{ $Self->{XMLLevelTag}->{8} } ]
                         ->{ $Self->{XMLLevelTag}->{9} }
-                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1200,8 +1243,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{9} }
                         ->[ $Self->{XMLLevelCount}->{9}->{ $Self->{XMLLevelTag}->{9} } ]
                         ->{ $Self->{XMLLevelTag}->{10} }
-                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1232,8 +1274,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{10} }
                         ->[ $Self->{XMLLevelCount}->{10}->{ $Self->{XMLLevelTag}->{10} } ]
                         ->{ $Self->{XMLLevelTag}->{11} }
-                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1266,8 +1307,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{11} }
                         ->[ $Self->{XMLLevelCount}->{11}->{ $Self->{XMLLevelTag}->{11} } ]
                         ->{ $Self->{XMLLevelTag}->{12} }
-                        ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1302,8 +1342,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{12} }
                         ->[ $Self->{XMLLevelCount}->{12}->{ $Self->{XMLLevelTag}->{12} } ]
                         ->{ $Self->{XMLLevelTag}->{13} }
-                        ->[ $Self->{XMLLevelCount}->{13}->{ $Self->{XMLLevelTag}->{13} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{13}->{ $Self->{XMLLevelTag}->{13} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1340,8 +1379,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{13} }
                         ->[ $Self->{XMLLevelCount}->{13}->{ $Self->{XMLLevelTag}->{13} } ]
                         ->{ $Self->{XMLLevelTag}->{14} }
-                        ->[ $Self->{XMLLevelCount}->{14}->{ $Self->{XMLLevelTag}->{14} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{14}->{ $Self->{XMLLevelTag}->{14} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }
@@ -1380,8 +1418,7 @@ sub _XMLStructure2XMLHash {
                         ->{ $Self->{XMLLevelTag}->{14} }
                         ->[ $Self->{XMLLevelCount}->{14}->{ $Self->{XMLLevelTag}->{14} } ]
                         ->{ $Self->{XMLLevelTag}->{15} }
-                        ->[ $Self->{XMLLevelCount}->{15}->{ $Self->{XMLLevelTag}->{15} } ]->{$_}
-                        = $Param{Item}->{$_};
+                        ->[ $Self->{XMLLevelCount}->{15}->{ $Self->{XMLLevelTag}->{15} } ]->{$_} = $Param{Item}->{$_};
                 }
             }
         }

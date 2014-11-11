@@ -76,8 +76,12 @@ sub Run {
         $Data{SessionID} = $WantSessionID;
 
         # create blocks
-        $Self->{LayoutObject}->Block( Name => 'ActionList', );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ActionKillSession',
             Data => {%Data},
@@ -100,11 +104,10 @@ sub Run {
                     $Data{$Key} = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$Key} );
                 }
                 if ( $Key eq 'UserSessionStart' ) {
-                    my $Age
-                        = int(
+                    my $Age = int(
                         ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} )
                         / 3600
-                        );
+                    );
                     my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
                         SystemTime => $Data{UserSessionStart},
                     );
@@ -158,7 +161,9 @@ sub Run {
         $MetaData{UserSessionUniq}     = 0;
         $MetaData{CustomerSessionUniq} = 0;
 
-        $Self->{LayoutObject}->Block( Name => 'Overview', );
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+        );
 
         for my $SessionID (@List) {
             my $List = '';
@@ -184,7 +189,9 @@ sub Run {
         }
 
         # create blocks
-        $Self->{LayoutObject}->Block( Name => 'ActionList', );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ActionSummary',
             Data => {

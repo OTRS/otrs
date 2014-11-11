@@ -44,7 +44,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SignatureObject}->SignatureGet( ID => $ID, );
+        my %Data = $Self->{SignatureObject}->SignatureGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -318,7 +320,9 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SignatureObject}->SignatureList( Valid => 0, );
+    my %List = $Self->{SignatureObject}->SignatureList(
+        Valid => 0,
+    );
 
     # if there are any results, they are shown
     if (%List) {

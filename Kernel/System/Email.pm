@@ -167,12 +167,18 @@ sub Send {
     # check needed stuff
     for (qw(Body Charset)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{To} && !$Param{Cc} && !$Param{Bcc} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need To, Cc or Bcc!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need To, Cc or Bcc!'
+        );
         return;
     }
 
@@ -398,7 +404,10 @@ sub Send {
 
                     # add inline images as related
                     if ( $PartType ne 'related' ) {
-                        $Entity->make_multipart( 'related;', Force => 1, );
+                        $Entity->make_multipart(
+                            'related;',
+                            Force => 1,
+                        );
                         $PartType = 'related';
                     }
                 }
@@ -436,7 +445,10 @@ sub Send {
 
             # make multipart mixed
             if ( $PartType ne 'mixed' ) {
-                $Entity->make_multipart( 'mixed;', Force => 1, );
+                $Entity->make_multipart(
+                    'mixed;',
+                    Force => 1,
+                );
                 $PartType = 'mixed';
             }
 
@@ -519,7 +531,10 @@ sub Send {
 
             # make multi part
             my $EntityCopy = $Entity->dup();
-            $EntityCopy->make_multipart( 'mixed;', Force => 1, );
+            $EntityCopy->make_multipart(
+                'mixed;',
+                Force => 1,
+            );
 
             # get header to remember
             my $Head = $EntityCopy->head();
@@ -635,7 +650,10 @@ sub Send {
         }
 
         # make_multipart -=> one attachment for encryption
-        $Entity->make_multipart( 'mixed;', Force => 1, );
+        $Entity->make_multipart(
+            'mixed;',
+            Force => 1,
+        );
 
         # get header to remember
         my $Head = $Entity->head();
@@ -752,7 +770,10 @@ sub Check {
         return ( Successful => 1 )
     }
     else {
-        return ( Successful => 0, Message => $Check{Message} );
+        return (
+            Successful => 0,
+            Message    => $Check{Message}
+        );
     }
 }
 
@@ -774,7 +795,10 @@ sub Bounce {
     # check needed stuff
     for (qw(From To Email)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

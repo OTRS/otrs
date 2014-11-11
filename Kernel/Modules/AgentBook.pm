@@ -46,19 +46,22 @@ sub Run {
     my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
     my %CustomerUserList;
     if ($Search) {
-        %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch( Search => $Search, );
+        %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Search,
+        );
     }
     my %List;
     for ( sort keys %CustomerUserList ) {
-        my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_, );
+        my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $_,
+        );
         if ( $CustomerUserData{UserEmail} ) {
             $List{ $CustomerUserData{UserEmail} } = $CustomerUserList{$_};
         }
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -91,7 +94,10 @@ sub Run {
 
     # start with page ...
     my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentBook', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentBook',
+        Data         => \%Param
+    );
     $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
 
     return $Output;

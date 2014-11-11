@@ -529,8 +529,7 @@ for my $Test (@Tests) {
             push @FileRemember, $File;
             $Task->{Data}->{File} = $File;
 
-            my $RescheduleFile
-                = $Self->{ConfigObject}->Get('Home')
+            my $RescheduleFile = $Self->{ConfigObject}->Get('Home')
                 . '/var/tmp/task_reschedule_'
                 . int rand 1000000;
             if ( -e $RescheduleFile ) {

@@ -83,8 +83,7 @@ sub Run {
         my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
         # get role member
         my %Member = $Self->{DBObject}->GetTableData(
@@ -120,8 +119,7 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
         for my $StandardResponseID ( sort keys %StandardResponseData ) {
             my $Active = 0;
             for my $StdAttachmentID (@IDs) {
@@ -186,7 +184,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Response';
     my $NeType = $Type eq 'Attachment' ? 'Response' : 'Attachment';
 
-    my %VisibleType = ( Response => 'Response', Attachment => 'Attachment', );
+    my %VisibleType = (
+        Response   => 'Response',
+        Attachment => 'Attachment',
+    );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );

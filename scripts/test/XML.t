@@ -616,7 +616,7 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
 
     $Self->True(

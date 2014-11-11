@@ -69,7 +69,9 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(TicketID)) {
         if ( !$Self->{$Needed} ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Need $Needed!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need $Needed!",
+            );
         }
     }
 
@@ -190,8 +192,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -266,13 +267,13 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # update Dynamc Fields Possible Values via AJAX
@@ -432,8 +433,7 @@ sub Run {
                 my %Filter = $Self->{TicketObject}->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter}
-                    = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
                     keys %Filter;
             }
         }
@@ -555,8 +555,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
                         keys %Filter;
                 }
             }
@@ -589,8 +588,7 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
-                = $Self->{BackendObject}->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory =>
@@ -601,7 +599,7 @@ sub Run {
                 ParamObject  => $Self->{ParamObject},
                 AJAXUpdate   => 1,
                 UpdatableFields => $Self->_GetFieldsToUpdate(),
-                );
+            );
         }
     }
 
@@ -676,7 +674,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get next priorities
@@ -684,7 +682,7 @@ sub Run {
             %GetParam,
             %ACLCompatGetParam,
             TicketID => $Self->{TicketID},
-            QueueID => $GetParam{DestQueueID} || 1,
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
 
         # get old owners
@@ -906,8 +904,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID
-                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -1090,7 +1087,7 @@ sub AgentMove {
 
     # set move queues
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { %MoveQueues, '' => '-' },
+        Data           => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
         Class          => 'Validate_Required' . ' ' . $Param{DestQueueIDInvalid},
@@ -1209,7 +1206,10 @@ sub AgentMove {
         );
     }
 
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketMove',
+        Data         => \%Param
+    );
 }
 
 sub _GetUsers {
@@ -1340,8 +1340,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updatable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw( DestQueueID NewUserID OldUserID NewStateID NewPriorityID );
+        @UpdatableFields = qw( DestQueueID NewUserID OldUserID NewStateID NewPriorityID );
     }
 
     # cycle trough the activated Dynamic Fields for this screen

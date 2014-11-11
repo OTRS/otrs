@@ -36,8 +36,7 @@ sub new {
     # get user table
     $Self->{RadiusHost} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Host' . $Param{Count} )
         || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret}
-        = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
         || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
@@ -48,12 +47,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -64,7 +68,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 

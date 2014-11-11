@@ -50,7 +50,7 @@ sub Param {
     if ( $Param{UserData}->{UserID} ) {
         %QueueData = $Self->{QueueObject}->GetAllQueues(
             UserID => $Param{UserData}->{UserID},
-            Type => $Self->{ConfigItem}->{Permission} || 'ro',
+            Type   => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
     if ( $Self->{ParamObject}->GetArray( Param => 'QueueID' ) ) {

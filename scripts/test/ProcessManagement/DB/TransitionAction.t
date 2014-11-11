@@ -40,8 +40,7 @@ my $RandomID = $HelperObject->GetRandomID();
 my $UserID   = 1;
 
 # get original TransitionAction list
-my $OriginalTransitionActionList
-    = $TransitionActionObject->TransitionActionList( UserID => $UserID ) || {};
+my $OriginalTransitionActionList = $TransitionActionObject->TransitionActionList( UserID => $UserID ) || {};
 
 #
 # Tests for TransitionActionAdd
@@ -208,8 +207,8 @@ my @Tests = (
         Name   => 'TransitionActionAdd Test 13: Correct UTF8',
         Config => {
             EntityID => "$RandomID-1",
-            Name   => "TransitionAction-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
-            Config => {
+            Name     => "TransitionAction-$RandomID--äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ",
+            Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove',
                 Config => {
                     Key1 => '-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ',
@@ -523,8 +522,8 @@ for my $Test (@Tests) {
         Config => {
             ID       => $AddedTransitionActionsList[1],
             EntityID => $RandomID . '-1-U',
-            Name => "TransitionAction-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
-            Config => {
+            Name     => "TransitionAction-$RandomID -äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U",
+            Config   => {
                 Module => 'Kernel::System::Process::Transition::Action::QueueMove-U',
                 Config => {
                     Key1 => '-äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-U',

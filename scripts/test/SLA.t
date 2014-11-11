@@ -279,9 +279,9 @@ my $ItemData = [
             UserID     => 1,
         },
         AddGet => {
-            ServiceIDs => [ $ServiceIDs[0], $ServiceIDs[1] ],
-            Name       => $SLAName[2],
-            Calendar   => '',
+            ServiceIDs          => [ $ServiceIDs[0], $ServiceIDs[1] ],
+            Name                => $SLAName[2],
+            Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
             UpdateTime          => 0,
@@ -307,9 +307,9 @@ my $ItemData = [
     # this sla must be inserted sucessfully
     {
         Add => {
-            ServiceIDs => [ $ServiceIDs[1], $ServiceIDs[2], $ServiceIDs[0] ],
-            Name       => $SLAName[3],
-            Calendar   => '1',
+            ServiceIDs          => [ $ServiceIDs[1], $ServiceIDs[2], $ServiceIDs[0] ],
+            Name                => $SLAName[3],
+            Calendar            => '1',
             FirstResponseTime   => 10,
             FirstResponseNotify => 20,
             UpdateTime          => 30,
@@ -321,9 +321,9 @@ my $ItemData = [
             UserID              => 1,
         },
         AddGet => {
-            ServiceIDs => [ $ServiceIDs[0], $ServiceIDs[1], $ServiceIDs[2] ],
-            Name       => $SLAName[3],
-            Calendar   => '1',
+            ServiceIDs          => [ $ServiceIDs[0], $ServiceIDs[1], $ServiceIDs[2] ],
+            Name                => $SLAName[3],
+            Calendar            => '1',
             FirstResponseTime   => 10,
             FirstResponseNotify => 20,
             UpdateTime          => 30,
@@ -656,13 +656,12 @@ for my $Item ( @{$ItemData} ) {
 
             # dump the given attribute
             if ( ref $SLAGet{$SLAAttribute} ) {
-                $SLAGet{$SLAAttribute}
-                    = Data::Dumper::Dumper( $SLAGet{$SLAAttribute} );    ## no critic
+                $SLAGet{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet{$SLAAttribute} );    ## no critic
             }
 
             # dump the reference string
             if ( ref $Item->{AddGet}->{$SLAAttribute} ) {
-                $Item->{AddGet}->{$SLAAttribute} = Data::Dumper::Dumper(    ## no critic
+                $Item->{AddGet}->{$SLAAttribute} = Data::Dumper::Dumper(                    ## no critic
                     $Item->{AddGet}->{$SLAAttribute},
                 );
             }
@@ -716,13 +715,12 @@ for my $Item ( @{$ItemData} ) {
 
             # dump the given attribute
             if ( ref $SLAGet2{$SLAAttribute} ) {
-                $SLAGet2{$SLAAttribute}
-                    = Data::Dumper::Dumper( $SLAGet2{$SLAAttribute} );    ## no critic
+                $SLAGet2{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet2{$SLAAttribute} );    ## no critic
             }
 
             # dump the reference string
             if ( ref $Item->{UpdateGet}->{$SLAAttribute} ) {
-                $Item->{UpdateGet}->{$SLAAttribute} = Data::Dumper::Dumper(    ## no critic
+                $Item->{UpdateGet}->{$SLAAttribute} = Data::Dumper::Dumper(                   ## no critic
                     $Item->{UpdateGet}->{$SLAAttribute},
                 );
             }

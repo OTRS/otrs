@@ -268,7 +268,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
     push @ArticleIDs, $ArticleID;
 }

@@ -200,8 +200,7 @@ sub Run {
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            my $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;";
+            my $RedirectURL = "Action=AdminGenericInterfaceWebservice;";
             return $Self->{LayoutObject}->Redirect(
                 OP => $RedirectURL,
             );
@@ -1011,8 +1010,7 @@ sub _ShowEdit {
             {
 
                 # get control information
-                my $ActionDetails
-                    = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
+                my $ActionDetails = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
 
                 # create output data
                 my %ActionData = (

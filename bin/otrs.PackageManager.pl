@@ -259,7 +259,9 @@ if ( $Opts{a} eq 'exportfile' ) {
 
 # build
 if ( $Opts{a} eq 'build' ) {
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
         $Structure{Version}->{Content} = $Opts{v}
     }
@@ -304,7 +306,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 
     # get package file from db
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUninstallPre} ) {
@@ -336,7 +340,9 @@ elsif ( $Opts{a} eq 'uninstall' ) {
 elsif ( $Opts{a} eq 'install' ) {
 
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroInstallPre} ) {
@@ -368,7 +374,9 @@ elsif ( $Opts{a} eq 'install' ) {
 elsif ( $Opts{a} eq 'reinstall' ) {
 
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroReinstallPre} ) {
@@ -442,7 +450,9 @@ elsif ( $Opts{a} eq 'reinstall-all' ) {
 elsif ( $Opts{a} eq 'upgrade' ) {
 
     # parse package
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
 
     # intro screen
     if ( $Structure{IntroUpgradePre} ) {
@@ -473,7 +483,10 @@ elsif ( $Opts{a} eq 'upgrade' ) {
 }
 elsif ( $Opts{a} eq 'list' ) {
     for my $Package ( $CommonObject{PackageObject}->RepositoryList() ) {
-        my %Data = _MessageGet( Info => $Package->{Description}, Reformat => 'No' );
+        my %Data = _MessageGet(
+            Info     => $Package->{Description},
+            Reformat => 'No'
+        );
         print "+----------------------------------------------------------------------------+\n";
         print "| Name:        $Package->{Name}->{Content}\n";
         print "| Version:     $Package->{Version}->{Content}\n";
@@ -553,13 +566,17 @@ elsif ( $Opts{a} eq 'list-repository' ) {
     exit;
 }
 elsif ( $Opts{a} eq 'p' ) {
-    my @Data = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my @Data = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
     for my $Tag (@Data) {
         print STDERR "Tag: $Tag->{Type} $Tag->{Tag} $Tag->{Content}\n";
     }
 }
 elsif ( $Opts{a} eq 'parse' ) {
-    my %Structure = $CommonObject{PackageObject}->PackageParse( String => $FileString, );
+    my %Structure = $CommonObject{PackageObject}->PackageParse(
+        String => $FileString,
+    );
     for my $Key ( sort keys %Structure ) {
         if ( ref( $Structure{$Key} ) eq 'ARRAY' ) {
             for my $Data ( @{ $Structure{$Key} } ) {
@@ -636,8 +653,7 @@ sub BuildPackageIndex {
                     print STDERR "ERROR: Can't open $OrigFile: $!\n";
                     exit 1;
                 }
-                my %Structure
-                    = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
+                my %Structure = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
                 my $XML = $CommonObject{PackageObject}->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;

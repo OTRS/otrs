@@ -79,10 +79,16 @@ sub Check {
 
     # return if no connect was possible
     if ( !$SMTP ) {
-        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
+        return (
+            Successful => 0,
+            Message    => "Can't connect to $Self->{MailHost}: $!!"
+        );
     }
 
-    return ( Successful => 1, SMTPTLS => $SMTP );
+    return (
+        Successful => 1,
+        SMTPTLS    => $SMTP
+    );
 }
 
 sub Send {
@@ -91,7 +97,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

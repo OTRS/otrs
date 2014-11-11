@@ -54,8 +54,7 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     # set the maximum lenght for the textarea fields to still be a searchable field in some
     # databases
@@ -200,12 +199,10 @@ sub EditFieldRender {
     }
 
     # set the rows number
-    my $RowsNumber
-        = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
+    my $RowsNumber = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
 
     # set the cols number
-    my $ColsNumber
-        = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
+    my $ColsNumber = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldTextArea';
@@ -345,9 +342,8 @@ sub EditFieldValueValidate {
     }
 
     if ( length $Value > $Self->{MaxLength} ) {
-        $ServerError = 1;
-        $ErrorMessage
-            = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+        $ServerError  = 1;
+        $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
     }
 
     # create resulting structure
@@ -382,7 +378,7 @@ sub DisplayValueRender {
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {

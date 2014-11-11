@@ -77,8 +77,7 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{TicketCommonObject} = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
 
     $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketUpdate');
 
@@ -1876,8 +1875,7 @@ sub _TicketUpdate {
 
             # use data from customer user (if customer user is in database)
             if ( IsHashRefWithData( \%CustomerUserData ) ) {
-                $From
-                    = '"'
+                $From = '"'
                     . $CustomerUserData{UserFirstname} . ' '
                     . $CustomerUserData{UserLastname} . '"'
                     . ' <' . $CustomerUserData{UserEmail} . '>';

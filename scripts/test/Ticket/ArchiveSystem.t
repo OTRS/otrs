@@ -103,7 +103,7 @@ for my $Test (@Tests) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
     );
 
     $Self->True(
@@ -123,7 +123,7 @@ for my $Test (@Tests) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
     );
 
     $Self->True(

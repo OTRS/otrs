@@ -109,7 +109,7 @@ sub Run {
         for my $ParamItem (@Params) {
             my @Array = $Self->{ParamObject}->GetArray(
                 Param => $ParamItem->{Name},
-                Raw => $ParamItem->{Raw} || 0,
+                Raw   => $ParamItem->{Raw} || 0,
             );
             if ( defined $ParamItem->{Name} ) {
                 $GetParam{ $ParamItem->{Name} } = \@Array;
@@ -117,7 +117,13 @@ sub Run {
         }
         my $Message  = '';
         my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+        if (
+            $Object->Run(
+                GetParam => \%GetParam,
+                UserData => \%UserData
+            )
+            )
+        {
             $Message = $Object->Message();
         }
         else {
@@ -159,7 +165,9 @@ sub Run {
         );
     }
     elsif ($Message) {
-        $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => $Message,
+        );
     }
 
     # get user data

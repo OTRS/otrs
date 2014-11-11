@@ -98,7 +98,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectClean()
         $NewSubject = $TicketObject->TicketSubjectClean(
             TicketNumber => '2004040510440485',
-            Subject => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
+            Subject      => 'Re[5]: [' . $TicketHook . ': 2004040510440485] Re: RE: WG: Some Subject',
         );
         if ( $NewSubject !~ /^(Re:|\[$TicketHook)/ ) {
             $Self->True(
@@ -116,7 +116,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectClean()
         $NewSubject = $TicketObject->TicketSubjectClean(
             TicketNumber => '2004040510440485',
-            Subject => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
+            Subject      => 'Re[5]: Re: RE: WG: Some Subject [' . $TicketHook . ': 2004040510440485]',
         );
         if ( $NewSubject !~ /2004040510440485/ ) {
             $Self->True(
@@ -178,7 +178,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectBuild()
         $NewSubject = $TicketObject->TicketSubjectBuild(
             TicketNumber => '2004040510440485',
-            Subject => '[' . $TicketHook . ':2004040510440485] Antwort: Re: Antwort: Some Subject2',
+            Subject      => '[' . $TicketHook . ':2004040510440485] Antwort: Re: Antwort: Some Subject2',
         );
         if ( $TicketSubjectConfig eq 'Left' ) {
             $Self->Is(
@@ -222,7 +222,7 @@ for my $TicketHook ( 'Ticket#', 'Call#', 'Ticket' ) {
         # TicketSubjectBuild()
         $NewSubject = $TicketObject->TicketSubjectBuild(
             TicketNumber => '2004040510440485',
-            Subject => 'Re: [' . $TicketHook . ': 2004040510440485] Re: Antwort: Some Subject2',
+            Subject      => 'Re: [' . $TicketHook . ': 2004040510440485] Re: Antwort: Some Subject2',
         );
         if ( $TicketSubjectConfig eq 'Left' ) {
             $Self->Is(

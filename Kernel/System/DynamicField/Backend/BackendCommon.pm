@@ -100,7 +100,10 @@ sub EditLabelRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig FieldName)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

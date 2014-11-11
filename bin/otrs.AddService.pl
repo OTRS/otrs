@@ -41,10 +41,9 @@ my %Param;
 my %CommonObject;
 
 # create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddService' );
+$CommonObject{ConfigObject}  = Kernel::Config->new();
+$CommonObject{EncodeObject}  = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}     = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddService' );
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{ServiceObject} = Kernel::System::Service->new(%CommonObject);

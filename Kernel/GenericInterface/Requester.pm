@@ -91,8 +91,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{WebserviceObject}
-        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     return $Self;
 }

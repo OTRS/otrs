@@ -136,7 +136,10 @@ sub TransitionGet {
 
     for my $Needed (qw(TransitionEntityID)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -144,7 +147,10 @@ sub TransitionGet {
     my $Transition = $Self->{ConfigObject}->Get('Process::Transition');
 
     if ( !IsHashRefWithData($Transition) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Transition config!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Transition config!'
+        );
         return;
     }
 
@@ -190,7 +196,10 @@ sub TransitionCheck {
     # Check if we have TransitionEntityID and Data
     for my $Needed (qw(TransitionEntityID Data)) {
         if ( !defined $Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!", );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
             return;
         }
     }

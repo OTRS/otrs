@@ -92,12 +92,10 @@ sub Run {
         return;
     }
 
-    my $ProcessIDField
-        = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+    my $ProcessIDField  = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
     my $ProcessEntityID = $Ticket{"DynamicField_$ProcessIDField"};
 
-    my $ActivityIDField
-        = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+    my $ActivityIDField  = $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
     my $ActivityEntityID = $Ticket{"DynamicField_$ActivityIDField"};
 
     # ticket can be ignored if it is no process ticket. Don't set the cache key in this case as
@@ -107,13 +105,11 @@ sub Run {
     # ok, now we know that we need to call the transition logic for this ticket.
 
     # create the needed objects only now to save performance.
-    my $ActivityObject = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
-    my $ActivityDialogObject
-        = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
-    my $TransitionObject = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
-    my $TransitionActionObject
-        = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
-    my $ProcessObject = Kernel::System::ProcessManagement::Process->new(
+    my $ActivityObject         = Kernel::System::ProcessManagement::Activity->new( %{$Self} );
+    my $ActivityDialogObject   = Kernel::System::ProcessManagement::ActivityDialog->new( %{$Self} );
+    my $TransitionObject       = Kernel::System::ProcessManagement::Transition->new( %{$Self} );
+    my $TransitionActionObject = Kernel::System::ProcessManagement::TransitionAction->new( %{$Self} );
+    my $ProcessObject          = Kernel::System::ProcessManagement::Process->new(
         %{$Self},
         ActivityObject         => $ActivityObject,
         ActivityDialogObject   => $ActivityDialogObject,

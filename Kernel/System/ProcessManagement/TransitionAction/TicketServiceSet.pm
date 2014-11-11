@@ -74,8 +74,7 @@ create an object
         TimeObject         => $TimeObject,
         EncodeObject       => $EncodeObject,
     );
-    my $TicketServiceSetActionObject
-        = Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet->new(
+    my $TicketServiceSetActionObject= Kernel::System::ProcessManagement::TransitionAction::TicketServiceSet->new(
         ConfigObject       => $ConfigObject,
         LogObject          => $LogObject,
         EncodeObject       => $EncodeObject,

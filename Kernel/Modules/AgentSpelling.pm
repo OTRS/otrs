@@ -131,7 +131,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentSpelling', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentSpelling',
+        Data         => \%Param
+    );
 }
 
 1;

@@ -48,7 +48,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SystemAddressObject}->SystemAddressGet( ID => $ID, );
+        my %Data = $Self->{SystemAddressObject}->SystemAddressGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -266,10 +268,10 @@ sub _Edit {
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
     $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
-        Name => 'QueueID',
-        SelectedID     => $Param{QueueID},
-        Class          => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
+        Data       => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
+        Name       => 'QueueID',
+        SelectedID => $Param{QueueID},
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
         OnChangeSubmit => 0,
     );
 
@@ -323,7 +325,9 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SystemAddressObject}->SystemAddressList( Valid => 0, );
+    my %List = $Self->{SystemAddressObject}->SystemAddressList(
+        Valid => 0,
+    );
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();

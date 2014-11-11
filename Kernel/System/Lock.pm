@@ -127,7 +127,10 @@ sub LockViewableLock {
     # check needed stuff
     for (qw(Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -233,7 +236,10 @@ sub LockList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 

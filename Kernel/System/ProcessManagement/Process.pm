@@ -517,7 +517,7 @@ sub ProcessTransition {
     # will return undef if nothing matched or the first matching TransitionEntityID
     my $TransitionEntityID = $Self->{TransitionObject}->TransitionCheck(
         TransitionEntityID => [ sort { $a cmp $b } keys %Transitions ],
-        Data => \%Data,
+        Data               => \%Data,
     );
 
     # if we didn't get a TransitionEntityID
@@ -612,10 +612,9 @@ sub ProcessTransition {
         return;
     }
 
-    my $TransitionActions
-        = $Self->{TransitionActionObject}->TransitionActionList(
+    my $TransitionActions = $Self->{TransitionActionObject}->TransitionActionList(
         TransitionActionEntityID => $Transitions{$TransitionEntityID}{TransitionAction}
-        );
+    );
 
     if ( !IsArrayRefWithData($TransitionActions) ) {
         $Self->{LogObject}->Log(
@@ -732,8 +731,7 @@ sub ProcessTicketActivitySet {
     }
 
     # Grep the Field out of the config of all Ticket DynamicFields
-    my @DynamicFieldConfig
-        = grep { $_->{Name} eq $DynamicFieldTicketActivityEntityID } @{ $Self->{DynamicField} };
+    my @DynamicFieldConfig = grep { $_->{Name} eq $DynamicFieldTicketActivityEntityID } @{ $Self->{DynamicField} };
 
     # if the DynamicField isn't there, return 0 and log
     if ( !IsHashRefWithData( $DynamicFieldConfig[0] ) ) {
@@ -811,8 +809,7 @@ sub ProcessTicketProcessSet {
     }
 
     # Get DynamicField Name that's used for storing the ActivityEntityID per ticket
-    my $DynamicFieldTicketProcessID
-        = $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
+    my $DynamicFieldTicketProcessID = $Self->{ConfigObject}->Get('Process::DynamicFieldProcessManagementProcessID');
     if ( !$DynamicFieldTicketProcessID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -823,8 +820,7 @@ sub ProcessTicketProcessSet {
     }
 
     # Grep the Field out of the config of all Ticket DynamicFields
-    my @DynamicFieldConfig
-        = grep { $_->{Name} eq $DynamicFieldTicketProcessID } @{ $Self->{DynamicField} };
+    my @DynamicFieldConfig = grep { $_->{Name} eq $DynamicFieldTicketProcessID } @{ $Self->{DynamicField} };
 
     # if the DynamicField isn't there, return 0 and log
     if ( !IsHashRefWithData( $DynamicFieldConfig[0] ) ) {

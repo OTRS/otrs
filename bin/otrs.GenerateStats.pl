@@ -182,17 +182,23 @@ if ( $Stat->{StatType} eq 'static' ) {
     my $Params = $CommonObject{StatsObject}->GetParams( StatID => $StatID );
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
-            my $Value = GetParam( Param => $ParamItem->{Name}, );
+            my $Value = GetParam(
+                Param => $ParamItem->{Name},
+            );
             if ( defined $Value ) {
                 $GetParam{ $ParamItem->{Name} } =
-                    GetParam( Param => $ParamItem->{Name}, );
+                    GetParam(
+                    Param => $ParamItem->{Name},
+                    );
             }
             elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
         else {
-            my @Value = GetArray( Param => $ParamItem->{Name}, );
+            my @Value = GetArray(
+                Param => $ParamItem->{Name},
+            );
             if (@Value) {
                 $GetParam{ $ParamItem->{Name} } = \@Value;
             }
@@ -319,7 +325,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
         # if first page
         if ( $Counter == 1 ) {
             $CommonObject{PDFObject}->PageNew(
-                %PageParam, FooterRight => $Page . ' ' . $Counter,
+                %PageParam,
+                FooterRight => $Page . ' ' . $Counter,
             );
         }
 

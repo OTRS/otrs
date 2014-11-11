@@ -111,7 +111,10 @@ sub Run {
     if ( $Self->{Subaction} eq 'HTMLView' ) {
 
         # set download type to inline
-        $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
+        $Self->{ConfigObject}->Set(
+            Key   => 'AttachmentDownloadType',
+            Value => 'inline'
+        );
 
         # just return for non-html attachment (e. g. images)
         if ( $Data{ContentType} !~ /text\/html/i ) {

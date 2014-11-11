@@ -63,7 +63,7 @@ if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 
 # get all tickets with an archive flag and an open statetype
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
-    StateType => [ 'new', 'open', 'pending reminder', 'pending auto' ],
+    StateType    => [ 'new', 'open', 'pending reminder', 'pending auto' ],
     ArchiveFlags => ['y'],
     Result       => 'ARRAY',
     Limit        => 100_000_000,

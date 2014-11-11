@@ -104,18 +104,15 @@ sub new {
     $Self->{YAMLObject}         = Kernel::System::YAML->new( %{$Self} );
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
 
-    $Self->{EntityObject} = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-    $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
-    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
+    $Self->{EntityObject}           = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ActivityDialogObject}   = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+    $Self->{ActivityObject}         = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{StateObject}            = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
+    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -262,7 +259,10 @@ sub ProcessDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -360,7 +360,10 @@ sub ProcessGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{EntityID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or EntityID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or EntityID!'
+        );
         return;
     }
 
@@ -539,8 +542,7 @@ sub ProcessGet {
                 my $TransitionPath = $Data{Config}->{Path}->{$ActivityEntityID};
                 for my $TransitionEntityID ( sort keys %{$TransitionPath} ) {
 
-                    my $TransitionActionPath
-                        = $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
+                    my $TransitionActionPath = $Data{Config}->{Path}->{$ActivityEntityID}->{$TransitionEntityID}
                         ->{Action};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
                         for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
@@ -563,8 +565,7 @@ sub ProcessGet {
                 my $TransitionPath = $Data{Config}->{Path}->{$ActivityEntityID};
                 for my $TransitionEntityID ( sort keys %{$TransitionPath} ) {
 
-                    my $TransitionActionPath
-                        = $TransitionPath->{$TransitionEntityID}->{TransitionAction};
+                    my $TransitionActionPath = $TransitionPath->{$TransitionEntityID}->{TransitionAction};
                     if ( $TransitionActionPath && @{$TransitionActionPath} ) {
                         for my $TransitionActionEntityID ( sort @{$TransitionActionPath} ) {
                             push @TransitionActions, $TransitionActionEntityID;
@@ -618,7 +619,10 @@ sub ProcessUpdate {
     # check needed stuff
     for my $Key (qw(ID EntityID Name StateEntityID Layout Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -629,7 +633,7 @@ sub ProcessUpdate {
             SELECT id FROM pm_process
             WHERE $Self->{Lower}(entity_id) = $Self->{Lower}(?)
             AND id != ?",
-        Bind => [ \$Param{EntityID}, \$Param{ID} ],
+        Bind  => [ \$Param{EntityID}, \$Param{ID} ],
         LIMIT => 1,
     );
 
@@ -789,8 +793,7 @@ sub ProcessList {
             FROM pm_process ';
     if ( $StateEntityIDsStrg ne 'ALL' ) {
 
-        my $StateEntityIDsStrgDB
-            = join ',', map "'" . $Self->{DBObject}->Quote($_) . "'", @{ $Param{StateEntityIDs} };
+        my $StateEntityIDsStrgDB = join ',', map "'" . $Self->{DBObject}->Quote($_) . "'", @{ $Param{StateEntityIDs} };
 
         $SQL .= "WHERE state_entity_id IN ($StateEntityIDsStrgDB)";
     }
@@ -1267,8 +1270,7 @@ sub ProcessDump {
     }
 
     # get TransitionActions
-    my $TransitionActionsList
-        = $Self->{TransitionActionObject}->TransitionActionListGet( UserID => 1 );
+    my $TransitionActionsList = $Self->{TransitionActionObject}->TransitionActionListGet( UserID => 1 );
 
     my %TransitionActionDump;
 
@@ -1520,8 +1522,7 @@ sub ProcessImport {
     for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
 
         my @ExistingADs = @{
-            $Self->{ActivityDialogObject}
-                ->ActivityDialogListGet( UserID => $Param{UserID} ) || []
+            $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Param{UserID} ) || []
         };
         @ExistingADs = grep {
             $_->{EntityID} eq
@@ -1565,7 +1566,7 @@ sub ProcessImport {
                 );
             }
 
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
+            # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
             $ActivityDialogMapping{$ActivityDialogEntityID} = $EntityID;
         }
     }
@@ -1575,8 +1576,7 @@ sub ProcessImport {
     for my $TransitionActionEntityID ( sort keys %{ $ProcessData->{TransitionActions} } ) {
 
         my @ExistingTAs = @{
-            $Self->{TransitionActionObject}
-                ->TransitionActionListGet( UserID => $Param{UserID} ) || []
+            $Self->{TransitionActionObject}->TransitionActionListGet( UserID => $Param{UserID} ) || []
         };
         @ExistingTAs = grep {
             $_->{EntityID} eq
@@ -1623,7 +1623,7 @@ sub ProcessImport {
                 );
             }
 
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
+            # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
             $TransitionActionMapping{$TransitionActionEntityID} = $EntityID;
         }
     }
@@ -1632,11 +1632,10 @@ sub ProcessImport {
     my %TransitionMapping;
     for my $TransitionEntityID ( sort keys %{ $ProcessData->{Transitions} } ) {
 
-        my @ExistingTs
-            = @{
+        my @ExistingTs = @{
             $Self->{TransitionObject}->TransitionListGet( UserID => $Param{UserID} )
                 || []
-            };
+        };
         @ExistingTs = grep {
             $_->{EntityID} eq $ProcessData->{Transitions}->{$TransitionEntityID}->{EntityID}
         } @ExistingTs;
@@ -1678,7 +1677,7 @@ sub ProcessImport {
                 );
             }
 
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
+            # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
             $TransitionMapping{$TransitionEntityID} = $EntityID;
         }
     }
@@ -1696,8 +1695,7 @@ sub ProcessImport {
         }
         $Config = $Self->{YAMLObject}->Load( Data => $Config );
 
-        my @ExistingAs
-            = @{ $Self->{ActivityObject}->ActivityListGet( UserID => $Param{UserID} ) || [] };
+        my @ExistingAs = @{ $Self->{ActivityObject}->ActivityListGet( UserID => $Param{UserID} ) || [] };
         @ExistingAs = grep {
             $_->{EntityID} eq $ProcessData->{Activities}->{$ActivityEntityID}->{EntityID}
         } @ExistingAs;
@@ -1739,7 +1737,7 @@ sub ProcessImport {
                 );
             }
 
-       # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
+            # add the new EntityID to our mapping so we can later replace occurrences of the old EntityID
             $ActivityMapping{$ActivityEntityID} = $EntityID;
         }
     }
@@ -1755,8 +1753,7 @@ sub ProcessImport {
     #   with duplicated keys like ( A4 => A6, A6 => A11). In this case, A4 would also incorrectly
     #   be converted to A11.
     if (%ActivityMapping) {
-        my $OldEntityIDs
-            = '(' . join( '|', map { quotemeta($_) } sort keys %ActivityMapping ) . ')';
+        my $OldEntityIDs = '(' . join( '|', map { quotemeta($_) } sort keys %ActivityMapping ) . ')';
         $Layout =~ s{
             $DelimiterBefore
             $OldEntityIDs
@@ -1784,10 +1781,8 @@ sub ProcessImport {
     $Config = $Self->{YAMLObject}->Load( Data => $Config );
 
     my $ID;
-    my @ExistingProcesses
-        = @{ $Self->ProcessListGet( UserID => $Param{UserID} ) || [] };
-    @ExistingProcesses
-        = grep { $_->{EntityID} eq $ProcessData->{Process}->{EntityID} } @ExistingProcesses;
+    my @ExistingProcesses = @{ $Self->ProcessListGet( UserID => $Param{UserID} ) || [] };
+    @ExistingProcesses = grep { $_->{EntityID} eq $ProcessData->{Process}->{EntityID} } @ExistingProcesses;
 
     if ( $Param{OverwriteExistingEntities} && $ExistingProcesses[0] ) {
         $Self->ProcessUpdate(

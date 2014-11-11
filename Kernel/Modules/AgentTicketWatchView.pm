@@ -63,7 +63,9 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
@@ -131,7 +133,7 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                StateType => [ 'pending reminder', 'pending auto' ],
+                StateType    => [ 'pending reminder', 'pending auto' ],
                 WatchUserIDs => [ $Self->{UserID} ],
                 OrderBy      => $OrderBy,
                 SortBy       => $SortByS,

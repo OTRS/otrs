@@ -37,11 +37,10 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}    = Kernel::System::JSON->new( %{$Self} );
-    $Self->{ProcessObject} = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}  = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{TransitionActionObject}
-        = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
+    $Self->{JSONObject}             = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ProcessObject}          = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}           = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
 
     return $Self;
 }
@@ -191,13 +190,10 @@ sub Run {
                 Subaction => 'TransitionActionEdit'    # always use edit screen
             );
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -379,13 +375,10 @@ sub Run {
                 Subaction => 'TransitionActionEdit'               # always use edit screen
             );
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(

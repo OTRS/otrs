@@ -65,10 +65,9 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             $Failed = $Selenium->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()"
             );
-            $Total
-                = $Selenium->get_eval(
+            $Total = $Selenium->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.total').text()"
-                );
+            );
 
             $Self->True( $Passed, 'Found passed tests' );
             $Self->Is( $Passed, $Total, 'Total number of tests' );

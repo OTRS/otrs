@@ -242,8 +242,7 @@ $Self->True(
 # ---
 
 # load example file
-my $Path
-    = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
+my $Path          = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;

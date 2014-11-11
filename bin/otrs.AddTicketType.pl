@@ -40,11 +40,10 @@ my %CommonObject;
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TypeObject} = Kernel::System::Type->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TypeObject}   = Kernel::System::Type->new(%CommonObject);
 
 my %Param;
 my %Options;

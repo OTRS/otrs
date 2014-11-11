@@ -717,8 +717,7 @@ sub PartsAttachments {
 
     # check if there is no recommended_filename or subject -> add file-NoFilenamePartCounter
     if ( $Part->head()->recommended_filename() ) {
-        $PartData{Filename}
-            = $Self->_DecodeMimewords( String => $Part->head()->recommended_filename() );
+        $PartData{Filename} = $Self->_DecodeMimewords( String => $Part->head()->recommended_filename() );
         $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
         if ( $PartData{ContentDisposition} ) {
             my %Data = $Self->GetContentTypeParams(

@@ -207,13 +207,12 @@ sub _AddAction {
     }
 
     my $Config = {
-        Type => $GetParam{InvokerType},
+        Type        => $GetParam{InvokerType},
         Description => $Self->{ParamObject}->GetParam( Param => 'Description' ) || '',
     };
 
     my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
-    $MappingInbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
+    $MappingInbound = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
 
     if ($MappingInbound) {
         $Config->{MappingInbound} = {
@@ -222,8 +221,7 @@ sub _AddAction {
     }
 
     my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
-    $MappingOutbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
+    $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
 
     if ($MappingOutbound) {
         $Config->{MappingOutbound} = {
@@ -241,8 +239,7 @@ sub _AddAction {
         );
     }
 
-    my $RedirectURL
-        = "Action=AdminGenericInterfaceInvokerDefault;Subaction=Change;WebserviceID=$WebserviceID;";
+    my $RedirectURL = "Action=AdminGenericInterfaceInvokerDefault;Subaction=Change;WebserviceID=$WebserviceID;";
     $RedirectURL
         .= 'Invoker=' . $Self->{LayoutObject}->LinkEncode( $GetParam{Invoker} ) . ';';
 
@@ -326,8 +323,7 @@ sub _ChangeAction {
         );
     }
 
-    my $InvokerConfig
-        = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{OldInvoker} };
+    my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{OldInvoker} };
 
     # Invoker was renamed, avoid conflicts
     if ( $GetParam{OldInvoker} ne $GetParam{Invoker} ) {
@@ -362,8 +358,7 @@ sub _ChangeAction {
 
     # Now handle mappings. If mapping types were not changed, keep the mapping configuration.
     my $MappingInbound = $Self->{ParamObject}->GetParam( Param => 'MappingInbound' );
-    $MappingInbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
+    $MappingInbound = $Self->_MappingTypeCheck( MappingType => $MappingInbound ) ? $MappingInbound : '';
 
     # No inbound mapping set, make sure it is not present in the configuration.
     if ( !$MappingInbound ) {
@@ -379,8 +374,7 @@ sub _ChangeAction {
     }
 
     my $MappingOutbound = $Self->{ParamObject}->GetParam( Param => 'MappingOutbound' );
-    $MappingOutbound
-        = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
+    $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $MappingOutbound ) ? $MappingOutbound : '';
 
     # No outbound mapping set, make sure it is not present in the configuration.
     if ( !$MappingOutbound ) {
@@ -411,14 +405,12 @@ sub _ChangeAction {
     my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' );
 
     # Save button: stay in edit mode.
-    my $RedirectURL
-        = "Action=AdminGenericInterfaceInvokerDefault;Subaction=Change;WebserviceID=$WebserviceID;"
+    my $RedirectURL = "Action=AdminGenericInterfaceInvokerDefault;Subaction=Change;WebserviceID=$WebserviceID;"
         . "Invoker=$GetParam{Invoker};EventType=$SelectedEventType";
 
     # Save and finish button: go to Webservice.
     if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-        $RedirectURL
-            = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+        $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
     }
 
@@ -511,8 +503,7 @@ sub _ShowScreen {
     # Inbound mapping
     my @MappingList = sort keys %{$Mappings};
 
-    my $MappingInbound
-        = $Self->_MappingTypeCheck( MappingType => $Param{MappingInbound} )
+    my $MappingInbound = $Self->_MappingTypeCheck( MappingType => $Param{MappingInbound} )
         ? $Param{MappingInbound}
         : '';
 
@@ -540,8 +531,7 @@ sub _ShowScreen {
     }
 
     # Outbound mapping
-    my $MappingOutbound
-        = $Self->_MappingTypeCheck( MappingType => $Param{MappingOutbound} )
+    my $MappingOutbound = $Self->_MappingTypeCheck( MappingType => $Param{MappingOutbound} )
         ? $Param{MappingOutbound}
         : '';
 
@@ -719,8 +709,7 @@ sub _AddEvent {
     }
 
     # get current invoker config
-    my $InvokerConfig
-        = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} };
+    my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} };
 
     # get Asynchronous Mode
     $GetParam{AsynchronousMode} = $Self->{ParamObject}->GetParam( Param => 'Asynchronous' ) || 0;
@@ -752,8 +741,7 @@ sub _AddEvent {
     my $SelectedEventType = $Self->{ParamObject}->GetParam( Param => 'EventType' );
 
     # stay in edit mode.
-    my $RedirectURL
-        = "Action=AdminGenericInterfaceInvokerDefault;Subaction=Change;WebserviceID=$WebserviceID;"
+    my $RedirectURL = "Action=AdminGenericInterfaceInvokerDefault;Subaction=Change;WebserviceID=$WebserviceID;"
         . "Invoker=$GetParam{Invoker};EventType=$SelectedEventType";
 
     return $Self->{LayoutObject}->Redirect(
@@ -794,8 +782,7 @@ sub _DeleteEvent {
     }
 
     # get current invoker config
-    my $InvokerConfig
-        = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} };
+    my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam{Invoker} };
 
     my @Events;
 

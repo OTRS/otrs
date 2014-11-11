@@ -368,8 +368,7 @@ for my $Test (@Tests) {
     );
 
     # list get transtion actions
-    my $TransitionActionList
-        = $TransitionActionObject->TransitionActionList( %{ $Test->{Config} } );
+    my $TransitionActionList = $TransitionActionObject->TransitionActionList( %{ $Test->{Config} } );
 
     if ( $Test->{Success} ) {
         $Self->IsNot(

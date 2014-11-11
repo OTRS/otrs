@@ -31,7 +31,10 @@ sub new {
             $Self->{$_} = $Param{$_};
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
         }
     }
 
@@ -193,7 +196,9 @@ sub Check {
             my $Cryped = $Entity->parts(1)->as_string();
 
             # Encrypt it
-            my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Cryped, );
+            my %Decrypt = $Self->{CryptObject}->Decrypt(
+                Message => $Cryped,
+            );
             if ( $Decrypt{Successful} ) {
                 $Entity = $Parser->parse_data( $Decrypt{Data} );
                 my $Head = $Entity->head();

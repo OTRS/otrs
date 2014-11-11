@@ -34,8 +34,7 @@ sub Param {
     # check if we need to show password change option
 
     # define AuthModule for frontend
-    my $AuthModule
-        = $Self->{ConfigItem}->{Area} eq 'Agent'
+    my $AuthModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'AuthModule'
         : 'Customer::AuthModule';
 
@@ -98,8 +97,7 @@ sub Run {
     }
 
     # define AuthModule for frontend
-    my $AuthModule
-        = $Self->{ConfigItem}->{Area} eq 'Agent'
+    my $AuthModule = $Self->{ConfigItem}->{Area} eq 'Agent'
         ? 'Kernel::System::Auth'
         : 'Kernel::System::CustomerAuth';
 
@@ -117,16 +115,20 @@ sub Run {
     return 1 if !$AuthObject;
 
     # validate current password
-    if ( !$AuthObject->Auth( User => $Param{UserData}->{UserLogin}, Pw => $CurPw ) ) {
-        $Self->{Error}
-            = 'The current password is not correct. Please try again!';
+    if (
+        !$AuthObject->Auth(
+            User => $Param{UserData}->{UserLogin},
+            Pw   => $CurPw
+        )
+        )
+    {
+        $Self->{Error} = 'The current password is not correct. Please try again!';
         return;
     }
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error}
-            = 'Can\'t update password, your new passwords do not match. Please try again!';
+        $Self->{Error} = 'Can\'t update password, your new passwords do not match. Please try again!';
         return;
     }
 
@@ -160,8 +162,7 @@ sub Run {
         && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ )
         )
     {
-        $Self->{Error}
-            = 'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!';
+        $Self->{Error} = 'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!';
         return;
     }
 

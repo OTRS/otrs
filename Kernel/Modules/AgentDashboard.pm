@@ -149,7 +149,11 @@ sub Run {
         }
 
         # deliver new content page
-        my %ElementReload = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+        my %ElementReload = $Self->_Element(
+            Name    => $Name,
+            Configs => $Config,
+            AJAX    => 1
+        );
         if ( !%ElementReload ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -247,7 +251,11 @@ sub Run {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
-        my %Element = $Self->_Element( Name => $Name, Configs => $Config, AJAX => 1 );
+        my %Element = $Self->_Element(
+            Name    => $Name,
+            Configs => $Config,
+            AJAX    => 1
+        );
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -439,7 +447,9 @@ sub Run {
         }
     }
 
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboard',

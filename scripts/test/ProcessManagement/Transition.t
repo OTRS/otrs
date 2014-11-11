@@ -1022,8 +1022,8 @@ my @Tests = (
                 DynamicField_VWModel => ['2'],
             },
             TransitionEntityID => 'T2' . $RandomID,
-            Message  => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
-            TestType => 'False',
+            Message            => 'TransitionCheck() (Regexp fail check with plain text invalid Regexp)',
+            TestType           => 'False',
         },
     },
 
@@ -1235,10 +1235,9 @@ for my $Test (@Tests) {
             );
         }
         elsif ( $Test->{Get}{TestType} eq 'Result' ) {
-            my $GetResult
-                = $TransitionObject->TransitionGet(
+            my $GetResult = $TransitionObject->TransitionGet(
                 TransitionEntityID => $Test->{Get}{TransitionEntityID}
-                );
+            );
             my $ExpectedResult = $Test->{Get}{Result};
 
             # Get - Check given and expected result

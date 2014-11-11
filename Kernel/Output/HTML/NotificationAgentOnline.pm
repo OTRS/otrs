@@ -37,7 +37,9 @@ sub Run {
     my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
     my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60 * 2;
     for (@Sessions) {
-        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_, );
+        my %Data = $Self->{SessionObject}->GetSessionIDData(
+            SessionID => $_,
+        );
         if (
             $Self->{UserID} ne $Data{UserID}
             && $Data{UserType} eq 'User'

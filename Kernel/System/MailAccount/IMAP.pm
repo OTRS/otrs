@@ -35,7 +35,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -47,7 +50,10 @@ sub Connect {
         debug   => $Param{Debug}
     );
     if ( !$IMAPObject ) {
-        return ( Successful => 0, Message => "IMAP: Can't connect to $Param{Host}" );
+        return (
+            Successful => 0,
+            Message    => "IMAP: Can't connect to $Param{Host}"
+        );
     }
 
     # authentcation
@@ -83,13 +89,19 @@ sub _Fetch {
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -158,7 +170,7 @@ sub _Fetch {
             if ( $MessageSize > $MaxEmailSize ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
+                    Message  => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
                         . "Email too big ($MessageSize KB - max $MaxEmailSize KB)!",
                 );
             }
@@ -234,7 +246,7 @@ sub _Fetch {
     if ( $Debug > 0 || $FetchCounter ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $IMAPObject->expunge_mailbox($IMAPFolder);
@@ -253,7 +265,10 @@ sub _ProcessFailed {
     # check needed stuff
     for (qw(Email)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }

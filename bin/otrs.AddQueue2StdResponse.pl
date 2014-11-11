@@ -79,8 +79,7 @@ if ( !$QueueID ) {
 }
 
 # check response
-my $StandardResponseID
-    = $CommonObject{StandardResponseObject}->StandardResponseLookup( StandardResponse => $Opts{r} );
+my $StandardResponseID = $CommonObject{StandardResponseObject}->StandardResponseLookup( StandardResponse => $Opts{r} );
 if ( !$StandardResponseID ) {
     print STDERR "ERROR: Found no Standard Response for $Opts{r}\n";
     exit 1;

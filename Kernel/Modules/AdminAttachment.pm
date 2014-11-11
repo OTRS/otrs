@@ -42,7 +42,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
+        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
+            ID => $ID,
+        );
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -245,7 +247,9 @@ sub Run {
 
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
-        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
+        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
+            ID => $ID,
+        );
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
@@ -353,7 +357,9 @@ sub _Overview {
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID, );
+            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
+                ID => $ID,
+            );
 
             if ( $ValidList{ $Data{ValidID} } eq 'valid' ) {
                 $Data{Invalid} = '';

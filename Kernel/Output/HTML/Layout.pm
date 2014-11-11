@@ -395,8 +395,7 @@ sub new {
         }
     }
 
-    $Self->{CustomTemplateDir}
-        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
+    $Self->{CustomTemplateDir} = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
 
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
@@ -428,7 +427,10 @@ sub SetEnv {
 
     for (qw(Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             $Self->FatalError();
         }
     }
@@ -456,10 +458,17 @@ sub Block {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
-    push @{ $Self->{BlockData} }, { Name => $Param{Name}, Data => $Param{Data} };
+    push @{ $Self->{BlockData} },
+        {
+        Name => $Param{Name},
+        Data => $Param{Data}
+        };
 }
 
 =item Output()
@@ -529,8 +538,7 @@ sub Output {
 
     # if we use the HTML5 input type 'email' jQuery Validate will always validate
     # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Self->{EnvRef}->{EmailFieldType}
-        = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
+    $Self->{EnvRef}->{EmailFieldType} = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     # read template from filesystem
     my $TemplateString = '';
@@ -630,7 +638,7 @@ sub Output {
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data => \$TemplateString,
+                Data         => \$TemplateString,
                 TemplateFile => $Param{TemplateFile} || '',
             );
         }
@@ -840,7 +848,7 @@ sub Output {
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data => \$Output,
+                Data         => \$Output,
                 TemplateFile => $Param{TemplateFile} || '',
             );
         }
@@ -945,7 +953,11 @@ sub Redirect {
 
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
-        return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
+        return $Cookies
+            . $Self->Output(
+            TemplateFile => 'Redirect',
+            Data         => \%Param
+            );
     }
 
     # set baselink
@@ -989,7 +1001,11 @@ sub Redirect {
         my $HttpType = $Self->{ConfigObject}->Get('HttpType');
         $Param{Redirect} = $HttpType . '://' . $Host . '/' . $Param{Redirect};
     }
-    my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
+    my $Output = $Cookies
+        . $Self->Output(
+        TemplateFile => 'Redirect',
+        Data         => \%Param
+        );
 
     # add session id to redirect if no cookie is enabled
     if ( !$Self->{SessionIDCookie} ) {
@@ -1044,7 +1060,10 @@ sub Login {
 
     # get message of the day
     if ( $Self->{ConfigObject}->Get('ShowMotd') ) {
-        $Param{Motd} = $Self->Output( TemplateFile => 'Motd', Data => \%Param );
+        $Param{Motd} = $Self->Output(
+            TemplateFile => 'Motd',
+            Data         => \%Param
+        );
     }
 
     # get lost password y
@@ -1064,7 +1083,7 @@ sub Login {
         );
     }
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
 
@@ -1118,7 +1137,10 @@ sub Login {
     }
 
     # create & return output
-    $Output .= $Self->Output( TemplateFile => 'Login', Data => \%Param );
+    $Output .= $Self->Output(
+        TemplateFile => 'Login',
+        Data         => \%Param
+    );
 
     # remove the version tag from the header if configured
     $Self->_DisableBannerCheck( OutputRef => \$Output );
@@ -1175,7 +1197,10 @@ sub FatalError {
             Message  => $Param{Message},
         );
     }
-    my $Output = $Self->Header( Area => 'Frontend', Title => 'Fatal Error' );
+    my $Output = $Self->Header(
+        Area  => 'Frontend',
+        Title => 'Fatal Error'
+    );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->Footer();
     $Self->Print( Output => \$Output );
@@ -1185,8 +1210,14 @@ sub FatalError {
 sub SecureMode {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->Header( Area => 'Frontend', Title => 'Secure Mode' );
-    $Output .= $Self->Output( TemplateFile => 'AdminSecureMode', Data => \%Param );
+    my $Output = $Self->Header(
+        Area  => 'Frontend',
+        Title => 'Secure Mode'
+    );
+    $Output .= $Self->Output(
+        TemplateFile => 'AdminSecureMode',
+        Data         => \%Param
+    );
     $Output .= $Self->Footer();
     $Self->Print( Output => \$Output );
     exit;
@@ -1244,7 +1275,7 @@ sub Error {
     if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => $Param{Message} || '?',
+            Message  => $Param{Message} || '?',
         );
         for (qw(Message Traceback)) {
             my $Backend = 'Backend' . $_;
@@ -1267,7 +1298,10 @@ sub Error {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'Error', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'Error',
+        Data         => \%Param
+    );
 }
 
 sub Warning {
@@ -1288,7 +1322,10 @@ sub Warning {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'Warning', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'Warning',
+        Data         => \%Param
+    );
 }
 
 =item Notify()
@@ -1379,7 +1416,9 @@ sub Notify {
     if ( $Param{Link} ) {
         $Self->Block(
             Name => 'LinkStop',
-            Data => { LinkStop => '</a>', },
+            Data => {
+                LinkStop => '</a>',
+            },
         );
     }
     return $Self->Output(
@@ -1438,7 +1477,7 @@ sub Header {
         );
     }
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls();
 
     # Add header logo, if configured
@@ -1484,8 +1523,7 @@ sub Header {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area}
-            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
             || '';
     }
     if ( !$Param{Title} ) {
@@ -1586,7 +1624,10 @@ sub Header {
     }
 
     # create & return output
-    $Output .= $Self->Output( TemplateFile => "Header$Type", Data => \%Param );
+    $Output .= $Self->Output(
+        TemplateFile => "Header$Type",
+        Data         => \%Param
+    );
 
     # remove the version tag from the header if configured
     $Self->_DisableBannerCheck( OutputRef => \$Output );
@@ -1600,7 +1641,7 @@ sub Footer {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
 
     # get datepicker data, if needed in module
@@ -1615,7 +1656,7 @@ sub Footer {
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
-                VacationDays => $VacationDaysJSON,
+                VacationDays  => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
@@ -1636,7 +1677,10 @@ sub Footer {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
+    return $Self->Output(
+        TemplateFile => "Footer$Type",
+        Data         => \%Param
+    );
 }
 
 sub Print {
@@ -1690,7 +1734,7 @@ sub Print {
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data => $Param{Output},
+                Data         => $Param{Output},
                 TemplateFile => $Param{TemplateFile} || '',
             );
         }
@@ -1718,8 +1762,7 @@ sub PrintHeader {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area}
-            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
             || '';
     }
     if ( !$Param{Title} ) {
@@ -1737,7 +1780,10 @@ sub PrintHeader {
         $Param{BodyClass} = 'RTL';
     }
 
-    my $Output = $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
+    my $Output = $Self->Output(
+        TemplateFile => 'PrintHeader',
+        Data         => \%Param
+    );
 
     # remove the version tag from the header if configured
     $Self->_DisableBannerCheck( OutputRef => \$Output );
@@ -1753,7 +1799,10 @@ sub PrintFooter {
     $Param{Host} =~ s/&amp;/&/ig;
 
     # create & return output
-    return $Self->Output( TemplateFile => 'PrintFooter', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'PrintFooter',
+        Data         => \%Param
+    );
 }
 
 =item Ascii2Html()
@@ -2018,10 +2067,16 @@ sub LinkQuote {
     }
 
     for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Pre( Filter => $Filter->{Filter}, Data => $Text );
+        $Text = $Filter->{Object}->Pre(
+            Filter => $Filter->{Filter},
+            Data   => $Text
+        );
     }
     for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Post( Filter => $Filter->{Filter}, Data => $Text );
+        $Text = $Filter->{Object}->Post(
+            Filter => $Filter->{Filter},
+            Data   => $Text
+        );
     }
 
     # do mail to quote
@@ -2232,7 +2287,10 @@ sub BuildSelection {
     # check needed stuff
     for (qw(Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2301,7 +2359,10 @@ sub NoPermission {
     # create output
     my $Output;
     $Output = $Self->Header( Title => 'Insufficient Rights' ) if ( $WithHeader eq 'yes' );
-    $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
+    $Output .= $Self->Output(
+        TemplateFile => 'NoPermission',
+        Data         => \%Param
+    );
     $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
 
     # return output
@@ -2632,8 +2693,7 @@ sub PageNavBar {
 
         # show normal page 1,2,3,...
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
-            my $BaselinkAll
-                = $Baselink
+            my $BaselinkAll = $Baselink
                 . "StartWindow=$WindowStart;StartHit="
                 . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             my $SelectedPage = "";
@@ -2673,8 +2733,7 @@ sub PageNavBar {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
             my $BaselinkAllBack = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
-            my $BaselinkAllNext
-                = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
+            my $BaselinkAllNext = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
@@ -2705,8 +2764,7 @@ sub PageNavBar {
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
             my $StartWindow     = $WindowStart - $WindowSize - 1;
             my $BaselinkAllBack = $Baselink . 'StartHit=1;StartWindow=1';
-            my $BaselinkAllNext
-                = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
+            my $BaselinkAllNext = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
@@ -2908,7 +2966,10 @@ sub NavigationBar {
     }
 
     # create & return output
-    my $Output = $Self->Output( TemplateFile => 'AgentNavigationBar', Data => \%Param );
+    my $Output = $Self->Output(
+        TemplateFile => 'AgentNavigationBar',
+        Data         => \%Param
+    );
 
     # run nav bar output modules
     my $NavBarOutputModuleConfig = $Self->{ConfigObject}->Get('Frontend::NavBarOutputModule');
@@ -3103,8 +3164,7 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Month}
-            = "<input type=\"text\" "
+        $Param{Month} = "<input type=\"text\" "
             . ( $Validate ? "class=\"Validate_DateMonth $Class\" " : "class=\"$Class\" " )
             . "name=\"${Prefix}Month\" id=\"${Prefix}Month\" size=\"2\" maxlength=\"2\" "
             . "title=\""
@@ -3335,7 +3395,7 @@ sub CustomerLogin {
         );
     }
 
-   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
     $Self->LoaderCreateCustomerJSCalls();
 
@@ -3368,7 +3428,10 @@ sub CustomerLogin {
     }
 
     # create & return output
-    $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
+    $Output .= $Self->Output(
+        TemplateFile => 'CustomerLogin',
+        Data         => \%Param
+    );
 
     # remove the version tag from the header if configured
     $Self->_DisableBannerCheck( OutputRef => \$Output );
@@ -3403,8 +3466,7 @@ sub CustomerHeader {
         && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }
         )
     {
-        $Param{Title}
-            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title}
+        $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
     if (
@@ -3420,8 +3482,7 @@ sub CustomerHeader {
         && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }
         )
     {
-        $Param{Title}
-            = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
+        $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
     for my $Word (qw(Value Title Area)) {
@@ -3528,7 +3589,7 @@ sub CustomerFooter {
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
-                VacationDays => $VacationDaysJSON,
+                VacationDays  => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
@@ -3542,7 +3603,10 @@ sub CustomerFooter {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
+    return $Self->Output(
+        TemplateFile => "CustomerFooter$Type",
+        Data         => \%Param
+    );
 }
 
 sub CustomerFatalError {
@@ -3555,7 +3619,10 @@ sub CustomerFatalError {
             Message  => $Param{Message},
         );
     }
-    my $Output = $Self->CustomerHeader( Area => 'Frontend', Title => 'Fatal Error' );
+    my $Output = $Self->CustomerHeader(
+        Area  => 'Frontend',
+        Title => 'Fatal Error'
+    );
     $Output .= $Self->Error(%Param);
     $Output .= $Self->CustomerFooter();
     $Self->Print( Output => \$Output );
@@ -3636,8 +3703,7 @@ sub CustomerNavigationBar {
 
             # show as sub of main menu
             elsif ( $Item->{Type} eq 'Submenu' ) {
-                $NavBarModule{Sub}->{ $Item->{NavBar} }->{ sprintf( "%07d", $Item->{Prio} ) }
-                    = $Item;
+                $NavBarModule{Sub}->{ $Item->{NavBar} }->{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
             }
             else {
                 $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
@@ -3800,7 +3866,10 @@ sub CustomerNavigationBar {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'CustomerNavigationBar', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'CustomerNavigationBar',
+        Data         => \%Param
+    );
 }
 
 sub CustomerError {
@@ -3816,7 +3885,7 @@ sub CustomerError {
     if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => $Param{Message} || '?',
+            Message  => $Param{Message} || '?',
         );
         for (qw(Message Traceback)) {
             $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
@@ -3831,7 +3900,10 @@ sub CustomerError {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'CustomerError', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'CustomerError',
+        Data         => \%Param
+    );
 }
 
 sub CustomerErrorScreen {
@@ -3861,7 +3933,10 @@ sub CustomerWarning {
     }
 
     # create & return output
-    return $Self->Output( TemplateFile => 'CustomerWarning', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'CustomerWarning',
+        Data         => \%Param
+    );
 }
 
 sub CustomerNoPermission {
@@ -3873,7 +3948,10 @@ sub CustomerNoPermission {
     # create output
     my $Output;
     $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
-    $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
+    $Output .= $Self->Output(
+        TemplateFile => 'NoPermission',
+        Data         => \%Param
+    );
     $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
 
     # return output
@@ -3896,7 +3974,10 @@ sub Ascii2RichText {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3925,7 +4006,10 @@ sub RichText2Ascii {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3955,7 +4039,10 @@ sub RichTextDocumentComplete {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -4002,7 +4089,10 @@ sub _RichTextReplaceLinkOfInlineContent {
     # check needed stuff
     for (qw(String)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -4054,7 +4144,10 @@ sub RichTextDocumentServe {
     # check needed stuff
     for (qw(Data URL Attachments)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -4232,7 +4325,10 @@ sub RichTextDocumentCleanup {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -4260,7 +4356,10 @@ sub _BlockTemplatePreferences {
     my %UsedNames;
     my $TemplateFile = $Param{TemplateFile} || '';
     if ( !defined $Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Template!'
+        );
         return;
     }
 
@@ -4311,7 +4410,10 @@ sub _BlockTemplatePreferences {
             if ($TemplateFile) {
                 $Message .= " ($TemplateFile.dtl)";
             }
-            $Self->{LogObject}->Log( Priority => 'error', Message => $Message );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => $Message
+            );
             $Self->FatalError();
         }
     }
@@ -4328,14 +4430,17 @@ sub _BlockTemplatesReplace {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Template} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Template!'
+        );
         return;
     }
     my $TemplateString = $Param{Template};
 
     # get availabe template block preferences
     my $BlocksRef = $Self->_BlockTemplatePreferences(
-        Template => $$TemplateString,
+        Template     => $$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
     my %BlockLayer;
@@ -4405,7 +4510,7 @@ sub _Output {
 
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
-        Template => \$TemplateString,
+        Template     => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
 
@@ -4850,8 +4955,7 @@ sub _BuildSelectionDataRefCreate {
             @SortKeys = sort { $a <=> $b } ( keys %{$DataLocal} );
         }
         elsif ( $OptionRef->{Sort} eq 'NumericValue' ) {
-            @SortKeys
-                = sort { $DataLocal->{$a} <=> $DataLocal->{$b} } ( keys %{$DataLocal} );
+            @SortKeys = sort { $DataLocal->{$a} <=> $DataLocal->{$b} } ( keys %{$DataLocal} );
         }
         elsif ( $OptionRef->{Sort} eq 'AlphanumericKey' ) {
             @SortKeys = sort( keys %{$DataLocal} );
@@ -4880,8 +4984,7 @@ sub _BuildSelectionDataRefCreate {
             # already done before the translation
         }
         else {
-            @SortKeys
-                = sort { $DataLocal->{$a} cmp $DataLocal->{$b} } ( keys %{$DataLocal} );
+            @SortKeys = sort { $DataLocal->{$a} cmp $DataLocal->{$b} } ( keys %{$DataLocal} );
             $OptionRef->{Sort} = 'AlphanumericValue';
         }
 
@@ -4904,8 +5007,7 @@ sub _BuildSelectionDataRefCreate {
 
                 # translate value
                 if ( $OptionRef->{Translation} ) {
-                    $DataRef->[$Counter]->{Value}
-                        = $Self->{LanguageObject}->Get( $DataRef->[$Counter]->{Value} );
+                    $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Get( $DataRef->[$Counter]->{Value} );
                 }
 
                 # set Selected and Disabled options

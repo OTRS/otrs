@@ -98,7 +98,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
     my ( $Language, $Type );
@@ -112,7 +115,7 @@ sub NotificationGet {
             . ' notification_language, subject, text, content_type '
             . ' FROM notifications WHERE '
             . ' notification_type = ? AND notification_language = ?',
-        Bind => [ \$Type, \$Language, ],
+        Bind  => [ \$Type, \$Language, ],
         Limit => 1,
     );
 
@@ -247,7 +250,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(Type Charset Language Subject Body ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

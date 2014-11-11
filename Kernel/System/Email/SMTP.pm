@@ -73,7 +73,10 @@ sub Check {
 
     # return if no connect was possible
     if ( !$SMTP ) {
-        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
+        return (
+            Successful => 0,
+            Message    => "Can't connect to $Self->{MailHost}: $!!"
+        );
     }
 
     # use smtp auth if configured
@@ -89,7 +92,10 @@ sub Check {
         }
     }
 
-    return ( Successful => 1, SMTP => $SMTP );
+    return (
+        Successful => 1,
+        SMTP       => $SMTP
+    );
 }
 
 sub Send {
@@ -98,7 +104,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

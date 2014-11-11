@@ -77,10 +77,8 @@ sub Run {
             my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch( Search => $QueueData{Email} );
 
             for my $DataRef (@PrivateKeys) {
-                $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                    = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
-                $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                    = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Inline::$DataRef->{Key}"}   = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Detached::$DataRef->{Key}"} = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
             }
         }
 
@@ -152,8 +150,10 @@ sub Run {
 
         # get long queue name
         if ( $GetParam{ParentQueueID} ) {
-            $GetParam{Name}
-                = $Self->{QueueObject}->QueueLookup( QueueID => $GetParam{ParentQueueID}, ) . '::'
+            $GetParam{Name} = $Self->{QueueObject}->QueueLookup(
+                QueueID => $GetParam{ParentQueueID},
+                )
+                . '::'
                 . $GetParam{Name};
         }
 
@@ -214,7 +214,13 @@ sub Run {
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
 
-                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam  => \%GetParam,
+                                QueueData => \%QueueData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -388,7 +394,13 @@ sub Run {
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
 
-                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam  => \%GetParam,
+                                QueueData => \%QueueData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -513,8 +525,11 @@ sub _Edit {
     # verify if queue list should be a list or a tree
     if ( $ListType eq 'tree' ) {
         $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { '' => ' -', %CleanHash, },
-            Name => 'ParentQueueID',
+            Data => {
+                '' => ' -',
+                %CleanHash,
+            },
+            Name           => 'ParentQueueID',
             Selected       => $ParentQueue,
             MaxLevel       => $MaxParentLevel,
             OnChangeSubmit => 0,
@@ -522,8 +537,8 @@ sub _Edit {
     }
     else {
 
-    # leave only queues with $MaxQueueLevel levels, because max allowed level is $MaxQueueLevel + 1:
-    # new queue + $MaxQueueLevel levels of parent queue = $MaxQueueLevel + 1 levels
+        # leave only queues with $MaxQueueLevel levels, because max allowed level is $MaxQueueLevel + 1:
+        # new queue + $MaxQueueLevel levels of parent queue = $MaxQueueLevel + 1 levels
         for my $Key ( sort keys %CleanHash ) {
             my $QueueName      = $CleanHash{$Key};
             my @QueueNameLevel = split( ::, $QueueName );
@@ -544,9 +559,9 @@ sub _Edit {
     }
 
     $Param{QueueLongOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
-        Name => 'QueueID',
-        Size => 15,
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
+        Name           => 'QueueID',
+        Size           => 15,
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );
@@ -583,11 +598,11 @@ sub _Edit {
         PossibleNone => 1,
     );
     $Param{SignatureOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
+        Data        => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Translation => 0,
         Name        => 'SignatureID',
         SelectedID  => $Param{SignatureID},
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'SignatureIDInvalid'} || '' ),
     );
     $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->BuildSelection(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
@@ -599,10 +614,10 @@ sub _Edit {
         Data => {
             $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ),
         },
-        Translation => 0,
-        Name        => 'SystemAddressID',
-        SelectedID  => $Param{SystemAddressID},
-        PossibleNone => 1,     # to avoid automatic assignments if the current SA is invalid
+        Translation  => 0,
+        Name         => 'SystemAddressID',
+        SelectedID   => $Param{SystemAddressID},
+        PossibleNone => 1,                         # to avoid automatic assignments if the current SA is invalid
         Max          => 200,
         Class => 'Validate_Required ' . ( $Param{Errors}->{'SystemAddressIDInvalid'} || '' ),
     );
@@ -621,11 +636,11 @@ sub _Edit {
         SelectedID => $Param{DefaultSignKey},
     );
     $Param{SalutationOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
+        Data        => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
         Translation => 0,
         Name        => 'SalutationID',
         SelectedID  => $Param{SalutationID},
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'SalutationIDInvalid'} || '' ),
     );
     $Param{FollowUpOption} = $Self->{LayoutObject}->BuildSelection(
         Data => {

@@ -122,7 +122,10 @@ sub GroupMemberAdd {
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -196,12 +199,18 @@ sub GroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or GroupID!'
+        );
         return;
     }
     my %Data;
@@ -286,18 +295,27 @@ sub GroupMemberList {
     if ( $Param{Result} && $Param{Result} eq 'ID' ) {
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@ID );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \@ID
+        );
         return @ID;
     }
     if ( $Param{Result} && $Param{Result} eq 'Name' ) {
 
         # set cache
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Name );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \@Name
+        );
         return @Name;
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
     return %Data;
 }
 
@@ -316,7 +334,10 @@ sub GroupLookup {
 
     # check needed stuff
     if ( !$Param{Group} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Group or GroupID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Group or GroupID!'
+        );
         return;
     }
 
@@ -370,7 +391,10 @@ sub GroupLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \$Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \$Result
+    );
 
     # return result
     return $Result;

@@ -32,8 +32,7 @@ sub new {
     # get ldap preferences
     $Self->{Die} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Die' . $Param{Count} );
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Host' . $Param{Count} ) ) {
-        $Self->{Host}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Host' . $Param{Count} );
+        $Self->{Host} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Host' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -48,8 +47,7 @@ sub new {
         )
         )
     {
-        $Self->{BaseDN}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::BaseDN' . $Param{Count} );
+        $Self->{BaseDN} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::BaseDN' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -59,8 +57,7 @@ sub new {
         return;
     }
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UID' . $Param{Count} ) ) {
-        $Self->{UID}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UID' . $Param{Count} );
+        $Self->{UID} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UID' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -69,36 +66,27 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} )
+    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserDN' . $Param{Count} )
         || '';
-    $Self->{SearchUserPw}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::SearchUserPw' . $Param{Count} )
         || '';
-    $Self->{GroupDN}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
-    $Self->{AccessAttr}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
+    $Self->{GroupDN} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::GroupDN' . $Param{Count} ) || '';
+    $Self->{AccessAttr} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AccessAttr' . $Param{Count} )
         || '';
-    $Self->{UserAttr}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )
+    $Self->{UserAttr} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserAttr' . $Param{Count} )
         || 'DN';
-    $Self->{UserSuffix}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )
+    $Self->{UserSuffix} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::UserSuffix' . $Param{Count} )
         || '';
-    $Self->{DestCharset}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Charset' . $Param{Count} )
+    $Self->{DestCharset} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Charset' . $Param{Count} )
         || 'utf-8';
 
     # ldap filter always used
-    $Self->{AlwaysFilter}
-        = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} )
+    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::AlwaysFilter' . $Param{Count} )
         || '';
 
     # Net::LDAP new params
     if ( $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params}
-            = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} );
+        $Self->{Params} = $Self->{ConfigObject}->Get( 'Customer::AuthModule::LDAP::Params' . $Param{Count} );
     }
     else {
         $Self->{Params} = {};
@@ -112,12 +100,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -129,7 +122,10 @@ sub Auth {
     # check needed stuff
     for (qw(User Pw)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -179,7 +175,10 @@ sub Auth {
     }
     my $Result = '';
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-        $Result = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+        $Result = $LDAP->bind(
+            dn       => $Self->{SearchUserDN},
+            password => $Self->{SearchUserPw}
+        );
     }
     else {
         $Result = $LDAP->bind();
@@ -309,7 +308,10 @@ sub Auth {
     }
 
     # bind with user data -> real user auth.
-    $Result = $LDAP->bind( dn => $UserDN, password => $Param{Pw} );
+    $Result = $LDAP->bind(
+        dn       => $UserDN,
+        password => $Param{Pw}
+    );
     if ( $Result->code() ) {
 
         # failed login note

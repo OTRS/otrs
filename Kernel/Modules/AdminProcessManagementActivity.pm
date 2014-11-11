@@ -40,16 +40,14 @@ sub new {
     }
 
     # create additional objects
-    $Self->{JSONObject}     = Kernel::System::JSON->new( %{$Self} );
-    $Self->{ProcessObject}  = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}   = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityObject} = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-    $Self->{ActivityDialogObject}
-        = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+    $Self->{JSONObject}           = Kernel::System::JSON->new( %{$Self} );
+    $Self->{ProcessObject}        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
+    $Self->{EntityObject}         = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
+    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
+    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
 
     # get available activity dialogs
-    $Self->{ActivityDialogsList}
-        = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Self->{UserID} );
+    $Self->{ActivityDialogsList} = $Self->{ActivityDialogObject}->ActivityDialogListGet( UserID => $Self->{UserID} );
 
     return $Self;
 }
@@ -111,8 +109,7 @@ sub Run {
                 next ACTIVITYDDIALOG if !$ActivityDialogConfig;
                 next ACTIVITYDDIALOG if !$ActivityDialogConfig->{ID};
 
-                $ActivityDialogsLookup{ $ActivityDialogConfig->{ID} }
-                    = $ActivityDialogConfig;
+                $ActivityDialogsLookup{ $ActivityDialogConfig->{ID} } = $ActivityDialogConfig;
             }
 
             my %ConfigActivityDialog;
@@ -222,13 +219,10 @@ sub Run {
                 Subaction => 'ActivityEdit'               # always use edit screen
             );
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -334,8 +328,7 @@ sub Run {
                 next ACTIVITYDDIALOG if !$ActivityDialogConfig;
                 next ACTIVITYDDIALOG if !$ActivityDialogConfig->{ID};
 
-                $ActivityDialogsLookup{ $ActivityDialogConfig->{ID} }
-                    = $ActivityDialogConfig;
+                $ActivityDialogsLookup{ $ActivityDialogConfig->{ID} } = $ActivityDialogConfig;
             }
 
             my %ConfigActivityDialog;
@@ -434,13 +427,10 @@ sub Run {
                 Subaction => 'ActivityEdit'               # always use edit screen
             );
 
-            my $RedirectAction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' ) || '';
-            my $RedirectSubaction
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
-            my $RedirectID = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
-            my $RedirectEntityID
-                = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' ) || '';
+            my $RedirectAction    = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectAction' )    || '';
+            my $RedirectSubaction = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectSubaction' ) || '';
+            my $RedirectID        = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' )        || '';
+            my $RedirectEntityID  = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectEntityID' )  || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -540,8 +530,7 @@ sub Run {
             next ACTIVITYDDIALOG if !$ActivityDialogConfig;
             next ACTIVITYDDIALOG if !$ActivityDialogConfig->{EntityID};
 
-            $ActivityDialogsLookup{ $ActivityDialogConfig->{EntityID} }
-                = $ActivityDialogConfig;
+            $ActivityDialogsLookup{ $ActivityDialogConfig->{EntityID} } = $ActivityDialogConfig;
         }
 
         if ( !$ActivityDialogsLookup{ $Param{ActivityDialog} } ) {
@@ -672,8 +661,7 @@ sub _GetActivityConfig {
 
     my %ActivityConfig;
     $ActivityConfig{Activity} = ();
-    $ActivityConfig{Activity}->{ $Param{EntityID} }
-        = $ProcessDump->{Activity}->{ $Param{EntityID} };
+    $ActivityConfig{Activity}->{ $Param{EntityID} } = $ProcessDump->{Activity}->{ $Param{EntityID} };
 
     return \%ActivityConfig;
 }
@@ -718,8 +706,7 @@ sub _ShowEdit {
         next ACTIVITYDDIALOG if !$ActivityDialogConfig;
         next ACTIVITYDDIALOG if !$ActivityDialogConfig->{EntityID};
 
-        $AvailableActivityDialogsLookup{ $ActivityDialogConfig->{EntityID} }
-            = $ActivityDialogConfig;
+        $AvailableActivityDialogsLookup{ $ActivityDialogConfig->{EntityID} } = $ActivityDialogConfig;
     }
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
@@ -781,8 +768,7 @@ sub _ShowEdit {
         # display used activity dialogs
         for my $Order ( sort { $a <=> $b } keys %{ $ActivityData->{Config}->{ActivityDialog} } ) {
 
-            my $ActivityDialogData
-                = $AssignedActivityDialogs{ $ActivityData->{Config}->{ActivityDialog}->{$Order} };
+            my $ActivityDialogData = $AssignedActivityDialogs{ $ActivityData->{Config}->{ActivityDialog}->{$Order} };
 
             my $AvailableIn       = '';
             my $ConfigAvailableIn = $ActivityDialogData->{Config}->{Interface};

@@ -292,7 +292,10 @@ sub TableCreateSimple {
 
     # check needed stuff
     if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ObjectLinkListWithData!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ObjectLinkListWithData!'
+        );
         return;
     }
 
@@ -355,7 +358,10 @@ sub ContentStringCreate {
 
     # check needed stuff
     if ( !$Param{ContentData} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ContentData!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ContentData!'
+        );
         return;
     }
 
@@ -488,7 +494,7 @@ sub SearchOptionList {
             $Self->{LayoutObject}->Block(
                 Name => 'InputText',
                 Data => {
-                    Key => $Row->{FormKey},
+                    Key   => $Row->{FormKey},
                     Value => $Row->{FormData} || '',
                 },
             );

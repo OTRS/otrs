@@ -85,8 +85,7 @@ sub new {
         }
     }
 
-    $Self->{SystemAddressObject}
-        = $Param{SystemAddressObject} || Kernel::System::SystemAddress->new( %{$Self} );
+    $Self->{SystemAddressObject} = $Param{SystemAddressObject} || Kernel::System::SystemAddress->new( %{$Self} );
 
     return $Self;
 }
@@ -115,7 +114,10 @@ sub AutoResponseAdd {
     # check needed stuff
     for (qw(Name ValidID Response ContentType AddressID TypeID Charset UserID Subject)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -172,7 +174,10 @@ sub AutoResponseGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -257,7 +262,10 @@ sub AutoResponseUpdate {
     # check needed stuff
     for (qw(ID Name ValidID Response AddressID Charset ContentType UserID Subject)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -324,7 +332,10 @@ sub AutoResponseGetByTypeQueueID {
     # check needed stuff
     for (qw(QueueID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -442,7 +453,10 @@ sub AutoResponseQueue {
     # check needed stuff
     for (qw(QueueID AutoResponseIDs UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

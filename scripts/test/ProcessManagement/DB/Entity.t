@@ -148,8 +148,7 @@ for my $Test (@Tests) {
             "$Test->{Name} | Cache match EntityCounter",
         );
 
-        my $EntityPrefix
-            = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
+        my $EntityPrefix = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
             ->{ $Test->{Config}->{EntityType} };
 
         $OriginalEntityIDs{ $Test->{Config}->{EntityType} } = "$EntityPrefix$EntityCounter";
@@ -248,8 +247,7 @@ for my $Test (@Tests) {
             "$Test->{Name} | EntityID should not be undef",
         );
 
-        my $EntityPrefix
-            = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
+        my $EntityPrefix = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
             ->{ $Test->{Config}->{EntityType} };
 
         my $Match;
@@ -461,8 +459,7 @@ for my $Test (@Tests) {
         if ( $Test->{Config}->{EntityID} ) {
             my $EntityID = $Test->{Config}->{EntityID};
 
-            my $EntityPrefix
-                = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
+            my $EntityPrefix = $Self->{ConfigObject}->Get('Process::Entity::Prefix')
                 ->{ $Test->{Config}->{EntityType} };
 
             # remove prefix

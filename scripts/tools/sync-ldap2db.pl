@@ -78,7 +78,13 @@ my $DBTable   = 'customer_user';
 
 # ldap connect and bind (maybe with SearchUserDN and SearchUserPw)
 my $LDAP = Net::LDAP->new( $LDAPHost, %LDAPParams ) || die "$@";
-if ( !$LDAP->bind( dn => $LDAPBindDN, password => $LDAPBindPW ) ) {
+if (
+    !$LDAP->bind(
+        dn       => $LDAPBindDN,
+        password => $LDAPBindPW
+    )
+    )
+{
     $CommonObject{LogObject}->Log(
         Priority => 'error',
         Message  => "Bind failed!",
@@ -148,8 +154,7 @@ for (qw(0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z)
             my $SQL = '';
             if ( $Type eq 'UPDATE' ) {
                 print "UPDATE: $UID\n";
-                $SQL
-                    = "UPDATE $DBTable SET $SQLPre, valid_id = 1, change_time = current_timestamp, change_by = 1 ";
+                $SQL = "UPDATE $DBTable SET $SQLPre, valid_id = 1, change_time = current_timestamp, change_by = 1 ";
                 $SQL .= " WHERE $UidDB = '" . $CommonObject{DBObject}->Quote($UID) . "'";
             }
             else {

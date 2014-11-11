@@ -128,8 +128,7 @@ sub new {
     # ldap filter always used
     $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{Params}->{AlwaysFilter} || '';
 
-    $Self->{ExcludePrimaryCustomerID}
-        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
     if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
@@ -212,7 +211,10 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserLogin!'
+        );
         return;
     }
 
@@ -365,8 +367,7 @@ sub CustomerSearch {
     return if !$Self->_Connect();
 
     # combine needed attrs
-    my @Attributes
-        = ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} }, $Self->{CustomerKey} );
+    my @Attributes = ( @{ $Self->{CustomerUserMap}->{CustomerUserListFields} }, $Self->{CustomerKey} );
 
     # perform user search
     my $Result = $Self->{LDAP}->search(
@@ -405,8 +406,7 @@ sub CustomerSearch {
         $CustomerString =~ s/^(.*)\s(.+?\@.+?\..+?)(\s|)$/"$1" <$2>/;
 
         if ( defined $Entry->get_value( $Self->{CustomerKey} ) ) {
-            $Users{ $Self->_ConvertFrom( $Entry->get_value( $Self->{CustomerKey} ) ) }
-                = $CustomerString;
+            $Users{ $Self->_ConvertFrom( $Entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
         }
     }
 
@@ -650,7 +650,10 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -664,7 +667,9 @@ sub CustomerIDs {
     }
 
     # get customer data
-    my %Data = $Self->CustomerUserDataGet( User => $Param{User}, );
+    my %Data = $Self->CustomerUserDataGet(
+        User => $Param{User},
+    );
 
     # there are multi customer ids
     my @CustomerIDs;
@@ -719,7 +724,10 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need User!'
+        );
         return;
     }
 
@@ -816,11 +824,17 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Not supported for this module!'
+    );
 
     return;
 }
@@ -830,11 +844,17 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Not supported for this module!'
+    );
 
     return;
 }
@@ -846,11 +866,17 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is read only!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Customer backend is read only!'
+        );
         return;
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'Not supported for this module!'
+    );
 
     return;
 }
@@ -863,8 +889,7 @@ sub GenerateRandomPassword {
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars
-        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
+    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);
@@ -883,7 +908,10 @@ sub SetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -902,7 +930,10 @@ sub GetPreferences {
 
     # check needed params
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 

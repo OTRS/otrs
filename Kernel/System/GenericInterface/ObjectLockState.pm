@@ -107,7 +107,10 @@ sub ObjectLockStateSet {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID LockState)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -183,7 +186,10 @@ sub ObjectLockStateGet {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -238,7 +244,10 @@ sub ObjectLockStateDelete {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -277,7 +286,10 @@ sub ObjectLockStatePurge {
     # check needed stuff
     for my $Key (qw(WebserviceID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -327,7 +339,10 @@ sub ObjectLockStateList {
     # check needed stuff
     for my $Key (qw(ObjectType)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

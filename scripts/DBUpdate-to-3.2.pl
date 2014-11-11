@@ -236,12 +236,10 @@ sub _CleanupUserPreferences {
     # Remove useless UserLastLoginTimestamp because UserLastLogin contains the same data.
     # With OTRS 3.2 we convert the data from UserLastLogin to UserLastLoginTimestamp automatically.
 
-    my $CustomerPreferencesTable
-        = $CommonObject->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
+    my $CustomerPreferencesTable = $CommonObject->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
         || 'customer_preferences';
 
-    my $CustomerPreferencesTableKey
-        = $CommonObject->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
+    my $CustomerPreferencesTableKey = $CommonObject->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
         || 'preferences_key';
 
     $CommonObject->{DBObject}->Do(
@@ -280,8 +278,7 @@ sub _MigrateToolbarConfig {
     return 1 if !IsHashRefWithData( $ToolbarConfig->{'10-Ticket::TicketSearchFulltext'} );
 
     # update to use the new generic module name
-    $ToolbarConfig->{'10-Ticket::TicketSearchFulltext'}->{Module}
-        = 'Kernel::Output::HTML::ToolBarGeneric';
+    $ToolbarConfig->{'10-Ticket::TicketSearchFulltext'}->{Module} = 'Kernel::Output::HTML::ToolBarGeneric';
 
     my $SysConfigObject = Kernel::System::SysConfig->new( %{$CommonObject} );
 

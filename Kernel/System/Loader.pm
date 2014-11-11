@@ -146,7 +146,7 @@ sub MinifyFiles {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }
@@ -286,7 +286,7 @@ sub GetMinifiedFile {
     if ( !$Param{Type} || !$ValidTypeParams{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
+            Message  => "Need Type! Must be one of '" . join( ', ', keys %ValidTypeParams ) . "'."
         );
         return;
     }

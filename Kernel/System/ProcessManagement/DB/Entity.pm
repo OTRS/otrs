@@ -92,8 +92,7 @@ sub new {
     $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('Process::CacheTTL') || 3600 );
 
     $Self->{ValidEntities} = {
         'Process'          => 1,
@@ -156,8 +155,7 @@ sub EntityIDGenerate {
     $EntityCounter++;
 
     # get entity prefix
-    my $EntityPrefix
-        = $Self->{ConfigObject}->Get('Process::Entity::Prefix')->{ $Param{EntityType} } || 'E';
+    my $EntityPrefix = $Self->{ConfigObject}->Get('Process::Entity::Prefix')->{ $Param{EntityType} } || 'E';
 
     my $EntityID = $EntityPrefix . $EntityCounter;
 
@@ -219,8 +217,7 @@ sub EntityIDUpdate {
     );
 
     # get entity prefix
-    my $EntityPrefix
-        = $Self->{ConfigObject}->Get('Process::Entity::Prefix')->{ $Param{EntityType} } || 'E';
+    my $EntityPrefix = $Self->{ConfigObject}->Get('Process::Entity::Prefix')->{ $Param{EntityType} } || 'E';
 
     my $NewEntityCounter;
     if ( $Param{EntityID} ) {
@@ -377,7 +374,10 @@ sub EntitySyncStateSet {
     # check needed stuff
     for my $Needed (qw(EntityType EntityID SyncState UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -452,7 +452,10 @@ sub EntitySyncStateGet {
     # check needed stuff
     for my $Needed (qw(EntityType EntityID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -515,7 +518,10 @@ sub EntitySyncStateDelete {
     # check needed stuff
     for my $Key (qw(EntityType EntityID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -560,7 +566,10 @@ sub EntitySyncStatePurge {
     # check needed stuff
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
@@ -607,7 +616,10 @@ sub EntitySyncStateList {
     # check needed stuff
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

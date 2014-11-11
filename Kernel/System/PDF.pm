@@ -178,10 +178,9 @@ sub DocumentNew {
     }
 
     # today
-    my ( $NowSec, $NowMin, $NowHour, $NowDay, $NowMonth, $NowYear )
-        = $Self->{TimeObject}->SystemTime2Date(
+    my ( $NowSec, $NowMin, $NowHour, $NowDay, $NowMonth, $NowYear ) = $Self->{TimeObject}->SystemTime2Date(
         SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
+    );
 
     # set document infos
     $Self->{PDF}->info(
@@ -265,7 +264,10 @@ sub PageBlankNew {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Object!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Object!"
+        );
         return;
     }
 
@@ -300,7 +302,9 @@ sub PageBlankNew {
         }
 
         # set the page numbers
-        $Self->_CurPageNumberSet( ShowPageNumber => $ShowPageNumber, );
+        $Self->_CurPageNumberSet(
+            ShowPageNumber => $ShowPageNumber,
+        );
 
         # set printable dimension
         $Self->_CurPrintableDimSet(
@@ -311,7 +315,9 @@ sub PageBlankNew {
         );
 
         # set activ dimension
-        $Self->DimSet( Dim => 'content', );
+        $Self->DimSet(
+            Dim => 'content',
+        );
 
         return 1;
     }
@@ -351,7 +357,10 @@ sub PageNew {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Object!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Object!"
+        );
         return;
     }
 
@@ -380,12 +389,17 @@ sub PageNew {
     # create a blank page
     $Self->PageBlankNew(%Data);
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page Object!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page Object!"
+        );
         return;
     }
 
     # set activ dimension
-    $Self->DimSet( Dim => 'printable', );
+    $Self->DimSet(
+        Dim => 'printable',
+    );
 
     # get current printable dimension
     my %Printable = $Self->_CurPrintableDimGet();
@@ -581,7 +595,9 @@ sub PageNew {
     }
 
     # set activ dimension
-    $Self->DimSet( Dim => 'content', );
+    $Self->DimSet(
+        Dim => 'content',
+    );
 
     return 1;
 }
@@ -598,11 +614,17 @@ sub DocumentOutput {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Object!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Object!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -701,18 +723,27 @@ sub Table {
     # check needed stuff
     for (qw(CellData)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             $Param{State} = 1;
             return;
         }
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         $Param{State} = 1;
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         $Param{State} = 1;
         return;
     }
@@ -862,16 +893,16 @@ sub Table {
                             for ( $Block{ReturnColumnStart} .. $Block{ReturnColumnStop} ) {
                                 my $Column = $_;
                                 $Self->_TableCellOutput(
-                                    Text       => $Param{CellData}->[$Row]->[$Column]->{Content},
-                                    Type       => $Param{CellData}->[$Row]->[$Column]->{Type},
-                                    Width      => $Param{ColumnData}->[$Column]->{OutputWidth},
-                                    Height     => $Param{RowData}->[$Row]->{OutputHeight},
-                                    Font       => $Param{CellData}->[$Row]->[$Column]->{Font},
-                                    FontSize   => $Param{CellData}->[$Row]->[$Column]->{FontSize},
-                                    FontColor  => $Param{CellData}->[$Row]->[$Column]->{FontColor},
-                                    Align      => $Param{CellData}->[$Row]->[$Column]->{Align},
-                                    Lead       => $Param{CellData}->[$Row]->[$Column]->{Lead},
-                                    PaddingTop => $Param{PaddingTop},
+                                    Text          => $Param{CellData}->[$Row]->[$Column]->{Content},
+                                    Type          => $Param{CellData}->[$Row]->[$Column]->{Type},
+                                    Width         => $Param{ColumnData}->[$Column]->{OutputWidth},
+                                    Height        => $Param{RowData}->[$Row]->{OutputHeight},
+                                    Font          => $Param{CellData}->[$Row]->[$Column]->{Font},
+                                    FontSize      => $Param{CellData}->[$Row]->[$Column]->{FontSize},
+                                    FontColor     => $Param{CellData}->[$Row]->[$Column]->{FontColor},
+                                    Align         => $Param{CellData}->[$Row]->[$Column]->{Align},
+                                    Lead          => $Param{CellData}->[$Row]->[$Column]->{Lead},
+                                    PaddingTop    => $Param{PaddingTop},
                                     PaddingRight  => $Param{PaddingRight},
                                     PaddingBottom => $Param{PaddingBottom},
                                     PaddingLeft   => $Param{PaddingLeft},
@@ -910,8 +941,7 @@ sub Table {
                         }
                         else {
                             my $NewOutputHeight = $Position{Y} - $Dim{Bottom};
-                            my $NewTextHeight
-                                = $NewOutputHeight
+                            my $NewTextHeight   = $NewOutputHeight
                                 - $Param{PaddingTop}
                                 - $Param{PaddingBottom}
                                 - ( 2 * $Param{Border} );
@@ -936,9 +966,9 @@ sub Table {
                                         FontSize => $Param{CellData}->[$Row]->[$Column]->{FontSize},
                                         FontColor =>
                                             $Param{CellData}->[$Row]->[$Column]->{FontColor},
-                                        Align      => $Param{CellData}->[$Row]->[$Column]->{Align},
-                                        Lead       => $Param{CellData}->[$Row]->[$Column]->{Lead},
-                                        PaddingTop => $Param{PaddingTop},
+                                        Align         => $Param{CellData}->[$Row]->[$Column]->{Align},
+                                        Lead          => $Param{CellData}->[$Row]->[$Column]->{Lead},
+                                        PaddingTop    => $Param{PaddingTop},
                                         PaddingRight  => $Param{PaddingRight},
                                         PaddingBottom => $Param{PaddingBottom},
                                         PaddingLeft   => $Param{PaddingLeft},
@@ -950,8 +980,7 @@ sub Table {
 
                                     # set new content
                                     if ( !$Return{State} ) {
-                                        $Param{CellData}->[$Row]->[$Column]->{Content}
-                                            = $Return{LeftOver};
+                                        $Param{CellData}->[$Row]->[$Column]->{Content} = $Return{LeftOver};
                                     }
                                     else {
                                         $Param{CellData}->[$Row]->[$Column]->{Content} = ' ';
@@ -1052,7 +1081,9 @@ sub Table {
     }
 
     # count remaining cells
-    my $RemainingCells = $Self->_TableCellOnCount( CellData => $Param{CellData}, );
+    my $RemainingCells = $Self->_TableCellOnCount(
+        CellData => $Param{CellData},
+    );
 
     # set state
     if ( !$RemainingCells ) {
@@ -1094,16 +1125,25 @@ sub Text {
     # check needed stuff
     for (qw(Text)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1193,20 +1233,28 @@ sub Text {
             if ( $Param{Align} eq 'right' ) {
 
                 # set new position
-                $Self->_CurPositionSet( X => $PositionX + $Param{Width} - $RowWidth, );
+                $Self->_CurPositionSet(
+                    X => $PositionX + $Param{Width} - $RowWidth,
+                );
             }
             elsif ( $Param{Align} eq 'center' ) {
 
                 # set new position
-                $Self->_CurPositionSet( X => $PositionX + ( ( $Param{Width} - $RowWidth ) / 2 ), );
+                $Self->_CurPositionSet(
+                    X => $PositionX + ( ( $Param{Width} - $RowWidth ) / 2 ),
+                );
             }
 
             # set new position
             if ( $Counter1 > 0 ) {
-                $Self->_CurPositionSet( Y => $Position{Y} - $Param{FontSize} - $Param{Lead}, );
+                $Self->_CurPositionSet(
+                    Y => $Position{Y} - $Param{FontSize} - $Param{Lead},
+                );
             }
             else {
-                $Self->_CurPositionSet( Y => $Position{Y} - $Param{FontSize}, );
+                $Self->_CurPositionSet(
+                    Y => $Position{Y} - $Param{FontSize},
+                );
             }
 
             # get current position
@@ -1222,7 +1270,9 @@ sub Text {
         }
 
         # set new position
-        $Self->_CurPositionSet( X => $PositionX, );
+        $Self->_CurPositionSet(
+            X => $PositionX,
+        );
     }
 
     return %Return;
@@ -1247,20 +1297,32 @@ sub Image {
     # check needed stuff
     for (qw(File Width Height)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
     if ( !-e $Param{File} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "File $Param{File} not found!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "File $Param{File} not found!"
+        );
         return;
     }
 
@@ -1342,7 +1404,9 @@ sub Image {
         );
 
         # set new position
-        $Self->_CurPositionSet( Y => $Position{Y} - $Param{Height}, );
+        $Self->_CurPositionSet(
+            Y => $Position{Y} - $Param{Height},
+        );
     }
 
     return $Return;
@@ -1365,11 +1429,17 @@ sub HLine {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1461,7 +1531,9 @@ sub HLine {
         $Line->fill();
 
         # set new position
-        $Self->_CurPositionSet( Y => $Position{Y} - $Param{LineWidth}, );
+        $Self->_CurPositionSet(
+            Y => $Position{Y} - $Param{LineWidth},
+        );
     }
 
     return $Output;
@@ -1483,11 +1555,17 @@ sub PositionSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1608,11 +1686,17 @@ sub PositionGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1635,11 +1719,17 @@ sub DimSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1665,11 +1755,17 @@ sub DimGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1771,7 +1867,10 @@ sub _TableCalculate {
         )
     {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1788,11 +1887,17 @@ sub _TableCalculate {
         return;
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -1894,7 +1999,9 @@ sub _TableCalculate {
 
             # prepare text
             if ( defined( $Cell->{Content} ) ) {
-                $Cell->{Content} = $Self->_PrepareText( Text => $Cell->{Content}, );
+                $Cell->{Content} = $Self->_PrepareText(
+                    Text => $Cell->{Content},
+                );
             }
 
             # set content blank, if not defined
@@ -1975,8 +2082,7 @@ sub _TableCalculate {
         }
 
         # reduce calculated width and width, if calculated width is greater than table width
-        my $MaxWidth
-            = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - ( 2 * $Param{Border} );
+        my $MaxWidth = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - ( 2 * $Param{Border} );
         if ( $Column->{EstimateWidth} > $MaxWidth ) {
             $Column->{EstimateWidth} = $MaxWidth;
             if ( $Column->{Width} > 0 ) {
@@ -2001,8 +2107,7 @@ sub _TableCalculate {
     my $Block   = 0;
     my $Counter = 0;
     for my $Column ( @{ $Param{ColumnData} } ) {
-        my $ColumnWidth
-            = $Column->{EstimateWidth}
+        my $ColumnWidth = $Column->{EstimateWidth}
             + $Param{PaddingLeft}
             + $Param{PaddingRight}
             + ( 2 * $Param{Border} );
@@ -2071,8 +2176,7 @@ sub _TableCalculate {
                 $ExtraSpace = $ExtraSpaceDyn;
             }
 
-            $Column->{OutputWidth}
-                = $Column->{EstimateWidth}
+            $Column->{OutputWidth} = $Column->{EstimateWidth}
                 + $ExtraSpace
                 + $Param{PaddingLeft}
                 + $Param{PaddingRight}
@@ -2125,7 +2229,10 @@ sub _TableBlockNextCalculate {
     # check needed stuff
     for (qw(CellData ColumnData)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2137,11 +2244,17 @@ sub _TableBlockNextCalculate {
         return;
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -2229,7 +2342,10 @@ sub _TableRowCalculate {
     # check needed stuff
     for (qw(CellData RowData ColumnData Row)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2246,11 +2362,17 @@ sub _TableRowCalculate {
         return;
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -2287,8 +2409,7 @@ sub _TableRowCalculate {
             $Param{RowData}->[ $Param{Row} ]->{TextHeight} = $BiggerstFontSize;
         }
     }
-    $Param{RowData}->[ $Param{Row} ]->{OutputHeight}
-        = $Param{RowData}->[ $Param{Row} ]->{TextHeight}
+    $Param{RowData}->[ $Param{Row} ]->{OutputHeight} = $Param{RowData}->[ $Param{Row} ]->{TextHeight}
         + $Param{PaddingTop}
         + $Param{PaddingBottom}
         + ( 2 * $Param{Border} );
@@ -2344,16 +2465,25 @@ sub _TableCellOutput {
         )
     {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
     my %Dim;
@@ -2420,10 +2550,8 @@ sub _TableCellOutput {
     my $TextY = $Position{Y} - $Param{Border} - $Param{PaddingTop} + 1;
 
     # calculate width and height of text
-    my $TextWidth
-        = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} - ( 2 * $Param{Border} );
-    my $TextHeight
-        = $Param{Height} - $Param{PaddingTop} - $Param{PaddingBottom} - ( 2 * $Param{Border} );
+    my $TextWidth  = $Param{Width} - $Param{PaddingLeft} - $Param{PaddingRight} -  ( 2 * $Param{Border} );
+    my $TextHeight = $Param{Height} - $Param{PaddingTop} - $Param{PaddingBottom} - ( 2 * $Param{Border} );
 
     # set new position
     $Self->PositionSet(
@@ -2467,7 +2595,10 @@ sub _TableCellOnCount {
     # check needed stuff
     for (qw(CellData)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2479,11 +2610,17 @@ sub _TableCellOnCount {
         return;
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
     for my $Row ( @{ $Param{CellData} } ) {
@@ -2534,16 +2671,25 @@ sub _TextCalculate {
     # check needed stuff
     for (qw(Text Type Width Height Font FontSize Lead)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
     my $TextLength = 0;
@@ -2553,7 +2699,9 @@ sub _TextCalculate {
         $Param{Text}      = undef;
     }
     else {
-        $Param{Text} = $Self->_PrepareText( Text => $Param{Text}, );
+        $Param{Text} = $Self->_PrepareText(
+            Text => $Param{Text},
+        );
         $TextLength = length( $Param{Text} );
     }
     my $Counter1 = 0;
@@ -2761,20 +2909,29 @@ sub _StringWidth {
     # check needed stuff
     for (qw(Text Font FontSize)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check document
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
 
     # check page
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -2791,8 +2948,7 @@ sub _StringWidth {
     my $StringWidth = $Self->{TextWidthObject}->advancewidth( $Param{Text} );
 
     # write width to cache
-    $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} }
-        = $StringWidth;
+    $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} } = $StringWidth;
 
     return $StringWidth;
 }
@@ -2813,16 +2969,25 @@ sub _PrepareText {
     # check needed stuff
     for (qw(Text)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -2853,11 +3018,17 @@ sub _CurPageNumberSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -2880,8 +3051,7 @@ sub _CurPageNumberSet {
     }
     else {
         $Self->{Current}->{PageNumber}++;
-        $Self->{PageData}->{ $Self->{Current}->{Page} }->{PageNumber}
-            = $Self->{Current}->{PageNumber};
+        $Self->{PageData}->{ $Self->{Current}->{Page} }->{PageNumber} = $Self->{Current}->{PageNumber};
     }
 
     return 1;
@@ -2903,11 +3073,17 @@ sub _CurPageDimSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -2970,8 +3146,7 @@ sub _CurPageDimSet {
 
         # set new current position
         $Self->{Current}->{PositionX} = $Self->{Current}->{ContentLeft};
-        $Self->{Current}->{PositionY}
-            = $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop};
+        $Self->{Current}->{PositionY} = $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop};
     }
 
     return 1;
@@ -2993,11 +3168,17 @@ sub _CurPageDimGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3029,11 +3210,17 @@ sub _CurPageDimCheck {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3072,11 +3259,17 @@ sub _CurPrintableDimSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3130,12 +3323,10 @@ sub _CurPrintableDimSet {
         if ($NewValue) {
 
             # calculate new printable width and height
-            $Self->{Current}->{PrintableWidth}
-                = $Self->{Current}->{PageWidth}
+            $Self->{Current}->{PrintableWidth} = $Self->{Current}->{PageWidth}
                 - $Self->{Current}->{PrintableLeft}
                 - $Self->{Current}->{PrintableRight};
-            $Self->{Current}->{PrintableHeight}
-                = $Self->{Current}->{PageHeight}
+            $Self->{Current}->{PrintableHeight} = $Self->{Current}->{PageHeight}
                 - $Self->{Current}->{PrintableTop}
                 - $Self->{Current}->{PrintableBottom};
 
@@ -3149,8 +3340,7 @@ sub _CurPrintableDimSet {
 
             # set new current position
             $Self->{Current}->{PositionX} = $Self->{Current}->{ContentLeft};
-            $Self->{Current}->{PositionY}
-                = $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop};
+            $Self->{Current}->{PositionY} = $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop};
         }
     }
 
@@ -3177,11 +3367,17 @@ sub _CurPrintableDimGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3213,11 +3409,17 @@ sub _CurPrintableDimCheck {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3264,11 +3466,17 @@ sub _CurContentDimSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3322,19 +3530,16 @@ sub _CurContentDimSet {
         if ($NewValue) {
 
             # calculate new content width and height
-            $Self->{Current}->{ContentWidth}
-                = $Self->{Current}->{PageWidth}
+            $Self->{Current}->{ContentWidth} = $Self->{Current}->{PageWidth}
                 - $Self->{Current}->{ContentLeft}
                 - $Self->{Current}->{ContentRight};
-            $Self->{Current}->{ContentHeight}
-                = $Self->{Current}->{PageHeight}
+            $Self->{Current}->{ContentHeight} = $Self->{Current}->{PageHeight}
                 - $Self->{Current}->{ContentTop}
                 - $Self->{Current}->{ContentBottom};
 
             # set new current position
             $Self->{Current}->{PositionX} = $Self->{Current}->{ContentLeft};
-            $Self->{Current}->{PositionY}
-                = $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop};
+            $Self->{Current}->{PositionY} = $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop};
         }
     }
 
@@ -3361,11 +3566,17 @@ sub _CurContentDimGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3397,11 +3608,17 @@ sub _CurContentDimCheck {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3439,11 +3656,17 @@ sub _CurPositionSet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 
@@ -3505,11 +3728,17 @@ sub _CurPositionGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Self->{PDF} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a PDF Document!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a PDF Document!"
+        );
         return;
     }
     if ( !$Self->{Page} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need a Page!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need a Page!"
+        );
         return;
     }
 

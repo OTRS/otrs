@@ -36,12 +36,10 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
-    $Self->{SmallViewColumnHeader}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
+    $Self->{SmallViewColumnHeader} = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField};
+    $Self->{DynamicFieldFilter} = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewSmall")->{DynamicField};
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -112,7 +110,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -167,7 +168,7 @@ sub Run {
             # prepare subject
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
 
             # create human age
@@ -198,8 +199,10 @@ sub Run {
                     if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                         return $Self->{LayoutObject}->FatalError();
                     }
-                    my $Object
-                        = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Article{TicketID}, );
+                    my $Object = $Menus{$Menu}->{Module}->new(
+                        %{$Self},
+                        TicketID => $Article{TicketID},
+                    );
 
                     # run module
                     my $Item = $Object->Run(
@@ -304,7 +307,9 @@ sub Run {
             if ( $Item eq 'New Article' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewNavBarPageFlagEmpty',
-                    Data => { Name => $Item, }
+                    Data => {
+                        Name => $Item,
+                        }
                 );
             }
             else {

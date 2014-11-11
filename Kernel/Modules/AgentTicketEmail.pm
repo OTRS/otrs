@@ -112,15 +112,13 @@ sub Run {
 
     # MultipleCustomer To-field
     my @MultipleCustomer;
-    my $CustomersNumber
-        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
+    my $CustomersNumber = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
     my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
 
     if ($CustomersNumber) {
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
-            my $CustomerElement
-                = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerElement = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
             my $CustomerKey = $Self->{ParamObject}->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
@@ -179,15 +177,13 @@ sub Run {
 
     # MultipleCustomer Cc-field
     my @MultipleCustomerCc;
-    my $CustomersNumberCc
-        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
+    my $CustomersNumberCc = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
 
     if ($CustomersNumberCc) {
         my $CustomerCounterCc = 1;
         for my $Count ( 1 ... $CustomersNumberCc ) {
-            my $CustomerElementCc
-                = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
-            my $CustomerKeyCc = $Self->{ParamObject}->GetParam( Param => 'CcCustomerKey_' . $Count )
+            my $CustomerElementCc = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
+            my $CustomerKeyCc     = $Self->{ParamObject}->GetParam( Param => 'CcCustomerKey_' . $Count )
                 || '';
 
             if ($CustomerElementCc) {
@@ -242,16 +238,13 @@ sub Run {
 
     # MultipleCustomer Bcc-field
     my @MultipleCustomerBcc;
-    my $CustomersNumberBcc
-        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
+    my $CustomersNumberBcc = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
 
     if ($CustomersNumberBcc) {
         my $CustomerCounterBcc = 1;
         for my $Count ( 1 ... $CustomersNumberBcc ) {
-            my $CustomerElementBcc
-                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
-            my $CustomerKeyBcc
-                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerKey_' . $Count )
+            my $CustomerElementBcc = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
+            my $CustomerKeyBcc     = $Self->{ParamObject}->GetParam( Param => 'BccCustomerKey_' . $Count )
                 || '';
 
             if ($CustomerElementBcc) {
@@ -317,12 +310,11 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
-            = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -332,8 +324,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -390,16 +381,14 @@ sub Run {
 
                 # override the value from user preferences if is set
                 if ( $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} } ) {
-                    $DefaultValue
-                        = $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} };
+                    $DefaultValue = $UserPreferences{ 'UserDynamicField_' . $DynamicFieldConfig->{Name} };
                 }
 
                 next DYNAMICFIELD if $DefaultValue eq '';
                 next DYNAMICFIELD
                     if ref $DefaultValue eq 'ARRAY' && !IsArrayRefWithData($DefaultValue);
 
-                $DynamicFieldDefaults{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $DefaultValue;
+                $DynamicFieldDefaults{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DefaultValue;
             }
             $GetParam{DynamicField} = \%DynamicFieldDefaults;
 
@@ -435,8 +424,7 @@ sub Run {
                         my %Filter = $Self->{TicketObject}->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
-                        %{$PossibleValuesFilter}
-                            = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                        %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
                             keys %Filter;
                     }
                 }
@@ -470,8 +458,7 @@ sub Run {
                 'HASH'
                 )
             {
-                my %Jobs
-                    = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
+                my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
                 for my $Job ( sort keys %Jobs ) {
 
                     # load module
@@ -479,13 +466,15 @@ sub Run {
                         return $Self->{LayoutObject}->FatalError();
                     }
 
-                    my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                    my $Object = $Jobs{$Job}->{Module}->new(
+                        %{$Self},
+                        Debug => $Self->{Debug},
+                    );
 
                     # get params
                     my %GetParam;
                     for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                        $GetParam{$Parameter}
-                            = $Self->{ParamObject}->GetParam( Param => $Parameter );
+                        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
                     }
 
                     # run module
@@ -611,7 +600,9 @@ sub Run {
         my $NextStateID = $Self->{ParamObject}->GetParam( Param => 'NextStateID' ) || '';
         my %StateData;
         if ($NextStateID) {
-            %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $NextStateID, );
+            %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                ID => $NextStateID,
+            );
         }
         my $NextState        = $StateData{Name};
         my $NewResponsibleID = $Self->{ParamObject}->GetParam( Param => 'NewResponsibleID' ) || '';
@@ -641,8 +632,7 @@ sub Run {
         my $ExpandCustomerName = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName' )
             || 0;
         my %FromExternalCustomer;
-        $FromExternalCustomer{Customer}
-            = $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
+        $FromExternalCustomer{Customer} = $Self->{ParamObject}->GetParam( Param => 'PreSelectedCustomerUser' )
             || $Self->{ParamObject}->GetParam( Param => 'CustomerUser' )
             || '';
         $GetParam{QueueID}            = $NewQueueID;
@@ -729,8 +719,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
                         keys %Filter;
                 }
             }
@@ -763,8 +752,7 @@ sub Run {
             }
 
             # get field html
-            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} }
-                = $Self->{BackendObject}->EditFieldRender(
+            $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory =>
@@ -775,7 +763,7 @@ sub Run {
                 ParamObject  => $Self->{ParamObject},
                 AJAXUpdate   => 1,
                 UpdatableFields => $Self->_GetFieldsToUpdate(),
-                );
+            );
         }
 
         # get all attachments meta data
@@ -820,7 +808,10 @@ sub Run {
             else {
 
                 # don't check email syntax on multi customer select
-                $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 0 );
+                $Self->{ConfigObject}->Set(
+                    Key   => 'CheckEmailAddresses',
+                    Value => 0
+                );
                 $CustomerID = '';
 
                 # clear to if there is no customer found
@@ -883,8 +874,7 @@ sub Run {
             next if !$GetParam{$Parameter};
             for my $Email ( Mail::Address->parse( $GetParam{$Parameter} ) ) {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{ $Parameter . 'ErrorType' }
-                        = $Parameter
+                    $Error{ $Parameter . 'ErrorType' } = $Parameter
                         . $Self->{CheckItemObject}->CheckErrorType()
                         . 'ServerErrorMsg';
                     $Error{ $Parameter . 'Invalid' } = 'ServerError';
@@ -958,7 +948,10 @@ sub Run {
                     return $Self->{LayoutObject}->FatalError();
                 }
 
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
 
                 # get params
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1441,7 +1434,10 @@ sub Run {
                 # load module
                 next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
 
                 # get params
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1736,8 +1732,7 @@ sub _GetServices {
     return \%Service if !$Param{QueueID} && !$Param{TicketID};
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -1864,8 +1859,7 @@ sub _MaskEmailNew {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1935,8 +1929,7 @@ sub _MaskEmailNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $ErrorKey ( sort keys %{ $Param{Errors} } ) {
-            $Param{$ErrorKey}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
+            $Param{$ErrorKey} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$ErrorKey} );
         }
     }
 
@@ -2186,12 +2179,12 @@ sub _MaskEmailNew {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid} || ' ',
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -2380,7 +2373,10 @@ sub _MaskEmailNew {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketEmail', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketEmail',
+        Data         => \%Param
+    );
 }
 
 sub _GetFieldsToUpdate {
@@ -2390,8 +2386,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw(
+        @UpdatableFields = qw(
             TypeID Dest NextStateID PriorityID ServiceID SLAID SignKeyID CryptKeyID To Cc Bcc
         );
     }

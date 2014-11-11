@@ -47,7 +47,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $CustomerID, );
+        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+            CustomerID => $CustomerID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -466,8 +468,7 @@ sub _Overview {
         if (%List) {
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-                my %Data
-                    = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
+                my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {

@@ -177,8 +177,7 @@ sub Run {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => $Self->{LayoutObject}->{LanguageObject}
                         ->Get('Sorry, you need to be the ticket owner to perform this action.'),
-                    Comment => $Self->{LayoutObject}->{LanguageObject}
-                        ->Get('Please change the owner first.'),
+                    Comment => $Self->{LayoutObject}->{LanguageObject}->Get('Please change the owner first.'),
                 );
                 $Output .= $Self->{LayoutObject}->Footer(
                     Type => 'Small',
@@ -228,12 +227,11 @@ sub Run {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} }
-            = $Self->{BackendObject}->EditFieldValueGet(
+        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $Self->{BackendObject}->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ParamObject        => $Self->{ParamObject},
             LayoutObject       => $Self->{LayoutObject},
-            );
+        );
     }
 
     # convert dynamic field values into a structure for ACLs
@@ -243,8 +241,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -448,8 +445,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
                         keys %Filter;
                 }
             }
@@ -758,8 +754,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID
-                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -850,8 +845,7 @@ sub Run {
             next DYNAMICFIELD if !$DynamicField;
             next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-                = $DynamicFieldValues{$DynamicField};
+            $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
         }
 
         # get list type
@@ -1074,8 +1068,7 @@ sub Run {
                     my %Filter = $Self->{TicketObject}->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
-                    %{$PossibleValuesFilter}
-                        = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
+                    %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} }
                         keys %Filter;
                 }
             }
@@ -1248,7 +1241,7 @@ sub _Mask {
 
         # set move queues
         $Param{QueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-            Data => { %MoveQueues, '' => '-' },
+            Data           => { %MoveQueues, '' => '-' },
             Multiple       => 0,
             Size           => 0,
             Class          => 'NewQueueID',
@@ -1536,8 +1529,7 @@ sub _Mask {
                 $Counter++;
             }
 
-            my $InvolvedAgentSize
-                = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
+            my $InvolvedAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
             $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data       => \%UserHash,
                 SelectedID => $Self->{InvolvedUserID},
@@ -1660,7 +1652,10 @@ sub _Mask {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => $Self->{Action}, Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => $Self->{Action},
+        Data         => \%Param
+    );
 }
 
 sub _GetNextStates {
@@ -1802,8 +1797,7 @@ sub _GetServices {
     my %Service;
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -1858,8 +1852,7 @@ sub _GetFieldsToUpdate {
 
     # set the fields that can be updateable via AJAXUpdate
     if ( !$Param{OnlyDynamicFields} ) {
-        @UpdatableFields
-            = qw(
+        @UpdatableFields = qw(
             TypeID ServiceID SLAID NewOwnerID OldOwnerID NewResponsibleID NewStateID
             NewPriorityID
         );

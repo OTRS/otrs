@@ -179,20 +179,18 @@ for my $StatID ( @{$StatsListRef} ) {
 # ---------------------------------------------------------- #
 
 my %OPMS = ();
-my ( $s, $m, $h, $D, $M, $Y )
-    = $CommonObject{TimeObject}->SystemTime2Date(
+my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
     SystemTime => $CommonObject{TimeObject}->SystemTime(),
-    );
+);
 
-$OPMS{Version}{Content}      = $PackageVersion;
-$OPMS{Name}{Content}         = $PackageName;
-$OPMS{Framework}[0]{Content} = '3.1.x';
-$OPMS{Vendor}{Content}       = 'OTRS AG';
-$OPMS{URL}{Content}          = 'http://otrs.org/';
-$OPMS{License}{Content}      = 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991';
-$OPMS{ChangeLog}{Content}    = "$Y-$M-$D Created per otrs.ExportStatsToOPM.pl";
-$OPMS{Description}[0]{Content}
-    = 'Ein Modul um ein Paket mit allen Statistiken eines Systems zu generieren.';
+$OPMS{Version}{Content}        = $PackageVersion;
+$OPMS{Name}{Content}           = $PackageName;
+$OPMS{Framework}[0]{Content}   = '3.1.x';
+$OPMS{Vendor}{Content}         = 'OTRS AG';
+$OPMS{URL}{Content}            = 'http://otrs.org/';
+$OPMS{License}{Content}        = 'GNU GENERAL PUBLIC LICENSE Version 2, June 1991';
+$OPMS{ChangeLog}{Content}      = "$Y-$M-$D Created per otrs.ExportStatsToOPM.pl";
+$OPMS{Description}[0]{Content} = 'Ein Modul um ein Paket mit allen Statistiken eines Systems zu generieren.';
 $OPMS{Description}[0]{Lang}    = 'de';
 $OPMS{Description}[1]{Content} = 'A module to make a package with all stats of an system.';
 $OPMS{Description}[1]{Lang}    = 'en';

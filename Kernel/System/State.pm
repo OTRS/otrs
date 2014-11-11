@@ -126,7 +126,10 @@ sub StateAdd {
     # check needed stuff
     for (qw(Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -195,7 +198,10 @@ sub StateGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID or Name!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID or Name!"
+        );
         return;
     }
 
@@ -285,7 +291,10 @@ sub StateUpdate {
     # check needed stuff
     for (qw(ID Name ValidID TypeID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -354,12 +363,18 @@ sub StateGetStatesByType {
 
     # check needed stuff
     if ( !$Param{Result} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Result!'
+        );
         return;
     }
 
     if ( !$Param{Type} && !$Param{StateType} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Type or StateType!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Type or StateType!'
+        );
         return;
     }
 
@@ -498,7 +513,10 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 
@@ -554,7 +572,10 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{State} && !$Param{StateID} ) {
-        $Self->{LogObject}->Log( State => 'error', Message => 'Need State or StateID!' );
+        $Self->{LogObject}->Log(
+            State   => 'error',
+            Message => 'Need State or StateID!'
+        );
         return;
     }
 
@@ -618,7 +639,10 @@ sub StateTypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 
@@ -639,7 +663,10 @@ sub StateTypeList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }

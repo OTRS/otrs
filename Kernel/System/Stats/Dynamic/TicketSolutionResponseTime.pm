@@ -500,8 +500,7 @@ sub GetObjectAttributes {
             my %Filter = $Self->{TicketObject}->TicketAclData();
 
             # convert Filer key => key back to key => value using map
-            %{$PossibleValuesFilter}
-                = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} } keys %Filter;
+            %{$PossibleValuesFilter} = map { $_ => $DynamicFieldConfig->{Config}->{PossibleValues}->{$_} } keys %Filter;
         }
 
         # get field html
@@ -699,8 +698,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -839,11 +837,10 @@ sub _ReportingValues {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
-                    );
+                );
 
                 # add new search parameter
                 $TicketSearch{$ParameterName} = $DynamicFieldStatsSearchParameter;
@@ -999,8 +996,7 @@ sub _ReportingValues {
     # min max for solution working time
     if ( $SelectedKindsOfReporting{SolutionMinWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMinWorkingTime}
-                = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
+            $Reporting{SolutionMinWorkingTime} = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMinWorkingTime} = 0;
@@ -1008,8 +1004,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{SolutionMaxWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMaxWorkingTime}
-                = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
+            $Reporting{SolutionMaxWorkingTime} = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMaxWorkingTime} = 0;
@@ -1037,8 +1032,7 @@ sub _ReportingValues {
     # min max for response working time
     if ( $SelectedKindsOfReporting{ResponseMinWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMinWorkingTime}
-                = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
+            $Reporting{ResponseMinWorkingTime} = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMinWorkingTime} = 0;
@@ -1046,8 +1040,7 @@ sub _ReportingValues {
     }
     if ( $SelectedKindsOfReporting{ResponseMaxWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMaxWorkingTime}
-                = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
+            $Reporting{ResponseMaxWorkingTime} = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMaxWorkingTime} = 0;

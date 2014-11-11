@@ -28,8 +28,7 @@ sub new {
     }
 
     # disable output of customer company tickets
-    $Self->{DisableCompanyTickets}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
     return $Self;
 }
@@ -40,7 +39,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

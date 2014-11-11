@@ -46,8 +46,7 @@ sub DatepickerGetVacationDays {
     # translate the vacation description if possible
     for my $Month ( sort keys %{$TimeVacationDays} ) {
         for my $Day ( sort keys %{ $TimeVacationDays->{$Month} } ) {
-            $TimeVacationDays->{$Month}->{$Day}
-                = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
+            $TimeVacationDays->{$Month}->{$Day} = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
         }
     }
 

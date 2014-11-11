@@ -44,8 +44,7 @@ sub Run {
     my ( %GetParam, %Errors );
 
     for my $Parameter (qw(From Subject Body Bcc GroupPermission NotifyCustomerUsers)) {
-        $Param{$Parameter}
-            = $Self->{ParamObject}->GetParam( Param => $Parameter )
+        $Param{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter )
             || $Param{$Parameter}
             || '';
     }
@@ -212,21 +211,21 @@ sub Run {
         );
     }
     $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
-        Name => 'UserIDs',
-        Size => 6,
+        Data        => { $Self->{UserObject}->UserList( Valid => 1 ) },
+        Name        => 'UserIDs',
+        Size        => 6,
         Multiple    => 1,
         Translation => 0,
-        Class       => $Errors{BccInvalid} || '',
+        Class => $Errors{BccInvalid} || '',
     );
 
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-        Size => 6,
-        Name => 'GroupIDs',
+        Data        => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+        Size        => 6,
+        Name        => 'GroupIDs',
         Multiple    => 1,
         Translation => 0,
-        Class       => $Errors{BccInvalid} || '',
+        Class => $Errors{BccInvalid} || '',
     );
     my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );
     $Param{RoleOption} = $Self->{LayoutObject}->BuildSelection(

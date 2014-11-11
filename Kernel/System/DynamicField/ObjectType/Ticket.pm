@@ -58,9 +58,9 @@ sub new {
 
         $Self->{TicketObject} = $Param{TicketObject};
 
-     # Make ticket object reference weak so it will not count as a reference on objetcs destroy.
-     #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
-     #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
+        # Make ticket object reference weak so it will not count as a reference on objetcs destroy.
+        #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
+        #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
         Scalar::Util::weaken( $Self->{TicketObject} );
     }
 
@@ -94,7 +94,10 @@ sub PostValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

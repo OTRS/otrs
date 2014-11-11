@@ -283,9 +283,7 @@ for my $Test (@Tests) {
         $ExpectedResult =
             '<soap:Body><Response xsi:nil="true" /></soap:Body>';
     }
-    my $Content = SOAP::Serializer
-        ->autotype(0)
-        ->envelope(@CallData);
+    my $Content = SOAP::Serializer->autotype(0)->envelope(@CallData);
 
     $Content =~ s{.*(<soap:Body>.*</soap:Body>).*}{$1}xms;
 

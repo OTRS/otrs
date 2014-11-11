@@ -54,8 +54,7 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -334,12 +333,12 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Max  => $Param{ValueMaxChars} || '',
         );
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {

@@ -84,7 +84,10 @@ sub ToAscii {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -560,7 +563,10 @@ sub ToHTML {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -595,7 +601,10 @@ sub DocumentComplete {
     # check needed stuff
     for (qw(String Charset)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -630,7 +639,10 @@ sub DocumentStrip {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -669,7 +681,10 @@ sub DocumentCleanup {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -922,7 +937,10 @@ sub Safety {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1147,11 +1165,17 @@ sub EmbeddedImagesExtract {
     my ( $Self, %Param ) = @_;
 
     if ( ref $Param{DocumentRef} ne 'SCALAR' || !defined ${ $Param{DocumentRef} } ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DocumentRef!"
+        );
         return;
     }
     if ( ref $Param{AttachmentsRef} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DocumentRef!"
+        );
         return;
     }
 

@@ -104,13 +104,19 @@ sub MailAccountAdd {
     # check needed stuff
     for (qw(Login Password Host ValidID Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Login Password Host Type ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -120,7 +126,10 @@ sub MailAccountAdd {
         $Param{QueueID} = 0;
     }
     elsif ( $Param{DispatchingBy} eq 'Queue' && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need QueueID for dispatching!"
+        );
         return;
     }
 
@@ -149,7 +158,7 @@ sub MailAccountAdd {
     );
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
+        SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
         Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type} ],
     );
     my $ID;
@@ -176,7 +185,10 @@ sub MailAccountGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID!"
+        );
         return;
     }
 
@@ -256,7 +268,10 @@ sub MailAccountUpdate {
     # check needed stuff
     for (qw(ID Login Password Host Type ValidID Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -266,7 +281,10 @@ sub MailAccountUpdate {
         $Param{QueueID} = 0;
     }
     elsif ( $Param{DispatchingBy} eq 'Queue' && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need QueueID for dispatching!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need QueueID for dispatching!"
+        );
         return;
     }
 
@@ -310,7 +328,10 @@ sub MailAccountDelete {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID!"
+        );
         return;
     }
 
@@ -401,7 +422,10 @@ sub MailAccountFetch {
     # check needed stuff
     for (qw(Login Password Host Type Trusted DispatchingBy QueueID UserID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -440,7 +464,10 @@ sub MailAccountCheck {
     # check needed stuff
     for (qw(Login Password Host Type Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -461,7 +488,10 @@ sub MailAccountCheck {
         return ( Successful => 1 )
     }
     else {
-        return ( Successful => 0, Message => $Check{Message} );
+        return (
+            Successful => 0,
+            Message    => $Check{Message}
+        );
     }
 }
 

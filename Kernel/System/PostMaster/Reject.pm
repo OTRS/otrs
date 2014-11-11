@@ -35,7 +35,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -127,10 +130,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+            my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,
