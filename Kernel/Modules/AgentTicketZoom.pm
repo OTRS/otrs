@@ -836,14 +836,16 @@ sub MaskAgentZoom {
         if ( !$ArticleID ) {
             if (@ArticleBox) {
 
-                # set first article as default if normal sort
+                # set first listed article as fallback
                 $ArticleID = $ArticleBox[0]->{ArticleID};
             }
 
             # set last customer article as selected article replacing last set
+            ARTICLETMP:
             for my $ArticleTmp (@ArticleBox) {
                 if ( $ArticleTmp->{SenderType} eq 'customer' ) {
                     $ArticleID = $ArticleTmp->{ArticleID};
+                    last ARTICLETMP if $Self->{ZoomExpandSort} eq 'reverse';
                 }
             }
         }
