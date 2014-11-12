@@ -690,10 +690,10 @@ sub RegistrationUpdateSend {
             Message  => $Message
         );
 
-        return {
+        return (
             Success => 0,
-            Reson   => $Message,
-        };
+            Reason  => $Message,
+        );
     }
     elsif ( !$RequestResult->{Success} && $RequestResult->{ErrorMessage} ) {
 
@@ -705,7 +705,7 @@ sub RegistrationUpdateSend {
 
         return (
             Success => 0,
-            Reson   => $Message,
+            Reason  => $Message,
         );
     }
 
@@ -725,7 +725,7 @@ sub RegistrationUpdateSend {
 
         return (
             Success => 0,
-            Reson   => $Message,
+            Reason  => $Message,
         );
     }
     elsif ( !$OperationResult->{Success} ) {
@@ -739,7 +739,7 @@ sub RegistrationUpdateSend {
 
         return (
             Success => 0,
-            Reson   => $Message,
+            Reason  => $Message,
         );
     }
 
@@ -816,6 +816,9 @@ sub RegistrationUpdateSend {
         }
     }
 
+    my $Success = 1;
+    my $Reason;
+
     # check if Support Data could be added
     if ($SupportData) {
         my $OperationResult = $CloudServiceObject->OperationResultGet(
@@ -825,15 +828,21 @@ sub RegistrationUpdateSend {
         );
 
         if ( !IsHashRefWithData($OperationResult) ) {
+            $Success = 0;
+            $Reason  = "RegistrationUpdate - Can not add Support Data.";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "RegistrationUpdate - Can not add Support Data",
+                Message  => $Reason,
             );
         }
         elsif ( !$OperationResult->{Success} ) {
+            $Success = 0;
+            my $ResultMessage
+                = $OperationResult->{ErrorMessage} || $OperationResult->{Data}->{Reason} || '';
+            $Reason = 'RegistrationUpdate - Can not add Support Data. ' . $ResultMessage;
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "RegistrationUpdate - Can not add Support Data",
+                Message  => $Reason,
             );
         }
     }
@@ -872,7 +881,8 @@ sub RegistrationUpdateSend {
     }
 
     return (
-        Success      => 1,
+        Success      => $Success,
+        Reason       => $Reason,
         ReScheduleIn => $ResponseData->{NextUpdate} // ( 3600 * 7 * 24 ),
     );
 }
