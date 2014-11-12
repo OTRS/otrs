@@ -50,6 +50,10 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     },
 );
 
+# define a global variable to store process management lookup old entity IDs and new GUIDs, so it
+# can be used by more than one function.
+my %EntityLookup;
+
 {
 
     # get options
@@ -85,7 +89,7 @@ Please run it as the 'otrs' user or with the help of su:
     print "\nMigration started...\n\n";
 
     # define the number of steps
-    my $Steps = 13;
+    my $Steps = 15;
     my $Step  = 1;
 
     print "Step $Step of $Steps: Refresh configuration cache... ";
@@ -190,6 +194,27 @@ Please run it as the 'otrs' user or with the help of su:
 
     print "Step $Step of $Steps: Migrate Dynamic Field links from DT to Template::Toolkit... ";
     if ( _MigrateDTLInDynamicFieldLinks() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    print "Step $Step of $Steps: Migrate Generic Agent Process Management Dynamic Fields ... ";
+    if ( _MigrateGenericAgentProcessManagementDynamicFields() ) {
+        print "done.\n\n";
+    }
+    else {
+        print "error.\n\n";
+        die;
+    }
+    $Step++;
+
+    print
+        "Step $Step of $Steps: Migrate Notification (Event) Process Management Dynamic Fields ... ";
+    if ( _MigrateNotificationEventProcessManagementDynamicFields() ) {
         print "done.\n\n";
     }
     else {
@@ -455,7 +480,6 @@ sub _MigrateProcessManagementEntityIDs {
     );
 
     # generate new EntityIDs and create a lookup table
-    my %EntityLookup;
     for my $Part (qw(Process Activity ActivityDialog Transition TransitionAction)) {
         my %PartList = map { $_->{EntityID} => $_ } @{ $ProcessManagementList{$Part} };
 
@@ -733,6 +757,7 @@ sub _MigrateProcessManagementEntityIDs {
                     @{ $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ProcessEntityID} }
                     )
                 {
+                    next ENTITY if !$EntityID;
 
                     if ( $EntityID =~ m{\A Process - [0-9a-f]{32} \z}msx ) {
                         push @NewProcesses, $EntityID;
@@ -765,6 +790,8 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
+                    next ENTITY if !$EntityID;
+
                     if ( $EntityID =~ m{\A Activity - [0-9a-f]{32} \z}msx ) {
                         push @NewActivities, $EntityID;
                         next ENTITY;
@@ -796,6 +823,8 @@ sub _MigrateProcessManagementEntityIDs {
                     )
                 {
 
+                    next ENTITY if !$EntityID;
+
                     if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32} \z}msx ) {
                         push @NewActivityDialogs, $EntityID;
                         next ENTITY;
@@ -820,6 +849,8 @@ sub _MigrateProcessManagementEntityIDs {
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{ActivityDialog} } ) {
 
+                    next ENTITY if !$EntityID;
+
                     if ( $EntityID =~ m{\A ActivityDialog - [0-9a-f]{32} \z}msx ) {
                         push @NewActivityDialogs, $EntityID;
                         next ENTITY;
@@ -841,6 +872,8 @@ sub _MigrateProcessManagementEntityIDs {
 
                 ENTITY:
                 for my $EntityID ( @{ $ACL->{ConfigChange}->{$ACLPart}->{Process} } ) {
+
+                    next ENTITY if !$EntityID;
 
                     if ( $EntityID =~ m{\A Process - [0-9a-f]{32} \z}msx ) {
                         push @NewProcesses, $EntityID;
@@ -1679,4 +1712,108 @@ EOF
     return 1;
 }
 
+=item _MigrateGenericAgentProcessManagementDynamicFields()
+
+migrate EntityIDs on Process Management fields in Generic Agent jobs.
+
+    _MigrateGenericAgentProcessManagementDynamicFields();
+
+=cut
+
+sub _MigrateGenericAgentProcessManagementDynamicFields {
+
+    # create needed objects
+    my $ConfigObject = Kernel::Config->new();
+    my $DBObject     = Kernel::System::DB->new();
+
+    # get the name of the dynamic field to store process information
+    my %DynamicFieldName = (
+        Process => $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID')
+            || 'ProcessManagementProcessID',
+        Activity => $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID')
+            || 'ProcessManagementActivityID',
+    );
+
+    for my $Part (qw(Process Activity)) {
+
+        for my $Prefix (qw(DynamicField_ Search_DynamicField_)) {
+
+            my $Field = $Prefix . $DynamicFieldName{$Part};
+
+            ENTITYID:
+            for my $OldEntityID ( sort keys( %{ $EntityLookup{$Part} } ) ) {
+
+                next ENTITYID if $OldEntityID =~ m{\A $Part - [0-9a-f]{32} \z}msx;
+
+                # update dynamic fields
+                return if !$DBObject->Do(
+                    SQL => '
+                        UPDATE generic_agent_jobs
+                        SET job_value = ?
+                        WHERE job_key = ?
+                            AND job_value = ?',
+                    Bind => [
+                        \$EntityLookup{$Part}->{$OldEntityID},
+                        \$Field,
+                        \$OldEntityID,
+                    ],
+                );
+            }
+        }
+    }
+
+    return 1;
+}
+
+=item _MigrateNotificationEventProcessManagementDynamicFields()
+
+migrate EntityIDs on Process Management fields in event based notifications.
+
+    _MigrateNotificationEventProcessManagementDynamicFields();
+
+=cut
+
+sub _MigrateNotificationEventProcessManagementDynamicFields {
+
+    # create needed objects
+    my $ConfigObject = Kernel::Config->new();
+    my $DBObject     = Kernel::System::DB->new();
+
+    # get the name of the dynamic field to store process information
+    my %DynamicFieldName = (
+        Process => $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID')
+            || 'ProcessManagementProcessID',
+        Activity => $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID')
+            || 'ProcessManagementActivityID',
+    );
+
+    for my $Part (qw(Process Activity)) {
+
+        my $Prefix = 'Search_DynamicField_';
+
+        my $Field = $Prefix . $DynamicFieldName{$Part};
+
+        ENTITYID:
+        for my $OldEntityID ( sort keys( %{ $EntityLookup{$Part} } ) ) {
+
+            next ENTITYID if $OldEntityID =~ m{\A $Part - [0-9a-f]{32} \z}msx;
+
+            # update dynamic fields
+            return if !$DBObject->Do(
+                SQL => '
+                    UPDATE notification_event_item
+                    SET event_value = ?
+                    WHERE event_key = ?
+                        AND event_value = ?',
+                Bind => [
+                    \$EntityLookup{$Part}->{$OldEntityID},
+                    \$Field,
+                    \$OldEntityID,
+                ],
+            );
+        }
+    }
+
+    return 1;
+}
 1;
