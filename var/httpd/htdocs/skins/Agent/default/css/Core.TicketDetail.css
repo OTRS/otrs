@@ -651,8 +651,9 @@ div.Headline .Flag {
 }
 
 .ChronicalView > ul > li.NewTicket {
+    left: 50%;
     bottom: 10px;
-    margin-left: -85px;
+    margin-left: -86px;
     position: absolute;
     width: 150px;
     text-align: center;
