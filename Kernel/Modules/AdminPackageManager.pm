@@ -237,7 +237,8 @@ sub Run {
         # if visible property is not enable, return error screen
         if (
             defined $Structure{PackageIsVisible}
-            && $Structure{PackageIsVisible}->{Content} eq '0'
+            && exists $Structure{PackageIsVisible}->{Content}
+            && !$Structure{PackageIsVisible}->{Content}
             )
         {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
@@ -250,7 +251,8 @@ sub Run {
                 $PackageAction eq 'DownloadLocal'
                 && (
                     defined $Structure{PackageIsDownloadable}
-                    && $Structure{PackageIsDownloadable}->{Content} eq '0'
+                    && exists $Structure{PackageIsDownloadable}->{Content}
+                    && !$Structure{PackageIsDownloadable}->{Content}
                 )
                 )
             {
@@ -429,6 +431,25 @@ sub Run {
                                 %{$Hash},
                             },
                         );
+
+                        # check if is possible to download files
+                        if (
+                            !defined $Structure{PackageIsDownloadable}
+                            || (
+                                    defined $Structure{PackageIsDownloadable}->{Content}
+                                    && $Structure{PackageIsDownloadable}->{Content} eq '1'
+                                )
+                        ) {
+                            $Self->{LayoutObject}->Block(
+                                Name => "PackageItemFilelistFileLink",
+                                Data => {
+                                    Name    => $Name,
+                                    Version => $Version,
+                                    %{$Hash},
+                                },
+                            );
+                        }
+
                         if ( $DeployInfo{File}->{ $Hash->{Location} } ) {
                             if ( $DeployInfo{File}->{ $Hash->{Location} } =~ /different/ ) {
                                 $Self->{LayoutObject}->Block(
@@ -542,10 +563,13 @@ sub Run {
             Data => { %Param, %Frontend, },
         );
 
-        # allow to download only is package is allow to do it
+        # allow to download only if package is allow to do it
         if (
             !defined $Structure{PackageIsDownloadable}
-            || $Structure{PackageIsDownloadable}->{Content} eq '1'
+            || (
+                    defined $Structure{PackageIsDownloadable}->{Content}
+                    && $Structure{PackageIsDownloadable}->{Content} eq '1'
+                )
             )
         {
 
@@ -704,6 +728,25 @@ sub Run {
                                 %{$Hash},
                             },
                         );
+
+                        # check if is possible to download files
+                        if (
+                            !defined $Structure{PackageIsDownloadable}
+                            || (
+                                    defined $Structure{PackageIsDownloadable}->{Content}
+                                    && $Structure{PackageIsDownloadable}->{Content} eq '1'
+                                )
+                        ) {
+                            $Self->{LayoutObject}->Block(
+                                Name => "PackageItemFilelistFileLink",
+                                Data => {
+                                Name    => $Structure{Name}->{Content},
+                                Version => $Structure{Version}->{Content},
+                                File    => $File,
+                                %{$Hash},
+                                },
+                            );
+                        }
                     }
                     else {
                         $Self->{LayoutObject}->Block(
@@ -1414,9 +1457,11 @@ sub Run {
 
             if (
                 !defined $Package->{PackageIsRemovable}
-                || $Package->{PackageIsRemovable}->{Content} eq '1'
+                || (
+                    defined $Package->{PackageIsRemovable}->{Content}
+                    && $Package->{PackageIsRemovable}->{Content} eq '1'
                 )
-            {
+            ) {
 
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowLocalPackageUninstall',

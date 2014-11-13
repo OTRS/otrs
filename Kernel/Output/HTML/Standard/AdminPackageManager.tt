@@ -529,7 +529,10 @@
 [% RenderBlockEnd("PackageItemFilelistFileNote") %]
                                 </td>
                                 <td>
+
+[% RenderBlockStart("PackageItemFilelistFileLink") %]
                                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Env("Subaction") %];Name=[% Data.Name | uri %];Version=[% Data.Version | uri %];File=[% Data.File | uri %];Location=[% Data.Location | uri %]" class="IconInline" title="[% Translate("Download file from package!") | html %]"><i class="fa fa-save"></i></a>
+[% RenderBlockEnd("PackageItemFilelistFileLink") %]
                                     [% Data.Size | html %]
                                 </td>
                             </tr>
