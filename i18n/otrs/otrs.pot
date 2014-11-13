@@ -2231,6 +2231,14 @@ msgid "Dynamic Field Values"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "Invalid Dynamic Fields"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Invalid Dynamic Field Values"
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "GenericInterface Webservices"
 msgstr ""
 
@@ -2360,6 +2368,10 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine webserver version."
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -4332,6 +4344,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Event"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -7906,6 +7922,10 @@ msgstr ""
 msgid "Edit Type"
 msgstr ""
 
+#. Template: AdminType
+msgid "A type with this name already exists!"
+msgstr ""
+
 #. Template: AdminUser
 msgid "Add agent"
 msgstr ""
@@ -9183,6 +9203,10 @@ msgid "Resize"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Mark this article as read"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Show Full Text"
 msgstr ""
 
@@ -9252,6 +9276,10 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "One moment please, you are being redirected..."
 msgstr ""
 
 #. Template: CustomerLogin
@@ -9799,11 +9827,11 @@ msgid "Your OTRS Team"
 msgstr ""
 
 #. Template: InstallerLicense
-msgid "Accept license"
+msgid "Don't accept license"
 msgstr ""
 
 #. Template: InstallerLicense
-msgid "Don't accept license"
+msgid "Accept license and continue"
 msgstr ""
 
 #. Template: InstallerSystem
@@ -12299,7 +12327,11 @@ msgid "Enables file upload in the package manager frontend."
 msgstr ""
 
 #. SysConfig
-msgid "Enables or disable the debug mode over frontend interface."
+msgid "Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!"
+msgstr ""
+
+#. SysConfig
+msgid "Enables or disables the debug mode over frontend interface."
 msgstr ""
 
 #. SysConfig

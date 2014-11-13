@@ -15001,3 +15001,43 @@ msgstr "Favori kuyruklarınızın seçim kuyruğu. Bu kuyruklar hakkında da e-p
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr ""
 
+#. Template: AAASupportDataCollector
+msgid "Invalid Dynamic Fields"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Invalid Dynamic Field Values"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Add Event"
+msgstr ""
+
+#. Template: AdminType
+msgid "A type with this name already exists!"
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Mark this article as read"
+msgstr ""
+
+#. Template: CustomerLogin
+msgid "One moment please, you are being redirected..."
+msgstr ""
+
+#. Template: InstallerLicense
+msgid "Accept license and continue"
+msgstr ""
+
+#. SysConfig
+msgid "Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!"
+msgstr ""
+
+#. SysConfig
+msgid "Enables or disables the debug mode over frontend interface."
+msgstr ""
+

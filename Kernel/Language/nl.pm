@@ -644,6 +644,8 @@ sub Data {
         'Groups' => 'Groepen',
         'Dynamic Fields' => 'Dynamische velden',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => 'Processen',
         'Months Between First And Last Ticket' => '',
@@ -685,6 +687,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1266,6 +1269,7 @@ sub Data {
             'Als een ticket-event plaatsvindt zal dit filter worden toegepast om te toetsen of dit ticket voldoet. Alleen dan wordt deze taak uitgevoerd.',
         'Do you really want to delete this event trigger?' => 'Wilt u deze event trigger verwijderen?',
         'Add Event Trigger' => 'Nieuwe event trigger toevoegen',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Om een nieuw event toe te voegen, selecteer het event object en de naam van het event en klik op de "+".',
         'Duplicate event.' => 'Dupliceer event.',
@@ -2424,6 +2428,7 @@ sub Data {
         'Add ticket type' => 'Nieuw ticket type',
         'Add Type' => 'Nieuw type',
         'Edit Type' => 'Bewerk type',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Nieuwe behandelaar',
@@ -2878,6 +2883,7 @@ sub Data {
         'Outgoing message' => 'Uitgaand bericht',
         'Internal message' => 'Intern bericht',
         'Resize' => 'Grootte wijzigen',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2911,6 +2917,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Om OTRS te kunnen gebruiken, moet JavaScript geactiveerd zijn in uw browser.',
         'Browser Warning' => 'Waarschuwing',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Inloggen',
         'User name' => 'Gebruikersnaam',
         'Your user name' => 'Uw gebruikersnaam',
@@ -3094,8 +3101,8 @@ sub Data {
         'Your OTRS Team' => 'Het OTRS team',
 
         # Template: InstallerLicense
-        'Accept license' => 'Accepteer licentie',
         'Don\'t accept license' => 'Licentie niet accepteren',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4163,7 +4170,9 @@ sub Data {
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

@@ -638,6 +638,8 @@ sub Data {
         'Groups' => 'Групе',
         'Dynamic Fields' => 'Динамичка поља',
         'Dynamic Field Values' => 'Вредности динамичког поља',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => 'GenericInterface веб сервис',
         'Processes' => 'Процеси',
         'Months Between First And Last Ticket' => 'Месеци између првог и последњег тикета',
@@ -679,6 +681,7 @@ sub Data {
         'Environment Variables' => 'Променљиве за окружење',
         'Webserver Version' => 'Веб сервер верзија',
         'Could not determine webserver version.' => 'Не може да препозна веб сервер верзију.',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => 'Употреба CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'За повећање перформанси треба да користите FastCGI или mod_perl.',
@@ -1260,6 +1263,7 @@ sub Data {
             'Уколико је догађај тикета отказао, биће примењен тикет филтер да потврди да ли тикет одговара. Само тада ће се посао на тикету покренути.',
         'Do you really want to delete this event trigger?' => 'Да ли стварно желите да обришете овај окидач догађаја?',
         'Add Event Trigger' => 'Додај окидач догађаја',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'За додавање новог догађаја изаберите објект догађаја и име догађаја па кликните на "+" дугме',
         'Duplicate event.' => 'Направи дупликат догађаја.',
@@ -2418,6 +2422,7 @@ sub Data {
         'Add ticket type' => 'Додај тип тикета',
         'Add Type' => 'Додај Тип ',
         'Edit Type' => 'У реди Тип',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Додај оператера',
@@ -2872,6 +2877,7 @@ sub Data {
         'Outgoing message' => 'Одлазна порука',
         'Internal message' => 'Интерна порука',
         'Resize' => 'Промена величине',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2905,6 +2911,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Како би сте користили OTRS неопходно је да активирате JavaScript у вашем веб претраживачу.',
         'Browser Warning' => 'Упозорење веб претраживача',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Пријављивање',
         'User name' => 'Корисничко име',
         'Your user name' => 'Ваше корисничко име',
@@ -3088,8 +3095,8 @@ sub Data {
         'Your OTRS Team' => 'Ваш OTRS тим',
 
         # Template: InstallerLicense
-        'Accept license' => 'Прихвати лиценцу',
         'Don\'t accept license' => 'Не прихватај лиценцу',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4157,7 +4164,9 @@ sub Data {
         'Enables S/MIME support.' => 'Omogućava S/MIME podršku.',
         'Enables customers to create their own accounts.' => 'Омогућава корисницима да креирају сопствене налоге.',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

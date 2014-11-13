@@ -649,6 +649,8 @@ sub Data {
         'Groups' => 'Группы',
         'Dynamic Fields' => 'Динамические поля',
         'Dynamic Field Values' => 'Значения динамического поля',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => 'Процессы',
         'Months Between First And Last Ticket' => 'Месяцев между первой и последней заявками',
@@ -690,6 +692,7 @@ sub Data {
         'Environment Variables' => 'Переменные окружения',
         'Webserver Version' => 'Версия Веб-сервера',
         'Could not determine webserver version.' => 'Не удалось определить версию Веб - сервера.',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Необходимо использовать FastCGI или mod_perl для повышения производительности.',
@@ -1271,6 +1274,7 @@ sub Data {
             'Если событие по заявке наступило, фильтр заявок находит соответствующие заявки. Только после этого стартует задача для этой заявки.',
         'Do you really want to delete this event trigger?' => 'Вы действительно хотите удалить этот триггер события?',
         'Add Event Trigger' => 'Добавить триггер события',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Чтобы добавить новое событие выберите тип, событие и щелкните "+" кнопку.',
         'Duplicate event.' => 'Дублировать событие',
@@ -2429,6 +2433,7 @@ sub Data {
         'Add ticket type' => 'Добавить тип заявки',
         'Add Type' => 'Добавить тип',
         'Edit Type' => 'Редактировать тип',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Добавить агента',
@@ -2883,6 +2888,7 @@ sub Data {
         'Outgoing message' => 'Исходящее сообщение',
         'Internal message' => 'Внутреннее сообщение',
         'Resize' => 'Изменить размер',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2916,6 +2922,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Для работы с OTRS вам потребуется включить JavaScript в вашем браузере.',
         'Browser Warning' => 'Предупреждение о браузере',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Вход',
         'User name' => 'Имя пользователя',
         'Your user name' => 'Ваше имя пользователя',
@@ -3099,8 +3106,8 @@ sub Data {
         'Your OTRS Team' => 'Команда разработчиков OTRS',
 
         # Template: InstallerLicense
-        'Accept license' => 'Принимаю условия лицензии',
         'Don\'t accept license' => 'Не принимаю условия лицензии',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4168,7 +4175,9 @@ sub Data {
         'Enables S/MIME support.' => 'Включить поддержку S/MIME',
         'Enables customers to create their own accounts.' => 'Дать возможность клиентам самостоятельно создавать свои учетные записи.',
         'Enables file upload in the package manager frontend.' => 'Включает возможность загрузки дополнительных пакетов (расширений) в Управлении пакетами.',
-        'Enables or disable the debug mode over frontend interface.' => 'Включает или выключает возможность режима отладки через веб-интерфейс.',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'Включает/выключает функцию наблюдения за заявками, чтобы иметь возможность отслеживания заявок не будучи ее владельцем или ответственным.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

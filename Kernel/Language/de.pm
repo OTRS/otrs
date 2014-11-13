@@ -638,6 +638,8 @@ sub Data {
         'Groups' => 'Gruppen',
         'Dynamic Fields' => 'Dynamische Felder',
         'Dynamic Field Values' => 'Werte in Dynamischen Feldern',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => 'GenericInterface Webservices',
         'Processes' => 'Prozesse',
         'Months Between First And Last Ticket' => 'Monate zwischen erstem und letztem Ticket',
@@ -679,6 +681,7 @@ sub Data {
         'Environment Variables' => 'Umgebungsvariablen',
         'Webserver Version' => 'Webserver-Version',
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => 'Verwendung CGI-Beschleuniger',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Sie sollten FastCGI oder mod_perl verwenden, um die Geschwindigkeit zu steigern.',
@@ -1260,6 +1263,7 @@ sub Data {
             'Wenn ein Ticket-Event ausgelöst wird, wird zunächst der Ticketfilter angewendet um zu prüfen, ob das Ticket betroffen ist. Erst danach wird der Job ggf. für dieses Ticket ausgeführt.',
         'Do you really want to delete this event trigger?' => 'Wollen Sie diesen Event-Trigger wirklich löschen?',
         'Add Event Trigger' => 'Event-Trigger hinzufügen',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Um einen neuen Event hinzuzufügen, wählen Sie bitte das Objekt und den Eventnamen und klicken Sie auf den "+"-Knopf',
         'Duplicate event.' => 'Doppeltes Event',
@@ -2418,6 +2422,7 @@ sub Data {
         'Add ticket type' => 'Ticket-Typ hinzufügen',
         'Add Type' => 'Typ hinzufügen',
         'Edit Type' => 'Typ bearbeiten',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Agent hinzufügen',
@@ -2872,6 +2877,7 @@ sub Data {
         'Outgoing message' => 'Ausgehende Nachricht',
         'Internal message' => 'Interne Nachricht',
         'Resize' => 'Größe anpassen',
+        'Mark this article as read' => '',
         'Show Full Text' => 'Vollständigen Text anzeigen',
         'Full Article Text' => 'Vollständiger Artikeltext',
         'No more events found. Please try changing the filter settings.' =>
@@ -2905,6 +2911,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren.',
         'Browser Warning' => 'Browser-Warnung',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Anmeldung',
         'User name' => 'Benutzername',
         'Your user name' => 'Ihr Benutzername',
@@ -3088,8 +3095,8 @@ sub Data {
         'Your OTRS Team' => 'Ihr OTRS-Team',
 
         # Template: InstallerLicense
-        'Accept license' => 'Lizenz akzeptieren',
         'Don\'t accept license' => 'Lizenz _nicht_ akzeptieren',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4157,7 +4164,9 @@ sub Data {
         'Enables S/MIME support.' => 'Aktiviert unterstützung für S/MIME.',
         'Enables customers to create their own accounts.' => 'Erlaubt Kunden, eigene Konten anzulegen.',
         'Enables file upload in the package manager frontend.' => 'Erlaubt den Datei-Upload im Paket-Manager.',
-        'Enables or disable the debug mode over frontend interface.' => 'Aktiviert oder Deaktiviert den Debug-Modus im Frontend-Interface.',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

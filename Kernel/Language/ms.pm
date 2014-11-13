@@ -637,6 +637,8 @@ sub Data {
         'Groups' => 'Kumpulan',
         'Dynamic Fields' => 'Perlengkapan dinamik',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => 'Proses',
         'Months Between First And Last Ticket' => '',
@@ -678,6 +680,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1259,6 +1262,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => 'Anda pasti mahu memadam pencetus acara ini?',
         'Add Event Trigger' => 'Tambah pencetus acara',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Untuk menambah acara baru pilih objek acara dan nama acara kemudian tekan pada butang "+"',
         'Duplicate event.' => '',
@@ -2417,6 +2421,7 @@ sub Data {
         'Add ticket type' => 'Tambah jenis tiket',
         'Add Type' => 'Tambah Jenis',
         'Edit Type' => 'Edit Jenis',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Tambah ejen',
@@ -2871,6 +2876,7 @@ sub Data {
         'Outgoing message' => 'Mesej keluar',
         'Internal message' => 'Mesej dalaman',
         'Resize' => 'Mengubah saiz',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2904,6 +2910,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Untuk menikmati OTRS, anda perlu mengaktifkah JavaScript di dalam browser anda.',
         'Browser Warning' => 'Amaran Browser',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Log masuk',
         'User name' => 'Nama pengguna',
         'Your user name' => 'Nama pengguna anda',
@@ -3087,8 +3094,8 @@ sub Data {
         'Your OTRS Team' => 'Team OTRS anda',
 
         # Template: InstallerLicense
-        'Accept license' => 'Menerima lesen',
         'Don\'t accept license' => 'Jangan menerima lesen',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4156,7 +4163,9 @@ sub Data {
         'Enables S/MIME support.' => 'Mengaktifkan sokongan S/MIME.',
         'Enables customers to create their own accounts.' => 'Membolehkan pelanggan untuk mencipta akaun mereka sendiri.',
         'Enables file upload in the package manager frontend.' => 'Membolehkan muat naik fail dalam frontend pengurusan pakej.',
-        'Enables or disable the debug mode over frontend interface.' => 'Mengaktifkan atau melumpuhkan mod debug di paparan frontend.',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'Mengaktifkan atau melumpuhkan fungsi pemantau tiket, untuk mengikuti perkembangan tiket tanpa pemilik atau yang bertanggungjawab.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

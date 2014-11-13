@@ -638,6 +638,8 @@ sub Data {
         'Groups' => 'Grups',
         'Dynamic Fields' => 'Camps dinàmics',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
@@ -679,6 +681,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1260,6 +1263,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => 'Realment desitja eliminar aquest gallet d\'esdeveniments?',
         'Add Event Trigger' => 'Afegir gallet d\'esdeveniment',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Per agregar un nou esdeveniment seleccioni l\'objecte d\'esdeveniment i el nom de l\'esdeveniment i faci clic en el botó "+"',
         'Duplicate event.' => '',
@@ -2418,6 +2422,7 @@ sub Data {
         'Add ticket type' => 'Afegir tipus de tiquet',
         'Add Type' => 'Afegir tipus',
         'Edit Type' => 'Editar tipus',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Afegir agent',
@@ -2872,6 +2877,7 @@ sub Data {
         'Outgoing message' => 'Missatge sortint',
         'Internal message' => 'Missatge intern',
         'Resize' => 'Canviar la grandària',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2905,6 +2911,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Amb la finalitat de millorar la seva experiència amb OTRS, haurà d\'habilitar Javascript en el seu navegador.',
         'Browser Warning' => 'Avís de navegador',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Identificador',
         'User name' => 'Nom d\'usuari',
         'Your user name' => 'El seu nom d\'usuari',
@@ -3088,8 +3095,8 @@ sub Data {
         'Your OTRS Team' => 'El seu equip OTRS',
 
         # Template: InstallerLicense
-        'Accept license' => 'Acceptar llicència',
         'Don\'t accept license' => 'No acceptar llicència',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4157,7 +4164,9 @@ sub Data {
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

@@ -642,6 +642,8 @@ sub Data {
         'Groups' => 'グループ',
         'Dynamic Fields' => '動的領域',
         'Dynamic Field Values' => 'ダイナミックフィールドの値',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '汎用インタフェースWebサービス',
         'Processes' => 'プロセス',
         'Months Between First And Last Ticket' => '最初と最後のチケットとの間には月間',
@@ -683,6 +685,7 @@ sub Data {
         'Environment Variables' => '環境変数',
         'Webserver Version' => 'Webサイトバージョン',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => 'CGIアクセラレータの有無',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1264,6 +1267,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => 'このイベントトリガーを本当に削除しますか？',
         'Add Event Trigger' => 'イベントトリガーを追加',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => '',
@@ -2422,6 +2426,7 @@ sub Data {
         'Add ticket type' => 'チケットタイプの追加',
         'Add Type' => 'タイプの追加',
         'Edit Type' => 'タイプの編集',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => '担当者の追加',
@@ -2876,6 +2881,7 @@ sub Data {
         'Outgoing message' => '送信メッセージ',
         'Internal message' => '内部メッセージ',
         'Resize' => 'リサイズ',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2909,6 +2915,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'OTRSを利用するにはお使いのブラウザでJavaScriptを有効にする必要があります。',
         'Browser Warning' => 'ブラウザの警告',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'ログイン',
         'User name' => 'ユーザー名',
         'Your user name' => 'ユーザー名',
@@ -3092,8 +3099,8 @@ sub Data {
         'Your OTRS Team' => '',
 
         # Template: InstallerLicense
-        'Accept license' => 'ライセンスに同意する',
         'Don\'t accept license' => 'ライセンスに同意しない',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4164,7 +4171,9 @@ sub Data {
         'Enables S/MIME support.' => 'S/MIMEサポートを有効にします。',
         'Enables customers to create their own accounts.' => '顧客に自らのアカウントを作成できるようにします。',
         'Enables file upload in the package manager frontend.' => 'パッケージ・マネジャー・フロントエンドでの、ファイル・アップロードを有効にします。',
-        'Enables or disable the debug mode over frontend interface.' => 'フロントエンド・インタフェース上でのデバッグを、有効または無効にします。',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '所有者または責任者になること無くチケットのコールバックを続けるため、チケット監視機能を有効または無効にします。',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

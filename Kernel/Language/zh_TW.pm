@@ -640,6 +640,8 @@ sub Data {
         'Groups' => '組',
         'Dynamic Fields' => '動態字段',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '流程',
         'Months Between First And Last Ticket' => '',
@@ -681,6 +683,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1262,6 +1265,7 @@ sub Data {
             '如果工單事件被觸發，工單過濾器將對工單進行檢查看其條件是否匹配。任務只對匹配的工單發生作用。',
         'Do you really want to delete this event trigger?' => '您確定要刪除這個事件觸發器嗎？',
         'Add Event Trigger' => '添加事件觸發器',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '選擇事件對象和事件名稱，然後點擊"+"按鈕，即可添加新的事件。',
         'Duplicate event.' => '',
@@ -2420,6 +2424,7 @@ sub Data {
         'Add ticket type' => '添加工單類型',
         'Add Type' => '添加工單類型',
         'Edit Type' => '編輯工單類型',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => '添加服務人員',
@@ -2874,6 +2879,7 @@ sub Data {
         'Outgoing message' => '發出的信息',
         'Internal message' => '内部信息',
         'Resize' => '調整大小',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2907,6 +2913,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '要繼續使用 OTRS，請打開瀏覽器的 JavaScript 功能.',
         'Browser Warning' => '提示',
+        'One moment please, you are being redirected...' => '',
         'Login' => '登錄',
         'User name' => '用戶名',
         'Your user name' => '您的用戶名',
@@ -3090,8 +3097,8 @@ sub Data {
         'Your OTRS Team' => '您的OTRS小組.',
 
         # Template: InstallerLicense
-        'Accept license' => '同意許可',
         'Don\'t accept license' => '不同意',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4159,7 +4166,9 @@ sub Data {
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

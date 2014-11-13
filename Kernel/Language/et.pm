@@ -638,6 +638,8 @@ sub Data {
         'Groups' => 'Rühmad',
         'Dynamic Fields' => 'Dünaamilised väljad',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
@@ -679,6 +681,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1260,6 +1263,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => '',
         'Add Event Trigger' => '',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => '',
@@ -2418,6 +2422,7 @@ sub Data {
         'Add ticket type' => 'Lisa intsidendi tüüp',
         'Add Type' => 'Tüübi lisamine',
         'Edit Type' => 'Tüübi muutmine',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Lisa töötaja',
@@ -2872,6 +2877,7 @@ sub Data {
         'Outgoing message' => '',
         'Internal message' => '',
         'Resize' => '',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2905,6 +2911,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             '',
         'Browser Warning' => 'Veebilehitseja hoiatus',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Login',
         'User name' => 'Kasutajanimi',
         'Your user name' => 'Teie kasutajanimi',
@@ -3088,8 +3095,8 @@ sub Data {
         'Your OTRS Team' => 'OTRS meeskond',
 
         # Template: InstallerLicense
-        'Accept license' => 'Nõusti litsensiga',
         'Don\'t accept license' => 'Ära nõustu litsensiga',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4157,7 +4164,9 @@ sub Data {
         'Enables S/MIME support.' => 'Lülitab S/MIME toe sisse.',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

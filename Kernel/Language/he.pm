@@ -643,6 +643,8 @@ sub Data {
         'Groups' => 'קבוצות',
         'Dynamic Fields' => 'שדות דינמיים',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => 'תהליכים',
         'Months Between First And Last Ticket' => '',
@@ -684,6 +686,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1265,6 +1268,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => 'האם אתם באמת רוצים למחוק טריגר אירוע זה?',
         'Add Event Trigger' => 'הוסף טריגר לאירוע',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'להוספת אירוע חדש בחרו את אובייקט האירוע ואת שם האירוע ולחצו על כפתור "+"',
         'Duplicate event.' => 'שכפל אירוע',
@@ -2423,6 +2427,7 @@ sub Data {
         'Add ticket type' => 'הוסף סוג פניה',
         'Add Type' => 'הוסף סוג',
         'Edit Type' => 'ערוך סוג',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'הוסף סוכן',
@@ -2877,6 +2882,7 @@ sub Data {
         'Outgoing message' => 'הודעה יוצאת',
         'Internal message' => 'הודעה פנימית',
         'Resize' => 'שנה גודל',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2910,6 +2916,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'על מנת להפעיל את המערכת, עליכם לאפשר JavaScript בדפדפן.',
         'Browser Warning' => 'אזהרת דפדפן',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'התחבר',
         'User name' => 'שם משתמש',
         'Your user name' => 'שם המשתמש שלך',
@@ -3093,8 +3100,8 @@ sub Data {
         'Your OTRS Team' => '',
 
         # Template: InstallerLicense
-        'Accept license' => 'קבל רישיון',
         'Don\'t accept license' => 'סרב לקבל רישיון',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4162,7 +4169,9 @@ sub Data {
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

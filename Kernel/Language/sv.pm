@@ -640,6 +640,8 @@ sub Data {
         'Groups' => 'Grupper',
         'Dynamic Fields' => 'Dynamiska fält',
         'Dynamic Field Values' => 'Dynamiska fältvärden',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => 'Processer',
         'Months Between First And Last Ticket' => 'Antal månader mellan första och sista ärende',
@@ -681,6 +683,7 @@ sub Data {
         'Environment Variables' => 'Miljövariabler',
         'Webserver Version' => 'Webbserver, version',
         'Could not determine webserver version.' => 'Kunde inte avgöra webbserverns version.',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1262,6 +1265,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => '',
         'Add Event Trigger' => '',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => '',
@@ -2420,6 +2424,7 @@ sub Data {
         'Add ticket type' => '',
         'Add Type' => 'Lägg till Typ',
         'Edit Type' => '',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => '',
@@ -2874,6 +2879,7 @@ sub Data {
         'Outgoing message' => '',
         'Internal message' => '',
         'Resize' => '',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2907,6 +2913,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'För att OTRS ska fungera behöver javaskript vara påslaget i din webbläsare.',
         'Browser Warning' => 'Browservarning',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'Inloggning',
         'User name' => 'Användarnamn',
         'Your user name' => 'Ditt användarnamn',
@@ -3090,8 +3097,8 @@ sub Data {
         'Your OTRS Team' => 'Ditt OTRS-Team',
 
         # Template: InstallerLicense
-        'Accept license' => 'Acceptera licens',
         'Don\'t accept license' => 'Acceptera inte licens',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4159,7 +4166,9 @@ sub Data {
         'Enables S/MIME support.' => '',
         'Enables customers to create their own accounts.' => '',
         'Enables file upload in the package manager frontend.' => '',
-        'Enables or disable the debug mode over frontend interface.' => '',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

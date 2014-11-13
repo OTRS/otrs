@@ -640,6 +640,8 @@ sub Data {
         'Groups' => 'समूहों',
         'Dynamic Fields' => '',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
@@ -681,6 +683,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1262,6 +1265,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => '',
         'Add Event Trigger' => '',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => '',
@@ -2420,6 +2424,7 @@ sub Data {
         'Add ticket type' => 'टिकट के प्रकार जोड़ें',
         'Add Type' => 'प्रकार जोड़ें',
         'Edit Type' => 'प्रकार संपादित करें',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'प्रतिनिधि जोड़ें',
@@ -2874,6 +2879,7 @@ sub Data {
         'Outgoing message' => 'जाने वाले संदेश ',
         'Internal message' => 'अंदरूनी संदेश',
         'Resize' => 'आकारबदलें',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2907,6 +2913,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'OTRS अनुभव करने के लिए,आपको अपने ब्राउज़र में जावास्क्रिप्ट सक्षम करना होगा।',
         'Browser Warning' => 'ब्राउज़र चेतावनी',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'प्रवेश',
         'User name' => 'उपयोगकर्ता का नाम',
         'Your user name' => 'आपका उपयोगकर्ता नाम',
@@ -3090,8 +3097,8 @@ sub Data {
         'Your OTRS Team' => 'आपका OTRS समूह',
 
         # Template: InstallerLicense
-        'Accept license' => 'लाइसेंस स्वीकारें',
         'Don\'t accept license' => 'लाइसेंस स्वीकार नहीं',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4159,7 +4166,9 @@ sub Data {
         'Enables S/MIME support.' => 'S/MIME समर्थन सक्षम बनाता है।',
         'Enables customers to create their own accounts.' => 'ग्राहकों को अपने खाते बनाने के लिए सक्षम बनाता है।',
         'Enables file upload in the package manager frontend.' => 'पैकेज प्रबंधक दृश्यपटल में फ़ाइल अपलोड सक्षम बनाता है।',
-        'Enables or disable the debug mode over frontend interface.' => 'दृश्यपटल अंतरफलक पर डिबग विधा को सक्षम या अक्षम बनाता है।',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'बिना  स्वामी और न ही जिम्मेदार का ट्रैक रखने के लिए,टिकट पहरेदार सुविधा को सक्षम या अक्षम बनाता है।',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>

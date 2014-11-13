@@ -645,6 +645,8 @@ sub Data {
         'Groups' => 'Groupes',
         'Dynamic Fields' => 'Champs dynamiques',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
@@ -686,6 +688,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Vous devez utiliser « FastCGI » ou « mod_perl » afin d\'améliorer la performance du système.',
@@ -1267,6 +1270,7 @@ sub Data {
             '',
         'Do you really want to delete this event trigger?' => 'Voulez-vous vraiment supprimer ce déclencheur d\'évènements?',
         'Add Event Trigger' => 'Ajouter un déclencheur d\'évènements',
+        'Add Event' => '',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Pour ajouter un nouvel évènement, sélectionnez l\'objet et le nom de l\'évènement puis cliquez sur le bouton « + » ',
         'Duplicate event.' => '',
@@ -2425,6 +2429,7 @@ sub Data {
         'Add ticket type' => 'Ajouter un type de demande',
         'Add Type' => 'Ajouter un type',
         'Edit Type' => 'Éditer un type',
+        'A type with this name already exists!' => '',
 
         # Template: AdminUser
         'Add agent' => 'Ajouter un agent',
@@ -2879,6 +2884,7 @@ sub Data {
         'Outgoing message' => 'Message sortant',
         'Internal message' => 'Message interne',
         'Resize' => 'Redimensionner',
+        'Mark this article as read' => '',
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
@@ -2912,6 +2918,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Pour utiliser OTRS, vous devez activer le JavaScript dans votre navigateur.',
         'Browser Warning' => 'Avertissement du navigateur',
+        'One moment please, you are being redirected...' => '',
         'Login' => 'S\'authentifier',
         'User name' => 'Nom d\'utilisateur',
         'Your user name' => 'Votre nom d\'utilisateur',
@@ -3095,8 +3102,8 @@ sub Data {
         'Your OTRS Team' => 'Votre Équipe OTRS',
 
         # Template: InstallerLicense
-        'Accept license' => 'Accepter la licence',
         'Don\'t accept license' => 'Ne pas accepter la licence',
+        'Accept license and continue' => '',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -4164,7 +4171,9 @@ sub Data {
         'Enables S/MIME support.' => 'Permet la gestion des certificats S/MIME.',
         'Enables customers to create their own accounts.' => 'Permet aux clients de créer leur propre compte.',
         'Enables file upload in the package manager frontend.' => 'Permet le téléchargement de fichiers dans l\'avant-plan du gestionnaire de paquets.',
-        'Enables or disable the debug mode over frontend interface.' => 'Active ou désactive le mode déboguage pour l\'interface.',
+        'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
+            '',
+        'Enables or disables the debug mode over frontend interface.' => '',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'Active ou désactive la fonction de surveillance de demandes qui permet à un agent de suivre une demande sans en être le propriétaire ni le responsable.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
