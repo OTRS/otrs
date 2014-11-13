@@ -50,9 +50,10 @@ may be installed or linked into the system!
     otrs.CreateTranslationFile.pl -l all
 
 Since OTRS 4 public translations are managed in transifex. Use the -p switch to
-update the .pot/.po files.
+update the .pot files and the -P switch to update both .pot and .po files (usually not needed).
 
     otrs.CreateTranslationFile.pl -l <Language> -p
+    otrs.CreateTranslationFile.pl -l <Language> -P
 
 Translating Extension Modules
 =============================
@@ -68,8 +69,6 @@ Optional Parameters
 =============================
 
   To output debug information, use -v.
-
-  To write PO files, use -p.
 
 EOF
 }
@@ -121,7 +120,8 @@ my $BreakLineAfterChars = 60;
         HandleLanguage(
             Language => $Language,
             Module   => $Opts{m},
-            WritePO  => exists $Opts{p} ? 1 : 0,
+            WritePOT => (exists $Opts{p} || exists $Opts{P}) ? 1 : 0,
+            WritePO  => exists $Opts{P} ? 1 : 0,
             Stats    => \%Stats,
             Verbose  => exists $Opts{v} ? 1 : 0,
         );
@@ -158,7 +158,6 @@ sub HandleLanguage {
 
     my $Language = $Param{Language};
     my $Module   = $Param{Module};
-    my $WritePO  = $Param{WritePO};
 
     my $ModuleDirectory = $Module;
     my $LanguageFile;
@@ -226,7 +225,7 @@ sub HandleLanguage {
 
     my %POTranslations;
 
-    if ($WritePO) {
+    if ($Param{WritePOT} || $Param{WritePO}) {
         %POTranslations = LoadPOFile(
             TargetPOFile => $TargetPOFile,
         );
@@ -345,14 +344,14 @@ sub HandleLanguage {
         $Param{Stats}->{ $Param{Language} }->{$String} = $Translation;
     }
 
-    if ($WritePO) {
-        if ( !$POTFileWritten++ ) {
-            WritePOTFile(
-                TranslationStrings => \@TranslationStrings,
-                TargetPOTFile      => $TargetPOTFile,
-                Module             => $Module,
-            );
-        }
+    if ($Param{WritePOT} && !$POTFileWritten++ ) {
+        WritePOTFile(
+            TranslationStrings => \@TranslationStrings,
+            TargetPOTFile      => $TargetPOTFile,
+            Module             => $Module,
+        );
+    }
+    if ($Param{WritePO}) {
         WritePOFile(
             TranslationStrings => \@TranslationStrings,
             TargetPOTFile      => $TargetPOTFile,

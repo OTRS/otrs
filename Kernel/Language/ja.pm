@@ -660,12 +660,12 @@ sub Data {
         'The file system on your OTRS partition is not writable.' => '',
         'Domain Name' => 'ドメインネーム',
         'Your FQDN setting is invalid.' => 'FQDNの設定が不正です',
-        'Package installation status' => '',
-        'Some packages are not correctly installed.' => '',
+        'Package installation status' => 'パッケージのインストール状態',
+        'Some packages are not correctly installed.' => '正しくインストールされていないパッケージが存在します',
         'Package List' => 'パッケージリスト',
         'SystemID' => 'システムID',
         'Your SystemID setting is invalid, it should only contain digits.' =>
-            '',
+            'あなたのSystemID設定は不正です。数字以外は利用できません。',
         'OTRS Version' => 'OTRSバージョン',
         'Ticket Index Module' => 'チケットインデクスモジュール',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
@@ -673,7 +673,7 @@ sub Data {
         'Open Tickets' => 'オープンチケット',
         'You should not have more than 8,000 open tickets in your system.' =>
             '',
-        'Ticket Search Index module' => '',
+        'Ticket Search Index module' => 'チケット検索索引モジュール',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             '',
         'Orphaned Records In ticket_lock_index Table' => '',
@@ -684,15 +684,15 @@ sub Data {
             '',
         'Environment Variables' => '環境変数',
         'Webserver Version' => 'Webサイトバージョン',
-        'Could not determine webserver version.' => '',
+        'Could not determine webserver version.' => 'WEBサーバのバージョンを決定できません。',
         'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => 'CGIアクセラレータの有無',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            '',
+            'パフォーマンス向上のためFastCGIまたはmod_perlの使用を推奨します。',
         'mod_deflate Usage' => 'mod_deflateの有無',
-        'Please install mod_deflate to improve GUI speed.' => '',
+        'Please install mod_deflate to improve GUI speed.' => 'GUIのパフォーマンス向上のためmod_deflateをインストールしてください。',
         'mod_headers Usage' => 'mod_headersの有無',
-        'Please install mod_headers to improve GUI speed.' => '',
+        'Please install mod_headers to improve GUI speed.' => 'GUIのパフォーマンス向上のためmod_headersをインストールしてください。',
         'Apache::Reload Usage' => '',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             '',
@@ -816,7 +816,7 @@ sub Data {
         '3 normal' => '3 中',
         '4 high' => '4 高',
         '5 very high' => '5 最高',
-        'auto follow up' => '自動フォロー・アップ',
+        'auto follow up' => '自動フォローアップ',
         'auto reject' => '自動リジェクト',
         'auto remove' => '自動除去',
         'auto reply' => '自動返答',
@@ -905,10 +905,10 @@ sub Data {
         'Send me a notification if there is a new ticket in "My Queues".' =>
             '新規チケットが担当キューに入ったら通知を送信',
         'Send new ticket notifications' => '新規チケット通知を送信',
-        'Ticket follow up notification' => 'コールバックチケット通知',
+        'Ticket follow up notification' => 'チケット・フォローアップ通知',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '自分が所有者であるか、自分の担当キューに存在しロック解除されているチケットに対して顧客がコールバックした場合に通知を送信',
-        'Send ticket follow up notifications' => 'チケットコールバック通知の送信',
+            '自分が所有者であるか、自分の担当キューに存在しロック解除されているチケットに対して顧客がフォローアップした場合に通知を送信',
+        'Send ticket follow up notifications' => 'チケット・フォローアップ通知の送信',
         'Ticket lock timeout notification' => 'ロック期限切れチケット通知',
         'Send me a notification if a ticket is unlocked by the system.' =>
             'チケットがシステムにロック解除されたら通知を送信',
@@ -1003,10 +1003,10 @@ sub Data {
         'Go to overview' => '一覧に戻る',
         'Delete ACL' => 'ACLを削除',
         'Delete Invalid ACL' => '無効なACLを削除',
-        'Match settings' => '',
+        'Match settings' => '条件設定',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => '変更設定',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official' => '',
@@ -1218,10 +1218,10 @@ sub Data {
         'Check RegEx' => '',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             '',
-        'RegEx' => '',
-        'Invalid RegEx' => '',
+        'RegEx' => '正規表現',
+        'Invalid RegEx' => '無効な正規表現',
         'Error Message' => 'エラーメッセージ',
-        'Add RegEx' => '',
+        'Add RegEx' => '正規表現を追加',
 
         # Template: AdminEmail
         'Admin Notification' => '管理者通知',
@@ -1706,10 +1706,10 @@ sub Data {
         # Template: AdminPackageManager
         'Package Manager' => 'パッケージ管理',
         'Uninstall package' => 'パッケージをアンインストール',
-        'Do you really want to uninstall this package?' => 'このパッケージをアンインストールしますか？',
+        'Do you really want to uninstall this package?' => 'このパッケージを本当にアンインストールしますか？',
         'Reinstall package' => 'パッケージを再インストール',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
-            'このパッケージを再インストールしますか？ 全ての手動変更点は失われます。',
+            'このパッケージを本当に再インストールしますか？ 全ての手動変更点は失われます。',
         'Continue' => '続ける',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
@@ -1995,15 +1995,15 @@ sub Data {
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'ここで定義された時間の前に、新規チケットに顧客連絡先が追加されていないか、メール送信、電話などの連絡を取っていない場合、チケットがエスカレーションされます。',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'メールでのコールバックやカスタマーポータルに追加された記事があれば、エスカレーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録が追加されない場合、チケットがエスカレーションされます。',
+            'メールでのフォローアップやカスタマーポータルに追加された記事があれば、エスカレーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録が追加されない場合、チケットがエスカレーションされます。',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
             'ここで定義された時間の前にチケットが完了しない場合、チケットがエスカレーションされます。',
-        'Follow up Option' => 'コールバックオプション',
+        'Follow up Option' => 'フォローアップ・オプション',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
-            '完了したチケットにコールバックしたい場合、チケットを再度対応中にするか、拒否して新規チケットにするかを指定します。',
-        'Ticket lock after a follow up' => 'コールバック後にチケットをロック',
+            '完了したチケットにフォローアップしたい場合、チケットを再度対応中にするか、拒否して新規チケットにするかを指定します。',
+        'Ticket lock after a follow up' => 'フォローアップ後にチケットをロック',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
-            'チケットが完了した後に顧客がチケットにコールバックする場合、旧所有者にロックされます。',
+            'チケットが完了した後に顧客がチケットにフォローアップする場合、旧所有者にロックされます。',
         'System address' => 'システムアドレス',
         'Will be the sender address of this queue for email answers.' => 'このキューでのメール回答はこの送信者アドレスになります。',
         'Default sign key' => '既定のサインキー',
@@ -2285,12 +2285,12 @@ sub Data {
 
         # Template: AdminSession
         'Session Management' => 'セッション管理',
-        'All sessions' => '全セッション',
-        'Agent sessions' => '担当者セッション',
-        'Customer sessions' => '顧客セッション',
+        'All sessions' => '全てのセッション',
+        'Agent sessions' => '担当者のセッション',
+        'Customer sessions' => '顧客のセッション',
         'Unique agents' => '一意の担当者',
         'Unique customers' => '一意の顧客',
-        'Kill all sessions' => '全セッション切断',
+        'Kill all sessions' => '全てのセッションを切断',
         'Kill this session' => '現在のセッションを切断',
         'Session' => 'セッション',
         'Kill' => '切断',
@@ -2373,30 +2373,30 @@ sub Data {
             '表示名、メールアドレスは送信メールに表示されます。',
 
         # Template: AdminSystemMaintenance
-        'System Maintenance Management' => '',
-        'Schedule New System Maintenance' => '',
+        'System Maintenance Management' => 'システムメンテナンス管理',
+        'Schedule New System Maintenance' => '新しいシステムメンテナンスをスケジュール',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
-            '',
+            'このシステムメンテナンスが開始する前に、ユーザはシステムメンテナンスが行われることについてアナウンスする各画面上で通知を受け取ります。',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Start date' => '',
-        'Stop date' => '',
-        'Delete System Maintenance' => '',
+        'Start date' => '開始日',
+        'Stop date' => '終了日',
+        'Delete System Maintenance' => 'システムメンテナンスを削除',
         'Do you really want to delete this scheduled system maintenance?' =>
-            '',
+            'このスケジュールされたシステムメンテナンスを本当に削除しますか？',
 
         # Template: AdminSystemMaintenanceEdit
-        'Edit System Maintenance %s' => '',
-        'Edit System Maintenance information' => '',
+        'Edit System Maintenance %s' => 'システムメンテナンス%sを編集',
+        'Edit System Maintenance information' => 'システムメンテナンス情報を編集',
         'Date invalid!' => '日時が無効です。',
-        'Login message' => '',
-        'Show login message' => '',
-        'Notify message' => '',
-        'Manage Sessions' => '',
-        'All Sessions' => '',
-        'Agent Sessions' => '',
-        'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Login message' => 'ログインメッセージ',
+        'Show login message' => 'ログインメッセージを表示',
+        'Notify message' => '通知メッセージ',
+        'Manage Sessions' => 'セッションの管理',
+        'All Sessions' => '全てのセッション',
+        'Agent Sessions' => '担当者のセッション',
+        'Customer Sessions' => '顧客のセッション',
+        'Kill all Sessions, exept current' => '現在のセッションを除く全てのセッションを削除',
 
         # Template: AdminTemplate
         'Manage Templates' => 'テンプレート管理',
@@ -2437,8 +2437,8 @@ sub Data {
         'Switch to agent' => '担当者を切り替え',
         'Add Agent' => '担当者の追加',
         'Edit Agent' => '担当者の編集',
-        'Firstname' => '名',
-        'Lastname' => '姓',
+        'Firstname' => '姓',
+        'Lastname' => '名',
         'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => '開始',
@@ -2523,7 +2523,7 @@ sub Data {
         'My watched tickets' => '監視チケット',
         'My responsibilities' => '責任チケット',
         'Tickets in My Queues' => '担当キュー内チケット',
-        'Tickets in My Services' => '',
+        'Tickets in My Services' => '担当サービス内チケット',
         'Service Time' => 'サービス時間',
         'Remove active filters for this widget.' => 'このウィジットに対するアクティブ・フィルターを除去',
 
@@ -2575,7 +2575,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => '統計を削除',
-        'Do you really want to delete this stat?' => 'この統計を削除してよろしいですか？',
+        'Do you really want to delete this stat?' => 'この統計を本当に削除してよろしいですか？',
 
         # Template: AgentStatsEditRestrictions
         'Step %s' => 'ステップ %s',
@@ -2748,7 +2748,7 @@ sub Data {
         'Get all' => '全てを取得',
 
         # Template: AgentTicketEmailOutbound
-        'E-Mail Outbound' => '',
+        'E-Mail Outbound' => 'メール送信',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
@@ -3167,8 +3167,8 @@ sub Data {
         '"%s"-notification sent to "%s".' => '"%s"-notification sent to "%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s time unit(s) accounted. Now total %s time unit(s).',
-        '(UserLogin) Firstname Lastname' => '',
-        '(UserLogin) Lastname, Firstname' => '',
+        '(UserLogin) Firstname Lastname' => '(ユーザー名) 姓 名',
+        '(UserLogin) Lastname, Firstname' => '(ユーザー名) 名, 姓',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
@@ -3333,7 +3333,7 @@ sub Data {
             '全員に対して、チケット所有者の変更を行います（ASPにおいて便利です）。通常は、チケットのキューにおいてrw許可を持つ担当者のみが、表示されます。',
         'Checkbox' => '',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
-            'チケット番号ディテクションの中のシステムIDを、フォロー・アップのために確認します（もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください）。',
+            'チケット番号ディテクションの中のシステムIDを、フォローアップのために確認します (もし、システムIDがシステム利用後に変更されていた場合は“No”を使用してください)。',
         'Closed tickets (customer user)' => '',
         'Closed tickets (customer)' => '',
         'Column ticket filters for Ticket Overviews type "Small".' => '',
@@ -3401,7 +3401,7 @@ sub Data {
         'Create new process ticket' => '新規プロセスチケットの作成',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
-        'Customer Administration' => '',
+        'Customer Administration' => '顧客管理',
         'Customer User <-> Groups' => '顧客ユーザー <-> グループ',
         'Customer User <-> Services' => '顧客ユーザー <-> サービス',
         'Customer User Administration' => '顧客ユーザー管理',
@@ -3590,7 +3590,7 @@ sub Data {
         'Defines the default maximum number of search results shown on the overview page.' =>
             '一覧ページに表示される、検索結果のデフォルト最大数を定義します。',
         'Defines the default next state for a ticket after customer follow up in the customer interface.' =>
-            '顧客インタフェースで、顧客フォロー・アップの後のチケットに関してデフォルトの次の状態を定義します。',
+            '顧客インタフェースで、顧客フォローアップの後のチケットに関してデフォルトの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             '担当者インタフェースのクローズ・チケット画面で、チケットのメモを追加した後の、デフォルトの次の状態を定義します。',
         'Defines the default next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
@@ -3620,7 +3620,7 @@ sub Data {
         'Defines the default note body text for phone tickets in the ticket phone outbound screen of the agent interface.' =>
             '担当者インタフェースのチケット電話アウトバウンド画面で、電話チケットのためのデフォルトのメモ本文テキストを定義します。',
         'Defines the default priority of follow up customer tickets in the ticket zoom screen in the customer interface.' =>
-            '顧客インタフェースのチケット・ズーム画面で、フォロー・アップ顧客チケットの優先度を定義します。',
+            '顧客インタフェースのチケット・ズーム画面で、フォローアップ顧客チケットの優先度を定義します。',
         'Defines the default priority of new customer tickets in the customer interface.' =>
             '顧客インタフェースで、新規顧客チケットのデフォルトの優先度を定義します。',
         'Defines the default priority of new tickets.' => '新規チケットのデフォルトの優先度を定義します。',
@@ -3979,8 +3979,8 @@ sub Data {
             'アプリケーション内で顧客が利用できる標準の許可を定義します。もし、より多くの許可が必要になった場合、ここに入力してください。許可が効力を持つためには、ハード・コーディングされる必要があります。なお、前述した許可のいずれかを追加する場合、“rw”許可が、最後のエントリとなることを確実にしてください。',
         'Defines the standard size of PDF pages.' => 'PDFページの標準サイズを定義します。',
         'Defines the state of a ticket if it gets a follow-up and the ticket was already closed.' =>
-            'フォロー・アップをゲットし、チケットがすでにクローズされていた際のチケットの状態を定義します。',
-        'Defines the state of a ticket if it gets a follow-up.' => 'フォロー・アップをゲットした際のチケットの状態を定義します。',
+            'クローズされたチケットに対してフォローアップを受け取った場合のチケットの状態を定義します。',
+        'Defines the state of a ticket if it gets a follow-up.' => 'フォローアップを受け取った場合のチケットの状態を定義します。',
         'Defines the state type of the reminder for pending tickets.' => 'ペンディング・チケットに関するリマインダーの状態タイプを定義します。',
         'Defines the subject for notification mails sent to agents, about new password.' =>
             '新しいパスワードに関して、担当者に送信される通知メールの件名を定義します。',
@@ -4058,7 +4058,7 @@ sub Data {
         'Determines the next screen after new customer ticket in the customer interface.' =>
             '顧客インタフェースで、新規顧客チケットの後の次の画面を決定します。',
         'Determines the next screen after the follow up screen of a zoomed ticket in the customer interface.' =>
-            '客インタフェースで、ズームされたチケットのフォロー・アップ画面の後の次の画面を定義します。',
+            '顧客インタフェースで、ズームされたチケットのフォローアップ画面の後の次の画面を定義します。',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             '',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
@@ -4216,11 +4216,11 @@ sub Data {
         'Events Ticket Calendar' => '',
         'Execute SQL statements.' => 'SQL文の実行',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
-            '件名にチケット番号を持たないメールに関して、In-Reply-Toまたはレファレンス・ヘッダーにおけるフォロー・アップ・チェックを行います。',
+            '件名にチケット番号を持たないメールに関して、In-Reply-Toまたはレファレンスヘッダーにおけるフォローアップのチェックを行います。',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
-            '件名にチケット番号を持たないメールに関して、フォロー・アップのメール添付ファイルのチェックを行います。',
+            '件名にチケット番号を持たないメールに関して、フォロー・アップ・メールの添付ファイルのチェックを行います。',
         'Executes follow up mail body checks in mails that don\'t have a ticket number in the subject.' =>
-            '件名にチケット番号を持たないメールに関して、フォロー・アップのメール・チェックを行います。',
+            '件名にチケット番号を持たないメールに関して、フォローアップ・メール本文のチェックを行います。',
         'Executes follow up plain/raw mail checks in mails that don\'t have a ticket number in the subject.' =>
             '件名にチケット番号を持たないメールに関して、フォロー・アップのplain/rawメール・チェックを行います。 ',
         'Exports the whole article tree in search result (it can affect the system performance).' =>
@@ -4238,9 +4238,9 @@ sub Data {
         'FirstResponse' => '',
         'FirstResponseDiffInMin' => '',
         'FirstResponseInMin' => '',
-        'Firstname Lastname' => '',
-        'Firstname Lastname (UserLogin)' => '',
-        'FollowUp for [%s]. %s' => 'FollowUp for [%s]. %s',
+        'Firstname Lastname' => '姓 名',
+        'Firstname Lastname (UserLogin)' => '姓 名 (ユーザー名)',
+        'FollowUp for [%s]. %s' => '[%s]に対するフォローアップ。%s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '送信Eメールのエンコードを強制します(7bit|8bit|quoted-printable|base64)。',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -4250,13 +4250,13 @@ sub Data {
         'Forwarded to "%s".' => 'Forwarded to "%s".',
         'Frontend language' => 'フロントエンドの言語',
         'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
-            '',
+            'フロントエンド・モジュールの登録 (チケット・サービス機能が使われていない場合、AgentTicketServiceリンクは無効)。',
         'Frontend module registration (disable company link if no company feature is used).' =>
-            'フロントエンド・モジュールの登録です（カンパニー機能が使われていない場合にはカンパニー・リンクを削除します）。',
+            'フロントエンド・モジュールの登録 (企業機能が使われていない場合、企業リンクは無効)。',
         'Frontend module registration (disable ticket processes screen if no process available) for Customer.' =>
-            '',
+            '顧客向けのフロントエンド・モジュールの登録 (プロセスが利用可能ではない場合、チケット・プロセス画面リンクは無効)。',
         'Frontend module registration (disable ticket processes screen if no process available).' =>
-            '',
+            'フロントエンド・モジュールの登録 (プロセスが利用可能ではない場合、チケット・プロセス画面リンクは無効)。',
         'Frontend module registration for the agent interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend theme' => 'フロントエンドのテーマ',
@@ -4421,8 +4421,8 @@ sub Data {
             'アプリケーション内でドメインごとのベースで使用される異なる顧客ごとを見分けるため、などの場合、異なるスキンを設定することも可能です。通常の表現を使用することで（regex）、Key/Contentのペアーをドメインにマッチするように設定することが可能です。"Key"の中の値はドメインにマッチするべきであり、"Content"の中の値はご利用のシステム上の有効なスキンであるべきです。Regrexの適切な形式への入力例をご覧ください。',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular expression (regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。',
-        'Lastname, Firstname' => '',
-        'Lastname, Firstname (UserLogin)' => '',
+        'Lastname, Firstname' => '名 姓',
+        'Lastname, Firstname (UserLogin)' => '名, 姓 (ユーザー名)',
         'Link agents to groups.' => '担当者をグループへ連結',
         'Link agents to roles.' => '担当者をロールへ連結',
         'Link attachments to templates.' => '添付ファイルをテンプレートへ連結',
@@ -4528,9 +4528,9 @@ sub Data {
             '通知とエスカレーションを表示するためのモジュールです(ShownMax: 最大、表示されたエスカレーション、EscalationInMinutes: エスカレートされるチケットを表示、CacheTime: 計算されたエスカレーションのキャッシュ秒数)。',
         'Module to use database filter storage.' => 'データベース・フィルタ・ストレージを使用するモジュールです。',
         'Multiselect' => '',
-        'My Queues and My Services' => '',
-        'My Queues or My Services' => '',
-        'My Services' => '',
+        'My Queues and My Services' => '担当キューと担当サービス',
+        'My Queues or My Services' => '担当キューまたは担当サービス',
+        'My Services' => '担当サービス',
         'My Tickets' => '担当チケット',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'カスタム・キューの名前です。カスタム・キューとは、利用者が特に優先するキューの一覧であり、プレファレンス設定から選択できます。',
@@ -4578,7 +4578,7 @@ sub Data {
         'Parameters for the CustomService object in the preference view of the agent interface.' =>
             '',
         'Parameters for the FollowUpNotify object in the preference view of the agent interface.' =>
-            '担当者インタフェースのプレファレンス・ビューにある、FollowUpNotifyオブジェクトのパラメータです。',
+            '担当者インタフェースのプレファレンス画面にある、FollowUpNotifyオブジェクトのパラメータです。',
         'Parameters for the LockTimeoutNotify object in the preference view of the agent interface.' =>
             '担当者インタフェースのプレファレンス・ビューにある、LockTimeoutNotifyオブジェクトのパラメータです。',
         'Parameters for the MoveNotify object in the preference view of the agent interface.' =>
@@ -4707,7 +4707,7 @@ sub Data {
         'S/MIME Certificate Upload' => 'S/MIME証明書アップロード',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '項目の添付ファイルを保存します。. "DB"は、全てのデータをデータベースに保存します（大きな添付物の保存にはお奨めしません）。"FS"は、データをファイル・システム上に保存するもので、これは速い方法ですがウェブ・サーバがOTRSユーザの配下で動作している必要があります。すでに製品となっているシステムにおいても、データを損失すること無く、モジュール間で切替を行うことができます。',
-        'Schedule a maintenance period.' => '',
+        'Schedule a maintenance period.' => 'メンテナンス期間をスケジュール',
         'Search Customer' => '顧客を検索します。',
         'Search User' => 'ユーザを検索します。',
         'Search backend default router.' => 'バックエンドのデフォルト・ルーターを検索します。',
@@ -4719,18 +4719,18 @@ sub Data {
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             'チケット番号を生成するモジュールを選択します。"AutoIncrement"は、チケット番号をインクリメントし、システムIDおよびカウンターはシステムIDカウンター・フォーマット（例：1010138, 1010139)と共に使用されます。“Date”によって、チケット番号は、現在の日付、システムID、カウンターによって生成されることとなります。フォーマットは、Year.Month.Day.SystemID.counterのようなものです(例：200206231010138, 200206231010139)。"DateChecksum"により、カウンターが、日付およびシステムIDのストリング（文字列）に対するチェックサムとして追加されます。チェックサムは、日ごとに実施されます。フォーマットはYear.Month.Day.SystemID.Counter.CheckSumのようになります(例： 2002070110101520, 2002070110101535)。"Random"は、チケット番号をランダムに生成するもので、フォーマットは"SystemID.Random" (例：100057866352, 103745394596)などとなります。',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
-            '',
+            '自分が所有者であるか、自分の担当キュー/サービスに存在しロック解除されているチケットに対して顧客がフォローアップした場合に通知を送信',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
-            '',
+            '読み取り可能なキュー内のチケットが担当サービス内のサービスに変更されたら通知を送信',
         'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to' => '',
+        'Send new ticket notifications if subscribed to' => '購読しているなら新規チケット通知を送信',
         'Send notifications to users.' => 'ユーザーに通知の送信',
-        'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to' => '',
+        'Send service update notifications' => 'サービス更新通知を送信',
+        'Send ticket follow up notifications if subscribed to' => '購読しているならチケット・フォローアップ通知を送信',
         'Sender type for new tickets from the customer inteface.' => '顧客インタフェースからの新規チケットのための送信者タイプです。',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
-            'チケットがアンロックされた際に、所有者にのみ担当者フォロー・アップ通知を送信します（デフォルト設定では、全ての担当者に通知を送ります）。',
+            'チケットがアンロックされた際に、所有者にのみ担当者フォローアップ通知を送信します (デフォルト設定では、全ての担当者に通知を送ります)。',
         'Sends all outgoing email via bcc to the specified address. Please use this only for backup reasons.' =>
             'Bccを経由して特定されたアドレスに送信Eメールを送ります。バックアップ目的のためにのみ使用してください。',
         'Sends customer notifications just to the mapped customer. Normally, if no customer is mapped, the latest customer sender gets the notification.' =>
@@ -4739,8 +4739,8 @@ sub Data {
             'リマインダ日付を迎えたら、アンロック・チケットのリマインダ通知を送信します（チケット所有者だけに送信されます）。',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '管理インタフェースの"Notfication (Event)"の下で設定された通知を送信します。',
-        'Service update notification' => '',
-        'Service view' => '',
+        'Service update notification' => 'サービス更新通知',
+        'Service view' => 'サービス一覧',
         'Set sender email addresses for this system.' => 'このシステムのメール送信者を設定',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'AgentTicketZoomで、インラインHTML項目のデフォルトの高さ（pixel）を設定します。',
@@ -5045,7 +5045,7 @@ sub Data {
         'Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via \'TicketOverviewMenuSort###SortAttributes\'.' =>
             '',
         'Shows all both ro and rw queues in the queue view.' => 'キュー・ビューで、roとrwの両方全てのキューを表示します。',
-        'Shows all both ro and rw tickets in the service view.' => '',
+        'Shows all both ro and rw tickets in the service view.' => 'サービスビュー内の読み取り専用と読み書き可能なチケットの両方を全て表示する。',
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             '担当者インタフェースのエスカレーション・ビューにある、全てのオープン・チケット（たとえロックされていたとしても）を表示します。',
         'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
@@ -5153,7 +5153,7 @@ sub Data {
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             '通知を送信する際に、アプリケーションによって使用される名前を設定します。送信者名は、通知マスターに対して完全なディスプレイ名を作るために、使用されます（例："OTRS Notification Master" otrs@your.example.com）。通知は、en::Customer::QueueUpdate または en::Agent::Moveなどのメッセージです。.',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
-            '',
+            '担当者の姓と名を表示する順序を指定してください。',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
             'ページ・ヘッダーにおいて、ロゴのためのファイルへのパスを特定します(gif|jpg|png, 700 x 100 pixel)。',
         'Specifies the path of the file for the performance log.' => 'パフォーマンス・ログのためのファイルのパスを特定します。',
@@ -5187,7 +5187,7 @@ sub Data {
         'Status view' => '状態一覧',
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'ブラウザが閉じられた後に、クッキーを格納します。',
-        'Strips empty lines on the ticket preview in the queue view.' => 'キュー・ビューで、チケット・プレビューの空の行を削除します。',
+        'Strips empty lines on the ticket preview in the queue view.' => 'キュー画面で、チケット・プレビューの空の行を削除します。',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
         'System Maintenance' => '',
@@ -5205,7 +5205,7 @@ sub Data {
         'The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.' =>
             '',
         'The format of the subject. \'Left\' means \'[TicketHook#:12345] Some Subject\', \'Right\' means \'Some Subject [TicketHook#:12345]\', \'None\' means \'Some Subject\' and no ticket number. In the last case you should enable PostmasterFollowupSearchInRaw or PostmasterFollowUpSearchInReferences to recognize followups based on email headers and/or body.' =>
-            '件名のフォーマットです。\'Left\'は、\'[TicketHook#:12345] 件名\'を意味し、\'Right\'は、\'件名 [TicketHook#:12345]\'を意味し、\'None\'は、\'件名\'でチケット番号はありません。最後のパターンでは、Eメール・ヘッダーおよび本文を基にフォロー・アップであることを認識するため、PostmasterFollowupSearchInRawまたはPostmasterFollowUpSearchInReferencesを有効にすると良いでしょう。',
+            '件名のフォーマットです。\'Left\'は、\'[TicketHook#:12345] 件名\'を意味し、\'Right\'は、\'件名 [TicketHook#:12345]\'を意味し、\'None\'は、\'件名\'でチケット番号はありません。最後のパターンでは、Eメール・ヘッダーおよび本文を基にフォローアップであることを認識するため、PostmasterFollowupSearchInRawまたはPostmasterFollowUpSearchInReferencesを有効にすると良いでしょう。',
         'The headline shown in the customer interface.' => '顧客インターフェイスの見出し',
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             '例えばTicket#, Call#, MyTicket#などのチケットの識別子です。デフォルトはTicket#です。',
@@ -5278,8 +5278,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'チケット属性がアップデートされた後に、チケット・エスカレーション・インデックスをアップデートします。',
         'Updates the ticket index accelerator.' => 'チケット・インデックス・アクセラレイタのアップです',
-        'UserFirstname' => '',
-        'UserLastname' => '',
+        'UserFirstname' => '姓',
+        'UserLastname' => '名',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、コンポーズEメール回答にあるCCリスト上からCC受信者を使用します。',
         'Uses richtext for viewing and editing notification events.' => '',
@@ -5299,7 +5299,7 @@ sub Data {
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'お気に入りのキューを選択。有効にした場合、それらのキューについてメールで通知を受信します。',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            '',
+            'お気に入りのサービスを選択。有効にした場合、これらのサービスについてメールで通知を受信します',
 
     };
    # $$STOP$$

@@ -638,8 +638,8 @@ sub Data {
         'Groups' => 'Gruppen',
         'Dynamic Fields' => 'Dynamische Felder',
         'Dynamic Field Values' => 'Werte in Dynamischen Feldern',
-        'Invalid Dynamic Fields' => '',
-        'Invalid Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => 'Ungültige dynamische Felder',
+        'Invalid Dynamic Field Values' => 'Werte in ungültigen dynamischen Feldern',
         'GenericInterface Webservices' => 'GenericInterface Webservices',
         'Processes' => 'Prozesse',
         'Months Between First And Last Ticket' => 'Monate zwischen erstem und letztem Ticket',
@@ -681,7 +681,7 @@ sub Data {
         'Environment Variables' => 'Umgebungsvariablen',
         'Webserver Version' => 'Webserver-Version',
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
-        'Loaded Apache Modules' => '',
+        'Loaded Apache Modules' => 'Geladene Apache-Module',
         'CGI Accelerator Usage' => 'Verwendung CGI-Beschleuniger',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Sie sollten FastCGI oder mod_perl verwenden, um die Geschwindigkeit zu steigern.',
@@ -1263,7 +1263,7 @@ sub Data {
             'Wenn ein Ticket-Event ausgelöst wird, wird zunächst der Ticketfilter angewendet um zu prüfen, ob das Ticket betroffen ist. Erst danach wird der Job ggf. für dieses Ticket ausgeführt.',
         'Do you really want to delete this event trigger?' => 'Wollen Sie diesen Event-Trigger wirklich löschen?',
         'Add Event Trigger' => 'Event-Trigger hinzufügen',
-        'Add Event' => '',
+        'Add Event' => 'Event hinzufügen',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Um einen neuen Event hinzuzufügen, wählen Sie bitte das Objekt und den Eventnamen und klicken Sie auf den "+"-Knopf',
         'Duplicate event.' => 'Doppeltes Event',
@@ -1743,7 +1743,7 @@ sub Data {
         'This feature is enabled!' => 'Dieses Feature ist aktiv!',
         'Just use this feature if you want to log each request.' => 'Nur aktivieren wenn jede Anfrage protokolliert werden soll.',
         'Activating this feature might affect your system performance!' =>
-            'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zu rechnen.',
+            'Bitte beachten Sie, dass das Aktivieren dieser Funktion Performance-Einbußen zur Folge haben kann.',
         'Disable it here!' => 'Hier deaktivieren!',
         'Logfile too large!' => 'Logdatei zu groß!',
         'The logfile is too large, you need to reset it' => 'Die Logdatei ist zu groß, sie muss zurückgesetzt werden',
@@ -2220,7 +2220,7 @@ sub Data {
         # Template: AdminSelectBox
         'SQL Box' => 'SQL Box',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
-            'Hier können Sie SQL-Befehle eingeben um diese direkt an die Anwendungsdatenbank zu senden. Es ist nicht möglich, den Inhalt der Tabellen zu ändern, erlaubt sind nur SELECT-Abfragen.',
+            'Senden Sie SQL-Befehle direkt an die Anwendungsdatenbank. Es ist nicht möglich, den Inhalt der Tabellen zu ändern, es sind nur SELECT-Abfragen erlaubt.',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Hier können Sie SQL eingeben, das an die Datenbank gesendet wird.',
         'Only select queries are allowed.' => 'Es sind nur Select Abfragen erlaubt',
@@ -2228,7 +2228,7 @@ sub Data {
             'Die Syntax Ihrer SQL-Abfrage ist fehlerhaft. Bitte prüfen.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Es fehlt mindestens ein Parameter für das Binding. Bitte prüfen.',
-        'Result format' => 'Format der Ergebnisse',
+        'Result format' => 'Zielformat',
         'Run Query' => 'Anfrage ausführen',
         'Query is executed.' => 'Suchanfrage wird ausgeführt.',
 
@@ -2253,7 +2253,7 @@ sub Data {
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             'Es wird empfohlen, diese Daten an die OTRS Gruppe zu senden, um bessere Unterstützung zu erhalten.',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Um das Senden der Daten zu aktivieren, registrieren Sie bitte Ihr System bei der OTRS Gruppe oder aktualisieren Sie ihre Systemregistrierung (aktivieren Sie die Option \'Supportdaten senden\'.)',
+            'Um das Senden der Daten zu aktivieren, registrieren Sie bitte Ihr System bei der OTRS Gruppe oder aktualisieren Sie Ihre Systemregistrierung (aktivieren Sie die Option \'Supportdaten senden\').',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Ein Supportpaket (einschließlich: Systemregistrierungsdaten, Supportdaten, eine Liste der installierten Pakete und aller lokal geänderten Quellcode-Dateien) kann mit diesem Knopf erstellt werden:',
         'Generate Support Bundle' => 'Supportpaket erstellen',
@@ -2422,7 +2422,7 @@ sub Data {
         'Add ticket type' => 'Ticket-Typ hinzufügen',
         'Add Type' => 'Typ hinzufügen',
         'Edit Type' => 'Typ bearbeiten',
-        'A type with this name already exists!' => '',
+        'A type with this name already exists!' => 'Ein Typ mit diesem Namen existiert bereits!',
 
         # Template: AdminUser
         'Add agent' => 'Agent hinzufügen',
@@ -2556,12 +2556,12 @@ sub Data {
         'General Information' => 'Allgemeine Informationen',
         'Scheduler is an OTRS separated process that perform asynchronous tasks' =>
             'Der Scheduler ist ein OTRS-Prozess, der asynchrone Aufgaben ausführt.',
-        '(e.g. Generic Interface asynchronous invoker tasks)' => '(z.B.: Generic Interface asynchrone Invoker Aufgaben)',
+        '(e.g. Generic Interface asynchronous invoker tasks)' => '(z. B. asynchrone Invoker-Aufgaben des Generic Interface)',
         'It is necessary to have the Scheduler running to make the system work correctly!' =>
-            'Es ist notwendig das der Scheduler läuft, damit das System ordnungsgemäß funktioniert!',
+            'Es ist notwendig, dass der Scheduler läuft, damit das System ordnungsgemäß funktioniert!',
         'Starting Scheduler' => 'Scheduler starten',
         'Make sure that %s exists (without .dist extension)' => 'Stellen Sie sicher, dass %s existiert (ohne die Endung .dist)',
-        'Check that cron deamon is running in the system' => 'Überprüfen Sie das der Cron-Daemon gestartet wurde.',
+        'Check that cron deamon is running in the system' => 'Stellen Sie sicher, dass der Cron-Daemon gestartet wurde.',
         'Confirm that OTRS cron jobs are running, execute %s start' => 'Stellen Sie sicher, dass die OTRS Cronjobs gestartet wurden. Führen Sie \'%s start\' aus',
 
         # Template: AgentSpelling
@@ -2877,7 +2877,7 @@ sub Data {
         'Outgoing message' => 'Ausgehende Nachricht',
         'Internal message' => 'Interne Nachricht',
         'Resize' => 'Größe anpassen',
-        'Mark this article as read' => '',
+        'Mark this article as read' => 'Diesen Artikel als gelesen markieren',
         'Show Full Text' => 'Vollständigen Text anzeigen',
         'Full Article Text' => 'Vollständiger Artikeltext',
         'No more events found. Please try changing the filter settings.' =>
@@ -2911,7 +2911,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Um alle Möglichkeiten von OTRS voll ausschöpfen zu können, müssen Sie JavaScript in Ihrem Browser aktivieren.',
         'Browser Warning' => 'Browser-Warnung',
-        'One moment please, you are being redirected...' => '',
+        'One moment please, you are being redirected...' => 'Einen Moment bitte, Sie werden weitergeleitet...',
         'Login' => 'Anmeldung',
         'User name' => 'Benutzername',
         'Your user name' => 'Ihr Benutzername',
@@ -3096,7 +3096,7 @@ sub Data {
 
         # Template: InstallerLicense
         'Don\'t accept license' => 'Lizenz _nicht_ akzeptieren',
-        'Accept license and continue' => '',
+        'Accept license and continue' => 'Lizenz akzeptieren und fortfahren',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
@@ -3441,7 +3441,7 @@ sub Data {
             'Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
-            '',
+            'Definiert den Wochentag, mit dem die Woche im angegebenen Kalender beginnt.',
         'Define the start day of the week for the date picker.' => 'Definiert den Beginn einer Woche für den Datumswähler.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Definiert einen Punkt, welcher ein LinedIn-Symbol am Endes der Kundeninformation hinzufügt.',
@@ -4207,7 +4207,7 @@ sub Data {
         'Event module that updates tickets after an update of the Customer.' =>
             'Ereignis-Modul, das ein Ticket aktualisiert nach einem Update des Kunden.',
         'Events Ticket Calendar' => 'Ticket-Ereigniskalender',
-        'Execute SQL statements.' => 'Einen SQL-Befehl ausführen.',
+        'Execute SQL statements.' => 'SQL-Befehle ausführen.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -4552,7 +4552,7 @@ sub Data {
         'Old: "%s" New: "%s"' => 'Alt: "%s" Neu: "%s"',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
-        'Out Of Office' => 'Nicht mehr im Büro',
+        'Out Of Office' => 'Derzeit nicht im Büro',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',
