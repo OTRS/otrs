@@ -68,7 +68,15 @@ div.Headline .Flag {
  */
 
 #ArticleItems .Header h2 {
-    padding-right: 245px;
+    float: left;
+}
+
+#ArticleItems .WidgetSimple .Header {
+    overflow: hidden;
+}
+
+#ArticleItems .WidgetSimple .Header h2 {
+    max-width: 80%;
 }
 
 #ArticleTableBody {
