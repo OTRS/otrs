@@ -303,7 +303,7 @@ add a package to local repository
 
     $PackageObject->RepositoryAdd(
         String => $FileString,
-        FromCloud => 0, # optional 1 or 0
+        FromCloud => 0, # optional 1 or 0, it indicates if package came from Cloud or not
     );
 
 =cut
@@ -444,7 +444,7 @@ install a package
 
     $PackageObject->PackageInstall(
         String    => $FileString
-        FromCloud => 1, # optional 1 or 0
+        FromCloud => 1, # optional 1 or 0, it indicates if package's origin is Cloud or not
     );
 
 =cut
@@ -1268,6 +1268,8 @@ returns a list of available on-line packages
         URL  => '',
         Lang => 'en',
         Cache => 0,   # (optional) do not use cached data
+        FromCloud => 1, # optional 1 or 0, it indicates if a Cloud Service
+                        # should be used for getting the packages list
     );
 
 =cut

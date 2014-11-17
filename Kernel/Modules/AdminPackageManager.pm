@@ -1300,7 +1300,9 @@ sub Run {
             $Self->{PackageObject}->RepositoryCloudList( NoCache => 1 );
     }
 
-    # verify if source is present on repository cloud list
+    # in case Source is present on repository cloud list
+    # the call for retrieving data about it, should be performed
+    # using the CloudService backend
     my $FromCloud = ( $RepositoryCloudList->{$Source} ? 1 : 0 );
 
     $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
@@ -1825,7 +1827,8 @@ sub _InstallHandling {
     my $RepositoryCloudList =
         $Self->{PackageObject}->RepositoryCloudList();
 
-    # verify if source is present on repository cloud list
+    # in case Source is present on repository cloud list
+    # the package shold be retrieved using the CloudService backend
     my $FromCloud = 0;
     if ( $Param{Source} && $RepositoryCloudList->{ $Param{Source} } ) {
         $FromCloud = 1;
