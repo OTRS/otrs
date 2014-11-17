@@ -89,6 +89,14 @@ my @Tests = (
         Target => '',
     },
     {
+        Input =>
+            'Some text with a complicated url http://example.com/index.pl?key=v_al-ue#hash-te_st',
+        Result =>
+            'Some text with a complicated url <a href="http://example.com/index.pl?key=v_al-ue#hash-te_st" title="http://example.com/index.pl?key=v_al-ue#hash-te_st">http://example.com/index.pl?key=v_al-ue#hash-te_st</a>',
+        Name   => 'LinkQuote - complicated',
+        Target => '',
+    },
+    {
         Input => 'Some Text with url <a href="http://example.com">http://example.com</a>',
         Result =>
             'Some Text with url <a href="http://example.com" target="_blank">http://example.com</a>',
