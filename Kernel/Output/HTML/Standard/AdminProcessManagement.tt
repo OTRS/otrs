@@ -53,7 +53,7 @@
                             <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                             <fieldset class="SpacingTop">
-                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" />
+                                <input type="checkbox" id="OverwriteExistingEntities" name="OverwriteExistingEntities" value="1" checked="checked" />
                                 <label for="OverwriteExistingEntities">[% Translate("Overwrite existing entities") | html %]</label>
                             </fieldset>
                             <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload process configuration") | html %]">
