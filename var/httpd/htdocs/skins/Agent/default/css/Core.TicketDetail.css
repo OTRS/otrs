@@ -735,6 +735,10 @@ div.Headline .Flag {
     height: 400px;
 }
 
+.ActionsChronicalView .Actions li select {
+    max-width: 120px;
+}
+
 /* Define colors for different event types */
 
 .UseArticleColors .ChronicalView .TypeIncoming h3 {
