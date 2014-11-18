@@ -377,8 +377,7 @@ sub _MigrateFontAwesome {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $ModuleAttributes{$ToolbarModule} } ) {
-            $Setting->{$ToolbarModule}->{$Attribute}
-                = $ModuleAttributes{$ToolbarModule}->{$Attribute};
+            $Setting->{$ToolbarModule}->{$Attribute} = $ModuleAttributes{$ToolbarModule}->{$Attribute};
         }
 
         # set new setting,
@@ -430,8 +429,7 @@ sub _MigrateFontAwesome {
 
         # set icon and class infos
         for my $Attribute ( sort keys %{ $CustomerUserAttributes{$CustomerUserModule} } ) {
-            $Setting->{$CustomerUserModule}->{$Attribute}
-                = $CustomerUserAttributes{$CustomerUserModule}->{$Attribute};
+            $Setting->{$CustomerUserModule}->{$Attribute} = $CustomerUserAttributes{$CustomerUserModule}->{$Attribute};
         }
 
         # set new setting,
@@ -575,8 +573,7 @@ sub _MigrateProcessManagementEntityIDs {
                     for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
                         # set new transition action EntityID from process path activity transition
-                        my $NewTransitionActionEntityID
-                            = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
+                        my $NewTransitionActionEntityID = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
                         if ( !$NewTransitionActionEntityID ) {
                             die
                                 "Error: No new EntityID was created for TransitionAction: $TransitionActionEntityID";
@@ -585,8 +582,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
 
                     # set new activity EntityID stored in the transition
-                    my $NewDestinationActivityEntityID
-                        = $EntityLookup{Activity}->{ $Transition->{ActivityEntityID} };
+                    my $NewDestinationActivityEntityID = $EntityLookup{Activity}->{ $Transition->{ActivityEntityID} };
                     if ( !$NewDestinationActivityEntityID ) {
                         die
                             "Error: No new EntityID was created for Activity: $Transition->{ActivityEntityID}";
@@ -651,8 +647,7 @@ sub _MigrateProcessManagementEntityIDs {
             my $ActivityDialogEntityID = $CurrentActivityDialogs->{$OrderKey};
 
             # set new activity dialog EntityID
-            my $NewActivityDialogEntityID
-                = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
+            my $NewActivityDialogEntityID = $EntityLookup{ActivityDialog}->{$ActivityDialogEntityID};
             if ( !$NewActivityDialogEntityID ) {
                 die
                     "Error: No new EntityID was created for ActivityDialog: $ActivityDialogEntityID";
@@ -837,8 +832,7 @@ sub _MigrateProcessManagementEntityIDs {
                     }
                     push @NewActivityDialogs, $NewEntityID;
                 }
-                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID}
-                    = \@NewActivityDialogs;
+                $ACL->{ConfigMatch}->{$ACLPart}->{Process}->{ActivityDialogEntityID} = \@NewActivityDialogs;
             }
         }
 
@@ -1004,8 +998,7 @@ sub _MigrateProcessManagementEntityIDs {
 
     # deploy ACLs
     if ($DeployACLs) {
-        my $Location
-            = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
         my $ACLDump = $ACLObject->ACLDump(
             ResultType => 'FILE',
@@ -1131,8 +1124,7 @@ sub _MigrateProcessManagementDynamicFieldTypes {
     }
 
     my $ProcessManagementActivityID
-        = $Kernel::OM->Get('Kernel::Config')
-        ->Get('Process::DynamicFieldProcessManagementActivityID') || '';
+        = $Kernel::OM->Get('Kernel::Config')->Get('Process::DynamicFieldProcessManagementActivityID') || '';
 
     if ( !$ProcessManagementActivityID ) {
         print "\tProcess Management dynamic field for Activity ID configuration is invalid!\n";
@@ -1277,14 +1269,24 @@ sub _MigrateSettings {
     my $NewTicketKey      = 'UserSendNewTicketNotification';
     my $FollowUpTicketKey = 'UserSendFollowUpNotification';
 
+    my $Operator = '=';
+
+    # get database object;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # use 'LIKE' operator instead of '=' in oracle as the field is defined as CLOB
+    if ( $DBObject->{'DB::Type'} eq 'oracle' ) {
+        $Operator = 'LIKE';
+    }
+
     # do the update
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "
+    return if !$DBObject->Do(
+        SQL => '
             UPDATE user_preferences
             SET preferences_value = ?
             WHERE
                 ( preferences_key = ? OR preferences_key = ? )
-                AND preferences_value = ?",
+                AND preferences_value ' . $Operator . ' ?',
         Bind => [ \$NewValue, \$NewTicketKey, \$FollowUpTicketKey, \$OldValue ],
     );
     return 1;
