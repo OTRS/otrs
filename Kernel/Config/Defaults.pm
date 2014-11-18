@@ -189,6 +189,7 @@ sub LoadDefaults {
         'sr_Cyrl' => 'Serbian Cyrillic (српски)',
         'sr_Latn' => 'Serbian Latin (Srpski)',
         'sv' => 'Svenska',
+        'sw' => 'Swahili',
         'tr' => 'T&uuml;rk&ccedil;e',
         'uk' => 'Ukrainian (&#x0423;&#x043a;&#x0440;&#x0430;&#x0457;&#x043d;&#x0441;&#x044c;&#x043a;&#x0430;)',
         'vi_VN' => 'Vietnam (Vi&#x0246;t Nam)',

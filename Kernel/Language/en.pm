@@ -1,5 +1,5 @@
 # --
-# Kernel/Language/en.pm - provides en_US languag translation
+# Kernel/Language/en.pm - provides en_US language translation
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

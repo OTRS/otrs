@@ -1,3 +1,6 @@
+#4.0.1 2014-??-??
+ - 2014-11-18 Added new Swahili language translation, thanks to all translators.
+
 #4.0.0.rc1 2014-11-18
  - 2014-10-30 Updated translation files, thanks to all translators.
  - 2014-11-12 Fixed bug#[10866](http://bugs.otrs.org/show_bug.cgi?id=10866) - Wrong default article shown in AgentTicketZoom.
