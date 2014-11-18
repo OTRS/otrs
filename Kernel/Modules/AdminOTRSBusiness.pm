@@ -30,41 +30,42 @@ sub Run {
 
     my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $OTRSBusinessLabel  = '<strong>OTRS Business Solution</strong>™';
 
     my $ParamObject           = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $NotificationCode      = $ParamObject->GetParam( Param => 'NotificationCode' );
     my %NotificationCode2Text = (
         InstallOk => {
             Priority => 'Success',
-            Info     => 'Your system was successfully upgraded to OTRS Business Solution™.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('Your system was successfully upgraded to %s.', $OTRSBusinessLabel),
         },
         InstallError => {
             Priority => 'Error',
-            Info     => 'There was a problem during the upgrade to OTRS Business Solution™.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem during the upgrade to %s.', $OTRSBusinessLabel),
         },
         ReinstallOk => {
             Priority => 'Success',
-            Info     => 'OTRS Business Solution™ was correctly reinstalled.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('%s was correctly reinstalled.', $OTRSBusinessLabel),
         },
         ReinstallError => {
             Priority => 'Error',
-            Info     => 'There was a problem reinstalling OTRS Business Solution™.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem reinstalling %s.', $OTRSBusinessLabel),
         },
         UpdateOk => {
             Priority => 'Success',
-            Info     => 'Your OTRS Business Solution™ was successfully updated.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('Your %s was successfully updated.', $OTRSBusinessLabel),
         },
         UpdateError => {
             Priority => 'Error',
-            Info     => 'There was a problem during the upgrade of OTRS Business Solution™.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem during the upgrade of %s.', $OTRSBusinessLabel),
         },
         UninstallOk => {
             Priority => 'Success',
-            Info     => 'OTRS Business Solution™ was correctly uninstalled.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('%s was correctly uninstalled.', $OTRSBusinessLabel),
         },
         UninstallError => {
             Priority => 'Error',
-            Info     => 'There was a problem uninstalling OTRS Business Solution™.',
+            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem uninstalling %s.', $OTRSBusinessLabel),
         },
     );
     my $Notification;

@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-[% SET OTRSBusinessLabel = '<b>OTRS Business Solution</b>™' %]
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
 
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h1>
