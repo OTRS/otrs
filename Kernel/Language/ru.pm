@@ -2007,7 +2007,7 @@ sub Data {
         'Change Auto Response Relations for Queue' => 'Изменить Автоответ для Очереди',
 
         # Template: AdminQueueTemplates
-        'Manage Template-Queue Relations' => 'Управление сязями Щаблон - Очередь',
+        'Manage Template-Queue Relations' => 'Управление связями Шаблон - Очередь',
         'Filter for Templates' => 'Фильтр для Шаблонов',
         'Templates' => 'Шаблоны',
         'Change Queue Relations for Template' => 'Изменить связь Очереди с Шаблоном',
