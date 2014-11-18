@@ -177,7 +177,7 @@ sub SystemDataGet {
 
     my $Value;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $Value = $Data[0] || '';
+        $Value = $Data[0] // '';
     }
 
     # set cache
@@ -185,7 +185,7 @@ sub SystemDataGet {
         Type  => $Self->{CacheType},
         TTL   => $Self->{CacheTTL},
         Key   => $CacheKey,
-        Value => $Value || '',
+        Value => $Value // '',
     );
 
     return $Value;
@@ -202,11 +202,13 @@ and so on.
         Group => 'SystemRegistration',
     );
 
-my %SystemData = (
-    UniqueID => 'CDC782BE-E483-11E2-83DA-9FFD99890B3C',
-    UpdateID => 'D8F55850-E483-11E2-BD60-9FFD99890B3C'
-    ...
-);
+returns
+
+    %SystemData = (
+        UniqueID => 'CDC782BE-E483-11E2-83DA-9FFD99890B3C',
+        UpdateID => 'D8F55850-E483-11E2-BD60-9FFD99890B3C'
+        ...
+    );
 
 =cut
 

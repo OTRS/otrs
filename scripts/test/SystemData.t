@@ -120,6 +120,26 @@ $Self->Is(
     'SystemDataGet() - value - empty string',
 );
 
+# set to 0
+$Success = $SystemDataObject->SystemDataUpdate(
+    Key    => $SystemDataNameRand1,
+    Value  => 0,
+    UserID => 1,
+);
+
+$Self->True(
+    $Success,
+    "SystemDataAdd() - added '$SystemDataNameRand1' value empty string",
+);
+
+$SystemData = $SystemDataObject->SystemDataGet( Key => $SystemDataNameRand1 );
+
+$Self->IsDeeply(
+    $SystemData,
+    0,
+    'SystemDataGet() - value - 0',
+);
+
 $SystemDataUpdate = $SystemDataObject->SystemDataUpdate(
     Key    => $SystemDataNameRand1,
     Value  => 'update',

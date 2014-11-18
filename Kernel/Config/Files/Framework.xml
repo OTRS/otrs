@@ -740,6 +740,27 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###100-OTRSBusiness" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationAgentOTRSBusiness</Item>
+                <Item Key="Group">admin</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::NotifyModule###1-OTRSBusiness" Required="1" Valid="1">
+        <Description Translatable="1">Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOTRSBusiness</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###200-UID-Check" Required="1" Valid="1">
         <Description Translatable="1">Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin).</Description>
         <Group>Framework</Group>
@@ -5003,6 +5024,29 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminOTRSBusiness" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>OTRS Business Solution™</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>OTRS Business Solution™</Name>
+                    <Description Translatable="1">Deploy and manage OTRS Business Solution™.</Description>
+                    <Block>System</Block>
+                    <Prio>360</Prio>
+                </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.OTRSBusiness.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminServiceCenter" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
@@ -5018,7 +5062,7 @@ via the Preferences button after logging in.
                     <Name Translatable="1">Service Center</Name>
                     <Description Translatable="1">Manage OTRS Group services.</Description>
                     <Block>System</Block>
-                    <Prio>351</Prio>
+                    <Prio>370</Prio>
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.ServiceCenter.css</CSS>
@@ -6730,6 +6774,17 @@ via the Preferences button after logging in.
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
             <String Regex="">A maintenance period is running, get into the system is not possible for now.</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="0" Valid="0" ConfigLevel="100">
+        <Description Translatable="1">Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::OTRSBusiness</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">Development</Item>
+                <Item Key="1">Stable</Item>
+            </Option>
         </Setting>
     </ConfigItem>
 </otrs_config>

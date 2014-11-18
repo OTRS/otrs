@@ -1041,6 +1041,9 @@ sub Notify {
     elsif ( $Param{Priority} && $Param{Priority} eq 'Success' ) {
         $BoxClass = 'Success';
     }
+    elsif ( $Param{Priority} && $Param{Priority} eq 'Info' ) {
+        $BoxClass = 'Info';
+    }
 
     if ( $Param{Link} ) {
         $Self->Block(

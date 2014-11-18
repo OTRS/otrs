@@ -92,8 +92,12 @@ bin/ModuleCode.pl
 bin/DatabaseInstall.pl
 
 # OTRSBusiness
-OTRSBusiness.*
+OTRSBusiness.sopm
+doc/*/OTRSBusiness.*
+i18n/OTRSBusiness
+var/packagesetup/OTRSBusiness.pm
 bin/otrs.CleanUpChats.pl
+Kernel/Config/Files/OTRSBusiness.xml
 Kernel/Language/de_OTRSBusiness.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*

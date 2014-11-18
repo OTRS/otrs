@@ -1,0 +1,53 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Admin
+ */
+
+@media screen,projection,tv,handheld {
+
+.BusinessLogo {
+    width: 94px;
+    height: 94px;
+    margin: 20px auto;
+    position: relative;
+    text-align: center;
+}
+
+.BusinessLogo span {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 94px;
+    height: 94px;
+    background: url(../img/OTRSBusinessSolution-small.png);
+    -webkit-animation: spin 8s linear infinite;
+    -moz-animation: spin 8s linear infinite;
+    animation: spin 8s linear infinite;
+}
+
+.BusinessLogo.NoSpin span {        
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none;
+}
+
+.BusinessLogo i {
+    margin-top: 35px;
+    font-size: 25px;
+    color: #fff;
+    font-weight: normal;
+    color: #264654;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
+
+} /* end @media */

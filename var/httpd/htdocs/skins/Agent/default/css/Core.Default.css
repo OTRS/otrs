@@ -146,6 +146,23 @@ em {
 }
 
 /**
+ * @subsection  Regular lists
+ * @note        List elements (ul, ol) are being reset by default to avoid browser styling, so we
+                need to define our own 'default' lists using a class.
+ */
+
+ul.Default {
+    list-style-type: square;
+    margin: 5px 0px;
+    padding-left: 20px;
+}
+
+ul.Default li {
+    line-height: 130%;
+    margin-bottom: 3px;
+}
+
+/**
  * @subsection  Definition lists
  */
 dl {
@@ -496,6 +513,41 @@ dd {
     content: "\2192";
     display: inline-block;
     font-size: 15px;
+}
+
+.MessageBox.Info {
+    background-color: #2A5464;
+}
+
+.MessageBox.Info p,
+.MessageBox.Info a {
+    color: #fff;
+}
+
+.MessageBox a.Button:after {
+    content: "";
+}
+
+.MessageBox a.Button {
+    display: inline;
+    padding: 3px 7px;
+    margin-left: 5px;
+}
+
+.MessageBox a.Button:hover {
+    text-decoration: none;
+}
+
+.MessageBox.Info a.Button {
+    background-color: #3E6C7C;
+}
+
+.MessageBox.Info a.Button:hover {
+    background-color: #4B7C8E;
+}
+
+.MessageBox.Info a.Button i {
+    color: #89C6D1;
 }
 
 /**

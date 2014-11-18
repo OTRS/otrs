@@ -1,0 +1,160 @@
+# --
+# AdminOTRSBusinessInstalled.tt - provides HTML form for AdminOTRSBusiness
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% SET OTRSBusinessLabel = '<b>OTRS Business Solution</b>™' %]
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Manage %s", OTRSBusinessLabel) %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Uninstall" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-angle-double-down"></i> [% Translate("Downgrade to OTRS Free") | html %]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="Clear"></div>
+        </div>
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    [% Translate('%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.', OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+[% RenderBlockStart("NotEntitled") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2 class="Center">[% Translate("Unauthorized Usage Detected") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="BusinessLogo NoSpin Error">
+                    <span></span>
+                    <i class="fa fa-times-circle"></i>
+                </div>
+                <p class="Center">
+                    [% Translate('This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!', OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NotEntitled") %]
+[% RenderBlockStart("NeedsReinstall") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("%s not Correctly Installed", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <div class="BusinessLogo NoSpin Error">
+                    <span></span>
+                    <i class="fa fa-times-circle"></i>
+                </div>
+                <p class="Center">
+                    [% Translate('Your %s is not correctly installed. Please reinstall it with the button below.', OTRSBusinessLabel) %]
+                </p>
+                <div class="Center SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ReinstallAction" class="CallForAction Primary"><span><i class="fa fa-retweet"></i> [% Translate('Reinstall %s', OTRSBusinessLabel) %]</span></a>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NeedsReinstall") %]
+[% RenderBlockStart("NeedsReinstallAndUpdate") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("%s not Correctly Installed", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <div class="BusinessLogo NoSpin Error">
+                    <span></span>
+                    <i class="fa fa-times-circle"></i>
+                </div>
+                <p class="Center">
+                    [% Translate('Your %s is not correctly installed, and there is also an update available.', OTRSBusinessLabel) %]
+                    <br/>
+                    [% Translate('You can either reinstall your current version or perform an update with the buttons below (update recommended).') %]
+                </p>
+                <p class="Center SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateAction" class="CallForAction Primary"><span><i class="fa fa-refresh"></i> [% Translate('Update %s', OTRSBusinessLabel) %]</span></a>
+                    [% Translate('or') | html %]
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ReinstallAction" class="CallForAction Primary"><span><i class="fa fa-retweet"></i> [% Translate('Reinstall %s', OTRSBusinessLabel) %]</span></a>
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NeedsReinstallAndUpdate") %]
+[% RenderBlockStart("ReinstallImpossible") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("%s Not Yet Available", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <div class="BusinessLogo">
+                    <span></span>
+                    <i class="fa fa-check"></i>
+                </div>
+                <p class="Center">
+                    [% Translate('%s will be available soon.', OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("ReinstallImpossible") %]
+[% RenderBlockStart("NeedsUpdate") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("%s Update Available", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <div class="BusinessLogo">
+                    <span></span>
+                    <i class="fa fa-refresh"></i>
+                </div>
+                <p class="Center">
+                    [% Translate('An update for your %s is available! Please update at your earliest!', OTRSBusinessLabel) %]
+                </p>
+                <div class="Center SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UpdateAction" class="CallForAction Primary"><span><i class="fa fa-refresh"></i> [% Translate('Update %s', OTRSBusinessLabel) %]</span></a>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NeedsUpdate") %]
+[% RenderBlockStart("EverythingOk") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("OTRS Business Solution Correctly Deployed") | html %]</h2>
+            </div>
+            <div class="Content">
+                <div class="BusinessLogo">
+                    <span></span>
+                    <i class="fa fa-check"></i>
+                </div>
+                <p class="Center">
+                    [% Translate('Congratulations, your %s is correctly installed and up to date!', OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("EverythingOk") %]
+    </div>
+</div>

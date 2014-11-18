@@ -1,0 +1,85 @@
+# --
+# AdminOTRSBusinessUninstall.tt - provides HTML form for AdminOTRSBusiness
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% SET OTRSBusinessLabel = '<b>OTRS Business Solution</b>™' %]
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Manage %s", OTRSBusinessLabel) %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-caret-left"></i> [% Translate("Cancel downgrade and go back") | html %]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminPackageManager" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-suitcase"></i> [% Translate('Go to OTRS Package Manager') | html %]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="Clear"></div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Downgrade to OTRS Free") | html %]</h2>
+            </div>
+            <div class="Content">
+[% RenderBlockStart("DowngradeNotPossible") %]
+                <p>
+                    [% Translate('Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:', OTRSBusinessLabel) %]
+                </p>
+                <ul class="Default">
+            [% FOR Package IN Data.Packages %]
+                    <li>
+                        <p><strong>[% Package.Name | html %]</strong></p>
+                [% FOR Description IN Package.Description %]
+                    [% IF Description.Lang == 'en' %]
+                        <p>[% Description.Content | html %]</p>
+                    [% END %]
+                [% END %]
+                        <p><em>[% Translate('Vendor') | html %] [% Package.Vendor | html %], [% Translate('Version') | html %] [% Package.Version | html %]</em></p>
+                    </li>
+            [% END %]
+                </ul>
+                <p>
+                    [% Translate('Please uninstall the packages first using the package manager and try again.') | html %]
+                </p>
+[% RenderBlockEnd("DowngradeNotPossible") %]
+[% RenderBlockStart("DowngradePossible") %]
+                <p>
+                    [% Translate('You are about to downgrade to OTRS Free and will lose the following features and all data related to these:') | html %]
+                </p>
+                <ul class="Default">
+                    <li>[% Translate('Chat') | html %]</li>
+                    <li>[% Translate('Timeline view in ticket zoom') | html %]</li>
+                    <li>[% Translate('DynamicField ContactWithData') | html %]</li>
+                </ul>
+                <p class="SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UninstallAction">
+                        <button class="CallForAction Primary"><span>[% Translate('Downgrade to OTRS Free') | html %]</span></button>
+                    </a>
+                    [% Translate('or') | html %]
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate('Cancel') | html %]</a>
+                </p>
+[% RenderBlockEnd("DowngradePossible") %]
+            </div>
+            <div class="Clear"></div>
+        </div>
+    </div>
+</div>

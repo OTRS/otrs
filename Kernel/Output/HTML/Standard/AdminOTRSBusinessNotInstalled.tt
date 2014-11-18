@@ -1,0 +1,103 @@
+# --
+# AdminOTRSBusinessNotInstalled.tt - provides HTML form for AdminOTRSBusiness
+# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% SET OTRSBusinessLabel = '<b>OTRS Business Solution</b>™' %]
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    [% Translate('%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.', OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+[% RenderBlockStart("NotAvailable") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <p class="Center">
+                    [% Translate('%s will be available soon. Please check again in a few days.', OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NotAvailable") %]
+[% RenderBlockStart("NotRegistered") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <p class="Center">
+                    [% Translate('Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!', OTRSBusinessLabel) %]
+                </p>
+                <div class="Center SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction Primary">
+                        <span><i class="fa fa-sign-in"></i> [% Translate("Register this System") | html %]</span>
+                    </a>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NotRegistered") %]
+[% RenderBlockStart("NotEntitled") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <p class="Center">
+                    [% Translate('Before you can benefit from %s, please contact %s to get your %s contract.', OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>', OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NotEntitled") %]
+[% RenderBlockStart("EntitlementStatusUnclear") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <p class="Center">
+                    [% Translate("Connection to cloud.otrs.com via HTTPS couldn't be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.") | html %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("EntitlementStatusUnclear") %]
+[% RenderBlockStart("Install") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("Upgrade to %s", OTRSBusinessLabel) %]</h2>
+            </div>
+            <div class="Content">
+                <p class="Center">
+                    [% Translate('We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!', OTRSBusinessLabel) %]
+                </p>
+                <div class="Center SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate('Upgrade to %s', OTRSBusinessLabel) %]</span></a>
+                </div>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("Install") %]
+    </div>
+</div>
