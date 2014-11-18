@@ -69,6 +69,7 @@
                     <li>[% Translate('Chat') | html %]</li>
                     <li>[% Translate('Timeline view in ticket zoom') | html %]</li>
                     <li>[% Translate('DynamicField ContactWithData') | html %]</li>
+                    <li>[% Translate('The %s skin', OTRSBusinessLabel) %]</li>
                 </ul>
                 <p class="SpacingTop">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=UninstallAction">
