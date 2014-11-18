@@ -142,7 +142,7 @@
 [% RenderBlockStart("EverythingOk") %]
         <div class="WidgetSimple">
             <div class="Header Center">
-                <h2>[% Translate("OTRS Business Solution Correctly Deployed") | html %]</h2>
+                <h2>[% Translate("%s Correctly Deployed", OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
                 <div class="BusinessLogo">
