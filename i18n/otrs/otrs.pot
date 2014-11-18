@@ -1479,35 +1479,35 @@ msgid "An update for your %s is available, but there is a conflict with your fra
 msgstr ""
 
 #. Template: AAABase
-msgid "Your system was successfully upgraded to OTRS Business Solution™."
+msgid "Your system was successfully upgraded to %s."
 msgstr ""
 
 #. Template: AAABase
-msgid "There was a problem during the upgrade to OTRS Business Solution™."
+msgid "There was a problem during the upgrade to %s."
 msgstr ""
 
 #. Template: AAABase
-msgid "OTRS Business Solution™ was correctly reinstalled."
+msgid "%s was correctly reinstalled."
 msgstr ""
 
 #. Template: AAABase
-msgid "There was a problem reinstalling OTRS Business Solution™."
+msgid "There was a problem reinstalling %s."
 msgstr ""
 
 #. Template: AAABase
-msgid "Your OTRS Business Solution™ was successfully updated."
+msgid "Your %s was successfully updated."
 msgstr ""
 
 #. Template: AAABase
-msgid "There was a problem during the upgrade of OTRS Business Solution™."
+msgid "There was a problem during the upgrade of %s."
 msgstr ""
 
 #. Template: AAABase
-msgid "OTRS Business Solution™ was correctly uninstalled."
+msgid "%s was correctly uninstalled."
 msgstr ""
 
 #. Template: AAABase
-msgid "There was a problem uninstalling OTRS Business Solution™."
+msgid "There was a problem uninstalling %s."
 msgstr ""
 
 #. Template: AAACalendar
@@ -5880,6 +5880,10 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "The %s skin"
 msgstr ""
 
 #. Template: AdminPGP
