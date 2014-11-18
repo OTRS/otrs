@@ -553,7 +553,7 @@ sub CertificateSearch {
         if ($Search) {
             ATTRIBUTE:
             for my $Attribute ( sort keys %Attributes ) {
-                if ( $Attributes{$Attribute} =~ m{\Q$Search\E}xms ) {
+                if ( $Attributes{$Attribute} =~ m{\Q$Search\E}ixms ) {
                     $Hit = 1;
                     last ATTRIBUTE;
                 }
@@ -985,7 +985,7 @@ sub PrivateSearch {
         if ($Search) {
             ATTRIBUTE:
             for my $Attribute ( sort keys %Attributes ) {
-                if ( $Attributes{$Attribute} =~ m{\Q$Search\E}xms ) {
+                if ( $Attributes{$Attribute} =~ m{\Q$Search\E}ixms ) {
                     $Hit = 1;
                     last ATTRIBUTE;
                 }
