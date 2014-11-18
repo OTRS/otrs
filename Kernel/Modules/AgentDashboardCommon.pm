@@ -665,7 +665,7 @@ sub Run {
     }
 
     # add translations for the allocation lists for regular columns
-    my $Columns = $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
+    my $Columns = $Self->{Config}->{DefaultColumns} || $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
 
         COLUMN:
