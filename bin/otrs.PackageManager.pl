@@ -246,6 +246,21 @@ if ( $Opts{a} eq 'exportfile' ) {
         exit 1;
     }
 
+
+    my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
+        String => $String,
+    );
+
+    # just build it if PackageIsDownloadable flag is enable
+    if (
+        defined $Structure{PackageIsDownloadable}
+        && !$Structure{PackageIsDownloadable}->{Content}
+    ) {
+            print STDERR "ERROR: Not possible to export files!\n";
+            exit 1;
+    }
+
+
     # export it
     print "+----------------------------------------------------------------------------+\n";
     print "| Export files of:\n";
