@@ -69,6 +69,7 @@ my @IgnoreFiles = (
     qr{^/\.settings}smx,
     qr{^/\.ssh}smx,
     qr{^/\.gpg}smx,
+    qr{^/\.gnupg}smx,
 );
 
 # Files to be marked as executable.
