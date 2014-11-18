@@ -1027,6 +1027,27 @@ xqdO7PfndBF8qwrJ7S91
             $CertInfo{ 'SmimeTest_' . $Number }->{CertString},
             '# CertificateGet(), by hash/fingerprint',
         );
+
+        # test if search is case insensitive
+        @Result = $CryptObject->CertificateSearch(
+            Search => 'SMIME@test.com',
+        );
+
+        $Self->Is(
+            ( scalar @Result ),
+            ( $Number + 1 ),
+            '# CertificateSearch()  - uppercase left',
+        );
+
+        @Result = $CryptObject->CertificateSearch(
+            Search => 'smime@TEST.COM',
+        );
+
+        $Self->Is(
+            ( scalar @Result ),
+            ( $Number + 1 ),
+            '# CertificateSearch()  - uppercase right',
+        );
     }
 
     # working with privates
@@ -1157,6 +1178,27 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             $ResultNumber,
             $Counter + $OriginalPrivateListCount,
             "# private list must be return also $Counter",
+        );
+
+        # test if search is case insensitive
+        @Result = $CryptObject->PrivateSearch(
+            Search => 'SMIME@test.com',
+        );
+        $ResultNumber = scalar @Result;
+        $Self->Is(
+            $ResultNumber,
+            $Counter,
+            '# PrivateSearch() - uppercase left',
+        );
+
+        @Result = $CryptObject->PrivateSearch(
+            Search => 'smime@TEST.COM',
+        );
+        $ResultNumber = scalar @Result;
+        $Self->Is(
+            $ResultNumber,
+            $Counter,
+            '# PrivateSearch() - uppercase right',
         );
     }
 
