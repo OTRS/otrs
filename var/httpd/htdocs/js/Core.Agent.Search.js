@@ -151,7 +151,8 @@ Core.Agent.Search = (function (TargetNS) {
         $('#SearchForm label').each(function () {
             var ElementName,
                 $Element,
-                $LabelElement = $(this);
+                $LabelElement = $(this),
+                $FieldElement = $LabelElement.next('.Field');
 
             // those with ID's are used for searching
             if ( $(this).attr('id') ) {
@@ -174,8 +175,8 @@ Core.Agent.Search = (function (TargetNS) {
                 // input type=text elment in the corresponding field element.
                 // All time field elements have to be filled in, but if only one
                 // is missing, we treat the whole field as invalid.
-                if ( $LabelElement.next('.Field').find('input[type=hidden]').length && $LabelElement.next('.Field').find('input[type=hidden]').attr('name').match(/TimeSlot/g) && !$LabelElement.next('.Field').find('select').length ) {
-                    $Element = $LabelElement.next('.Field').find('input[type=text]').first();
+                if ( $FieldElement.find('input[name$="SearchType"]').val() === 'TimeSlot' && !$FieldElement.find('select').length ) {
+                    $Element = $FieldElement.find('input[type=text]').first();
                 }
 
                 if ($Element.length) {
