@@ -250,10 +250,29 @@ sub EditFieldValueValidate {
     if ( $Param{Mandatory} && $Value eq '' ) {
         $ServerError = 1;
     }
+    elsif ( length $Value > $Self->{MaxLength} ) {
+        $ServerError = 1;
+        $ErrorMessage
+            = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+    }
+    elsif (
+        IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )
+        && ( $Param{Mandatory} || ( !$Param{Mandatory} && $Value ne '' ) )
+        )
+    {
 
-    if ( length $Value > $Self->{MaxLength} ) {
-        $ServerError  = 1;
-        $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+        # check regular expressions
+        my @RegExList = @{ $Param{DynamicFieldConfig}->{Config}->{RegExList} };
+
+        REGEXENTRY:
+        for my $RegEx (@RegExList) {
+
+            if ( $Value !~ $RegEx->{Value} ) {
+                $ServerError  = 1;
+                $ErrorMessage = $RegEx->{ErrorMessage};
+                last REGEXENTRY;
+            }
+        }
     }
 
     # create resulting structure
