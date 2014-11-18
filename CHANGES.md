@@ -1,4 +1,5 @@
 #3.2.17 2014-??-??
+ - 2014-11-18 Fixed bug#[10812](http://bugs.otrs.org/show_bug.cgi?id=10812) - SOAP Response is always in version SOAP 1.2.
  - 2014-11-18 Fixed bug#[10083](http://bugs.otrs.org/show_bug.cgi?id=10083) - SMIME and Email address detection is case sensitive (for the right part)..
  - 2014-11-03 Fixed bug#[10706](http://bugs.otrs.org/show_bug.cgi?id=10706) - dashboard settings are lost by different user login.
  - 2014-10-30 Fixed bug#[10679](http://bugs.otrs.org/show_bug.cgi?id=10679) - Texts in notification tags loose their empty lines and spaces.

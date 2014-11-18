@@ -182,8 +182,12 @@ sub ProviderProcessRequest {
 
     # convert charset if necessary
     my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
-        $ContentCharset = $1;
+    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A (.*) ;charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
+
+        # remember content type for the response
+        $Self->{ContentType} = $1;
+
+        $ContentCharset = $2;
     }
     if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
         $Content = $Self->{EncodeObject}->Convert2CharsetInternal(
@@ -774,7 +778,10 @@ sub _Output {
     $Param{HTTPCode} ||= 500;
     my $ContentType;
     if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'text/xml';
+        $ContentType = 'application/soap+xml';
+        if ( $Self->{ContentType} ) {
+            $ContentType = $Self->{ContentType};
+        }
     }
     else {
         $ContentType = 'text/plain';
