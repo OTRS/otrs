@@ -71,7 +71,7 @@ export OTRSUSER=otrs
 useradd $OTRSUSER || :
 useradd wwwrun || :
 groupadd www || :
-$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --otrs-user=$OTRSUSER --web-user=wwwrun --otrs-group=www --web-group=www $RPM_BUILD_ROOT/opt/otrs
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=www
 
 %pre
 # remember about the installed version

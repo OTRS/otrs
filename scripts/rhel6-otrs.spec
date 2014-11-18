@@ -65,7 +65,7 @@ export OTRSUSER=otrs
 useradd $OTRSUSER || :
 useradd apache || :
 groupadd apache || :
-$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --otrs-user=$OTRSUSER --otrs-group=apache --web-user=apache --web-group=apache $RPM_BUILD_ROOT/opt/otrs
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=apache
 
 %pre
 # remember about the installed version
