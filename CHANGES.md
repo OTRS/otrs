@@ -1,5 +1,6 @@
 #4.0.1 2014-??-??
  - 2014-11-18 Fixed bug#[10712](http://bugs.otrs.org/show_bug.cgi?id=10712) - Incorrect utf8 in ZZZAuto.pm (via SysConfig).
+ - 2014-11-18 Fixed bug#[10826](http://bugs.otrs.org/show_bug.cgi?id=10826) - German - Translation Problem.
  - 2014-11-18 Fixed bug#[10506](http://bugs.otrs.org/show_bug.cgi?id=10506) - Title mouse over text is truncated.
  - 2014-11-18 Fixed bug#[10678](http://bugs.otrs.org/show_bug.cgi?id=10678) - Dates off by one on area diagram in dashboard widget.
  - 2014-11-18 Added new Swahili language translation, thanks to all translators.
