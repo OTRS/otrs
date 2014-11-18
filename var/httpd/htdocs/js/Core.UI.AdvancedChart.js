@@ -436,7 +436,6 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     .showControls(true)
                     .clipEdge(true);
 
-                Headings.shift();
                 Chart.tooltip(function(key, x, y, e, graph) {
                     return '<h3>' + key + '</h3>' + '<p>' +  x + ': ' + y + '</p>';
                 });

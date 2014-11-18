@@ -794,5 +794,14 @@ iframe.TextOption.Customer {
     border: 1px solid #fff;
 }
 
+/**
+ * @subsection global nvd3 improvements/fixes
+ */
+
+.nvtooltip {
+    font-size: 11px !important;
+    border: 0px !important;
+}
+
 } /* end @media */
 
