@@ -1,4 +1,5 @@
 #4.0.1 2014-??-??
+ - 2014-11-18 Fixed bug#[10678](http://bugs.otrs.org/show_bug.cgi?id=10678) - Dates off by one on area diagram in dashboard widget.
  - 2014-11-18 Added new Swahili language translation, thanks to all translators.
 
 #4.0.0.rc1 2014-11-18
