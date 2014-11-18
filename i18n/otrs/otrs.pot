@@ -1478,6 +1478,38 @@ msgstr ""
 msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
 msgstr ""
 
+#. Template: AAABase
+msgid "Your system was successfully upgraded to OTRS Business Solution™."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade to OTRS Business Solution™."
+msgstr ""
+
+#. Template: AAABase
+msgid "OTRS Business Solution™ was correctly reinstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem reinstalling OTRS Business Solution™."
+msgstr ""
+
+#. Template: AAABase
+msgid "Your OTRS Business Solution™ was successfully updated."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade of OTRS Business Solution™."
+msgstr ""
+
+#. Template: AAABase
+msgid "OTRS Business Solution™ was correctly uninstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem uninstalling OTRS Business Solution™."
+msgstr ""
+
 #. Template: AAACalendar
 msgid "New Year's Day"
 msgstr ""
@@ -5727,7 +5759,15 @@ msgid "Downgrade to OTRS Free"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "Unauthorized Usage Detected"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
@@ -5735,7 +5775,31 @@ msgid "%s not Correctly Installed"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "Your %s is not correctly installed. Please reinstall it with the button below."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Reinstall %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Your %s is not correctly installed, and there is also an update available."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "You can either reinstall your current version or perform an update with the buttons below (update recommended)."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Update %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s will be available soon."
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
@@ -5743,7 +5807,15 @@ msgid "%s Update Available"
 msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
+msgid "An update for your %s is available! Please update at your earliest!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
 msgid "%s Correctly Deployed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Congratulations, your %s is correctly installed and up to date!"
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
@@ -5751,15 +5823,63 @@ msgid "Upgrade to %s"
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "%s will be available soon. Please check again in a few days."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443."
 msgstr ""
 
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!"
+msgstr ""
+
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Go to OTRS Package Manager"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Sorry, but currently you can't downgrade due to the following packages which depend on %s:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Vendor"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Please uninstall the packages first using the package manager and try again."
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "You are about to downgrade to OTRS Free and will lose the following features and all data related to these:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Chat"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Timeline view in ticket zoom"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField ContactWithData"
 msgstr ""
 
 #. Template: AdminPGP
@@ -5860,10 +5980,6 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr ""
-
-#. Template: AdminPackageManager
-msgid "Vendor"
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -7318,6 +7434,10 @@ msgstr ""
 msgid "Close window"
 msgstr ""
 
+#. Template: AdminSMIMECertRead
+msgid "Certificate details"
+msgstr ""
+
 #. Template: AdminSalutation
 msgid "Salutation Management"
 msgstr ""
@@ -8170,6 +8290,10 @@ msgstr ""
 msgid "New email ticket to %s"
 msgstr ""
 
+#. Template: AgentDashboardCustomerUserList
+msgid "Start chat"
+msgstr ""
+
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
 msgstr ""
@@ -8970,6 +9094,10 @@ msgstr ""
 msgid "Chat protocol"
 msgstr ""
 
+#. Template: AgentTicketPhone
+msgid "The chat will be appended as a separate article."
+msgstr ""
+
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
 msgstr ""
@@ -9207,6 +9335,10 @@ msgid "Article(s)"
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Page"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Add Filter"
 msgstr ""
 
@@ -9278,12 +9410,20 @@ msgstr ""
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "Article could not be opened! Perhaps it is on another article page?"
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
+msgstr ""
+
+#. Template: ChatStartForm
+msgid "First message"
 msgstr ""
 
 #. Template: CustomerError
@@ -9418,6 +9558,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr ""
 
+#. Template: CustomerRichTextEditor
+msgid "Split Quote"
+msgstr ""
+
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
 msgstr ""
@@ -9516,10 +9660,6 @@ msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr ""
-
-#. Template: CustomerTicketSearchResultShort
-msgid "Page"
 msgstr ""
 
 #. Template: CustomerTicketSearchResultShort

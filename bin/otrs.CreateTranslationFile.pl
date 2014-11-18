@@ -120,10 +120,10 @@ my $BreakLineAfterChars = 60;
         HandleLanguage(
             Language => $Language,
             Module   => $Opts{m},
-            WritePOT => (exists $Opts{p} || exists $Opts{P}) ? 1 : 0,
-            WritePO  => exists $Opts{P} ? 1 : 0,
-            Stats    => \%Stats,
-            Verbose  => exists $Opts{v} ? 1 : 0,
+            WritePOT => ( exists $Opts{p} || exists $Opts{P} ) ? 1 : 0,
+            WritePO => exists $Opts{P} ? 1 : 0,
+            Stats   => \%Stats,
+            Verbose => exists $Opts{v} ? 1 : 0,
         );
     }
 
@@ -225,7 +225,7 @@ sub HandleLanguage {
 
     my %POTranslations;
 
-    if ($Param{WritePOT} || $Param{WritePO}) {
+    if ( $Param{WritePOT} || $Param{WritePO} ) {
         %POTranslations = LoadPOFile(
             TargetPOFile => $TargetPOFile,
         );
@@ -270,17 +270,18 @@ sub HandleLanguage {
         $Content =~ s{
             Translate\(
                 \s*
-                "(.*?)(?<!\\)"
+                (["'])(.*?)(?<!\\)\1
                 \s*
                 (?:,[^\)]+)?
             \)
             (?:\s|[|])
         }
         {
-            my $Word = $1 // '';
+            my $Word = $2 // '';
 
-            # unescape any \" signs
+            # unescape any \" or \' signs
             $Word =~ s{\\"}{"}smxg;
+            $Word =~ s{\\'}{'}smxg;
 
             if ($Word && !exists $UsedWords{$Word}) {
 
@@ -344,14 +345,14 @@ sub HandleLanguage {
         $Param{Stats}->{ $Param{Language} }->{$String} = $Translation;
     }
 
-    if ($Param{WritePOT} && !$POTFileWritten++ ) {
+    if ( $Param{WritePOT} && !$POTFileWritten++ ) {
         WritePOTFile(
             TranslationStrings => \@TranslationStrings,
             TargetPOTFile      => $TargetPOTFile,
             Module             => $Module,
         );
     }
-    if ($Param{WritePO}) {
+    if ( $Param{WritePO} ) {
         WritePOFile(
             TranslationStrings => \@TranslationStrings,
             TargetPOTFile      => $TargetPOTFile,
