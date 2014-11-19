@@ -34,7 +34,6 @@
     position: absolute;
     top: 25px;
     left: 0px;
-    min-width: 140px;
     display: none;
     border-top: 0px;
 }
@@ -92,7 +91,8 @@
 #Navigation > ul > li > ul a {
     color: #222;
     font-size: 11px;
-    padding: 4px 6px;
+    padding: 4px 15px 4px 6px;
+    white-space: nowrap;
     display: block;
     background-color: #C4C6C6;
     border-top: 1px solid #aaa;

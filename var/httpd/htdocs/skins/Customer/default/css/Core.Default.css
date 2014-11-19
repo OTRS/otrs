@@ -101,6 +101,11 @@ strong {
  * @subsection  Content
  */
 
+#MainBox.TicketView {
+    margin: 13px;
+    border: 1px solid #ddd;
+}
+
 .Content {
     padding: 13px 21px;
 }
