@@ -187,7 +187,8 @@ if ( $Opts{a} eq 'file' ) {
         if (
             defined $Package->{PackageIsVisible}
             && !$Package->{PackageIsVisible}->{Content}
-        ) {
+            )
+        {
             next PACKAGE;
         }
         for my $File ( @{ $Package->{Filelist} } ) {
@@ -246,20 +247,19 @@ if ( $Opts{a} eq 'exportfile' ) {
         exit 1;
     }
 
-
     my %Structure = $Kernel::OM->Get('Kernel::System::Package')->PackageParse(
         String => $String,
     );
 
-    # just build it if PackageIsDownloadable flag is enable
+    # just export files if PackageIsDownloadable flag is enable
     if (
         defined $Structure{PackageIsDownloadable}
         && !$Structure{PackageIsDownloadable}->{Content}
-    ) {
-            print STDERR "ERROR: Not possible to export files!\n";
-            exit 1;
+        )
+    {
+        print STDERR "ERROR: Not possible to export files!\n";
+        exit 1;
     }
-
 
     # export it
     print "+----------------------------------------------------------------------------+\n";
@@ -284,9 +284,10 @@ if ( $Opts{a} eq 'build' ) {
     if (
         defined $Structure{PackageIsDownloadable}
         && !$Structure{PackageIsDownloadable}->{Content}
-    ) {
-            print STDERR "ERROR: Not available package!\n";
-            exit 1;
+        )
+    {
+        print STDERR "ERROR: Not available package!\n";
+        exit 1;
     }
 
     if ( $Opts{v} && $Opts{v} =~ m/\d{1,4}\.\d{1,4}\.\d{1,4}/ ) {
@@ -341,18 +342,20 @@ elsif ( $Opts{a} eq 'uninstall' ) {
     if (
         defined $Structure{PackageIsRemovable}
         && !$Structure{PackageIsRemovable}->{Content}
-    ) {
-            my $ExitMessage = "ERROR: Not possible to remove this package!\n";
+        )
+    {
+        my $ExitMessage = "ERROR: Not possible to remove this package!\n";
 
-            # exchange message if package should not be visible
-            if (
-                defined $Structure{PackageIsVisible}
-                && !$Structure{PackageIsVisible}->{Content}
-            ) {
-                $ExitMessage = "ERROR: No such package!\n";
-            }
-            print STDERR $ExitMessage;
-            exit 1;
+        # exchange message if package should not be visible
+        if (
+            defined $Structure{PackageIsVisible}
+            && !$Structure{PackageIsVisible}->{Content}
+            )
+        {
+            $ExitMessage = "ERROR: No such package!\n";
+        }
+        print STDERR $ExitMessage;
+        exit 1;
     }
 
     # intro screen
@@ -535,7 +538,8 @@ elsif ( $Opts{a} eq 'list' ) {
         if (
             defined $Package->{PackageIsVisible}
             && !$Package->{PackageIsVisible}->{Content}
-        ) {
+            )
+        {
             next PACKAGE;
         }
 
@@ -593,7 +597,8 @@ elsif ( $Opts{a} eq 'list-repository' ) {
                 if (
                     defined $Package->{PackageIsVisible}
                     && !$Package->{PackageIsVisible}->{Content}
-                ) {
+                    )
+                {
                     next PACKAGE;
                 }
                 $Count++;
@@ -641,7 +646,8 @@ elsif ( $Opts{a} eq 'p' ) {
     if (
         defined $Structure{PackageIsVisible}
         && !$Structure{PackageIsVisible}->{Content}
-    ) {
+        )
+    {
         print STDERR "ERROR: no such package $Opts{p}!\n";
         exit 1;
     }
@@ -652,11 +658,12 @@ elsif ( $Opts{a} eq 'p' ) {
             print STDERR "Tag: $Structure{$Tag}->{TagType} - $Structure{$Tag}->{Tag} $Structure{$Tag}->{Content}\n";
         }
         elsif ( ref $Structure{$Tag} eq 'ARRAY' ) {
+
             # add a sub-level reference
             print STDERR "\n--- Open Sub-Tag: $Tag ---\n";
 
             # loop over the second level tags
-            my @SubData = @{$Structure{$Tag}};
+            my @SubData = @{ $Structure{$Tag} };
             for my $SubTag (@SubData) {
                 print STDERR "Tag: $SubTag->{TagType} $SubTag->{Tag} $SubTag->{Content}\n";
             }
@@ -676,7 +683,8 @@ elsif ( $Opts{a} eq 'parse' ) {
     if (
         defined $Structure{PackageIsVisible}
         && !$Structure{PackageIsVisible}->{Content}
-    ) {
+        )
+    {
         print STDERR "ERROR: no such package $Opts{p}!\n";
         exit 1;
     }
@@ -736,17 +744,17 @@ sub BuildPackageIndex {
             BuildPackageIndex($File);
             $File =~ s/$Opts{d}//;
 
-                       # print "Directory: $File\n";
+            # print "Directory: $File\n";
         }
         else {
             my $OrigFile = $File;
             $File =~ s/$Opts{d}//;
 
-                          # print "File: $File\n";
-                          # my $Dir =~ s/^(.*)\//$1/;
+            # print "File: $File\n";
+            # my $Dir =~ s/^(.*)\//$1/;
             if ( $File !~ /Entries|Repository|Root|CVS/ && $File =~ /\.opm$/ ) {
 
-                              # print "F: $File\n";
+                # print "F: $File\n";
                 my $Content    = '';
                 my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                     Location => $OrigFile,
