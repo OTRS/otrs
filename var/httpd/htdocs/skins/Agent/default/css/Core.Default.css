@@ -694,7 +694,7 @@ span.ImportantArticles i {
  * @subsection  Datepicker
  */
 .DatepickerIcon {
-    margin: 0 0 0 2px;
+    margin: 1px 0 0 4px;
     height: 16px;
     width: 16px;
     display: inline-block;
