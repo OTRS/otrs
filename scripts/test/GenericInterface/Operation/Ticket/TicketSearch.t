@@ -274,7 +274,7 @@ $Self->True(
 
 # update escalation times directly in the DB
 my $EscalationTime = $TimeObject->SystemTime() + 120;
-$Kernel::OM->Get('Kernel::System::DB')->Do(
+return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
     SQL => '
         UPDATE ticket
         SET escalation_time = ?, escalation_response_time = ?, escalation_update_time = ?,
