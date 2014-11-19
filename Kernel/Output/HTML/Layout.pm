@@ -363,8 +363,9 @@ sub new {
     }
 
     # locate template files
-    $Self->{TemplateDir}         = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
-    $Self->{StandardTemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . 'Standard';
+    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
+    $Self->{StandardTemplateDir}
+        = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . 'Standard';
 
     # Check if 'Standard' fallback exists
     if ( !-e $Self->{StandardTemplateDir} ) {
@@ -389,8 +390,10 @@ sub new {
         $Self->{TemplateDir} = $Self->{StandardTemplateDir};
     }
 
-    $Self->{CustomTemplateDir}         = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
-    $Self->{CustomStandardTemplateDir} = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
+    $Self->{CustomTemplateDir}
+        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . $Theme;
+    $Self->{CustomStandardTemplateDir}
+        = $Self->{ConfigObject}->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
 
     # load sub layout files
     my $Dir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML';
@@ -665,24 +668,7 @@ sub Login {
         );
     }
 
-    # get lost password y
-    if (
-        $Self->{ConfigObject}->Get('LostPassword')
-        && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB'
-        )
-    {
-        $Self->Block(
-            Name => 'LostPasswordLink',
-            Data => \%Param,
-        );
-
-        $Self->Block(
-            Name => 'LostPassword',
-            Data => \%Param,
-        );
-    }
-
-    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls();
     $Self->LoaderCreateAgentJSCalls();
 
@@ -777,6 +763,23 @@ sub Login {
             Name => 'LoginBox',
             Data => \%Param,
         );
+
+        # get lost password
+        if (
+            $Self->{ConfigObject}->Get('LostPassword')
+            && $Self->{ConfigObject}->Get('AuthModule') eq 'Kernel::System::Auth::DB'
+            )
+        {
+            $Self->Block(
+                Name => 'LostPasswordLink',
+                Data => \%Param,
+            );
+
+            $Self->Block(
+                Name => 'LostPassword',
+                Data => \%Param,
+            );
+        }
     }
 
     # create & return output
@@ -922,7 +925,7 @@ sub Error {
     if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => $Param{Message} || '?',
+            Message => $Param{Message} || '?',
         );
         for (qw(Message Traceback)) {
             my $Backend = 'Backend' . $_;
@@ -1130,7 +1133,7 @@ sub Header {
         );
     }
 
-    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentCSSCalls();
 
     my %AgentLogo;
@@ -1315,7 +1318,7 @@ sub Footer {
     my $Type          = $Param{Type}           || '';
     my $HasDatepicker = $Self->{HasDatepicker} || 0;
 
-    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateAgentJSCalls();
 
     # get datepicker data, if needed in module
@@ -1330,7 +1333,7 @@ sub Footer {
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
-                VacationDays  => $VacationDaysJSON,
+                VacationDays => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
@@ -1348,7 +1351,8 @@ sub Footer {
 
     for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
         $AutocompleteConfig->{$ConfigElement}->{ButtonText}
-            = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
+            = $Self->{LanguageObject}
+            ->Translate( $AutocompleteConfig->{$ConfigElement}->{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
@@ -1427,7 +1431,7 @@ sub Print {
             # run output filter
             $Object->Run(
                 %{$FilterConfig},
-                Data         => $Param{Output},
+                Data => $Param{Output},
                 TemplateFile => $Param{TemplateFile} || '',
             );
         }
@@ -1463,7 +1467,8 @@ sub PrintHeader {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
+        $Param{Area}
+            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
             || '';
     }
     if ( !$Param{Title} ) {
@@ -2445,7 +2450,8 @@ sub PageNavBar {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
             my $BaselinkAllBack = $Baselink . "StartHit=" . ( ( $i - 1 ) * $Param{PageShown} + 1 );
-            my $BaselinkAllNext = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
+            my $BaselinkAllNext
+                = $Baselink . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
@@ -2476,7 +2482,8 @@ sub PageNavBar {
         elsif ( $i < $WindowStart && ( $i - 1 ) < $Pages ) {
             my $StartWindow     = $WindowStart - $WindowSize - 1;
             my $BaselinkAllBack = $Baselink . 'StartHit=1;StartWindow=1';
-            my $BaselinkAllNext = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
+            my $BaselinkAllNext
+                = $Baselink . 'StartHit=' . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
 
             if ( $Param{AJAXReplace} ) {
                 $Self->Block(
@@ -2511,7 +2518,8 @@ sub PageNavBar {
 
     # only show total amount of pages if there is more than one
     if ( $Pages > 1 ) {
-        $Param{NavBarLong} = "- " . $Self->{LanguageObject}->Translate("Page") . ": $Param{SearchNavBar}";
+        $Param{NavBarLong}
+            = "- " . $Self->{LanguageObject}->Translate("Page") . ": $Param{SearchNavBar}";
     }
     else {
         $Param{SearchNavBar} = '';
@@ -2894,8 +2902,8 @@ sub BuildDateSelection {
             }
         }
 
-        # Check if the DiffTime is in a future year. In this case, we add the missing years between
-        # $CY (current year) and $Y (year) to allow the user to manually set back the year if needed.
+       # Check if the DiffTime is in a future year. In this case, we add the missing years between
+       # $CY (current year) and $Y (year) to allow the user to manually set back the year if needed.
         if ( $Y > $CY ) {
             for ( $CY .. $Y ) {
                 $Year{$_} = $_;
@@ -3048,7 +3056,8 @@ sub BuildDateSelection {
     my $WeekDayStart = $Self->{ConfigObject}->Get('CalendarWeekDayStart');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $WeekDayStart = $Self->{ConfigObject}->Get( "CalendarWeekDayStart::Calendar" . $Param{Calendar} );
+            $WeekDayStart
+                = $Self->{ConfigObject}->Get( "CalendarWeekDayStart::Calendar" . $Param{Calendar} );
         }
     }
     if ( !defined $WeekDayStart ) {
@@ -3157,42 +3166,7 @@ sub CustomerLogin {
         );
     }
 
-    # get lost password output
-    if (
-        $Self->{ConfigObject}->Get('CustomerPanelLostPassword')
-        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
-        'Kernel::System::CustomerAuth::DB'
-        )
-    {
-        $Self->Block(
-            Name => 'LostPasswordLink',
-            Data => \%Param,
-        );
-        $Self->Block(
-            Name => 'LostPassword',
-            Data => \%Param,
-        );
-    }
-
-    # get lost password output
-    if (
-        $Self->{ConfigObject}->Get('CustomerPanelCreateAccount')
-        && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
-        'Kernel::System::CustomerAuth::DB'
-        )
-
-    {
-        $Self->Block(
-            Name => 'CreateAccountLink',
-            Data => \%Param,
-        );
-        $Self->Block(
-            Name => 'CreateAccount',
-            Data => \%Param,
-        );
-    }
-
-    # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
+   # Generate the minified CSS and JavaScript files and the tags referencing them (see LayoutLoader)
     $Self->LoaderCreateCustomerCSSCalls();
     $Self->LoaderCreateCustomerJSCalls();
 
@@ -3260,10 +3234,46 @@ sub CustomerLogin {
 
     # if not in PreLogin mode, show normal login form
     else {
+
         $Self->Block(
             Name => 'LoginBox',
             Data => \%Param,
         );
+
+        # get lost password output
+        if (
+            $Self->{ConfigObject}->Get('CustomerPanelLostPassword')
+            && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
+            'Kernel::System::CustomerAuth::DB'
+            )
+        {
+            $Self->Block(
+                Name => 'LostPasswordLink',
+                Data => \%Param,
+            );
+            $Self->Block(
+                Name => 'LostPassword',
+                Data => \%Param,
+            );
+        }
+
+        # get create account output
+        if (
+            $Self->{ConfigObject}->Get('CustomerPanelCreateAccount')
+            && $Self->{ConfigObject}->Get('Customer::AuthModule') eq
+            'Kernel::System::CustomerAuth::DB'
+            )
+
+        {
+            $Self->Block(
+                Name => 'CreateAccountLink',
+                Data => \%Param,
+            );
+            $Self->Block(
+                Name => 'CreateAccount',
+                Data => \%Param,
+            );
+        }
     }
 
     # create & return output
@@ -3314,7 +3324,8 @@ sub CustomerHeader {
         && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }
         )
     {
-        $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title}
+        $Param{Title}
+            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
     if (
@@ -3330,7 +3341,8 @@ sub CustomerHeader {
         && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }
         )
     {
-        $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
+        $Param{Title}
+            = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
             || '';
     }
     for my $Word (qw(Value Title Area)) {
@@ -3439,7 +3451,7 @@ sub CustomerFooter {
         $Self->Block(
             Name => 'DatepickerData',
             Data => {
-                VacationDays  => $VacationDaysJSON,
+                VacationDays => $VacationDaysJSON,
                 IsRTLLanguage => ( $TextDirection eq 'rtl' ) ? 1 : 0,
             },
         );
@@ -3457,7 +3469,8 @@ sub CustomerFooter {
 
     for my $ConfigElement ( sort keys %{$AutocompleteConfig} ) {
         $AutocompleteConfig->{$ConfigElement}->{ButtonText}
-            = $Self->{LanguageObject}->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
+            = $Self->{LanguageObject}
+            ->Translate( $AutocompleteConfig->{$ConfigElement}{ButtonText} );
     }
 
     my $AutocompleteConfigJSON = $Self->JSONEncode(
@@ -3580,7 +3593,8 @@ sub CustomerNavigationBar {
 
             # show as sub of main menu
             elsif ( $Item->{Type} eq 'Submenu' ) {
-                $NavBarModule{Sub}->{ $Item->{NavBar} }->{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
+                $NavBarModule{Sub}->{ $Item->{NavBar} }->{ sprintf( "%07d", $Item->{Prio} ) }
+                    = $Item;
             }
             else {
                 $NavBarModule{ sprintf( "%07d", $Item->{Prio} ) } = $Item;
@@ -3612,7 +3626,7 @@ sub CustomerNavigationBar {
                 %NavBarModule,
                 $Object->Run(
                     %Param,
-                    Config       => $Jobs{$Job},
+                    Config => $Jobs{$Job},
                     NavBarModule => \%NavBarModule || {}
                     )
             );
@@ -3796,7 +3810,7 @@ sub CustomerError {
     if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => $Param{Message} || '?',
+            Message => $Param{Message} || '?',
         );
         for (qw(Message Traceback)) {
             $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
@@ -4579,7 +4593,8 @@ sub _BuildSelectionDataRefCreate {
 
                 # translate value
                 if ( $OptionRef->{Translation} ) {
-                    $DataRef->[$Counter]->{Value} = $Self->{LanguageObject}->Translate( $DataRef->[$Counter]->{Value} );
+                    $DataRef->[$Counter]->{Value}
+                        = $Self->{LanguageObject}->Translate( $DataRef->[$Counter]->{Value} );
                 }
 
                 # set Selected and Disabled options

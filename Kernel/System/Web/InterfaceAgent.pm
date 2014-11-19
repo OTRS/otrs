@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::System::AuthSession',
     'Kernel::System::DB',
     'Kernel::System::Encode',
+    'Kernel::System::Email',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -609,7 +610,7 @@ sub Run {
         }
 
         # create email object
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
         # send password reset token
         if ( !$Token ) {
