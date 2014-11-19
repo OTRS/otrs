@@ -152,6 +152,10 @@
     clear: both;
 }
 
+#MainBox.TicketView .ActionRow {
+    border-top: 0px;
+}
+
 .Content .MessageBox {
     border: 1px solid #ddd;
 }
