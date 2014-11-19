@@ -425,7 +425,7 @@ sub _GetParams {
 
     for my $Index ( sort keys %EscalationTimes ) {
         for my $PostFix (qw( OlderMinutes NewerMinutes NewerDate OlderDate )) {
-            my $Item = 'TicketEscalation' . $EscalationTimes{$Index} . $PostFix;
+            my $Item = 'TicketEscalation' . $EscalationTimes{$Index} . 'Time' . $PostFix;
 
             # get search string params (get submitted params)
             if ( IsStringWithData( $Param{$Item} ) ) {
