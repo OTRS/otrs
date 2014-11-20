@@ -7,6 +7,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+
 [% RenderBlockStart("Uninstall") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Package Manager") | html %]</h1>
@@ -230,22 +232,6 @@
                     </ul>
                 </div>
             </div>
-            <div class="WidgetSimple">
-                <div class="Header">
-                    <h2>[% Translate("Hint") | html %]</h2>
-                </div>
-                <div class="Content">
-                    <p class="FieldExplanation">
-                        [% Translate("Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:") | html %]
-                        <a href="http://add-ons.otrs.com/">http://add-ons.otrs.com</a>.
-                    </p>
-                    <p class="FieldExplanation Center">
-                        <a href="http://add-ons.otrs.com">
-                            <img src="[% Config("Frontend::ImagePath") %]/feature_add_ons.png" />
-                        </a>
-                    </p>
-                </div>
-            </div>
         </div>
 
         <div class="ContentColumn">
@@ -372,10 +358,13 @@
             <div class="WidgetSimple">
 
                 <div class="Header">
-                    <h2>[% Translate("Feature Add-Ons") | html %]</h2>
+                    <h2>[% Translate("Features of %s", OTRSBusinessLabel) %]</h2>
                 </div>
                 <div class="Content ">
-                    <table class="DataTable">
+                    <p>
+                        [% Translate("With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.", OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
+                    </p>
+                    <table class="DataTable SpacingTop">
                         <thead>
                             <tr>
                                 <th>[% Translate("Name") | html %]</th>

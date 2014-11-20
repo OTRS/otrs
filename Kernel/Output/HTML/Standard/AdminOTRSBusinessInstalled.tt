@@ -47,7 +47,7 @@
                 <h2 class="Center">[% Translate("Unauthorized Usage Detected") | html %]</h2>
             </div>
             <div class="Content">
-                <div class="BusinessLogo NoSpin Error">
+                <div class="BusinessLogo Error">
                     <span></span>
                     <i class="fa fa-times-circle"></i>
                 </div>
@@ -64,7 +64,7 @@
                 <h2>[% Translate("%s not Correctly Installed", OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
-                <div class="BusinessLogo NoSpin Error">
+                <div class="BusinessLogo Error">
                     <span></span>
                     <i class="fa fa-times-circle"></i>
                 </div>
@@ -84,7 +84,7 @@
                 <h2>[% Translate("%s not Correctly Installed", OTRSBusinessLabel) %]</h2>
             </div>
             <div class="Content">
-                <div class="BusinessLogo NoSpin Error">
+                <div class="BusinessLogo Error">
                     <span></span>
                     <i class="fa fa-times-circle"></i>
                 </div>

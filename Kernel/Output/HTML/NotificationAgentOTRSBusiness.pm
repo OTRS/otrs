@@ -55,21 +55,17 @@ sub Run {
     {
 
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
-            'Upgrade to %s now!',
-            $OTRSBusinessLabel,
-        );
-
-        my $Link = $Self->{LayoutObject}->{LanguageObject}->Translate(
-            '%s Go to the upgrade center %s',
+            '%s Upgrade to %s now! %s',
             '<a href="'
                 . $Self->{LayoutObject}->{Baselink}
                 . 'Action=AdminOTRSBusiness'
                 . '" class="Button"><i class="fa fa-angle-double-up"></i>',
+            $OTRSBusinessLabel,
             '</a>',
         );
 
         return $Self->{LayoutObject}->Notify(
-            Data     => $Text . $Link,
+            Data     => $Text,
             Priority => 'Info',
         );
     }
@@ -89,18 +85,14 @@ sub Run {
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
             'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!',
             $OTRSBusinessLabel,
-            '<a href="mailto:sales@otrs.com">sales@otrs.com</a>',
+            'sales@otrs.com',
         );
         return $Self->{LayoutObject}->Notify(
             Data     => $Text,
             Priority => 'Error',
         );
     }
-
-    # all following notifications should only be visible for admins
-    return '' if $Self->{LayoutObject}->{"UserIsGroup[$Group]"} ne 'Yes';
-
-    if ( $EntitlementStatus eq 'warning' ) {
+    elsif ( $EntitlementStatus eq 'warning' ) {
 
         $Output .= $Self->{LayoutObject}->Notify(
             Info =>
@@ -108,6 +100,9 @@ sub Run {
             Priority => 'Error',
         );
     }
+
+    # all following notifications should only be visible for admins
+    return '' if $Self->{LayoutObject}->{"UserIsGroup[$Group]"} ne 'Yes';
 
     # ----------------------------------------
     # check contract expiry
@@ -119,7 +114,7 @@ sub Run {
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
             'The license for your %s is about to expire. Please make contact with %s to renew your contract!',
             $OTRSBusinessLabel,
-            '<a href="mailto:sales@otrs.com">sales@otrs.com</a>',
+            'sales@otrs.com',
         );
         $Output .= $Self->{LayoutObject}->Notify(
             Data     => $Text,

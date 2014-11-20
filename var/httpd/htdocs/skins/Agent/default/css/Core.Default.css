@@ -531,7 +531,6 @@ dd {
 .MessageBox a.Button {
     display: inline;
     padding: 3px 7px;
-    margin-left: 5px;
 }
 
 .MessageBox a.Button:hover {

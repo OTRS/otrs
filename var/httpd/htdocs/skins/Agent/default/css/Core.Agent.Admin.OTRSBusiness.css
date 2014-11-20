@@ -27,15 +27,6 @@
     width: 94px;
     height: 94px;
     background: url(../img/OTRSBusinessSolution-small.png);
-    -webkit-animation: spin 8s linear infinite;
-    -moz-animation: spin 8s linear infinite;
-    animation: spin 8s linear infinite;
-}
-
-.BusinessLogo.NoSpin span {        
-    -webkit-animation: none;
-    -moz-animation: none;
-    animation: none;
 }
 
 .BusinessLogo i {
@@ -45,9 +36,5 @@
     font-weight: normal;
     color: #264654;
 }
-
-@-moz-keyframes spin { 100% { -moz-transform: rotate(-360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(-360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(-360deg); transform:rotate(-360deg); } }
 
 } /* end @media */

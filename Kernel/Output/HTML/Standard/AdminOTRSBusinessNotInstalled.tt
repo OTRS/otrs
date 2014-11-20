@@ -19,7 +19,7 @@
             </div>
             <div class="Content">
                 <p>
-                    [% Translate('%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.', OTRSBusinessLabel) %]
+                    [% Translate("%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.", OTRSBusinessLabel) %]
                 </p>
             </div>
             <div class="Clear"></div>
@@ -33,7 +33,10 @@
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate('%s will be available soon. Please check again in a few days.', OTRSBusinessLabel) %]
+                    [% Translate("%s will be available soon. Please check again in a few days.", OTRSBusinessLabel) %]
+                </p>
+                <p class="Center">
+                    [% Translate("Please have a look at %s for more information.", '<a href="http://www.otrs-business-solution.com" target="_blank">otrs-business-solution.com</a>') %]
                 </p>
             </div>
             <div class="Clear"></div>
@@ -46,7 +49,7 @@
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate('Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!', OTRSBusinessLabel) %]
+                    [% Translate("Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!", OTRSBusinessLabel) %]
                 </p>
                 <div class="Center SpacingTop">
                     <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction Primary">
@@ -90,10 +93,13 @@
             </div>
             <div class="Content">
                 <p class="Center">
-                    [% Translate('We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!', OTRSBusinessLabel) %]
+                    [% Translate("We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!", OTRSBusinessLabel) %]
+                </p>
+                <p class="Center">
+                    [% Translate("Please note that your existing contract will not be upgraded to a contract valid for %s automatically. Please make contact with %s.", OTRSBusinessLabel, 'sales@otrs.com') %]
                 </p>
                 <div class="Center SpacingTop">
-                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate('Upgrade to %s', OTRSBusinessLabel) %]</span></a>
+                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>
                 </div>
             </div>
             <div class="Clear"></div>
