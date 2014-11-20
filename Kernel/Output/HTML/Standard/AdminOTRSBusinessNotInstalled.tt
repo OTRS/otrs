@@ -95,8 +95,10 @@
                 <p class="Center">
                     [% Translate("We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!", OTRSBusinessLabel) %]
                 </p>
-                <p class="Center">
-                    [% Translate("Please note that your existing contract will not be upgraded to a contract valid for %s automatically. Please make contact with %s.", OTRSBusinessLabel, 'sales@otrs.com') %]
+                <p class="Center SpacingTop">
+                    [% Translate("With your existing contract you can only use a small part of the %s.", OTRSBusinessLabel ) %]
+                    <br/>
+                    [% Translate("If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.", OTRSBusinessLabel, '<a href="mailto:sales@otrs.com">sales@otrs.com</a>') %]
                 </p>
                 <div class="Center SpacingTop">
                     <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=InstallAction" class="CallForAction Primary"><span><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</span></a>

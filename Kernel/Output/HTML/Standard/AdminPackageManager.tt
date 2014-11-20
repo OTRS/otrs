@@ -358,7 +358,10 @@
             <div class="WidgetSimple">
 
                 <div class="Header">
-                    <h2>[% Translate("Features of %s", OTRSBusinessLabel) %]</h2>
+                    <h2>
+                        [% Translate("Features for %s customers only", OTRSBusinessLabel) %]
+                        → <a href="mailto:sales@otrs.com">sales@otrs.com</a>
+                    </h2>
                 </div>
                 <div class="Content ">
                     <p>
