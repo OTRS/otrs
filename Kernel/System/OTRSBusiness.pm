@@ -24,10 +24,10 @@ our @ObjectDependencies = (
 );
 
 # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
-my $NoConnectWarningPeriod = 60 * 60 * 24 * 5;
+my $NoConnectWarningPeriod = 60 * 60 * 24 * 5; # 5 days
 
 # If we cannot connect to cloud.otrs.com for more than the second period, show an error.
-my $NoConnectErrorPeriod = 60 * 60 * 24 * 10;
+my $NoConnectErrorPeriod = 60 * 60 * 24 * 15;  # 15 days
 
 # If the contract is about to expire in less than this time, show a hint
 my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 30;
