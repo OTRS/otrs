@@ -421,6 +421,20 @@ sub Data {
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => '',
         'The selected process is invalid!' => '',
+        'Upgrade to %s now!' => '',
+        '%s Go to the upgrade center %s' => '',
+        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
+            '',
+        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
+            '',
+        'Your system was successfully upgraded to %s.' => '',
+        'There was a problem during the upgrade to %s.' => '',
+        '%s was correctly reinstalled.' => '',
+        'There was a problem reinstalling %s.' => '',
+        'Your %s was successfully updated.' => '',
+        'There was a problem during the upgrade of %s.' => '',
+        '%s was correctly uninstalled.' => '',
+        'There was a problem uninstalling %s.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => '新年',
@@ -1689,6 +1703,61 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             '截取邮件正文内容前5行（最新的用户信件）',
 
+        # Template: AdminOTRSBusinessInstalled
+        'Manage %s' => '',
+        'Downgrade to OTRS Free' => '',
+        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
+            '',
+        'Unauthorized Usage Detected' => '',
+        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
+            '',
+        '%s not Correctly Installed' => '',
+        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
+            '',
+        'Reinstall %s' => '',
+        'Your %s is not correctly installed, and there is also an update available.' =>
+            '',
+        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
+            '',
+        'Update %s' => '',
+        '%s Not Yet Available' => '',
+        '%s will be available soon.' => '',
+        '%s Update Available' => '',
+        'An update for your %s is available! Please update at your earliest!' =>
+            '',
+        '%s Correctly Deployed' => '',
+        'Congratulations, your %s is correctly installed and up to date!' =>
+            '',
+
+        # Template: AdminOTRSBusinessNotInstalled
+        'Upgrade to %s' => '',
+        '%s will be available soon. Please check again in a few days.' =>
+            '',
+        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            '',
+        'Register this System' => '',
+        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
+            '',
+        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
+            '',
+        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+            '',
+
+        # Template: AdminOTRSBusinessUninstall
+        'Cancel downgrade and go back' => '',
+        'Go to OTRS Package Manager' => '',
+        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
+            '',
+        'Vendor' => '提供者',
+        'Please uninstall the packages first using the package manager and try again.' =>
+            '',
+        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
+            '',
+        'Chat' => '',
+        'Timeline view in ticket zoom' => '',
+        'DynamicField ContactWithData' => '',
+        'The %s skin' => '',
+
         # Template: AdminPGP
         'PGP Management' => 'PGP管理',
         'Use this feature if you want to work with PGP keys.' => '该功能用于管理PGP密钥',
@@ -1721,7 +1790,6 @@ sub Data {
         'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             '没有找到你所需要的功能吗？OTRS为服务合同用户提供专属附加组件：',
         'Online Repository' => '在线软件仓库',
-        'Vendor' => '提供者',
         'Module documentation' => '模块文档',
         'Upgrade' => '升级',
         'Local Repository' => '本地软件仓库',
@@ -2208,6 +2276,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'Close window' => '关闭窗口',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => '回复抬头管理',
@@ -2500,6 +2569,7 @@ sub Data {
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => '',
         'New email ticket to %s' => '',
+        'Start chat' => '',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s is 可用！',
@@ -2796,6 +2866,7 @@ sub Data {
         'Please include at least one customer for the ticket.' => '请包括至少一个工单用户。',
         'To queue' => '队列',
         'Chat protocol' => '',
+        'The chat will be appended as a separate article.' => '',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '邮件纯文本视图',
@@ -2869,6 +2940,7 @@ sub Data {
         'Ticket Timeline View' => '',
         'Article Overview' => '',
         'Article(s)' => '信件',
+        'Page' => '页',
         'Add Filter' => '添加过滤器',
         'Set' => '设置',
         'Reset Filter' => '重置过滤器',
@@ -2888,10 +2960,15 @@ sub Data {
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
             '',
+        'Article could not be opened! Perhaps it is on another article page?' =>
+            '',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => '为了保护你的隐私,远程内容被阻挡。',
         'Load blocked content.' => '载入被阻挡的内容。',
+
+        # Template: ChatStartForm
+        'First message' => '',
 
         # Template: CustomerError
         'Traceback' => '追溯',
@@ -2940,6 +3017,9 @@ sub Data {
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => '编辑个人设置',
 
+        # Template: CustomerRichTextEditor
+        'Split Quote' => '',
+
         # Template: CustomerTicketMessage
         'Service level agreement' => '服务水平协议',
 
@@ -2974,7 +3054,6 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => '在',
-        'Page' => '页',
         'Search Results for' => '搜索结果',
         'Remove this Search Term.' => '',
 
@@ -3867,6 +3946,8 @@ sub Data {
         'Defines the module that shows the currently loged in customers in the customer interface.' =>
             '',
         'Defines the module to authenticate customers.' => '',
+        'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
+            '',
         'Defines the module to display a notification in the agent interface if the scheduler is not running.' =>
             '',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
@@ -4047,6 +4128,7 @@ sub Data {
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
+        'Deploy and manage OTRS Business Solution™.' => '',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
         'Determines if the statistics module may generate ticket lists.' =>
@@ -5173,6 +5255,8 @@ sub Data {
         'Specifies whether all storage backends should be checked when looking for attachements. This is only required for installations where some attachements are in the file system, and others in the database.' =>
             '',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
+            '',
+        'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             '',

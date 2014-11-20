@@ -149,7 +149,7 @@ sub Data {
         'Language' => 'Язык',
         'Languages' => 'Языки',
         'Password' => 'Пароль',
-        'Preferences' => 'Предпочтения',
+        'Preferences' => 'Настройки',
         'Salutation' => 'Приветствие',
         'Salutations' => 'Приветствия',
         'Signature' => 'Подпись',
@@ -426,6 +426,20 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Проблемы, обрабатывающие результат сервера. Попробуйте еще раз позже.',
         'Username and password do not match. Please try again.' => 'Имя пользователя и пароль не соовпадают. Попробуйте еще раз.',
         'The selected process is invalid!' => 'Выбранный процесс - неправильный!',
+        'Upgrade to %s now!' => 'Обновите до %s !',
+        '%s Go to the upgrade center %s' => '%s Перейдите в центр обновления %s',
+        'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
+            'Лицензия на ваш продукт %s истекает. Свяжитесь, пожалуйста с %s для обновления контракта!',
+        'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
+            'Обновление для вашего продукта %s доступна, но оно не соответствует версии вашего основного продукта! Обновите его сначала!',
+        'Your system was successfully upgraded to %s.' => '',
+        'There was a problem during the upgrade to %s.' => '',
+        '%s was correctly reinstalled.' => '',
+        'There was a problem reinstalling %s.' => '',
+        'Your %s was successfully updated.' => '',
+        'There was a problem during the upgrade of %s.' => '',
+        '%s was correctly uninstalled.' => '',
+        'There was a problem uninstalling %s.' => '',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Новый Год',
@@ -699,7 +713,7 @@ sub Data {
         'mod_deflate Usage' => 'Использование mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Установите mod_deflate для повышения скорости GUI.',
         'mod_headers Usage' => 'Использование mod_headers',
-        'Please install mod_headers to improve GUI speed.' => 'Установите  install mod_headers для повышения скорости GUI.',
+        'Please install mod_headers to improve GUI speed.' => 'Установите mod_headers для повышения скорости GUI.',
         'Apache::Reload Usage' => 'Использование Apache::Reload',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             'Apache::Reload или Apache2::Reload должны использоваться как PerlModule и PerlInitHandler, чтобы предупредить рестарт веб-сервера при установке и обновлении модулей.',
@@ -769,8 +783,8 @@ sub Data {
         'Free Fields' => 'Свободные поля',
         'Merge' => 'Объединить',
         'merged' => 'объединенный',
-        'closed successful' => 'закрыт успешно',
-        'closed unsuccessful' => 'закрыт неуспешно',
+        'closed successful' => 'закрыта успешно',
+        'closed unsuccessful' => 'закрыта неуспешно',
         'Locked Tickets Total' => 'Заблокированные заявки: Всего',
         'Locked Tickets Reminder Reached' => 'Заблокированные заявки: Время напоминания наступило',
         'Locked Tickets New' => 'Заблокированные заявки: Новые',
@@ -793,10 +807,10 @@ sub Data {
         'Bounce Article to a different mail address' => '',
         'new' => 'новый',
         'open' => 'открытый',
-        'Open' => 'Открытый',
+        'Open' => 'Открытые',
         'Open tickets' => 'Открытые заявки',
-        'closed' => 'закрытый',
-        'Closed' => 'Закрытый',
+        'closed' => 'закрытая',
+        'Closed' => 'Закрытые',
         'Closed tickets' => 'Закрытые заявки',
         'removed' => 'удаленный',
         'pending reminder' => 'ожидает напоминания',
@@ -1071,7 +1085,7 @@ sub Data {
         'Example response' => 'Пример ответа',
 
         # Template: AdminCustomerCompany
-        'Customer Management' => 'Управление компаниями',
+        'Customer Management' => 'Управление клиентами',
         'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
         'Add customer' => 'Добавить компанию',
         'Select' => 'Выбор',
@@ -1079,7 +1093,7 @@ sub Data {
         'Add Customer' => 'Добавить компанию',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Управление клиентами',
+        'Customer User Management' => 'Управление пользователями клиентов',
         'Back to search results' => 'Назад к результатам поиска',
         'Add customer user' => 'Добавить клиента',
         'Hint' => 'Подсказка',
@@ -1652,7 +1666,7 @@ sub Data {
         'Queue Settings' => 'Настройки очередей',
         'Ticket Settings' => 'Настройки заявок',
         'System Administration' => 'Администрирование системы',
-        'Online Admin Manual' => 'Online Руководство администратора',
+        'Online Admin Manual' => 'Онлайн-руководство администратора',
 
         # Template: AdminNotification
         'Notification Management' => 'Управления уведомлениями',
@@ -1694,6 +1708,61 @@ sub Data {
         'To get the first 5 lines of the body (of the latest customer article).' =>
             'Первые 5 строк последнего сообщения клиента',
 
+        # Template: AdminOTRSBusinessInstalled
+        'Manage %s' => 'Упровление %s',
+        'Downgrade to OTRS Free' => 'Бесплатный возврат к ранней версии OTRS ',
+        '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
+            '%s выполняет регулярную связь с cloud.otrs.com для проверки доступных обновлений и срока действия основного договора.',
+        'Unauthorized Usage Detected' => 'Обнаружено несанкционированное использование ',
+        'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
+            'Эта система использует %s без соответствующей лицензии! Свяжитесь, пожалуйста с %s для обновления или активации вашего контракта!',
+        '%s not Correctly Installed' => '%s некорректно установлен',
+        'Your %s is not correctly installed. Please reinstall it with the button below.' =>
+            'Ваш %s  некорректно установлен. Пожалуйста, переустановите его с помощью кнопки расположенной ниже.',
+        'Reinstall %s' => 'Переустановите %s ',
+        'Your %s is not correctly installed, and there is also an update available.' =>
+            'Ваш %s некорректно установлен, а также доступно обновление для него.',
+        'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
+            'Вы можете либо переустановить текущую версию продукта, либо обновить его с помощью кнопок расположенных ниже (рекомендуется выполнить обновление).',
+        'Update %s' => 'Обновление %s ',
+        '%s Not Yet Available' => '%s в данный момент еще недоступен',
+        '%s will be available soon.' => '%s скоро будет доступен.',
+        '%s Update Available' => 'Доступно обновление для %s',
+        'An update for your %s is available! Please update at your earliest!' =>
+            'Обновление для вашего %s  доступно! Обновите его в ближайшее время!',
+        '%s Correctly Deployed' => '%s правильно развернут/установлен',
+        'Congratulations, your %s is correctly installed and up to date!' =>
+            'Поздравляем, ваш %s правильно установлен и имеет последнюю версию!',
+
+        # Template: AdminOTRSBusinessNotInstalled
+        'Upgrade to %s' => 'Обновление до %s',
+        '%s will be available soon. Please check again in a few days.' =>
+            'Обновление для %s будет скоро доступно. Проверьте повторно в ближайшие дни.',
+        'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
+            'Ваш OTRS Free является основой для всех будущих действий. Зарегистрируйтесь сначала, до продолжения работ по обновлению %s! ',
+        'Register this System' => 'Зарегистрируйте эту систему',
+        'Before you can benefit from %s, please contact %s to get your %s contract.' =>
+            'Для получения пользы от использования %s, свяжитесь с %s для получения вашего контракта на %s.',
+        'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
+            'Соединение с cloud.otrs.com по HTTPS не может быть установлено. Убедитесь, что ваша система OTRS использует порт 443 для соединения с cloud.otrs.com.',
+        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+            'Мы счастливы предложить вам, как одному из наших контрактных партнеров обновление до %s. Вы можете приступить к обновлению прямо сейчас!',
+
+        # Template: AdminOTRSBusinessUninstall
+        'Cancel downgrade and go back' => 'Прервать процесс возврата к предыдущей версии и вернуться назад',
+        'Go to OTRS Package Manager' => 'Перейти к Менеджеру пакетов OTRS ',
+        'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
+            'Извините, но вы не можете сделать возврат к предыдущей версии из-за следующих пакетов, которые зависят от %s:',
+        'Vendor' => 'Изготовитель',
+        'Please uninstall the packages first using the package manager and try again.' =>
+            'Пожалуйста, деинсталлируйте сначала пакеты с помощью Менеджера пакетов и попробуйте повторить заново.',
+        'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
+            'Вы собираетесь выполнить откат к базовой OTRS и потеряете следующие возможности и данные с ними связанные:',
+        'Chat' => 'Чат',
+        'Timeline view in ticket zoom' => 'Хронологический вид при подробном просмотре заявки',
+        'DynamicField ContactWithData' => '',
+        'The %s skin' => '',
+
         # Template: AdminPGP
         'PGP Management' => 'Управление подписями PGP',
         'Use this feature if you want to work with PGP keys.' => 'Используйте эту возможность, если хотите работать с PGP-ключами.',
@@ -1726,7 +1795,6 @@ sub Data {
         'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
             'Не нашли требующуюся функцию? Клиентам заключившим сервисный контракт, OTRS Group предлагает набор расширений(Add-One)',
         'Online Repository' => 'Онлайновый репозиторий',
-        'Vendor' => 'Изготовитель',
         'Module documentation' => 'Документация модуля',
         'Upgrade' => 'Обновить',
         'Local Repository' => 'Локальный репозиторий',
@@ -2025,7 +2093,7 @@ sub Data {
         'Change Auto Response Relations for Queue' => 'Изменить Автоответ для Очереди',
 
         # Template: AdminQueueTemplates
-        'Manage Template-Queue Relations' => 'Управление сязями Щаблон - Очередь',
+        'Manage Template-Queue Relations' => 'Управление связями Шаблон - Очередь',
         'Filter for Templates' => 'Фильтр для Шаблонов',
         'Templates' => 'Шаблоны',
         'Change Queue Relations for Template' => 'Изменить связь Очереди с Шаблоном',
@@ -2109,8 +2177,8 @@ sub Data {
         'In this case we will also adapt our information regarding data protection accordingly.' =>
             '',
         'Please regularly refer to the latest version of our Data Protection Policy.' =>
-            '',
-        'Right to Information' => '',
+            'Пожалуйста, регулярно обращайтесь к последней версии нашей Политики по защите данных.',
+        'Right to Information' => 'Право на информацию',
         'You have the right to demand information concerning the data saved about you, its origin and recipients, as well as the purpose of the data processing at any time.' =>
             '',
         'You can request information about the saved data by sending an e-mail to info@otrs.com.' =>
@@ -2213,6 +2281,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'Close window' => 'Закрыть окно',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управление приветствиями',
@@ -2252,9 +2321,9 @@ sub Data {
 
         # Template: AdminServiceCenterSupportDataCollector
         'This data is sent to OTRS Group on a regular basis. To stop sending this data please update your system registration.' =>
-            'Эти данные отправляются в OTRS Group на регулярной основе. Для прекращения передачи данных, обновите профиль вашей регистрации.',
+            'Эти данные отправляются в OTRS Group на регулярной основе. Чтобы прекратить отправку этих данных, обновите регистрацию вашей системы.',
         'You can manually trigger the Support Data sending by pressing this button:' =>
-            'Вы можете вручную переключить передачу Support Data нажатием на эту кнопку.',
+            'Вы можете вручную запустить передачу данных поддержки нажатием на эту кнопку:',
         'Send Update' => 'Послать обновление',
         'Sending Update...' => 'Отправка обновления ...',
         'Support Data information was successfully sent.' => 'Анные Support Data были успешно отправлены.',
@@ -2266,8 +2335,8 @@ sub Data {
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
-            '',
-        'Generate Support Bundle' => '',
+            'Пакет поддержки (включая сведения о регистрации системы, данные поддержки, список установленных пакетов и локально изменённые файлы с исходным кодом) можно сгенерировать нажатием этой кнопки:',
+        'Generate Support Bundle' => 'Сгенерировать пакет поддержки',
         'Generating...' => 'Выполняется...',
         'It was not possible to generate the Support Bundle.' => '',
         'Generate Result' => '',
@@ -2393,7 +2462,7 @@ sub Data {
             'Вы действительно желаете удалить этот график техобслуживания?',
 
         # Template: AdminSystemMaintenanceEdit
-        'Edit System Maintenance %s' => '',
+        'Edit System Maintenance %s' => 'Редактировать график техобслуживания %s',
         'Edit System Maintenance information' => 'Редактировать информацию о технической поддержке',
         'Date invalid!' => 'Некорректная дата!',
         'Login message' => '',
@@ -2433,7 +2502,7 @@ sub Data {
         'Add ticket type' => 'Добавить тип заявки',
         'Add Type' => 'Добавить тип',
         'Edit Type' => 'Редактировать тип',
-        'A type with this name already exists!' => '',
+        'A type with this name already exists!' => 'Тип с таким именем уже существует!',
 
         # Template: AdminUser
         'Add agent' => 'Добавить агента',
@@ -2505,6 +2574,7 @@ sub Data {
         '%s closed ticket(s) of %s' => '%s закрытых заявок из %s',
         'New phone ticket from %s' => 'Новая телефонная заявка от %s',
         'New email ticket to %s' => 'Новая заявка по почте от %s',
+        'Start chat' => 'Начать чат',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s доступен',
@@ -2801,6 +2871,7 @@ sub Data {
         'Please include at least one customer for the ticket.' => 'Пожалуйста, включите хотя бы одного клиента в заявку.',
         'To queue' => 'В очередь',
         'Chat protocol' => 'Протокол чата',
+        'The chat will be appended as a separate article.' => 'Содержание чата будет добавлено в виде отдельной заметки.',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => 'Текст письма в исходном виде',
@@ -2871,15 +2942,16 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'Нет диалогов доступных в этой части процесса',
         'This item has no articles yet.' => 'Этот элемент пока не имеет заметок.',
-        'Ticket Timeline View' => '',
+        'Ticket Timeline View' => 'Хронологический вид заявки',
         'Article Overview' => 'Обзор заметок/сообщений',
         'Article(s)' => 'сообщений',
+        'Page' => 'Страница',
         'Add Filter' => 'Добавить фильтр',
         'Set' => 'Установить',
         'Reset Filter' => 'Сбросить фильтр',
         'Show one article' => 'Отобразить одно сообщение',
         'Show all articles' => 'Отобразить все сообщения',
-        'Show Ticket Timeline View' => '',
+        'Show Ticket Timeline View' => 'Показать заявку в хронологическом виде',
         'Unread articles' => 'Непрочитанные сообщения',
         'No.' => '№',
         'Important' => 'Важно',
@@ -2893,10 +2965,15 @@ sub Data {
         'Full Article Text' => 'Полный текст заметки/сообщения',
         'No more events found. Please try changing the filter settings.' =>
             'Больше событий не найдено. Попробуйте изменить параметры фильтра.',
+        'Article could not be opened! Perhaps it is on another article page?' =>
+            'Заметка не может быть открыта! Возможно, она на другой странице заметок?',
 
         # Template: AttachmentBlocker
         'To protect your privacy, remote content was blocked.' => 'Для защиты конфиденциальности, содержимое из внешнего источника было заблокировано',
         'Load blocked content.' => 'Загрузить заблокированное содержимое.',
+
+        # Template: ChatStartForm
+        'First message' => 'Первое сообщение',
 
         # Template: CustomerError
         'Traceback' => 'Отслеживание',
@@ -2945,6 +3022,9 @@ sub Data {
         'You have unanswered chat requests' => 'Есть неотвеченные вопросы чата',
         'Edit personal preferences' => 'Редактировать персональные настройки',
 
+        # Template: CustomerRichTextEditor
+        'Split Quote' => '',
+
         # Template: CustomerTicketMessage
         'Service level agreement' => 'Соглашение об уровне сервиса',
 
@@ -2979,7 +3059,6 @@ sub Data {
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'из',
-        'Page' => 'Страница',
         'Search Results for' => 'Результаты поиска для',
         'Remove this Search Term.' => 'Удалить эти условия поска.',
 
@@ -3366,7 +3445,7 @@ sub Data {
         'Company name which will be included in outgoing emails as an X-Header.' =>
             'Имя Компании, включаемое в исходящее письмо как X-Header.',
         'Configure Processes.' => 'Настройка Процессов',
-        'Configure and manage ACLs.' => 'Создание/Редактирование и управление ACL',
+        'Configure and manage ACLs.' => 'Настройка и управление ACL.',
         'Configure your own log text for PGP.' => 'Настроить свой собственный текст журнала для PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             'Задает настройки TicketDynamicField по умолчанию. "Name/Имя" задает поле, которое будет использоваться, "Value/Значение" - данные которые будут заданы и "Event/Событие" определяет событие триггера. Подробнее, смотрите в руководстве разработчика (http://doc.otrs.org/), раздел "Ticket Event Module".',
@@ -3384,25 +3463,25 @@ sub Data {
             'Управляет удалением флагов просмотра заявок и сообщений при архивирвании заявки.',
         'Converts HTML mails into text messages.' => 'Преобразовать письмо из HTML в текст',
         'Create New process ticket' => 'Создать новую процессную заявку',
-        'Create and manage Service Level Agreements (SLAs).' => 'Создание и управление Соглашениями об Уровне Сервиса (SLA-ми).',
-        'Create and manage agents.' => 'Создание и управление агентами.',
-        'Create and manage attachments.' => 'Создание и управление вложениями.',
-        'Create and manage customer users.' => 'Создание и управление клиентом.',
-        'Create and manage customers.' => 'Создание и управление компаниями.',
-        'Create and manage dynamic fields.' => 'Создание и управление динамическими полями.',
-        'Create and manage event based notifications.' => 'Создание и управление уведомлениями по событию.',
-        'Create and manage groups.' => 'Создание и управление группами.',
-        'Create and manage queues.' => 'Создание и управление очередями.',
-        'Create and manage responses that are automatically sent.' => 'Создание и управление автоответами.',
-        'Create and manage roles.' => 'Создание и управление ролями.',
-        'Create and manage salutations.' => 'Создание и управление приветствиями.',
-        'Create and manage services.' => 'Создание и управление сервисами.',
-        'Create and manage signatures.' => 'Создание и управление подписями.',
-        'Create and manage templates.' => 'Создание и управление шаблонами.',
-        'Create and manage ticket priorities.' => 'Создание и управление приоритетами заявок.',
-        'Create and manage ticket states.' => 'Создание и управление состояними заявок.',
-        'Create and manage ticket types.' => 'Создание и управление типами заявок.',
-        'Create and manage web services.' => 'Создание и управление веб-сервисами.',
+        'Create and manage Service Level Agreements (SLAs).' => 'Создание Соглашений об уровне сервиса (SLA) и управление ими.',
+        'Create and manage agents.' => 'Создание агентов и управление ими.',
+        'Create and manage attachments.' => 'Создание вложений и управление ими.',
+        'Create and manage customer users.' => 'Создание пользователей клиентов и управление ими.',
+        'Create and manage customers.' => 'Создание клиентов и управление ими.',
+        'Create and manage dynamic fields.' => 'Создание динамических полей и управление ими.',
+        'Create and manage event based notifications.' => 'Создание уведомлений по событиям и управление ими.',
+        'Create and manage groups.' => 'Создание групп и управление ими.',
+        'Create and manage queues.' => 'Создание очередей и управление ими.',
+        'Create and manage responses that are automatically sent.' => 'Создание автоответов и управление ими.',
+        'Create and manage roles.' => 'Создание ролей и управление ими.',
+        'Create and manage salutations.' => 'Создание приветствий и управление ими.',
+        'Create and manage services.' => 'Создание сервисов и управление ими.',
+        'Create and manage signatures.' => 'Создание подписей и управление ими.',
+        'Create and manage templates.' => 'Создание шаблонов и управление ими.',
+        'Create and manage ticket priorities.' => 'Создание приоритетов заявок и управление ими.',
+        'Create and manage ticket states.' => 'Создание состояний заявок и управление ими.',
+        'Create and manage ticket types.' => 'Создание типов заявок и управление ими.',
+        'Create and manage web services.' => 'Создание веб-сервисов и управление ими.',
         'Create new email ticket and send this out (outbound)' => 'Создать заявку по email (исходящую) и отправить ее',
         'Create new phone ticket (inbound)' => 'Создать телефонную заявку (входящую)',
         'Create new process ticket' => 'Создать новую процессную заявку',
@@ -3411,7 +3490,7 @@ sub Data {
         'Customer Administration' => 'Управление клиентами',
         'Customer User <-> Groups' => 'Клиенты <-> Группы',
         'Customer User <-> Services' => 'Клиенты <-> Сервисы',
-        'Customer User Administration' => 'Управление клиентами',
+        'Customer User Administration' => 'Управление пользователями клиентов',
         'Customer Users' => 'Клиенты',
         'Customer called us.' => 'Клиент позвонил нам.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -3872,6 +3951,8 @@ sub Data {
         'Defines the module that shows the currently loged in customers in the customer interface.' =>
             'Задает модуль который показывает всех подключившихся клиентов в интерфейсе клиента.',
         'Defines the module to authenticate customers.' => 'Задает модуль аутентификации клиентов',
+        'Defines the module to display a notification in different interfaces on different occasions for OTRS Business Solution™.' =>
+            '',
         'Defines the module to display a notification in the agent interface if the scheduler is not running.' =>
             'Задает модуль который показывает уведомление в интерфейсе агента, если не запущен Планировщик.',
         'Defines the module to display a notification in the agent interface, if the agent is logged in while having out-of-office active.' =>
@@ -3970,7 +4051,7 @@ sub Data {
             'Задает расположение легенды. Это должен быть двухбуквенный ключ вида: \'B[LCR]|R[TCB]\'. Первая буква задает положение (Bottom or Right), вторая - выравнивание (Left, Right, Center, Top, or Bottom).',
         'Defines the postmaster default queue.' => 'Задает очередь по умолчанию для postmaster.',
         'Defines the priority in which the information is logged and presented.' =>
-            '',
+            'Задает приоритет с которым информация журналируется и отображается.',
         'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
             'Задает получателя телефонной заявки и отправителя для почтовой заявки ("Queue" показывает все очереди, "SystemAddress" показывает все системные адреса) в интерфейсе агента',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
@@ -4052,6 +4133,7 @@ sub Data {
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Удаляет сеанс, если его id используется с некорректным remote IP address.',
         'Deletes requested sessions if they have timed out.' => 'Удаляет запрошенные сеансы с истекшим сроком.',
+        'Deploy and manage OTRS Business Solution™.' => 'Развертывание и управление OTRS Business Solution™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'Задает список доступных очередей для перемещения заявки в выпадающем списке или в новом окне в интерфейсе агента. Если выбрана опция "New Window" (в новом окне) вы можете добавить заметку о перемещении к заявке.',
         'Determines if the statistics module may generate ticket lists.' =>
@@ -4153,7 +4235,7 @@ sub Data {
         'Dynamic fields shown in the ticket search overview results screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Параметры показа динамических полей на экране обзора результатов поиска в интерфейсе агента. Возможные значения: 0 = не показывать, 1 - показывать.',
         'Dynamic fields shown in the ticket search screen of the agent interface. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and shown by default.' =>
-            'Параметры показа динамических полей на экране параметров поиска в интерфейсе агента. Возможные значения: 0 = не показывать, 1 - показывать, 2 - показывать и ???.',
+            'Перечень динамических полей на экране выбора атрибутов поиска в интерфейсе агента. Возможные значения: 0 = не показывать, 1 - можно выбрать из списка, 2 - включено по умолчанию.',
         'Dynamic fields shown in the ticket search screen of the customer interface. Possible settings: 0 = Disabled, 1 = Enabled.' =>
             'Параметры показа динамических полей на экране поиска в интерфейсе клиента. Возможные значения: 0 = не показывать, 1 - показывать.',
         'Dynamic fields shown in the ticket small format overview screen of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
@@ -4176,8 +4258,8 @@ sub Data {
         'Enables customers to create their own accounts.' => 'Дать возможность клиентам самостоятельно создавать свои учетные записи.',
         'Enables file upload in the package manager frontend.' => 'Включает возможность загрузки дополнительных пакетов (расширений) в Управлении пакетами.',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
-            '',
-        'Enables or disables the debug mode over frontend interface.' => '',
+            'Включает или отключает кэширование для шаблонов. ВНИМАНИЕ: НЕ отключайте кэширование шаблонов в рабочей системе, так как это приведет к значительному снижению производительности! Этот параметр следует отключать только для целей отладки!',
+        'Enables or disables the debug mode over frontend interface.' => 'Включает или выключает режим отладки через интерфейс системы.',
         'Enables or disables the ticket watcher feature, to keep track of tickets without being the owner nor the responsible.' =>
             'Включает/выключает функцию наблюдения за заявками, чтобы иметь возможность отслеживания заявок не будучи ее владельцем или ответственным.',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
@@ -4218,7 +4300,7 @@ sub Data {
         'Event module that updates tickets after an update of the Customer.' =>
             'Модуль обработки события, который обновляет заявки клиентов после обновления учетной записи клиента.',
         'Events Ticket Calendar' => 'Календарь событий по заявкам',
-        'Execute SQL statements.' => 'Выполнить SQL запрос.',
+        'Execute SQL statements.' => 'Выполнить SQL-запросы.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             'Выполняет проверку ответа клиента в In-Reply-To или References заголовках для писем не имеющих в Теме номер заявки.',
         'Executes follow up mail attachments checks in  mails that don\'t have a ticket number in the subject.' =>
@@ -4472,7 +4554,7 @@ sub Data {
             '',
         'Manage OTRS Group services.' => 'Управление сервисами OTRS Group.',
         'Manage PGP keys for email encryption.' => 'Управления PGP ключами для шифрования почтовых сообщений.',
-        'Manage POP3 or IMAP accounts to fetch email from.' => 'Управление POP3 или IMAP учетными записями для получения почтовых сообщений.',
+        'Manage POP3 or IMAP accounts to fetch email from.' => 'Управление учётными записями POP3 или IMAP для получения почтовых сообщений.',
         'Manage S/MIME certificates for email encryption.' => 'Управление S/MIME сертификатами для шифрования почты',
         'Manage existing sessions.' => 'Управление активными сеансами.',
         'Manage notifications that are sent to agents.' => 'Управление уведомлениями, посылаемыми агентам',
@@ -5179,6 +5261,8 @@ sub Data {
             'Указывет, должны ли все виды хранилищ проверятся при просмотре вложений. Это необходимо лишь в случае, когда часть вложений хранится в файловой системе, а остальные в базе данных.',
         'Specify how many sub directory levels to use when creating cache files. This should prevent too many cache files being in one directory.' =>
             'Задает количество уровней подкаталога для кэш файлов. параметр предотвращает от создания большого количества файлов в одном каталоге.',
+        'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
+            '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
             'Задает набор доступных прав агентов в системе. Если требуются дополнительные права, они могут быть заданы здесь. Права должны быть определены, чтобы использоваться в системе. Некоторые другие полезные права, также встроены в систему: note, close, pending, customer, freetext, move, compose, responsible, forward, и bounce. Последней строкой в таблице всегда дорлжна быть строка с "rw".',
         'Start number for statistics counting. Every new stat increments this number.' =>

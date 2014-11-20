@@ -1,13 +1,15 @@
 # 
 # Translators:
+# Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2014
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2014
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2014
+# Lars Åge Kamfjord <lars-transifex@kamfjord.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-13 04:56+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2014-11-18 10:37+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/OTRS/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -811,12 +813,12 @@ msgstr "Vennligst kontakt administratoren"
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Pålogging var vellykket, men ingen kundeoppføring er funnet i kundemodulen. Kontakt din administrator"
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Epostadressen finnes allerede. Vennligst logg inn eller nullstill passordet ditt."
 
 #. Template: AAABase
 msgid "Logout"
@@ -836,7 +838,7 @@ msgstr "Saksbehandler oppdatert"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Databasevalg"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -890,7 +892,7 @@ msgstr "Skriv inn passordet for databasebrukeren."
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr ""
+msgstr "Hvis du har satt et root-passord for din database må det bli skrevet inn her. Hvis ikke, la dette feltet være tomt."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
@@ -903,7 +905,7 @@ msgstr "Innlogging kreves"
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Det er for tiden ikke mulig å logge inn på grunn et planlagt vedlikehold"
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -1281,7 +1283,7 @@ msgstr "Denne e-postadressen finnes allerede. Vennligst logg inn eller nullstill
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Denne epostadressen er ikke tillatt å registrere. Kontakt brukerstøtten."
 
 #. Template: AAABase
 msgid ""
@@ -1352,13 +1354,13 @@ msgstr "7-dagers statistikk"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr ""
+msgstr "Prosessstyringsinformasjon fra databasen er ikke synkronisert med systemkonfigurasjon. Vennligst synkroniser alle prosesser"
 
 #. Template: AAABase
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "Pakken er ikke verifisert av OTRS-gruppen! Det er anbefalt å ikke bruke denne pakken."
 
 #. Template: AAABase
 msgid ""
@@ -1367,7 +1369,7 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Hvis du fortsetter å bruke denne pakken, kan følgende skje:\n<br><br>&nbsp;-Sikkerhetsproblemer<br>&nbsp;-Stabilitetsproblemer<br>&nbsp;Ytelsesproblemer<br><br>Vær oppmerksom på at problemer forårsaket av denne pakken ikke er dekket av OTRS supportkontrakter."
 
 #. Template: AAABase
 msgid "Mark"
@@ -1475,22 +1477,74 @@ msgstr "Oppgaveplanleggeren kjører ikke."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Kan ikke kontakte registreringsserver. Prøv igjen senere."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "Fikk ikke noe innhold fra registreringsserver. Prøv igjen senere."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "Problemer med å prosessere serverresultat. Prøv igjen senere."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "Brukernavn og passord stemmer ikke overens. Prøv igjen."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
+msgstr "Valgt prosess er ikke gyldig!"
+
+#. Template: AAABase
+msgid "Upgrade to %s now!"
+msgstr ""
+
+#. Template: AAABase
+msgid "%s Go to the upgrade center %s"
+msgstr ""
+
+#. Template: AAABase
+msgid ""
+"The license for your %s is about to expire. Please make contact with %s to "
+"renew your contract!"
+msgstr ""
+
+#. Template: AAABase
+msgid ""
+"An update for your %s is available, but there is a conflict with your "
+"framework version! Please update your framework first!"
+msgstr ""
+
+#. Template: AAABase
+msgid "Your system was successfully upgraded to %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade to %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "%s was correctly reinstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem reinstalling %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "Your %s was successfully updated."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade of %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "%s was correctly uninstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem uninstalling %s."
 msgstr ""
 
 #. Template: AAACalendar
@@ -2022,7 +2076,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not open file."
-msgstr ""
+msgstr "Intern feil: Kan ikke åpne fil."
 
 #. Template: AAASupportDataCollector
 msgid "Table Check"
@@ -2058,7 +2112,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Innstillingen character_set_client må være utf8"
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
@@ -2074,11 +2128,11 @@ msgstr "Tabel tegnsett"
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
-msgstr ""
+msgstr "Det ble funnet tabeller som ikke er satt som utf8"
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "Maksimum størrelse på spørring"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
@@ -2086,13 +2140,13 @@ msgstr "Innstillingen 'max_allowed_packet' må være større enn 20 MB."
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Spørring mellomlagringsstørrelse"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
-msgstr ""
+msgstr "Innstillingen 'query_cache_size' bør brukes (over 10MB, men ikke større enn 512MB)"
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
@@ -2101,7 +2155,7 @@ msgstr "Standard lagringsmotor"
 #. Template: AAASupportDataCollector
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "Tabeller med en annen lagringsmotor enn standardmotoren ble funnet"
 
 #. Template: AAASupportDataCollector
 msgid "MySQL 5.x or higher is required."
@@ -2109,11 +2163,11 @@ msgstr "MySQL 5.x eller høyere er nødvendig."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG Setting"
-msgstr ""
+msgstr "NLS_LANG innstilling"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
-msgstr ""
+msgstr "NLS_LANG må bli satt til AL32UTF8 (f.eks. GERMAN_GERMANY.AL32UTF8)."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
@@ -5924,6 +5978,163 @@ msgstr "For å få de første 20 tegn av emnefeltet (fra den siste kundesaken)."
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "For å få de første 5 linjene av meldingen (fra den siste kundesaken)."
 
+#. Template: AdminOTRSBusinessInstalled
+msgid "Manage %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Downgrade to OTRS Free"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"%s makes contact regularly with cloud.otrs.com to check on available updates"
+" and the validity of the underlying contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Unauthorized Usage Detected"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"This system uses the %s without a proper license! Please make contact with "
+"%s to renew or activate your contract!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s not Correctly Installed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"Your %s is not correctly installed. Please reinstall it with the button "
+"below."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Reinstall %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"Your %s is not correctly installed, and there is also an update available."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"You can either reinstall your current version or perform an update with the "
+"buttons below (update recommended)."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Update %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Not Yet Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s will be available soon."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Update Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "An update for your %s is available! Please update at your earliest!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Correctly Deployed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Congratulations, your %s is correctly installed and up to date!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Upgrade to %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "%s will be available soon. Please check again in a few days."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"Your OTRS Free is the base for all future actions. Please register first "
+"before you continue with the upgrade process of %s!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Register this System"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"Before you can benefit from %s, please contact %s to get your %s contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
+"sure that your OTRS can connect to cloud.otrs.com via port 443."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"We are happy to welcome you as one of our contracting partners to upgrade to"
+" %s. You can start the upgrade now!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Cancel downgrade and go back"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Go to OTRS Package Manager"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid ""
+"Sorry, but currently you can't downgrade due to the following packages which"
+" depend on %s:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Vendor"
+msgstr "Forhandler"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid ""
+"Please uninstall the packages first using the package manager and try again."
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid ""
+"You are about to downgrade to OTRS Free and will lose the following features"
+" and all data related to these:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Chat"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Timeline view in ticket zoom"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "The %s skin"
+msgstr ""
+
 #. Template: AdminPGP
 msgid "PGP Management"
 msgstr "Administrasjon: PGP"
@@ -6030,10 +6241,6 @@ msgstr ""
 #. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr "Pakkelager på nettet"
-
-#. Template: AdminPackageManager
-msgid "Vendor"
-msgstr "Forhandler"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
@@ -7619,6 +7826,10 @@ msgstr "Relater dette sertifikatet"
 msgid "Close window"
 msgstr "Lukk vindu"
 
+#. Template: AdminSMIMECertRead
+msgid "Certificate details"
+msgstr ""
+
 #. Template: AdminSalutation
 msgid "Salutation Management"
 msgstr "Administrasjon: Hilsninger"
@@ -8505,6 +8716,10 @@ msgstr "Ny telefonsak fra %s"
 msgid "New email ticket to %s"
 msgstr "Ny e-postsak til %s"
 
+#. Template: AgentDashboardCustomerUserList
+msgid "Start chat"
+msgstr ""
+
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
 msgstr "%s %s er tilgjengelig!"
@@ -9336,6 +9551,10 @@ msgstr "Til kø"
 msgid "Chat protocol"
 msgstr ""
 
+#. Template: AgentTicketPhone
+msgid "The chat will be appended as a separate article."
+msgstr ""
+
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
 msgstr "e-post Enkel Tekstvisning"
@@ -9575,6 +9794,10 @@ msgid "Article(s)"
 msgstr "Innlegg"
 
 #. Template: AgentTicketZoom
+msgid "Page"
+msgstr "Side"
+
+#. Template: AgentTicketZoom
 msgid "Add Filter"
 msgstr "Legg til filter"
 
@@ -9646,6 +9869,10 @@ msgstr ""
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "Article could not be opened! Perhaps it is on another article page?"
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -9653,6 +9880,10 @@ msgstr ""
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
 msgstr "Last inn blokkert innhold"
+
+#. Template: ChatStartForm
+msgid "First message"
+msgstr ""
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -9792,6 +10023,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Endre personlige innstillinger"
 
+#. Template: CustomerRichTextEditor
+msgid "Split Quote"
+msgstr ""
+
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
 msgstr "Tjenestenivåavtale"
@@ -9891,10 +10126,6 @@ msgstr "Skriv ut til"
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
 msgstr "av"
-
-#. Template: CustomerTicketSearchResultShort
-msgid "Page"
-msgstr "Side"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
@@ -12701,6 +12932,12 @@ msgstr "Definerer modulen for å autentisere kunder."
 
 #. SysConfig
 msgid ""
+"Defines the module to display a notification in different interfaces on "
+"different occasions for OTRS Business Solution™."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "scheduler is not running."
 msgstr ""
@@ -13269,6 +13506,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Deletes requested sessions if they have timed out."
+msgstr ""
+
+#. SysConfig
+msgid "Deploy and manage OTRS Business Solution™."
 msgstr ""
 
 #. SysConfig
@@ -16921,6 +17162,14 @@ msgstr ""
 msgid ""
 "Specify how many sub directory levels to use when creating cache files. This"
 " should prevent too many cache files being in one directory."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Warning: Development releases might not be complete, your system might "
+"experience unrecoverable errors and on extreme cases could become "
+"unresponsive!"
 msgstr ""
 
 #. SysConfig

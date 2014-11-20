@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-13 04:56+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2014-11-18 10:37+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/OTRS/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1489,6 +1489,58 @@ msgstr ""
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
+msgstr ""
+
+#. Template: AAABase
+msgid "Upgrade to %s now!"
+msgstr ""
+
+#. Template: AAABase
+msgid "%s Go to the upgrade center %s"
+msgstr ""
+
+#. Template: AAABase
+msgid ""
+"The license for your %s is about to expire. Please make contact with %s to "
+"renew your contract!"
+msgstr ""
+
+#. Template: AAABase
+msgid ""
+"An update for your %s is available, but there is a conflict with your "
+"framework version! Please update your framework first!"
+msgstr ""
+
+#. Template: AAABase
+msgid "Your system was successfully upgraded to %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade to %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "%s was correctly reinstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem reinstalling %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "Your %s was successfully updated."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem during the upgrade of %s."
+msgstr ""
+
+#. Template: AAABase
+msgid "%s was correctly uninstalled."
+msgstr ""
+
+#. Template: AAABase
+msgid "There was a problem uninstalling %s."
 msgstr ""
 
 #. Template: AAACalendar
@@ -5922,6 +5974,163 @@ msgstr "Vidjeti prvih 20 slova predmeta (posljednjeg članka zaposlenika)"
 msgid "To get the first 5 lines of the body (of the latest customer article)."
 msgstr "Vidjeti prvih 5 redaka poruke (posljednjeg članka zaposlenika)."
 
+#. Template: AdminOTRSBusinessInstalled
+msgid "Manage %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Downgrade to OTRS Free"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"%s makes contact regularly with cloud.otrs.com to check on available updates"
+" and the validity of the underlying contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Unauthorized Usage Detected"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"This system uses the %s without a proper license! Please make contact with "
+"%s to renew or activate your contract!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s not Correctly Installed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"Your %s is not correctly installed. Please reinstall it with the button "
+"below."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Reinstall %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"Your %s is not correctly installed, and there is also an update available."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid ""
+"You can either reinstall your current version or perform an update with the "
+"buttons below (update recommended)."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Update %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Not Yet Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s will be available soon."
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Update Available"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "An update for your %s is available! Please update at your earliest!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "%s Correctly Deployed"
+msgstr ""
+
+#. Template: AdminOTRSBusinessInstalled
+msgid "Congratulations, your %s is correctly installed and up to date!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Upgrade to %s"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "%s will be available soon. Please check again in a few days."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"Your OTRS Free is the base for all future actions. Please register first "
+"before you continue with the upgrade process of %s!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "Register this System"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"Before you can benefit from %s, please contact %s to get your %s contract."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
+"sure that your OTRS can connect to cloud.otrs.com via port 443."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"We are happy to welcome you as one of our contracting partners to upgrade to"
+" %s. You can start the upgrade now!"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Cancel downgrade and go back"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Go to OTRS Package Manager"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid ""
+"Sorry, but currently you can't downgrade due to the following packages which"
+" depend on %s:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Vendor"
+msgstr "Snabdjevač"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid ""
+"Please uninstall the packages first using the package manager and try again."
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid ""
+"You are about to downgrade to OTRS Free and will lose the following features"
+" and all data related to these:"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Chat"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Timeline view in ticket zoom"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "The %s skin"
+msgstr ""
+
 #. Template: AdminPGP
 msgid "PGP Management"
 msgstr "Upravljanje PGP ključevima"
@@ -6028,10 +6237,6 @@ msgstr ""
 #. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr "Mrežno spremište"
-
-#. Template: AdminPackageManager
-msgid "Vendor"
-msgstr "Snabdjevač"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
@@ -7617,6 +7822,10 @@ msgstr ""
 msgid "Close window"
 msgstr "Zatvori prozor"
 
+#. Template: AdminSMIMECertRead
+msgid "Certificate details"
+msgstr ""
+
 #. Template: AdminSalutation
 msgid "Salutation Management"
 msgstr "Upravljanje zaglavljima/pozdravima"
@@ -8503,6 +8712,10 @@ msgstr ""
 msgid "New email ticket to %s"
 msgstr ""
 
+#. Template: AgentDashboardCustomerUserList
+msgid "Start chat"
+msgstr ""
+
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
 msgstr "%s %s je dostupno!"
@@ -9334,6 +9547,10 @@ msgstr "U rep"
 msgid "Chat protocol"
 msgstr ""
 
+#. Template: AgentTicketPhone
+msgid "The chat will be appended as a separate article."
+msgstr ""
+
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
 msgstr "Pregled neformatirane poruke"
@@ -9573,6 +9790,10 @@ msgid "Article(s)"
 msgstr "Članak/ci"
 
 #. Template: AgentTicketZoom
+msgid "Page"
+msgstr "Strana"
+
+#. Template: AgentTicketZoom
 msgid "Add Filter"
 msgstr "Dodaj filtar"
 
@@ -9644,6 +9865,10 @@ msgstr ""
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
 
+#. Template: AgentTicketZoom
+msgid "Article could not be opened! Perhaps it is on another article page?"
+msgstr ""
+
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
 msgstr ""
@@ -9651,6 +9876,10 @@ msgstr ""
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
 msgstr "Učitaj blokirani sadržaj."
+
+#. Template: ChatStartForm
+msgid "First message"
+msgstr ""
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -9790,6 +10019,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Uredite osobne postavke"
 
+#. Template: CustomerRichTextEditor
+msgid "Split Quote"
+msgstr ""
+
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
 msgstr "Sporazum o razini usluge"
@@ -9889,10 +10122,6 @@ msgstr "Izlaz na"
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
 msgstr "od"
-
-#. Template: CustomerTicketSearchResultShort
-msgid "Page"
-msgstr "Strana"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
@@ -12699,6 +12928,12 @@ msgstr "Određuje modul za autentikaciju korisnika."
 
 #. SysConfig
 msgid ""
+"Defines the module to display a notification in different interfaces on "
+"different occasions for OTRS Business Solution™."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "scheduler is not running."
 msgstr ""
@@ -13267,6 +13502,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Deletes requested sessions if they have timed out."
+msgstr ""
+
+#. SysConfig
+msgid "Deploy and manage OTRS Business Solution™."
 msgstr ""
 
 #. SysConfig
@@ -16919,6 +17158,14 @@ msgstr ""
 msgid ""
 "Specify how many sub directory levels to use when creating cache files. This"
 " should prevent too many cache files being in one directory."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Specify the channel to be used to fetch OTRS Business Solution™ updates. "
+"Warning: Development releases might not be complete, your system might "
+"experience unrecoverable errors and on extreme cases could become "
+"unresponsive!"
 msgstr ""
 
 #. SysConfig
