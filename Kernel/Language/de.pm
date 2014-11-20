@@ -1727,6 +1727,7 @@ sub Data {
         'Upgrade to %s' => 'Auf %s upgraden',
         '%s will be available soon. Please check again in a few days.' =>
             'Die %s wird bald verfügbar sein. Bitte prüfen Sie in einigen Tagen erneut.',
+        'Please have a look at %s for more information.' => 'Weitere Informationen können Sie unter %s finden.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             'Bitte registrieren Sie Ihr OTRS Free zunächst, wenn Sie mit dem Upgrade auf die %s fortfahren möchten!',
         'Register this System' => 'Registrieren Sie dieses System',
@@ -1734,11 +1735,13 @@ sub Data {
             'Damit Sie schon bald die %s nutzen können, fehlt nur noch ein Schritt: Bitte kontaktieren Sie unser Sales Team unter %s, um einen Vertrag abzuschließen.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Es konnte keine Verbindung mit cloud.otrs.com hergestellt werden. Bitte stellen Sie sicher, dass Ihr OTRS über Port 443 mit cloud.otrs.com kommunizieren kann.',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
-            'Für dieses OTRS besteht bereits ein gültiger Vertrag mit der OTRS Group. Sie können daher das Upgrade auf die %s jetzt sofort starten!',
+        'With your existing contract you can only use a small part of the %s.' =>
+            'Ihr laufender Vertrag ermöglicht Ihnen zur Zeit nur einen eingeschränkten Zugang zu unserer %s.',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
+            'Mit einem Upgrade Ihres Vertrages kommen Sie in den Genuss der kompletten %s und profitieren von allen Vorteilen! Kontaktieren Sie %s.',
 
         # Template: AdminOTRSBusinessUninstall
-        'Cancel downgrade and go back' => 'Downgrade abbrechen und zurückwechseln',
+        'Cancel downgrade and go back' => 'Downgrade abbrechen und zurück',
         'Go to OTRS Package Manager' => 'Zum OTRS Paket-Manager wechseln',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             'Entschuldigung, Sie können ein Downgrade derzeit aufgrund folgender, zu %s abhängiger Pakete nicht durchführen:',
@@ -1748,7 +1751,7 @@ sub Data {
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             'Wenn Sie zu OTRS Free downgraden, werden Sie die folgenden Features (und alle zugehörigen Daten) verlieren:',
         'Chat' => 'Chat',
-        'Timeline view in ticket zoom' => 'Zeitstrahl-Ansicht im Ticket-Zoom',
+        'Timeline view in ticket zoom' => 'Timeline-View im Ticket-Zoom',
         'DynamicField ContactWithData' => 'Dynamisches Feld Kontaktdaten',
         'The %s skin' => 'Den %s-Skin',
 
@@ -1781,8 +1784,6 @@ sub Data {
         'Install' => 'Installieren',
         'Install Package' => 'Paket installieren',
         'Update repository information' => 'Verzeichnis aktualisieren',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            'Der Turbo für Ihr OTRS - Exklusive Feature Add-Ons für Kunden mit Wartungsvertrag:',
         'Online Repository' => 'Online-Verzeichnis',
         'Module documentation' => 'Moduldokumentation',
         'Upgrade' => 'Erneuern',
@@ -1790,7 +1791,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Dieses Paket wurde von OTRSVerify (tm) geprüft',
         'Uninstall' => 'Deinstallieren',
         'Reinstall' => 'Erneut installieren',
-        'Feature Add-Ons' => 'Feature Add-Ons',
+        'Features for %s customers only' => 'Exklusiv: Features für %s Kunden',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            'Mit %s können Sie von den nachfolgenden optionalen Features profitieren. Bitte kontaktieren Sie %s, wenn Sie weitere Informationen benötigen.',
         'Download package' => 'Paket herunterladen',
         'Rebuild package' => 'Paket neu aufbauen (rebuild)',
         'Metadata' => 'Meta-Daten',
@@ -2099,6 +2102,9 @@ sub Data {
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'Send support data' => 'Supportdaten senden',
+        'System deregistration not possible' => 'Deregistrierung des Systems nicht möglich',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            'Sie können dieses System nicht deregistrieren wenn Sie %s einsetzen oder einen gültigen Servicevertrag besitzen.',
         'OTRS-ID Login' => 'OTRS-ID Login',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Die Systemregistrierung ist ein Service der OTRS Gruppe, der Ihnen viele Vorteile sichert!',

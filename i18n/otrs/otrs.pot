@@ -5827,6 +5827,10 @@ msgid "%s will be available soon. Please check again in a few days."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "Please have a look at %s for more information."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid "Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!"
 msgstr ""
 
@@ -5843,7 +5847,11 @@ msgid "Connection to cloud.otrs.com via HTTPS couldn't be established. Please ma
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
-msgid "We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!"
+msgid "With your existing contract you can only use a small part of the %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid "If you would like to take full advantage of the %s get your contract upgraded now! Contact %s."
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -5979,10 +5987,6 @@ msgid "Update repository information"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:"
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr ""
 
@@ -6011,7 +6015,11 @@ msgid "Reinstall"
 msgstr ""
 
 #. Template: AdminPackageManager
-msgid "Feature Add-Ons"
+msgid "Features for %s customers only"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid "With %s, you can benefit from the following optional features. Please make contact with %s if you need more information."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6952,6 +6960,14 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Send support data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System deregistration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Please note that you can't deregister your system if you're using the %s or having a valid service contract."
 msgstr ""
 
 #. Template: AdminRegistration

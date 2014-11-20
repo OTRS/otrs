@@ -99,7 +99,7 @@
             </div>
             <div class="Content">
                 <p>
-                    [% Translate("Please not that you can't deregister your system if you're using the %s or having a valid service contract.", OTRSBusinessLabel) %]
+                    [% Translate("Please note that you can't deregister your system if you're using the %s or having a valid service contract.", OTRSBusinessLabel) %]
                 </p>
             </div>
             <div class="Clear"></div>
