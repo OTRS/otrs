@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::Environment;
 use Kernel::System::Registration;
 use Kernel::System::SystemData;
+use Kernel::System::OTRSBusiness;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,6 +33,7 @@ sub new {
     $Self->{EnvironmentObject}  = Kernel::System::Environment->new(%Param);
     $Self->{RegistrationObject} = Kernel::System::Registration->new(%Param);
     $Self->{SystemDataObject}   = Kernel::System::SystemData->new(%Param);
+    $Self->{OTRSBusinessObject} = Kernel::System::OTRSBusiness->new(%Param);
 
     $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
         Key => 'Registration::State',
@@ -133,17 +135,37 @@ sub Run {
             Data => \%Param,
         );
 
-        $Self->{LayoutObject}->Block(
-            Name => 'OTRSIDValidation',
-            Data => \%Param,
+        my $EntitlementStatus = $Self->{OTRSBusinessObject}->OTRSBusinessEntitlementStatus(
+            CallCloudService => 1,
         );
 
-        my $Block = $Self->{RegistrationState} ne 'registered'
-            ? 'OTRSIDRegistration'
-            : 'OTRSIDDeregistration';
-        $Self->{LayoutObject}->Block(
-            Name => $Block,
-        );
+        # users should not be able to de-register their system if they either have
+        # OTRS Business Solution installed or are entitled to use it (by having a valid contract).
+        if ( $Self->{RegistrationState} eq 'registered'
+            && ( $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled() || $EntitlementStatus ne 'forbidden' ) )
+        {
+
+            $Self->{LayoutObject}->Block( Name => 'ActionList' );
+            $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OTRSIDDeregistrationNotPossible',
+            );
+        }
+        else {
+
+            $Self->{LayoutObject}->Block(
+                Name => 'OTRSIDValidation',
+                Data => \%Param,
+            );
+
+            my $Block = $Self->{RegistrationState} ne 'registered'
+                ? 'OTRSIDRegistration'
+                : 'OTRSIDDeregistration';
+            $Self->{LayoutObject}->Block(
+                Name => $Block,
+            );
+        }
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminRegistration',

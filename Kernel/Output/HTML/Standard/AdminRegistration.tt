@@ -7,6 +7,8 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("System Registration Management") | html %]</h1>
@@ -22,8 +24,8 @@
                 <ul class="ActionList">
 [% RenderBlockStart("ActionOverview") %]
                     <li>
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction">
-                            <span>[% Translate("Go to overview") | html %]</span>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-caret-left"></i> [% Translate("Go to overview") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
@@ -91,6 +93,17 @@
             </div>
             <div class="Clear"></div>
 [% RenderBlockEnd("OverviewRegistered") %]
+[% RenderBlockStart("OTRSIDDeregistrationNotPossible") %]
+            <div class="Header">
+                <h2>[% Translate("System deregistration not possible") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    [% Translate("Please not that you can't deregister your system if you're using the %s or having a valid service contract.", OTRSBusinessLabel) %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("OTRSIDDeregistrationNotPossible") %]
 [% RenderBlockStart("OTRSIDValidation") %]
             <div class="Header">
                 <h2>[% Translate("OTRS-ID Login") | html %]</h2>
@@ -240,7 +253,6 @@
                                 </div>
                             </div>
 [% RenderBlockEnd("OTRSIDRegistration") %]
-
 [% RenderBlockStart("OTRSIDDeregistration") %]
                             <div class="ServiceDescription">
                                 <p>
