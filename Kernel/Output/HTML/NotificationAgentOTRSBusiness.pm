@@ -40,8 +40,8 @@ sub Run {
     $Self->{OTRSBusinessObject} = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
     # get config options
-    my $Group       = $Param{Config}->{Group} || 'admin';
-    my $IsInstalled = $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled();
+    my $Group             = $Param{Config}->{Group} || 'admin';
+    my $IsInstalled       = $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled();
     my $OTRSBusinessLabel = '<b>OTRS Business Solution</b>™';
 
     # ----------------------------------------
@@ -50,7 +50,7 @@ sub Run {
     if (
         $Param{Type} eq 'Admin'
         && !$IsInstalled
-        && $Self->{OTRSBusinessObject}->OTRSBusinessIsAvailable()
+        && $Self->{OTRSBusinessObject}->OTRSBusinessIsAvailableOffline()
         )
     {
 
@@ -127,7 +127,7 @@ sub Run {
     # ----------------------------------------
     my %UpdatesAvailable = $Self->{OTRSBusinessObject}->OTRSBusinessVersionCheckOffline();
 
-    if ($UpdatesAvailable{OTRSBusinessUpdateAvailable}) {
+    if ( $UpdatesAvailable{OTRSBusinessUpdateAvailable} ) {
 
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
             'An update for your %s is available! Please update at your earliest!',
@@ -139,7 +139,7 @@ sub Run {
         );
     }
 
-    if ($UpdatesAvailable{FrameworkUpdateAvailable}) {
+    if ( $UpdatesAvailable{FrameworkUpdateAvailable} ) {
 
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
             'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!',

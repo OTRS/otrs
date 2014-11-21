@@ -24,10 +24,10 @@ our @ObjectDependencies = (
 );
 
 # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
-my $NoConnectWarningPeriod = 60 * 60 * 24 * 5; # 5 days
+my $NoConnectWarningPeriod = 60 * 60 * 24 * 5;    # 5 days
 
 # If we cannot connect to cloud.otrs.com for more than the second period, show an error.
-my $NoConnectErrorPeriod = 60 * 60 * 24 * 15;  # 15 days
+my $NoConnectErrorPeriod = 60 * 60 * 24 * 15;     # 15 days
 
 # If the contract is about to expire in less than this time, show a hint
 my $ContractExpiryWarningPeriod = 60 * 60 * 24 * 30;
@@ -87,7 +87,7 @@ sub OTRSBusinessIsInstalled {
 
 =item OTRSBusinessIsAvailable()
 
-checks if OTRSBusiness is available for the current framework.
+checks with cloud.otrs.com if OTRSBusiness is available for the current framework.
 
 =cut
 
@@ -116,11 +116,36 @@ sub OTRSBusinessIsAvailable {
             Operation     => 'BusinessVersionCheck',
         );
 
-        if ( $OperationResult->{Data}->{LatestVersionForCurrentFramework} ) {
-            return 1;
+        if ( $OperationResult->{Success} ) {
+            $Self->HandleBusinessVersionCheckCloudServiceResult(
+                OperationResult => $OperationResult,
+            );
+
+            if ( $OperationResult->{Data}->{LatestVersionForCurrentFramework} ) {
+                return 1;
+            }
         }
     }
     return;
+}
+
+=item OTRSBusinessIsAvailableOffline()
+
+retrieves the latest result of the BusinessVersionCheck cloud service
+that was stored in the system_data table.
+
+returns 1 if available.
+
+=cut
+
+sub OTRSBusinessIsAvailableOffline {
+    my ( $Self, %Param ) = @_;
+
+    my %BusinessVersionCheck = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGroupGet(
+        Group => 'OTRSBusiness',
+    );
+
+    return $BusinessVersionCheck{LatestVersionForCurrentFramework} ? 1 : 0;
 }
 
 =item OTRSBusinessIsCorrectlyDeployed()
@@ -381,10 +406,9 @@ sub OTRSBusinessEntitlementStatus {
     my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
         Key => 'Registration::State',
     );
-    if (!$RegistrationState || $RegistrationState ne 'registered') {
+    if ( !$RegistrationState || $RegistrationState ne 'registered' ) {
         return 'forbidden';
     }
-
 
     # OK. Let's look at the system_data cache now and use it if appropriate
     my %EntitlementData = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGroupGet(
