@@ -2908,6 +2908,17 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="WebUserAgent::DisableSSLVerification" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::WebUserAgent</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Package::FileUpload" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enables file upload in the package manager frontend.</Description>
         <Group>Framework</Group>
