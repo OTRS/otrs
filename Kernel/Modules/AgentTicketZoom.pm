@@ -2228,10 +2228,12 @@ sub _ArticleTree {
             }
 
             # special treatment for certain types, e.g. external notes from customers
-            elsif ($Item->{ArticleID}
+            elsif (
+                $Item->{ArticleID}
                 && $Item->{HistoryType} eq 'AddNote'
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'customer' )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{SenderType} eq 'customer'
+                )
             {
                 $Item->{Class} = 'TypeIncoming';
 
@@ -2241,16 +2243,20 @@ sub _ArticleTree {
             }
 
             # special treatment for certain types, e.g. external notes from customers
-            elsif ($Item->{ArticleID}
+            elsif (
+                $Item->{ArticleID}
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'chat-external' )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'chat-external'
+                )
             {
                 $Item->{HistoryType} = 'ChatExternal';
                 $Item->{Class}       = 'TypeIncoming';
             }
-            elsif ($Item->{ArticleID}
+            elsif (
+                $Item->{ArticleID}
                 && IsHashRefWithData( $ArticlesByArticleID->{ $Item->{ArticleID} } )
-                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'chat-internal' )
+                && $ArticlesByArticleID->{ $Item->{ArticleID} }->{ArticleType} eq 'chat-internal'
+                )
             {
                 $Item->{HistoryType} = 'ChatInternal';
                 $Item->{Class}       = 'TypeInternal';

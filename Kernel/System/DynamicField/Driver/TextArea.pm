@@ -251,9 +251,8 @@ sub EditFieldValueValidate {
         $ServerError = 1;
     }
     elsif ( length $Value > $Self->{MaxLength} ) {
-        $ServerError = 1;
-        $ErrorMessage
-            = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+        $ServerError  = 1;
+        $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
     }
     elsif (
         IsArrayRefWithData( $Param{DynamicFieldConfig}->{Config}->{RegExList} )

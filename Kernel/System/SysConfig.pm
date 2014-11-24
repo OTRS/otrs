@@ -2052,7 +2052,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $MainObject->Dump( $Data );
+        my $Dump = $MainObject->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2062,7 +2062,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $MainObject->Dump( $Data );
+        my $Dump = $MainObject->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2073,7 +2073,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $MainObject->Dump( $Data );
+        my $Dump = $MainObject->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }

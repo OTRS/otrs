@@ -55,7 +55,7 @@ sub Run {
         my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
             'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!',
             $OTRSBusinessLabel,
-            'sales@otrs.com', # no mailto link as these are currently not displayed in the CI
+            'sales@otrs.com',    # no mailto link as these are currently not displayed in the CI
         );
         $Output .= $Self->{LayoutObject}->Notify(
             Data     => $Text,
