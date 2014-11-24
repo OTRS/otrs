@@ -113,7 +113,12 @@ sub ValueSet {
         }
 
         if (
-            !defined $Param{Value}->[$Counter]->{ValueText}
+            (
+                !defined $Param{Value}->[$Counter]->{ValueText}
+
+                # do not accept an empty string as it is the same as NULL on oracle
+                || !length $Param{Value}->[$Counter]->{ValueText}
+            )
             && !defined $Param{Value}->[$Counter]->{ValueInt}
             && !defined $Param{Value}->[$Counter]->{ValueDateTime}
             )
@@ -128,9 +133,7 @@ sub ValueSet {
         );
 
         # data validation
-        my $Success = $Self->ValueValidate( Value => \%Value );
-
-        return if !$Success;
+        return if !$Self->ValueValidate( Value => \%Value );
 
         # data conversions
 
