@@ -673,15 +673,18 @@ sub RegistrationUpdateSend {
             Operation => 'BusinessPermission',
             Data      => {},
         };
-        # Get OTRSBusiness::ReleaseChannel from SysConfig (Stable = 1, Development = 0)
-        my $OnlyStable = $Kernel::OM->Get('Kernel::Config')->Get('OTRSBusiness::ReleaseChannel') // 1;
-        push @{ $RequestParams{RequestData}->{OTRSBusiness} }, {
-            Operation => 'BusinessVersionCheck',
-            Data      => {
-                OnlyStable => $OnlyStable,
-            },
-        };
     }
+
+    # Get OTRSBusiness::ReleaseChannel from SysConfig (Stable = 1, Development = 0)
+    my $OnlyStable = $Kernel::OM->Get('Kernel::Config')->Get('OTRSBusiness::ReleaseChannel') // 1;
+
+    # Check for OTRSBusiness availability (for install or update)
+    push @{ $RequestParams{RequestData}->{OTRSBusiness} }, {
+        Operation => 'BusinessVersionCheck',
+        Data      => {
+            OnlyStable => $OnlyStable,
+        },
+    };
 
     # if we have SupportData, call SupportDataAdd on the same request
     if ($SupportData) {
@@ -864,8 +867,11 @@ sub RegistrationUpdateSend {
             );
         }
 
+    }
+
+    {
         # Check result of BusinessVersionCheck
-        $OperationResult = $CloudServiceObject->OperationResultGet(
+        my $OperationResult = $CloudServiceObject->OperationResultGet(
             RequestResult => $RequestResult,
             CloudService  => 'OTRSBusiness',
             Operation     => 'BusinessVersionCheck',

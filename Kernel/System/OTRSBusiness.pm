@@ -388,7 +388,7 @@ Returns the current entitlement status.
 
     $Status = 'entitled';   # everything is OK
     $Status = 'warning';    # last check was OK, and we are in the waiting period
-    $Status = 'forbidden';  # not entitled
+    $Status = 'forbidden';  # not entitled (either because the server said so or because the last check was too long ago)
 
 =cut
 
@@ -419,6 +419,7 @@ sub OTRSBusinessEntitlementStatus {
         return 'forbidden';
     }
 
+    # Check when the last successful BusinessPermission check was made.
     my $LastUpdateSystemTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
         String => $EntitlementData{LastUpdateTime},
     );
@@ -484,6 +485,10 @@ sub HandleBusinessPermissionCloudServiceResult {
 
     return if !$OperationResult->{Success};
 
+    # We store the current time as LastUpdateTime so that we know when the last
+    #   permission check could be successfully made with the server. This is needed
+    #   to determine if the results can still be used later, if a connection to
+    #   cloud.otrs.com cannot be made temporarily.
     my %StoreData = (
         BusinessPermission => $OperationResult->{Data}->{BusinessPermission} // 0,
         ExpiryDate         => $OperationResult->{Data}->{ExpiryDate}         // '',
