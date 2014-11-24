@@ -436,10 +436,11 @@ sub Run {
                         if (
                             !defined $Structure{PackageIsDownloadable}
                             || (
-                                    defined $Structure{PackageIsDownloadable}->{Content}
-                                    && $Structure{PackageIsDownloadable}->{Content} eq '1'
-                                )
-                        ) {
+                                defined $Structure{PackageIsDownloadable}->{Content}
+                                && $Structure{PackageIsDownloadable}->{Content} eq '1'
+                            )
+                            )
+                        {
                             $Self->{LayoutObject}->Block(
                                 Name => "PackageItemFilelistFileLink",
                                 Data => {
@@ -567,9 +568,9 @@ sub Run {
         if (
             !defined $Structure{PackageIsDownloadable}
             || (
-                    defined $Structure{PackageIsDownloadable}->{Content}
-                    && $Structure{PackageIsDownloadable}->{Content} eq '1'
-                )
+                defined $Structure{PackageIsDownloadable}->{Content}
+                && $Structure{PackageIsDownloadable}->{Content} eq '1'
+            )
             )
         {
 
@@ -733,17 +734,18 @@ sub Run {
                         if (
                             !defined $Structure{PackageIsDownloadable}
                             || (
-                                    defined $Structure{PackageIsDownloadable}->{Content}
-                                    && $Structure{PackageIsDownloadable}->{Content} eq '1'
-                                )
-                        ) {
+                                defined $Structure{PackageIsDownloadable}->{Content}
+                                && $Structure{PackageIsDownloadable}->{Content} eq '1'
+                            )
+                            )
+                        {
                             $Self->{LayoutObject}->Block(
                                 Name => "PackageItemFilelistFileLink",
                                 Data => {
-                                Name    => $Structure{Name}->{Content},
-                                Version => $Structure{Version}->{Content},
-                                File    => $File,
-                                %{$Hash},
+                                    Name    => $Structure{Name}->{Content},
+                                    Version => $Structure{Version}->{Content},
+                                    File    => $File,
+                                    %{$Hash},
                                 },
                             );
                         }
@@ -1463,7 +1465,8 @@ sub Run {
                     defined $Package->{PackageIsRemovable}->{Content}
                     && $Package->{PackageIsRemovable}->{Content} eq '1'
                 )
-            ) {
+                )
+            {
 
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowLocalPackageUninstall',

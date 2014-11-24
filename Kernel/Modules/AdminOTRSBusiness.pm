@@ -37,35 +37,41 @@ sub Run {
     my %NotificationCode2Text = (
         InstallOk => {
             Priority => 'Success',
-            Data     => $LayoutObject->{LanguageObject}->Translate('Your system was successfully upgraded to %s.', $OTRSBusinessLabel),
+            Data     => $LayoutObject->{LanguageObject}
+                ->Translate( 'Your system was successfully upgraded to %s.', $OTRSBusinessLabel ),
         },
         InstallError => {
             Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem during the upgrade to %s.', $OTRSBusinessLabel),
+            Data     => $LayoutObject->{LanguageObject}
+                ->Translate( 'There was a problem during the upgrade to %s.', $OTRSBusinessLabel ),
         },
         ReinstallOk => {
             Priority => 'Success',
-            Data     => $LayoutObject->{LanguageObject}->Translate('%s was correctly reinstalled.', $OTRSBusinessLabel),
+            Data => $LayoutObject->{LanguageObject}->Translate( '%s was correctly reinstalled.', $OTRSBusinessLabel ),
         },
         ReinstallError => {
             Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem reinstalling %s.', $OTRSBusinessLabel),
+            Data     => $LayoutObject->{LanguageObject}
+                ->Translate( 'There was a problem reinstalling %s.', $OTRSBusinessLabel ),
         },
         UpdateOk => {
             Priority => 'Success',
-            Data     => $LayoutObject->{LanguageObject}->Translate('Your %s was successfully updated.', $OTRSBusinessLabel),
+            Data =>
+                $LayoutObject->{LanguageObject}->Translate( 'Your %s was successfully updated.', $OTRSBusinessLabel ),
         },
         UpdateError => {
             Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem during the upgrade of %s.', $OTRSBusinessLabel),
+            Data     => $LayoutObject->{LanguageObject}
+                ->Translate( 'There was a problem during the upgrade of %s.', $OTRSBusinessLabel ),
         },
         UninstallOk => {
             Priority => 'Success',
-            Data     => $LayoutObject->{LanguageObject}->Translate('%s was correctly uninstalled.', $OTRSBusinessLabel),
+            Data => $LayoutObject->{LanguageObject}->Translate( '%s was correctly uninstalled.', $OTRSBusinessLabel ),
         },
         UninstallError => {
             Priority => 'Error',
-            Data     => $LayoutObject->{LanguageObject}->Translate('There was a problem uninstalling %s.', $OTRSBusinessLabel),
+            Data     => $LayoutObject->{LanguageObject}
+                ->Translate( 'There was a problem uninstalling %s.', $OTRSBusinessLabel ),
         },
     );
     my $Notification;

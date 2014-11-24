@@ -995,23 +995,24 @@ sub _GetParam {
 
             # Ok, we need to try to find the target state now
             my %StateData;
+
             # Was something submitted from the GUI?
             my $TargetStateID = $Self->{ParamObject}->GetParam( Param => 'StateID' );
-            if ( $TargetStateID ) {
+            if ($TargetStateID) {
                 %StateData = $Self->{StateObject}->StateGet(
                     ID => $TargetStateID,
                 );
             }
 
             # Fallback 1: default value of dialog
-            if (!%StateData && $ActivityDialog->{Fields}{State}{DefaultValue}) {
+            if ( !%StateData && $ActivityDialog->{Fields}{State}{DefaultValue} ) {
                 %StateData = $Self->{StateObject}->StateGet(
                     Name => $ActivityDialog->{Fields}{State}{DefaultValue},
                 );
             }
 
             # Fallback 2: existing ticket state
-            if (!%StateData && %Ticket) {
+            if ( !%StateData && %Ticket ) {
                 %StateData = $Self->{StateObject}->StateGet(
                     ID => $Ticket{StateID},
                 );

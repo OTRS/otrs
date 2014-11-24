@@ -141,8 +141,10 @@ sub Run {
 
         # users should not be able to de-register their system if they either have
         # OTRS Business Solution installed or are entitled to use it (by having a valid contract).
-        if ( $Self->{RegistrationState} eq 'registered'
-            && ( $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled() || $EntitlementStatus ne 'forbidden' ) )
+        if (
+            $Self->{RegistrationState} eq 'registered'
+            && ( $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled() || $EntitlementStatus ne 'forbidden' )
+            )
         {
 
             $Self->{LayoutObject}->Block( Name => 'ActionList' );
