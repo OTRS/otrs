@@ -26,8 +26,41 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.UI.ActionRow.Init();
+
+    $('a.AsPopup').bind('click', function (Event) {
+        Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
+        return false;
+    });
+
+    $('.ColumnFilter').bind('change', function (Event) {
+        var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx, SessionInformation;
+
+        // define variables
+        URL = Core.Config.Get('Baselink') + 'Action=' + '[% Env("Action") %]' + ';[% Data.LinkPage %]';
+        SessionInformation = Core.App.GetSessionInformation();
+        $.each(SessionInformation, function (Key, Value) {
+            URL += encodeURIComponent(Key) + '=' + encodeURIComponent(Value) + ';';
+        });
+        ColumnFilter = $(this)[0].name;
+        NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
+        MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
+
+        // check for already set parameter and replace
+        if (URL.match(MyRegEx)) {
+            URL = URL.replace(MyRegEx, NewColumnFilterStrg);
+        }
+
+        // otherwise add the new column filter
+        else {
+            URL = URL + NewColumnFilterStrg;
+        }
+
+        // redirect
+        window.location.href =  URL;
+    });
 //]]></script>
 [% END %]
+
 <div id="OverviewBody" class="Overview TicketList">
 [% RenderBlockStart("NoTicketFound") %]
     <div id="EmptyMessageSmall">
@@ -551,39 +584,3 @@ $('.OverviewHeader').off('click').on('click', '.ColumnSettingsTrigger', function
 [% RenderBlockEnd("DocumentColumnFilterFormElement") %]
 </form>
 [% RenderBlockEnd("DocumentColumnFilterForm") %]
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('a.AsPopup').bind('click', function (Event) {
-    Core.UI.Popup.OpenPopup($(this).attr('href'), 'Action');
-    return false;
-});
-
-$('.ColumnFilter').bind('change', function (Event) {
-    var URL, ColumnFilter, NewColumnFilterStrg, MyRegEx, SessionInformation;
-
-    // define variables
-    URL = Core.Config.Get('Baselink') + 'Action=' + '[% Env("Action") %]' + ';[% Data.LinkPage %]';
-    SessionInformation = Core.App.GetSessionInformation();
-    $.each(SessionInformation, function (Key, Value) {
-        URL += encodeURIComponent(Key) + '=' + encodeURIComponent(Value) + ';';
-    });
-    ColumnFilter = $(this)[0].name;
-    NewColumnFilterStrg = $(this)[0].name + '=' + $(this).val() + ';';
-    MyRegEx = new  RegExp(ColumnFilter+"=[^;]*;");
-
-    // check for already set parameter and replace
-    if (URL.match(MyRegEx)) {
-        URL = URL.replace(MyRegEx, NewColumnFilterStrg);
-    }
-
-    // otherwise add the new column filter
-    else {
-        URL = URL + NewColumnFilterStrg;
-    }
-
-    // redirect
-    window.location.href =  URL;
-});
-//]]></script>
-[% END %]
