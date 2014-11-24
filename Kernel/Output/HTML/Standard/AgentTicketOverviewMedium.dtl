@@ -32,8 +32,22 @@
 <!-- dtl:js_on_document_complete -->
 <script type="text/javascript">//<![CDATA[
     Core.UI.ActionRow.Init();
+
+    $('a.AsPopup').bind('click', function (Event) {
+        var Matches,
+            PopupType = 'TicketAction';
+
+        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
+        if (Matches) {
+            PopupType = Matches[1];
+        }
+
+        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
+        return false;
+    });
 //]]></script>
 <!-- dtl:js_on_document_complete -->
+
 <ul id="TicketOverviewMedium" class="Overview OverviewMedium">
 <!-- dtl:block:DocumentHeader -->
 
@@ -312,21 +326,4 @@
     });
 //]]></script>
 <!-- dtl:block:DocumentReadyStart -->
-<!-- dtl:js_on_document_complete -->
-
-<!-- dtl:js_on_document_complete -->
-<script type="text/javascript">//<![CDATA[
-    $('a.AsPopup').bind('click', function (Event) {
-        var Matches,
-            PopupType = 'TicketAction';
-
-        Matches = $(this).attr('class').match(/PopupType_(\w+)/);
-        if (Matches) {
-            PopupType = Matches[1];
-        }
-
-        Core.UI.Popup.OpenPopup($(this).attr('href'), PopupType);
-        return false;
-    });
-//]]></script>
 <!-- dtl:js_on_document_complete -->
