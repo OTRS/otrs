@@ -5872,7 +5872,8 @@ sub TicketAccountTime {
     $Self->EventHandler(
         Event => 'TicketAccountTime',
         Data  => {
-            TicketID => $Param{TicketID},
+            TicketID  => $Param{TicketID},
+            ArticleID => $Param{ArticleID},
         },
         UserID => $Param{UserID},
     );
