@@ -993,19 +993,27 @@ sub _GetParam {
         if ( $CurrentField eq 'PendingTime' ) {
             my $Prefix = 'PendingTime';
 
+            # Ok, we need to try to find the target state now
             my %StateData;
-            if ( !$GetParam{StateID} ) {
-                $GetParam{StateID} = $Self->{ParamObject}->GetParam( Param => 'StateID' );
-
-                # Important: if we didn't have a ParamObject->GetParam StateID,
-                # we may need to get it from configs
-                # so only if submitted mark ValuesGotten as 1
-                $ValuesGotten{StateID} = 1 if ( $GetParam{StateID} );
+            # Was something submitted from the GUI?
+            my $TargetStateID = $Self->{ParamObject}->GetParam( Param => 'StateID' );
+            if ( $TargetStateID ) {
+                %StateData = $Self->{StateObject}->StateGet(
+                    ID => $TargetStateID,
+                );
             }
 
-            if ( $GetParam{StateID} ) {
+            # Fallback 1: default value of dialog
+            if (!%StateData && $ActivityDialog->{Fields}{State}{DefaultValue}) {
                 %StateData = $Self->{StateObject}->StateGet(
-                    ID => $GetParam{StateID},
+                    Name => $ActivityDialog->{Fields}{State}{DefaultValue},
+                );
+            }
+
+            # Fallback 2: existing ticket state
+            if (!%StateData && %Ticket) {
+                %StateData = $Self->{StateObject}->StateGet(
+                    ID => $Ticket{StateID},
                 );
             }
 
