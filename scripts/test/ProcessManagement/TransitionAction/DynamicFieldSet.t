@@ -276,6 +276,7 @@ my @Tests = (
                 $DFName1 => '<OTRS_Ticket_NotExisting>',
             },
         },
+        NoValue => 1,
         Success => 1,
     },
     {
@@ -292,6 +293,7 @@ my @Tests = (
     },
 );
 
+TEST:
 for my $Test (@Tests) {
 
     # make a deep copy to avoid changing the definition
@@ -305,72 +307,72 @@ for my $Test (@Tests) {
         TransitionActionEntityID => 'TA1',
     );
 
-    if ( $Test->{Success} ) {
-
-        $Self->True(
+    if ( !$Test->{Success} ) {
+        $Self->False(
             $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+            "$ModuleName Run() - Test:'$Test->{Name}' | executed with False"
         );
+        next TEST;
+    }
 
-        # get ticket
-        my %Ticket = $TicketObject->TicketGet(
-            TicketID      => $TicketID,
-            DynamicFields => 1,
-            UserID        => 1,
-        );
+    $Self->True(
+        $Success,
+        "$ModuleName Run() - Test:'$Test->{Name}' | excecuted with True"
+    );
 
-        ATTRIBUTE:
-        for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
+    # get ticket
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID      => $TicketID,
+        DynamicFields => 1,
+        UserID        => 1,
+    );
 
-            if (
-                $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_Ticket_NotExisting>'
-                && $DBObject->GetDatabaseFunction('Type') eq 'oracle'
-                )
-            {
-                $Ticket{ 'DynamicField_' . $Attribute } //= '';
-            }
+    ATTRIBUTE:
+    for my $Attribute ( sort keys %{ $Test->{Config}->{Config} } ) {
 
-            $Self->True(
+        if ( $Test->{NoValue} ) {
+            $Self->False(
                 defined $Ticket{ 'DynamicField_' . $Attribute },
                 "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
                     . " for TicketID: $TicketID exists with True",
             );
+            next TEST;
+        }
 
-            my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
-            if (
-                $OrigTest->{Config}->{Config}->{$Attribute}
-                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
-                )
-            {
-                $ExpectedValue = $Ticket{$1} // '';
-                $Self->IsNot(
-                    $Test->{Config}->{Config}->{$Attribute},
-                    $OrigTest->{Config}->{Config}->{$Attribute},
-                    "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_$Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
-                );
-            }
+        $Self->True(
+            defined $Ticket{ 'DynamicField_' . $Attribute },
+            "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
+                . " for TicketID: $TicketID exists with True",
+        );
 
-            $Self->Is(
-                $Ticket{ 'DynamicField_' . $Attribute },
-                $ExpectedValue,
-                "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
-                    . " for TicketID: $TicketID match expected value",
+        my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
+        if (
+            $OrigTest->{Config}->{Config}->{$Attribute}
+            =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+            )
+        {
+            $ExpectedValue = $Ticket{$1} // '';
+            $Self->IsNot(
+                $Test->{Config}->{Config}->{$Attribute},
+                $OrigTest->{Config}->{Config}->{$Attribute},
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_$Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
             );
         }
 
-        if ( $OrigTest->{Config}->{Config}->{UserID} ) {
-            $Self->Is(
-                $Test->{Config}->{Config}->{UserID},
-                undef,
-                "$ModuleName - Test:'$Test->{Name}' | Attribute: UserID for TicketID:"
-                    . " $TicketID should be removed (as it was used)",
-            );
-        }
+        $Self->Is(
+            $Ticket{ 'DynamicField_' . $Attribute },
+            $ExpectedValue,
+            "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_" . $Attribute
+                . " for TicketID: $TicketID match expected value",
+        );
     }
-    else {
-        $Self->False(
-            $Success,
-            "$ModuleName Run() - Test:'$Test->{Name}' | executed with False"
+
+    if ( $OrigTest->{Config}->{Config}->{UserID} ) {
+        $Self->Is(
+            $Test->{Config}->{Config}->{UserID},
+            undef,
+            "$ModuleName - Test:'$Test->{Name}' | Attribute: UserID for TicketID:"
+                . " $TicketID should be removed (as it was used)",
         );
     }
 }
