@@ -45,6 +45,7 @@
                     <input type="hidden" name="SysConfigGroup" value="[% Data.Group | html %]"/>
                     <input type="hidden" name="SysConfigSubGroup" value="[% Data.SubGroup | html %]"/>
                     <input type="hidden" name="DontWriteDefault" value="1"/>
+                    <input type="image" src="[% Config("Frontend::ImagePath") %]empty.png" alt=" "/>
 
 [% RenderBlockStart("ConfigElementBlock") %]
 
