@@ -1004,14 +1004,21 @@ sub _GetParam {
                 );
             }
 
-            # Fallback 1: default value of dialog
+            # Fallback 1: default value of dialog field State
             if ( !%StateData && $ActivityDialog->{Fields}{State}{DefaultValue} ) {
                 %StateData = $Self->{StateObject}->StateGet(
                     Name => $ActivityDialog->{Fields}{State}{DefaultValue},
                 );
             }
 
-            # Fallback 2: existing ticket state
+            # Fallback 2: default value of dialog field StateID
+            if ( !%StateData && $ActivityDialog->{Fields}{StateID}{DefaultValue} ) {
+                %StateData = $Self->{StateObject}->StateGet(
+                    ID => $ActivityDialog->{Fields}{StateID}{DefaultValue},
+                );
+            }
+
+            # Fallback 3: existing ticket state
             if ( !%StateData && %Ticket ) {
                 %StateData = $Self->{StateObject}->StateGet(
                     ID => $Ticket{StateID},
