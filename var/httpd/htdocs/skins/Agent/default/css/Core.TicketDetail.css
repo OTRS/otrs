@@ -79,6 +79,13 @@ div.Headline .Flag {
     max-width: 80%;
 }
 
+#ArticleItems .WidgetSimple .Header .AdditionalInformation {
+    position: static;
+    line-height: 22px;
+    font-size: 11px;
+    float: right;
+}
+
 #ArticleTableBody {
     position: relative;
     overflow: hidden;
