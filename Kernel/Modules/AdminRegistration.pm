@@ -135,9 +135,14 @@ sub Run {
             Data => \%Param,
         );
 
-        my $EntitlementStatus = $Self->{OTRSBusinessObject}->OTRSBusinessEntitlementStatus(
-            CallCloudService => 1,
-        );
+        my $EntitlementStatus = 'forbidden';
+        if ( $Self->{RegistrationState} eq 'registered' ) {
+
+            # Only call cloud service for a registered system
+            $EntitlementStatus = $Self->{OTRSBusinessObject}->OTRSBusinessEntitlementStatus(
+                CallCloudService => 1,
+            );
+        }
 
         # users should not be able to de-register their system if they either have
         # OTRS Business Solution installed or are entitled to use it (by having a valid contract).
@@ -417,6 +422,13 @@ sub Run {
         );
     }
 
+    # ------------------------------------------------------------ #
+    # sent data overview
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'SentDataOverview' ) {
+        return $Self->_SentDataOverview();
+    }
+
     # ------------------------------------------------------------
     # overview
     # ------------------------------------------------------------
@@ -471,6 +483,7 @@ sub _Overview {
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionUpdate' );
+    $Self->{LayoutObject}->Block( Name => 'ActionSentDataOverview' );
     $Self->{LayoutObject}->Block( Name => 'ActionDeregister' );
 
     $Self->{LayoutObject}->Block(
@@ -479,6 +492,67 @@ sub _Overview {
     );
 
     return 1;
+}
+
+sub _SentDataOverview {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = $Self->{LayoutObject}->Header();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
+
+    $Self->{LayoutObject}->Block(
+        Name => 'Overview',
+        Data => \%Param,
+    );
+
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+
+    my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
+
+    $Self->{LayoutObject}->Block(
+        Name => 'SentDataOverview',
+    );
+
+    if ( $Self->{RegistrationState} ne 'registered' ) {
+        $Self->{LayoutObject}->Block( Name => 'SentDataOverviewNoData' );
+    }
+    else {
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my %OSInfo       = $Kernel::OM->Get('Kernel::System::Environment')->OSInfoGet();
+        my %System       = (
+            PerlVersion     => sprintf( "%vd", $^V ),
+            OSType          => $OSInfo{OS},
+            OSVersion       => $OSInfo{OSName},
+            OTRSVersion     => $ConfigObject->Get('Version'),
+            FQDN            => $ConfigObject->Get('FQDN'),
+            DatabaseVersion => $Kernel::OM->Get('Kernel::System::DB')->Version(),
+            SupportDataSending => $Param{SupportDataSending} || $RegistrationData{SupportDataSending} || 'No',
+        );
+        my $RegistrationUpdateDataDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( \%System );
+
+        my $SupportDataDump;
+        if ( $System{SupportDataSending} eq 'Yes' ) {
+            my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
+            $SupportDataDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( $SupportData{Result} );
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SentDataOverviewData',
+            Data => {
+                RegistrationUpdate => $RegistrationUpdateDataDump,
+                SupportData        => $SupportDataDump,
+            },
+        );
+    }
+
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminRegistration',
+        Data         => \%Param,
+    );
+    $Output .= $Self->{LayoutObject}->Footer();
+
+    return $Output;
 }
 
 1;
