@@ -36,6 +36,13 @@
                         </a>
                     </li>
 [% RenderBlockEnd("ActionUpdate") %]
+[% RenderBlockStart("ActionSentDataOverview") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SentDataOverview" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-cloud-upload"></i> [% Translate("Transmitted data") | html %]</span>
+                        </a>
+                    </li>
+[% RenderBlockEnd("ActionSentDataOverview") %]
 [% RenderBlockStart("ActionDeregister") %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=OTRSIDValidate" class="CallForAction Fullsize Center">
@@ -505,6 +512,31 @@
                         </form>
                     </div>
 [% RenderBlockEnd("Edit") %]
+[% RenderBlockStart("SentDataOverview") %]
+                    <div class="Header">
+                        <h2>[% Translate("Overview of transmitted data") | html %]</h2>
+                    </div>
+                    <div class="Content">
+[% RenderBlockStart("SentDataOverviewNoData") %]
+                        <p>
+                    [% Translate('There is no data regularly sent from your system to %s.', 'cloud.otrs.com') | html %]
+                        </p>
+[% RenderBlockEnd("SentDataOverviewNoData") %]
+[% RenderBlockStart("SentDataOverviewData") %]
+                        <p>
+                    [% Translate('The following data is sent at minimum every 3 days from your system to %s.', 'cloud.otrs.com') | html %]
+                    [% Translate('The data will be transferred in JSON format via a secure https connection.') | html %]
+                        </p>
+                        <h3 class="SpacingTop SpacingBottom">[% Translate('System Registration Data') | html %]</h3>
+                        <pre><code>[% Data.RegistrationUpdate | replace('\$VAR1 = ', '') | html %]</code></pre>
+                [% IF Data.SupportData %]
+                        <h3 class="SpacingTop SpacingBottom">[% Translate('Support Data') | html %]</h3>
+                        <pre><code>[% Data.SupportData | replace('\$VAR1 = ', '') | html %]</code></pre>
+                [% END %]
+[% RenderBlockEnd("SentDataOverviewData") %]
+                    </div>
+                    <div class="Clear"></div>
+[% RenderBlockEnd("SentDataOverview") %]
                 </div>
             </div>
             <div class="Clear"></div>
