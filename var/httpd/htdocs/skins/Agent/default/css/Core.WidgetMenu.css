@@ -167,10 +167,12 @@ ul.ContextFunctions li:last-child:hover > a {
 /**
  * @subsection  Control Row Additional Information
  */
+
 .AdditionalInformation {
-    line-height: 22px;
+    right: 7px;
+    top: 7px;
     font-size: 11px;
-    float: right;
+    position: absolute;
 }
 
 .AdditionalInformation.ControlRow {
