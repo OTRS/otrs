@@ -45,6 +45,8 @@
                     <input type="hidden" name="SysConfigGroup" value="[% Data.Group | html %]"/>
                     <input type="hidden" name="SysConfigSubGroup" value="[% Data.SubGroup | html %]"/>
                     <input type="hidden" name="DontWriteDefault" value="1"/>
+# hidden image which work as submit-button in case the user just presses 'enter' on the form. Otherwise
+# the first submit button in the form would be used, which could be a reset button
                     <input type="image" src="[% Config("Frontend::ImagePath") %]empty.png" alt=" "/>
 
 [% RenderBlockStart("ConfigElementBlock") %]
