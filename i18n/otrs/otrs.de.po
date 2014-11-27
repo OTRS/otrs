@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-20 14:56+0000\n"
+"PO-Revision-Date: 2014-11-27 12:40+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -7266,6 +7266,10 @@ msgid "Edit details"
 msgstr "Details bearbeiten"
 
 #. Template: AdminRegistration
+msgid "Show transmitted data"
+msgstr "Übertragene Daten anzeigen"
+
+#. Template: AdminRegistration
 msgid "Deregister system"
 msgstr "System deregistrieren"
 
@@ -7641,6 +7645,32 @@ msgstr "Deregistrieren"
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
 msgstr "Sie können ihre Registrierungseinstellungen hier bearbeiten."
+
+#. Template: AdminRegistration
+msgid "Overview of transmitted data"
+msgstr "Übersicht der übertragenen Daten"
+
+#. Template: AdminRegistration
+msgid "There is no data regularly sent from your system to %s."
+msgstr "Von Ihrem System werden keine Daten regelmäßig an %s übertragen."
+
+#. Template: AdminRegistration
+msgid ""
+"The following data is sent at minimum every 3 days from your system to %s."
+msgstr "Folgende Daten werden mindestens alle 3 Tage von Ihrem System an %s übertragen."
+
+#. Template: AdminRegistration
+msgid ""
+"The data will be transferred in JSON format via a secure https connection."
+msgstr "Die Daten werden im JSON-Format über eine sichere https-Verbindung übertragen."
+
+#. Template: AdminRegistration
+msgid "System Registration Data"
+msgstr "Daten der Systemregistrierung"
+
+#. Template: AdminRegistration
+msgid "Support Data"
+msgstr "Supportdaten"
 
 #. Template: AdminRole
 msgid "Role Management"
@@ -8072,10 +8102,6 @@ msgid ""
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
 msgstr "Das Supportpaket wird als Datei ins lokale Dateisystem heruntergeladen. Bitte speichern Sie die Datei und senden Sie diese auf anderen Wegen an die OTRS Gruppe."
-
-#. Template: AdminServiceCenterSupportDataCollector
-msgid "Support Data"
-msgstr "Supportdaten"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -17466,6 +17492,12 @@ msgstr "Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung
 #. SysConfig
 msgid "Toolbar Item for a shortcut."
 msgstr "Werkzeugleisteneintrag für den Schnellzugriff."
+
+#. SysConfig
+msgid ""
+"Turns off SSL certificate validation, for example if you use a transparent "
+"HTTPS proxy. Use at your own risk!"
+msgstr ""
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."

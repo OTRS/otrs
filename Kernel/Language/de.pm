@@ -2094,6 +2094,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Systemregistrierungs-Verwaltung',
         'Edit details' => 'Details bearbeiten',
+        'Show transmitted data' => 'Übertragene Daten anzeigen',
         'Deregister system' => 'System deregistrieren',
         'Overview of registered systems' => 'Übersicht der registrieren Systeme',
         'System Registration' => 'Systemregistrierung',
@@ -2207,6 +2208,14 @@ sub Data {
             'Wenn Sie fortfahren, wird dieses System bei der OTRS Gruppe deregistriert.',
         'Deregister' => 'Deregistrieren',
         'You can modify registration settings here.' => 'Sie können ihre Registrierungseinstellungen hier bearbeiten.',
+        'Overview of transmitted data' => 'Übersicht der übertragenen Daten',
+        'There is no data regularly sent from your system to %s.' => 'Von Ihrem System werden keine Daten regelmäßig an %s übertragen.',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            'Folgende Daten werden mindestens alle 3 Tage von Ihrem System an %s übertragen.',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            'Die Daten werden im JSON-Format über eine sichere https-Verbindung übertragen.',
+        'System Registration Data' => 'Daten der Systemregistrierung',
+        'Support Data' => 'Supportdaten',
 
         # Template: AdminRole
         'Role Management' => 'Rollen-Verwaltung',
@@ -2350,7 +2359,6 @@ sub Data {
         'Download File' => 'Datei herunterladen',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             'Das Supportpaket wird als Datei ins lokale Dateisystem heruntergeladen. Bitte speichern Sie die Datei und senden Sie diese auf anderen Wegen an die OTRS Gruppe.',
-        'Support Data' => 'Supportdaten',
         'Error: Support data could not be collected (%s).' => 'Fehler: Supportdaten konnten nicht ermittelt werden (%s).',
         'Details' => 'Details',
 
@@ -5341,6 +5349,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut.' => 'Werkzeugleisteneintrag für den Schnellzugriff.',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',

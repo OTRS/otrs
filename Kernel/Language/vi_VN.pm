@@ -414,20 +414,20 @@ sub Data {
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => 'Tên người dùng và mật khẩu không khớp. Vui lòng thử lại.',
         'The selected process is invalid!' => 'Quá trình chọn không hợp lệ!',
-        'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+        'Upgrade to %s now!' => 'Bây giờ! nâng cấp lên % s ',
+        '%s Go to the upgrade center %s' => '% s Tới trung tâm nâng cấp% s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'Các giấy phép cho% s của bạn sắp hết hạn. Hãy liên hệ với% s để gia hạn hợp đồng của bạn!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+            'Bản cập nhật cho% s của bạn có sẵn, nhưng có một cuộc xung đột với phiên bản khuôn khổ của bạn! Vui lòng cập nhật khuôn khổ của bạn trước !',
+        'Your system was successfully upgraded to %s.' => 'Hệ thống của bạn đã được nâng cấp thành công đến% s.',
+        'There was a problem during the upgrade to %s.' => 'Có một vấn đề trong quá trình nâng cấp đến% s',
+        '%s was correctly reinstalled.' => '% s đã được cài đặt lại một cách chính xác.',
+        'There was a problem reinstalling %s.' => 'Có một vấn đề trong lúc cài đặt lại% s.',
+        'Your %s was successfully updated.' => '% S của bạn đã được cập nhật thành công.',
+        'There was a problem during the upgrade of %s.' => 'Có một vấn đề trong quá trình nâng cấp của% s.',
+        '%s was correctly uninstalled.' => '% s đã được gỡ bỏ cài đặt một cách chính xác.',
+        'There was a problem uninstalling %s.' => 'Có một vấn đề gỡ bỏ cài đặt% s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Ngày đầu năm mới',
@@ -582,11 +582,11 @@ sub Data {
         'OTRS' => 'Open Technology Real Services',
         'Table Presence' => 'Bảng hiện diện',
         'Internal Error: Could not open file.' => 'Lỗi nội bộ: không thể mở tập tin.',
-        'Table Check' => '',
-        'Internal Error: Could not read file.' => '',
-        'Tables found which are not present in the database.' => '',
-        'Database Size' => '',
-        'Could not determine database size.' => '',
+        'Table Check' => 'Bảng kiểm tra',
+        'Internal Error: Could not read file.' => 'Lỗi nội bộ: không thể đọc hồ sơ.',
+        'Tables found which are not present in the database.' => 'Bàn tìm thấy mà không có trong cơ sở dữ liệu.',
+        'Database Size' => 'Cơ sở dữ liệu kích cỡ',
+        'Could not determine database size.' => 'Không thể xác định kích thước cơ sở dữ liệu.',
         'Database Version' => '',
         'Could not determine database version.' => '',
         'Client Connection Charset' => '',
@@ -1726,6 +1726,7 @@ sub Data {
         'Upgrade to %s' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '',
+        'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
@@ -1733,7 +1734,9 @@ sub Data {
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+        'With your existing contract you can only use a small part of the %s.' =>
+            '',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
         # Template: AdminOTRSBusinessUninstall
@@ -1780,8 +1783,6 @@ sub Data {
         'Install' => 'Cài đặt',
         'Install Package' => '',
         'Update repository information' => '',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            '',
         'Online Repository' => 'Kho trực tuyến',
         'Module documentation' => '',
         'Upgrade' => 'Nâng cấp',
@@ -1789,7 +1790,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Gỡ cài đặt',
         'Reinstall' => 'Cài lại',
-        'Feature Add-Ons' => '',
+        'Features for %s customers only' => '',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            '',
         'Download package' => '',
         'Rebuild package' => '',
         'Metadata' => '',
@@ -2090,6 +2093,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => '',
         'Edit details' => '',
+        'Show transmitted data' => '',
         'Deregister system' => '',
         'Overview of registered systems' => '',
         'System Registration' => '',
@@ -2098,6 +2102,9 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System deregistration not possible' => '',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            '',
         'OTRS-ID Login' => '',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
@@ -2200,6 +2207,14 @@ sub Data {
             '',
         'Deregister' => '',
         'You can modify registration settings here.' => '',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => '',
 
         # Template: AdminRole
         'Role Management' => 'Quản trị vai trò',
@@ -2343,7 +2358,6 @@ sub Data {
         'Download File' => '',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
-        'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
         'Details' => '',
 
@@ -5334,6 +5348,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',

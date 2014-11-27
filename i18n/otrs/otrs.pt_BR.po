@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-18 10:37+0000\n"
+"PO-Revision-Date: 2014-11-27 12:38+0000\n"
 "Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -1283,7 +1283,7 @@ msgstr "Este endereço de de e-mail já existe. Por favor, faça login ou redefi
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "O endereço de email não é permitido para cadastro. Por favor entre em contato com a equipe de suporte."
 
 #. Template: AAABase
 msgid ""
@@ -2072,7 +2072,7 @@ msgstr "OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Table Presence"
-msgstr ""
+msgstr "Tabelas presente"
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not open file."
@@ -2080,7 +2080,7 @@ msgstr "Erro interno: Não foi possível abrir o arquivo."
 
 #. Template: AAASupportDataCollector
 msgid "Table Check"
-msgstr ""
+msgstr "Verificação das tabelas"
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not read file."
@@ -2132,7 +2132,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "Tamanho Máximo da Query"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
@@ -2337,11 +2337,11 @@ msgstr "Valores de Campos Dinâmicos"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Fields"
-msgstr ""
+msgstr "Campos dinâmicos inválidos"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Field Values"
-msgstr ""
+msgstr "Valor do Campo Dinâmico inválido"
 
 #. Template: AAASupportDataCollector
 msgid "GenericInterface Webservices"
@@ -4540,7 +4540,7 @@ msgstr "Adicionar disparador de evento"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Adicionar Evento"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4610,7 +4610,7 @@ msgstr "Chamado criado entre"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Ultima edição"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
@@ -4618,7 +4618,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Ultima edição do chamado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
@@ -6064,6 +6064,10 @@ msgid "%s will be available soon. Please check again in a few days."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "Please have a look at %s for more information."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
@@ -6085,9 +6089,13 @@ msgid ""
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "With your existing contract you can only use a small part of the %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"We are happy to welcome you as one of our contracting partners to upgrade to"
-" %s. You can start the upgrade now!"
+"If you would like to take full advantage of the %s get your contract "
+"upgraded now! Contact %s."
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -6233,12 +6241,6 @@ msgid "Update repository information"
 msgstr "Atualizar Informação de Repositório"
 
 #. Template: AdminPackageManager
-msgid ""
-"Did not find a required feature? OTRS Group provides their service contract "
-"customers with exclusive Add-Ons:"
-msgstr "Não encontrou a funcionalidade requerida? O Grupo OTRS fornece a seus clientes com contrato Plugins exclusivos:"
-
-#. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr "Repositório Online"
 
@@ -6267,8 +6269,14 @@ msgid "Reinstall"
 msgstr "Reinstalar"
 
 #. Template: AdminPackageManager
-msgid "Feature Add-Ons"
-msgstr "Recursos Add-Ons"
+msgid "Features for %s customers only"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"With %s, you can benefit from the following optional features. Please make "
+"contact with %s if you need more information."
+msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -7251,6 +7259,10 @@ msgid "Edit details"
 msgstr "Editar detalhes"
 
 #. Template: AdminRegistration
+msgid "Show transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
 msgid "Deregister system"
 msgstr "Desregistrar sistema"
 
@@ -7281,6 +7293,16 @@ msgstr "Última comunicação com o servidor de registro"
 #. Template: AdminRegistration
 msgid "Send support data"
 msgstr "Enviar dados de suporte"
+
+#. Template: AdminRegistration
+msgid "System deregistration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"Please note that you can't deregister your system if you're using the %s or "
+"having a valid service contract."
+msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
@@ -7616,6 +7638,32 @@ msgstr "Desregistrar"
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
 msgstr "Você pode modificar configurações de registro aqui."
+
+#. Template: AdminRegistration
+msgid "Overview of transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "There is no data regularly sent from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"The following data is sent at minimum every 3 days from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"The data will be transferred in JSON format via a secure https connection."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System Registration Data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Support Data"
+msgstr "Dados de Suporte"
 
 #. Template: AdminRole
 msgid "Role Management"
@@ -8047,10 +8095,6 @@ msgid ""
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
 msgstr ""
-
-#. Template: AdminServiceCenterSupportDataCollector
-msgid "Support Data"
-msgstr "Dados de Suporte"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -17440,6 +17484,12 @@ msgstr ""
 
 #. SysConfig
 msgid "Toolbar Item for a shortcut."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Turns off SSL certificate validation, for example if you use a transparent "
+"HTTPS proxy. Use at your own risk!"
 msgstr ""
 
 #. SysConfig

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-20 02:15+0000\n"
-"Last-Translator: Kentaro Hori <kentaro0919@gmail.com>\n"
+"PO-Revision-Date: 2014-11-27 12:38+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1518,11 +1518,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "システムは正常に%sにアップグレードされました。"
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "%sにアップグレード中に問題が発生しました。"
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
@@ -1534,19 +1534,19 @@ msgstr "%s をインストール中に問題が発生しました"
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "%sは正常に更新されました。"
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "%sのアップグレード中に問題が発生しました。"
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%sは正しくアンインストールされました。"
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "%sのアンインストール時に問題が発生しました。"
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -2362,7 +2362,7 @@ msgstr "月あたりののチケット数(平均)"
 
 #. Template: AAASupportDataCollector
 msgid "Default SOAP Username and Password"
-msgstr ""
+msgstr "デフォルトSOAPユーザーとパスワード"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2386,7 +2386,7 @@ msgstr "エラーログ"
 
 #. Template: AAASupportDataCollector
 msgid "There are error reports in your system log."
-msgstr ""
+msgstr "システムログにエラーが出力されています。"
 
 #. Template: AAASupportDataCollector
 msgid "File System Writable"
@@ -2394,7 +2394,7 @@ msgstr "書き込み可能なファイルシステム"
 
 #. Template: AAASupportDataCollector
 msgid "The file system on your OTRS partition is not writable."
-msgstr ""
+msgstr "OTRSパーティション上のファイルシステムは書き込み可能ではありません。"
 
 #. Template: AAASupportDataCollector
 msgid "Domain Name"
@@ -2518,7 +2518,7 @@ msgstr "GUIのパフォーマンス向上のためmod_headersをインストー�
 
 #. Template: AAASupportDataCollector
 msgid "Apache::Reload Usage"
-msgstr ""
+msgstr "Apache::Reloadモジュール使用"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2529,7 +2529,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
-msgstr ""
+msgstr "Apache::DBIモジュール使用"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -4363,7 +4363,7 @@ msgstr "編集画面におけるこの領域の幅(文字数)を指定します�
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "正規表現をチェック"
 
 #. Template: AdminDynamicFieldText
 msgid ""
@@ -4513,7 +4513,7 @@ msgstr "イベントトリガー"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "設定された全てのイベントの一覧"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
@@ -5847,7 +5847,7 @@ msgstr "システム管理"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "オンライン管理者マニュアル"
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -6065,6 +6065,10 @@ msgid "%s will be available soon. Please check again in a few days."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "Please have a look at %s for more information."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
@@ -6086,9 +6090,13 @@ msgid ""
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "With your existing contract you can only use a small part of the %s."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"We are happy to welcome you as one of our contracting partners to upgrade to"
-" %s. You can start the upgrade now!"
+"If you would like to take full advantage of the %s get your contract "
+"upgraded now! Contact %s."
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -6234,12 +6242,6 @@ msgid "Update repository information"
 msgstr "リポジトリ情報を更新"
 
 #. Template: AdminPackageManager
-msgid ""
-"Did not find a required feature? OTRS Group provides their service contract "
-"customers with exclusive Add-Ons:"
-msgstr ""
-
-#. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr "オンラインリポジトリ"
 
@@ -6268,7 +6270,13 @@ msgid "Reinstall"
 msgstr "再インストール"
 
 #. Template: AdminPackageManager
-msgid "Feature Add-Ons"
+msgid "Features for %s customers only"
+msgstr ""
+
+#. Template: AdminPackageManager
+msgid ""
+"With %s, you can benefit from the following optional features. Please make "
+"contact with %s if you need more information."
 msgstr ""
 
 #. Template: AdminPackageManager
@@ -6571,7 +6579,7 @@ msgstr "取り消してウィンドウを閉じる"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
-msgstr ""
+msgstr "戻る"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
@@ -7252,6 +7260,10 @@ msgid "Edit details"
 msgstr ""
 
 #. Template: AdminRegistration
+msgid "Show transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
 msgid "Deregister system"
 msgstr ""
 
@@ -7281,6 +7293,16 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Send support data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System deregistration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"Please note that you can't deregister your system if you're using the %s or "
+"having a valid service contract."
 msgstr ""
 
 #. Template: AdminRegistration
@@ -7616,6 +7638,32 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Overview of transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "There is no data regularly sent from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"The following data is sent at minimum every 3 days from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"The data will be transferred in JSON format via a secure https connection."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System Registration Data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Support Data"
 msgstr ""
 
 #. Template: AdminRole
@@ -8047,10 +8095,6 @@ msgid ""
 "A file containing the support bundle will be downloaded to the local system."
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
-msgstr ""
-
-#. Template: AdminServiceCenterSupportDataCollector
-msgid "Support Data"
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9618,11 +9662,11 @@ msgstr "変更したテンプレートを保存"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr ""
+msgstr "使用中のフィルタ"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
-msgstr ""
+msgstr "追加のフィルタ"
 
 #. Template: AgentTicketSearch
 msgid "Add another attribute"
@@ -9696,11 +9740,11 @@ msgstr "チケット変更時間 (期間中)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "チケット最終変更時間 (前／後)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "チケット最終変更時間 (期間中)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
@@ -13511,7 +13555,7 @@ msgstr "リクエストされたセッションがタイムアウトしている
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
-msgstr ""
+msgstr "OTRSビジネスソリューション™のデプロイと管理"
 
 #. SysConfig
 msgid ""
@@ -17442,6 +17486,12 @@ msgstr ""
 #. SysConfig
 msgid "Toolbar Item for a shortcut."
 msgstr "ショートカットのためのツールバー・アイテムです。"
+
+#. SysConfig
+msgid ""
+"Turns off SSL certificate validation, for example if you use a transparent "
+"HTTPS proxy. Use at your own risk!"
+msgstr ""
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."

@@ -364,7 +364,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' =>
             'Este endereço de de e-mail já existe. Por favor, faça login ou redefina sua senha.',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'O endereço de email não é permitido para cadastro. Por favor entre em contato com a equipe de suporte.',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Nova conta criada. Enviadas informações de login para %s. Por favor, verifique seu e-mail.',
         'Please press Back and try again.' => 'Por favor, pressione Voltar e tente novamente.',
@@ -586,9 +586,9 @@ sub Data {
         'Webserver' => 'Servidor de Web',
         'Operating System' => 'Sistema Operacional',
         'OTRS' => 'OTRS',
-        'Table Presence' => '',
+        'Table Presence' => 'Tabelas presente',
         'Internal Error: Could not open file.' => 'Erro interno: Não foi possível abrir o arquivo.',
-        'Table Check' => '',
+        'Table Check' => 'Verificação das tabelas',
         'Internal Error: Could not read file.' => 'Erro Interno: Não foi possível ler o arquivo.',
         'Tables found which are not present in the database.' => '',
         'Database Size' => 'Tamanho da Base de Dados',
@@ -601,7 +601,7 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => 'Chartset da Tabela',
         'There were tables found which do not have utf8 as charset.' => '',
-        'Maximum Query Size' => '',
+        'Maximum Query Size' => 'Tamanho Máximo da Query',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'O parâmetro  \'max_allowed_packet\' deve ser maior que 20MB',
         'Query Cache Size' => '',
@@ -657,8 +657,8 @@ sub Data {
         'Groups' => 'Grupos',
         'Dynamic Fields' => 'Campos Dinâmicos',
         'Dynamic Field Values' => 'Valores de Campos Dinâmicos',
-        'Invalid Dynamic Fields' => '',
-        'Invalid Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => 'Campos dinâmicos inválidos',
+        'Invalid Dynamic Field Values' => 'Valor do Campo Dinâmico inválido',
         'GenericInterface Webservices' => 'GenericInterface serviços Web',
         'Processes' => 'Processos',
         'Months Between First And Last Ticket' => 'Meses Entre o Primeiro e o Último Chamado',
@@ -1282,7 +1282,7 @@ sub Data {
             'Se um evento de chamado é disparado, o filtro de chamado será aplicado para verificar se o chamado combina. Só depois a tarefa é executada sobre o chamado.',
         'Do you really want to delete this event trigger?' => 'Você quer realmente excluir este disparador de evento?',
         'Add Event Trigger' => 'Adicionar disparador de evento',
-        'Add Event' => '',
+        'Add Event' => 'Adicionar Evento',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Para adicionar um novo evento, selecione um objeto de evento e um nome e clique no botão "+"',
         'Duplicate event.' => 'Duplicar evento.',
@@ -1301,9 +1301,9 @@ sub Data {
         'No create time settings.' => 'Ignorar horários de criação',
         'Ticket created' => 'Chamado criado',
         'Ticket created between' => 'Chamado criado entre',
-        'Last changed times' => '',
+        'Last changed times' => 'Ultima edição',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
+        'Ticket last changed' => 'Ultima edição do chamado',
         'Ticket last changed between' => '',
         'Change times' => 'Horários de alteração',
         'No change time settings.' => 'Ignorar horários de alteração.',
@@ -1732,6 +1732,7 @@ sub Data {
         'Upgrade to %s' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '',
+        'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
@@ -1739,7 +1740,9 @@ sub Data {
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+        'With your existing contract you can only use a small part of the %s.' =>
+            '',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
         # Template: AdminOTRSBusinessUninstall
@@ -1786,8 +1789,6 @@ sub Data {
         'Install' => 'Instalar',
         'Install Package' => 'Instalar Pacote',
         'Update repository information' => 'Atualizar Informação de Repositório',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            'Não encontrou a funcionalidade requerida? O Grupo OTRS fornece a seus clientes com contrato Plugins exclusivos:',
         'Online Repository' => 'Repositório Online',
         'Module documentation' => 'Documentação do Módulo',
         'Upgrade' => 'Atualizar Versão',
@@ -1795,7 +1796,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Este pacote foi verificado por OTRSverify (tm)',
         'Uninstall' => 'Desinstalar',
         'Reinstall' => 'Reinstalar',
-        'Feature Add-Ons' => 'Recursos Add-Ons',
+        'Features for %s customers only' => '',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            '',
         'Download package' => 'Baixar Pacote',
         'Rebuild package' => 'Reconstruir Pacote',
         'Metadata' => 'Metadados',
@@ -2096,6 +2099,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Gerenciamento do Registro do Sistema',
         'Edit details' => 'Editar detalhes',
+        'Show transmitted data' => '',
         'Deregister system' => 'Desregistrar sistema',
         'Overview of registered systems' => 'Visão geral de sistemas registrados',
         'System Registration' => 'Registro do Sistema',
@@ -2104,6 +2108,9 @@ sub Data {
         'Unique ID' => 'ID Único',
         'Last communication with registration server' => 'Última comunicação com o servidor de registro',
         'Send support data' => 'Enviar dados de suporte',
+        'System deregistration not possible' => '',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            '',
         'OTRS-ID Login' => 'Login OTRS-ID',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Registro do sistema é um serviço do Grupo OTRS que fornece muitas vantagens!',
@@ -2206,6 +2213,14 @@ sub Data {
             '',
         'Deregister' => 'Desregistrar',
         'You can modify registration settings here.' => 'Você pode modificar configurações de registro aqui.',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => 'Dados de Suporte',
 
         # Template: AdminRole
         'Role Management' => 'Gerenciamento de Papéis',
@@ -2349,7 +2364,6 @@ sub Data {
         'Download File' => 'Baixar Arquivo',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
-        'Support Data' => 'Dados de Suporte',
         'Error: Support data could not be collected (%s).' => '',
         'Details' => 'Detalhes',
 
@@ -5340,6 +5354,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
