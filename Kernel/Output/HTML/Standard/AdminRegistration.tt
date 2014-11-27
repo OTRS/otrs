@@ -39,7 +39,7 @@
 [% RenderBlockStart("ActionSentDataOverview") %]
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=SentDataOverview" class="CallForAction Fullsize Center">
-                            <span><i class="fa fa-cloud-upload"></i> [% Translate("Transmitted data") | html %]</span>
+                            <span><i class="fa fa-cloud-upload"></i> [% Translate("Show transmitted data") | html %]</span>
                         </a>
                     </li>
 [% RenderBlockEnd("ActionSentDataOverview") %]
