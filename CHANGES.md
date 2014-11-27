@@ -1,4 +1,4 @@
-#4.0.2 2014-??-??
+#4.0.2 2014-12-02
  - 2014-11-27 Updated translations, thanks to all translators.
  - 2014-11-27 Fixed bug#[10906](http://bugs.otrs.org/show_bug.cgi?id=10906) - SysConfig settings are mistakenly reset.
  - 2014-11-25 Added overview of data that is transferred to cloud.otrs.com. Only call BusinessPermissionCheck for registered systems.
