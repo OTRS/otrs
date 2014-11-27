@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-20 08:27+0000\n"
-"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>\n"
+"PO-Revision-Date: 2014-11-27 12:38+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6064,6 +6064,10 @@ msgid "%s will be available soon. Please check again in a few days."
 msgstr "Обновление для %s будет скоро доступно. Проверьте повторно в ближайшие дни."
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "Please have a look at %s for more information."
+msgstr "Пожалуйста, обратитесь к %s за дополнительной информацией."
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid ""
 "Your OTRS Free is the base for all future actions. Please register first "
 "before you continue with the upgrade process of %s!"
@@ -6085,10 +6089,14 @@ msgid ""
 msgstr "Соединение с cloud.otrs.com по HTTPS не может быть установлено. Убедитесь, что ваша система OTRS использует порт 443 для соединения с cloud.otrs.com."
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "With your existing contract you can only use a small part of the %s."
+msgstr "Ваш существующий контракт позволяет использовать лишь малую часть возможностей %s."
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid ""
-"We are happy to welcome you as one of our contracting partners to upgrade to"
-" %s. You can start the upgrade now!"
-msgstr "Мы счастливы предложить вам, как одному из наших контрактных партнеров обновление до %s. Вы можете приступить к обновлению прямо сейчас!"
+"If you would like to take full advantage of the %s get your contract "
+"upgraded now! Contact %s."
+msgstr "Если вы желаете получить все возможности %s обновите свой контракт! Свяжитесь с %s."
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
@@ -6233,12 +6241,6 @@ msgid "Update repository information"
 msgstr "Обновить информацию репозитория"
 
 #. Template: AdminPackageManager
-msgid ""
-"Did not find a required feature? OTRS Group provides their service contract "
-"customers with exclusive Add-Ons:"
-msgstr "Не нашли требующуюся функцию? Клиентам заключившим сервисный контракт, OTRS Group предлагает набор расширений(Add-One)"
-
-#. Template: AdminPackageManager
 msgid "Online Repository"
 msgstr "Онлайновый репозиторий"
 
@@ -6267,8 +6269,14 @@ msgid "Reinstall"
 msgstr "Переустановить"
 
 #. Template: AdminPackageManager
-msgid "Feature Add-Ons"
-msgstr "Адд-Оны с дополнительными возможностями/функциями"
+msgid "Features for %s customers only"
+msgstr "Эти возможности доступны тоько для клиентов - %s "
+
+#. Template: AdminPackageManager
+msgid ""
+"With %s, you can benefit from the following optional features. Please make "
+"contact with %s if you need more information."
+msgstr "С %s, вы получите следующие дополнительные возможности. Свяжитесь с %s если нуждаетесь в дополнительной информации."
 
 #. Template: AdminPackageManager
 msgid "Download package"
@@ -7251,6 +7259,10 @@ msgid "Edit details"
 msgstr "Редактировать информацию"
 
 #. Template: AdminRegistration
+msgid "Show transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
 msgid "Deregister system"
 msgstr "Удалить регистрацию системы"
 
@@ -7281,6 +7293,16 @@ msgstr "Последняя связь с регистрационным серв
 #. Template: AdminRegistration
 msgid "Send support data"
 msgstr "Выслать данные для технической поддержки"
+
+#. Template: AdminRegistration
+msgid "System deregistration not possible"
+msgstr "Разрегистрация системы невозможна"
+
+#. Template: AdminRegistration
+msgid ""
+"Please note that you can't deregister your system if you're using the %s or "
+"having a valid service contract."
+msgstr "Помните, что вы не можете разрегистрировать свою систему, если используете %s или имеете действующий контракт на поддержку."
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
@@ -7616,6 +7638,32 @@ msgstr "Удалить регистрацию"
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
 msgstr "Вы можете изменить параметры регистрации здесь."
+
+#. Template: AdminRegistration
+msgid "Overview of transmitted data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "There is no data regularly sent from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"The following data is sent at minimum every 3 days from your system to %s."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"The data will be transferred in JSON format via a secure https connection."
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System Registration Data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Support Data"
+msgstr "Данные для поддержки"
 
 #. Template: AdminRole
 msgid "Role Management"
@@ -7973,7 +8021,7 @@ msgid ""
 "To enable data sending, please register your system with OTRS Group or "
 "update your system registration information (make sure to activate the 'send"
 " support data' option.)"
-msgstr ""
+msgstr "Для включения возможности отсылки данных, зарегистрируйте свою систему в OTRS Group или обновите ваши регистрационные данные (убедитесь, что активирована функция 'send support data/послать данные для поддержки'.)"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
@@ -8047,10 +8095,6 @@ msgid ""
 " Please save the file and send it to the OTRS Group, using an alternate "
 "method."
 msgstr "Файл, содержащий пакет поддержки будет загружен в вашу локальную систему. Сохраните файл и отправьте его в OTRS Group, используя альтернативный способ."
-
-#. Template: AdminServiceCenterSupportDataCollector
-msgid "Support Data"
-msgstr "Данные для поддержки"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -9617,11 +9661,11 @@ msgstr "Сохранить изменения в шаблоне"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr "Используемые фильтры"
+msgstr "Используемые атрибуты фильтра"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
-msgstr "Дополнительные фильтры"
+msgstr "Дополнительные атрибуты фильтра"
 
 #. Template: AgentTicketSearch
 msgid "Add another attribute"
@@ -17441,6 +17485,12 @@ msgstr "Переключает отображение списка OTRS FeatureA
 #. SysConfig
 msgid "Toolbar Item for a shortcut."
 msgstr "Описание ярлыка(иконки) для навигационной панели."
+
+#. SysConfig
+msgid ""
+"Turns off SSL certificate validation, for example if you use a transparent "
+"HTTPS proxy. Use at your own risk!"
+msgstr ""
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."

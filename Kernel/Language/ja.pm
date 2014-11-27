@@ -425,14 +425,14 @@ sub Data {
             '',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'システムは正常に%sにアップグレードされました。',
+        'There was a problem during the upgrade to %s.' => '%sにアップグレード中に問題が発生しました。',
         '%s was correctly reinstalled.' => '%s は現在再インストールされました',
         'There was a problem reinstalling %s.' => '%s をインストール中に問題が発生しました',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'Your %s was successfully updated.' => '%sは正常に更新されました。',
+        'There was a problem during the upgrade of %s.' => '%sのアップグレード中に問題が発生しました。',
+        '%s was correctly uninstalled.' => '%sは正しくアンインストールされました。',
+        'There was a problem uninstalling %s.' => '%sのアンインストール時に問題が発生しました。',
 
         # Template: AAACalendar
         'New Year\'s Day' => '元日',
@@ -662,16 +662,16 @@ sub Data {
         'Processes' => 'プロセス',
         'Months Between First And Last Ticket' => '最初と最後のチケットとの間には月間',
         'Tickets Per Month (avg)' => '月あたりののチケット数(平均)',
-        'Default SOAP Username and Password' => '',
+        'Default SOAP Username and Password' => 'デフォルトSOAPユーザーとパスワード',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
             '',
         'Default Admin Password' => '管理者のデフォルトパスワード',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             '',
         'Error Log' => 'エラーログ',
-        'There are error reports in your system log.' => '',
+        'There are error reports in your system log.' => 'システムログにエラーが出力されています。',
         'File System Writable' => '書き込み可能なファイルシステム',
-        'The file system on your OTRS partition is not writable.' => '',
+        'The file system on your OTRS partition is not writable.' => 'OTRSパーティション上のファイルシステムは書き込み可能ではありません。',
         'Domain Name' => 'ドメインネーム',
         'Your FQDN setting is invalid.' => 'FQDNの設定が不正です',
         'Package installation status' => 'パッケージのインストール状態',
@@ -707,10 +707,10 @@ sub Data {
         'Please install mod_deflate to improve GUI speed.' => 'GUIのパフォーマンス向上のためmod_deflateをインストールしてください。',
         'mod_headers Usage' => 'mod_headersの有無',
         'Please install mod_headers to improve GUI speed.' => 'GUIのパフォーマンス向上のためmod_headersをインストールしてください。',
-        'Apache::Reload Usage' => '',
+        'Apache::Reload Usage' => 'Apache::Reloadモジュール使用',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             '',
-        'Apache::DBI Usage' => '',
+        'Apache::DBI Usage' => 'Apache::DBIモジュール使用',
         'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
         'You should use PerlEx to increase your performance.' => '',
@@ -1229,7 +1229,7 @@ sub Data {
         'Number of cols' => '列数',
         'Specify the width (in characters) for this field in the edit mode.' =>
             '編集画面におけるこの領域の幅(文字数)を指定します。',
-        'Check RegEx' => '',
+        'Check RegEx' => '正規表現をチェック',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             '',
         'RegEx' => '正規表現',
@@ -1273,7 +1273,7 @@ sub Data {
             '自動実行を有効にするには、分、時間、日から少なくとも1つの値を選択して下さい。',
         'Event based execution (single ticket)' => '',
         'Event Triggers' => 'イベントトリガー',
-        'List of all configured events' => '',
+        'List of all configured events' => '設定された全てのイベントの一覧',
         'Delete this event' => 'このイベントを削除',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
@@ -1659,7 +1659,7 @@ sub Data {
         'Queue Settings' => 'キュー設定',
         'Ticket Settings' => 'チケット設定',
         'System Administration' => 'システム管理',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'オンライン管理者マニュアル',
 
         # Template: AdminNotification
         'Notification Management' => '通知管理',
@@ -1731,6 +1731,7 @@ sub Data {
         'Upgrade to %s' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '',
+        'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
@@ -1738,7 +1739,9 @@ sub Data {
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+        'With your existing contract you can only use a small part of the %s.' =>
+            '',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
         # Template: AdminOTRSBusinessUninstall
@@ -1785,8 +1788,6 @@ sub Data {
         'Install' => 'インストール',
         'Install Package' => 'パッケージをインストール',
         'Update repository information' => 'リポジトリ情報を更新',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            '',
         'Online Repository' => 'オンラインリポジトリ',
         'Module documentation' => 'モジュールの書類',
         'Upgrade' => 'アップグレード',
@@ -1794,7 +1795,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'アンインストール',
         'Reinstall' => '再インストール',
-        'Feature Add-Ons' => '',
+        'Features for %s customers only' => '',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            '',
         'Download package' => 'パッケージをダウンロード',
         'Rebuild package' => 'パッケージを再構成',
         'Metadata' => 'メタデータ',
@@ -1884,7 +1887,7 @@ sub Data {
 
         # Template: AdminProcessManagementActivity
         'Cancel & close window' => '取り消してウィンドウを閉じる',
-        'Go Back' => '',
+        'Go Back' => '戻る',
         'Please note, that changing this activity will affect the following processes' =>
             '',
         'Activity' => 'アクティビティ',
@@ -2095,6 +2098,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => '',
         'Edit details' => '',
+        'Show transmitted data' => '',
         'Deregister system' => '',
         'Overview of registered systems' => '',
         'System Registration' => 'システム登録',
@@ -2103,6 +2107,9 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System deregistration not possible' => '',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            '',
         'OTRS-ID Login' => '',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
@@ -2205,6 +2212,14 @@ sub Data {
             '',
         'Deregister' => '',
         'You can modify registration settings here.' => '',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => '',
 
         # Template: AdminRole
         'Role Management' => 'ロール管理',
@@ -2348,7 +2363,6 @@ sub Data {
         'Download File' => '',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
-        'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
         'Details' => '',
 
@@ -2890,8 +2904,8 @@ sub Data {
         'Create New' => '新規作成',
         'Profile link' => '',
         'Save changes in template' => '変更したテンプレートを保存',
-        'Filters in use' => '',
-        'Additional filters' => '',
+        'Filters in use' => '使用中のフィルタ',
+        'Additional filters' => '追加のフィルタ',
         'Add another attribute' => '属性を追加',
         'Output' => '出力',
         'Fulltext' => '全文',
@@ -2910,8 +2924,8 @@ sub Data {
         'Ticket Create Time (between)' => 'チケット作成時間 (期間中)',
         'Ticket Change Time (before/after)' => 'チケット変更時間 (前／後)',
         'Ticket Change Time (between)' => 'チケット変更時間 (期間中)',
-        'Ticket Last Change Time (before/after)' => '',
-        'Ticket Last Change Time (between)' => '',
+        'Ticket Last Change Time (before/after)' => 'チケット最終変更時間 (前／後)',
+        'Ticket Last Change Time (between)' => 'チケット最終変更時間 (期間中)',
         'Ticket Close Time (before/after)' => 'チケット完了時間 (前／後)',
         'Ticket Close Time (between)' => 'チケット完了時間 (期間中)',
         'Ticket Escalation Time (before/after)' => 'チケットエスカレーション時間 (前／後)',
@@ -4126,7 +4140,7 @@ sub Data {
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'もしセッションIDが、無効なリモートIPアドレスと共に使用されている場合、セッションを削除します。',
         'Deletes requested sessions if they have timed out.' => 'リクエストされたセッションがタイムアウトしている場合に削除します。',
-        'Deploy and manage OTRS Business Solution™.' => '',
+        'Deploy and manage OTRS Business Solution™.' => 'OTRSビジネスソリューション™のデプロイと管理',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             'チケットへ移動していくであろう、可能性あるキューのリストが、担当者インタフェースにドロップ・ダウン・リストまたは新規ウィンドウとして表示されるべきかどうかを定義します。"New Window"を設定した場合、チケットに移動メモを追加することができます。',
         'Determines if the statistics module may generate ticket lists.' =>
@@ -5343,6 +5357,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'ショートカットのためのツールバー・アイテムです。',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'GUIで使用されるアニメーションをONにします。もし、これらのアニメーションに問題がある場合（パフォーマンス問題など）、ここでOFFにできます。',

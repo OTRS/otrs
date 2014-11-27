@@ -1733,6 +1733,7 @@ sub Data {
         'Upgrade to %s' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '',
+        'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
@@ -1740,7 +1741,9 @@ sub Data {
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+        'With your existing contract you can only use a small part of the %s.' =>
+            '',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
         # Template: AdminOTRSBusinessUninstall
@@ -1787,8 +1790,6 @@ sub Data {
         'Install' => 'Installeer',
         'Install Package' => 'Installeer pakket',
         'Update repository information' => 'Vernieuw repository gegevens',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            'Heeft u behoefte aan meer functionaliteit? De OTRS Groep levert klanten met een service contract exclusieve Add-Ons:',
         'Online Repository' => 'Online Repository',
         'Module documentation' => 'Moduledocumentatie',
         'Upgrade' => 'Upgrade',
@@ -1796,7 +1797,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Dit pakket is geverifieerd door OTRSverify (tm)',
         'Uninstall' => 'Verwijder',
         'Reinstall' => 'Herinstalleer',
-        'Feature Add-Ons' => 'Feature Add-Ons',
+        'Features for %s customers only' => '',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            '',
         'Download package' => 'Download pakket',
         'Rebuild package' => 'Genereer pakket opnieuw',
         'Metadata' => 'Metadata',
@@ -2097,6 +2100,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Beheer systeemregistratie',
         'Edit details' => 'Bewerk gegevens',
+        'Show transmitted data' => '',
         'Deregister system' => 'Deregistreer systeem',
         'Overview of registered systems' => 'Overzicht van geregistreerde systemen',
         'System Registration' => 'Systeemregistratie',
@@ -2105,6 +2109,9 @@ sub Data {
         'Unique ID' => 'Uniek ID',
         'Last communication with registration server' => 'Laatste communicatie met registratieserver',
         'Send support data' => '',
+        'System deregistration not possible' => '',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            '',
         'OTRS-ID Login' => 'OTRS-ID',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Systeemregistratie is een service van de OTRS Groep, die een aantal voordelen biedt.',
@@ -2207,6 +2214,14 @@ sub Data {
             'Doorgaan met deze stap zal uw systeem deregistreren bij de OTRS Groep.',
         'Deregister' => 'Deregistreer',
         'You can modify registration settings here.' => '',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => '',
 
         # Template: AdminRole
         'Role Management' => 'Beheer rollen',
@@ -2350,7 +2365,6 @@ sub Data {
         'Download File' => '',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
-        'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
         'Details' => 'Details',
 
@@ -5341,6 +5355,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',

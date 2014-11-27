@@ -1738,6 +1738,7 @@ sub Data {
         'Upgrade to %s' => 'Обновление до %s',
         '%s will be available soon. Please check again in a few days.' =>
             'Обновление для %s будет скоро доступно. Проверьте повторно в ближайшие дни.',
+        'Please have a look at %s for more information.' => 'Пожалуйста, обратитесь к %s за дополнительной информацией.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             'Ваш OTRS Free является основой для всех будущих действий. Зарегистрируйтесь сначала, до продолжения работ по обновлению %s! ',
         'Register this System' => 'Зарегистрируйте эту систему',
@@ -1745,8 +1746,10 @@ sub Data {
             'Для получения пользы от использования %s, свяжитесь с %s для получения вашего контракта на %s.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             'Соединение с cloud.otrs.com по HTTPS не может быть установлено. Убедитесь, что ваша система OTRS использует порт 443 для соединения с cloud.otrs.com.',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
-            'Мы счастливы предложить вам, как одному из наших контрактных партнеров обновление до %s. Вы можете приступить к обновлению прямо сейчас!',
+        'With your existing contract you can only use a small part of the %s.' =>
+            'Ваш существующий контракт позволяет использовать лишь малую часть возможностей %s.',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
+            'Если вы желаете получить все возможности %s обновите свой контракт! Свяжитесь с %s.',
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => 'Прервать процесс возврата к предыдущей версии и вернуться назад',
@@ -1792,8 +1795,6 @@ sub Data {
         'Install' => 'Установить',
         'Install Package' => 'Установить пакет',
         'Update repository information' => 'Обновить информацию репозитория',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            'Не нашли требующуюся функцию? Клиентам заключившим сервисный контракт, OTRS Group предлагает набор расширений(Add-One)',
         'Online Repository' => 'Онлайновый репозиторий',
         'Module documentation' => 'Документация модуля',
         'Upgrade' => 'Обновить',
@@ -1801,7 +1802,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Этот пакет проверен с помощью OTRSverify (tm)',
         'Uninstall' => 'Удалить',
         'Reinstall' => 'Переустановить',
-        'Feature Add-Ons' => 'Адд-Оны с дополнительными возможностями/функциями',
+        'Features for %s customers only' => 'Эти возможности доступны тоько для клиентов - %s ',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            'С %s, вы получите следующие дополнительные возможности. Свяжитесь с %s если нуждаетесь в дополнительной информации.',
         'Download package' => 'Скачать пакет',
         'Rebuild package' => 'Пересобрать пакет',
         'Metadata' => 'Метаданные',
@@ -2102,6 +2105,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Управление регистрацией',
         'Edit details' => 'Редактировать информацию',
+        'Show transmitted data' => '',
         'Deregister system' => 'Удалить регистрацию системы',
         'Overview of registered systems' => 'Обзор зарегистрированных систем',
         'System Registration' => 'Регистрация системы',
@@ -2110,6 +2114,9 @@ sub Data {
         'Unique ID' => 'Уникальный индентификатор',
         'Last communication with registration server' => 'Последняя связь с регистрационным сервером',
         'Send support data' => 'Выслать данные для технической поддержки',
+        'System deregistration not possible' => 'Разрегистрация системы невозможна',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            'Помните, что вы не можете разрегистрировать свою систему, если используете %s или имеете действующий контракт на поддержку.',
         'OTRS-ID Login' => 'Уч. запись OTRS-ID',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Регистрация системы - это сервис от OTRS Group, который предоставляет много преимуществ!',
@@ -2212,6 +2219,14 @@ sub Data {
             'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTRS Group.',
         'Deregister' => 'Удалить регистрацию',
         'You can modify registration settings here.' => 'Вы можете изменить параметры регистрации здесь.',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => 'Данные для поддержки',
 
         # Template: AdminRole
         'Role Management' => 'Управление ролями',
@@ -2333,7 +2348,7 @@ sub Data {
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             'Настоятельно рекомендуется отправлять эти данные в OTRS Group для получения более точной поддержки.',
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Для включения возможности отсылки данных, зарегистрируйте свою систему в OTRS Group или обновите ваши регистрационные данные (убедитесь, что активирована функция \'send support data/послать данные для поддержки\'.)',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             'Пакет поддержки (включая сведения о регистрации системы, данные поддержки, список установленных пакетов и локально изменённые файлы с исходным кодом) можно сгенерировать нажатием этой кнопки:',
         'Generate Support Bundle' => 'Сгенерировать пакет поддержки',
@@ -2355,7 +2370,6 @@ sub Data {
         'Download File' => 'Загрузить файл.',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             'Файл, содержащий пакет поддержки будет загружен в вашу локальную систему. Сохраните файл и отправьте его в OTRS Group, используя альтернативный способ.',
-        'Support Data' => 'Данные для поддержки',
         'Error: Support data could not be collected (%s).' => 'Ошибка: данные для поддержки не могут быть собраны (%s).',
         'Details' => 'Подробно',
 
@@ -2897,8 +2911,8 @@ sub Data {
         'Create New' => 'Создать новый',
         'Profile link' => 'Ссылка на шаблон',
         'Save changes in template' => 'Сохранить изменения в шаблоне',
-        'Filters in use' => 'Используемые фильтры',
-        'Additional filters' => 'Дополнительные фильтры',
+        'Filters in use' => 'Используемые атрибуты фильтра',
+        'Additional filters' => 'Дополнительные атрибуты фильтра',
         'Add another attribute' => 'Добавить атрибут поиска',
         'Output' => 'Вывод результатов',
         'Fulltext' => 'Полнотекстовый',
@@ -5346,6 +5360,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Переключает отображение списка OTRS FeatureAddons в Управлении пакетами.',
         'Toolbar Item for a shortcut.' => 'Описание ярлыка(иконки) для навигационной панели.',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'Включает анимацию в интерфейсе. Если у вас будут проблемы с ней (проблемы производительности), вы можете выключить ее здесь.',

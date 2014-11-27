@@ -421,12 +421,12 @@ sub Data {
             '',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Ваш систем је успешно унапређен на %s.',
+        'There was a problem during the upgrade to %s.' => 'Проблем током унапређивања на  %s.',
         '%s was correctly reinstalled.' => '%s је коректно реинсталирана.',
         'There was a problem reinstalling %s.' => 'Проблем при реинсталацији %s.',
         'Your %s was successfully updated.' => 'Ваша %s је успешно ажурирана.',
-        'There was a problem during the upgrade of %s.' => '',
+        'There was a problem during the upgrade of %s.' => 'Проблем током унапређивања %s.',
         '%s was correctly uninstalled.' => '%s је коректно деинсталирана.',
         'There was a problem uninstalling %s.' => 'Проблем при деинсталацији %s.',
 
@@ -1705,7 +1705,7 @@ sub Data {
         'Unauthorized Usage Detected' => 'Детектована неовлаштена употреба',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
             '',
-        '%s not Correctly Installed' => '',
+        '%s not Correctly Installed' => '%s није коректно инсталирана',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
             '',
         'Reinstall %s' => 'Реинсталирај %s',
@@ -1719,14 +1719,15 @@ sub Data {
         '%s Update Available' => '%s доступно ажурирање',
         'An update for your %s is available! Please update at your earliest!' =>
             '',
-        '%s Correctly Deployed' => '',
+        '%s Correctly Deployed' => '%s коректно распоређено',
         'Congratulations, your %s is correctly installed and up to date!' =>
             '',
 
         # Template: AdminOTRSBusinessNotInstalled
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Унапреди на %s',
         '%s will be available soon. Please check again in a few days.' =>
-            '',
+            '%s ће бити доступна ускоро. Молимо, проверите поново за неколико дана.',
+        'Please have a look at %s for more information.' => 'Молимо да погледате  %s за више информација.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => 'Региструј овај систем',
@@ -1734,7 +1735,9 @@ sub Data {
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+        'With your existing contract you can only use a small part of the %s.' =>
+            '',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
         # Template: AdminOTRSBusinessUninstall
@@ -1781,8 +1784,6 @@ sub Data {
         'Install' => 'Инсталирај',
         'Install Package' => 'Инсталирај пакет',
         'Update repository information' => 'Ажурирај информације о спремишту',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            'Нисте пронашли потребну функционалност? OTRS Група обезбеђује својим клијентима сервисни уговор са ексклузивним додатним модулима.',
         'Online Repository' => 'Мрежно спремиште',
         'Module documentation' => 'Документација модула',
         'Upgrade' => 'Ажурирање',
@@ -1790,7 +1791,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Овај пакет је верификован од стране OTRSverify (tm)',
         'Uninstall' => 'Деинсталирај',
         'Reinstall' => 'Инсталирај поново',
-        'Feature Add-Ons' => 'Функционалност додатних модула',
+        'Features for %s customers only' => '',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            '',
         'Download package' => 'Преузми пакет',
         'Rebuild package' => 'Обнови пакет(rebuild)',
         'Metadata' => 'Мета подаци',
@@ -2091,6 +2094,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Управљање системом регистрације',
         'Edit details' => 'Уреди детаље',
+        'Show transmitted data' => '',
         'Deregister system' => 'Одјави систем',
         'Overview of registered systems' => 'Преглед регистрованих система',
         'System Registration' => 'Регистрација система',
@@ -2099,6 +2103,9 @@ sub Data {
         'Unique ID' => 'Јединствени ИД',
         'Last communication with registration server' => 'Последња комуникација са регистрационим сервером',
         'Send support data' => 'Пошаљи податке за подршку',
+        'System deregistration not possible' => '',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            '',
         'OTRS-ID Login' => 'OTRS-ID пријава',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Регистрација система је услуга OTRS Групе, која обезбеђује многе предности.',
@@ -2201,6 +2208,14 @@ sub Data {
             'Настављање овог корака ће ођавити систем из OTRS Групе.',
         'Deregister' => 'Одјави',
         'You can modify registration settings here.' => 'Овде можете модификовати регистрациона подешавања.',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => 'Подржани подаци',
 
         # Template: AdminRole
         'Role Management' => 'Управљање улогама',
@@ -2344,7 +2359,6 @@ sub Data {
         'Download File' => 'Преузми датотеку',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
-        'Support Data' => 'Подржани подаци',
         'Error: Support data could not be collected (%s).' => 'Подржани подаци не могу бити прикупљени (%s).',
         'Details' => 'Детаљи',
 
@@ -2471,7 +2485,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => 'Не заборавите да додате нови шаблон у реду.',
         'Add Template' => 'Додај Шаблон',
         'Edit Template' => 'Уреди Шаблон',
-        'A standard template with this name already exists!' => '',
+        'A standard template with this name already exists!' => 'Стандардни шаблон са овим називом већ постоји!',
         'Template' => 'Шаблон',
         'Create type templates only supports this smart tags' => 'Креирај тип шаблона који подржавају само ове паметне ознаке.',
         'Example template' => 'Пример шаблона',
@@ -2491,7 +2505,7 @@ sub Data {
         'Add ticket type' => 'Додај тип тикета',
         'Add Type' => 'Додај Тип ',
         'Edit Type' => 'У реди Тип',
-        'A type with this name already exists!' => '',
+        'A type with this name already exists!' => 'Тип са овим именом већ постоји!',
 
         # Template: AdminUser
         'Add agent' => 'Додај оператера',
@@ -2504,7 +2518,7 @@ sub Data {
         'Edit Agent' => 'Уреди Оператера',
         'Firstname' => 'Име',
         'Lastname' => 'Презиме',
-        'A user with this username already exists!' => '',
+        'A user with this username already exists!' => 'Ово корисничко име је већ употребљено!',
         'Will be auto-generated if left empty.' => 'Биће аутоматски генерисано ако се остави празно.',
         'Start' => 'Почетак',
         'End' => 'Крај',
@@ -2922,7 +2936,7 @@ sub Data {
         'Save filter settings as default' => 'Сачувај подешавања филтера као подразумевана',
         'Event Type Filter' => '',
         'Event Type' => 'Тип догађаја',
-        'Save as default' => '',
+        'Save as default' => 'Сачувај као подразумевано',
         'Archive' => 'Архивирај',
         'This ticket is archived.' => 'Овај тикет је архивиран',
         'Locked' => 'Закључано',
@@ -2988,7 +3002,7 @@ sub Data {
         'In order to experience OTRS, you\'ll need to enable JavaScript in your browser.' =>
             'Како би сте користили OTRS неопходно је да активирате JavaScript у вашем веб претраживачу.',
         'Browser Warning' => 'Упозорење веб претраживача',
-        'One moment please, you are being redirected...' => '',
+        'One moment please, you are being redirected...' => 'Сачекајте моменат, бићете преусмерени...',
         'Login' => 'Пријављивање',
         'User name' => 'Корисничко име',
         'Your user name' => 'Ваше корисничко име',
@@ -5335,6 +5349,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',

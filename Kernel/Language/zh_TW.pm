@@ -1729,6 +1729,7 @@ sub Data {
         'Upgrade to %s' => '',
         '%s will be available soon. Please check again in a few days.' =>
             '',
+        'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
@@ -1736,7 +1737,9 @@ sub Data {
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
             '',
-        'We are happy to welcome you as one of our contracting partners to upgrade to %s. You can start the upgrade now!' =>
+        'With your existing contract you can only use a small part of the %s.' =>
+            '',
+        'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
             '',
 
         # Template: AdminOTRSBusinessUninstall
@@ -1783,8 +1786,6 @@ sub Data {
         'Install' => '安裝',
         'Install Package' => '安裝軟件包',
         'Update repository information' => '更新軟件倉庫信息',
-        'Did not find a required feature? OTRS Group provides their service contract customers with exclusive Add-Ons:' =>
-            '沒有找到您所需要的功能嗎？OTRS為服務合同用戶提供專屬附加組件：',
         'Online Repository' => '在綫軟件倉庫',
         'Module documentation' => '模塊文檔',
         'Upgrade' => '升級',
@@ -1792,7 +1793,9 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => '此軟件包已通過OTRSverify(tm)的驗証',
         'Uninstall' => '卸載',
         'Reinstall' => '重新安裝',
-        'Feature Add-Ons' => '擴展軟件包',
+        'Features for %s customers only' => '',
+        'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
+            '',
         'Download package' => '下載該軟件包',
         'Rebuild package' => '重新編譯',
         'Metadata' => '元數據',
@@ -2093,6 +2096,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => '系統註冊管理',
         'Edit details' => '',
+        'Show transmitted data' => '',
         'Deregister system' => '取消系統註冊',
         'Overview of registered systems' => '註冊系統概述',
         'System Registration' => '系統註冊',
@@ -2101,6 +2105,9 @@ sub Data {
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '與註冊服務器上一次的通訊',
         'Send support data' => '',
+        'System deregistration not possible' => '',
+        'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
+            '',
         'OTRS-ID Login' => 'OTRS-ID登陸',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '系統註冊是OTRS集團的一項服務，它為您提供了很多好處!',
@@ -2203,6 +2210,14 @@ sub Data {
             '',
         'Deregister' => '取消註冊',
         'You can modify registration settings here.' => '',
+        'Overview of transmitted data' => '',
+        'There is no data regularly sent from your system to %s.' => '',
+        'The following data is sent at minimum every 3 days from your system to %s.' =>
+            '',
+        'The data will be transferred in JSON format via a secure https connection.' =>
+            '',
+        'System Registration Data' => '',
+        'Support Data' => '',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -2346,7 +2361,6 @@ sub Data {
         'Download File' => '',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
-        'Support Data' => '',
         'Error: Support data could not be collected (%s).' => '',
         'Details' => '詳情',
 
@@ -5337,6 +5351,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
