@@ -1062,20 +1062,18 @@ sub TicketListShow {
                         %Param,
                     },
                 );
+            }
+        }    # end show column filters preferences
 
-                # check if there was stored filters, and print a link to delete them
-                if ( IsHashRefWithData( $Object->{StoredFilters} ) ) {
-                    $Env->{LayoutObject}->Block(
-                        Name => 'DocumentActionRowRemoveColumnFilters',
-                        Data => {
-                            CSS => "ContextSettings RemoveFilters",
-                            %Param,
-                        },
-                    );
-                }
-
-            }    # end show column filters preferences
-
+        # check if there was stored filters, and print a link to delete them
+        if ( IsHashRefWithData( $Object->{StoredFilters} ) ) {
+            $Env->{LayoutObject}->Block(
+                Name => 'DocumentActionRowRemoveColumnFilters',
+                Data => {
+                    CSS => "ContextSettings RemoveFilters",
+                    %Param,
+                },
+            );
         }
     }
 
