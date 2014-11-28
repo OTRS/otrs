@@ -1,4 +1,5 @@
 #3.3.11 ????-??-??
+ - 2014-11-28 Fixed bug#[10808](http://bugs.otrs.org/show_bug.cgi?id=10808) - Set of pending time is not working at all in Frontend::Agent::Ticket::ViewNote.
  - 2014-11-24 Fixed bug#[10892](http://bugs.otrs.org/show_bug.cgi?id=10892) - TicketActionsPerTicket open multiple popups at TicketOverview.
  - 2014-11-24 Fixed bug#[10857](http://bugs.otrs.org/show_bug.cgi?id=10857) - JS added too often in AgentTicketOverviewSmall.
  - 2014-11-24 Fixed bug#[10639](http://bugs.otrs.org/show_bug.cgi?id=10639) - Set of pending time/state not working properly (process management).

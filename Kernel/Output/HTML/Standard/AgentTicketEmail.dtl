@@ -534,11 +534,12 @@ $('#FileUpload').bind('change', function () {
                     </div>
                     <div class="Clear"></div>
 
-                    <label>$Text{"Pending Date"} ($Text{"for pending* states"}):</label>
+                    <label>$Text{"Pending date"}:</label>
                     <div class="Field">
                         $Data{"PendingDateString"}
                         <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
                         <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
+                        <p class="FieldExplanation">$Text{"For all pending* states."}</p>
                     </div>
                     <div class="Clear"></div>
 

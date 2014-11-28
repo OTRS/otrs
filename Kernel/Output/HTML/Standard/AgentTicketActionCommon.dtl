@@ -355,6 +355,7 @@ $Include{"RichTextEditor"}
                     $Data{"DateString"}
                     <div id="DayServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
                     <div id="HourServerError" class="TooltipErrorMessage"><p>$Text{"Date invalid!"}</p></div>
+                    <p class="FieldExplanation">$Text{"For all pending* states."}</p>
                 </div>
                 <div class="Clear"></div>
 <!-- dtl:block:StatePending -->
