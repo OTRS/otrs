@@ -158,10 +158,10 @@
 <script type="text/javascript">//<![CDATA[
 $('#StartStatistic').bind('click', function (Event) {
     var Format = $('#Format').val(),
-        PDFUsable = $('#PDFUsable').val() > 0,
         URL;
 
-    if (Format === 'Print' && !PDFUsable) {
+    // Open both HTML and PDF output in a popup because PDF is shown inline
+    if (Format === 'Print') {
         URL = '[% Env("Baselink") %]' + Core.AJAX.SerializeForm($('#compose'));
         Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
         return false;
