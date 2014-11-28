@@ -1009,6 +1009,11 @@ sub Run {
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
         );
+        my $Types = $Self->_GetTypes(
+            %GetParam,
+            CustomerUserID => $CustomerUser,
+            QueueID        => $QueueID,
+        );
 
         # reset previous ServiceID to reset SLA-List if no service is selected
         if ( !defined $ServiceID || !$Services->{$ServiceID} ) {
@@ -1252,6 +1257,14 @@ sub Run {
                     SelectedID   => $GetParam{StandardTemplateID},
                     PossibleNone => 1,
                     Translation  => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'TypeID',
+                    Data         => $Types,
+                    SelectedID   => $GetParam{TypeID},
+                    PossibleNone => 1,
+                    Translation  => 0,
                     Max          => 100,
                 },
                 @DynamicFieldAJAX,
@@ -2552,6 +2565,21 @@ sub _GetStandardTemplates {
 
     # return just the templates for this screen
     return $StandardTemplates{Note};
+}
+
+sub _GetTypes {
+    my ( $Self, %Param ) = @_;
+
+    # get type
+    my %Type;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Type;
 }
 
 1;
