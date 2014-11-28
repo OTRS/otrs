@@ -709,6 +709,12 @@ sub Run {
             QueueID        => $QueueID      || 1,
             Services       => $Services,
         );
+        my $Types = $Self->_GetTypes(
+            %GetParam,
+            %ACLCompatGetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID        => $QueueID      || 1,
+        );
 
         # update Dynamic Fields Possible Values via AJAX
         my @DynamicFieldAJAX;
@@ -801,6 +807,14 @@ sub Run {
                     Name         => 'SLAID',
                     Data         => $SLAs,
                     SelectedID   => $GetParam{SLAID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'TypeID',
+                    Data         => $Types,
+                    SelectedID   => $GetParam{TypeID},
                     PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,

@@ -1,4 +1,5 @@
 #3.3.11 ????-??-??
+ - 2014-11-28 Fixed bug#[10839](http://bugs.otrs.org/show_bug.cgi?id=10839) - ACL cannot set possible TicketType in AgentTicketPhone and AgentTicketEmail.
  - 2014-11-28 Fixed bug#[10776](http://bugs.otrs.org/show_bug.cgi?id=10776) - Medium and Large view don't indicate active filters.
  - 2014-11-28 Fixed bug#[10808](http://bugs.otrs.org/show_bug.cgi?id=10808) - Set of pending time is not working at all in Frontend::Agent::Ticket::ViewNote.
  - 2014-11-24 Fixed bug#[10892](http://bugs.otrs.org/show_bug.cgi?id=10892) - TicketActionsPerTicket open multiple popups at TicketOverview.

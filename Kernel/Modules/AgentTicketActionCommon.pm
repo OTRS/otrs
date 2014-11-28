@@ -939,6 +939,11 @@ sub Run {
             CustomerUserID => $CustomerUser,
             QueueID        => $QueueID,
         );
+        my $Types = $Self->_GetTypes(
+            %GetParam,
+            CustomerUserID => $CustomerUser,
+            QueueID        => $QueueID,
+        );
 
         # reset previous ServiceID to reset SLA-List if no service is selected
         if ( !defined $ServiceID || !$Services->{$ServiceID} ) {
@@ -1072,6 +1077,14 @@ sub Run {
                     Name         => 'SLAID',
                     Data         => $SLAs,
                     SelectedID   => $GetParam{SLAID},
+                    PossibleNone => 1,
+                    Translation  => 0,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'TypeID',
+                    Data         => $Types,
+                    SelectedID   => $GetParam{TypeID},
                     PossibleNone => 1,
                     Translation  => 0,
                     Max          => 100,
@@ -2030,6 +2043,21 @@ sub _GetFieldsToUpdate {
     }
 
     return \@UpdatableFields;
+}
+
+sub _GetTypes {
+    my ( $Self, %Param ) = @_;
+
+    # get type
+    my %Type;
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Type = $Self->{TicketObject}->TicketTypeList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Type;
 }
 
 1;
