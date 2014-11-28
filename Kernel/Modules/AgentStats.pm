@@ -2421,7 +2421,7 @@ sub Run {
                     Filename    => $Filename . '.pdf',
                     ContentType => 'application/pdf',
                     Content     => $PDFString,
-                    Type        => 'attachment',
+                    Type        => 'inline',
                 );
             }
 
