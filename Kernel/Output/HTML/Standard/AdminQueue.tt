@@ -108,7 +108,12 @@
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
                             <div id="NameServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("NameServerError") %]
                                 <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("NameServerError") %]
+[% RenderBlockStart("ExistNameServerError") %]
+                                <p>[% Translate("A queue with this name already exists!") | html %] </p>
+[% RenderBlockEnd("ExistNameServerError") %]
                             </div>
                         </div>
                         <div class="Clear"></div>

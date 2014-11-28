@@ -41,7 +41,33 @@ my $QueueID   = $QueueObject->QueueAdd(
 
 $Self->True(
     $QueueID,
-    'QueueAdd()',
+    "QueueAdd() - $QueueRand, $QueueID",
+);
+
+my @IDs;
+
+push( @IDs, $QueueID );
+
+my $QueueIDWrong = $QueueObject->QueueAdd(
+    Name                => $QueueRand,
+    ValidID             => 1,
+    GroupID             => 1,
+    FirstResponseTime   => 30,
+    FirstResponseNotify => 70,
+    UpdateTime          => 240,
+    UpdateNotify        => 80,
+    SolutionTime        => 2440,
+    SolutionNotify      => 90,
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    UserID              => 1,
+    Comment             => 'Some Comment',
+);
+
+$Self->False(
+    $QueueIDWrong,
+    'QueueAdd() - Try to add new queue with existing queue name',
 );
 
 my %QueueGet = $QueueObject->QueueGet( ID => $QueueID );
@@ -103,7 +129,7 @@ $Self->True(
     'QueueLookup() by Name',
 );
 
-# a real szenario from AdminQueue.pm
+# a real scenario from AdminQueue.pm
 # for more information see 3139
 my $QueueUpdate2 = $QueueObject->QueueUpdate(
     QueueID             => $QueueID,
@@ -131,12 +157,13 @@ my $QueueUpdate2 = $QueueObject->QueueUpdate(
 
 $Self->True(
     $QueueUpdate2,
-    'QueueUpdate() - a real szenario from AdminQueue.pm',
+    'QueueUpdate() - a real scenario from AdminQueue.pm',
 );
 
-my $QueueUpdate1 = $QueueObject->QueueUpdate(
+my $QueueUpdate1Name = $QueueRand . '1',;
+my $QueueUpdate1     = $QueueObject->QueueUpdate(
     QueueID             => $QueueID,
-    Name                => $QueueRand . '1',
+    Name                => $QueueUpdate1Name,
     ValidID             => 2,
     GroupID             => 1,
     Calendar            => '1',
@@ -157,6 +184,205 @@ my $QueueUpdate1 = $QueueObject->QueueUpdate(
 $Self->True(
     $QueueUpdate1,
     'QueueUpdate()',
+);
+
+#add another queue for testing update queue with existing name
+my $Queue2Rand = 'Some::Queue2' . int( rand(1000000) );
+my $QueueID2   = $QueueObject->QueueAdd(
+    Name            => $Queue2Rand,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment',
+);
+
+$Self->True(
+    $QueueID2,
+    "QueueAdd() - $Queue2Rand, $QueueID2",
+);
+
+push( @IDs, $QueueID2 );
+
+#add subqueue
+my $SubQueueName = '::SubQueue' . int( rand(1000000) );
+my $SubQueue1    = $Queue2Rand . $SubQueueName;
+my $QueueID3     = $QueueObject->QueueAdd(
+    Name            => $SubQueue1,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment',
+);
+
+$Self->True(
+    $QueueID3,
+    "QueueAdd() - $SubQueue1, $QueueID3",
+);
+
+push( @IDs, $QueueID3 );
+
+#add subqueue with name that exists in another parent queue
+my $SubQueue2 = $QueueUpdate1Name . $SubQueueName;
+my $QueueID4  = $QueueObject->QueueAdd(
+    Name            => $SubQueue2,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment',
+);
+
+$Self->True(
+    $QueueID4,
+    "QueueAdd() - $SubQueue2, $QueueID4",
+);
+
+push( @IDs, $QueueID4 );
+
+#add subqueue with name that exists in the same parent queue
+$QueueIDWrong = $QueueObject->QueueAdd(
+    Name            => $SubQueue2,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment',
+);
+
+$Self->False(
+    $QueueIDWrong,
+    "QueueAdd() - $SubQueue2",
+);
+
+#try to update subqueue with existing name
+my $QueueUpdateExist = $QueueObject->QueueUpdate(
+    Name            => $SubQueue1,
+    QueueID         => $QueueID4,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    FollowUpID      => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment1',
+);
+
+$Self->False(
+    $QueueUpdateExist,
+    "QueueUpdate() - update subqueue with existing name",
+);
+
+#try to update queue with existing name
+$QueueUpdateExist = $QueueObject->QueueUpdate(
+    Name            => $QueueRand . '1',
+    QueueID         => $QueueID2,
+    ValidID         => 1,
+    GroupID         => 1,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    FollowUpID      => 1,
+    UserID          => 1,
+    Comment         => 'Some Comment1',
+);
+
+$Self->False(
+    $QueueUpdateExist,
+    "QueueUpdate() - update queue with existing name",
+);
+
+# check function NameExistsCheck()
+# check does it exist a queue with certain Name or
+# check is it possible to set Name for queue with certain ID
+my $Exist = $QueueObject->NameExistsCheck(
+    Name => $Queue2Rand,
+);
+
+$Self->True(
+    $Exist,
+    "NameExistsCheck() - A queue with \'$Queue2Rand\' already exists!",
+);
+
+# there is a queue with certain name, now check if there is another one
+$Exist = $QueueObject->NameExistsCheck(
+    Name => "$Queue2Rand",
+    ID   => $QueueID2,
+);
+
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - Another queue \'$Queue2Rand\' for ID=$QueueID2 does not exists!",
+);
+
+$Exist = $QueueObject->NameExistsCheck(
+    Name => $Queue2Rand,
+    ID   => $QueueID,
+);
+
+$Self->True(
+    $Exist,
+    "NameExistsCheck() - Another queue \'$Queue2Rand\' for ID=$QueueID already exists!",
+);
+
+#check for subqueue
+$Exist = $QueueObject->NameExistsCheck(
+    Name => $SubQueue2,
+);
+
+$Self->True(
+    $Exist,
+    "NameExistsCheck() - Another subqueue \'$SubQueue2\' already exists!",
+);
+
+$Exist = $QueueObject->NameExistsCheck(
+    Name => $SubQueue2,
+    ID   => $QueueID4,
+);
+
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - Another subqueue \'$SubQueue2\' for ID=$QueueID4 does not exists!",
+);
+
+$Exist = $QueueObject->NameExistsCheck(
+    Name => $SubQueue2,
+    ID   => $QueueID3,
+);
+
+$Self->True(
+    $Exist,
+    "NameExistsCheck() - Another subqueue \'$SubQueue2\' for ID=$QueueID3 already exists!",
+);
+
+# check is there a queue whose name has been updated in the meantime
+$Exist = $QueueObject->NameExistsCheck(
+    Name => $QueueRand,
+);
+
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - A queue with \'$QueueRand\' does not exists!",
+);
+
+$Exist = $QueueObject->NameExistsCheck(
+    Name => $QueueRand,
+    ID   => $QueueID,
+);
+
+$Self->False(
+    $Exist,
+    "NameExistsCheck() - Another queue \'$QueueRand\' for ID=$QueueID does not exists!",
 );
 
 # lookup the queue name for $QueueID
@@ -430,6 +656,23 @@ my $Success = $StandardTemplateObject->StandardTemplateDelete(
 $Self->True(
     $Success,
     "StandardTemplateDelete() for QueueStandardTemplateMemeberAdd() | with True",
+);
+
+# Since there are no tickets that rely on our test queues, we can remove them again
+# from the DB.
+for my $ID (@IDs) {
+    my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL => "DELETE FROM queue WHERE id = $ID",
+    );
+    $Self->True(
+        $Success,
+        "QueueDelete - $ID",
+    );
+}
+
+# Make sure the cache is correct.
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    Type => 'Queue',
 );
 
 1;
