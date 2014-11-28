@@ -1,3 +1,6 @@
+#4.0.3 2014-??-??
+ - 2014-11-28 Fixed bug#[10843](http://bugs.otrs.org/show_bug.cgi?id=10843) - Adding Queue's with same name in AdminQueue leads to SQL error message.
+
 #4.0.2 2014-12-02
  - 2014-11-27 Updated translations, thanks to all translators.
  - 2014-11-27 Fixed bug#[10906](http://bugs.otrs.org/show_bug.cgi?id=10906) - SysConfig settings are mistakenly reset.

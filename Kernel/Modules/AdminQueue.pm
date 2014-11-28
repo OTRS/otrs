@@ -168,6 +168,16 @@ sub Run {
             }
         }
 
+        # check if a queue exist with this name
+        my $NameExists = $Self->{QueueObject}->NameExistsCheck(
+            Name => $GetParam{Name},
+            ID   => $GetParam{QueueID}
+        );
+        if ($NameExists) {
+            $Errors{NameExists} = 1;
+            $Errors{'NameInvalid'} = 'ServerError';
+        }
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -343,6 +353,13 @@ sub Run {
             if ( !$GetParam{$Optional} ) {
                 $GetParam{$Optional} = 0;
             }
+        }
+
+        # check if a queue exist with this name
+        my $NameExists = $Self->{QueueObject}->NameExistsCheck( Name => $GetParam{Name} );
+        if ($NameExists) {
+            $Errors{NameExists} = 1;
+            $Errors{'NameInvalid'} = 'ServerError';
         }
 
         # if no errors occurred
@@ -693,6 +710,14 @@ sub _Edit {
             Name => 'OptionalField',
             Data => \%Param,
         );
+    }
+
+    # show appropriate messages for ServerError
+    if ( defined $Param{Errors}->{NameExists} && $Param{Errors}->{NameExists} == 1 ) {
+        $Self->{LayoutObject}->Block( Name => 'ExistNameServerError' );
+    }
+    else {
+        $Self->{LayoutObject}->Block( Name => 'NameServerError' );
     }
 
     # show each preferences setting
