@@ -369,11 +369,12 @@
                 </div>
                 <div class="Clear"></div>
 
-                <label>[% Translate("Pending Date") | html %] ([% Translate("for pending* states") | html %]):</label>
+                <label>[% Translate("Pending date") | html %]:</label>
                 <div class="Field">
                     [% Data.PendingDateString %]
                     <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
                     <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date Invalid!") | html %]</p></div>
+                    <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                 </div>
                 <div class="Clear"></div>
 

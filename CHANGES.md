@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-11-28 Fixed bug#[10808](http://bugs.otrs.org/show_bug.cgi?id=10808) - Set of pending time is not working at all in Frontend::Agent::Ticket::ViewNote.
  - 2014-11-28 Fixed bug#[10843](http://bugs.otrs.org/show_bug.cgi?id=10843) - Adding Queue's with same name in AdminQueue leads to SQL error message.
 
 #4.0.2 2014-12-02

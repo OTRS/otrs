@@ -246,6 +246,7 @@ $('#TypeID').bind('change', function (Event) {
                     [% Data.DateString %]
                             <div id="DayServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
                             <div id="HourServerError" class="TooltipErrorMessage"><p>[% Translate("Date invalid!") | html %]</p></div>
+                            <p class="FieldExplanation">[% Translate("For all pending* states.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockEnd("StatePending") %]
