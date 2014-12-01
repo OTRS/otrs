@@ -310,13 +310,11 @@ ul.ContextFunctions li:last-child:hover > a {
     box-shadow: 0 0 0;
 }
 
-.ActionRow .ActionMessage {
+.ActionMessage {
     display: block;
-    padding: 8px 8px 9px 8px;
-    background-color: #F6FCE5;
+    float: left;
     font-size: 11px;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    padding: 9px 8px 8px 4px;
 }
 
 .Actions form {
