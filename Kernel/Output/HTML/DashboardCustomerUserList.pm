@@ -246,7 +246,8 @@ sub Run {
 
         if (
             $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::Active')
-            && $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+            && defined $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+            && $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"} eq 'Yes'
             && $Kernel::OM->Get('Kernel::Config')->Get('ChatEngine::ChatDirection::AgentToCustomer')
             )
         {

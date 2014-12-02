@@ -267,7 +267,8 @@ sub Run {
 
     if (
         !$Self->{ConfigObject}->Get('ChatEngine::Active')
-        || !$Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+        || !defined $Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+        || $Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"} ne 'Yes'
         )
     {
         $EnableChat = 0;
