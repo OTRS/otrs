@@ -51,7 +51,7 @@ sub Run {
     if (%PID) {
 
         # get the PID update time
-        my $PIDUpdateTime = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 60.0;
+        my $PIDUpdateTime = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 600;
 
         # get current time
         my $Time = time();
