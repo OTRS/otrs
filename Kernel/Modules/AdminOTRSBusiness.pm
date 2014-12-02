@@ -166,14 +166,14 @@ sub NotInstalledScreen {
         );
     }
 
-    if ( !$OTRSBusinessObject->OTRSBusinessIsAvailable() ) {
-        $LayoutObject->Block(
-            Name => 'NotAvailable',
-        );
-    }
-    elsif ( !%RegistrationData || $RegistrationData{State} ne 'registered' ) {
+    if ( !%RegistrationData || $RegistrationData{State} ne 'registered' ) {
         $LayoutObject->Block(
             Name => 'NotRegistered',
+        );
+    }
+    elsif ( !$OTRSBusinessObject->OTRSBusinessIsAvailable() ) {
+        $LayoutObject->Block(
+            Name => 'NotAvailable',
         );
     }
     elsif ( $EntitlementStatus eq 'forbidden' ) {
