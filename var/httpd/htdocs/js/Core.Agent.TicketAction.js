@@ -147,22 +147,22 @@ Core.Agent.TicketAction = (function (TargetNS) {
         // check if spell check is being used
         if (parseInt(Core.Config.Get('SpellChecker'), 10) === 1 && parseInt(Core.Config.Get('NeedSpellCheck'), 10) === 1) {
 
-            Core.Config.Set('TextIsSpellChecked', '0');
+            Core.Config.Set('TextIsSpellChecked', false);
             $('#RichTextField, .RichTextField').on('click', '.cke_button__spellcheck', function() {
-                Core.Config.Set('TextIsSpellChecked', '1');
+                Core.Config.Set('TextIsSpellChecked', true);
             });
             $('#OptionSpellCheck').bind('click', function() {
-                Core.Config.Set('TextIsSpellChecked', '1');
+                Core.Config.Set('TextIsSpellChecked', true);
             });
 
             if ( parseInt(Core.Config.Get('RichTextSet'), 10) === 0){
                 $('#RichTextField, .RichTextField').on('change', '#RichText', function() {
-                    Core.Config.Set('TextIsSpellChecked', '0');
+                    Core.Config.Set('TextIsSpellChecked', false);
                 });
             }
 
             Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function(Form) {
-                if ( $('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && parseInt(Core.Config.Get('TextIsSpellChecked'), 10) === 0 ) {
+                if ( $('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked') ) {
                     Core.App.Publish('Event.Agent.TicketAction.NeedSpellCheck', [$('#RichText')]);
                     Core.UI.Dialog.ShowContentDialog('<p>' + Core.Config.Get('SpellCheckNeededMsg') + '</p>', '', '150px', 'Center', true, [
                         {
