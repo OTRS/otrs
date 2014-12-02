@@ -145,6 +145,14 @@ my @Tests = (
         Result   => '01.01.2000',
     },
     {
+        Name => 'Localize() as function call',
+        Data => {
+            DateTime => '2000-01-01 00:00:00',
+        },
+        Template => '[% Localize(Data.DateTime, "Date") %]',
+        Result   => '01.01.2000',
+    },
+    {
         Name => 'Blocks',
         Data => {
             Title => 'Template',
