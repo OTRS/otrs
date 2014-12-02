@@ -83,6 +83,20 @@ sub new {
         };
     };
 
+    my $LocalizeFunction = sub {
+        my $Format = $_[1];
+        if ( $Format eq 'TimeLong' ) {
+            return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat' );
+        }
+        elsif ( $Format eq 'TimeShort' ) {
+            return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormat', 'NoSeconds' );
+        }
+        elsif ( $Format eq 'Date' ) {
+            return $LayoutObject->{LanguageObject}->FormatTimeString( $_[0], 'DateFormatShort' );
+        }
+        return;
+    };
+
     my $LocalizeFilterFactory = sub {
         my ( $FilterContext, @Parameters ) = @_;
         my $Format = $Parameters[0] || 'TimeLong';
@@ -135,6 +149,7 @@ sub new {
     $Context->stash()->set( 'Config',      $ConfigFunction );
     $Context->stash()->set( 'Env',         $EnvFunction );
     $Context->stash()->set( 'Translate',   $TranslateFunction );
+    $Context->stash()->set( 'Localize',    $LocalizeFunction );
     $Context->stash()->set( 'Interpolate', $InterpolateFunction );
     $Context->stash()->set( 'JSON',        $JSONFunction );
 
