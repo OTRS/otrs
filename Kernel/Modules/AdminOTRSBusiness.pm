@@ -159,6 +159,12 @@ sub NotInstalledScreen {
 
     my $RegistrationObject = $Kernel::OM->Get('Kernel::System::Registration');
     my %RegistrationData   = $RegistrationObject->RegistrationDataGet();
+    my $EntitlementStatus  = 'forbidden';
+    if ($RegistrationData{State} eq 'registered') {
+        $EntitlementStatus = $OTRSBusinessObject->OTRSBusinessEntitlementStatus(
+            CallCloudService => 1,
+        );
+    }
 
     if ( !$OTRSBusinessObject->OTRSBusinessIsAvailable() ) {
         $LayoutObject->Block(
@@ -170,12 +176,12 @@ sub NotInstalledScreen {
             Name => 'NotRegistered',
         );
     }
-    elsif ( $OTRSBusinessObject->OTRSBusinessEntitlementStatus( CallCloudService => 1 ) eq 'forbidden' ) {
+    elsif ( $EntitlementStatus eq 'forbidden' ) {
         $LayoutObject->Block(
             Name => 'NotEntitled',
         );
     }
-    elsif ( $OTRSBusinessObject->OTRSBusinessEntitlementStatus( CallCloudService => 1 ) ne 'entitled' ) {
+    elsif ( $EntitlementStatus ne 'entitled' ) {
         $LayoutObject->Block(
             Name => 'EntitlementStatusUnclear',
         );
