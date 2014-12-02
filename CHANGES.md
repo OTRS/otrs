@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-02 Fixed bug#[10916](http://bugs.otrs.org/show_bug.cgi?id=10916) - Missing values AgentTicketEscalation / Localize function call does not work.
  - 2014-11-28 Fixed bug#[10897](http://bugs.otrs.org/show_bug.cgi?id=10897) - PDFs don't open in browser.
  - 2014-11-28 Fixed bug#[10839](http://bugs.otrs.org/show_bug.cgi?id=10839) - ACL cannot set possible TicketType in AgentTicketPhone and AgentTicketEmail.
  - 2014-11-28 Fixed bug#[10776](http://bugs.otrs.org/show_bug.cgi?id=10776) - Medium and Large view don't indicate active filters.
