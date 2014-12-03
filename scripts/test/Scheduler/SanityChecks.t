@@ -55,6 +55,9 @@ my $SystemDataObject          = $Kernel::OM->Get('Kernel::System::SystemData');
 my $OriginalRegistrationState = $SystemDataObject->SystemDataGet(
     Key => 'Registration::State',
 );
+my $OriginalRegistrationUniqueID = $SystemDataObject->SystemDataGet(
+    Key => 'Registration::UniqueID',
+);
 my $OriginalTaskCount = scalar( grep { $_->{Type} eq 'RegistrationUpdate' } $TaskManagerObject->TaskList() );
 
 my $SchedulerObject = $Kernel::OM->Get('Kernel::System::Scheduler');
@@ -73,6 +76,12 @@ else {
     $SystemDataObject->SystemDataAdd(
         Key    => 'Registration::State',
         Value  => 'registered',
+        UserID => 1,
+    );
+    # Fake a UniqueID if system was not registered yet.
+    $SystemDataObject->SystemDataAdd(
+        Key    => 'Registration::UniqueID',
+        Value  => 'unittest',
         UserID => 1,
     );
 }
@@ -140,17 +149,30 @@ else {
         Key    => 'Registration::State',
         UserID => 1,
     );
+    # Remove fake UniqueID
+    $SystemDataObject->SystemDataDelete(
+        Key    => 'Registration::UniqueID',
+        UserID => 1,
+    );
 }
 
 $SchedulerObject->_SanityChecks();
 my $FinalRegistrationState = $SystemDataObject->SystemDataGet(
     Key => 'Registration::State',
 );
+my $FinalRegistrationUniqueID = $SystemDataObject->SystemDataGet(
+    Key => 'Registration::UniqueID',
+);
 my $FinalTaskCount = scalar( grep { $_->{Type} eq 'RegistrationUpdate' } $TaskManagerObject->TaskList() );
 $Self->Is(
     $FinalRegistrationState,
     $OriginalRegistrationState,
     'Final registration state',
+);
+$Self->Is(
+    $FinalRegistrationUniqueID,
+    $OriginalRegistrationUniqueID,
+    'Final registration UniqueID',
 );
 $Self->Is(
     $FinalTaskCount,
