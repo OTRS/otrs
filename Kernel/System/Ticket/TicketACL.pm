@@ -2106,7 +2106,7 @@ sub _CompareMatchWithData {
 
     # check needed stuff
     for my $Needed (qw(Match Data)) {
-        if ( !$Param{$Needed} ) {
+        if ( !defined $Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
