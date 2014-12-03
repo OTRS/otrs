@@ -21,6 +21,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::PID',
+    'Kernel::System::Registration',
     'Kernel::System::Scheduler::TaskManager',
     'Kernel::System::Time',
 );
@@ -93,6 +94,9 @@ sub Run {
 
     # try to update PID changed time
     $Self->_PIDChangedTimeUpdate();
+
+    # Perform sanity checks
+    $Self->_SanityChecks();
 
     # get all tasks
     my @TaskList = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskList();
@@ -285,6 +289,70 @@ sub TaskRegister {
 
     # otherwise return the task ID
     return $TaskID;
+}
+
+=item _SanityChecks()
+
+performs checks for the currently registered tasks.
+
+=cut
+
+sub _SanityChecks {
+    my ( $Self, %Param ) = @_;
+
+    $Self->_SanityCheckSystemRegistration();
+
+    return 1;
+}
+
+sub _SanityCheckSystemRegistration {
+    my ( $Self, %Param ) = @_;
+
+    my %RegistrationData = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationDataGet();
+
+    # get all tasks
+    my $TaskManagerObject          = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
+    my @TaskList                   = $TaskManagerObject->TaskList();
+    my @RegistrationUpdateTaskList = grep { $_->{Type} eq 'RegistrationUpdate' } @TaskList;
+
+    # Registered system, must have RegistrationUpdate task.
+    if ( $RegistrationData{State} && $RegistrationData{State} eq 'registered' ) {
+
+        # Is there exactly 1 task?
+        if ( scalar @RegistrationUpdateTaskList == 1 ) {
+            return 1;
+        }
+        elsif ( scalar @RegistrationUpdateTaskList == 0 ) {
+
+            # Ok, RegistrationUpdate task is missing. Create it.
+            $TaskManagerObject->TaskAdd(
+                Type => 'RegistrationUpdate',
+                Data => {
+                    ReSchedule => 1,
+                },
+            );
+        }
+        else {
+            # Ok, there is more than one task. Remove the others.
+            shift @RegistrationUpdateTaskList;
+            for my $RegistrationUpdateTask (@RegistrationUpdateTaskList) {
+                $TaskManagerObject->TaskDelete(
+                    ID => $RegistrationUpdateTask->{ID}
+                );
+            }
+        }
+    }
+
+    # Not registered system, may not have RegistrationUpdate task.
+    else {
+        # Delete any remaining tasks.
+        for my $RegistrationUpdateTask (@RegistrationUpdateTaskList) {
+            $TaskManagerObject->TaskDelete(
+                ID => $RegistrationUpdateTask->{ID}
+            );
+        }
+    }
+    return 1;
 }
 
 =item _PIDChangedTimeUpdate()
