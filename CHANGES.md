@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-03 Improved the AdminRegistration frontend for systems without a running scheduler.
  - 2014-12-03 Improved stability of RegistrationUpdate handling.
  - 2014-12-02 Fixed bug#[10917](http://bugs.otrs.org/show_bug.cgi?id=10917) - Wrong messages for password reset.
  - 2014-12-02 Fixed bug#[10916](http://bugs.otrs.org/show_bug.cgi?id=10916) - Missing values AgentTicketEscalation / Localize function call does not work.

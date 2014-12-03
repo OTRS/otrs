@@ -16,6 +16,7 @@ use Kernel::System::Environment;
 use Kernel::System::Registration;
 use Kernel::System::SystemData;
 use Kernel::System::OTRSBusiness;
+use Kernel::System::PID;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,6 +35,7 @@ sub new {
     $Self->{RegistrationObject} = Kernel::System::Registration->new(%Param);
     $Self->{SystemDataObject}   = Kernel::System::SystemData->new(%Param);
     $Self->{OTRSBusinessObject} = Kernel::System::OTRSBusiness->new(%Param);
+    $Self->{PIDObject}          = Kernel::System::PID->new(%Param);
 
     $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
         Key => 'Registration::State',
@@ -57,10 +59,39 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
+    # Scheduler not running screen
+    # ------------------------------------------------------------ #
+    if (   $Self->{Subaction} ne 'OTRSIDValidate'
+        && $Self->{RegistrationState} ne 'registered'
+        && !$Self->_SchedulerRunning() )
+    {
+
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => \%Param,
+        );
+
+        $Self->{LayoutObject}->Block(
+            Name => 'SchedulerNotRunning',
+        );
+
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminRegistration',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+
+        return $Output;
+    }
+
+    # ------------------------------------------------------------ #
     # check OTRS ID
     # ------------------------------------------------------------ #
 
-    if ( $Self->{Subaction} eq 'CheckOTRSID' ) {
+    elsif ( $Self->{Subaction} eq 'CheckOTRSID' ) {
 
         my $OTRSID   = $Self->{ParamObject}->GetParam( Param => 'OTRSID' )   || '';
         my $Password = $Self->{ParamObject}->GetParam( Param => 'Password' ) || '';
@@ -166,9 +197,22 @@ sub Run {
                 Data => \%Param,
             );
 
-            my $Block = $Self->{RegistrationState} ne 'registered'
-                ? 'OTRSIDRegistration'
-                : 'OTRSIDDeregistration';
+            # check if the scheduler is not running
+            if ( $Self->{RegistrationState} ne 'registered' && !$Self->_SchedulerRunning() ) {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'OTRSIDValidationSchedulerNotRunning',
+                );
+            }
+            else {
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'OTRSIDValidationForm',
+                    Data => \%Param,
+                );
+            }
+
+            my $Block = $Self->{RegistrationState} ne 'registered' ? 'OTRSIDRegistration' : 'OTRSIDDeregistration';
             $Self->{LayoutObject}->Block(
                 Name => $Block,
             );
@@ -553,6 +597,24 @@ sub _SentDataOverview {
     $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;
+}
+
+sub _SchedulerRunning {
+    my ( $Self, %Param ) = @_;
+
+    # try to get scheduler PID
+    my %PID = $Self->{PIDObject}->PIDGet(
+        Name => 'otrs.Scheduler',
+    );
+
+    my $PIDUpdateTime = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 600;
+
+    # check if scheduler process is registered in the DB and if the update was not too long ago
+    if ( !%PID || ( time() - $PID{Changed} > 4 * $PIDUpdateTime ) ) {
+        return;
+    }
+
+    return 1;
 }
 
 1;
