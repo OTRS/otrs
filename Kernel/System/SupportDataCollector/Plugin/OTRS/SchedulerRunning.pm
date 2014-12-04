@@ -34,11 +34,11 @@ sub Run {
     my $PIDUpdateTime = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 600;
 
     # check if scheduler process is registered in the DB and if the update was not too long ago
-    if ( !%PID || (time() - $PID{Changed} > 4 * $PIDUpdateTime) ) {
+    if ( !%PID || ( time() - $PID{Changed} > 4 * $PIDUpdateTime ) ) {
 
         $Self->AddResultProblem(
-            Label => 'Scheduler',
-            Value => 0,
+            Label   => 'Scheduler',
+            Value   => 0,
             Message => 'Scheduler is not running.',
         );
     }

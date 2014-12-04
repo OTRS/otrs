@@ -78,6 +78,7 @@ else {
         Value  => 'registered',
         UserID => 1,
     );
+
     # Fake a UniqueID if system was not registered yet.
     $SystemDataObject->SystemDataAdd(
         Key    => 'Registration::UniqueID',
@@ -149,6 +150,7 @@ else {
         Key    => 'Registration::State',
         UserID => 1,
     );
+
     # Remove fake UniqueID
     $SystemDataObject->SystemDataDelete(
         Key    => 'Registration::UniqueID',
