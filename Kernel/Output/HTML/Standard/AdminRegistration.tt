@@ -549,11 +549,18 @@
                     [% Translate('The data will be transferred in JSON format via a secure https connection.') | html %]
                 </p>
                 <h3 class="SpacingTop SpacingBottom">[% Translate('System Registration Data') | html %]</h3>
-                <pre><code>[% Data.RegistrationUpdate | replace('\$VAR1 = ', '') | html %]</code></pre>
+                <textarea class="SupportData AsBlock W95pc" rows="10">[% Data.RegistrationUpdate | replace('\$VAR1 = ', '') | html %]</textarea>
                 [% IF Data.SupportData %]
                 <h3 class="SpacingTop SpacingBottom">[% Translate('Support Data') | html %]</h3>
-                <pre><code>[% Data.SupportData | replace('\$VAR1 = ', '') | html %]</code></pre>
+                <textarea class="SupportData AsBlock W95pc" rows="10">[% Data.SupportData | replace('\$VAR1 = ', '') | html %]</textarea>
                 [% END %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('textarea.SupportData').bind('focus', function() {
+    $(this).select();
+});
+//]]></script>
+[% END %]
 [% RenderBlockEnd("SentDataOverviewData") %]
             </div>
             <div class="Clear"></div>
