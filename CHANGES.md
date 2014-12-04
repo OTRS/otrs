@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-04 Fixed bug#[10901](http://bugs.otrs.org/show_bug.cgi?id=10901) - Database Update to 4.pl.
  - 2014-12-04 Removed incorrect notice about SQL query length. (#d0bd52b)
  - 2014-12-03 Improved the AdminRegistration frontend for systems without a running scheduler.
  - 2014-12-03 Improved stability of RegistrationUpdate handling.

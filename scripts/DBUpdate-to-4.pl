@@ -531,10 +531,14 @@ sub _MigrateProcessManagementEntityIDs {
 
             my $NewActivityEntityID = $EntityLookup{Activity}->{$ActivityEntityID};
 
-            if ( !$NewActivityEntityID ) {
-                die "Error: No new EntityID was created for Activity: $ActivityEntityID}";
+            if ($NewActivityEntityID) {
+                $NewLayout{$NewActivityEntityID} = $Process->{Layout}->{$ActivityEntityID};
             }
-            $NewLayout{$NewActivityEntityID} = $Process->{Layout}->{$ActivityEntityID};
+            else {
+                print "\n Warning: Process '$Process->{EntityID} - $Process->{Name}' layout contains a reference"
+                    . " to a non existing Activity '$ActivityEntityID', this activity will be skipped."
+                    . " Please check the process after the migration process ends\n";
+            }
         }
         $Process->{Layout} = \%NewLayout;
 
