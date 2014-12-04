@@ -168,7 +168,7 @@ sub Request {
         #   SSL certificate validation.
         if ( $Kernel::OM->Get('Kernel::Config')->Get('WebUserAgent::DisableSSLVerification') ) {
             my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require(
-                'NET::SSLeay',
+                'Net::SSLeay',
                 Silent => 1,
             );
             if ($Loaded) {
