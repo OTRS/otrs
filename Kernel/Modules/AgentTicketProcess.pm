@@ -13,22 +13,23 @@ package Kernel::Modules::AgentTicketProcess;
 use strict;
 use warnings;
 
+use Kernel::System::CheckItem;
+use Kernel::System::CustomerUser;
+use Kernel::System::DynamicField::Backend;
+use Kernel::System::DynamicField;
+use Kernel::System::Lock;
+use Kernel::System::Priority;
 use Kernel::System::ProcessManagement::Activity;
 use Kernel::System::ProcessManagement::ActivityDialog;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::ProcessManagement::Transition;
 use Kernel::System::ProcessManagement::Process;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::State;
-use Kernel::System::Web::UploadCache;
 use Kernel::System::Service;
 use Kernel::System::SLA;
-use Kernel::System::Lock;
-use Kernel::System::Priority;
-use Kernel::System::CustomerUser;
+use Kernel::System::State;
 use Kernel::System::Type;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::UploadCache;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +72,9 @@ sub new {
     );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
     $Self->{TypeObject}         = Kernel::System::Type->new(%Param);
-    $Self->{DynamicField}       = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
+
+    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
         Valid      => 1,
         ObjectType => 'Ticket',
     );
@@ -2634,10 +2637,6 @@ sub _RenderCustomer {
             Name => 'LabelSpanCustomerUser',
             Data => {},
         );
-        $Self->{LayoutObject}->Block(
-            Name => 'LabelSpanCustomerID',
-            Data => {},
-        );
     }
 
     if ( $Param{DescriptionShort} ) {
@@ -4130,17 +4129,27 @@ sub _StoreActivityDialog {
                     );
                 }
 
-                my $CustomerID = $Param{GetParam}{CustomerID};
-                if ( !$CustomerID ) {
-                    $Error{'CustomerID'} = 1;
-                }
-                $TicketParam{CustomerID} = $CustomerID;
+                # CustomerID should not be mandatory as in other screens
+                $TicketParam{CustomerID} = $Param{GetParam}{CustomerID} || '';
 
                 # Unfortunately TicketCreate needs 'CustomerUser' as param instead of 'CustomerUserID'
                 my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
+
+                # fall-back, if customer auto-complete does not shown any results, then try to use
+                # the content of the original field as customer user id
                 if ( !$CustomerUserID ) {
-                    $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'SelectedUserID' );
+
+                    $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' );
+
+                    # check email address
+                    for my $Email ( Mail::Address->parse($CustomerUserID) ) {
+                        if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) )
+                        {
+                            $Error{'CustomerUserID'} = 1;
+                        }
+                    }
                 }
+
                 if ( !$CustomerUserID ) {
                     $Error{'CustomerUserID'} = 1;
                 }

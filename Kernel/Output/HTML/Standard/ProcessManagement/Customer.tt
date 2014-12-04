@@ -30,14 +30,11 @@
 </div>
 <div class="Clear"></div>
 
-<label for="CustomerID" class="[% Data.MandatoryClass %]">
-[% RenderBlockStart("LabelSpanCustomerID") %]
-    <span class="Marker">*</span>
-[% RenderBlockEnd("LabelSpanCustomerID") %]
+<label for="CustomerID" class="">
     [% Data.LabelCustomerID | html %]:
 </label>
 <div class="Field">
-    <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" class="W50pc Validate_Required [% Data.CustomerIDServerError | html %]"/>
+    <input type="text" id="CustomerID" name="CustomerID" value="[% Data.CustomerID | html %]" class="W50pc [% Data.CustomerIDServerError | html %]"/>
     <div id="CustomerIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="CustomerIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
 [% RenderBlockStart("rw:Customer:DescriptionShort") %]
