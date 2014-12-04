@@ -484,16 +484,6 @@ sub Do {
         );
     }
 
-    # check length, don't use more than 4 k
-    if ( bytes::length( $Param{SQL} ) > 4 * 1024 ) {
-        $Self->{LogObject}->Log(
-            Caller   => 1,
-            Priority => 'notice',
-            Message  => 'Your SQL is longer than 4k, this does not work on many '
-                . 'databases. Use bind instead! SQL: ' . $Param{SQL},
-        );
-    }
-
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
         $DBListener->PreDo(
             SQL  => $Param{SQL},
