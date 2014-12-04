@@ -142,7 +142,7 @@ elsif ( $Opts{a} && $Opts{a} eq "reload" ) {
 
     # log daemon stop
     $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'notice',
+        Priority => 'debug',
         Message  => "Scheduler Daemon reload request! PID $SchedulerPID{PID}",
     );
     exit 0;
@@ -297,7 +297,7 @@ sub _Start {
 
                 # log old backup file deleted
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'notice',
+                    Priority => 'debug',
                     Message  => "Scheduler deleted old backup file $LogFile!",
                 );
             }
@@ -575,7 +575,7 @@ sub _Status {
 
     # log daemon stop
     $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'notice',
+        Priority => 'debug',
         Message  => "Scheduler Daemon status request! PID $SchedulerPID{PID}",
     );
 
