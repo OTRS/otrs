@@ -106,7 +106,7 @@
             </div>
             <div class="Content">
                 <p>
-                    [% Translate("Please note that you can't register your system if you scheduler is not running correctly!") | html %]
+                    [% Translate("Please note that you can't register your system if your scheduler is not running correctly!") | html %]
                     <a href="#" class="SchedulerInfo">[% Translate("Instructions") | html %]</a>.
                 </p>
             </div>
@@ -291,7 +291,7 @@
 [% RenderBlockStart("OTRSIDValidationSchedulerNotRunning") %]
                     <div class="ServiceDescription">
                         <p>
-                            [% Translate("Please note that you can't register your system if you scheduler is not running correctly!") | html %]
+                            [% Translate("Please note that you can't register your system if your scheduler is not running correctly!") | html %]
                             <a href="#" class="SchedulerInfo">[% Translate("Instructions") | html %]</a>.
                         </p>
                     </div>
