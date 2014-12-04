@@ -694,9 +694,9 @@ sub Run {
         );
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
-                Title => 'Login',
+                Title   => 'Login',
                 Message => $Message,
-                User => $User,
+                User    => $User,
             ),
         );
         return 1;

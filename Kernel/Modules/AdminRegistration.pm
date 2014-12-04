@@ -61,9 +61,11 @@ sub Run {
     # ------------------------------------------------------------ #
     # Scheduler not running screen
     # ------------------------------------------------------------ #
-    if (   $Self->{Subaction} ne 'OTRSIDValidate'
+    if (
+        $Self->{Subaction} ne 'OTRSIDValidate'
         && $Self->{RegistrationState} ne 'registered'
-        && !$Self->_SchedulerRunning() )
+        && !$Self->_SchedulerRunning()
+        )
     {
 
         my $Output = $Self->{LayoutObject}->Header();

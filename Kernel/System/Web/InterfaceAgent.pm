@@ -705,9 +705,9 @@ sub Run {
         );
         $LayoutObject->Print(
             Output => \$LayoutObject->Login(
-                Title => 'Login',
+                Title   => 'Login',
                 Message => $Message,
-                User => $User,
+                User    => $User,
                 %Param,
             ),
         );
