@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-05 Fixed bug#[10926](http://bugs.otrs.org/show_bug.cgi?id=10926) - Missing Apache2::Reload.pm.
  - 2014-12-05 Follow-up for bug#[10613](http://bugs.otrs.org/show_bug.cgi?id=10613) - Fixed the problem with calling TicketGet() twice.
  - 2014-12-05 Fixed bug#[10922](http://bugs.otrs.org/show_bug.cgi?id=10922) - There is no automatic wildcard search in AdminCustomerCompany by default.
  - 2014-12-05 Fixed bug#[10929](http://bugs.otrs.org/show_bug.cgi?id=10929) - Twice rewrap body in CustomerTicketZoom.
