@@ -11,7 +11,10 @@ package Kernel::Modules::AgentTicketHistory;
 
 use strict;
 use warnings;
+
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;

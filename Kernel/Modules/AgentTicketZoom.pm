@@ -12,6 +12,8 @@ package Kernel::Modules::AgentTicketZoom;
 use strict;
 use warnings;
 
+use POSIX qw/ceil/;
+
 use Kernel::System::CustomerUser;
 use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
@@ -24,9 +26,9 @@ use Kernel::System::ProcessManagement::Transition;
 use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::SystemAddress;
 use Kernel::System::JSON;
-
 use Kernel::System::VariableCheck qw(:all);
-use POSIX qw/ceil/;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
