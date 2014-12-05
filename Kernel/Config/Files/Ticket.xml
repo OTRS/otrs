@@ -9081,7 +9081,6 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
-                <Item Key="StopAfterMatch">0</Item>
                 <Item Key="Match">
                     <Hash>
                         <Item Key="From">noreply@</Item>
@@ -9102,7 +9101,6 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
-                <Item Key="StopAfterMatch">0</Item>
                 <Item Key="Match">
                     <Hash>
                         <Item Key="Subject">SomeNumber:(\d\d\d\d)</Item>
@@ -9124,7 +9122,6 @@
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::NewTicketReject</Item>
-                <Item Key="StopAfterMatch">0</Item>
                 <Item Key="Match">
                     <Hash>
                         <Item Key="From">@example.com</Item>
