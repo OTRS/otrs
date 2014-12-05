@@ -141,6 +141,11 @@ sub Run {
             Data => \%Param,
         );
 
+        $Self->{LayoutObject}->Block(
+            Name => 'OTRSIDValidationForm',
+            Data => \%Param,
+        );
+
         my $Block = $Self->{RegistrationState} ne 'registered'
             ? 'OTRSIDRegistration'
             : 'OTRSIDDeregistration';
