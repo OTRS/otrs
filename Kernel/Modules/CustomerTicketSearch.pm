@@ -1380,12 +1380,22 @@ sub MaskForm {
         Name        => 'Profile',
         SelectedID  => $Param{Profile},
     );
+
+    my %ServiceList;
+    if ( $Self->{ConfigObject}->Get('Customer::TicketSearch::AllServices') ) {
+        %ServiceList = $Self->{ServiceObject}->ServiceList(
+            UserID => $Self->{UserID},
+        ),
+    }
+    else {
+        %ServiceList = $Self->{ServiceObject}->CustomerUserServiceMemberList(
+            CustomerUserLogin => $Self->{UserID},
+            Result            => 'HASH',
+        ),
+    }
+
     $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data => {
-            $Self->{ServiceObject}->ServiceList(
-                UserID => $Self->{UserID},
-            ),
-        },
+        Data       => \%ServiceList,
         Name       => 'ServiceIDs',
         Multiple   => 1,
         Size       => 5,
