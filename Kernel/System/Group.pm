@@ -51,6 +51,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    # TODO can be removed after recoding is complete
     $Self->{CacheType} = 'Group';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
@@ -61,9 +62,13 @@ sub new {
 
 get id or name for group
 
-    my $Group = $GroupObject->GroupLookup( GroupID => $GroupID );
+    my $Group = $GroupObject->GroupLookup(
+        GroupID => $GroupID,
+    );
 
-    my $GroupID = $GroupObject->GroupLookup( Group => $Group );
+    my $GroupID = $GroupObject->GroupLookup(
+        Group => $Group,
+    );
 
 =cut
 
@@ -79,69 +84,17 @@ sub GroupLookup {
         return;
     }
 
-    # check if result is cached
-    my $CacheKey;
-    if ( $Param{GroupID} ) {
-        $CacheKey = "GroupLookup::ID::$Param{GroupID}";
-    }
-    elsif ( $Param{Group} ) {
-        $CacheKey = "GroupLookup::Name::$Param{Group}";
-    }
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type => $Self->{CacheType},
-        Key  => $CacheKey,
-    );
-    return $Cache if $Cache;
-
-    # get data
-    my $SQL;
-    my @Bind;
-    my $Suffix;
-    if ( $Param{Group} ) {
-        $Param{What} = $Param{Group};
-        $Suffix      = 'GroupID';
-        $SQL         = 'SELECT id FROM groups WHERE name = ?';
-        push @Bind, \$Param{Group};
-    }
-    else {
-        $Param{What} = $Param{GroupID};
-        $Suffix      = 'Group';
-        $SQL         = 'SELECT name FROM groups WHERE id = ?';
-        push @Bind, \$Param{GroupID};
-    }
-
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    return if !$DBObject->Prepare(
-        SQL  => $SQL,
-        Bind => \@Bind,
+    # get group list
+    my %GroupList = $Self->GroupList(
+        Valid => 1,
     );
 
-    my $Result;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Result = $Row[0];
-    }
+    return $GroupList{ $Param{GroupID} } if $Param{GroupID};
 
-    # check if data exists
-    if ( !$Result ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Found no \$$Suffix for $Param{What}!",
-        );
-        return;
-    }
+    # create reverse list
+    my %GroupListReverse = reverse %GroupList;
 
-    # set cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => $Self->{CacheType},
-        TTL   => $Self->{CacheTTL},
-        Key   => $CacheKey,
-        Value => $Result,
-    );
-
-    # return result
-    return $Result;
+    return $GroupListReverse{ $Param{Group} };
 }
 
 =item GroupAdd()
@@ -189,6 +142,7 @@ sub GroupAdd {
         SQL  => 'SELECT id FROM groups WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
+
     my $GroupID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $GroupID = $Row[0];
@@ -202,7 +156,7 @@ sub GroupAdd {
 
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
+        Type => 'Group',
     );
 
     return $GroupID;
@@ -212,7 +166,9 @@ sub GroupAdd {
 
 returns a hash with group data
 
-    my %GroupData = $GroupObject->GroupGet( ID => 2 );
+    my %GroupData = $GroupObject->GroupGet(
+        ID => 2,
+    );
 
 This returns something like:
 
@@ -239,26 +195,15 @@ sub GroupGet {
         return;
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # sql
-    return if !$DBObject->Prepare(
-        SQL => 'SELECT name, valid_id, comments, change_time, create_time '
-            . 'FROM groups WHERE id = ?',
-        Bind => [ \$Param{ID} ],
+    # get group list
+    my %GroupList = $Self->GroupDataList(
+        Valid => 1,
     );
 
+    # extract group data
     my %Group;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
-        %Group = (
-            ID         => $Param{ID},
-            Name       => $Data[0],
-            Comment    => $Data[2],
-            ValidID    => $Data[1],
-            ChangeTime => $Data[3],
-            CreateTime => $Data[4],
-        );
+    if ( $GroupList{ $Param{ID} } && ref $GroupList{ $Param{ID} } eq 'HASH' ) {
+        %Group = %{ $GroupList{ $Param{ID} } };
     }
 
     return %Group;
@@ -300,13 +245,13 @@ sub GroupUpdate {
         SQL => 'UPDATE groups SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID}
+            \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
 
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
+        Type => 'Group',
     );
 
     return 1;
@@ -316,7 +261,9 @@ sub GroupUpdate {
 
 returns a hash of all groups
 
-    my %Groups = $GroupObject->GroupList( Valid => 1 );
+    my %Groups = $GroupObject->GroupList(
+        Valid => 1,   # (optional) default 0
+    );
 
 the result looks like
 
@@ -332,49 +279,152 @@ the result looks like
 sub GroupList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = $Param{Valid} || 0;
+    # set default value
+    my $Valid = $Param{Valid} ? 1 : 0;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # create cache key
     my $CacheKey = 'GroupList::' . $Valid;
 
-    # check cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type => $Self->{CacheType},
+    # read cache
+    my $Cache = $CacheObject->Get(
+        Type => 'Group',
         Key  => $CacheKey,
     );
-    if ( ref $Cache eq 'HASH' ) {
-        return %{$Cache};
+    return %{$Cache} if $Cache;
+
+    # get valid ids
+    my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
+    # get group data list
+    my %GroupDataList = $Self->GroupDataList();
+
+    my %GroupListValid;
+    my %GroupListAll;
+    KEY:
+    for my $Key ( sort keys %GroupDataList ) {
+
+        next KEY if !$Key;
+
+        # add group to the list of all groups
+        $GroupListAll{$Key} = $GroupDataList{$Key}->{Name};
+
+        my $Match;
+        VALIDID:
+        for my $ValidID (@ValidIDs) {
+
+            next VALIDID if $ValidID ne $GroupDataList{$Key}->{ValidID};
+
+            $Match = 1;
+
+            last VALIDID;
+        }
+
+        next KEY if !$Match;
+
+        # add group to the list of valid groups
+        $GroupListValid{$Key} = $GroupDataList{$Key}->{Name};
     }
 
-    my $SQL = 'SELECT id, name FROM groups';
+    # set cache
+    $CacheObject->Set(
+        Type => 'Group',
+        Key  => 'GroupList::0',
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%GroupListAll,
+    );
+    $CacheObject->Set(
+        Type => 'Group',
+        Key  => 'GroupList::1',
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%GroupListValid,
+    );
 
-    if ($Valid) {
+    return %GroupListValid if $Valid;
+    return %GroupListAll;
+}
 
-        # get valid ids
-        my $ValidIDs = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
+=item GroupDataList()
 
-        $SQL .= " WHERE valid_id IN ($ValidIDs)";
-    }
+returns a hash of all group data
+
+    my %GroupDataList = $GroupObject->GroupDataList();
+
+the result looks like
+
+    %GroupDataList = (
+        1 => {
+            ID         => 1,
+            Name       => 'Group 1',
+            Comment    => 'The Comment of Group 1',
+            ValidID    => 1,
+            CreateTime => '2014-01-01 00:20:00',
+            CreateBy   => 1,
+            ChangeTime => '2014-01-02 00:10:00',
+            ChangeBy   => 1,
+        },
+        2 => {
+            ID         => 2,
+            Name       => 'Group 2',
+            Comment    => 'The Comment of Group 2',
+            ValidID    => 1,
+            CreateTime => '2014-11-01 10:00:00',
+            CreateBy   => 1,
+            ChangeTime => '2014-11-02 01:00:00',
+            ChangeBy   => 1,
+        },
+    );
+
+=cut
+
+sub GroupDataList {
+    my ( $Self, %Param ) = @_;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # read cache
+    my $Cache = $CacheObject->Get(
+        Type => 'Group',
+        Key  => 'GroupDataList',
+    );
+    return %{$Cache} if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # get all group data from database
     return if !$DBObject->Prepare(
-        SQL => $SQL,
+        SQL => 'SELECT id, name, comments, valid_id, create_time, create_by, change_time, change_by FROM groups',
     );
-    my %Groups;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
-        $Groups{ $Data[0] } = $Data[1];
+
+    # fetch the result
+    my %GroupDataList;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+
+        $GroupDataList{ $Row[0] } = {
+            ID         => $Row[0],
+            Name       => $Row[1],
+            Comment    => $Row[2],
+            ValidID    => $Row[3],
+            CreateTime => $Row[4],
+            CreateBy   => $Row[5],
+            ChangeTime => $Row[6],
+            ChangeBy   => $Row[7],
+        };
     }
 
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => $Self->{CacheType},
-        TTL   => $Self->{CacheTTL},
-        Key   => $CacheKey,
-        Value => \%Groups,
+    # set cache
+    $CacheObject->Set(
+        Type  => 'Group',
+        Key   => 'GroupDataList',
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%GroupDataList,
     );
 
-    return %Groups;
+    return %GroupDataList;
 }
 
 =item GroupMemberAdd()
@@ -1544,9 +1594,13 @@ sub GroupUserRoleMemberAdd {
 
 get id or name for role
 
-    my $Role = $RoleObject->RoleLookup( RoleID => $RoleID );
+    my $Role = $RoleObject->RoleLookup(
+        RoleID => $RoleID,
+    );
 
-    my $RoleID = $RoleObject->RoleLookup( Role => $Role );
+    my $RoleID = $RoleObject->RoleLookup(
+        Role => $Role,
+    );
 
 =cut
 
@@ -1557,80 +1611,31 @@ sub RoleLookup {
     if ( !$Param{Role} && !$Param{RoleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Got no Role or RoleID!'
+            Message  => 'Got no Role or RoleID!',
         );
         return;
     }
 
-    # check if result is cached
-    my $CacheKey;
-    if ( $Param{RoleID} ) {
-        $CacheKey = "RoleLookup::ID::$Param{RoleID}";
-    }
-    elsif ( $Param{Role} ) {
-        $CacheKey = "RoleLookup::Name::$Param{Role}";
-    }
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type => $Self->{CacheType},
-        Key  => $CacheKey,
-    );
-    return $Cache if $Cache;
-
-    # get data
-    my $SQL;
-    my @Bind;
-    my $Suffix;
-    if ( $Param{Role} ) {
-        $Param{What} = $Param{Role};
-        $Suffix      = 'RoleID';
-        $SQL         = 'SELECT id FROM roles WHERE name = ?';
-        push @Bind, \$Param{Role};
-    }
-    else {
-        $Param{What} = $Param{RoleID};
-        $Suffix      = 'Role';
-        $SQL         = 'SELECT name FROM roles WHERE id = ?';
-        push @Bind, \$Param{RoleID};
-    }
-
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    return if !$DBObject->Prepare(
-        SQL  => $SQL,
-        Bind => \@Bind,
-    );
-    my $Result;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Result = $Row[0];
-    }
-
-    # check if data exists
-    if ( !$Result ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Found no \$$Suffix for $Param{What}!",
-        );
-        return;
-    }
-
-    # set cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => $Self->{CacheType},
-        TTL   => $Self->{CacheTTL},
-        Key   => $CacheKey,
-        Value => $Result,
+    # get role list
+    my %RoleList = $Self->RoleList(
+        Valid => 1,
     );
 
-    # return result
-    return $Result;
+    return $RoleList{ $Param{RoleID} } if $Param{RoleID};
+
+    # create reverse list
+    my %RoleListReverse = reverse %RoleList;
+
+    return $RoleListReverse{ $Param{Role} };
 }
 
 =item RoleGet()
 
 returns a hash with role data
 
-    my %RoleData = $GroupObject->RoleGet( ID => 2 );
+    my %RoleData = $GroupObject->RoleGet(
+        ID => 2,
+    );
 
 This returns something like:
 
@@ -1657,25 +1662,15 @@ sub RoleGet {
         return;
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    # sql
-    return if !$DBObject->Prepare(
-        SQL  => 'SELECT name, valid_id, comments, change_time, create_time FROM roles WHERE id = ?',
-        Bind => [ \$Param{ID} ],
+    # get role list
+    my %RoleList = $Self->RoleDataList(
+        Valid => 1,
     );
 
+    # extract role data
     my %Role;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
-        %Role = (
-            ID         => $Param{ID},
-            Name       => $Data[0],
-            Comment    => $Data[2],
-            ValidID    => $Data[1],
-            ChangeTime => $Data[3],
-            CreateTime => $Data[4],
-        );
+    if ( $RoleList{ $Param{ID} } && ref $RoleList{ $Param{ID} } eq 'HASH' ) {
+        %Role = %{ $RoleList{ $Param{ID} } };
     }
 
     return %Role;
@@ -1727,6 +1722,8 @@ sub RoleAdd {
         SQL  => 'SELECT id FROM roles WHERE name = ?',
         Bind => [ \$Param{Name}, ],
     );
+
+    # fetch the result
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $RoleID = $Row[0];
     }
@@ -1739,7 +1736,7 @@ sub RoleAdd {
 
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
+        Type => 'Role',
     );
 
     return $RoleID;
@@ -1784,7 +1781,7 @@ sub RoleUpdate {
 
     # reset cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
+        Type => 'Role',
     );
 
     return 1;
@@ -1794,7 +1791,9 @@ sub RoleUpdate {
 
 returns a hash of all roles
 
-    my %Roles = $GroupObject->RoleList( Valid => 1 );
+    my %Roles = $GroupObject->RoleList(
+        Valid => 1,
+    );
 
 the result looks like
 
@@ -1810,50 +1809,152 @@ the result looks like
 sub RoleList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = $Param{Valid} || 0;
+    # set default value
+    my $Valid = $Param{Valid} ? 1 : 0;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # create cache key
     my $CacheKey = 'RoleList::' . $Valid;
 
-    # check cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type => $Self->{CacheType},
+    # read cache
+    my $Cache = $CacheObject->Get(
+        Type => 'Role',
         Key  => $CacheKey,
     );
-    if ( ref $Cache eq 'HASH' ) {
-        return %{$Cache};
+    return %{$Cache} if $Cache;
+
+    # get valid ids
+    my @ValidIDs = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
+
+    # get role data list
+    my %RoleDataList = $Self->RoleDataList();
+
+    my %RoleListValid;
+    my %RoleListAll;
+    KEY:
+    for my $Key ( sort keys %RoleDataList ) {
+
+        next KEY if !$Key;
+
+        # add role to the list of all roles
+        $RoleListAll{$Key} = $RoleDataList{$Key}->{Name};
+
+        my $Match;
+        VALIDID:
+        for my $ValidID (@ValidIDs) {
+
+            next VALIDID if $ValidID ne $RoleDataList{$Key}->{ValidID};
+
+            $Match = 1;
+
+            last VALIDID;
+        }
+
+        next KEY if !$Match;
+
+        # add role to the list of valid roles
+        $RoleListValid{$Key} = $RoleDataList{$Key}->{Name};
     }
 
-    my $SQL = 'SELECT id, name FROM roles';
+    # set cache
+    $CacheObject->Set(
+        Type => 'Role',
+        Key  => 'RoleList::0',
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%RoleListAll,
+    );
+    $CacheObject->Set(
+        Type => 'Role',
+        Key  => 'RoleList::1',
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%RoleListValid,
+    );
 
-    if ($Valid) {
+    return %RoleListValid if $Valid;
+    return %RoleListAll;
+}
 
-        # get valid ids
-        my $ValidIDs = join( ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet() );
+=item RoleDataList()
 
-        $SQL .= " WHERE valid_id IN ($ValidIDs)";
-    }
+returns a hash of all role data
+
+    my %RoleDataList = $GroupObject->RoleDataList();
+
+the result looks like
+
+    %RoleDataList = (
+        1 => {
+            ID         => 1,
+            Name       => 'Role 1',
+            Comment    => 'The Comment of Role 1',
+            ValidID    => 1,
+            CreateTime => '2014-01-01 00:20:00',
+            CreateBy   => 1,
+            ChangeTime => '2014-01-02 00:10:00',
+            ChangeBy   => 1,
+        },
+        2 => {
+            ID         => 2,
+            Name       => 'Role 2',
+            Comment    => 'The Comment of Role 2',
+            ValidID    => 1,
+            CreateTime => '2014-11-01 10:00:00',
+            CreateBy   => 1,
+            ChangeTime => '2014-11-02 01:00:00',
+            ChangeBy   => 1,
+        },
+    );
+
+=cut
+
+sub RoleDataList {
+    my ( $Self, %Param ) = @_;
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # read cache
+    my $Cache = $CacheObject->Get(
+        Type => 'Role',
+        Key  => 'RoleDataList',
+    );
+    return %{$Cache} if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # get all roles data from database
     return if !$DBObject->Prepare(
-        SQL => $SQL,
+        SQL => 'SELECT id, name, comments, valid_id, create_time, create_by, change_time, change_by FROM roles',
     );
 
-    my %Roles;
-    while ( my @Data = $DBObject->FetchrowArray() ) {
-        $Roles{ $Data[0] } = $Data[1];
+    # fetch the result
+    my %RoleDataList;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+
+        $RoleDataList{ $Row[0] } = {
+            ID         => $Row[0],
+            Name       => $Row[1],
+            Comment    => $Row[2],
+            ValidID    => $Row[3],
+            CreateTime => $Row[4],
+            CreateBy   => $Row[5],
+            ChangeTime => $Row[6],
+            ChangeBy   => $Row[7],
+        };
     }
 
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type  => $Self->{CacheType},
-        TTL   => $Self->{CacheTTL},
-        Key   => $CacheKey,
-        Value => \%Roles,
+    # set cache
+    $CacheObject->Set(
+        Type  => 'Role',
+        Key   => 'RoleDataList',
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%RoleDataList,
     );
 
-    return %Roles;
+    return %RoleDataList;
 }
 
 =begin Internal:
@@ -1864,7 +1965,9 @@ sub RoleList {
 
 returns a string for a sql IN elements which contains a comma separted list of system permissions.
 
-    my $TypeString = $GroupObject->_GetTypeString(Type => 'close');
+    my $TypeString = $GroupObject->_GetTypeString(
+        Type => 'close',
+    );
 
 =cut
 
