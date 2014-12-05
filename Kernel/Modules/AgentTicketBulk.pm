@@ -131,6 +131,7 @@ sub Run {
 
     # get involved tickets, filtering empty TicketIDs
     my @ValidTicketIDs;
+    my @IgnoreLockedTicketIDs;
     my @TicketIDs = grep {$_}
         $Self->{ParamObject}->GetArray( Param => 'TicketID' );
 
@@ -144,6 +145,9 @@ sub Run {
                 );
                 if ($AccessOk) {
                     push @ValidTicketIDs, $TicketID;
+                }
+                else {
+                    push @IgnoreLockedTicketIDs, $TicketID;
                 }
             }
             else {
@@ -349,21 +353,15 @@ sub Run {
             );
         }
         else {
-            if ( $Self->{TicketObject}->TicketLockGet( TicketID => $TicketID ) ) {
-                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                    TicketID => $TicketID,
-                    OwnerID  => $Self->{UserID},
+            if ( grep ( { $_ eq $TicketID } @IgnoreLockedTicketIDs ) ) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                    Data     => "$Ticket{TicketNumber}: "
+                        . $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        "Ticket is locked by another agent and will be ignored!"
+                        ),
                 );
-                if ( !$AccessOk ) {
-                    $Output .= $Self->{LayoutObject}->Notify(
-                        Priority => 'Error',
-                        Data     => "$Ticket{TicketNumber}: "
-                            . $Self->{LayoutObject}->{LanguageObject}->Translate(
-                            "Ticket is locked by another agent and will be ignored!"
-                            ),
-                    );
-                    next TICKET_ID;
-                }
+                next TICKET_ID;
             }
             else {
                 $LockedTickets .= "LockedTicketID=" . $TicketID . ';';
