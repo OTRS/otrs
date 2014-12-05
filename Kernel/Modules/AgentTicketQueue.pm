@@ -65,9 +65,24 @@ sub Run {
     my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
-    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
-        || $Self->{Config}->{'Order::Default'}
+
+    # Determine the default ordering to be used. Observe the QueueSort setting.
+    my $DefaultOrderBy = $Self->{Config}->{'Order::Default'}
         || 'Up';
+    if ( $Self->{Config}->{QueueSort} ) {
+        if ( defined $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
+            if ( $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
+                $DefaultOrderBy = 'Down';
+            }
+            else {
+                $DefaultOrderBy = 'Up';
+            }
+        }
+    }
+
+    # Set the sort order from the request parameters, or take the default.
+    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
+        || $DefaultOrderBy;
 
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
@@ -167,24 +182,6 @@ sub Run {
             Equals => $FilterValue,
         };
         $GetColumnFilter{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
-    }
-
-    # if we have only one queue, check if there
-    # is a setting in Config.pm for sorting
-    if ( !$OrderBy ) {
-        if ( $Self->{Config}->{QueueSort} ) {
-            if ( defined $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
-                if ( $Self->{Config}->{QueueSort}->{ $Self->{QueueID} } ) {
-                    $OrderBy = 'Down';
-                }
-                else {
-                    $OrderBy = 'Up';
-                }
-            }
-        }
-    }
-    if ( !$OrderBy ) {
-        $OrderBy = $Self->{Config}->{'Order::Default'} || 'Up';
     }
 
     # build NavigationBar & to get the output faster!
