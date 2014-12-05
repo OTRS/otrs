@@ -6584,6 +6584,17 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin::AdminCustomerUser</SubGroup>
         <Setting>
             <Option SelectedID="1">
+                <Item Key="1">No</Item>
+                <Item Key="0">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+     <ConfigItem Name="AdminCustomerCompany::RunInitialWildcardSearch" Required="1" Valid="1">
+        <Description Translatable="1">Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::AdminCustomerCompany</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>

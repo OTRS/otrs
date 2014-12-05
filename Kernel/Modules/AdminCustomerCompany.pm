@@ -41,6 +41,9 @@ sub Run {
 
     my $Nav = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
     my $NavigationBarType = $Nav eq 'Agent' ? 'Companies' : 'Admin';
+    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
+    $Search
+        ||= $Self->{ConfigObject}->Get('AdminCustomerCompany::RunInitialWildcardSearch') ? '*' : '';
 
     # ------------------------------------------------------------ #
     # change
@@ -105,7 +108,8 @@ sub Run {
                 )
             {
                 $Self->_Overview(
-                    Nav => $Nav,
+                    Nav    => $Nav,
+                    Search => $Search,
                 );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -196,7 +200,8 @@ sub Run {
                 )
             {
                 $Self->_Overview(
-                    Nav => $Nav,
+                    Nav    => $Nav,
+                    Search => $Search,
                 );
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -237,7 +242,8 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview(
-            Nav => $Nav,
+            Nav    => $Nav,
+            Search => $Search,
         );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
@@ -260,25 +266,21 @@ sub Run {
 
 sub _Edit {
     my ( $Self, %Param ) = @_;
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Data => \%Param,
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $Self->{LayoutObject}->Block(
+        Name => 'ActionOverview',
+        Data => \%Param,
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Data => \%Param,
     );
 
     # shows header
@@ -419,23 +421,16 @@ sub _Edit {
 
 sub _Overview {
     my ( $Self, %Param ) = @_;
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
-    my $Output = '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
-        Data => {
-            %Param,
-            Search => $Search,
-        },
+        Data => \%Param,
     );
 
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block(
         Name => 'ActionSearch',
-        Data => {
-            Nav => $Param{Nav},
-            }
+        Data => \%Param,
     );
 
     # get writable data sources
@@ -465,17 +460,14 @@ sub _Overview {
     my %List = ();
 
     # if there are any registries to search, the table is filled and shown
-    if ($Search) {
+    if ( $Param{Search} ) {
+        my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Param{Search},
+            Valid  => 0,
+        );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResult',
-            Data => {
-                %Param,
-                Search => $Search,
-            },
-        );
-        %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
-            Search => $Search,
-            Valid  => 0,
+            Data => \%Param,
         );
 
         # get valid list
@@ -490,7 +482,7 @@ sub _Overview {
                     Name => 'OverviewResultRow',
                     Data => {
                         %Data,
-                        Search => $Search,
+                        Search => $Param{Search},
                         Nav    => $Param{Nav},
                     },
                 );
