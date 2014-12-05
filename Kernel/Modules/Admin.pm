@@ -12,6 +12,8 @@ package Kernel::Modules::Admin;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 

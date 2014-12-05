@@ -20,6 +20,8 @@ use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Stats;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 

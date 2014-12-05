@@ -18,6 +18,8 @@ use Kernel::System::SystemData;
 use Kernel::System::OTRSBusiness;
 use Kernel::System::PID;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 

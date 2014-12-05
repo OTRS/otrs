@@ -28,6 +28,8 @@ use Kernel::System::TemplateGenerator;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::UploadCache;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
