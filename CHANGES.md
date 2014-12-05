@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-05 Fixed bug#[10929](http://bugs.otrs.org/show_bug.cgi?id=10929) - Twice rewrap body in CustomerTicketZoom.
  - 2014-12-05 Show only services assigned to the customer user in customer ticket search (configurable).
  - 2014-12-05 Fixed bug#[10932](http://bugs.otrs.org/show_bug.cgi?id=10932) - JS error if no entry in queue list.
  - 2014-12-04 Fixed bug#[10634](http://bugs.otrs.org/show_bug.cgi?id=10634) - ProcessManagement: Can not use an arbitrary email address as a CustomerUser.
