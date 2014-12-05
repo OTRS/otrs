@@ -102,7 +102,13 @@ sub Run {
     }
 
     # all following notifications should only be visible for admins
-    return '' if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+    if (
+        !defined $Self->{LayoutObject}->{"UserIsGroup[$Group]"}
+        || $Self->{LayoutObject}->{"UserIsGroup[$Group]"} ne 'Yes'
+        )
+    {
+        return '';
+    }
 
     # ----------------------------------------
     # check contract expiry
