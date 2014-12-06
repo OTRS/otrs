@@ -47,6 +47,12 @@ $ConfigObject->Set(
     Value => 0,
 );
 
+# disable SessionCheckRemoteIP setting
+$ConfigObject->Set(
+    Key   => 'SessionCheckRemoteIP',
+    Value => 0,
+);
+
 # new user object
 my $UserObject = Kernel::System::User->new(
     %{$Self},
