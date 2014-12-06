@@ -199,6 +199,32 @@ $Self->True(
     "QueueGet() - for testing queue",
 );
 
+# create new queue (Admin)
+my $QueueID2 = $QueueObject->QueueAdd(
+    Name            => 'TestQueue2' . $RandomID,
+    ValidID         => 1,
+    GroupID         => 2,
+    SystemAddressID => 1,
+    SalutationID    => 1,
+    SignatureID     => 1,
+    Comment         => 'Some comment',
+    UserID          => 1,
+);
+
+# sanity check
+$Self->True(
+    $QueueID2,
+    "QueueAdd() - create testing queue2",
+);
+
+my %QueueData2 = $QueueObject->QueueGet( ID => $QueueID2 );
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%QueueData2 ),
+    "QueueGet() - for testing queue2",
+);
+
 # create new type
 my $TypeID = $TypeObject->TypeAdd(
     Name    => 'TestType' . $RandomID,
@@ -497,6 +523,18 @@ my $UserLogin = $HelperObject->TestUserCreate(
     Groups => [ 'admin', 'users' ],
 );
 my $Password = $UserLogin;
+
+# create a new user without permissions for current test
+my $UserLogin2 = $HelperObject->TestUserCreate();
+my $Password2  = $UserLogin2;
+
+# create a customer where a ticket will use and will have permissions
+my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $CustomerPassword  = $CustomerUserLogin;
+
+# create a customer that will not have permissions
+my $CustomerUserLogin2 = $HelperObject->TestCustomerUserCreate();
+my $CustomerPassword2  = $CustomerUserLogin2;
 
 # start requester with our webservice
 my $RequesterSessionResult = $RequesterSessionObject->Run(
@@ -3053,6 +3091,61 @@ my @Tests        = (
         Operation => 'TicketCreate',
     },
     {
+        Name           => 'Ticket with IDs (Using Session)',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+            },
+        },
+        Auth => {
+            SessionID => $NewSessionID,
+        },
+        Operation => 'TicketCreate',
+    },
+
+    {
         Name           => 'Ticket with Names',
         SuccessRequest => 1,
         SuccessCreate  => 1,
@@ -3153,7 +3246,188 @@ my @Tests        = (
         },
         Operation => 'TicketCreate',
     },
+    {
+        Name           => 'Ticket with IDs Agent (No Permission)',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+            },
+        },
+        Auth => {
+            UserLogin => $UserLogin2,
+            Password  => $Password2,
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.AccessDenied',
+                    }
+            },
+            Success => 1
+        },
 
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Ticket with IDs Customer (With Permissions)',
+        SuccessRequest => 1,
+        SuccessCreate  => 1,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+            },
+        },
+        Auth => {
+            CustomerUserLogin => $CustomerUserLogin,
+            Password          => $CustomerPassword,
+        },
+        Operation => 'TicketCreate',
+    },
+    {
+        Name           => 'Ticket with IDs Customer (No Permission)',
+        SuccessRequest => 1,
+        SuccessCreate  => 0,
+        RequestData    => {
+            Ticket => {
+                Title         => 'Ticket Title',
+                CustomerUser  => $TestCustomerUserLogin,
+                QueueID       => $QueueID2,
+                TypeID        => $TypeID,
+                ServiceID     => $ServiceID,
+                SLAID         => $SLAID,
+                StateID       => $StateID,
+                PriorityID    => $PriorityID,
+                OwnerID       => $OwnerID,
+                ResponsibleID => $ResponsibleID,
+                PendingTime   => {
+                    Year   => 2012,
+                    Month  => 12,
+                    Day    => 16,
+                    Hour   => 20,
+                    Minute => 48,
+                },
+            },
+            Article => {
+                Subject                         => 'Article subject',
+                Body                            => 'Article body',
+                AutoResponseType                => 'auto reply',
+                ArticleTypeID                   => 1,
+                SenderTypeID                    => 1,
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
+                ExcludeMuteNotificationToUserID => [1],
+            },
+            DynamicField => {
+                Name  => $DynamicFieldData->{Name},
+                Value => '2012-01-17 12:40:00',
+            },
+            Attachment => {
+                Content     => 'VGhpcyBpcyBhIHRlc3QgdGV4dC4=',
+                ContentType => 'text/plain; charset=UTF8',
+                Filename    => 'Test.txt',
+            },
+        },
+        Auth => {
+            CustomerUserLogin => $CustomerUserLogin2,
+            Password          => $CustomerPassword2,
+        },
+        ExpectedData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketCreate.AccessDenied',
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketCreate',
+    },
 );
 
 # debugger object
@@ -3189,15 +3463,22 @@ for my $Test (@Tests) {
         "$Test->{Name} - Create local object",
     );
 
+    my %Auth = (
+        UserLogin => $UserLogin,
+        Password  => $Password,
+    );
+    if ( IsHashRefWithData( $Test->{Auth} ) ) {
+        %Auth = %{ $Test->{Auth} };
+    }
+
     # start requester with our webservice
     my $LocalResult = $LocalObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
         Data         => {
-            UserLogin => $UserLogin,
-            Password  => $Password,
+            %Auth,
             %{ $Test->{RequestData} },
-            }
+        },
     );
 
     # check result
@@ -3223,9 +3504,9 @@ for my $Test (@Tests) {
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
         Data         => {
-            SessionID => $NewSessionID,
+            %Auth,
             %{ $Test->{RequestData} },
-            }
+        },
     );
 
     # check result
@@ -3572,7 +3853,7 @@ $Self->True(
     "Deleted Webservice $WebserviceID",
 );
 
-# invalidate queue
+# invalidate queues
 {
     my $Success = $QueueObject->QueueUpdate(
         %QueueData,
@@ -3585,6 +3866,19 @@ $Self->True(
         $Success,
         "QueueUpdate() set queue $QueueData{Name} to invalid",
     );
+
+    $Success = $QueueObject->QueueUpdate(
+        %QueueData2,
+        ValidID => $InvalidID,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "QueueUpdate() set queue $QueueData2{Name} to invalid",
+    );
+
 }
 
 # invalidate type
