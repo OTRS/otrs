@@ -242,6 +242,8 @@ sub Run {
         );
     }
 
+    my $PermissionUserID = $UserID;
+
     if ( $UserType eq 'Customer' ) {
         $UserID = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanelUserID')
     }
@@ -283,10 +285,10 @@ sub Run {
     }
 
     # check basic needed permissions
-    my $Access = $TicketObject->TicketPermission(
-        Type     => 'ro',
+    my $Access = $Self->CheckAccessPermissions(
         TicketID => $TicketID,
-        UserID   => $UserID
+        UserID   => $PermissionUserID,
+        UserType => $UserType,
     );
 
     if ( !$Access ) {
