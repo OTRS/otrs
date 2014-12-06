@@ -278,6 +278,24 @@ sub Run {
             ErrorMessage => "TicketGet: Structure for TicketID is not correct!",
         );
     }
+
+    TICKET:
+    for my $TicketID (@TicketIDs) {
+
+        my $Access = $Self->CheckAccessPermissions(
+            TicketID => $TicketID,
+            UserID   => $UserID,
+            UserType => $UserType,
+        );
+
+        next TICKET if $Access;
+
+        return $Self->ReturnError(
+            ErrorCode    => 'TicketGet.AccessDenied',
+            ErrorMessage => 'TicketGet: User does not have access to the ticket!',
+        );
+    }
+
     my $DynamicFields     = $Param{Data}->{DynamicFields}     || 0;
     my $Extended          = $Param{Data}->{Extended}          || 0;
     my $AllArticles       = $Param{Data}->{AllArticles}       || 0;

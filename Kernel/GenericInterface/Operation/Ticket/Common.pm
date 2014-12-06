@@ -1302,6 +1302,17 @@ sub CreateAttachment {
 
 =item CheckCreatePermissions ()
 
+Tests if the user have the permissions to create a ticket on a determined queue
+
+    my $Result = $CommonObject->CheckCreatePermissions(
+        Ticket     => $TicketHashReference,
+        UserID     => 123,                      # or 'CustomerLogin'
+        UserType   => 'Agent',                  # or 'Customer'
+    );
+
+returns:
+    $Success = 1                                # if everything is OK
+
 =cut
 
 sub CheckCreatePermissions {
@@ -1344,6 +1355,45 @@ sub CheckCreatePermissions {
     return if !$UserGroups{ $QueueData{GroupID} };
 
     return 1;
+}
+
+=item CheckAccessPermissions()
+
+Tests if the user have access permissions over a ticket
+
+    my $Result = $CommonObject->CheckAccessPermissions(
+        TicketID   => 123,
+        UserID     => 123,                      # or 'CustomerLogin'
+        UserType   => 'Agent',                  # or 'Customer'
+    );
+
+returns:
+    $Success = 1                                # if everything is OK
+
+=cut
+
+sub CheckAccessPermissions {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(TicketID UserID UserType)) {
+        if ( !$Param{$Needed} ) {
+            return;
+        }
+    }
+
+    my $TicketPermissionFunction = 'TicketPermission';
+    if ( $Param{UserType} eq 'Customer' ) {
+        $TicketPermissionFunction = 'TicketCustomerPermission';
+    }
+
+    my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->$TicketPermissionFunction(
+        Type     => 'ro',
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
+
+    return $Access;
 }
 
 =begin Internal:
