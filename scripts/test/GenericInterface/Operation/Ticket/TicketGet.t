@@ -1085,7 +1085,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 11 (With sessionID',
+        Name           => 'Test 11 (With sessionID)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
