@@ -7,6 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -53,12 +54,26 @@ my $UserObject = Kernel::System::User->new(
 );
 
 # create a new user for current test
-my $UserLogin = $HelperObject->TestUserCreate();
-my $Password  = $UserLogin;
+my $UserLogin = $HelperObject->TestUserCreate(
+    Groups => ['users'],
+);
+my $Password = $UserLogin;
 
 $Self->{UserID} = $UserObject->UserLookup(
     UserLogin => $UserLogin,
 );
+
+# create a new user without permissions for current test
+my $UserLogin2 = $HelperObject->TestUserCreate();
+my $Password2  = $UserLogin2;
+
+# create a customer where a ticket will use and will have permissions
+my $CustomerUserLogin = $HelperObject->TestCustomerUserCreate();
+my $CustomerPassword  = $CustomerUserLogin;
+
+# create a customer that will not have permissions
+my $CustomerUserLogin2 = $HelperObject->TestCustomerUserCreate();
+my $CustomerPassword2  = $CustomerUserLogin2;
 
 my %SkipFields = (
     Age                       => 1,
@@ -88,7 +103,7 @@ my $BackendObject = Kernel::System::DynamicField::Backend->new(
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfuly',
+    'Backend object was created successfully',
 );
 
 my @TestDynamicFields;
@@ -383,7 +398,7 @@ $BackendObject->ValueSet(
 );
 
 # get the Ticket entry
-# withpout DF
+# without DF
 my %TicketEntryTwo = $TicketObject->TicketGet(
     TicketID      => $TicketID2,
     DynamicFields => 0,
@@ -479,7 +494,7 @@ my $TicketID4 = $TicketObject->TicketCreate(
     Lock         => 'lock',
     Priority     => '3 normal',
     State        => 'new',
-    CustomerID   => '654321',
+    CustomerID   => $CustomerUserLogin,
     CustomerUser => 'customerFour@example.com',
     OwnerID      => 1,
     UserID       => 1,
@@ -514,7 +529,7 @@ my $ArticleID42 = $TicketObject->ArticleCreate(
     TicketID    => $TicketID4,
     ArticleType => 'phone',
     SenderType  => 'agent',
-    From        => 'Anot Real Agent <email@example.com>',
+    From        => 'A not Real Agent <email@example.com>',
     To          => 'Customer A <customer-a@example.com>',
     Cc          => 'Customer B <customer-b@example.com>',
     ReplyTo     => 'Customer B <customer-b@example.com>',
@@ -647,10 +662,10 @@ for my $Key ( sort keys %TicketEntryFour ) {
 # add ticket id
 push @TicketIDs, $TicketID4;
 
-# set webservice name
+# set web-service name
 my $WebserviceName = '-Test-' . $RandomID;
 
-# create webservice object
+# create web-service object
 my $WebserviceObject = Kernel::System::GenericInterface::Webservice->new(
     %{$Self},
     ConfigObject => $ConfigObject,
@@ -685,22 +700,22 @@ $Self->True(
 my $Host;
 my $FQDN = $Self->{ConfigObject}->Get('FQDN');
 
-# try to resolve fqdn host
+# try to resolve FQDN host
 if ( $FQDN ne 'yourhost.example.com' && gethostbyname($FQDN) ) {
     $Host = $FQDN;
 }
 
-# try to resolve localhost instead
+# try to resolve local-host instead
 if ( !$Host && gethostbyname('localhost') ) {
     $Host = 'localhost';
 }
 
-# use hardcoded localhost ip address
+# use hard-coded local-host IP address
 if ( !$Host ) {
     $Host = '127.0.0.1';
 }
 
-# prepare webservice config
+# prepare web-service config
 my $RemoteSystem =
     $Self->{ConfigObject}->Get('HttpType')
     . '://'
@@ -757,7 +772,7 @@ my $WebserviceConfig = {
     },
 };
 
-# update webservice with real config
+# update web-service with real config
 # the update is needed because we are using
 # the WebserviceID for the Endpoint in config
 my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
@@ -784,7 +799,7 @@ $Self->Is(
     "SessionID - Create requester object",
 );
 
-# start requester with our webservice
+# start requester with our web-service
 my $RequesterSessionResult = $RequesterSessionObject->Run(
     WebserviceID => $WebserviceID,
     Invoker      => 'SessionCreate',
@@ -795,7 +810,8 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
 );
 
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
-my @Tests        = (
+
+my @Tests = (
     {
         Name                    => 'Test 1',
         SuccessRequest          => 1,
@@ -829,9 +845,9 @@ my @Tests        = (
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
-                    ErrorCode => 'TicketGet.NotValidTicketID',
+                    ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
-                        'TicketGet: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()'
+                        'TicketGet: User does not have access to the ticket!'
                     }
             },
             Success => 1
@@ -839,9 +855,9 @@ my @Tests        = (
         ExpectedReturnRemoteData => {
             Data => {
                 Error => {
-                    ErrorCode => 'TicketGet.NotValidTicketID',
+                    ErrorCode => 'TicketGet.AccessDenied',
                     ErrorMessage =>
-                        'TicketGet: Could not get Ticket data in Kernel::GenericInterface::Operation::Ticket::TicketGet::Run()'
+                        'TicketGet: User does not have access to the ticket!'
                     }
             },
             Success => 1
@@ -868,7 +884,7 @@ my @Tests        = (
                 Ticket => [
                     {
                         %TicketEntryOne,
-                    }
+                    },
                 ],
             },
         },
@@ -894,7 +910,7 @@ my @Tests        = (
                 Ticket => [
                     {
                         %TicketEntryTwo,
-                    }
+                    },
                 ],
             },
         },
@@ -920,7 +936,7 @@ my @Tests        = (
                 Ticket => [
                     {
                         %TicketEntryThree,
-                    }
+                    },
                 ],
             },
         },
@@ -946,7 +962,7 @@ my @Tests        = (
                 Ticket => [
                     {
                         %TicketEntryFour,
-                    }
+                    },
                 ],
             },
         },
@@ -973,7 +989,7 @@ my @Tests        = (
                 Ticket => [
                     {
                         %TicketEntryOneDF,
-                    }
+                    },
                 ],
             },
         },
@@ -1000,7 +1016,7 @@ my @Tests        = (
                 Ticket => [
                     {
                         %TicketEntryTwoDF,
-                    }
+                    },
                 ],
             },
         },
@@ -1036,7 +1052,7 @@ my @Tests        = (
                     {
                         %TicketEntryTwoDF,
                     },
-                    ]
+                ],
             },
         },
         Operation => 'TicketGet',
@@ -1064,7 +1080,7 @@ my @Tests        = (
                     {
                         %TicketEntryFour,
                         Article => \@ArticleWithoutAttachments,
-                    }
+                    },
                 ],
             },
         },
@@ -1094,9 +1110,144 @@ my @Tests        = (
                     {
                         %TicketEntryFour,
                         Article => \@ArticleBox,
-                    }
+                    },
                 ],
             },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 11 (With sessionID',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID    => $TicketID4,
+            AllArticles => 1,
+            Attachments => 1,
+        },
+        Auth => {
+            SessionID => $NewSessionID,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleBox,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        %TicketEntryFour,
+                        Article => \@ArticleBox,
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 11 (No Permission)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID    => $TicketID4,
+            AllArticles => 1,
+            Attachments => 1,
+        },
+        Auth => {
+            UserLogin => $UserLogin2,
+            Password  => $Password2,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketGet.AccessDenied',
+                    ErrorMessage =>
+                        'TicketGet: User does not have access to the ticket!'
+                    }
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketGet.AccessDenied',
+                    ErrorMessage =>
+                        'TicketGet: User does not have access to the ticket!'
+                    }
+            },
+            Success => 1
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 11 (Customer)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID    => $TicketID4,
+            AllArticles => 1,
+            Attachments => 1,
+        },
+        Auth => {
+            CustomerUserLogin => $CustomerUserLogin,
+            Password          => $CustomerPassword,
+        },
+        ExpectedReturnRemoteData => {
+            Success => 1,
+            Data    => {
+                Ticket => {
+                    %TicketEntryFour,
+                    Article => \@ArticleBox,
+                },
+            },
+        },
+        ExpectedReturnLocalData => {
+            Success => 1,
+            Data    => {
+                Ticket => [
+                    {
+                        %TicketEntryFour,
+                        Article => \@ArticleBox,
+                    },
+                ],
+            },
+        },
+        Operation => 'TicketGet',
+    },
+    {
+        Name           => 'Test 11 (Customer No Permission)',
+        SuccessRequest => '1',
+        RequestData    => {
+            TicketID    => $TicketID4,
+            AllArticles => 1,
+            Attachments => 1,
+        },
+        Auth => {
+            CustomerUserLogin => $CustomerUserLogin2,
+            Password          => $CustomerPassword2,
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketGet.AccessDenied',
+                    ErrorMessage =>
+                        'TicketGet: User does not have access to the ticket!'
+                    }
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                Error => {
+                    ErrorCode => 'TicketGet.AccessDenied',
+                    ErrorMessage =>
+                        'TicketGet: User does not have access to the ticket!'
+                    }
+            },
+            Success => 1
         },
         Operation => 'TicketGet',
     },
@@ -1116,7 +1267,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 $Self->Is(
     ref $DebuggerObject,
     'Kernel::GenericInterface::Debugger',
-    'DebuggerObject instanciate correctly',
+    'DebuggerObject instantiate correctly',
 );
 
 for my $Test (@Tests) {
@@ -1135,15 +1286,22 @@ for my $Test (@Tests) {
         "$Test->{Name} - Create local object",
     );
 
-    # start requester with our webservice
+    my %Auth = (
+        UserLogin => $UserLogin,
+        Password  => $Password,
+    );
+    if ( IsHashRefWithData( $Test->{Auth} ) ) {
+        %Auth = %{ $Test->{Auth} };
+    }
+
+    # start requester with our web-service
     my $LocalResult = $LocalObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
         Data         => {
-            UserLogin => $UserLogin,
-            Password  => $Password,
+            %Auth,
             %{ $Test->{RequestData} },
-            }
+        },
     );
 
     # check result
@@ -1164,14 +1322,14 @@ for my $Test (@Tests) {
         "$Test->{Name} - Create requester object",
     );
 
-    # start requester with our webservice
+    # start requester with our web-service
     my $RequesterResult = $RequesterObject->Run(
         WebserviceID => $WebserviceID,
         Invoker      => $Test->{Operation},
         Data         => {
-            SessionID => $NewSessionID,
+            %Auth,
             %{ $Test->{RequestData} },
-            }
+        },
     );
 
     # check result
@@ -1308,7 +1466,7 @@ for my $Test (@Tests) {
 
 # clean up
 
-# clean up webservice
+# clean up web-service
 my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => $Self->{UserID},

@@ -239,6 +239,7 @@ sub Run {
         );
     }
 
+    my $PermissionUserID = $UserID;
     if ( $UserType eq 'Customer' ) {
         $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
     }
@@ -305,7 +306,7 @@ sub Run {
     # check create permissions
     my $Permission = $Self->{TicketCommonObject}->CheckCreatePermissions(
         Ticket   => $Ticket,
-        UserID   => $UserID,
+        UserID   => $PermissionUserID,
         UserType => $UserType,
     );
 
