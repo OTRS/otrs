@@ -109,6 +109,12 @@ $ConfigObject->Set(
     Value => 0,
 );
 
+# enable customer groups support
+$ConfigObject->Set(
+    Key   => 'CustomerGroupSupport',
+    Value => 1,
+);
+
 # check if SSL Certificate verification is disabled
 $Self->Is(
     $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME},
