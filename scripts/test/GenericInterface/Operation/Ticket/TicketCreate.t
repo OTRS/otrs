@@ -87,6 +87,12 @@ $ConfigObject->Set(
     Value => 1,
 );
 
+# disable SessionCheckRemoteIP setting
+$ConfigObject->Set(
+    Key   => 'SessionCheckRemoteIP',
+    Value => 0,
+);
+
 # check if SSL Certificate verification is disabled
 $Self->Is(
     $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME},
@@ -146,14 +152,30 @@ $Self->True(
     "QueueGet() - for testing queue",
 );
 
-# create type object
-my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
+# get group object
+my $GroupObject = $Kernel::OM->Get('Kernel::System::Group')->new();
+
+# create a new group
+my $GroupID = $GroupObject->GroupAdd(
+    Name    => 'TestSpecial' . $RandomID,
+    Comment => 'comment describing the group',    # optional
+    ValidID => 1,
+    UserID  => 1,
+);
+
+my %GroupData = $GroupObject->GroupGet( ID => $GroupID );
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%GroupData ),
+    "GroupGet() - for testing group",
+);
 
 # create new queue (Admin)
 my $QueueID2 = $QueueObject->QueueAdd(
     Name            => 'TestQueue2' . $RandomID,
     ValidID         => 1,
-    GroupID         => 2,
+    GroupID         => $GroupID,
     SystemAddressID => 1,
     SalutationID    => 1,
     SignatureID     => 1,
@@ -174,6 +196,9 @@ $Self->True(
     IsHashRefWithData( \%QueueData2 ),
     "QueueGet() - for testing queue2",
 );
+
+# get type object
+my $TypeObject = $Kernel::OM->Get('Kernel::System::Type');
 
 # create new type
 my $TypeID = $TypeObject->TypeAdd(
@@ -3893,6 +3918,21 @@ $Self->True(
         "QueueUpdate() set queue $QueueData2{Name} to invalid",
     );
 
+}
+
+# invalidate group
+{
+    my $Success = $GroupObject->GroupUpdate(
+        %GroupData,
+        ValidID => $InvalidID,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "GroupUpdate() set type $GroupData{Name} to invalid",
+    );
 }
 
 # invalidate type
