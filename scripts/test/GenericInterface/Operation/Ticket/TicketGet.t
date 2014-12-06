@@ -29,6 +29,12 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 # get a random id
 my $RandomID = int rand 1_000_000_000;
 
+# disable SessionCheckRemoteIP setting
+$ConfigObject->Set(
+    Key   => 'SessionCheckRemoteIP',
+    Value => 0,
+);
+
 # helper object
 # skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
@@ -37,6 +43,7 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify              => 1,
     },
 );
+
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create a new user for current test
