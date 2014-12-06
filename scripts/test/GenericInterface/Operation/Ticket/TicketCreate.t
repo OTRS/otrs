@@ -23,6 +23,7 @@ use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData IsStringWithData);
 
+use Kernel::System::Group;
 use Kernel::System::SysConfig;
 use Kernel::System::Queue;
 use Kernel::System::Type;
@@ -102,11 +103,17 @@ $ConfigObject->Set(
     Value => 1,
 );
 
+# disable SessionCheckRemoteIP setting
+$ConfigObject->Set(
+    Key   => 'SessionCheckRemoteIP',
+    Value => 0,
+);
+
 # check if SSL Certificate verification is disabled
 $Self->Is(
     $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME},
     0,
-    'Disabled SSL certiticates verification in environment',
+    'Disabled SSL certificates verification in environment',
 );
 
 # create ticket object
@@ -199,11 +206,32 @@ $Self->True(
     "QueueGet() - for testing queue",
 );
 
+my $GroupObject = Kernel::System::Group->new(
+    %{$Self},
+    ConfigObject => $ConfigObject
+);
+
+# create a new group
+my $GroupID = $GroupObject->GroupAdd(
+    Name    => 'TestSpecial' . $RandomID,
+    Comment => 'comment describing the group',    # optional
+    ValidID => 1,
+    UserID  => 1,
+);
+
+my %GroupData = $GroupObject->GroupGet( ID => $GroupID );
+
+# sanity check
+$Self->True(
+    IsHashRefWithData( \%GroupData ),
+    "GroupGet() - for testing group",
+);
+
 # create new queue (Admin)
 my $QueueID2 = $QueueObject->QueueAdd(
     Name            => 'TestQueue2' . $RandomID,
     ValidID         => 1,
-    GroupID         => 2,
+    GroupID         => $GroupID,
     SystemAddressID => 1,
     SalutationID    => 1,
     SignatureID     => 1,
@@ -3879,6 +3907,21 @@ $Self->True(
         "QueueUpdate() set queue $QueueData2{Name} to invalid",
     );
 
+}
+
+# invalidate group
+{
+    my $Success = $GroupObject->GroupUpdate(
+        %GroupData,
+        ValidID => $InvalidID,
+        UserID  => 1,
+    );
+
+    # sanity check
+    $Self->True(
+        $Success,
+        "GroupUpdate() set type $GroupData{Name} to invalid",
+    );
 }
 
 # invalidate type

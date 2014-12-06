@@ -222,10 +222,19 @@ $Self->True(
     "Updated Webservice $WebserviceID - $WebserviceName",
 );
 
+my $ConfigObject = Kernel::Config->new();
+
+# disable SessionCheckRemoteIP setting
+$ConfigObject->Set(
+    Key   => 'SessionCheckRemoteIP',
+    Value => 0,
+);
+
 # Get SessionID
 # create requester object
 my $RequesterSessionObject = Kernel::GenericInterface::Requester->new(
     %{$Self},
+    ConfigObject => $ConfigObject,
 );
 $Self->Is(
     'Kernel::GenericInterface::Requester',
@@ -423,6 +432,7 @@ for my $Test (@Tests) {
         %{$Self},
         DebuggerObject => $DebuggerObject,
         WebserviceID   => $WebserviceID,
+        ConfigObject   => $ConfigObject,
     );
 
     $Self->Is(
@@ -459,6 +469,7 @@ for my $Test (@Tests) {
     # create requester object
     my $RequesterObject = Kernel::GenericInterface::Requester->new(
         %{$Self},
+        ConfigObject => $ConfigObject,
     );
     $Self->Is(
         'Kernel::GenericInterface::Requester',

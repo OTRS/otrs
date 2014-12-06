@@ -41,6 +41,12 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
     SkipSSLVerify              => 1,
 );
 
+# disable SessionCheckRemoteIP setting
+$ConfigObject->Set(
+    Key   => 'SessionCheckRemoteIP',
+    Value => 0,
+);
+
 # new user object
 my $UserObject = Kernel::System::User->new(
     %{$Self},
