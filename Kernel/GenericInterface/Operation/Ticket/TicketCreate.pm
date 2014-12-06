@@ -243,6 +243,11 @@ sub Run {
         );
     }
 
+    my $PermissionUserID = $UserID;
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID')
+    }
+
     # check needed hashes
     for my $Needed (qw(Ticket Article)) {
         if ( !IsHashRefWithData( $Param{Data}->{$Needed} ) ) {
@@ -305,7 +310,7 @@ sub Run {
     # check create permissions
     my $Permission = $Self->{TicketCommonObject}->CheckCreatePermissions(
         Ticket   => $Ticket,
-        UserID   => $UserID,
+        UserID   => $PermissionUserID,
         UserType => $UserType,
     );
 

@@ -256,6 +256,12 @@ sub Run {
         );
     }
 
+    my $PermissionUserID = $UserID;
+
+    if ( $UserType eq 'Customer' ) {
+        $UserID = $Self->{ConfigObject}->Get('CustomerPanelUserID');
+    }
+
     # check TicketID
     my $TicketID;
     if ( $Param{Data}->{TicketNumber} ) {
@@ -290,10 +296,10 @@ sub Run {
     }
 
     # check basic needed permissions
-    my $Access = $Self->{TicketObject}->TicketPermission(
-        Type     => 'ro',
+    my $Access = $Self->{TicketCommonObject}->CheckAccessPermissions(
         TicketID => $TicketID,
-        UserID   => $UserID
+        UserID   => $PermissionUserID,
+        UserType => $UserType,
     );
 
     if ( !$Access ) {

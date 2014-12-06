@@ -276,6 +276,24 @@ sub Run {
             ErrorMessage => "TicketGet: Structure for TicketID is not correct!",
         );
     }
+
+    TICKET:
+    for my $TicketID (@TicketIDs) {
+
+        my $Access = $Self->{TicketCommonObject}->CheckAccessPermissions(
+            TicketID => $TicketID,
+            UserID   => $UserID,
+            UserType => $UserType,
+        );
+
+        next TICKET if $Access;
+
+        return $Self->{TicketCommonObject}->ReturnError(
+            ErrorCode    => 'TicketGet.AccessDenied',
+            ErrorMessage => 'TicketGet: User does not have access to the ticket!',
+        );
+    }
+
     my $DynamicFields     = $Param{Data}->{DynamicFields}     || 0;
     my $Extended          = $Param{Data}->{Extended}          || 0;
     my $AllArticles       = $Param{Data}->{AllArticles}       || 0;
@@ -352,7 +370,7 @@ sub Run {
 
             my @Attachments;
             ATTACHMENT:
-            for my $FileID ( keys %AtmIndex ) {
+            for my $FileID (sort keys %AtmIndex ) {
                 next ATTACHMENT if !$FileID;
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},

@@ -9,6 +9,9 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+3.1.22 2015-??-??
+- 2015-01-05 Enhanced Permission Checks in GenericInterface Ticket Connector.
+
 3.1.21 2014-04-01
  - 2014-03-18 Fixed bug#10374 - OTRS does not protect against clickjacking.
  - 2014-03-13 Fixed bug#10361 - Incorrect handling of special characters in DynamicFields.
