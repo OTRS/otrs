@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-08 Fixed bug#[10801](http://bugs.otrs.org/show_bug.cgi?id=10801) - Editor is extremely slow with large articles.
  - 2014-12-05 Re-added possibility to have a custom RSS feed in Agent Dashboard.
  - 2014-12-05 Enhanced Permission Checks in GenericInterface Ticket Connector.
  - 2014-12-05 Fixed bug#[10926](http://bugs.otrs.org/show_bug.cgi?id=10926) - Missing Apache2::Reload.pm.
