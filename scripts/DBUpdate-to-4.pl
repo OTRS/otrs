@@ -1278,8 +1278,15 @@ sub _MigrateSettings {
     # get database object;
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # use 'LIKE' operator instead of '=' in oracle as the field is defined as CLOB
-    if ( $DBObject->{'DB::Type'} eq 'oracle' ) {
+    # use 'LIKE' operator instead of '=' as:
+    #    in oracle as the field is defined as CLOB
+    #    in mssql as the field is defined as ntext
+    #    under this scenarios a direct comparison is not possible using '=' operator
+    if (
+        $DBObject->{'DB::Type'} eq 'oracle'
+        || $DBObject->{'DB::Type'} eq 'mssql'
+        )
+    {
         $Operator = 'LIKE';
     }
 
