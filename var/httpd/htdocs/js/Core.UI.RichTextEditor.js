@@ -21,7 +21,7 @@ Core.UI = Core.UI || {};
  *      CKEDITOR
  */
 Core.UI.RichTextEditor = (function (TargetNS) {
-    var $FormID;
+    var $FormID, TimeOutRTEOnChange;
 
     /**
      * @function
@@ -65,7 +65,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
             // Remove the validation error tooltip if content is added to the editor
             Editor.editor.on('change', function(evt) {
-                Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+                window.clearTimeout(TimeOutRTEOnChange);
+                TimeOutRTEOnChange = window.setTimeout(function () {
+                    Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
+                }, 250);
             });
         });
 
@@ -214,13 +217,9 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.IsEnabled = function ($EditorArea) {
         var EditorID = '';
 
-        if (isJQueryObject($EditorArea) && $EditorArea.length === 1) {
-            EditorID = $EditorArea.attr('id');
-            if ($('#cke_' + Core.App.EscapeSelector(EditorID)).length) {
-                return true;
-            }
+        if (isJQueryObject($EditorArea) && $EditorArea.length) {
+            return (CKEDITOR.instances[$EditorArea[0].id] ? true : false);
         }
-
         return false;
     };
 

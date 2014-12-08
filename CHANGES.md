@@ -1,4 +1,5 @@
 #3.3.11 ????-??-??
+ - 2014-12-08 Fixed bug#[10801](http://bugs.otrs.org/show_bug.cgi?id=10801) - Editor is extremely slow with large articles.
  - 2014-12-04 Enhanced Permission Checks in GenericInterface Ticket Connector.
  - 2014-12-04 Fixed bug#[10634](http://bugs.otrs.org/show_bug.cgi?id=10634) - ProcessManagement: Can not use an arbitrary email address as a CustomerUser.
  - 2014-12-04 Removed incorrect notice about SQL query length. (#0037da5)
