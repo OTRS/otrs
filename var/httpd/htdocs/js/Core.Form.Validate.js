@@ -226,10 +226,13 @@ Core.Form.Validate = (function (TargetNS) {
             return (Text.length && Text !== '-');
         }
 
-        // for rich text areas, update the linked field for the validation first
+        // for richtextareas, get editor code and remove all tags and whitespace
+        // keep tags if images are embedded because of inline-images
         if (Core.UI.RichTextEditor.IsEnabled($Element)) {
-            CKEDITOR.instances[$Element.attr('id')].updateElement();
-            Value = $Element.val();
+            Value = CKEDITOR.instances[Element.id].getData();
+            if (!Value.match(/<img/)) {
+                Value = Value.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+            }
         }
 
         // checkable inputs
