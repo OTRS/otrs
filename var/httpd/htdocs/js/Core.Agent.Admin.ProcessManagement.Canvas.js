@@ -481,6 +481,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
     TargetNS.RemoveActivity = function (EntityID) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
+            Layout = Core.Agent.Admin.ProcessManagement.ProcessLayout,
             ProcessEntityID = $('#ProcessEntityID').val();
 
         // remove HTML elements
@@ -515,6 +516,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 }
             });
         });
+
+        // remove layout information
+        delete Layout[EntityID];
 
         // remove connections
         jsPlumb.detachAllConnections(EntityID);
