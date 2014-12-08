@@ -80,6 +80,9 @@ sub new {
 
     $Self->{APIVersion} = 2;
 
+    # timeout for the registration cloud service requests
+    $Self->{TimeoutRequest} = 60;
+
     return $Self;
 }
 
@@ -149,6 +152,7 @@ sub TokenGet {
                 },
             ],
         },
+        Timeout => $Self->{TimeoutRequest},
     );
 
     # get cloud service object
@@ -313,6 +317,7 @@ sub Register {
                 },
             ],
         },
+        Timeout => $Self->{TimeoutRequest},
     );
 
     # if we have SupportData, call SupportDataAdd on the same request
@@ -663,6 +668,7 @@ sub RegistrationUpdateSend {
                 },
             ],
         },
+        Timeout => $Self->{TimeoutRequest},
     );
 
     # If we have an installed OTRSBusiness, call BusinessPermissionCheck cloud service
@@ -972,6 +978,7 @@ sub Deregister {
                 },
             ],
         },
+        Timeout => $Self->{TimeoutRequest},
     );
 
     # get cloud service object
