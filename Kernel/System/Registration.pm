@@ -122,6 +122,9 @@ sub new {
 
     $Self->{APIVersion} = 2;
 
+    # timeout for the registration cloud service requests
+    $Self->{TimeoutRequest} = 60;
+
     return $Self;
 }
 
@@ -178,7 +181,7 @@ sub TokenGet {
         ConfigObject => $Self->{ConfigObject},
         LogObject    => $Self->{LogObject},
         MainObject   => $Self->{MainObject},
-        Timeout      => 10,
+        Timeout      => $Self->{TimeoutRequest},
     );
 
     # get token
@@ -290,7 +293,7 @@ sub Register {
         ConfigObject => $Self->{ConfigObject},
         LogObject    => $Self->{LogObject},
         MainObject   => $Self->{MainObject},
-        Timeout      => 10,
+        Timeout      => $Self->{TimeoutRequest},
     );
 
     # load operating system info from environment object
@@ -570,7 +573,7 @@ sub RegistrationUpdateSend {
         ConfigObject => $Self->{ConfigObject},
         LogObject    => $Self->{LogObject},
         MainObject   => $Self->{MainObject},
-        Timeout      => 10,
+        Timeout      => $Self->{TimeoutRequest},
     );
 
     # read data from environment object
@@ -775,7 +778,7 @@ sub Deregister {
         ConfigObject => $Self->{ConfigObject},
         LogObject    => $Self->{LogObject},
         MainObject   => $Self->{MainObject},
-        Timeout      => 10,
+        Timeout      => $Self->{TimeoutRequest},
     );
 
     my %RegistrationInfo = $Self->RegistrationDataGet();
