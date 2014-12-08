@@ -217,6 +217,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     TargetNS.IsEnabled = function ($EditorArea) {
         var EditorID = '';
 
+        if (typeof CKEDITOR === 'undefined') {
+            return false;
+        }
+
         if (isJQueryObject($EditorArea) && $EditorArea.length) {
             return (CKEDITOR.instances[$EditorArea[0].id] ? true : false);
         }
