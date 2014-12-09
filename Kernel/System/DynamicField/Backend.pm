@@ -233,9 +233,11 @@ creates the field HTML to be used in edit masks.
         AJAXUpdate           => 1,                        # Optional, 0 ir 1. To create JS code for field change to update
                                                           #     the form using ACLs triggered by the field.
         UpdatableFields      => [                         # Optional, to use if AJAXUpdate is 1. List of fields to display a
-            'NetxStateID',                                  #     spinning wheel when reloading via AJAXUpdate.
+            'NetxStateID',                                #     spinning wheel when reloading via AJAXUpdate.
             'PriorityID',
         ],
+        MaxLength            => 100                       # Optional, defines the maximum number of characters on fields
+                                                          #      where applies (like TextArea)
     );
 
     Returns {
