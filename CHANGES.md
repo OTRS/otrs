@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-09 Follow-up fix for bug#[6284](http://bugs.otrs.org/show_bug.cgi?id=6284) - Problem with unicode characters when using FastCGI.
  - 2014-12-09 Fixed bug#[10899](http://bugs.otrs.org/show_bug.cgi?id=10899) - SplitQuote in WYSIWYG editor creates unnecessary empty quote line when splitting quote at end of line.
  - 2014-12-08 Fixed bug#[10830](http://bugs.otrs.org/show_bug.cgi?id=10830) - Textarea Limitation in Generic Agent.
  - 2014-12-08 Fixed bug#[10914](http://bugs.otrs.org/show_bug.cgi?id=10914) - Migration issue to 4.0.1 (mssql).
