@@ -968,8 +968,8 @@ return a hash with all users
 
     my %List = $UserObject->UserList(
         Type          => 'Short', # Short|Long, default Short
-        Valid         => 1,       # not required, default 0
-        NoOutOfOffice => 1,       # optional, default 0
+        Valid         => 1,       # default 1
+        NoOutOfOffice => 1,       # (optional) default 0
     );
 
 =cut
