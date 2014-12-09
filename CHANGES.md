@@ -1,4 +1,5 @@
 #3.3.11 ????-??-??
+ - 2014-12-09 Follow-up fix for bug#[6284](http://bugs.otrs.org/show_bug.cgi?id=6284) - Problem with unicode characters when using FastCGI.
  - 2014-12-08 Fixed bug#[10830](http://bugs.otrs.org/show_bug.cgi?id=10830) - Textarea Limitation in Generic Agent.
  - 2014-12-08 Improved the AdminRegistration frontend for systems without a running scheduler.
  - 2014-12-08 Improved stability of RegistrationUpdate handling.

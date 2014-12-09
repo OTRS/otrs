@@ -1768,6 +1768,7 @@ sub Print {
     #   http://bugs.otrs.org/show_bug.cgi?id=9802.
     if ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {    # are we on FCGI?
         $Self->{EncodeObject}->EncodeOutput( $Param{Output} );
+        binmode STDOUT, ':bytes';
     }
 
     print ${ $Param{Output} };
