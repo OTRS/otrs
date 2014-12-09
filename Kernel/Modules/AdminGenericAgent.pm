@@ -1006,6 +1006,7 @@ sub _MaskUpdate {
             OverridePossibleNone => 1,
             ConfirmationNeeded   => 1,
             Template             => \%JobData,
+            MaxLength            => 200,
         );
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldHTML);
