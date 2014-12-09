@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-08 Fixed bug#[10830](http://bugs.otrs.org/show_bug.cgi?id=10830) - Textarea Limitation in Generic Agent.
  - 2014-12-08 Fixed bug#[10914](http://bugs.otrs.org/show_bug.cgi?id=10914) - Migration issue to 4.0.1 (mssql).
  - 2014-12-08 Fixed bug#[10920](http://bugs.otrs.org/show_bug.cgi?id=10920) - ProcessManagement: Deleting Activities from canvas does not update process layout.
  - 2014-12-08 Fixed bug#[10801](http://bugs.otrs.org/show_bug.cgi?id=10801) - Editor is extremely slow with large articles.
