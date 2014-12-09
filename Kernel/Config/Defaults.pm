@@ -82,7 +82,7 @@ sub LoadDefaults {
 
     # ProductName
     # (Application name displayed in frontend.)
-    $Self->{ProductName} = 'OTRS 4';
+    $Self->{ProductName} = 'OTRS 5';
 
     # --------------------------------------------------- #
     # database settings                                   #
