@@ -101,13 +101,21 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                 if (!$('.Dialog:visible').length) {
                     return;
                 }
-
                 Core.UI.Dialog.ShowContentDialog(HTML, Core.Config.Get('SearchMsg'), '10px', 'Center', true);
-                TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID' );
-                TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser' );
 
             }, 'html'
         );
+    };
+
+    /**
+     * @function
+     * @return nothing
+     *      This function initializes the search dialog
+     */
+
+    TargetNS.Init = function () {
+        TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID' );
+        TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser' );
     };
 
     return TargetNS;

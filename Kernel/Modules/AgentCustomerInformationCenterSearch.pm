@@ -158,10 +158,11 @@ sub Run {
         Data         => \%Param,
     );
     return $Self->{LayoutObject}->Attachment(
-        ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+        NoCache     => 1,
+        ContentType => 'text/html',
+        Charset     => $Self->{LayoutObject}->{UserCharset},
         Content     => $Output || '',
         Type        => 'inline',
-        NoCache     => 1,
     );
 }
 
