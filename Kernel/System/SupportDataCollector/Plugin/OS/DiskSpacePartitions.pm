@@ -68,11 +68,13 @@ sub Run {
 
             # concatenate previous line and store it
             push @CleanLines, $PreviousLine . $Line;
+            $PreviousLine = '';
             next LINE;
         }
 
         # otherwise store the line as it is
         push @CleanLines, $Line;
+        $PreviousLine = '';
     }
 
     my %UsedIdentifiers;
