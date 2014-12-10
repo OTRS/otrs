@@ -1597,7 +1597,7 @@ sub Run {
         );
 
         USERID:
-        for my $UserID ( sort keys %AllUsers ) {
+        for my $UserID ( sort { $AllUsers{$a} cmp $AllUsers{$b} } keys %AllUsers ) {
 
             if ( !$ValidUsers{$UserID} ) {
                 $UsersInvalid{$UserID} = $AllUsers{$UserID};
@@ -1627,7 +1627,7 @@ sub Run {
                 Value    => '',
                 Disabled => 1,
             };
-            for my $UserID ( sort keys %UsersInvalid ) {
+            for my $UserID ( sort { $UsersInvalid{$a} cmp $UsersInvalid{$b} } keys %UsersInvalid ) {
                 push @ShownUsers, {
                     Key   => $UserID,
                     Value => $UsersInvalid{$UserID},
