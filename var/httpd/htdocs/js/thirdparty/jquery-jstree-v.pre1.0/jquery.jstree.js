@@ -1143,6 +1143,7 @@
 						case (is_range):
 							this.data.ui.last_selected.addClass("jstree-last-selected");
 							obj = obj[ obj.index() < this.data.ui.last_selected.index() ? "nextUntil" : "prevUntil" ](".jstree-last-selected").addBack();
+							obj = obj.filter(":visible");
 							if(s.select_limit == -1 || obj.length < s.select_limit) {
 								this.data.ui.last_selected.removeClass("jstree-last-selected");
 								this.data.ui.selected.each(function () {
