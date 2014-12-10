@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-10 Fixed bug#[10904](http://bugs.otrs.org/show_bug.cgi?id=10904) - Upon entering CIC, search only returns hits during the first search.
  - 2014-12-10 Fixed bug#[10873](http://bugs.otrs.org/show_bug.cgi?id=10873) - Agent names sorted incorrectly in AgentTicketSearch.
  - 2014-12-10 Fixed bug#[10944](http://bugs.otrs.org/show_bug.cgi?id=10944) - Multiple selection in Tree Selection also affects filtered elements.
  - 2014-12-09 Follow-up fix for bug#[6284](http://bugs.otrs.org/show_bug.cgi?id=6284) - Problem with unicode characters when using FastCGI.
