@@ -1,0 +1,8 @@
+# --
+# A list of all patches applied to jquery-jstree for OTRS.
+# --
+
+Patches to be applied:
+
+-   2014-12-10-multiselect.patch: jquery.jstree.js
+    OTRS Bug#10944: Multiple selection in Tree Selection also affects filtered elements
