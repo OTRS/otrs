@@ -1,4 +1,5 @@
 #4.0.3 2014-??-??
+ - 2014-12-10 Fixed bug#[10868](http://bugs.otrs.org/show_bug.cgi?id=10868) - Impossible to remove filter in dashboard-block when no tickets are found.
  - 2014-12-10 Fixed bug#[10904](http://bugs.otrs.org/show_bug.cgi?id=10904) - Upon entering CIC, search only returns hits during the first search.
  - 2014-12-10 Fixed bug#[10873](http://bugs.otrs.org/show_bug.cgi?id=10873) - Agent names sorted incorrectly in AgentTicketSearch.
  - 2014-12-10 Fixed bug#[10944](http://bugs.otrs.org/show_bug.cgi?id=10944) - Multiple selection in Tree Selection also affects filtered elements.

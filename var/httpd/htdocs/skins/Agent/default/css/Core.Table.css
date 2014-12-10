@@ -646,9 +646,11 @@ thead .headerSortDown a {
 }
 
 .ColumnFilter + .AJAXLoader {
-    margin: 1px 0px 0px 5px;
-    vertical-align: top;
     float: right;
+    margin: 3px 0px 0px 2px;
+    background-color: #eee;
+    position: relative;
+    z-index: 99;    
 }
 
 select.ColumnFilter {
@@ -772,7 +774,7 @@ thead .headerSortDown > a:before {
     position: absolute;
     right: -2px;
     top: -10px;
-    width: 150px;
+    width: 160px;
     z-index: 100;
 }
 
@@ -782,7 +784,8 @@ thead .headerSortDown > a:before {
     text-transform: none;
     margin-bottom: 8px;
     position: relative;
-    padding-left: 18px;
+    padding: 4px;
+    border: 1px solid #ccc;
 }
 
 .DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue span,
@@ -801,12 +804,30 @@ thead .headerSortDown > a:before {
     display: block;
     font-size: 10px;
     height: 15px;
+    line-height: 13px;
     left: 0;
     position: absolute;
     text-align: left;
     top: -1px;
     width: 10px;
     padding: 0px 0px 0px 5px;
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsBox a.DeleteFilter,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox a.DeleteFilter {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 12px;
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsBox a.DeleteFilter.Hidden,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox a.DeleteFilter.Hidden {
+    display: none;
+}
+
+.DataTable thead th.DashboardHeader .ColumnSettingsBox span.SelectedValue a:hover,
+.TableSmall thead th.OverviewHeader .ColumnSettingsBox span.SelectedValue a:hover {
+    background: #888;
 }
 
 .DataTable thead th.OverviewHeader .ColumnSettingsBox input[type="text"] ,
