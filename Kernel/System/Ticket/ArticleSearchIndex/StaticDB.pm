@@ -310,9 +310,20 @@ sub _ArticleIndexStringToWord {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Config   = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
-    my %StopWord = %{ $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {} };
-    my @Filters  = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+    my $Config      = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
+    my %StopWordRaw = %{ $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {} };
+    my @Filters     = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+
+    my %StopWord;
+    WORD:
+    for my $Word (sort keys %StopWordRaw) {
+
+        next WORD if !$Word;
+
+        $Word = lc $Word;
+
+        $StopWord{$Word} = 1;
+    }
 
     # get words
     my $LengthMin = $Param{WordLengthMin} || $Config->{WordLengthMin} || 3;
@@ -322,24 +333,24 @@ sub _ArticleIndexStringToWord {
     WORD:
     for my $Word ( split /\s+/, ${ $Param{String} } ) {
 
-        # Apply filters
+        # apply filters
         for my $Filter (@Filters) {
             $Word =~ s/$Filter//g;
         }
 
+        next WORD if !$Word;
+
         # convert to lowercase to avoid LOWER()/LCASE() in the DB query
         $Word = lc $Word;
 
+        next WORD if $StopWord{$Word};
+
         # only index words/strings within length boundaries
         my $Length = length $Word;
-        if ( $Length < $LengthMin || $Length > $LengthMax ) {
-            next WORD;
-        }
 
-        # Remove StopWords
-        if ( $Word && $StopWord{$Word} ) {
-            next WORD;
-        }
+        next WORD if $Length < $LengthMin;
+        next WORD if $Length > $LengthMax;
+
         push @ListOfWords, $Word;
     }
 
