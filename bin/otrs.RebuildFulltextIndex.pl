@@ -64,14 +64,13 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get all tickets
 my @TicketIDs = $TicketObject->TicketSearch(
-
-    # result (required)
-    Result => 'ARRAY',
-
-    # result limit
-    Limit      => 100_000_000,
-    UserID     => 1,
-    Permission => 'ro',
+    ArchiveFlags => ['y', 'n'],
+    OrderBy      => 'Down',
+    SortBy       => 'Age',
+    Result       => 'ARRAY',
+    Limit        => 100_000_000,
+    Permission   => 'ro',
+    UserID       => 1,
 );
 
 my $Count = 0;
@@ -93,7 +92,7 @@ for my $TicketID (@TicketIDs) {
         );
     }
 
-    if ( $Count % 5000 == 0 ) {
+    if ( $Count % 100 == 0 ) {
         my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
         print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
     }
