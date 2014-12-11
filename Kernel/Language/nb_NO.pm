@@ -585,7 +585,7 @@ sub Data {
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -614,10 +614,9 @@ sub Data {
         'Could not determine distribution.' => '',
         'Kernel Version' => '',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
         'Perl Modules' => '',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => '',
@@ -640,6 +639,8 @@ sub Data {
         'Groups' => 'Grupper',
         'Dynamic Fields' => 'Dynamiske felter',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
@@ -681,6 +682,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1169,7 +1171,7 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Administrasjon: Dynamiske felt',
         'Add new field for object' => 'Legg til nytt felt for et objekt',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
         'Dynamic Fields List' => 'Liste over dynamiske felt',
         'Dynamic fields per page' => 'Dynamiske felt per side',
@@ -2021,6 +2023,9 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
         'OTRS-ID Login' => '',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
@@ -2099,7 +2104,7 @@ sub Data {
             '',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
             '',
-        'If you deregister your system, you will loose these benefits:' =>
+        'If you deregister your system, you will lose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
@@ -2169,11 +2174,11 @@ sub Data {
         'Add certificate' => 'Legg til sertifikat',
         'Add private key' => 'Legg til privat nøkkel',
         'Filter for certificates' => '',
-        'Filter for SMIME certs' => '',
+        'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
-        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
+        'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
             '',
         'See also' => 'Se også',
         'In this way you can directly edit the certification and private keys in file system.' =>
@@ -2188,11 +2193,12 @@ sub Data {
         'Related Certificates for' => 'Relaterte sertifikater for',
         'Delete this relation' => 'Fjern denne relasjonen',
         'Available Certificates' => 'Tilgjengelige sertifikater',
+        'Filter for SMIME certs' => '',
         'Relate this certificate' => 'Relater dette sertifikatet',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => 'SMIME sertifikat',
         'Close window' => 'Lukk vindu',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Administrasjon: Hilsninger',
@@ -2217,14 +2223,18 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL-boks',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Her kan du skrive SQL for å sende kommandoer rett til OTRS sin database',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL-spørringen har en syntaks-feil. Vennligst sjekk den.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Det mangler minst ett parameter i bindingen. Vennligst sjekk den.',
         'Result format' => 'Format for resultatet',
         'Run Query' => 'Kjør spørring',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Administrasjon: Tjenester',
@@ -2369,6 +2379,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => '',
         'Add Template' => '',
         'Edit Template' => '',
+        'A standard template with this name already exists!' => '',
         'Template' => '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
@@ -2400,6 +2411,7 @@ sub Data {
         'Edit Agent' => 'Endre Saksbehandler',
         'Firstname' => 'Fornavn',
         'Lastname' => 'Etternavn',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => 'Start',
         'End' => 'Slutt',
@@ -2658,6 +2670,7 @@ sub Data {
         'Note type' => 'Notistype',
         'Next state' => 'Neste status',
         'Date invalid!' => 'Ugyldig dato!',
+        'For all pending* states.' => '',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2692,8 +2705,6 @@ sub Data {
         'Remove Cc' => 'Fjern Cc',
         'Remove Bcc' => 'Fjern Bcc',
         'Address book' => 'Adressebok',
-        'Pending Date' => 'Utsatt til',
-        'for pending* states' => 'for vente-tilstander',
         'Date Invalid!' => 'Ugyldig dato',
 
         # Template: AgentTicketCustomer
@@ -3283,6 +3294,8 @@ sub Data {
         'Auto Responses <-> Queues' => 'Autosvar <-> Køer',
         'Automated line break in text messages after x number of chars.' =>
             'Automatisk linjeskift i tekstmeldinger etter # antall tegn.',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Automatisk lås og sett eier til nåværende agent etter å ha blitt valgt i en masseredigeringshandling',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
@@ -3349,6 +3362,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             'Gir kunder mulighet til å sortere sakene sine.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
@@ -3816,6 +3831,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => 'Definerer maksimalt antall sider per PDF-fil.',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => 'Definerer maksimal størrelse (i MB) for loggfilen.',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
@@ -4488,17 +4505,17 @@ sub Data {
             '',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -4983,6 +5000,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'Setter farge på rammen til grafer.',
         'Specifies the border color of the legend.' => 'Setter farge på rammen til symbolforklaringen.',
         'Specifies the bottom margin of the chart.' => 'Spesifiserer bunnmarg på grafene.',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Spesifiserer de ulike artikkeltypene som skal brukes i systemet.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5187,6 +5206,7 @@ sub Data {
         'Only for ArticleCreate event' => 'Kun for oppretting av innlegg',
         'Package verification failed!' => 'Pakkevalidering feilet!',
         'Password is required.' => 'Passord er påkrevd.',
+        'Pending Date' => 'Utsatt til',
         'Please enter a search term to look for customer companies.' => 'Skriv inn et søk for å lete etter kundebedrifter',
         'Please fill in all fields marked as mandatory.' => 'Vennligst fyll ut alle feltene som er markert som obligatoriske',
         'Please supply a' => 'Vennligst oppgi en',
@@ -5196,6 +5216,7 @@ sub Data {
         'Registration' => 'Registrering',
         'Responses' => 'Ferdigsvar',
         'Responses <-> Queues' => 'Ferdigsvar <-> Køer',
+        'SMIME Certificate' => 'SMIME sertifikat',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Sikkermodus må skrus av for å re-installere via web-installerer.',
         'To customer' => 'Til kunde',
@@ -5204,6 +5225,7 @@ sub Data {
             'Bruker rikt tekstformat for visning og redigerer: innlegg, hilsninger, signaturer, standardsvar, autosvar og varslinger.',
         'before' => 'før',
         'default \'hot\'' => 'Standard \'hot\'',
+        'for pending* states' => 'for vente-tilstander',
         'settings' => 'innstillinger',
 
     };

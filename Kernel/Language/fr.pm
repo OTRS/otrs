@@ -585,7 +585,7 @@ sub Data {
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -614,10 +614,9 @@ sub Data {
         'Could not determine distribution.' => '',
         'Kernel Version' => '',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
         'Perl Modules' => '',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => '',
@@ -640,6 +639,8 @@ sub Data {
         'Groups' => 'Groupes',
         'Dynamic Fields' => 'Champs dynamiques',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '',
         'Months Between First And Last Ticket' => '',
@@ -681,6 +682,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1169,8 +1171,8 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Gestion des champs dynamiques',
         'Add new field for object' => 'Ajouter un nouveau champ pour l\'objet',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'Pour ajouter un nouveau champ, sélectionner l\'objet désiré, puis le type de champ dans le menu déroulant correspondant. Le type défini la structure du champ, et il ne peut être changé après la création.',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '',
         'Dynamic Fields List' => 'Liste des champs dynamiques',
         'Dynamic fields per page' => 'Nombre de champs dynamiques par page',
         'Label' => 'Label',
@@ -2021,6 +2023,9 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
         'OTRS-ID Login' => '',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
@@ -2099,7 +2104,7 @@ sub Data {
             '',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
             '',
-        'If you deregister your system, you will loose these benefits:' =>
+        'If you deregister your system, you will lose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
@@ -2169,12 +2174,12 @@ sub Data {
         'Add certificate' => 'Ajouter certificat',
         'Add private key' => 'Ajouter clé privé',
         'Filter for certificates' => 'Filtres pour les certificats',
-        'Filter for SMIME certs' => 'Filtres pour les certificats SMIME',
+        'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
-        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            'Vous pouvez ajouter ici des liens à votre certification privée, ceux-ci seront incorporés à votre signature SMIME chaque fois que vous utiliserez cette certification pour signer un email.',
+        'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
+            '',
         'See also' => 'Voir aussi',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Dans ce cas vous pouvez directement éditer le certificat et la clé privée dans le système de fichier',
@@ -2188,11 +2193,12 @@ sub Data {
         'Related Certificates for' => 'Certificats associés à',
         'Delete this relation' => 'Supprimer cette relation',
         'Available Certificates' => 'Certificats disponibles',
+        'Filter for SMIME certs' => 'Filtres pour les certificats SMIME',
         'Relate this certificate' => 'Lie ce certificat',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => 'Certificat SMIME',
         'Close window' => 'Fermer fenêtre',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Gestion des Formules de Politesse',
@@ -2217,14 +2223,18 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'Requêtes SQL',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Ici vous pouvez entrez du SQL pour l\'envoyer directement à la base de donnée',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Votre requête SQL comporte une erreur de syntaxe. Veuillez la corriger.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Il manque au moins un paramètre, ce qui empêche l\'association. Veuillez corriger la situation.',
         'Result format' => 'Format du résultat',
         'Run Query' => 'Exécuter requête',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Gestion des Services',
@@ -2369,6 +2379,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => '',
         'Add Template' => '',
         'Edit Template' => '',
+        'A standard template with this name already exists!' => '',
         'Template' => '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
@@ -2400,6 +2411,7 @@ sub Data {
         'Edit Agent' => 'Modifier l\'opérateur ',
         'Firstname' => 'Prénom',
         'Lastname' => 'Nom',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => 'Démarrer',
         'End' => 'Fin',
@@ -2658,6 +2670,7 @@ sub Data {
         'Note type' => 'Type de note',
         'Next state' => 'État suivant',
         'Date invalid!' => 'Date invalide',
+        'For all pending* states.' => '',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2692,8 +2705,6 @@ sub Data {
         'Remove Cc' => 'Retirer le Cc',
         'Remove Bcc' => 'Retirer le Bcc',
         'Address book' => 'Carnet d\'adresse',
-        'Pending Date' => 'En attendant la date',
-        'for pending* states' => 'pour tous les états de mise en attente',
         'Date Invalid!' => 'Date invalide',
 
         # Template: AgentTicketCustomer
@@ -3283,6 +3294,8 @@ sub Data {
         'Auto Responses <-> Queues' => 'Réponses Auto <-> Files',
         'Automated line break in text messages after x number of chars.' =>
             '',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
@@ -3350,6 +3363,8 @@ sub Data {
             'Contrôle si les clients ont la possibilité de classer leurs tickets.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Contrôle si plus d\'une entrée peut être mise dans un nouveau ticket téléphone depuis l\'interface opérateur.',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
         'Converts HTML mails into text messages.' => '',
@@ -3816,6 +3831,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
@@ -4488,17 +4505,17 @@ sub Data {
             '',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -4983,6 +5000,8 @@ sub Data {
         'Specifies the border color of the chart.' => '',
         'Specifies the border color of the legend.' => '',
         'Specifies the bottom margin of the chart.' => '',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             '',
         'Specifies the different note types that will be used in the system.' =>
@@ -5147,6 +5166,8 @@ sub Data {
         'For more info see:' => 'Pour plus d\'informations, allez à',
         'From customer' => 'Du client',
         'Fulltext search' => 'Recherche plein texte',
+        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
+            'Vous pouvez ajouter ici des liens à votre certification privée, ceux-ci seront incorporés à votre signature SMIME chaque fois que vous utiliserez cette certification pour signer un email.',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Si vous avez un mot de passe pour le compte root de votre base de données, il doit être saisi ici. Sinon, laissez ce champ vide. Pour des raisons de sécurité, nous vous recommandons de mettre un mot de passe pour le compte root. Pour plus d\'information, referez vous svp à la documentation de votre gestionnaire de base de données.',
         'Link attachments to responses templates.' => 'Lier pièces jointes aux modèles de réponse',
@@ -5162,6 +5183,7 @@ sub Data {
         'Only for ArticleCreate event' => 'Seulement pour l\'évenement CréationArticle',
         'Package verification failed!' => 'Vérification du paquet échouée !',
         'Password is required.' => 'Mot de passe requis',
+        'Pending Date' => 'En attendant la date',
         'Please enter a search term to look for customer companies.' => 'Merci d\'entrer un motif de recherche pour chercher les entreprises clientes',
         'Please fill in all fields marked as mandatory.' => 'Veuillez remplir tous les champs obligatoires.',
         'Please supply a' => 'Veuillez donner une',
@@ -5171,14 +5193,18 @@ sub Data {
         'Registration' => 'Inscription',
         'Responses' => 'Réponses',
         'Responses <-> Queues' => 'Réponses <-> Files',
+        'SMIME Certificate' => 'Certificat SMIME',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Le mode sécurisé doit être désactivé dans le but de réinstaller en utilisant le web-installer (installateur web)',
         'Show  article' => 'Afficher l\'article',
         'There are no further steps in this process' => 'Il n\'y a pas d\'autres étapes dans ce processus',
+        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            'Pour ajouter un nouveau champ, sélectionner l\'objet désiré, puis le type de champ dans le menu déroulant correspondant. Le type défini la structure du champ, et il ne peut être changé après la création.',
         'To customer' => 'Vers le client',
         'URL' => 'URL',
         'before' => 'avant',
         'default \'hot\'' => '\'hot\' par défaut',
+        'for pending* states' => 'pour tous les états de mise en attente',
         'settings' => 'Paramètres',
 
     };

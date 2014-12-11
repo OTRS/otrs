@@ -585,7 +585,7 @@ sub Data {
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -614,10 +614,9 @@ sub Data {
         'Could not determine distribution.' => '',
         'Kernel Version' => '',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
         'Perl Modules' => '',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => '',
@@ -640,6 +639,8 @@ sub Data {
         'Groups' => 'Gruppi',
         'Dynamic Fields' => 'Campi Dinamici',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => 'Processi',
         'Months Between First And Last Ticket' => '',
@@ -681,6 +682,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1170,8 +1172,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Gestione Campi Dinamici',
         'Add new field for object' => 'Aggiungi un nuovo campo per l\'oggetto',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'Per aggiungere un nuovo campo, selezionare il tipo di campo dalla lista, l\'oggetto definisce i confini del campo e non può essere cambiato.',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '',
         'Dynamic Fields List' => 'Elenco Campi Dinamici',
         'Dynamic fields per page' => 'Campi Dinamici per pagina',
         'Label' => 'Etichetta',
@@ -2022,6 +2024,9 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
         'OTRS-ID Login' => '',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
@@ -2100,7 +2105,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
             '',
-        'If you deregister your system, you will loose these benefits:' =>
+        'If you deregister your system, you will lose these benefits:' =>
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
@@ -2170,12 +2175,12 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Add certificate' => 'Aggiungi certificato',
         'Add private key' => 'Aggiungi chiave privata',
         'Filter for certificates' => 'Filtro per i certificati',
-        'Filter for SMIME certs' => 'Filtro per i certificari SMIME',
+        'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
-        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            'Qui puoi aggiungere relazioni al tuo certificato privato, e sarà incluso nella firma SMIME ad ogni firma',
+        'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
+            '',
         'See also' => 'Vedi anche',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
@@ -2189,11 +2194,12 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Related Certificates for' => 'Certificato collegato a',
         'Delete this relation' => 'Cancella questa relazione',
         'Available Certificates' => 'Certificati disponibili',
+        'Filter for SMIME certs' => 'Filtro per i certificari SMIME',
         'Relate this certificate' => 'Collegati a questo certificato',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => 'Certificato SMIME',
         'Close window' => 'Chiudi finestra',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Gestione saluti',
@@ -2218,14 +2224,18 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
 
         # Template: AdminSelectBox
         'SQL Box' => 'script SQL ',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
         'Here you can enter SQL to send it directly to the application database.' =>
             'Qui è possibile inserire SQL per inviarlo direttamente al database.',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'La sintassi della query SQL è sbagliata.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'C\'è almeno un parametro mancante per il binding.',
         'Result format' => 'Formato dei risultati',
         'Run Query' => 'Esegui query',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Gestione Servizi',
@@ -2370,6 +2380,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Don\'t forget to add new templates to queues.' => '',
         'Add Template' => '',
         'Edit Template' => '',
+        'A standard template with this name already exists!' => '',
         'Template' => '',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '',
@@ -2401,6 +2412,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Edit Agent' => 'Modifica agente',
         'Firstname' => 'Nome',
         'Lastname' => 'Cognome',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => 'Inizio',
         'End' => 'Fine',
@@ -2659,6 +2671,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Note type' => 'Tipologia della nota',
         'Next state' => 'Stato successivo',
         'Date invalid!' => 'Data invalida!',
+        'For all pending* states.' => '',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2693,8 +2706,6 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Remove Cc' => 'Rimuovi persone in copia',
         'Remove Bcc' => 'Rimuovi persone in copia nascosta',
         'Address book' => 'Rubrica',
-        'Pending Date' => 'Attesa fino a',
-        'for pending* states' => 'per gli stati di attesa*',
         'Date Invalid!' => 'Data non valida!',
 
         # Template: AgentTicketCustomer
@@ -3284,6 +3295,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Auto Responses <-> Queues' => 'Risposte automatiche <-> Code',
         'Automated line break in text messages after x number of chars.' =>
             'A capo automatico nelle linee dopo X caratteri',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Prendi in carico automaticamente sull\'agente corrente dopo aver selezionato un\'azione multipla.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
@@ -3350,6 +3363,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Controls if customers have the ability to sort their tickets.' =>
             'Controlla se i clienti hanno la possibilità di ordinare i loro ticket.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
@@ -3817,6 +3832,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
@@ -4489,17 +4506,17 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
             '',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -4984,6 +5001,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Specifies the border color of the chart.' => '',
         'Specifies the border color of the legend.' => '',
         'Specifies the bottom margin of the chart.' => '',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             '',
         'Specifies the different note types that will be used in the system.' =>
@@ -5162,6 +5181,8 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'For more info see:' => 'Per maggior informazioni vedi:',
         'From customer' => 'Dal cliente',
         'Fulltext search' => 'Ricerca testo libero',
+        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
+            'Qui puoi aggiungere relazioni al tuo certificato privato, e sarà incluso nella firma SMIME ad ogni firma',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
@@ -5174,6 +5195,7 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Only for ArticleCreate event' => 'Solo per l\'evento ArticleCreate',
         'Package verification failed!' => 'Verifica del pacchetto fallita! ',
         'Password is required.' => 'La password è obbligatoria',
+        'Pending Date' => 'Attesa fino a',
         'Please enter a search term to look for customer companies.' => 'Inserire una chiave di ricerca per le aziende dei clienti.',
         'Please fill in all fields marked as mandatory.' => 'Completare tutti i campi obbligatori',
         'Please supply a' => 'Si prega di inserire un',
@@ -5183,14 +5205,18 @@ Nota: Questa tabella rappresenta l\'ordine di esecuzione delle ACL. Se è necess
         'Registration' => 'Registrazione',
         'Responses' => 'Risposte',
         'Responses <-> Queues' => 'Risposte <-> Code',
+        'SMIME Certificate' => 'Certificato SMIME',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'La Modalita Sicura deve essere tolta per installare usando il web-installer.',
         'Show  article' => 'Mostra Articolo',
         'There are currently no steps available for this process.' => 'Al momento non ci sono attività disponibili per questo processo.',
         'There are no further steps in this process' => 'Non ci sono ulteriori attività in questo processo',
+        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            'Per aggiungere un nuovo campo, selezionare il tipo di campo dalla lista, l\'oggetto definisce i confini del campo e non può essere cambiato.',
         'To customer' => 'Al cliente',
         'before' => 'precedente',
         'default \'hot\'' => '\'hot\' predefinito',
+        'for pending* states' => 'per gli stati di attesa*',
         'settings' => 'Configura',
 
     };

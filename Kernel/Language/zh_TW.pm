@@ -579,7 +579,7 @@ sub Data {
         'Server Database Charset' => '',
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => '',
-        'There were tables found which no not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => '',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             '',
@@ -608,10 +608,9 @@ sub Data {
         'Could not determine distribution.' => '',
         'Kernel Version' => '',
         'Could not determine kernel version.' => '',
-        'Load' => '',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Could not determine system load.' => '',
         'Perl Modules' => '',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => 'Perl版本',
@@ -634,6 +633,8 @@ sub Data {
         'Groups' => '組',
         'Dynamic Fields' => '動態字段',
         'Dynamic Field Values' => '',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
         'Processes' => '流程',
         'Months Between First And Last Ticket' => '',
@@ -675,6 +676,7 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1163,8 +1165,8 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => '動態字段管理',
         'Add new field for object' => '為對象添加新的字段',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            '為了創建新的字段，請先確定該字段是工單字段還是信件字段，並選擇正確的字段類型。字段創建後，您無法將信件字段改為工單字段，反之亦然。',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '',
         'Dynamic Fields List' => '動態字段列表',
         'Dynamic fields per page' => '每頁動態字段個數',
         'Label' => '標記',
@@ -2015,6 +2017,9 @@ sub Data {
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '與註冊服務器上一次的通訊',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
         'OTRS-ID Login' => 'OTRS-ID登陸',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '系統註冊是OTRS集團的一項服務，它為您提供了很多好處!',
@@ -2093,8 +2098,8 @@ sub Data {
             '',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
             '',
-        'If you deregister your system, you will loose these benefits:' =>
-            '如果您取消系統註冊，您將放棄這些好處:',
+        'If you deregister your system, you will lose these benefits:' =>
+            '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
         'OTRS-ID' => '',
@@ -2163,12 +2168,12 @@ sub Data {
         'Add certificate' => '添加証書',
         'Add private key' => '添加私匙',
         'Filter for certificates' => '過濾証書',
-        'Filter for SMIME certs' => '過濾SMIME証書',
+        'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => '',
         'To manage private certificate relations click on a private key icon.' =>
             '',
-        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            '在這裡，您可以添加您的私人証書的關係，當您使用這個証書簽署一份電子郵件時，它們將嵌入到SMIME簽名中。',
+        'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
+            '',
         'See also' => '参見',
         'In this way you can directly edit the certification and private keys in file system.' =>
             '這樣您能夠直接編輯文件系統中的証書和私匙。',
@@ -2182,11 +2187,12 @@ sub Data {
         'Related Certificates for' => '關聯証書',
         'Delete this relation' => '刪除這個關聯',
         'Available Certificates' => '可選的証書',
+        'Filter for SMIME certs' => '過濾SMIME証書',
         'Relate this certificate' => '關聯這個証書',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => 'SMIME証書',
         'Close window' => '關閉窗口',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => '回復抬頭管理',
@@ -2211,14 +2217,18 @@ sub Data {
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL查詢窗口',
+        'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
+            '',
         'Here you can enter SQL to send it directly to the application database.' =>
             '這裡您可以輸入並運行數據庫SQL的命令。',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL查詢的語法有一個錯誤，請核對。',
         'There is at least one parameter missing for the binding. Please check it.' =>
             '至少有一個参數丢失，請核對。',
         'Result format' => '結果格式',
         'Run Query' => '執行查詢',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => '服務管理',
@@ -2363,6 +2373,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => '别忘了將新模板指派給隊列',
         'Add Template' => '添加模板',
         'Edit Template' => '編輯模板',
+        'A standard template with this name already exists!' => '',
         'Template' => '模板',
         'Create type templates only supports this smart tags' => '',
         'Example template' => '模板舉例',
@@ -2394,6 +2405,7 @@ sub Data {
         'Edit Agent' => '編輯服務人員',
         'Firstname' => '名',
         'Lastname' => '姓',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '如果為空，將自動生成密碼。',
         'Start' => '開始',
         'End' => '結束',
@@ -2652,6 +2664,7 @@ sub Data {
         'Note type' => '備註類型',
         'Next state' => '工單狀態',
         'Date invalid!' => '日期無效!',
+        'For all pending* states.' => '',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2686,8 +2699,6 @@ sub Data {
         'Remove Cc' => '刪除Cc',
         'Remove Bcc' => '刪除Bcc',
         'Address book' => '地址簿',
-        'Pending Date' => '掛起時間',
-        'for pending* states' => '針對掛起狀態',
         'Date Invalid!' => '日期無效！',
 
         # Template: AgentTicketCustomer
@@ -3277,6 +3288,8 @@ sub Data {
         'Auto Responses <-> Queues' => '自動回復 <-> 隊列',
         'Automated line break in text messages after x number of chars.' =>
             '',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             '',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
@@ -3343,6 +3356,8 @@ sub Data {
         'Controls if customers have the ability to sort their tickets.' =>
             '',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
+            '',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
             '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             '',
@@ -3810,6 +3825,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => '',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => '',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             '',
@@ -4482,17 +4499,17 @@ sub Data {
             '',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -4977,6 +4994,8 @@ sub Data {
         'Specifies the border color of the chart.' => '',
         'Specifies the border color of the legend.' => '',
         'Specifies the bottom margin of the chart.' => '',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             '',
         'Specifies the different note types that will be used in the system.' =>
@@ -5168,6 +5187,10 @@ sub Data {
         'From customer' => '來自用戶',
         'Fulltext search' => '全文搜索',
         'Fulltext-Search' => '全文搜索',
+        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
+            '在這裡，您可以添加您的私人証書的關係，當您使用這個証書簽署一份電子郵件時，它們將嵌入到SMIME簽名中。',
+        'If you deregister your system, you will loose these benefits:' =>
+            '如果您取消系統註冊，您將放棄這些好處:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             '如果您的數據庫有設置 root 密碼, 請在這裡輸入, 否則, 請保留空白. 出於安全考慮, 我們建議您為 root 設置一個密碼, 更多信息請参考數據庫幫助文檔.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
@@ -5195,6 +5218,7 @@ sub Data {
         'Out Of Office' => '不在辦公室',
         'Package verification failed!' => '軟件包驗証失败',
         'Password is required.' => '請輸入密碼。',
+        'Pending Date' => '掛起時間',
         'PendingTime' => '掛起時間',
         'Please contact your administrator!' => '請聯系系統管理員！',
         'Please enter a search term to look for customer companies.' => '請輸入一個搜索條件以查找用戶單位。',
@@ -5208,6 +5232,7 @@ sub Data {
         'Queue, filter not active' => '隊列，過濾器未激活',
         'Responses' => '回復',
         'Responses <-> Queues' => '回復 <-> 隊列',
+        'SMIME Certificate' => 'SMIME証書',
         'Search Result' => '搜索結果',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             '為了重新用Web 界面安裝，安全模式必須禁用',
@@ -5221,12 +5246,15 @@ sub Data {
         'Statistic: widget' => '統計：儀表板顯示部件',
         'The following ACLs have been updated successfully:' => '以下ACLs配置已成功更新。',
         'There where errors adding/updating the following ACLs:' => '添加/更新以下ACLs時出現錯誤：',
+        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '為了創建新的字段，請先確定該字段是工單字段還是信件字段，並選擇正確的字段類型。字段創建後，您無法將信件字段改為工單字段，反之亦然。',
         'URL' => '網址',
         'archive tickets' => '工單歸檔',
         'before' => '早於',
         'default \'hot\'' => '默認密碼 \'hot\'',
         'filter active' => '過濾器已激活',
         'filter not active' => '過濾器未激活',
+        'for pending* states' => '針對掛起狀態',
         'restore tickets from archive' => '恢復已歸檔的工單',
         'settings' => '設置',
 

@@ -577,7 +577,7 @@ sub Data {
         'Server Database Charset' => 'Karakterset serverske baze podataka',
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Подешавање character_set_database мора бити UNICODE или UTF8.',
         'Table Charset' => 'Табела карактерсета',
-        'There were tables found which no not have utf8 as charset.' => 'Пронађене су табеле које немају utf8 као карактерсет.',
+        'There were tables found which do not have utf8 as charset.' => '',
         'Maximum Query Size' => 'Максимална величина упита',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Подешавање \'max_allowed_packet\' мора бити веће од 20 MB.',
@@ -606,10 +606,9 @@ sub Data {
         'Could not determine distribution.' => 'Није могуће утврдити расподелу.',
         'Kernel Version' => 'Кернел верзија',
         'Could not determine kernel version.' => 'Није могуће утврдити кернел верзију',
-        'Load' => 'Оптерећење',
-        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
-            'Оптерећење треба да буде на максимуму, број процесора које има систем (нпр. оптерећење од 8 или мање на 8-процесорском систему је у реду.)',
-        'Could not determine system load.' => 'Није могуће утврдити оптерећење система.',
+        'System Load' => '',
+        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
+            '',
         'Perl Modules' => 'Perl модули',
         'Not all required Perl modules are correctly installed.' => 'Сви захтевани Perl модули нису коректно инсталирани.',
         'Perl Version' => 'Perl верзија',
@@ -632,6 +631,8 @@ sub Data {
         'Groups' => 'Групе',
         'Dynamic Fields' => 'Динамичка поља',
         'Dynamic Field Values' => 'Вредности динамичког поља',
+        'Invalid Dynamic Fields' => '',
+        'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => 'GenericInterface веб сервис',
         'Processes' => 'Процеси',
         'Months Between First And Last Ticket' => 'Месеци између првог и последњег тикета',
@@ -673,6 +674,7 @@ sub Data {
         'Environment Variables' => 'Променљиве из окружења',
         'Webserver Version' => 'Веб сервер верзија',
         'Could not determine webserver version.' => 'Не може да препозна веб сервер верзију.',
+        'Loaded Apache Modules' => '',
         'CGI Accelerator Usage' => 'Употреба CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'За повећање перформанси треба да користите FastCGI или mod_perl.',
@@ -1161,8 +1163,8 @@ sub Data {
         # Template: AdminDynamicField
         'Dynamic Fields Management' => 'Управљање динамичким пољима',
         'Add new field for object' => 'Додај ново поље објекту',
-        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
-            'За додавање новог поља изаберите тип поља из листе објеката, објекат дефинише могући опсег вредности и не може се променити после креирања поља.',
+        'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            '',
         'Dynamic Fields List' => 'Листа динамичких поља',
         'Dynamic fields per page' => 'Број динамичких поља по страни',
         'Label' => 'Ознака',
@@ -2013,6 +2015,9 @@ sub Data {
         'Unique ID' => 'Јединствени ИД',
         'Last communication with registration server' => 'Последња комуникација са регистрационим сервером',
         'Send support data' => 'Пошаљи податке за подршку',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
         'OTRS-ID Login' => 'OTRS-ID пријава',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             'Регистрација система је услуга OTRS Групе, која обезбеђује многе предности.',
@@ -2091,8 +2096,8 @@ sub Data {
             'Ваше поверење нама је веома важно. Ми смо спремни да вас обавестимо о обради ваших личних података у било ком тренутку.',
         'If you have any questions that have not been answered by this Data Protection Policy or if you require more detailed information about a specific topic, please contact info@otrs.com.' =>
             'Уколико имате било каква питања на која нису одговорили у Политици о заштити података или ако су вам потребне детаљније информације о одређеној теми, контактирајте info@otrs.com',
-        'If you deregister your system, you will loose these benefits:' =>
-            'Уколико ођавите ваш систем, изгубићете ове бенефите:',
+        'If you deregister your system, you will lose these benefits:' =>
+            '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             'Да би сте ођавили ваш систем, морате да се пријавите са вашим OTRS-ID',
         'OTRS-ID' => 'OTRS-ID',
@@ -2161,12 +2166,12 @@ sub Data {
         'Add certificate' => 'Додај сертификат',
         'Add private key' => 'Додај приватни кључ',
         'Filter for certificates' => 'Филтер за сертификате',
-        'Filter for SMIME certs' => 'Филтер за SMIME сертификате',
+        'Filter for S/MIME certs' => '',
         'To show certificate details click on a certificate icon.' => 'За приказивање детаља сертификата кликни на иконицу сертификат.',
         'To manage private certificate relations click on a private key icon.' =>
             'За управљање везама приватног сертификата кликните на иконицу приватни кључ.',
-        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
-            'Овде можете додати везе до вашег приватног сертификата, који ће бити укључени у SMIME потпис кад год га употребите за потписвање имејла.',
+        'Here you can add relations to your private certificate, these will be embedded to the S/MIME signature every time you use this certificate to sign an email.' =>
+            '',
         'See also' => 'Погледај још',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'На овај начин можете директно да уређујете сертификате и приватне кључеве у систему датотека.',
@@ -2180,11 +2185,12 @@ sub Data {
         'Related Certificates for' => 'Повезани сертификати за',
         'Delete this relation' => 'Обриши ову везу',
         'Available Certificates' => 'Расположиви сертификати',
+        'Filter for SMIME certs' => 'Филтер за SMIME сертификате',
         'Relate this certificate' => 'Повежи овај сертификат',
 
         # Template: AdminSMIMECertRead
-        'SMIME Certificate' => 'SMIME сертификат',
         'Close window' => 'Затвори прозор',
+        'Certificate details' => '',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управљање поздравима',
@@ -2211,12 +2217,16 @@ sub Data {
         'SQL Box' => 'SQL Box',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             'Овде можете унети SQL команде и послати их директно апликационој бази података. Није могуће мењати садржај табела, дозвољен је једино \'select\' упит.',
+        'Here you can enter SQL to send it directly to the application database.' =>
+            '',
+        'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Постоји грешка у синтакси вашег SQL упита. Молимо проверите.',
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Најмање један параметар недостаје за повезивање. Молимо проверите.',
         'Result format' => 'Формат резултата',
         'Run Query' => 'Покрени упит',
+        'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Управљање сервисима',
@@ -2361,6 +2371,7 @@ sub Data {
         'Don\'t forget to add new templates to queues.' => 'Не заборавите да додате нови шаблон у реду.',
         'Add Template' => 'Додај Шаблон',
         'Edit Template' => 'Уреди Шаблон',
+        'A standard template with this name already exists!' => '',
         'Template' => 'Шаблон',
         'Create type templates only supports this smart tags' => 'Креирај тип шаблона који подржавају само ове паметне ознаке.',
         'Example template' => 'Пример шаблона',
@@ -2392,6 +2403,7 @@ sub Data {
         'Edit Agent' => 'Уреди Оператера',
         'Firstname' => 'Име',
         'Lastname' => 'Презиме',
+        'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => 'Биће аутоматски генерисано ако се остави празно.',
         'Start' => 'Почетак',
         'End' => 'Крај',
@@ -2650,6 +2662,7 @@ sub Data {
         'Note type' => 'Тип напомене',
         'Next state' => 'Следећи статус',
         'Date invalid!' => 'Неисправан датум',
+        'For all pending* states.' => '',
 
         # Template: AgentTicketActionPopupClose
 
@@ -2684,8 +2697,6 @@ sub Data {
         'Remove Cc' => 'Уклони Cc',
         'Remove Bcc' => 'Уклони Bcc',
         'Address book' => 'Адресар',
-        'Pending Date' => 'Датум чекања',
-        'for pending* states' => 'за стања* чекања',
         'Date Invalid!' => 'Неисправан датум!',
 
         # Template: AgentTicketCustomer
@@ -3275,6 +3286,8 @@ sub Data {
         'Auto Responses <-> Queues' => 'Аутоматски одговори <-> Редови',
         'Automated line break in text messages after x number of chars.' =>
             'Аутоматски крај реда у текстуалним порукама после х карактера.',
+        'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
+            '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
             'Аутоматско закључавање и подешавање власника на актуелног оператера после избора масовне акције.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
@@ -3342,6 +3355,8 @@ sub Data {
             'Контролише да ли корисници имају могућност да сортирају своје тикете.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
             'Контролише да ли више од једног улаза може бити подешено у новом телефонском тикету у интерфејсу оператера.',
+        'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
+            '',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
             'Контролише да ли су заставицом обележени тикет и чланак уклоњени када је тикет архивиран.',
         'Converts HTML mails into text messages.' => 'Конвертује HTML поруке у текстуалне поруке.',
@@ -3808,6 +3823,8 @@ sub Data {
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             'Дефинише максималну дужину (у карактерима) податка задатка планера. УПОЗОРЕЊЕ: Не мењајте ова подешавања све док не будете сигурни у дужину тренутне базе података за \'task_data\' попуњену из \'scheduler_data_list\' табеле.',
         'Defines the maximum number of pages per PDF file.' => 'Дефинише максимални број страна по PDF датотеци.',
+        'Defines the maximum number of quoted lines to be added to responses.' =>
+            '',
         'Defines the maximum size (in MB) of the log file.' => 'Дефинише максималну величину лог датотеке (у мегабајтима).',
         'Defines the module that shows a generic notification in the agent interface. Either "Text" - if configured - or the contents of "File" will be displayed.' =>
             'Дефинише модул који приказује генеричку напомену у интерфејсу оператера. Биће приказан или "Text" (ако је конфигурсан) или садржај "File".',
@@ -4480,17 +4497,17 @@ sub Data {
             '',
         'Parameters for the dashboard backend of the customer user list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the new tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the queue overview widget of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "QueuePermissionGroup" is not mandatory, queues are only listed if they belong to this permission group if you enable it. "States" is a list of states, the key is the sort order of the state in the widget. "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
         'Parameters for the dashboard backend of the ticket calendar of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
-        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket escalation overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
-        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
+        'Parameters for the dashboard backend of the ticket pending reminder overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
             '',
         'Parameters for the dashboard backend of the ticket stats of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             '',
@@ -4975,6 +4992,8 @@ sub Data {
         'Specifies the border color of the chart.' => 'Одређује боју оквира графикона.',
         'Specifies the border color of the legend.' => 'Одређује боју оквира легенде.',
         'Specifies the bottom margin of the chart.' => 'Одређује доњу маргину графикона.',
+        'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
+            '',
         'Specifies the different article types that will be used in the system.' =>
             'Одређује различите типове артикала који ће се користити у систему.',
         'Specifies the different note types that will be used in the system.' =>
@@ -5136,6 +5155,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: no more columns are allowed and will be discarded.' =>
             'Колоне које се могу филтрирати у посматраном прегледу интерфејса оператера. Могућа подешавања: 0 = Онемогућено , 1 = Доступно , 2 = Омогућено, по подразумеваном подешавању. Напомена: Нема више дозвољених колона, колоне ће бити одбачене.',
         'Complete registration and continue' => 'Комплетирај регистрацију и настави',
+        'Could not determine system load.' => 'Није могуће утврдити оптерећење система.',
         'Create and manage companies.' => 'Креирање и управљање фирмама.',
         'Create and manage response templates.' => 'Креирање и управљање шаблонима одговора.',
         'Currently only MySQL is supported in the web installer.' => 'Тренутно је само MySQL подржан у веб инсталацији.',
@@ -5160,8 +5180,12 @@ sub Data {
         'From customer' => 'од корисника',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System и Perl version.' =>
             'Потпуно квалификовано доменско име (FQDN), OTRS верзију, Базу података, Оперативни систем и Perl верзију.',
+        'Here you can add relations to your private certificate, these will be embedded to the SMIME signature every time you use this certificate to sign an email.' =>
+            'Овде можете додати везе до вашег приватног сертификата, који ће бити укључени у SMIME потпис кад год га употребите за потписвање имејла.',
         'Here you can view older versions of the current web service\'s configuratioнn, export or even restore them.' =>
             'Овде можете видети старије верзије актуелне конфигурације веб сервиса, направити извоз или је обновити.',
+        'If you deregister your system, you will loose these benefits:' =>
+            'Уколико ођавите ваш систем, изгубићете ове бенефите:',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' =>
             'Ако сте подесили root лозинку за вашу базу података, она мора бити унета овде. Ако нема лозинке оставите поље празно. Из безбедносних разлога препоручујемо да је подесите. За више информација консултујте документацију о бази података.',
         'If you want to install OTRS on another database type, please refer to the file README.database.' =>
@@ -5170,6 +5194,7 @@ sub Data {
         'Link customers to groups.' => 'Повежи кориснике са групама.',
         'Link customers to services.' => 'Повежи кориснике са сервисима.',
         'Link responses to queues.' => 'Повежи одговоре са редовима.',
+        'Load' => 'Оптерећење',
         'Log file location is only needed for File-LogModule!' => 'Локација датотеке дневника је једино неопходна за File-LogModule!',
         'Logout successful. Thank you for using OTRS!' => 'Успешно сте се ођавили! Хвала што сте користили OTRS!',
         'Manage Response-Queue Relations' => 'Управљање везама Одговор-Ред',
@@ -5179,6 +5204,7 @@ sub Data {
         'Only for ArticleCreate event' => 'Само за догађај креирања чланка',
         'Package verification failed!' => 'Неуспела верификација пакета!',
         'Password is required.' => 'Лозинка је обавезна.',
+        'Pending Date' => 'Датум чекања',
         'Please enter a search term to look for customer companies.' => 'Молимо унесите појам претраге за проналажење корисничких фирми.',
         'Please fill in all fields marked as mandatory.' => 'Молимо да попуните сва поља означена као обавезна.',
         'Please supply a' => 'Молимо, унесите',
@@ -5188,16 +5214,23 @@ sub Data {
         'Registration' => 'Регистарција',
         'Responses' => 'Одговори',
         'Responses <-> Queues' => 'Одговори <-> Редови',
+        'SMIME Certificate' => 'SMIME сертификат',
         'Secure mode must be disabled in order to reinstall using the web-installer.' =>
             'Сигуран мод мора бити искључен ради реинсталације преко веб програма за инсталирање.',
         'Skipping this step will automatically skip the registration of your OTRS. Are you sure you want to continue?' =>
             'Прескакањем овог корака аутоматски прескачете и регистрацију ваше OTRS инсталације. Јесте ли сигурни да желите да наставите?',
+        'The load should be at maximum, the number of procesors the system have (e.g. a load of 8 or less on a 8 CPUs system is OK.' =>
+            'Оптерећење треба да буде на максимуму, број процесора које има систем (нпр. оптерећење од 8 или мање на 8-процесорском систему је у реду.)',
+        'There were tables found which no not have utf8 as charset.' => 'Пронађене су табеле које немају utf8 као карактерсет.',
+        'To add a new field, select the field type form one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
+            'За додавање новог поља изаберите тип поља из листе објеката, објекат дефинише могући опсег вредности и не може се променити после креирања поља.',
         'To customer' => 'За корисника',
         'URL' => 'URL',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).' =>
             'Када су тикети спојени, тикету који није активан ће аутоматски бити додана белешка. У простору за текст можете да дефинишете овај текст (Оператери не могу мењати овај текст).',
         'before' => 'пре',
         'default \'hot\'' => 'подразумевано \'hot\'',
+        'for pending* states' => 'за стања* чекања',
         'settings' => 'подешавања',
 
     };
