@@ -718,6 +718,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Visão de Estado',
+        'Service View' => '',
         'Bulk' => 'Massa',
         'Lock' => 'Bloquear',
         'Unlock' => 'Desbloquear',
@@ -799,6 +800,7 @@ sub Data {
         'Forwarded message from' => 'Mensagem encaminhada de',
         'End forwarded message' => 'Fim da mensagem encaminhada',
         'Bounce Article to a different mail address' => 'Devolver artigo para um endereço de e-mail diferente',
+        'Reply to note' => '',
         'new' => 'novo',
         'open' => 'aberto',
         'Open' => 'Aberto',
@@ -860,6 +862,7 @@ sub Data {
         'Create new Email Ticket' => 'Criar Novo Chamado via E-mail',
         'Phone-Ticket' => 'Chamado Fone',
         'Search Tickets' => 'Pesquisar Chamados',
+        'Customer History' => '',
         'Edit Customer Users' => 'Editar Clientes (Usuários)',
         'Edit Customer' => 'Alterar Cliente',
         'Bulk Action' => 'Ação em Massa',
@@ -2056,6 +2059,7 @@ sub Data {
         'Add queue' => 'Adicionar Filas',
         'Add Queue' => 'Adicionar Filas',
         'Edit Queue' => 'Alterar Filas',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Subfila de',
         'Unlock timeout' => 'Tempo de Expiração de Desbloqueio',
         '0 = no unlock' => '0 = sem desbloqueio',
@@ -2108,6 +2112,10 @@ sub Data {
         'Unique ID' => 'ID Único',
         'Last communication with registration server' => 'Última comunicação com o servidor de registro',
         'Send support data' => 'Enviar dados de suporte',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2773,6 +2781,7 @@ sub Data {
         'Please set a new owner!' => 'Por favor, configure um novo proprietário!',
         'Previous Owner' => 'Proprietário Anterior',
         'Next state' => 'Próximo estado',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Verificar Ortografia',
@@ -2814,8 +2823,6 @@ sub Data {
         'Remove Cc' => 'Remover Cc',
         'Remove Bcc' => 'Remover Bcc',
         'Address book' => 'Catálogo de Endereços',
-        'Pending Date' => 'Data de Pendência',
-        'for pending* states' => 'em estado pendente*',
         'Date Invalid!' => 'Data Inválida!',
 
         # Template: AgentTicketCustomer
@@ -4480,6 +4487,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Se habilitado, os diferentes painéis (Dashboard, LockedView, QueueView) serão automaticamente atualizados após o tempo especificado.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4793,6 +4802,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Papéis <-> Grupos',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

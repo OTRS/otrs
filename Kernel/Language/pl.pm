@@ -716,6 +716,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Widok statusów',
+        'Service View' => '',
         'Bulk' => 'Zbiorczo',
         'Lock' => 'Blokada',
         'Unlock' => 'Odblokuj',
@@ -797,6 +798,7 @@ sub Data {
         'Forwarded message from' => 'Wiadomość przekazana od',
         'End forwarded message' => 'Koniec przekazanej wiadomości',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'nowe',
         'open' => 'otwarte',
         'Open' => 'Otwarte',
@@ -858,6 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Utwórz nowe zgłoszenie e-mail',
         'Phone-Ticket' => 'Zgłoszenie telefoniczne',
         'Search Tickets' => 'Szukaj zgłoszeń',
+        'Customer History' => '',
         'Edit Customer Users' => 'Edycja kont klienta',
         'Edit Customer' => 'Edytuj Klienta',
         'Bulk Action' => 'Akcja grupowa',
@@ -2054,6 +2057,7 @@ sub Data {
         'Add queue' => 'Dodaj kolejkę',
         'Add Queue' => 'Dodaj kolejkę',
         'Edit Queue' => 'Edytuj kolejkę',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Podkolejka kolejki',
         'Unlock timeout' => 'Limit czasowy odblokowania',
         '0 = no unlock' => '0 = bez odblokowania',
@@ -2106,6 +2110,10 @@ sub Data {
         'Unique ID' => 'Unikalne ID',
         'Last communication with registration server' => 'Ostatnia komunikacja z serwerem rejestrującym',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2771,6 +2779,7 @@ sub Data {
         'Please set a new owner!' => 'Prosimy ustaw nowego właściciela!',
         'Previous Owner' => 'Poprzedni właściciel',
         'Next state' => 'Następny status',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Sprawdzanie poprawności',
@@ -2812,8 +2821,6 @@ sub Data {
         'Remove Cc' => 'Usuń DW',
         'Remove Bcc' => 'Usuń UDW',
         'Address book' => 'Książka adresowa',
-        'Pending Date' => 'Termin oczekiwania',
-        'for pending* states' => 'dla statusów oczekujące*',
         'Date Invalid!' => 'Niepoprawna data!',
 
         # Template: AgentTicketCustomer
@@ -4478,6 +4485,8 @@ sub Data {
             'Jeśli włączone to zgłoszneia telefoniczne i e-mail będą otwierane w nowych oknach.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             'Jeśli włączone to tag z wersją OTRS zostanie usunięty z interfejsu sieciowego, nagłówków HTTP oraz X-Headera wychodzącej poczty.',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Gdy włączone, przeglądy takie jak Pulpit, Zablokowane, Widok kolejek będą automatycznie odświeżane co zadany czas.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4791,6 +4800,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Role <-> Grupy',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

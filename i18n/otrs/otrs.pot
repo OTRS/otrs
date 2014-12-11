@@ -2471,6 +2471,10 @@ msgid "Status View"
 msgstr ""
 
 #. Template: AAATicket
+msgid "Service View"
+msgstr ""
+
+#. Template: AAATicket
 msgid "Bulk"
 msgstr ""
 
@@ -2791,6 +2795,10 @@ msgid "Bounce Article to a different mail address"
 msgstr ""
 
 #. Template: AAATicket
+msgid "Reply to note"
+msgstr ""
+
+#. Template: AAATicket
 msgid "new"
 msgstr ""
 
@@ -3028,6 +3036,10 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Search Tickets"
+msgstr ""
+
+#. Template: AAATicket
+msgid "Customer History"
 msgstr ""
 
 #. Template: AAATicket
@@ -6807,6 +6819,10 @@ msgid "Edit Queue"
 msgstr ""
 
 #. Template: AdminQueue
+msgid "A queue with this name already exists!"
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Sub-queue of"
 msgstr ""
 
@@ -6964,6 +6980,18 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Send support data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System registration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Please note that you can't register your system if your scheduler is not running correctly!"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Instructions"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -8839,6 +8867,10 @@ msgid "Next state"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
+msgid "For all pending* states."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Add Article"
 msgstr ""
 
@@ -8964,14 +8996,6 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Address book"
-msgstr ""
-
-#. Template: AgentTicketCompose
-msgid "Pending Date"
-msgstr ""
-
-#. Template: AgentTicketCompose
-msgid "for pending* states"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -13095,6 +13119,10 @@ msgid "If enabled, the OTRS version tag will be removed from the Webinterface, t
 msgstr ""
 
 #. SysConfig
+msgid "If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer)."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time."
 msgstr ""
 
@@ -13900,6 +13928,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
+msgstr ""
+
+#. SysConfig
+msgid "Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module."
 msgstr ""
 
 #. SysConfig

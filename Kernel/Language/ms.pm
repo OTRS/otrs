@@ -712,6 +712,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Lihat Status',
+        'Service View' => '',
         'Bulk' => 'Pukal',
         'Lock' => 'Kunci',
         'Unlock' => 'Membuka',
@@ -793,6 +794,7 @@ sub Data {
         'Forwarded message from' => 'Mesej dikemukan daripada',
         'End forwarded message' => 'Mesej akhir dikemukan',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'baru',
         'open' => 'buka',
         'Open' => 'Buka',
@@ -854,6 +856,7 @@ sub Data {
         'Create new Email Ticket' => 'Mencipta Emel Tiket baru',
         'Phone-Ticket' => 'Tiket-Telefon',
         'Search Tickets' => 'Cari Tiket',
+        'Customer History' => '',
         'Edit Customer Users' => 'Audit Pengguna Pelanggan',
         'Edit Customer' => 'Audit pelanggan',
         'Bulk Action' => 'Tindakan pukal',
@@ -2050,6 +2053,7 @@ sub Data {
         'Add queue' => 'Tambah barisan',
         'Add Queue' => 'Tambah Barisan',
         'Edit Queue' => 'Edit barisan',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Sub-barisan',
         'Unlock timeout' => 'Buka masa tamat',
         '0 = no unlock' => '0 = tidak buka kunci',
@@ -2102,6 +2106,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2767,6 +2775,7 @@ sub Data {
         'Please set a new owner!' => 'Sila tetapkan pemilik baru!',
         'Previous Owner' => 'Pemilik sebelumnya',
         'Next state' => 'Status Seterusnya',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'semak ejaan',
@@ -2808,8 +2817,6 @@ sub Data {
         'Remove Cc' => 'Buang Cc',
         'Remove Bcc' => 'Buang Bcc',
         'Address book' => 'Buku Alamat',
-        'Pending Date' => 'Tarikh penangguhan',
-        'for pending* states' => 'Untuk status tertangguh',
         'Date Invalid!' => 'Tarikh tidak sah!',
 
         # Template: AgentTicketCustomer
@@ -4474,6 +4481,8 @@ sub Data {
             'Jika diaktifkan, TicketPhone dan TicketEmail akan di buka di tingkap yang baru.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Jika diaktifkan, overviews yang berbeza (Dashboard, LockedView, QueueView) akan direfresh secara automatik selepas masa yang tertentu.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4787,6 +4796,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Peranan <-> Kumpulan',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Menjalankan carian wildcard awal daripada pengguna pelanggan yang sedia ada semasa mengakses modul AdminCustomerUser itu.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

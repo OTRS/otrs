@@ -715,6 +715,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => '狀態視圖',
+        'Service View' => '',
         'Bulk' => '批量',
         'Lock' => '鎖定',
         'Unlock' => '解鎖',
@@ -796,6 +797,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => '新建',
         'open' => '處理中',
         'Open' => '處理中',
@@ -857,6 +859,7 @@ sub Data {
         'Create new Email Ticket' => '創建郵件工單',
         'Phone-Ticket' => '電話工單',
         'Search Tickets' => '搜索工單',
+        'Customer History' => '',
         'Edit Customer Users' => '編輯用戶帳戶',
         'Edit Customer' => '編輯用戶單位',
         'Bulk Action' => '批量處理',
@@ -2053,6 +2056,7 @@ sub Data {
         'Add queue' => '添加隊列',
         'Add Queue' => '添加隊列',
         'Edit Queue' => '編輯隊列',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => '子隊列',
         'Unlock timeout' => '超時解鎖',
         '0 = no unlock' => '永不解鎖',
@@ -2105,6 +2109,10 @@ sub Data {
         'Unique ID' => '唯一ID',
         'Last communication with registration server' => '與註冊服務器上一次的通訊',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2770,6 +2778,7 @@ sub Data {
         'Please set a new owner!' => '請指定新的所有者！',
         'Previous Owner' => '前一個所有者',
         'Next state' => '工單狀態',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => '拼寫檢查',
@@ -2811,8 +2820,6 @@ sub Data {
         'Remove Cc' => '刪除Cc',
         'Remove Bcc' => '刪除Bcc',
         'Address book' => '地址簿',
-        'Pending Date' => '掛起時間',
-        'for pending* states' => '針對掛起狀態',
         'Date Invalid!' => '日期無效！',
 
         # Template: AgentTicketCustomer
@@ -4477,6 +4484,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '如果啟用，所有概況(儀表板、鎖定概況、隊列概況)將在指定的間隔時間進行顯示刷新。',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4790,6 +4799,8 @@ sub Data {
             '',
         'Roles <-> Groups' => '角色 <-> 組',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

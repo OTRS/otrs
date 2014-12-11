@@ -713,6 +713,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Pregled statusa',
+        'Service View' => '',
         'Bulk' => 'Masovno',
         'Lock' => 'Zaključaj',
         'Unlock' => 'Otključaj',
@@ -794,6 +795,7 @@ sub Data {
         'Forwarded message from' => 'Prosleđena poruka od',
         'End forwarded message' => 'Kraj prosleđene poruke',
         'Bounce Article to a different mail address' => 'Preusmeravanje članka na drugu email adresu',
+        'Reply to note' => '',
         'new' => 'novo',
         'open' => 'otvoreni',
         'Open' => 'Otvoreni',
@@ -855,6 +857,7 @@ sub Data {
         'Create new Email Ticket' => 'Kreira novi Email tiket',
         'Phone-Ticket' => 'Telefonski tiket',
         'Search Tickets' => 'Traženje tiketa',
+        'Customer History' => '',
         'Edit Customer Users' => 'Uredi korisnike korisnika',
         'Edit Customer' => 'Uredi korisnika',
         'Bulk Action' => 'Masovna akcija',
@@ -2051,6 +2054,7 @@ sub Data {
         'Add queue' => 'Dodaj red',
         'Add Queue' => 'Dodaj Red',
         'Edit Queue' => 'Uredi Red',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Pod-red od',
         'Unlock timeout' => 'Vreme do otključavanja',
         '0 = no unlock' => '0 = nema otključavanja',
@@ -2103,6 +2107,10 @@ sub Data {
         'Unique ID' => 'Jedinstveni ID',
         'Last communication with registration server' => 'Poslednja komunikacija sa registracionim serverom',
         'Send support data' => 'Pošalji podatke za podršku',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2768,6 +2776,7 @@ sub Data {
         'Please set a new owner!' => 'Molimo odredite novog vlasnika',
         'Previous Owner' => 'Prethodni vlasnik',
         'Next state' => 'Sledeći status',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Provera pravopisa',
@@ -2809,8 +2818,6 @@ sub Data {
         'Remove Cc' => 'Ukloni Cc',
         'Remove Bcc' => 'Ukloni Bcc',
         'Address book' => 'Adresar',
-        'Pending Date' => 'Datum čekanja',
-        'for pending* states' => 'za stanja čekanja',
         'Date Invalid!' => 'Neispravan datum!',
 
         # Template: AgentTicketCustomer
@@ -4475,6 +4482,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4788,6 +4797,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Uloge <-> Grupe',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

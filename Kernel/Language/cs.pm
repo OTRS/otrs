@@ -719,6 +719,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => '',
+        'Service View' => '',
         'Bulk' => '',
         'Lock' => 'Zamknout',
         'Unlock' => 'Odemknout',
@@ -800,6 +801,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => 'Odeslat na jinou adresu',
+        'Reply to note' => '',
         'new' => 'nová',
         'open' => 'otevřený',
         'Open' => 'Otevřít',
@@ -861,6 +863,7 @@ sub Data {
         'Create new Email Ticket' => 'Vytvořit nový Email Tiket',
         'Phone-Ticket' => 'Telefonní Tiket',
         'Search Tickets' => 'Vyhledávání Tiketů',
+        'Customer History' => '',
         'Edit Customer Users' => 'Editace uživatelů zákazníka',
         'Edit Customer' => 'Upravit zákazníka',
         'Bulk Action' => 'Hromadná akce',
@@ -2057,6 +2060,7 @@ sub Data {
         'Add queue' => '',
         'Add Queue' => '',
         'Edit Queue' => '',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => '',
         'Unlock timeout' => 'Čas do odemknutí',
         '0 = no unlock' => '0 = žádné odemknutí',
@@ -2109,6 +2113,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2774,6 +2782,7 @@ sub Data {
         'Please set a new owner!' => 'Prosím nastavte nového vlastníka!',
         'Previous Owner' => 'Předchozí vlastník',
         'Next state' => 'Nasledující stav',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => '',
@@ -2815,8 +2824,6 @@ sub Data {
         'Remove Cc' => '',
         'Remove Bcc' => '',
         'Address book' => 'Adresář',
-        'Pending Date' => 'Očekávaný čas vyřízení',
-        'for pending* states' => 'pro stavy očekávání*',
         'Date Invalid!' => '',
 
         # Template: AgentTicketCustomer
@@ -4481,6 +4488,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Když zapnuto, různe přehledy (Nástěnka, Zamčené Tikety, Náhled Fronty) budou automaticky znovunačteny.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4794,6 +4803,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Role <-> Skupiny',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

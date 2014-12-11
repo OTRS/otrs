@@ -721,6 +721,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Vue des statuts',
+        'Service View' => '',
         'Bulk' => 'Actions groupées',
         'Lock' => 'Verrouiller',
         'Unlock' => 'Déverrouiller',
@@ -802,6 +803,7 @@ sub Data {
         'Forwarded message from' => 'Message transféré par',
         'End forwarded message' => 'Fin du message tranféré',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'nouveau',
         'open' => 'ouvert',
         'Open' => 'Ouverts',
@@ -863,6 +865,7 @@ sub Data {
         'Create new Email Ticket' => 'Créer un nouveau ticket par e-mail',
         'Phone-Ticket' => 'Ticket Téléphone',
         'Search Tickets' => 'Recherche de tickets',
+        'Customer History' => '',
         'Edit Customer Users' => 'Editer clients',
         'Edit Customer' => 'Editer client',
         'Bulk Action' => 'Action groupée',
@@ -2059,6 +2062,7 @@ sub Data {
         'Add queue' => 'Ajouter une file',
         'Add Queue' => 'Ajouter une File',
         'Edit Queue' => 'Editer une File',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Sous-file de',
         'Unlock timeout' => 'Délai du déverrouillage',
         '0 = no unlock' => '0 = pas de déverrouillage',
@@ -2111,6 +2115,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2776,6 +2784,7 @@ sub Data {
         'Please set a new owner!' => 'Merci de renseigner un propriétaire',
         'Previous Owner' => 'Propriétaire Précédent',
         'Next state' => 'État suivant',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Vérifier orthographe',
@@ -2817,8 +2826,6 @@ sub Data {
         'Remove Cc' => 'Retirer le Cc',
         'Remove Bcc' => 'Retirer le Bcc',
         'Address book' => 'Carnet d\'adresse',
-        'Pending Date' => 'En attendant la date',
-        'for pending* states' => 'pour tous les états de mise en attente',
         'Date Invalid!' => 'Date invalide',
 
         # Template: AgentTicketCustomer
@@ -4483,6 +4490,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4796,6 +4805,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

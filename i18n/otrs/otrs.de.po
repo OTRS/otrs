@@ -4,6 +4,7 @@
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # mab_otrs <marc.bonsels@otrs.com>, 2014
+# Mainboarder, 2014
 # mab_otrs <marc.bonsels@otrs.com>, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-27 12:40+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2014-12-08 18:43+0000\n"
+"Last-Translator: Mainboarder\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -4177,7 +4178,7 @@ msgstr "Allgemein"
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr "Diese Feld wird benötigt, und der Wert darf nur Buchstaben und Zahlen enthalten."
+msgstr "Dieses Feld wird benötigt, und der Wert darf nur Buchstaben und Zahlen enthalten."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
@@ -4357,7 +4358,7 @@ msgstr "Anzahl der Zeilen"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
-msgstr "Gibt die Anzahl der Zeilen für diese Feld im Bearbeitungsmodus an."
+msgstr "Gibt die Anzahl der Zeilen für dieses Feld im Bearbeitungsmodus an."
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
@@ -7151,7 +7152,7 @@ msgstr "Wenn ein Agent ein Ticket sperrt und es vor der Entsperrzeit nicht schli
 
 #. Template: AdminQueue
 msgid "Notify by"
-msgstr "Benachrichtigt von"
+msgstr "Benachrichtigt nach"
 
 #. Template: AdminQueue
 msgid "0 = no escalation"
@@ -12884,7 +12885,7 @@ msgid ""
 "another. Example: If ticket A is linked per a 'Normal' link with ticket B, "
 "then these tickets could not be additionally linked with link of a "
 "'ParentChild' relationship."
-msgstr ""
+msgstr "Definition der verschiedenen Verknüpfungsmöglichkeiten. Verknüpfungstpyen der selben Gruppe schließen sich gegenseitig aus. Beispiel: Wenn Ticket A mit dem Typ 'Normal' mit Ticket B verlinkt wird, dann können diese beiden Tickets nicht noch zusätzlich mit dem Typ 'ElternKind' miteinander verlinkt werden."
 
 #. SysConfig
 msgid ""
@@ -13543,7 +13544,7 @@ msgstr "Gibt an, welcher Artikeltyp beim Öffnen der Übersichtsansicht aufgekla
 msgid ""
 "Defines, which tickets of which ticket state types should not be listed in "
 "linked ticket lists."
-msgstr ""
+msgstr "Definiert, dass Tickets mit den ausgewählten Tickets Status nicht bei den verknüpften Tickets angezeigt werden sollen."
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
@@ -15559,23 +15560,23 @@ msgstr "Prozess-Informationen"
 
 #. SysConfig
 msgid "Process Management Activity Dialog GUI"
-msgstr ""
+msgstr "Prozess-Management Aktivität-Dialog GUI"
 
 #. SysConfig
 msgid "Process Management Activity GUI"
-msgstr ""
+msgstr "Prozess-Management-Aktivitäten GUI"
 
 #. SysConfig
 msgid "Process Management Path GUI"
-msgstr ""
+msgstr "Prozess-Management-Pfad GUI"
 
 #. SysConfig
 msgid "Process Management Transition Action GUI"
-msgstr ""
+msgstr "Prozess-Management Übergangs-Aktionen GUI"
 
 #. SysConfig
 msgid "Process Management Transition GUI"
-msgstr ""
+msgstr "Prozess-Management-Übergangs Gui"
 
 #. SysConfig
 msgid "ProcessID"
@@ -17428,19 +17429,19 @@ msgstr ""
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
-msgstr ""
+msgstr "Diese Option setzt die Prozess-Ticket Standardsperre."
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
-msgstr ""
+msgstr "Diese Option setzt die Prozess-Ticket Standardpriorität"
 
 #. SysConfig
 msgid "This option defines the process tickets default queue."
-msgstr ""
+msgstr "Diese Option setzt die Prozess-Ticket Standardqueue"
 
 #. SysConfig
 msgid "This option defines the process tickets default state."
-msgstr ""
+msgstr "Diese Option setzt den Prozess-Ticket Standardstatus"
 
 #. SysConfig
 msgid ""

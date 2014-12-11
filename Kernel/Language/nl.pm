@@ -719,6 +719,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Statusoverzicht',
+        'Service View' => '',
         'Bulk' => 'Bulk',
         'Lock' => 'Vergrendel',
         'Unlock' => 'Ontgrendel',
@@ -800,6 +801,7 @@ sub Data {
         'Forwarded message from' => 'Doorgestuurd bericht van',
         'End forwarded message' => 'Einde doorgestuurd bericht',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'nieuw',
         'open' => 'open',
         'Open' => 'Open',
@@ -861,6 +863,7 @@ sub Data {
         'Create new Email Ticket' => 'Maak nieuw e-mail ticket aan',
         'Phone-Ticket' => 'Telefoon ticket',
         'Search Tickets' => 'Zoek tickets',
+        'Customer History' => '',
         'Edit Customer Users' => 'Wijzig klanten',
         'Edit Customer' => 'Klant bewerken',
         'Bulk Action' => 'Bulk actie',
@@ -2057,6 +2060,7 @@ sub Data {
         'Add queue' => 'Nieuwe wachtrij',
         'Add Queue' => 'Nieuwe wachtrij',
         'Edit Queue' => 'Bewerk wachtrij',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Onderdeel van',
         'Unlock timeout' => 'Ontgrendel tijdsoverschrijding',
         '0 = no unlock' => '0 = geen ontgrendeling',
@@ -2109,6 +2113,10 @@ sub Data {
         'Unique ID' => 'Uniek ID',
         'Last communication with registration server' => 'Laatste communicatie met registratieserver',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2774,6 +2782,7 @@ sub Data {
         'Please set a new owner!' => 'Kies een nieuwe eigenaar.',
         'Previous Owner' => 'Vorige eigenaar',
         'Next state' => 'Status',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Spellingscontrole',
@@ -2815,8 +2824,6 @@ sub Data {
         'Remove Cc' => 'Verwijder CC',
         'Remove Bcc' => 'Verwijder BCC',
         'Address book' => 'Adresboek',
-        'Pending Date' => 'Wacht tot datum',
-        'for pending* states' => 'voor \'wachtend op-\' statussen',
         'Date Invalid!' => 'Datum ongeldig.',
 
         # Template: AgentTicketCustomer
@@ -4481,6 +4488,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Indien geactiveerd worden de verschillende overzichten (Dashboard, vergrendelde tickets, wachtrijoverzicht) automatisch ververst na de ingestelde tijd.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4794,6 +4803,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Rollen <-> Groepen',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
