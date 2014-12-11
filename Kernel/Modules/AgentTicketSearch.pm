@@ -1127,7 +1127,7 @@ sub Run {
                 LinkBack   => $LinkBack,
                 Profile    => $Self->{Profile},
 
-                TitleName => 'Search Result',
+                TitleName => 'Search Results',
                 Bulk      => 1,
                 Limit     => $Self->{SearchLimit},
 
