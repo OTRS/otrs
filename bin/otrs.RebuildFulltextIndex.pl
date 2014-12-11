@@ -64,7 +64,7 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # get all tickets
 my @TicketIDs = $TicketObject->TicketSearch(
-    ArchiveFlags => ['y', 'n'],
+    ArchiveFlags => [ 'y', 'n' ],
     OrderBy      => 'Down',
     SortBy       => 'Age',
     Result       => 'ARRAY',

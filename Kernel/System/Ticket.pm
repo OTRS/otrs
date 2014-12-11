@@ -6797,7 +6797,7 @@ sub TicketArticleStorageSwitch {
         );
 
         my $TicketObjectSource = Kernel::System::Ticket->new();
-        if (!$TicketObjectSource || !$TicketObjectSource->isa('Kernel::System::Ticket::' . $Param{Source})) {
+        if ( !$TicketObjectSource || !$TicketObjectSource->isa( 'Kernel::System::Ticket::' . $Param{Source} ) ) {
             $Self->{LogObject}->Log(
                 Priority => "error",
                 Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
@@ -6853,7 +6853,9 @@ sub TicketArticleStorageSwitch {
         );
 
         my $TicketObjectDestination = Kernel::System::Ticket->new();
-        if (!$TicketObjectDestination || !$TicketObjectDestination->isa('Kernel::System::Ticket::' . $Param{Destination})) {
+        if (   !$TicketObjectDestination
+            || !$TicketObjectDestination->isa( 'Kernel::System::Ticket::' . $Param{Destination} ) )
+        {
             $Self->{LogObject}->Log(
                 Priority => "error",
                 Message  => "Could not create Kernel::System::Ticket::" . $Param{Destination},
@@ -7021,7 +7023,7 @@ sub TicketArticleStorageSwitch {
         );
 
         $TicketObjectSource = Kernel::System::Ticket->new();
-        if (!$TicketObjectSource || !$TicketObjectSource->isa('Kernel::System::Ticket::' . $Param{Source})) {
+        if ( !$TicketObjectSource || !$TicketObjectSource->isa( 'Kernel::System::Ticket::' . $Param{Source} ) ) {
             $Self->{LogObject}->Log(
                 Priority => "error",
                 Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
