@@ -1,4 +1,5 @@
 #3.2.17 2014-??-??
+ - 2014-12-11 Updated translations, thanks to all translators.
  - 2014-12-04 Enhanced Permission Checks in GenericInterface Ticket Connector.
  - 2014-11-18 Fixed bug#[10879](http://bugs.otrs.org/show_bug.cgi?id=10879) - GenericInterfae: TicketSearch operation does not take escalation parameters.
  - 2014-11-18 Fixed bug#[10812](http://bugs.otrs.org/show_bug.cgi?id=10812) - SOAP Response is always in version SOAP 1.2.
