@@ -713,6 +713,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Durum görünümü',
+        'Service View' => '',
         'Bulk' => '',
         'Lock' => 'Kilitle',
         'Unlock' => 'Kilidi Aç',
@@ -794,6 +795,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'yeni',
         'open' => 'açık',
         'Open' => 'Açık',
@@ -855,6 +857,7 @@ sub Data {
         'Create new Email Ticket' => 'Yeni E-Posta-Bilet oluştur',
         'Phone-Ticket' => 'Telefon-Bilet',
         'Search Tickets' => 'Biletleri Ara',
+        'Customer History' => '',
         'Edit Customer Users' => 'Müşteri Kullanıcıları Belirle',
         'Edit Customer' => 'Müşteri Düzenle',
         'Bulk Action' => 'Toplu İşlem',
@@ -2051,6 +2054,7 @@ sub Data {
         'Add queue' => '',
         'Add Queue' => '',
         'Edit Queue' => '',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => '',
         'Unlock timeout' => 'Kilidi kaldırmak için zaman aşımı',
         '0 = no unlock' => '0 = kilit kaldırma yok',
@@ -2103,6 +2107,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2768,6 +2776,7 @@ sub Data {
         'Please set a new owner!' => 'Yeni sahip ata',
         'Previous Owner' => 'Önceki sahip',
         'Next state' => 'Sonraki durum',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Yazım denetimi',
@@ -2809,8 +2818,6 @@ sub Data {
         'Remove Cc' => 'KK Kaldır',
         'Remove Bcc' => 'GKK Kaldır',
         'Address book' => 'Adres defteri',
-        'Pending Date' => 'Bekleme tarihi',
-        'for pending* states' => 'Bekleme* durumları için',
         'Date Invalid!' => 'Hatalı Tarih',
 
         # Template: AgentTicketCustomer
@@ -4475,6 +4482,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4788,6 +4797,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Roller <-> Gruplar',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

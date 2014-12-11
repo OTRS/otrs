@@ -722,6 +722,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Statusvisning',
+        'Service View' => '',
         'Bulk' => 'Masseendring',
         'Lock' => 'Ta sak',
         'Unlock' => 'Frigi sak',
@@ -803,6 +804,7 @@ sub Data {
         'Forwarded message from' => 'Videresend meldingen fra',
         'End forwarded message' => 'Avslutt videresendt melding',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'ny',
         'open' => 'åpen',
         'Open' => 'Åpen',
@@ -864,6 +866,7 @@ sub Data {
         'Create new Email Ticket' => 'Opprett ny sak ved å sende e-post',
         'Phone-Ticket' => 'Henvendelser',
         'Search Tickets' => 'Søk i saker',
+        'Customer History' => '',
         'Edit Customer Users' => 'Rediger kundebrukere',
         'Edit Customer' => 'Endre kunde',
         'Bulk Action' => 'Masseredigering',
@@ -2060,6 +2063,7 @@ sub Data {
         'Add queue' => 'Ny kø',
         'Add Queue' => 'Legg til kø',
         'Edit Queue' => 'Endre kø',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Under-kø av',
         'Unlock timeout' => 'Tidsintervall for å sette sak tilgjengelig for andre',
         '0 = no unlock' => '0 = ikke gjør saker tilgjengelig',
@@ -2112,6 +2116,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2777,6 +2785,7 @@ sub Data {
         'Please set a new owner!' => 'Vennligst sett en ny eier!',
         'Previous Owner' => 'Forrige eier',
         'Next state' => 'Neste status',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Stavekontroll',
@@ -2818,8 +2827,6 @@ sub Data {
         'Remove Cc' => 'Fjern Cc',
         'Remove Bcc' => 'Fjern Bcc',
         'Address book' => 'Adressebok',
-        'Pending Date' => 'Utsatt til',
-        'for pending* states' => 'for vente-tilstander',
         'Date Invalid!' => 'Ugyldig dato',
 
         # Template: AgentTicketCustomer
@@ -4484,6 +4491,8 @@ sub Data {
             'Hvis slått på vil telefonsak og e-postsak bli åpnet i nye vinduer.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Hvis slått på vil de forskjellige oversiktene (Kontrollpanel, kø-oversikt, osv.) automatisk oppdateres etter angitt tid.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4797,6 +4806,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Roller <-> Grupper',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

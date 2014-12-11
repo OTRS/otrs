@@ -717,6 +717,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: AAATicket
         'Status View' => 'Angalia hali',
+        'Service View' => '',
         'Bulk' => 'Kwa wingi',
         'Lock' => 'funga',
         'Unlock' => 'fungua',
@@ -798,6 +799,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Forwarded message from' => 'Peleka ujumbe wa maneno kutoka ',
         'End forwarded message' => 'Malizia ujumbe wa maneno uliotumwa',
         'Bounce Article to a different mail address' => 'Peleka makala kwenye anuani ya ujumbe nyingine',
+        'Reply to note' => '',
         'new' => 'mpya',
         'open' => 'fungua',
         'Open' => 'Fungua',
@@ -859,6 +861,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Create new Email Ticket' => 'Tengeneza tiketi ya barua pepe mpya',
         'Phone-Ticket' => 'Simu-Tiketi',
         'Search Tickets' => 'Tafuta tiketi',
+        'Customer History' => '',
         'Edit Customer Users' => 'Badili watuamiaji wa mteja',
         'Edit Customer' => 'Badili mteja',
         'Bulk Action' => 'Tendo la wingi',
@@ -2055,6 +2058,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Add queue' => 'Ongeza foleni',
         'Add Queue' => 'Ongeza Foleni',
         'Edit Queue' => 'Hariri Foleni',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Foleni ya ',
         'Unlock timeout' => 'Fungua muda kuisha',
         '0 = no unlock' => '0= hakuna kutokufunga',
@@ -2107,6 +2111,10 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Unique ID' => 'Kitambulisho cha kipekee',
         'Last communication with registration server' => 'Mawasiliano ya mwisho na seva ya usajili.',
         'Send support data' => 'Tuma data za kusaidia',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => 'Kutoa usajili wa mfumo haiwezekani',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             'Tafadhali zingatia kwamba hauwezi kutoa usajili katika mfumo wako kama unatumia %s au una mkataba wa huduma ulio halali.',
@@ -2772,6 +2780,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Please set a new owner!' => 'Tafadhali weka mmiliki mpya!',
         'Previous Owner' => 'Mmiliki wa aliyepita!',
         'Next state' => 'Hali ijayo',
+        'For all pending* states.' => '',
         'Add Article' => 'Ongeza makala',
         'Create an Article' => 'Tengeneza makala',
         'Spell check' => 'Angalia herufi',
@@ -2813,8 +2822,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Remove Cc' => 'Toa Cc.',
         'Remove Bcc' => 'Toa Bcc',
         'Address book' => 'Kitabu cha anwani',
-        'Pending Date' => 'Tarehe ya kusubiri',
-        'for pending* states' => 'Kwa hali zinazosubiri',
         'Date Invalid!' => 'Tarehe batili',
 
         # Template: AgentTicketCustomer
@@ -4482,6 +4489,8 @@ Mfano:
             'Kama imewezeshwa, Simu ya tiketi na barua pepe ya tiketi zitafunguliwa katika windows mpya.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             'Kama imewezeshwa. lebo ya toleo la OTRS itaondolewa kutoka katika kiolesura cha wavuti, vichwa vya HTTP na kichwa cha X cha barua pepe zinazokwenda nje.',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Kama imewezeshwa, mapitio mbalimbali (dashibodi, Mandhari iliyofungwa, Mandhari ya foleni) itaonyeshwa upya otomatiki baada ya muda uliobainishwa.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4795,6 +4804,8 @@ Mfano:
             'Inaacha huduma zote katika orodha hata kama ni vipengele vidogo vya vipengele batili. ',
         'Roles <-> Groups' => 'Majukumu <-> Makundi',
         'Running Process Tickets' => 'Endeshaji wa tiketi za mchakato.',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Inatafuta utafutaji wa kwanza wa kibambo egemezi wa mtumiaji wa mteja ayiekuwepo wakati wa kufikia moduli ya mteja mtumiaji kiongozi.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

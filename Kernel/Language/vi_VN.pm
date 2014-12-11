@@ -712,6 +712,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => '',
+        'Service View' => '',
         'Bulk' => '',
         'Lock' => 'Khóa',
         'Unlock' => 'Mở khóa',
@@ -793,6 +794,7 @@ sub Data {
         'Forwarded message from' => 'Tin nhắn chuyển tiếp từ',
         'End forwarded message' => 'Kết thúc tin nhắn chuyển tiếp',
         'Bounce Article to a different mail address' => 'Bài viết bị trả đến một địa chỉ mail khác nhau',
+        'Reply to note' => '',
         'new' => 'mới',
         'open' => 'mở',
         'Open' => 'Mở',
@@ -854,6 +856,7 @@ sub Data {
         'Create new Email Ticket' => 'Tạo thẻ e-mail mới',
         'Phone-Ticket' => 'Thẻ Cuộc gọi',
         'Search Tickets' => 'Tìm kiếm thẻ',
+        'Customer History' => '',
         'Edit Customer Users' => 'Sửa người dùng khách hàng',
         'Edit Customer' => 'Chỉnh sửa các khách hàng',
         'Bulk Action' => 'Lệnh lô',
@@ -2050,6 +2053,7 @@ sub Data {
         'Add queue' => '',
         'Add Queue' => '',
         'Edit Queue' => '',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => '',
         'Unlock timeout' => 'Thời gian chờ mở khóa',
         '0 = no unlock' => '0 = không mở khóa',
@@ -2102,6 +2106,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2767,6 +2775,7 @@ sub Data {
         'Please set a new owner!' => '',
         'Previous Owner' => 'Phụ trách trước',
         'Next state' => 'Trạng thái tiếp',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => '',
@@ -2808,8 +2817,6 @@ sub Data {
         'Remove Cc' => '',
         'Remove Bcc' => '',
         'Address book' => '',
-        'Pending Date' => 'Ngày treo',
-        'for pending* states' => 'đối với các trạng thái treo*',
         'Date Invalid!' => '',
 
         # Template: AgentTicketCustomer
@@ -4474,6 +4481,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4787,6 +4796,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Vai trò <-> Nhóm',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

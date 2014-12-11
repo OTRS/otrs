@@ -432,14 +432,14 @@ sub Data {
             'Лицензия на ваш продукт %s истекает. Свяжитесь, пожалуйста с %s для обновления контракта!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             'Обновление для вашего продукта %s доступна, но оно не соответствует версии вашего основного продукта! Обновите его сначала!',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Ваша система успешно обновлена до %s.',
+        'There was a problem during the upgrade to %s.' => 'Обнаружены проблемы при обновлении до %s.',
+        '%s was correctly reinstalled.' => '%s была корректно переустановлена.',
+        'There was a problem reinstalling %s.' => 'Обнаружены проблемы при переустановке %s.',
+        'Your %s was successfully updated.' => 'Ваша %s была успешно обновлена.',
+        'There was a problem during the upgrade of %s.' => 'Обнаружены проблемы при обновлении %s.',
+        '%s was correctly uninstalled.' => '%s была корректно деинсталлирована.',
+        'There was a problem uninstalling %s.' => 'Обнаружены проблемы при деинсталляции %s. ',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Новый Год',
@@ -724,6 +724,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Просмотр статуса',
+        'Service View' => '',
         'Bulk' => 'Массовое действие',
         'Lock' => 'Блокировка',
         'Unlock' => 'Разблокировать',
@@ -805,6 +806,7 @@ sub Data {
         'Forwarded message from' => 'Пересылаемое сообщение от',
         'End forwarded message' => 'Конец пересылаемого сообщения',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'новый',
         'open' => 'открытый',
         'Open' => 'Открытые',
@@ -866,6 +868,7 @@ sub Data {
         'Create new Email Ticket' => 'Создать новую заявку',
         'Phone-Ticket' => 'Телефонный звонок',
         'Search Tickets' => 'Поиск заявок',
+        'Customer History' => '',
         'Edit Customer Users' => 'Редактировать клиентов',
         'Edit Customer' => 'Редактировать компанию',
         'Bulk Action' => 'Массовое действие',
@@ -2062,6 +2065,7 @@ sub Data {
         'Add queue' => 'Добавить очередь',
         'Add Queue' => 'Добавить Очередь',
         'Edit Queue' => 'Изменить очередь',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Подочередь очереди',
         'Unlock timeout' => 'Срок блокировки',
         '0 = no unlock' => '0 — без блокировки',
@@ -2105,7 +2109,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Управление регистрацией',
         'Edit details' => 'Редактировать информацию',
-        'Show transmitted data' => '',
+        'Show transmitted data' => 'Показать переданные данные',
         'Deregister system' => 'Удалить регистрацию системы',
         'Overview of registered systems' => 'Обзор зарегистрированных систем',
         'System Registration' => 'Регистрация системы',
@@ -2114,6 +2118,10 @@ sub Data {
         'Unique ID' => 'Уникальный индентификатор',
         'Last communication with registration server' => 'Последняя связь с регистрационным сервером',
         'Send support data' => 'Выслать данные для технической поддержки',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => 'Разрегистрация системы невозможна',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             'Помните, что вы не можете разрегистрировать свою систему, если используете %s или имеете действующий контракт на поддержку.',
@@ -2182,7 +2190,7 @@ sub Data {
         'OTRS Group reserves the right to amend this security and data protection policy if required by technical developments.' =>
             '',
         'In this case we will also adapt our information regarding data protection accordingly.' =>
-            '',
+            'В этом случае мы также изменим нашу информацию, касающуюся защиты данных соответственно.',
         'Please regularly refer to the latest version of our Data Protection Policy.' =>
             'Пожалуйста, регулярно обращайтесь к последней версии нашей Политики по защите данных.',
         'Right to Information' => 'Право на информацию',
@@ -2219,12 +2227,12 @@ sub Data {
             'Продолжите этот шаг и вы удалите зарегистрированиую ситему из скписка OTRS Group.',
         'Deregister' => 'Удалить регистрацию',
         'You can modify registration settings here.' => 'Вы можете изменить параметры регистрации здесь.',
-        'Overview of transmitted data' => '',
-        'There is no data regularly sent from your system to %s.' => '',
+        'Overview of transmitted data' => 'Обзор переданных данных',
+        'There is no data regularly sent from your system to %s.' => 'Отсутствуют, регулярно пересылаемые, данные от вашей системы в %s.',
         'The following data is sent at minimum every 3 days from your system to %s.' =>
-            '',
+            'Следующие данные отсылаются, как минимум, каждые 3 дня из вашей системы в %s.',
         'The data will be transferred in JSON format via a secure https connection.' =>
-            '',
+            'Данные будут переданы в JSON формате через защищенное https соединение.',
         'System Registration Data' => '',
         'Support Data' => 'Данные для поддержки',
 
@@ -2296,7 +2304,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'Close window' => 'Закрыть окно',
-        'Certificate details' => '',
+        'Certificate details' => 'Подробности сертификата',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Управление приветствиями',
@@ -2561,7 +2569,7 @@ sub Data {
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Дублирующаяся запись',
         'This address already exists on the address list.' => 'Такой адрес уже существует в списке адресов.',
-        'It is going to be deleted from the field, please try again.' => '',
+        'It is going to be deleted from the field, please try again.' => 'Данные будут удалены из поля, пожалуйста, попробуйте еще раз.',
 
         # Template: AgentCustomerTableView
         'Note: Customer is invalid!' => 'Замечание: неверный Клиент!',
@@ -2779,6 +2787,7 @@ sub Data {
         'Please set a new owner!' => 'Пожалуйста, задайте нового владельца',
         'Previous Owner' => 'Предыдущий владелец',
         'Next state' => 'Следующее состояние',
+        'For all pending* states.' => '',
         'Add Article' => 'Добавить заметку',
         'Create an Article' => 'Создать заметку/сообщение',
         'Spell check' => 'Проверка орфографии',
@@ -2820,8 +2829,6 @@ sub Data {
         'Remove Cc' => 'Удалить из копии',
         'Remove Bcc' => 'Удалить из скрытой копии',
         'Address book' => 'Адресная книга',
-        'Pending Date' => 'Ожидать до',
-        'for pending* states' => 'для состояний "ожидает ..."',
         'Date Invalid!' => 'Неверная дата!',
 
         # Template: AgentTicketCustomer
@@ -4486,6 +4493,8 @@ sub Data {
             'Если включено, TicketPhone and TicketEmail будут открываться в новом окне браузера.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             'Если включено, номер версии OTRS будет удален из веб-интерфейса, HTTP-заголовков и X-Headers в исходящей почте.',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Если включено, экраны обзоров (дайджест, просмотр заблокированных, просмотр очереди) будут автоматически обновляться по истечении указанного времени.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4617,9 +4626,9 @@ sub Data {
             '',
         'Module to generate accounted time ticket statistics.' => 'Модуль для формирования статистки о затраченном времени по заявкам.',
         'Module to generate html OpenSearch profile for short ticket search in the agent interface.' =>
-            '',
+            'Модуль для генерации HTML OpenSearch шаблонов для быстрого поиска заявок в интерфейсе агента.',
         'Module to generate html OpenSearch profile for short ticket search in the customer interface.' =>
-            '',
+            'Модуль для генерации HTML OpenSearch шаблонов для быстрого поиска заявок в интерфейсе клиента.',
         'Module to generate ticket solution and response time statistics.' =>
             'Модуль для формирования статистки по времени реакции и разрешения заявки.',
         'Module to generate ticket statistics.' => 'Модуль для формирования статистки по заявкам.',
@@ -4799,6 +4808,8 @@ sub Data {
             'Оставляет все сервисы в списке, даже если они являются потомками от недействительных элементов.',
         'Roles <-> Groups' => 'Роли <-> Группы',
         'Running Process Tickets' => 'Запущенные Процессные заявки',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Выполняет начальный поиск по символу подстановки в списке клиентов при доступе к модулю AdminCustomerUser.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -5311,13 +5322,13 @@ sub Data {
         'The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.' =>
             'Идентфикатор заявки, например, Заявка№, Звонок#. По умолчанию - Ticket#.',
         'The logo shown in the header of the agent interface for the skin "default". See "AgentLogo" for further description.' =>
-            '',
+            'Логотип, отображаемый в заголовке экрана в интерфейсе агента для окраса "default". Смотрите описание "AgentLogo" для дальгейших пояснений.',
         'The logo shown in the header of the agent interface for the skin "ivory". See "AgentLogo" for further description.' =>
-            '',
+            'Логотип, отображаемый в заголовке экрана в интерфейсе агента для окраса "ivory". Смотрите описание "AgentLogo" для дальгейших пояснений.',
         'The logo shown in the header of the agent interface for the skin "ivory-slim". See "AgentLogo" for further description.' =>
-            '',
+            'Логотип, отображаемый в заголовке экрана в интерфейсе агента для окраса "ivory-slim". Смотрите описание "AgentLogo" для дальгейших пояснений.',
         'The logo shown in the header of the agent interface for the skin "slim". See "AgentLogo" for further description.' =>
-            '',
+            'Логотип, отображаемый в заголовке экрана в интерфейсе агента для окраса "slim". Смотрите описание "AgentLogo" для дальгейших пояснений.',
         'The logo shown in the header of the agent interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
             'Логотип, отображаемый в заголовке экрана в интерфейсе агента. URL ссылка может быть относительным URL на каталог с файлами (skin) или быть полным URL на внешний веб-сервер.',
         'The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server.' =>
@@ -5361,8 +5372,8 @@ sub Data {
             'Переключает отображение списка OTRS FeatureAddons в Управлении пакетами.',
         'Toolbar Item for a shortcut.' => 'Описание ярлыка(иконки) для навигационной панели.',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
-            '',
-        'Turns on drag and drop for the main navigation.' => '',
+            'Выключает проверку SSL сертификата, например, при использовании "прозрачного" HTTPS proxy. Вы иможете использовать эту опцию на свой страх и риск.',
+        'Turns on drag and drop for the main navigation.' => 'Включает возможность "drag and drop" для основной навигации.',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'Включает анимацию в интерфейсе. Если у вас будут проблемы с ней (проблемы производительности), вы можете выключить ее здесь.',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
@@ -5391,7 +5402,7 @@ sub Data {
         'View performance benchmark results.' => 'Просмотр результатов измерения производительности.',
         'View system log messages.' => 'Просмотр системных сообщений.',
         'Wear this frontend skin' => 'Использовать этот окрас интерфейса',
-        'Webservice path separator.' => '',
+        'Webservice path separator.' => 'Разделитель пути для описания веб-сервиса.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Когда выполняется слияние заявок, заметка автоматически добавляется к заявке, которая более неактивна. Здесь можно задать текст сообщения/заметки (он не может быть изменен агентом).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

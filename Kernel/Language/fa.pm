@@ -718,6 +718,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'نمای وضعیت',
+        'Service View' => '',
         'Bulk' => 'دسته جمعی',
         'Lock' => 'تحویل گرفتن',
         'Unlock' => 'تحویل دادن',
@@ -799,6 +800,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'جدید',
         'open' => 'باز',
         'Open' => 'باز',
@@ -860,6 +862,7 @@ sub Data {
         'Create new Email Ticket' => 'ایجاد درخواست با ایمیل',
         'Phone-Ticket' => 'درخواست تلفنی',
         'Search Tickets' => 'جستجو در درخواست‌ها',
+        'Customer History' => '',
         'Edit Customer Users' => 'ویرایش مشترکین',
         'Edit Customer' => 'ویرایش مشترک',
         'Bulk Action' => 'اعمال کلی',
@@ -2056,6 +2059,7 @@ sub Data {
         'Add queue' => 'افزودن صف درخواست',
         'Add Queue' => 'افزودن صف درخواست',
         'Edit Queue' => 'ویرایش صف درخواست',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'زیر صف مربوط به',
         'Unlock timeout' => 'مهلت تحویل دادن درخواست',
         '0 = no unlock' => '0 = تحویل داده نشود',
@@ -2108,6 +2112,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2773,6 +2781,7 @@ sub Data {
         'Please set a new owner!' => 'لطفا یک صاحب جدید مشخص نمایید!',
         'Previous Owner' => 'صاحب قبلی',
         'Next state' => 'وضعیت بعدی',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'غلط‌یابی',
@@ -2814,8 +2823,6 @@ sub Data {
         'Remove Cc' => '',
         'Remove Bcc' => '',
         'Address book' => 'دفترچه آدرس',
-        'Pending Date' => 'مهلت تعلیق',
-        'for pending* states' => 'برای حالات تعلیق',
         'Date Invalid!' => 'تاریخ نامعتبر!',
 
         # Template: AgentTicketCustomer
@@ -4480,6 +4487,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4793,6 +4802,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'نقش <-> گروه',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

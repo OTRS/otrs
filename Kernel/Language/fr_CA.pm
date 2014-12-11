@@ -720,6 +720,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Vue des états ',
+        'Service View' => '',
         'Bulk' => 'Groupées',
         'Lock' => 'Verrou ',
         'Unlock' => 'Déverrouillée',
@@ -801,6 +802,7 @@ sub Data {
         'Forwarded message from' => 'Message transféré par',
         'End forwarded message' => 'Fin du message tranféré',
         'Bounce Article to a different mail address' => 'Retourner l\'article à une adresse électronique différente',
+        'Reply to note' => '',
         'new' => 'nouvelle',
         'open' => 'ouverte',
         'Open' => 'Ouverts',
@@ -862,6 +864,7 @@ sub Data {
         'Create new Email Ticket' => 'Créer une nouvelle demande par courriel',
         'Phone-Ticket' => 'Demande par téléphone',
         'Search Tickets' => 'Recherche de demande',
+        'Customer History' => '',
         'Edit Customer Users' => 'Éditer les utilisateurs clients',
         'Edit Customer' => 'Éditer les renseignements du client',
         'Bulk Action' => 'Action groupée',
@@ -2058,6 +2061,7 @@ sub Data {
         'Add queue' => 'Ajouter une file',
         'Add Queue' => 'Ajouter une file',
         'Edit Queue' => 'Éditer une File',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Sous-file de ',
         'Unlock timeout' => 'Délai de déverrouillage',
         '0 = no unlock' => '0 = pas de déverrouillage',
@@ -2110,6 +2114,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2775,6 +2783,7 @@ sub Data {
         'Please set a new owner!' => 'Veuillez configurer un nouveau propriétaire.',
         'Previous Owner' => 'Propriétaire précédent ',
         'Next state' => 'Nouvel état ',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Vérifier L\'orthographe',
@@ -2816,8 +2825,6 @@ sub Data {
         'Remove Cc' => 'Retirer le Cc',
         'Remove Bcc' => 'Retirer le Bcc',
         'Address book' => 'Carnet d\'adresse',
-        'Pending Date' => 'Date d\'échéance',
-        'for pending* states' => 'pour toutes les demandes en attente',
         'Date Invalid!' => 'Date invalide',
 
         # Template: AgentTicketCustomer
@@ -4482,6 +4489,8 @@ sub Data {
             'Les demandes téléphoniques et les demandes par courriel seront ouvertes dans des nouvelles fenêtres si cette option est activée.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Les différentes visualisations ( tableau de bord, vue de fermeture, vue des files) seront automatiquement rafraîchies après le délai déterminé ici.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4795,6 +4804,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             'Lors de l\'accès au module « AdminCustomerUser », le présent module exécute une recherche initiale de caractères de remplacement des utilisateurs clients existants.',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

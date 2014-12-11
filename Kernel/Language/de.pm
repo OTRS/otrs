@@ -713,6 +713,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Ansicht nach Status',
+        'Service View' => '',
         'Bulk' => 'Sammelaktion',
         'Lock' => 'Sperren',
         'Unlock' => 'Freigeben',
@@ -794,6 +795,7 @@ sub Data {
         'Forwarded message from' => 'Weitergeleitete Nachricht von',
         'End forwarded message' => 'Ende der weitergeleiteten Nachricht',
         'Bounce Article to a different mail address' => 'Artikel per E-Mail umleiten',
+        'Reply to note' => '',
         'new' => 'neu',
         'open' => 'offen',
         'Open' => 'Offen',
@@ -855,6 +857,7 @@ sub Data {
         'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
         'Phone-Ticket' => 'Telefon-Ticket',
         'Search Tickets' => 'Ticket-Suche',
+        'Customer History' => '',
         'Edit Customer Users' => 'Kundenbenutzer bearbeiten',
         'Edit Customer' => 'Kunde bearbeiten',
         'Bulk Action' => 'Sammel-Aktion',
@@ -1163,7 +1166,7 @@ sub Data {
         'Go back to overview' => 'Zurück zur Übersicht',
         'General' => 'Allgemein',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            'Diese Feld wird benötigt, und der Wert darf nur Buchstaben und Zahlen enthalten.',
+            'Dieses Feld wird benötigt, und der Wert darf nur Buchstaben und Zahlen enthalten.',
         'Must be unique and only accept alphabetic and numeric characters.' =>
             'Muss eindeutig sein und darf nur aus Buchstaben und Zahlen bestehen.',
         'Changing this value will require manual changes in the system.' =>
@@ -1221,7 +1224,7 @@ sub Data {
         # Template: AdminDynamicFieldText
         'Number of rows' => 'Anzahl der Zeilen',
         'Specify the height (in lines) for this field in the edit mode.' =>
-            'Gibt die Anzahl der Zeilen für diese Feld im Bearbeitungsmodus an.',
+            'Gibt die Anzahl der Zeilen für dieses Feld im Bearbeitungsmodus an.',
         'Number of cols' => 'Anzahl der Spalten',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Gibt die Breite in Zeichen für dieses Feld im Bearbeitungsmodus an.',
@@ -2051,13 +2054,14 @@ sub Data {
         'Add queue' => 'Queue hinzufügen',
         'Add Queue' => 'Queue hinzufügen',
         'Edit Queue' => 'Queue bearbeiten',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Unterqueue von',
         'Unlock timeout' => 'Freigabe-Zeitintervall',
         '0 = no unlock' => '0 = keine Freigabe',
         'Only business hours are counted.' => 'Nur Geschäftszeiten werden berücksichtigt.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             'Wenn ein Agent ein Ticket sperrt und es vor der Entsperrzeit nicht schließt, wird es entsperrt und wieder für andere Agenten verfügbar gemacht.',
-        'Notify by' => 'Benachrichtigt von',
+        'Notify by' => 'Benachrichtigt nach',
         '0 = no escalation' => '0 = keine Eskalation',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'Wenn vor der definierten Zeit keine Kundenreaktion erfolgt (email-external oder phone), eskaliert das Ticket.',
@@ -2103,6 +2107,10 @@ sub Data {
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'Send support data' => 'Supportdaten senden',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => 'Deregistrierung des Systems nicht möglich',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             'Sie können dieses System nicht deregistrieren wenn Sie %s einsetzen oder einen gültigen Servicevertrag besitzen.',
@@ -2768,6 +2776,7 @@ sub Data {
         'Please set a new owner!' => 'Bitte einen neuen Besitzer angeben',
         'Previous Owner' => 'Vorheriger Besitzer',
         'Next state' => 'Nächster Status',
+        'For all pending* states.' => '',
         'Add Article' => 'Artikel hinzufügen',
         'Create an Article' => 'Artikel anlegen',
         'Spell check' => 'Rechtschreibprüfung',
@@ -2809,8 +2818,6 @@ sub Data {
         'Remove Cc' => 'Cc entfernen',
         'Remove Bcc' => 'Bcc entfernen',
         'Address book' => 'Adressbuch',
-        'Pending Date' => 'Warten bis',
-        'for pending* states' => 'für warten* Status',
         'Date Invalid!' => 'Ungültiges Datum!',
 
         # Template: AgentTicketCustomer
@@ -3923,7 +3930,7 @@ sub Data {
         'Defines the link type \'ParentChild\'. If the source name and the target name contain the same value, the resulting link is a non-directional one; otherwise, the result is a directional link.' =>
             '',
         'Defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a \'Normal\' link with ticket B, then these tickets could not be additionally linked with link of a \'ParentChild\' relationship.' =>
-            '',
+            'Definition der verschiedenen Verknüpfungsmöglichkeiten. Verknüpfungstpyen der selben Gruppe schließen sich gegenseitig aus. Beispiel: Wenn Ticket A mit dem Typ \'Normal\' mit Ticket B verlinkt wird, dann können diese beiden Tickets nicht noch zusätzlich mit dem Typ \'ElternKind\' miteinander verlinkt werden.',
         'Defines the list of online repositories. Another installations can be used as repository, for example: Key="http://example.com/otrs/public.pl?Action=PublicRepository;File=" and Content="Some Name".' =>
             '',
         'Defines the list of possible next actions on an error screen.' =>
@@ -4131,7 +4138,7 @@ sub Data {
         'Defines wich article type should be expanded when entering the overview. If nothing defined, latest article will be expanded.' =>
             'Gibt an, welcher Artikeltyp beim Öffnen der Übersichtsansicht aufgeklappt dargestellt werden soll. Wenn kein Typ angegeben ist, wird der neueste Artikel aufgeklappt dargestellt.',
         'Defines, which tickets of which ticket state types should not be listed in linked ticket lists.' =>
-            '',
+            'Definiert, dass Tickets mit den ausgewählten Tickets Status nicht bei den verknüpften Tickets angezeigt werden sollen.',
         'Deleted link to ticket "%s".' => 'Verknüpfung zu "%s" gelöscht.',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Löscht die Session, wenn die Session-ID mit einer ungültigen IP-Adresse benutzt wird.',
@@ -4475,6 +4482,8 @@ sub Data {
             'Wenn aktiviert, werden TicketPhone und TicketEmail in neuen Fenstern geöffnet.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             'Wenn diese Option aktiviert ist, werden die verschiedenen Übersichts-Seiten (Dashboard, LockedView, QueueView) automatisch nach der angegebenen Zeit aktualisiert.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4730,11 +4739,11 @@ sub Data {
         'PostMaster Filters' => 'PostMaster-Filter',
         'PostMaster Mail Accounts' => 'PostMaster-E-Mail-Konten',
         'Process Information' => 'Prozess-Informationen',
-        'Process Management Activity Dialog GUI' => '',
-        'Process Management Activity GUI' => '',
-        'Process Management Path GUI' => '',
-        'Process Management Transition Action GUI' => '',
-        'Process Management Transition GUI' => '',
+        'Process Management Activity Dialog GUI' => 'Prozess-Management Aktivität-Dialog GUI',
+        'Process Management Activity GUI' => 'Prozess-Management-Aktivitäten GUI',
+        'Process Management Path GUI' => 'Prozess-Management-Pfad GUI',
+        'Process Management Transition Action GUI' => 'Prozess-Management Übergangs-Aktionen GUI',
+        'Process Management Transition GUI' => 'Prozess-Management-Übergangs Gui',
         'ProcessID' => 'ProcessID',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
@@ -4788,6 +4797,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Running Process Tickets' => 'Aktive Prozesstickets',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
@@ -5329,10 +5340,10 @@ sub Data {
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
             '',
-        'This option defines the process tickets default lock.' => '',
-        'This option defines the process tickets default priority.' => '',
-        'This option defines the process tickets default queue.' => '',
-        'This option defines the process tickets default state.' => '',
+        'This option defines the process tickets default lock.' => 'Diese Option setzt die Prozess-Ticket Standardsperre.',
+        'This option defines the process tickets default priority.' => 'Diese Option setzt die Prozess-Ticket Standardpriorität',
+        'This option defines the process tickets default queue.' => 'Diese Option setzt die Prozess-Ticket Standardqueue',
+        'This option defines the process tickets default state.' => 'Diese Option setzt den Prozess-Ticket Standardstatus',
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>

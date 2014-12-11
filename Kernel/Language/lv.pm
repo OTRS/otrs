@@ -712,6 +712,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => '',
+        'Service View' => '',
         'Bulk' => '',
         'Lock' => 'Aizslēgt',
         'Unlock' => 'Atslēgt',
@@ -793,6 +794,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'jauna',
         'open' => 'atvērta',
         'Open' => 'Atvērta',
@@ -854,6 +856,7 @@ sub Data {
         'Create new Email Ticket' => 'Izveidot jaunu problēmas pieteikumu ar e-pastu',
         'Phone-Ticket' => 'Telefonisks pieteikums',
         'Search Tickets' => 'Meklēt pieteikumos',
+        'Customer History' => '',
         'Edit Customer Users' => 'Labot klientu datus',
         'Edit Customer' => '',
         'Bulk Action' => '',
@@ -2050,6 +2053,7 @@ sub Data {
         'Add queue' => '',
         'Add Queue' => '',
         'Edit Queue' => '',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => '',
         'Unlock timeout' => 'Atslēgšanas noilgums',
         '0 = no unlock' => '0 = neatslēgt',
@@ -2102,6 +2106,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2767,6 +2775,7 @@ sub Data {
         'Please set a new owner!' => '',
         'Previous Owner' => 'Iepriekšējais īpašnieks',
         'Next state' => 'Nākamais statuss',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => '',
@@ -2808,8 +2817,6 @@ sub Data {
         'Remove Cc' => '',
         'Remove Bcc' => '',
         'Address book' => '',
-        'Pending Date' => 'Izlemt līdz (datumam)',
-        'for pending* states' => 'izlemšanas* stāvokļiem',
         'Date Invalid!' => '',
 
         # Template: AgentTicketCustomer
@@ -4474,6 +4481,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4787,6 +4796,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Lomas <-> Grupas',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>

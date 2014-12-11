@@ -715,6 +715,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Tilanäkymä',
+        'Service View' => '',
         'Bulk' => 'Massa',
         'Lock' => 'Lukitse',
         'Unlock' => 'Poista lukitus',
@@ -796,6 +797,7 @@ sub Data {
         'Forwarded message from' => '',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
+        'Reply to note' => '',
         'new' => 'Uusi',
         'open' => 'Avoin',
         'Open' => 'Avoin',
@@ -857,6 +859,7 @@ sub Data {
         'Create new Email Ticket' => 'Luo uusi sähköpostitiketti',
         'Phone-Ticket' => 'Puhelin',
         'Search Tickets' => 'Etsi tikettejä',
+        'Customer History' => '',
         'Edit Customer Users' => 'Muokkaa asiakaskäyttäjää',
         'Edit Customer' => 'Muokkaa asiakasta',
         'Bulk Action' => 'Massa-ajo',
@@ -2053,6 +2056,7 @@ sub Data {
         'Add queue' => 'Lisää jono',
         'Add Queue' => 'Lisää jono',
         'Edit Queue' => 'Muokkaa jonoa',
+        'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Alijono jonolle',
         'Unlock timeout' => 'Aika lukituksen poistumiseen',
         '0 = no unlock' => '0 = ei lukituksen poistumista',
@@ -2105,6 +2109,10 @@ sub Data {
         'Unique ID' => '',
         'Last communication with registration server' => '',
         'Send support data' => '',
+        'System registration not possible' => '',
+        'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
+            '',
+        'Instructions' => '',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2770,6 +2778,7 @@ sub Data {
         'Please set a new owner!' => 'Valitse uusi omistaja!',
         'Previous Owner' => 'Edellinen omistaja',
         'Next state' => 'Uusi tila',
+        'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
         'Spell check' => 'Oikeinkirjoituksen tarkistus',
@@ -2811,8 +2820,6 @@ sub Data {
         'Remove Cc' => 'Poista Cc',
         'Remove Bcc' => 'Poista Bcc',
         'Address book' => 'Osoitekirja',
-        'Pending Date' => 'Odotuspäivä',
-        'for pending* states' => 'Automaattisulkeminen tai muistutus',
         'Date Invalid!' => 'Virheellinen päiväys!',
 
         # Template: AgentTicketCustomer
@@ -4477,6 +4484,8 @@ sub Data {
             '',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
+        'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
+            '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
             '',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
@@ -4790,6 +4799,8 @@ sub Data {
             '',
         'Roles <-> Groups' => 'Roolit <-> Ryhmät',
         'Running Process Tickets' => '',
+        'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
+            '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
