@@ -188,7 +188,7 @@ sub Run {
                 Total      => scalar @ViewableTickets,
                 Env        => $Self,
                 View       => $View,
-                TitleName  => 'Customer history',
+                TitleName  => 'Customer History',
                 LinkPage   => $LinkPage,
                 LinkSort   => $LinkSort,
                 LinkFilter => $LinkFilter,

@@ -547,7 +547,7 @@ sub Run {
         View   => $Self->{View},
 
         Bulk       => 1,
-        TitleName  => 'ServiceView',
+        TitleName  => 'Service View',
         TitleValue => $NavBar{SelectedService},
 
         Env        => $Self,

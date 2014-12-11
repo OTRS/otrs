@@ -8,6 +8,7 @@
 # --
 
 [% Translate("Status View") | html %]
+[% Translate("Service View") | html %]
 [% Translate("Bulk") | html %]
 [% Translate("Lock") | html %]
 [% Translate("Unlock") | html %]
@@ -167,6 +168,7 @@
 [% Translate("Phone-Ticket") | html %]
 [% Translate("Search Tickets") | html %]
 [% Translate("Customer") | html %]
+[% Translate("Customer History") | html %]
 [% Translate("Edit Customer Users") | html %]
 [% Translate("Edit Customer") | html %]
 [% Translate("Bulk Action") | html %]
