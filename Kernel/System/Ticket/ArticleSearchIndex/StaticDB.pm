@@ -187,12 +187,12 @@ sub _ArticleIndexQuerySQLExt {
         # check if search condition extension is used
         if ( $Param{Data}->{ConditionInline} ) {
             $FullTextSQL .= $Self->{DBObject}->QueryCondition(
-                Key           => $FieldSQLMapFullText{$Key},
-                Value         => lc $Param{Data}->{$Key},
-                SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
-                SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
-                Extended      => 1,
-                CaseSensitive => 1,  # data in article_search are already stored in lower cases
+                Key          => $FieldSQLMapFullText{$Key},
+                Value        => lc $Param{Data}->{$Key},
+                SearchPrefix => $Param{Data}->{ContentSearchPrefix},
+                SearchSuffix => $Param{Data}->{ContentSearchSuffix},
+                Extended     => 1,
+                CaseSensitive => 1,    # data in article_search are already stored in lower cases
             );
         }
         else {

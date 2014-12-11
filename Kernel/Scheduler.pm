@@ -346,7 +346,7 @@ sub _SanityCheckSystemRegistration {
     my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
 
     # get all tasks
-    my @TaskList                   = $Self->{TaskManagerObject}->TaskList();
+    my @TaskList = $Self->{TaskManagerObject}->TaskList();
     my @RegistrationUpdateTaskList = grep { $_->{Type} eq 'RegistrationUpdate' } @TaskList;
 
     # Registered system, must have RegistrationUpdate task.
