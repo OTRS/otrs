@@ -6785,28 +6785,25 @@ sub TicketArticleStorageSwitch {
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # create source object
-    $ConfigObject->Set(
-        Key   => 'Ticket::StorageModule',
-        Value => 'Kernel::System::Ticket::' . $Param{Source},
-    );
-
-    my $TicketObjectSource = Kernel::System::Ticket->new();
-
-    return if !$TicketObjectSource;
-
-    # create target object
-    $ConfigObject->Set(
-        Key   => 'Ticket::StorageModule',
-        Value => 'Kernel::System::Ticket::' . $Param{Destination},
-    );
-
-    my $TicketObjectDestination = Kernel::System::Ticket->new();
-
-    return if !$TicketObjectDestination;
-
     ARTICLEID:
     for my $ArticleID (@ArticleIndex) {
+
+        # create source object
+        # We have to create it for every article because of the way OTRS uses base classes here.
+        # We cannot have two ticket objects with different base classes.
+        $ConfigObject->Set(
+            Key   => 'Ticket::StorageModule',
+            Value => 'Kernel::System::Ticket::' . $Param{Source},
+        );
+
+        my $TicketObjectSource = Kernel::System::Ticket->new();
+        if (!$TicketObjectSource || !$TicketObjectSource->isa('Kernel::System::Ticket::' . $Param{Source})) {
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
+            );
+            die;
+        }
 
         # read source attachments
         my %Index = $TicketObjectSource->ArticleAttachmentIndex(
@@ -6848,6 +6845,21 @@ sub TicketArticleStorageSwitch {
 
         # nothing to transfer
         next ARTICLEID if !@Attachments && !$Plain;
+
+        # create target object
+        $ConfigObject->Set(
+            Key   => 'Ticket::StorageModule',
+            Value => 'Kernel::System::Ticket::' . $Param{Destination},
+        );
+
+        my $TicketObjectDestination = Kernel::System::Ticket->new();
+        if (!$TicketObjectDestination || !$TicketObjectDestination->isa('Kernel::System::Ticket::' . $Param{Destination})) {
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "Could not create Kernel::System::Ticket::" . $Param{Destination},
+            );
+            die;
+        }
 
         # read destination attachments
         %Index = $TicketObjectDestination->ArticleAttachmentIndex(
@@ -7007,6 +7019,15 @@ sub TicketArticleStorageSwitch {
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::' . $Param{Source},
         );
+
+        $TicketObjectSource = Kernel::System::Ticket->new();
+        if (!$TicketObjectSource || !$TicketObjectSource->isa('Kernel::System::Ticket::' . $Param{Source})) {
+            $Self->{LogObject}->Log(
+                Priority => "error",
+                Message  => "Could not create Kernel::System::Ticket::" . $Param{Source},
+            );
+            die;
+        }
 
         $TicketObjectSource->ArticleDeleteAttachment(
             ArticleID     => $ArticleID,

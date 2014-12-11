@@ -15,15 +15,15 @@ use vars (qw($Self));
 
 use Kernel::System::PostMaster;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-
 # create tickets/article/attachments in backend for article storage switch tests
 for my $SourceBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
-    # Make sure that the TicketObject gets recreated for each loop.
-    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Ticket'] );
+    # Make sure that all objects get recreated for each loop.
+    $Kernel::OM->ObjectsDiscard();
+
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
     $ConfigObject->Set(
         Key   => 'Ticket::StorageModule',
