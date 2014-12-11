@@ -188,7 +188,7 @@ sub _ArticleIndexQuerySQLExt {
         if ( $Param{Data}->{ConditionInline} ) {
             $FullTextSQL .= $Self->{DBObject}->QueryCondition(
                 Key           => $FieldSQLMapFullText{$Key},
-                Value         => $Param{Data}->{$Key},
+                Value         => lc $Param{Data}->{$Key},
                 SearchPrefix  => $Param{Data}->{ContentSearchPrefix},
                 SearchSuffix  => $Param{Data}->{ContentSearchSuffix},
                 Extended      => 1,
