@@ -65,7 +65,7 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 # get all tickets
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
 
-    ArchiveFlags => ['y', 'n'],
+    ArchiveFlags => [ 'y', 'n' ],
     OrderBy      => 'Down',
     SortBy       => 'Age',
     Result       => 'ARRAY',
