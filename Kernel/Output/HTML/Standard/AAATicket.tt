@@ -94,6 +94,7 @@
 [% Translate("Forwarded message from") | html %]
 [% Translate("End forwarded message") | html %]
 [% Translate("Bounce Article to a different mail address") | html %]
+[% Translate("Reply to note") | html %]
 
 [% Translate("new") | html %]
 [% Translate("open") | html %]
