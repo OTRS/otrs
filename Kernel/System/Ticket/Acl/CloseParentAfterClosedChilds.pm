@@ -82,6 +82,7 @@ sub Run {
 
     # generate acl
     if ($OpenSubTickets) {
+
         $Param{Acl}->{CloseParentAfterClosedChilds} = {
 
             # match properties
@@ -100,32 +101,7 @@ sub Run {
                 Ticket => {
                     State => $Param{Config}->{State},
                 },
-            },
-
-            # return possible options (white list)
-            Possible => {
-
-                # possible action options
-                Action => {
-                    AgentTicketLock        => 1,
-                    AgentTicketZoom        => 1,
-                    AgentTicketClose       => 0,
-                    AgentTicketPending     => 1,
-                    AgentTicketNote        => 1,
-                    AgentTicketHistory     => 1,
-                    AgentTicketPriority    => 1,
-                    AgentTicketFreeText    => 1,
-                    AgentTicketHistory     => 1,
-                    AgentTicketCompose     => 1,
-                    AgentTicketBounce      => 1,
-                    AgentTicketForward     => 1,
-                    AgentLinkObject        => 1,
-                    AgentTicketPrint       => 1,
-                    AgentTicketPhone       => 1,
-                    AgentTicketCustomer    => 1,
-                    AgentTicketOwner       => 1,
-                    AgentTicketResponsible => 1,
-                },
+                Action => ['AgentTicketClose'],
             },
         };
     }
