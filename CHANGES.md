@@ -1,4 +1,5 @@
 #4.0.4 2015-??-??
+ - 2014-12-12 Fixed bug#[10948](http://bugs.otrs.org/show_bug.cgi?id=10948) - CloseParentAfterClosedChilds ACL does not work anymore.
 
 #4.0.3 2014-12-16
  - 2014-12-11 Updated translations, thanks to all translators.
