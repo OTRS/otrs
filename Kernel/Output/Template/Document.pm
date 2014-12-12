@@ -150,7 +150,7 @@ sub _InstallOTRSExtensions {
 
         eval {
 
-            my $Code = join '', @{ $context->{LayoutObject}->{_JSOnDocumentComplete} || [] };
+            my $Code = join "\n", @{ $context->{LayoutObject}->{_JSOnDocumentComplete} || [] };
             $Code =~ s{ \s* <script[^>]+> (?:\s*<!--)? (?:\s*//\s*<!\[CDATA\[)? \n? }{}smxg;
             $Code =~ s{ \s* (?:-->\s*)? (?://\s*\]\]>\s*)? </script> \n? }{}smxg;
             $output .= $Code;
