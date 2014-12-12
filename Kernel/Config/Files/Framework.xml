@@ -5856,8 +5856,8 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardProductNotify</Item>
-                <Item Key="Title">Product News</Item>
-                <Item Key="Description">News about OTRS releases!</Item>
+                <Item Key="Title" Translatable="1">Product News</Item>
+                <Item Key="Description" Translatable="1">News about OTRS releases!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
@@ -5891,7 +5891,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardUserOnline</Item>
-                <Item Key="Title">Online</Item>
+                <Item Key="Title" Translatable="1">Online</Item>
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>
                 <Item Key="IdleMinutes">60</Item>
@@ -5912,7 +5912,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardNews</Item>
-                <Item Key="Title">OTRS News</Item>
+                <Item Key="Title" Translatable="1">OTRS News</Item>
                 <Item Key="Description"></Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
@@ -5929,7 +5929,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardRSS</Item>
-                <Item Key="Title">Custom RSS Feed</Item>
+                <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
                 <Item Key="Description"></Item>
                 <Item Key="URL">http://www.otrs.com/en/rss.xml</Item>
                 <Item Key="URL_de">http://www.otrs.com/de/rss.xml</Item>
@@ -5952,7 +5952,7 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardCmdOutput</Item>
-                <Item Key="Title">Sample command output</Item>
+                <Item Key="Title" Translatable="1">Sample command output</Item>
                 <Item Key="Description"></Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Group"></Item>
@@ -5969,8 +5969,8 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardImage</Item>
-                <Item Key="Title">A picture</Item>
-                <Item Key="Description">Some picture description!</Item>
+                <Item Key="Title" Translatable="1">A picture</Item>
+                <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="URL">http://www.otrs.com/uploads/pics/jointhecommunity_02.jpg</Item>
                 <Item Key="Group"></Item>
@@ -6003,8 +6003,8 @@ via the Preferences button after logging in.
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardIFrame</Item>
-                <Item Key="Title">A Website</Item>
-                <Item Key="Description">Some description!</Item>
+                <Item Key="Title" Translatable="1">A Website</Item>
+                <Item Key="Description" Translatable="1">Some description!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="URL">http://www.otrs.org/</Item>
                 <Item Key="Group"></Item>
