@@ -1,3 +1,5 @@
+#3.3.12 ???-??-??
+
 #3.3.11 2014-12-16
  - 2014-12-11 Updated translations, thanks to all translators.
  - 2014-12-10 Fixed bug#[10904](http://bugs.otrs.org/show_bug.cgi?id=10904) - Upon entering CIC, search only returns hits during the first search.
