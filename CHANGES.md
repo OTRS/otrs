@@ -1,6 +1,7 @@
 #3.2.18 ??-??-??
 
 #3.2.17 2014-12-16
+ - 2014-12-12 Fixed bug#[9667](http://bugs.otrs.org/show_bug.cgi?id=9667) - forwarding a ticket breaks the content.
  - 2014-12-11 Updated translations, thanks to all translators.
  - 2014-12-04 Enhanced Permission Checks in GenericInterface Ticket Connector.
  - 2014-11-18 Fixed bug#[10879](http://bugs.otrs.org/show_bug.cgi?id=10879) - GenericInterfae: TicketSearch operation does not take escalation parameters.

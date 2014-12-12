@@ -471,6 +471,7 @@ sub Form {
 
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
+        Title        => $Ticket{Title},
         TicketID     => $Self->{TicketID},
         QueueID      => $Ticket{QueueID},
         NextStates   => $Self->_GetNextStates(
@@ -589,10 +590,14 @@ sub SendEmail {
         $Error{'TimeUnitsInvalid'} = 'ServerError';
     }
 
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID      => $Self->{TicketID},
+        DynamicFields => 0,
+    );
+
     # prepare subject
-    my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-        TicketNumber => $TicketNumber,
+        TicketNumber => $Ticket{TicketNumber},
         Action       => 'Forward',
         Subject      => $GetParam{Subject} || '',
     );
@@ -775,12 +780,13 @@ sub SendEmail {
 
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
         my $Output = $Self->{LayoutObject}->Header(
-            Value => $TicketNumber,
+            Value => $Ticket{TicketNumber},
             Type  => 'Small',
         );
         $Output .= $Self->_Mask(
-            TicketNumber => $TicketNumber,
+            TicketNumber => $Ticket{TicketNumber},
             TicketID     => $Self->{TicketID},
+            Title        => $Ticket{Title},
             QueueID      => $QueueID,
             NextStates   => $Self->_GetNextStates(
                 %GetParam,
