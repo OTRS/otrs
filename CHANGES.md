@@ -1,3 +1,5 @@
+#3.2.18 ??-??-??
+
 #3.2.17 2014-12-16
  - 2014-12-11 Updated translations, thanks to all translators.
  - 2014-12-04 Enhanced Permission Checks in GenericInterface Ticket Connector.
