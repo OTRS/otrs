@@ -1,3 +1,5 @@
+#4.0.4 2015-??-??
+
 #4.0.3 2014-12-16
  - 2014-12-11 Updated translations, thanks to all translators.
  - 2014-12-11 Fixed bug#[10935](http://bugs.otrs.org/show_bug.cgi?id=10935) - "bin/otrs.ArticleStorageSwitch.pl" not working any more.
