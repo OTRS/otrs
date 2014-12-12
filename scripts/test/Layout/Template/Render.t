@@ -319,9 +319,13 @@ console.log(22);
 [% PROCESS "JSOnDocumentCompleteInsert" -%]',
         Result => '
 console.log(11);
+
 console.log(12);
+
 console.log(23);
+
 console.log(21);
+
 console.log(22);
 ',
     },
