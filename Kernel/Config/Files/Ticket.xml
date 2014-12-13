@@ -9599,7 +9599,7 @@ Thanks for your help!
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Article</Item>
                 <Item Key="Module">Kernel::System::DynamicField::ObjectType::Article</Item>
-                <Item Key="Prio">100</Item>
+                <Item Key="Prio">110</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -9611,7 +9611,7 @@ Thanks for your help!
             <Hash>
                 <Item Key="DisplayName" Translatable="1">Ticket</Item>
                 <Item Key="Module">Kernel::System::DynamicField::ObjectType::Ticket</Item>
-                <Item Key="Prio">110</Item>
+                <Item Key="Prio">100</Item>
             </Hash>
         </Setting>
     </ConfigItem>
