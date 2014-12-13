@@ -1,5 +1,5 @@
 # --
-# Kernel/System/Group.pm - All Groups and Roles related functions
+# Kernel/System/Group.pm - All groups and roles related functions
 # Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -117,7 +117,7 @@ sub GroupAdd {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -792,22 +792,6 @@ sub RoleDataList {
 
     return %RoleDataList;
 }
-
-
-
-
-
-
-
-
-
-
-# TODO FIXME
-
-
-
-
-
 
 =item PermissionUserInvolvedGet()
 
@@ -1779,8 +1763,20 @@ sub GroupMemberList {
         );
 
         return %Groups if $Param{Result} eq 'HASH';
-        return keys %Groups if $Param{Result} eq 'ID';
-        return values %Groups;
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %Groups;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %Groups;
+
+            return @NameList;
+        }
     }
     else {
 
@@ -1791,8 +1787,20 @@ sub GroupMemberList {
         );
 
         return %Users if $Param{Result} eq 'HASH';
-        return keys %Users if $Param{Result} eq 'ID';
-        return values %Users;
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %Users;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %Users;
+
+            return @NameList;
+        }
     }
 
     return;
@@ -1867,8 +1875,20 @@ sub GroupGroupMemberList {
         }
 
         return %GroupList if $Param{Result} eq 'HASH';
-        return sort keys %GroupList if $Param{Result} eq 'ID';
-        return sort values %GroupList if $Param{Result} eq 'Name';
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %GroupList;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %GroupList;
+
+            return @NameList;
+        }
     }
 
     if (@GroupIDList) {
@@ -1885,8 +1905,20 @@ sub GroupGroupMemberList {
         }
 
         return %UserList if $Param{Result} eq 'HASH';
-        return sort keys %UserList if $Param{Result} eq 'ID';
-        return sort values %UserList if $Param{Result} eq 'Name';
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %UserList;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %UserList;
+
+            return @NameList;
+        }
     }
 
     return;
@@ -1949,8 +1981,20 @@ sub GroupRoleMemberList {
         }
 
         return %GroupList if $Param{Result} eq 'HASH';
-        return sort keys %GroupList if $Param{Result} eq 'ID';
-        return sort values %GroupList if $Param{Result} eq 'Name';
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %GroupList;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %GroupList;
+
+            return @NameList;
+        }
     }
 
     if (@GroupIDList) {
@@ -1967,8 +2011,20 @@ sub GroupRoleMemberList {
         }
 
         return %RoleList if $Param{Result} eq 'HASH';
-        return sort keys %RoleList if $Param{Result} eq 'ID';
-        return sort values %RoleList if $Param{Result} eq 'Name';
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %RoleList;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %RoleList;
+
+            return @NameList;
+        }
     }
 
     return;
@@ -2041,8 +2097,20 @@ sub GroupUserRoleMemberList {
         }
 
         return %RoleList if $Param{Result} eq 'HASH';
-        return sort keys %RoleList if $Param{Result} eq 'ID';
-        return sort values %RoleList if $Param{Result} eq 'Name';
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %RoleList;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %RoleList;
+
+            return @NameList;
+        }
     }
 
     if (@RoleIDList) {
@@ -2058,8 +2126,20 @@ sub GroupUserRoleMemberList {
         }
 
         return %UserList if $Param{Result} eq 'HASH';
-        return sort keys %UserList if $Param{Result} eq 'ID';
-        return sort values %UserList if $Param{Result} eq 'Name';
+
+        if ( $Param{Result} eq 'ID' ) {
+
+           my @IDList = sort keys %UserList;
+
+           return @IDList;
+        }
+
+        if ( $Param{Result} eq 'Name' ) {
+
+            my @NameList = sort values %UserList;
+
+            return @NameList;
+        }
     }
 
     return;
