@@ -2226,7 +2226,7 @@ sub Run {
             ContentType => 'text/html',
             Charset     => $Self->{LayoutObject}->{UserCharset},
             Content     => $Output,
-            Type        => 'inline'
+            Type        => 'inline',
         );
     }
 
