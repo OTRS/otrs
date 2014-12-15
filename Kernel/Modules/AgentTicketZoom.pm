@@ -1226,20 +1226,11 @@ sub MaskAgentZoom {
         # get next activity dialogs
         my $NextActivityDialogs;
         if ( $Ticket{$ActivityEntityIDField} ) {
-            $NextActivityDialogs = $ActivityData;
+            $NextActivityDialogs = ${ActivityData}->{ActivityDialog} // {};
         }
         my $ActivityName = $ActivityData->{Name};
 
-        if ( IsHashRefWithData($NextActivityDialogs) ) {
-
-            # we don't need the whole Activity config,
-            # just the Activity Dialogs of the current Activity
-            if ( IsHashRefWithData( $NextActivityDialogs->{ActivityDialog} ) ) {
-                %{$NextActivityDialogs} = %{ $NextActivityDialogs->{ActivityDialog} };
-            }
-            else {
-                $NextActivityDialogs = {};
-            }
+        if ( defined $NextActivityDialogs ) {
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
