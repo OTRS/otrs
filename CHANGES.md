@@ -1,4 +1,5 @@
 #4.0.4 2015-??-??
+ - 2014-12-15 Fixed bug#[10941](http://bugs.otrs.org/show_bug.cgi?id=10941) - Process activity names not correctly displayed in process information widget.
  - 2014-12-12 Followup for bug[10724](http://bugs.otrs.org/show_bug.cgi?id=107248) - Sorting of DynamicField object types based on its Prio does not work.
  - 2014-12-12 Fixed bug#[10948](http://bugs.otrs.org/show_bug.cgi?id=10948) - CloseParentAfterClosedChilds ACL does not work anymore.
 
