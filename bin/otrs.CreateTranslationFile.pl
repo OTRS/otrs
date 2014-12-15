@@ -171,7 +171,7 @@ sub HandleLanguage {
     # We need to map internal codes to the official ones used by Transifex
     my %TransifexLanguagesMap = (
         sr_Cyrl => 'sr',
-        sr_Latn => 'sr@Latin',
+        sr_Latn => 'sr@latin',
     );
 
     my $TransifexLanguage = $TransifexLanguagesMap{$Language} // $Language;
