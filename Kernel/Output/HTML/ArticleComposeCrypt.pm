@@ -76,6 +76,7 @@ sub Run {
         Name       => 'CryptKeyID',
         SelectedID => $Param{CryptKeyID} || '',
         Class      => $Class,
+        Max        => 150,
     );
     $Self->{LayoutObject}->Block(
         Name => 'Option',

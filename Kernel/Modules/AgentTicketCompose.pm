@@ -936,7 +936,7 @@ sub Run {
                             Data        => \%Data,
                             SelectedID  => $GetParam{$Key},
                             Translation => 1,
-                            Max         => 100,
+                            Max         => 150,
                         }
                     );
                 }
