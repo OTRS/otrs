@@ -440,7 +440,7 @@ sub UserAdd {
         Type => $Self->{CacheType},
     );
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Group',
+        Type => 'GroupPermission',
     );
 
     return $UserID;
@@ -544,7 +544,7 @@ sub UserUpdate {
         Type => $Self->{CacheType},
     );
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Group',
+        Type => 'GroupPermission',
     );
 
     return 1;

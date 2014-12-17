@@ -52,8 +52,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # TODO remove permission_value, create_time, create_by, change_time, change_by from group_user table
-
     return $Self;
 }
 
@@ -85,7 +83,7 @@ sub GroupLookup {
 
     # get group list
     my %GroupList = $Self->GroupList(
-        Valid => 1,
+        Valid => 0,
     );
 
     return $GroupList{ $Param{GroupID} } if $Param{GroupID};
@@ -147,15 +145,18 @@ sub GroupAdd {
         $GroupID = $Row[0];
     }
 
-    # log
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'info',
-        Message  => "Group: '$Param{Name}' ID: '$GroupID' created successfully ($Param{UserID})!",
-    );
-
-    # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    # delete caches
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
         Type => 'Group',
+        Key  => 'GroupDataList',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'GroupList::0',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'GroupList::1',
     );
 
     return $GroupID;
@@ -196,7 +197,7 @@ sub GroupGet {
 
     # get group list
     my %GroupList = $Self->GroupDataList(
-        Valid => 1,
+        Valid => 0,
     );
 
     # extract group data
@@ -236,10 +237,32 @@ sub GroupUpdate {
         }
     }
 
+    # set default value
+    $Param{Comment} ||= '';
+
+    # get current group data
+    my %GroupData = $Self->GroupGet(
+        ID => $Param{ID},
+    );
+
+    # check if update is required
+    my $ChangeRequired;
+    KEY:
+    for my $Key ( qw(Name Comment ValidID) ) {
+
+        next KEY if defined $GroupData{$Key} && $GroupData{$Key} eq $Param{$Key};
+
+        $ChangeRequired = 1;
+
+        last KEY;
+    }
+
+    return 1 if !$ChangeRequired;
+
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # sql
+    # update group in database
     return if !$DBObject->Do(
         SQL => 'UPDATE groups SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
@@ -248,9 +271,24 @@ sub GroupUpdate {
         ],
     );
 
-    # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    # delete caches
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
         Type => 'Group',
+        Key  => 'GroupDataList',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'GroupList::0',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'GroupList::1',
+    );
+
+    return 1 if $GroupData{ValidID} eq $Param{ValidID};
+
+    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        Type => 'GroupPermission',
     );
 
     return 1;
@@ -406,7 +444,7 @@ sub GroupDataList {
         $GroupDataList{ $Row[0] } = {
             ID         => $Row[0],
             Name       => $Row[1],
-            Comment    => $Row[2],
+            Comment    => $Row[2] || '',
             ValidID    => $Row[3],
             CreateTime => $Row[4],
             CreateBy   => $Row[5],
@@ -454,7 +492,7 @@ sub RoleLookup {
 
     # get role list
     my %RoleList = $Self->RoleList(
-        Valid => 1,
+        Valid => 0,
     );
 
     return $RoleList{ $Param{RoleID} } if $Param{RoleID};
@@ -500,7 +538,7 @@ sub RoleGet {
 
     # get role list
     my %RoleList = $Self->RoleDataList(
-        Valid => 1,
+        Valid => 0,
     );
 
     # extract role data
@@ -564,15 +602,18 @@ sub RoleAdd {
         $RoleID = $Row[0];
     }
 
-    # log
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'info',
-        Message  => "Role: '$Param{Name}' ID: '$RoleID' created successfully ($Param{UserID})!",
+    # delete caches
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'RoleDataList',
     );
-
-    # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Role',
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'RoleList::0',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'RoleList::1',
     );
 
     return $RoleID;
@@ -606,7 +647,29 @@ sub RoleUpdate {
         }
     }
 
-    # sql
+    # set default value
+    $Param{Comment} ||= '';
+
+    # get current role data
+    my %RoleData = $Self->RoleGet(
+        ID => $Param{ID},
+    );
+
+    # check if update is required
+    my $ChangeRequired;
+    KEY:
+    for my $Key ( qw(Name Comment ValidID) ) {
+
+        next KEY if defined $RoleData{$Key} && $RoleData{$Key} eq $Param{$Key};
+
+        $ChangeRequired = 1;
+
+        last KEY;
+    }
+
+    return 1 if !$ChangeRequired;
+
+    # update role in database
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE roles SET name = ?, comments = ?, valid_id = ?, '
             . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
@@ -615,9 +678,24 @@ sub RoleUpdate {
         ],
     );
 
-    # reset cache
+    # delete caches
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'RoleDataList',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'RoleList::0',
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'Group',
+        Key  => 'RoleList::1',
+    );
+
+    return 1 if $RoleData{ValidID} eq $Param{ValidID};
+
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Role',
+        Type => 'GroupPermission',
     );
 
     return 1;
@@ -656,7 +734,7 @@ sub RoleList {
 
     # read cache
     my $Cache = $CacheObject->Get(
-        Type => 'Role',
+        Type => 'Group',
         Key  => $CacheKey,
     );
     return %{$Cache} if $Cache;
@@ -696,13 +774,13 @@ sub RoleList {
 
     # set cache
     $CacheObject->Set(
-        Type => 'Role',
+        Type => 'Group',
         Key  => 'RoleList::0',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%RoleListAll,
     );
     $CacheObject->Set(
-        Type => 'Role',
+        Type => 'Group',
         Key  => 'RoleList::1',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%RoleListValid,
@@ -753,7 +831,7 @@ sub RoleDataList {
 
     # read cache
     my $Cache = $CacheObject->Get(
-        Type => 'Role',
+        Type => 'Group',
         Key  => 'RoleDataList',
     );
     return %{$Cache} if $Cache;
@@ -773,7 +851,7 @@ sub RoleDataList {
         $RoleDataList{ $Row[0] } = {
             ID         => $Row[0],
             Name       => $Row[1],
-            Comment    => $Row[2],
+            Comment    => $Row[2] || '',
             ValidID    => $Row[3],
             CreateTime => $Row[4],
             CreateBy   => $Row[5],
@@ -784,7 +862,7 @@ sub RoleDataList {
 
     # set cache
     $CacheObject->Set(
-        Type  => 'Role',
+        Type  => 'Group',
         Key   => 'RoleDataList',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%RoleDataList,
@@ -864,6 +942,18 @@ sub PermissionUserGet {
         }
     }
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheKey = 'PermissionUserGet::' . $Param{UserID} . '::' . $Param{Type};
+
+    # read cache
+    my $Cache = $CacheObject->Get(
+        Type => 'GroupPermission',
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
+
     # get groups a user is member of
     my %GroupList = $Self->PermissionUserGroupGet(
         UserID => $Param{UserID},
@@ -890,6 +980,14 @@ sub PermissionUserGet {
 
         %GroupList = ( %GroupList, %RoleGroupList );
     }
+
+    # set cache
+    $CacheObject->Set(
+        Type  => 'GroupPermission',
+        Key   => $CacheKey,
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%GroupList,
+    );
 
     return %GroupList;
 }
@@ -919,6 +1017,18 @@ sub PermissionGroupGet {
         }
     }
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $CacheKey = 'PermissionGroupGet::' . $Param{GroupID} . '::' . $Param{Type};
+
+    # read cache
+    my $Cache = $CacheObject->Get(
+        Type => 'GroupPermission',
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
+
     # get users of a given group
     my %UserList = $Self->PermissionGroupUserGet(
         GroupID => $Param{GroupID},
@@ -945,6 +1055,14 @@ sub PermissionGroupGet {
 
         %UserList = ( %UserList, %RoleUserList );
     }
+
+    # set cache
+    $CacheObject->Set(
+        Type  => 'GroupPermission',
+        Key   => $CacheKey,
+        TTL   => 60 * 60 * 24 * 20,
+        Value => \%UserList,
+    );
 
     return %UserList;
 }
@@ -2488,7 +2606,10 @@ returns the content of the database table role_user
     $Data{$UserID}->{$RoleID}
 
     %Data = (
-
+        559 => [ 557 ],
+        127 => [ 125 ],
+        32  => [ 31 ],
+        443 => [ 442 ],
     );
 
     Example if Type is RoleUser:
@@ -2496,7 +2617,10 @@ returns the content of the database table role_user
     $Data{$RoleID}->{$UserID}
 
     %Data = (
-
+        559 => [ 560 ],
+        127 => [ 128 ],
+        32  => [ 33, 34 ],
+        443 => [ 444, 445 ],
     );
 
     Example if Type is UserRoleHash:
@@ -2504,7 +2628,18 @@ returns the content of the database table role_user
     $Data{$UserID}->{$RoleID} = 1
 
     %Data = (
-
+        559 => {
+            557 => 1,
+        },
+        127 => {
+            125 => 1,
+        },
+        32 => {
+            31 => 1,
+        },
+        443 => {
+            442 => 1,
+        },
     );
 
 =cut
