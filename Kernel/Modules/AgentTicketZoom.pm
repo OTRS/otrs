@@ -2320,7 +2320,7 @@ sub _ArticleTree {
 
                             $Item->{ArticleData}->{BodyChat} .= $Self->{LayoutObject}->Output(
                                 Template =>
-                                    '<div class="ChatMessage">[[% Data.CreateTime | html %]] - [% Data.MessageText | html %]</div>',
+                                    '<div class="ChatMessage SystemGenerated"><span>[[% Data.CreateTime | html %]]</span> - [% Data.MessageText | html %]</div>',
                                 Data => $MessageData,
                             );
                         }
@@ -2328,13 +2328,18 @@ sub _ArticleTree {
 
                             $Item->{ArticleData}->{BodyChat} .= $Self->{LayoutObject}->Output(
                                 Template =>
-                                    '<div class="ChatMessage">[[% Data.CreateTime | html %]] - [% Data.ChatterName | html %]: [% Data.MessageText | html %]</div>',
+                                    '<div class="ChatMessage"><span>[[% Data.CreateTime | html %]]</span> - [% Data.ChatterName | html %]: [% Data.MessageText | html %]</div>',
                                 Data => $MessageData,
                             );
                         }
                         $ItemCounter++;
-                        last CHATITEM if $ItemCounter == 3;
+                        last CHATITEM if $ItemCounter == 7;
                     }
+                }
+                else {
+
+                    # remove empty lines
+                    $Item->{ArticleData}->{Body} =~ s{^[\n\r]+}{}xmsg;
                 }
             }
             else {

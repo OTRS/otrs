@@ -455,7 +455,8 @@ div.Headline .Flag {
 }
 
 .ChronicalView > ul > li p {
-    max-height: 45px;
+    max-height: 106px;
+    white-space: pre;
     overflow: hidden;
     position: relative;
 }
@@ -737,6 +738,17 @@ div.Headline .Flag {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    font-size: 11px;
+}
+
+.ChronicalView .PlainText > div.ChatMessage.SystemGenerated {
+    font-style: italic;
+    color: #aaa;
+}
+
+.ChronicalView .PlainText > div.ChatMessage span {
+    font-weight: bold;
+    font-style: normal;
 }
 
 .ChronicalPlainText .ArticleChat {
