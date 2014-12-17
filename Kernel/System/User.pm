@@ -440,7 +440,7 @@ sub UserAdd {
         Type => $Self->{CacheType},
     );
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'Group'
+        Type => 'Group',
     );
 
     return $UserID;
@@ -1140,14 +1140,43 @@ sub SetPreferences {
         && defined $Param{Value}
         && $User{ $Param{Key} } eq $Param{Value};
 
-    # delete cache
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # get configuration for the full name order
+    my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
+
+    # create cachekey
     my $Login = $Self->UserLookup( UserID => $Param{UserID} );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => $Self->{CacheType},
+    my @CacheKeys = (
+        'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::User::' . $Login . '::0::' . $FirstnameLastNameOrder . '::1',
+        'GetUserData::User::' . $Login . '::1::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::User::' . $Login . '::1::' . $FirstnameLastNameOrder . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::0::' . $FirstnameLastNameOrder . '::1',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::0',
+        'GetUserData::UserID::' . $Param{UserID} . '::1::' . $FirstnameLastNameOrder . '::1',
+        'UserList::Short::0::' . $FirstnameLastNameOrder,
+        'UserList::Short::1::' . $FirstnameLastNameOrder,
+        'UserList::Long::0::' . $FirstnameLastNameOrder,
+        'UserList::Long::1::' . $FirstnameLastNameOrder,
     );
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # delete cache
+    for my $CacheKey (@CacheKeys) {
+
+        $CacheObject->Delete(
+            Type => $Self->{CacheType},
+            Key  => $CacheKey,
+        );
+    }
+
     # get user preferences config
-    my $GeneratorModule = $Kernel::OM->Get('Kernel::Config')->Get('User::PreferencesModule')
+    my $GeneratorModule = $ConfigObject->Get('User::PreferencesModule')
         || 'Kernel::System::User::Preferences::DB';
 
     # get generator preferences module
