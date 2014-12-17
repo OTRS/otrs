@@ -1576,7 +1576,7 @@ sub Run {
             Valid => 0,
         );
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-            my %Involved = $Self->{GroupObject}->GroupMemberInvolvedList(
+            my %Involved = $Self->{GroupObject}->PermissionUserInvolvedGet(
                 UserID => $Self->{UserID},
                 Type   => 'ro',
             );
