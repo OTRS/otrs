@@ -4710,16 +4710,18 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
-    # Max option
-    # REMARK: Don't merge the Max handling with Ascii2Html function call of
-    # the HTMLQuote handling. In this case you lose the max handling if you
-    # deactivate HTMLQuote
-    if ( $OptionRef->{Max} ) {
+    # SelectedID and SelectedValue option
+    if ( defined $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
         for my $Row ( @{$DataRef} ) {
-
-            # REMARK: This is the same solution as in Ascii2Html
-            if ( length $Row > $OptionRef->{Max} ) {
-                $Row = substr( $Row, 0, $OptionRef->{Max} - 5 ) . '[...]';
+            if (
+                (
+                    $OptionRef->{SelectedID}->{ $Row->{Key} }
+                    || $OptionRef->{SelectedValue}->{ $Row->{Value} }
+                )
+                && !$DisabledElements{ $Row->{Value} }
+                )
+            {
+                $Row->{Selected} = 1;
             }
         }
     }
@@ -4738,30 +4740,6 @@ sub _BuildSelectionDataRefCreate {
         unshift( @{$DataRef}, \%None );
     }
 
-    # SelectedID and SelectedValue option
-    if ( defined $OptionRef->{SelectedID} || $OptionRef->{SelectedValue} ) {
-        for my $Row ( @{$DataRef} ) {
-            if (
-                (
-                    $OptionRef->{SelectedID}->{ $Row->{Key} }
-                    || $OptionRef->{SelectedValue}->{ $Row->{Value} }
-                )
-                && !$DisabledElements{ $Row->{Value} }
-                )
-            {
-                $Row->{Selected} = 1;
-            }
-        }
-    }
-
-    # HTMLQuote option
-    if ( $OptionRef->{HTMLQuote} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
-            $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
-        }
-    }
-
     # TreeView option
     if ( $OptionRef->{TreeView} ) {
 
@@ -4773,10 +4751,58 @@ sub _BuildSelectionDataRefCreate {
             my @Fragment = split '::', $Row->{Value};
             $Row->{Value} = pop @Fragment;
 
+            # TODO: Here we are combining Max with HTMLQuote, check below for the REMARK:
+            # Max and HTMLQuote needs to be done before spaces insert but after the split of the
+            # parents, then it is not possible to do it outside
+            if ( $OptionRef->{HTMLQuote} ) {
+                $Row->{Value} = $Self->Ascii2Html(
+                    Text => $Row->{Value},
+                    Max  => $OptionRef->{Max},
+                );
+            }
+            elsif ( $OptionRef->{Max} ) {
+                if ( length $Row->{Value} > $OptionRef->{Max} ) {
+                    $Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} - 5 ) . '[...]';
+                }
+            }
+
             my $Space = '&nbsp;&nbsp;' x scalar @Fragment;
             $Space ||= '';
 
             $Row->{Value} = $Space . $Row->{Value};
+        }
+    }
+    else {
+
+        # HTMLQuote option
+        if ( $OptionRef->{HTMLQuote} ) {
+            for my $Row ( @{$DataRef} ) {
+                $Row->{Key}   = $Self->Ascii2Html( Text => $Row->{Key} );
+                $Row->{Value} = $Self->Ascii2Html( Text => $Row->{Value} );
+            }
+        }
+
+        # TODO: Check this comment!
+        # Max option
+        # REMARK: Don't merge the Max handling with Ascii2Html function call of
+        # the HTMLQuote handling. In this case you lose the max handling if you
+        # deactivate HTMLQuote
+        if ( $OptionRef->{Max} ) {
+
+            # REMARK: This is the same solution as in Ascii2Html
+            for my $Row ( @{$DataRef} ) {
+
+                if ( ref $Row eq 'HASH' ) {
+                    if ( length $Row->{Value} > $OptionRef->{Max} ) {
+                        $Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} - 5 ) . '[...]';
+                    }
+                }
+                else {
+                    if ( length $Row > $OptionRef->{Max} ) {
+                        $Row = substr( $Row, 0, $OptionRef->{Max} - 5 ) . '[...]';
+                    }
+                }
+            }
         }
     }
 
