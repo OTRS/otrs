@@ -1,4 +1,5 @@
 #4.0.4 2015-??-??
+ - 2014-12-16 Fixed bug#[10574](http://bugs.otrs.org/show_bug.cgi?id=10574) - DropDown "Crypt" is to large.
  - 2014-12-16 Fixed bug#[10957](http://bugs.otrs.org/show_bug.cgi?id=10957) - Low "Max" attribute from Layout BuildSelection breaks execution.
  - 2014-12-15 Fixed bug#[10941](http://bugs.otrs.org/show_bug.cgi?id=10941) - Process activity names not correctly displayed in process information widget.
  - 2014-12-12 Followup for bug[10724](http://bugs.otrs.org/show_bug.cgi?id=107248) - Sorting of DynamicField object types based on its Prio does not work.
