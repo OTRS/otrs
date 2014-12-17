@@ -314,7 +314,7 @@ sub Sync {
                             next GROUP;
                         }
 
-                        $GroupObject->GroupMemberAdd(
+                        $GroupObject->PermissionGroupUserAdd(
                             GID        => $SystemGroupsByName{$Group},
                             UID        => $UserID,
                             Permission => {
@@ -566,7 +566,7 @@ sub Sync {
                 Priority => 'notice',
                 Message  => "User: '$Param{User}' sync ldap group $SystemGroups{$GroupID}!",
             );
-            $GroupObject->GroupMemberAdd(
+            $GroupObject->PermissionGroupUserAdd(
                 GID        => $GroupID,
                 UID        => $UserID,
                 Permission => $GroupPermissionsChanged{$GroupID} || \%PermissionsEmpty,

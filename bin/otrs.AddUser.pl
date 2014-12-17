@@ -97,7 +97,7 @@ else {
 
 for my $GroupID ( sort keys %Groups ) {
 
-    my $Success = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberAdd(
+    my $Success = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
         UID        => $Param{UID},
         GID        => $GroupID,
         Permission => { 'rw' => 1 },
@@ -111,4 +111,4 @@ for my $GroupID ( sort keys %Groups ) {
     }
 }
 
-exit;
+exit 0;

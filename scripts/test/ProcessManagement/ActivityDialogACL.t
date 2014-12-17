@@ -239,7 +239,7 @@ $Self->IsNot(
 );
 
 # add the groups and roles to the users
-my $Success = $GroupObject->GroupMemberAdd(
+my $Success = $GroupObject->PermissionGroupUserAdd(
     GID        => $GroupID,
     UID        => $AffectedUserID,
     Permission => {

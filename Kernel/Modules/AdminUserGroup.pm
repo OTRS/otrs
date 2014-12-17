@@ -139,7 +139,7 @@ sub Run {
                     }
                 }
             }
-            $Self->{GroupObject}->GroupMemberAdd(
+            $Self->{GroupObject}->PermissionGroupUserAdd(
                 UID        => $UserID,
                 GID        => $ID,
                 Permission => \%NewPermission,
@@ -179,7 +179,7 @@ sub Run {
                     }
                 }
             }
-            $Self->{GroupObject}->GroupMemberAdd(
+            $Self->{GroupObject}->PermissionGroupUserAdd(
                 UID        => $ID,
                 GID        => $GroupID,
                 Permission => \%NewPermission,

@@ -146,7 +146,7 @@ sub TestUserCreate {
         my $GroupID = $GroupObject->GroupLookup( Group => $GroupName );
         die "Cannot find group $GroupName" if ( !$GroupID );
 
-        $GroupObject->GroupMemberAdd(
+        $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID,
             UID        => $TestUserID,
             Permission => {

@@ -566,7 +566,7 @@ sub GroupCreate {
             push( @GroupIDs, $ID );
 
             # add root to every group
-            $Kernel::OM->Get('Kernel::System::Group')->GroupMemberAdd(
+            $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
                 GID        => $ID,
                 UID        => 1,
                 Permission => {
@@ -617,7 +617,7 @@ sub UserCreate {
             for my $GroupID (@GroupIDs) {
                 my $GroupAdd = int( rand(3) );
                 if ( $GroupAdd == 2 ) {
-                    $Kernel::OM->Get('Kernel::System::Group')->GroupMemberAdd(
+                    $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
                         GID        => $GroupID,
                         UID        => $ID,
                         Permission => {
@@ -632,7 +632,7 @@ sub UserCreate {
                     );
                 }
                 elsif ( $GroupAdd == 1 ) {
-                    $Kernel::OM->Get('Kernel::System::Group')->GroupMemberAdd(
+                    $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
                         GID        => $GroupID,
                         UID        => $ID,
                         Permission => {
