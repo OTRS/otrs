@@ -41,42 +41,32 @@
 }
 
 .Dialog > .Header {
-    height: 25px;
     cursor: move;
     display: block;
     position: relative;
-    height: 25px;
-    background: #999999;
-    background: -moz-linear-gradient(top,  #f2f2f2 0%, #999999 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#999999));
-    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: -o-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: -ms-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: linear-gradient(to bottom,  #f2f2f2 0%,#999999 100%);
+    background: #ddd;
     border-bottom: 1px solid #CCC;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
 }
 
-.Dialog > .Header .Close{
+.Dialog > .Header .Close {
     display: block;
     position: absolute;
     height: 12px;
     width: 12px;
     right: 8px;
-    top: 7px;
+    top: 50%;
+    margin-top: -6px;
     color: #000;
 }
 
 .Dialog > .Header h1 {
-    padding: 5px 10px;
-    font-weight: normal;
-    font-size: 14px;
-    padding-top: 5px;
+    padding: 10px;
+    font-size: 12px;
 }
 
 .Dialog > .Content {
     overflow: hidden;
+    padding: 5px;
 }
 
 .Dialog > .Content > .InnerContent {
@@ -87,34 +77,23 @@
 }
 
 .Dialog > .Content > .ContentFooter {
-    padding: 6px 0 5px;
-    background: #999999;
-    background: -moz-linear-gradient(top,  #f2f2f2 0%, #999999 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#999999));
-    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: -o-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: -ms-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: linear-gradient(to bottom,  #f2f2f2 0%,#999999 100%);
+    padding: 7px 10px;
+    margin: 0px -5px -5px -5px;
+    background: #ddd;
     min-height: 20px;
     border-top: 1px solid #CCC;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
+}
+
+.Dialog > .Content > .ContentFooter button + button {
+    margin-left: 5px;
 }
 
 .Dialog > .Footer {
     padding: 6px 0 5px;
     display: block;
     position: relative;
-    background: #999999;
-    background: -moz-linear-gradient(top,  #f2f2f2 0%, #999999 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#999999));
-    background: -webkit-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: -o-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: -ms-linear-gradient(top,  #f2f2f2 0%,#999999 100%);
-    background: linear-gradient(to bottom,  #f2f2f2 0%,#999999 100%);
+    background: #ddd;
     border-top: 1px solid #CCC;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
 }
     
 .Dialog > .Footer.ContentFooter {
