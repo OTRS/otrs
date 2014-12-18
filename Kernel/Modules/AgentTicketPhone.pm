@@ -306,7 +306,15 @@ sub Run {
             # if To is present and is no a queue
             # set To as article from
             if ( IsStringWithData( $Article{To} ) ) {
-                my %Queues      = $Self->{QueueObject}->QueueList();
+                my %Queues = $Self->{QueueObject}->QueueList();
+
+                if ( $Self->{ConfigObject}->{CustomerPanelOwnSelection} ) {
+                    for my $Queue ( sort keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
+                        my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$Queue};
+                        $Queues{$Queue} = $Value;
+                    }
+                }
+
                 my %QueueLookup = reverse %Queues;
                 if ( !defined $QueueLookup{ $Article{To} } ) {
                     $ArticleFrom = $Article{To};
