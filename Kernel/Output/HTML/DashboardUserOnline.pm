@@ -305,21 +305,14 @@ sub Run {
         # we also need to check if the receiving agent has chat permissions
         if ( $EnableChat && $Self->{Filter} eq 'Agent' && $Self->{UserID} != $UserData->{UserID} ) {
 
-            my %UserGroups = $Self->{GroupObject}->GroupGroupMemberList(
+            my %UserGroups = $Self->{GroupObject}->PermissionUserGet(
                 UserID => $UserData->{UserID},
                 Type   => 'rw',
-                Result => 'HASH',
             );
 
-            $EnableChat = 0;
+            my %UserGroupsReverse = reverse %UserGroups;
 
-            GROUPS:
-            for my $GroupID ( sort keys %UserGroups ) {
-                if ( $UserGroups{$GroupID} eq $ChatReceivingAgentsGroup ) {
-                    $EnableChat = 1;
-                    last GROUPS;
-                }
-            }
+            $EnableChat = $UserGroupsReverse{ $ChatReceivingAgentsGroup } ? 1 : 0;
         }
 
         $LayoutObject->Block(
