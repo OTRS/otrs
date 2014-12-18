@@ -28,6 +28,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 # create a Invoker instance
 my $InvokerObject = Kernel::GenericInterface::Invoker->new(
     DebuggerObject => $DebuggerObject,
+    Invoker        => 1,
     InvokerType    => 'Test::Test',
     WebserviceID   => 1,
 );
