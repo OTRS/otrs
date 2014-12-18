@@ -3731,7 +3731,7 @@ sub _RenderState {
         };
     }
 
-    my $States = $Self->_GetStates( %{ $Param{Ticket} } );
+    my $States = $Self->_GetStates( %{ $Param{GetParam} } );
 
     my %Data = (
         Label            => $Self->{LayoutObject}->{LanguageObject}->Translate("Next ticket state"),
