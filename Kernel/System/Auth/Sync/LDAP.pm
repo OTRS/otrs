@@ -530,10 +530,9 @@ sub Sync {
         for my $PermissionType ( @{ $ConfigObject->Get('System::Permission') } ) {
 
             # get current permission for type
-            my %GroupPermissions = $GroupObject->GroupGroupMemberList(
+            my %GroupPermissions = $GroupObject->PermissionUserGroupGet(
                 UserID => $UserID,
                 Type   => $PermissionType,
-                Result => 'HASH',
             );
 
             GROUPID:

@@ -44,10 +44,10 @@ sub Run {
         my %GroupData = $Self->{GroupObject}->GroupList( Valid => 1 );
         my %Types;
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-            my %Data = $Self->{GroupObject}->GroupGroupMemberList(
+
+            my %Data = $Self->{GroupObject}->PermissionUserGroupGet(
                 UserID => $ID,
                 Type   => $Type,
-                Result => 'HASH',
             );
             $Types{$Type} = \%Data;
         }
@@ -88,10 +88,10 @@ sub Run {
         # get permission list users
         my %Types;
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-            my %Data = $Self->{GroupObject}->GroupGroupMemberList(
+
+            my %Data = $Self->{GroupObject}->PermissionGroupUserGet(
                 GroupID => $ID,
                 Type    => $Type,
-                Result  => 'HASH',
             );
             $Types{$Type} = \%Data;
         }
