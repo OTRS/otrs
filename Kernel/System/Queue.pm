@@ -404,16 +404,15 @@ sub GetAllQueues {
     my $CacheKey;
     if ( $Param{UserID} ) {
 
-        # get group ids
-        my @GroupIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+        # get group list
+        my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
             UserID => $Param{UserID},
             Type   => $Type,
-            Result => 'ID',
         );
 
-        return if !@GroupIDs;
+        return if !%GroupList;
 
-        my $GroupString = join ', ', sort @GroupIDs;
+        my $GroupString = join ', ', sort keys %GroupList;
         $CacheKey = "GetAllQueues::UserID::${Type}::${GroupString}::$Param{UserID}";
 
         # check cache

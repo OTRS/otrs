@@ -97,11 +97,22 @@ sub CreateSessionID {
 
     # get groups rw/ro
     for my $Type (qw(rw ro)) {
-        my %GroupData = $Kernel::OM->Get($GroupObjectName)->GroupMemberList(
-            Result => 'HASH',
-            Type   => $Type,
-            UserID => $UserData{UserID},
-        );
+
+        my %GroupData;
+        if ( $GroupObjectName eq 'Kernel::System::Group' ) {
+            %GroupData = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
+                UserID => $UserData{UserID},
+                Type   => $Type,
+            );
+        }
+        else {
+            %GroupData = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
+                UserID => $UserData{UserID},
+                Type   => $Type,
+                Result => 'HASH',
+            );
+        }
+
         for ( sort keys %GroupData ) {
             if ( $Type eq 'rw' ) {
                 $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';

@@ -60,20 +60,18 @@ sub Run {
         );
 
         # get groups rw
-        my %GroupData = $Self->{GroupObject}->GroupMemberList(
-            Result => 'HASH',
-            Type   => 'rw',
+        my %GroupData = $Self->{GroupObject}->PermissionUserGet(
             UserID => $UserData{UserID},
+            Type   => 'rw',
         );
         for my $GroupKey ( sort keys %GroupData ) {
             $UserData{"UserIsGroup[$GroupData{$GroupKey}]"} = 'Yes';
         }
 
         # get groups ro
-        %GroupData = $Self->{GroupObject}->GroupMemberList(
-            Result => 'HASH',
-            Type   => 'ro',
+        %GroupData = $Self->{GroupObject}->PermissionUserGet(
             UserID => $UserData{UserID},
+            Type   => 'ro',
         );
         for my $GroupKey ( sort keys %GroupData ) {
             $UserData{"UserIsGroupRo[$GroupData{$GroupKey}]"} = 'Yes';

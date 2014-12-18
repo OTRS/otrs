@@ -354,14 +354,18 @@ sub _SendNotificationToRecipients {
                         $Article{ResponsibleID};
                 }
                 elsif ( $Recipient eq 'AgentWritePermissions' ) {
+
                     my $GroupID = $QueueObject->GetQueueGroupID(
                         QueueID => $Article{QueueID},
                     );
-                    my @UserIDs = $GroupObject->GroupMemberList(
+
+                    my %UserList = $GroupObject->PermissionUserGet(
                         GroupID => $GroupID,
                         Type    => 'rw',
-                        Result  => 'ID',
                     );
+
+                    my @UserIDs = sort keys %UserList;
+
                     push @{ $Param{Notification}->{Data}->{RecipientAgents} }, @UserIDs;
                 }
             }
@@ -492,14 +496,13 @@ sub _SendNotificationToRecipients {
         RECIPIENT:
         for my $Group ( @{ $Param{Notification}->{Data}->{RecipientGroups} } ) {
 
-            my @GroupMemberList = $GroupObject->GroupMemberList(
-                Result  => 'ID',
-                Type    => 'ro',
+            my %GroupMemberList = $GroupObject->PermissionUserGet(
                 GroupID => $Group,
+                Type    => 'ro',
             );
 
             GROUPMEMBER:
-            for my $Recipient (@GroupMemberList) {
+            for my $Recipient ( sort keys %GroupMemberList ) {
 
                 next GROUPMEMBER if $Recipient == 1;
                 next GROUPMEMBER if $AgentUsed{$Recipient};

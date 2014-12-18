@@ -1329,10 +1329,9 @@ sub CheckCreatePermissions {
     my %UserGroups;
 
     if ( $Param{UserType} ne 'Customer' ) {
-        %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+        %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
             UserID => $Param{UserID},
             Type   => 'create',
-            Result => 'HASH',
         );
     }
     else {

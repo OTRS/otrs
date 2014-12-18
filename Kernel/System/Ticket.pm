@@ -2376,10 +2376,9 @@ sub TicketServiceSet {
         next USERID if !$Preferences{UserSendServiceUpdateNotification};
 
         # get groups where user is a member for at least the ro permission
-        my %GroupMember = $GroupObject->GroupMemberList(
+        my %GroupMember = $GroupObject->PermissionUserGet(
             UserID => $UserID,
             Type   => 'ro',
-            Result => 'HASH',
         );
 
         # do not send to users without ro permissions on this queue
@@ -3503,10 +3502,9 @@ sub GetSubscribedUserIDsByQueueID {
         next USER if !%User;
 
         # just send emails to permitted agents
-        my %GroupMember = $GroupObject->GroupMemberList(
+        my %GroupMember = $GroupObject->PermissionUserGet(
             UserID => $UserID,
             Type   => 'ro',
-            Result => 'HASH',
         );
 
         if ( $GroupMember{ $Queue{GroupID} } ) {

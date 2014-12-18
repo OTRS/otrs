@@ -2499,11 +2499,9 @@ sub _RenderArticle {
             Valid => 1,
         );
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'note',
-            Result  => 'HASH',
-            Cached  => 1,
         );
         for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -5207,11 +5205,9 @@ sub _GetResponsibles {
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'responsible',
-                Result  => 'HASH',
-                Cached  => 1,
             );
             for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -5254,10 +5250,9 @@ sub _GetResponsibles {
         # show all users who are rw in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'responsible',
-                Result  => 'HASH',
             );
             for my $KeyMember ( sort keys %MemberList ) {
                 if ( $AllGroupsMembers{$KeyMember} ) {
@@ -5295,11 +5290,9 @@ sub _GetOwners {
     if ( $Param{TicketID} ) {
         if ( $Param{QueueID} && !$Param{AllUsers} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'owner',
-                Result  => 'HASH',
-                Cached  => 1,
             );
             for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -5342,10 +5335,9 @@ sub _GetOwners {
         # show all users who are rw in the queue group
         elsif ( $Param{QueueID} ) {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'owner',
-                Result  => 'HASH',
             );
             for my $KeyMember ( sort keys %MemberList ) {
                 if ( $AllGroupsMembers{$KeyMember} ) {
@@ -5487,10 +5479,9 @@ sub _GetQueues {
         }
 
         # get permission queues
-        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
+        my %UserGroups = $Self->{GroupObject}->PermissionUserGet(
             UserID => $Self->{UserID},
             Type   => $PermissionType,
-            Result => 'HASH',
         );
 
         # build selection string

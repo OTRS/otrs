@@ -1650,11 +1650,9 @@ sub _Mask {
         }
         else {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'owner',
-                Result  => 'HASH',
-                Cached  => 1,
             );
             for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -1732,11 +1730,9 @@ sub _Mask {
         }
         else {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'responsible',
-                Result  => 'HASH',
-                Cached  => 1,
             );
             for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -1969,11 +1965,9 @@ sub _Mask {
                 Valid => 1,
             );
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
+            my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
                 GroupID => $GID,
                 Type    => 'note',
-                Result  => 'HASH',
-                Cached  => 1,
             );
             for my $UserID ( sort keys %MemberList ) {
                 $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -2247,11 +2241,9 @@ sub _GetResponsible {
         my $GID = $Self->{QueueObject}->GetQueueGroupID(
             QueueID => $Param{NewQueueID} || $Param{QueueID}
         );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'responsible',
-            Result  => 'HASH',
-            Cached  => 1,
         );
         for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -2290,11 +2282,9 @@ sub _GetOwners {
         my $GID = $Self->{QueueObject}->GetQueueGroupID(
             QueueID => $Param{NewQueueID} || $Param{QueueID}
         );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'owner',
-            Result  => 'HASH',
-            Cached  => 1,
         );
         for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};

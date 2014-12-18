@@ -272,10 +272,9 @@ sub Auth {
 
         # check if user is allow to login
         # get current user groups
-        my %Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+        my %Groups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
             UserID => $UserID,
             Type   => 'move_into',
-            Result => 'HASH',
         );
 
         # reverse groups hash for easy look up

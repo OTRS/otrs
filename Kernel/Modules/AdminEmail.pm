@@ -89,11 +89,14 @@ sub Run {
 
             # get group recipients address
             for my $GroupID ( $Self->{ParamObject}->GetArray( Param => 'GroupIDs' ) ) {
-                my @GroupMemberList = $Self->{GroupObject}->GroupMemberList(
-                    Result  => 'ID',
-                    Type    => $Param{GroupPermission},
+
+                my %UserList = $Self->{GroupObject}->PermissionGroupGet(
                     GroupID => $GroupID,
+                    Type    => $Param{GroupPermission},
                 );
+
+                my @GroupMemberList = sort keys %UserList;
+
                 for my $GroupMember (@GroupMemberList) {
                     my %UserData = $Self->{UserObject}->GetUserData(
                         UserID => $GroupMember,

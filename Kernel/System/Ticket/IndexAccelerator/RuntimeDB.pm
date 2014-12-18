@@ -75,11 +75,12 @@ sub TicketAcceleratorIndex {
         $Type = 'ro';
     }
 
-    my @GroupIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+    my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
         UserID => $Param{UserID},
         Type   => $Type,
-        Result => 'ID',
     );
+
+    my @GroupIDs = sort keys %GroupList;
 
     my @QueueIDs = @{ $Param{ShownQueueIDs} };
     my %Queues;

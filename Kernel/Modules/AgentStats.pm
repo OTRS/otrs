@@ -1934,27 +1934,26 @@ sub Run {
         if ( !$Self->{AccessRw} ) {
             my $UserPermission = 0;
 
-            # get user groups
-            my @Groups = $Self->{GroupObject}->GroupMemberList(
-                UserID => $Self->{UserID},
-                Type   => 'ro',
-                Result => 'ID',
-            );
-
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Stat->{Valid};
 
-            MARKE:
+            # get user groups
+            my %GroupList = $Self->{GroupObject}->PermissionUserGet(
+                UserID => $Self->{UserID},
+                Type   => 'ro',
+            );
+
+            GROUPID:
             for my $GroupID ( @{ $Stat->{Permission} } ) {
-                for my $UserGroup (@Groups) {
-                    if ( $GroupID == $UserGroup ) {
-                        $UserPermission = 1;
-                        last MARKE;
-                    }
-                }
+
+                next GROUPID if !$GroupID;
+                next GROUPID if !$GroupList{$GroupID};
+
+                $UserPermission = 1;
+
+                last GROUPID;
             }
 
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$UserPermission;
-
         }
 
         # get params

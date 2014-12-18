@@ -667,15 +667,15 @@ sub StatsListGet {
     }
 
     # get user groups
-    my @Groups = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+    my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
         UserID => $Self->{UserID},
         Type   => 'ro',
-        Result => 'ID',
     );
 
     my %Result;
 
     for my $StatID (@SearchResult) {
+
         my $Stat = $Self->StatsGet(
             StatID             => $StatID,
             NoObjectAttributes => 1,
@@ -683,23 +683,23 @@ sub StatsListGet {
 
         my $UserPermission = 0;
         if ( $Param{AccessRw} || $Self->{UserID} == 1 ) {
+
             $UserPermission = 1;
         }
-
-        # these function is similar like other function in the code perhaps we should
-        # merge them
-        # permission check
         elsif ( $Stat->{Valid} ) {
-            MARKE:
+
+            GROUPID:
             for my $GroupID ( @{ $Stat->{Permission} } ) {
-                for my $UserGroup (@Groups) {
-                    if ( $GroupID == $UserGroup ) {
-                        $UserPermission = 1;
-                        last MARKE;
-                    }
-                }
+
+                next GROUPID if !$GroupID;
+                next GROUPID if !$GroupList{$GroupID};
+
+                $UserPermission = 1;
+
+                last GROUPID;
             }
         }
+
         if ( $UserPermission == 1 ) {
             $Result{$StatID} = $Stat;
         }

@@ -137,10 +137,9 @@ sub Run {
         );
 
         # get user groups, where the user has the rw privilege
-        my %Groups = $GroupObject->GroupMemberList(
+        my %Groups = $GroupObject->PermissionUserGet(
             UserID => $Self->{UserID},
             Type   => 'rw',
-            Result => 'HASH',
         );
 
         # if the user is a member in this group he can access the feature

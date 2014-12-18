@@ -908,10 +908,9 @@ sub _Mask {
                     DynamicFields => 0,
                 );
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-                my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                my %GroupMember = $Self->{GroupObject}->PermissionGroupGet(
                     GroupID => $GroupID,
                     Type    => 'rw',
-                    Result  => 'HASH',
                 );
                 USER_ID:
                 for my $UserID ( sort keys %GroupMember ) {
@@ -950,10 +949,9 @@ sub _Mask {
                     DynamicFields => 0,
                 );
                 my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-                my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                my %GroupMember = $Self->{GroupObject}->PermissionGroupGet(
                     GroupID => $GroupID,
                     Type    => 'rw',
-                    Result  => 'HASH',
                 );
                 USER_ID:
                 for my $UserID ( sort keys %GroupMember ) {

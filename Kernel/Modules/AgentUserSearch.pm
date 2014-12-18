@@ -66,11 +66,9 @@ sub Run {
                 next GROUPNAME if !$GroupID;
 
                 # get users in group
-                my %Users = $Self->{GroupObject}->GroupMemberList(
+                my %Users = $Self->{GroupObject}->PermissionGroupGet(
                     GroupID => $GroupID,
                     Type    => 'ro',
-                    Result  => 'HASH',
-                    Cached  => 1,
                 );
 
                 my @UserIDs = keys %Users;

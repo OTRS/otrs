@@ -1011,10 +1011,9 @@ sub _GetUsers {
     # show all users who are rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'rw',
-            Result  => 'HASH',
         );
         for my $KeyMember ( sort keys %MemberList ) {
             $ShownUsers{$KeyMember} = $AllGroupsMembers{$KeyMember};

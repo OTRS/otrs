@@ -87,17 +87,14 @@ sub Run {
 
     # delete old custom queues
     $Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => "
-            DELETE FROM personal_queues
-            WHERE user_id = ?",
+        SQL  => 'DELETE FROM personal_queues WHERE user_id = ?',
         Bind => [ \$Param{UserData}->{UserID} ],
     );
 
     # get ro groups of agent
-    my %GroupMember = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+    my %GroupMember = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
         UserID => $Param{UserData}->{UserID},
         Type   => 'ro',
-        Result => 'HASH',
     );
 
     # add new custom queues

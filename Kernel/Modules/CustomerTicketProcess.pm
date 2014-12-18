@@ -2031,11 +2031,9 @@ sub _RenderArticle {
             Valid => 1,
         );
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'note',
-            Result  => 'HASH',
-            Cached  => 1,
         );
         for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
@@ -4162,10 +4160,9 @@ sub _GetQueues {
         }
 
         # get create permission queues
-        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
+        my %UserGroups = $Self->{GroupObject}->PermissionUserGet(
             UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             Type   => 'create',
-            Result => 'HASH',
         );
 
         # build selection string

@@ -1894,10 +1894,9 @@ sub _GetUsers {
     # show all users who are owner or rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'owner',
-            Result  => 'HASH',
         );
         for my $KeyMember ( sort keys %MemberList ) {
             if ( $AllGroupsMembers{$KeyMember} ) {
@@ -1954,10 +1953,9 @@ sub _GetResponsibles {
     # show all users who are responsible or rw in the queue group
     elsif ( $Param{QueueID} ) {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
-        my %MemberList = $Self->{GroupObject}->GroupMemberList(
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
             GroupID => $GID,
             Type    => 'responsible',
-            Result  => 'HASH',
         );
         for my $KeyMember ( sort keys %MemberList ) {
             if ( $AllGroupsMembers{$KeyMember} ) {
@@ -2088,10 +2086,9 @@ sub _GetTos {
         }
 
         # get create permission queues
-        my %UserGroups = $Self->{GroupObject}->GroupMemberList(
+        my %UserGroups = $Self->{GroupObject}->PermissionUserGet(
             UserID => $Self->{UserID},
             Type   => 'create',
-            Result => 'HASH',
         );
 
         # build selection string

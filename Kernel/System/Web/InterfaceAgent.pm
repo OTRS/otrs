@@ -339,12 +339,14 @@ sub Run {
 
         # get groups rw/ro
         for my $Type (qw(rw ro)) {
-            my %GroupData = $Self->{GroupObject}->GroupMemberList(
-                Result => 'HASH',
-                Type   => $Type,
+
+            my %GroupData = $Self->{GroupObject}->PermissionUserGet(
                 UserID => $UserData{UserID},
+                Type   => $Type,
             );
+
             for ( sort keys %GroupData ) {
+
                 if ( $Type eq 'rw' ) {
                     $UserData{"UserIsGroup[$GroupData{$_}]"} = 'Yes';
                 }

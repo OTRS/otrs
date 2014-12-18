@@ -1192,12 +1192,15 @@ sub _GetChecks {
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
         for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-            my @Groups = $GroupObject->GroupMemberList(
+
+            my %Groups = $GroupObject->PermissionUserGet(
                 UserID => $Param{UserID},
-                Result => 'Name',
                 Type   => $Type,
             );
-            $User{"Group_$Type"} = \@Groups;
+
+            my @GroupNames = sort values %Groups;
+
+            $User{"Group_$Type"} = \@GroupNames;
         }
 
         my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1237,6 +1240,7 @@ sub _GetChecks {
                 Result => 'Name',
                 Type   => $Type,
             );
+
             $CustomerUser{"Group_$Type"} = \@Groups;
         }
 
@@ -1754,12 +1758,15 @@ sub _GetChecks {
                 UserID => $Param{OwnerID},
             );
             for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                my @Groups = $GroupObject->GroupMemberList(
+
+                my %Groups = $GroupObject->PermissionUserGet(
                     UserID => $Param{OwnerID},
-                    Result => 'Name',
                     Type   => $Type,
                 );
-                $Owner{"Group_$Type"} = \@Groups;
+
+                my @GroupNames = sort values %Groups;
+
+                $Owner{"Group_$Type"} = \@GroupNames;
             }
 
             my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1791,12 +1798,15 @@ sub _GetChecks {
                 UserID => $OwnerID,
             );
             for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                my @Groups = $GroupObject->GroupMemberList(
+
+                my %Groups = $GroupObject->PermissionUserGet(
                     UserID => $OwnerID,
-                    Result => 'Name',
                     Type   => $Type,
                 );
-                $Owner{"Group_$Type"} = \@Groups;
+
+                my @GroupNames = sort values %Groups;
+
+                $Owner{"Group_$Type"} = \@GroupNames;
             }
 
             my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1828,12 +1838,15 @@ sub _GetChecks {
                     UserID => $Checks{Ticket}->{OwnerID},
                 );
                 for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                    my @Groups = $GroupObject->GroupMemberList(
+
+                    my %Groups = $GroupObject->PermissionUserGet(
                         UserID => $Checks{Ticket}->{OwnerID},
-                        Result => 'Name',
                         Type   => $Type,
                     );
-                    $Owner{"Group_$Type"} = \@Groups;
+
+                    my @GroupNames = sort values %Groups;
+
+                    $Owner{"Group_$Type"} = \@GroupNames;
                 }
 
                 my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1874,12 +1887,15 @@ sub _GetChecks {
                 UserID => $ChecksDatabase{Ticket}->{OwnerID},
             );
             for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                my @Groups = $GroupObject->GroupMemberList(
+
+                my %Groups = $GroupObject->PermissionUserGet(
                     UserID => $ChecksDatabase{Ticket}->{OwnerID},
-                    Result => 'Name',
                     Type   => $Type,
                 );
-                $Owner{"Group_$Type"} = \@Groups;
+
+                my @GroupNames = sort values %Groups;
+
+                $Owner{"Group_$Type"} = \@GroupNames;
             }
 
             my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1910,12 +1926,15 @@ sub _GetChecks {
                 UserID => $Param{ResponsibleID},
             );
             for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                my @Groups = $GroupObject->GroupMemberList(
+
+                my %Groups = $GroupObject->PermissionUserGet(
                     UserID => $Param{ResponsibleID},
-                    Result => 'Name',
                     Type   => $Type,
                 );
-                $Responsible{"Group_$Type"} = \@Groups;
+
+                my @GroupNames = sort values %Groups;
+
+                $Responsible{"Group_$Type"} = \@GroupNames;
             }
 
             my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1947,12 +1966,15 @@ sub _GetChecks {
                 UserID => $ResponsibleID,
             );
             for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                my @Groups = $GroupObject->GroupMemberList(
+
+                my %Groups = $GroupObject->PermissionUserGet(
                     UserID => $ResponsibleID,
-                    Result => 'Name',
                     Type   => $Type,
                 );
-                $Responsible{"Group_$Type"} = \@Groups;
+
+                my @GroupNames = sort values %Groups;
+
+                $Responsible{"Group_$Type"} = \@GroupNames;
             }
 
             my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -1984,12 +2006,15 @@ sub _GetChecks {
                     UserID => $Checks{Ticket}->{ResponsibleID},
                 );
                 for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
-                    my @Groups = $GroupObject->GroupMemberList(
+
+                    my %Groups = $GroupObject->PermissionUserGet(
                         UserID => $Checks{Ticket}->{ResponsibleID},
-                        Result => 'Name',
                         Type   => $Type,
                     );
-                    $Responsible{"Group_$Type"} = \@Groups;
+
+                    my @GroupNames = sort values %Groups;
+
+                    $Responsible{"Group_$Type"} = \@GroupNames;
                 }
 
                 my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
@@ -2034,13 +2059,14 @@ sub _GetChecks {
 
             for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
 
-                my @Groups = $GroupObject->GroupMemberList(
+                my %Groups = $GroupObject->PermissionUserGet(
                     UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
-                    Result => 'Name',
                     Type   => $Type,
                 );
 
-                $Responsible{"Group_$Type"} = \@Groups;
+                my @GroupNames = sort values %Groups;
+
+                $Responsible{"Group_$Type"} = \@GroupNames;
             }
 
             my @RoleIDs = $GroupObject->GroupUserRoleMemberList(

@@ -27,7 +27,7 @@ sub new {
 
     # check all needed objects
     for my $Needed (
-        qw(ParamObject DBObject EncodeObject LayoutObject ConfigObject LogObject UserObject)
+        qw(ParamObject DBObject EncodeObject LayoutObject ConfigObject LogObject UserObject GroupObject)
         )
     {
         if ( !$Self->{$Needed} ) {
@@ -76,10 +76,9 @@ sub Run {
         );
 
         # get user groups, where the user has the rw privilege
-        my %Groups = $Self->{GroupObject}->GroupMemberList(
+        my %Groups = $Self->{GroupObject}->PermissionUserGet(
             UserID => $Self->{UserID},
             Type   => 'rw',
-            Result => 'HASH',
         );
 
         # if the user is a member in this group he can access the feature

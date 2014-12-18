@@ -110,10 +110,9 @@ sub Run {
         ID    => $Ticket{QueueID},
         Cache => 1,
     );
-    my @UserIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+    my %UserList = $Kernel::OM->Get('Kernel::System::Group')->PermissionGroupGet(
         GroupID => $Queue{GroupID},
         Type    => 'rw',
-        Result  => 'ID',
     );
 
     # get user object
@@ -121,7 +120,7 @@ sub Run {
 
     # send each agent the escalation notification
     USER:
-    for my $UserID (@UserIDs) {
+    for my $UserID (sort keys %UserList) {
 
         my %User = $UserObject->GetUserData(
             UserID => $UserID,

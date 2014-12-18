@@ -866,33 +866,32 @@ sub TicketSearch {
         }
     }
 
-    my @GroupIDs;
+    my %GroupList;
 
     # user groups
     if ( $Param{UserID} && $Param{UserID} != 1 ) {
 
         # get users groups
-        @GroupIDs = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
+        %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
             UserID => $Param{UserID},
             Type   => $Param{Permission} || 'ro',
-            Result => 'ID',
         );
 
         # return if we have no permissions
-        return if !@GroupIDs;
+        return if !%GroupList;
     }
 
     # customer groups
     elsif ( $Param{CustomerUserID} ) {
 
-        @GroupIDs = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
+        %GroupList = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
             UserID => $Param{CustomerUserID},
             Type   => $Param{Permission} || 'ro',
-            Result => 'ID',
+            Result => 'HASH',
         );
 
         # return if we have no permissions
-        return if !@GroupIDs;
+        return if !%GroupList;
 
         # get all customer ids
         $SQLExt .= ' AND (';
@@ -929,8 +928,11 @@ sub TicketSearch {
     }
 
     # add group ids to sql string
-    if (@GroupIDs) {
-        $SQLExt .= " AND sq.group_id IN (${\(join ', ' , sort {$a <=> $b} @GroupIDs)}) ";
+    if (%GroupList) {
+
+        my $GroupIDString = join ',', sort keys %GroupList;
+
+        $SQLExt .= " AND sq.group_id IN ($GroupIDString) ";
     }
 
     # current priority lookup

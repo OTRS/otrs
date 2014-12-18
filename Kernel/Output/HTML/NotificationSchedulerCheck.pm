@@ -96,10 +96,9 @@ sub Run {
 
     # check if user needs to be notified
     # get current user groups
-    my %Groups = $Self->{GroupObject}->GroupMemberList(
+    my %Groups = $Self->{GroupObject}->PermissionUserGet(
         UserID => $Self->{UserID},
         Type   => 'move_into',
-        Result => 'HASH',
     );
 
     # reverse groups hash for easy look up
