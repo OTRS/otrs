@@ -152,6 +152,7 @@ sub Run {
 
     my $InvokerObject = Kernel::GenericInterface::Invoker->new(
         DebuggerObject => $DebuggerObject,
+        Invoker        => $Param{Invoker},
         InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
         WebserviceID   => $WebserviceID,
     );

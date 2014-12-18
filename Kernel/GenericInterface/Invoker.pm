@@ -67,6 +67,7 @@ create an object.
     );
     my $InvokerObject = Kernel::GenericInterface::Invoker->new(
         DebuggerObject     => $DebuggerObject,
+        Invoker            => 'TicketLock',            # the name of the invoker in the web service
         InvokerType        => 'Nagios::TicketLock',    # the Invoker backend to use
         WebserviceID       => 1                        # the WebserviceID where the Invoker belongs
                                                        # normally this is passed by the requester
@@ -82,7 +83,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed params
-    for my $Needed (qw( DebuggerObject InvokerType WebserviceID )) {
+    for my $Needed (qw( DebuggerObject Invoker InvokerType WebserviceID )) {
         if ( !$Param{$Needed} ) {
 
             return {
