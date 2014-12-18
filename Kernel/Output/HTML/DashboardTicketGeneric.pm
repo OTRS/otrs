@@ -2075,28 +2075,28 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            Locks    => [ 'lock', 'tmp_lock' ],
+            LockIDs  => [ '2', '3' ], # 'lock' and 'tmp_lock'
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],
-            Locks        => undef,
+            LockIDs      => $TicketSearch{LockIDs} // undef,
         },
         Responsible => {
             ResponsibleIDs => [ $Self->{UserID}, ],
-            Locks          => undef,
+            LockIDs        => $TicketSearch{LockIDs} // undef,
         },
         MyQueues => {
             QueueIDs => \@MyQueues,
-            Locks    => undef,
+            LockIDs  => $TicketSearch{LockIDs} // undef,
         },
         MyServices => {
             QueueIDs   => \@ViewableQueueIDs,
             ServiceIDs => \@MyServiceIDs,
-            Locks      => undef,
+            LockIDs    => $TicketSearch{LockIDs} // undef,
         },
         All => {
             OwnerIDs => undef,
-            Locks    => undef,
+            LockIDs  => $TicketSearch{LockIDs} // undef,
         },
     );
 
