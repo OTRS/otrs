@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2014-12-17 Fixed bug#[10572](http://bugs.otrs.org/show_bug.cgi?id=10572) - ActivityDialogEntityID not working in ACLs from Process screens reducing States.
 
 #3.3.11 2014-12-16
  - 2014-12-11 Updated translations, thanks to all translators.
