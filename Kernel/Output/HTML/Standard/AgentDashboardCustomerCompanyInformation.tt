@@ -14,7 +14,11 @@
 
 [% RenderBlockStart("ContentSmallCustomerCompanyInformationRowText") %]
     <label>[% Translate(Data.Label) | html %]:</label>
-    <div class="Field">[% Data.Value | html %]</div>
+    <p class="Field FixedValueSmall">[% Data.Value | html %]
+[% RenderBlockStart("ContentSmallCustomerCompanyInvalid") %]
+        <em class="Error">[% Translate("Note: Customer is invalid!") | html %]</em>
+[% RenderBlockEnd("ContentSmallCustomerCompanyInvalid") %]
+    </p>
     <div class="Clear"></div>
 [% RenderBlockEnd("ContentSmallCustomerCompanyInformationRowText") %]
 

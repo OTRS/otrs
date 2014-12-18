@@ -1,4 +1,5 @@
 #4.0.4 2015-??-??
+ - 2014-12-18 Fixed bug#[10945](http://bugs.otrs.org/show_bug.cgi?id=10945) - Invalid CustomerCompanys are not marked invalid in CIC.
  - 2014-12-18 Fixed bug#[10802](http://bugs.otrs.org/show_bug.cgi?id=10802) - Ticket Count in Dashboard Widget  with set Filter.
  - 2014-12-17 Fixed bug#[10572](http://bugs.otrs.org/show_bug.cgi?id=10572) - ActivityDialogEntityID not working in ACLs from Process screens reducing States.
  - 2014-12-16 Fixed bug#[10574](http://bugs.otrs.org/show_bug.cgi?id=10574) - DropDown "Crypt" is to large.
