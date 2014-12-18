@@ -1984,7 +1984,12 @@ sub _SearchParamsGet {
             =~ /^(StateType|StateTypeIDs|Queues|QueueIDs|Types|TypeIDs|States|StateIDs|Priorities|PriorityIDs|Services|ServiceIDs|SLAs|SLAIDs|Locks|LockIDs|OwnerIDs|ResponsibleIDs|WatchUserIDs|ArchiveFlags)$/
             )
         {
-            push @{ $TicketSearch{$Key} }, $Value;
+            if ( $Value =~ m{,}smx ) {
+                push @{ $TicketSearch{$Key} }, split( /,/, $Value );
+            }
+            else {
+                push @{ $TicketSearch{$Key} }, $Value;
+            }
         }
 
         # check if parameter is a dynamic field and capture dynamic field name (with DynamicField_)
@@ -2075,7 +2080,7 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            LockIDs  => [ '2', '3' ], # 'lock' and 'tmp_lock'
+            LockIDs  => [ '2', '3' ],           # 'lock' and 'tmp_lock'
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],
