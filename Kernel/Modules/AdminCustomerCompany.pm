@@ -250,10 +250,6 @@ sub Run {
             Type => $NavigationBarType,
         );
 
-        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
-            $Self->{LayoutObject}->Block( Name => 'LocalDB' );
-        }
-
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
@@ -472,6 +468,10 @@ sub _Overview {
 
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
+
+        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+            $Self->{LayoutObject}->Block( Name => 'LocalDB' );
+        }
 
         # if there are results to show
         if (%List) {
