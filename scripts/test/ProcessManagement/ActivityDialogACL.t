@@ -256,7 +256,7 @@ $Self->True(
     $Success,
     "GroupMememberAdd() - for Affected User with true"
 );
-$Success = $GroupObject->GroupUserRoleMemberAdd(
+$Success = $GroupObject->PermissionRoleUserAdd(
     UID    => $AffectedUserID,
     RID    => $RoleID,
     Active => 1,

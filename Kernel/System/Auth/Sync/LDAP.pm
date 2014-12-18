@@ -743,7 +743,7 @@ sub Sync {
                 Priority => 'notice',
                 Message  => "User: '$Param{User}' sync ldap role $SystemRoles{$RoleID}!",
             );
-            $GroupObject->GroupUserRoleMemberAdd(
+            $GroupObject->PermissionRoleUserAdd(
                 UID    => $UserID,
                 RID    => $RoleID,
                 Active => $RolePermissionsFromLDAP{$RoleID} || 0,

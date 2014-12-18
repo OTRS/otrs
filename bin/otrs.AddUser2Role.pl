@@ -61,7 +61,7 @@ if ( !$RoleID ) {
 
 # add user 2 role
 if (
-    !$Kernel::OM->Get('Kernel::System::Group')->GroupUserRoleMemberAdd(
+    !$Kernel::OM->Get('Kernel::System::Group')->PermissionRoleUserAdd(
         UID    => $UserID,
         RID    => $RoleID,
         Active => 1,
@@ -72,7 +72,6 @@ if (
     print STDERR "ERROR: Can't set permissions!\n";
     exit 1;
 }
-else {
-    print "Role '$Opts{r}' added to user '$Opts{u}'\n";
-    exit(0);
-}
+
+print "Role '$Opts{r}' added to user '$Opts{u}'\n";
+exit 0;

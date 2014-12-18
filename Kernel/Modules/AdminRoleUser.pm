@@ -126,7 +126,7 @@ sub Run {
                 $Active = 1;
                 last MEMBER_OF_ROLE;
             }
-            $Self->{GroupObject}->GroupUserRoleMemberAdd(
+            $Self->{GroupObject}->PermissionRoleUserAdd(
                 UID    => $UserID,
                 RID    => $ID,
                 Active => $Active,
@@ -163,7 +163,7 @@ sub Run {
                 $Active = 1;
                 last ROLE_OF_MEMBER;
             }
-            $Self->{GroupObject}->GroupUserRoleMemberAdd(
+            $Self->{GroupObject}->PermissionRoleUserAdd(
                 UID    => $ID,
                 RID    => $RoleID,
                 Active => $Active,
