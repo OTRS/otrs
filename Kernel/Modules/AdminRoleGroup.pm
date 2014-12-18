@@ -131,7 +131,7 @@ sub Run {
                     }
                 }
             }
-            $Self->{GroupObject}->GroupRoleMemberAdd(
+            $Self->{GroupObject}->PermissionGroupRoleAdd(
                 RID        => $RoleID,
                 GID        => $ID,
                 Permission => \%NewPermission,
@@ -171,7 +171,7 @@ sub Run {
                     }
                 }
             }
-            $Self->{GroupObject}->GroupRoleMemberAdd(
+            $Self->{GroupObject}->PermissionGroupRoleAdd(
                 RID        => $ID,
                 GID        => $GroupID,
                 Permission => \%NewPermission,

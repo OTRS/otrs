@@ -47,7 +47,7 @@ if ( $Opts{h} ) {
     print
         "usage: otrs.AddRole2Group.pl -g <GROUP> -r <ROLE> [-R<READ> -M<MOVE_INTO> -C<CREATE> -N<NOTE> -O<OWNER> -P<PRIORITY> -W<RW>] \n";
     print "For Options: R,M,C,N,O,P,W setting to 0 or 1 is expected \n";
-    exit 1;
+    exit 0;
 }
 
 if ( !$Opts{r} ) {
@@ -93,7 +93,7 @@ if ( !$RoleID ) {
 
 # add queue
 if (
-    !$Kernel::OM->Get('Kernel::System::Group')->GroupRoleMemberAdd(
+    !$Kernel::OM->Get('Kernel::System::Group')->PermissionGroupRoleAdd(
         GID        => $GroupID,
         RID        => $RoleID,
         Permission => {
@@ -112,7 +112,6 @@ if (
     print STDERR "ERROR: Can't set permissions!\n";
     exit 1;
 }
-else {
-    print "Added Group '$Opts{g}' to Role '$Opts{r}'.\n";
-    exit(0);
-}
+
+print "Added Group '$Opts{g}' to Role '$Opts{r}'.\n";
+exit 0;
