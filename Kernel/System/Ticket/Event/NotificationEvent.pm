@@ -530,13 +530,12 @@ sub _SendNotificationToRecipients {
         RECIPIENT:
         for my $Role ( @{ $Param{Notification}->{Data}->{RecipientRoles} } ) {
 
-            my @RoleMemberList = $GroupObject->GroupUserRoleMemberList(
-                Result => 'ID',
+            my %RoleMemberList = $GroupObject->PermissionRoleUserGet(
                 RoleID => $Role,
             );
 
             ROLEMEMBER:
-            for my $Recipient (@RoleMemberList) {
+            for my $Recipient (sort keys %RoleMemberList) {
 
                 next ROLEMEMBER if $Recipient == 1;
                 next ROLEMEMBER if $AgentUsed{$Recipient};

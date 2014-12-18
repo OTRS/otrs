@@ -1203,21 +1203,13 @@ sub _GetChecks {
             $User{"Group_$Type"} = \@GroupNames;
         }
 
-        my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+        my %RoleIDs = $GroupObject->PermissionUserRoleGet(
             UserID => $Param{UserID},
-            Result => 'ID',
         );
-        my @Roles;
-        ROLEID:
-        for my $RoleID (@RoleIDs) {
-            my $RoleName = $GroupObject->RoleLookup(
-                RoleID => $RoleID,
-            );
-            next ROLEID if !$RoleName;
-            push @Roles, $RoleName;
-        }
-        $User{Role} = \@Roles;
 
+        my @RoleNames = sort values %RoleIDs;
+
+        $User{Role}           = \@RoleNames;
         $Checks{User}         = \%User;
         $ChecksDatabase{User} = \%User;
     }
@@ -1769,21 +1761,13 @@ sub _GetChecks {
                 $Owner{"Group_$Type"} = \@GroupNames;
             }
 
-            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+            my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                 UserID => $Param{OwnerID},
-                Result => 'ID',
             );
-            my @Roles;
-            ROLEID:
-            for my $RoleID (@RoleIDs) {
-                my $RoleName = $GroupObject->RoleLookup(
-                    RoleID => $RoleID,
-                );
-                next ROLEID if !$RoleName;
-                push @Roles, $RoleName;
-            }
-            $Owner{Role} = \@Roles;
 
+            my @RoleNames = sort values %RoleIDs;
+
+            $Owner{Role}   = \@RoleNames;
             $Checks{Owner} = \%Owner;
 
             # update or add owner information to the ticket check
@@ -1809,21 +1793,13 @@ sub _GetChecks {
                 $Owner{"Group_$Type"} = \@GroupNames;
             }
 
-            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+            my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                 UserID => $OwnerID,
-                Result => 'ID',
             );
-            my @Roles;
-            ROLEID:
-            for my $RoleID (@RoleIDs) {
-                my $RoleName = $GroupObject->RoleLookup(
-                    RoleID => $RoleID,
-                );
-                next ROLEID if !$RoleName;
-                push @Roles, $RoleName;
-            }
-            $Owner{Role} = \@Roles;
 
+            my @RoleNames = sort values %RoleIDs;
+
+            $Owner{Role}   = \@RoleNames;
             $Checks{Owner} = \%Owner;
 
             # update or add owner information to the ticket check
@@ -1849,21 +1825,13 @@ sub _GetChecks {
                     $Owner{"Group_$Type"} = \@GroupNames;
                 }
 
-                my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+                my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                     UserID => $Checks{Ticket}->{OwnerID},
-                    Result => 'ID',
                 );
-                my @Roles;
-                ROLEID:
-                for my $RoleID (@RoleIDs) {
-                    my $RoleName = $GroupObject->RoleLookup(
-                        RoleID => $RoleID,
-                    );
-                    next ROLEID if !$RoleName;
-                    push @Roles, $RoleName;
-                }
-                $Owner{Role} = \@Roles;
 
+                my @RoleNames = sort values %RoleIDs;
+
+                $Owner{Role}   = \@RoleNames;
                 $Checks{Owner} = \%Owner;
             }
         }
@@ -1898,21 +1866,13 @@ sub _GetChecks {
                 $Owner{"Group_$Type"} = \@GroupNames;
             }
 
-            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+            my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                 UserID => $ChecksDatabase{Ticket}->{OwnerID},
-                Result => 'ID',
             );
-            my @Roles;
-            ROLEID:
-            for my $RoleID (@RoleIDs) {
-                my $RoleName = $GroupObject->RoleLookup(
-                    RoleID => $RoleID,
-                );
-                next ROLEID if !$RoleName;
-                push @Roles, $RoleName;
-            }
-            $Owner{Role} = \@Roles;
 
+            my @RoleNames = sort values %RoleIDs;
+
+            $Owner{Role}           = \@RoleNames;
             $ChecksDatabase{Owner} = \%Owner;
         }
     }
@@ -1937,21 +1897,13 @@ sub _GetChecks {
                 $Responsible{"Group_$Type"} = \@GroupNames;
             }
 
-            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+            my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                 UserID => $Param{ResponsibleID},
-                Result => 'ID',
             );
-            my @Roles;
-            ROLEID:
-            for my $RoleID (@RoleIDs) {
-                my $RoleName = $GroupObject->RoleLookup(
-                    RoleID => $RoleID,
-                );
-                next ROLEID if !$RoleName;
-                push @Roles, $RoleName;
-            }
-            $Responsible{Role} = \@Roles;
 
+            my @RoleNames = sort values %RoleIDs;
+
+            $Responsible{Role}   = \@RoleNames;
             $Checks{Responsible} = \%Responsible;
 
             # update or add responsible information to the ticket check
@@ -1977,21 +1929,13 @@ sub _GetChecks {
                 $Responsible{"Group_$Type"} = \@GroupNames;
             }
 
-            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+            my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                 UserID => $ResponsibleID,
-                Result => 'ID',
             );
-            my @Roles;
-            ROLEID:
-            for my $RoleID (@RoleIDs) {
-                my $RoleName = $GroupObject->RoleLookup(
-                    RoleID => $RoleID,
-                );
-                next ROLEID if !$RoleName;
-                push @Roles, $RoleName;
-            }
-            $Responsible{Role} = \@Roles;
 
+            my @RoleNames = sort values %RoleIDs;
+
+            $Responsible{Role}   = \@RoleNames;
             $Checks{Responsible} = \%Responsible;
 
             # update or add responsible information to the ticket check
@@ -2017,21 +1961,13 @@ sub _GetChecks {
                     $Responsible{"Group_$Type"} = \@GroupNames;
                 }
 
-                my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+                my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                     UserID => $Checks{Ticket}->{ResponsibleID},
-                    Result => 'ID',
                 );
-                my @Roles;
-                ROLEID:
-                for my $RoleID (@RoleIDs) {
-                    my $RoleName = $GroupObject->RoleLookup(
-                        RoleID => $RoleID,
-                    );
-                    next ROLEID if !$RoleName;
-                    push @Roles, $RoleName;
-                }
-                $Responsible{Role} = \@Roles;
 
+                my @RoleNames = sort values %RoleIDs;
+
+                $Responsible{Role}   = \@RoleNames;
                 $Checks{Responsible} = \%Responsible;
             }
         }
@@ -2069,26 +2005,13 @@ sub _GetChecks {
                 $Responsible{"Group_$Type"} = \@GroupNames;
             }
 
-            my @RoleIDs = $GroupObject->GroupUserRoleMemberList(
+            my %RoleIDs = $GroupObject->PermissionUserRoleGet(
                 UserID => $ChecksDatabase{Ticket}->{ResponsibleID},
-                Result => 'ID',
             );
-            my @Roles;
 
-            ROLEID:
-            for my $RoleID (@RoleIDs) {
+            my @RoleNames = sort values %RoleIDs;
 
-                my $RoleName = $GroupObject->RoleLookup(
-                    RoleID => $RoleID,
-                );
-
-                next ROLEID if !$RoleName;
-
-                push @Roles, $RoleName;
-            }
-
-            $Responsible{Role} = \@Roles;
-
+            $Responsible{Role}           = \@RoleNames;
             $ChecksDatabase{Responsible} = \%Responsible;
         }
     }

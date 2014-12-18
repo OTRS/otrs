@@ -722,9 +722,8 @@ sub Sync {
     if (%RolePermissionsFromLDAP) {
 
         # get current user roles
-        my %UserRoles = $GroupObject->GroupUserRoleMemberList(
+        my %UserRoles = $GroupObject->PermissionUserRoleGet(
             UserID => $UserID,
-            Result => 'HASH',
         );
 
         ROLEID:
