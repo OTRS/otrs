@@ -101,9 +101,19 @@ sub OTRSInit {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message =>
-                    "Please add a template list to output filter $FilterConfig->{Module} "
-                    . "to improve performance. Use ALL if OutputFilter should modify all "
-                    . "templates of the system (deprecated).",
+                    "Please add a template list to output filter $FilterConfig->{Module} to improve performance.",
+            );
+
+            next FILTER;
+        }
+        elsif ( $TemplateList{ALL} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => <<EOF,
+$FilterConfig->{Module} wants to operate on ALL templates.
+This will prohibit the templates from being cached and can therefore lead to serious performance issues.
+EOF
             );
 
             next FILTER;
@@ -398,20 +408,32 @@ sub _PreProcessTemplateContent {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message =>
-                        "Please add a template list to output filter $FilterConfig->{Module} "
-                        . "to improve performance. Use ALL if OutputFilter should modify all "
-                        . "templates of the system (deprecated).",
+                        "Please add a template list to output filter $FilterConfig->{Module} to improve performance.",
                 );
+
+                next FILTER;
             }
+            elsif ( $TemplateList{ALL} ) {
+
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => <<EOF,
+$FilterConfig->{Module} wants to operate on ALL templates.
+This will prohibit the templates from being cached and can therefore lead to serious performance issues.
+EOF
+                );
+
+                next FILTER;
+            }
+
+            # only operate on real files
+            next FILTER if !$Param{TemplateFile};
 
             # check template list
-            if ( $Param{TemplateFile} && !$TemplateList{ALL} ) {
-                next FILTER if !$TemplateList{$TemplateFileWithoutTT};
-            }
+            next FILTER if !$TemplateList{$TemplateFileWithoutTT};
 
-            next FILTER if !$Param{TemplateFile} && !$TemplateList{ALL};
-            next FILTER
-                if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
+            # check filter construction
+            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
 
             # create new instance
             my $Object = $FilterConfig->{Module}->new(

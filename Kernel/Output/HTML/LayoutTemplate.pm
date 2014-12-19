@@ -273,8 +273,7 @@ sub Output {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => <<EOF,
-$FilterConfig->{Module} wants to operate on ALL templates.
-This will prohibit the templates from being cached and can lead to serious performance issues.
+$FilterConfig->{Module} wants to operate on ALL templates. This will potentially slow down the system and is not recommended.
 EOF
                 );
             }
