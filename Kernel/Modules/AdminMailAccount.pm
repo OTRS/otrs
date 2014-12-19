@@ -12,9 +12,7 @@ package Kernel::Modules::AdminMailAccount;
 use strict;
 use warnings;
 
-use Kernel::System::Queue;
-use Kernel::System::MailAccount;
-use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,28 +21,22 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
-    $Self->{MailAccount} = Kernel::System::MailAccount->new(%Param);
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $MailAccount  = $Kernel::OM->Get('Kernel::System::MailAccount');
+
     my %GetParam = ();
     my @Params   = (
         qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy)
     );
     for my $Parameter (@Params) {
-        $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter );
+        $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter );
     }
 
     # ------------------------------------------------------------ #
@@ -53,22 +45,22 @@ sub Run {
     if ( $Self->{Subaction} eq 'Run' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my %Data = $Self->{MailAccount}->MailAccountGet(%GetParam);
+        my %Data = $MailAccount->MailAccountGet(%GetParam);
         if ( !%Data ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
-        my $Ok = $Self->{MailAccount}->MailAccountFetch(
+        my $Ok = $MailAccount->MailAccountFetch(
             %Data,
             Limit  => 15,
             UserID => $Self->{UserID},
         );
         if ( !$Ok ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminMailAccount;Ok=1' );
+        return $LayoutObject->Redirect( OP => 'Action=AdminMailAccount;Ok=1' );
     }
 
     # ------------------------------------------------------------ #
@@ -77,30 +69,30 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $Delete = $Self->{MailAccount}->MailAccountDelete(%GetParam);
+        my $Delete = $MailAccount->MailAccountDelete(%GetParam);
         if ( !$Delete ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminMailAccount' );
+        return $LayoutObject->Redirect( OP => 'Action=AdminMailAccount' );
     }
 
     # ------------------------------------------------------------ #
     # add new mail account
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddNew' ) {
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_MaskAddMailAccount(
             Action => 'AddNew',
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -110,7 +102,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my %Errors;
 
@@ -130,39 +122,39 @@ sub Run {
         if ( !%Errors ) {
 
             # add mail account
-            my $ID = $Self->{MailAccount}->MailAccountAdd(
+            my $ID = $MailAccount->MailAccountAdd(
                 %GetParam,
                 Type   => $GetParam{'TypeAdd'},
                 UserID => $Self->{UserID},
             );
             if ($ID) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Mail account added!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Mail account added!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminMailAccount',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_MaskAddMailAccount(
             Action => 'AddNew',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -170,18 +162,18 @@ sub Run {
     # update
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Update' ) {
-        my %Data   = $Self->{MailAccount}->MailAccountGet(%GetParam);
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my %Data   = $MailAccount->MailAccountGet(%GetParam);
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_MaskUpdateMailAccount(
             Action => 'Update',
             %Data,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -191,7 +183,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdateAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my %Errors;
 
@@ -214,38 +206,38 @@ sub Run {
         if ( !%Errors ) {
 
             # update mail account
-            my $Update = $Self->{MailAccount}->MailAccountUpdate(
+            my $Update = $MailAccount->MailAccountUpdate(
                 %GetParam,
                 UserID => $Self->{UserID},
             );
             if ($Update) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Mail account updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Mail account updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminMailAccount',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_MaskUpdateMailAccount(
             Action => 'Update',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -255,17 +247,17 @@ sub Run {
     else {
         $Self->_Overview();
 
-        my $Ok = $Self->{ParamObject}->GetParam( Param => 'Ok' );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Ok = $ParamObject->GetParam( Param => 'Ok' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         if ($Ok) {
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Finished' );
+            $Output .= $LayoutObject->Notify( Info => 'Finished' );
         }
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminMailAccount',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }
@@ -273,32 +265,35 @@ sub Run {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my %Backend = $Self->{MailAccount}->MailAccountBackendList();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $MailAccount  = $Kernel::OM->Get('Kernel::System::MailAccount');
 
-    $Self->{LayoutObject}->Block(
+    my %Backend = $MailAccount->MailAccountBackendList();
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionAdd' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
 
-    my %List = $Self->{MailAccount}->MailAccountList( Valid => 0 );
+    my %List = $MailAccount->MailAccountList( Valid => 0 );
 
     # if there are any mail accounts, they are shown
     if (%List) {
         for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-            my %Data = $Self->{MailAccount}->MailAccountGet( ID => $ListKey );
+            my %Data = $MailAccount->MailAccountGet( ID => $ListKey );
             if ( !$Backend{ $Data{Type} } ) {
                 $Data{Type} .= '(not installed!)';
             }
 
-            my @List = $Self->{ValidObject}->ValidIDsGet();
+            my @List = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
 
             LIST_ELEMENT:
             for my $ListElement (@List) {
@@ -311,11 +306,11 @@ sub _Overview {
                 }
             }
 
-            $Data{ShownValid} = $Self->{ValidObject}->ValidLookup(
+            $Data{ShownValid} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
                 ValidID => $Data{ValidID},
             );
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => \%Data,
             );
@@ -324,7 +319,7 @@ sub _Overview {
 
     # otherwise a no data found msg is displayed
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoDataFoundMsg',
             Data => {},
         );
@@ -335,33 +330,35 @@ sub _Overview {
 sub _MaskUpdateMailAccount {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
     # build ValidID string
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    $Param{TypeOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{MailAccount}->MailAccountBackendList() },
+    $Param{TypeOption} = $LayoutObject->BuildSelection(
+        Data       => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
         Name       => 'Type',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeInvalid'} || '' ),
     );
 
-    $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
+    $Param{TrustedOption} = $LayoutObject->BuildSelection(
+        Data       => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
         Name       => 'Trusted',
         SelectedID => $Param{Trusted} || 0,
         Class      => $Param{Errors}->{'TrustedInvalid'} || '',
     );
 
-    $Param{DispatchingOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{DispatchingOption} = $LayoutObject->BuildSelection(
         Data => {
             From  => 'Dispatching by email To: field.',
             Queue => 'Dispatching by selected Queue.',
@@ -371,24 +368,24 @@ sub _MaskUpdateMailAccount {
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
     );
 
-    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
+    $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
+        Data           => { $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 ) },
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
         Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => { %Param, },
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionList',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionOverview',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param,
@@ -400,35 +397,36 @@ sub _MaskUpdateMailAccount {
 }
 
 sub _MaskAddMailAccount {
-
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
     # build ValidID string
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    $Param{TypeOptionAdd} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{MailAccount}->MailAccountBackendList() },
+    $Param{TypeOptionAdd} = $LayoutObject->BuildSelection(
+        Data       => { $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountBackendList() },
         Name       => 'TypeAdd',
         SelectedID => $Param{Type} || $Param{TypeAdd} || '',
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeAddInvalid'} || '' ),
     );
 
-    $Param{TrustedOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
+    $Param{TrustedOption} = $LayoutObject->BuildSelection(
+        Data       => $Kernel::OM->Get('Kernel::Config')->Get('YesNoOptions'),
         Name       => 'Trusted',
         SelectedID => $Param{Trusted} || 0,
     );
 
-    $Param{DispatchingOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{DispatchingOption} = $LayoutObject->BuildSelection(
         Data => {
             From  => 'Dispatching by email To: field.',
             Queue => 'Dispatching by selected Queue.',
@@ -438,24 +436,24 @@ sub _MaskAddMailAccount {
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'DispatchingByInvalid'} || '' ),
     );
 
-    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ) },
+    $Param{QueueOption} = $LayoutObject->AgentQueueListOption(
+        Data           => { $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 ) },
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
         Class => 'Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => { %Param, },
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionList',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionOverview',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewAdd',
         Data => {
             %Param,

@@ -14,6 +14,8 @@ use warnings;
 
 use Kernel::System::Valid;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -21,39 +23,37 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject GroupObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' )
-            || $Self->{ParamObject}->GetParam( Param => 'GroupID' )
+        my $ID = $ParamObject->GetParam( Param => 'ID' )
+            || $ParamObject->GetParam( Param => 'GroupID' )
             || '';
-        my %Data = $Self->{GroupObject}->GroupGet( ID => $ID );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my %Data = $GroupObject->GroupGet( ID => $ID );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
             %Data,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -63,12 +63,12 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # check for needed data
@@ -80,25 +80,25 @@ sub Run {
         if ( !%Errors ) {
 
             # update group
-            my $GroupUpdate = $Self->{GroupObject}->GroupUpdate(
+            my $GroupUpdate = $GroupObject->GroupUpdate(
                 %GetParam,
                 UserID => $Self->{UserID}
             );
 
             if ($GroupUpdate) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Group updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Group updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminGroup',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
             else {
-                $Note = $Self->{LogObject}->GetLogEntry(
+                $Note = $LogObject->GetLogEntry(
                     Type => 'Error',
                     What => 'Message',
                 );
@@ -106,10 +106,10 @@ sub Run {
         }
 
         # something went wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Note
-            ? $Self->{LayoutObject}->Notify(
+            ? $LayoutObject->Notify(
             Priority => 'Error',
             Info     => $Note,
             )
@@ -119,11 +119,11 @@ sub Run {
             %GetParam,
             %Errors,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
 
     }
@@ -134,19 +134,19 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
 
-        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -156,13 +156,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my $Note = '';
         my $GroupID;
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # check for needed data
@@ -174,7 +174,7 @@ sub Run {
         if ( !%Errors ) {
 
             # add group
-            $GroupID = $Self->{GroupObject}->GroupAdd(
+            $GroupID = $GroupObject->GroupAdd(
                 %GetParam,
                 UserID => $Self->{UserID}
             );
@@ -183,25 +183,25 @@ sub Run {
 
                 # redirect
                 if (
-                    !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
-                    && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}
+                    !$ConfigObject->Get('Frontend::Module')->{AdminUserGroup}
+                    && $ConfigObject->Get('Frontend::Module')->{AdminRoleGroup}
                     )
                 {
-                    return $Self->{LayoutObject}->Redirect(
+                    return $LayoutObject->Redirect(
                         OP => "Action=AdminRoleGroup;Subaction=Group;ID=$GroupID",
                     );
                 }
-                if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
-                    return $Self->{LayoutObject}->Redirect(
+                if ( $ConfigObject->Get('Frontend::Module')->{AdminUserGroup} ) {
+                    return $LayoutObject->Redirect(
                         OP => "Action=AdminUserGroup;Subaction=Group;ID=$GroupID",
                     );
                 }
-                return $Self->{LayoutObject}->Redirect(
+                return $LayoutObject->Redirect(
                     OP => 'Action=AdminGroup',
                 );
             }
             else {
-                $Note = $Self->{LogObject}->GetLogEntry(
+                $Note = $LogObject->GetLogEntry(
                     Type => 'Error',
                     What => 'Message',
                 );
@@ -209,10 +209,10 @@ sub Run {
         }
 
         # something went wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Note
-            ? $Self->{LayoutObject}->Notify(
+            ? $LayoutObject->Notify(
             Priority => 'Error',
             Info     => $Note,
             )
@@ -222,11 +222,11 @@ sub Run {
             %GetParam,
             %Errors,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
 
     }
@@ -236,13 +236,13 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview();
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminGroup',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -251,35 +251,38 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $ValidObject->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => \%Param,
     );
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
     return 1;
@@ -288,30 +291,34 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $GroupObject  = $Kernel::OM->Get('Kernel::System::Group');
+    my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionAdd' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{GroupObject}->GroupList(
+    my %List = $GroupObject->GroupList(
         ValidID => 0,
     );
 
     # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
+    my %ValidList = $ValidObject->ValidList();
     for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-        my %Data = $Self->{GroupObject}->GroupGet(
+        my %Data = $GroupObject->GroupGet(
             ID => $ListKey,
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewResultRow',
             Data => {
                 Valid => $ValidList{ $Data{ValidID} },

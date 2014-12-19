@@ -12,7 +12,7 @@ package Kernel::Modules::AdminInit;
 use strict;
 use warnings;
 
-use Kernel::System::SysConfig;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,42 +21,33 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # return to admin screen
     if ( $Self->{Subaction} eq 'Done' ) {
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=Admin' );
+        return $LayoutObject->Redirect( OP => 'Action=Admin' );
     }
 
     # write default file
-    $Self->{SysConfigObject} = Kernel::System::SysConfig->new(%Param);
-    if ( !$Self->{SysConfigObject}->WriteDefault() ) {
-        return $Self->{LayoutObject}->ErrorScreen();
+    if ( !$Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
+        return $LayoutObject->ErrorScreen();
     }
 
-    # create config object
-    $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
-
     # install included packages
-    if ( $Self->{MainObject}->Require('Kernel::System::Package') ) {
-        my $PackageObject = Kernel::System::Package->new( %{$Self} );
+    if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::Package') ) {
+        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
         if ($PackageObject) {
             $PackageObject->PackageInstallDefaultFiles();
         }
     }
 
-    return $Self->{LayoutObject}->Redirect( OP => 'Subaction=Done' );
+    return $LayoutObject->Redirect( OP => 'Subaction=Done' );
 }
 
 1;

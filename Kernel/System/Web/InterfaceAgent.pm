@@ -195,8 +195,6 @@ sub Run {
 
     # application and add-on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('Frontend::CommonObject') };
-    $Self->{TicketObject} = $Kernel::OM->Get('Kernel::System::Ticket');
-
     for my $Key ( sort keys %CommonObject ) {
         $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }

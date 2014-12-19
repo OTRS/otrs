@@ -12,10 +12,7 @@ package Kernel::Modules::AdminAutoResponse;
 use strict;
 use warnings;
 
-use Kernel::System::AutoResponse;
-use Kernel::System::SystemAddress;
-use Kernel::System::Valid;
-use Kernel::System::HTMLUtils;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,43 +21,36 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new(%Param);
-    $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-    $Self->{HTMLUtilsObject}     = Kernel::System::HTMLUtils->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my %Data = $AutoResponseObject->AutoResponseGet(
             ID => $ID,
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
             %Data,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -70,21 +60,21 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $GetParam{ContentType} = 'text/html';
         }
 
         # get charset
-        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+        $GetParam{Charset} = $LayoutObject->{UserCharset};
 
         # check needed data
         for my $Needed (qw(Name ValidID AddressID TypeID Subject)) {
@@ -98,38 +88,38 @@ sub Run {
 
             # update group
             if (
-                $Self->{AutoResponseObject}->AutoResponseUpdate(
+                $AutoResponseObject->AutoResponseUpdate(
                     %GetParam, UserID => $Self->{UserID}
                 )
                 )
             {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Response updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Response updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAutoResponse',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -138,18 +128,18 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -159,21 +149,21 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID Response Subject TypeID AddressID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $GetParam{ContentType} = 'text/html';
         }
 
         # get charset
-        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+        $GetParam{Charset} = $LayoutObject->{UserCharset};
 
         # check needed data
         for my $Needed (qw(Name ValidID AddressID TypeID Subject)) {
@@ -186,38 +176,38 @@ sub Run {
         if ( !%Errors ) {
 
             # add state
-            my $AutoResponseID = $Self->{AutoResponseObject}->AutoResponseAdd(
+            my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
                 %GetParam,
                 UserID => $Self->{UserID}
             );
             if ($AutoResponseID) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Response added!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Response added!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAutoResponse',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -226,13 +216,13 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview();
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -241,42 +231,45 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    $Param{AutoResponseOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{AutoResponseObject}->AutoResponseList(), },
+    $Param{AutoResponseOption} = $LayoutObject->BuildSelection(
+        Data       => { $AutoResponseObject->AutoResponseList(), },
         Name       => 'ID',
         Max        => 75,
         Multiple   => 1,
         SelectedID => $Param{ID},
     );
 
-    $Param{TypeOption} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{AutoResponseObject}->AutoResponseTypeList(), },
+    $Param{TypeOption} = $LayoutObject->BuildSelection(
+        Data       => { $AutoResponseObject->AutoResponseTypeList(), },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
 
-    $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data        => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+    $Param{SystemAddressOption} = $LayoutObject->BuildSelection(
+        Data        => { $Kernel::OM->Get('Kernel::System::SystemAddress')->SystemAddressList( Valid => 1 ), },
         Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
@@ -285,18 +278,20 @@ sub _Edit {
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
     # add rich text editor
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+    if ( $LayoutObject->{BrowserRichText} ) {
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Response} = $Self->{HTMLUtilsObject}->ToHTML(
+            $Param{Response} = $HTMLUtilsObject->ToHTML(
                 String => $Param{Response},
             );
         }
@@ -305,13 +300,13 @@ sub _Edit {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Response} = $Self->{HTMLUtilsObject}->ToAscii(
+            $Param{Response} = $HTMLUtilsObject->ToAscii(
                 String => $Param{Response},
             );
         }
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param,
@@ -319,8 +314,8 @@ sub _Edit {
         },
     );
 
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $LayoutObject->{BrowserRichText} ) {
+        $LayoutObject->Block(
             Name => 'RichText',
             Data => \%Param,
         );
@@ -332,19 +327,22 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionAdd' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{AutoResponseObject}->AutoResponseList(
+    my %List = $AutoResponseObject->AutoResponseList(
         UserID => 1,
         Valid  => 0,
     );
@@ -353,13 +351,13 @@ sub _Overview {
     if (%List) {
 
         # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+            my %Data = $AutoResponseObject->AutoResponseGet(
                 ID => $ID,
             );
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
                     Valid => $ValidList{ $Data{ValidID} },
@@ -372,7 +370,7 @@ sub _Overview {
 
     # otherwise a no data message is displayed
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoDataFoundMsg',
             Data => {},
         );
