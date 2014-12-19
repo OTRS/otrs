@@ -108,6 +108,7 @@ Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/TicketMenuAttachmentView.pm
 Kernel/Output/HTML/OutputFilterPreContactWithData.pm
 Kernel/Output/HTML/OutputFilterPreSLASelectionDialog.pm
+Kernel/Output/HTML/Standard/AAAOTRSBusiness.tt
 Kernel/Output/HTML/Standard/AgentChat.tt
 Kernel/Output/HTML/Standard/AgentChatAppend.tt
 Kernel/Output/HTML/Standard/CustomerChat.tt
