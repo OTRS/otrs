@@ -98,7 +98,7 @@ i18n/OTRSBusiness
 var/packagesetup/OTRSBusiness.pm
 bin/otrs.CleanUpChats.pl
 Kernel/Config/Files/OTRSBusiness.xml
-Kernel/Language/de_OTRSBusiness.pm
+Kernel/Language/*OTRSBusiness.pm
 Kernel/Modules/*Chat*
 Kernel/Modules/*ContactWithData*
 Kernel/Modules/AgentTicketAttachmentView.pm
