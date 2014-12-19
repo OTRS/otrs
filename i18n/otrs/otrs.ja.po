@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-12-11 14:32+0000\n"
-"Last-Translator: Norihiro Tanaka <noritnk@kcn.ne.jp>\n"
+"PO-Revision-Date: 2014-12-19 08:37+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1284,7 +1284,7 @@ msgstr "このemailアドレスは既に存在します。ログインするか�
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "このemailアドレスの登録は認められていません。サポートにお問い合わせください。"
 
 #. Template: AAABase
 msgid ""
@@ -1508,13 +1508,13 @@ msgstr "%s upgrade centerへ %s"
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "あなたの %s のライセンスはもうすぐ失効します。　 %s にお問い合わせいただき更新を行ってください。"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr " %s のアップデートが利用可能です。しかしあなたのフレームワークのバージョンとコンフリクトしていますので、事前にフレームワークの更新を行ってください。"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
@@ -2330,7 +2330,7 @@ msgstr "グループ"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Fields"
-msgstr "動的領域"
+msgstr "ダイナミック・フィールド"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Field Values"
@@ -2338,7 +2338,7 @@ msgstr "ダイナミックフィールドの値"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Fields"
-msgstr "不正なDynamic Fieldです"
+msgstr "不正なダイナミック・フィールドです"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Field Values"
@@ -2358,7 +2358,7 @@ msgstr "最初と最後のチケットとの間には月間"
 
 #. Template: AAASupportDataCollector
 msgid "Tickets Per Month (avg)"
-msgstr "月あたりののチケット数(平均)"
+msgstr "月毎のチケット数(平均)"
 
 #. Template: AAASupportDataCollector
 msgid "Default SOAP Username and Password"
@@ -2368,7 +2368,7 @@ msgstr "デフォルトSOAPユーザーとパスワード"
 msgid ""
 "Security risk: you use the default setting for SOAP::User and "
 "SOAP::Password. Please change it."
-msgstr ""
+msgstr "セキュリティーリスク: SOAP::User 及び SOAP::Password のデフォルト設定を利用しています、変更を行ってください。"
 
 #. Template: AAASupportDataCollector
 msgid "Default Admin Password"
@@ -2378,7 +2378,7 @@ msgstr "管理者のデフォルトパスワード"
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
-msgstr ""
+msgstr "セキュリティーリスク: エージェントアカウント root@localhost はいまだにデフォルトパスワードを利用しています、変更を行ってください。"
 
 #. Template: AAASupportDataCollector
 msgid "Error Log"
@@ -2543,7 +2543,11 @@ msgstr "パフォーマンス向上のため、Perl正規表現を使うべき�
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr "状態一覧"
+msgstr "ステータス一覧"
+
+#. Template: AAATicket
+msgid "Service View"
+msgstr ""
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2663,11 +2667,11 @@ msgstr "状態"
 
 #. Template: AAATicket
 msgid "Status"
-msgstr "状態"
+msgstr "ステータス"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr "状態"
+msgstr "ステータス"
 
 #. Template: AAATicket
 msgid "Ticket Type"
@@ -2864,6 +2868,10 @@ msgstr "End forwarded message"
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
 msgstr "異なるメールアドレスに記事をバウンス"
+
+#. Template: AAATicket
+msgid "Reply to note"
+msgstr ""
 
 #. Template: AAATicket
 msgid "new"
@@ -3104,6 +3112,10 @@ msgstr "電話チケット"
 #. Template: AAATicket
 msgid "Search Tickets"
 msgstr "チケット検索"
+
+#. Template: AAATicket
+msgid "Customer History"
+msgstr ""
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -3867,13 +3879,13 @@ msgstr "チケットデータのオプション"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr "チケットの動的領域の内部キー値のオプション"
+msgstr "チケットのダイナミック・フィールドの内部キー値のオプション"
 
 #. Template: AdminAutoResponse
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
-msgstr "チケットの動的領域の表示値のオプション。ドロップダウンまたは複数選択領域で利用可能"
+msgstr "チケットのダイナミック・フィールドの表示値のオプション。ドロップダウンまたは複数選択領域で利用可能"
 
 #. Template: AdminAutoResponse
 msgid "Config options"
@@ -4108,7 +4120,7 @@ msgstr "有効な状態 %s を切り替え"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
-msgstr "動的領域管理"
+msgstr "ダイナミック・フィールド管理"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
@@ -4123,11 +4135,11 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
-msgstr "動的領域一覧"
+msgstr "ダイナミック・フィールド一覧"
 
 #. Template: AdminDynamicField
 msgid "Dynamic fields per page"
-msgstr "ページ毎の動的領域"
+msgstr "ページ毎のダイナミック・フィールド"
 
 #. Template: AdminDynamicField
 msgid "Label"
@@ -7121,6 +7133,10 @@ msgid "Edit Queue"
 msgstr "キューを編集"
 
 #. Template: AdminQueue
+msgid "A queue with this name already exists!"
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Sub-queue of"
 msgstr "このサブキュー"
 
@@ -7293,6 +7309,20 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Send support data"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "System registration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"Please note that you can't register your system if your scheduler is not "
+"running correctly!"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Instructions"
 msgstr ""
 
 #. Template: AdminRegistration
@@ -7614,7 +7644,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Service Center"
-msgstr ""
+msgstr "サービス・センター"
 
 #. Template: AdminRegistration
 msgid "Support Data Management"
@@ -9295,6 +9325,10 @@ msgid "Next state"
 msgstr "次の状態"
 
 #. Template: AgentTicketActionCommon
+msgid "For all pending* states."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
 msgid "Add Article"
 msgstr ""
 
@@ -9423,14 +9457,6 @@ msgstr "Bccを削除"
 #. Template: AgentTicketCompose
 msgid "Address book"
 msgstr "アドレス帳"
-
-#. Template: AgentTicketCompose
-msgid "Pending Date"
-msgstr "保留期間"
-
-#. Template: AgentTicketCompose
-msgid "for pending* states"
-msgstr "状態:保留にする"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
@@ -9562,7 +9588,7 @@ msgstr ""
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Tickets per page"
-msgstr ""
+msgstr "ページ毎のチケット数"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
@@ -10094,7 +10120,7 @@ msgstr ""
 
 #. Template: CustomerTicketPrint
 msgid "Ticket Dynamic Fields"
-msgstr "チケット動的領域"
+msgstr "チケット・ダイナミック・フィールド"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -10262,7 +10288,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Dynamic fields"
-msgstr "Dynamic field"
+msgstr "ダイナミック・フィールド"
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
@@ -10705,6 +10731,10 @@ msgid "Go back to the previous page"
 msgstr "前のページへ戻る"
 
 #. SysConfig
+msgid " (work units)"
+msgstr ""
+
+#. SysConfig
 msgid "\"%s\"-notification sent to \"%s\"."
 msgstr "\"%s\"-notification sent to \"%s\"."
 
@@ -10725,10 +10755,18 @@ msgid "(UserLogin) Lastname, Firstname"
 msgstr "(ユーザー名) 名, 姓"
 
 #. SysConfig
+msgid "A Website"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
+msgstr ""
+
+#. SysConfig
+msgid "A picture"
 msgstr ""
 
 #. SysConfig
@@ -11316,8 +11354,12 @@ msgid "Comment for new history entries in the customer interface."
 msgstr "顧客インタフェースの新規履歴エントリーのためのコメントです。"
 
 #. SysConfig
-msgid "Company Status"
+msgid "Comment2"
 msgstr ""
+
+#. SysConfig
+msgid "Company Status"
+msgstr "企業ステータス"
 
 #. SysConfig
 msgid "Company Tickets"
@@ -11409,7 +11451,7 @@ msgstr "顧客の作成と管理"
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr "動的領域の作成と管理"
+msgstr "ダイナミック・フィールドの作成と管理"
 
 #. SysConfig
 msgid "Create and manage event based notifications."
@@ -11476,6 +11518,10 @@ msgid "Create new process ticket"
 msgstr "新規プロセスチケットの作成"
 
 #. SysConfig
+msgid "Custom RSS Feed"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Custom text for the page shown to customers that have no tickets yet (if you"
 " need those text translated add them to a custom translation module)."
@@ -11522,6 +11568,14 @@ msgstr ""
 #. SysConfig
 msgid "Customer request via web."
 msgstr "Customer request via web."
+
+#. SysConfig
+msgid "Customer user search"
+msgstr ""
+
+#. SysConfig
+msgid "CustomerID search"
+msgstr ""
 
 #. SysConfig
 msgid "CustomerName"
@@ -11637,6 +11691,18 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the max depth of queues."
+msgstr ""
+
+#. SysConfig
+msgid "Define the queue comment 2."
+msgstr ""
+
+#. SysConfig
+msgid "Define the service comment 2."
+msgstr ""
+
+#. SysConfig
+msgid "Define the sla comment 2."
 msgstr ""
 
 #. SysConfig
@@ -12380,7 +12446,7 @@ msgstr "担当者インタフェースの責任ビューで、チケット・ソ
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the status view "
 "of the agent interface."
-msgstr "担当者インタフェースの状態ビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。"
+msgstr "担当者インタフェースのステータスビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。"
 
 #. SysConfig
 msgid ""
@@ -12428,7 +12494,7 @@ msgstr "担当者インタフェースのエスカレーション・ビューで
 msgid ""
 "Defines the default ticket order (after priority sort) in the status view of"
 " the agent interface. Up: oldest on top. Down: latest on top."
-msgstr "担当者インタフェースの状態ビューで、デフォルトのチケット順番（優先度によるソートの後）を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
+msgstr "担当者インタフェースのステータスビューで、デフォルトのチケット順番（優先度によるソートの後）を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。"
 
 #. SysConfig
 msgid ""
@@ -13295,9 +13361,9 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
-" ticket (\"Queue\" shows all queues, \"SystemAddress\" displays all system "
+" ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr "担当者インタフェースにおいて、電話チケットの受領者ターゲットおよびEメール・チケットの送信者を定義します（“Queue”は全てのキューを表示し、“SystemAddress”は全てのシステム・アドレスを表示します）。"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14060,6 +14126,10 @@ msgid "Escalation view"
 msgstr "エスカレーション一覧"
 
 #. SysConfig
+msgid "EscalationTime"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -14162,6 +14232,10 @@ msgid "Filter incoming emails."
 msgstr "受信メールフィルタ"
 
 #. SysConfig
+msgid "First Queue"
+msgstr ""
+
+#. SysConfig
 msgid "FirstLock"
 msgstr "初回ロック"
 
@@ -14251,6 +14325,10 @@ msgstr "フロントエンドのテーマ"
 
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
+msgstr ""
+
+#. SysConfig
+msgid "Fulltext search"
 msgstr ""
 
 #. SysConfig
@@ -14655,6 +14733,12 @@ msgstr "有効にすると、OTRS versionタグは、ウェブインターフェ
 
 #. SysConfig
 msgid ""
+"If enabled, the customer can search for tickets in all services (regardless "
+"what services are assigned to the customer)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
 msgstr "有効にした場合、ダッシュボード、ロック済チケット一覧、キュー一覧は自動で指定時間後に更新されます。"
@@ -14787,6 +14871,10 @@ msgid "Lastname, Firstname (UserLogin)"
 msgstr "名, 姓 (ユーザー名)"
 
 #. SysConfig
+msgid "Left"
+msgstr ""
+
+#. SysConfig
 msgid "Link agents to groups."
 msgstr "担当者をグループへ連結"
 
@@ -14886,6 +14974,10 @@ msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
 msgstr "作成時に新しいキューに自動的に割り当てられるデフォルトの標準テンプレートのリスト。"
+
+#. SysConfig
+msgid "List view"
+msgstr ""
 
 #. SysConfig
 msgid "Locked ticket."
@@ -15160,6 +15252,10 @@ msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 
 #. SysConfig
+msgid "New Window"
+msgstr ""
+
+#. SysConfig
 msgid "New email ticket"
 msgstr "新規メールチケットの作成"
 
@@ -15196,6 +15292,10 @@ msgid "No Notification"
 msgstr "通知をしない"
 
 #. SysConfig
+msgid "None"
+msgstr ""
+
+#. SysConfig
 msgid "Notification sent to \"%s\"."
 msgstr "Notification sent to \"%s\"."
 
@@ -15228,6 +15328,10 @@ msgstr "顧客インタフェースの検索結果の各ページで表示され
 #. SysConfig
 msgid "Old: \"%s\" New: \"%s\""
 msgstr "Old: \"%s\" New: \"%s\""
+
+#. SysConfig
+msgid "Online"
+msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15722,11 +15826,21 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Right"
+msgstr ""
+
+#. SysConfig
 msgid "Roles <-> Groups"
 msgstr "ロール <-> グループ"
 
 #. SysConfig
 msgid "Running Process Tickets"
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Runs an initial wildcard search of the existing customer company when "
+"accessing the AdminCustomerCompany module."
 msgstr ""
 
 #. SysConfig
@@ -15746,6 +15860,10 @@ msgstr "システムを“デモ”モードで動作させます。“Yes”に
 #. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "S/MIME証明書アップロード"
+
+#. SysConfig
+msgid "Sample command output"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15775,6 +15893,10 @@ msgstr "バックエンドのデフォルト・ルーターを検索します。
 #. SysConfig
 msgid "Search backend router."
 msgstr "バックエンド・ルーターを検索します。"
+
+#. SysConfig
+msgid "Second Queue"
+msgstr ""
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -16817,7 +16939,7 @@ msgstr "担当者インタフェースのエスカレーション・ビューに
 msgid ""
 "Shows all open tickets (even if they are locked) in the status view of the "
 "agent interface."
-msgstr "担当者インタフェースの状態ビューで、全てのオープンのチケット（ロックされているものも含む）を表示します。"
+msgstr "担当者インタフェースのステータスビューで、全てのオープンのチケット（ロックされているものも含む）を表示します。"
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the zoom view."
@@ -17013,6 +17135,14 @@ msgstr ""
 
 #. SysConfig
 msgid "SolutionInMin"
+msgstr ""
+
+#. SysConfig
+msgid "Some description!"
+msgstr ""
+
+#. SysConfig
+msgid "Some picture description!"
 msgstr ""
 
 #. SysConfig
@@ -17248,7 +17378,7 @@ msgstr "統計"
 
 #. SysConfig
 msgid "Status view"
-msgstr "状態一覧"
+msgstr "ステータス一覧"
 
 #. SysConfig
 msgid "Stop words for fulltext index. These words will be removed."
@@ -17268,7 +17398,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Maintenance"
-msgstr ""
+msgstr "システムメンテナンス"
 
 #. SysConfig
 msgid "System Request (%s)."
@@ -17488,6 +17618,10 @@ msgid "Toolbar Item for a shortcut."
 msgstr "ショートカットのためのツールバー・アイテムです。"
 
 #. SysConfig
+msgid "Tree view"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
@@ -17621,6 +17755,10 @@ msgstr "担当者インタフェースでズームされたチケットのチケ
 
 #. SysConfig
 msgid "Write a new, outgoing mail"
+msgstr ""
+
+#. SysConfig
+msgid "Yes, but hide archived tickets"
 msgstr ""
 
 #. SysConfig

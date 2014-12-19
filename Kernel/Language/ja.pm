@@ -363,7 +363,7 @@ sub Data {
         'This email address already exists. Please log in or reset your password.' =>
             'このemailアドレスは既に存在します。ログインするかパスワードを初期化してください。',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'このemailアドレスの登録は認められていません。サポートにお問い合わせください。',
         'New account created. Sent login information to %s. Please check your email.' =>
             '新規アカウントを作成しました。ログイン情報を %s に送信しました。メールを確認してください。',
         'Please press Back and try again.' => '[戻る]ボタンを押してやり直してください。',
@@ -422,9 +422,9 @@ sub Data {
         'Upgrade to %s now!' => '現在 アップグレード %s !',
         '%s Go to the upgrade center %s' => '%s upgrade centerへ %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'あなたの %s のライセンスはもうすぐ失効します。　 %s にお問い合わせいただき更新を行ってください。',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
+            ' %s のアップデートが利用可能です。しかしあなたのフレームワークのバージョンとコンフリクトしていますので、事前にフレームワークの更新を行ってください。',
         'Your system was successfully upgraded to %s.' => 'システムは正常に%sにアップグレードされました。',
         'There was a problem during the upgrade to %s.' => '%sにアップグレード中に問題が発生しました。',
         '%s was correctly reinstalled.' => '%s は現在再インストールされました',
@@ -654,20 +654,20 @@ sub Data {
         'Agents' => '担当者',
         'Roles' => 'ロール',
         'Groups' => 'グループ',
-        'Dynamic Fields' => '動的領域',
+        'Dynamic Fields' => 'ダイナミック・フィールド',
         'Dynamic Field Values' => 'ダイナミックフィールドの値',
-        'Invalid Dynamic Fields' => '不正なDynamic Fieldです',
+        'Invalid Dynamic Fields' => '不正なダイナミック・フィールドです',
         'Invalid Dynamic Field Values' => 'Dynamic Fieldの値は不正です',
         'GenericInterface Webservices' => '汎用インタフェースWebサービス',
         'Processes' => 'プロセス',
         'Months Between First And Last Ticket' => '最初と最後のチケットとの間には月間',
-        'Tickets Per Month (avg)' => '月あたりののチケット数(平均)',
+        'Tickets Per Month (avg)' => '月毎のチケット数(平均)',
         'Default SOAP Username and Password' => 'デフォルトSOAPユーザーとパスワード',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
-            '',
+            'セキュリティーリスク: SOAP::User 及び SOAP::Password のデフォルト設定を利用しています、変更を行ってください。',
         'Default Admin Password' => '管理者のデフォルトパスワード',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
-            '',
+            'セキュリティーリスク: エージェントアカウント root@localhost はいまだにデフォルトパスワードを利用しています、変更を行ってください。',
         'Error Log' => 'エラーログ',
         'There are error reports in your system log.' => 'システムログにエラーが出力されています。',
         'File System Writable' => '書き込み可能なファイルシステム',
@@ -716,7 +716,7 @@ sub Data {
         'You should use PerlEx to increase your performance.' => 'パフォーマンス向上のため、Perl正規表現を使うべきです。',
 
         # Template: AAATicket
-        'Status View' => '状態一覧',
+        'Status View' => 'ステータス一覧',
         'Service View' => '',
         'Bulk' => '一括',
         'Lock' => 'ロック',
@@ -747,8 +747,8 @@ sub Data {
         'Services' => 'サービス',
         'State' => '状態',
         'States' => '状態',
-        'Status' => '状態',
-        'Statuses' => '状態',
+        'Status' => 'ステータス',
+        'Statuses' => 'ステータス',
         'Ticket Type' => 'チケットタイプ',
         'Ticket Types' => 'チケットタイプ',
         'Compose' => '作成',
@@ -1074,9 +1074,9 @@ sub Data {
         'Ticket responsible options' => 'チケット責任者オプション',
         'Options of the current user who requested this action' => '操作を要求された現在のユーザーのオプション',
         'Options of the ticket data' => 'チケットデータのオプション',
-        'Options of ticket dynamic fields internal key values' => 'チケットの動的領域の内部キー値のオプション',
+        'Options of ticket dynamic fields internal key values' => 'チケットのダイナミック・フィールドの内部キー値のオプション',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            'チケットの動的領域の表示値のオプション。ドロップダウンまたは複数選択領域で利用可能',
+            'チケットのダイナミック・フィールドの表示値のオプション。ドロップダウンまたは複数選択領域で利用可能',
         'Config options' => '設定オプション',
         'Example response' => '応答例',
 
@@ -1151,12 +1151,12 @@ sub Data {
         'Toggle active state for %s' => '有効な状態 %s を切り替え',
 
         # Template: AdminDynamicField
-        'Dynamic Fields Management' => '動的領域管理',
+        'Dynamic Fields Management' => 'ダイナミック・フィールド管理',
         'Add new field for object' => 'オブジェクトに新規領域を追加',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             '',
-        'Dynamic Fields List' => '動的領域一覧',
-        'Dynamic fields per page' => 'ページ毎の動的領域',
+        'Dynamic Fields List' => 'ダイナミック・フィールド一覧',
+        'Dynamic fields per page' => 'ページ毎のダイナミック・フィールド',
         'Label' => 'ラベル',
         'Order' => '順序',
         'Object' => '対象',
@@ -2212,7 +2212,7 @@ sub Data {
         'Optional description of this system.' => '',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
-        'Service Center' => '',
+        'Service Center' => 'サービス・センター',
         'Support Data Management' => '',
         'Register' => '',
         'Deregister System' => '',
@@ -2872,7 +2872,7 @@ sub Data {
         # Template: AgentTicketOverviewNavBar
         'Change search options' => '検索オプション変更',
         'Remove active filters for this screen.' => '',
-        'Tickets per page' => '',
+        'Tickets per page' => 'ページ毎のチケット数',
 
         # Template: AgentTicketOverviewSmall
         'Reset overview' => '',
@@ -3049,7 +3049,7 @@ sub Data {
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
-        'Ticket Dynamic Fields' => 'チケット動的領域',
+        'Ticket Dynamic Fields' => 'チケット・ダイナミック・フィールド',
 
         # Template: CustomerTicketSearch
         'Profile' => 'プロファイル',
@@ -3099,7 +3099,7 @@ sub Data {
         'Sa' => '土',
         'Event Information' => '',
         'Ticket fields' => '',
-        'Dynamic fields' => 'Dynamic field',
+        'Dynamic fields' => 'ダイナミック・フィールド',
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => '無効な日付です。 (未来の日付が必要)',
@@ -3264,13 +3264,16 @@ sub Data {
         'Go back to the previous page' => '前のページへ戻る',
 
         # SysConfig
+        ' (work units)' => '',
         '"%s"-notification sent to "%s".' => '"%s"-notification sent to "%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s time unit(s) accounted. Now total %s time unit(s).',
         '(UserLogin) Firstname Lastname' => '(ユーザー名) 姓 名',
         '(UserLogin) Lastname, Firstname' => '(ユーザー名) 名, 姓',
+        'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '親チケットについて、その全ての子チケットがすでにクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。',
         'Access Control Lists (ACL)' => 'アクセス制御リスト (ACL)',
@@ -3454,7 +3457,8 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => '顧客インタフェースの新規履歴エントリーのためのコメントです。',
-        'Company Status' => '',
+        'Comment2' => '',
+        'Company Status' => '企業ステータス',
         'Company Tickets' => '企業チケット',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
@@ -3482,7 +3486,7 @@ sub Data {
         'Create and manage attachments.' => '添付ファイルの作成と管理',
         'Create and manage customer users.' => '顧客ユーザーの作成と管理',
         'Create and manage customers.' => '顧客の作成と管理',
-        'Create and manage dynamic fields.' => '動的領域の作成と管理',
+        'Create and manage dynamic fields.' => 'ダイナミック・フィールドの作成と管理',
         'Create and manage event based notifications.' => 'イベント経由通知の作成と管理',
         'Create and manage groups.' => 'グループの作成と管理',
         'Create and manage queues.' => 'キューの作成と管理',
@@ -3499,6 +3503,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => '新規メールチケットと外部送信の作成',
         'Create new phone ticket (inbound)' => '新規受信電話チケットの作成',
         'Create new process ticket' => '新規プロセスチケットの作成',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '顧客管理',
@@ -3512,6 +3517,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Customer request via web.',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => '顧客名',
         'Customers <-> Groups' => '顧客 <-> グループ',
         'Data used to export the search result in CSV format.' => '検索結果をCSVフォーマットでエクスポートするために使用されるデータです。',
@@ -3544,6 +3551,9 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
         'Define the max depth of queues.' => '',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '日付ピッカーにおける週の開始曜日を設定します。',
@@ -3769,7 +3779,7 @@ sub Data {
         'Defines the default ticket attribute for ticket sorting in the responsible view of the agent interface.' =>
             '担当者インタフェースの責任ビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。',
         'Defines the default ticket attribute for ticket sorting in the status view of the agent interface.' =>
-            '担当者インタフェースの状態ビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。',
+            '担当者インタフェースのステータスビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。',
         'Defines the default ticket attribute for ticket sorting in the watch view of the agent interface.' =>
             '担当者インタフェースの監視（watch）ビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。',
         'Defines the default ticket attribute for ticket sorting of the ticket search result of the agent interface.' =>
@@ -3785,7 +3795,7 @@ sub Data {
         'Defines the default ticket order (after priority sort) in the escalation view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             '担当者インタフェースのエスカレーション・ビューで、デフォルトのチケット順番（優先度ソート後）を定義します。Up:一番古いものをトップに. Down:最新のものをトップに。',
         'Defines the default ticket order (after priority sort) in the status view of the agent interface. Up: oldest on top. Down: latest on top.' =>
-            '担当者インタフェースの状態ビューで、デフォルトのチケット順番（優先度によるソートの後）を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。',
+            '担当者インタフェースのステータスビューで、デフォルトのチケット順番（優先度によるソートの後）を定義します。Up: 最も古いものがトップ. Down: 最新のものがトップ。',
         'Defines the default ticket order in the responsible view of the agent interface. Up: oldest on top. Down: latest on top.' =>
             ' 担当者インタフェースの責任ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: 最新のものがトップ。',
         'Defines the default ticket order in the ticket locked view of the agent interface. Up: oldest on top. Down: latest on top.' =>
@@ -4066,8 +4076,8 @@ sub Data {
         'Defines the postmaster default queue.' => 'ポストマスターのデフォルトのキューを定義します。',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
-            '担当者インタフェースにおいて、電話チケットの受領者ターゲットおよびEメール・チケットの送信者を定義します（“Queue”は全てのキューを表示し、“SystemAddress”は全てのシステム・アドレスを表示します）。',
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+            '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '顧客インタフェースで、チケットの受信者ターゲットを定義します("Queue"は全てのキューを表示し、"SystemAddress"は全てのシステム・アドレスを表示します)。',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
@@ -4302,6 +4312,7 @@ sub Data {
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => '',
         'Escalation view' => 'エスカレーション一覧',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4337,6 +4348,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => '受信メールフィルタ',
+        'First Queue' => '',
         'FirstLock' => '初回ロック',
         'FirstResponse' => '初回応答',
         'FirstResponseDiffInMin' => '',
@@ -4364,6 +4376,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '担当者インタフェースに関するフロントエンド・モジュールの登録です。',
         'Frontend theme' => 'フロントエンドのテーマ',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '管理用ジョブ',
@@ -4528,6 +4541,7 @@ sub Data {
             '異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular expression (regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。',
         'Lastname, Firstname' => '名 姓',
         'Lastname, Firstname (UserLogin)' => '名, 姓 (ユーザー名)',
+        'Left' => '',
         'Link agents to groups.' => '担当者をグループへ連結',
         'Link agents to roles.' => '担当者をロールへ連結',
         'Link attachments to templates.' => '添付ファイルをテンプレートへ連結',
@@ -4560,6 +4574,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '作成時に新しいキューに自動的に割り当てられるデフォルトの標準テンプレートのリスト。',
+        'List view' => '',
         'Locked ticket.' => 'Locked ticket.',
         'Log file for the ticket counter.' => 'チケット・カウンターのためのログ・ファイルです。',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to "%s".',
@@ -4643,6 +4658,7 @@ sub Data {
             '',
         'NameX' => '',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => '新規メールチケットの作成',
         'New owner is "%s" (ID=%s).' => 'New owner is "%s" (ID=%s).',
         'New phone ticket' => '新規電話チケットの作成',
@@ -4653,6 +4669,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '担当者インタフェースのチケット電話アウトバウンド画面で、電話メモを追加した後の次の可能性あるチケットの状態です。',
         'No Notification' => '通知をしない',
+        'None' => '',
         'Notification sent to "%s".' => 'Notification sent to "%s".',
         'Notifications (Event)' => '通知 (イベント)',
         'Number of displayed tickets' => '表示チケット数',
@@ -4663,6 +4680,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '顧客インタフェースの検索結果の各ページで表示される、チケット数です。',
         'Old: "%s" New: "%s"' => 'Old: "%s" New: "%s"',
+        'Online' => '',
         'Open tickets (customer user)' => 'オープンチケット(顧客ユーザー)',
         'Open tickets (customer)' => 'オープンチケット(顧客)',
         'Out Of Office' => 'オフィスにいません',
@@ -4803,6 +4821,7 @@ sub Data {
             'チケットをアーカイブから救出します（ただし、イベントが状態変更の場合であり、クローズの状態から利用可能ななんらかのオープンの状態に変更された場合とします）。',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => 'ロール <-> グループ',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4812,6 +4831,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             'システムを“デモ”モードで動作させます。“Yes”に設定すると、担当者が、担当者用ウェブ・インタフェースを通して、言語選択やテーマなどのプレファレンスを変更できるようになります。これらの変更は、現在のセッションにおいてのみ有効です。担当者がパスワードを変更することはできません。',
         'S/MIME Certificate Upload' => 'S/MIME証明書アップロード',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '項目の添付ファイルを保存します。. "DB"は、全てのデータをデータベースに保存します（大きな添付物の保存にはお奨めしません）。"FS"は、データをファイル・システム上に保存するもので、これは速い方法ですがウェブ・サーバがOTRSユーザの配下で動作している必要があります。すでに製品となっているシステムにおいても、データを損失すること無く、モジュール間で切替を行うことができます。',
         'Schedule a maintenance period.' => 'メンテナンス期間をスケジュール',
@@ -4819,6 +4839,7 @@ sub Data {
         'Search User' => 'ユーザを検索します。',
         'Search backend default router.' => 'バックエンドのデフォルト・ルーターを検索します。',
         'Search backend router.' => 'バックエンド・ルーターを検索します。',
+        'Second Queue' => '',
         'Select your frontend Theme.' => 'フロントエンドのテーマを選択してください。',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5156,7 +5177,7 @@ sub Data {
         'Shows all open tickets (even if they are locked) in the escalation view of the agent interface.' =>
             '担当者インタフェースのエスカレーション・ビューにある、全てのオープン・チケット（たとえロックされていたとしても）を表示します。',
         'Shows all open tickets (even if they are locked) in the status view of the agent interface.' =>
-            '担当者インタフェースの状態ビューで、全てのオープンのチケット（ロックされているものも含む）を表示します。',
+            '担当者インタフェースのステータスビューで、全てのオープンのチケット（ロックされているものも含む）を表示します。',
         'Shows all the articles of the ticket (expanded) in the zoom view.' =>
             'ズーム・ビューで、チケットの全項目を表示します（拡大される）',
         'Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).' =>
@@ -5224,6 +5245,8 @@ sub Data {
         'Skin' => 'スキン',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '1つのキューがキュー・ビューで選択され、チケットが優先度によってソートされた後に、チケットをソートします（昇順または降順）。Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top)。キーに関してキューIDを使用し、値（value）に関して0または1を使用してください。',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5293,13 +5316,13 @@ sub Data {
             '',
         'Stat#' => '統計番号',
         'Statistics' => '統計',
-        'Status view' => '状態一覧',
+        'Status view' => 'ステータス一覧',
         'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => 'ブラウザが閉じられた後に、クッキーを格納します。',
         'Strips empty lines on the ticket preview in the queue view.' => 'キュー画面で、チケット・プレビューの空の行を削除します。',
         'Strips empty lines on the ticket preview in the service view.' =>
             '',
-        'System Maintenance' => '',
+        'System Maintenance' => 'システムメンテナンス',
         'System Request (%s).' => 'System Request (%s).',
         'Templates <-> Queues' => 'テンプレート <-> キュー',
         'Textarea' => '',
@@ -5368,6 +5391,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'ショートカットのためのツールバー・アイテムです。',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5407,6 +5431,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '担当者インタフェースでズームされたチケットのチケット結合画面で、チケット・ロックが必要かどうかを定義します。（チケットがまだロックされていない場合、チケットはロックされ現在の担当者が自動的に所有者として設定されます）。',
         'Write a new, outgoing mail' => '',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'お気に入りのキューを選択。有効にした場合、それらのキューについてメールで通知を受信します。',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

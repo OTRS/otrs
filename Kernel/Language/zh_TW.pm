@@ -3262,13 +3262,16 @@ sub Data {
         'Go back to the previous page' => '返回前一頁',
 
         # SysConfig
+        ' (work units)' => '',
         '"%s"-notification sent to "%s".' => '"%s"-notification sent to "%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s time unit(s) accounted. Now total %s time unit(s).',
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
         'Access Control Lists (ACL)' => '訪問控制列表(ACL)',
@@ -3452,6 +3455,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
+        'Comment2' => '',
         'Company Status' => '',
         'Company Tickets' => '單位工單',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3497,6 +3501,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => '創建郵件工單並給用戶郵件',
         'Create new phone ticket (inbound)' => '創建電話工單(接電話)',
         'Create new process ticket' => '創建流程工單',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
@@ -3510,6 +3515,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Customer request via web.',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => '用戶名',
         'Customers <-> Groups' => '用戶 <-> 組',
         'Data used to export the search result in CSV format.' => '',
@@ -3542,6 +3549,9 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
         'Define the max depth of queues.' => '',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -4064,7 +4074,7 @@ sub Data {
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
@@ -4297,6 +4307,7 @@ sub Data {
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => '',
         'Escalation view' => '升級視圖',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4332,6 +4343,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => '過濾收到的郵件.',
+        'First Queue' => '',
         'FirstLock' => '',
         'FirstResponse' => '',
         'FirstResponseDiffInMin' => '',
@@ -4359,6 +4371,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '介面風格',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '計劃任務',
@@ -4523,6 +4536,7 @@ sub Data {
             '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
+        'Left' => '',
         'Link agents to groups.' => '鏈接服務人員到組.',
         'Link agents to roles.' => '鏈接服務人員到角色.',
         'Link attachments to templates.' => '鏈接附件至模板',
@@ -4555,6 +4569,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
+        'List view' => '',
         'Locked ticket.' => 'Locked ticket.',
         'Log file for the ticket counter.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to "%s".',
@@ -4637,6 +4652,7 @@ sub Data {
             '',
         'NameX' => '',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'New Ticket [%s] created (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => '創建郵件工單',
         'New owner is "%s" (ID=%s).' => 'New owner is "%s" (ID=%s).',
         'New phone ticket' => '創建電話工單',
@@ -4647,6 +4663,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No Notification' => '',
+        'None' => '',
         'Notification sent to "%s".' => 'Notification sent to "%s".',
         'Notifications (Event)' => '通知(事件)',
         'Number of displayed tickets' => '顯示工單個數',
@@ -4657,6 +4674,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Old: "%s" New: "%s"' => 'Old: "%s" New: "%s"',
+        'Online' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Out Of Office' => '',
@@ -4797,6 +4815,7 @@ sub Data {
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => '角色 <-> 組',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4806,6 +4825,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'S/MIME Certificate Upload' => '上傳的S/MIME証書',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Schedule a maintenance period.' => '',
@@ -4813,6 +4833,7 @@ sub Data {
         'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Queue' => '',
         'Select your frontend Theme.' => '界面主題.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5218,6 +5239,8 @@ sub Data {
         'Skin' => '皮膚',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5362,6 +5385,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5401,6 +5425,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Write a new, outgoing mail' => '',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             '您的最常用隊列，如果您設置了郵件通知，您將會得到該隊列的狀態通知.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

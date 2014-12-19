@@ -1298,16 +1298,16 @@ sub Data {
         'No create time settings.' => 'Không có thiết đặt lần khởi tạo',
         'Ticket created' => 'Thẻ đã tạo',
         'Ticket created between' => 'Thẻ đã tạo giữa',
-        'Last changed times' => '',
-        'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
+        'Last changed times' => 'Lần đã thay đổi cuối cùng ',
+        'No last changed time settings.' => 'Không có cài đặt lần đã thay đổi cuối cùng ',
+        'Ticket last changed' => 'Vé đã thay đổi lần cuối',
+        'Ticket last changed between' => 'Vé đã thay đổi cuối cùng giữa',
         'Change times' => 'Thay đổi lần',
         'No change time settings.' => 'Không thay đổi thời gian cài đặt.',
         'Ticket changed' => 'Vé thay đổi',
         'Ticket changed between' => 'Vé thay đổi giữa',
-        'Close times' => '',
-        'No close time settings.' => '',
+        'Close times' => 'Thời gian đóng',
+        'No close time settings.' => 'Không có cài đặt thời gian đóng .',
         'Ticket closed' => '',
         'Ticket closed between' => '',
         'Pending times' => '',
@@ -1337,12 +1337,12 @@ sub Data {
         'Pending date' => 'Ngày treo',
         'Set new agent' => '',
         'new owner' => '',
-        'new responsible' => '',
-        'Set new ticket lock' => '',
-        'New customer' => '',
+        'new responsible' => 'chủ sở hữu mới',
+        'Set new ticket lock' => 'Đặt vé khóa mới',
+        'New customer' => 'Khách hàng mới',
         'New customer ID' => '',
-        'New title' => '',
-        'New type' => '',
+        'New title' => 'Danh hiệu mới',
+        'New type' => 'Loại mới',
         'New Dynamic Field Values' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Thêm lưu ý',
@@ -3259,13 +3259,16 @@ sub Data {
         'Go back to the previous page' => '',
 
         # SysConfig
+        ' (work units)' => '',
         '"%s"-notification sent to "%s".' => 'Lịch sử::Gửi thông báo cho nhân viên phụ trách',
         '%s' => 'Lịch sử::Khác',
         '%s time unit(s) accounted. Now total %s time unit(s).' => 'Lịch sử::Giải thích thời gian',
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
         'Access Control Lists (ACL)' => '',
@@ -3449,6 +3452,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => '',
+        'Comment2' => '',
         'Company Status' => '',
         'Company Tickets' => '',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3494,6 +3498,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => '',
         'Create new phone ticket (inbound)' => '',
         'Create new process ticket' => '',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
@@ -3507,6 +3512,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Lịch sử::Khách hàng yêu cầu web',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => '',
         'Customers <-> Groups' => '',
         'Data used to export the search result in CSV format.' => '',
@@ -3539,6 +3546,9 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
         'Define the max depth of queues.' => '',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => '',
@@ -4061,7 +4071,7 @@ sub Data {
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
@@ -4294,6 +4304,7 @@ sub Data {
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => '',
         'Escalation view' => '',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4329,6 +4340,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => '',
+        'First Queue' => '',
         'FirstLock' => '',
         'FirstResponse' => '',
         'FirstResponseDiffInMin' => '',
@@ -4356,6 +4368,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Nhân viên phụ trách chung',
@@ -4520,6 +4533,7 @@ sub Data {
             '',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
+        'Left' => '',
         'Link agents to groups.' => '',
         'Link agents to roles.' => '',
         'Link attachments to templates.' => '',
@@ -4552,6 +4566,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
+        'List view' => '',
         'Locked ticket.' => 'Lịch sử::Khóa',
         'Log file for the ticket counter.' => '',
         'Loop-Protection! No auto-response sent to "%s".' => 'Lịch sử::Bảo vệ vòng lặp',
@@ -4634,6 +4649,7 @@ sub Data {
             '',
         'NameX' => '',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Lịch sử::Thẻ mới [%s] (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => '',
         'New owner is "%s" (ID=%s).' => 'Lịch sử::Cập nhật phụ trách',
         'New phone ticket' => '',
@@ -4644,6 +4660,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No Notification' => '',
+        'None' => '',
         'Notification sent to "%s".' => 'Lịch sử::Gửi thông báo khách hàng',
         'Notifications (Event)' => '',
         'Number of displayed tickets' => '',
@@ -4654,6 +4671,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Old: "%s" New: "%s"' => 'Lịch sử::Cập nhật trạng thái',
+        'Online' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Out Of Office' => '',
@@ -4794,6 +4812,7 @@ sub Data {
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => 'Vai trò <-> Nhóm',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4803,6 +4822,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'S/MIME Certificate Upload' => '',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Schedule a maintenance period.' => '',
@@ -4810,6 +4830,7 @@ sub Data {
         'Search User' => '',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Queue' => '',
         'Select your frontend Theme.' => 'Hãy chọn giao diện mặt ngoài của bạn.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5215,6 +5236,8 @@ sub Data {
         'Skin' => '',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5359,6 +5382,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5398,6 +5422,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Write a new, outgoing mail' => '',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Lựa chọn hàng đợi trong số các hàng đợi ưa thích của bạn. Bạn cũng sẽ nhận được thông báo về chúng thông qua email nếu chức năng được kích hoạt',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

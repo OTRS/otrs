@@ -3260,13 +3260,16 @@ sub Data {
         'Go back to the previous page' => 'Вратите се на претходну страну',
 
         # SysConfig
+        ' (work units)' => '',
         '"%s"-notification sent to "%s".' => '"%s"-Послато обавештења оператеру"%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s временских јединица пребројано. Укупно %s временских јединица.',
         '(UserLogin) Firstname Lastname' => '(Пријава корисника) Име Презиме',
         '(UserLogin) Lastname, Firstname' => '(Пријава корисника) Презиме, Име',
+        'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL модул који дозвољава да тикети родитељи буду затворени само ако су већ затворени сви тикети деца ("Статус" показује који статуси нису доступни за тикет родитељ док се не затворе сви тикети деца).',
         'Access Control Lists (ACL)' => 'Листе за контролу приступа (ACL)',
@@ -3450,6 +3453,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Коментар за нове ставке историје у корисничком интерфејсу.',
+        'Comment2' => '',
         'Company Status' => 'Статус фирме',
         'Company Tickets' => 'Тикети фирми',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3495,6 +3499,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Отвори нови имејл тикет и пошаљи ово (одлазни)',
         'Create new phone ticket (inbound)' => 'Креирај нови телефонски тикет (долазни позив)',
         'Create new process ticket' => 'Креирај нови процес за тикет',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => 'Корисничка администрација',
@@ -3508,6 +3513,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Корисничка ставка (икона) која показује отворене тикете овог корисника као инфо блок. Подешавање Пријаве клијента корисника “CustomerUserLogin“ на 1 претрагу тикета заснива више на пријави имена него на ИД корисника.',
         'Customer request via web.' => 'Кориснички веб захтев.',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => 'Назив корисника',
         'Customers <-> Groups' => 'Корисници <-> Групе',
         'Data used to export the search result in CSV format.' => 'Подаци употребљени за ивоз резултата претраживања у CSV формату.',
@@ -3540,6 +3547,9 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Дефиниши назив динамичког поља за почетно време. Ово поље мора бити мануелно додато систему као тикет: "Датум / Време" и морају бити активирани у екранима за креирање тикета и/или у било ком другом екрану са догађајима.',
         'Define the max depth of queues.' => 'Дефиниши максималну дубину за редове.',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Дефиниши први дан у недељи за избор датума.',
@@ -4062,8 +4072,8 @@ sub Data {
         'Defines the postmaster default queue.' => 'Дефинише подразумевани ред постмастера.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
-            'Дефинише циљног примаоца телефонског тикета и пошиљаоца имејл тикета ("Ред" прикажи све редове, "Системска Адреса" прикажи све системске адресе) у интерфејсу оператера.',
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+            '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             'Дефинише циљног примаоца тикета ("Ред" приказује све редове, "Системска Адреса" приказује све системске адресе) у интерфејсу корисника.',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
@@ -4295,6 +4305,7 @@ sub Data {
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => 'Актуелно време ажурирања ескалације',
         'Escalation view' => 'Преглед ескалација',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4330,6 +4341,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Филтрирање долазних порука.',
+        'First Queue' => '',
         'FirstLock' => '',
         'FirstResponse' => '',
         'FirstResponseDiffInMin' => '',
@@ -4357,6 +4369,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => '',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => '',
@@ -4521,6 +4534,7 @@ sub Data {
             '',
         'Lastname, Firstname' => 'Презиме, Име',
         'Lastname, Firstname (UserLogin)' => 'Презиме, Име (Пријава корисника)',
+        'Left' => '',
         'Link agents to groups.' => 'Повежи оператере са гупама.',
         'Link agents to roles.' => 'Повежи оператере са улогама.',
         'Link attachments to templates.' => 'Повежи прилоге са шаблонима',
@@ -4553,6 +4567,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => 'Листа свих догађаја на тикетима која ће бити приказана у ГКИ',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
+        'List view' => '',
         'Locked ticket.' => 'Закључан тикет.',
         'Log file for the ticket counter.' => 'Датотека дневника за бројач тикета.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Заштита од петље! Аутоматски одговор није послат на "%s".',
@@ -4635,6 +4650,7 @@ sub Data {
             '',
         'NameX' => 'ИмеХ',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Нови тикет [%s] отворен (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => 'Нови имејл тикет',
         'New owner is "%s" (ID=%s).' => 'Нови власник је "%s" (ID=%s).',
         'New phone ticket' => 'Нови телефонски тикет',
@@ -4645,6 +4661,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Следећи могући статус тикета након додавања телефонске напомене у приказу екрана одлазних позива интерфејса оператера.',
         'No Notification' => 'Нема обавештења',
+        'None' => '',
         'Notification sent to "%s".' => 'Послато обавештења кориснику"%s".',
         'Notifications (Event)' => 'Обавештења (Догађај)',
         'Number of displayed tickets' => 'Број приказаних тикета',
@@ -4655,6 +4672,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Број тикета који ће бити приказани на свакој страни резултата претраге у интерфејсу корисника.',
         'Old: "%s" New: "%s"' => 'Старо: "%s" Ново: "%s"',
+        'Online' => '',
         'Open tickets (customer user)' => 'Отворени тикети (клијент корисник)',
         'Open tickets (customer)' => 'Отворени тикети (корисник)',
         'Out Of Office' => '',
@@ -4795,6 +4813,7 @@ sub Data {
             'Враћа тикет из архиве (само ако је догађај промена статуса од затвореног на било који доступан отворени статус).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => 'Улоге <-> Групе',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4804,6 +4823,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'S/MIME Certificate Upload' => 'Слање S/MIME сертификата',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Schedule a maintenance period.' => 'Планирање периода одржавања.',
@@ -4811,6 +4831,7 @@ sub Data {
         'Search User' => 'Тражи корисника',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Queue' => '',
         'Select your frontend Theme.' => '',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5216,6 +5237,8 @@ sub Data {
         'Skin' => 'Изглед',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             'Сортирање тикета (узлазно или силазно) када се изабере један ред из прегледа редова после сортирања тикета по приоритету. Вредности: 0 = узлазно (најстарије на врху, подразумевано), 1 = силазно (најновије на врху). Користи ИД реда за кључ и 0 или 1 за вредност.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5360,6 +5383,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5399,6 +5423,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Када су тикети спојени, корисник може бити информисан имејлом постављањем поље за потврду "Обавести пошиљаоца". У простору за текст, можете дефинисати унапред форматирани текст који касније бити модификован од стране оператера.',
         'Write a new, outgoing mail' => '',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Изабрани омиљени редови. Ако је активирано, добиђете и обавештење о овим редовима.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
