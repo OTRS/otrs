@@ -19,7 +19,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 my @Tests = (
     {
-        Name   => 'Output filter post, all templates',
+        Name   => 'Output filter post, all templates (ignored)',
         Config => {
             "Frontend::Output::FilterElementPre"  => {},
             "Frontend::Output::FilterElementPost" => {
@@ -37,8 +37,7 @@ my @Tests = (
         Data        => {
             Title => 'B&B 1'
         },
-        Result => 'OutputFilterPostPrefix1:
-Test: B&B 1
+        Result => 'Test: B&B 1
 ',
     },
     {
@@ -60,8 +59,7 @@ Test: B&B 1
         Data        => {
             Title => 'B&B 2'
         },
-        Result => 'OutputFilterPostPrefix2:
-Test: B&B 2
+        Result => 'Test: B&B 2
 ',
     },
     {

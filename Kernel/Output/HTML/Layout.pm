@@ -184,11 +184,36 @@ sub new {
     # set text direction
     $Self->{TextDirection} = $Self->{LanguageObject}->{TextDirection};
 
-    # check Frontend::Output::FilterElementPre
-    $Self->{FilterElementPre} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre');
-
     # check Frontend::Output::FilterElementPost
-    $Self->{FilterElementPost} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost');
+    $Self->{FilterElementPost} = {};
+
+    my %FilterElementPost = %{ $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPost') // {} };
+
+    FILTER:
+    for my $Filter ( sort keys %FilterElementPost ) {
+
+        # extract filter config
+        my $FilterConfig = $FilterElementPost{$Filter};
+
+        next FILTER if !$FilterConfig || ref $FilterConfig ne 'HASH';
+
+        # extract template list
+        my %TemplateList = %{ $FilterConfig->{Templates} || {} };
+
+        if ( !%TemplateList || $TemplateList{ALL} ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => <<EOF,
+$FilterConfig->{Module} will be ignored because it wants to operate on all templates or does not specify a template list.
+EOF
+            );
+
+            next FILTER;
+        }
+
+        $Self->{FilterElementPost}->{$Filter} = $FilterElementPost{$Filter};
+    }
 
     # check Frontend::Output::FilterContent
     $Self->{FilterContent} = $Self->{ConfigObject}->Get('Frontend::Output::FilterContent');
