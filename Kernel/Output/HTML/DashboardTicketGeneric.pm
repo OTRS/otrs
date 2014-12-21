@@ -2075,7 +2075,7 @@ sub _SearchParamsGet {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            LockIDs  => [ '2', '3' ], # 'lock' and 'tmp_lock'
+            LockIDs  => [ '2', '3' ],           # 'lock' and 'tmp_lock'
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],

@@ -6853,8 +6853,10 @@ sub TicketArticleStorageSwitch {
         );
 
         my $TicketObjectDestination = Kernel::System::Ticket->new();
-        if (   !$TicketObjectDestination
-            || !$TicketObjectDestination->isa( 'Kernel::System::Ticket::' . $Param{Destination} ) )
+        if (
+            !$TicketObjectDestination
+            || !$TicketObjectDestination->isa( 'Kernel::System::Ticket::' . $Param{Destination} )
+            )
         {
             $Self->{LogObject}->Log(
                 Priority => "error",
