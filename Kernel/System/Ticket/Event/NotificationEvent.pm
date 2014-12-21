@@ -535,7 +535,7 @@ sub _SendNotificationToRecipients {
             );
 
             ROLEMEMBER:
-            for my $Recipient (sort keys %RoleMemberList) {
+            for my $Recipient ( sort keys %RoleMemberList ) {
 
                 next ROLEMEMBER if $Recipient == 1;
                 next ROLEMEMBER if $AgentUsed{$Recipient};

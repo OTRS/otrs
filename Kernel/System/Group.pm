@@ -248,7 +248,7 @@ sub GroupUpdate {
     # check if update is required
     my $ChangeRequired;
     KEY:
-    for my $Key ( qw(Name Comment ValidID) ) {
+    for my $Key (qw(Name Comment ValidID)) {
 
         next KEY if defined $GroupData{$Key} && $GroupData{$Key} eq $Param{$Key};
 
@@ -367,14 +367,14 @@ sub GroupList {
 
     # set cache
     $CacheObject->Set(
-        Type => 'Group',
-        Key  => 'GroupList::0',
+        Type  => 'Group',
+        Key   => 'GroupList::0',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%GroupListAll,
     );
     $CacheObject->Set(
-        Type => 'Group',
-        Key  => 'GroupList::1',
+        Type  => 'Group',
+        Key   => 'GroupList::1',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%GroupListValid,
     );
@@ -658,7 +658,7 @@ sub RoleUpdate {
     # check if update is required
     my $ChangeRequired;
     KEY:
-    for my $Key ( qw(Name Comment ValidID) ) {
+    for my $Key (qw(Name Comment ValidID)) {
 
         next KEY if defined $RoleData{$Key} && $RoleData{$Key} eq $Param{$Key};
 
@@ -774,14 +774,14 @@ sub RoleList {
 
     # set cache
     $CacheObject->Set(
-        Type => 'Group',
-        Key  => 'RoleList::0',
+        Type  => 'Group',
+        Key   => 'RoleList::0',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%RoleListAll,
     );
     $CacheObject->Set(
-        Type => 'Group',
-        Key  => 'RoleList::1',
+        Type  => 'Group',
+        Key   => 'RoleList::1',
         TTL   => 60 * 60 * 24 * 20,
         Value => \%RoleListValid,
     );
@@ -903,7 +903,7 @@ sub PermissionUserInvolvedGet {
     );
 
     my %Users;
-    for my $GroupID ( sort keys %Groups) {
+    for my $GroupID ( sort keys %Groups ) {
 
         # get all users of this group
         my %UsersOne = $Self->PermissionGroupGet(
@@ -1120,14 +1120,15 @@ sub PermissionGroupUserAdd {
         && ref $DBGroupUser{ $Param{UID} } eq 'HASH'
         && $DBGroupUser{ $Param{UID} }->{ $Param{GID} }
         && ref $DBGroupUser{ $Param{UID} }->{ $Param{GID} } eq 'ARRAY'
-    ) {
+        )
+    {
         @CurrentPermissions = @{ $DBGroupUser{ $Param{UID} }->{ $Param{GID} } };
     }
 
     # check rw rule (set only rw and remove the rest, because all other are included in rw)
     my @NewPermissions;
     if ( $Param{Permission}->{rw} ) {
-        @NewPermissions = ( 'rw' );
+        @NewPermissions = ('rw');
     }
     else {
 
@@ -1245,7 +1246,7 @@ sub PermissionGroupUserGet {
 
     # extract users
     my $UsersRaw   = $Permissions{ $Param{GroupID} }->{ $Param{Type} } || [];
-    my $UsersRawRw = $Permissions{ $Param{GroupID} }->{rw} || [];
+    my $UsersRawRw = $Permissions{ $Param{GroupID} }->{rw}             || [];
 
     if ( ref $UsersRaw ne 'ARRAY' ) {
         $UsersRaw = [];
@@ -1328,7 +1329,7 @@ sub PermissionUserGroupGet {
 
     # extract groups
     my $GroupsRaw   = $Permissions{ $Param{UserID} }->{ $Param{Type} } || [];
-    my $GroupsRawRw = $Permissions{ $Param{UserID} }->{rw} || [];
+    my $GroupsRawRw = $Permissions{ $Param{UserID} }->{rw}             || [];
 
     if ( ref $GroupsRaw ne 'ARRAY' ) {
         $GroupsRaw = [];
@@ -1407,14 +1408,15 @@ sub PermissionGroupRoleAdd {
         && ref $DBGroupRole{ $Param{RID} } eq 'HASH'
         && $DBGroupRole{ $Param{RID} }->{ $Param{GID} }
         && ref $DBGroupRole{ $Param{RID} }->{ $Param{GID} } eq 'ARRAY'
-    ) {
+        )
+    {
         @CurrentPermissions = @{ $DBGroupRole{ $Param{RID} }->{ $Param{GID} } };
     }
 
     # check rw rule (set only rw and remove the rest, because all other are included in rw)
     my @NewPermissions;
     if ( $Param{Permission}->{rw} ) {
-        @NewPermissions = ( 'rw' );
+        @NewPermissions = ('rw');
     }
     else {
 
@@ -1532,7 +1534,7 @@ sub PermissionGroupRoleGet {
 
     # extract roles
     my $RolesRaw   = $Permissions{ $Param{GroupID} }->{ $Param{Type} } || [];
-    my $RolesRawRw = $Permissions{ $Param{GroupID} }->{rw} || [];
+    my $RolesRawRw = $Permissions{ $Param{GroupID} }->{rw}             || [];
 
     if ( ref $RolesRaw ne 'ARRAY' ) {
         $RolesRaw = [];
@@ -1611,7 +1613,7 @@ sub PermissionRoleGroupGet {
 
     # extract groups
     my $GroupsRaw   = $Permissions{ $Param{RoleID} }->{ $Param{Type} } || [];
-    my $GroupsRawRw = $Permissions{ $Param{RoleID} }->{rw} || [];
+    my $GroupsRawRw = $Permissions{ $Param{RoleID} }->{rw}             || [];
 
     if ( ref $GroupsRaw ne 'ARRAY' ) {
         $GroupsRaw = [];
@@ -1654,7 +1656,7 @@ sub PermissionRoleUserAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for ( qw(UID RID UserID) ) {
+    for (qw(UID RID UserID)) {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1669,7 +1671,7 @@ sub PermissionRoleUserAdd {
         Type => 'UserRoleHash',
     );
 
-    return 1 if $Param{Active} && $DBUserRole{ $Param{UID} }->{ $Param{RID} };
+    return 1 if $Param{Active}  && $DBUserRole{ $Param{UID} }->{ $Param{RID} };
     return 1 if !$Param{Active} && !$DBUserRole{ $Param{UID} }->{ $Param{RID} };
 
     # get database object
@@ -1884,9 +1886,9 @@ sub GroupMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %Groups;
+            my @IDList = sort keys %Groups;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -1908,9 +1910,9 @@ sub GroupMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %Users;
+            my @IDList = sort keys %Users;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -1996,9 +1998,9 @@ sub GroupGroupMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %GroupList;
+            my @IDList = sort keys %GroupList;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -2026,9 +2028,9 @@ sub GroupGroupMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %UserList;
+            my @IDList = sort keys %UserList;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -2102,9 +2104,9 @@ sub GroupRoleMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %GroupList;
+            my @IDList = sort keys %GroupList;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -2132,9 +2134,9 @@ sub GroupRoleMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %RoleList;
+            my @IDList = sort keys %RoleList;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -2218,9 +2220,9 @@ sub GroupUserRoleMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %RoleList;
+            my @IDList = sort keys %RoleList;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -2247,9 +2249,9 @@ sub GroupUserRoleMemberList {
 
         if ( $Param{Result} eq 'ID' ) {
 
-           my @IDList = sort keys %UserList;
+            my @IDList = sort keys %UserList;
 
-           return @IDList;
+            return @IDList;
         }
 
         if ( $Param{Result} eq 'Name' ) {
@@ -2753,7 +2755,7 @@ sub _PermissionTypeList {
     my ( $Self, %Param ) = @_;
 
     # get system permission config
-    my $SystemPermissionConfig = $Kernel::OM->Get('Kernel::Config')->Get( 'System::Permission' );
+    my $SystemPermissionConfig = $Kernel::OM->Get('Kernel::Config')->Get('System::Permission');
 
     return () if !$SystemPermissionConfig;
     return () if ref $SystemPermissionConfig ne 'ARRAY';

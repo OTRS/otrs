@@ -312,7 +312,7 @@ sub Run {
 
             my %UserGroupsReverse = reverse %UserGroups;
 
-            $EnableChat = $UserGroupsReverse{ $ChatReceivingAgentsGroup } ? 1 : 0;
+            $EnableChat = $UserGroupsReverse{$ChatReceivingAgentsGroup} ? 1 : 0;
         }
 
         $LayoutObject->Block(

@@ -120,7 +120,7 @@ sub Run {
 
     # send each agent the escalation notification
     USER:
-    for my $UserID (sort keys %UserList) {
+    for my $UserID ( sort keys %UserList ) {
 
         my %User = $UserObject->GetUserData(
             UserID => $UserID,
