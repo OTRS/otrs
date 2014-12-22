@@ -339,7 +339,7 @@ sub UserAdd {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -439,9 +439,6 @@ sub UserAdd {
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'GroupPermission',
-    );
 
     return $UserID;
 }
@@ -471,7 +468,7 @@ sub UserUpdate {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -518,12 +515,6 @@ sub UserUpdate {
         ],
     );
 
-    # log notice
-    $Kernel::OM->Get('Kernel::System::Log')->Log(
-        Priority => 'notice',
-        Message  => "User: '$Param{UserLogin}' updated successfully ($Param{ChangeUserID})!",
-    );
-
     # check pw
     if ( $Param{UserPw} ) {
         $Self->SetPassword(
@@ -539,12 +530,28 @@ sub UserUpdate {
         Value  => $Param{UserEmail}
     );
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    $CacheObject->CleanUp(
         Type => $Self->{CacheType},
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'GroupPermission',
+
+    # TODO Not needed to delete the cache if ValidID or Name was nat changed
+
+    my $SystemPermissionConfig = $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') || [];
+
+    for my $Type ( @{$SystemPermissionConfig}, 'rw' ) {
+
+        $CacheObject->Delete(
+            Type => 'GroupPermissionUserGet',
+            Key  => 'PermissionUserGet::' . $Param{UserID} . '::' . $Type,
+        );
+    }
+
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionGroupGet',
     );
 
     return 1;
@@ -1091,14 +1098,13 @@ generate a random password
 sub GenerateRandomPassword {
     my ( $Self, %Param ) = @_;
 
-    # Generated passwords are eight characters long by default.
+    # generated passwords are eight characters long by default.
     my $Size = $Param{Size} || 8;
 
     my $Password = $Kernel::OM->Get('Kernel::System::Main')->GenerateRandomString(
         Length => $Size,
     );
 
-    # Return the password.
     return $Password;
 }
 

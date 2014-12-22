@@ -145,16 +145,19 @@ sub GroupAdd {
         $GroupID = $Row[0];
     }
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # delete caches
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'GroupDataList',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'GroupList::0',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'GroupList::1',
     );
@@ -271,24 +274,30 @@ sub GroupUpdate {
         ],
     );
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # delete caches
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'GroupDataList',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'GroupList::0',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'GroupList::1',
     );
 
     return 1 if $GroupData{ValidID} eq $Param{ValidID};
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'GroupPermission',
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionUserGet',
+    );
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionGroupGet',
     );
 
     return 1;
@@ -602,16 +611,19 @@ sub RoleAdd {
         $RoleID = $Row[0];
     }
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # delete caches
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'RoleDataList',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'RoleList::0',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'RoleList::1',
     );
@@ -678,24 +690,30 @@ sub RoleUpdate {
         ],
     );
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # delete caches
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'RoleDataList',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'RoleList::0',
     );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+    $CacheObject->Delete(
         Type => 'Group',
         Key  => 'RoleList::1',
     );
 
     return 1 if $RoleData{ValidID} eq $Param{ValidID};
 
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'GroupPermission',
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionUserGet',
+    );
+    $CacheObject->CleanUp(
+        Type => 'GroupPermissionGroupGet',
     );
 
     return 1;
@@ -949,7 +967,7 @@ sub PermissionUserGet {
 
     # read cache
     my $Cache = $CacheObject->Get(
-        Type => 'GroupPermission',
+        Type => 'GroupPermissionUserGet',
         Key  => $CacheKey,
     );
     return %{$Cache} if $Cache;
@@ -983,7 +1001,7 @@ sub PermissionUserGet {
 
     # set cache
     $CacheObject->Set(
-        Type  => 'GroupPermission',
+        Type  => 'GroupPermissionUserGet',
         Key   => $CacheKey,
         TTL   => 60 * 60 * 24 * 20,
         Value => \%GroupList,
@@ -1024,7 +1042,7 @@ sub PermissionGroupGet {
 
     # read cache
     my $Cache = $CacheObject->Get(
-        Type => 'GroupPermission',
+        Type => 'GroupPermissionGroupGet',
         Key  => $CacheKey,
     );
     return %{$Cache} if $Cache;
@@ -1058,7 +1076,7 @@ sub PermissionGroupGet {
 
     # set cache
     $CacheObject->Set(
-        Type  => 'GroupPermission',
+        Type  => 'GroupPermissionGroupGet',
         Key   => $CacheKey,
         TTL   => 60 * 60 * 24 * 20,
         Value => \%UserList,
@@ -1232,7 +1250,9 @@ sub PermissionGroupUserGet {
     return if !$PermissionTypeList{ $Param{Type} };
 
     # get valid group list
-    my %GroupList = $Self->GroupList();
+    my %GroupList = $Self->GroupList(
+        Valid => 1,
+    );
 
     return if !$GroupList{ $Param{GroupID} };
 
@@ -1339,7 +1359,9 @@ sub PermissionUserGroupGet {
     }
 
     # get valid group list
-    my %GroupList = $Self->GroupList();
+    my %GroupList = $Self->GroupList(
+        Valid => 1,
+    );
 
     # calculate groups
     my %Groups;
@@ -1520,7 +1542,9 @@ sub PermissionGroupRoleGet {
     return if !$PermissionTypeList{ $Param{Type} };
 
     # get valid group list
-    my %GroupList = $Self->GroupList();
+    my %GroupList = $Self->GroupList(
+        Valid => 1,
+    );
 
     return if !$GroupList{ $Param{GroupID} };
 
@@ -1623,7 +1647,9 @@ sub PermissionRoleGroupGet {
     }
 
     # get valid group list
-    my %GroupList = $Self->GroupList();
+    my %GroupList = $Self->GroupList(
+        Valid => 1,
+    );
 
     # calculate groups
     my %Groups;
@@ -1674,8 +1700,9 @@ sub PermissionRoleUserAdd {
     return 1 if $Param{Active}  && $DBUserRole{ $Param{UID} }->{ $Param{RID} };
     return 1 if !$Param{Active} && !$DBUserRole{ $Param{UID} }->{ $Param{RID} };
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    # get needed object
+    my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # delete existing relation
     $DBObject->Do(
@@ -1686,7 +1713,7 @@ sub PermissionRoleUserAdd {
     if ( !$Param{Active} ) {
 
         # reset cache
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+        $CacheObject->CleanUp(
             Type => 'DBRoleUserGet',
         );
 
@@ -1702,7 +1729,7 @@ sub PermissionRoleUserAdd {
     );
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    $CacheObject->CleanUp(
         Type => 'DBRoleUserGet',
     );
 
