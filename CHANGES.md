@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2014-12-22 Fixed bug#[10551](http://bugs.otrs.org/show_bug.cgi?id=10551) - Error: No Process configured! - Agent interface.
  - 2014-12-18 Fixed bug#[10934](http://bugs.otrs.org/show_bug.cgi?id=10934) - Error while splitting ticket.
  - 2014-12-17 Fixed bug#[10572](http://bugs.otrs.org/show_bug.cgi?id=10572) - ActivityDialogEntityID not working in ACLs from Process screens reducing States.
 

@@ -278,9 +278,17 @@ sub Run {
         ProcessState => \@ProcessStates,
         Interface    => ['AgentInterface'],
     );
+
+    # also get the list of processes initiated by customers, as an activity dialog might be
+    # configured for the agent interface
+    my $FollowupProcessList = $Self->{ProcessObject}->ProcessList(
+        ProcessState => \@ProcessStates,
+        Interface    => [ 'AgentInterface', 'CustomerInterface' ],
+    );
+
     my $ProcessEntityID = $Self->{ParamObject}->GetParam( Param => 'ProcessEntityID' );
 
-    if ( !IsHashRefWithData($ProcessList) ) {
+    if ( !IsHashRefWithData($ProcessList) && !IsHashRefWithData($FollowupProcessList) ) {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No Process configured!',
             Comment => 'Please contact the admin.',
@@ -301,6 +309,19 @@ sub Run {
         );
     }
 
+    $Self->{TicketObject}->TicketAcl(
+        ReturnType    => 'Ticket',
+        ReturnSubType => '-',
+        Data          => $FollowupProcessList,
+        UserID        => $Self->{UserID},
+    );
+
+    if ( IsHashRefWithData($FollowupProcessList) ) {
+        $FollowupProcessList = $Self->{TicketObject}->TicketAclProcessData(
+            Processes => $FollowupProcessList,
+        );
+    }
+
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
 
@@ -309,17 +330,16 @@ sub Run {
         $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
     }
 
-    # If we have no Subaction or Subaction is 'Create' and submitted ProcessEntityID is invalid
-    # Display the ProcessList
-    if (
-        !$Self->{Subaction}
-        || (
-            $Self->{Subaction} eq 'DisplayActivityDialog'
-            && !$ProcessList->{$ProcessEntityID}
-            && $Self->{IsMainWindow}
-        )
-        )
-    {
+    # if we have no subaction display the process list to start a new one
+    if ( !$Self->{Subaction} ) {
+
+        # to display the process list is mandatory to have processes that agent can start
+        if ( !IsHashRefWithData($ProcessList) ) {
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'No Process configured!',
+                Comment => 'Please contact the admin.',
+            );
+        }
 
         # get process id (if any, a process should be pre-selected)
         $Param{ProcessID} = $Self->{ParamObject}->GetParam( Param => 'ID' );
@@ -359,7 +379,7 @@ sub Run {
     # if invalid process is detected on a ActivityDilog popup screen show an error message
     elsif (
         $Self->{Subaction} eq 'DisplayActivityDialog'
-        && !$ProcessList->{$ProcessEntityID}
+        && !$FollowupProcessList->{$ProcessEntityID}
         && !$Self->{IsMainWindow}
         )
     {
