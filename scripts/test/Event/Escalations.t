@@ -61,7 +61,9 @@ my $HelperObject = Kernel::System::UnitTest::Helper->new(
 );
 
 # set fixed time
-$HelperObject->FixedTimeSet();
+$HelperObject->FixedTimeSet(
+    $TimeObject->TimeStamp2SystemTime( String => '2014-12-12 00:00:00' ),
+);
 
 my $CheckNumEvents = sub {
     my (%Param) = @_;
