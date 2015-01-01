@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.Scheduler.pl - provides Scheduler Daemon control on Unix like OS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -506,7 +506,7 @@ exit 1;
 # Internal
 sub _Help {
     print "otrs.Scheduler.pl - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "Usage: otrs.Scheduler.pl -a <ACTION> (start|stop|status) [-f (force)]\n";
 
     # Not documented!

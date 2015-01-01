@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.SetPermissions.pl - to set the otrs permissions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -32,7 +32,7 @@ use File::Find qw();
 use Getopt::Long;
 
 print "bin/otrs.SetPermissions.pl - set OTRS file permissions\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 my $Secure             = 0;
 my $Version            = 0;

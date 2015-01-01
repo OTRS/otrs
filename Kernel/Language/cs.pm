@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/cs.pm - provides Czech language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # Copyright (C) 2010 O2BS.com, s r.o. Jakub Hanus

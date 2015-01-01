@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/sr_Latn.pm - provides Serbian language Cyrillic translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

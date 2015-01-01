@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -47,7 +47,7 @@ my %Opts;
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PostMaster.pl - OTRS cmd postmaster\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;

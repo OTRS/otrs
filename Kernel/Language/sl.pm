@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/sl.pm - provides Slovene language Latin translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2011 Andrej Cimerlajt, i-Rose d.o.o. <andrej.cimerlajt@i-rose.si>
 # Copyright (C) 2011 Gorazd Žagar, i-Rose d.o.o. <gorazd.zagar@i-rose.si>
 # --

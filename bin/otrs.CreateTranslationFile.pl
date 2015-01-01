@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.CreateTranslationFile.pl - create new translation file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -459,7 +459,7 @@ sub HandleLanguage {
         $NewOut = <<"EOF";
 $Separator
 # Kernel/Language/${Language}_$Module.pm - translation file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 $Separator
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
