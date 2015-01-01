@@ -1,7 +1,7 @@
 # --
 # Kernel/System/CustomerAuth/Radius.pm - provides the radius Authentication
 # based on Martin Edenhofer's Kernel::System::Auth::DB
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/pt_BR.pm - provides Brazilian Portuguese language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2003 Gilberto Cezar de Almeida <gibalmeida at hotmail.com>
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007-2010 Fabricio Luiz Machado <soprobr gmail.com>

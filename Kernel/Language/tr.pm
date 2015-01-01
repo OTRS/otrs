@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/tr.pm - provides Turkish language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2013 Sefer ÅimÅek / Network Group <network@kamusm.gov.tr>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
