@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ getopt( 'sdf', \%Opts );
 # usage
 if ( $Opts{h} ) {
     print "charset-convert.pl - convert a charset of a file\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
     print "       charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> < file\n";
     exit 1;

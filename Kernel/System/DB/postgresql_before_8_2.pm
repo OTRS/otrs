@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/postgresql_before_8_2.pm - postgresql database backend for older systems with PostgreSQL 8.1 or before
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.RegistrationUpdate.pl - rebuild config
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,7 +37,7 @@ use Kernel::System::DB;
 use Kernel::System::Registration;
 
 print "otrs.RegistrationUpdate.pl - send system registration update\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 # ---
 # common objects
