@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.RebuildFulltextIndex.pl - the global search indexer handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -38,7 +38,7 @@ my %Opts;
 getopt( 'b', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildFulltextIndex.pl - rebuild fulltext index\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RebuildFulltextIndex.pl [-b sleeptime per ticket in microseconds]\n";
     exit 1;
 }

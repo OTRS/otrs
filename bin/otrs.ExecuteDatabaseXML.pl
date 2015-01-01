@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.ExecuteDatabaseXML.pl - Execute XML on the database
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -38,7 +38,7 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 );
 
 print "otrs.ExecuteDatabaseXML.pl - Execute XML DDL in the OTRS database\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n\n";
 
 if ( !$ARGV[0] ) {
     print "USAGE: $0 <filename.xml>\n";

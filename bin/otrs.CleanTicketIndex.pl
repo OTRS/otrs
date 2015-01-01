@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # otrs.CleanTicketIndex.pl - Clean the Static Ticket Index
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -37,7 +37,7 @@ my %Opts;
 getopt( '', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.CleanTicketIndex.pl - clean static index\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.CleanTicketIndex.pl\n";
     exit 1;
 }
