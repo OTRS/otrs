@@ -4915,7 +4915,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::ToolBarModule###8-Ticket::TicketLocked" Required="0" Valid="1">
-        <Description Translatable="1">Agent interface notification module to check the used charset.</Description>
+        <Description Translatable="1">Agent interface notification module to see the number of locked tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
