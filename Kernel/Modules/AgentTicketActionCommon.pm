@@ -63,6 +63,10 @@ sub new {
     # get article for whom this should be a reply, if available
     my $ReplyToArticle = $Self->{ParamObject}->GetParam( Param => 'ReplyToArticle' ) || "";
 
+    # get list of users that will be informed without selection in informed/involved list
+    my @UserListWithoutSelection = split(',', $Self->{ParamObject}->GetParam( Param => 'UserListWithoutSelection' ) || "");
+    $Self->{UserListWithoutSelection} = \@UserListWithoutSelection;
+
     # check if ReplyToArticle really belongs to the ticket
     my %ReplyToArticleContent;
     my @ReplyToAdresses;
@@ -839,9 +843,9 @@ sub Run {
             my @NotifyUserIDs;
             if ( $Self->{ReplyToArticle} ) {
                 @NotifyUserIDs = (
-                    @{ $Self->{ReplyToSenderUserID} },
+                    @{ $Self->{UserListWithoutSelection} },
                     @{ $Self->{InformUserID} },
-                    @{ $Self->{InvolvedUserID} }
+                    @{ $Self->{InvolvedUserID} },
                 );
             }
             else {
@@ -1934,9 +1938,26 @@ sub _Mask {
             Data => {%Param},
         );
 
+        # get all user ids of agents, that can be shown in this dialog
+        # based on queue rights
+        my %ShownUsers;
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1,
+        );
+        my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
+            GroupID => $GID,
+            Type    => 'note',
+        );
+        for my $UserID ( sort keys %MemberList ) {
+            $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+        }
+
         # check and retrieve involved and informed agents of ReplyTo Note
         my @ReplyToUsers;
         my %ReplyToUsersHash;
+        my %ReplyToUserIDs;
         if ( $Self->{ReplyToArticle} ) {
             my @ReplyToParts = $Self->{EmailParserObject}->SplitAddressLine(
                 Line => $Self->{ReplyToArticleContent}->{To},
@@ -1953,6 +1974,29 @@ sub _Mask {
             }
 
             $ReplyToUsersHash{$_}++ for @ReplyToUsers;
+
+            # get user ids of available users
+            for my $UserID ( sort keys %ShownUsers ) {
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID => $UserID,
+                );
+
+                my $UserEmail = $UserData{UserEmail};
+                if ( $ReplyToUsersHash{$UserEmail} ) {
+                    $ReplyToUserIDs{$UserID} = 1;
+                }
+            }
+
+            # add original note sender to list of user ids
+            for my $UserID ( sort @{ $Self->{ReplyToSenderUserID} } ) {
+                # if sender replies to himself, do not include sender in list
+                if ( $UserID ne $Self->{UserID} ) {
+                    $ReplyToUserIDs{ $UserID } = 1;
+                }
+            }
+
+            # remove user id of active user
+            delete $ReplyToUserIDs{ $Self->{UserID} };
         }
 
         if ( $Self->{Config}->{InformAgent} || $Self->{Config}->{InvolvedAgent} ) {
@@ -1961,35 +2005,58 @@ sub _Mask {
             );
         }
 
-        # agent list
-        if ( $Self->{Config}->{InformAgent} ) {
-            my %ShownUsers;
-            my %AllGroupsMembers = $Self->{UserObject}->UserList(
-                Type  => 'Long',
-                Valid => 1,
+        # get all agents for "involved agents"
+        if ( $Self->{Config}->{InvolvedAgent} ) {
+
+            my @UserIDs = $Self->{TicketObject}->TicketInvolvedAgentsList(
+                TicketID => $Self->{TicketID},
             );
-            my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %MemberList = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $GID,
-                Type    => 'note',
-                Result  => 'HASH',
-                Cached  => 1,
-            );
-            for my $UserID ( sort keys %MemberList ) {
-                $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
+
+            my @InvolvedAgents;
+            my $Counter = 1;
+
+            USER:
+            for my $User ( reverse @UserIDs ) {
+
+                my $Value = "$Counter: $User->{UserFullname}";
+                if ( $User->{OutOfOfficeMessage} ) {
+                    $Value .= " $User->{OutOfOfficeMessage}";
+                }
+
+                push @InvolvedAgents, {
+                    Key   => $User->{UserID},
+                    Value => $Value,
+                };
+                $Counter++;
+
+                # add involved user as selected entries, if available in ReplyToAddresses list
+                if ( $Self->{ReplyToArticle} && $ReplyToUserIDs{ $User->{UserID} } ) {
+                    push @{ $Self->{InvolvedUserID} }, $User->{UserID};
+                    delete $ReplyToUserIDs{ $User->{UserID} };
+                }
             }
 
+            my $InvolvedAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
+            $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data       => \@InvolvedAgents,
+                SelectedID => $Self->{InvolvedUserID},
+                Name       => 'InvolvedUserID',
+                Multiple   => 1,
+                Size       => $InvolvedAgentSize,
+            );
+
+            # block is called below "inform agents"
+        }
+
+        # agent list
+        if ( $Self->{Config}->{InformAgent} ) {
             if ( $Self->{ReplyToArticle} ) {
 
                 # get email address of all users and compare to replyto-addresses
                 for my $UserID ( sort keys %ShownUsers ) {
-                    my %UserData = $Self->{UserObject}->GetUserData(
-                        UserID => $UserID,
-                    );
-
-                    my $UserEmail = $UserData{UserEmail};
-                    if ( $ReplyToUsersHash{$UserEmail} ) {
+                    if ( $ReplyToUserIDs{ $UserID } ) {
                         push @{ $Self->{InformUserID} }, $UserID;
+                        delete $ReplyToUserIDs{ $UserID };
                     }
                 }
             }
@@ -2012,48 +2079,49 @@ sub _Mask {
         # get involved
         if ( $Self->{Config}->{InvolvedAgent} ) {
 
-            my @UserIDs = $Self->{TicketObject}->TicketInvolvedAgentsList(
-                TicketID => $Self->{TicketID},
-            );
-
-            my @InvolvedAgents;
-            my %SeenInvolvedAgents;
-            my $Counter = 1;
-
-            USER:
-            for my $User ( reverse @UserIDs ) {
-
-                next USER if $SeenInvolvedAgents{ $User->{UserID} };
-
-                my $Value = "$Counter: $User->{UserFullname}";
-                if ( $User->{OutOfOfficeMessage} ) {
-                    $Value .= " $User->{OutOfOfficeMessage}";
-                }
-
-                push @InvolvedAgents, {
-                    Key   => $User->{UserID},
-                    Value => $Value,
-                };
-                $Counter++;
-
-                # add involved user, if available in ReplyToAddresses list
-                if ( $Self->{ReplyToArticle} && $ReplyToUsersHash{ $User->{UserEmail} } ) {
-                    push @{ $Self->{InvolvedUserID} }, $User->{UserID};
-                }
-            }
-
-            my $InvolvedAgentSize = $Self->{ConfigObject}->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
-            $Param{InvolvedAgentStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => \@InvolvedAgents,
-                SelectedID => $Self->{InvolvedUserID},
-                Name       => 'InvolvedUserID',
-                Multiple   => 1,
-                Size       => $InvolvedAgentSize,
-            );
             $Self->{LayoutObject}->Block(
                 Name => 'InvolvedAgent',
                 Data => \%Param,
             );
+        }
+
+        # show list of agents, that receive this note (ReplyToNote)
+        # at least sender of original note and all recepients of the original note
+        # that couldn't be selected with involved/inform agents
+        if ( $Self->{ReplyToArticle} ) {
+
+            my $UsersHashSize = keys %ReplyToUserIDs;
+            my $Counter = 0;
+            $Param{UserListWithoutSelection} = join(',', keys %ReplyToUserIDs);
+
+            if ( $UsersHashSize > 0 ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'InformAgentsWithoutSelection',
+                    Data => \%Param,
+                );
+
+                for my $UserID ( sort keys %ReplyToUserIDs ) {
+                    $Counter++;
+
+                    my %UserData = $Self->{UserObject}->GetUserData(
+                        UserID => $UserID,
+                    );
+
+                    $Self->{LayoutObject}->Block(
+                        Name => 'InformAgentsWithoutSelectionSingleUser',
+                        Data => \%UserData,
+                    );
+
+                    # output a separator (InformAgentsWithoutSelectionSingleUserSeparator),
+                    # if not last entry
+                    if ($Counter < $UsersHashSize) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'InformAgentsWithoutSelectionSingleUserSeparator',
+                            Data => \%UserData,
+                        );
+                    }
+                }
+            }
         }
 
         # add rich text editor
