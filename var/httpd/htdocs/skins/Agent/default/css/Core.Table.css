@@ -566,6 +566,10 @@ thead .headerSortDown a {
  * @subsection  Ticket List Tables
  */
 
+.TicketList {
+    overflow: auto;
+}
+
 .TicketList table {
     border-collapse: separate;
     position: relative;
