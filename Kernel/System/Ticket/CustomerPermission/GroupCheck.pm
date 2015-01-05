@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/GroupCheck.pm -
 # the sub module of the global ticket handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: GroupCheck.pm,v 1.16 2011-11-24 15:56:03 mg Exp $
 # --
@@ -42,7 +42,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

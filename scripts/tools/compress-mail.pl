@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/compress-mail.pl - compress email, zip attachments
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: compress-mail.pl,v 1.15 2010-02-03 14:57:25 bes Exp $
 # --
@@ -60,10 +60,10 @@ $CommonObject{ParserObject} = Kernel::System::EmailParser->new(
     NoHTMLChecks => 1,
     %CommonObject,
 );
-my $MSGID   = $CommonObject{ParserObject}->GetParam( WHAT => 'Message-ID' ) || 'No Message-ID';
-my $Touch   = 0;
-my $NoTouch = 0;
-my $Counter = 0;
+my $MSGID                     = $CommonObject{ParserObject}->GetParam( WHAT => 'Message-ID' ) || 'No Message-ID';
+my $Touch                     = 0;
+my $NoTouch                   = 0;
+my $Counter                   = 0;
 my $CompressAttachmentMinSize = $CommonObject{ConfigObject}->Get('CompressAttachmentMinSize')
     || ( 1014 * 3 );
 my $CompressAttachmentMaxSize = $CommonObject{ConfigObject}->Get('CompressAttachmentMaxSize')

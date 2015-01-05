@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketResponsibleView.pm - to view all locked tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketResponsibleView.pm,v 1.12 2010-11-04 17:57:08 mb Exp $
 # --
@@ -68,7 +68,9 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
@@ -112,7 +114,7 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                StateType => [ 'pending reminder', 'pending auto' ],
+                StateType      => [ 'pending reminder', 'pending auto' ],
                 ResponsibleIDs => [ $Self->{UserID} ],
                 OrderBy        => $OrderBy,
                 SortBy         => $SortByS,

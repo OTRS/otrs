@@ -1,6 +1,6 @@
 # --
 # State.t - State tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: State.t,v 1.8 2011-06-17 08:42:57 mb Exp $
 # --

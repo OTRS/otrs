@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/LoopProtection/DB.pm - backend module of LoopProtection
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.13 2009-02-16 11:47:35 tr Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Transport.t - GenericInterface transport interface tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Transport.t,v 1.11 2011-03-09 11:56:57 mg Exp $
 # --
@@ -123,13 +123,13 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name      => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data scalar",
-            Operation => 'test_operation',
-            Data      => 'testdata',
+            Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data scalar",
+            Operation     => 'test_operation',
+            Data          => 'testdata',
             ResultSuccess => 0,
         },
         {
-            Name => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data listref",
+            Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data listref",
             Operation     => 'test_operation',
             Data          => ['testdata'],
             ResultSuccess => 0,
@@ -217,8 +217,7 @@ for my $Fail ( 0 .. 1 ) {
             # prepare CGI environment variables
             local $ENV{REQUEST_METHOD} = 'POST';
             local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
-            local $ENV{CONTENT_TYPE}
-                = 'application/x-www-form-urlencoded; charset=utf-8;';
+            local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
 
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;
@@ -291,13 +290,13 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data scalar",
-            Data => 'testdata',
+            Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data scalar",
+            Data          => 'testdata',
             ResultSuccess => 0,
         },
         {
-            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data listref",
-            Data => ['testdata'],
+            Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data listref",
+            Data          => ['testdata'],
             ResultSuccess => 0,
         },
     );

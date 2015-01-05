@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Debugger.pm - GenericInterface data debugger interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Debugger.pm,v 1.17 2011-02-24 14:38:06 mg Exp $
 # --
@@ -110,7 +110,10 @@ sub new {
 
     # check DebuggerConfig - we need a hash ref with at least one entry
     if ( !IsHashRefWithData( $Param{DebuggerConfig} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need DebuggerConfig!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need DebuggerConfig!'
+        );
         return;
     }
 
@@ -120,7 +123,10 @@ sub new {
     # check for mandatory values
     for my $Needed (qw(WebserviceID CommunicationType DebugThreshold)) {
         if ( !IsStringWithData( $Param{$Needed} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
         $Self->{$Needed} = $Param{$Needed};
@@ -128,14 +134,19 @@ sub new {
 
     # check correct DebugThreshold
     if ( $Self->{DebugThreshold} !~ /^(debug|info|notice|error)/i ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugThreshold is not allowed.' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'DebugThreshold is not allowed.'
+        );
         return;
     }
 
     # check correct CommunicationType
     if ( lc $Self->{CommunicationType} !~ /^(provider|requester)/i ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'CommunicationType is not allowed.' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'CommunicationType is not allowed.'
+        );
         return;
     }
 
@@ -144,7 +155,10 @@ sub new {
 
     # remote ip optional
     if ( defined $Param{RemoteIP} && !IsStringWithData( $Param{RemoteIP} ) ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need RemoteIP address!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need RemoteIP address!'
+        );
         return;
     }
     $Self->{RemoteIP} = $Param{RemoteIP};
@@ -181,7 +195,10 @@ sub DebugLog {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{Summary} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Summary!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Summary!'
+        );
         return;
     }
 
@@ -190,7 +207,10 @@ sub DebugLog {
 
     # check correct DebugLevel
     if ( $Param{DebugLevel} !~ /^(debug|info|notice|error)/i ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'DebugLevel is not allowed.' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'DebugLevel is not allowed.'
+        );
         return;
     }
     my %DebugLevels = (

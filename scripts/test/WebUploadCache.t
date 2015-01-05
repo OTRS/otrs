@@ -1,6 +1,6 @@
 # --
 # WebUploadCache.t - test of the web upload cache mechanism
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: WebUploadCache.t,v 1.19 2011-09-29 21:26:56 mh Exp $
 # --

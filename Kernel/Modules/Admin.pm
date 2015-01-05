@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Admin.pm - provides admin main page
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Admin.pm,v 1.18 2009-02-16 11:20:52 tr Exp $
 # --

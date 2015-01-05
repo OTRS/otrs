@@ -1,6 +1,6 @@
 # --
 # Kernel/System/TicketSearch.pm - all ticket search functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSearch.pm,v 1.13.2.5 2013-01-10 15:43:33 ub Exp $
 # --
@@ -1012,8 +1012,7 @@ sub TicketSearch {
 
         for my $Operator ( sort keys %{$SearchParam} ) {
 
-            my @SearchParams
-                = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
+            my @SearchParams = ( ref $SearchParam->{$Operator} eq 'ARRAY' )
                 ? @{ $SearchParam->{$Operator} }
                 : ( $SearchParam->{$Operator} );
 
@@ -1538,7 +1537,7 @@ sub TicketSearch {
         # get close state ids
         my @List = $Self->{StateObject}->StateGetStatesByType(
             StateType => [ 'pending reminder', 'pending auto' ],
-            Result => 'ID',
+            Result    => 'ID',
         );
         if (@List) {
             $SQLExt .= " AND st.ticket_state_id IN (${\(join ', ', sort @List)}) ";
@@ -1694,9 +1693,9 @@ sub TicketSearch {
 
                     if ( $TicketDynamicFieldName2Config{$DynamicFieldName} ) {
 
-                       # Join the table for this dynamic field; use a left outer join in this case.
-                       # With an INNER JOIN we'd limit the result set to tickets which have an entry
-                       #   for the DF which is used for sorting.
+                        # Join the table for this dynamic field; use a left outer join in this case.
+                        # With an INNER JOIN we'd limit the result set to tickets which have an entry
+                        #   for the DF which is used for sorting.
                         $SQLFrom
                             .= " LEFT OUTER JOIN dynamic_field_value dfv$DynamicFieldJoinCounter
                             ON (st.id = dfv$DynamicFieldJoinCounter.object_id
@@ -1716,8 +1715,7 @@ sub TicketSearch {
                             $Self->{DBObject}->Quote( $DynamicField->{ID}, 'Integer' ) . ") ";
                     }
 
-                    $DynamicFieldJoinTables{ $DynamicField->{Name} }
-                        = "dfv$DynamicFieldJoinCounter";
+                    $DynamicFieldJoinTables{ $DynamicField->{Name} } = "dfv$DynamicFieldJoinCounter";
 
                     $DynamicFieldJoinCounter++;
                 }
@@ -1777,7 +1775,10 @@ sub TicketSearch {
     my @TicketIDs;
     my $Count;
     return
-        if !$Self->{DBObject}->Prepare( SQL => $SQLSelect . $SQLFrom . $SQLExt, Limit => $Limit );
+        if !$Self->{DBObject}->Prepare(
+        SQL   => $SQLSelect . $SQLFrom . $SQLExt,
+        Limit => $Limit
+        );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerAuth.pm - provides the authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerAuth.pm,v 1.36 2012-01-19 08:30:35 mg Exp $
 # --

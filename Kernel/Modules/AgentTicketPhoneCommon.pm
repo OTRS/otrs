@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPhoneCommon.pm - phone calls for existing tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketPhoneCommon.pm,v 1.23 2012-03-26 23:18:09 mh Exp $
 # --
@@ -174,7 +174,10 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -216,8 +219,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -605,16 +607,16 @@ sub Run {
             }
 
             my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $Self->{TicketID},
-                ArticleType => $Self->{Config}->{ArticleType},
-                SenderType  => $Self->{Config}->{SenderType},
-                From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                Subject     => $GetParam{Subject},
-                Body        => $GetParam{Body},
-                MimeType    => $MimeType,
-                Charset     => $Self->{LayoutObject}->{UserCharset},
-                UserID      => $Self->{UserID},
-                HistoryType => $Self->{Config}->{HistoryType},
+                TicketID       => $Self->{TicketID},
+                ArticleType    => $Self->{Config}->{ArticleType},
+                SenderType     => $Self->{Config}->{SenderType},
+                From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                Subject        => $GetParam{Subject},
+                Body           => $GetParam{Body},
+                MimeType       => $MimeType,
+                Charset        => $Self->{LayoutObject}->{UserCharset},
+                UserID         => $Self->{UserID},
+                HistoryType    => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
             );
 
@@ -652,8 +654,7 @@ sub Run {
                 next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
                 # set the object ID (TicketID or ArticleID) depending on the field configration
-                my $ObjectID
-                    = $DynamicFieldConfig->{ObjectType} eq 'Article'
+                my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article'
                     ? $ArticleID
                     : $Self->{TicketID};
 
@@ -894,8 +895,7 @@ sub _GetTos {
             $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
             {
-                my %SystemAddressData
-                    = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$KeyNewTo} );
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$KeyNewTo} );
                 $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
             }
@@ -964,12 +964,12 @@ sub _MaskPhone {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid},
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid},
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -981,8 +981,7 @@ sub _MaskPhone {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 

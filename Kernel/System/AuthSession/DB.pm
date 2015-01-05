@@ -1,6 +1,6 @@
 # --
 # Kernel/System/AuthSession/DB.pm - provides session db backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.50 2012-01-27 12:21:34 mb Exp $
 # --
@@ -57,7 +57,10 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -148,7 +151,10 @@ sub GetSessionIDData {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -237,7 +243,10 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -264,7 +273,10 @@ sub UpdateSessionID {
     # check needed stuff
     for (qw(SessionID Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

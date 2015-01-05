@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/ObjectType/Article.pm - Article object handler for DynamicField
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Article.pm,v 1.2 2011-12-08 14:06:44 mg Exp $
 # --
@@ -63,9 +63,9 @@ sub new {
 
         $Self->{TicketObject} = $Param{TicketObject};
 
-     # Make ticket object reference weak so it will not count as a reference on objetcs destroy.
-     #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
-     #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
+        # Make ticket object reference weak so it will not count as a reference on objetcs destroy.
+        #   This is because the TicketObject has a Kernel::DynamicField::Backend object, which has this
+        #   object, which has a TicketObject again. Without weaken() we'd have a cyclic reference.
         Scalar::Util::weaken( $Self->{TicketObject} );
     }
 
@@ -99,7 +99,10 @@ sub PostValueSet {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig ObjectID UserID)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Text.pm - Delegate for DynamicField Text backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Text.pm,v 1.64.2.1 2012-11-14 22:14:54 cr Exp $
 # --
@@ -59,8 +59,7 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -339,12 +338,12 @@ sub DisplayValueRender {
     if ( $Param{HTMLOutput} ) {
         $Value = $Param{LayoutObject}->Ascii2Html(
             Text => $Value,
-            Max => $Param{ValueMaxChars} || '',
+            Max  => $Param{ValueMaxChars} || '',
         );
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {
@@ -441,8 +440,7 @@ sub SearchFieldValueGet {
 
     # get dynamic field value form param object
     if ( defined $Param{ParamObject} ) {
-        $Value = $Param{ParamObject}
-            ->GetParam( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+        $Value = $Param{ParamObject}->GetParam( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
     }
 
     # otherwise get the value from the profile

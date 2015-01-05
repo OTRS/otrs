@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketForward.pm,v 1.131.2.5 2012-05-30 20:48:41 cr Exp $
 # --
@@ -207,7 +207,10 @@ sub Form {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -215,7 +218,10 @@ sub Form {
     else {
         $Self->{LayoutObject}->Block(
             Name => 'TicketBack',
-            Data => { %Param, TicketID => $Self->{TicketID}, },
+            Data => {
+                %Param,
+                TicketID => $Self->{TicketID},
+            },
         );
     }
 
@@ -298,10 +304,8 @@ sub Form {
             String => $Data{From},
         );
 
-        my $ForwardedMessageFrom
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
-        my $EndForwardedMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+        my $ForwardedMessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+        my $EndForwardedMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
 
         $Data{Body} = "<br/>---- $ForwardedMessageFrom $From ---<br/><br/>" . $Data{Body};
         $Data{Body} .= "<br/>---- $EndForwardedMessage ---<br/>";
@@ -332,10 +336,8 @@ sub Form {
             }
         }
 
-        my $ForwardedMessageFrom
-            = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
-        my $EndForwardedMessage
-            = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
+        my $ForwardedMessageFrom = $Self->{LayoutObject}->{LanguageObject}->Get('Forwarded message from');
+        my $EndForwardedMessage  = $Self->{LayoutObject}->{LanguageObject}->Get('End forwarded message');
 
         $Data{Body} = "\n---- $ForwardedMessageFrom $Data{From} ---\n\n" . $Data{Body};
         $Data{Body} .= "\n---- $EndForwardedMessage ---\n";
@@ -373,7 +375,10 @@ sub Form {
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for ( $Object->Option( %Data, %GetParam, Config => $Jobs{$Job} ) ) {
@@ -508,8 +513,7 @@ sub SendEmail {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -677,7 +681,10 @@ sub SendEmail {
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -842,7 +849,9 @@ sub SendEmail {
 
     # error page
     if ( !$ArticleID ) {
-        return $Self->{LayoutObject}->ErrorScreen( Comment => 'Please contact the admin.', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Comment => 'Please contact the admin.',
+        );
     }
 
     # time accounting
@@ -862,8 +871,7 @@ sub SendEmail {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # set the object ID (TicketID or ArticleID) depending on the field configration
-        my $ObjectID
-            = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+        my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
         # set the value
         my $Success = $Self->{BackendObject}->ValueSet(
@@ -934,7 +942,10 @@ sub AjaxUpdate {
             # load module
             next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -983,8 +994,7 @@ sub AjaxUpdate {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -1133,8 +1143,7 @@ sub _Mask {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1155,12 +1164,12 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        Format           => 'DateInputFormatLong',
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid} || ' ',
-        Validate         => 1,
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        Format               => 'DateInputFormatLong',
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -1286,7 +1295,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketForward', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketForward',
+        Data         => \%Param
+    );
 }
 
 sub _GetFieldsToUpdate {

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesOutOfOffice.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesOutOfOffice.pm,v 1.10 2011-12-23 14:36:18 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: StaticDB.pm,v 1.21.2.1 2013-01-16 13:38:04 marb Exp $
 # --
@@ -23,7 +23,10 @@ sub ArticleIndexBuild {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -82,7 +85,10 @@ sub ArticleIndexDelete {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -102,7 +108,10 @@ sub ArticleIndexDeleteTicket {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -122,7 +131,10 @@ sub _ArticleIndexQuerySQL {
     # check needed stuff
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -150,7 +162,10 @@ sub _ArticleIndexQuerySQLExt {
     # check needed stuff
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -229,7 +244,10 @@ sub _ArticleIndexString {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -277,7 +295,10 @@ sub _ArticleIndexStringToWord {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

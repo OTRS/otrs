@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminQueueAutoResponse.pm,v 1.35 2011-12-23 14:22:03 mg Exp $
 # --
@@ -177,8 +177,7 @@ sub Run {
 
         # Get Auto Response data.
         my @ResponseData;
-        my $SQL
-            = "SELECT ar.name, art.name, ar.id FROM "
+        my $SQL = "SELECT ar.name, art.name, ar.id FROM "
             . " auto_response ar, auto_response_type art, valid "
             . " WHERE ar.type_id = art.id "
             . " AND ar.valid_id = valid.id AND valid.name = 'valid'"

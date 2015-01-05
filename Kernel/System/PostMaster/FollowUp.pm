@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: FollowUp.pm,v 1.77 2012-04-19 21:12:39 mb Exp $
 # --
@@ -44,7 +44,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID InmailUserID GetParam Tn AutoResponseType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -240,10 +243,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+            my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,
@@ -395,10 +397,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+            my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,

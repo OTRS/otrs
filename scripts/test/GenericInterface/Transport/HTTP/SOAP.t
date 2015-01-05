@@ -1,6 +1,6 @@
 # --
 # SOAP.t - GenericInterface transport interface tests for SOAP backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SOAP.t,v 1.16 2011-06-28 16:00:33 cr Exp $
 # --

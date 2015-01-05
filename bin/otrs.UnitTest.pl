@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.UnitTest.pl - the global test handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.UnitTest.pl,v 1.6 2011-03-25 13:53:58 ep Exp $
 # --
@@ -46,7 +46,7 @@ my %Opts;
 getopt( 'hdnop', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-d Directory] [-o ASCII|HTML|XML] [-p PRODUCT]\n";
     exit 1;

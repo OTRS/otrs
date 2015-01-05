@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminAutoResponse.pm - provides admin std response module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminAutoResponse.pm,v 1.49 2012-02-27 22:53:37 ep Exp $
 # --
@@ -51,7 +51,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+        my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+            ID => $ID,
+        );
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -101,8 +103,7 @@ sub Run {
 
             # update group
             if (
-                $Self->{AutoResponseObject}
-                ->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+                $Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID} )
                 )
             {
                 $Self->_Overview();
@@ -278,11 +279,11 @@ sub _Edit {
     );
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'AddressID',
+        Data        => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name        => 'AddressID',
         SelectedID  => $Param{AddressID},
         Translation => 0,
-        Class       => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
+        Class => 'Validate_Required ' . ( $Param{Errors}->{'AddressIDInvalid'} || '' ),
     );
 
     $Self->{LayoutObject}->Block(
@@ -354,7 +355,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID, );
+            my %Data = $Self->{AutoResponseObject}->AutoResponseGet(
+                ID => $ID,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

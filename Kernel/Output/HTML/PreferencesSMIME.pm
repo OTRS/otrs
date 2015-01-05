@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesSMIME.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesSMIME.pm,v 1.14 2011-06-03 03:38:01 dz Exp $
 # --

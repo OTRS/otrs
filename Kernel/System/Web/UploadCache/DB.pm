@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.24 2010-02-03 14:51:03 bes Exp $
 # --
@@ -49,7 +49,10 @@ sub FormIDRemove {
 
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -65,7 +68,10 @@ sub FormIDAddFile {
 
     for (qw(FormID Filename Content ContentType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -108,7 +114,10 @@ sub FormIDRemoveFile {
 
     for (qw(FormID FileID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -117,7 +126,7 @@ sub FormIDRemoveFile {
     $Param{Filename} = $Index[$ID]->{Filename};
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?',
+        SQL  => 'DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?',
         Bind => [ \$Param{FormID}, \$Param{Filename} ],
     );
     return 1;
@@ -130,7 +139,10 @@ sub FormIDGetAllFilesData {
     my @Data;
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -138,7 +150,7 @@ sub FormIDGetAllFilesData {
         SQL => 'SELECT filename, content_type, content_size, content, content_id'
             . ' FROM web_upload_cache '
             . ' WHERE form_id = ? ORDER BY create_time_unix',
-        Bind => [ \$Param{FormID} ],
+        Bind   => [ \$Param{FormID} ],
         Encode => [ 1, 1, 1, 0, 1 ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -185,7 +197,10 @@ sub FormIDGetAllFilesMeta {
     my @Data;
     for (qw(FormID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

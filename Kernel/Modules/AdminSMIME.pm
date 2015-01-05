@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSMIME.pm,v 1.43 2012-02-27 22:53:37 ep Exp $
 # --
@@ -68,8 +68,9 @@ sub Run {
         my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
         my $Type     = $Self->{ParamObject}->GetParam( Param => 'Type' )     || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to delete!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to delete!',
+            );
         }
 
         my @Result;
@@ -84,8 +85,9 @@ sub Run {
         # remove certificate and private key if exists
         else {
             my $Certificate = $Self->{CryptObject}->CertificateGet( Filename => $Filename );
-            my %Attributes
-                = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate, );
+            my %Attributes = $Self->{CryptObject}->CertificateAttributes(
+                Certificate => $Certificate,
+            );
 
             %Result = $Self->{CryptObject}->CertificateRemove( Filename => $Filename );
             push @Result, \%Result if %Result;
@@ -149,15 +151,16 @@ sub Run {
         if ( !%Errors ) {
 
             # add certificate
-            my %Result
-                = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
+            my %Result = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
             my @Result;
             push @Result, \%Result if %Result;
 
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
 
-            $Output .= $Self->_Overview( Result => \@Result, );
+            $Output .= $Self->_Overview(
+                Result => \@Result,
+            );
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSMIME',
@@ -227,7 +230,9 @@ sub Run {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
 
-            $Output .= $Self->_Overview( Result => \@Result, );
+            $Output .= $Self->_Overview(
+                Result => \@Result,
+            );
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSMIME',
@@ -251,8 +256,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DownloadFingerprint' ) {
         my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to download!',
+            );
         }
 
         my $Hash = $Filename;
@@ -276,8 +282,9 @@ sub Run {
 
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
         if ( !$Filename ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Need param Filename to download!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Need param Filename to download!',
+            );
         }
 
         my $Hash = $Filename;
@@ -328,8 +335,9 @@ sub Run {
         my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
 
         if ( !$CertFingerprint || !$CAFingerprint ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Needed CertFingerprint and CAFingerprint',
+            );
         }
 
         # relation already exists?
@@ -396,8 +404,9 @@ sub Run {
         my $CAFingerprint   = $Self->{ParamObject}->GetParam( Param => 'CAFingerprint' )   || '';
 
         if ( !$CertFingerprint && !$CAFingerprint ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => 'Needed CertFingerprint and CAFingerprint!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => 'Needed CertFingerprint and CAFingerprint!',
+            );
         }
 
         # relation exists?
@@ -591,7 +600,9 @@ sub _SignerCertificateOverview {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{CertFingerprint} ) {
-        return $Self->{LayoutObject}->ErrorScreen( Message => 'Needed Fingerprint', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'Needed Fingerprint',
+        );
     }
 
     my @SignerCertResults = $Self->{CryptObject}->PrivateSearch(

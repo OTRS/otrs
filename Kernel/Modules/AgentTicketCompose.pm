@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketCompose.pm,v 1.164.2.2 2012-09-26 21:32:50 mh Exp $
 # --
@@ -185,16 +185,14 @@ sub Run {
     my %AddressesList;
 
     my @MultipleCustomer;
-    my $CustomersNumber
-        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
+    my $CustomersNumber = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterToCustomer' ) || 0;
     my $Selected = $Self->{ParamObject}->GetParam( Param => 'CustomerSelected' ) || '';
 
     if ($CustomersNumber) {
 
         my $CustomerCounter = 1;
         for my $Count ( 1 ... $CustomersNumber ) {
-            my $CustomerElement
-                = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketText_' . $Count );
+            my $CustomerElement = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketText_' . $Count );
             my $CustomerSelected = ( $Selected eq $Count ? 'checked="checked"' : '' );
             my $CustomerKey = $Self->{ParamObject}->GetParam( Param => 'CustomerKey_' . $Count )
                 || '';
@@ -253,18 +251,15 @@ sub Run {
     }
 
     my @MultipleCustomerCc;
-    my $CustomersNumberCc
-        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
+    my $CustomersNumberCc = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterCcCustomer' ) || 0;
 
     if ($CustomersNumberCc) {
         my $CustomerCounterCc = 1;
         for my $Count ( 1 ... $CustomersNumberCc ) {
-            my $CustomerElementCc
-                = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
-            my $CustomerKeyCc = $Self->{ParamObject}->GetParam( Param => 'CcCustomerKey_' . $Count )
+            my $CustomerElementCc = $Self->{ParamObject}->GetParam( Param => 'CcCustomerTicketText_' . $Count );
+            my $CustomerKeyCc     = $Self->{ParamObject}->GetParam( Param => 'CcCustomerKey_' . $Count )
                 || '';
-            my $CustomerQueueCc
-                = $Self->{ParamObject}->GetParam( Param => 'CcCustomerQueue_' . $Count )
+            my $CustomerQueueCc = $Self->{ParamObject}->GetParam( Param => 'CcCustomerQueue_' . $Count )
                 || '';
 
             if ($CustomerElementCc) {
@@ -319,19 +314,15 @@ sub Run {
     }
 
     my @MultipleCustomerBcc;
-    my $CustomersNumberBcc
-        = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
+    my $CustomersNumberBcc = $Self->{ParamObject}->GetParam( Param => 'CustomerTicketCounterBccCustomer' ) || 0;
 
     if ($CustomersNumberBcc) {
         my $CustomerCounterBcc = 1;
         for my $Count ( 1 ... $CustomersNumberBcc ) {
-            my $CustomerElementBcc
-                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
-            my $CustomerKeyBcc
-                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerKey_' . $Count )
+            my $CustomerElementBcc = $Self->{ParamObject}->GetParam( Param => 'BccCustomerTicketText_' . $Count );
+            my $CustomerKeyBcc     = $Self->{ParamObject}->GetParam( Param => 'BccCustomerKey_' . $Count )
                 || '';
-            my $CustomerQueueBcc
-                = $Self->{ParamObject}->GetParam( Param => 'BccCustomerQueue_' . $Count )
+            my $CustomerQueueBcc = $Self->{ParamObject}->GetParam( Param => 'BccCustomerQueue_' . $Count )
                 || '';
 
             if ($CustomerElementBcc) {
@@ -409,8 +400,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -545,7 +535,7 @@ sub Run {
         my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
         $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Tn,
-            Subject => $GetParam{Subject} || '',
+            Subject      => $GetParam{Subject} || '',
         );
 
         my %ArticleParam;
@@ -669,8 +659,8 @@ sub Run {
                 NextStates => $Self->_GetNextStates(
                     %GetParam,
                 ),
-                ResponseFormat => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
-                Errors         => \%Error,
+                ResponseFormat      => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
+                Errors              => \%Error,
                 MultipleCustomer    => \@MultipleCustomer,
                 MultipleCustomerCc  => \@MultipleCustomerCc,
                 MultipleCustomerBcc => \@MultipleCustomerBcc,
@@ -796,8 +786,7 @@ sub Run {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # set the object ID (TicketID or ArticleID) depending on the field configration
-            my $ObjectID
-                = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
+            my $ObjectID = $DynamicFieldConfig->{ObjectType} eq 'Article' ? $ArticleID : $Self->{TicketID};
 
             # set the value
             my $Success = $Self->{BackendObject}->ValueSet(
@@ -840,7 +829,7 @@ sub Run {
 
         # log use response id and reply article id (useful for response diagnostics)
         $Self->{TicketObject}->HistoryAdd(
-            Name => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
+            Name         => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
             HistoryType  => 'Misc',
             TicketID     => $Self->{TicketID},
             CreateUserID => $Self->{UserID},
@@ -875,7 +864,10 @@ sub Run {
                 # load module
                 next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+                my $Object = $Jobs{$Job}->{Module}->new(
+                    %{$Self},
+                    Debug => $Self->{Debug},
+                );
 
                 # get params
                 for my $Parameter ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
@@ -1178,8 +1170,7 @@ sub Run {
 
         # use customer database email
         # do not add customer email to cc, if article type is email-internal
-        my $DataArticleType
-            = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
+        my $DataArticleType = $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $Data{ArticleTypeID} );
         if (
             $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeAddCustomerAddress')
             && $DataArticleType !~ m{internal}
@@ -1312,7 +1303,7 @@ $QData{"Signature"}
         # build new repsonse format based on template
         $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
             Template => $ResponseFormat,
-            Data => { %Param, %DataHTML },
+            Data     => { %Param, %DataHTML },
         );
 
         # check some values
@@ -1473,8 +1464,7 @@ sub _Mask {
     my %ArticleTypes;
     my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
     for my $ArticleTypeID (@ArticleTypesPossible) {
-        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $ArticleTypeID ) }
-            = $ArticleTypeID;
+        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $ArticleTypeID ) } = $ArticleTypeID;
     }
 
     my $ArticleTypeIDSelected = $Param{ArticleTypeID};
@@ -1491,8 +1481,7 @@ sub _Mask {
     );
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
         Data => {
@@ -1513,12 +1502,12 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format           => 'DateInputFormatLong',
-        YearPeriodPast   => 0,
-        YearPeriodFuture => 5,
-        DiffTime         => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class            => $Param{Errors}->{DateInvalid} || ' ',
-        Validate         => 1,
+        Format               => 'DateInputFormatLong',
+        YearPeriodPast       => 0,
+        YearPeriodFuture     => 5,
+        DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Validate             => 1,
         ValidateDateInFuture => 1,
     );
 
@@ -1688,7 +1677,10 @@ sub _Mask {
             if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # get params
             for ( sort keys %{ $Param{GetParam} } ) {
@@ -1827,7 +1819,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCompose', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketCompose',
+        Data         => \%Param
+    );
 }
 
 sub _GetFieldsToUpdate {

@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/et.pm - provides Estonian language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: et.pm,v 1.67.2.2 2012-11-22 06:56:08 mb Exp $
 # --

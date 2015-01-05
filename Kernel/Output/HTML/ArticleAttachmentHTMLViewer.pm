@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleAttachmentHTMLViewer.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleAttachmentHTMLViewer.pm,v 1.11 2011-02-18 23:43:17 mp Exp $
 # --
@@ -37,7 +37,10 @@ sub Run {
     # check needed stuff
     for (qw(File Article)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

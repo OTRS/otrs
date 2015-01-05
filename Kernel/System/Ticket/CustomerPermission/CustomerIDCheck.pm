@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/CustomerIDCheck.pm - the sub
 # module of the global ticket handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerIDCheck.pm,v 1.14 2011-11-25 09:57:17 mg Exp $
 # --
@@ -39,7 +39,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

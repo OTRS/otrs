@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutAJAX.pm,v 1.29 2011-12-09 02:50:26 cr Exp $
 # --
@@ -50,7 +50,10 @@ sub BuildSelectionJSON {
         # check needed stuff
         for (qw(Name Data)) {
             if ( !defined $Param{$_} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Need $_!"
+                );
                 return;
             }
         }

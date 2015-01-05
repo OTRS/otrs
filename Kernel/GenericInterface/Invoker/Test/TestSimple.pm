@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Invoker/TestSimple.pm - GenericInterface test data Invoker backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TestSimple.pm,v 1.3 2011-02-17 12:30:03 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Queue.pm,v 1.138 2012-04-17 19:07:54 mb Exp $
 # --
@@ -199,7 +199,10 @@ sub GetSignature {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -380,8 +383,7 @@ sub GetAllQueues {
         return if !@GroupIDs;
 
         my $GroupString = join ', ', sort @GroupIDs;
-        $CacheKey
-            = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
+        $CacheKey = "GetAllQueues::CustomerUserID::${Type}::${GroupString}::$Param{CustomerUserID}";
 
         # check cache
         my $Cache = $Self->{CacheInternalObject}->Get(
@@ -438,7 +440,10 @@ sub GetAllCustomQueues {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -483,7 +488,10 @@ sub QueueLookup {
 
     # check needed stuff
     if ( !$Param{Queue} && !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Queue or QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Queue or QueueID!'
+        );
         return;
     }
 
@@ -534,7 +542,10 @@ sub GetFollowUpOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -569,7 +580,10 @@ sub GetFollowUpLockOption {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -595,7 +609,10 @@ sub GetQueueGroupID {
 
     # check needed stuff
     if ( !$Param{QueueID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need QueueID!'
+        );
         return;
     }
 
@@ -657,7 +674,10 @@ sub QueueAdd {
 
     for (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID UserID FollowUpID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -685,8 +705,8 @@ sub QueueAdd {
             . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '
             . ' ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
-            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
+            \$Param{Name},     \$Param{GroupID},        \$Param{UnlockTimeout}, \$Param{SystemAddressID},
+            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID},  \$Param{SignatureID},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
             \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
             \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{ValidID},
@@ -710,8 +730,7 @@ sub QueueAdd {
     # reset cache
     $Self->{CacheInternalObject}->CleanUp();
 
-    my $StandardResponse2QueueByCreating
-        = $Self->{ConfigObject}->Get('StandardResponse2QueueByCreating');
+    my $StandardResponse2QueueByCreating = $Self->{ConfigObject}->Get('StandardResponse2QueueByCreating');
 
     # add default responses (if needed), add response by name
     if (
@@ -739,8 +758,7 @@ sub QueueAdd {
     }
 
     # get standard response id
-    my $StandardResponseID2QueueByCreating
-        = $Self->{ConfigObject}->Get('StandardResponseID2QueueByCreating');
+    my $StandardResponseID2QueueByCreating = $Self->{ConfigObject}->Get('StandardResponseID2QueueByCreating');
 
     return $QueueID if !$StandardResponseID2QueueByCreating;
     return $QueueID if ref $StandardResponseID2QueueByCreating ne 'ARRAY';
@@ -778,7 +796,10 @@ sub QueueGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -874,7 +895,10 @@ sub QueueGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }
@@ -919,7 +943,10 @@ sub QueueUpdate {
         )
     {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -944,7 +971,10 @@ sub QueueUpdate {
         $Param{$Time} = $Param{$Time} || 0;
 
         if ( $Param{$Time} !~ m{^\d+$}smx ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$Time is not numeric!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$Time is not numeric!"
+            );
             return;
         }
     }

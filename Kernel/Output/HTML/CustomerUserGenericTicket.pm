@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUserGenericTicket.pm,v 1.20 2012-01-23 14:43:21 mg Exp $
 # --
@@ -130,8 +130,7 @@ sub Run {
 
     # note:
     # "special characters" in customer id have to be escaped, so that DB::QueryCondition works
-    my $CustomerIDEscaped
-        = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
+    my $CustomerIDEscaped = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{Data}->{UserCustomerID} );
 
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};

@@ -1,6 +1,6 @@
 # --
 # XML.t - XML tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: XML.t,v 1.32 2011-08-12 09:06:15 mg Exp $
 # --
@@ -618,7 +618,7 @@ if ( open( DATA, "< $Path/$File" ) ) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
 
     $Self->True(

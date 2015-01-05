@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSelectBox.pm,v 1.38 2011-01-21 22:47:21 en Exp $
 # --
@@ -68,7 +68,13 @@ sub Run {
         if ( !%Errors ) {
 
             # fetch database and add row blocks
-            if ( $Self->{DBObject}->Prepare( SQL => $Param{SQL}, Limit => $Param{Max} ) ) {
+            if (
+                $Self->{DBObject}->Prepare(
+                    SQL   => $Param{SQL},
+                    Limit => $Param{Max}
+                )
+                )
+            {
                 my $Count = 0;
                 my @Head;
                 my @Data;
@@ -174,8 +180,7 @@ sub Run {
                     Type => 'Error',
                     What => 'Message',
                 );
-                $Errors{ErrorType}
-                    = ( $Errors{ErrorMessage} =~ /bind/i ) ? 'BindParam' : 'SQLSyntax';
+                $Errors{ErrorType} = ( $Errors{ErrorMessage} =~ /bind/i ) ? 'BindParam' : 'SQLSyntax';
                 $Errors{SQLInvalid} = 'ServerError';
             }
         }

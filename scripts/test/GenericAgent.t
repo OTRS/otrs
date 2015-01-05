@@ -1,6 +1,6 @@
 # --
 # GenericAgent.t - GenericAgent tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: GenericAgent.t,v 1.14 2011-12-12 19:18:14 cg Exp $
 # --
@@ -78,8 +78,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField
-            = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
@@ -330,7 +329,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
 );
 
 $Self->True(

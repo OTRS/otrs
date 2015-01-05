@@ -1,6 +1,6 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Stats.t,v 1.28 2011-12-09 14:30:12 mb Exp $
 # --
@@ -244,8 +244,7 @@ $Self->True(
 # ---
 
 # load example file
-my $Path
-    = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
+my $Path          = $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/Stats/Stats.TicketOverview.de.xml';
 my $StatID        = 0;
 my $ExportContent = {};
 my $Filehandle;

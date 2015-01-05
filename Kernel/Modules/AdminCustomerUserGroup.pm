@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerUserGroup.pm,v 1.39 2011-12-21 13:42:54 mg Exp $
 # --
@@ -110,10 +110,10 @@ sub Run {
         my %GroupData = $Self->{GroupObject}->GroupGet( ID => $ID );
 
         # search customer user
-        my %CustomerUserList
-            = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserSearch}, );
-        my @CustomerUserKeyList
-            = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
+        my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{CustomerUserSearch},
+        );
+        my @CustomerUserKeyList = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
 
         # set max count
         my $MaxCount = @CustomerUserKeyList;
@@ -186,8 +186,9 @@ sub Run {
         }
 
         # get group data
-        my %UserData
-            = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserSearch}, );
+        my %UserData = $Self->{CustomerUserObject}->CustomerSearch(
+            Search => $Param{CustomerUserSearch},
+        );
 
         my %NewPermission;
         for my $UserID ( keys %UserData ) {
@@ -275,10 +276,10 @@ sub Run {
     $Output .= $Self->{LayoutObject}->NavigationBar();
 
     # search customer user
-    my %CustomerUserList
-        = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserSearch}, );
-    my @CustomerUserKeyList
-        = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
+    my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+        Search => $Param{CustomerUserSearch},
+    );
+    my @CustomerUserKeyList = sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList;
 
     # count results
     my $CustomerUserCount = @CustomerUserKeyList;
@@ -308,8 +309,7 @@ sub Run {
             my $UserName = $Self->{CustomerUserObject}->CustomerName(
                 UserLogin => $CustomerUserKeyList[ $Counter - 1 ]
             );
-            $UserRowParam{ $User{UserID} }
-                = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
+            $UserRowParam{ $User{UserID} } = "$UserName <$User{UserEmail}> ($User{UserCustomerID})";
         }
     }
 
@@ -335,7 +335,10 @@ sub _Change {
     my %Data        = %{ $Param{Data} };
     my $Type        = $Param{Type} || 'CustomerUser';
     my $NeType      = $Type eq 'Group' ? 'CustomerUser' : 'Group';
-    my %VisibleType = ( CustomerUser => 'Customer', Group => 'Group', );
+    my %VisibleType = (
+        CustomerUser => 'Customer',
+        Group        => 'Group',
+    );
     my $SearchLimit = $Param{SearchLimit};
 
     my @ItemList = ();
@@ -413,7 +416,9 @@ sub _Change {
         if ( !@ItemList ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ChangeItemCountLimit',
-                Data => { ItemCount => 0, },
+                Data => {
+                    ItemCount => 0,
+                },
             );
 
             my $ColSpan = "3";
@@ -429,13 +434,17 @@ sub _Change {
         elsif ( @ItemList > $SearchLimit ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ChangeItemCountLimit',
-                Data => { ItemCount => ">" . $SearchLimit, },
+                Data => {
+                    ItemCount => ">" . $SearchLimit,
+                },
             );
         }
         else {
             $Self->{LayoutObject}->Block(
                 Name => 'ChangeItemCount',
-                Data => { ItemCount => scalar @ItemList, },
+                Data => {
+                    ItemCount => scalar @ItemList,
+                },
             );
         }
     }
@@ -523,7 +532,9 @@ sub _Overview {
     $Self->{LayoutObject}->Block( Name => 'AlwaysGroupsConfig' );
 
     # output filter and default block
-    $Self->{LayoutObject}->Block( Name => 'Filter', );
+    $Self->{LayoutObject}->Block(
+        Name => 'Filter',
+    );
 
     # output result block
     $Self->{LayoutObject}->Block(
@@ -537,7 +548,9 @@ sub _Overview {
     if ( !@CustomerUserKeyList ) {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCountLimit',
-            Data => { CustomerUserCount => 0, },
+            Data => {
+                CustomerUserCount => 0,
+            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'NoDataFoundMsgList',
@@ -546,13 +559,17 @@ sub _Overview {
     elsif ( @CustomerUserKeyList > $SearchLimit ) {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCountLimit',
-            Data => { CustomerUserCount => ">" . $SearchLimit, },
+            Data => {
+                CustomerUserCount => ">" . $SearchLimit,
+            },
         );
     }
     else {
         $Self->{LayoutObject}->Block(
             Name => 'ResultCustomerUserCount',
-            Data => { CustomerUserCount => scalar @CustomerUserKeyList, },
+            Data => {
+                CustomerUserCount => scalar @CustomerUserKeyList,
+            },
         );
     }
 

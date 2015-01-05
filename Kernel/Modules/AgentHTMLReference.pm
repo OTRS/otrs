@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentHTMLReference.pm - HTML reference pages
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentHTMLReference.pm,v 1.3 2010-10-06 08:44:30 mg Exp $
 # --

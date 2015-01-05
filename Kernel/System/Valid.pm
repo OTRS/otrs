@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Valid.pm - all valid functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Valid.pm,v 1.23 2012-03-19 00:36:58 mh Exp $
 # --
@@ -120,7 +120,10 @@ sub ValidList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Data
+    );
 
     return %Data;
 }
@@ -144,7 +147,10 @@ sub ValidLookup {
 
     # check needed stuff
     if ( !$Param{Valid} && !$Param{ValidID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Valid or ValidID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Valid or ValidID!'
+        );
         return;
     }
 

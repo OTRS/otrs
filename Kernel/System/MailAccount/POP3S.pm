@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: POP3S.pm,v 1.13 2011-03-09 13:41:55 mb Exp $
 # --
@@ -49,7 +49,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -67,7 +70,10 @@ sub Connect {
     );
 
     if ( !$PopObject ) {
-        return ( Successful => 0, Message => "POP3S: Can't connect to $Param{Host}" );
+        return (
+            Successful => 0,
+            Message    => "POP3S: Can't connect to $Param{Host}"
+        );
     }
 
     # authentcation
@@ -115,13 +121,19 @@ sub _Fetch {
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -193,7 +205,7 @@ sub _Fetch {
             if ( $MessageSize > $MaxEmailSize ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
+                    Message  => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. "
                         . "Email too big ($MessageSize KB - max $MaxEmailSize KB)!",
                 );
             }
@@ -283,7 +295,7 @@ sub _Fetch {
     if ( $Debug > 0 || $FetchCounter ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
 
@@ -304,7 +316,10 @@ sub _ProcessFailed {
     # check needed stuff
     for (qw(Email)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }

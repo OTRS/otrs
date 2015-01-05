@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Lock.pm,v 1.35.2.1 2012-07-01 23:09:45 mh Exp $
 # --
@@ -130,7 +130,10 @@ sub LockViewableLock {
     # check needed stuff
     for (qw(Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -236,7 +239,10 @@ sub LockList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'UserID!'
+        );
         return;
     }
 

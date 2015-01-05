@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VariableCheck.pm - helpers to check variables
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: VariableCheck.pm,v 1.6 2011-11-08 09:43:04 mg Exp $
 # --
@@ -287,7 +287,7 @@ sub IsIPv4Address {
 
         # allow numbers 0 to 255, no leading zeroes
         return if $Part !~ m{
-            \A (?: \d | [1-9] \d | [1] \d\{2\} | [2][0-4]\d | [2][5][0-5] ) \z
+            \A (?: \d | [1-9] \d | [1] \d{2} | [2][0-4]\d | [2][5][0-5] ) \z
         }xms;
     }
 
@@ -473,7 +473,10 @@ sub DataIsDifferent {
 
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
-                    return 1 if DataIsDifferent( Data1 => $A[$Count], Data2 => $B[$Count] );
+                    return 1 if DataIsDifferent(
+                        Data1 => $A[$Count],
+                        Data2 => $B[$Count]
+                    );
                     next;
                 }
                 return 1;
@@ -508,7 +511,10 @@ sub DataIsDifferent {
 
             # return if values are different
             if ( ref $A{$Key} eq 'ARRAY' || ref $A{$Key} eq 'HASH' ) {
-                return 1 if DataIsDifferent( Data1 => $A{$Key}, Data2 => $B{$Key} );
+                return 1 if DataIsDifferent(
+                    Data1 => $A{$Key},
+                    Data2 => $B{$Key}
+                );
                 delete $A{$Key};
                 delete $B{$Key};
                 next;
@@ -522,7 +528,10 @@ sub DataIsDifferent {
     }
 
     if ( ref $Param{Data1} eq 'REF' && ref $Param{Data2} eq 'REF' ) {
-        return 1 if DataIsDifferent( Data1 => ${ $Param{Data1} }, Data2 => ${ $Param{Data2} } );
+        return 1 if DataIsDifferent(
+            Data1 => ${ $Param{Data1} },
+            Data2 => ${ $Param{Data2} }
+        );
         return;
     }
 

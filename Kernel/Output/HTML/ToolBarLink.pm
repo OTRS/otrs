@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ToolBarLink.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ToolBarLink.pm,v 1.1 2010-07-01 09:45:04 martin Exp $
 # --
@@ -37,7 +37,10 @@ sub Run {
     # check needed stuff
     for (qw(Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

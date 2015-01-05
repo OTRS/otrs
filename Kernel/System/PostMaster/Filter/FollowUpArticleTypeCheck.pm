@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter/FollowUpArticleTypeCheck.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: FollowUpArticleTypeCheck.pm,v 1.7 2011-12-08 14:06:42 mg Exp $
 # --
@@ -40,7 +40,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID JobConfig GetParam)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

@@ -1,6 +1,6 @@
 # --
 # EmailParser.t - email parser tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: EmailParser.t,v 1.37.2.1 2012-05-16 08:15:12 mg Exp $
 # --
@@ -101,15 +101,13 @@ $Self->Is(
 );
 
 $Self->Is(
-    $EmailParserObject
-        ->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetRealname( Email => '"Juergen "quoted name" Weber" <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
 );
 
 $Self->Is(
-    $EmailParserObject
-        ->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
+    $EmailParserObject->GetRealname( Email => '"Juergen " quoted name " Weber" <juergen.qeber@air.com>' ),
     'Juergen "quoted name" Weber',
     "#1 GetRealname() with quoted name",
 );

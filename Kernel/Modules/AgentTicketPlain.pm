@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketPlain.pm - to get a plain view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketPlain.pm,v 1.18 2011-12-08 14:06:42 mg Exp $
 # --
@@ -114,7 +114,9 @@ sub Run {
             %Article,
         },
     );
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small', );
+    $Output .= $Self->{LayoutObject}->Footer(
+        Type => 'Small',
+    );
     return $Output;
 }
 

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SearchProfile.pm - module to manage search profiles
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SearchProfile.pm,v 1.19 2012-03-26 21:47:00 mh Exp $
 # --
@@ -110,7 +110,10 @@ sub SearchProfileAdd {
     # check needed stuff
     for (qw(Base Name Key UserLogin)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -164,7 +167,10 @@ sub SearchProfileGet {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -210,7 +216,10 @@ sub SearchProfileDelete {
     # check needed stuff
     for (qw(Base Name UserLogin)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -243,7 +252,10 @@ sub SearchProfileList {
     # check needed stuff
     for (qw(Base UserLogin)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

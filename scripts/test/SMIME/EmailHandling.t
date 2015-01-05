@@ -1,6 +1,6 @@
 # --
 # EmailHandling.t - SMIME email handling tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: EmailHandling.t,v 1.1.2.4 2013-02-08 14:48:04 cr Exp $
 # --

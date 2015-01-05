@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketGet.pm - GenericInterface Ticket Get operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketGet.pm,v 1.12.2.1 2012-11-09 23:17:30 cr Exp $
 # --
@@ -64,10 +64,9 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CommonObject} = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
+    $Self->{TicketCommonObject} = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
 
     return $Self;
 }
@@ -370,7 +369,7 @@ sub Run {
 
             my @Attachments;
             ATTACHMENT:
-            for my $FileID (sort keys %AtmIndex ) {
+            for my $FileID ( sort keys %AtmIndex ) {
                 next ATTACHMENT if !$FileID;
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $Article->{ArticleID},

@@ -1,6 +1,6 @@
 # --
 # scripts/test/JSON.t - JSON module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: JSON.t,v 1.9 2012-02-13 12:31:08 mg Exp $
 # --
@@ -42,7 +42,7 @@ my @Tests = (
         Name   => 'JSON - simple'
     },
     {
-        Input => [ 1, 2, "3", "Foo", 5 ],
+        Input  => [ 1, 2, "3", "Foo", 5 ],
         Result => '[1,2,"3","Foo",5]',
         Name   => 'JSON - simple'
     },
@@ -122,7 +122,7 @@ for my $Test (@Tests) {
         Name        => 'JSON - simple'
     },
     {
-        Result => [ 1, 2, "3", "Foo", 5 ],
+        Result      => [ 1, 2, "3", "Foo", 5 ],
         InputDecode => '[1,2,"3","Foo",5]',
         Name        => 'JSON - simple'
     },

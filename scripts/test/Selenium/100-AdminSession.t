@@ -1,6 +1,6 @@
 # --
 # 100-AdminSession.t - frontend tests for AdminSession
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: 100-AdminSession.t,v 1.3 2011-02-09 15:45:30 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutDatepicker.pm - provides generic HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutDatepicker.pm,v 1.1 2010-06-15 12:59:02 mn Exp $
 # --
@@ -49,16 +49,15 @@ sub DatepickerGetVacationDays {
     # translate the vacation description if possible
     foreach my $Month ( keys %{$TimeVacationDays} ) {
         foreach my $Day ( keys %{ $TimeVacationDays->{$Month} } ) {
-            $TimeVacationDays->{$Month}->{$Day}
-                = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
+            $TimeVacationDays->{$Month}->{$Day} = $Self->{LanguageObject}->Get( $TimeVacationDays->{$Month}->{$Day} );
         }
     }
 
     foreach my $Year ( keys %{$TimeVacationDaysOneTime} ) {
         foreach my $Month ( keys %{ $TimeVacationDaysOneTime->{$Year} } ) {
             foreach my $Day ( keys %{ $TimeVacationDaysOneTime->{$Year}->{$Month} } ) {
-                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} = $Self->{LanguageObject}
-                    ->Get( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} );
+                $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
+                    = $Self->{LanguageObject}->Get( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} );
             }
         }
     }

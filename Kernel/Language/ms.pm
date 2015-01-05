@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/ms.pm - provides Malay language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: de.pm,v 1.324.2.1 2012/08/17 12:07:55 mg Exp $
 # --

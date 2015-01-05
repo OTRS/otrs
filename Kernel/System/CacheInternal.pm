@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CacheInternal.pm - all cache functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CacheInternal.pm,v 1.9 2010-11-30 13:11:11 mg Exp $
 # --
@@ -120,7 +120,10 @@ sub Set {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -157,7 +160,10 @@ sub Get {
     # check needed stuff
     for (qw(Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -197,7 +203,10 @@ sub Delete {
     # check needed stuff
     for (qw(Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

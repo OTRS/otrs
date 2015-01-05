@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Notification.pm,v 1.38.2.1 2012-06-07 11:51:01 mb Exp $
 # --
@@ -103,7 +103,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
     my ( $Language, $Type );
@@ -117,7 +120,7 @@ sub NotificationGet {
             . ' notification_language, subject, text, content_type '
             . ' FROM notifications WHERE '
             . ' notification_type = ? AND notification_language = ?',
-        Bind => [ \$Type, \$Language, ],
+        Bind  => [ \$Type, \$Language, ],
         Limit => 1,
     );
 
@@ -252,7 +255,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(Type Charset Language Subject Body ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

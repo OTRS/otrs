@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketOverview.pm - status for all open tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketOverview.pm,v 1.4.2.3 2012-11-19 12:36:33 mb Exp $
 # --
@@ -225,8 +225,7 @@ sub Run {
             Name => 'Empty',
         );
 
-        my $CustomTexts
-            = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
+        my $CustomTexts = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
 
         if ( ref $CustomTexts eq 'HASH' ) {
             $Self->{LayoutObject}->Block(
@@ -425,8 +424,7 @@ sub ShowTicketStatus {
         DynamicFields => 0,
     );
 
-    my $Subject
-        = $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject'
+    my $Subject = $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject'
         ? $Article{Subject}
         : $Ticket{Title};
 
@@ -437,13 +435,16 @@ sub ShowTicketStatus {
     );
 
     # return ticket
-    $Article{CustomerAge}
-        = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ) || 0;
+    $Article{CustomerAge} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Article{Age},
+        Space => ' '
+    ) || 0;
 
     # customer info (customer name)
     if ( $Article{CustomerUserID} ) {
-        $Param{CustomerName}
-            = $Self->{CustomerUserObject}->CustomerName( UserLogin => $Article{CustomerUserID}, );
+        $Param{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+            UserLogin => $Article{CustomerUserID},
+        );
         $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
     }
 

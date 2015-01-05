@@ -1,6 +1,6 @@
 # --
 # ArticleSearchIndex.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleSearchIndex.t,v 1.2 2011-09-05 10:19:25 mg Exp $
 # --
@@ -68,7 +68,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
     $Self->True(
         $ArticleID,
@@ -101,7 +101,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
     $Self->True(
         $ArticleID,

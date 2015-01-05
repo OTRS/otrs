@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/db2.pm - db2 database backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: db2.pm,v 1.62 2011-12-12 09:04:47 mg Exp $
 # --
@@ -94,7 +94,10 @@ sub DatabaseCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -107,7 +110,10 @@ sub DatabaseDrop {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -391,7 +397,7 @@ sub TableAlter {
                 $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-        # Not sure if this might cause problems if the column does not have a NOT NULL constraint...
+            # Not sure if this might cause problems if the column does not have a NOT NULL constraint...
             push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} DROP NOT NULL";
             push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
@@ -482,7 +488,10 @@ sub IndexCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -520,7 +529,10 @@ sub IndexDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -543,7 +555,10 @@ sub ForeignKeyCreate {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -572,7 +587,10 @@ sub ForeignKeyDrop {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -600,7 +618,10 @@ sub UniqueCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -625,7 +646,10 @@ sub UniqueDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

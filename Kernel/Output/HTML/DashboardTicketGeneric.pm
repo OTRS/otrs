@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardTicketGeneric.pm,v 1.47.2.1 2013-01-10 15:43:33 ub Exp $
 # --
@@ -69,8 +69,7 @@ sub new {
 
     $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
 
-    $Self->{CacheKey}
-        = $Self->{Name} . '-'
+    $Self->{CacheKey} = $Self->{Name} . '-'
         . $Self->{PageShown} . '-'
         . $Self->{StartHit} . '-'
         . $Self->{UserID};
@@ -186,7 +185,7 @@ sub Run {
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
-            Locks => [ 'lock', 'tmp_lock' ],
+            Locks    => [ 'lock', 'tmp_lock' ],
         },
         Watcher => {
             WatchUserIDs => [ $Self->{UserID}, ],

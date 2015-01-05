@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SLA/PreferencesDB.pm - some user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesDB.pm,v 1.4.2.1 2012-07-01 23:09:45 mh Exp $
 # --
@@ -59,7 +59,10 @@ sub SLAPreferencesSet {
     # check needed stuff
     for (qw(SLAID Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -93,7 +96,10 @@ sub SLAPreferencesGet {
     # check needed stuff
     for (qw(SLAID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

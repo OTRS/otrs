@@ -1,6 +1,6 @@
 # --
 # SLA.t - SLA tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SLA.t,v 1.12 2010-10-29 22:16:59 en Exp $
 # --
@@ -281,9 +281,9 @@ my $ItemData = [
             UserID     => 1,
         },
         AddGet => {
-            ServiceIDs => [ $ServiceIDs[0], $ServiceIDs[1] ],
-            Name       => $SLAName[2],
-            Calendar   => '',
+            ServiceIDs          => [ $ServiceIDs[0], $ServiceIDs[1] ],
+            Name                => $SLAName[2],
+            Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
             UpdateTime          => 0,
@@ -309,9 +309,9 @@ my $ItemData = [
     # this sla must be inserted sucessfully
     {
         Add => {
-            ServiceIDs => [ $ServiceIDs[1], $ServiceIDs[2], $ServiceIDs[0] ],
-            Name       => $SLAName[3],
-            Calendar   => '1',
+            ServiceIDs          => [ $ServiceIDs[1], $ServiceIDs[2], $ServiceIDs[0] ],
+            Name                => $SLAName[3],
+            Calendar            => '1',
             FirstResponseTime   => 10,
             FirstResponseNotify => 20,
             UpdateTime          => 30,
@@ -323,9 +323,9 @@ my $ItemData = [
             UserID              => 1,
         },
         AddGet => {
-            ServiceIDs => [ $ServiceIDs[0], $ServiceIDs[1], $ServiceIDs[2] ],
-            Name       => $SLAName[3],
-            Calendar   => '1',
+            ServiceIDs          => [ $ServiceIDs[0], $ServiceIDs[1], $ServiceIDs[2] ],
+            Name                => $SLAName[3],
+            Calendar            => '1',
             FirstResponseTime   => 10,
             FirstResponseNotify => 20,
             UpdateTime          => 30,

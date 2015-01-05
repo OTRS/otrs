@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-3.1.mssql-datatypes.pl - update script to migrate data types in the MS-SQL database
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-3.1.mssql-datatypes.pl,v 1.2 2011-11-17 18:02:23 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSession.pm - to control all session ids
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSession.pm,v 1.34 2011-12-23 14:36:07 mg Exp $
 # --
@@ -88,8 +88,12 @@ sub Run {
         $Data{SessionID} = $WantSessionID;
 
         # create blocks
-        $Self->{LayoutObject}->Block( Name => 'ActionList', );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview', );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionOverview',
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ActionKillSession',
             Data => {%Data},
@@ -112,11 +116,10 @@ sub Run {
                     $Data{$Key} = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$Key} );
                 }
                 if ( $Key eq 'UserSessionStart' ) {
-                    my $Age
-                        = int(
+                    my $Age = int(
                         ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} )
                         / 3600
-                        );
+                    );
                     my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
                         SystemTime => $Data{UserSessionStart},
                     );
@@ -170,7 +173,9 @@ sub Run {
         $MetaData{UserSessionUniq}     = 0;
         $MetaData{CustomerSessionUniq} = 0;
 
-        $Self->{LayoutObject}->Block( Name => 'Overview', );
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+        );
 
         for my $SessionID (@List) {
             my $List = '';
@@ -196,7 +201,9 @@ sub Run {
         }
 
         # create blocks
-        $Self->{LayoutObject}->Block( Name => 'ActionList', );
+        $Self->{LayoutObject}->Block(
+            Name => 'ActionList',
+        );
         $Self->{LayoutObject}->Block(
             Name => 'ActionSummary',
             Data => {

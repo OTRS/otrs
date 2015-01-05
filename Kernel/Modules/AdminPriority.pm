@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminPriority.pm,v 1.15 2012-02-27 22:53:37 ep Exp $
 # --

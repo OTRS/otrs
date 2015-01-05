@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.XMLMaster.pl - the global xml handle for xml2db
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.XMLMaster.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
 # --
@@ -46,7 +46,7 @@ my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "XMLMaster.pl <Revision $VERSION> - OTRS xml master\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: XMLMaster.pl [-d 1] \n";
     exit 1;
 }
@@ -101,7 +101,9 @@ eval {
         %CommonObject,
         Debug => $Opts{d},
     );
-    $CommonObject{XMLMaster}->Run( XML => \$String, );
+    $CommonObject{XMLMaster}->Run(
+        XML => \$String,
+    );
 
     # debug info
     if ( $Opts{d} ) {

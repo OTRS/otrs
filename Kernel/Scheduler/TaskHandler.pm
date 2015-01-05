@@ -1,6 +1,6 @@
 # --
 # Kernel/Scheduler/TaskHandler.pm - Scheduler task handler interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TaskHandler.pm,v 1.9 2011-03-10 13:55:12 mg Exp $
 # --

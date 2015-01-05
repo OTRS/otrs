@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SystemAddress.pm - lib for system addresses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SystemAddress.pm,v 1.35 2012-03-26 21:47:00 mh Exp $
 # --
@@ -115,7 +115,10 @@ sub SystemAddressAdd {
     # check needed stuff
     for (qw(Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -175,7 +178,10 @@ sub SystemAddressGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID!"
+        );
         return;
     }
 
@@ -227,7 +233,10 @@ sub SystemAddressUpdate {
     # check needed stuff
     for (qw(ID Name ValidID Realname QueueID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -299,7 +308,10 @@ sub SystemAddressIsLocalAddress {
     # check needed stuff
     for (qw(Address)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -321,7 +333,10 @@ sub SystemAddressQueueID {
     # check needed stuff
     for (qw(Address)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

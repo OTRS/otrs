@@ -1,6 +1,6 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AutoIncrement.pm,v 1.29 2009-05-15 10:12:02 martin Exp $
 # --
@@ -31,8 +31,7 @@ sub TicketCreateNumber {
     # get needed config options
     my $CounterLog = $Self->{ConfigObject}->Get('Ticket::CounterLog');
     my $SystemID   = $Self->{ConfigObject}->Get('SystemID');
-    my $MinSize
-        = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
+    my $MinSize    = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
         || $Self->{ConfigObject}->Get('Ticket::NumberGenerator::MinCounterSize')
         || 5;
 
@@ -117,8 +116,7 @@ sub GetTNByString {
     }
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $MinSize
-        = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
+    my $MinSize           = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
         || $Self->{ConfigObject}->Get('Ticket::NumberGenerator::MinCounterSize')
         || 5;
     my $MaxSize = $MinSize + 5;

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PendingJobs.pl - check pending tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PendingJobs.pl,v 1.8 2011-12-13 08:38:39 mg Exp $
 # --
@@ -62,7 +62,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "otrs.PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -238,10 +238,9 @@ if (@PendingReminderStateIDs) {
             );
 
             # check if a reminder has already been sent today
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                = $CommonObject{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CommonObject{TimeObject}->SystemTime2Date(
                 SystemTime => $CommonObject{TimeObject}->SystemTime(),
-                );
+            );
 
             # get ticket history
             my @Lines = $CommonObject{TicketObject}->HistoryGet(

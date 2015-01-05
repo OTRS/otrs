@@ -1,6 +1,6 @@
 # --
 # Kernel/System/EventHandler.pm - global object events
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: EventHandler.pm,v 1.10 2012-03-03 01:34:31 ep Exp $
 # --
@@ -176,7 +176,10 @@ sub EventHandler {
     # check needed stuff
     for (qw(Data Event UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

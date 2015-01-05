@@ -1,6 +1,6 @@
 # --
 # Kernel/System/SysConfig/PriorityValidate.pm - all PriorityValidate functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PriorityValidate.pm,v 1.1 2010-07-28 08:49:24 ub Exp $
 # --

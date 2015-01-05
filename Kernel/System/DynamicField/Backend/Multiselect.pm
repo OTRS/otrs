@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Multiselect.pm - Delegate for DynamicField Multiselect backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Multiselect.pm,v 1.51.2.2 2012-12-20 16:01:27 cr Exp $
 # --
@@ -59,8 +59,7 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -670,8 +669,8 @@ sub SearchFieldValueGet {
 
     # get dynamic field value form param object
     if ( defined $Param{ParamObject} ) {
-        my @FieldValues = $Param{ParamObject}
-            ->GetArray( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+        my @FieldValues
+            = $Param{ParamObject}->GetArray( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
 
         $Value = \@FieldValues;
     }

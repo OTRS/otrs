@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField.pm - DynamicFields configuration backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DynamicField.pm,v 1.56.2.2 2012-05-11 08:33:02 mb Exp $
 # --
@@ -96,8 +96,7 @@ sub new {
     $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('DynamicField::CacheTTL') || 3600 );
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -140,7 +139,10 @@ sub DynamicFieldAdd {
     # check needed stuff
     for my $Key (qw(Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -256,7 +258,10 @@ sub DynamicFieldGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -353,7 +358,10 @@ sub DynamicFieldUpdate {
     # check needed stuff
     for my $Key (qw(ID Name Label FieldOrder FieldType ObjectType Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -384,7 +392,7 @@ sub DynamicFieldUpdate {
         SQL => "SELECT id FROM dynamic_field "
             . "WHERE $Self->{Lower}(name) = $Self->{Lower}(?) "
             . "AND id != ?",
-        Bind => [ \$Param{Name}, \$Param{ID} ],
+        Bind  => [ \$Param{Name}, \$Param{ID} ],
         LIMIT => 1,
     );
 
@@ -471,7 +479,10 @@ sub DynamicFieldDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -591,8 +602,7 @@ sub DynamicFieldList {
     my $ResultType = $Param{ResultType} || 'ARRAY';
     $ResultType = $ResultType eq 'HASH' ? 'HASH' : 'ARRAY';
 
-    my $CacheKey
-        = 'DynamicFieldList::Valid::'
+    my $CacheKey = 'DynamicFieldList::Valid::'
         . $Valid
         . '::ObjectType::'
         . $ObjectType
@@ -1118,7 +1128,10 @@ sub _DynamicFieldReorder {
     # check needed stuff
     for my $Needed (qw(ID FieldOrder Mode)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => 'Need $Needed!' );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Need $Needed!'
+            );
             return;
         }
     }
@@ -1127,7 +1140,10 @@ sub _DynamicFieldReorder {
 
         # check needed stuff
         if ( !$Param{OldFieldOrder} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => 'Need OldFieldOrder!' );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Need OldFieldOrder!'
+            );
             return;
         }
     }

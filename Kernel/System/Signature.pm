@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Signature.pm - All signature related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Signature.pm,v 1.17 2010-06-17 21:39:40 cr Exp $
 # --
@@ -110,7 +110,10 @@ sub SignatureAdd {
     # check needed stuff
     for (qw(Name Text ContentType ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -152,7 +155,10 @@ sub SignatureGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID!"
+        );
         return;
     }
 
@@ -211,7 +217,10 @@ sub SignatureUpdate {
     # check needed stuff
     for (qw(ID Name Text ContentType ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

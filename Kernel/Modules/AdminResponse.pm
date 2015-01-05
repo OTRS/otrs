@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminResponse.pm,v 1.55 2012-02-27 22:53:37 ep Exp $
 # --
@@ -51,7 +51,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID, );
+        my %Data = $Self->{StandardResponseObject}->StandardResponseGet(
+            ID => $ID,
+        );
 
         my @SelectedAttachment;
         my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
@@ -108,8 +110,7 @@ sub Run {
 
             # update group
             if (
-                $Self->{StandardResponseObject}
-                ->StandardResponseUpdate( %GetParam, UserID => $Self->{UserID} )
+                $Self->{StandardResponseObject}->StandardResponseUpdate( %GetParam, UserID => $Self->{UserID} )
                 )
             {
 
@@ -203,8 +204,7 @@ sub Run {
 
             # add response
             my $StandardResponseID
-                = $Self->{StandardResponseObject}
-                ->StandardResponseAdd( %GetParam, UserID => $Self->{UserID} );
+                = $Self->{StandardResponseObject}->StandardResponseAdd( %GetParam, UserID => $Self->{UserID} );
             if ($StandardResponseID) {
                 $Self->_Overview();
                 my $Output = $Self->{LayoutObject}->Header();
@@ -376,7 +376,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID, );
+            my %Data = $Self->{StandardResponseObject}->StandardResponseGet(
+                ID => $ID,
+            );
             my @SelectedAttachment;
             my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID(
                 ID => $ID,

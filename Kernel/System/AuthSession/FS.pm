@@ -1,6 +1,6 @@
 # --
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: FS.pm,v 1.44 2012-03-23 16:40:46 mh Exp $
 # --
@@ -47,7 +47,10 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
@@ -138,7 +141,10 @@ sub GetSessionIDData {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -229,7 +235,10 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no SessionID!!'
+        );
         return;
     }
 
@@ -259,7 +268,10 @@ sub UpdateSessionID {
     # check needed stuff
     for (qw(SessionID Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

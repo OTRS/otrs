@@ -1,6 +1,6 @@
 # --
 # Kernel/Scheduler/TaskHandler/GenericInterface.pm - Scheduler task handler Generic Interface backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: GenericInterface.pm,v 1.10 2012-02-09 14:42:08 mb Exp $
 # --

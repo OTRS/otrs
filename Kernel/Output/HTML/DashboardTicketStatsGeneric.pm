@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardTicketStatsGeneric.pm,v 1.19 2011-11-24 10:22:50 mg Exp $
 # --
@@ -78,10 +78,9 @@ sub Run {
         if ($Key) {
             $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key );
         }
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
-            = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $TimeNow,
-            );
+        );
 
         unshift(
             @TicketWeekdays,

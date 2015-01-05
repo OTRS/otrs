@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketWatcher.pm - a ticketwatcher module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketWatcher.pm,v 1.18 2012-01-24 00:08:45 cr Exp $
 # --
@@ -42,7 +42,9 @@ sub Run {
     # check if feature is active
     # ------------------------------------------------------------ #
     if ( !$Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        return $Self->{LayoutObject}->ErrorScreen( Message => 'Feature is not active', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'Feature is not active',
+        );
     }
 
     # ------------------------------------------------------------ #

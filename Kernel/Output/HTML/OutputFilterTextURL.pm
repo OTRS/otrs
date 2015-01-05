@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/OutputFilterTextURL.pm - auto URL detection filter
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: OutputFilterTextURL.pm,v 1.5 2011-05-18 18:20:09 en Exp $
 # --
@@ -37,7 +37,10 @@ sub Pre {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 
@@ -94,7 +97,10 @@ sub Post {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 

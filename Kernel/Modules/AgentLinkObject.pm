@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentLinkObject.pm - to link objects
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentLinkObject.pm,v 1.62 2012-01-06 13:00:04 mg Exp $
 # --
@@ -74,7 +74,7 @@ sub Run {
         $TemporarySourceTicketLink = 1;
     }
 
-   # do the permission check only if it is no temporary ticket link used while creating a new ticket
+    # do the permission check only if it is no temporary ticket link used while creating a new ticket
     if ( !$TemporarySourceTicketLink ) {
 
         # permission check
@@ -608,8 +608,7 @@ sub Run {
 
         # add search result to link list
         if ( $SearchList && $SearchList->{ $Form{TargetObject} } ) {
-            $LinkListWithData->{ $Form{TargetObject} }->{NOTLINKED}
-                = $SearchList->{ $Form{TargetObject} }->{NOTLINKED};
+            $LinkListWithData->{ $Form{TargetObject} }->{NOTLINKED} = $SearchList->{ $Form{TargetObject} }->{NOTLINKED};
         }
 
         # get possible types list

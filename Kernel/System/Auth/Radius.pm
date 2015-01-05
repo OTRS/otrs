@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Auth/Radius.pm - provides the radius authentication
 # based on Martin Edenhofer's Kernel::System::Auth::DB
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Radius.pm,v 1.12 2009-09-22 15:19:27 mb Exp $
 # --
@@ -41,8 +41,7 @@ sub new {
     # get user table
     $Self->{RadiusHost} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Host' . $Param{Count} )
         || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret}
-        = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
         || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;
@@ -53,12 +52,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -69,7 +73,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 

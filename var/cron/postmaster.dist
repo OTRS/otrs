@@ -1,6 +1,6 @@
 # --
 # cron/postmaster - postmaster cron of the OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: postmaster.dist,v 1.9 2009-02-16 20:55:11 tr Exp $
 # --

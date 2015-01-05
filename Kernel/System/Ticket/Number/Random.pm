@@ -1,6 +1,6 @@
 # --
 # Ticket/Number/Random.pm - a ticket number random generator
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Random.pm,v 1.23 2009-05-15 10:12:02 martin Exp $
 # --

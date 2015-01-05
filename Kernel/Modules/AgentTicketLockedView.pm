@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketLockedView.pm,v 1.16 2011-10-24 10:48:45 ep Exp $
 # --
@@ -68,7 +68,9 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
@@ -84,7 +86,7 @@ sub Run {
             Name   => 'All',
             Prio   => 1000,
             Search => {
-                Locks => [ 'lock', 'tmp_lock' ],
+                Locks      => [ 'lock', 'tmp_lock' ],
                 OwnerIDs   => [ $Self->{UserID} ],
                 OrderBy    => $OrderBy,
                 SortBy     => $SortByS,
@@ -96,7 +98,7 @@ sub Run {
             Name   => 'New Article',
             Prio   => 1001,
             Search => {
-                Locks => [ 'lock', 'tmp_lock' ],
+                Locks      => [ 'lock', 'tmp_lock' ],
                 OwnerIDs   => [ $Self->{UserID} ],
                 TicketFlag => {
                     Seen => 1,
@@ -112,12 +114,12 @@ sub Run {
             Name   => 'Pending',
             Prio   => 1002,
             Search => {
-                Locks     => [ 'lock',             'tmp_lock' ],
-                StateType => [ 'pending reminder', 'pending auto' ],
-                OwnerIDs  => [ $Self->{UserID} ],
-                OrderBy   => $OrderBy,
-                SortBy    => $SortByS,
-                UserID    => 1,
+                Locks      => [ 'lock',             'tmp_lock' ],
+                StateType  => [ 'pending reminder', 'pending auto' ],
+                OwnerIDs   => [ $Self->{UserID} ],
+                OrderBy    => $OrderBy,
+                SortBy     => $SortByS,
+                UserID     => 1,
                 Permission => 'ro',
             },
         },
@@ -125,7 +127,7 @@ sub Run {
             Name   => 'Reminder Reached',
             Prio   => 1003,
             Search => {
-                Locks => [ 'lock', 'tmp_lock' ],
+                Locks                         => [ 'lock', 'tmp_lock' ],
                 StateType                     => ['pending reminder'],
                 TicketPendingTimeOlderMinutes => 1,
                 OwnerIDs                      => [ $Self->{UserID} ],

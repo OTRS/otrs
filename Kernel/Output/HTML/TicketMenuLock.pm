@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuLock.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuLock.pm,v 1.21 2012-04-17 15:48:19 des Exp $
 # --
@@ -37,7 +37,10 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Ticket!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Ticket!'
+        );
         return;
     }
 

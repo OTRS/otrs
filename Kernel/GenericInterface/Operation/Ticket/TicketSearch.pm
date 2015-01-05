@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketSearch.pm - GenericInterface Ticket Search operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSearch.pm,v 1.14.2.2 2013-01-10 15:43:33 ub Exp $
 # --
@@ -68,9 +68,8 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
-    $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
+    $Self->{TicketCommonObject} = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{TicketObject}       = Kernel::System::Ticket->new( %{$Self} );
 
     # get config for this screen
     $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
@@ -570,12 +569,10 @@ sub _CreateTimeSettings {
     }
     elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
         for (qw(Month Day)) {
-            $GetParam{"TicketChangeTimeStart$_"}
-                = sprintf( "%02d", $GetParam{"TicketChangeTimeStart$_"} );
+            $GetParam{"TicketChangeTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketChangeTimeStart$_"} );
         }
         for (qw(Month Day)) {
-            $GetParam{"TicketChangeTimeStop$_"}
-                = sprintf( "%02d", $GetParam{"TicketChangeTimeStop$_"} );
+            $GetParam{"TicketChangeTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketChangeTimeStop$_"} );
         }
         if (
             $GetParam{TicketChangeTimeStartDay}
@@ -583,8 +580,7 @@ sub _CreateTimeSettings {
             && $GetParam{TicketChangeTimeStartYear}
             )
         {
-            $GetParam{TicketChangeTimeNewerDate}
-                = $GetParam{TicketChangeTimeStartYear} . '-'
+            $GetParam{TicketChangeTimeNewerDate} = $GetParam{TicketChangeTimeStartYear} . '-'
                 . $GetParam{TicketChangeTimeStartMonth} . '-'
                 . $GetParam{TicketChangeTimeStartDay}
                 . ' 00:00:00';
@@ -595,8 +591,7 @@ sub _CreateTimeSettings {
             && $GetParam{TicketChangeTimeStopYear}
             )
         {
-            $GetParam{TicketChangeTimeOlderDate}
-                = $GetParam{TicketChangeTimeStopYear} . '-'
+            $GetParam{TicketChangeTimeOlderDate} = $GetParam{TicketChangeTimeStopYear} . '-'
                 . $GetParam{TicketChangeTimeStopMonth} . '-'
                 . $GetParam{TicketChangeTimeStopDay}
                 . ' 23:59:59';
@@ -644,12 +639,10 @@ sub _CreateTimeSettings {
     }
     elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
         for (qw(Month Day)) {
-            $GetParam{"TicketCloseTimeStart$_"}
-                = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
+            $GetParam{"TicketCloseTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
         }
         for (qw(Month Day)) {
-            $GetParam{"TicketCloseTimeStop$_"}
-                = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
+            $GetParam{"TicketCloseTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
         }
         if (
             $GetParam{TicketCloseTimeStartDay}
@@ -657,8 +650,7 @@ sub _CreateTimeSettings {
             && $GetParam{TicketCloseTimeStartYear}
             )
         {
-            $GetParam{TicketCloseTimeNewerDate}
-                = $GetParam{TicketCloseTimeStartYear} . '-'
+            $GetParam{TicketCloseTimeNewerDate} = $GetParam{TicketCloseTimeStartYear} . '-'
                 . $GetParam{TicketCloseTimeStartMonth} . '-'
                 . $GetParam{TicketCloseTimeStartDay}
                 . ' 00:00:00';
@@ -669,8 +661,7 @@ sub _CreateTimeSettings {
             && $GetParam{TicketCloseTimeStopYear}
             )
         {
-            $GetParam{TicketCloseTimeOlderDate}
-                = $GetParam{TicketCloseTimeStopYear} . '-'
+            $GetParam{TicketCloseTimeOlderDate} = $GetParam{TicketCloseTimeStopYear} . '-'
                 . $GetParam{TicketCloseTimeStopMonth} . '-'
                 . $GetParam{TicketCloseTimeStopDay}
                 . ' 23:59:59';

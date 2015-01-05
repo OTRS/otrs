@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth.pm - provides the authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Auth.pm,v 1.56 2012-04-16 11:11:59 mg Exp $
 # --
@@ -195,7 +195,7 @@ sub Auth {
         my $AuthSyncBackend = $Self->{ConfigObject}->Get("AuthModule::UseSyncBackend${Count}")
             || $Self->{ConfigObject}->Get("AuthModule${Count}::UseSyncBackend");
 
-    # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
+        # for backwards compatibility, OTRS 3.1.1, 3.1.2 and 3.1.3 used this wrong format (see bug#8387)
 
         # sync with configured auth backend
         if ( defined $AuthSyncBackend ) {

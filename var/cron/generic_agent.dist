@@ -1,6 +1,6 @@
 # --
 # cron/generic_agent - otrs.GenericAgent.pl cron of the OTRS
-# Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: generic_agent.dist,v 1.15 2012-02-07 20:11:16 jb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/ForceOwnerReset.pm - reset owner on move
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ForceOwnerReset.pm,v 1.11 2010-05-19 07:08:18 mb Exp $
 # --
@@ -41,13 +41,19 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }

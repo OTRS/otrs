@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesSkin.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesSkin.pm,v 1.4 2010-10-22 12:56:22 mb Exp $
 # --
@@ -44,8 +44,10 @@ sub Param {
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if (
-            $Self->{LayoutObject}
-            ->SkinValidate( Skin => $PossibleSkin->{InternalName}, SkinType => 'Agent' )
+            $Self->{LayoutObject}->SkinValidate(
+                Skin     => $PossibleSkin->{InternalName},
+                SkinType => 'Agent'
+            )
             )
         {
             $ActiveSkins{ $PossibleSkin->{InternalName} } = $PossibleSkin->{VisibleName};

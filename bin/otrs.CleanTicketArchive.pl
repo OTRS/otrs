@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CleanTicketArchive.pl - Clean the ticket archive flag
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.CleanTicketArchive.pl,v 1.3 2010-08-06 17:49:20 cr Exp $
 # --
@@ -55,7 +55,7 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # print header
 print STDOUT "otrs.CleanTicketArchive.pl <Revision $VERSION> - clean ticket archive flag\n";
-print STDOUT "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print STDOUT "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 # check if archive system is activated
 if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
@@ -67,7 +67,7 @@ if ( !$CommonObject{ConfigObject}->Get('Ticket::ArchiveSystem') ) {
 
 # get all tickets with an archive flag and an open statetype
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
-    StateType => [ 'new', 'open', 'pending reminder', 'pending auto' ],
+    StateType    => [ 'new', 'open', 'pending reminder', 'pending auto' ],
     ArchiveFlags => ['y'],
     Result       => 'ARRAY',
     Limit        => 100_000_000,

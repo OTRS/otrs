@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Mapping/Test.pm - GenericInterface test data mapping backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.18 2011-03-15 09:17:38 sb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LDAP.pm,v 1.11 2011-08-12 09:06:16 mg Exp $
 # --
@@ -48,8 +48,7 @@ sub new {
         return;
     }
     if ( defined( $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} ) ) ) {
-        $Self->{BaseDN}
-            = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
+        $Self->{BaseDN} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -68,30 +67,23 @@ sub new {
         );
         return;
     }
-    $Self->{SearchUserDN}
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
-    $Self->{SearchUserPw}
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
-    $Self->{GroupDN} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )
+    $Self->{SearchUserDN} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
+    $Self->{SearchUserPw} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
+    $Self->{GroupDN}      = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )
         || '';
-    $Self->{AccessAttr}
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
+    $Self->{AccessAttr} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
         || 'memberUid';
-    $Self->{UserAttr}
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
+    $Self->{UserAttr} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
         || 'DN';
-    $Self->{DestCharset}
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
+    $Self->{DestCharset} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
         || 'utf-8';
 
     # ldap filter always used
-    $Self->{AlwaysFilter}
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
+    $Self->{AlwaysFilter} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::AlwaysFilter' . $Param{Count} ) || '';
 
     # Net::LDAP new params
     if ( $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params}
-            = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} );
+        $Self->{Params} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} );
     }
     else {
         $Self->{Params} = {};
@@ -106,7 +98,10 @@ sub Sync {
     # check needed stuff
     for (qw(User)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -142,7 +137,10 @@ sub Sync {
     }
     my $Result = '';
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-        $Result = $LDAP->bind( dn => $Self->{SearchUserDN}, password => $Self->{SearchUserPw} );
+        $Result = $LDAP->bind(
+            dn       => $Self->{SearchUserDN},
+            password => $Self->{SearchUserPw}
+        );
     }
     else {
         $Result = $LDAP->bind();
@@ -210,8 +208,7 @@ sub Sync {
     $UserDNQuote =~ s/\)/\\)/g;
 
     # sync user from ldap
-    my $UserSyncMap
-        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncMap' . $Self->{Count} );
+    my $UserSyncMap = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncMap' . $Self->{Count} );
     if ($UserSyncMap) {
 
         # get whole user dn
@@ -288,8 +285,10 @@ sub Sync {
                             $Self->{GroupObject}->GroupMemberAdd(
                                 GID        => $GroupID,
                                 UID        => $UserID,
-                                Permission => { rw => 1, },
-                                UserID     => 1,
+                                Permission => {
+                                    rw => 1,
+                                },
+                                UserID => 1,
                             );
                         }
                     }

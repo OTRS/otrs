@@ -1,6 +1,6 @@
 # --
 # Kernel/Scheduler.pm - The otrs Scheduler Daemon
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Scheduler.pm,v 1.20.2.1 2013-01-09 18:21:30 cr Exp $
 # --

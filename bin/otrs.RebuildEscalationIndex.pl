@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.RebuildEscalationIndex.pl - rebuild escalation index
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.RebuildEscalationIndex.pl,v 1.8 2010-11-25 08:48:06 bes Exp $
 # --
@@ -47,7 +47,7 @@ my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildEscalationIndex.pl <Revision $VERSION> - rebuild escalation index\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RebuildEscalationIndex.pl\n";
     exit 1;
 }

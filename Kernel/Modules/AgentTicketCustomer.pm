@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketCustomer.pm,v 1.42 2012-01-24 00:08:45 cr Exp $
 # --
@@ -124,10 +124,9 @@ sub Run {
             || 0;
         my $CustomerUserOption = $Self->{ParamObject}->GetParam( Param => 'CustomerUserOption' )
             || '';
-        $Param{CustomerUserID} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
-        $Param{CustomerID}     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
-        $Param{SelectedCustomerUser}
-            = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
+        $Param{CustomerUserID}       = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' )       || '';
+        $Param{CustomerID}           = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )           || '';
+        $Param{SelectedCustomerUser} = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' ) || '';
 
         # use customer login instead of email address if applicable
         if ( $Param{SelectedCustomerUser} ne q{} ) {
@@ -139,8 +138,9 @@ sub Run {
 
             # search customer
             my %CustomerUserList = ();
-            %CustomerUserList
-                = $Self->{CustomerUserObject}->CustomerSearch( Search => $Param{CustomerUserID}, );
+            %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                Search => $Param{CustomerUserID},
+            );
 
             # check if just one customer user exists
             # if just one, fillup CustomerUserID and CustomerID
@@ -172,10 +172,12 @@ sub Run {
 
         # get customer user and customer id
         elsif ($ExpandCustomerName2) {
-            my %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUserOption, );
-            my %CustomerUserList
-                = $Self->{CustomerUserObject}->CustomerSearch( UserLogin => $CustomerUserOption, );
+            my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $CustomerUserOption,
+            );
+            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                UserLogin => $CustomerUserOption,
+            );
             for my $KeyCustomerUser ( keys %CustomerUserList ) {
                 $Param{CustomerUserID} = $KeyCustomerUser;
             }
@@ -236,8 +238,7 @@ sub Form {
     my $Output;
 
     # get autocomplete config
-    my $AutoCompleteConfig
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
 
     # print header
     $Output .= $Self->{LayoutObject}->Header(
@@ -263,11 +264,10 @@ sub Form {
         # get ticket data
         my %TicketData = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         if ( $TicketData{CustomerUserID} || $Param{CustomerUserID} ) {
-            %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
                 User => $Param{CustomerUserID}
                     || $TicketData{CustomerUserID},
-                );
+            );
         }
         $TicketCustomerID = $TicketData{CustomerID};
         $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable(
@@ -287,7 +287,10 @@ sub Form {
     }
 
     $Output
-        .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCustomer', Data => \%Param );
+        .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketCustomer',
+        Data         => \%Param
+        );
     $Output .= $Self->{LayoutObject}->Footer(
         Type => 'Small',
     );

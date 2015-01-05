@@ -1,6 +1,6 @@
 # --
 # Provider.t - Provider tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Provider.t,v 1.11 2011-06-22 09:54:43 mg Exp $
 # --
@@ -293,10 +293,9 @@ for my $Test (@Tests) {
                 if ( $RequestMethod eq 'post' ) {
 
                     # prepare CGI environment variables
-                    $ENV{REQUEST_URI}
-                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess";
+                    $ENV{REQUEST_URI}    = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess";
                     $ENV{REQUEST_METHOD} = 'POST';
-                    $RequestData = $CreateQueryString->(
+                    $RequestData         = $CreateQueryString->(
                         $Self,
                         Data   => $Test->{RequestData},
                         Encode => 0,
@@ -307,8 +306,7 @@ for my $Test (@Tests) {
                 else {    # GET
 
                     # prepare CGI environment variables
-                    $ENV{REQUEST_URI}
-                        = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?"
+                    $ENV{REQUEST_URI} = "http://localhost/otrs/nph-genericinterface.pl/$WebserviceAccess?"
                         . $CreateQueryString->(
                         $Self,
                         Data   => $Test->{RequestData},
@@ -360,9 +358,9 @@ for my $Test (@Tests) {
             }
             else {
 
-               # If an early error occurred, GI cannot generate a valid HTTP error response yet,
-               #   because the transport object was not yet initialized. In these cases, apache will
-               #   generate this response, but here we do not use apache.
+                # If an early error occurred, GI cannot generate a valid HTTP error response yet,
+                #   because the transport object was not yet initialized. In these cases, apache will
+                #   generate this response, but here we do not use apache.
                 if ( !$Test->{EarlyError} ) {
                     $Self->True(
                         index( $ResponseData, 'HTTP/1.0 500 ' ) > -1,

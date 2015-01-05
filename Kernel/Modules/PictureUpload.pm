@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/PictureUpload.pm - get picture uploads
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PictureUpload.pm,v 1.10 2010-11-24 16:22:23 mn Exp $
 # --

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # DBUpdate-to-3.1.pl - update script to migrate OTRS 3.0.x to 3.1.x
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DBUpdate-to-3.1.pl,v 1.85 2012-03-27 13:09:11 mg Exp $
 # --
@@ -890,8 +890,7 @@ sub _VerificationTicketData {
             my $TextValue = defined $DFVRow[3] ? $DFVRow[3] : '';
             my $IntValue  = defined $DFVRow[4] ? $DFVRow[4] : '';
             my $DateValue = defined $DFVRow[5] ? $DFVRow[5] : '';
-            $DynamicFieldValue{ $DFVRow[1] . $ObjectType . $DFVRow[2] }
-                = $TextValue . $IntValue . $DateValue;
+            $DynamicFieldValue{ $DFVRow[1] . $ObjectType . $DFVRow[2] } = $TextValue . $IntValue . $DateValue;
         }
 
         my $FieldCounter  = 0;
@@ -1026,8 +1025,7 @@ sub _VerificationArticleData {
             my $TextValue = defined $DFVRow[3] ? $DFVRow[3] : '';
             my $IntValue  = defined $DFVRow[4] ? $DFVRow[4] : '';
             my $DateValue = defined $DFVRow[5] ? $DFVRow[5] : '';
-            $DynamicFieldValue{ $DFVRow[1] . $ObjectType . $DFVRow[2] }
-                = $TextValue . $IntValue . $DateValue;
+            $DynamicFieldValue{ $DFVRow[1] . $ObjectType . $DFVRow[2] } = $TextValue . $IntValue . $DateValue;
         }
 
         my $FieldCounter   = 0;
@@ -1153,13 +1151,11 @@ sub _MigrateFreeFieldsConfiguration {
                     $Valid = 2;
                 }
 
-                my $DefaultSelection
-                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
+                my $DefaultSelection = $CommonObject->{ConfigObject}->Get( $FieldName . "::DefaultSelection" );
                 $FieldConfig->{Config}->{DefaultValue} = $DefaultSelection;
 
                 # migrate free text link setting
-                my $Link
-                    = $CommonObject->{ConfigObject}->Get( $FieldName . "::Link" );
+                my $Link = $CommonObject->{ConfigObject}->Get( $FieldName . "::Link" );
                 $FieldConfig->{Config}->{Link} = $Link if $Link;
 
                 # set new values
@@ -1194,8 +1190,7 @@ sub _MigrateFreeFieldsConfiguration {
             $FieldConfig->{Config}->{DefaultValue}
                 = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimeDiff' . $Index );
 
-            my $FreeTimePeriod
-                = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Index );
+            my $FreeTimePeriod = $CommonObject->{ConfigObject}->Get( 'TicketFreeTimePeriod' . $Index );
 
             if ( $FreeTimePeriod && ref $FreeTimePeriod eq 'HASH' ) {
                 $FieldConfig->{Config}->{YearsPeriod}   = 1;
@@ -1413,8 +1408,8 @@ sub _MigrateWindowConfiguration {
 
                         if ( $FreeField eq 'TicketFreeText' ) {
 
-                    # If the corresponding key has only more than one possible value for this entry,
-                    # enable it.
+                            # If the corresponding key has only more than one possible value for this entry,
+                            # enable it.
                             my $KeyName      = 'TicketFreeKey' . $Index;
                             my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
 
@@ -1466,8 +1461,8 @@ sub _MigrateWindowConfiguration {
 
                         if ( $FreeField eq 'ArticleFreeText' ) {
 
-                    # If the corresponding key has only more than one possible value for this entry,
-                    # enable it.
+                            # If the corresponding key has only more than one possible value for this entry,
+                            # enable it.
                             my $KeyName      = 'ArticleFreeKey' . $Index;
                             my $PossibleKeys = $CommonObject->{ConfigObject}->Get($KeyName);
 
@@ -1755,8 +1750,7 @@ sub _MigrateStatsConfiguration {
         next STATSFIELDCONFIG if !$DynamicFields->{ $StatRecordConfig->{XMLContentValue} };
 
         # set new field name for stats
-        $StatRecordConfig->{XMLContentValueNew}
-            = 'DynamicField_' . $StatRecordConfig->{XMLContentValue};
+        $StatRecordConfig->{XMLContentValueNew} = 'DynamicField_' . $StatRecordConfig->{XMLContentValue};
 
         # update database
 

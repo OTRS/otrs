@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Test.pm - a simple test module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.17 2009-02-16 11:20:53 tr Exp $
 # --
@@ -110,7 +110,10 @@ sub Run {
     );
 
     # get test page
-    $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'Test', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'Test',
+        Data         => \%Param
+    );
 
     # get test page footer
     $Output .= $Self->{LayoutObject}->Footer();

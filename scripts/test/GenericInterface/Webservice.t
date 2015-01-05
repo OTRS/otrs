@@ -1,6 +1,6 @@
 # --
 # Webservice.t - Webservice tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Webservice.t,v 1.15 2011-03-18 12:57:24 mg Exp $
 # --
@@ -216,7 +216,7 @@ my @Tests = (
             UserID  => 1,
         },
         Update => {
-            Config => { 1 => 1 },
+            Config  => { 1 => 1 },
             ValidID => 1,
             UserID  => 1,
         },

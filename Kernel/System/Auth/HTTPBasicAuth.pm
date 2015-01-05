@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth/HTTPBasicAuth.pm - provides the $ENV authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: HTTPBasicAuth.pm,v 1.16 2009-09-22 15:19:27 mb Exp $
 # --
@@ -52,12 +52,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 1, );
+    my %Option = (
+        PreAuth => 1,
+    );
 
     # return option
     return $Option{ $Param{What} };

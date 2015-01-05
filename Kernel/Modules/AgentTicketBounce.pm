@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketBounce.pm,v 1.56 2012-03-05 09:51:33 mg Exp $
 # --
@@ -145,7 +145,10 @@ sub Run {
             else {
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketBack',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -153,7 +156,10 @@ sub Run {
     else {
         $Self->{LayoutObject}->Block(
             Name => 'TicketBack',
-            Data => { %Param, TicketID => $Self->{TicketID}, },
+            Data => {
+                %Param,
+                TicketID => $Self->{TicketID},
+            },
         );
     }
 
@@ -237,7 +243,9 @@ $Param{Signature}";
         }
 
         # prepare sender of bounce email
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID}, );
+        my %Address = $Self->{QueueObject}->GetSystemAddress(
+            QueueID => $Article{QueueID},
+        );
         $Article{From} = "$Address{RealName} <$Address{Email}>";
 
         # get next states

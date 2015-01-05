@@ -1,6 +1,6 @@
 # --
 # DB.t - database tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.t,v 1.88.2.3 2012-10-24 13:34:53 ub Exp $
 # --
@@ -1245,7 +1245,7 @@ for my $UTF8Test (@UTF8Tests) {
     my %TestData = %{$UTF8Test};
 
     my $Result = $DBObject->Do(
-        SQL => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
+        SQL  => 'INSERT INTO test_d (name_a, name_b) VALUES (?, ?)',
         Bind => [ \$Counter, \$TestData{InsertData} ],
     );
     $Self->True(
@@ -2875,7 +2875,7 @@ for my $Query (@Queries) {
 # select's
 for my $Query (@Queries) {
     my $Condition = $DBObject->QueryCondition(
-        Key => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
+        Key          => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
         Value        => $Query->{Query},
         SearchPrefix => '*',
         SearchSuffix => '*',

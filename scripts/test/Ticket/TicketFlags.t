@@ -1,6 +1,6 @@
 # --
 # TicketFlags.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -240,7 +240,7 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                   # if you don't want to send agent notifications
     );
     push @ArticleIDs, $ArticleID;
 }

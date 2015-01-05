@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerUser.pm - some customer user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUser.pm,v 1.63.2.1 2012-06-28 21:55:42 mb Exp $
 # --
@@ -399,7 +399,10 @@ sub CustomerUserUpdate {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "User UserLogin!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "User UserLogin!"
+        );
         return;
     }
 
@@ -443,7 +446,10 @@ sub SetPassword {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserLogin!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'User UserLogin!'
+        );
         return;
     }
 
@@ -496,7 +502,10 @@ sub SetPreferences {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'User UserID!'
+        );
         return;
     }
 
@@ -534,7 +543,10 @@ sub GetPreferences {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'User UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'User UserID!'
+        );
         return;
     }
 
@@ -608,7 +620,10 @@ sub TokenGenerate {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need UserID!"
+        );
         return;
     }
 
@@ -651,7 +666,10 @@ sub TokenCheck {
 
     # check needed stuff
     if ( !$Param{Token} || !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Token and UserID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Token and UserID!"
+        );
         return;
     }
 

@@ -1,6 +1,6 @@
 # --
 # scripts/test/LayoutTicket.t - layout module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutTicket.t,v 1.7 2011-11-17 11:32:28 mg Exp $
 # --
@@ -111,7 +111,7 @@ my $ArticleID = $TicketObject->ArticleCreate(
     HistoryType    => 'OwnerUpdate',
     HistoryComment => 'Some free text!',
     UserID         => 1,
-    NoAgentNotify => 1,    # if you don't want to send agent notifications
+    NoAgentNotify  => 1,                                        # if you don't want to send agent notifications
 );
 
 $TicketObject->ArticleWriteAttachment(

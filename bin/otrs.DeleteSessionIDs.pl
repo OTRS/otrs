@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.DeleteSessionIDs.pl - to delete all existing, idle or expired session ids
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.DeleteSessionIDs.pl,v 1.5 2010-08-06 17:49:20 cr Exp $
 # --
@@ -51,12 +51,15 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}    = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SessionObject} = Kernel::System::AuthSession->new( %CommonObject, CMD => 1, );
+$CommonObject{SessionObject} = Kernel::System::AuthSession->new(
+    %CommonObject,
+    CMD => 1,
+);
 
 # check args
 my $Command = shift || '--help';
 print "otrs.DeleteSessionIDs.pl <Revision $VERSION> - delete all existing or expired session ids\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 # show/delete all session ids
 if ( ( $Command eq '--all' ) || ( $Command eq '--showall' ) ) {

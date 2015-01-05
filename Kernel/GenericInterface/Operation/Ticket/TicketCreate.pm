@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Ticket/TicketCreate.pm - GenericInterface Ticket TicketCreate operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketCreate.pm,v 1.30.2.2 2013-01-03 10:26:50 mg Exp $
 # --
@@ -80,8 +80,7 @@ sub new {
     $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
     $Self->{DFBackendObject}    = Kernel::System::DynamicField::Backend->new(%Param);
     $Self->{CommonObject}       = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{TicketCommonObject}
-        = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
+    $Self->{TicketCommonObject} = Kernel::GenericInterface::Operation::Ticket::Common->new( %{$Self} );
 
     $Self->{Config} = $Self->{ConfigObject}->Get('GenericInterface::Operation::TicketCreate');
 

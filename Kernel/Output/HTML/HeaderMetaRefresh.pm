@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/HeaderMetaRefresh.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: HeaderMetaRefresh.pm,v 1.3 2009-02-16 11:16:22 tr Exp $
 # --

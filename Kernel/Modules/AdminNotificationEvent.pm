@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminNotificationEvent.pm - to manage event-based notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminNotificationEvent.pm,v 1.37.2.2 2012-11-14 22:03:55 cr Exp $
 # --
@@ -396,16 +396,16 @@ sub _Edit {
         SelectedID => $Param{Data}->{RecipientAgents},
     );
     $Param{RecipientGroupsStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-        Size => 6,
-        Name => 'RecipientGroups',
+        Data       => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+        Size       => 6,
+        Name       => 'RecipientGroups',
         Multiple   => 1,
         SelectedID => $Param{Data}->{RecipientGroups},
     );
     $Param{RecipientRolesStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{GroupObject}->RoleList( Valid => 1 ) },
-        Size => 6,
-        Name => 'RecipientRoles',
+        Data       => { $Self->{GroupObject}->RoleList( Valid => 1 ) },
+        Size       => 6,
+        Name       => 'RecipientRoles',
         Multiple   => 1,
         SelectedID => $Param{Data}->{RecipientRoles},
     );
@@ -543,7 +543,9 @@ sub _Edit {
 
     # build type string
     if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+        my %Type = $Self->{TypeObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
         $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Type,
             Name        => 'TypeID',
@@ -563,7 +565,9 @@ sub _Edit {
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
 
         # get list type
-        my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
+        my %Service = $Self->{ServiceObject}->ServiceList(
+            UserID => $Self->{UserID},
+        );
         $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%Service,
             Name        => 'ServiceID',
@@ -573,7 +577,9 @@ sub _Edit {
             Translation => 0,
             Max         => 200,
         );
-        my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
+        my %SLA = $Self->{SLAObject}->SLAList(
+            UserID => $Self->{UserID},
+        );
         $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
             Data        => \%SLA,
             Name        => 'SLAID',
@@ -630,8 +636,8 @@ sub _Edit {
     }
 
     $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' ), },
-        Name => 'ArticleTypeID',
+        Data        => { $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' ), },
+        Name        => 'ArticleTypeID',
         SelectedID  => $Param{Data}->{ArticleTypeID},
         Size        => 5,
         Multiple    => 1,
@@ -700,7 +706,9 @@ sub _Overview {
         my %ValidList = $Self->{ValidObject}->ValidList();
         for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{NotificationEventObject}->NotificationGet( ID => $_, );
+            my %Data = $Self->{NotificationEventObject}->NotificationGet(
+                ID => $_,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

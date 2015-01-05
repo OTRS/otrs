@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Session/SessionCreate.pm - GenericInterface SessionCreate operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SessionCreate.pm,v 1.1 2012-01-25 18:01:43 cr Exp $
 # --
@@ -62,9 +62,8 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CommonObject} = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
-    $Self->{SessionCommonObject}
-        = Kernel::GenericInterface::Operation::Session::Common->new( %{$Self} );
+    $Self->{CommonObject}        = Kernel::GenericInterface::Operation::Common->new( %{$Self} );
+    $Self->{SessionCommonObject} = Kernel::GenericInterface::Operation::Session::Common->new( %{$Self} );
 
     return $Self;
 }

@@ -1,6 +1,6 @@
 # --
 # Run.t - Scheduler tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Run.t,v 1.3.2.7 2012-12-12 06:36:10 cr Exp $
 # --
@@ -531,8 +531,7 @@ for my $Test (@Tests) {
             push @FileRemember, $File;
             $Task->{Data}->{File} = $File;
 
-            my $RescheduleFile
-                = $Self->{ConfigObject}->Get('Home')
+            my $RescheduleFile = $Self->{ConfigObject}->Get('Home')
                 . '/var/tmp/task_reschedule_'
                 . int rand 1000000;
             if ( -e $RescheduleFile ) {

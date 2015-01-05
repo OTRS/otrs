@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/BackendCommon.pm - Dynamic field backend functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: BackendCommon.pm,v 1.5 2011-10-31 20:11:16 cr Exp $
 # --
@@ -103,7 +103,10 @@ sub EditLabelRender {
     # check needed stuff
     for my $Needed (qw(DynamicFieldConfig FieldName)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }

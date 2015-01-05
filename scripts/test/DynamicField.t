@@ -1,6 +1,6 @@
 # --
 # DynamicField.t - DynamicField tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DynamicField.t,v 1.25.2.2 2012-04-26 23:02:47 cr Exp $
 # --
@@ -420,7 +420,10 @@ for my $Test (@Tests) {
 }
 
 # list check from DB
-my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
+my $DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ResultType => 'HASH'
+);
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->True(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -429,7 +432,10 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
 }
 
 # list check from cache
-$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ResultType => 'HASH'
+);
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->True(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -605,7 +611,10 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
 }
 
 # list check from DB
-$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ResultType => 'HASH'
+);
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->False(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -614,7 +623,10 @@ for my $DynamicFieldID (@DynamicFieldIDs) {
 }
 
 # list check from cache
-$DynamicFieldList = $DynamicFieldObject->DynamicFieldList( Valid => 0, ResultType => 'HASH' );
+$DynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+    Valid      => 0,
+    ResultType => 'HASH'
+);
 for my $DynamicFieldID (@DynamicFieldIDs) {
     $Self->False(
         scalar $DynamicFieldList->{$DynamicFieldID},
@@ -1375,8 +1387,7 @@ for my $ObjectType (qw(Ticket Article)) {
     );
 
     # set the correct compare list
-    my @CompareFilteredFieldIDs
-        = $ObjectType eq 'Ticket' ? @TicketFilteredFieldIDs : @ArticleFilteredFieldIDs;
+    my @CompareFilteredFieldIDs = $ObjectType eq 'Ticket' ? @TicketFilteredFieldIDs : @ArticleFilteredFieldIDs;
 
     $Self->IsDeeply(
         $GotFilteredFieldIDs,
@@ -1458,7 +1469,7 @@ for my $ObjectType (qw(Ticket Article)) {
 
     # get the list using an array ref
     my $GotListFieldIDs = $DynamicFieldObject->DynamicFieldList(
-        Valid => 0,
+        Valid      => 0,
         ObjectType => [ 'ListTest_Ticket', 'ListTest_Article' ],
     );
 
@@ -1483,7 +1494,7 @@ for my $ObjectType (qw(Ticket Article)) {
 
     # get the extended list using an array ref
     my $GotListFields = $DynamicFieldObject->DynamicFieldListGet(
-        Valid => 0,
+        Valid      => 0,
         ObjectType => [ 'ListTest_Ticket', 'ListTest_Article' ],
     );
 

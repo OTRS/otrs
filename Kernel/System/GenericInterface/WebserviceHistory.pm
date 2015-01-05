@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericInterface/WebserviceHistory.pm - GenericInterface WebserviceHistory config backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: WebserviceHistory.pm,v 1.11 2011-02-22 10:38:30 martin Exp $
 # --
@@ -115,7 +115,10 @@ sub WebserviceHistoryAdd {
     # check needed stuff
     for my $Key (qw(WebserviceID Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -175,7 +178,10 @@ sub WebserviceHistoryGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -221,7 +227,10 @@ sub WebserviceHistoryUpdate {
     # check needed stuff
     for my $Key (qw(ID WebserviceID Config UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -263,7 +272,10 @@ sub WebserviceHistoryDelete {
     # check needed stuff
     for my $Key (qw(WebserviceID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -294,7 +306,10 @@ sub WebserviceHistoryList {
     # check needed stuff
     for my $Key (qw(WebserviceID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

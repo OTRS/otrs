@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddTicketType.pl - add new Ticket Types
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddTicketType.pl,v 1.3 2011-03-25 13:53:58 ep Exp $
 # --
@@ -56,11 +56,10 @@ if ( !$opts{n} ) {
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TypeObject} = Kernel::System::Type->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.TicketType' );
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TypeObject}   = Kernel::System::Type->new(%CommonObject);
 
 # user id of the person adding the record
 $Param{UserID} = '1';

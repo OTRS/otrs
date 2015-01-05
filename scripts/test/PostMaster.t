@@ -1,6 +1,6 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PostMaster.t,v 1.34.2.1 2012-07-20 05:51:14 cr Exp $
 # --
@@ -128,8 +128,7 @@ for my $FieldName ( sort keys %NeededDynamicfields ) {
         push @DynamicfieldIDs, $FieldID;
     }
     else {
-        my $DynamicField
-            = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet( ID => $DynamicFields->{$FieldName} );
 
         if ( $DynamicField->{ValidID} > 1 ) {
             push @DynamicFieldUpdate, $DynamicField;
@@ -596,8 +595,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . ": $Ticket{TicketNumber}";
                     }
@@ -625,8 +623,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . ":$Ticket{TicketNumber}";
                     }
@@ -654,8 +651,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 @Content = ();
                 for my $Line (@ContentNew) {
                     if ( $Line =~ /^Subject:/ ) {
-                        $Line
-                            = 'Subject: '
+                        $Line = 'Subject: '
                             . $ConfigObject->Get('Ticket::Hook')
                             . $Ticket{TicketNumber};
                     }

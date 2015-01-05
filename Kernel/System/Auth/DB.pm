@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Auth/DB.pm - provides the db authentication
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.34 2012-03-21 11:52:35 mh Exp $
 # --
@@ -40,11 +40,9 @@ sub new {
     # get user table
     $Self->{UserTable} = $Self->{ConfigObject}->Get( 'DatabaseUserTable' . $Param{Count} )
         || 'users';
-    $Self->{UserTableUserID}
-        = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserID' . $Param{Count} )
+    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserID' . $Param{Count} )
         || 'id';
-    $Self->{UserTableUserPW}
-        = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
+    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
         || 'pw';
     $Self->{UserTableUser} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUser' . $Param{Count} )
         || 'login';
@@ -57,12 +55,17 @@ sub GetOption {
 
     # check needed stuff
     if ( !$Param{What} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need What!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need What!"
+        );
         return;
     }
 
     # module options
-    my %Option = ( PreAuth => 0, );
+    my %Option = (
+        PreAuth => 0,
+    );
 
     # return option
     return $Option{ $Param{What} };
@@ -73,7 +76,10 @@ sub Auth {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need User!"
+        );
         return;
     }
 

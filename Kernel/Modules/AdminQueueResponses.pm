@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminQueueResponses.pm - to manage queue <-> responses assignments
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminQueueResponses.pm,v 1.47 2011-12-23 14:23:11 mg Exp $
 # --
@@ -50,8 +50,7 @@ sub Run {
 
         # get response data
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseGet( ID => $ID );
 
         # get queues
         my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
@@ -84,8 +83,7 @@ sub Run {
         my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
 
         # get responses
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
         # get assigned responses
         my %Member = $Self->{QueueObject}->GetStandardResponses(
@@ -183,7 +181,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Response';
     my $NeType = $Type eq 'Queue' ? 'Response' : 'Queue';
 
-    my %VisibleType = ( Response => 'Response', Queue => 'Queue', );
+    my %VisibleType = (
+        Response => 'Response',
+        Queue    => 'Queue',
+    );
 
     my $MyType = $VisibleType{$Type};
 

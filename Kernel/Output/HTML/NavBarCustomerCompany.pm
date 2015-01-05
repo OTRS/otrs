@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NavBarCustomerCompany.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NavBarCustomerCompany.pm,v 1.5 2010-03-29 12:14:00 martin Exp $
 # --

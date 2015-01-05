@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Provider.pm - GenericInterface provider handler
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Provider.pm,v 1.22 2011-07-21 14:45:57 cr Exp $
 # --
@@ -69,12 +69,11 @@ sub new {
         LogPrefix => 'GenericInterfaceProvider',
         %{$Self},
     );
-    $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-    $Self->{DBObject}     = Kernel::System::DB->new( %{$Self} );
-    $Self->{WebserviceObject}
-        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
+    $Self->{EncodeObject}     = Kernel::System::Encode->new( %{$Self} );
+    $Self->{MainObject}       = Kernel::System::Main->new( %{$Self} );
+    $Self->{TimeObject}       = Kernel::System::Time->new( %{$Self} );
+    $Self->{DBObject}         = Kernel::System::DB->new( %{$Self} );
+    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
     return $Self;
 }
@@ -102,8 +101,7 @@ sub Run {
     # on Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
     my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
 
-    my ($WebserviceID)
-        = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
+    my ($WebserviceID) = $RequestURI =~ m{ nph-genericinterface[.]pl [/] WebserviceID [/] (\d+) }smx;
 
     if ($WebserviceID) {
 
@@ -114,8 +112,7 @@ sub Run {
     }
     else {
 
-        my ($WebserviceName)
-            = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
+        my ($WebserviceName) = $RequestURI =~ m{ nph-genericinterface[.]pl [/] Webservice [/] ([^/?]+) }smx;
 
         if ( !$WebserviceName ) {
             $Self->{LogObject}->Log(

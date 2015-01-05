@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/Permission/WatcherCheck.pm - the sub module of
 # the global ticket handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: WatcherCheck.pm,v 1.3 2009-02-26 10:27:58 tr Exp $
 # --
@@ -39,7 +39,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

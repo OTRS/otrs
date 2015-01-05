@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericInterface/Webservice.pm - GenericInterface webservice config backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Webservice.pm,v 1.30 2012-03-29 07:29:21 mg Exp $
 # --
@@ -99,17 +99,14 @@ sub new {
     }
 
     # create additional objects
-    $Self->{CacheObject}    = Kernel::System::Cache->new( %{$Self} );
-    $Self->{ValidObject}    = Kernel::System::Valid->new( %{$Self} );
-    $Self->{DebugLogObject} = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
-    $Self->{WebserviceHistoryObject}
-        = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
-    $Self->{ObjectLockStateObject}
-        = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
+    $Self->{CacheObject}             = Kernel::System::Cache->new( %{$Self} );
+    $Self->{ValidObject}             = Kernel::System::Valid->new( %{$Self} );
+    $Self->{DebugLogObject}          = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
+    $Self->{WebserviceHistoryObject} = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
+    $Self->{ObjectLockStateObject}   = Kernel::System::GenericInterface::ObjectLockState->new( %{$Self} );
 
     # get the cache TTL (in seconds)
-    $Self->{CacheTTL}
-        = int( $Self->{ConfigObject}->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
+    $Self->{CacheTTL} = int( $Self->{ConfigObject}->Get('GenericInterface::WebserviceConfig::CacheTTL') || 3600 );
 
     return $Self;
 }
@@ -135,7 +132,10 @@ sub WebserviceAdd {
     # check needed stuff
     for my $Key (qw(Name Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -212,7 +212,10 @@ sub WebserviceGet {
 
     # check needed stuff
     if ( !$Param{ID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID or Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID or Name!'
+        );
         return;
     }
 
@@ -296,7 +299,10 @@ sub WebserviceUpdate {
     # check needed stuff
     for my $Key (qw(ID Name Config ValidID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -374,7 +380,10 @@ sub WebserviceDelete {
     # check needed stuff
     for my $Key (qw(ID UserID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

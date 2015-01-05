@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketAccountedTime.pm,v 1.15 2012-02-28 10:38:01 jp Exp $
 # --
@@ -699,8 +699,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -837,11 +836,10 @@ sub _ReportingValues {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $TicketSearch{$ParameterName},
-                    );
+                );
 
                 # add new search parameter
                 $TicketSearch{$ParameterName} = $DynamicFieldStatsSearchParameter;

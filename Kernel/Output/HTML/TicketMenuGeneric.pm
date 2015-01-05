@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuGeneric.pm,v 1.15 2010-09-07 10:17:14 mb Exp $
 # --
@@ -37,7 +37,10 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Ticket!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Ticket!'
+        );
         return;
     }
 

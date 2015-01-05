@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/base64.pl - mime base 64 encode/decode
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: base64.pl,v 1.5 2009-02-16 12:40:23 tr Exp $
 # --

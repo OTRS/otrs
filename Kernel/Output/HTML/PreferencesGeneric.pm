@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/PreferencesGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesGeneric.pm,v 1.10 2010-05-04 01:22:10 martin Exp $
 # --
@@ -38,8 +38,7 @@ sub Param {
     my @Params;
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined $GetParam ) {
-        $GetParam
-            = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
+        $GetParam = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} }
             : $Self->{ConfigItem}->{DataSelected};
     }

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerPreferences.pm,v 1.31.4.1 2012-10-10 12:03:22 mh Exp $
 # --
@@ -90,7 +90,13 @@ sub Run {
         }
         my $Message  = '';
         my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+        if (
+            $Object->Run(
+                GetParam => \%GetParam,
+                UserData => \%UserData
+            )
+            )
+        {
             $Message = $Object->Message();
         }
         else {
@@ -131,7 +137,9 @@ sub Run {
             );
         }
         elsif ($Message) {
-            $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => $Message,
+            );
         }
 
         # get user data
@@ -193,7 +201,9 @@ sub CustomerPreferencesForm {
 
         $Self->{LayoutObject}->Block(
             Name => 'Head',
-            Data => { Header => $Column, },
+            Data => {
+                Header => $Column,
+            },
         );
 
         # sort

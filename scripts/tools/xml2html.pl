@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: xml2html.pl,v 1.18 2009-04-23 13:47:27 mh Exp $
 # --

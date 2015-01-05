@@ -1,6 +1,6 @@
 # --
 # Main.t - Main tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Main.t,v 1.30.2.1 2013-02-05 10:43:21 mg Exp $
 # --

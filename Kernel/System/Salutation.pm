@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Salutation.pm - All salutation related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Salutation.pm,v 1.17 2012-03-19 01:09:02 mh Exp $
 # --
@@ -116,7 +116,10 @@ sub SalutationAdd {
     # check needed stuff
     for (qw(Name Text ValidID UserID ContentType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -166,7 +169,10 @@ sub SalutationGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need ID!"
+        );
         return;
     }
 
@@ -238,7 +244,10 @@ sub SalutationUpdate {
     # check needed stuff
     for (qw(ID Name Text ContentType ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

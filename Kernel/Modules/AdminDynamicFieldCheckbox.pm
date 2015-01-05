@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicFieldCheckbox.pm - provides a dynamic fields text config view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminDynamicFieldCheckbox.pm,v 1.13 2012-04-18 19:40:22 cr Exp $
 # --
@@ -127,7 +127,7 @@ sub _AddAction {
     if ( $GetParam{Name} ) {
 
         # check if name is alphanumeric
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -156,7 +156,7 @@ sub _AddAction {
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{FieldOrderServerError}        = 'ServerError';
@@ -294,7 +294,7 @@ sub _ChangeAction {
     if ( $GetParam{Name} ) {
 
         # check if name is lowercase
-        if ( $GetParam{Name} !~ m{\A ( ?: [a-zA-Z] | \d )+ \z}xms ) {
+        if ( $GetParam{Name} !~ m{\A (?: [a-zA-Z] | \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{NameServerError} = 'ServerError';
@@ -327,7 +327,7 @@ sub _ChangeAction {
     if ( $GetParam{FieldOrder} ) {
 
         # check if field order is numeric and positive
-        if ( $GetParam{FieldOrder} !~ m{\A ( ?: \d )+ \z}xms ) {
+        if ( $GetParam{FieldOrder} !~ m{\A (?: \d )+ \z}xms ) {
 
             # add server error error class
             $Errors{FieldOrderServerError}        = 'ServerError';

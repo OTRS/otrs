@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ArticleCheckPGP.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleCheckPGP.pm,v 1.25.4.1 2012-10-17 20:40:25 cr Exp $
 # --
@@ -35,7 +35,10 @@ sub new {
             $Self->{$_} = $Param{$_};
         }
         else {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
         }
     }
 
@@ -109,7 +112,9 @@ sub Check {
 
     # check inline pgp signature
     if ( $Param{Article}->{Body} =~ m{ \Q-----BEGIN PGP SIGNED MESSAGE-----\E }xms ) {
-        %SignCheck = $Self->{CryptObject}->Verify( Message => $Param{Article}->{Body}, );
+        %SignCheck = $Self->{CryptObject}->Verify(
+            Message => $Param{Article}->{Body},
+        );
         if (%SignCheck) {
 
             # remember to result
@@ -176,7 +181,9 @@ sub Check {
             my $Cryped = $Entity->parts(1)->as_string;
 
             # Encrypt it
-            my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Cryped, );
+            my %Decrypt = $Self->{CryptObject}->Decrypt(
+                Message => $Cryped,
+            );
             if ( $Decrypt{Successful} ) {
                 $Entity = $parser->parse_data( $Decrypt{Data} );
                 my $Head = $Entity->head();
@@ -186,7 +193,10 @@ sub Check {
 
                 use Kernel::System::EmailParser;
 
-                my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Entity => $Entity, );
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    %{$Self},
+                    Entity => $Entity,
+                );
 
                 my $Body = $ParserObject->GetMessageBody();
 

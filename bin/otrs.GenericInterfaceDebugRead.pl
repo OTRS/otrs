@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenericInterfaceDebugRead.pl - the global test handle
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GenericInterfaceDebugRead.pl,v 1.3 2011-07-31 01:10:18 cr Exp $
 # --

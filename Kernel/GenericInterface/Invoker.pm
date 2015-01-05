@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Invoker.pm - GenericInterface Invoker interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Invoker.pm,v 1.17.2.1 2013-01-09 18:24:36 cr Exp $
 # --
@@ -172,10 +172,9 @@ sub PrepareRequest {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Invoker handler (PrepareRequest)!'
-            );
+        );
     }
 
     # start map on backend
@@ -210,10 +209,9 @@ sub HandleResponse {
 
     # check data - only accept undef or hash ref
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->{DebuggerObject}
-            ->Error(
+        return $Self->{DebuggerObject}->Error(
             Summary => 'Got Data but it is not a hash ref in Invoker handler (HandleResponse)!'
-            );
+        );
     }
 
     # start map on backend

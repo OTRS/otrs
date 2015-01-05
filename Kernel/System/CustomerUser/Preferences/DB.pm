@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.24.2.1 2012-07-01 23:09:45 mh Exp $
 # --
@@ -40,14 +40,11 @@ sub new {
     # preferences table data
     $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
         || 'customer_preferences';
-    $Self->{PreferencesTableKey}
-        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
+    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
         || 'preferences_key';
-    $Self->{PreferencesTableValue}
-        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
+    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
         || 'preferences_value';
-    $Self->{PreferencesTableUserID}
-        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
+    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
         || 'user_id';
 
     # set lower if database is case sensitive

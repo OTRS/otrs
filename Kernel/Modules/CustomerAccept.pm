@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerAccept.pm - to show an agent an login/changes info
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerAccept.pm,v 1.11 2009-02-16 11:20:53 tr Exp $
 # --
@@ -112,7 +112,10 @@ sub Run {
         # show info
         $Output = $Self->{LayoutObject}->CustomerHeader();
         $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => $Self->{InfoFile}, Data => \%Param );
+            .= $Self->{LayoutObject}->Output(
+            TemplateFile => $Self->{InfoFile},
+            Data         => \%Param
+            );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
     }

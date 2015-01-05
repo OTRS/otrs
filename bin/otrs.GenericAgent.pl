@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GenericAgent.pl,v 1.6 2011-11-18 07:24:22 mb Exp $
 # --
@@ -49,7 +49,7 @@ my %Opts = ();
 getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
     print "[-l <limit>] [-f force]\n";
     print "usage: otrs.GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
@@ -84,8 +84,11 @@ $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject, Debug => $Opts{d}, );
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(
+    %CommonObject,
+    Debug => $Opts{d},
+);
+$CommonObject{QueueObject}        = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
     %CommonObject,
     Debug        => $Opts{d},
@@ -201,10 +204,9 @@ sub ExecuteDBJobs {
         next if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
-            );
+        );
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . '0';
         }

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminRoleGroup.pm,v 1.32 2011-12-23 13:29:10 mg Exp $
 # --

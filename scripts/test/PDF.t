@@ -1,6 +1,6 @@
 # --
 # PDF.t - PDF tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PDF.t,v 1.21 2011-03-18 13:21:10 mh Exp $
 # --
@@ -188,14 +188,13 @@ $TextCalculateData{5}{PossibleRows}{5} = 'Center.';
 # test6 - test new line and LeftOver calculation
 $TextCalculateData{6}{Text}
     = 'US Space Shuttle Atlantis and her STS-115 crew safely landed today at Kennedy Space Center.';
-$TextCalculateData{6}{Type}           = 'ReturnLeftOver';
-$TextCalculateData{6}{Width}          = 30;
-$TextCalculateData{6}{Height}         = 53;
-$TextCalculateData{6}{State}          = 0;
-$TextCalculateData{6}{RequiredWidth}  = 28.35;
-$TextCalculateData{6}{RequiredHeight} = 50;
-$TextCalculateData{6}{LeftOver}
-    = 's and her STS-115 crew safely landed today at Kennedy Space Center.';
+$TextCalculateData{6}{Type}            = 'ReturnLeftOver';
+$TextCalculateData{6}{Width}           = 30;
+$TextCalculateData{6}{Height}          = 53;
+$TextCalculateData{6}{State}           = 0;
+$TextCalculateData{6}{RequiredWidth}   = 28.35;
+$TextCalculateData{6}{RequiredHeight}  = 50;
+$TextCalculateData{6}{LeftOver}        = 's and her STS-115 crew safely landed today at Kennedy Space Center.';
 $TextCalculateData{6}{PossibleRows}{0} = 'US';
 $TextCalculateData{6}{PossibleRows}{1} = 'Space';
 $TextCalculateData{6}{PossibleRows}{2} = 'Shuttl';
@@ -606,32 +605,30 @@ $TextData2{1}{PositionReturnY} = 65;
 # positiontest2
 $TextData2{2}{Text}
     = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
-$TextData2{2}{Type}           = 'ReturnLeftOver';
-$TextData2{2}{Width}          = 150;
-$TextData2{2}{Position1X}     = 'left';
-$TextData2{2}{Position1Y}     = 'bottom';
-$TextData2{2}{Position2Y}     = 10;
-$TextData2{2}{State}          = 0;
-$TextData2{2}{RequiredWidth}  = 138.94;
-$TextData2{2}{RequiredHeight} = 10;
-$TextData2{2}{LeftOver}
-    = 'Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{2}{Type}            = 'ReturnLeftOver';
+$TextData2{2}{Width}           = 150;
+$TextData2{2}{Position1X}      = 'left';
+$TextData2{2}{Position1Y}      = 'bottom';
+$TextData2{2}{Position2Y}      = 10;
+$TextData2{2}{State}           = 0;
+$TextData2{2}{RequiredWidth}   = 138.94;
+$TextData2{2}{RequiredHeight}  = 10;
+$TextData2{2}{LeftOver}        = 'Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{2}{PositionReturnX} = 40;
 $TextData2{2}{PositionReturnY} = 56;
 
 # positiontest3
 $TextData2{3}{Text}
     = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
-$TextData2{3}{Type}           = 'ReturnLeftOver';
-$TextData2{3}{Width}          = 150;
-$TextData2{3}{Position1X}     = 'left';
-$TextData2{3}{Position1Y}     = 'bottom';
-$TextData2{3}{Position2Y}     = 11;
-$TextData2{3}{State}          = 0;
-$TextData2{3}{RequiredWidth}  = 138.94;
-$TextData2{3}{RequiredHeight} = 10;
-$TextData2{3}{LeftOver}
-    = 'Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{3}{Type}            = 'ReturnLeftOver';
+$TextData2{3}{Width}           = 150;
+$TextData2{3}{Position1X}      = 'left';
+$TextData2{3}{Position1Y}      = 'bottom';
+$TextData2{3}{Position2Y}      = 11;
+$TextData2{3}{State}           = 0;
+$TextData2{3}{RequiredWidth}   = 138.94;
+$TextData2{3}{RequiredHeight}  = 10;
+$TextData2{3}{LeftOver}        = 'Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{3}{PositionReturnX} = 40;
 $TextData2{3}{PositionReturnY} = 57;
 
@@ -646,25 +643,23 @@ $TextData2{4}{Position2Y}     = 39;
 $TextData2{4}{State}          = 0;
 $TextData2{4}{RequiredWidth}  = 29.46;
 $TextData2{4}{RequiredHeight} = 30;
-$TextData2{4}{LeftOver}
-    = 'space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{4}{LeftOver} = 'space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{4}{PositionReturnX} = 40;
 $TextData2{4}{PositionReturnY} = 65;
 
 # positiontest5
 $TextData2{5}{Text}
     = 'Veteran NASA space flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
-$TextData2{5}{Type}           = 'ReturnLeftOver';
-$TextData2{5}{Width}          = 100;
-$TextData2{5}{Lead}           = 7;
-$TextData2{5}{Position1X}     = 'left';
-$TextData2{5}{Position1Y}     = 'bottom';
-$TextData2{5}{Position2Y}     = 25;
-$TextData2{5}{State}          = 0;
-$TextData2{5}{RequiredWidth}  = 94.49;
-$TextData2{5}{RequiredHeight} = 10;
-$TextData2{5}{LeftOver}
-    = 'flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
+$TextData2{5}{Type}            = 'ReturnLeftOver';
+$TextData2{5}{Width}           = 100;
+$TextData2{5}{Lead}            = 7;
+$TextData2{5}{Position1X}      = 'left';
+$TextData2{5}{Position1Y}      = 'bottom';
+$TextData2{5}{Position2Y}      = 25;
+$TextData2{5}{State}           = 0;
+$TextData2{5}{RequiredWidth}   = 94.49;
+$TextData2{5}{RequiredHeight}  = 10;
+$TextData2{5}{LeftOver}        = 'flier Navy Cmdr. Stephen Frick will command the STS-122 Shuttle mission to the ISS.';
 $TextData2{5}{PositionReturnX} = 40;
 $TextData2{5}{PositionReturnY} = 71;
 

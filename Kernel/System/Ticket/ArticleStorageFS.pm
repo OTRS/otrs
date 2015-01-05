@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleStorageFS.pm,v 1.79.2.2 2012-12-03 18:24:34 mg Exp $
 # --
@@ -65,7 +65,10 @@ sub ArticleDelete {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -148,7 +151,10 @@ sub ArticleDeletePlain {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -184,7 +190,10 @@ sub ArticleDeleteAttachment {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -228,7 +237,10 @@ sub ArticleWritePlain {
     # check needed stuff
     for (qw(ArticleID Email UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -239,8 +251,7 @@ sub ArticleWritePlain {
 
     # define path
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
-    my $Path
-        = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
+    my $Path = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
 
     # debug
     if ( $Self->{Debug} > 1 ) {
@@ -268,7 +279,10 @@ sub ArticleWriteAttachment {
     # check needed stuff
     for (qw(Content Filename ContentType ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -376,7 +390,10 @@ sub ArticlePlain {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -428,13 +445,19 @@ sub ArticleAttachmentIndexRaw {
 
     # check ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleContentPath!'
+        );
         return;
     }
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
@@ -578,7 +601,10 @@ sub ArticleAttachment {
     # check needed stuff
     for (qw(ArticleID FileID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -724,7 +750,10 @@ sub _ArticleDeleteDirectory {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.24.2.1 2012-09-25 13:35:11 jp Exp $
 # --
@@ -107,7 +107,10 @@ sub Run {
 
     # send each agent the escalation notification
     for my $UserID (@UserIDs) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $UserID,
+            Valid  => 1
+        );
         next if !%User || $User{OutOfOfficeMessage};
 
         # check if today a reminder is already sent

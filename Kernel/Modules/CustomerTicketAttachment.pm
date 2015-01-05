@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketAttachment.pm,v 1.30 2011-12-08 14:06:42 mg Exp $
 # --
@@ -115,7 +115,10 @@ sub Run {
     if ( $Self->{Subaction} eq 'HTMLView' ) {
 
         # set download type to inline
-        $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
+        $Self->{ConfigObject}->Set(
+            Key   => 'AttachmentDownloadType',
+            Value => 'inline'
+        );
 
         # just return for non-html attachment (e. g. images)
         if ( $Data{ContentType} !~ /text\/html/i ) {

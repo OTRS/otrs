@@ -1,6 +1,6 @@
 # --
 # CustomerAutoCompletion.t - frontend test AgentTicketPhone
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerAutoCompletion.t,v 1.3 2011-04-01 13:24:35 mg Exp $
 # --

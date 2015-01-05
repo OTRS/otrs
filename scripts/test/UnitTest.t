@@ -1,6 +1,6 @@
 # --
 # UnitTest.t - unit tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: UnitTest.t,v 1.9 2011-09-06 08:15:00 mg Exp $
 # --

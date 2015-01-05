@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddRole2Group.pl - Assign Roles to Groups from CLI
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddRole2Group.pl,v 1.4 2010-08-06 17:49:20 cr Exp $
 # --
@@ -47,7 +47,7 @@ my %Opts = ();
 getopts( 'hg:r:R:M:C:N:O:P:W:', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.AddRole2Group.pl <Revision $VERSION> - assign Roles to Groups\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.AddRole2Group.pl -g <GROUP> -r <ROLE> [-R<READ> -M<MOVE_INTO> -C<CREATE> -N<NOTE> -O<OWNER> -P<PRIORITY> -W<RW>] \n";
     print "For Options: R,M,C,N,O,P,W setting to 0 or 1 is expected \n";

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardProductNotify.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardProductNotify.pm,v 1.11 2009-08-27 23:08:28 martin Exp $
 # --
@@ -172,7 +172,10 @@ sub _CheckVersion {
     # check needed stuff
     for (qw(Version1 Version2)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }

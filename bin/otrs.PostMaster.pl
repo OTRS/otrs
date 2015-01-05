@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PostMaster.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PostMaster.pl,v 1.5 2010-10-29 09:30:19 bes Exp $
 # --
@@ -51,7 +51,7 @@ my %Opts;
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;

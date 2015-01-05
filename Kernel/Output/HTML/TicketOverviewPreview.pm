@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketOverviewPreview.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketOverviewPreview.pm,v 1.72.2.1 2012-06-12 10:24:32 mg Exp $
 # --
@@ -44,8 +44,7 @@ sub new {
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewPreview")->{DynamicField};
+    $Self->{DynamicFieldFilter} = $Self->{ConfigObject}->Get("Ticket::Frontend::OverviewPreview")->{DynamicField};
 
     # get the dynamic fields for this screen
     $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
@@ -121,7 +120,10 @@ sub Run {
     # check needed stuff
     for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -230,7 +232,10 @@ sub _Show {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -252,12 +257,10 @@ sub _Show {
     );
 
     # check if certain article sender types should be excluded from preview
-    my $PreviewArticleSenderTypes
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleSenderTypes');
+    my $PreviewArticleSenderTypes = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview::PreviewArticleSenderTypes');
     my @ActiveArticleSenderTypes;
     if ( ref $PreviewArticleSenderTypes eq 'HASH' ) {
-        @ActiveArticleSenderTypes
-            = grep { $PreviewArticleSenderTypes->{$_} == 1 } keys %{$PreviewArticleSenderTypes};
+        @ActiveArticleSenderTypes = grep { $PreviewArticleSenderTypes->{$_} == 1 } keys %{$PreviewArticleSenderTypes};
     }
 
     # if a list of active article sender types has been determined, add them to params hash
@@ -289,11 +292,13 @@ sub _Show {
     %Article = ( %UserInfo, %Article );
 
     # create human age
-    $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+    $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Article{Age},
+        Space => ' '
+    );
 
     # fetch all std. responses ...
-    my %StandardResponses
-        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
+    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses( QueueID => $Article{QueueID} );
 
     $Param{StandardResponsesStrg} = $Self->{LayoutObject}->BuildSelection(
         Name => 'ResponseID',
@@ -330,7 +335,10 @@ sub _Show {
             if ( !$Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
-            my $Object = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Param{TicketID}, );
+            my $Object = $Menus{$Menu}->{Module}->new(
+                %{$Self},
+                TicketID => $Param{TicketID},
+            );
 
             # run module
             my $Item = $Object->Run(
@@ -397,7 +405,7 @@ sub _Show {
             %Article,
             Class             => 'ArticleCount' . $ArticleCount,
             AdditionalClasses => $AdditionalClasses,
-            Created           => $Ticket{Created},              # use value from ticket, not article
+            Created           => $Ticket{Created},                 # use value from ticket, not article
         },
     );
 
@@ -492,7 +500,10 @@ sub _Show {
                 );
 
                 # run module
-                my @Data = $Object->Check( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                my @Data = $Object->Check(
+                    Article => \%Article,
+                    %Param, Config => $Jobs{$Job}
+                );
 
                 for my $DataRef (@Data) {
                     if ( $DataRef->{Successful} ) {
@@ -509,7 +520,10 @@ sub _Show {
                 }
 
                 # filter option
-                $Object->Filter( Article => \%Article, %Param, Config => $Jobs{$Job} );
+                $Object->Filter(
+                    Article => \%Article,
+                    %Param, Config => $Jobs{$Job}
+                );
             }
         }
     }
@@ -911,7 +925,7 @@ sub _Show {
 
         $ArticleItem->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $ArticleItem->{TicketNumber},
-            Subject => $ArticleItem->{Subject} || '',
+            Subject      => $ArticleItem->{Subject} || '',
         );
 
         $Self->{LayoutObject}->Block(
@@ -975,8 +989,7 @@ sub _Show {
                     );
 
                     # get StandardResponsesStrg
-                    $StandardResponses{0}
-                        = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+                    $StandardResponses{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
 
                     # build html string
                     my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
@@ -1026,8 +1039,7 @@ sub _Show {
                     if ( $RecipientCount > 1 ) {
 
                         # get StandardResponsesStrg
-                        $StandardResponses{0}
-                            = '- '
+                        $StandardResponses{0} = '- '
                             . $Self->{LayoutObject}->{LanguageObject}->Get('Reply All') . ' -';
                         $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
                             Name => 'ResponseID',

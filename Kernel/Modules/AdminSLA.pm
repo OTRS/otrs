@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSLA.pm,v 1.36 2011-04-05 12:28:57 mb Exp $
 # --
@@ -154,11 +154,16 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, SLAData => \%SLAData ) ) {
+                        if (
+                            !$Object->Run(
+                                GetParam => \%GetParam,
+                                SLAData  => \%SLAData
+                            )
+                            )
+                        {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
@@ -480,7 +485,10 @@ sub _MaskNew {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminSLA', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminSLA',
+        Data         => \%Param
+    );
 }
 
 1;

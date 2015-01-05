@@ -1,6 +1,6 @@
 # --
 # cron/fetchmail - fetchmail cron of the OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: fetchmail.dist,v 1.10 2009-02-16 20:53:10 tr Exp $
 # --

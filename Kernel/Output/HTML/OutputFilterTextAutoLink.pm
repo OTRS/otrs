@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/OutputFilterTextAutoLink.pm - Auto article links filter
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: OutputFilterTextAutoLink.pm,v 1.5 2009-09-23 10:53:20 mg Exp $
 # --
@@ -37,7 +37,10 @@ sub Pre {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 
@@ -49,7 +52,10 @@ sub Post {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Data!'
+        );
         $Self->{LayoutObject}->FatalDie();
     }
 

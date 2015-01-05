@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete roles <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminRoleUser.pm,v 1.32 2011-12-23 13:35:56 mg Exp $
 # --
@@ -196,7 +196,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'User';
     my $NeType = $Type eq 'Role' ? 'User' : 'Role';
 
-    my %VisibleType = ( Role => 'Role', User => 'Agent' );
+    my %VisibleType = (
+        Role => 'Role',
+        User => 'Agent'
+    );
 
     $Self->{LayoutObject}->Block(
         Name => 'Change',

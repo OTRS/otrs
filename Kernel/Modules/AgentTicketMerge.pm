@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketMerge.pm,v 1.57 2012-01-24 00:08:45 cr Exp $
 # --
@@ -119,7 +119,10 @@ sub Run {
                 # show lock state
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
-                    Data => { %Param, TicketID => $Self->{TicketID}, },
+                    Data => {
+                        %Param,
+                        TicketID => $Self->{TicketID},
+                    },
                 );
             }
         }
@@ -246,7 +249,7 @@ sub Run {
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
-                Data => { %Param, %GetParam, %Ticket, %Error },
+                Data         => { %Param, %GetParam, %Ticket, %Error },
             );
             $Output .= $Self->{LayoutObject}->Footer(
                 Type => 'Small',
@@ -294,7 +297,7 @@ sub Run {
 
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketMerge',
-                Data => { %Param, %Ticket },
+                Data         => { %Param, %Ticket },
             );
             $Output .= $Self->{LayoutObject}->Footer(
                 Type => 'Small',
@@ -380,7 +383,7 @@ sub Run {
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
+            Subject      => $Article{Subject} || '',
         );
 
         # prepare from ...
@@ -417,7 +420,7 @@ sub Run {
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketMerge',
-            Data => { %Param, %Ticket, %Article, }
+            Data         => { %Param, %Ticket, %Article, }
         );
         $Output .= $Self->{LayoutObject}->Footer(
             Type => 'Small',

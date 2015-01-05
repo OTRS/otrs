@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/xx_Custom.pm - provides xx custom language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: xx_Custom.pm,v 1.10 2009-02-16 10:18:52 tr Exp $
 # --

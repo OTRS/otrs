@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Type.pm - All type related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Type.pm,v 1.26 2012-03-19 00:43:55 mh Exp $
 # --
@@ -113,7 +113,10 @@ sub TypeAdd {
     # check needed stuff
     for (qw(Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -241,7 +244,10 @@ sub TypeGet {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Type );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%Type
+    );
 
     return %Type;
 }
@@ -265,7 +271,10 @@ sub TypeUpdate {
     # check needed stuff
     for (qw(ID Name ValidID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -336,7 +345,10 @@ sub TypeList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%TypeList );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%TypeList
+    );
 
     return %TypeList;
 }

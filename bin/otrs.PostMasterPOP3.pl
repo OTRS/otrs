@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PostMasterPOP3.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PostMasterPOP3.pl,v 1.2 2009-11-09 15:24:13 mn Exp $
 # --

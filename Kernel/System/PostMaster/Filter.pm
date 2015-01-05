@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Filter.pm,v 1.24 2010-10-06 16:05:21 bes Exp $
 # --
@@ -129,7 +129,10 @@ sub FilterAdd {
     # check needed stuff
     for (qw(Name StopAfterMatch Match Set)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -163,7 +166,10 @@ sub FilterDelete {
     # check needed stuff
     for (qw(Name)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -191,7 +197,10 @@ sub FilterGet {
     # check needed stuff
     for (qw(Name)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

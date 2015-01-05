@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.GetTicketThread.pl - to print the whole ticket thread to STDOUT
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GetTicketThread.pl,v 1.5.2.1 2012-08-01 23:16:27 mh Exp $
 # --
@@ -49,7 +49,7 @@ getopt( 'htl', \%Opts );
 if ( $Opts{h} || !$Opts{t} ) {
     print
         "otrs.GetTicketThread.pl <Revision $VERSION> - Prints out a ticket with all its articles.\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.GetTicketThread.pl -t <TicketID> [-l article limit]\n";
     exit 1;
 }

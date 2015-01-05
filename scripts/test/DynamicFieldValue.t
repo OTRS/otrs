@@ -1,6 +1,6 @@
 # --
 # DynamicFieldValue.t - DynamicFieldValue backend tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DynamicFieldValue.t,v 1.15.2.1 2012-05-30 11:30:32 mg Exp $
 # --
@@ -54,7 +54,7 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
@@ -74,7 +74,7 @@ my $FieldID2 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfield2test$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                         # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',
@@ -741,7 +741,7 @@ $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',

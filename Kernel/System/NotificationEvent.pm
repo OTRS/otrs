@@ -1,6 +1,6 @@
 # --
 # Kernel/System/NotificationEvent.pm - notification system module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationEvent.pm,v 1.8 2012-03-07 22:47:55 mb Exp $
 # --
@@ -129,7 +129,10 @@ sub NotificationList {
     # check needed stuff
     for (qw()) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -156,7 +159,10 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} && !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name or ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name or ID!'
+        );
         return;
     }
     if ( $Param{Name} ) {
@@ -230,7 +236,10 @@ sub NotificationAdd {
     # check needed stuff
     for (qw(Name Subject Body Type Charset Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -314,7 +323,10 @@ sub NotificationUpdate {
     # check needed stuff
     for (qw(ID Name Subject Body Type Charset Data UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -371,7 +383,10 @@ sub NotificationDelete {
     # check needed stuff
     for (qw(ID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -397,7 +412,7 @@ sub NotificationDelete {
     );
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "NotificationEvent notification '$Check{Name}' deleted (UserID=$Param{UserID}).",
+        Message  => "NotificationEvent notification '$Check{Name}' deleted (UserID=$Param{UserID}).",
     );
     return 1;
 }
@@ -415,7 +430,10 @@ sub NotificationEventCheck {
 
     # check needed stuff
     if ( !$Param{Event} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
     $Self->{DBObject}->Prepare(

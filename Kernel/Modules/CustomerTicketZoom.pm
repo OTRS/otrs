@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketZoom.pm,v 1.88 2012-01-27 12:29:12 mb Exp $
 # --
@@ -158,7 +158,9 @@ sub Run {
         );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption( QueueID => $Ticket{QueueID}, );
+        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+            QueueID => $Ticket{QueueID},
+        );
 
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
@@ -424,8 +426,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -793,7 +794,9 @@ sub _Mask {
             my %AtmIndex = %{ $Article{Atms} };
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleAttachment',
-                Data => { Key => 'Attachment', },
+                Data => {
+                    Key => 'Attachment',
+                },
             );
             for my $FileID ( sort keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$FileID} };
@@ -851,7 +854,9 @@ sub _Mask {
     }
 
     # check follow up permissions
-    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
+    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+        QueueID => $Article{QueueID},
+    );
     my %State = $Self->{StateObject}->StateGet(
         ID => $Article{StateID},
     );

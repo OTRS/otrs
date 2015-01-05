@@ -1,6 +1,6 @@
 # --
 # TicketCreate.t - GenericInterface TicketCreate tests for TicketConnector backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketCreate.t,v 1.10.2.3 2012-11-09 23:52:35 cr Exp $
 # --
@@ -3189,18 +3189,18 @@ my @Tests        = (
                 },
             },
             Article => {
-                Subject                     => 'Article subject äöüßÄÖÜ€ис',
-                Body                        => 'Article body !"Â§$%&/()=?Ã*ÃÃL:L@,.-',
-                AutoResponseType            => 'auto reply',
-                ArticleType                 => 'email-external',
-                SenderType                  => 'agent',
-                From                        => 'enjoy@otrs.com',
-                ContentType                 => 'text/plain; charset=UTF8',
-                HistoryType                 => 'NewTicket',
-                HistoryComment              => '% % ',
-                TimeUnit                    => 25,
-                ForceNotificationToUserID   => [1],
-                ExcludeNotificationToUserID => [1],
+                Subject                         => 'Article subject äöüßÄÖÜ€ис',
+                Body                            => 'Article body !"Â§$%&/()=?Ã*ÃÃL:L@,.-',
+                AutoResponseType                => 'auto reply',
+                ArticleType                     => 'email-external',
+                SenderType                      => 'agent',
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
                 ExcludeMuteNotificationToUserID => [1],
             },
             DynamicField => {
@@ -3239,18 +3239,18 @@ my @Tests        = (
                 },
             },
             Article => {
-                Subject                     => 'Article subject äöüßÄÖÜ€ис',
-                Body                        => 'Article body !"Â§$%&/()=?Ã*ÃÃL:L@,.-',
-                AutoResponseType            => 'auto reply',
-                ArticleType                 => 'email-external',
-                SenderType                  => 'agent',
-                From                        => 'enjoy@otrs.com',
-                ContentType                 => 'text/plain; charset=UTF8',
-                HistoryType                 => 'NewTicket',
-                HistoryComment              => '% % ',
-                TimeUnit                    => 25,
-                ForceNotificationToUserID   => [1],
-                ExcludeNotificationToUserID => [1],
+                Subject                         => 'Article subject äöüßÄÖÜ€ис',
+                Body                            => 'Article body !"Â§$%&/()=?Ã*ÃÃL:L@,.-',
+                AutoResponseType                => 'auto reply',
+                ArticleType                     => 'email-external',
+                SenderType                      => 'agent',
+                From                            => 'enjoy@otrs.com',
+                ContentType                     => 'text/plain; charset=UTF8',
+                HistoryType                     => 'NewTicket',
+                HistoryComment                  => '% % ',
+                TimeUnit                        => 25,
+                ForceNotificationToUserID       => [1],
+                ExcludeNotificationToUserID     => [1],
                 ExcludeMuteNotificationToUserID => [1],
             },
             DynamicField => {

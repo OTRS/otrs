@@ -1,6 +1,6 @@
 # --
 # CheckModules.t - GenericInterface CheckModules tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CheckModules.t,v 1.2 2011-04-28 16:44:44 cg Exp $
 # --

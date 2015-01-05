@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerCompany.pm,v 1.26.2.4 2012-12-03 11:07:54 jh Exp $
 # --
@@ -96,36 +96,29 @@ sub new {
     # config options
     $Self->{CustomerCompanyTable} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Table}
         || die "Need CustomerCompany->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerCompanyKey}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
+    $Self->{CustomerCompanyKey} = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
         || $Self->{ConfigObject}->Get('CustomerCompany')->{Key}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
         || die "Need CustomerCompany->Map in Kernel/Config.pm!";
-    $Self->{CustomerCompanyValid}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
-    $Self->{SearchListLimit}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
-    $Self->{SearchPrefix}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
+    $Self->{CustomerCompanyValid} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
+    $Self->{SearchListLimit}      = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
+    $Self->{SearchPrefix}         = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
 
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
     }
-    $Self->{SearchSuffix}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
+    $Self->{SearchSuffix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
     if ( !defined( $Self->{SearchSuffix} ) ) {
         $Self->{SearchSuffix} = '*';
     }
 
     # charset settings
     my $DatabasePreferences = $Self->{ConfigObject}->Get('CustomerCompany')->{Params} || {};
-    $Self->{SourceCharset}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{SourceCharset} || '';
+    $Self->{SourceCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{SourceCharset} || '';
     $Self->{DestCharset} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DestCharset}
         || '';
-    $Self->{CharsetConvertForce}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CharsetConvertForce} || '';
+    $Self->{CharsetConvertForce} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{CharsetConvertForce} || '';
     if ( $Self->{SourceCharset} !~ /utf(-8|8)/i ) {
         $DatabasePreferences->{Encode} = 0;
     }
@@ -150,8 +143,7 @@ sub new {
 
     # this setting specifies if the table has the create_time,
     # create_by, change_time and change_by fields of OTRS
-    $Self->{ForeignDB}
-        = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
+    $Self->{ForeignDB} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ? 1 : 0;
 
     # set lower if database is case sensitive
     $Self->{Lower} = '';
@@ -189,7 +181,10 @@ sub CustomerCompanyAdd {
     # check needed stuff
     for (qw(CustomerID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -278,7 +273,10 @@ sub CustomerCompanyGet {
 
     # check needed stuff
     if ( !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need CustomerID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need CustomerID!"
+        );
         return;
     }
 
@@ -355,7 +353,10 @@ sub CustomerCompanyUpdate {
     # check needed stuff
     for my $Entry ( @{ $Self->{CustomerCompanyMap} } ) {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Entry->[0]!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Entry->[0]!"
+            );
             return;
         }
     }
@@ -498,8 +499,7 @@ sub CustomerCompanyList {
     }
 
     # sql
-    my $CompleteSQL
-        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
+    my $CompleteSQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable}";
     $CompleteSQL .= $SQL ? " WHERE $SQL" : '';
     $SQL = $Self->_ConvertTo($SQL);
 

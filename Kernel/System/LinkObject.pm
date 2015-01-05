@@ -1,6 +1,6 @@
 # --
 # Kernel/System/LinkObject.pm - to link objects
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObject.pm,v 1.58.4.3 2013-01-21 16:14:39 ub Exp $
 # --
@@ -275,7 +275,10 @@ sub PossibleLinkList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1508,7 +1511,10 @@ sub ObjectLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1640,7 +1646,10 @@ sub TypeLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1882,7 +1891,10 @@ sub TypeList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -1951,7 +1963,10 @@ sub TypeGroupList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -2102,7 +2117,10 @@ sub StateLookup {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 
@@ -2204,7 +2222,10 @@ sub StateList {
 
     # check needed stuff
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!'
+        );
         return;
     }
 

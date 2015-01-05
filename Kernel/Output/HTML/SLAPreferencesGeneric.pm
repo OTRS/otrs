@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/SLAPreferencesGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SLAPreferencesGeneric.pm,v 1.2 2009-07-07 15:45:19 mh Exp $
 # --
@@ -44,8 +44,7 @@ sub Param {
     my @Params = ();
     my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
     if ( !defined($GetParam) ) {
-        $GetParam
-            = defined( $Param{SLAData}->{ $Self->{ConfigItem}->{PrefKey} } )
+        $GetParam = defined( $Param{SLAData}->{ $Self->{ConfigItem}->{PrefKey} } )
             ? $Param{SLAData}->{ $Self->{ConfigItem}->{PrefKey} }
             : $Self->{ConfigItem}->{DataSelected};
     }

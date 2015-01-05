@@ -1,7 +1,7 @@
 # --
 # Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm - realtime database
 # queue ticket index module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: RuntimeDB.pm,v 1.76.2.1 2012-08-24 09:45:52 mg Exp $
 # --
@@ -42,7 +42,10 @@ sub TicketAcceleratorIndex {
     # check needed stuff
     for (qw(UserID QueueID ShownQueueIDs)) {
         if ( !exists( $Param{$_} ) ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

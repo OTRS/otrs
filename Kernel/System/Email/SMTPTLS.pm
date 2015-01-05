@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/SMTPTLS.pm - the global email send module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SMTPTLS.pm,v 1.3 2011-01-06 09:47:45 mb Exp $
 # --
@@ -86,10 +86,16 @@ sub Check {
 
     # return if no connect was possible
     if ( !$SMTP ) {
-        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
+        return (
+            Successful => 0,
+            Message    => "Can't connect to $Self->{MailHost}: $!!"
+        );
     }
 
-    return ( Successful => 1, SMTPTLS => $SMTP );
+    return (
+        Successful => 1,
+        SMTPTLS    => $SMTP
+    );
 }
 
 sub Send {
@@ -98,7 +104,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

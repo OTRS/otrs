@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Installer.pm,v 1.93 2012-01-07 20:26:30 mb Exp $
 # --
@@ -184,8 +184,10 @@ sub Run {
 
         # build the select field for the InstallerDBStart.dtl
         $Param{SelectDBType} = $Self->{LayoutObject}->BuildSelection(
-            Data => { MySQL => 'MySQL', },
-            Name => 'DBType',
+            Data => {
+                MySQL => 'MySQL',
+            },
+            Name       => 'DBType',
             SelectedID => 'MySQL',
         );
 
@@ -269,8 +271,7 @@ sub Run {
             my $Output =
                 $Self->{LayoutObject}->Header(
                 Title => $Title . '-'
-                    . $Self->{LayoutObject}->{LanguageObject}
-                    ->Get('Create Database')
+                    . $Self->{LayoutObject}->{LanguageObject}->Get('Create Database')
                 );
 
             # FIXME !!! use $DB{Type}!!!
@@ -288,7 +289,9 @@ sub Run {
 
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Creating database '$DB{Database}'", },
+                Data => {
+                    Item => "Creating database '$DB{Database}'",
+                },
             );
             if ( !$DBH->do($DBCreate) ) {
                 $Self->{LayoutObject}->Block(
@@ -297,7 +300,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -324,7 +329,9 @@ sub Run {
             $DBH->do("use $DB{Database}");
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Creating tables 'otrs-schema.mysql.sql'", },
+                Data => {
+                    Item => "Creating tables 'otrs-schema.mysql.sql'",
+                },
             );
             for (@SQL) {
                 if ( !$DBH->do($_) ) {
@@ -334,7 +341,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultItemMessage',
-                        Data => { Message => $DBI::errstr, },
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultBack',
@@ -374,7 +383,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultItemMessage',
-                        Data => { Message => $DBI::errstr, },
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultBack',
@@ -401,7 +412,9 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
                 Data =>
-                    { Item => "Foreign Keys 'otrs-schema-post.mysql.sql'", },
+                    {
+                    Item => "Foreign Keys 'otrs-schema-post.mysql.sql'",
+                    },
             );
             for (@SQL) {
                 if ( !$DBH->do($_) ) {
@@ -411,7 +424,9 @@ sub Run {
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultItemMessage',
-                        Data => { Message => $DBI::errstr, },
+                        Data => {
+                            Message => $DBI::errstr,
+                        },
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'DatabaseResultBack',
@@ -451,7 +466,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -474,7 +491,9 @@ sub Run {
             # Reload the grant tables of your mysql-daemon
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => 'Reloading grant tables', },
+                Data => {
+                    Item => 'Reloading grant tables',
+                },
             );
             if ( !$DBH->do('FLUSH PRIVILEGES') ) {
                 $Self->{LayoutObject}->Block(
@@ -483,7 +502,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -513,8 +534,7 @@ sub Run {
 
             if ($ReConfigure) {
                 my $Output =
-                    $Self->{LayoutObject}
-                    ->Header( Title => 'Install OTRS - Error' );
+                    $Self->{LayoutObject}->Header( Title => 'Install OTRS - Error' );
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Kernel/Config.pm isn't writable!",
                     Comment => 'If you want to use the installer, set the '
@@ -527,8 +547,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItemMessage',
                 Data => {
-                    Message => $Self->{LayoutObject}->{LanguageObject}
-                        ->Get('Database setup successful!'),
+                    Message => $Self->{LayoutObject}->{LanguageObject}->Get('Database setup successful!'),
                 },
             );
             $Self->{LayoutObject}->Block(
@@ -560,7 +579,9 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Drop database '$DB{Database}'", },
+                Data => {
+                    Item => "Drop database '$DB{Database}'",
+                },
             );
             if ( !$DBH->do("DROP DATABASE $DB{Database}") ) {
                 $Self->{LayoutObject}->Block(
@@ -569,7 +590,9 @@ sub Run {
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
-                    Data => { Message => $DBI::errstr, },
+                    Data => {
+                        Message => $DBI::errstr,
+                    },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultBack',
@@ -590,8 +613,7 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemMessage',
                     Data => {
-                        Message => $Self->{LayoutObject}->{LanguageObject}
-                            ->Get('Database deleted.')
+                        Message => $Self->{LayoutObject}->{LanguageObject}->Get('Database deleted.')
                     },
                 );
                 $Self->{LayoutObject}->Block(
@@ -808,7 +830,9 @@ sub Run {
 
         $Self->{LayoutObject}->Block(
             Name => 'CountryStr',
-            Data => { CountryStr => $CountryStr, },
+            Data => {
+                CountryStr => $CountryStr,
+            },
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -837,8 +861,7 @@ sub Run {
             Value => 1,
         );
         if ( !$Result ) {
-            $Self->{LayoutObject}
-                ->FatalError( Message => "Can't write Config file!" );
+            $Self->{LayoutObject}->FatalError( Message => "Can't write Config file!" );
         }
 
         # check if the user wants to register
@@ -890,8 +913,7 @@ MAILTEXT
 
                 $Self->{DBObject} = Kernel::System::DB->new( %{$Self} );
                 my $SendObject = Kernel::System::Email->new( %{$Self} );
-                my $From
-                    = "$RegistrationInfo{Firstname} $RegistrationInfo{Lastname} <$RegistrationInfo{Email}>";
+                my $From       = "$RegistrationInfo{Firstname} $RegistrationInfo{Lastname} <$RegistrationInfo{Email}>";
                 my $RegistrationDone = $SendObject->Send(
                     From     => $From,
                     To       => 'register@otrs.com',
@@ -1029,8 +1051,7 @@ sub ParseSQLFile {
     }
     else {
         if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}
-                ->FatalError( Message => "Can't open $File: $!" );
+            $Self->{LayoutObject}->FatalError( Message => "Can't open $File: $!" );
         }
     }
     return @SQL;
@@ -1155,7 +1176,10 @@ sub CheckMailConfiguration {
 
     # if config option smtp and no smtp host given, return with error
     if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
-        return ( Successful => 0, Message => 'No SMTP Host given!' );
+        return (
+            Successful => 0,
+            Message    => 'No SMTP Host given!'
+        );
     }
 
     # check outbound mail configuration
@@ -1225,7 +1249,10 @@ sub CheckMailConfiguration {
 
     for (qw(InboundUser InboundPassword InboundHost)) {
         if ( !$Self->{ParamObject}->GetParam( Param => $_ ) ) {
-            return ( Successful => 0, Message => "Missing parameter: $_!" );
+            return (
+                Successful => 0,
+                Message    => "Missing parameter: $_!"
+            );
         }
     }
 

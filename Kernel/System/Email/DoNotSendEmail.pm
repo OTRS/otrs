@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/DoNotSendEmail.pm - modul dummy to send no emails
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DoNotSendEmail.pm,v 1.3 2009-02-16 11:48:19 tr Exp $
 # --
@@ -41,7 +41,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

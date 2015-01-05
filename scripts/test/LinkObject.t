@@ -1,6 +1,6 @@
 # --
 # LinkObject.t - link object module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LinkObject.t,v 1.20.4.1 2013-01-21 15:06:02 ub Exp $
 # --
@@ -2868,9 +2868,8 @@ for my $Test ( @{$LinkData} ) {
             TYPE:
             for my $Type (@ReferenceTypes) {
 
-                my @LinksSourceTargetKeys = sort keys %{ $Links->{$Object}->{$Type} };
-                my @ReferenceSourceTargetKeys
-                    = sort keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type} };
+                my @LinksSourceTargetKeys     = sort keys %{ $Links->{$Object}->{$Type} };
+                my @ReferenceSourceTargetKeys = sort keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type} };
 
                 # check number of source target keys
                 $Self->Is(
@@ -2882,9 +2881,8 @@ for my $Test ( @{$LinkData} ) {
                 KEY:
                 for my $Key (@ReferenceSourceTargetKeys) {
 
-                    my @LinksIDs = sort keys %{ $Links->{$Object}->{$Type}->{$Key} };
-                    my @ReferenceIDs
-                        = sort
+                    my @LinksIDs     = sort keys %{ $Links->{$Object}->{$Type}->{$Key} };
+                    my @ReferenceIDs = sort
                         keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type}->{$Key} };
 
                     # check number of ids

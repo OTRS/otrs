@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Scheduler/TaskManager.pm - Scheduler TaskManager backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TaskManager.pm,v 1.15.2.1 2013-01-09 18:21:29 cr Exp $
 # --
@@ -112,7 +112,10 @@ sub TaskAdd {
     # check needed stuff
     for my $Key (qw(Type Data)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -214,7 +217,10 @@ sub TaskGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ID!'
+        );
         return;
     }
 
@@ -282,7 +288,10 @@ sub TaskDelete {
     # check needed stuff
     for my $Key (qw(ID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

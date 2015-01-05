@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Log.pm - log wapper
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Log.pm,v 1.67 2012-03-29 19:59:23 mh Exp $
 # --
@@ -141,8 +141,7 @@ sub Log {
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
 
-        my $Error
-            = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
+        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
             $^V;
 
         $Error .= " Message: $Message\n\n";

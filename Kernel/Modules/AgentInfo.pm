@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentInfo.pm - to show an agent an login/changes info
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentInfo.pm,v 1.12 2009-02-16 11:20:52 tr Exp $
 # --
@@ -112,7 +112,10 @@ sub Run {
         # show info
         $Output = $Self->{LayoutObject}->Header();
         $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => $Self->{InfoFile}, Data => \%Param );
+            .= $Self->{LayoutObject}->Output(
+            TemplateFile => $Self->{InfoFile},
+            Data         => \%Param
+            );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

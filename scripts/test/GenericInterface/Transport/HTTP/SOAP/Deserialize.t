@@ -1,6 +1,6 @@
 # --
 # Deserialize.t - Deserialize tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Deserialize.t,v 1.11 2011-06-16 20:23:16 cr Exp $
 # --
@@ -281,9 +281,7 @@ for my $Test (@Tests) {
             '<Response xsi:nil="true" />' .
             $SOAPTagEnd;
     }
-    my $Content = SOAP::Serializer
-        ->autotype(0)
-        ->envelope(@CallData);
+    my $Content = SOAP::Serializer->autotype(0)->envelope(@CallData);
 
     $Self->Is(
         $Content,

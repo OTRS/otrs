@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminService.pm,v 1.35.2.2 2012-06-05 10:22:51 ub Exp $
 # --
@@ -138,11 +138,15 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if ( !$Object->Run( GetParam => \%GetParam, ServiceData => \%ServiceData ) )
+                        if (
+                            !$Object->Run(
+                                GetParam    => \%GetParam,
+                                ServiceData => \%ServiceData
+                            )
+                            )
                         {
                             $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
@@ -366,6 +370,9 @@ sub _MaskNew {
     }
 
     # generate output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AdminService', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminService',
+        Data         => \%Param
+    );
 }
 1;

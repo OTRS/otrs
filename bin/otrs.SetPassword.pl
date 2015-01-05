@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.SetPassword.pl - Changes or Sets password for a user
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.SetPassword.pl,v 1.4 2011-11-03 21:00:04 mb Exp $
 # --
@@ -44,7 +44,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "$0 <Revision $VERSION> - set a new agent password\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.SetPassword user password\n";
     exit 1;
 }

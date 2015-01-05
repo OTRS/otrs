@@ -1,6 +1,6 @@
 # --
 # Crypt.t - Crypt tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Crypt.t,v 1.21 2011-03-15 15:24:06 mg Exp $
 # --
@@ -29,7 +29,7 @@ $ConfigObject->Set(
     Value => '--batch --no-tty --yes',
 );
 $ConfigObject->Set(
-    Key => 'PGP::Key::Password',
+    Key   => 'PGP::Key::Password',
     Value => { '04A17B7A' => 'somepass' },
 );
 
@@ -38,7 +38,10 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/gpg' ) {
-        $ConfigObject->Set( Key => 'PGP::Bin', Value => '/opt/local/bin/gpg' );
+        $ConfigObject->Set(
+            Key   => 'PGP::Bin',
+            Value => '/opt/local/bin/gpg'
+        );
     }
 }
 

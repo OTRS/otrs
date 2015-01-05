@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/Date.pm - Delegate for DynamicField Date backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Date.pm,v 1.50.2.1 2012-05-10 19:19:15 cr Exp $
 # --
@@ -61,8 +61,7 @@ sub new {
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
     $Self->{TimeObject}              = Kernel::System::Time->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     return $Self;
 }
@@ -397,8 +396,7 @@ sub EditFieldValueGet {
                 && $DynamicFieldValues{ $Prefix . $Type } !~ m{\A 0 \d \z}smx
                 )
             {
-                $DynamicFieldValues{ $Prefix . $Type }
-                    = '0' . $DynamicFieldValues{ $Prefix . $Type };
+                $DynamicFieldValues{ $Prefix . $Type } = '0' . $DynamicFieldValues{ $Prefix . $Type };
             }
         }
 
@@ -465,7 +463,9 @@ sub DisplayValueRender {
     if ( defined $Param{Value} ) {
         $Value = $Param{LayoutObject}->Output(
             Template => '$Date{"$Data{"Value"}"}',
-            Data => { Value => $Param{Value}, },
+            Data     => {
+                Value => $Param{Value},
+            },
         );
     }
 
@@ -539,8 +539,7 @@ sub SearchFieldRender {
     my $FieldClass = 'DynamicFieldDateTime';
 
     # set as checked if necessary
-    my $FieldChecked
-        = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
+    my $FieldChecked = ( defined $Value->{$FieldName} && $Value->{$FieldName} == 1 ? 'checked="checked"' : '' );
 
     my $HTMLString = <<"EOF";
     <input type="hidden" id="$FieldName" name="$FieldName" value="1"/>
@@ -627,8 +626,7 @@ sub SearchFieldValueGet {
                 # return if value was not checked (useful in customer interface)
                 return if !$Param{Profile}->{$Prefix};
 
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                    = $Param{Profile}->{ $Prefix . $Type . $Part };
+                $DynamicFieldValues{ $Prefix . $Type . $Part } = $Param{Profile}->{ $Prefix . $Type . $Part };
             }
             else {
                 return;
@@ -668,8 +666,7 @@ sub SearchFieldValueGet {
                 && length $DynamicFieldValues{ $Prefix . $Type . $Part } == 1
                 )
             {
-                $DynamicFieldValues{ $Prefix . $Type . $Part }
-                    = '0' . $DynamicFieldValues{ $Prefix . $Type . $Part };
+                $DynamicFieldValues{ $Prefix . $Type . $Part } = '0' . $DynamicFieldValues{ $Prefix . $Type . $Part };
             }
         }
     }
@@ -717,29 +714,25 @@ sub SearchFieldParameterBuild {
 
         my $Prefix = 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name};
 
-        my $ValueStart
-            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+        my $ValueStart = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartDay' } . ' '
             . $Value->{ValueStart}->{ $Prefix . 'StartHour' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartMinute' } . ':'
             . $Value->{ValueStart}->{ $Prefix . 'StartSecond' };
 
-        my $ValueStop
-            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+        my $ValueStop = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopDay' } . ' '
             . $Value->{ValueStop}->{ $Prefix . 'StopHour' } . ':'
             . $Value->{ValueStop}->{ $Prefix . 'StopMinute' } . ':'
             . $Value->{ValueStop}->{ $Prefix . 'StopSecond' };
 
-        my $DisplayValueStart
-            = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
+        my $DisplayValueStart = $Value->{ValueStart}->{ $Prefix . 'StartYear' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartMonth' } . '-'
             . $Value->{ValueStart}->{ $Prefix . 'StartDay' };
 
-        my $DisplayValueStop
-            = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
+        my $DisplayValueStop = $Value->{ValueStop}->{ $Prefix . 'StopYear' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopMonth' } . '-'
             . $Value->{ValueStop}->{ $Prefix . 'StopDay' };
 

@@ -1,6 +1,6 @@
 # --
 # 000-Login.t - frontend tests for login
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: 000-Login.t,v 1.4 2011-02-09 15:45:30 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # TicketSearch.t - GenericInterface transport interface tests for TicketConnector backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketSearch.t,v 1.15.2.2 2012-11-09 23:52:35 cr Exp $
 # --
@@ -238,7 +238,7 @@ my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
     FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
-        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
+        DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
         PossibleValues => {
             ticket1_field5 => 'ticket1_field51',
             ticket2_field5 => 'ticket2_field52',
@@ -994,8 +994,8 @@ my @Tests = (
         SuccessRequest => 1,
         RequestData    => {
             CustomerID => '123465' . $RandomID,
-            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
-            OrderBy => 'Down',
+            SortBy     => 'Ticket',               # force order, because the Age (default) can be the same
+            OrderBy    => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {

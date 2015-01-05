@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Queue/PreferencesDB.pm - some user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PreferencesDB.pm,v 1.8 2012-03-15 20:42:18 mh Exp $
 # --
@@ -51,7 +51,10 @@ sub QueuePreferencesSet {
     # check needed stuff
     for (qw(QueueID Key Value)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -85,7 +88,10 @@ sub QueuePreferencesGet {
     # check needed stuff
     for (qw(QueueID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

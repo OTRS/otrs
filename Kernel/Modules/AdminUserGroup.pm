@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminUserGroup.pm,v 1.56 2011-12-23 13:37:00 mg Exp $
 # --
@@ -210,12 +210,17 @@ sub _Change {
     my $Type   = $Param{Type} || 'User';
     my $NeType = $Type eq 'Group' ? 'User' : 'Group';
 
-    my %VisibleType = ( Group => 'Group', User => 'Agent', );
+    my %VisibleType = (
+        Group => 'Group',
+        User  => 'Agent',
+    );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );
     $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
-    $Self->{LayoutObject}->Block( Name => 'ChangeReference', );
+    $Self->{LayoutObject}->Block(
+        Name => 'ChangeReference',
+    );
     $Self->{LayoutObject}->Block(
         Name => 'Change',
         Data => {

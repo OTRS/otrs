@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminScheduler.pm - Utilities for scheduler
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminScheduler.pm,v 1.2 2012-01-09 08:39:11 mg Exp $
 # --

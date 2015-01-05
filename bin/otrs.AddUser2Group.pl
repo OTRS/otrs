@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddUser2Group.pl - Add User to a Group
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddUser2Group.pl,v 1.4 2011-11-03 21:00:04 mb Exp $
 # --
@@ -74,8 +74,7 @@ $Param{UserLogin}                = $Opts{u};
 $Param{Group}                    = $Opts{g};
 
 unless (
-    $Param{UID}
-    =
+    $Param{UID} =
     $CommonObject{UserObject}->UserLookup( UserLogin => $Param{UserLogin} )
     )
 {

@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation.pm - GenericInterface operation interface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Operation.pm,v 1.15 2012-01-16 15:09:02 mg Exp $
 # --
@@ -114,8 +114,7 @@ sub new {
     # load backend module
     my $GenericModule = 'Kernel::GenericInterface::Operation::' . $Param{OperationType};
     if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        return $Self->{DebuggerObject}
-            ->Error( Summary => "Can't load operation backend module $GenericModule!" );
+        return $Self->{DebuggerObject}->Error( Summary => "Can't load operation backend module $GenericModule!" );
     }
     $Self->{BackendObject} = $GenericModule->new(
         %{$Self},

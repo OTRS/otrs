@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Spelling.pm - the global spelling module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Spelling.pm,v 1.34 2012-03-20 08:19:38 mg Exp $
 # --
@@ -109,14 +109,16 @@ sub Check {
     # check needed stuff
     for (qw(Text)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # default ignored words
-    my @Ignore
-        = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Sun Mon Tue Wed Thu Fri
+    my @Ignore = qw(com org de net Cc www Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec Sun Mon Tue Wed Thu Fri
         Sat Fwd Re DNS Date To Cc Bcc ca tm COM Co op netscape bcc jpg gif email Tel ie eg otrs suse redhat debian
         caldera php perl java html unsubscribe queue event day month year ticket
     );

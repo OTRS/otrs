@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NewTicket.pm,v 1.86 2012-04-19 21:12:39 mb Exp $
 # --
@@ -48,7 +48,10 @@ sub Run {
     # check needed stuff
     for (qw(InmailUserID GetParam)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -70,7 +73,7 @@ sub Run {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!"
+                Message  => "State $GetParam{'X-OTRS-State'} does not exist, falling back to $State!"
             );
         }
     }
@@ -78,8 +81,7 @@ sub Run {
     # get priority
     my $Priority = $Self->{ConfigObject}->Get('PostmasterDefaultPriority') || '3 normal';
     if ( $GetParam{'X-OTRS-Priority'} ) {
-        my $PriorityID
-            = $Self->{PriorityObject}->PriorityLookup( Priority => $GetParam{'X-OTRS-Priority'} );
+        my $PriorityID = $Self->{PriorityObject}->PriorityLookup( Priority => $GetParam{'X-OTRS-Priority'} );
         if ($PriorityID) {
             $Priority = $GetParam{'X-OTRS-Priority'};
         }
@@ -93,9 +95,13 @@ sub Run {
     }
 
     # get sender email
-    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+        Line => $GetParam{From},
+    );
     for (@EmailAddresses) {
-        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
+        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress(
+            Email => $_,
+        );
     }
 
     # get customer id (sender email) if there is no customer id given
@@ -236,10 +242,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+            my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,
@@ -385,10 +390,9 @@ sub Run {
         if ( $GetParam{$Key} ) {
 
             # get dynamic field config
-            my $DynamicFieldGet
-                = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
+            my $DynamicFieldGet = $Self->{TicketObject}->{DynamicFieldObject}->DynamicFieldGet(
                 ID => $DynamicFieldID,
-                );
+            );
 
             $Self->{TicketObject}->{DynamicFieldBackendObject}->ValueSet(
                 DynamicFieldConfig => $DynamicFieldGet,

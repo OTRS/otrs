@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.RefreshSMIMEKeys.pl - normalize SMIME private secrets and rename all certificates to the correct hash
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.RefreshSMIMEKeys.pl,v 1.1.2.8 2012-05-22 04:28:27 cr Exp $
 # --
@@ -55,7 +55,7 @@ getopt( 'hdf', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RefreshSMIMEKeys.pl <Revision $VERSION> - fix SMIME certificates private keys and"
         . " secrets filenames\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.RefreshSMIMEKeys.pl -d <DETAILS> (short|long) [-f (force to execute even"
         . " if SMIME is not enabled in SysConfig)]  \n";
     exit 1;

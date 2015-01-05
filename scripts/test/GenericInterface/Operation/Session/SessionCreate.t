@@ -1,6 +1,6 @@
 # --
 # SessionCreate.t - GenericInterface SessionCreate tests for SessionConnector backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SessionCreate.t,v 1.1 2012-01-25 18:01:44 cr Exp $
 # --

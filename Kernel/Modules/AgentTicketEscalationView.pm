@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketEscalationView.pm,v 1.16.2.2 2012-08-17 09:15:51 mh Exp $
 # --
@@ -72,7 +72,9 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';

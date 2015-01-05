@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Package.pm,v 1.130.2.6 2012-10-22 12:53:39 ub Exp $
 # --
@@ -139,10 +139,11 @@ sub new {
         CodeUninstall => 'ARRAY',
         CodeReinstall => 'ARRAY',
     };
-    $Self->{PackageMapFileList} = { File => 'ARRAY', };
+    $Self->{PackageMapFileList} = {
+        File => 'ARRAY',
+    };
 
-    $Self->{PackageVerifyURL}
-        = 'https://pav.otrs.com/otrs/public.pl?Action=PublicPackageVerification;';
+    $Self->{PackageVerifyURL} = 'https://pav.otrs.com/otrs/public.pl?Action=PublicPackageVerification;';
 
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
@@ -244,7 +245,10 @@ sub RepositoryGet {
     # check needed stuff
     for (qw(Name Version)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
@@ -304,18 +308,27 @@ sub RepositoryAdd {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
     # get package attributes
     my %Structure = $Self->PackageParse(%Param);
     if ( !$Structure{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
     if ( !$Structure{Version} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Version!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Version!'
+        );
         return;
     }
 
@@ -328,7 +341,7 @@ sub RepositoryAdd {
 
     if ($PackageExists) {
         $Self->{DBObject}->Do(
-            SQL => 'DELETE FROM package_repository WHERE name = ? AND version = ?',
+            SQL  => 'DELETE FROM package_repository WHERE name = ? AND version = ?',
             Bind => [ \$Structure{Name}->{Content}, \$Structure{Version}->{Content} ],
         );
     }
@@ -371,7 +384,10 @@ sub RepositoryRemove {
 
     # check needed stuff
     if ( !defined $Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Name not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Name not defined!'
+        );
         return;
     }
 
@@ -383,7 +399,10 @@ sub RepositoryRemove {
         push @Bind, \$Param{Version};
     }
 
-    return if !$Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Do(
+        SQL  => $SQL,
+        Bind => \@Bind
+    );
 
     # cleanup cache
     $Self->{CacheObject}->CleanUp(
@@ -409,7 +428,10 @@ sub PackageInstall {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
@@ -547,7 +569,10 @@ sub PackageReinstall {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
@@ -578,7 +603,10 @@ sub PackageReinstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            $Self->_FileInstall( File => $File, Reinstall => 1 );
+            $Self->_FileInstall(
+                File      => $File,
+                Reinstall => 1
+            );
         }
     }
 
@@ -616,7 +644,10 @@ sub PackageUpgrade {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
@@ -907,7 +938,10 @@ sub PackageUninstall {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
@@ -1043,7 +1077,10 @@ sub PackageOnlineList {
     # check needed stuff
     for (qw(URL Lang)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
@@ -1134,7 +1171,13 @@ sub PackageOnlineList {
 
         if ( $Package->{Framework} ) {
 
-            if ( $Self->_CheckFramework( Framework => $Package->{Framework}, NoLog => 1 ) ) {
+            if (
+                $Self->_CheckFramework(
+                    Framework => $Package->{Framework},
+                    NoLog     => 1
+                )
+                )
+            {
                 $FWCheckOk                    = 1;
                 $PackageForRequestedFramework = 1;
             }
@@ -1257,7 +1300,10 @@ sub PackageOnlineGet {
     # check needed stuff
     for (qw(File Source)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
@@ -1282,7 +1328,10 @@ sub DeployCheck {
     # check needed stuff
     for (qw(Name Version)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
@@ -1395,11 +1444,17 @@ sub PackageVerify {
 
     # check needed stuff
     if ( !$Param{Package} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Package!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Package!"
+        );
         return;
     }
     if ( !$Param{Structure} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Structure or Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Structure or Name!'
+        );
         return;
     }
 
@@ -1662,7 +1717,10 @@ sub PackageBuild {
     # check needed stuff
     for (qw(Name Version Vendor License Description)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
@@ -1756,9 +1814,9 @@ sub PackageBuild {
         }
         else {
 
-#            $XML .= "  <$Tag></$Tag>\n";
-#            $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Ref data in tag $Tag!");
-#            return;
+            #            $XML .= "  <$Tag></$Tag>\n";
+            #            $Self->{LogObject}->Log(Priority => 'error', Message => "Invalid Ref data in tag $Tag!");
+            #            return;
         }
     }
 
@@ -1925,7 +1983,10 @@ sub PackageParse {
 
     # check needed stuff
     if ( !defined $Param{String} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'String not defined!'
+        );
         return;
     }
 
@@ -2100,7 +2161,10 @@ sub PackageExport {
     # check needed stuff
     for (qw(String Home)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
@@ -2204,7 +2268,10 @@ sub PackageInstallDefaultFiles {
 
         next LOCATION if !$@;
 
-        $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => $@
+        );
     }
 
     return 1;
@@ -2219,7 +2286,10 @@ sub _Download {
 
     # check needed stuff
     if ( !defined $Param{URL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'URL not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'URL not defined!'
+        );
         return;
     }
 
@@ -2245,7 +2315,10 @@ sub _Database {
 
     # check needed stuff
     if ( !defined $Param{Database} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Database not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Database not defined!'
+        );
         return;
     }
 
@@ -2282,14 +2355,20 @@ sub _Code {
     # check needed stuff
     for (qw(Code Type Structure)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
 
     # check format
     if ( ref $Param{Code} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need array ref in Code param!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in Code param!'
+        );
         return;
     }
 
@@ -2319,13 +2398,19 @@ sub _OSCheck {
 
     # check needed stuff
     if ( !defined $Param{OS} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'OS not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'OS not defined!'
+        );
         return;
     }
 
     # check format
     if ( ref $Param{OS} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need array ref in OS param!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in OS param!'
+        );
         return;
     }
 
@@ -2363,7 +2448,10 @@ sub _CheckFramework {
 
     # check needed stuff
     if ( !defined $Param{Framework} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Framework not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Framework not defined!'
+        );
         return;
     }
 
@@ -2512,7 +2600,10 @@ sub _CheckPackageRequired {
 
     # check needed stuff
     if ( !defined $Param{PackageRequired} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'PackageRequired not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'PackageRequired not defined!'
+        );
         return;
     }
 
@@ -2575,7 +2666,10 @@ sub _CheckModuleRequired {
 
     # check needed stuff
     if ( !defined $Param{ModuleRequired} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'ModuleRequired not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'ModuleRequired not defined!'
+        );
         return;
     }
 
@@ -2642,7 +2736,10 @@ sub _CheckPackageDepends {
 
     # check needed stuff
     if ( !defined $Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Name not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Name not defined!'
+        );
         return;
     }
 
@@ -2677,7 +2774,10 @@ sub _PackageFileCheck {
 
     # check needed stuff
     if ( !defined $Param{Structure} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Structure not defined!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Structure not defined!'
+        );
         return;
     }
 
@@ -2716,13 +2816,19 @@ sub _FileInstall {
     # check needed stuff
     for (qw(File)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Location Content Permission)) {
         if ( !defined $Param{File}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined in File!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined in File!"
+            );
             return;
         }
     }
@@ -2822,13 +2928,19 @@ sub _FileRemove {
     # check needed stuff
     for (qw(File)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Location)) {
         if ( !defined $Param{File}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined in File!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined in File!"
+            );
             return;
         }
     }

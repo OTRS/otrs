@@ -1,6 +1,6 @@
 # --
 # Service.t - Service tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Service.t,v 1.18 2012-01-27 13:51:43 ub Exp $
 # --

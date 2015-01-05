@@ -1,6 +1,6 @@
 # --
 # ArticleDynamicFieldSearch.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ArticleDynamicFieldSearch.t,v 1.2 2011-09-05 10:19:25 mg Exp $
 # --
@@ -72,7 +72,7 @@ my $FieldIDArticle1 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "DFTArticle1$RandomID",
     Label      => 'Description',
     FieldOrder => 9991,
-    FieldType  => 'Text',                  # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                   # mandatory, selects the DF backend to use for this field
     ObjectType => 'Article',
     Config     => {
         DefaultValue => 'Default',
@@ -93,7 +93,7 @@ my $FieldIDArticle2 = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "DFTArticle2$RandomID",
     Label      => 'Description',
     FieldOrder => 9991,
-    FieldType  => 'Text',                  # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                   # mandatory, selects the DF backend to use for this field
     ObjectType => 'Article',
     Config     => {
         DefaultValue => 'Default',
@@ -185,7 +185,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(
@@ -214,7 +214,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(
@@ -243,7 +243,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(
@@ -272,7 +272,7 @@ for my $Module (qw(StaticDB RuntimeDB)) {
         HistoryType    => 'OwnerUpdate',
         HistoryComment => 'Some free text!',
         UserID         => 1,
-        NoAgentNotify => 1,    # if you don't want to send agent notifications
+        NoAgentNotify  => 1,                                          # if you don't want to send agent notifications
     );
 
     $BackendObject->ValueSet(

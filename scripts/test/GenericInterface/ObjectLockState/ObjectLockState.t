@@ -1,6 +1,6 @@
 # --
 # ObjectLockState.t - ObjectLockState functional tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ObjectLockState.t,v 1.4 2011-03-03 08:18:33 mg Exp $
 # --

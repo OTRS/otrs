@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AutoPriorityIncrease.pm,v 1.12 2011-11-25 10:19:42 mg Exp $
 # --
@@ -72,8 +72,9 @@ sub Run {
     if ( !$LatestAutoIncrease ) {
         $LatestAutoIncrease = $Ticket{Created};
     }
-    $LatestAutoIncrease
-        = $Self->{TimeObject}->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
+    $LatestAutoIncrease = $Self->{TimeObject}->TimeStamp2SystemTime(
+        String => $LatestAutoIncrease,
+    );
     if (
         ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
         > $Param{New}->{TimeInterval}
@@ -97,8 +98,7 @@ sub Run {
     }
 
     # increase priority
-    my $Priority
-        = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
+    my $Priority = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
 
     # do nothing if already highest priority
     if ( !$Priority ) {

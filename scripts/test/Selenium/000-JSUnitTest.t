@@ -1,6 +1,6 @@
 # --
 # 000-JSUnitTest.t - frontend tests that collect the JavaScript unit test results
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: 000-JSUnitTest.t,v 1.9 2011-02-09 15:45:30 mg Exp $
 # --
@@ -67,10 +67,9 @@ for my $SeleniumScenario ( @{ $Helper->SeleniumScenariosGet() } ) {
             $Failed = $sel->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.failed').text()"
             );
-            $Total
-                = $sel->get_eval(
+            $Total = $sel->get_eval(
                 "this.browserbot.getCurrentWindow().\$('p.result span.total').text()"
-                );
+            );
 
             $Self->True( $Passed, 'Found passed tests' );
             $Self->Is( $Passed, $Total, 'Total number of tests' );

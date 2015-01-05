@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Event/Handler.pm - event handler module for the GenericInterface
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Handler.pm,v 1.4 2012-03-29 07:29:48 mg Exp $
 # --
@@ -48,7 +48,10 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

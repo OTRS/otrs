@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # scripts/rpc-example.pl - soap example client
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: rpc-example.pl,v 1.8 2011-10-24 09:22:12 mg Exp $
 # --
@@ -28,7 +28,10 @@ use SOAP::Lite;
 
 my $User = 'some_user';
 my $Pw   = 'some_pass';
-my $RPC = new SOAP::Lite( proxy => 'http://127.0.0.1/otrs/rpc.pl', uri => 'http://localhost/Core' );
+my $RPC  = new SOAP::Lite(
+    proxy => 'http://127.0.0.1/otrs/rpc.pl',
+    uri   => 'http://localhost/Core'
+);
 
 # create a new ticket number
 print "NOTICE: TicketObject->TicketCreateNumber()\n";

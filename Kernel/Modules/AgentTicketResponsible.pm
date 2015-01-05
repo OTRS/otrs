@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketResponsible.pm,v 1.78 2011-05-03 07:53:58 mb Exp $
 # --

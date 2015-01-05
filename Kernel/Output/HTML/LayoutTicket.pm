@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: LayoutTicket.pm,v 1.141.2.3 2012-11-22 09:24:52 mg Exp $
 # --
@@ -163,7 +163,10 @@ sub AgentCustomerViewTable {
     # vCard
     # Bugzilla Status
     # create & return output
-    return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
+    return $Self->Output(
+        TemplateFile => 'AgentCustomerTableView',
+        Data         => \%Param
+    );
 }
 
 # AgentQueueListOption()
@@ -209,8 +212,7 @@ sub AgentQueueListOption {
             );
             $Self->FatalError();
         }
-        $Param{OnChange}
-            = "Core.AJAX.FormUpdate(\$('#"
+        $Param{OnChange} = "Core.AJAX.FormUpdate(\$('#"
             . $Param{Name} . "'), '"
             . $Param{Ajax}->{Subaction} . "',"
             . " '$Param{Name}',"
@@ -235,8 +237,7 @@ sub AgentQueueListOption {
     }
 
     # build tree list
-    $Param{MoveQueuesStrg}
-        = '<select name="'
+    $Param{MoveQueuesStrg} = '<select name="'
         . $Param{Name}
         . '" id="'
         . $Param{Name}
@@ -268,7 +269,10 @@ sub AgentQueueListOption {
         my $UpQueue = $Param{Data}->{$_};
         $UpQueue =~ s/^(.*)::.+?$/$1/g;
         if ( !$Queue[$MaxLevel] && $Queue[-1] ne '' ) {
-            $Queue[-1] = $Self->Ascii2Html( Text => $Queue[-1], Max => 50 - $#Queue );
+            $Queue[-1] = $Self->Ascii2Html(
+                Text => $Queue[-1],
+                Max  => 50 - $#Queue
+            );
             my $Space = '';
             for ( my $i = 0; $i < $#Queue; $i++ ) {
                 $Space .= '&nbsp;&nbsp;';

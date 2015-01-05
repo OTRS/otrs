@@ -1,6 +1,6 @@
 # --
 # Backend.t - DynamicFieldValue backend tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Backend.t,v 1.20 2012-03-20 16:27:57 mg Exp $
 # --
@@ -53,7 +53,7 @@ my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
     Name       => "dynamicfieldtest$RandomID",
     Label      => 'a description',
     FieldOrder => 9991,
-    FieldType  => 'Text',     # mandatory, selects the DF backend to use for this field
+    FieldType  => 'Text',                        # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
         DefaultValue => 'a value',

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceMappingSimple.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceMappingSimple.pm,v 1.21 2012-04-20 00:19:42 ep Exp $
 # --
@@ -41,8 +41,7 @@ sub new {
     $Self->{WebserviceObject} =
         Kernel::System::GenericInterface::Webservice->new( %{$Self} );
 
-    $Self->{DeletedString}
-        = '_GenericInterface_Mapping_Simple_DeletedString_Dont_Use_It_String_Please';
+    $Self->{DeletedString} = '_GenericInterface_Mapping_Simple_DeletedString_Dont_Use_It_String_Please';
 
     return $Self;
 }
@@ -64,14 +63,12 @@ sub Run {
     my $Action = $Operation || $Invoker;
 
     # set mapping direction for display
-    my $MappingDirection
-        = $Direction eq 'MappingOutbound'
+    my $MappingDirection = $Direction eq 'MappingOutbound'
         ? 'Simple Mapping for Outgoing Data'
         : 'Simple Mapping for Incoming Data';
 
     # get configured Actions
-    my $ActionsConfig
-        = $Self->{ConfigObject}->Get( 'GenericInterface::' . $ActionType . '::Module' );
+    my $ActionsConfig = $Self->{ConfigObject}->Get( 'GenericInterface::' . $ActionType . '::Module' );
 
     # check for valid action backend
     if ( !IsHashRefWithData($ActionsConfig) ) {
@@ -82,8 +79,9 @@ sub Run {
 
     # check for WebserviceID
     if ( !$WebserviceID ) {
-        return $Self->{LayoutObject}
-            ->ErrorScreen( Message => "Need WebserviceID!", );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need WebserviceID!",
+        );
     }
 
     # get webservice configuration
@@ -148,13 +146,11 @@ sub Run {
                         )
                     {
                         $ValueIndex++;
-                        my $NewVal
-                            = $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$ValueName},
+                        my $NewVal = $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$ValueName},
 
                             $Mapping{ 'ValueName' . $KeyIndex . '_' . $ValueIndex } = $ValueName;
-                        $Mapping{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex } = $NewVal;
-                        $Mapping{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex }
-                            = $ValueMapType;
+                        $Mapping{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex }      = $NewVal;
+                        $Mapping{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex } = $ValueMapType;
 
                     }
                 }
@@ -226,8 +222,7 @@ sub Run {
 
         for my $KeyCounter ( 1 .. $GetParam->{KeyCounter} ) {
             $NewMapping{ $GetParam->{ 'KeyMapTypeStrg' . $KeyCounter } }
-                ->{ $GetParam->{ 'KeyName' . $KeyCounter } }
-                =
+                ->{ $GetParam->{ 'KeyName' . $KeyCounter } } =
                 $GetParam->{ 'KeyMapNew' . $KeyCounter };
 
             for my $ValueCounter ( 1 .. $GetParam->{ 'ValueCounter' . $KeyCounter } ) {
@@ -240,8 +235,7 @@ sub Run {
 
         # set new mapping
         $WebserviceData->{Config}->{$CommunicationType}->{$ActionType}->{$Action}->{$Direction}
-            ->{Config}
-            = \%NewMapping;
+            ->{Config} = \%NewMapping;
 
         # otherwise save configuration and return to overview screen
         my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
@@ -261,8 +255,7 @@ sub Run {
 
         # save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToAction' ) ) {
-            my $RedirectURL
-                = "Action=$ActionFrontendModule;Subaction=Change;$ActionType=$Action;"
+            my $RedirectURL = "Action=$ActionFrontendModule;Subaction=Change;$ActionType=$Action;"
                 . "WebserviceID=$WebserviceID;";
 
             return $Self->{LayoutObject}->Redirect(
@@ -300,13 +293,11 @@ sub Run {
                         )
                     {
                         $ValueIndex++;
-                        my $NewVal
-                            = $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$ValueName},
+                        my $NewVal = $MappingConfig->{ValueMap}->{$NewKey}->{$ValueMapType}->{$ValueName},
 
                             $Mapping{ 'ValueName' . $KeyIndex . '_' . $ValueIndex } = $ValueName;
-                        $Mapping{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex } = $NewVal;
-                        $Mapping{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex }
-                            = $ValueMapType;
+                        $Mapping{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex }      = $NewVal;
+                        $Mapping{ 'ValueMapTypeStrg' . $KeyIndex . '_' . $ValueIndex } = $ValueMapType;
 
                     }
                 }
@@ -526,9 +517,9 @@ sub _ShowEdit {
             $Self->{LayoutObject}->Block(
                 Name => 'ValueTemplateRow',
                 Data => {
-                    KeyIndex   => $KeyIndex,
-                    ValueIndex => $ValueIndex,
-                    ValueName  => $MappingConfig->{ 'ValueName' . $KeyIndex . '_' . $ValueIndex },
+                    KeyIndex       => $KeyIndex,
+                    ValueIndex     => $ValueIndex,
+                    ValueName      => $MappingConfig->{ 'ValueName' . $KeyIndex . '_' . $ValueIndex },
                     ValueNameError => $Error{ 'ValueName' . $KeyIndex . '_' . $ValueIndex } || '',
                     ValueMapNew =>
                         $MappingConfig->{ 'ValueMapNew' . $KeyIndex . '_' . $ValueIndex },

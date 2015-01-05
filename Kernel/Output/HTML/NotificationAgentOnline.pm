@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationAgentOnline.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationAgentOnline.pm,v 1.8 2009-02-16 11:16:22 tr Exp $
 # --
@@ -42,7 +42,9 @@ sub Run {
     my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
     my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60 * 2;
     for (@Sessions) {
-        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_, );
+        my %Data = $Self->{SessionObject}->GetSessionIDData(
+            SessionID => $_,
+        );
         if (
             $Self->{UserID} ne $Data{UserID}
             && $Data{UserType} eq 'User'

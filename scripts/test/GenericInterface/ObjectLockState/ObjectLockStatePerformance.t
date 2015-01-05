@@ -1,6 +1,6 @@
 # --
 # ObjectLockStatePerformance.t - ObjectLockState performance tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ObjectLockStatePerformance.t,v 1.2.2.1 2012-11-22 15:04:20 mh Exp $
 # --

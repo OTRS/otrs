@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentSpelling.pm - spelling module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentSpelling.pm,v 1.28 2010-07-01 14:08:53 mn Exp $
 # --
@@ -136,7 +136,10 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentSpelling', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentSpelling',
+        Data         => \%Param
+    );
 }
 
 1;

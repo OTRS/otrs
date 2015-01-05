@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketClose.pm,v 1.89 2011-05-03 07:53:58 mb Exp $
 # --

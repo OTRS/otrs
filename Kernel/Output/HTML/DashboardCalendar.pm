@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/DashboardCalendar.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DashboardCalendar.pm,v 1.21 2011-11-25 10:36:41 mg Exp $
 # --

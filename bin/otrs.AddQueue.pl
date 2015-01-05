@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddQueue.pl - Add Queue from CLI
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddQueue.pl,v 1.5 2011-01-30 19:54:28 mb Exp $
 # --
@@ -49,7 +49,7 @@ getopts( 'hg:n:s:S:c:r:u:l:C:', \%Opts );
 
 if ( $Opts{h} ) {
     print STDOUT "otrs.AddQueue.pl <Revision $VERSION> - add new queue\n";
-    print STDOUT "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print STDOUT "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print STDOUT "usage: otrs.AddQueue.pl -n <NAME> -g <GROUP> [-s <SYSTEMADDRESSID> -S \n";
     print STDOUT
         "<SYSTEMADDRESS> -c <COMMENT> -r <FirstResponseTime> -u <UpdateTime> \n";

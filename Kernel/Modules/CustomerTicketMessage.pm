@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerTicketMessage.pm,v 1.100.2.3 2012-07-01 12:29:48 ub Exp $
 # --
@@ -100,8 +100,7 @@ sub Run {
         next DYNAMICFIELD if !$DynamicField;
         next DYNAMICFIELD if !$DynamicFieldValues{$DynamicField};
 
-        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField }
-            = $DynamicFieldValues{$DynamicField};
+        $DynamicFieldACLParameters{ 'DynamicField_' . $DynamicField } = $DynamicFieldValues{$DynamicField};
     }
     $GetParam{DynamicField} = \%DynamicFieldACLParameters;
 
@@ -193,8 +192,7 @@ sub Run {
 
         # fallback, if no destination is given
         if ( !$NewQueueID ) {
-            my $Queue
-                = $Self->{ParamObject}->GetParam( Param => 'Queue' )
+            my $Queue = $Self->{ParamObject}->GetParam( Param => 'Queue' )
                 || $Self->{Config}->{'QueueDefault'}
                 || '';
             if ($Queue) {
@@ -540,7 +538,10 @@ sub _MaskNew {
         my $Module = $Self->{ConfigObject}->Get('CustomerPanel::NewTicketQueueSelectionModule')
             || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
         if ( $Self->{MainObject}->Require($Module) ) {
-            my $Object = $Module->new( %{$Self}, Debug => $Self->{Debug}, );
+            my $Object = $Module->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
 
             # log loaded module
             if ( $Self->{Debug} > 1 ) {
@@ -549,7 +550,13 @@ sub _MaskNew {
                     Message  => "Module: $Module loaded!",
                 );
             }
-            %NewTos = ( $Object->Run( Env => $Self, ACLParams => \%Param ), ( '', => '-' ) );
+            %NewTos = (
+                $Object->Run(
+                    Env       => $Self,
+                    ACLParams => \%Param
+                ),
+                ( '', => '-' )
+            );
         }
         else {
             return $Self->{LayoutObject}->FatalError();

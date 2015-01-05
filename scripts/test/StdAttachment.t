@@ -1,6 +1,6 @@
 # --
 # StdAttachment.t - StdAttachment tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: StdAttachment.t,v 1.10 2011-03-03 13:19:06 martin Exp $
 # --

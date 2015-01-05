@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: InterfacePublic.pm,v 1.33 2011-02-08 15:57:38 martin Exp $
 # --

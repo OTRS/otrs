@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminResponseAttachment.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminResponseAttachment.pm,v 1.40 2011-12-23 13:49:08 mg Exp $
 # --
@@ -88,8 +88,7 @@ sub Run {
         my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
 
         # get role member
         my %Member = $Self->{DBObject}->GetTableData(
@@ -125,8 +124,7 @@ sub Run {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
 
         # get user list
-        my %StandardResponseData
-            = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
+        my %StandardResponseData = $Self->{StandardResponseObject}->StandardResponseList( Valid => 1 );
         for my $StandardResponseID ( keys %StandardResponseData ) {
             my $Active = 0;
             for my $StdAttachmentID (@IDs) {
@@ -191,7 +189,10 @@ sub _Change {
     my $Type   = $Param{Type} || 'Response';
     my $NeType = $Type eq 'Attachment' ? 'Response' : 'Attachment';
 
-    my %VisibleType = ( Response => 'Response', Attachment => 'Attachment', );
+    my %VisibleType = (
+        Response   => 'Response',
+        Attachment => 'Attachment',
+    );
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
     $Self->{LayoutObject}->Block( Name => 'ActionList' );

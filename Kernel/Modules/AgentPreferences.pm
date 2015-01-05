@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentPreferences.pm,v 1.53 2012-01-06 12:38:40 mg Exp $
 # --
@@ -117,7 +117,13 @@ sub Run {
         }
         my $Message  = '';
         my $Priority = '';
-        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+        if (
+            $Object->Run(
+                GetParam => \%GetParam,
+                UserData => \%UserData
+            )
+            )
+        {
             $Message = $Object->Message();
         }
         else {
@@ -159,7 +165,9 @@ sub Run {
         );
     }
     elsif ($Message) {
-        $Output .= $Self->{LayoutObject}->Notify( Info => $Message, );
+        $Output .= $Self->{LayoutObject}->Notify(
+            Info => $Message,
+        );
     }
 
     # get user data

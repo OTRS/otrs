@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminEmail.pm,v 1.50 2011-12-21 14:25:56 mg Exp $
 # --
@@ -49,8 +49,7 @@ sub Run {
     my ( %GetParam, %Errors );
 
     for my $Parameter (qw(From Subject Body Bcc GroupPermission NotifyCustomerUsers)) {
-        $Param{$Parameter}
-            = $Self->{ParamObject}->GetParam( Param => $Parameter )
+        $Param{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter )
             || $Param{$Parameter}
             || '';
     }
@@ -220,24 +219,24 @@ sub Run {
 
     $Reference = @{ $GetParam{UserIDs} || [] } ? \@{ $GetParam{UserIDs} } : '';
     $Param{UserOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
-        Name => 'UserIDs',
-        Size => 6,
+        Data        => { $Self->{UserObject}->UserList( Valid => 1 ) },
+        Name        => 'UserIDs',
+        Size        => 6,
         Multiple    => 1,
         Translation => 0,
         SelectedID  => $Reference,
-        Class       => $Errors{BccInvalid} || '',
+        Class => $Errors{BccInvalid} || '',
     );
 
     $Reference = @{ $GetParam{GroupIDs} || [] } ? \@{ $GetParam{GroupIDs} } : '';
     $Param{GroupOption} = $Self->{LayoutObject}->BuildSelection(
-        Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-        Size => 6,
-        Name => 'GroupIDs',
+        Data        => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+        Size        => 6,
+        Name        => 'GroupIDs',
         Multiple    => 1,
         Translation => 0,
         SelectedID  => $Reference,
-        Class       => $Errors{BccInvalid} || '',
+        Class => $Errors{BccInvalid} || '',
     );
 
     my %RoleList = $Self->{GroupObject}->RoleList( Valid => 1 );

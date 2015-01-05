@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: RuntimeDB.pm,v 1.14.2.1 2013-01-16 13:38:03 marb Exp $
 # --
@@ -23,7 +23,10 @@ sub ArticleIndexBuild {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -37,7 +40,10 @@ sub ArticleIndexDelete {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -51,7 +57,10 @@ sub ArticleIndexDeleteTicket {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -65,7 +74,10 @@ sub _ArticleIndexQuerySQL {
     # check needed stuff
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -94,7 +106,10 @@ sub _ArticleIndexQuerySQLExt {
     # check needed stuff
     for (qw(Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

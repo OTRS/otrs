@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/vi_VN.pm - provides Vietnamese language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: vi_VN.pm,v 1.68.2.2 2012-11-22 06:59:17 mb Exp $
 # --

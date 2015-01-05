@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Email/SMTPS.pm - the global email send module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SMTPS.pm,v 1.3 2010-09-15 22:47:11 cg Exp $
 # --
@@ -78,7 +78,10 @@ sub Check {
 
     # return if no connect was possible
     if ( !$SMTP ) {
-        return ( Successful => 0, Message => "Can't connect to $Self->{MailHost}: $!!" );
+        return (
+            Successful => 0,
+            Message    => "Can't connect to $Self->{MailHost}: $!!"
+        );
     }
 
     # use smtp auth if configured
@@ -94,7 +97,10 @@ sub Check {
         }
     }
 
-    return ( Successful => 1, SMTPS => $SMTP );
+    return (
+        Successful => 1,
+        SMTPS      => $SMTP
+    );
 }
 
 sub Send {
@@ -103,7 +109,10 @@ sub Send {
     # check needed stuff
     for (qw(Header Body ToArray)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

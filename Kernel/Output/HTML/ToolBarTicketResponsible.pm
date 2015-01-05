@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketResponsible.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ToolBarTicketResponsible.pm,v 1.9 2011-03-20 09:36:40 mb Exp $
 # --
@@ -40,7 +40,10 @@ sub Run {
     # check needed stuff
     for (qw(Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

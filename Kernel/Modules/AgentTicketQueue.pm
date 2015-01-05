@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketQueue.pm,v 1.79.2.1 2012-09-29 05:55:12 cg Exp $
 # --
@@ -109,7 +109,9 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header(
+        Refresh => $Refresh,
+    );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
@@ -150,7 +152,9 @@ sub Run {
     # get custom queues
     my @ViewableQueueIDs;
     if ( !$Self->{QueueID} ) {
-        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues( UserID => $Self->{UserID}, );
+        @ViewableQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
+            UserID => $Self->{UserID},
+        );
     }
     else {
         @ViewableQueueIDs = ( $Self->{QueueID} );
@@ -238,7 +242,10 @@ sub Run {
         . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
         . ';';
 
-    my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs, Filter => $Self->{Filter} );
+    my %NavBar = $Self->BuildQueueView(
+        QueueIDs => \@ViewableQueueIDs,
+        Filter   => $Self->{Filter}
+    );
 
     # show ticket's
     $Self->{LayoutObject}->Print(

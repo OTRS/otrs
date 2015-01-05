@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/TicketDynamicFieldDefault.pm - a event module for default ticket dynamic field settings
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketDynamicFieldDefault.pm,v 1.4 2011-11-25 10:14:18 mg Exp $
 # --
@@ -69,13 +69,19 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }

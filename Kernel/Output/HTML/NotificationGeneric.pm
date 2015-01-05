@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationGeneric.pm,v 1.1 2011-04-06 10:56:21 mh Exp $
 # --

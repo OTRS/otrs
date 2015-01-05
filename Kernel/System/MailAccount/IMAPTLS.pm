@@ -1,6 +1,6 @@
 # --
 # Kernel/System/MailAccount/IMAPTLS.pm - lib for imap accounts over TLS encryption
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: IMAPTLS.pm,v 1.1.2.2 2012-11-02 15:48:23 mb Exp $
 # --
@@ -41,7 +41,10 @@ sub Connect {
     # check needed stuff
     for (qw(Login Password Host Timeout Debug)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -60,7 +63,10 @@ sub Connect {
     );
 
     if ( !$IMAPObject ) {
-        return ( Successful => 0, Message => "IMAPTLS: Can't connect to $Param{Host}: $@\n" );
+        return (
+            Successful => 0,
+            Message    => "IMAPTLS: Can't connect to $Param{Host}: $@\n"
+        );
     }
 
     return (
@@ -86,13 +92,19 @@ sub _Fetch {
     # check needed stuff
     for (qw(Login Password Host Trusted QueueID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }
     for (qw(Login Password Host)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -243,7 +255,7 @@ sub _Fetch {
     if ( $Debug > 0 || $FetchCounter ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $IMAPObject->close;
@@ -261,7 +273,10 @@ sub _ProcessFailed {
     # check needed stuff
     for (qw(Email)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$_ not defined!"
+            );
             return;
         }
     }

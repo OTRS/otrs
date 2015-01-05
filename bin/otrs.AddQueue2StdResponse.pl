@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddQueue2StdResponse.pl.pl - Assign Roles to Groups from CLI
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddQueue2StdResponse.pl,v 1.1.2.2 2012-07-05 10:05:58 mb Exp $
 # --
@@ -84,8 +84,7 @@ if ( !$QueueID ) {
 }
 
 # check response
-my $StandardResponseID
-    = $CommonObject{StandardResponseObject}->StandardResponseLookup( StandardResponse => $Opts{r} );
+my $StandardResponseID = $CommonObject{StandardResponseObject}->StandardResponseLookup( StandardResponse => $Opts{r} );
 if ( !$StandardResponseID ) {
     print STDERR "ERROR: Found no Standard Response for $Opts{r}\n";
     exit 1;

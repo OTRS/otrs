@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/en_GB.pm - provides British English language translation
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: en_GB.pm,v 1.13.2.1 2012-06-28 17:11:20 mb Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: HTMLUtils.pm,v 1.35.2.5 2012-11-08 14:07:32 des Exp $
 # --
@@ -89,7 +89,10 @@ sub ToAscii {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -565,7 +568,10 @@ sub ToHTML {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -600,7 +606,10 @@ sub DocumentComplete {
     # check needed stuff
     for (qw(String Charset)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -633,7 +642,10 @@ sub DocumentStrip {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -667,7 +679,10 @@ sub DocumentStyleCleanup {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -808,8 +823,8 @@ sub LinkQuote {
                 [a-zA-Z0-9&;=%]*                   # hash string content, this will also catch entities like &amp;
             )?
         )
-        (                                          # $4
-            ?=(?:
+        (?=                                          # $4
+            (?:
                 [\?,;!\.\)] (?: \s | $ )           # \)\s this construct is because of bug# 2450
                 | \"
                 | \]
@@ -912,7 +927,10 @@ sub Safety {
     # check needed stuff
     for (qw(String)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1131,11 +1149,17 @@ sub EmbeddedImagesExtract {
     my ( $Self, %Param ) = @_;
 
     if ( ref $Param{DocumentRef} ne 'SCALAR' || !defined ${ $Param{DocumentRef} } ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DocumentRef!"
+        );
         return;
     }
     if ( ref $Param{AttachmentsRef} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need DocumentRef!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need DocumentRef!"
+        );
         return;
     }
 

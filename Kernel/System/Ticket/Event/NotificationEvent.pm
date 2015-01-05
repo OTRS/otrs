@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationEvent.pm,v 1.37.2.2 2012-12-10 15:07:40 mb Exp $
 # --
@@ -61,13 +61,19 @@ sub Run {
     # check needed stuff
     for (qw(Event Data Config UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }
@@ -242,7 +248,10 @@ sub _SendNotificationToRecipients {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Notification)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -469,8 +478,7 @@ sub _SendNotificationToRecipients {
     RECIPIENT:
     for my $Recipient (@Recipients) {
         if (
-            $Self->{SystemAddressObject}
-            ->SystemAddressIsLocalAddress( Address => $Recipient->{Email} )
+            $Self->{SystemAddressObject}->SystemAddressIsLocalAddress( Address => $Recipient->{Email} )
             )
         {
             next RECIPIENT;
@@ -694,7 +702,7 @@ sub _SendNotification {
             # prepare subject (insert old subject)
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
+                Subject      => $Article{Subject} || '',
             );
             for my $Type (qw(Subject Body)) {
                 if ( $Notification{$Type} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {

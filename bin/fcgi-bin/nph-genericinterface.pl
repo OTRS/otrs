@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/cgi-bin/nph-genericinterface.pl - the global generic interface handle file
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: nph-genericinterface.pl,v 1.1 2011-12-27 14:36:20 mb Exp $
 # --

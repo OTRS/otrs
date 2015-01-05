@@ -1,6 +1,6 @@
 # --
 # TicketHistory.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketHistory.t,v 1.2.2.1 2013-01-14 12:18:43 mg Exp $
 # --
@@ -66,13 +66,13 @@ my @Tests = (
             },
             {
                 ArticleCreate => {
-                    ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
-                    SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some Agent <email@example.com>',           # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'ISO-8859-15',
+                    ArticleType => 'note-internal',                     # email-external|email-internal|phone|fax|...
+                    SenderType  => 'agent',                             # agent|system|customer
+                    From        => 'Some Agent <email@example.com>',    # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'ISO-8859-15',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
@@ -84,11 +84,11 @@ my @Tests = (
                 ArticleCreate => {
                     ArticleType => 'note-internal',    # email-external|email-internal|phone|fax|...
                     SenderType  => 'agent',            # agent|system|customer
-                    From    => 'Some other Agent <email2@example.com>',    # not required but useful
-                    To      => 'Some Customer A <customer-a@example.com>', # not required but useful
-                    Subject => 'some short description',                   # required
-                    Body    => 'the message text',                         # required
-                    Charset => 'UTF-8',
+                    From        => 'Some other Agent <email2@example.com>',       # not required but useful
+                    To          => 'Some Customer A <customer-a@example.com>',    # not required but useful
+                    Subject     => 'some short description',                      # required
+                    Body        => 'the message text',                            # required
+                    Charset     => 'UTF-8',
                     MimeType    => 'text/plain',
                     HistoryType => 'OwnerUpdate'
                     ,    # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...

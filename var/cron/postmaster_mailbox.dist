@@ -1,6 +1,6 @@
 # --
 # cron/postmaster_mailbox - postmaster_mailbox cron of the OTRS
-# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: postmaster_mailbox.dist,v 1.3 2009-11-09 15:24:13 mn Exp $
 # --

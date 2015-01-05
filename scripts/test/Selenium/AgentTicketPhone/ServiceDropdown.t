@@ -1,6 +1,6 @@
 # --
 # ServiceDropdown.t - frontend test AgentTicketPhone
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ServiceDropdown.t,v 1.3 2011-04-01 21:34:56 en Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Article.pm,v 1.311.2.2 2012-06-04 22:16:39 cr Exp $
 # --
@@ -102,7 +102,10 @@ sub ArticleCreate {
 
     # create ArticleContentPath
     if ( !$Self->{ArticleContentPath} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleContentPath!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleContentPath!'
+        );
         return;
     }
 
@@ -117,7 +120,10 @@ sub ArticleCreate {
     # check needed stuff
     for (qw(TicketID UserID ArticleTypeID SenderTypeID HistoryType HistoryComment)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -126,7 +132,10 @@ sub ArticleCreate {
     if ( !$Param{ContentType} ) {
         for (qw(Charset MimeType)) {
             if ( !$Param{$_} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Need $_!"
+                );
                 return;
             }
         }
@@ -135,7 +144,10 @@ sub ArticleCreate {
     else {
         for (qw(ContentType)) {
             if ( !$Param{$_} ) {
-                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Need $_!"
+                );
                 return;
             }
         }
@@ -705,7 +717,7 @@ sub ArticleCreate {
             }
             if ($NewTo) {
                 $Self->{DBObject}->Do(
-                    SQL => 'UPDATE article SET a_to = ? WHERE id = ?',
+                    SQL  => 'UPDATE article SET a_to = ? WHERE id = ?',
                     Bind => [ \$NewTo, \$ArticleID ],
                 );
             }
@@ -731,7 +743,10 @@ sub ArticleGetTicketIDOfMessageID {
 
     # check needed stuff
     if ( !$Param{MessageID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need MessageID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need MessageID!'
+        );
         return;
     }
 
@@ -778,7 +793,10 @@ sub ArticleGetContentPath {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -800,7 +818,10 @@ sub ArticleGetContentPath {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Result
+    );
 
     # return
     return $Result;
@@ -909,7 +930,10 @@ sub ArticleSenderTypeLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Result
+    );
 
     # return
     return $Result;
@@ -987,7 +1011,10 @@ sub ArticleTypeLookup {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => $Result );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => $Result
+    );
 
     # return
     return $Result;
@@ -1059,7 +1086,10 @@ sub ArticleFreeTextSet {
     # check needed stuff
     for (qw(TicketID ArticleID UserID Counter)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1182,12 +1212,18 @@ sub ArticleLastCustomerArticle {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
     # get article index
-    my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID}, SenderType => 'customer' );
+    my @Index = $Self->ArticleIndex(
+        TicketID   => $Param{TicketID},
+        SenderType => 'customer'
+    );
 
     # get article data
     if (@Index) {
@@ -1238,7 +1274,10 @@ sub ArticleFirstArticle {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need TicketID!"
+        );
         return;
     }
 
@@ -1275,7 +1314,10 @@ sub ArticleIndex {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID!'
+        );
         return;
     }
 
@@ -1356,7 +1398,10 @@ sub ArticleContentIndex {
     # check needed stuff
     for (qw(TicketID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1473,7 +1518,10 @@ sub ArticleGet {
 
     # check needed stuff
     if ( !$Param{ArticleID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID or TicketID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID or TicketID!'
+        );
         return;
     }
 
@@ -1561,7 +1609,11 @@ sub ArticleGet {
         $SQL .= ' ORDER BY sa.create_time, sa.id ASC';
     }
 
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind, Limit => $Param{Limit} );
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => $Param{Limit}
+    );
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
@@ -1590,8 +1642,7 @@ sub ArticleGet {
         $Ticket{CreateTimeUnix}         = $Row[10];
         $Ticket{AgeTimeUnix}            = $Self->{TimeObject}->SystemTime()
             - $Self->{TimeObject}->TimeStamp2SystemTime( String => $Row[13] );
-        $Ticket{Created}
-            = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
+        $Ticket{Created}    = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Ticket{CreateTimeUnix} );
         $Data{PriorityID}   = $Row[20];
         $Ticket{PriorityID} = $Row[20];
         $Data{StateID}      = $Row[11];
@@ -1924,7 +1975,10 @@ sub _ArticleGetId {
     # check needed stuff
     for (qw(TicketID MessageID From Subject IncomingTime)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1995,14 +2049,20 @@ sub ArticleUpdate {
     # check needed stuff
     for (qw(ArticleID UserID Key TicketID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
 
     # check needed stuff
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Value!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Value!'
+        );
         return;
     }
 
@@ -2118,7 +2178,10 @@ sub ArticleSend {
     # check needed stuff
     for (qw(TicketID UserID From Body Charset MimeType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2150,7 +2213,7 @@ sub ArticleSend {
         EncodeObject => $Self->{EncodeObject},
     );
     $HTMLUtilsObject->EmbeddedImagesExtract(
-        DocumentRef => \$Param{Body},
+        DocumentRef    => \$Param{Body},
         AttachmentsRef => $Param{Attachment} || [],
     );
 
@@ -2230,7 +2293,10 @@ sub ArticleBounce {
     # check needed stuff
     for (qw(TicketID ArticleID From To UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2306,7 +2372,10 @@ sub SendAgentNotification {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID Type RecipientID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2440,7 +2509,10 @@ sub SendCustomerNotification {
     # check needed stuff
     for (qw(CustomerMessageParams TicketID UserID Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2607,7 +2679,9 @@ sub SendCustomerNotification {
     $Notification{Body} =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
     # get owner data
-    my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
+    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{OwnerID},
+    );
     for ( keys %OwnerPreferences ) {
         if ( $OwnerPreferences{$_} ) {
             $Notification{Body} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
@@ -2674,7 +2748,7 @@ sub SendCustomerNotification {
     # prepare subject (insert old subject)
     $Article{Subject} = $Self->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
@@ -2683,7 +2757,7 @@ sub SendCustomerNotification {
     }
     $Notification{Subject} = $Self->TicketSubjectBuild(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Notification{Subject} || '',
+        Subject      => $Notification{Subject} || '',
     );
 
     # prepare body (insert old email)
@@ -2768,7 +2842,10 @@ sub SendAutoResponse {
     # check needed stuff
     for (qw(TicketID UserID OrigHeader AutoResponseType)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -2781,8 +2858,8 @@ sub SendAutoResponse {
 
     # get ticket
     my %Ticket = $Self->TicketGet(
-        TicketID => $Param{TicketID},
-        DynamicFields => 0,    # not needed here, TemplateGenerator will fetch the ticket on its own
+        TicketID      => $Param{TicketID},
+        DynamicFields => 0,                  # not needed here, TemplateGenerator will fetch the ticket on its own
     );
 
     # get auto default responses
@@ -2924,7 +3001,7 @@ sub SendAutoResponse {
                 TicketID     => $Param{TicketID},
                 CreateUserID => $Param{UserID},
                 HistoryType  => 'Misc',
-                Name => "Sent no auto response to '$Email', SendNoAutoResponseRegExp matched.",
+                Name         => "Sent no auto response to '$Email', SendNoAutoResponseRegExp matched.",
             );
 
             # log
@@ -3032,7 +3109,10 @@ sub ArticleFlagSet {
     # check needed stuff
     for (qw(ArticleID Key Value UserID)) {
         if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3097,7 +3177,10 @@ sub ArticleFlagDelete {
     # check needed stuff
     for (qw(ArticleID Key UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3145,7 +3228,10 @@ sub ArticleFlagGet {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -3154,7 +3240,7 @@ sub ArticleFlagGet {
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT article_key, article_value FROM article_flag WHERE '
             . 'article_id = ? AND create_by = ?',
-        Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
+        Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
         Limit => 1500,
     );
     my %Flag;
@@ -3179,7 +3265,10 @@ sub ArticleAccountedTimeGet {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -3211,7 +3300,10 @@ sub ArticleAccountedTimeDelete {
 
     # check needed stuff
     if ( !$Param{ArticleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ArticleID!'
+        );
         return;
     }
 
@@ -3383,7 +3475,10 @@ sub ArticleAttachmentIndex {
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

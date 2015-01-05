@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceTransportHTTPSOAP.pm - provides a TransportHTTPSOAP view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceTransportHTTPSOAP.pm,v 1.10 2012-03-15 02:15:26 cr Exp $
 # --
@@ -61,8 +61,9 @@ sub Run {
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need WebserviceID!",
+            );
         }
 
         # get webserice configuration
@@ -95,8 +96,9 @@ sub Run {
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "Need WebserviceID!", );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Need WebserviceID!",
+            );
         }
 
         # get webserice configuration
@@ -246,8 +248,7 @@ sub Run {
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
+            $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
         }
 
@@ -337,8 +338,8 @@ sub _ShowEdit {
 
         # create SOAPActionSeparator select
         $Param{SOAPActionSeparatorStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => [ '#', '/' ],
-            Name => 'SOAPActionSeparator',
+            Data          => [ '#', '/' ],
+            Name          => 'SOAPActionSeparator',
             SelectedValue => $SelectedSeparator,
             Sort          => 'AlphaNumericValue',
         );

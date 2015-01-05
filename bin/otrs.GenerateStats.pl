@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # --
 # bin/otrs.GenerateStats.pl - send stats output via email
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.GenerateStats.pl,v 1.8.2.3 2013-01-16 09:15:14 mb Exp $
 # --
@@ -88,7 +88,7 @@ GetOptions(
 
 if ( $Opts{h} || !$Opts{n} ) {
     print "otrs.GenerateStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.GenerateStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -r ... -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print] [-S <SEPARATOR>] [-F <FILENAME> [-R]\n";
     print
@@ -185,17 +185,23 @@ if ( $Stat->{StatType} eq 'static' ) {
     my $Params = $CommonObject{StatsObject}->GetParams( StatID => $StatID );
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
-            my $Value = GetParam( Param => $ParamItem->{Name}, );
+            my $Value = GetParam(
+                Param => $ParamItem->{Name},
+            );
             if ( defined $Value ) {
                 $GetParam{ $ParamItem->{Name} } =
-                    GetParam( Param => $ParamItem->{Name}, );
+                    GetParam(
+                    Param => $ParamItem->{Name},
+                    );
             }
             elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
         else {
-            my @Value = GetArray( Param => $ParamItem->{Name}, );
+            my @Value = GetArray(
+                Param => $ParamItem->{Name},
+            );
             if (@Value) {
                 $GetParam{ $ParamItem->{Name} } = \@Value;
             }
@@ -322,7 +328,8 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
         # if first page
         if ( $Counter == 1 ) {
             $CommonObject{PDFObject}->PageNew(
-                %PageParam, FooterRight => $Page . ' ' . $Counter,
+                %PageParam,
+                FooterRight => $Page . ' ' . $Counter,
             );
         }
 

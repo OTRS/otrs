@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketZoom.pm,v 1.177.2.2 2013-01-02 13:02:46 mn Exp $
 # --
@@ -55,12 +55,10 @@ sub new {
     if ( !defined $Self->{ZoomExpandSort} ) {
         $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpandSort');
     }
-    $Self->{ArticleFilterActive}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::TicketArticleFilter');
+    $Self->{ArticleFilterActive} = $Self->{ConfigObject}->Get('Ticket::Frontend::TicketArticleFilter');
 
     # define if rich text should be used
-    $Self->{RichText}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomRichTextForce')
+    $Self->{RichText} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomRichTextForce')
         || $Self->{LayoutObject}->{BrowserRichText}
         || 0;
 
@@ -86,8 +84,7 @@ sub new {
     $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
 
     # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField};
+    $Self->{DynamicFieldFilter} = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField};
 
     return $Self;
 }
@@ -215,9 +212,8 @@ sub Run {
         # get params
         my $TicketID     = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
         my $SaveDefaults = $Self->{ParamObject}->GetParam( Param => 'SaveDefaults' );
-        my @ArticleTypeFilterIDs = $Self->{ParamObject}->GetArray( Param => 'ArticleTypeFilter' );
-        my @ArticleSenderTypeFilterIDs
-            = $Self->{ParamObject}->GetArray( Param => 'ArticleSenderTypeFilter' );
+        my @ArticleTypeFilterIDs       = $Self->{ParamObject}->GetArray( Param => 'ArticleTypeFilter' );
+        my @ArticleSenderTypeFilterIDs = $Self->{ParamObject}->GetArray( Param => 'ArticleSenderTypeFilter' );
 
         # build session string
         my $SessionString = '';
@@ -357,7 +353,10 @@ sub Run {
     # generate output
     my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->MaskAgentZoom( Ticket => \%Ticket, AclAction => \%AclAction );
+    $Output .= $Self->MaskAgentZoom(
+        Ticket    => \%Ticket,
+        AclAction => \%AclAction
+    );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
@@ -378,8 +377,7 @@ sub MaskAgentZoom {
     );
 
     # fetch all std. responses
-    my %StandardResponses
-        = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
+    my %StandardResponses = $Self->{QueueObject}->GetStandardResponses( QueueID => $Ticket{QueueID} );
 
     # owner info
     my %OwnerInfo = $Self->{UserObject}->GetUserData(
@@ -581,7 +579,10 @@ sub MaskAgentZoom {
     }
 
     # age design
-    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' );
+    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Ticket{Age},
+        Space => ' '
+    );
 
     # number of articles
     $Param{ArticleCount} = scalar @ArticleBox;
@@ -628,8 +629,7 @@ sub MaskAgentZoom {
 
     # get MoveQueuesStrg
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
-        $MoveQueues{0}
-            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
+        $MoveQueues{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name           => 'DestQueueID',
             Data           => \%MoveQueues,
@@ -1044,7 +1044,7 @@ sub MaskAgentZoom {
     # return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketZoom',
-        Data => { %Param, %Ticket, %AclAction },
+        Data         => { %Param, %Ticket, %AclAction },
     );
 }
 
@@ -1199,7 +1199,7 @@ sub _ArticleTree {
 
         my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
+            Subject      => $Article{Subject} || '',
         );
 
         # check if we need to show also expand/collapse icon
@@ -1269,9 +1269,8 @@ sub _ArticleTree {
         if ( $Type =~ /inline/i ) {
             $Target = 'target="attachment" ';
         }
-        my $ZoomAttachmentDisplayCount
-            = $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount');
-        my $CountShown = 0;
+        my $ZoomAttachmentDisplayCount = $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount');
+        my $CountShown                 = 0;
         ATTACHMENT:
         for my $Count ( 1 .. ( $ZoomAttachmentDisplayCount + 2 ) ) {
             next ATTACHMENT if !$Article{Atms}->{$Count};
@@ -1323,7 +1322,7 @@ sub _ArticleTree {
     # return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketZoom',
-        Data => { %Param, %Ticket },
+        Data         => { %Param, %Ticket },
     );
 }
 
@@ -1367,7 +1366,7 @@ sub _ArticleItem {
     # cleanup subject
     $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject => $Article{Subject} || '',
+        Subject      => $Article{Subject} || '',
     );
 
     $Self->{LayoutObject}->Block(
@@ -1446,8 +1445,7 @@ sub _ArticleItem {
             if ($Access) {
 
                 # get StandardResponsesStrg
-                $Param{StandardResponses}->{0}
-                    = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
+                $Param{StandardResponses}->{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Reply') . ' -';
 
                 # build html string
                 my $StandardResponsesStrg = $Self->{LayoutObject}->BuildSelection(
@@ -1799,8 +1797,7 @@ sub _ArticleItem {
             LogNo    => 1,
         );
         if ($OK) {
-            my $Link
-                = 'Action=AgentTicketPlain;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
+            my $Link = 'Action=AgentTicketPlain;TicketID=$Data{"TicketID"};ArticleID=$Data{"ArticleID"}';
             $Self->{LayoutObject}->Block(
                 Name => 'ArticleMenu',
                 Data => {
@@ -1961,7 +1958,10 @@ sub _ArticleItem {
             );
 
             # run module
-            my @Data = $Object->Check( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
+            my @Data = $Object->Check(
+                Article => \%Article,
+                %Ticket, Config => $Jobs{$Job}
+            );
             for my $DataRef (@Data) {
                 if ( !$DataRef->{Successful} ) {
                     $DataRef->{Result} = 'Error';
@@ -1983,7 +1983,10 @@ sub _ArticleItem {
             }
 
             # filter option
-            $Object->Filter( Article => \%Article, %Ticket, Config => $Jobs{$Job} );
+            $Object->Filter(
+                Article => \%Article,
+                %Ticket, Config => $Jobs{$Job}
+            );
         }
     }
 
@@ -2100,7 +2103,7 @@ sub _ArticleItem {
     # return output
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketZoom',
-        Data => { %Param, %Ticket, %AclAction },
+        Data         => { %Param, %Ticket, %AclAction },
     );
 }
 1;

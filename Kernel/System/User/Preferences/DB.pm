@@ -1,6 +1,6 @@
 # --
 # Kernel/System/User/Preferences/DB.pm - some user functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.23 2012-03-26 21:47:00 mh Exp $
 # --
@@ -55,7 +55,10 @@ sub SetPreferences {
     # check needed stuff
     for (qw(UserID Key)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -91,7 +94,10 @@ sub GetPreferences {
     # check needed stuff
     for (qw(UserID)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

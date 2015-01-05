@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Service.pm - all service function
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Service.pm,v 1.50.2.3 2012-09-21 08:14:10 mb Exp $
 # --
@@ -153,7 +153,10 @@ sub ServiceList {
     }
 
     if ( !$Param{Valid} ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%ServiceList );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%ServiceList
+        );
         return %ServiceList if !$Param{Valid};
     }
 
@@ -195,7 +198,10 @@ sub ServiceList {
     }
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%ServiceList );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \%ServiceList
+    );
 
     return %ServiceList;
 }
@@ -600,7 +606,9 @@ sub ServiceAdd {
 
     # get parent name
     if ( $Param{ParentID} ) {
-        my $ParentName = $Self->ServiceLookup( ServiceID => $Param{ParentID}, );
+        my $ParentName = $Self->ServiceLookup(
+            ServiceID => $Param{ParentID},
+        );
         if ($ParentName) {
             $Param{FullName} = $ParentName . '::' . $Param{Name};
         }
@@ -706,7 +714,9 @@ sub ServiceUpdate {
     }
 
     # get old name of service
-    my $OldServiceName = $Self->ServiceLookup( ServiceID => $Param{ServiceID}, );
+    my $OldServiceName = $Self->ServiceLookup(
+        ServiceID => $Param{ServiceID},
+    );
 
     if ( !$OldServiceName ) {
         $Self->{LogObject}->Log(
@@ -792,7 +802,7 @@ sub ServiceUpdate {
     for my $Child (@Childs) {
         $Child->{Name} =~ s{ \A ( \Q$OldServiceName\E ) :: }{$Param{FullName}::}xms;
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE service SET name = ? WHERE id = ?',
+            SQL  => 'UPDATE service SET name = ? WHERE id = ?',
             Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
         );
     }
@@ -833,8 +843,7 @@ sub ServiceSearch {
     $Param{Limit} ||= 1000;
 
     # create sql query
-    my $SQL
-        = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    my $SQL = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
     if ( $Param{Name} ) {
 
@@ -908,8 +917,7 @@ sub CustomerUserServiceMemberList {
     }
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Self->{ConfigObject}->Get('Ticket::Service::Default::UnknownCustomer');
     if (
         $DefaultServiceUnknownCustomer
         && $Param{DefaultServices}
@@ -1003,7 +1011,10 @@ sub CustomerUserServiceMemberList {
 
     # return result
     if ( $Param{Result} eq 'HASH' ) {
-        $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \%Data );
+        $Self->{CacheInternalObject}->Set(
+            Key   => $CacheKey,
+            Value => \%Data
+        );
         return %Data;
     }
     if ( $Param{Result} eq 'Name' ) {
@@ -1012,7 +1023,10 @@ sub CustomerUserServiceMemberList {
     else {
         @Data = keys %Data;
     }
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \@Data
+    );
     return @Data;
 }
 
@@ -1045,7 +1059,7 @@ sub CustomerUserServiceMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
+        SQL  => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID} ],
     );
 
@@ -1183,7 +1197,10 @@ sub ServiceParentsGet {
     my @Data = reverse @ServiceParents;
 
     # set cache
-    $Self->{CacheInternalObject}->Set( Key => $CacheKey, Value => \@Data );
+    $Self->{CacheInternalObject}->Set(
+        Key   => $CacheKey,
+        Value => \@Data
+    );
 
     return \@Data;
 }

@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketSearch.pm,v 1.145.2.2 2012-08-06 07:33:37 mg Exp $
 # --
@@ -313,8 +313,7 @@ sub Run {
         }
 
         # store last queue screen
-        my $URL
-            = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
+        my $URL = "Action=AgentTicketSearch;Subaction=Search;Profile=$Self->{Profile};SortBy=$Self->{SortBy}"
             . ";OrderBy=$Self->{OrderBy};TakeLastSearch=1;StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -365,12 +364,10 @@ sub Run {
         }
         elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
-                $GetParam{"ArticleCreateTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStart$_"} );
+                $GetParam{"ArticleCreateTimeStart$_"} = sprintf( "%02d", $GetParam{"ArticleCreateTimeStart$_"} );
             }
             for (qw(Month Day)) {
-                $GetParam{"ArticleCreateTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStop$_"} );
+                $GetParam{"ArticleCreateTimeStop$_"} = sprintf( "%02d", $GetParam{"ArticleCreateTimeStop$_"} );
             }
             if (
                 $GetParam{ArticleCreateTimeStartDay}
@@ -378,8 +375,7 @@ sub Run {
                 && $GetParam{ArticleCreateTimeStartYear}
                 )
             {
-                $GetParam{ArticleCreateTimeNewerDate}
-                    = $GetParam{ArticleCreateTimeStartYear} . '-'
+                $GetParam{ArticleCreateTimeNewerDate} = $GetParam{ArticleCreateTimeStartYear} . '-'
                     . $GetParam{ArticleCreateTimeStartMonth} . '-'
                     . $GetParam{ArticleCreateTimeStartDay}
                     . ' 00:00:00';
@@ -390,8 +386,7 @@ sub Run {
                 && $GetParam{ArticleCreateTimeStopYear}
                 )
             {
-                $GetParam{ArticleCreateTimeOlderDate}
-                    = $GetParam{ArticleCreateTimeStopYear} . '-'
+                $GetParam{ArticleCreateTimeOlderDate} = $GetParam{ArticleCreateTimeStopYear} . '-'
                     . $GetParam{ArticleCreateTimeStopMonth} . '-'
                     . $GetParam{ArticleCreateTimeStopDay}
                     . ' 23:59:59';
@@ -439,12 +434,10 @@ sub Run {
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
-                $GetParam{"TicketCreateTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCreateTimeStart$_"} );
+                $GetParam{"TicketCreateTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketCreateTimeStart$_"} );
             }
             for (qw(Month Day)) {
-                $GetParam{"TicketCreateTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCreateTimeStop$_"} );
+                $GetParam{"TicketCreateTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketCreateTimeStop$_"} );
             }
             if (
                 $GetParam{TicketCreateTimeStartDay}
@@ -452,8 +445,7 @@ sub Run {
                 && $GetParam{TicketCreateTimeStartYear}
                 )
             {
-                $GetParam{TicketCreateTimeNewerDate}
-                    = $GetParam{TicketCreateTimeStartYear} . '-'
+                $GetParam{TicketCreateTimeNewerDate} = $GetParam{TicketCreateTimeStartYear} . '-'
                     . $GetParam{TicketCreateTimeStartMonth} . '-'
                     . $GetParam{TicketCreateTimeStartDay}
                     . ' 00:00:00';
@@ -464,8 +456,7 @@ sub Run {
                 && $GetParam{TicketCreateTimeStopYear}
                 )
             {
-                $GetParam{TicketCreateTimeOlderDate}
-                    = $GetParam{TicketCreateTimeStopYear} . '-'
+                $GetParam{TicketCreateTimeOlderDate} = $GetParam{TicketCreateTimeStopYear} . '-'
                     . $GetParam{TicketCreateTimeStopMonth} . '-'
                     . $GetParam{TicketCreateTimeStopDay}
                     . ' 23:59:59';
@@ -513,12 +504,10 @@ sub Run {
         }
         elsif ( $GetParam{ChangeTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
-                $GetParam{"TicketChangeTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketChangeTimeStart$_"} );
+                $GetParam{"TicketChangeTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketChangeTimeStart$_"} );
             }
             for (qw(Month Day)) {
-                $GetParam{"TicketChangeTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketChangeTimeStop$_"} );
+                $GetParam{"TicketChangeTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketChangeTimeStop$_"} );
             }
             if (
                 $GetParam{TicketChangeTimeStartDay}
@@ -526,8 +515,7 @@ sub Run {
                 && $GetParam{TicketChangeTimeStartYear}
                 )
             {
-                $GetParam{TicketChangeTimeNewerDate}
-                    = $GetParam{TicketChangeTimeStartYear} . '-'
+                $GetParam{TicketChangeTimeNewerDate} = $GetParam{TicketChangeTimeStartYear} . '-'
                     . $GetParam{TicketChangeTimeStartMonth} . '-'
                     . $GetParam{TicketChangeTimeStartDay}
                     . ' 00:00:00';
@@ -538,8 +526,7 @@ sub Run {
                 && $GetParam{TicketChangeTimeStopYear}
                 )
             {
-                $GetParam{TicketChangeTimeOlderDate}
-                    = $GetParam{TicketChangeTimeStopYear} . '-'
+                $GetParam{TicketChangeTimeOlderDate} = $GetParam{TicketChangeTimeStopYear} . '-'
                     . $GetParam{TicketChangeTimeStopMonth} . '-'
                     . $GetParam{TicketChangeTimeStopDay}
                     . ' 23:59:59';
@@ -587,12 +574,10 @@ sub Run {
         }
         elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
-                $GetParam{"TicketCloseTimeStart$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
+                $GetParam{"TicketCloseTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
             }
             for (qw(Month Day)) {
-                $GetParam{"TicketCloseTimeStop$_"}
-                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
+                $GetParam{"TicketCloseTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
             }
             if (
                 $GetParam{TicketCloseTimeStartDay}
@@ -600,8 +585,7 @@ sub Run {
                 && $GetParam{TicketCloseTimeStartYear}
                 )
             {
-                $GetParam{TicketCloseTimeNewerDate}
-                    = $GetParam{TicketCloseTimeStartYear} . '-'
+                $GetParam{TicketCloseTimeNewerDate} = $GetParam{TicketCloseTimeStartYear} . '-'
                     . $GetParam{TicketCloseTimeStartMonth} . '-'
                     . $GetParam{TicketCloseTimeStartDay}
                     . ' 00:00:00';
@@ -612,8 +596,7 @@ sub Run {
                 && $GetParam{TicketCloseTimeStopYear}
                 )
             {
-                $GetParam{TicketCloseTimeOlderDate}
-                    = $GetParam{TicketCloseTimeStopYear} . '-'
+                $GetParam{TicketCloseTimeOlderDate} = $GetParam{TicketCloseTimeStopYear} . '-'
                     . $GetParam{TicketCloseTimeStopMonth} . '-'
                     . $GetParam{TicketCloseTimeStopDay}
                     . ' 23:59:59';
@@ -782,7 +765,10 @@ sub Run {
                     $Data{$Key} = $Self->{LayoutObject}->{LanguageObject}->Get( $Data{$Key} );
                 }
 
-                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge(
+                    Age   => $Data{Age},
+                    Space => ' '
+                );
 
                 # get whole article (if configured!)
                 if ( $Self->{Config}->{SearchArticleCSVTree} ) {
@@ -873,8 +859,7 @@ sub Run {
                 CustomerName => 'customer realname',
             );
 
-            my @CSVHeadTranslated
-                = map { $Self->{LayoutObject}->{LanguageObject}->Get( $HeaderMap{$_} || $_ ); }
+            my @CSVHeadTranslated = map { $Self->{LayoutObject}->{LanguageObject}->Get( $HeaderMap{$_} || $_ ); }
                 @CSVHead;
 
             my $CSV = $Self->{CSVObject}->Array2CSV(
@@ -938,7 +923,10 @@ sub Run {
                 );
 
                 # get age
-                $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
+                $Data{Age} = $Self->{LayoutObject}->CustomerAge(
+                    Age   => $Data{Age},
+                    Space => ' '
+                );
 
                 # customer info string
                 $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
@@ -990,8 +978,7 @@ sub Run {
                 my $Time      = $Self->{LayoutObject}->Output( Template => '$Env{"Time"}' );
                 my $Url       = '';
                 if ( $ENV{REQUEST_URI} ) {
-                    $Url
-                        = $Self->{ConfigObject}->Get('HttpType') . '://'
+                    $Url = $Self->{ConfigObject}->Get('HttpType') . '://'
                         . $Self->{ConfigObject}->Get('FQDN')
                         . $ENV{REQUEST_URI};
                 }
@@ -1010,27 +997,20 @@ sub Run {
                     # create the header
                     $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
                     $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[1]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
-                    $CellData->[0]->[1]->{Font} = 'ProportionalBold';
-                    $CellData->[0]->[2]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('From');
-                    $CellData->[0]->[2]->{Font} = 'ProportionalBold';
-                    $CellData->[0]->[3]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
-                    $CellData->[0]->[3]->{Font} = 'ProportionalBold';
-                    $CellData->[0]->[4]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('State');
-                    $CellData->[0]->[4]->{Font} = 'ProportionalBold';
-                    $CellData->[0]->[5]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
-                    $CellData->[0]->[5]->{Font} = 'ProportionalBold';
-                    $CellData->[0]->[6]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
-                    $CellData->[0]->[6]->{Font} = 'ProportionalBold';
-                    $CellData->[0]->[7]->{Content}
-                        = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
-                    $CellData->[0]->[7]->{Font} = 'ProportionalBold';
+                    $CellData->[0]->[1]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                    $CellData->[0]->[1]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[2]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                    $CellData->[0]->[2]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[3]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                    $CellData->[0]->[3]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[4]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                    $CellData->[0]->[4]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[5]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                    $CellData->[0]->[5]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[6]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                    $CellData->[0]->[6]->{Font}    = 'ProportionalBold';
+                    $CellData->[0]->[7]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                    $CellData->[0]->[7]->{Font}    = 'ProportionalBold';
 
                     # create the content array
                     my $CounterRow = 1;
@@ -1085,7 +1065,10 @@ sub Run {
                 );
 
                 # start table output
-                $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' 1', );
+                $Self->{PDFObject}->PageNew(
+                    %PageParam,
+                    FooterRight => $Page . ' 1',
+                );
                 for ( 2 .. $MaxPages ) {
 
                     # output table (or a fragment of it)
@@ -1096,16 +1079,18 @@ sub Run {
                         last;
                     }
                     else {
-                        $Self->{PDFObject}->PageNew( %PageParam, FooterRight => $Page . ' ' . $_, );
+                        $Self->{PDFObject}->PageNew(
+                            %PageParam,
+                            FooterRight => $Page . ' ' . $_,
+                        );
                     }
                 }
 
                 # return the pdf document
                 my $Filename = 'ticket_search';
-                my ( $s, $m, $h, $D, $M, $Y )
-                    = $Self->{TimeObject}->SystemTime2Date(
+                my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->SystemTime(),
-                    );
+                );
                 $M = sprintf( "%02d", $M );
                 $D = sprintf( "%02d", $D );
                 $h = sprintf( "%02d", $h );
@@ -1168,8 +1153,7 @@ sub Run {
                 . $Self->{LayoutObject}->LinkEncode( $Self->{Profile} )
                 . ';TakeLastSearch=1&';
 
-            my $FilterLink
-                = 'SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
+            my $FilterLink = 'SortBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{SortBy} )
                 . ';OrderBy=' . $Self->{LayoutObject}->LinkEncode( $Self->{OrderBy} )
                 . ';View=' . $Self->{LayoutObject}->LinkEncode( $Self->{View} )
                 . ';Profile=' . $Self->{Profile} . ';TakeLastSearch=1;Subaction=Search'
@@ -1585,7 +1569,9 @@ sub Run {
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
                 $TreeView = 1;
             }
-            my %Service = $Self->{ServiceObject}->ServiceList( UserID => $Self->{UserID}, );
+            my %Service = $Self->{ServiceObject}->ServiceList(
+                UserID => $Self->{UserID},
+            );
             $Param{ServicesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Service,
                 Name        => 'ServiceIDs',
@@ -1597,7 +1583,9 @@ sub Run {
                 Translation => 0,
                 Max         => 200,
             );
-            my %SLA = $Self->{SLAObject}->SLAList( UserID => $Self->{UserID}, );
+            my %SLA = $Self->{SLAObject}->SLAList(
+                UserID => $Self->{UserID},
+            );
             $Param{SLAsStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%SLA,
                 Name        => 'SLAIDs',
@@ -1616,7 +1604,7 @@ sub Run {
                 Print  => 'Print',
                 CSV    => 'CSV',
             },
-            Name => 'ResultForm',
+            Name       => 'ResultForm',
             SelectedID => $GetParam{ResultForm} || 'Normal',
         );
 
@@ -1628,7 +1616,7 @@ sub Run {
                     NotArchivedTickets => 'Unarchived tickets',
                     AllTickets         => 'All tickets',
                 },
-                Name => 'SearchInArchive',
+                Name       => 'SearchInArchive',
                 SelectedID => $GetParam{SearchInArchive} || 'NotArchivedTickets',
             );
         }
@@ -1779,7 +1767,7 @@ sub Run {
                 'Last'   => 'last',
                 'Before' => 'before',
             },
-            Name => 'ArticleCreateTimePointStart',
+            Name       => 'ArticleCreateTimePointStart',
             SelectedID => $GetParam{ArticleCreateTimePointStart} || 'Last',
         );
         $Param{ArticleCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
@@ -1875,7 +1863,7 @@ sub Run {
                 'Last'   => 'last',
                 'Before' => 'before',
             },
-            Name => 'TicketCreateTimePointStart',
+            Name       => 'TicketCreateTimePointStart',
             SelectedID => $GetParam{TicketCreateTimePointStart} || 'Last',
         );
         $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
@@ -1972,7 +1960,7 @@ sub Run {
                 'Last'   => 'last',
                 'Before' => 'before',
             },
-            Name => 'TicketChangeTimePointStart',
+            Name       => 'TicketChangeTimePointStart',
             SelectedID => $GetParam{TicketChangeTimePointStart} || 'Last',
         );
         $Param{TicketChangeTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
@@ -2069,7 +2057,7 @@ sub Run {
                 'Last'   => 'last',
                 'Before' => 'before',
             },
-            Name => 'TicketCloseTimePointStart',
+            Name       => 'TicketCloseTimePointStart',
             SelectedID => $GetParam{TicketCloseTimePointStart} || 'Last',
         );
         $Param{TicketCloseTimePointFormat} = $Self->{LayoutObject}->BuildSelection(
@@ -2105,7 +2093,9 @@ sub Run {
 
         # build type string
         if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-            my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
+            my %Type = $Self->{TypeObject}->TypeList(
+                UserID => $Self->{UserID},
+            );
             $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
                 Name        => 'TypeIDs',

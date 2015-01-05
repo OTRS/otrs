@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DynamicField/Backend/TextArea.pm - Delegate for DynamicField TextArea backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TextArea.pm,v 1.48.2.5 2012-11-14 22:14:54 cr Exp $
 # --
@@ -59,8 +59,7 @@ sub new {
 
     # create additional objects
     $Self->{DynamicFieldValueObject} = Kernel::System::DynamicFieldValue->new( %{$Self} );
-    $Self->{BackendCommonObject}
-        = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
+    $Self->{BackendCommonObject}     = Kernel::System::DynamicField::Backend::BackendCommon->new( %{$Self} );
 
     # set the maximum lenght for the textarea fields to still be a searchable field in some
     # databases
@@ -205,12 +204,10 @@ sub EditFieldRender {
     }
 
     # set the rows number
-    my $RowsNumber
-        = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
+    my $RowsNumber = defined $FieldConfig->{Rows} && $FieldConfig->{Rows} ? $FieldConfig->{Rows} : '7';
 
     # set the cols number
-    my $ColsNumber
-        = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
+    my $ColsNumber = defined $FieldConfig->{Cols} && $FieldConfig->{Cols} ? $FieldConfig->{Cols} : '42';
 
     # check and set class if necessary
     my $FieldClass = 'DynamicFieldTextArea';
@@ -350,9 +347,8 @@ sub EditFieldValueValidate {
     }
 
     if ( length $Value > $Self->{MaxLength} ) {
-        $ServerError = 1;
-        $ErrorMessage
-            = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
+        $ServerError  = 1;
+        $ErrorMessage = "The field content is too long! Maximum size is $Self->{MaxLength} characters.";
     }
 
     # create resulting structure
@@ -387,7 +383,7 @@ sub DisplayValueRender {
 
         $Title = $Param{LayoutObject}->Ascii2Html(
             Text => $Title,
-            Max => $Param{TitleMaxChars} || '',
+            Max  => $Param{TitleMaxChars} || '',
         );
     }
     else {
@@ -478,8 +474,7 @@ sub SearchFieldValueGet {
 
     # get dynamic field value form param object
     if ( defined $Param{ParamObject} ) {
-        $Value = $Param{ParamObject}
-            ->GetParam( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
+        $Value = $Param{ParamObject}->GetParam( Param => 'Search_DynamicField_' . $Param{DynamicFieldConfig}->{Name} );
     }
 
     # otherwise get the value from the profile

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/NotificationOutofOfficeCheck.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: NotificationOutofOfficeCheck.pm,v 1.1 2011-05-18 11:43:12 mb Exp $
 # --
@@ -45,8 +45,7 @@ sub Run {
     my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
         String => $Start,
     );
-    my $End
-        = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
+    my $End     = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
     my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
         String => $End,
     );

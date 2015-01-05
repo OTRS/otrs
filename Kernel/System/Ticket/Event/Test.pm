@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/Test.pm - test event module
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.12 2011-11-25 10:14:18 mg Exp $
 # --
@@ -38,13 +38,19 @@ sub Run {
     # check needed stuff
     for (qw(Data Event Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     for (qw(TicketID)) {
         if ( !$Param{Data}->{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_ in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_ in Data!"
+            );
             return;
         }
     }

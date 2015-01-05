@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB/postgresql_before_8_2.pm - postgresql database backend for older systems with PostgreSQL 8.1 or before
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: postgresql_before_8_2.pm,v 1.1 2011-09-16 09:30:10 mg Exp $
 # --
@@ -102,7 +102,10 @@ sub DatabaseCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -115,7 +118,10 @@ sub DatabaseDrop {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!'
+        );
         return;
     }
 
@@ -474,7 +480,10 @@ sub IndexCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -503,7 +512,10 @@ sub IndexDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -517,7 +529,10 @@ sub ForeignKeyCreate {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -546,7 +561,10 @@ sub ForeignKeyDrop {
     # check needed stuff
     for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -574,7 +592,10 @@ sub UniqueCreate {
     # check needed stuff
     for (qw(TableName Name Data)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -599,7 +620,10 @@ sub UniqueDrop {
     # check needed stuff
     for (qw(TableName Name)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

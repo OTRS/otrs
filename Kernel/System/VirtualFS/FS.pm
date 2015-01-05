@@ -1,6 +1,6 @@
 # --
 # Kernel/System/VirtualFS/FS.pm - all virtual fs functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: FS.pm,v 1.2.6.3 2012-12-03 13:28:18 mg Exp $
 # --
@@ -75,7 +75,10 @@ sub Read {
     # check needed stuff
     for (qw(BackendKey Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -110,7 +113,10 @@ sub Write {
     # check needed stuff
     for (qw(Content Filename Mode)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -173,7 +179,10 @@ sub Delete {
     # check needed stuff
     for (qw(BackendKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -202,7 +211,10 @@ sub _BackendKeyParse {
     # check needed stuff
     for (qw(BackendKey)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -222,7 +234,10 @@ sub _SplitDir {
     # check needed stuff
     for (qw(Filename)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

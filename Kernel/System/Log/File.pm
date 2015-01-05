@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Log/File.pm - file log backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: File.pm,v 1.22 2009-04-06 21:01:34 martin Exp $
 # --

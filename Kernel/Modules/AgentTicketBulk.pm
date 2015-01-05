@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentTicketBulk.pm,v 1.95.2.2 2013-01-11 10:47:48 mn Exp $
 # --
@@ -80,8 +80,7 @@ sub Run {
     }
 
     # get involved tickets, filtering empty TicketIDs
-    my @TicketIDs
-        = grep {$_}
+    my @TicketIDs = grep {$_}
         $Self->{ParamObject}->GetArray( Param => 'TicketID' );
 
     # check needed stuff
@@ -391,8 +390,7 @@ sub Run {
                         User => $Ticket{CustomerUserID}
                     );
                     if ( $Customer{UserEmail} ) {
-                        $Customer
-                            = "$Customer{UserFirstname} $Customer{UserLastname} <$Customer{UserEmail}>";
+                        $Customer = "$Customer{UserFirstname} $Customer{UserLastname} <$Customer{UserEmail}>";
                     }
                 }
 
@@ -419,12 +417,11 @@ sub Run {
                 );
 
                 # generate subject
-                my $TicketNumber
-                    = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID );
+                my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID );
 
                 my $EmailSubject = $Self->{TicketObject}->TicketSubjectBuild(
                     TicketNumber => $TicketNumber,
-                    Subject => $GetParam{EmailSubject} || '',
+                    Subject      => $GetParam{EmailSubject} || '',
                 );
 
                 $EmailArticleID = $Self->{TicketObject}->ArticleSend(
@@ -461,16 +458,16 @@ sub Run {
                     );
                 }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID      => $TicketID,
-                    ArticleTypeID => $GetParam{'ArticleTypeID'},
-                    ArticleType   => $GetParam{'ArticleType'},
-                    SenderType    => 'agent',
-                    From     => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject  => $GetParam{'Subject'},
-                    Body     => $GetParam{'Body'},
-                    MimeType => $MimeType,
-                    Charset  => $Self->{LayoutObject}->{UserCharset},
-                    UserID   => $Self->{UserID},
+                    TicketID       => $TicketID,
+                    ArticleTypeID  => $GetParam{'ArticleTypeID'},
+                    ArticleType    => $GetParam{'ArticleType'},
+                    SenderType     => 'agent',
+                    From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject        => $GetParam{'Subject'},
+                    Body           => $GetParam{'Body'},
+                    MimeType       => $MimeType,
+                    Charset        => $Self->{LayoutObject}->{UserCharset},
+                    UserID         => $Self->{UserID},
                     HistoryType    => 'AddNote',
                     HistoryComment => '%%Bulk',
                 );
@@ -683,8 +680,7 @@ sub _Mask {
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( keys %{ $Param{Errors} } ) {
-            $Param{$KeyError}
-                = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -767,10 +763,10 @@ sub _Mask {
             next STATE_ID if $StateData{TypeName} !~ /pending/i;
             $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
                 %Param,
-                Format   => 'DateInputFormatLong',
-                DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-                Class    => $Param{Errors}->{DateInvalid} || '',
-                Validate => 1,
+                Format               => 'DateInputFormatLong',
+                DiffTime             => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+                Class                => $Param{Errors}->{DateInvalid} || '',
+                Validate             => 1,
                 ValidateDateInFuture => 1,
             );
             $Self->{LayoutObject}->Block(
@@ -804,7 +800,10 @@ sub _Mask {
 
     # owner list
     if ( $Self->{Config}->{Owner} ) {
-        my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1
+        );
 
         # only put possible rw agents to possible owner list
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
@@ -843,7 +842,10 @@ sub _Mask {
 
     # responsible list
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) {
-        my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
+        my %AllGroupsMembers = $Self->{UserObject}->UserList(
+            Type  => 'Long',
+            Valid => 1
+        );
 
         # only put possible rw agents to possible owner list
         if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
@@ -868,8 +870,11 @@ sub _Mask {
             }
         }
         $Param{ResponsibleStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => { '' => '-', %AllGroupsMembers },
-            Name => 'ResponsibleID',
+            Data => {
+                '' => '-',
+                %AllGroupsMembers
+            },
+            Name        => 'ResponsibleID',
             Translation => 0,
             SelectedID  => $Param{ResponsibleID},
         );
@@ -886,7 +891,7 @@ sub _Mask {
         Type   => 'move_into',
     );
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => { %MoveQueues, '' => '-' },
+        Data     => { %MoveQueues, '' => '-' },
         Multiple => 0,
         Size     => 0,
         Name     => 'QueueID',
@@ -1010,7 +1015,10 @@ sub _Mask {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketBulk', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketBulk',
+        Data         => \%Param
+    );
 }
 
 1;

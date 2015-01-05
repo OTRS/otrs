@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.SetPermissions.pl - to set the otrs permissions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.SetPermissions.pl,v 1.4.4.1 2012-10-08 09:22:49 mg Exp $
 # --
@@ -28,7 +28,7 @@ use vars qw($VERSION);
 $VERSION = qw($Revision: 1.4.4.1 $) [1];
 
 print "bin/otrs.SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 use File::Find;
 use Getopt::Long;
@@ -115,8 +115,7 @@ if ( !$NotRoot ) {
 # Check that the groups exist
 my ( $WebGroupId, $OtrsGroupId, $AdminGroupId );
 if ( !$NotRoot ) {
-    ( $WebGroupId, $OtrsGroupId, $AdminGroupId )
-        = getGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
+    ( $WebGroupId, $OtrsGroupId, $AdminGroupId ) = getGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
 }
 
 # set permissions

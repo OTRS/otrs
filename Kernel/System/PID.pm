@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: PID.pm,v 1.28 2012-03-20 21:06:32 mh Exp $
 # --
@@ -116,7 +116,10 @@ sub PIDCreate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
@@ -176,7 +179,10 @@ sub PIDGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
@@ -218,13 +224,16 @@ sub PIDDelete {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
     # sql
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM process_id WHERE process_name = ? AND process_host = ?',
+        SQL  => 'DELETE FROM process_id WHERE process_name = ? AND process_host = ?',
         Bind => [ \$Param{Name}, \$Self->{Host} ],
     );
 
@@ -247,14 +256,20 @@ sub PIDUpdate {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name'
+        );
         return;
     }
 
     my %PID = $Self->PIDGet( Name => $Param{Name} );
 
     if ( !%PID ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Can not get PID' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Can not get PID'
+        );
         return;
     }
 

@@ -1,6 +1,6 @@
 # --
 # Group.t - Group tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Group.t,v 1.18 2010-10-29 05:03:20 en Exp $
 # --

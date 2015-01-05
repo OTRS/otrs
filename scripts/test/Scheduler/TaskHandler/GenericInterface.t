@@ -1,6 +1,6 @@
 # --
 # GenericInterface.t - Generic Interface Scheduler Task Handler Backend tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: GenericInterface.t,v 1.5 2011-03-17 13:12:20 mg Exp $
 # --

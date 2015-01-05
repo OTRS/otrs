@@ -1,6 +1,6 @@
 # --
 # CustomerUser.t - CustomerUser tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerUser.t,v 1.21 2012-03-18 13:50:42 mh Exp $
 # --
@@ -376,7 +376,10 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
                 "SetPassword() - $Config - $UserID - $Password",
             );
 
-            my $Ok = $CustomerAuth->Auth( User => $UserID, Pw => $Password );
+            my $Ok = $CustomerAuth->Auth(
+                User => $UserID,
+                Pw   => $Password
+            );
             $Self->True(
                 $Ok,
                 "Auth() - $Config - $UserID - $Password",

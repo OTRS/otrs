@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AgentSearch.pm - provides global search
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AgentSearch.pm,v 1.2 2010-07-21 12:53:45 martin Exp $
 # --

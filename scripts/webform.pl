@@ -2,7 +2,7 @@
 # --
 # webform.pl - a simple web form script to generate email with
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: webform.pl,v 1.14 2009-02-20 12:05:54 mh Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerGroup.pm,v 1.25 2010-06-17 21:39:40 cr Exp $
 # --
@@ -118,7 +118,10 @@ sub GroupMemberAdd {
     # check needed stuff
     for (qw(UID GID UserID Permission)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -188,12 +191,18 @@ sub GroupMemberList {
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID or GroupID!'
+        );
         return;
     }
     my %Data;
@@ -283,7 +292,10 @@ sub GroupLookup {
 
     # check needed stuff
     if ( !$Param{Group} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Group or GroupID!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Got no Group or GroupID!'
+        );
         return;
     }
 

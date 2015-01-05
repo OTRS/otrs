@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminCustomerCompany.pm - to add/update/delete customer companies
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminCustomerCompany.pm,v 1.26 2011-12-21 13:27:27 mg Exp $
 # --
@@ -52,7 +52,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $CustomerID, );
+        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+            CustomerID => $CustomerID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -465,8 +467,7 @@ sub _Overview {
         if (%List) {
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-                my %Data
-                    = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
+                my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewResultRow',
                     Data => {

@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2010 Ton van Boven <ton 'at' avebo.nl>
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: nl.pm,v 1.183.2.3 2012-11-22 06:58:52 mb Exp $
 # --

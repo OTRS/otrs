@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.WebserviceConfig.pl - script to read/write/list webservice config
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.WebserviceConfig.pl,v 1.4 2011-03-08 17:33:16 cr Exp $
 # --
@@ -48,7 +48,7 @@ my %Opts;
 getopt( 'hiafn', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.WebserviceConfig.pl <Revision $VERSION> - read/write/list webservice config\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print
         "usage: otrs.WebserviceConfig.pl -a read  -i \$ID                         (read config, print to STDOUT)\n";
     print

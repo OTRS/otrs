@@ -1,6 +1,6 @@
 # --
 # Kernel/GenericInterface/Operation/Test/Test.pm - GenericInterface test operation backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Test.pm,v 1.10 2012-01-25 07:33:15 ep Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # SMIME.t - SMIME tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: SMIME.t,v 1.24.2.13 2012-05-22 21:13:45 cr Exp $
 # --
@@ -401,10 +401,10 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Verify() - on manipulated text",
     );
 
-   # file checks
-   # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
-   #       to base64 first?
-   #    for my $File (qw(xls txt doc png pdf)) {
+    # file checks
+    # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
+    #       to base64 first?
+    #    for my $File (qw(xls txt doc png pdf)) {
     for my $File (qw(txt)) {
         my $Content = $Self->{MainObject}->FileRead(
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
@@ -642,7 +642,9 @@ $Certificates{OTRSRootCA} = {
     );
 
     # verify it
-    my %Data = $CryptObject->Verify( Message => $Sign, );
+    my %Data = $CryptObject->Verify(
+        Message => $Sign,
+    );
 
     # it must fail
     $Self->False(
@@ -665,7 +667,9 @@ $Certificates{OTRSRootCA} = {
     );
 
     # verify must fail not root cert added to the trusted cert path
-    %Data = $CryptObject->Verify( Message => $Sign, );
+    %Data = $CryptObject->Verify(
+        Message => $Sign,
+    );
 
     # it must fail
     $Self->False(
@@ -744,7 +748,7 @@ $Certificates{OTRSRootCA} = {
         'SignerCertRelationAdd(), add relation for certificate',
     );
 
-# sign a message after relations added not send CA certs now should be taken automatically by the sign function
+    # sign a message after relations added not send CA certs now should be taken automatically by the sign function
     $Sign = $CryptObject->Sign(
         Message  => $Message,
         Filename => $SMIMEUser1Certificate{Filename},
@@ -1136,7 +1140,9 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # is overwriting one each other?
-        my @Result       = $CryptObject->PrivateSearch( Search => 'smime@test.com', );
+        my @Result = $CryptObject->PrivateSearch(
+            Search => 'smime@test.com',
+        );
         my $Counter      = $Number + 1;
         my $ResultNumber = scalar @Result;
         $Self->Is(
@@ -1776,8 +1782,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         # function to create certificate reations directly into the database
         my $ManualCertRelationAdd = sub {
-            my ( $CertificateHash, $CertificateFingerprint, $CAHash, $CAFingerprint, $TestName )
-                = @_;
+            my ( $CertificateHash, $CertificateFingerprint, $CAHash, $CAFingerprint, $TestName ) = @_;
 
             my $Success = $Self->{DBObject}->Do(
                 SQL => 'INSERT INTO smime_signer_cert_relations'

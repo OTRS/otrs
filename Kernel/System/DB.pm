@@ -1,6 +1,6 @@
 # --
 # Kernel/System/DB.pm - the global database wrapper to support different databases
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: DB.pm,v 1.144.2.2 2012-08-06 14:46:38 mg Exp $
 # --
@@ -414,7 +414,10 @@ sub Do {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
 
@@ -471,7 +474,10 @@ sub Do {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PreDo( SQL => $Param{SQL}, Bind => \@Array );
+        $DBListener->PreDo(
+            SQL  => $Param{SQL},
+            Bind => \@Array
+        );
     }
 
     # send sql to database
@@ -485,7 +491,10 @@ sub Do {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PostDo( SQL => $Param{SQL}, Bind => \@Array );
+        $DBListener->PostDo(
+            SQL  => $Param{SQL},
+            Bind => \@Array
+        );
     }
 
     return 1;
@@ -537,7 +546,10 @@ sub Prepare {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need SQL!'
+        );
         return;
     }
     if ( defined $Param{Encode} ) {
@@ -602,7 +614,10 @@ sub Prepare {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PrePrepare( SQL => $SQL, Bind => \@Array );
+        $DBListener->PrePrepare(
+            SQL  => $SQL,
+            Bind => \@Array
+        );
     }
 
     # do
@@ -625,7 +640,10 @@ sub Prepare {
     }
 
     for my $DBListener ( @{ $Self->{DBListeners} } ) {
-        $DBListener->PostPrepare( SQL => $SQL, Bind => \@Array );
+        $DBListener->PostPrepare(
+            SQL  => $SQL,
+            Bind => \@Array
+        );
     }
 
     # slow log feature
@@ -1045,7 +1063,10 @@ sub QueryCondition {
     # check needed stuff
     for (qw(Key Value)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
@@ -1350,7 +1371,10 @@ sub QueryStringEscape {
     # check needed stuff
     for my $Key (qw(QueryString)) {
         if ( !defined $Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

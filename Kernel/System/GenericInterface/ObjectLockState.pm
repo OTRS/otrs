@@ -1,6 +1,6 @@
 # --
 # Kernel/System/GenericInterface/ObjectLockState.pm - backend for lock state handling
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ObjectLockState.pm,v 1.3 2011-02-28 12:46:18 mg Exp $
 # --
@@ -110,7 +110,10 @@ sub ObjectLockStateSet {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID LockState)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -186,7 +189,10 @@ sub ObjectLockStateGet {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -241,7 +247,10 @@ sub ObjectLockStateDelete {
     # check needed stuff
     for my $Key (qw(WebserviceID ObjectType ObjectID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -280,7 +289,10 @@ sub ObjectLockStatePurge {
     # check needed stuff
     for my $Key (qw(WebserviceID)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }
@@ -330,7 +342,10 @@ sub ObjectLockStateList {
     # check needed stuff
     for my $Key (qw(ObjectType)) {
         if ( !$Param{$Key} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Key!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Key!"
+            );
             return;
         }
     }

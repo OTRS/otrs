@@ -1,6 +1,6 @@
 # --
 # ReferenceData.t - ReferenceData module tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ReferenceData.t,v 1.2 2011-11-26 18:17:01 mb Exp $
 # --

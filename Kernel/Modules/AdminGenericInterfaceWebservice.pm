@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminGenericInterfaceWebservice.pm - provides a webservice view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminGenericInterfaceWebservice.pm,v 1.34.2.1 2013-01-09 18:25:08 cr Exp $
 # --
@@ -206,8 +206,7 @@ sub Run {
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
-            my $RedirectURL
-                = "Action=AdminGenericInterfaceWebservice;";
+            my $RedirectURL = "Action=AdminGenericInterfaceWebservice;";
             return $Self->{LayoutObject}->Redirect(
                 OP => $RedirectURL,
             );
@@ -1002,8 +1001,7 @@ sub _ShowEdit {
             {
 
                 # get control information
-                my $ActionDetails
-                    = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
+                my $ActionDetails = $CommTypeConfig{$CommunicationType}->{ActionsConfig}->{$ActionName};
 
                 # create output data
                 my %ActionData = (

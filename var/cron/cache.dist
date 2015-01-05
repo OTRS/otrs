@@ -1,6 +1,6 @@
 # --
 # cron/cache - delete expired cache
-# Copyright (C) 2001-2010 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: cache.dist,v 1.2 2010-11-22 12:15:35 mg Exp $
 # --

@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/ToolBarTicketSearchProfile.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: ToolBarTicketSearchProfile.pm,v 1.4 2011-01-21 18:01:40 dz Exp $
 # --

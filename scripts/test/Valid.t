@@ -1,6 +1,6 @@
 # --
 # Valid.t - valid module tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Valid.t,v 1.3 2010-10-29 22:16:59 en Exp $
 # --

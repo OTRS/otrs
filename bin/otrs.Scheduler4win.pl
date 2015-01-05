@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # otrs.Scheduler4win.pl - provides Scheduler Daemon control for Microsoft Windows OS
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.Scheduler4win.pl,v 1.22 2011-07-18 19:46:20 cr Exp $
 # --
@@ -276,7 +276,7 @@ else {
 # Internal
 sub _help {
     print "otrs.Scheduler4win.pl <Revision $VERSION> - OTRS Scheduler Daemon\n";
-    print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+    print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
     print "usage: otrs.Scheduler4win.pl -a <ACTION> (start|stop|status|reload) [-f force]\n";
 }
 
@@ -314,8 +314,7 @@ sub _start {
 
     # delete old log files
     my $DaysToKeep = $CommonObject{ConfigObject}->Get('Scheduler::Log::DaysToKeep') || 10;
-    my $DaysToKeepSystemTime
-        = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
+    my $DaysToKeepSystemTime = $CommonObject{TimeObject}->SystemTime() - $DaysToKeep * 24 * 60 * 60;
 
     my @LogFiles = <$LogPath/*.log>;
 
@@ -625,7 +624,7 @@ sub _AutoRestart {
     # Log daemon start-up
     $CommonObject{LogObject}->Log(
         Priority => 'notice',
-        Message => $Param{Message} || 'Unknown reason to restart',
+        Message  => $Param{Message} || 'Unknown reason to restart',
     );
 
     # delete process ID lock

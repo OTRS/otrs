@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.UnlockTickets.pl - to unlock tickets
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.UnlockTickets.pl,v 1.7 2010-10-11 15:51:26 martin Exp $
 # --
@@ -72,7 +72,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 # check args
 my $Command = shift || '--help';
 print "otrs.UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n";
 
 # unlock all tickets
 if ( $Command eq '--all' ) {

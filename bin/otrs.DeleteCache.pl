@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.DeleteCache.pl - delete all caches
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.DeleteCache.pl,v 1.6 2012-04-25 09:03:18 sb Exp $
 # --
@@ -52,7 +52,7 @@ GetOptions(
 );
 
 print "otrs.DeleteCache.pl <Revision $VERSION> - delete OTRS cache\n";
-print "Copyright (C) 2001-2014 OTRS AG, http://otrs.com/\n\n";
+print "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/\n\n";
 
 if ( $Opts{h} ) {
     print "usage: otrs.DeleteCache.pl [--expired] [--type TYPE]\n";

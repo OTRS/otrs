@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Static/StateAction.pm - static stat for ticket history
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: StateAction.pm,v 1.4 2011-05-31 09:36:55 mb Exp $
 # --
@@ -145,7 +145,10 @@ sub _GetDBDataPerDay {
     my $SQL   = 'SELECT count(*) FROM ticket_history '
         . 'WHERE history_type_id = ? AND create_time >= ? AND create_time <= ?';
 
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{StateID}, \$Start, \$End ] );
+    $Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => [ \$Param{StateID}, \$Start, \$End ]
+    );
 
     my $DayData = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {

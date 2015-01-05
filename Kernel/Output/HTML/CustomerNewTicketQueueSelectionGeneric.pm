@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.10 2011-12-05 18:13:48 cr Exp $
 # --
@@ -110,8 +110,7 @@ sub Run {
             $String =~ s/<Queue>/$QueueData{Name}/g;
             $String =~ s/<QueueComment>/$QueueData{Comment}/g;
             if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') ne 'Queue' ) {
-                my %SystemAddressData
-                    = $Self->{SystemAddress}->SystemAddressGet( ID => $QueueData{SystemAddressID} );
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet( ID => $QueueData{SystemAddressID} );
                 $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $String =~ s/<Email>/$SystemAddressData{Name}/g;
             }

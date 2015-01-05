@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminSignature.pm,v 1.51 2012-02-27 22:53:37 ep Exp $
 # --
@@ -49,7 +49,9 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SignatureObject}->SignatureGet( ID => $ID, );
+        my %Data = $Self->{SignatureObject}->SignatureGet(
+            ID => $ID,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -325,7 +327,9 @@ sub _Overview {
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SignatureObject}->SignatureList( Valid => 0, );
+    my %List = $Self->{SignatureObject}->SignatureList(
+        Valid => 0,
+    );
 
     # if there are any results, they are shown
     if (%List) {

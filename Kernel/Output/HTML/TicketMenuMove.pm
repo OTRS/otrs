@@ -1,6 +1,6 @@
 # --
 # Kernel/Output/HTML/TicketMenuMove.pm
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketMenuMove.pm,v 1.2 2010-11-02 13:29:55 mg Exp $
 # --
@@ -37,7 +37,10 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Ticket!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Ticket!'
+        );
         return;
     }
 
@@ -79,8 +82,7 @@ sub Run {
             Action   => $Self->{LayoutObject}->{Action},
             Type     => 'move_into',
         );
-        $MoveQueues{0}
-            = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
+        $MoveQueues{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Get('Move') . ' -';
         $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,

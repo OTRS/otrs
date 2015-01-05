@@ -1,6 +1,6 @@
 # --
 # TicketGet.t - TicketConnector interface tests for TicketConnector backend
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TicketGet.t,v 1.16.2.2 2012-11-09 23:52:35 cr Exp $
 # --
@@ -54,7 +54,6 @@ $ConfigObject->Set(
     Key   => 'SessionCheckRemoteIP',
     Value => 0,
 );
-
 
 # new user object
 my $UserObject = Kernel::System::User->new(
@@ -213,7 +212,7 @@ my $FieldID5 = $DynamicFieldObject->DynamicFieldAdd(
     FieldType  => 'Multiselect',     # mandatory, selects the DF backend to use for this field
     ObjectType => 'Ticket',
     Config     => {
-        DefaultValue => [ 'ticket2_field5', 'ticket4_field5' ],
+        DefaultValue   => [ 'ticket2_field5', 'ticket4_field5' ],
         PossibleValues => {
             ticket1_field5 => 'ticket1_field51',
             ticket2_field5 => 'ticket2_field52',
@@ -624,7 +623,7 @@ for my $Article (@ArticleBox) {
 
     my @Attachments;
     ATTACHMENT:
-    for my $FileID (sort keys %AtmIndex ) {
+    for my $FileID ( sort keys %AtmIndex ) {
         next ATTACHMENT if !$FileID;
         my %Attachment = $TicketObject->ArticleAttachment(
             ArticleID => $Article->{ArticleID},

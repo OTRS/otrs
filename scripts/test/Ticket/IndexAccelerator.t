@@ -1,6 +1,6 @@
 # --
 # IndexAccelerator.t - ticket module testscript
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: IndexAccelerator.t,v 1.1 2011-08-30 10:23:08 mg Exp $
 # --
@@ -363,7 +363,7 @@ for my $Module ( 'RuntimeDB', 'StaticDB' ) {
         'Merge tickets',
     );
 
-# verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
+    # verify the accounted time of the main ticket, it should be the sum of both (main and merge tickets)
     $Self->Is(
         $TicketObject->TicketAccountedTimeGet( TicketID => $TicketIDs[0] ),
         $AccountedTimes[0] + $AccountedTimes[ $ArraySize - 1 ],

@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Ticket.pm,v 1.38 2012-02-28 10:38:01 jp Exp $
 # --
@@ -544,11 +544,10 @@ sub GetStatElement {
                 next DYNAMICFIELD if $DynamicFieldConfig->{Name} ne $1;
 
                 # get new search parameter
-                my $DynamicFieldStatsSearchParameter
-                    = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
+                my $DynamicFieldStatsSearchParameter = $Self->{BackendObject}->CommonSearchFieldParameterBuild(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Value              => $Param{$ParameterName},
-                    );
+                );
 
                 # add new search parameter
                 $Param{$ParameterName} = $DynamicFieldStatsSearchParameter;
@@ -564,8 +563,7 @@ sub GetStatElement {
                 }
             }
             else {
-                $Param{$ParameterName}
-                    = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
+                $Param{$ParameterName} = $Self->{DBObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
         }
     }
@@ -649,8 +647,7 @@ sub ImportWrapper {
                 for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
-                        $ID->{Content}
-                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                        $ID->{Content} = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
                     }
                     else {
                         $Self->{LogObject}->Log(

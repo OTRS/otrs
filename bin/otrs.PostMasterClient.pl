@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.PostMasterClient.pl - the PostMasterDaemon.pl client
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.PostMasterClient.pl,v 1.1 2009-11-03 16:10:45 mn Exp $
 # --

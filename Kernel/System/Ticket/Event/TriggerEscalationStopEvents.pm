@@ -1,6 +1,6 @@
 # --
 # Kernel/System/Ticket/Event/TriggerEscalationStopEvents.pm - trigger escalation stop events
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: TriggerEscalationStopEvents.pm,v 1.2.2.1 2012-09-27 14:14:34 mb Exp $
 # --
@@ -41,13 +41,19 @@ sub Run {
     # check needed stuff
     for my $Needed (qw(Event UserID Config)) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
             return;
         }
     }
     for my $Needed (qw(OldTicketData TicketID)) {
         if ( !$Param{Data}->{$Needed} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Needed in Data!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Needed in Data!"
+            );
             return;
         }
     }

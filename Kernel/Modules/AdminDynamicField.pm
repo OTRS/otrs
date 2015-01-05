@@ -1,6 +1,6 @@
 # --
 # Kernel/Modules/AdminDynamicField.pm - provides a dynamic fields view for admins
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: AdminDynamicField.pm,v 1.15.2.2 2012-05-07 19:17:55 cr Exp $
 # --
@@ -322,18 +322,15 @@ sub _DynamicFieldsListShow {
                 );
 
                 # get the object type display name
-                my $ObjectTypeName
-                    = $Self->{ObjectTypeConfig}->{ $DynamicFieldData->{ObjectType} }->{DisplayName}
+                my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $DynamicFieldData->{ObjectType} }->{DisplayName}
                     || $DynamicFieldData->{ObjectType};
 
                 # get the field type display name
-                my $FieldTypeName
-                    = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{DisplayName}
+                my $FieldTypeName = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{DisplayName}
                     || $DynamicFieldData->{FieldType};
 
                 # get the field backend dialog
-                my $ConfigDialog
-                    = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
+                my $ConfigDialog = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
                     || '';
 
                 # print each dynamic field row

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.AddService.pl - add new Services
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: otrs.AddService.pl,v 1.1.2.4 2012-10-29 09:19:06 ub Exp $
 # --
@@ -62,10 +62,9 @@ if ( !$Opts{n} ) {
 }
 
 # create common objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddService' );
+$CommonObject{ConfigObject}  = Kernel::Config->new();
+$CommonObject{EncodeObject}  = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}     = Kernel::System::Log->new( %CommonObject, LogPrefix => 'OTRS-otrs.AddService' );
 $CommonObject{MainObject}    = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}      = Kernel::System::DB->new(%CommonObject);
 $CommonObject{ServiceObject} = Kernel::System::Service->new(%CommonObject);

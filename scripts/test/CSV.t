@@ -1,6 +1,6 @@
 # --
 # CSV.t - CSV tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: CSV.t,v 1.15 2010-10-29 05:03:20 en Exp $
 # --
@@ -105,8 +105,7 @@ $Self->Is(
 );
 
 # Working with CSVString with \n
-my $String
-    = '"field1";"field2";"field3"' . "\n" . '"a' . "\n"
+my $String = '"field1";"field2";"field3"' . "\n" . '"a' . "\n"
     . 'b";"FirstLine' . "\n"
     . 'SecondLine";"4"' . "\n";
 $Array = $CSVObject->CSV2Array(
@@ -142,8 +141,7 @@ $Self->Is(
 );
 
 # Working with CSVString with \r
-$String
-    = '"field1";"field2";"field3"' . "\r" . '"a' . "\r"
+$String = '"field1";"field2";"field3"' . "\r" . '"a' . "\r"
     . 'b";"FirstLine' . "\r"
     . 'SecondLine";"4"' . "\r";
 $Array = $CSVObject->CSV2Array(

@@ -1,6 +1,6 @@
 # --
 # Selenium.pm - run frontend tests
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Selenium.pm,v 1.10 2010-12-22 11:19:57 mg Exp $
 # --
@@ -185,7 +185,10 @@ sub Login {
     # check needed stuff
     for (qw(Type User Password)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }

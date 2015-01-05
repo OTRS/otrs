@@ -1,6 +1,6 @@
 # --
 # Kernel/Language.pm - provides multi language support
-# Copyright (C) 2001-2014 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # $Id: Language.pm,v 1.79 2011-08-12 09:06:15 mg Exp $
 # --
@@ -358,7 +358,9 @@ sub FormatTimeString {
 
         # add user time zone diff
         if ( $Self->{TimeZone} ) {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
+            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => "$Y-$M-$D $T",
+            );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
             my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $TimeStamp,
@@ -461,7 +463,10 @@ sub Time {
     # check needed stuff
     for (qw(Action Format)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $_!"
+            );
             return;
         }
     }
