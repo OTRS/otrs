@@ -35,7 +35,7 @@ sub new {
     $Self->{CustomerCompanyKey} = $Self->{CustomerCompanyMap}->{CustomerCompanyKey}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyValid} = $Self->{CustomerCompanyMap}->{'CustomerCompanyValid'};
-    $Self->{SearchListLimit}      = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'};
+    $Self->{SearchListLimit}      = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchListLimit'} || 50000;
     $Self->{SearchPrefix}         = $Self->{CustomerCompanyMap}->{'CustomerCompanySearchPrefix'};
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
@@ -165,7 +165,7 @@ sub CustomerCompanyList {
     $Self->{DBObject}->Prepare(
         SQL   => $CompleteSQL,
         Bind  => \@Bind,
-        Limit => 50000,
+        Limit => $Self->{SearchListLimit},
     );
 
     # fetch the result
