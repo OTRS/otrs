@@ -1,4 +1,5 @@
 #4.0.4 2015-??-??
+ - 2015-01-05 Fixed bug#[10898](http://bugs.otrs.org/show_bug.cgi?id=10898) - Reply to note does not select the origin note sender.
  - 2014-12-22 Fixed bug#[10551](http://bugs.otrs.org/show_bug.cgi?id=10551) - Error: No Process configured! - Agent interface.
  - 2014-12-18 Added Invoker name requirement in Generic Interface Invoker constructor.
  - 2014-12-18 Fixed bug#[10954](http://bugs.otrs.org/show_bug.cgi?id=10954) - Column title disappear  in list for CustumerCompany.
