@@ -1230,7 +1230,7 @@ sub MaskAgentZoom {
         }
         my $ActivityName = $ActivityData->{Name};
 
-        if ( defined $NextActivityDialogs ) {
+        if ( $NextActivityDialogs ) {
 
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
