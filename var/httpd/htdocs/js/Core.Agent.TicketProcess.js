@@ -47,7 +47,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
             // remove/destroy CKEditor instances
             // This is needed to initialize other instances (in other activity dialogs)
             // without a page reload
-            if (CKEDITOR !== 'undefined' && CKEDITOR.instances) {
+            if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances) {
                 $.each(CKEDITOR.instances, function (Key) {
                     CKEDITOR.instances[Key].destroy();
                 });
