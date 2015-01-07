@@ -12,6 +12,9 @@ package Kernel::Output::HTML::PreferencesPassword;
 use strict;
 use warnings;
 
+use Kernel::System::Auth;
+use Kernel::System::CustomerAuth;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
