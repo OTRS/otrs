@@ -1,4 +1,5 @@
 #3.2.18 ??-??-??
+ - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
 
 #3.2.17 2014-12-16
  - 2014-12-12 Fixed bug#[9667](http://bugs.otrs.org/show_bug.cgi?id=9667) - forwarding a ticket breaks the content.
