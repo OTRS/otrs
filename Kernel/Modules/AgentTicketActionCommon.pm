@@ -64,7 +64,8 @@ sub new {
     my $ReplyToArticle = $Self->{ParamObject}->GetParam( Param => 'ReplyToArticle' ) || "";
 
     # get list of users that will be informed without selection in informed/involved list
-    my @UserListWithoutSelection = split(',', $Self->{ParamObject}->GetParam( Param => 'UserListWithoutSelection' ) || "");
+    my @UserListWithoutSelection
+        = split( ',', $Self->{ParamObject}->GetParam( Param => 'UserListWithoutSelection' ) || "" );
     $Self->{UserListWithoutSelection} = \@UserListWithoutSelection;
 
     # check if ReplyToArticle really belongs to the ticket
@@ -1992,9 +1993,10 @@ sub _Mask {
 
             # add original note sender to list of user ids
             for my $UserID ( sort @{ $Self->{ReplyToSenderUserID} } ) {
+
                 # if sender replies to himself, do not include sender in list
                 if ( $UserID ne $Self->{UserID} ) {
-                    $ReplyToUserIDs{ $UserID } = 1;
+                    $ReplyToUserIDs{$UserID} = 1;
                 }
             }
 
@@ -2057,9 +2059,9 @@ sub _Mask {
 
                 # get email address of all users and compare to replyto-addresses
                 for my $UserID ( sort keys %ShownUsers ) {
-                    if ( $ReplyToUserIDs{ $UserID } ) {
+                    if ( $ReplyToUserIDs{$UserID} ) {
                         push @{ $Self->{InformUserID} }, $UserID;
-                        delete $ReplyToUserIDs{ $UserID };
+                        delete $ReplyToUserIDs{$UserID};
                     }
                 }
             }
@@ -2094,8 +2096,8 @@ sub _Mask {
         if ( $Self->{ReplyToArticle} ) {
 
             my $UsersHashSize = keys %ReplyToUserIDs;
-            my $Counter = 0;
-            $Param{UserListWithoutSelection} = join(',', keys %ReplyToUserIDs);
+            my $Counter       = 0;
+            $Param{UserListWithoutSelection} = join( ',', keys %ReplyToUserIDs );
 
             if ( $UsersHashSize > 0 ) {
                 $Self->{LayoutObject}->Block(
@@ -2117,7 +2119,7 @@ sub _Mask {
 
                     # output a separator (InformAgentsWithoutSelectionSingleUserSeparator),
                     # if not last entry
-                    if ($Counter < $UsersHashSize) {
+                    if ( $Counter < $UsersHashSize ) {
                         $Self->{LayoutObject}->Block(
                             Name => 'InformAgentsWithoutSelectionSingleUserSeparator',
                             Data => \%UserData,
