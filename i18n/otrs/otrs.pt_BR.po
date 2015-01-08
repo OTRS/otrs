@@ -4,12 +4,13 @@
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014
+# Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-11-27 12:38+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1332,7 +1333,7 @@ msgstr "Exibido"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr "Clientes exibidos"
+msgstr "Usuários clientes exibidos"
 
 #. Template: AAABase
 msgid "News"
@@ -1497,7 +1498,7 @@ msgstr "O processo selecionado é inválido!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Atualize para %s agora!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
@@ -1533,7 +1534,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Seu %s foi atualizado com sucesso."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
@@ -1896,7 +1897,7 @@ msgstr "gráfico de barras"
 
 #. Template: AAAStats
 msgid "graph-hbars"
-msgstr "gráfico de barras\\(2\\)"
+msgstr "gráfico de barras (2)"
 
 #. Template: AAAStats
 msgid "graph-points"
@@ -2443,7 +2444,7 @@ msgstr "Chamados Abertos"
 
 #. Template: AAASupportDataCollector
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr ""
+msgstr "Você não deveria ter mais que 8.000 chamados abertos em seu sistema."
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Search Index module"
@@ -2453,7 +2454,7 @@ msgstr ""
 msgid ""
 "You have more than 50,000 articles and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Você possui mais de 50.000 artigos e deveria usar o backend StaticDB. Veja o manual do administrador (Performance Tuning) para mais informações."
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_lock_index Table"
@@ -2542,7 +2543,11 @@ msgstr "Você deve usar o PerlEx para melhorar o desempenho."
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr "Visão de Estado"
+msgstr "Visão de Estados"
+
+#. Template: AAATicket
+msgid "Service View"
+msgstr "Visão de Serviços"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2865,6 +2870,10 @@ msgid "Bounce Article to a different mail address"
 msgstr "Devolver artigo para um endereço de e-mail diferente"
 
 #. Template: AAATicket
+msgid "Reply to note"
+msgstr "Responder a nota"
+
+#. Template: AAATicket
 msgid "new"
 msgstr "novo"
 
@@ -2878,7 +2887,7 @@ msgstr "Aberto"
 
 #. Template: AAATicket
 msgid "Open tickets"
-msgstr "Chamados Abertos"
+msgstr "Chamados abertos"
 
 #. Template: AAATicket
 msgid "closed"
@@ -3062,7 +3071,7 @@ msgstr "Chamado travado por outro atendente."
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr "Chamado travado."
+msgstr "Chamado bloqueado."
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
@@ -3105,8 +3114,12 @@ msgid "Search Tickets"
 msgstr "Pesquisar Chamados"
 
 #. Template: AAATicket
+msgid "Customer History"
+msgstr "Histórico de Cliente"
+
+#. Template: AAATicket
 msgid "Edit Customer Users"
-msgstr "Editar Clientes (Usuários)"
+msgstr "Editar Usuários Clientes"
 
 #. Template: AAATicket
 msgid "Edit Customer"
@@ -3178,11 +3191,11 @@ msgstr "Não monitorar"
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
-msgstr "Travar para trabalhar nele"
+msgstr "Bloquear para trabalhar no chamado"
 
 #. Template: AAATicket
 msgid "Unlock to give it back to the queue"
-msgstr "Destravar para devolver à fila"
+msgstr "Desbloquear para devolver à fila"
 
 #. Template: AAATicket
 msgid "Show the ticket history"
@@ -3218,7 +3231,7 @@ msgstr "Alterar os campos em branco no chamado!"
 
 #. Template: AAATicket
 msgid "Link this ticket to other objects"
-msgstr "Vincular este chamado à outros objetos"
+msgstr "Vincular este chamado a outros objetos"
 
 #. Template: AAATicket
 msgid "Change the owner for this ticket"
@@ -3230,7 +3243,7 @@ msgstr "Alterar o cliente deste chamado"
 
 #. Template: AAATicket
 msgid "Add a note to this ticket"
-msgstr "Adicionar nota à este chamado"
+msgstr "Adicionar uma nota a este chamado"
 
 #. Template: AAATicket
 msgid "Merge into a different ticket"
@@ -3242,7 +3255,7 @@ msgstr "Marcar chamado como pendente"
 
 #. Template: AAATicket
 msgid "Close this ticket"
-msgstr "Fechar Este Chamado"
+msgstr "Fechar este Chamado"
 
 #. Template: AAATicket
 msgid "Look into a ticket!"
@@ -3354,7 +3367,7 @@ msgstr "Enviar notificações de revisão de chamados"
 
 #. Template: AAATicket
 msgid "Ticket lock timeout notification"
-msgstr "Notificação de Bloqueio de Chamado por Tempo Expirado"
+msgstr "Notificação de Expiração de Bloqueio de Chamado"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
@@ -3362,7 +3375,7 @@ msgstr "Notifique-me se um chamado é desbloqueado pelo sistema."
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
-msgstr "Enviar notificação de bloqueio de chamado por tempo expirado"
+msgstr "Enviar notificações de expiração de bloqueio de chamado"
 
 #. Template: AAATicket
 msgid "Ticket move notification"
@@ -3504,7 +3517,7 @@ msgstr "Chamados Novos"
 
 #. Template: AAATicket
 msgid "Open Tickets / Need to be answered"
-msgstr "Chamados Abertos / Precisam Ser Respondidos"
+msgstr "Chamados Abertos / Precisam ser Respondidos"
 
 #. Template: AAATicket
 msgid ""
@@ -3605,7 +3618,7 @@ msgstr "Importar configuração"
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
-msgstr "Aqui você pode fazer o upload de um arquivo de configuração para importar ACLs para o seu sistema. O arquivo precisa estar no formato .yml como exportado pelo módulo de edição de ACL."
+msgstr "Aqui você pode fazer o envio de um arquivo de configuração para importar ACLs para o seu sistema. O arquivo precisa estar no formato .yml como exportado pelo módulo de edição de ACL."
 
 #. Template: AdminACL
 msgid "This field is required."
@@ -3846,7 +3859,7 @@ msgstr "ex."
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr "Opções para os dados de usuário cliente atual"
+msgstr "Opções para os dados do atual usuário cliente"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -3908,7 +3921,7 @@ msgstr "Adicionar Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Gerenciamento de Clientes"
+msgstr "Gerenciamento de Usuário Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3916,7 +3929,7 @@ msgstr "Voltar ao resultado da busca"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr "Adicionar cliente"
+msgstr "Adicionar usuário cliente"
 
 #. Template: AdminCustomerUser
 msgid "Hint"
@@ -3930,7 +3943,7 @@ msgstr "Usuário cliente é necessário para ter um histórico de cliente e para
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
-msgstr "Última autenticação"
+msgstr "Última Autenticação"
 
 #. Template: AdminCustomerUser
 msgid "Login as"
@@ -3946,7 +3959,7 @@ msgstr "Adicionar Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Editar Cliente"
+msgstr "Editar Usuário Cliente"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -4118,7 +4131,7 @@ msgid ""
 "To add a new field, select the field type from one of the object's list, the"
 " object defines the boundary of the field and it can't be changed after the "
 "field creation."
-msgstr ""
+msgstr "Para adicionar um novo campo, selecione o tipo de campo em uma das listas de objetos. O objeto define o domínio do campo e não pode ser alterado após a criação."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
@@ -4148,7 +4161,7 @@ msgstr "Remover este campo"
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be"
 " LOST!"
-msgstr "Deseja realmente remover este campo dinâmico? TODOS os dados assiciados à ele serão PERDIDOS!"
+msgstr "Deseja realmente remover este campo dinâmico? TODOS os dados assiciados a ele serão PERDIDOS!"
 
 #. Template: AdminDynamicField
 msgid "Delete field"
@@ -4574,7 +4587,7 @@ msgstr "(ex.: email@empresa.com.br)"
 
 #. Template: AdminGenericAgent
 msgid "Customer login"
-msgstr "Login do Cliente"
+msgstr "Autenticação do Cliente"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -4610,7 +4623,7 @@ msgstr "Chamado criado entre"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr "Ultima edição"
+msgstr "Última alteração"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
@@ -4618,11 +4631,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr "Ultima edição do chamado"
+msgstr "Última edição do chamado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Última alteração do chamado entre"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
@@ -6727,7 +6740,7 @@ msgstr "Editar Detalhes do Campo"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
-msgstr "A interface do cliente não suporta tipos internos de artigos."
+msgstr "A interface de cliente não suporta tipos internos de artigos."
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
@@ -7120,6 +7133,10 @@ msgid "Edit Queue"
 msgstr "Alterar Filas"
 
 #. Template: AdminQueue
+msgid "A queue with this name already exists!"
+msgstr ""
+
+#. Template: AdminQueue
 msgid "Sub-queue of"
 msgstr "Subfila de"
 
@@ -7140,7 +7157,7 @@ msgid ""
 "If an agent locks a ticket and does not close it before the unlock timeout "
 "has passed, the ticket will unlock and will become available for other "
 "agents."
-msgstr "Se um atendente bloqueiar um chamado e não fechá-lo antes de expirado o tempo limite de desbloqueio, o chamado será desbloqueado e ficará disponível para outros atendentes."
+msgstr "Se um atendente bloquear um chamado e não fechá-lo antes de expirado o tempo limite de desbloqueio, o chamado será desbloqueado e ficará disponível para outros atendentes."
 
 #. Template: AdminQueue
 msgid "Notify by"
@@ -7293,6 +7310,20 @@ msgstr "Última comunicação com o servidor de registro"
 #. Template: AdminRegistration
 msgid "Send support data"
 msgstr "Enviar dados de suporte"
+
+#. Template: AdminRegistration
+msgid "System registration not possible"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid ""
+"Please note that you can't register your system if your scheduler is not "
+"running correctly!"
+msgstr ""
+
+#. Template: AdminRegistration
+msgid "Instructions"
+msgstr ""
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
@@ -8404,7 +8435,7 @@ msgstr "O nome de exibição e endereço de e-mail serão mostrados no e-mail en
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "Gerenciamento de Manutenção do Sistema"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
@@ -8452,11 +8483,11 @@ msgstr "Data inválida!"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
-msgstr ""
+msgstr "Mensagem de autenticação"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
-msgstr ""
+msgstr "Mostrar mensagem de autenticação"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Notify message"
@@ -8510,7 +8541,7 @@ msgstr "Editar Modelo"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Um modelo padrão com este nome já existe!"
 
 #. Template: AdminTemplate
 msgid "Template"
@@ -8594,7 +8625,7 @@ msgstr "Por favor, digite um termo de pesquisa para localizar atendentes."
 
 #. Template: AdminUser
 msgid "Last login"
-msgstr "Último login"
+msgstr "Última autenticação"
 
 #. Template: AdminUser
 msgid "Switch to agent"
@@ -8690,7 +8721,7 @@ msgstr "Centro de Informação do Cliente"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Cliente"
+msgstr "Usuário Cliente"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -8807,11 +8838,11 @@ msgstr "Fluxo"
 
 #. Template: AgentDashboardStats
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Template: AgentDashboardStats
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8831,7 +8862,7 @@ msgstr "Chamados nas Minhas Filas"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Chamados em Meus Serviços"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8903,7 +8934,7 @@ msgstr "Alterar Suas Preferências"
 
 #. Template: AgentSchedulerInfo
 msgid "General Information"
-msgstr ""
+msgstr "Informação Geral"
 
 #. Template: AgentSchedulerInfo
 msgid "Scheduler is an OTRS separated process that perform asynchronous tasks"
@@ -8921,7 +8952,7 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Starting Scheduler"
-msgstr ""
+msgstr "Iniciando Agendador"
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
@@ -9294,12 +9325,16 @@ msgid "Next state"
 msgstr "Próximo estado"
 
 #. Template: AgentTicketActionCommon
+msgid "For all pending* states."
+msgstr "Para todos os estados *pendente*."
+
+#. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Adicionar Artigo"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "Criar um Artigo"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -9311,7 +9346,7 @@ msgstr "Modelo de Texto"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "Configurar um modelo irá sobrescrever qualquer texto ou anexo."
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
@@ -9333,6 +9368,10 @@ msgstr "Informar aos atendentes envolvidos"
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
+msgstr "Aqui você pode selecionar atendentes adicionais que deveriam receber uma notificação relacionada ao novo artigo."
+
+#. Template: AgentTicketActionCommon
+msgid "Note will be (also) received by:"
 msgstr ""
 
 #. Template: AgentTicketBounce
@@ -9424,14 +9463,6 @@ msgid "Address book"
 msgstr "Catálogo de Endereços"
 
 #. Template: AgentTicketCompose
-msgid "Pending Date"
-msgstr "Data de Pendência"
-
-#. Template: AgentTicketCompose
-msgid "for pending* states"
-msgstr "em estado pendente*"
-
-#. Template: AgentTicketCompose
 msgid "Date Invalid!"
 msgstr "Data Inválida!"
 
@@ -9441,7 +9472,7 @@ msgstr "Alterar o Cliente do Chamado"
 
 #. Template: AgentTicketCustomer
 msgid "Customer user"
-msgstr "Usuário Cliente"
+msgstr "Usuário cliente"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9449,7 +9480,7 @@ msgstr "Criar Novo Chamado Via E-mail"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "Exemplo de Modelo"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
@@ -9457,11 +9488,11 @@ msgstr "Da Fila"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr "Para cliente"
+msgstr "Para usuário cliente"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
-msgstr "Por favor, inclua ao menos um cliente para este chamado."
+msgstr "Por favor, inclua ao menos um usuário cliente para este chamado."
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
@@ -9469,7 +9500,7 @@ msgstr "Selecione este cliente como principal"
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr "Remover Cliente do Chamado"
+msgstr "Remover Usuário Cliente do Chamado"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
@@ -9477,7 +9508,7 @@ msgstr "Obter todos"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "E-mail de Saída"
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -9493,7 +9524,7 @@ msgstr "Conteúdo do Histórico"
 
 #. Template: AgentTicketHistory
 msgid "Zoom view"
-msgstr "Visão de Zoom"
+msgstr "Visão de detalhe"
 
 #. Template: AgentTicketMerge
 msgid "Ticket Merge"
@@ -9597,7 +9628,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "A conversa será adicionada como um artigo separado."
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -9691,15 +9722,15 @@ msgstr "Buscas pelos atributos De, Para, Cc, Assunto e corpo do artigo, sobrescr
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
-msgstr "Login de Cliente"
+msgstr "Autenticação de Usuário Cliente"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Nome do Anexo"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
-msgstr ""
+msgstr "(ex. meu*rquivo ou meuarq*)"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
@@ -9739,11 +9770,11 @@ msgstr "Tempo de Modificação do Chamado (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "Tempo da Última Modificação do Chamado (antes/depois)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "Tempo da Última Modificação do Chamado (entre)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
@@ -9795,7 +9826,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Salvar como padrão"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
@@ -9827,11 +9858,11 @@ msgstr "Este item não tem artigos ainda."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Visão da Cronologia do Chamado"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr ""
+msgstr "Visão Geral de Artigos"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
@@ -9855,7 +9886,7 @@ msgstr "Reiniciar Filtro"
 
 #. Template: AgentTicketZoom
 msgid "Show one article"
-msgstr "Exibir Um Artigo"
+msgstr "Exibir um Artigo"
 
 #. Template: AgentTicketZoom
 msgid "Show all articles"
@@ -9863,7 +9894,7 @@ msgstr "Exibir Todos os Artigos"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "Mostrar a Cronologia do Chamado"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9899,7 +9930,7 @@ msgstr "Redimensionar"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "Marcar este artigo como lido"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
@@ -9907,15 +9938,21 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Texto Completo do Artigo"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
 
 #. Template: AgentTicketZoom
-msgid "Article could not be opened! Perhaps it is on another article page?"
+msgid ""
+"To open links in the following article, you might need to press Ctrl or Cmd "
+"or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Article could not be opened! Perhaps it is on another article page?"
+msgstr "O artigo não pôde ser aberto! Talvez ele esteja em outra página de artigo?"
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -9993,7 +10030,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Login"
-msgstr "Login"
+msgstr "Usuário"
 
 #. Template: CustomerLogin
 msgid "User name"
@@ -10037,7 +10074,7 @@ msgstr "Criar Conta"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
-msgstr "Por favor, preencha este formulário para receber as credenciais de login."
+msgstr "Por favor, preencha este formulário para receber as credenciais de autenticação."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
@@ -10069,7 +10106,7 @@ msgstr "Editar preferências pessoais"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
-msgstr ""
+msgstr "Marca de citação"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10117,7 +10154,7 @@ msgstr "Cópia"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
-msgstr ""
+msgstr "ex. meu*rquivo ou meuarq*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10704,6 +10741,10 @@ msgid "Go back to the previous page"
 msgstr "Voltar para a página anterior"
 
 #. SysConfig
+msgid " (work units)"
+msgstr "(unidades de trabalho)"
+
+#. SysConfig
 msgid "\"%s\"-notification sent to \"%s\"."
 msgstr "Notificação \"%s\" enviada para \"%s\"."
 
@@ -10724,10 +10765,18 @@ msgid "(UserLogin) Lastname, Firstname"
 msgstr "(Login) Sobrenome, Nome"
 
 #. SysConfig
+msgid "A Website"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge"
 " operation. Only dynamic fields that are empty in the main ticket will be "
 "set."
+msgstr ""
+
+#. SysConfig
+msgid "A picture"
 msgstr ""
 
 #. SysConfig
@@ -10766,7 +10815,7 @@ msgstr "Ativa o suporte a grupos de clientes."
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
-msgstr "Ativa o filtro de artigo na visão de zoom para especificar quais artigos devem ser mostrados."
+msgstr "Ativa o filtro de artigo na visão de detalhe para especificar quais artigos devem ser mostrados."
 
 #. SysConfig
 msgid ""
@@ -10881,8 +10930,9 @@ msgid ""
 msgstr "Módulo de interface de atendente para verificar a recepção de e-mails na tela de detalhes do chamados se a chave S/MIME está disponível e é válida."
 
 #. SysConfig
-msgid "Agent interface notification module to check the used charset."
-msgstr "Módulo de interface de atendente vara validar o conjunto de caracteres utilizado."
+msgid ""
+"Agent interface notification module to see the number of locked tickets."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -10911,7 +10961,7 @@ msgstr "Atendentes <-> Papéis"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
-msgstr ""
+msgstr "Todos os usuários clientes de uma CustomerID."
 
 #. SysConfig
 msgid ""
@@ -11055,7 +11105,7 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other customers, via the customer user"
 " administration panel."
-msgstr "Permite que os administradores efetuem login como outros clientes através do painel de administração de usuários do cliente."
+msgstr "Permite que os administradores efetuem login como outros clientes através do painel de administração de usuários clientes."
 
 #. SysConfig
 msgid ""
@@ -11200,11 +11250,11 @@ msgstr "Alterar fila!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
-msgstr "Alterar O Cliente Deste Chamado"
+msgstr "Alterar o Cliente deste Chamado"
 
 #. SysConfig
 msgid "Change the free fields for this ticket"
-msgstr "Alterar os Campos Livres Para Este Chamado"
+msgstr "Alterar os Campos Livres para este Chamado"
 
 #. SysConfig
 msgid "Change the priority for this ticket"
@@ -11212,7 +11262,7 @@ msgstr "Alterar a Prioridade Para Este Chamado"
 
 #. SysConfig
 msgid "Change the responsible person for this ticket"
-msgstr "Alterar a Pessoa Responsável Por Esse Chamado"
+msgstr "Alterar a Pessoa Responsável por este Chamado"
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
@@ -11236,11 +11286,11 @@ msgstr "Verifica o SystemID na detecção de número de chamado para revisões (
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "Chamados fechados (usuário cliente)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
-msgstr ""
+msgstr "Chamados fechados (cliente)"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -11313,6 +11363,10 @@ msgstr ""
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
 msgstr "Comentário para novas entradas de histórico na interface de cliente."
+
+#. SysConfig
+msgid "Comment2"
+msgstr ""
 
 #. SysConfig
 msgid "Company Status"
@@ -11400,7 +11454,7 @@ msgstr "Criar e gerenciar anexos."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr "Criar e gerenciar clientes."
+msgstr "Criar e gerenciar usuários clientes."
 
 #. SysConfig
 msgid "Create and manage customers."
@@ -11475,6 +11529,10 @@ msgid "Create new process ticket"
 msgstr "Criar novo chamado via processo"
 
 #. SysConfig
+msgid "Custom RSS Feed"
+msgstr ""
+
+#. SysConfig
 msgid ""
 "Custom text for the page shown to customers that have no tickets yet (if you"
 " need those text translated add them to a custom translation module)."
@@ -11482,23 +11540,23 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Administration"
-msgstr ""
+msgstr "Administração de Cliente"
 
 #. SysConfig
 msgid "Customer User <-> Groups"
-msgstr "Cliente <-> Grupos"
+msgstr "Usuário Cliente <-> Grupos"
 
 #. SysConfig
 msgid "Customer User <-> Services"
-msgstr "Cliente <-> Serviços"
+msgstr "Usuário Cliente <-> Serviços"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Administração de Usuários Cliente"
+msgstr "Administração de Usuário Cliente"
 
 #. SysConfig
 msgid "Customer Users"
-msgstr "Clientes"
+msgstr "Usuários Clientes"
 
 #. SysConfig
 msgid "Customer called us."
@@ -11521,6 +11579,14 @@ msgstr ""
 #. SysConfig
 msgid "Customer request via web."
 msgstr "Requisição do cliente via web."
+
+#. SysConfig
+msgid "Customer user search"
+msgstr "Busca de usuário cliente"
+
+#. SysConfig
+msgid "CustomerID search"
+msgstr ""
 
 #. SysConfig
 msgid "CustomerName"
@@ -11637,6 +11703,18 @@ msgstr ""
 #. SysConfig
 msgid "Define the max depth of queues."
 msgstr "Define a profundidade máxima das filas."
+
+#. SysConfig
+msgid "Define the queue comment 2."
+msgstr ""
+
+#. SysConfig
+msgid "Define the service comment 2."
+msgstr ""
+
+#. SysConfig
+msgid "Define the sla comment 2."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -11860,7 +11938,7 @@ msgid ""
 "Defines if a ticket lock is required in the ticket merge screen of a zoomed "
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
 "gets locked and the current agent will be set automatically as its owner)."
-msgstr "Define se um bloqueio de chamado é obrigatório na tela de agrupamento de chamado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário)."
+msgstr "Define se um bloqueio de chamado é obrigatório na tela de agrupamento de um chamado detalhado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário)."
 
 #. SysConfig
 msgid ""
@@ -11874,7 +11952,7 @@ msgid ""
 "Defines if a ticket lock is required in the ticket owner screen of a zoomed "
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
 "gets locked and the current agent will be set automatically as its owner)."
-msgstr "Define se um bloqueio de chamado é obrigatório na tela de proprietário do chamado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário)."
+msgstr "Define se um bloqueio de chamado é obrigatório na tela de proprietário de um chamado detalhado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário)."
 
 #. SysConfig
 msgid ""
@@ -11904,7 +11982,7 @@ msgid ""
 "zoomed ticket in the agent interface (if the ticket isn't locked yet, the "
 "ticket gets locked and the current agent will be set automatically as its "
 "owner)."
-msgstr "Define se um bloqueio de chamado é obrigatório na tela de prioridade do chamado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário)."
+msgstr "Define se um bloqueio de chamado é obrigatório na tela de prioridade de um chamado detalhado da interface de atendente (se o chamado não estiver bloqueado ainda, ele é bloqueado e o atendente atual será definido automaticamente como seu proprietário)."
 
 #. SysConfig
 msgid ""
@@ -12083,7 +12161,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the default auto response type of the article for this operation."
-msgstr ""
+msgstr "Define o tipo padrão de autorresposta do artigo para esta operação."
 
 #. SysConfig
 msgid ""
@@ -12107,7 +12185,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
-msgstr ""
+msgstr "Define o tipo de histórico padrão na interface de cliente."
 
 #. SysConfig
 msgid ""
@@ -12521,7 +12599,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default type for article in the customer interface."
-msgstr ""
+msgstr "Define o tipo padrão para artigo na interface de cliente."
 
 #. SysConfig
 msgid ""
@@ -12531,7 +12609,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default type of the article for this operation."
-msgstr ""
+msgstr "Define o tipo padrão do artigo para esta operação."
 
 #. SysConfig
 msgid ""
@@ -12893,7 +12971,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the list of types for templates."
-msgstr ""
+msgstr "Define a lista de tipos de modelos."
 
 #. SysConfig
 msgid ""
@@ -13294,7 +13372,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
-" ticket (\"Queue\" shows all queues, \"SystemAddress\" displays all system "
+" ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
 
@@ -13554,7 +13632,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
-msgstr ""
+msgstr "Implementar e gerenciar o OTRS Business Solution™."
 
 #. SysConfig
 msgid ""
@@ -13674,7 +13752,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Dropdown"
-msgstr ""
+msgstr "Suspenso"
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -13933,7 +14011,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enabled filters."
-msgstr ""
+msgstr "Filtros ativos."
 
 #. SysConfig
 msgid ""
@@ -14059,6 +14137,10 @@ msgid "Escalation view"
 msgstr "Visão de Escalação"
 
 #. SysConfig
+msgid "EscalationTime"
+msgstr "Horário de Escalação"
+
+#. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
@@ -14098,7 +14180,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "Calendário de Eventos de Chamado"
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -14161,6 +14243,10 @@ msgid "Filter incoming emails."
 msgstr "Filtrar e-mails de entrada."
 
 #. SysConfig
+msgid "First Queue"
+msgstr "Primeira Fila"
+
+#. SysConfig
 msgid "FirstLock"
 msgstr "Primeiro Bloqueio"
 
@@ -14202,7 +14288,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr ""
+msgstr "Força o desbloqueio de chamados após serem movidos para outra fila."
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -14251,6 +14337,10 @@ msgstr "Tema da interface"
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
 msgstr ""
+
+#. SysConfig
+msgid "Fulltext search"
+msgstr "Busca em todo o texto"
 
 #. SysConfig
 msgid ""
@@ -14654,9 +14744,15 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"If enabled, the customer can search for tickets in all services (regardless "
+"what services are assigned to the customer)."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
-msgstr "Se habilitado, os diferentes painéis (Dashboard, LockedView, QueueView) serão automaticamente atualizados após o tempo especificado."
+msgstr "Se habilitado, os diferentes painéis (Painel de Controle, Visão de Estados, Visão de Filas) serão automaticamente atualizados após o tempo especificado."
 
 #. SysConfig
 msgid ""
@@ -14786,6 +14882,10 @@ msgid "Lastname, Firstname (UserLogin)"
 msgstr "Sobrenome, Nome (Login)"
 
 #. SysConfig
+msgid "Left"
+msgstr "Esquerda"
+
+#. SysConfig
 msgid "Link agents to groups."
 msgstr "Associar atendentes a grupos."
 
@@ -14799,11 +14899,11 @@ msgstr "Associar anexos a modelos."
 
 #. SysConfig
 msgid "Link customer user to groups."
-msgstr "Associar cliente a grupos."
+msgstr "Associar usuário cliente a grupos."
 
 #. SysConfig
 msgid "Link customer user to services."
-msgstr "Associar cliente a serviços."
+msgstr "Associar usuário cliente a serviços."
 
 #. SysConfig
 msgid "Link queues to auto responses."
@@ -14858,7 +14958,7 @@ msgstr ""
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
-msgstr ""
+msgstr "Lista de todos os eventos CustomerUser a serem exibidos na interface."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
@@ -14885,6 +14985,10 @@ msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
 msgstr ""
+
+#. SysConfig
+msgid "List view"
+msgstr "Visão de lista"
 
 #. SysConfig
 msgid "Locked ticket."
@@ -15120,7 +15224,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Multiselect"
-msgstr ""
+msgstr "Multisseleção"
 
 #. SysConfig
 msgid "My Queues and My Services"
@@ -15159,6 +15263,10 @@ msgid "New Ticket [%s] created (Q=%s;P=%s;S=%s)."
 msgstr "Novo chamado [%s] foi criado (F=%s;P=%s;E=%s)."
 
 #. SysConfig
+msgid "New Window"
+msgstr ""
+
+#. SysConfig
 msgid "New email ticket"
 msgstr "Novo chamado via e-mail"
 
@@ -15195,6 +15303,10 @@ msgid "No Notification"
 msgstr "Sem Notificação"
 
 #. SysConfig
+msgid "None"
+msgstr "Nenhum"
+
+#. SysConfig
 msgid "Notification sent to \"%s\"."
 msgstr "Notificação enviada para \"%s\"."
 
@@ -15229,16 +15341,20 @@ msgid "Old: \"%s\" New: \"%s\""
 msgstr "Ant.: \"%s\" Novo: \"%s\"."
 
 #. SysConfig
-msgid "Open tickets (customer user)"
+msgid "Online"
 msgstr ""
+
+#. SysConfig
+msgid "Open tickets (customer user)"
+msgstr "Chamados abertos (usuário cliente)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "Chamados abertos (cliente)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Fora do Escritório"
 
 #. SysConfig
 msgid ""
@@ -15608,7 +15724,7 @@ msgstr "Removida assinatura para o usuário \"%s\"."
 
 #. SysConfig
 msgid "Removes the ticket watcher information when a ticket is archived."
-msgstr ""
+msgstr "Remove a informação de monitoramento quando o chamado é arquivado."
 
 #. SysConfig
 msgid ""
@@ -15706,13 +15822,13 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Resets and unlocks the owner of a ticket if it was moved to another queue."
-msgstr ""
+msgstr "Reinicia a propriedade e desbloqueia o chamado se ele for movido para outra fila."
 
 #. SysConfig
 msgid ""
 "Restores a ticket from the archive (only if the event is a state change, "
 "from closed to any open available state)."
-msgstr ""
+msgstr "Restaura um chamado do arquivo (apenas se o evento é uma mudança de estado, de fechado para qualquer estado de aberto disponível)."
 
 #. SysConfig
 msgid ""
@@ -15721,11 +15837,21 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid "Right"
+msgstr "Direita"
+
+#. SysConfig
 msgid "Roles <-> Groups"
 msgstr "Papéis <-> Grupos"
 
 #. SysConfig
 msgid "Running Process Tickets"
+msgstr "Chamados de Processo Executando"
+
+#. SysConfig
+msgid ""
+"Runs an initial wildcard search of the existing customer company when "
+"accessing the AdminCustomerCompany module."
 msgstr ""
 
 #. SysConfig
@@ -15745,6 +15871,10 @@ msgstr ""
 #. SysConfig
 msgid "S/MIME Certificate Upload"
 msgstr "Upload de certificado S/MIME"
+
+#. SysConfig
+msgid "Sample command output"
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -15776,6 +15906,10 @@ msgid "Search backend router."
 msgstr ""
 
 #. SysConfig
+msgid "Second Queue"
+msgstr "Segunda Fila"
+
+#. SysConfig
 msgid "Select your frontend Theme."
 msgstr "Selecione seu tema de interface."
 
@@ -15802,27 +15936,27 @@ msgid ""
 "Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, "
 "2002070110101535). \"Random\" generates randomized ticket numbers in the "
 "format \"SystemID.Random\" (e.g. 100057866352, 103745394596)."
-msgstr ""
+msgstr "Seleciona o módulo gerador do número do chamado. \"AutoIncremento\" incrementa o número do chamado: SystemID e contador são usados no formato SystemID.Contador (ex. 1010138, 1010139). Ao escolher \"Data\", os números dos chamados serão gerados pela junção da data atual com o SystemID e com o Contador: o formato é Ano.Mês.Dia.SystemID.Contador (ex. 200206231010138, 200206231010139). Com \"DateChecksum\", o contador será anexado como soma de verificação para a sequência de data mais SystemID. A soma de verificação vai ser rodada numa base diária. O formato é Ano.Mês.Dia.SystemID.Contador.CheckSum (ex. 2002070110101520, 2002070110101535). \"Aleatório\" gera números de chamados aleatórios no formato \"SystemID.Random\" (ex. 100057866352, 103745394596)."
 
 #. SysConfig
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my queues/services."
-msgstr ""
+msgstr "Envie-me uma notificação se um cliente faz uma revisão e sou o proprietário do chamado ou o chamado está bloqueado e está em uma de minhas filas/serviços."
 
 #. SysConfig
 msgid ""
 "Send me a notification if the service of a ticket is changed to a service in"
 " \"My Services\" and the ticket is in a queue where I have read permissions."
-msgstr ""
+msgstr "Envie-me uma notificação se o serviço de um chamado é alterado para um serviço em \"Meus Serviços\" e o chamado está em uma fila na qual tenho permissões de leitura."
 
 #. SysConfig
 msgid "Send me a notification if there is a new ticket in my queues/services."
-msgstr ""
+msgstr "Envie-me uma notificação se há um novo chamado em Minhas Filas/Serviços."
 
 #. SysConfig
 msgid "Send new ticket notifications if subscribed to"
-msgstr ""
+msgstr "Enviar notificações de chamados novos se relacionados a"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -15830,11 +15964,11 @@ msgstr "Enviar notificações para usuários."
 
 #. SysConfig
 msgid "Send service update notifications"
-msgstr ""
+msgstr "Enviar notificações de atualização de serviço"
 
 #. SysConfig
 msgid "Send ticket follow up notifications if subscribed to"
-msgstr ""
+msgstr "Enviar notificações de chamados revisados se relacionados a"
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."
@@ -15872,11 +16006,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Service update notification"
-msgstr ""
+msgstr "Notificação de atualização de serviço"
 
 #. SysConfig
 msgid "Service view"
-msgstr ""
+msgstr "Visão de serviços"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -16166,7 +16300,7 @@ msgid ""
 "Sets the minimal ticket counter size (if \"AutoIncrement\" was selected as "
 "TicketNumberGenerator). Default is 5, this means the counter starts from "
 "10000."
-msgstr ""
+msgstr "Configura o tamanho mínimo do contador de chamado (se \"AutoIncremento\" foi selecionado como TicketNumberGenerator). O padrão é 5, o que significa que o contador inicia em 10000."
 
 #. SysConfig
 msgid ""
@@ -16195,7 +16329,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the prefered time units (e.g. work units, hours, minutes)."
-msgstr ""
+msgstr "Configura as unidades de tempo preferidas (ex. unidades de trabalho, horas, minutos)."
 
 #. SysConfig
 msgid ""
@@ -16500,7 +16634,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Shows a count of icons in the ticket zoom, if the article has attachments."
-msgstr ""
+msgstr "Mostra um contador de ícones no detalhamento do chamado, caso o artigo tenha anexos."
 
 #. SysConfig
 msgid ""
@@ -16674,13 +16808,13 @@ msgstr ""
 msgid ""
 "Shows a link to access article attachments via a html online viewer in the "
 "zoom view of the article in the agent interface."
-msgstr ""
+msgstr "Mostra um link para acessar os anexos do artigo via visualizador html integrado na visão de detalhe do artigo da interface de atendente."
 
 #. SysConfig
 msgid ""
 "Shows a link to download article attachments in the zoom view of the article"
 " in the agent interface."
-msgstr ""
+msgstr "Mostra um link para baixar anexos do artigo na tela de detalhe do artigo da interface de atendente."
 
 #. SysConfig
 msgid "Shows a link to see a zoomed email ticket in plain text."
@@ -17015,6 +17149,14 @@ msgid "SolutionInMin"
 msgstr "Tempo de solução em minutos"
 
 #. SysConfig
+msgid "Some description!"
+msgstr "Uma descrição!"
+
+#. SysConfig
+msgid "Some picture description!"
+msgstr "Uma descrição de imagem!"
+
+#. SysConfig
 msgid ""
 "Sorts the tickets (ascendingly or descendingly) when a single queue is "
 "selected in the queue view and after the tickets are sorted by priority. "
@@ -17247,7 +17389,7 @@ msgstr "Estatísticas"
 
 #. SysConfig
 msgid "Status view"
-msgstr "Visão de Estado"
+msgstr "Visão de Estados"
 
 #. SysConfig
 msgid "Stop words for fulltext index. These words will be removed."
@@ -17487,6 +17629,10 @@ msgid "Toolbar Item for a shortcut."
 msgstr ""
 
 #. SysConfig
+msgid "Tree view"
+msgstr "Visão de árvore"
+
+#. SysConfig
 msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
@@ -17512,7 +17658,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Desbloqueia chamados sempre que uma nota for adicionada e o proprietário estiver fora do escritório."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -17559,11 +17705,11 @@ msgstr ""
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr ""
+msgstr "PrimeiroNome"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
+msgstr "ÚltimoNome"
 
 #. SysConfig
 msgid ""
@@ -17579,7 +17725,7 @@ msgstr "Usar richtext para visualizar e editar notificações de eventos."
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
-msgstr "Usar richtext quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações."
+msgstr "Usar texto rico quando visualizar e editar: artigos, saudações, assinaturas, modelos, auto respostas e notificações."
 
 #. SysConfig
 msgid "View performance benchmark results."
@@ -17620,7 +17766,11 @@ msgstr "Quando os chamados são agrupados o cliente pode ser informado por e-mai
 
 #. SysConfig
 msgid "Write a new, outgoing mail"
-msgstr ""
+msgstr "Escrever um novo e-mail de saída"
+
+#. SysConfig
+msgid "Yes, but hide archived tickets"
+msgstr "Sim, mas oculte chamados arquivados"
 
 #. SysConfig
 msgid ""

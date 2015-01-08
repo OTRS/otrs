@@ -217,7 +217,7 @@ sub Data {
         'New message' => 'Neue Nachricht',
         'New message!' => 'Neue Nachricht!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
-            'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
+            'Bitte beantworten Sie dieses Ticket(s), um in die normale Warteschlangenansicht zurück zu kommen!',
         'You have %s new message(s)!' => 'Sie haben %s neue Nachricht(en) bekommen!',
         'You have %s reminder ticket(s)!' => 'Sie haben %s Erinnerungs-Ticket(s)!',
         'The recommended charset for your language is %s!' => 'Der empfohlene Zeichensatz für Ihre Sprache ist %s!',
@@ -271,7 +271,7 @@ sub Data {
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             'Bitte nicht mit dem Superuser-Account in OTRS arbeiten! Bitte neue Agenten anlegen und mit diesen arbeiten!',
         'Dispatching by email To: field.' => 'Verteilung nach To: Feld.',
-        'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Queue.',
+        'Dispatching by selected Queue.' => 'Verteilung nach ausgewählter Warteschlange.',
         'No entry found!' => 'Kein Eintrag gefunden!',
         'Session invalid. Please log in again.' => 'Session ungültig. Bitte neu anmelden.',
         'Session has timed out. Please log in again.' => 'Session abgelaufen. Bitte neu anmelden.',
@@ -295,8 +295,8 @@ sub Data {
         'Response added!' => 'Antwort hinzugefügt!',
         'Response updated!' => 'Antwort aktualisiert!',
         'Group updated!' => 'Gruppe aktualisiert',
-        'Queue added!' => 'Queue hinzugefügt!',
-        'Queue updated!' => 'Queue aktualisiert!',
+        'Queue added!' => 'Warteschlange hinzugefügt!',
+        'Queue updated!' => 'Warteschlange aktualisiert!',
         'State added!' => 'Status hinzugefügt!',
         'State updated!' => 'Status aktualisiert!',
         'Type added!' => 'Typ hinzugefügt!',
@@ -646,7 +646,7 @@ sub Data {
         'Articles' => 'Artikel',
         'Attachments (DB, Without HTML)' => 'Anhänge (in der Datenbank, ohne HTML)',
         'Customers With At Least One Ticket' => 'Kunden mit wenigstens einem Ticket',
-        'Queues' => 'Queues',
+        'Queues' => 'Warteschlangen',
         'Agents' => 'Agenten',
         'Roles' => 'Rollen',
         'Groups' => 'Gruppen',
@@ -713,7 +713,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Ansicht nach Status',
-        'Service View' => '',
+        'Service View' => 'Dienstansicht',
         'Bulk' => 'Sammelaktion',
         'Lock' => 'Sperren',
         'Unlock' => 'Freigeben',
@@ -728,7 +728,7 @@ sub Data {
         'Bcc' => 'Bcc',
         'Subject' => 'Betreff',
         'Move' => 'Verschieben',
-        'Queue' => 'Queue',
+        'Queue' => 'Warteschlange',
         'Priority' => 'Priorität',
         'Priorities' => 'Prioritäten',
         'Priority Update' => 'Änderung der Priorität',
@@ -788,14 +788,14 @@ sub Data {
         'Available tickets' => 'Verfügbare Tickets',
         'Escalation' => 'Eskalation',
         'last-search' => 'Letzte Suche',
-        'QueueView' => 'Queue-Ansicht',
+        'QueueView' => 'Warteschlangenansicht',
         'Ticket Escalation View' => 'Ansicht nach Ticket-Eskalationen',
         'Message from' => 'Nachricht von',
         'End message' => 'Ende der Nachricht',
         'Forwarded message from' => 'Weitergeleitete Nachricht von',
         'End forwarded message' => 'Ende der weitergeleiteten Nachricht',
         'Bounce Article to a different mail address' => 'Artikel per E-Mail umleiten',
-        'Reply to note' => '',
+        'Reply to note' => 'Auf Notiz antworten',
         'new' => 'neu',
         'open' => 'offen',
         'Open' => 'Offen',
@@ -857,7 +857,7 @@ sub Data {
         'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
         'Phone-Ticket' => 'Telefon-Ticket',
         'Search Tickets' => 'Ticket-Suche',
-        'Customer History' => '',
+        'Customer History' => 'Kundenhistorie',
         'Edit Customer Users' => 'Kundenbenutzer bearbeiten',
         'Edit Customer' => 'Kunde bearbeiten',
         'Bulk Action' => 'Sammel-Aktion',
@@ -877,7 +877,7 @@ sub Data {
         'Watch' => 'Beobachten',
         'Unwatch' => 'Nicht beobachten',
         'Lock it to work on it' => 'Zur Bearbeitung sperren',
-        'Unlock to give it back to the queue' => 'Zur Rückgabe an die Queue entsperren',
+        'Unlock to give it back to the queue' => 'Zur Rückgabe an die Warteschlange entsperren',
         'Show the ticket history' => 'Ticket-Historie anzeigen',
         'Print this ticket' => 'Dieses Ticket drucken',
         'Print this article' => 'Diesen Artikel drucken',
@@ -896,7 +896,7 @@ sub Data {
         'Look into a ticket!' => 'Ticket genauer ansehen!',
         'Delete this ticket' => 'Dieses Ticket löschen!',
         'Mark as Spam!' => 'Als Spam makieren!',
-        'My Queues' => 'Meine Queues',
+        'My Queues' => 'Meine Warteschlangen',
         'Shown Tickets' => 'Gezeigte Tickets',
         'Shown Columns' => 'Gezeigte Spalten',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
@@ -916,11 +916,11 @@ sub Data {
         'Agent (Responsible)' => 'Agent (Verantwortlicher)',
         'New ticket notification' => 'Mitteilung bei neuem Ticket',
         'Send me a notification if there is a new ticket in "My Queues".' =>
-            'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
+            'Zusenden einer Mitteilung bei neuem Ticket in "Meine Warteschlangen".',
         'Send new ticket notifications' => 'Benachrichtigung über neue Tickets senden',
         'Ticket follow up notification' => 'Benachrichtigung über Folgeaktionen',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            'Sende mir eine Benachrichtigung, wenn ein Kunde eine Rückmeldung gibt und ich der Besitzer des Tickets bin, oder das Ticket nicht gesperrt ist und in einer meiner Queues liegt.',
+            'Sende mir eine Benachrichtigung, wenn ein Kunde eine Rückmeldung gibt und ich der Besitzer des Tickets bin, oder das Ticket nicht gesperrt ist und in einer meiner Warteschlangen liegt.',
         'Send ticket follow up notifications' => 'Benachrichtigung bei Rückmeldung verschicken',
         'Ticket lock timeout notification' => 'Mitteilung bei Überschreiten der Sperrzeit',
         'Send me a notification if a ticket is unlocked by the system.' =>
@@ -928,20 +928,20 @@ sub Data {
         'Send ticket lock timeout notifications' => 'Benachrichtigung bei Ablauf einer Ticket-Sperre',
         'Ticket move notification' => 'Benachrichtigung beim Verschieben von Tickets',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
-            'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Queues".',
+            'Zusenden einer Mitteilung beim Verschieben eines Tickets in "Meine Warteschlangen".',
         'Send ticket move notifications' => 'Benachrichtigung beim Verschieben eines Tickets',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
-            'Die Auswahl ihrer favorisierten Queues. Sie werden auch per E-Mail über diese Queues benachrichtigt, wenn die Einstellung aktiv ist.',
-        'Custom Queue' => 'Bevorzugte Queue',
-        'QueueView refresh time' => 'Queue-Ansicht Aktualisierungszeit',
+            'Die Auswahl ihrer favorisierten Warteschlangen. Sie werden auch per E-Mail über diese Warteschlangen benachrichtigt, wenn die Einstellung aktiv ist.',
+        'Custom Queue' => 'Bevorzugte Warteschlange',
+        'QueueView refresh time' => 'Warteschlangenansicht Aktualisierungszeit',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            'Automatische Aktualisierung der Queue-Ansicht nach der angegebenen Zeit',
-        'Refresh QueueView after' => 'Aktualisierung der Queue-Ansicht nach',
+            'Automatische Aktualisierung der Warteschlangenansicht nach der angegebenen Zeit',
+        'Refresh QueueView after' => 'Aktualisierung der Warteschlangenansicht nach',
         'Screen after new ticket' => 'Ansicht nach Ticket-Erstellung',
         'Show this screen after I created a new ticket' => 'Diese Ansicht nach dem Erstellen eines Tickets anzeigen',
         'Closed Tickets' => 'Geschlossene Tickets',
         'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
-        'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
+        'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Warteschlangenansicht.',
         'Ticket Overview "Small" Limit' => 'Begrenzung für Ticketübersicht "Klein"',
         'Ticket limit per page for Ticket Overview "Small"' => 'Maximale Anzahl Tickets pro Seite für Ticketübersicht "Klein"',
         'Ticket Overview "Medium" Limit' => 'Begrenzung für Ticketübersicht "Mittel"',
@@ -1131,10 +1131,10 @@ sub Data {
         'Customer Default Groups:' => 'Standardgruppen:',
         'No changes can be made to these groups.' => 'An diesen Gruppen können keine Änderungen vorgenommen werden.',
         'ro' => 'ro',
-        'Read only access to the ticket in this group/queue.' => 'Nur-Lesen-Zugriff auf Tickets in diesen Gruppen/Queues.',
+        'Read only access to the ticket in this group/queue.' => 'Nur-Lesen-Zugriff auf Tickets in diesen Gruppen/Warteschlangen.',
         'rw' => 'rw',
         'Full read and write access to the tickets in this group/queue.' =>
-            'Voller Schreib- und Lesezugriff auf Tickets in der Queue/Gruppe.',
+            'Voller Schreib- und Lesezugriff auf Tickets in der Warteschlange/Gruppe.',
 
         # Template: AdminCustomerUserService
         'Manage Customer-Services Relations' => 'Kunden-Service-Zuordnungen verwalten',
@@ -1333,7 +1333,7 @@ sub Data {
         'Set new service' => 'Neuen Service setzen',
         'Set new Service Level Agreement' => 'Neues Service-Level-Abkommen setzen',
         'Set new priority' => 'Neue Priorität setzen',
-        'Set new queue' => 'Neue Queue setzen',
+        'Set new queue' => 'Neue Warteschlange festlegen',
         'Set new state' => 'Neuen Status setzen',
         'Pending date' => 'Warten bis',
         'Set new agent' => 'Neuen Agenten setzen',
@@ -1638,7 +1638,7 @@ sub Data {
         'Mail Account Management' => 'E-Mail-Kontenverwaltung',
         'Add mail account' => 'E-Mailkonto hinzufügen',
         'All incoming emails with one account will be dispatched in the selected queue!' =>
-            'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Queue einsortiert!',
+            'Einkommende E-Mails von POP3-Konten werden in die ausgewählte Warteschlange einsortiert!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
             'Wird dem Konto vertraut, werden die X-OTRS Header benutzt! PostMaster Filter werden trotzdem benutzt.',
         'Delete account' => 'E-Mailkonto löschen',
@@ -1655,7 +1655,7 @@ sub Data {
         # Template: AdminNavigationBar
         'Admin' => 'Admin',
         'Agent Management' => 'Agenten-Verwaltung',
-        'Queue Settings' => 'Queue-Einstellungen',
+        'Queue Settings' => 'Warteschlangeneinstellungen',
         'Ticket Settings' => 'Ticket-Einstellungen',
         'System Administration' => 'Systemverwaltung',
         'Online Admin Manual' => 'Online-Administrationshandbuch',
@@ -1909,7 +1909,7 @@ sub Data {
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
             'Bitte beachten Sie, dass Kunden-Benutzer die folgenden Felder nicht sehen oder benutzen können: Besitzer (Owner), Verantwortlicher (Responsible), Sperre (Lock), Warten bis (PendingTime) und Kundennummer (CustomerID).',
         'The Queue field can only be used by customers when creating a new ticket.' =>
-            'Das Feld Queue kann nur von Kunden ausgewählt werden, wenn diese ein neues Ticket erstellen.',
+            'Das Feld Warteschlange kann nur von Kunden ausgewählt werden, wenn diese ein neues Ticket erstellen.',
         'Activity Dialog' => 'Aktivitäts-Dialog',
         'Activity dialog Name' => 'Name des Aktivitäts-Dialogs',
         'Available in' => 'Verfügbar in',
@@ -2050,12 +2050,12 @@ sub Data {
         'Add a new Parameter' => 'Neuen Parameter hinzufügen',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Queue-Verwaltung',
-        'Add queue' => 'Queue hinzufügen',
-        'Add Queue' => 'Queue hinzufügen',
-        'Edit Queue' => 'Queue bearbeiten',
-        'A queue with this name already exists!' => '',
-        'Sub-queue of' => 'Unterqueue von',
+        'Manage Queues' => 'Warteschlangenverwaltung',
+        'Add queue' => 'Warteschlange hinzufügen',
+        'Add Queue' => 'Warteschlange hinzufügen',
+        'Edit Queue' => 'Warteschlange bearbeiten',
+        'A queue with this name already exists!' => 'Eine Warteschlange mit diesem Namen ist bereits vorhanden!',
+        'Sub-queue of' => 'Unterwarteschlange von',
         'Unlock timeout' => 'Freigabe-Zeitintervall',
         '0 = no unlock' => '0 = keine Freigabe',
         'Only business hours are counted.' => 'Nur Geschäftszeiten werden berücksichtigt.',
@@ -2076,24 +2076,24 @@ sub Data {
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
             'Wenn ein Ticket geschlossen wird und der Kunde eine Rückmeldung schickt, wird es für den letzten Besitzer gesperrt.',
         'System address' => 'Systemadresse',
-        'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Queue.',
+        'Will be the sender address of this queue for email answers.' => 'Absenderadresse für E-Mails aus dieser Warteschlange.',
         'Default sign key' => 'Standardschlüssel zum Signieren',
         'The salutation for email answers.' => 'Die Anrede für E-Mail-Antworten.',
         'The signature for email answers.' => 'Die Signatur für E-Mail-Antworten.',
 
         # Template: AdminQueueAutoResponse
-        'Manage Queue-Auto Response Relations' => 'Zuordnung von Queues und automatischen Antworten verwalten',
-        'Filter for Queues' => 'Filter für Queues',
+        'Manage Queue-Auto Response Relations' => 'Zuordnung von Warteschlangen und automatischen Antworten verwalten',
+        'Filter for Queues' => 'Filter für Warteschlangen',
         'Filter for Auto Responses' => 'Filter für automatische Antworten',
         'Auto Responses' => 'Automatische Antworten',
-        'Change Auto Response Relations for Queue' => 'Auto-Antwort-Zuordnungen verändern für Queue',
+        'Change Auto Response Relations for Queue' => 'Auto-Antwort-Zuordnungen verändern für Warteschlange',
 
         # Template: AdminQueueTemplates
-        'Manage Template-Queue Relations' => 'Vorlagen-Queue-Zuordnungen verwalten',
+        'Manage Template-Queue Relations' => 'Vorlagen-Warteschlangenzuordnungen verwalten',
         'Filter for Templates' => 'Filter für Vorlagen',
         'Templates' => 'Vorlagen',
-        'Change Queue Relations for Template' => 'Queue-Zuordnungen für Vorlage verändern',
-        'Change Template Relations for Queue' => 'Vorlagen-Zuordnungen für Queue verändern',
+        'Change Queue Relations for Template' => 'Warteschlangenzuordnungen für Vorlage verändern',
+        'Change Template Relations for Queue' => 'Vorlagen-Zuordnungen für Warteschlange verändern',
 
         # Template: AdminRegistration
         'System Registration Management' => 'Systemregistrierungs-Verwaltung',
@@ -2107,10 +2107,10 @@ sub Data {
         'Unique ID' => 'Unique ID',
         'Last communication with registration server' => 'Letzte Kommunikation mit dem Registrierungsserver',
         'Send support data' => 'Supportdaten senden',
-        'System registration not possible' => '',
+        'System registration not possible' => 'Systemregistrierung nicht möglich',
         'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
-            '',
-        'Instructions' => '',
+            'Bitte beachten Sie, dass Sie Ihr System nicht registrieren können, wenn der Scheduler nicht läuft!',
+        'Instructions' => 'Anweisungen',
         'System deregistration not possible' => 'Deregistrierung des Systems nicht möglich',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             'Sie können dieses System nicht deregistrieren wenn Sie %s einsetzen oder einen gültigen Servicevertrag besitzen.',
@@ -2245,12 +2245,12 @@ sub Data {
         'Change Group Relations for Role' => 'Gruppen-Zuordnungen ändern für Rolle',
         'Toggle %s permission for all' => 'Berechtigung %s für alle umschalten',
         'move_into' => 'Verschieben in',
-        'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Queue zu verschieben.',
+        'Permissions to move tickets into this group/queue.' => 'Rechte, um Tickets in eine Gruppe/Warteschlange zu verschieben.',
         'create' => 'Erstellen',
-        'Permissions to create tickets in this group/queue.' => 'Rechte, um in einer Gruppe/Queue Tickets zu erstellen.',
+        'Permissions to create tickets in this group/queue.' => 'Rechte, um in einer Gruppe/Warteschlange Tickets zu erstellen.',
         'priority' => 'Priorität',
         'Permissions to change the ticket priority in this group/queue.' =>
-            'Rechte, um die Priorität eines Tickets in einer Gruppe/Queue zu ändern.',
+            'Rechte, um die Priorität eines Tickets in einer Gruppe/Warteschlange zu ändern.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Zuordnungen von Agenten und Rollen verwalten',
@@ -2451,7 +2451,7 @@ sub Data {
         'System Email Addresses Management' => 'Verwaltung von System-E-Mail-Adressen',
         'Add system address' => 'Systemadresse hinzufügen',
         'All incoming email with this address in To or Cc will be dispatched to the selected queue.' =>
-            'Alle einkommenden E-Mails mit dieser Adresse in An: oder Cc: werden an die ausgewählte Queue geleitet.',
+            'Alle einkommenden E-Mails mit dieser Adresse in An: oder Cc: werden an die ausgewählte Warteschlange geleitet.',
         'Email address' => 'E-Mail-Adresse',
         'Display name' => 'Anzeigename',
         'Add System Email Address' => 'System-E-Mail-Adresse hinzufügen',
@@ -2490,7 +2490,7 @@ sub Data {
         'Add template' => 'Vorlage hinzufügen',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             'Eine Vorlage ist ein Standardtext, der Ihren Agenten helfen kann, Tickets schneller zu erstellen, beantworten oder weiterzuleiten.',
-        'Don\'t forget to add new templates to queues.' => 'Vergessen Sie nicht, Vorlagen den Queues zuzuordnen.',
+        'Don\'t forget to add new templates to queues.' => 'Vergessen Sie nicht, Vorlagen den Warteschlangen zuzuordnen.',
         'Add Template' => 'Vorlage hinzufügen',
         'Edit Template' => 'Vorlage bearbeiten',
         'A standard template with this name already exists!' => 'Es existiert bereits eine Standardvorlage mit diesem Namen!',
@@ -2536,10 +2536,10 @@ sub Data {
         'Change Group Relations for Agent' => 'Gruppenzuordnungen verwalten für Agenten',
         'Change Agent Relations for Group' => 'Agentenzuordnungen verwalten für Gruppe',
         'note' => 'Hinweis',
-        'Permissions to add notes to tickets in this group/queue.' => 'Berechtigung zum Hinzufügen von Hinweisen zu Tickets dieser Gruppe/Queue.',
+        'Permissions to add notes to tickets in this group/queue.' => 'Berechtigung zum Hinzufügen von Hinweisen zu Tickets dieser Gruppe/Warteschlange.',
         'owner' => 'Besitzer',
         'Permissions to change the owner of tickets in this group/queue.' =>
-            'Berechtigung zum Ändern des Besitzers von Tickets dieser Gruppe/Queue.',
+            'Berechtigung zum Ändern des Besitzers von Tickets dieser Gruppe/Warteschlange.',
 
         # Template: AgentBook
         'Address Book' => 'Adressbuch',
@@ -2610,7 +2610,7 @@ sub Data {
         'My locked tickets' => 'Meine gesperrten Tickets',
         'My watched tickets' => 'Meine beobachteten Tickets',
         'My responsibilities' => 'Meine Verantwortlichkeiten',
-        'Tickets in My Queues' => 'Tickets in meinen Queues',
+        'Tickets in My Queues' => 'Tickets in meinen Warteschlangen',
         'Tickets in My Services' => 'Tickets in Meinen Services',
         'Service Time' => 'Service Zeit',
         'Remove active filters for this widget.' => 'Aktive Filter für dieses Widget entfernen.',
@@ -2776,7 +2776,7 @@ sub Data {
         'Please set a new owner!' => 'Bitte einen neuen Besitzer angeben',
         'Previous Owner' => 'Vorheriger Besitzer',
         'Next state' => 'Nächster Status',
-        'For all pending* states.' => '',
+        'For all pending* states.' => 'Für alle warten* Status.',
         'Add Article' => 'Artikel hinzufügen',
         'Create an Article' => 'Artikel anlegen',
         'Spell check' => 'Rechtschreibprüfung',
@@ -2788,6 +2788,7 @@ sub Data {
         'Inform involved Agents' => 'Involvierte Agenten informieren',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Hier können Sie zusätzliche Agenten auswählen, die eine Benachrichtigung über den neuen Artikel enthalten sollen.',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Ticket umleiten',
@@ -2827,7 +2828,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Neues E-Mail-Ticket anlegen',
         'Example Template' => 'Beispielvorlage',
-        'From queue' => 'Aus Queue',
+        'From queue' => 'Aus Warteschlange',
         'To customer user' => 'An Kundenbenutzer',
         'Please include at least one customer user for the ticket.' => 'Bitte tragen Sie wenigstens einen Kundenbenutzer für das Ticket ein',
         'Select this customer as the main customer.' => 'Diesen Kunden als Hauptkunden auswählen.',
@@ -2853,7 +2854,7 @@ sub Data {
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Ticket verschieben',
-        'New Queue' => 'Neue Queue',
+        'New Queue' => 'Neue Warteschlange',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Alle auswählen',
@@ -2862,8 +2863,8 @@ sub Data {
         'First Response Time' => 'Reaktionszeit',
         'Update Time' => 'Aktualisierungszeit',
         'Solution Time' => 'Lösungszeit',
-        'Move ticket to a different queue' => 'Ticket in eine andere Queue verschieben',
-        'Change queue' => 'Queue wechseln',
+        'Move ticket to a different queue' => 'Ticket in eine andere Warteschlange verschieben',
+        'Change queue' => 'Warteschlange wechseln',
 
         # Template: AgentTicketOverviewNavBar
         'Change search options' => 'Such-Optionen ändern',
@@ -2879,7 +2880,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => 'Chat als neues Telefonticket speichern',
         'Create New Phone Ticket' => 'Neues Telefon-Ticket anlegen',
         'Please include at least one customer for the ticket.' => 'Bitte geben Sie mindestens einen Kunden für das Ticket an.',
-        'To queue' => 'An Queue',
+        'To queue' => 'An Warteschlange',
         'Chat protocol' => 'Chat Protokoll',
         'The chat will be appended as a separate article.' => 'Der Chat wird als separater Artikel angefügt.',
 
@@ -2918,7 +2919,7 @@ sub Data {
         'Customer User Login' => 'Anmeldung Kundenkontakt',
         'Attachment Name' => 'Name der Anlage',
         '(e. g. m*file or myfi*)' => '(z.B. m*file oder myfi*)',
-        'Created in Queue' => 'Erstellt in Queue',
+        'Created in Queue' => 'Erstellt in Warteschlange',
         'Lock state' => 'Status Sperre',
         'Watcher' => 'Beobachter',
         'Article Create Time (before/after)' => 'Artikel-Erstellzeit (vor/nach)',
@@ -2948,7 +2949,7 @@ sub Data {
         'This ticket is archived.' => 'Dieses Ticket ist archiviert.',
         'Locked' => 'Sperre',
         'Linked Objects' => 'Verknüpfte Objekte',
-        'Change Queue' => 'Queue ändern',
+        'Change Queue' => 'Queue Warteschlange',
         'There are no dialogs available at this point in the process.' =>
             'Für diesen Prozess stehen derzeit keine Dialoge zur Verfügung.',
         'This item has no articles yet.' => 'Dieser Eintrag hat noch keine Artikel',
@@ -2975,6 +2976,8 @@ sub Data {
         'Full Article Text' => 'Vollständiger Artikeltext',
         'No more events found. Please try changing the filter settings.' =>
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
+            '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Artikel konnte nicht geöffnet werden. Befindet er sich vielleicht auf einer anderen Artikelseite?',
 
@@ -3260,13 +3263,16 @@ sub Data {
         'Go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # SysConfig
+        ' (work units)' => ' (Arbeitseinheiten)',
         '"%s"-notification sent to "%s".' => '"%s"-Benachrichtigung versandt an "%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s Zeiteinheit(en) gezählt. Insgesamt %s Zeiteinheit(en).',
         '(UserLogin) Firstname Lastname' => '(BenutzerLogin) Vorname Nachname',
         '(UserLogin) Lastname, Firstname' => '(BenutzerLogin) Nachname, Vorname',
+        'A Website' => 'Eine Webseite',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             'Eine Liste der dynamischen Felder, die während einer Zusammenführung in das Haupt-Ticket ebenfalls zusammengeführt werden. Es werden nur leere dynamische Felder im Haupt-Ticket geändert.',
+        'A picture' => 'Ein Bild',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL Modul das erlaubt Eltern-Tickets nur dann zu schließen, wenn alle seine Kinder-Tickets geschlossen wurden. ("Status" zeigt welche Status für das Eltern-Ticket nicht verfügbar sind, bis alle Kinder-Tickets geschlossen sind).',
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
@@ -3315,8 +3321,8 @@ sub Data {
             'Modul im Agenten-Interface um angelegte Suchprofile über die Navigationsleiste zu wählen.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf vorhandene und gültige S/MIME-Schlüssel zu überprüfen. ',
-        'Agent interface notification module to check the used charset.' =>
-            'Benachrichtigungsmodul im Agenten-Interface um den verwendeten Zeichensatz zu überprüfen.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Benachrichtigungsmodul im Agenten-Interface um die Zahl der Tickets anzuzeigen, für die ein Agent verantwortlich ist.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
@@ -3354,7 +3360,7 @@ sub Data {
         'Allows customers to set the ticket priority in the customer interface.' =>
             'Erlaubt Kunden das Setzen der Ticketpriorität im Kunden-Interface zu ändern.',
         'Allows customers to set the ticket queue in the customer interface. If this is set to \'No\', QueueDefault should be configured.' =>
-            'Ermöglicht es Kunden, die Ticket-Queue im Kunden-Interface zu setzen . Wenn dieser Wert auf \'Nein\' steht, sollte der Wert \'QueueDefault\' konfiguriert werden.',
+            'Ermöglicht es Kunden, die Ticket-Warteschlange in der Kunden-Oberfläche zu setzen . Wenn dieser Wert auf \'Nein\' steht, sollte der Wert \'QueueDefault\' konfiguriert werden.',
         'Allows customers to set the ticket service in the customer interface.' =>
             'Ermöglicht es Kunden den Ticket-Service im Kunden-Interface einzustellen.',
         'Allows customers to set the ticket type in the customer interface. If this is set to \'No\', TicketTypeDefault should be configured.' =>
@@ -3383,7 +3389,7 @@ sub Data {
         'Archive state changed: "%s"' => 'Archivstatus geändert: "%s"',
         'ArticleTree' => 'Artikelbaum',
         'Attachments <-> Templates' => 'Anhänge <-> Vorlagen',
-        'Auto Responses <-> Queues' => 'Auto-Antworten <-> Queues',
+        'Auto Responses <-> Queues' => 'Auto-Antworten <-> Warteschlangen',
         'AutoFollowUp sent to "%s".' => 'AutoFollowUp an "%s" versandt.',
         'AutoReject sent to "%s".' => 'AutoReject an "%s" versandt.',
         'AutoReply sent to "%s".' => 'AutoReply an "%s" versandt.',
@@ -3419,14 +3425,14 @@ sub Data {
             'Cache-Zeit in Sekunden für das Ticket-Prozess-Navigationsleisten-Ausgabemodul.',
         'Cache time in seconds for the web service config backend.' => 'Cache-Zeit in Sekunden für das Webservice-Konfigurations-Backend.',
         'Change password' => 'Passwort ändern',
-        'Change queue!' => 'Queue ändern',
+        'Change queue!' => 'Warteschlange ändern',
         'Change the customer for this ticket' => 'Ticket-Kunden ändern',
         'Change the free fields for this ticket' => 'Freie Felder des Tickets ändern',
         'Change the priority for this ticket' => 'Priorität des Tickets ändern',
         'Change the responsible person for this ticket' => 'Verantwortlichen des Tickets ändern',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Priorität aktualisiert von "%s" (%s) nach "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
-            'Ändert den Besitzer der Tickets auf Alle (nützlich für ASP). In der Regel werden nur Agenten mit rw-Berechtigungen auf die Queue angezeigt.',
+            'Ändert den Besitzer der Tickets auf Alle (nützlich für ASP). In der Regel werden nur Agenten mit rw-Berechtigungen auf die Warteschlange angezeigt.',
         'Checkbox' => 'Kontrollkästchen',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             'Überprüft die System-ID in der Ticketnummer-Erkennung bei FolloUps (Wählen Sie "Nein" wenn die System-ID während der Nutzung geändert wurde).',
@@ -3438,7 +3444,7 @@ sub Data {
         'Columns that can be filtered in the locked view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             'Spalten, die in der Gesperrt-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt.',
         'Columns that can be filtered in the queue view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
-            'Spalten, die in der Queue-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt.',
+            'Spalten, die in der Warteschlangenansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt.',
         'Columns that can be filtered in the responsible view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             'Spalten, die in der Verantwortlichen-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt.',
         'Columns that can be filtered in the service view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
@@ -3450,6 +3456,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             'Spalten, die in der Beobachten-Ansicht im Agenten-Interface gefiltert werden können. Mögliche Einstellungen: 0 = Deaktiviert, 1 = vorhanden, 2 = standardmäßig aktiviert. Hinweis: Nur Ticket-Attribute und Dynamic Fields (DynamicField_NameX) sind erlaubt.',
         'Comment for new history entries in the customer interface.' => 'Kommentar für neue Historieneinträge im Kunden-Interface.',
+        'Comment2' => 'Kommentar2',
         'Company Status' => 'Firmenstatus',
         'Company Tickets' => 'Firmen-Tickets',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3481,7 +3488,7 @@ sub Data {
         'Create and manage dynamic fields.' => 'Dynamische Felder erzeugen und verwalten.',
         'Create and manage event based notifications.' => 'Ereignisbasierte Benachrichtigungen erzeugen und verwalten.',
         'Create and manage groups.' => 'Gruppen erzeugen und verwalten.',
-        'Create and manage queues.' => 'Queues erzeugen und verwalten.',
+        'Create and manage queues.' => 'Warteschlangen erzeugen und verwalten.',
         'Create and manage responses that are automatically sent.' => 'Vorlagen für automatische Antworten erzeugen und verwalten.',
         'Create and manage roles.' => 'Rollen erzeugen und verwalten.',
         'Create and manage salutations.' => 'Anreden erzeugen und verwalten.',
@@ -3495,6 +3502,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Neues E-Mail-Ticket erzeugen und versenden (ausgehend)',
         'Create new phone ticket (inbound)' => 'Neues Telefonticket erstellen (eingehend)',
         'Create new process ticket' => 'Neues Prozessticket',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Benutzerdefinierter Text für Kunden, die noch keine Tickets haben (wenn Sie für diesen Text eine Übersetzung wünschen, fügen Sie die Übersetzung in einem eigenen Übersetzungsmodul hinzu).',
         'Customer Administration' => 'Kundenverwaltung',
@@ -3508,6 +3516,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Kunden-Tickets (Symbol), die die offenen Tickets eines Kunden als Infoblock anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um Tickets auf Basis des Login-Namens zu suchen anstatt auf Basis der CustomerID.',
         'Customer request via web.' => 'Kunde stellte Anfrage über Web.',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => 'Kundenname',
         'Customers <-> Groups' => 'Kunden <-> Gruppen',
         'Data used to export the search result in CSV format.' => 'Daten die verwendet werden um das Suchergebnis im CSV-Format zu exportieren.',
@@ -3522,7 +3532,7 @@ sub Data {
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
             'Standarddaten, die als Attribute für die für die Ticket-Suchmaske verwendet werden. Beispiel: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default loop protection module.' => 'Standard "Loop Protection"-Modul',
-        'Default queue ID used by the system in the agent interface.' => 'Standard-Queue-ID welche von OTRS in der Agentenoberfläche verwendet wird.',
+        'Default queue ID used by the system in the agent interface.' => 'Standardwarteschlangenkennung welche von OTRS in der Agentenoberfläche verwendet wird.',
         'Default skin for OTRS 3.0 interface.' => 'Standard-Skin für die OTRS 3.0 Oberfläche',
         'Default skin for the agent interface (slim version).' => 'Standard-Skin für die Agentenoberfläche (Slim)',
         'Default skin for the agent interface.' => 'Standard-Skin für die Agentenoberfläche',
@@ -3539,7 +3549,10 @@ sub Data {
             'Definiert dynamische Feldnamen für die Endzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
-        'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues',
+        'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Warteschlangen',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definiert den Wochentag, mit dem die Woche im angegebenen Kalender beginnt.',
         'Define the start day of the week for the date picker.' => 'Definiert den Beginn einer Woche für den Datumswähler.',
@@ -3590,7 +3603,7 @@ sub Data {
         'Defines how the From field from the emails (sent from answers and email tickets) should look like.' =>
             'Definiert, wie das "Von:"-Feld in den E-Mails (gesendet von Antworten und E-Mail-Tickets) aussehen soll.',
         'Defines if a pre-sorting by priority should be done in the queue view.' =>
-            'Definiert ob in der Queue-View eine Vorsortierung anhand der Priorität vorgenommen werden soll.',
+            'Definiert ob in der Warteschlangenansicht eine Vorsortierung anhand der Priorität vorgenommen werden soll.',
         'Defines if a pre-sorting by priority should be done in the service view.' =>
             'Bestimmt, ob in der Service-Ansicht eine Vorsortierung anhand der Priorität vorgenommen werden soll.',
         'Defines if a ticket lock is required in the close ticket screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).' =>
@@ -3634,7 +3647,7 @@ sub Data {
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Bestimmt, ob das Zeiterfassungs-Feld für alle Tickets im Stapelverarbeitungs-Bildschirm gesetzt werden soll.',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
-            'Bestimmt die Queues, deren Tickets für die Anzeige als Kalender-Ereignisse berücksichtigt werden sollen.',
+            'Bestimmt die Warteschlangen, deren Tickets für die Anzeige als Kalender-Ereignisse berücksichtigt werden sollen.',
         'Defines scheduler PID update time in seconds.' => 'Definiert die Scheduler-PID Updatezeit in Sekunden.',
         'Defines scheduler sleep time in seconds after processing all available tasks (floating point number).' =>
             'Definiert die Wartezeit des Schedulers in Sekunden nachdem alle verfügbaren Aufgaben ausgeführt wurden (Fließkommazahl).',
@@ -3721,7 +3734,7 @@ sub Data {
             'Definiert die Standard-Prioriät von neuen Kundentickets in der Kundenoberfläche.',
         'Defines the default priority of new tickets.' => 'Definiert die Standard-Priorität von neuen Tickets.',
         'Defines the default queue for new customer tickets in the customer interface.' =>
-            'Definiert den Standard-Queue von neuen Kundentickets in der Kundenoberfläche.',
+            'Definiert die Standardwarteschlange von neuen Kundentickets in der Kundenoberfläche.',
         'Defines the default selection at the drop down menu for dynamic objects (Form: Common Specification).' =>
             'Definiert die Standardauswahl in der Einfachauswahl für dynamische Objekte (Formular: genauere Spezifikation).',
         'Defines the default selection at the drop down menu for permissions (Form: Common Specification).' =>
@@ -3739,11 +3752,11 @@ sub Data {
         'Defines the default shown ticket search attribute for ticket search screen. Example: "Key" must have the name of the Dynamic Field in this case \'X\', "Content" must have the value of the Dynamic Field depending on the Dynamic Field type,  Text: \'a text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.' =>
             'Definiert die Standard Suchattribute für die Ticketsuche Beispiel: "Key" muss den Namen des dynamischen Feldes haben, in diesem Fall \'X\', "Content" muss den Wert des dynamischen Feldes, abhängig vom Feldtyp, haben, Text: \'ein Text\', Dropdown: \'1\', Date/Time: \'Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartMonth=01; Search_DynamicField_XTimeSlotStartDay=26; Search_DynamicField_XTimeSlotStartHour=00; Search_DynamicField_XTimeSlotStartMinute=00; Search_DynamicField_XTimeSlotStartSecond=00; Search_DynamicField_XTimeSlotStopYear=2013; Search_DynamicField_XTimeSlotStopMonth=01; Search_DynamicField_XTimeSlotStopDay=26; Search_DynamicField_XTimeSlotStopHour=23; Search_DynamicField_XTimeSlotStopMinute=59; Search_DynamicField_XTimeSlotStopSecond=59;\' and or \'Search_DynamicField_XTimePointFormat=week; Search_DynamicField_XTimePointStart=Before; Search_DynamicField_XTimePointValue=7\';.',
         'Defines the default sort criteria for all queues displayed in the queue view.' =>
-            'Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Queue-Ansicht angezeigten Queues.',
+            'Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Warteschlangenansicht angezeigten Warteschlangen.',
         'Defines the default sort criteria for all services displayed in the service view.' =>
             'Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Service-Ansicht angezeigten Dienste.',
         'Defines the default sort order for all queues in the queue view, after priority sort.' =>
-            'Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Queue-Ansicht angezeigten Queues, nachdem nach Priorität sortiert wurde.',
+            'Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Warteschlangenansicht angezeigten Warteschlange, nachdem nach Priorität sortiert wurde.',
         'Defines the default sort order for all services in the service view, after priority sort.' =>
             'Definiert die standardmäßig eingestellten Sortierkriterien für alle in der Service-Ansicht angezeigten Dienste, nachdem nach Priorität sortiert wurde.',
         'Defines the default spell checker dictionary.' => 'Definiert das Standard Rechtschreib-Wörterbuch',
@@ -4059,10 +4072,10 @@ sub Data {
             '',
         'Defines the placement of the legend. This should be a two letter key of the form: \'B[LCR]|R[TCB]\'. The first letter indicates the placement (Bottom or Right), and the second letter the alignment (Left, Right, Center, Top, or Bottom).' =>
             '',
-        'Defines the postmaster default queue.' => 'Definiert die Postmaster-Standard-Queue',
+        'Defines the postmaster default queue.' => 'Definiert die Postmaster-Standardwarteschlange.',
         'Defines the priority in which the information is logged and presented.' =>
             'Definiert die Priorität in welcher die Information aufgezeichnet und präsentiert wird.',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
@@ -4295,12 +4308,13 @@ sub Data {
         'Escalation update time forewarned' => 'Eskalation "Aktualisierungszeit" vorgewarnt',
         'Escalation update time in effect' => 'Eskalation "Aktualisierungszeit" aktiv',
         'Escalation view' => 'Ansicht nach Eskalationen',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             'Eventmodul-Registierung. Für höhere Performancen können Sie ein Trigger-Event definieren (z.B. Event => TicketCreate).',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
             'Eventmodul-Registierung. Für höhere Performancen können Sie ein Trigger-Event definieren (z.B. Event => TicketCreate). Dies ist nur möglich, wenn alle dynamischen Ticketfelder das gleiche Event benötigen.',
         'Event module that performs an update statement on TicketIndex to rename the queue name there if needed and if StaticDB is actually used.' =>
-            'Eventmodul, das ein Update-Statement auf TicketIndex ausführt, um die Queue umzubenennen (wenn nötig und wenn StaticDB genutzt wird).',
+            'Ereignismodul, das ein Update-Statement auf TicketIndex ausführt, um die Warteschlange umzubenennen (wenn nötig und wenn StaticDB genutzt wird).',
         'Event module that updates customer user service membership if login changes.' =>
             '',
         'Event module that updates customer users after an update of the Customer.' =>
@@ -4330,6 +4344,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Eingehende E-Mails filtern.',
+        'First Queue' => '',
         'FirstLock' => 'Erstsperrzeit',
         'FirstResponse' => 'Erstantwortzeit',
         'FirstResponseDiffInMin' => 'Erstantwortzeitdifferenz in Minuten',
@@ -4357,6 +4372,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Oberflächen-Schema',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'GenericAgent',
@@ -4485,7 +4501,7 @@ sub Data {
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            'Wenn diese Option aktiviert ist, werden die verschiedenen Übersichts-Seiten (Dashboard, LockedView, QueueView) automatisch nach der angegebenen Zeit aktualisiert.',
+            'Wenn diese Option aktiviert ist, werden die verschiedenen Übersichtsseiten (Dashboard, LockedView, Warteschlangenansicht) automatisch nach der angegebenen Zeit aktualisiert.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
@@ -4521,14 +4537,15 @@ sub Data {
             'Es ist möglich, verschiedene Themes zu konfigurieren, zum Beispiel um zwischen verschiedenen Agenten und Kunden auf Basis der jeweiligen Domain zu unterscheiden. Sie können durch Nutzung von regulären Ausdrücken mithilfe von Schlüssel-/Wert-Paaren auf Domains prüfen. Der Inhalt von "Schlüssel" sollte die Prüfung auf die Domain beinhalten, der Inhalt von "Wert" den Namen des zu selektierenden Themes für diese Domain. Bitte beachten Sie die Einträge mit Beispielen für korrekte reguläre Ausdrücke.',
         'Lastname, Firstname' => 'Nachname, Vorname',
         'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
+        'Left' => '',
         'Link agents to groups.' => 'Agenten zu Gruppen zuordnen.',
         'Link agents to roles.' => 'Agenten zu Rollen zuordnen.',
         'Link attachments to templates.' => 'Anhänge zu Vorlagen zuordnen.',
         'Link customer user to groups.' => 'Kundenbenutzer zu Gruppen zuordnen.',
         'Link customer user to services.' => 'Kundenbenutzer zu Services zuordnen.',
-        'Link queues to auto responses.' => 'Automatische Antworten zu Queues zuordnen.',
+        'Link queues to auto responses.' => 'Automatische Antworten zu Warteschlangen zuordnen.',
         'Link roles to groups.' => 'Rollen zu Gruppen zuordnen.',
-        'Link templates to queues.' => 'Vorlagen zu Queues zuordnen.',
+        'Link templates to queues.' => 'Vorlagen zu Warteschlangen zuordnen.',
         'Links 2 tickets with a "Normal" type link.' => 'Verknüpft 2 Tickets mit dem Linktyp "Normal".',
         'Links 2 tickets with a "ParentChild" type link.' => 'Verknüpft 2 Tickets mit dem Linktyp "Eltern-Kind".',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4552,7 +4569,8 @@ sub Data {
         'List of all queue events to be displayed in the GUI.' => '',
         'List of all ticket events to be displayed in the GUI.' => 'Liste aller Ticket-Ereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
-            'Liste der Standard-Vorlagen, welche neuen Queues nach Erstellung automatisch zugeordnet werden..',
+            'Liste der Standardvorlagen, welche neuen Warteschlangen nach Erstellung automatisch zugeordnet werden.',
+        'List view' => '',
         'Locked ticket.' => 'Ticket gesperrt.',
         'Log file for the ticket counter.' => 'Log-Datei für den Ticket-Counter.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
@@ -4625,8 +4643,8 @@ sub Data {
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => 'Mehrfachauswahl',
-        'My Queues and My Services' => 'Meine Queues und Meine Services',
-        'My Queues or My Services' => 'Meine Queues oder Meine Services',
+        'My Queues and My Services' => 'Meine Warteschlangen und Meine Dienste',
+        'My Queues or My Services' => 'Meine Warteschlangen oder Meine Dienste',
         'My Services' => 'Meine Services',
         'My Tickets' => 'Meine Tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -4635,6 +4653,7 @@ sub Data {
             '',
         'NameX' => 'NameX',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => 'Neues E-Mail-Ticket',
         'New owner is "%s" (ID=%s).' => 'Neuer Besitzer ist "%s" (ID=%s).',
         'New phone ticket' => 'Neues Telefon-Ticket',
@@ -4645,6 +4664,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No Notification' => 'Keine Benachrichtigung',
+        'None' => '',
         'Notification sent to "%s".' => 'Benachrichtigung versandt an "%s".',
         'Notifications (Event)' => 'Benachrichtigungen (Ereignis)',
         'Number of displayed tickets' => 'Anzahl der angezeigten Tickets',
@@ -4655,6 +4675,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Anzahl der anzuzeigenen Tickets pro Seite in einem Suchergebnis in der Kundenoberfläche.',
         'Old: "%s" New: "%s"' => 'Alt: "%s" Neu: "%s"',
+        'Online' => '',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
         'Out Of Office' => 'Derzeit nicht im Büro',
@@ -4749,7 +4770,7 @@ sub Data {
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
             '',
-        'Queue view' => 'Ansicht nach Queues',
+        'Queue view' => 'Ansicht nach Warteschlangen',
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh Overviews after' => 'Übersichten aktualisieren nach',
@@ -4790,11 +4811,12 @@ sub Data {
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
             'Benötigte Rechte um den "Verantwortlicher"-Dialog eines Tickets im Agenten-Interface aufzurufen.',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
-            'Setzt den Owner eines TIckets zurück und entsperrt es, wenn das Ticket in eine andere Queue verschoben wird.',
+            'Setzt den Besitzer eines TIckets zurück und entsperrt es, wenn das Ticket in eine andere Warteschlange verschoben wird.',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Running Process Tickets' => 'Aktive Prozesstickets',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4804,6 +4826,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'S/MIME Certificate Upload' => 'S/MIME Zertifikat hochladen',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Schedule a maintenance period.' => 'Systemwartung planen',
@@ -4811,6 +4834,7 @@ sub Data {
         'Search User' => 'Benutzer suchen',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Queue' => 'Zweite Warteschlange',
         'Select your frontend Theme.' => 'Anzeigeschema auswählen.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -4818,11 +4842,11 @@ sub Data {
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
-            'Benachrichtigung, wenn ein Kunde eine Rückmeldung sendet und ich der Besitzer des Tickets bin, oder das Ticket nicht gesperrt ist und in einer meiner Queues/Services liegt. ',
+            'Benachrichtigung, wenn ein Kunde eine Rückmeldung sendet und ich der Besitzer des Tickets bin, oder das Ticket nicht gesperrt ist und in einer meiner Warteschlangen/Dienste liegt. ',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
             'Benachrichtigung bei Zuweisung eines Services aus "Meine Services" an ein Ticket, auf das ich Leserechte habe.',
         'Send me a notification if there is a new ticket in my queues/services.' =>
-            'Benachrichtigung bei einem neuen Ticket in "Meine Queues/Services".',
+            'Benachrichtigung bei einem neuen Ticket in "Meine Warteschlangen/Dienste".',
         'Send new ticket notifications if subscribed to' => 'Benachrichtigung über neue Tickets falls passend zu',
         'Send notifications to users.' => 'Benachrichtigungen an Agenten verschicken.',
         'Send service update notifications' => 'Benachrichtigung bei Service-Zuweisung',
@@ -5216,6 +5240,8 @@ sub Data {
         'Skin' => 'Skin',
         'SolutionDiffInMin' => 'Lösungszeitdifferenz in Minuten',
         'SolutionInMin' => 'Lösungszeit in Minuten',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5293,7 +5319,7 @@ sub Data {
             '',
         'System Maintenance' => 'Systemwartung',
         'System Request (%s).' => 'Systemanfrage (%s).',
-        'Templates <-> Queues' => 'Vorlagen <-> Queues',
+        'Templates <-> Queues' => 'Vorlagen <-> Warteschlangen',
         'Textarea' => 'Textfeld',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',
@@ -5342,16 +5368,16 @@ sub Data {
             '',
         'This option defines the process tickets default lock.' => 'Diese Option setzt die Prozess-Ticket Standardsperre.',
         'This option defines the process tickets default priority.' => 'Diese Option setzt die Prozess-Ticket Standardpriorität',
-        'This option defines the process tickets default queue.' => 'Diese Option setzt die Prozess-Ticket Standardqueue',
+        'This option defines the process tickets default queue.' => 'Diese Option setzt die Prozess-Ticket Standardwarteschlange',
         'This option defines the process tickets default state.' => 'Diese Option setzt den Prozess-Ticket Standardstatus',
         'This option will deny the access to customer company tickets, which are not created by the customer user.' =>
             'Diese Option verweigert den Zugriff auf Tickets von anderen Kundenbenutzern mit der selben Kundenfirma.',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'Ticket Queue Overview' => 'Ticket-Übersicht nach Queues',
+        'Ticket Queue Overview' => 'Ticket-Übersicht nach Warteschlangen',
         'Ticket event module that triggers the escalation stop events.' =>
             'Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.',
-        'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket verschoben in Queue "%s" (%s) von Queue "%s" (%s).',
+        'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Ticket verschoben in Warteschlange "%s" (%s) von Warteschlange "%s" (%s).',
         'Ticket overview' => 'Ticket-Übersicht',
         'TicketNumber' => 'Ticketnummer',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
@@ -5360,6 +5386,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut.' => 'Werkzeugleisteneintrag für den Schnellzugriff.',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5399,8 +5426,9 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Write a new, outgoing mail' => 'Schreiben Sie eine neue, ausgehende E-Mail',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
+            'Auswahl der bevorzugten Warteschlangen. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Warteschlangen versendet.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
             'Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. ',
 

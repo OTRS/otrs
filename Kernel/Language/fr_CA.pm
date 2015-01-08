@@ -2795,6 +2795,7 @@ sub Data {
         'Inform involved Agents' => 'Informer les agents impliqués',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Retourner la demande',
@@ -2981,6 +2982,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3267,13 +3270,16 @@ sub Data {
         'Go back to the previous page' => 'Revenir à la page précédente',
 
         # SysConfig
+        ' (work units)' => '',
         '"%s"-notification sent to "%s".' => '%s-notification envoyée à "%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => 'Temps passé sur l\'action: %s . Total du temps passé pour cette demande: %s unité(s).',
         '(UserLogin) Firstname Lastname' => '',
         '(UserLogin) Lastname, Firstname' => '',
+        'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Le module ACL permet la fermeture des demandes parents uniquement si les demandes enfants sont déjà fermées (l\' « État » affiche quels sont les états qui ne peuvent être accessibles pour les demandes parents jusqu\'à ce que l\'ensemble des demandes enfants soient fermées).',
         'Access Control Lists (ACL)' => '',
@@ -3322,8 +3328,8 @@ sub Data {
             'Module de l\'interface agent pour accéder à la recherche des profils dans la barre de navigation.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Module de l\'interface agent pour voir dans les courriels entrants si la clé S/MIME est accessible et vraie au moyen de la vue de la synthèse de la demande .',
-        'Agent interface notification module to check the used charset.' =>
-            'Module de notification dans l\'interface agent pour vérifier le jeu de caractères utilisé.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Module de notification dans l\'interface agent pour voir le nombre de demandes dont un agent est responsable.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
@@ -3457,6 +3463,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Commentaire destiné aux nouvelles entrées de l\'historique de l\'interface client.',
+        'Comment2' => '',
         'Company Status' => '',
         'Company Tickets' => 'Demandes de l\'entreprise',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3502,6 +3509,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Créer une nouvelle demande par courriel et l\'envoyer (sortante)',
         'Create new phone ticket (inbound)' => 'Créer une nouvelle demande par téléphone (entrante)',
         'Create new process ticket' => '',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
@@ -3515,6 +3523,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Article du client (icône) lui montrant les demandes ouvertes regroupées. Le réglage de l\'ouverture de session de l\'utilisateur-client (CustomerUserLogin) à 1 permet la recherche de demandes fondée sur le nom d\'ouverture de session plutôt que sur l\'identification du client.',
         'Customer request via web.' => 'Requête du client par le web.',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => '',
         'Customers <-> Groups' => 'Clients <-> Groupes',
         'Data used to export the search result in CSV format.' => 'Données utilisées pour exporter les résultats de recherche dans le format CSV.',
@@ -3547,6 +3557,9 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
         'Define the max depth of queues.' => '',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Détermine le jour débutant la semaine pour le sélecteur de date.',
@@ -4069,8 +4082,8 @@ sub Data {
         'Defines the postmaster default queue.' => 'Détermine la file par défaut du maître de poste.',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
-            'Détermine le destinataire cible de la demande téléphonique et l\'expéditeur de la demande par courriel dans l\'interface agent (l\'option « Queue » (file) affiche l\'ensemble des files, l\'option « SystemAddress » (adresses de système ) affiche l\'ensemble des adresses de système).',
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
+            '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             'Détermine le destinataire cible des demandes dans l\'interface client (l\'option « File » (Queue) affiche l\'ensemble des files, l\'option « Adresses du système » (SystemAddress) affiche l\'ensemble des adresses du système).',
         'Defines the required permission to show a ticket in the escalation view of the agent interface.' =>
@@ -4302,6 +4315,7 @@ sub Data {
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => '',
         'Escalation view' => 'Vue des escalades',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4337,6 +4351,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Filtrer les courriels entrants.',
+        'First Queue' => '',
         'FirstLock' => '',
         'FirstResponse' => '',
         'FirstResponseDiffInMin' => '',
@@ -4364,6 +4379,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'Enregistrement du module interface pour l\'interface client.',
         'Frontend theme' => 'Thème de l\'interface',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Agent générique',
@@ -4528,6 +4544,7 @@ sub Data {
             'Il est possible de configurer différents thèmes par domaine dans l\'application pour distinguer les agents des clients par exemple. En utilisant une expression rationnelle (regex) vous pouvez configurer un couple clé-contenu qui correspond au domaine. La valeur « Clé » doit correspondre au domaine et la valeur « Contenu » doit être un habillage admissible à votre système. Veuillez consulter les exemples pour vérifier quels sont les formats appropriés d\'expressions rationnelles.',
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
+        'Left' => '',
         'Link agents to groups.' => 'Lier les agents aux groupes.',
         'Link agents to roles.' => 'Lier les agents aux rôles.',
         'Link attachments to templates.' => '',
@@ -4560,6 +4577,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
+        'List view' => '',
         'Locked ticket.' => 'Demande verrouillée.',
         'Log file for the ticket counter.' => 'Fichier journal pour le compteur de demandes.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Protection anti-boucle. Pas d\'auto réponse envoyée à "%s".',
@@ -4642,6 +4660,7 @@ sub Data {
             '',
         'NameX' => 'Nom x',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Une nouvelle demande a été créée: [%s] créée (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => 'Nouvelle demande courriel',
         'New owner is "%s" (ID=%s).' => 'Le nouveau propriétaire est "%s" (ID=%s).',
         'New phone ticket' => 'Nouvelle demande téléphonique',
@@ -4652,6 +4671,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             'Les états de demande possibles après qu\'une note téléphonique est ajoutée dans l\'écran des demandes téléphoniques sortantes de l\'interface agent.',
         'No Notification' => '',
+        'None' => '',
         'Notification sent to "%s".' => 'Notification envoyée à "%s".',
         'Notifications (Event)' => 'Notifications (Évènement)',
         'Number of displayed tickets' => 'Nombre de demandes affichées ',
@@ -4662,6 +4682,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Nombre de demandes affichées dans chaque page de résultats de recherche dans l\'interface client.',
         'Old: "%s" New: "%s"' => 'État Avant: "%s" Après: "%s"',
+        'Online' => '',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Out Of Office' => '',
@@ -4802,6 +4823,7 @@ sub Data {
             'Restaure une demande archivée (seulement si l\'événement est un changement d\'état depuis un état fermé vers n\'importe quel état ouvert disponible).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4811,6 +4833,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             'Exécute le système en mode « Démo ». Si vous sélectionnez « Oui », les agents pourront modifier leurs préférences comme la langue et le thème en passant par l\'interface Web de l\'agent. Ces changements ne seront admissibles que pour la présente session. Il ne sera pas possible pour les agents de modifier leurs mots de passe.',
         'S/MIME Certificate Upload' => 'Téléchargement du certificat S/MIME',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             'Sauvegarde les pièces jointes des articles. Le mode « DB » enregistre toutes les données de la base de données (ce mode n\'est pas recommandé pour l\'enregistrement de pièces jointes lourdes). Le mode « FS » enregistre les données du système de fichier ce qui est plus rapide mais oblige le serveur Web à fonctionner sous l\'utilisateur OTRS. Vous pouvez changer de module allègrement, sans perte de données, même sur un système qui est déjà en fonction.',
         'Schedule a maintenance period.' => '',
@@ -4818,6 +4841,7 @@ sub Data {
         'Search User' => '',
         'Search backend default router.' => 'Recherche du routeur par défaut de l\'arrière-plan.',
         'Search backend router.' => 'Recherche du routeur de l\'arrière-plan.',
+        'Second Queue' => '',
         'Select your frontend Theme.' => 'Choix du thème de l\'interface',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5223,6 +5247,8 @@ sub Data {
         'Skin' => 'Habillage ',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             'Classe les demandes (en ordre croissant ou décroissant) lorsqu\'une seule file est sélectionnée dans la vue des files et après que les demandes sont classées par priorité. Valeurs : 0 = en ordre croissant (Par défaut, la plus ancienne en haut de la file), 1 = en ordre décroissant (la plus récente en haut de la file). Utilise l\'identification de la file (QueueID) en tant que clé et « 0 » ou « 1 » en tant que valeur.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5367,6 +5393,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Permet de basculer dans l\'affichage de la liste des fonctions des compagnons de OTRS dans le gestionnaire de paquets.',
         'Toolbar Item for a shortcut.' => 'Élément de la barre d\'outils offrant un raccourci.',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5406,6 +5433,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Lorsque des demandes sont fusionnées, le client peut en être informé par courriel en cochant la case « Informer l\'expéditeur ». Vous pouvez définir un texte pré-formaté qui pourra ensuite être modifié par les agents.',
         'Write a new, outgoing mail' => '',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Votre sélection de files préférées. Vous recevrez l\'information pertinente au sujet de ces files par courriel (si l\'option est activé).',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>

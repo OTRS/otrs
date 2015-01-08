@@ -2797,6 +2797,7 @@ sub Data {
         'Inform involved Agents' => 'Informer involverte saksbehandlere',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Oversend sak',
@@ -2983,6 +2984,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3269,13 +3272,16 @@ sub Data {
         'Go back to the previous page' => 'Tilbake til forrige side',
 
         # SysConfig
+        ' (work units)' => '',
         '"%s"-notification sent to "%s".' => '«%s»-varsling sendt til «%s».',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s minutt(er) lagt til. Total tid er %s minutt(er).',
         '(UserLogin) Firstname Lastname' => '(Brukernavn) Fornavn Etternavn',
         '(UserLogin) Lastname, Firstname' => '',
+        'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
+        'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL-modul som lar en stenge overordnede saker kun hvis alle undersakene deres har blitt stengte ("Status" viser hvilke statuser som ikke er tilgjengelige inntil alle undersaker er stengte).',
         'Access Control Lists (ACL)' => '',
@@ -3324,8 +3330,8 @@ sub Data {
             'Saksbehandlermodul som gir tilgang til søkeprofiler via navigasjonsområdet.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Saksbehandlermodul som sjekker innkommende e-post i Zoom-visning dersom S/MIME-nøkkelen er tilgjengelig og korrekt.',
-        'Agent interface notification module to check the used charset.' =>
-            'Saksbehandlermodul som sjekker tegnsettet som er brukt.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Saksbehandlermodul som viser antall saker en saksbehandler er ansvarlig for',
         'Agent interface notification module to see the number of tickets in My Services.' =>
@@ -3459,6 +3465,7 @@ sub Data {
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
         'Comment for new history entries in the customer interface.' => 'Kommentar for nye historiske innlegg i kundeportalen.',
+        'Comment2' => '',
         'Company Status' => 'Bedriftstatus',
         'Company Tickets' => 'Bedriftsaker',
         'Company name which will be included in outgoing emails as an X-Header.' =>
@@ -3504,6 +3511,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Opprett en ny e-post-sak og send (utgående)',
         'Create new phone ticket (inbound)' => 'Opprett en ny telefonhenvendelse (innkommende)',
         'Create new process ticket' => '',
+        'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
@@ -3517,6 +3525,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Kundeforespørsel via web.',
+        'Customer user search' => '',
+        'CustomerID search' => '',
         'CustomerName' => 'Kundenavn',
         'Customers <-> Groups' => 'Kunder <-> Grupper',
         'Data used to export the search result in CSV format.' => 'Data brukt for å eksportere søkeresultatet i CSV-format.',
@@ -3549,6 +3559,9 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             '',
         'Define the max depth of queues.' => '',
+        'Define the queue comment 2.' => '',
+        'Define the service comment 2.' => '',
+        'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
         'Define the start day of the week for the date picker.' => 'Setter dag for ukestart i datovelgeren.',
@@ -4071,7 +4084,7 @@ sub Data {
         'Defines the postmaster default queue.' => '',
         'Defines the priority in which the information is logged and presented.' =>
             '',
-        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the agent interface.' =>
+        'Defines the receipent target of the phone ticket and the sender of the email ticket ("Queue" shows all queues, "System address" displays all system addresses) in the agent interface.' =>
             '',
         'Defines the receipent target of the tickets ("Queue" shows all queues, "SystemAddress" displays all system addresses) in the customer interface.' =>
             '',
@@ -4304,6 +4317,7 @@ sub Data {
         'Escalation update time forewarned' => '',
         'Escalation update time in effect' => '',
         'Escalation view' => 'Eskaleringsvisning',
+        'EscalationTime' => '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4339,6 +4353,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Filtrering av innkommende e-poster',
+        'First Queue' => '',
         'FirstLock' => 'FørsteLås',
         'FirstResponse' => 'FørsteTilbakemelding',
         'FirstResponseDiffInMin' => 'FørsteTilbakemeldingDiffIMin',
@@ -4366,6 +4381,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Nettsidetema',
         'Fulltext index regex filters to remove parts of the text.' => '',
+        'Fulltext search' => '',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Administrasjon: Generisk Saksbehandler',
@@ -4530,6 +4546,7 @@ sub Data {
             '',
         'Lastname, Firstname' => 'Etternavn, Fornavn',
         'Lastname, Firstname (UserLogin)' => 'Etternavn, Fornavn (Brukernavn)',
+        'Left' => '',
         'Link agents to groups.' => 'Koble saksbehandlere til grupper',
         'Link agents to roles.' => 'Koble saksbehandlere til roller',
         'Link attachments to templates.' => 'Koble vedlegg til maler',
@@ -4562,6 +4579,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => '',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
+        'List view' => '',
         'Locked ticket.' => 'Sak satt som privat.',
         'Log file for the ticket counter.' => 'Loggfil for sakstelleren',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! No auto-response sent to «%s».',
@@ -4644,6 +4662,7 @@ sub Data {
             '',
         'NameX' => '',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Ny sak [%s] opprettet (Q=%s;P=%s;S=%s).',
+        'New Window' => '',
         'New email ticket' => 'Ny e-postsak',
         'New owner is "%s" (ID=%s).' => 'Ny saksbehandler er «%s» (ID=%s).',
         'New phone ticket' => 'Ny telefonsak',
@@ -4654,6 +4673,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No Notification' => 'Ingen varsling',
+        'None' => '',
         'Notification sent to "%s".' => 'Varsling sendt til «%s».',
         'Notifications (Event)' => 'Varslinger (Hendelse)',
         'Number of displayed tickets' => 'Antall viste saker',
@@ -4664,6 +4684,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Antall saker som vises per side i et søkeresultat i kundeportalen.',
         'Old: "%s" New: "%s"' => 'Gammel: «%s» Ny: «%s»',
+        'Online' => '',
         'Open tickets (customer user)' => 'Åpne saker (kunde-bruker)',
         'Open tickets (customer)' => 'Åpne saker (kunder)',
         'Out Of Office' => '',
@@ -4804,6 +4825,7 @@ sub Data {
             'Gjenoppretter en sak fra arkivet (kun hvis hendelsen er en statusendring, fra avsluttet til en vilkårlig åpen/tilgjengelig status).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
+        'Right' => '',
         'Roles <-> Groups' => 'Roller <-> Grupper',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4813,6 +4835,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'S/MIME Certificate Upload' => 'Opplasting av S/MIME-sertifikat',
+        'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
             '',
         'Schedule a maintenance period.' => '',
@@ -4820,6 +4843,7 @@ sub Data {
         'Search User' => 'Søk etter bruker',
         'Search backend default router.' => '',
         'Search backend router.' => '',
+        'Second Queue' => '',
         'Select your frontend Theme.' => 'Velg tema for webvisningen.',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5225,6 +5249,8 @@ sub Data {
         'Skin' => 'Webtema',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
+        'Some description!' => '',
+        'Some picture description!' => '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5369,6 +5395,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Tree view' => '',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5408,6 +5435,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Write a new, outgoing mail' => '',
+        'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Her velger du dine utvalgte køer. Du vil også få varslinger fra disse køene, hvis du har valgt det.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
