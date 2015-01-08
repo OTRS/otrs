@@ -335,7 +335,7 @@ sub Run {
             HeaderColumn        => $HeaderColumn,
             ElementChanged      => $ElementChanged,
             OriginalTicketIDs   => \@OriginalViewableTickets,
-            Action              => 'AgentTicketStatusView',
+            Action              => 'AgentTicketQueue',
             Env                 => $Self,
             View                => $Self->{View},
             EnableColumnFilters => 1,
