@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-12-19 08:37+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/OTRS/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9368,6 +9368,10 @@ msgid ""
 "regarding the new article."
 msgstr ""
 
+#. Template: AgentTicketActionCommon
+msgid "Note will be (also) received by:"
+msgstr ""
+
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
 msgstr ""
@@ -9936,6 +9940,12 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"To open links in the following article, you might need to press Ctrl or Cmd "
+"or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -10918,8 +10928,9 @@ msgid ""
 msgstr "Vmesnik modula zaposleni za pregled dohodnih sporočil v povečanem pogledu zahtevka, če \"S/MIME\" ključ obstaja in je na voljo."
 
 #. SysConfig
-msgid "Agent interface notification module to check the used charset."
-msgstr "Vmesnik modula zaposleni za pregled uporabljenega nabora znakov."
+msgid ""
+"Agent interface notification module to see the number of locked tickets."
+msgstr ""
 
 #. SysConfig
 msgid ""

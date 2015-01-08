@@ -1,13 +1,13 @@
 # 
 # Translators:
 # andreasberger <andreas.berger@hagfors.se>, 2014
-# andreasberger <andreas.berger@hagfors.se>, 2014
+# andreasberger <andreas.berger@hagfors.se>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-12-19 08:37+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2868,7 +2868,7 @@ msgstr "Studsa artikel till en annan e-postadress"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Svara på notering"
 
 #. Template: AAATicket
 msgid "new"
@@ -3112,7 +3112,7 @@ msgstr "Sök ärenden"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Kundhistorik"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -3524,7 +3524,7 @@ msgstr "Alla öppna ärenden. Dessa ärenden kan redan ha arbetats med, men de k
 
 #. Template: AAATicket
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr ""
+msgstr "Alla nya ärenden, dessa ärenden har inte arbetas med än"
 
 #. Template: AAATicket
 msgid "All escalated tickets"
@@ -9367,6 +9367,10 @@ msgid ""
 "regarding the new article."
 msgstr ""
 
+#. Template: AgentTicketActionCommon
+msgid "Note will be (also) received by:"
+msgstr ""
+
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
 msgstr "Studsa ärende"
@@ -9935,6 +9939,12 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"To open links in the following article, you might need to press Ctrl or Cmd "
+"or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -10917,7 +10927,8 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Agent interface notification module to check the used charset."
+msgid ""
+"Agent interface notification module to see the number of locked tickets."
 msgstr ""
 
 #. SysConfig

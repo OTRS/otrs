@@ -797,7 +797,7 @@ sub Data {
         'Forwarded message from' => 'Vidarebefodrat meddelande från',
         'End forwarded message' => 'Slut på vidarebefordrat meddelande',
         'Bounce Article to a different mail address' => 'Studsa artikel till en annan e-postadress',
-        'Reply to note' => '',
+        'Reply to note' => 'Svara på notering',
         'new' => 'ny',
         'open' => 'öppen',
         'Open' => 'Öppna',
@@ -859,7 +859,7 @@ sub Data {
         'Create new Email Ticket' => 'Skapa nytt e-postärende',
         'Phone-Ticket' => 'Telefonärende',
         'Search Tickets' => 'Sök ärenden',
-        'Customer History' => '',
+        'Customer History' => 'Kundhistorik',
         'Edit Customer Users' => 'Redigera Kundanvändare',
         'Edit Customer' => 'Redigera kund',
         'Bulk Action' => 'Massförändring',
@@ -968,7 +968,7 @@ sub Data {
         'Open Tickets / Need to be answered' => 'Öppna ärenden / Måste besvaras',
         'All open tickets, these tickets have already been worked on, but need a response' =>
             'Alla öppna ärenden. Dessa ärenden kan redan ha arbetats med, men de kräver respons.',
-        'All new tickets, these tickets have not been worked on yet' => '',
+        'All new tickets, these tickets have not been worked on yet' => 'Alla nya ärenden, dessa ärenden har inte arbetas med än',
         'All escalated tickets' => 'Alla eskalerade ärenden',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
@@ -2790,6 +2790,7 @@ sub Data {
         'Inform involved Agents' => 'Meddela inblandade handläggare',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Studsa ärende',
@@ -2976,6 +2977,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3320,7 +3323,7 @@ sub Data {
             '',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             '',
-        'Agent interface notification module to check the used charset.' =>
+        'Agent interface notification module to see the number of locked tickets.' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             '',

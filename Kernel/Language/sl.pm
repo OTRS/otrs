@@ -2792,6 +2792,7 @@ sub Data {
         'Inform involved Agents' => 'Obvestiti vključene zaposlene',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
@@ -2978,6 +2979,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3322,8 +3325,8 @@ sub Data {
             'Modul vmesnikov za dostop do profilov zaposlenih najdenih po navigacijski vrstici.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Vmesnik modula zaposleni za pregled dohodnih sporočil v povečanem pogledu zahtevka, če "S/MIME" ključ obstaja in je na voljo.',
-        'Agent interface notification module to check the used charset.' =>
-            'Vmesnik modula zaposleni za pregled uporabljenega nabora znakov.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Vmesnik modula za obveščanje zaposlenih, pogled na število zahtevkov, za katere je odgovoren posrednik.',
         'Agent interface notification module to see the number of tickets in My Services.' =>

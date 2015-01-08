@@ -91,7 +91,7 @@ sub Data {
         'Module' => 'Modul',
         'Modulefile' => 'Modulfil',
         'Subfunction' => 'Underfunktion',
-        'Line' => 'Linie',
+        'Line' => 'Linje',
         'Setting' => 'Indstilling',
         'Settings' => 'Indstillinger',
         'Example' => 'Eksempel',
@@ -116,7 +116,7 @@ sub Data {
         '-none-' => '-ingen-',
         'none' => 'ingen',
         'none!' => 'ingen!',
-        'none - answered' => 'ingen - svarede',
+        'none - answered' => 'ingen - besvarede',
         'please do not edit!' => 'vær venlig ikke at redigere!',
         'Need Action' => 'Behøver handling',
         'AddLink' => 'TilføjLink',
@@ -124,10 +124,10 @@ sub Data {
         'Unlink' => 'Fjern link',
         'Linked' => 'Linket',
         'Link (Normal)' => 'Link (normal)',
-        'Link (Parent)' => 'Link (forældre)',
+        'Link (Parent)' => 'Link (forælder)',
         'Link (Child)' => 'Link (barn)',
         'Normal' => 'Normal',
-        'Parent' => 'Forældre',
+        'Parent' => 'Forælder',
         'Child' => 'Barn',
         'Hit' => 'Resultat',
         'Hits' => 'Antal resultater',
@@ -213,15 +213,15 @@ sub Data {
         'Date picker' => 'Datovælger',
         'Show Tree Selection' => 'Vis træ',
         'The field content is too long!' => 'Indholdet af feltet er for langt.',
-        'Maximum size is %s characters.' => 'Maksimal størrelse er %s tegn.',
+        'Maximum size is %s characters.' => 'Maksimal længde er %s tegn.',
         'This field is required or' => 'Dette felt er påkrævet eller',
         'New message' => 'Ny meddelelse',
         'New message!' => 'Ny meddelelse!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
             'Vær venlig at besvare én eller flere sager for at komme tilbage til køens normale visning',
-        'You have %s new message(s)!' => 'Du har %s ny(e) meddelelse(r)!',
-        'You have %s reminder ticket(s)!' => 'Du har %s sag(er) med påmindelser!',
-        'The recommended charset for your language is %s!' => 'Det anbefalede tegnsæt til dit sprog er %s!',
+        'You have %s new message(s)!' => 'Du har %s ny(e) meddelelser.',
+        'You have %s reminder ticket(s)!' => 'Du har %s sag(er) med påmindelser.',
+        'The recommended charset for your language is %s!' => 'Det anbefalede tegnsæt til dit sprog er %s.',
         'Change your password.' => 'Ændr dit password',
         'Please activate %s first!' => 'Aktiver venligst %s først',
         'No suggestions' => 'Ingen forslag',
@@ -259,7 +259,7 @@ sub Data {
         'Database already contains data - it should be empty!' => 'Databasen indeholder allerede data - den burde være tom!',
         'Login is needed!' => 'Login er påkrævet',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'Det er i øjeblikket ikke muligt at logge ind grundet planlagt system-vedligeholdelde.',
         'Password is needed!' => 'Adgangskode er påkrævet',
         'Take this Customer' => 'Tag denne kunde',
         'Take this User' => 'Tag denne bruger',
@@ -416,20 +416,20 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Problemer med at behandle svaret fra serveren. Prøv venligst igen senere.',
         'Username and password do not match. Please try again.' => 'Brugernavn og password passer ikke. Prøv venligst igen.',
         'The selected process is invalid!' => 'Den valgte proces er ugyldig.',
-        'Upgrade to %s now!' => '',
+        'Upgrade to %s now!' => 'Opgrader til %s nu!',
         '%s Go to the upgrade center %s' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'Licensen for %s er ved at udløbe. Kontakt venligst %s for at forny din kontrakt.',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Dit system blev opgraderet til %s.',
+        'There was a problem during the upgrade to %s.' => 'Der var et problem under opgraderingen til %s.',
+        '%s was correctly reinstalled.' => '%s blev geninstalleret korrekt.',
+        'There was a problem reinstalling %s.' => 'Der var et problem med at geninstallere %s.',
+        'Your %s was successfully updated.' => '%s blev opdateret.',
+        'There was a problem during the upgrade of %s.' => 'Der var et problem under opgraderingen af %s.',
+        '%s was correctly uninstalled.' => '%s blev afinstalleret.',
+        'There was a problem uninstalling %s.' => 'Der var et problem med at afinstallere %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Nytårsdag',
@@ -596,7 +596,7 @@ sub Data {
         'Server Database Charset' => 'Karaktersæt i databasen.',
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Indstillingen character_set_database_ skal være UNICODE eller UTF8.',
         'Table Charset' => 'Karakterset i tabeller',
-        'There were tables found which do not have utf8 as charset.' => '',
+        'There were tables found which do not have utf8 as charset.' => 'Der blev fundet tabeller, som ikke bruger utf8-karaktersættet.',
         'Maximum Query Size' => 'Maksimal størrelse på forespørgsler',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Indstillingen \'max_allowed_packet\' skal være højere end 20 MB.',
@@ -613,10 +613,10 @@ sub Data {
         'NLS_DATE_FORMAT Setting' => '',
         'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
         'NLS_DATE_FORMAT Setting SQL Check' => '',
-        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
-        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => 'Indstillingen client_encoding skal være UNICODE eller UTF8.',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => 'Indstillingen server_encoding skal være UNICODE eller UTF8.',
         'Date Format' => 'Datoformat',
-        'Setting DateStyle needs to be ISO.' => '',
+        'Setting DateStyle needs to be ISO.' => 'Indstillingen DateStyle skal være ISO.',
         'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x eller nyere er påkrævet.',
         'OTRS Disk Partition' => '',
         'Disk Usage' => 'Diskforbrug',
@@ -624,27 +624,27 @@ sub Data {
         'The partition where OTRS is located has no disk space problems.' =>
             '',
         'Disk Partitions Usage' => '',
-        'Distribution' => '',
+        'Distribution' => 'Distribution',
         'Could not determine distribution.' => '',
-        'Kernel Version' => '',
-        'Could not determine kernel version.' => '',
+        'Kernel Version' => 'Kerne-version',
+        'Could not determine kernel version.' => 'Kunne ikke fastslå kerne-version.',
         'System Load' => '',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
-            '',
-        'Perl Modules' => '',
+            'System Load skal være højst antallet af CPU\'er i serveren. (en load på 8 eller mindre i et system med 8 CPU\'er ok).',
+        'Perl Modules' => 'Perl-moduler',
         'Not all required Perl modules are correctly installed.' => '',
-        'Perl Version' => '',
+        'Perl Version' => 'Perl-version',
         'Free Swap Space (%)' => '',
-        'No Swap Enabled.' => '',
-        'Used Swap Space (MB)' => '',
-        'There should be more than 60% free swap space.' => '',
-        'There should be no more than 200 MB swap space used.' => '',
-        'Config Settings' => '',
-        'Could not determine value.' => '',
+        'No Swap Enabled.' => 'Swap ikke aktiveret.',
+        'Used Swap Space (MB)' => 'Brugt Swap (MB)',
+        'There should be more than 60% free swap space.' => 'Der bør være mere end 60% ledigt swap.',
+        'There should be no more than 200 MB swap space used.' => 'Der bør ikke være mere end 200 MB brugt swap.',
+        'Config Settings' => 'Konfigurationsindstillinger',
+        'Could not determine value.' => 'Kunne ikke fastslå værdi.',
         'Database Records' => '',
         'Tickets' => 'Sager',
         'Ticket History Entries' => '',
-        'Articles' => '',
+        'Articles' => 'Indlæg',
         'Attachments (DB, Without HTML)' => '',
         'Customers With At Least One Ticket' => '',
         'Queues' => 'Køer',
@@ -680,10 +680,10 @@ sub Data {
         'OTRS Version' => '',
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
-        'Open Tickets' => '',
+            'Du har mere end 60.000 sager og bør bruge StaticDB-backend. Se admin-manualen (performance tuning) for mere information.',
+        'Open Tickets' => 'Åbne Sager',
         'You should not have more than 8,000 open tickets in your system.' =>
-            '',
+            'Du bør ikke have mere end 8.000 åbne sager i dit system.',
         'Ticket Search Index module' => '',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             '',
@@ -796,7 +796,7 @@ sub Data {
         'Forwarded message from' => 'Videresendt besked fra',
         'End forwarded message' => 'Slut på videresendt besked',
         'Bounce Article to a different mail address' => '',
-        'Reply to note' => '',
+        'Reply to note' => 'Svar på note',
         'new' => 'ny',
         'open' => 'åben',
         'Open' => 'Åben',
@@ -858,7 +858,7 @@ sub Data {
         'Create new Email Ticket' => 'Opret ny mail-sag',
         'Phone-Ticket' => 'Ny Sag',
         'Search Tickets' => 'Søg sager',
-        'Customer History' => '',
+        'Customer History' => 'Kunde-historik',
         'Edit Customer Users' => 'Rediger kundebrugere',
         'Edit Customer' => 'Rediger kunde',
         'Bulk Action' => 'Massehandling',
@@ -985,10 +985,10 @@ sub Data {
         'Sat' => 'Lør',
 
         # Template: AdminACL
-        'ACL Management' => '',
+        'ACL Management' => 'ACL-administration',
         'Filter for ACLs' => '',
         'Filter' => 'Filter',
-        'ACL Name' => '',
+        'ACL Name' => 'ACL-navn',
         'Actions' => 'Handlinger',
         'Create New ACL' => 'Opret ny ACL',
         'Deploy ACLs' => 'Aktiver ACL\'er',
@@ -1004,7 +1004,7 @@ sub Data {
             '',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
-        'ACLs' => '',
+        'ACLs' => 'ACL\'er',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
         'ACL name' => 'ACL-navn',
@@ -1302,8 +1302,8 @@ sub Data {
         'Ticket created between' => 'Sag oprettet mellem',
         'Last changed times' => '',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
-        'Ticket last changed between' => '',
+        'Ticket last changed' => 'Sag sidst ændret',
+        'Ticket last changed between' => 'Sag sidst ændret mellem',
         'Change times' => 'Ændringstider',
         'No change time settings.' => 'Angiv ikke ændringstider',
         'Ticket changed' => 'Sag ændret',
@@ -1383,9 +1383,9 @@ sub Data {
         'Loading' => 'Indlæser',
         'Select a single request to see its details.' => '',
         'Filter by type' => 'Filtrer på type',
-        'Filter from' => '',
-        'Filter to' => '',
-        'Filter by remote IP' => '',
+        'Filter from' => 'Filtrer fra',
+        'Filter to' => 'Filtrer til',
+        'Filter by remote IP' => 'Filtrer remote IP',
         'Refresh' => 'Opfrisk',
         'Request Details' => '',
         'An error occurred during communication.' => 'En fejl skete under kommunikation.',
@@ -1479,7 +1479,7 @@ sub Data {
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             '',
         'Maximum message length' => '',
-        'This field should be an integer number.' => '',
+        'This field should be an integer number.' => 'Dette felt skal indeholde et heltal.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
             '',
         'Send Keep-Alive' => '',
@@ -1504,12 +1504,12 @@ sub Data {
         'The password for the privileged user.' => '',
         'Use SSL Options' => '',
         'Show or hide SSL options to connect to the remote system.' => '',
-        'Certificate File' => '',
+        'Certificate File' => 'Certifikat-fil',
         'The full path and name of the SSL certificate file.' => '',
         'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
         'Certificate Password File' => '',
-        'The full path and name of the SSL key file.' => '',
-        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => '',
+        'The full path and name of the SSL key file.' => 'Fuld sti og navn på filen med SSL-nøglen.',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'f.eks. /opt/otrs/var/certificates/REST/ssl.key',
         'Certification Authority (CA) File' => '',
         'The full path and name of the certification authority certificate file that validates the SSL certificate.' =>
             '',
@@ -1702,43 +1702,43 @@ sub Data {
             'For at få de første 5 linier af beskeden (af den seneste agent-indlæg).',
 
         # Template: AdminOTRSBusinessInstalled
-        'Manage %s' => '',
-        'Downgrade to OTRS Free' => '',
+        'Manage %s' => 'Administrer %s',
+        'Downgrade to OTRS Free' => 'Nedgrader til OTRS Free',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
-            '',
-        'Unauthorized Usage Detected' => '',
+            '%s kontakter cloud.otrs.com med jævne mellemruim for at søge efter opdateringen og tjekke validiteten af din kontrakt.',
+        'Unauthorized Usage Detected' => 'Uautoriseret brug detekteret',
         'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!' =>
-            '',
-        '%s not Correctly Installed' => '',
+            'Dette system bruger %s uden en gyldig licens! Kontakt venligst %s for at forny eller aktivere din kontrakt.',
+        '%s not Correctly Installed' => '%s er ikke installeret korrekt.',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
-            '',
-        'Reinstall %s' => '',
+            'Din %s er ikke installeret korrekt. Geninstaller den med knappen nedenfor.',
+        'Reinstall %s' => 'Geninstaller %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
-            '',
+            'Din %s er ikke installeret korrekt, og der er også en opdatering tilgængelig.',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
-            '',
-        'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
-        '%s Update Available' => '',
+            'Du kan enten geninstallere din nuværende version eller udføre en opdatering med knapperne nedenfor. Opdatering er anbefalet.',
+        'Update %s' => 'Opdater %s',
+        '%s Not Yet Available' => '%s er endnu ikke tilgængelig.',
+        '%s will be available soon.' => '%s vil snart være tilgængelig.',
+        '%s Update Available' => '%s opdatering tilgængelig.',
         'An update for your %s is available! Please update at your earliest!' =>
-            '',
-        '%s Correctly Deployed' => '',
+            'En opdatering til din %s er tilgængelig. Opdater venligst hurtigst muligt.',
+        '%s Correctly Deployed' => '%s korrekt installeret.',
         'Congratulations, your %s is correctly installed and up to date!' =>
-            '',
+            'Tillykke, din %s er korrekt installeret og up to date.',
 
         # Template: AdminOTRSBusinessNotInstalled
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Opgrader til %s',
         '%s will be available soon. Please check again in a few days.' =>
-            '',
-        'Please have a look at %s for more information.' => '',
+            '%s vil være tilgængelig snart. Tjek igen om nogle dage.',
+        'Please have a look at %s for more information.' => 'Kig på %s for yderligere information.',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'Registrer dette system',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
-            '',
+            'Forbindelse til cloud.otrs.com via HTTPS kunne ikke etableres. Sørg venligst for, at din OTRS kan forbinde sig til cloud.otrs.com via port 443.',
         'With your existing contract you can only use a small part of the %s.' =>
             '',
         'If you would like to take full advantage of the %s get your contract upgraded now! Contact %s.' =>
@@ -1746,18 +1746,18 @@ sub Data {
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => '',
-        'Go to OTRS Package Manager' => '',
+        'Go to OTRS Package Manager' => 'Gå til OTRS Pakkestyring',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
-            '',
+            'Beklager, men du kan ikke nedgradere nu, fordi følgende pakker er afhængige af %s:',
         'Vendor' => 'Leverandør',
         'Please uninstall the packages first using the package manager and try again.' =>
-            '',
+            'Afinstaller pakkerne først via pakke-styring og prøv igen.',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
+        'Chat' => 'Chat',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
-        'The %s skin' => '',
+        'The %s skin' => '%s-skin\'et',
 
         # Template: AdminPGP
         'PGP Management' => 'PGP-styring',
@@ -1849,15 +1849,15 @@ sub Data {
         'Edit PostMaster Filter' => 'Rediger Postmaster-filter',
         'The name is required.' => 'Navnet er påkrævet.',
         'Filter Condition' => 'Filter-betingelse',
-        'AND Condition' => '',
+        'AND Condition' => 'AND-betingelse',
         'Check email header' => 'Tjek mail-header',
         'Negate' => '',
         'Look for value' => 'Søg efter værdi',
         'The field needs to be a valid regular expression or a literal word.' =>
             'Feltet skal indeholde et gyldigt regulært udtryk eller et ord.',
         'Set Email Headers' => 'Sæt mail-headers',
-        'Set email header' => '',
-        'Set value' => '',
+        'Set email header' => 'Sæt mail-header',
+        'Set value' => 'Sæt værdi',
         'The field needs to be a literal word.' => 'Feltet skal være et ord.',
 
         # Template: AdminPriority
@@ -1869,20 +1869,20 @@ sub Data {
         # Template: AdminProcessManagement
         'Process Management' => '',
         'Filter for Processes' => '',
-        'Create New Process' => '',
-        'Deploy All Processes' => '',
+        'Create New Process' => 'Opret ny proces',
+        'Deploy All Processes' => 'Aktiver alle processer',
         'Here you can upload a configuration file to import a process to your system. The file needs to be in .yml format as exported by process management module.' =>
             '',
         'Overwrite existing entities' => '',
-        'Upload process configuration' => '',
-        'Import process configuration' => '',
+        'Upload process configuration' => 'Upload proces-konfiguration',
+        'Import process configuration' => 'Importer proces-konfiguration',
         'To create a new Process you can either import a Process that was exported from another system or create a complete new one.' =>
             '',
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
-        'Process name' => '',
-        'Print' => 'Udskriv',
-        'Export Process Configuration' => '',
+        'Process name' => 'Proces-navn',
+        'Print' => 'Udskrift',
+        'Export Process Configuration' => 'Eksporter proces-konfiguration',
         'Copy Process' => 'Kopier proces',
 
         # Template: AdminProcessManagementActivity
@@ -1921,21 +1921,21 @@ sub Data {
         'The selected required lock does not exist.' => '',
         'Submit Advice Text' => '',
         'Submit Button Text' => '',
-        'Fields' => '',
+        'Fields' => 'Felter',
         'You can assign Fields to this Activity Dialog by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Filter available fields' => '',
-        'Available Fields' => '',
-        'Assigned Fields' => '',
-        'Edit Details for Field' => '',
-        'ArticleType' => '',
-        'Display' => '',
+        'Available Fields' => 'Tilgængelige felter',
+        'Assigned Fields' => 'Tildelte felter',
+        'Edit Details for Field' => 'Rediger detaljer for felt',
+        'ArticleType' => 'IndlægsType',
+        'Display' => 'Vis',
         'Edit Field Details' => '',
         'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
         'Path' => 'Sti',
-        'Edit this transition' => '',
+        'Edit this transition' => 'Rediger denne overgang',
         'Transition Actions' => '',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             '',
@@ -1945,20 +1945,20 @@ sub Data {
         'Assigned Transition Actions' => '',
 
         # Template: AdminProcessManagementProcessAccordion
-        'Activities' => '',
+        'Activities' => 'Aktiviteter',
         'Filter Activities...' => '',
-        'Create New Activity' => '',
+        'Create New Activity' => 'Opret ny aktivitet',
         'Filter Activity Dialogs...' => '',
-        'Transitions' => '',
+        'Transitions' => 'Overgange',
         'Filter Transitions...' => '',
         'Create New Transition' => '',
         'Filter Transition Actions...' => '',
 
         # Template: AdminProcessManagementProcessEdit
-        'Edit Process' => '',
+        'Edit Process' => 'Rediger proces',
         'Print process information' => '',
-        'Delete Process' => '',
-        'Delete Inactive Process' => '',
+        'Delete Process' => 'Slet proces',
+        'Delete Inactive Process' => 'Slet inaktiv proces',
         'Available Process Elements' => '',
         'The Elements listed above in this sidebar can be moved to the canvas area on the right by using drag\'n\'drop.' =>
             '',
@@ -1970,21 +1970,21 @@ sub Data {
             '',
         'Actions can be assigned to a Transition by dropping the Action Element onto the label of a Transition.' =>
             '',
-        'Edit Process Information' => '',
-        'Process Name' => '',
+        'Edit Process Information' => 'Rediger proces-information',
+        'Process Name' => 'Proces-navn',
         'The selected state does not exist.' => '',
         'Add and Edit Activities, Activity Dialogs and Transitions' => '',
         'Show EntityIDs' => '',
         'Extend the width of the Canvas' => '',
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
-        'Edit this Activity' => '',
-        'Save settings' => '',
+        'Edit this Activity' => 'Rediger denne aktivitet',
+        'Save settings' => 'Gem ændringer',
         'Save Activities, Activity Dialogs and Transitions' => '',
-        'Do you really want to delete this Process?' => '',
-        'Do you really want to delete this Activity?' => '',
-        'Do you really want to delete this Activity Dialog?' => '',
-        'Do you really want to delete this Transition?' => '',
+        'Do you really want to delete this Process?' => 'Vil du virkelig slette denne proces?',
+        'Do you really want to delete this Activity?' => 'Vil du virkelig slette denne aktivitet?',
+        'Do you really want to delete this Activity Dialog?' => 'Vil du virkelig slette denne aktivitets-dialog?',
+        'Do you really want to delete this Transition?' => 'Vil du virkelig slette denne overgang?',
         'Do you really want to delete this Transition Action?' => '',
         'Do you really want to remove this activity from the canvas? This can only be undone by leaving this screen without saving.' =>
             '',
@@ -2014,30 +2014,30 @@ sub Data {
             '',
 
         # Template: AdminProcessManagementProcessPrint
-        'Start Activity' => '',
-        'Contains %s dialog(s)' => '',
-        'Assigned dialogs' => '',
+        'Start Activity' => 'Start aktivitet',
+        'Contains %s dialog(s)' => 'Indeholder %s dialoger',
+        'Assigned dialogs' => 'Tildelte dialoger',
         'Activities are not being used in this process.' => '',
-        'Assigned fields' => '',
+        'Assigned fields' => 'Tildelte delter',
         'Activity dialogs are not being used in this process.' => '',
         'Condition linking' => '',
         'Conditions' => '',
         'Condition' => '',
         'Transitions are not being used in this process.' => '',
         'Module name' => '',
-        'Configuration' => '',
+        'Configuration' => 'Konfiguration',
         'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
         'Please note that changing this transition will affect the following processes' =>
             '',
-        'Transition' => '',
+        'Transition' => 'Overgang',
         'Transition Name' => '',
         'Type of Linking between Conditions' => '',
         'Remove this Condition' => '',
         'Type of Linking' => '',
-        'Remove this Field' => '',
-        'Add a new Field' => '',
+        'Remove this Field' => 'Fjern dette felt',
+        'Add a new Field' => 'Tilføj et nyt felt',
         'Add New Condition' => '',
 
         # Template: AdminProcessManagementTransitionAction
@@ -2055,7 +2055,7 @@ sub Data {
         'Add queue' => 'Tilføj kø',
         'Add Queue' => 'Tilføj kø',
         'Edit Queue' => 'Rediger kø',
-        'A queue with this name already exists!' => '',
+        'A queue with this name already exists!' => 'En kø med dette navn findes allerede.',
         'Sub-queue of' => 'Underkø af',
         'Unlock timeout' => 'Tidsfrist for frigivelse',
         '0 = no unlock' => '0 = ingen frigivelse',
@@ -2099,7 +2099,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => '',
         'Edit details' => 'Rediger detaljer',
-        'Show transmitted data' => '',
+        'Show transmitted data' => 'Vis overførte data',
         'Deregister system' => 'Afregistrer system',
         'Overview of registered systems' => 'Oversigt over registrerede systemer',
         'System Registration' => 'System-registrering',
@@ -2108,11 +2108,11 @@ sub Data {
         'Unique ID' => 'Unikt ID',
         'Last communication with registration server' => 'Seneste kommunikation med registrerings-server',
         'Send support data' => 'Send support-data',
-        'System registration not possible' => '',
+        'System registration not possible' => 'Det er ikke muligt at registrere systemet.',
         'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
-            '',
-        'Instructions' => '',
-        'System deregistration not possible' => '',
+            'Vær opmærksom på, at du ikke kan registrere dit system, hvis din scheduler ikke kører ordentligt.',
+        'Instructions' => 'Instruktioner',
+        'System deregistration not possible' => 'Det er ikke muligt at afregistrere systemet.',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
         'OTRS-ID Login' => 'OTRS-ID Login',
@@ -2124,35 +2124,35 @@ sub Data {
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
             'Dit OTRS-ID er den mail-adresse, du tilmeldte dig med op OTRS.com-hjemmesiden.',
         'Data Protection' => 'Data-beskyttelse',
-        'What are the advantages of system registration?' => '',
-        'You will receive updates about relevant security releases.' => '',
+        'What are the advantages of system registration?' => 'Hvad er fordelene ved at registrere systemet?',
+        'You will receive updates about relevant security releases.' => 'Du vil modtage opdateringer om relevante sikkerheds-udgivelser.',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
             '',
-        'This is only the beginning!' => '',
+        'This is only the beginning!' => 'Dette er kun begyndelsen!',
         'We will inform you about our new services and offerings soon.' =>
             '',
-        'Can I use OTRS without being registered?' => '',
-        'System registration is optional.' => '',
-        'You can download and use OTRS without being registered.' => '',
-        'Is it possible to deregister?' => '',
-        'You can deregister at any time.' => '',
-        'Which data is transfered when registering?' => '',
-        'A registered system sends the following data to OTRS Group:' => '',
+        'Can I use OTRS without being registered?' => 'Kan jeg bruge OTRS uden at registrere?',
+        'System registration is optional.' => 'Registrering er valgfrit.',
+        'You can download and use OTRS without being registered.' => 'Du kan downloade og bruge OTRS uden at registrere.',
+        'Is it possible to deregister?' => 'Er det muligt at afregistrere?',
+        'You can deregister at any time.' => 'Du kan afregistrere til enhver tid.',
+        'Which data is transfered when registering?' => 'Hvilke data bliver sendt ved registrering?',
+        'A registered system sends the following data to OTRS Group:' => 'Et registreret system sender følgende data til OTRS Group:',
         'Fully Qualified Domain Name (FQDN), OTRS version, Database, Operating System and Perl version.' =>
-            '',
-        'Why do I have to provide a description for my system?' => '',
-        'The description of the system is optional.' => '',
+            'Fully Qualified Domain Name (FQDN), OTRS-version, Database, Operativsystem og Perl-version.',
+        'Why do I have to provide a description for my system?' => 'Hvorfor skal jeg give en beskrivelse for mit system?',
+        'The description of the system is optional.' => 'Beskrivelsen af dit system er valgfri.',
         'The description and system type you specify help you to identify and manage the details of your registered systems.' =>
-            '',
-        'How often does my OTRS system send updates?' => '',
+            'Beskrivelsen og typen, som du angiver, hjælper dig med at identificere og administrere dine registrerede systemer.',
+        'How often does my OTRS system send updates?' => 'Hvor ofte sender mit OTRS-system opdateringer?',
         'Your system will send updates to the registration server at regular intervals.' =>
-            '',
-        'Typically this would be around once every three days.' => '',
+            'Dit system vil sende opdateringer til registrerings-serveren med jævne mellemrum',
+        'Typically this would be around once every three days.' => 'Normalt er det omkring én gang hver tredie dag.',
         'In case you would have further questions we would be glad to answer them.' =>
-            '',
-        'Please visit our' => '',
-        'portal' => '',
-        'and file a request.' => '',
+            'Hvis du har yderligere spørgsmål, vil vi glædeligt besvare dem.',
+        'Please visit our' => 'Besøg vores',
+        'portal' => 'portal',
+        'and file a request.' => 'og opret en sag.',
         'Here at OTRS Group we take the protection of your personal details very seriously and strictly adhere to data protection laws.' =>
             '',
         'All passwords are automatically made unrecognizable before the information is sent.' =>
@@ -2197,25 +2197,25 @@ sub Data {
             '',
         'You need to log in with your OTRS-ID to deregister your system.' =>
             '',
-        'OTRS-ID' => '',
-        'You don\'t have an OTRS-ID yet?' => '',
+        'OTRS-ID' => 'OTRS-ID',
+        'You don\'t have an OTRS-ID yet?' => 'Har du ikke et OTRS-ID endnu?',
         'Sign up now' => 'Registrer dig nu',
-        'Forgot your password?' => '',
-        'Retrieve a new one' => '',
+        'Forgot your password?' => 'Glemt dit password?',
+        'Retrieve a new one' => 'Få et nyt',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
             '',
         'Attribute' => '',
-        'FQDN' => '',
-        'Optional description of this system.' => '',
+        'FQDN' => 'FQDN',
+        'Optional description of this system.' => 'Valgfri beskrivelse af dette system.',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
         'Service Center' => '',
         'Support Data Management' => '',
-        'Register' => '',
-        'Deregister System' => '',
+        'Register' => 'Registrer',
+        'Deregister System' => 'Afregistrer system',
         'Continuing with this step will deregister the system from OTRS Group.' =>
             '',
-        'Deregister' => '',
+        'Deregister' => 'Afregistrer',
         'You can modify registration settings here.' => '',
         'Overview of transmitted data' => '',
         'There is no data regularly sent from your system to %s.' => '',
@@ -2271,7 +2271,7 @@ sub Data {
         'Add certificate' => 'Tilføj certifikat',
         'Add private key' => 'Tilføj private nøgle',
         'Filter for certificates' => 'Filter for certifikater',
-        'Filter for S/MIME certs' => '',
+        'Filter for S/MIME certs' => 'Filter for S/MIME-certifikater',
         'To show certificate details click on a certificate icon.' => 'Klik på et certifikat-ikon for at se certifikatets detaljer',
         'To manage private certificate relations click on a private key icon.' =>
             'Klik på Privatnøgle-ikonet for at administrere private certifikater.',
@@ -2294,7 +2294,7 @@ sub Data {
 
         # Template: AdminSMIMECertRead
         'Close window' => 'Luk vindue',
-        'Certificate details' => '',
+        'Certificate details' => 'Certifikat-detaljer',
 
         # Template: AdminSalutation
         'Salutation Management' => 'Administrer Indledninger',
@@ -2350,19 +2350,19 @@ sub Data {
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
             '',
         'Generate Support Bundle' => '',
-        'Generating...' => '',
+        'Generating...' => 'Genererer...',
         'It was not possible to generate the Support Bundle.' => '',
         'Generate Result' => '',
         'Support Bundle' => '',
-        'The mail could not be sent' => '',
+        'The mail could not be sent' => 'Mailen kunne ikke sendes',
         'The support bundle has been generated.' => '',
         'Please choose one of the following options.' => '',
-        'Send by Email' => '',
+        'Send by Email' => 'Send via mail',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             '',
         'The email address for this user is invalid, this ption has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Sender',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2401,8 +2401,8 @@ sub Data {
 
         # Template: AdminSysConfig
         'SysConfig' => 'SysConfig',
-        'Navigate by searching in %s settings' => 'Naviger ved at søge i %s-konfguration',
-        'Navigate by selecting config groups' => 'Naviger ved at vælge konfigurationsgrupper',
+        'Navigate by searching in %s settings' => 'Søg i %s konfigurationsindstillinger',
+        'Navigate by selecting config groups' => 'Vælg konfigurationsgrupper',
         'Download all system config changes' => 'Download alle ændringer i systemkonfigurationen',
         'Export settings' => 'Eksporter konfiguration',
         'Load SysConfig settings from file' => 'Indlæs SysConfig-konfiguration fra fil',
@@ -2789,6 +2789,7 @@ sub Data {
         'Inform involved Agents' => 'Informer involverede Agenter',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Overgiv sag',
@@ -2975,6 +2976,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3319,7 +3322,7 @@ sub Data {
             '',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             '',
-        'Agent interface notification module to check the used charset.' =>
+        'Agent interface notification module to see the number of locked tickets.' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             '',
@@ -5196,7 +5199,7 @@ sub Data {
         'Shows the message of the day (MOTD) in the agent dashboard. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually.' =>
             '',
         'Shows the message of the day on login screen of the agent interface.' =>
-            '',
+            'Viser Dagens Besked på login-skærmen i agent-interfacet.',
         'Shows the ticket history (reverse ordered) in the agent interface.' =>
             '',
         'Shows the ticket priority options in the close ticket screen of the agent interface.' =>

@@ -8910,6 +8910,10 @@ msgstr ""
 msgid "Here you can select additional agents which should receive a notification regarding the new article."
 msgstr ""
 
+#. Template: AgentTicketActionCommon
+msgid "Note will be (also) received by:"
+msgstr ""
+
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
 msgstr ""
@@ -9476,6 +9480,10 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -10411,7 +10419,7 @@ msgid "Agent interface module to check incoming emails in the Ticket-Zoom-View i
 msgstr ""
 
 #. SysConfig
-msgid "Agent interface notification module to check the used charset."
+msgid "Agent interface notification module to see the number of locked tickets."
 msgstr ""
 
 #. SysConfig

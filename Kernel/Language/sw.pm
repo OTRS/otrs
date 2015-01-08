@@ -2792,6 +2792,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Inform involved Agents' => 'Taarifu mawakala wanaohusika',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Hapa unaweza kuchagua mawakala wa kuongezea ambao watapokea taarifa kuhusiana na makala mpya.',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Tiketi dunda',
@@ -2979,6 +2980,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Full Article Text' => 'Nakala ya makala yote',
         'No more events found. Please try changing the filter settings.' =>
             'Hakuna matukio yaliyopatikana.Tafadhali jaribu kubadilisha mipangilio ya kuchuja.',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
+            '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Makala haiwezi kufunguliwa! Huenda ipo kwenye ukurasa mwingine wa makala.',
 
@@ -3322,8 +3325,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Moduli ya kiolesura cha wakala ya kufikia utafutaji wa maelezo mafupi kupitia mwambaa wa uabiri.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Moduli ya kiolesura cha wakala ya kuangalia barua pepe zinazoingia katika mandhari iliyokuzwa ya tiketi kama kibonye cha S/MIME kipo na kweli.',
-        'Agent interface notification module to check the used charset.' =>
-            'Moduli ya taarifa ya makala ya kiolesura cha wakala kuangalia seti ya herufi iliyotumika.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Moduli ya taarifa ya makala ya kiolesura cha wakala kuona namba ya tiketi ambazo wakala anahusika nazo.',
         'Agent interface notification module to see the number of tickets in My Services.' =>

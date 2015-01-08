@@ -1,6 +1,6 @@
 # 
 # Translators:
-# Kentaro Hori <kentaro0919@gmail.com>, 2014
+# Kentaro Hori <kentaro0919@gmail.com>, 2014-2015
 # Kozo Sakurai <sakurai@io-architect.com>, 2014
 # Makoto Miida, 2014
 # Makoto Miida, 2014
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2014-12-19 08:37+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2436,7 +2436,7 @@ msgstr "チケットインデクスモジュール"
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "システムにチケットが60,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。"
 
 #. Template: AAASupportDataCollector
 msgid "Open Tickets"
@@ -2454,27 +2454,27 @@ msgstr "チケット検索索引モジュール"
 msgid ""
 "You have more than 50,000 articles and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "システムに記事が50,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。"
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_lock_index Table"
-msgstr ""
+msgstr "ticket_lock_indexテーブルに孤立したレコード"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Table ticket_lock_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr ""
+msgstr "ticket_lock_indexテーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。"
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_index Table"
-msgstr ""
+msgstr "ticket_indexテーブルに孤立したレコード"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr ""
+msgstr " ticket_index テーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。"
 
 #. Template: AAASupportDataCollector
 msgid "Environment Variables"
@@ -2525,7 +2525,7 @@ msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr ""
+msgstr " PerlModuleとしてApache::Reload あるいは Apache2::Reload が利用され、インストールあるいはモジュールのアップグレード中のWebサーバー再起動を防ぐために、PerlInitHandlerが利用されるべきです"
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
@@ -2535,7 +2535,7 @@ msgstr "Apache::DBIモジュール使用"
 msgid ""
 "Apache::DBI should be used to get a better performance  with pre-established"
 " database connections."
-msgstr ""
+msgstr "事前に確立されたデーターベースコネクションとのパフォーマンスを改善するためにApache::DBIを利用するべきです。"
 
 #. Template: AAASupportDataCollector
 msgid "You should use PerlEx to increase your performance."
@@ -2547,7 +2547,7 @@ msgstr "ステータス一覧"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "サービス ビュー"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2871,7 +2871,7 @@ msgstr "異なるメールアドレスに記事をバウンス"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "注釈に返信"
 
 #. Template: AAATicket
 msgid "new"
@@ -3115,7 +3115,7 @@ msgstr "チケット検索"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "顧客履歴"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -8641,11 +8641,11 @@ msgstr "担当者の編集"
 
 #. Template: AdminUser
 msgid "Firstname"
-msgstr "姓"
+msgstr "名"
 
 #. Template: AdminUser
 msgid "Lastname"
-msgstr "名"
+msgstr "姓"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
@@ -9370,6 +9370,10 @@ msgid ""
 "regarding the new article."
 msgstr ""
 
+#. Template: AgentTicketActionCommon
+msgid "Note will be (also) received by:"
+msgstr ""
+
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
 msgstr ""
@@ -9938,6 +9942,12 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid ""
+"To open links in the following article, you might need to press Ctrl or Cmd "
+"or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -10748,11 +10758,11 @@ msgstr "%s time unit(s) accounted. Now total %s time unit(s)."
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
-msgstr "(ユーザー名) 姓 名"
+msgstr "(ユーザー名) 名 姓"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
-msgstr "(ユーザー名) 名, 姓"
+msgstr "(ユーザー名) 姓, 名"
 
 #. SysConfig
 msgid "A Website"
@@ -10920,8 +10930,9 @@ msgid ""
 msgstr "S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。"
 
 #. SysConfig
-msgid "Agent interface notification module to check the used charset."
-msgstr "使用されている文字セットを確認するための、担当者インタフェース通知モジュールです。"
+msgid ""
+"Agent interface notification module to see the number of locked tickets."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -14253,11 +14264,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Firstname Lastname"
-msgstr "姓 名"
+msgstr "名 姓"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr "姓 名 (ユーザー名)"
+msgstr "名 姓 (ユーザー名)"
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
@@ -14864,11 +14875,11 @@ msgstr "異なるテーマを、担当者と顧客の間で異なるように、
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr "名 姓"
+msgstr "姓, 名"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr "名, 姓 (ユーザー名)"
+msgstr "姓, 名 (ユーザー名)"
 
 #. SysConfig
 msgid "Left"
@@ -17264,7 +17275,7 @@ msgstr "通知を送信する際に、アプリケーションによって使用
 msgid ""
 "Specifies the order in which the firstname and the lastname of agents will "
 "be displayed."
-msgstr "担当者の姓と名を表示する順序を指定してください。"
+msgstr "担当者の名と姓を表示する順序を指定してください。"
 
 #. SysConfig
 msgid ""
@@ -17694,11 +17705,11 @@ msgstr "チケット・インデックス・アクセラレイタのアップで
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr "姓"
+msgstr "名"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr "名"
+msgstr "姓"
 
 #. SysConfig
 msgid ""

@@ -2790,6 +2790,7 @@ sub Data {
         'Inform involved Agents' => 'शामिल प्रतिनिधियॊ को सूचित करें',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
@@ -2976,6 +2977,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3320,8 +3323,8 @@ sub Data {
             'संचरण में प्रतिनिधि अंतरफलक मॉड्यूल से वर्णन खोज का उपयोग।',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'प्रतिनिधि अंतरफलक मॉड्यूल टिकट-ज़ूम-दृश्य में आने वाली ईमेल की जाँच करने के लिए अगर एस / MIME-कुंजी उपलब्ध है और सही है।',
-        'Agent interface notification module to check the used charset.' =>
-            'प्रयुक्त चारसेट की जाँच के लिए प्रतिनिधि अंतरफलक अधिसूचना मॉड्यूल।',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'एक प्रतिनिधि के उत्तरदायी टिकट की संख्या देखने के लिए प्रतिनिधि अंतरफलक अधिसूचना मॉड्यूल। ',
         'Agent interface notification module to see the number of tickets in My Services.' =>

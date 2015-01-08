@@ -2799,6 +2799,7 @@ sub Data {
         'Inform involved Agents' => 'Уведомить участвующих агентов',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Здесь вы можете выбрать дополнительных агентов, которые получат уведомление в зависимости от нового сообщения/заметки',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Перенаправить заявку',
@@ -2986,6 +2987,8 @@ sub Data {
         'Full Article Text' => 'Полный текст заметки/сообщения',
         'No more events found. Please try changing the filter settings.' =>
             'Больше событий не найдено. Попробуйте изменить параметры фильтра.',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
+            '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Заметка не может быть открыта! Возможно, она на другой странице заметок?',
 
@@ -3329,8 +3332,8 @@ sub Data {
             'Отображение окна поиска по сохраненным шаблонам в интерфейсе агента',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Модуль проверки входящих emails в окне Ticket-Zoom-View если S/MIME-key доступен и верен.',
-        'Agent interface notification module to check the used charset.' =>
-            'Вызов модуля проверки используемого набора символов в интерфейсе агента.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Включение отображения иконки с количеством заявок, по которым агент является ответственным.',
         'Agent interface notification module to see the number of tickets in My Services.' =>

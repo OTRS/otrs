@@ -2795,6 +2795,7 @@ sub Data {
         'Inform involved Agents' => 'Informer les agents impliqués',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Retourner la demande',
@@ -2981,6 +2982,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3325,8 +3328,8 @@ sub Data {
             'Module de l\'interface agent pour accéder à la recherche des profils dans la barre de navigation.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Module de l\'interface agent pour voir dans les courriels entrants si la clé S/MIME est accessible et vraie au moyen de la vue de la synthèse de la demande .',
-        'Agent interface notification module to check the used charset.' =>
-            'Module de notification dans l\'interface agent pour vérifier le jeu de caractères utilisé.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Module de notification dans l\'interface agent pour voir le nombre de demandes dont un agent est responsable.',
         'Agent interface notification module to see the number of tickets in My Services.' =>

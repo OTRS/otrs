@@ -683,19 +683,19 @@ sub Data {
         'OTRS Version' => 'OTRSバージョン',
         'Ticket Index Module' => 'チケットインデクスモジュール',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'システムにチケットが60,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。',
         'Open Tickets' => 'オープンチケット',
         'You should not have more than 8,000 open tickets in your system.' =>
             'システム内にチケットが 8,000以上オープンにしないでください',
         'Ticket Search Index module' => 'チケット検索索引モジュール',
         'You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
-        'Orphaned Records In ticket_lock_index Table' => '',
+            'システムに記事が50,000以上あるため、バックエンドにはStaticDBを利用するべきです。詳細は管理者マニュアル(パフォーマンスチューニング)を参照してください。',
+        'Orphaned Records In ticket_lock_index Table' => 'ticket_lock_indexテーブルに孤立したレコード',
         'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
-        'Orphaned Records In ticket_index Table' => '',
+            'ticket_lock_indexテーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。',
+        'Orphaned Records In ticket_index Table' => 'ticket_indexテーブルに孤立したレコード',
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
+            ' ticket_index テーブルに孤立したレコードがあるため、otrs/bin/otrs.CleanTicketIndex.pl を実行してクリーンなStaticDBインデックスを作成してください。',
         'Environment Variables' => '環境変数',
         'Webserver Version' => 'Webサイトバージョン',
         'Could not determine webserver version.' => 'WEBサーバのバージョンを決定できません。',
@@ -709,15 +709,15 @@ sub Data {
         'Please install mod_headers to improve GUI speed.' => 'GUIのパフォーマンス向上のためmod_headersをインストールしてください。',
         'Apache::Reload Usage' => 'Apache::Reloadモジュール使用',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
-            '',
+            ' PerlModuleとしてApache::Reload あるいは Apache2::Reload が利用され、インストールあるいはモジュールのアップグレード中のWebサーバー再起動を防ぐために、PerlInitHandlerが利用されるべきです',
         'Apache::DBI Usage' => 'Apache::DBIモジュール使用',
         'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
-            '',
+            '事前に確立されたデーターベースコネクションとのパフォーマンスを改善するためにApache::DBIを利用するべきです。',
         'You should use PerlEx to increase your performance.' => 'パフォーマンス向上のため、Perl正規表現を使うべきです。',
 
         # Template: AAATicket
         'Status View' => 'ステータス一覧',
-        'Service View' => '',
+        'Service View' => 'サービス ビュー',
         'Bulk' => '一括',
         'Lock' => 'ロック',
         'Unlock' => 'ロック解除',
@@ -799,7 +799,7 @@ sub Data {
         'Forwarded message from' => 'Forwarded message from',
         'End forwarded message' => 'End forwarded message',
         'Bounce Article to a different mail address' => '異なるメールアドレスに記事をバウンス',
-        'Reply to note' => '',
+        'Reply to note' => '注釈に返信',
         'new' => '新規',
         'open' => '対応中',
         'Open' => '対応中',
@@ -861,7 +861,7 @@ sub Data {
         'Create new Email Ticket' => '新規メールチケット作成',
         'Phone-Ticket' => '電話チケット',
         'Search Tickets' => 'チケット検索',
-        'Customer History' => '',
+        'Customer History' => '顧客履歴',
         'Edit Customer Users' => '顧客ユーザー編集',
         'Edit Customer' => '顧客を編集',
         'Bulk Action' => '一括処理',
@@ -2528,8 +2528,8 @@ sub Data {
         'Switch to agent' => '担当者を切り替え',
         'Add Agent' => '担当者の追加',
         'Edit Agent' => '担当者の編集',
-        'Firstname' => '姓',
-        'Lastname' => '名',
+        'Firstname' => '名',
+        'Lastname' => '姓',
         'A user with this username already exists!' => '',
         'Will be auto-generated if left empty.' => '',
         'Start' => '開始',
@@ -2792,6 +2792,7 @@ sub Data {
         'Inform involved Agents' => '関係担当者に知らせる',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
@@ -2978,6 +2979,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3268,8 +3271,8 @@ sub Data {
         '"%s"-notification sent to "%s".' => '"%s"-notification sent to "%s".',
         '%s' => '%s',
         '%s time unit(s) accounted. Now total %s time unit(s).' => '%s time unit(s) accounted. Now total %s time unit(s).',
-        '(UserLogin) Firstname Lastname' => '(ユーザー名) 姓 名',
-        '(UserLogin) Lastname, Firstname' => '(ユーザー名) 名, 姓',
+        '(UserLogin) Firstname Lastname' => '(ユーザー名) 名 姓',
+        '(UserLogin) Lastname, Firstname' => '(ユーザー名) 姓, 名',
         'A Website' => '',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
@@ -3322,8 +3325,8 @@ sub Data {
             'nav barを通じて検索プロファイルにアクセスするための、担当者インタフェースのモジュールです。',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'S/MIME-Keyが利用可能かつtrueである場合、Ticket-Zoom-Viewで受信Eメールをチェックする、担当者インタフェースのモジュールです。',
-        'Agent interface notification module to check the used charset.' =>
-            '使用されている文字セットを確認するための、担当者インタフェース通知モジュールです。',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             '1人の担当者が責任を有するチケットの数を見るための、担当者インタフェース通知モジュールです。',
         'Agent interface notification module to see the number of tickets in My Services.' =>
@@ -4353,8 +4356,8 @@ sub Data {
         'FirstResponse' => '初回応答',
         'FirstResponseDiffInMin' => '',
         'FirstResponseInMin' => '',
-        'Firstname Lastname' => '姓 名',
-        'Firstname Lastname (UserLogin)' => '姓 名 (ユーザー名)',
+        'Firstname Lastname' => '名 姓',
+        'Firstname Lastname (UserLogin)' => '名 姓 (ユーザー名)',
         'FollowUp for [%s]. %s' => '[%s]に対するフォローアップ。%s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '送信Eメールのエンコードを強制します(7bit|8bit|quoted-printable|base64)。',
@@ -4539,8 +4542,8 @@ sub Data {
             'アプリケーション内でドメインごとのベースで使用される異なる顧客ごとを見分けるため、などの場合、異なるスキンを設定することも可能です。通常の表現を使用することで（regex）、Key/Contentのペアーをドメインにマッチするように設定することが可能です。"Key"の中の値はドメインにマッチするべきであり、"Content"の中の値はご利用のシステム上の有効なスキンであるべきです。Regrexの適切な形式への入力例をご覧ください。',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             '異なるテーマを、担当者と顧客の間で異なるように、アプリケーション内でドメインごとの単位で使用されるように、設定することができます。regular expression (regex)を使用することにより、ドメインにマッチするようにKey/Contentを設定することが可能です。“Key”の値はドメインにマッチさせるべきであり、“Content”の値はご利用のシステムで有効なテーマとしてください。regrexの適切な形式のための入力例を確認してください。',
-        'Lastname, Firstname' => '名 姓',
-        'Lastname, Firstname (UserLogin)' => '名, 姓 (ユーザー名)',
+        'Lastname, Firstname' => '姓, 名',
+        'Lastname, Firstname (UserLogin)' => '姓, 名 (ユーザー名)',
         'Left' => '',
         'Link agents to groups.' => '担当者をグループへ連結',
         'Link agents to roles.' => '担当者をロールへ連結',
@@ -5283,7 +5286,7 @@ sub Data {
         'Specifies the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
             '通知を送信する際に、アプリケーションによって使用される名前を設定します。送信者名は、通知マスターに対して完全なディスプレイ名を作るために、使用されます（例："OTRS Notification Master" otrs@your.example.com）。通知は、en::Customer::QueueUpdate または en::Agent::Moveなどのメッセージです。.',
         'Specifies the order in which the firstname and the lastname of agents will be displayed.' =>
-            '担当者の姓と名を表示する順序を指定してください。',
+            '担当者の名と姓を表示する順序を指定してください。',
         'Specifies the path of the file for the logo in the page header (gif|jpg|png, 700 x 100 pixel).' =>
             'ページ・ヘッダーにおいて、ロゴのためのファイルへのパスを特定します(gif|jpg|png, 700 x 100 pixel)。',
         'Specifies the path of the file for the performance log.' => 'パフォーマンス・ログのためのファイルのパスを特定します。',
@@ -5413,8 +5416,8 @@ sub Data {
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             'チケット属性がアップデートされた後に、チケット・エスカレーション・インデックスをアップデートします。',
         'Updates the ticket index accelerator.' => 'チケット・インデックス・アクセラレイタのアップです',
-        'UserFirstname' => '姓',
-        'UserLastname' => '名',
+        'UserFirstname' => '名',
+        'UserLastname' => '姓',
         'Uses Cc recipients in reply Cc list on compose an email answer in the ticket compose screen of the agent interface.' =>
             '担当者インタフェースのチケット構成画面で、コンポーズEメール回答にあるCCリスト上からCC受信者を使用します。',
         'Uses richtext for viewing and editing notification events.' => '',

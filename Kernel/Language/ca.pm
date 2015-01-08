@@ -2788,6 +2788,7 @@ sub Data {
         'Inform involved Agents' => 'Notificar Agents involucrats',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Retornar tiquet',
@@ -2974,6 +2975,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3318,8 +3321,8 @@ sub Data {
             'Mòdul d\'interfície d\'agent per tenir accés a la recerca de perfils via la barra de navegació.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Mòdul d\'interfície d\'agent per comprovar els emails entrants en Vista-Zoom-Tiquet si la clau S/ACARONI està disponible i veritable.',
-        'Agent interface notification module to check the used charset.' =>
-            'Mòdul de notificació d\'interfície d\'agent per comprovar el mapa de caràcters usat.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Mòdul de notificació d\'interfície d\'agent per veure el nombre de tiquet del que és responsable un agent.',
         'Agent interface notification module to see the number of tickets in My Services.' =>

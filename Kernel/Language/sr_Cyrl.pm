@@ -2788,6 +2788,7 @@ sub Data {
         'Inform involved Agents' => 'Обавести релевантне оператере',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Овде можете изабрати додатне оператере који треба да примају обавештења у вези са новим чланком.',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Одбаци тикет',
@@ -2974,6 +2975,8 @@ sub Data {
         'Show Full Text' => 'Прикажи цео текст',
         'Full Article Text' => 'Текст целог чланка',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3318,8 +3321,8 @@ sub Data {
             'Модул интерфејса оператера за приступ профилима претраживања преко навигационе траке.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Модул интерфејса оператера за проверу долазних порука у увећаном прегледу тикета ако S/MIME-кључ постоји и доступан је.',
-        'Agent interface notification module to check the used charset.' =>
-            'Модул интерфејса оператера за проверу употребљеног карактерсета.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Модул интерфејса оператера за обавештавање, преглед броја тикета за које је оператер одговоран.',
         'Agent interface notification module to see the number of tickets in My Services.' =>

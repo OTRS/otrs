@@ -2793,6 +2793,7 @@ sub Data {
         'Inform involved Agents' => 'اطلاع به کارشناسان مربوطه',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
+        'Note will be (also) received by:' => '',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => '',
@@ -2979,6 +2980,8 @@ sub Data {
         'Show Full Text' => '',
         'Full Article Text' => '',
         'No more events found. Please try changing the filter settings.' =>
+            '',
+        'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
@@ -3323,8 +3326,8 @@ sub Data {
             'ماژول واسط کارشناس برای دسترسی به جستجوی مشخصات کاربری از طریق میله کنترل',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'ماژول واسط کارشناس برای کنترل ایمیل‌های وارده در نمای نمایش کامل درخواست در صورتی که کلید S/MIME موجود و صحیح باشد.',
-        'Agent interface notification module to check the used charset.' =>
-            'ماژول اعلان به کارشناس برای کنترل charset استفاده شده.',
+        'Agent interface notification module to see the number of locked tickets.' =>
+            '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'ماژول اعلان برای کارشناس برای دیدن تعداد درخواست‌هایی که یک کارشناس مسئول پاسخگویی به آن است.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
