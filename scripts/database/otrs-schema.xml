@@ -1682,6 +1682,16 @@
         <UniqueColumn Name="target_key"/>
         <UniqueColumn Name="type_id"/>
     </Unique>
+    <Index Name="link_relation_list_source">
+        <IndexColumn Name="source_object_id"/>
+        <IndexColumn Name="source_key"/>
+        <IndexColumn Name="state_id"/>
+    </Index>
+    <Index Name="link_relation_list_target">
+        <IndexColumn Name="target_object_id"/>
+        <IndexColumn Name="target_key"/>
+        <IndexColumn Name="state_id"/>
+    </Index>
     <ForeignKey ForeignTable="link_object">
         <Reference Local="source_object_id" Foreign="id"/>
         <Reference Local="target_object_id" Foreign="id"/>

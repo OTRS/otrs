@@ -2307,6 +2307,8 @@ CREATE INDEX FK_link_relation_source_obje3c ON link_relation (source_object_id);
 CREATE INDEX FK_link_relation_state_id ON link_relation (state_id);
 CREATE INDEX FK_link_relation_target_obje99 ON link_relation (target_object_id);
 CREATE INDEX FK_link_relation_type_id ON link_relation (type_id);
+CREATE INDEX link_relation_list_source ON link_relation (source_object_id, source_key, state_id);
+CREATE INDEX link_relation_list_target ON link_relation (target_object_id, target_key, state_id);
 -- ----------------------------------------------------------
 --  create table system_data
 -- ----------------------------------------------------------

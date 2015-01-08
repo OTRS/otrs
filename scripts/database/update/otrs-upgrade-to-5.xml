@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
-
+    <TableAlter Name="link_relation">
+        <IndexCreate Name="link_relation_list_source">
+            <IndexColumn Name="source_object_id"/>
+            <IndexColumn Name="source_key"/>
+            <IndexColumn Name="state_id"/>
+        </IndexCreate>
+        <IndexCreate Name="link_relation_list_target">
+            <IndexColumn Name="target_object_id"/>
+            <IndexColumn Name="target_key"/>
+            <IndexColumn Name="state_id"/>
+        </IndexCreate>
+    </TableAlter>
 </database>

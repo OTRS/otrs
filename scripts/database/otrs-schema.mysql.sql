@@ -1094,7 +1094,9 @@ CREATE TABLE link_relation (
     state_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    UNIQUE INDEX link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id)
+    UNIQUE INDEX link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id),
+    INDEX link_relation_list_source (source_object_id, source_key, state_id),
+    INDEX link_relation_list_target (target_object_id, target_key, state_id)
 );
 # ----------------------------------------------------------
 #  create table system_data

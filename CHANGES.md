@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+- 2015-01-08 Added indices to link_relation.
 - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
 - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 

@@ -1097,6 +1097,8 @@ CREATE TABLE link_relation (
     create_by INTEGER NOT NULL,
     CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
+CREATE INDEX link_relation_list_source ON link_relation (source_object_id, source_key, state_id);
+CREATE INDEX link_relation_list_target ON link_relation (target_object_id, target_key, state_id);
 -- ----------------------------------------------------------
 --  create table system_data
 -- ----------------------------------------------------------
