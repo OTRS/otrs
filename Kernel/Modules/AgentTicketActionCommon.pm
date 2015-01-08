@@ -1946,10 +1946,13 @@ sub _Mask {
             Valid => 1,
         );
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-        my %MemberList = $Self->{GroupObject}->PermissionGroupGet(
+        my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
             Type    => 'note',
+            Result  => 'HASH',
+            Cached  => 1,
         );
+
         for my $UserID ( sort keys %MemberList ) {
             $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
         }
