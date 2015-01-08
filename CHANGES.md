@@ -1,4 +1,6 @@
-#4.0.4 2015-??-??
+#4.0.5 2015-??-??
+
+#4.0.4 2015-01-13
  - 2015-01-08 Updated translations, thanks to all translators.
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
  - 2015-01-06 Fixed bug#[10967](http://bugs.otrs.org/show_bug.cgi?id=10967) - Error 500 instead of showing a finished process.
