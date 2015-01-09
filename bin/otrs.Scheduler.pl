@@ -303,6 +303,9 @@ sub _Start {
             }
         }
 
+        # disconnect form DB before daemon, it will prevent DB connection issues, see bug 10492
+        $Kernel::OM->Get('Kernel::System::DB')->Disconnect();
+
         # create a new daemon object
         my $Daemon = Proc::Daemon->new();
 
