@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2015-01-08 Fixed bug#[10884](http://bugs.otrs.org/show_bug.cgi?id=10884) - /etc/init.d/otrs running httpd is not detected on CentOS 7.
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
  - 2015-01-05 Fixed bug#[10895](http://bugs.otrs.org/show_bug.cgi?id=10895) - Dynamic Field shown information in customer interface is not consistent with agent interface.
  - 2014-12-22 Fixed bug#[10551](http://bugs.otrs.org/show_bug.cgi?id=10551) - Error: No Process configured! - Agent interface.

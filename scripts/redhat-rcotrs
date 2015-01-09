@@ -60,7 +60,9 @@ case "$1" in
       # --
       if test $OTRS_HTTP_RUNNING -gt 0; then
         echo -n " Checking httpd ..."
-        if $OTRS_USED_WEBSERVER_TEST >/dev/null 2>&1; then
+        if pidof systemd >/dev/null && systemctl status httpd | grep 'Active: active (running)' >/dev/null 2>&1; then
+          echo " done."
+        elif $OTRS_USED_WEBSERVER_TEST >/dev/null 2>&1; then
           echo " done."
         else
           echo "  failed!"
