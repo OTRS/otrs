@@ -327,6 +327,9 @@ sub _Start {
             }
         }
 
+        # disconnect form DB before daemon, it will prevent DB connection issues, see bug 10492
+        $CommonObject{DBObject}->Disconnect();
+
         # create a new daemon object
         my $Daemon = Proc::Daemon->new();
 
