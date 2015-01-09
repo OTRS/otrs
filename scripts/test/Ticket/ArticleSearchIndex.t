@@ -176,7 +176,6 @@ my @Tests = (
         String => '"String with quotes"',
         Result => [
             "string",
-            "with",
             "quotes",
         ],
     },
@@ -184,7 +183,6 @@ my @Tests = (
         Name   => "Sentence",
         String => 'This is a full sentence',
         Result => [
-            "this",
             "full",
             "sentence",
         ],
