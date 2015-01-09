@@ -26,12 +26,13 @@ sub ArticleIndexBuild {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Needed!"
+                Message  => "Need $Needed!",
             );
             return;
         }
     }
 
+    # get article data
     my %Article = $Self->ArticleGet(
         ArticleID     => $Param{ArticleID},
         UserID        => $Param{UserID},
@@ -47,12 +48,11 @@ sub ArticleIndexBuild {
             );
         }
     }
-    for my $Key (qw(Body)) {
-        if ( $Article{$Key} ) {
-            $Article{$Key} = $Self->_ArticleIndexString(
-                String => $Article{$Key},
-            );
-        }
+
+    if ( $Article{Body} ) {
+        $Article{Body} = $Self->_ArticleIndexString(
+            String => $Article{Body},
+        );
     }
 
     # get database object
@@ -186,6 +186,7 @@ sub _ArticleIndexQuerySQLExt {
     my $FullTextSQL = '';
     KEY:
     for my $Key ( sort keys %FieldSQLMapFullText ) {
+
         next KEY if !$Param{Data}->{$Key};
 
         # replace * by % for SQL like
@@ -234,6 +235,7 @@ sub _ArticleIndexQuerySQLExt {
             $FullTextSQL .= " $Field LIKE '$Value'";
         }
     }
+
     if ($FullTextSQL) {
         $SQLExt = ' AND (' . $FullTextSQL . ')';
     }
@@ -247,7 +249,7 @@ sub _ArticleIndexString {
     if ( !defined $Param{String} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need String!"
+            Message  => "Need String!",
         );
         return;
     }
@@ -280,14 +282,19 @@ sub _ArticleIndexString {
         last WORD if $Count > $WordCountMax;
 
         if ( $List{$Word} ) {
+
             $List{$Word}++;
+
             next WORD;
         }
         else {
+
             $List{$Word} = 1;
+
             if ($IndexString) {
                 $IndexString .= ' ';
             }
+
             $IndexString .= $Word
         }
     }
@@ -302,7 +309,7 @@ sub _ArticleIndexStringToWord {
     if ( !defined $Param{String} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need String!"
+            Message  => "Need String!",
         );
         return;
     }
@@ -311,18 +318,45 @@ sub _ArticleIndexStringToWord {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Config      = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
-    my %StopWordRaw = %{ $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {} };
     my @Filters     = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+    my $StopWordRaw = $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {};
+
+    # error handling
+    if ( !$StopWordRaw || ref $StopWordRaw ne 'HASH' ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid config option Ticket::SearchIndex::StopWords! "
+                . "Please reset the search index options to reactivate the factory defaults.",
+        );
+
+        return;
+    }
 
     my %StopWord;
-    WORD:
-    for my $Word ( sort keys %StopWordRaw ) {
+    LANGUAGE:
+    for my $Language ( sort keys %{$StopWordRaw} ) {
 
-        next WORD if !$Word;
+        if ( !$Language || !$StopWordRaw->{$Language} || ref $StopWordRaw->{$Language} ne 'ARRAY' ) {
 
-        $Word = lc $Word;
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid config option Ticket::SearchIndex::StopWords###$Language! "
+                    . "Please reset this option to reactivate the factory defaults.",
+            );
 
-        $StopWord{$Word} = 1;
+            next LANGUAGE;
+        }
+
+        WORD:
+        for my $Word ( @{ $StopWordRaw->{$Language} } ) {
+
+            next WORD if !$Word;
+
+            $Word = lc $Word;
+
+            $StopWord{$Word} = 1;
+        }
     }
 
     # get words

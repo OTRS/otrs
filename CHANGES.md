@@ -1,7 +1,8 @@
 #5.0.0.beta1 20??-??-??
-- 2015-01-08 Added indices to link_relation.
-- 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
-- 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
+ - 2015-01-09 Improved stopword lists for StaticDB fulltext index to improve perfromance of fulltext searches. It is recommended to rebuild the fulltext search index.
+ - 2015-01-08 Added new indices to link_relation table.
+ - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
+ - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.5 2015-??-??
  - 2015-01-08 Fixed bug#[10884](http://bugs.otrs.org/show_bug.cgi?id=10884) - /etc/init.d/otrs running httpd is not detected on CentOS 7.
