@@ -1,4 +1,5 @@
 #4.0.5 2015-??-??
+ - 2015-01-08 Fixed bug#[10884](http://bugs.otrs.org/show_bug.cgi?id=10884) - /etc/init.d/otrs running httpd is not detected on CentOS 7.
 
 #4.0.4 2015-01-13
  - 2015-01-08 Updated translations, thanks to all translators.
