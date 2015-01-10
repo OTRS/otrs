@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2015-01-09 Fixed bug#[9856](http://bugs.otrs.org/show_bug.cgi?id=9856) - gpg option 0xlong breaks decryption of emails.
  - 2015-01-09 Fixed bug#[10492](http://bugs.otrs.org/show_bug.cgi?id=10492) - ORA-03113 Error after scheduler start.
  - 2015-01-08 Fixed bug#[10884](http://bugs.otrs.org/show_bug.cgi?id=10884) - /etc/init.d/otrs running httpd is not detected on CentOS 7.
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
