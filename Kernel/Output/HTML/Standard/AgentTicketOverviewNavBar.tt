@@ -57,7 +57,7 @@
 
 [% RenderBlockStart("DocumentActionRowRemoveColumnFilters") %]
                     <li class="[% Data.CSS | html %]">
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];DeleteFilters=DeleteFilters" title="[% Translate("Remove active filters for this screen.") | html %]">
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Filter=[% Data.Filter %];View=[% Data.View %];[% Data.LinkFilter %];DeleteFilters=DeleteFilters" title="[% Translate("Remove active filters for this screen.") | html %]">
                             <i class="fa fa-trash-o"></i>
                         </a>
                     </li>
