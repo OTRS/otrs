@@ -84,7 +84,7 @@ $UserAgent->cookie_jar()->scan(
         if ( $_[1] eq $ConfigObject->Get('CustomerPanelSessionName') && $_[2] ) {
             $CustomerSessionValid = 1;
         }
-    }
+        }
 );
 
 if ( !$AgentSessionValid ) {
