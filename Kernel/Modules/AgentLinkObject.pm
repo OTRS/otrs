@@ -629,7 +629,7 @@ sub Run {
 
             next POSSIBLETYPE if !$Type{Pointed};
 
-            # create the source name
+            # create the target name
             my %TargetName;
             $TargetName{Key}   = $PossibleType . '::Target';
             $TargetName{Value} = $Type{TargetName};
