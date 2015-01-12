@@ -5,6 +5,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.5 2015-??-??
+ - 2015-01-12 Fixed bug#[10992](http://bugs.otrs.org/show_bug.cgi?id=10992) - "Delete Filter" unsets general navigation selection in overviews.
  - 2015-01-09 Fixed bug#[9856](http://bugs.otrs.org/show_bug.cgi?id=9856) - gpg option 0xlong breaks decryption of emails.
  - 2015-01-09 Fixed bug#[10492](http://bugs.otrs.org/show_bug.cgi?id=10492) - ORA-03113 Error after scheduler start.
  - 2015-01-08 Fixed bug#[10884](http://bugs.otrs.org/show_bug.cgi?id=10884) - /etc/init.d/otrs running httpd is not detected on CentOS 7.
