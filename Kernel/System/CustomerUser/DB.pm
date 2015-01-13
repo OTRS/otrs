@@ -111,7 +111,7 @@ sub CustomerName {
     if ( !$Param{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
         return;
     }
@@ -220,8 +220,7 @@ sub CustomerSearch {
         if ( !$Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
-                    "Need CustomerUserSearchFields in CustomerUser config, unable to search for '$Param{Search}'!",
+                Message  => "Need CustomerUserSearchFields in CustomerUser config, unable to search for '$Param{Search}'!",
             );
             return;
         }
@@ -464,7 +463,7 @@ sub CustomerIDs {
     if ( !$Param{User} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need User!'
+            Message  => 'Need User!',
         );
         return;
     }
@@ -534,7 +533,7 @@ sub CustomerUserDataGet {
     if ( !$Param{User} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need User!'
+            Message  => 'Need User!',
         );
         return;
     }
@@ -645,7 +644,7 @@ sub CustomerUserAdd {
     if ( $Self->{ReadOnly} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Customer backend is read only!'
+            Message  => 'Customer backend is read only!',
         );
         return;
     }
@@ -660,7 +659,7 @@ sub CustomerUserAdd {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Entry->[0]!"
+                Message  => "Need $Entry->[0]!",
             );
             return;
         }
@@ -668,7 +667,7 @@ sub CustomerUserAdd {
     if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserID!'
+            Message  => 'Need UserID!',
         );
         return;
     }
@@ -690,7 +689,7 @@ sub CustomerUserAdd {
     if ( !$Param{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
         return;
     }
@@ -821,7 +820,7 @@ sub CustomerUserUpdate {
     if ( $Self->{ReadOnly} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Customer backend is read only!'
+            Message  => 'Customer backend is read only!',
         );
         return;
     }
@@ -831,7 +830,7 @@ sub CustomerUserUpdate {
         if ( !$Param{ $Entry->[0] } && $Entry->[4] && $Entry->[0] ne 'UserPassword' ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Entry->[0]!"
+                Message  => "Need $Entry->[0]!",
             );
             return;
         }
@@ -978,7 +977,7 @@ sub SetPassword {
     if ( $Self->{ReadOnly} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Customer backend is read only!'
+            Message  => 'Customer backend is read only!',
         );
         return;
     }
@@ -987,7 +986,7 @@ sub SetPassword {
     if ( !$Param{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
         return;
     }
@@ -1058,8 +1057,7 @@ sub SetPassword {
         if ( !$MainObject->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
-                    "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message => "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }
@@ -1160,7 +1158,7 @@ sub SetPreferences {
     if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserID!'
+            Message  => 'Need UserID!',
         );
         return;
     }
@@ -1177,7 +1175,7 @@ sub GetPreferences {
     if ( !$Param{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserID!'
+            Message  => 'Need UserID!',
         );
         return;
     }
@@ -1199,7 +1197,7 @@ sub _CustomerUserCacheClear {
     if ( !$Param{UserLogin} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need UserLogin!'
+            Message  => 'Need UserLogin!',
         );
         return;
     }
