@@ -693,4 +693,10 @@ input[type=text].ArticleFreeKey {
     border: 1px solid #eee;
 }
 
+.ArticleMailContent .ArticleChat {
+    max-height: none;
+    font-size: 12px;
+    padding: 10px;
+}
+
 } /* end @media */
