@@ -748,7 +748,7 @@ sub Run {
                 Output => \$LayoutObject->CustomerLogin(
                     Title => 'Login',
                     Message =>
-                        'This email address already exists. Please log in or reset your password.',
+                        'This e-mail address already exists. Please log in or reset your password.',
                     UserTitle     => $GetParams{UserTitle},
                     UserFirstname => $GetParams{UserFirstname},
                     UserLastname  => $GetParams{UserLastname},
