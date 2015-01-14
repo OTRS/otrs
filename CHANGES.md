@@ -4,7 +4,9 @@
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
-#4.0.5 2015-??-??
+#4.0.6 2015-??-??
+
+#4.0.5 2015-01-20
  - 2015-01-14 Updated translations, thanks to all translators.
  - 2015-01-12 Fixed bug#[10992](http://bugs.otrs.org/show_bug.cgi?id=10992) - "Delete Filter" unsets general navigation selection in overviews.
  - 2015-01-09 Fixed bug#[9856](http://bugs.otrs.org/show_bug.cgi?id=9856) - gpg option 0xlong breaks decryption of emails.
