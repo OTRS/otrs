@@ -629,7 +629,7 @@ sub OTRSBusinessInstall {
     my $PackageString = $Self->_OTRSBusinessFileGet();
     return if !$PackageString;
 
-    my $Install = return $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
+    my $Install = $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
         String    => $PackageString,
         FromCloud => 1,
     );
