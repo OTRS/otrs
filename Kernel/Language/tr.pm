@@ -356,8 +356,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Sayın Bayan %s,',
         'Dear %s,' => 'Sayın %s,',
         'Hello %s,' => 'Merhaba %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Bu e-posta adresi zaten var. Lütfen giriş yapın yada parolanızı sıfırlayın.',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1756,6 +1754,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3126,6 +3127,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Giriş yapan:',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript kullanılamıyor',

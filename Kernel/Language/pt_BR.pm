@@ -361,8 +361,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Cara Sra. %s,',
         'Dear %s,' => 'Caro %s,',
         'Hello %s,' => 'Olá %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Este endereço de de e-mail já existe. Por favor, faça login ou redefina sua senha.',
         'This email address is not allowed to register. Please contact support staff.' =>
             'O endereço de email não é permitido para cadastro. Por favor entre em contato com a equipe de suporte.',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1761,6 +1759,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3131,6 +3132,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Você está logado como',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript não habilitado ou não é suportado.',

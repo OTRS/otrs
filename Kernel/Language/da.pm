@@ -357,8 +357,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Kære Fru. %s',
         'Dear %s,' => 'Kære %s',
         'Hello %s,' => 'Hej %s',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Denne mail-adresse eksisterer allerede. Log venligst ind, eller nulstil dit password.',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -677,7 +675,7 @@ sub Data {
         'SystemID' => 'System-ID',
         'Your SystemID setting is invalid, it should only contain digits.' =>
             'Din System-ID-instilling er ugyldig; den må kun indeholde tal.',
-        'OTRS Version' => '',
+        'OTRS Version' => 'OTRS-version',
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             'Du har mere end 60.000 sager og bør bruge StaticDB-backend. Se admin-manualen (performance tuning) for mere information.',
@@ -1430,30 +1428,30 @@ sub Data {
         'This rule will apply for all keys with no mapping rule.' => '',
         'Default rule for unmapped values' => '',
         'This rule will apply for all values with no mapping rule.' => '',
-        'New key map' => '',
-        'Add key mapping' => '',
-        'Mapping for Key ' => '',
-        'Remove key mapping' => '',
-        'Key mapping' => '',
-        'Map key' => '',
-        'matching the' => '',
-        'to new key' => '',
+        'New key map' => 'Ny taste-binding',
+        'Add key mapping' => 'Tilføj taste-binding',
+        'Mapping for Key ' => 'Binding for tast',
+        'Remove key mapping' => 'Fjern taste-binding',
+        'Key mapping' => 'Taste-binding',
+        'Map key' => 'Bind tast',
+        'matching the' => 'matcher',
+        'to new key' => 'til ny tast',
         'Value mapping' => '',
         'Map value' => '',
         'to new value' => '',
         'Remove value mapping' => '',
         'New value map' => '',
         'Add value mapping' => '',
-        'Do you really want to delete this key mapping?' => '',
-        'Delete this Key Mapping' => '',
+        'Do you really want to delete this key mapping?' => 'Vil du virkelig fjerne denne taste-binding?',
+        'Delete this Key Mapping' => 'Fjern denne taste-binding',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => '',
         'Change Operation %s of Web Service %s' => '',
-        'Add new operation' => '',
-        'Change operation %s' => '',
-        'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Add new operation' => 'Tilføj ny operation',
+        'Change operation %s' => 'Ændr operation %s',
+        'Do you really want to delete this operation?' => 'Vil du virkelig slette denne operation?',
+        'Operation Details' => 'Operationsdetaljer',
         'The name is typically used to call up this web service operation from a remote system.' =>
             '',
         'Please provide a unique name for this web service.' => '',
@@ -1466,7 +1464,7 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
-        'Delete this Operation' => '',
+        'Delete this Operation' => 'Slet denne operation',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => '',
@@ -1478,10 +1476,10 @@ sub Data {
         'Valid request methods for Operation' => '',
         'Limit this Operation to specific request methods. If no method is selected all requests will be accepted.' =>
             '',
-        'Maximum message length' => '',
+        'Maximum message length' => 'Maksimal beskedlængde',
         'This field should be an integer number.' => 'Dette felt skal indeholde et heltal.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
-            '',
+            'Her kan du angive den maksimale længde (i bytes) af REST-beskeder, som OTRS vil behandle.',
         'Send Keep-Alive' => '',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             '',
@@ -1497,16 +1495,16 @@ sub Data {
             '',
         'Default command' => '',
         'The default HTTP command to use for the requests.' => '',
-        'Authentication' => '',
-        'The authentication mechanism to access the remote system.' => '',
-        'A "-" value means no authentication.' => '',
-        'The user name to be used to access the remote system.' => '',
-        'The password for the privileged user.' => '',
-        'Use SSL Options' => '',
-        'Show or hide SSL options to connect to the remote system.' => '',
+        'Authentication' => 'Authentikation',
+        'The authentication mechanism to access the remote system.' => 'Authentikations-mekanisme for at tilgå fjernsystemet.',
+        'A "-" value means no authentication.' => 'Et "-" betyder ingen authentikation.',
+        'The user name to be used to access the remote system.' => 'Brugernavnet, der skal anvendes for at tilgå fjernsystemet.',
+        'The password for the privileged user.' => 'Passwordet for den priviligerede bruger.',
+        'Use SSL Options' => 'Brug SSL',
+        'Show or hide SSL options to connect to the remote system.' => 'Vis eller skjul SSL-muligheder for at forbinde til fjernsystemet.',
         'Certificate File' => 'Certifikat-fil',
-        'The full path and name of the SSL certificate file.' => '',
-        'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => '',
+        'The full path and name of the SSL certificate file.' => 'Den fulde sti og navn til SSL-certifikatfilen.',
+        'e.g. /opt/otrs/var/certificates/REST/ssl.crt' => 'f.eks. /opt/otrs/var/certificates/REST/ssl.crt',
         'Certificate Password File' => '',
         'The full path and name of the SSL key file.' => 'Fuld sti og navn på filen med SSL-nøglen.',
         'e.g. /opt/otrs/var/certificates/REST/ssl.key' => 'f.eks. /opt/otrs/var/certificates/REST/ssl.key',
@@ -1757,6 +1755,9 @@ sub Data {
         'Chat' => 'Chat',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '%s-skin\'et',
 
         # Template: AdminPGP
@@ -3127,6 +3128,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Du er logget ind som',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript ikke tilgængeligt',

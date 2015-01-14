@@ -364,8 +364,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Kjære %s',
         'Dear %s,' => 'Kjære %s',
         'Hello %s,' => 'Hei %s',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Denne e-postadressen finnes allerede. Vennligst logg inn eller nullstill passordet.',
         'This email address is not allowed to register. Please contact support staff.' =>
             'Denne epostadressen er ikke tillatt å registrere. Kontakt brukerstøtten.',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1765,6 +1763,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3135,6 +3136,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Du er innlogget som',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript er ikke tilgjengelig',

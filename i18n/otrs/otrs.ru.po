@@ -3,13 +3,13 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # Vladislav Yaroslavlev <vladon@vladon.com>, 2014
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
-# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014
+# Yuri Kolesniov <ynkolesnikov@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-08 22:13+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-01-09 18:24+0000\n"
+"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14987,7 +14987,7 @@ msgstr "Список по умолчанию для Стандартных Ша�
 
 #. SysConfig
 msgid "List view"
-msgstr ""
+msgstr "Вид в виде списка"
 
 #. SysConfig
 msgid "Locked ticket."
@@ -15263,7 +15263,7 @@ msgstr "Новая заявка [%s] (Q=%s;P=%s;S=%s)."
 
 #. SysConfig
 msgid "New Window"
-msgstr ""
+msgstr "Новое окно"
 
 #. SysConfig
 msgid "New email ticket"
@@ -15341,7 +15341,7 @@ msgstr "Прежнее состояние: %s, новое состояние: %s
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15906,7 +15906,7 @@ msgstr "Модуль поиска."
 
 #. SysConfig
 msgid "Second Queue"
-msgstr ""
+msgstr "Вторая очередь"
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -17149,11 +17149,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Some description!"
-msgstr ""
+msgstr "Некоторое описание!"
 
 #. SysConfig
 msgid "Some picture description!"
-msgstr ""
+msgstr "Некоторое описание рисунка!"
 
 #. SysConfig
 msgid ""
@@ -17629,7 +17629,7 @@ msgstr "Описание ярлыка(иконки) для навигацион�
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Иерархический вид"
 
 #. SysConfig
 msgid ""
@@ -17769,7 +17769,7 @@ msgstr "Написать новое исходящее почтовое сооб
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Да, скрыть архивированные заявки"
 
 #. SysConfig
 msgid ""

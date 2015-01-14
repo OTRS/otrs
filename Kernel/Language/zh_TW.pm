@@ -358,8 +358,6 @@ sub Data {
         'Dear Mrs. %s,' => '尊敬的%s女士:',
         'Dear %s,' => '尊敬的%s:',
         'Hello %s,' => '您好, %s:',
-        'This email address already exists. Please log in or reset your password.' =>
-            '郵件地址已存在，請登錄或重新初始化密碼。',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1758,6 +1756,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3128,6 +3129,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => '您已登錄為',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript沒有啟用',

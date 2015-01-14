@@ -367,8 +367,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Уважаемая %s,',
         'Dear %s,' => 'Уважаемый(ая)',
         'Hello %s,' => 'Здравствуйте, %s.',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Такой адрес электронной почты уже существует. Пожалуйста, войдите, или сбросьте свой пароль.',
         'This email address is not allowed to register. Please contact support staff.' =>
             'Этот адрес почты не разрешен для регистрации. Обратитесь к персоналу поддержки',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1767,6 +1765,9 @@ sub Data {
         'Chat' => 'Чат',
         'Timeline view in ticket zoom' => 'Хронологический вид при подробном просмотре заявки',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3137,6 +3138,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Вы вошли как',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript недоступен',
@@ -4581,7 +4584,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => 'Список всех событий, для заявок, отображаемых в интерфейсе.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Список по умолчанию для Стандартных Шаблонов, которые назначаются автоматически при создании новой очереди.',
-        'List view' => '',
+        'List view' => 'Вид в виде списка',
         'Locked ticket.' => 'Заблокирована заявка.',
         'Log file for the ticket counter.' => 'Файл для счетчика заявок',
         'Loop-Protection! No auto-response sent to "%s".' => 'Защита от зацикливания! Авто-ответ на «%s» не отправлен.',
@@ -4664,7 +4667,7 @@ sub Data {
             'Имя пользовательского сервиса. Это сервис, выбранный из списка предпочтительных сервисов и он может быть выбран в личных настройках.',
         'NameX' => 'ИмяХ',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Новая заявка [%s] (Q=%s;P=%s;S=%s).',
-        'New Window' => '',
+        'New Window' => 'Новое окно',
         'New email ticket' => 'Новая заявка по email',
         'New owner is "%s" (ID=%s).' => 'Новый владелец «%s» (ID=%s).',
         'New phone ticket' => 'Новая телефонная заявка',
@@ -4686,7 +4689,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Количество заявок которое показывается на каждой странице при выводе результатов поиска в интерфейсе клиента.',
         'Old: "%s" New: "%s"' => 'Прежнее состояние: %s, новое состояние: %s',
-        'Online' => '',
+        'Online' => 'Online',
         'Open tickets (customer user)' => 'Открытые заявки (клиента)',
         'Open tickets (customer)' => 'Открытые заявки (клиента)',
         'Out Of Office' => 'Вне офиса',
@@ -4845,7 +4848,7 @@ sub Data {
         'Search User' => 'Искать агента',
         'Search backend default router.' => 'Модуль поиска по умолчанию.',
         'Search backend router.' => 'Модуль поиска.',
-        'Second Queue' => '',
+        'Second Queue' => 'Вторая очередь',
         'Select your frontend Theme.' => 'Тема интерфейса (имя папки с кастомными модулями).',
         'Selects the cache backend to use.' => '',
         'Selects the module to handle uploads via the web interface. "DB" stores all uploads in the database, "FS" uses the file system.' =>
@@ -5251,8 +5254,8 @@ sub Data {
         'Skin' => 'Окрас',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
-        'Some description!' => '',
-        'Some picture description!' => '',
+        'Some description!' => 'Некоторое описание!',
+        'Some picture description!' => 'Некоторое описание рисунка!',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             'Сортировать заявки (по возрастанию или убыванию) если выбрана одна очередь при просмотре очередей и после сортировки по приоритету. Значения: 0 = по возрастанию (старые сверху, по умолчанию), 1 = по убыванию (новешие сверху). Испльзуйте QueueID в качестве Ключа и 0 или 1 в Содержании.',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5397,7 +5400,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Переключает отображение списка OTRS FeatureAddons в Управлении пакетами.',
         'Toolbar Item for a shortcut.' => 'Описание ярлыка(иконки) для навигационной панели.',
-        'Tree view' => '',
+        'Tree view' => 'Иерархический вид',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             'Выключает проверку SSL сертификата, например, при использовании "прозрачного" HTTPS proxy. Вы иможете использовать эту опцию на свой страх и риск.',
         'Turns on drag and drop for the main navigation.' => 'Включает возможность "drag and drop" для основной навигации.',
@@ -5437,7 +5440,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'При слиянии/объединении заявок, клиент может быть информирован об этом почтовым сообщением, активацией параметра "Inform Sender". Здесь вы можете задать текст, который  потом может быть изменен агентом.',
         'Write a new, outgoing mail' => 'Написать новое исходящее почтовое сообщение',
-        'Yes, but hide archived tickets' => '',
+        'Yes, but hide archived tickets' => 'Да, скрыть архивированные заявки',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Выбор очередей, которые вас интересуют. Вы также будете уведомляться по электронной почте, если эта функция включена.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
