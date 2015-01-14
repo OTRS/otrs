@@ -1312,6 +1312,7 @@ sub Run {
     $Frontend{SourceList} = $Self->{LayoutObject}->BuildSelection(
         Data        => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
         Name        => 'Source',
+        Title       => 'Repository List',
         Max         => 40,
         Translation => 0,
         SelectedID  => $Source,
@@ -1401,7 +1402,7 @@ sub Run {
 
     # remove not visible packages
     @RepositoryList = map {
-        ( !defined $_->{PackageIsVisible} || $_->{PackageIsVisible}->{Content} eq '1' ) ? $_ : ()
+        ( !defined $_->{PackageIsVisible} || ( $_->{PackageIsVisible}->{Content} && $_->{PackageIsVisible}->{Content} eq '1' ) ) ? $_ : ()
     } @RepositoryList;
 
     # if there are no local packages to show, a msg is displayed
