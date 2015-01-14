@@ -358,8 +358,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Bästa Fru %s,',
         'Dear %s,' => 'Bäste %s,',
         'Hello %s,' => 'Hej %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Denna e-postadress finns redan. Logga in eller återställ ditt lösenord.',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1758,6 +1756,9 @@ sub Data {
         'Chat' => 'Chat',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -2294,7 +2295,7 @@ sub Data {
         'Relate this certificate' => '',
 
         # Template: AdminSMIMECertRead
-        'Close window' => '',
+        'Close window' => 'Stäng fönster',
         'Certificate details' => '',
 
         # Template: AdminSalutation
@@ -3128,6 +3129,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Du är inloggad som',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => '',

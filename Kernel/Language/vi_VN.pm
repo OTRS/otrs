@@ -355,8 +355,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Thưa bà% s,',
         'Dear %s,' => 'Thưa% s,',
         'Hello %s,' => 'Xin chào %s',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Địa chỉ email này đã tồn tại. Vui lòng đăng nhập hoặc thiết lập lại mật khẩu của bạn.',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1755,6 +1753,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3125,6 +3126,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => '',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => '',

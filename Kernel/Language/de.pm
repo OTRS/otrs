@@ -356,8 +356,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Sehr geehrte Frau %s,',
         'Dear %s,' => 'Lieber %s,',
         'Hello %s,' => 'Hallo %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Diese E-Mail-Adresse existiert bereits. Bitte melden Sie sich an oder ändern Sie ihr Passwort.',
         'This email address is not allowed to register. Please contact support staff.' =>
             'Diese E-Mail-Adresse darf nicht registriert werden. Bitte wenden Sie sich an die Supportabteilung.',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -3525,8 +3523,6 @@ sub Data {
         'CustomerID search' => '',
         'CustomerName' => 'Kundenname',
         'Customers <-> Groups' => 'Kunden <-> Gruppen',
-        'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
         'Data used to export the search result in CSV format.' => 'Daten die verwendet werden um das Suchergebnis im CSV-Format zu exportieren.',
         'Date / Time' => 'Datum / Zeit',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
@@ -4366,8 +4362,6 @@ sub Data {
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
         'Forwarded to "%s".' => 'Weitergeleitet an "%s".',
-        'French stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
         'Frontend language' => 'Oberflächen-Sprache',
         'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
             '',
@@ -4398,8 +4392,6 @@ sub Data {
         'GenericInterface module registration for the operation layer.' =>
             '',
         'GenericInterface module registration for the transport layer.' =>
-            '',
-        'German stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files.' =>
             '',
@@ -4546,8 +4538,6 @@ sub Data {
             'Es ist möglich, verschiedene Skins zu konfigurieren, zum Beispiel um zwischen verschiedenen Kunden auf Basis der jeweiligen Domain zu unterscheiden. Sie können durch Nutzung von regulären Ausdrücken mithilfe von Schlüssel-/Wert-Paaren auf Domains prüfen. Der Inhalt von "Schlüssel" sollte die Prüfung auf die Domain beinhalten, der Inhalt von "Wert" den Namen des zu selektierenden Skins für diese Domain. Bitte beachten Sie die Einträge mit Beispielen für korrekte reguläre Ausdrücke.',
         'It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.' =>
             'Es ist möglich, verschiedene Themes zu konfigurieren, zum Beispiel um zwischen verschiedenen Agenten und Kunden auf Basis der jeweiligen Domain zu unterscheiden. Sie können durch Nutzung von regulären Ausdrücken mithilfe von Schlüssel-/Wert-Paaren auf Domains prüfen. Der Inhalt von "Schlüssel" sollte die Prüfung auf die Domain beinhalten, der Inhalt von "Wert" den Namen des zu selektierenden Themes für diese Domain. Bitte beachten Sie die Einträge mit Beispielen für korrekte reguläre Ausdrücke.',
-        'Italian stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
         'Lastname, Firstname' => 'Nachname, Vorname',
         'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
         'Left' => '',
@@ -5263,8 +5253,6 @@ sub Data {
             '',
         'Spam Assassin example setup. Moves marked mails to spam queue.' =>
             '',
-        'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
         'Specifies if an agent should receive email notification of his own actions.' =>
             '',
         'Specifies the available note types for this ticket mask. If the option is deselected, ArticleTypeDefault is used and the option is removed from the mask.' =>
@@ -5327,6 +5315,7 @@ sub Data {
         'Stat#' => 'Statistik Nr.',
         'Statistics' => 'Statistiken',
         'Status view' => 'Ansicht nach Status',
+        'Stop words for fulltext index. These words will be removed.' => '',
         'Stores cookies after the browser has been closed.' => '',
         'Strips empty lines on the ticket preview in the queue view.' => '',
         'Strips empty lines on the ticket preview in the service view.' =>

@@ -360,8 +360,6 @@ sub Data {
         'Dear Mrs. %s,' => '%s 様',
         'Dear %s,' => '%s 様',
         'Hello %s,' => '%s さん',
-        'This email address already exists. Please log in or reset your password.' =>
-            'このemailアドレスは既に存在します。ログインするかパスワードを初期化してください。',
         'This email address is not allowed to register. Please contact support staff.' =>
             'このemailアドレスの登録は認められていません。サポートにお問い合わせください。',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1760,6 +1758,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => 'DynamicField 日付でコンタクトする',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3130,6 +3131,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'ログイン中: ',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScriptが利用できません。',

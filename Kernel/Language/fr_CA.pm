@@ -363,8 +363,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Cher Mme %s,',
         'Dear %s,' => 'Cher %s,',
         'Hello %s,' => 'Bonjour %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Cette adresse de courrier électronique existe déjà. Veuillez vous authentifier ou réinitialiser votre mot de passe.',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1763,6 +1761,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3133,6 +3134,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'Vous êtes connecté en tant que',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript non disponible',

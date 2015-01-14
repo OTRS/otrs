@@ -359,8 +359,6 @@ sub Data {
         'Dear Mrs. %s,' => 'Mpendwa bibi %s,',
         'Dear %s,' => 'Mpendwa %s,',
         'Hello %s,' => 'Habari %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'Barua pepe hii tayari ipo. Tafadhali ingia au weka upya neno lako la siri.',
         'This email address is not allowed to register. Please contact support staff.' =>
             'Anuani ya barua hii pepe hairuhusiwi kusajili. Tafadhali wasiliana na wafanyakazi wa msaada.',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1760,6 +1758,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Chat' => 'Ongea',
         'Timeline view in ticket zoom' => 'Mandhari ya mfululizo katika kikuzaji tiketi',
         'DynamicField ContactWithData' => 'Uga wenye nguvu wasiliana na data',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => 'Gamba %s',
 
         # Template: AdminPGP
@@ -3130,6 +3131,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: Header
         'You are logged in as' => 'Umeingia kama',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript haipatikani',

@@ -358,8 +358,6 @@ sub Data {
         'Dear Mrs. %s,' => 'प्रिय श्रीमती %s,',
         'Dear %s,' => 'प्रिय %s,',
         'Hello %s,' => 'नमस्कार %s,',
-        'This email address already exists. Please log in or reset your password.' =>
-            'यह ईमेल पता पहले से मौजूद है। प्रवेश करें या अपने कूटशब्द को पुनर्स्थापित करें।',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1758,6 +1756,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3128,6 +3129,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'आप इस रूप में प्रवॆशित हैं।',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'जावास्क्रिप्ट उपलब्ध नहीं है।',

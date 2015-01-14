@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-08 22:13+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-01-12 09:03+0000\n"
+"Last-Translator: Lars Jorgensen <ljorg6@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/OTRS/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2422,7 +2422,7 @@ msgstr "Din System-ID-instilling er ugyldig; den må kun indeholde tal."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Version"
-msgstr ""
+msgstr "OTRS-version"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Index Module"
@@ -5090,35 +5090,35 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "Ny taste-binding"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Tilføj taste-binding"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Binding for tast"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Fjern taste-binding"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Taste-binding"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Bind tast"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "matcher"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "til ny tast"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
@@ -5146,11 +5146,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "Vil du virkelig fjerne denne taste-binding?"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "Fjern denne taste-binding"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -5162,19 +5162,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
-msgstr ""
+msgstr "Tilføj ny operation"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr ""
+msgstr "Ændr operation %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "Vil du virkelig slette denne operation?"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Operationsdetaljer"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -5218,7 +5218,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
-msgstr ""
+msgstr "Slet denne operation"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
@@ -5255,7 +5255,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "Maksimal beskedlængde"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
@@ -5265,7 +5265,7 @@ msgstr "Dette felt skal indeholde et heltal."
 msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTRS "
 "will process."
-msgstr ""
+msgstr "Her kan du angive den maksimale længde (i bytes) af REST-beskeder, som OTRS vil behandle."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
@@ -5320,31 +5320,31 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "Authentikation"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
-msgstr ""
+msgstr "Authentikations-mekanisme for at tilgå fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "A \"-\" value means no authentication."
-msgstr ""
+msgstr "Et \"-\" betyder ingen authentikation."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
-msgstr ""
+msgstr "Brugernavnet, der skal anvendes for at tilgå fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
-msgstr ""
+msgstr "Passwordet for den priviligerede bruger."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
-msgstr ""
+msgstr "Brug SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide SSL options to connect to the remote system."
-msgstr ""
+msgstr "Vis eller skjul SSL-muligheder for at forbinde til fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate File"
@@ -5352,11 +5352,11 @@ msgstr "Certifikat-fil"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
-msgstr ""
+msgstr "Den fulde sti og navn til SSL-certifikatfilen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
-msgstr ""
+msgstr "f.eks. /opt/otrs/var/certificates/REST/ssl.crt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate Password File"

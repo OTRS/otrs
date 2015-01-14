@@ -1,11 +1,12 @@
 # 
 # Translators:
+# David Krotil <david.krotil@krotilovi.cz>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-08 22:13+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-01-14 18:08+0000\n"
+"Last-Translator: David Krotil <david.krotil@krotilovi.cz>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,31 +64,31 @@ msgstr "Storno"
 
 #. Template: AAABase
 msgid "Reset"
-msgstr ""
+msgstr "Vyresetovat"
 
 #. Template: AAABase
 msgid "more than ... ago"
-msgstr ""
+msgstr "více než ... nazpět"
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr ""
+msgstr "za více než ..."
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr ""
+msgstr "během posledních ..."
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr ""
+msgstr "během příštího"
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr ""
+msgstr "Vytvořeno během posledních"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "Vytvořeno více než ... nazpět"
 
 #. Template: AAABase
 msgid "Today"
@@ -115,7 +116,7 @@ msgstr "den(dní)"
 
 #. Template: AAABase
 msgid "d"
-msgstr ""
+msgstr "d asi"
 
 #. Template: AAABase
 msgid "hour"
@@ -151,11 +152,11 @@ msgstr "minut(a)(y)"
 
 #. Template: AAABase
 msgid "Minutes"
-msgstr ""
+msgstr "Minut"
 
 #. Template: AAABase
 msgid "m"
-msgstr ""
+msgstr "m asi"
 
 #. Template: AAABase
 msgid "month"
@@ -203,11 +204,11 @@ msgstr "vteřina"
 
 #. Template: AAABase
 msgid "s"
-msgstr ""
+msgstr "s asi"
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "Časové jednotky"
 
 #. Template: AAABase
 msgid "wrote"
@@ -279,7 +280,7 @@ msgstr "neplatný"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr ""
+msgstr "Chybný"
 
 #. Template: AAABase
 msgid "* invalid"
@@ -355,7 +356,7 @@ msgstr "prosíme neupravovat!"
 
 #. Template: AAABase
 msgid "Need Action"
-msgstr ""
+msgstr "Vyžaduje akci"
 
 #. Template: AAABase
 msgid "AddLink"
@@ -491,7 +492,7 @@ msgstr "Informace o klientovi"
 
 #. Template: AAABase
 msgid "Customer Companies"
-msgstr ""
+msgstr "Zákazníkovi společnosti"
 
 #. Template: AAABase
 msgid "Company"
@@ -627,7 +628,7 @@ msgstr "mezi"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "před/po"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -635,7 +636,7 @@ msgstr "Fulltextové vyhledávání"
 
 #. Template: AAABase
 msgid "Data"
-msgstr ""
+msgstr "Data"
 
 #. Template: AAABase
 msgid "Options"
@@ -723,23 +724,23 @@ msgstr "Velký"
 
 #. Template: AAABase
 msgid "Date picker"
-msgstr ""
+msgstr "Výběr data"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Ukázat stromový výběr"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "Obsah pole je příliš dlouhý!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "Maximální velikost je s% znaků."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Toto pole je povinné nebo"
 
 #. Template: AAABase
 msgid "New message"
@@ -771,7 +772,7 @@ msgstr "Změňte si heslo."
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr ""
+msgstr "Prosím aktivujte nejdříve %s "
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -799,22 +800,22 @@ msgstr "Přihlášení neúspěšné! Vaše uživatelské jméno či heslo bylo 
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr ""
+msgstr "Neexistuje účet s tímto uživatelským jménem"
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "Prosím kontaktujte svého administrátora"
 
 #. Template: AAABase
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Přihlášení bylo úspěšné, ale neexistuje žádný zákaznický záznam v zákaznické sekci. Prosím kontaktujte vašeho správce."
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Tato emailová adresa již existuje. Prosím přihlašte se nebo vyresetujte své heslo."
 
 #. Template: AAABase
 msgid "Logout"
@@ -830,11 +831,11 @@ msgstr "Funkce je neaktivní!"
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr ""
+msgstr "Operátor aktualizován!"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Výběr databáze"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -878,21 +879,21 @@ msgstr "Databáze smazána."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "Zadejte heslo pro administrátora databáze."
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "Zadejte heslo pro uživatele databáze."
 
 #. Template: AAABase
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr ""
+msgstr "Pokud jste nastavili heslo root-a pro vaši databázi, musíte jej zde zadat. Pokud ne, tak nechte toto pole prázdné."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "Databáze obsahuje data - měla by být prázdná."
 
 #. Template: AAABase
 msgid "Login is needed!"
@@ -901,7 +902,7 @@ msgstr "Vyžadováno přihlášení!"
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Z důvodu pravidelné údržby systému se není možné aktuálně přihlásit."
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -943,7 +944,7 @@ msgstr "Čekání na vyřízení do"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr ""
+msgstr "Pro běžnou práci v OTRS nepoužívejte Superuživatele. Vytvořte nové Uživatele a pracujte místo toho s nimi."
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
@@ -995,7 +996,7 @@ msgstr "Nemohu vytvořit %s!"
 
 #. Template: AAABase
 msgid "Check to activate this date"
-msgstr ""
+msgstr "Označte k aktivaci tohoto data"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
@@ -1003,7 +1004,7 @@ msgstr "Máte nastaveno \"Mimo kancelář\". Přejete si to vypnout?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Novinky o OTRS verzích!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1067,15 +1068,15 @@ msgstr "Zákazník aktualizován!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr ""
+msgstr "Přidána zákazníkova společnost!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr ""
+msgstr "Zákazníkova společnosti aktualizována!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "Upozornění: Společnost je chybná!"
 
 #. Template: AAABase
 msgid "Mail account added!"
@@ -1127,7 +1128,7 @@ msgstr "Velikost"
 
 #. Template: AAABase
 msgid "Upload"
-msgstr ""
+msgstr "Nahrát na server"
 
 #. Template: AAABase
 msgid "Directory"
@@ -1225,27 +1226,27 @@ msgstr "Bezpečnostní poznámka: Aktivujte %s protože aplikace stále běží!
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
-msgstr ""
+msgstr "Nebylo možno načíst dokument indexu repozitáře"
 
 #. Template: AAABase
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr ""
+msgstr "Nebyly nalezeny balíčky pro vaši verzi frameworku v tomto repozitáři, pouze obsahuje balíčky pro jiné verze frameworku."
 
 #. Template: AAABase
 msgid "No packages, or no new packages, found in selected repository."
-msgstr ""
+msgstr "Nebyly nalezeny žádné nebo žádné nové baličky pro vybraný repozitář."
 
 #. Template: AAABase
 msgid "Edit the system configuration settings."
-msgstr ""
+msgstr "Editace systémových nastavení."
 
 #. Template: AAABase
 msgid ""
 "ACL information from database is not in sync with the system configuration, "
 "please deploy all ACLs."
-msgstr ""
+msgstr "ACL informace z databáze nejsou synchronizované se systémovými nastaveními, prosím aktualizujte všechny ACL."
 
 #. Template: AAABase
 msgid "printed at"
@@ -1274,17 +1275,17 @@ msgstr "Dobrý den %s,"
 #. Template: AAABase
 msgid ""
 "This email address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Tato emailová adresa již existuje. Prosím přihlašte se nebo vyresetujte své heslo."
 
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Tato emailová adresa nemá povolení pro registraci. Prosím kontaktute technickou podporu."
 
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr ""
+msgstr "Byl vytvořen nový účet. Odeslány přihlašovací údaje na %s. Prosím zkontrolujte svojí emailovou schránku."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
@@ -1292,11 +1293,11 @@ msgstr "Prosím klikněte na \"Zpět\" a opakujte pokus"
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
-msgstr ""
+msgstr "Odeslány instrukce pro obnovu hesla, Prosím zkontrolujte svojí emailovou schránku."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr ""
+msgstr "Odesláno nové heslo na %s. Prosím zkontrolujte svojí emailovou schránku."
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -1328,7 +1329,7 @@ msgstr "Zobrazeno"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr ""
+msgstr "Zobrazeni uživatelé zákazníka"
 
 #. Template: AAABase
 msgid "News"
@@ -1350,13 +1351,13 @@ msgstr "Statistiky za 7 dnů"
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
-msgstr ""
+msgstr "Informace Správy procesů získaná z databáze není synchronizována se systémovou konfigurací, prosím synchronizujte všechny procesy."
 
 #. Template: AAABase
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr ""
+msgstr "Balíček není zkontrolován OTRS Group! Není doporučeno jeho používání."
 
 #. Template: AAABase
 msgid ""
@@ -1365,15 +1366,15 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Pokud budete dále instalovat tento balíček, následující problémy se mohou vyskytnout!<br><br>&nbsp;-Bezpečnostní problémy<br>&nbsp;-Problémy se stabilitou<br>&nbsp;-Výkonnostní problémy<br><br>Prosím uvědomte si, že problémy způsobené prací s tímto balíčkem nebudou řešeny v rámci OTRS servisní smlouvy!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
-msgstr ""
+msgstr "Vybrat"
 
 #. Template: AAABase
 msgid "Unmark"
-msgstr ""
+msgstr "Zrušit výběr"
 
 #. Template: AAABase
 msgid "Bold"
@@ -1465,107 +1466,107 @@ msgstr "Znovuobnovit"
 
 #. Template: AAABase
 msgid "Scheduler process is registered but might not be running."
-msgstr ""
+msgstr "Proces plánovače je registrován, ale zřejmě neběží."
 
 #. Template: AAABase
 msgid "Scheduler is not running."
-msgstr ""
+msgstr "Proces plánovače neběží."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr ""
+msgstr "Nemohu kontaktovat registrační server. Prosím zkuste to později."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr ""
+msgstr "Nebyla obdržena data z registračního serveru. Prosím zkuste to později."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr ""
+msgstr "Objevily se problémy se zpracováním výsledků serveru. Prosím zkuste to později."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
-msgstr ""
+msgstr "Uživatel a heslo nesouhlasí. Zkuste to prosím znovu."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr ""
+msgstr "Vybraný proces je chybný."
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Aktualizujte %s nyní !"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Přejděte do aktualizačního centra %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "Vaše %s license právě vyprší. Prosím kontaktujte %s , aby jste mohli obnovit váš kontrakt."
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Je dostupná aktualizace pro váš s%, ale je v konfliktu s vaší verzi frameworku! Prosím aktualizujte nejdříve framework!"
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Váš systém byl úspěšně aktualizován na %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Objevil se problém během aktualizace na %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s byl korektně přeinstalován."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Objevil se problém během přeinstalace %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Vaše %s byla uspěšně aktualizována."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Objevil se problém během aktualizace na %s."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s byl korektně odinstalován."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Objevil se problém při odinstalaci %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
-msgstr ""
+msgstr "Nový rok"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "Svátek práce"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
-msgstr ""
+msgstr "Štědrý den"
 
 #. Template: AAACalendar
 msgid "First Christmas Day"
-msgstr ""
+msgstr "1. svátek vánoční"
 
 #. Template: AAACalendar
 msgid "Second Christmas Day"
-msgstr ""
+msgstr "2. svátek vánoční"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
-msgstr ""
+msgstr "Silvestr"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
@@ -1577,11 +1578,11 @@ msgstr ""
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr ""
+msgstr "Webová služba \"%s\"  vytvořena!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr ""
+msgstr "Webová služba \"%s\" aktualizována!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1709,7 +1710,7 @@ msgstr "Nové Heslo"
 
 #. Template: AAAPreferences
 msgid "Verify password"
-msgstr ""
+msgstr "Kontrola hesla"
 
 #. Template: AAAPreferences
 msgid "Spelling Dictionary"
@@ -1717,7 +1718,7 @@ msgstr "Slovník pro kontrolu pravopisu"
 
 #. Template: AAAPreferences
 msgid "Default spelling dictionary"
-msgstr ""
+msgstr "Výchozí slovník pro kontrolu pravopisu"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
@@ -1769,7 +1770,7 @@ msgstr ""
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
-msgstr ""
+msgstr "CSV oddělovač"
 
 #. Template: AAAStats
 msgid "Stat"
@@ -1777,15 +1778,15 @@ msgstr "Statistika"
 
 #. Template: AAAStats
 msgid "Sum"
-msgstr ""
+msgstr "Součet"
 
 #. Template: AAAStats
 msgid "No (not supported)"
-msgstr ""
+msgstr "Ne ( nepodporováno )"
 
 #. Template: AAAStats
 msgid "Days"
-msgstr ""
+msgstr "Dnů"
 
 #. Template: AAAStats
 msgid "Please fill out the required fields!"
@@ -1960,7 +1961,7 @@ msgstr "Řadit dle"
 
 #. Template: AAAStats
 msgid "Limit"
-msgstr ""
+msgstr "Limit"
 
 #. Template: AAAStats
 msgid "Ticketlist"
@@ -2024,7 +2025,7 @@ msgstr "Řešitelem počítaný čas"
 
 #. Template: AAAStats
 msgid "Ticket/Article Accounted Time"
-msgstr ""
+msgstr "Vyúčtováný čas Ticketu/Článku"
 
 #. Template: AAAStats
 msgid "TicketAccountedTime"
@@ -2040,7 +2041,7 @@ msgstr "čas uzavření tiketu"
 
 #. Template: AAASupportDataCollector
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámí"
 
 #. Template: AAASupportDataCollector
 msgid "Information"
@@ -2048,23 +2049,23 @@ msgstr "Informace"
 
 #. Template: AAASupportDataCollector
 msgid "OK"
-msgstr ""
+msgstr "Ano"
 
 #. Template: AAASupportDataCollector
 msgid "Problem"
-msgstr ""
+msgstr "Problém"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver"
-msgstr ""
+msgstr "Webový server"
 
 #. Template: AAASupportDataCollector
 msgid "Operating System"
-msgstr ""
+msgstr "Operační systém"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS"
-msgstr ""
+msgstr "OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Table Presence"
@@ -2076,7 +2077,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Table Check"
-msgstr ""
+msgstr "Kontrola tabulek"
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not read file."
@@ -2088,19 +2089,19 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Database Size"
-msgstr ""
+msgstr "Velikost databáze"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database size."
-msgstr ""
+msgstr "Nebylo možno zjistit velikost databáze."
 
 #. Template: AAASupportDataCollector
 msgid "Database Version"
-msgstr ""
+msgstr "Verze databáze"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database version."
-msgstr ""
+msgstr "Nebylo možno zjistit verzi databáze."
 
 #. Template: AAASupportDataCollector
 msgid "Client Connection Charset"
@@ -2108,15 +2109,15 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Nastavení character_set_client musi být UNICODE nebo UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
-msgstr ""
+msgstr "Kódová stránka databáze"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Nastavení character_set_database musi být UNICODE nebo UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
@@ -2124,19 +2125,19 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
-msgstr ""
+msgstr "Jsou zde tabulky, které nemají nastavenou kódovou stránku UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "Maximální velikost SQL dotazu"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr ""
+msgstr "Nastavení 'max_allowed_packet' musí být větší než 20 MB."
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Velikost Query Cache"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2146,28 +2147,28 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "Výchozí typ úložiště tabulek"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "Byly nalezeny tabulky z jiným než výchozím formátem úložiště tabulek."
 
 #. Template: AAASupportDataCollector
 msgid "MySQL 5.x or higher is required."
-msgstr ""
+msgstr "MySQL 5.x a vyšší je vyžadována."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG Setting"
-msgstr ""
+msgstr "NLS_LANG nastavení,"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
-msgstr ""
+msgstr "NLS_LANG musí být nastaveno na AL32UTF8(kupříkladu CZECH_CZECH REPUBLIC.AL32UTF8)."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
-msgstr ""
+msgstr "Nastavení NLS_DATE_FORMAT"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
@@ -2179,63 +2180,63 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Nastavení client_encoding musi být UNICODE nebo UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Nastavení server_encoding musi být UNICODE nebo UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
-msgstr ""
+msgstr "Formát datumu"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
-msgstr ""
+msgstr "Nastavení stylu data musí být ISO."
 
 #. Template: AAASupportDataCollector
 msgid "PostgreSQL 8.x or higher is required."
-msgstr ""
+msgstr "PostgreSQL 8.x a vyšší je vyžadováno."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Disk Partition"
-msgstr ""
+msgstr "OTRS disková particie"
 
 #. Template: AAASupportDataCollector
 msgid "Disk Usage"
-msgstr ""
+msgstr "Využití disku"
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located is almost full."
-msgstr ""
+msgstr "Particie kde je umístněno OTRS je téměř plná."
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located has no disk space problems."
-msgstr ""
+msgstr "Na particii, kde je nainstalováno OTRS není problém s diskovým prostorem."
 
 #. Template: AAASupportDataCollector
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "Využití diskového prostoru"
 
 #. Template: AAASupportDataCollector
 msgid "Distribution"
-msgstr ""
+msgstr "Linuxová distribuce "
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine distribution."
-msgstr ""
+msgstr "Nemohu zjistit typ Linuxové distribuce."
 
 #. Template: AAASupportDataCollector
 msgid "Kernel Version"
-msgstr ""
+msgstr "Verze jádra"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine kernel version."
-msgstr ""
+msgstr "Nemohu zjistit verzi jádra."
 
 #. Template: AAASupportDataCollector
 msgid "System Load"
-msgstr ""
+msgstr "Zatížení systému"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2421,7 +2422,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Version"
-msgstr ""
+msgstr "Verze OTRS "
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Index Module"
@@ -7878,7 +7879,7 @@ msgstr "Přidat Privátní Klíč"
 
 #. Template: AdminSMIME
 msgid "Secret"
-msgstr "Tajný"
+msgstr "Heslo"
 
 #. Template: AdminSMIME
 msgid "Related Certificates for"

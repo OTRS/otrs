@@ -361,8 +361,6 @@ sub Data {
         'Dear Mrs. %s,' => 'سرکار خانم %s',
         'Dear %s,' => '%s گرامی',
         'Hello %s,' => 'سلام %s',
-        'This email address already exists. Please log in or reset your password.' =>
-            'این آدرس ایمیل موجود است. لطفا یا وارد شوید و یا رمز عبور خود را مجدد وارد نمایید.',
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
@@ -1761,6 +1759,9 @@ sub Data {
         'Chat' => '',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
+        'DynamicField Database' => '',
+        'SLA Selection Dialog' => '',
+        'Ticket Attachment View' => '',
         'The %s skin' => '',
 
         # Template: AdminPGP
@@ -3131,6 +3132,8 @@ sub Data {
 
         # Template: Header
         'You are logged in as' => 'شما با این عنوان وارد شده‌اید',
+        'There are new chat requests available. Please visit the chat manager.' =>
+            '',
 
         # Template: Installer
         'JavaScript not available' => 'جاوا اسکریپت در دسترس نیست',
