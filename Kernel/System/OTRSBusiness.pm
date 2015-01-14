@@ -21,6 +21,7 @@ our @ObjectDependencies = (
     'Kernel::System::Package',
     'Kernel::System::SystemData',
     'Kernel::System::Time',
+    'Kernel::System::Cache',
 );
 
 # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
@@ -67,6 +68,10 @@ sub new {
     # Get OTRSBusiness::ReleaseChannel from SysConfig (Stable = 1, Development = 0)
     $Self->{OnlyStable} = $Kernel::OM->Get('Kernel::Config')->Get('OTRSBusiness::ReleaseChannel') // 1;
 
+    # Set cache params
+    $Self->{CacheType} = 'OTRSBusiness';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 30;    # 30 days
+
     return $Self;
 }
 
@@ -82,7 +87,29 @@ the file system.
 sub OTRSBusinessIsInstalled {
     my ( $Self, %Param ) = @_;
 
-    return $Self->_GetOTRSBusinessPackageFromRepository() ? 1 : 0;
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # as the check for installed packages can be
+    # very expensive, we want to use caching here
+    my $Cache = $CacheObject->Get(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key  => 'OTRSBusinessIsInstalled',
+    );
+
+    return $Cache if defined $Cache;
+
+    my $IsInstalled = $Self->_GetOTRSBusinessPackageFromRepository() ? 1 : 0;
+
+    # set cache
+    $CacheObject->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => 'OTRSBusinessIsInstalled',
+        Value => $IsInstalled,
+    );
+
+    return $IsInstalled;
 }
 
 =item OTRSBusinessIsAvailable()
@@ -602,10 +629,23 @@ sub OTRSBusinessInstall {
     my $PackageString = $Self->_OTRSBusinessFileGet();
     return if !$PackageString;
 
-    return $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
+    my $Install = return $Kernel::OM->Get('Kernel::System::Package')->PackageInstall(
         String    => $PackageString,
         FromCloud => 1,
     );
+
+    return $Install if !$Install;
+
+    # now that we know that OTRSBusiness has been installed,
+    # we can just preset the cache instead of just swiping it.
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => 'OTRSBusinessIsInstalled',
+        Value => 1,
+    );
+
+    return $Install;
 }
 
 =item OTRSBusinessReinstall()
@@ -669,9 +709,22 @@ sub OTRSBusinessUninstall {
         Version => $Package->{Version}->{Content},
     );
 
-    return $Kernel::OM->Get('Kernel::System::Package')->PackageUninstall(
+    my $Uninstall = $Kernel::OM->Get('Kernel::System::Package')->PackageUninstall(
         String => $PackageString,
     );
+
+    return $Uninstall if !$Uninstall;
+
+    # now that we know that OTRSBusiness has been uninstalled,
+    # we can just preset the cache instead of just swiping it.
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => 'OTRSBusinessIsInstalled',
+        Value => 0,
+    );
+
+    return $Uninstall;
 }
 
 sub _GetOTRSBusinessPackageFromRepository {
