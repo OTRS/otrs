@@ -5903,6 +5903,18 @@ msgid "DynamicField ContactWithData"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
 msgstr ""
 
@@ -9894,6 +9906,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr ""
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr ""
@@ -10960,6 +10976,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Customers <-> Groups"
+msgstr ""
+
+#. SysConfig
+msgid "Customizable stop words for fulltext index. These words will be removed from the search index."
 msgstr ""
 
 #. SysConfig
@@ -12863,6 +12883,10 @@ msgid "Forwarded to \"%s\"."
 msgstr ""
 
 #. SysConfig
+msgid "French stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
 msgid "Frontend language"
 msgstr ""
 
@@ -12959,6 +12983,10 @@ msgid "GenericInterface module registration for the transport layer."
 msgstr ""
 
 #. SysConfig
+msgid "German stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
 msgid "Gives end users the possibility to override the separator character for CSV files, defined in the translation files."
 msgstr ""
 
@@ -13015,7 +13043,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -13252,6 +13280,10 @@ msgstr ""
 
 #. SysConfig
 msgid "It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in \"Key\" should match the domain, and the value in \"Content\" should be a valid theme on your system. Please see the example entries for the proper form of the regex."
+msgstr ""
+
+#. SysConfig
+msgid "Italian stop words for fulltext index. These words will be removed from the search index."
 msgstr ""
 
 #. SysConfig
@@ -14963,6 +14995,10 @@ msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr ""
 
 #. SysConfig
+msgid "Spanish stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
 msgid "Specifies if an agent should receive email notification of his own actions."
 msgstr ""
 
@@ -15116,10 +15152,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Status view"
-msgstr ""
-
-#. SysConfig
-msgid "Stop words for fulltext index. These words will be removed."
 msgstr ""
 
 #. SysConfig
