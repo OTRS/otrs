@@ -11,6 +11,23 @@
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
     <h1>[% Translate("Manage Agent-Role Relations") | html %]</h1>
     <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminUser;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add agent") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminRole;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add role") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div class="WidgetSimple">
             <div class="Header">
                 <h2><label for="FilterUsers">[% Translate("Filter for Agents") | html %]</label></h2>

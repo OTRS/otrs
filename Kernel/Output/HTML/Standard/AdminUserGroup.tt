@@ -25,6 +25,14 @@
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
                     </li>
 [% RenderBlockEnd("ActionOverview") %]
+[% RenderBlockStart("NewActions") %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminUser;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add agent") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminGroup;Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add group") | html %]</span></a>
+                    </li>
+[% RenderBlockEnd("NewActions") %]
                 </ul>
             </div>
         </div>

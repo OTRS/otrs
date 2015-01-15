@@ -287,8 +287,8 @@ sub _Overview {
 
     $Self->{LayoutObject}->Block( Name => 'Overview' );
 
-    # no "actions list" block because no actions now
-    #    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'ActionList' );
+    $Self->{LayoutObject}->Block( Name => 'NewActions' );
 
     $Self->{LayoutObject}->Block( Name => 'UserFilter' );
     $Self->{LayoutObject}->Block( Name => 'GroupFilter' );
