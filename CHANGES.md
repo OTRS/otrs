@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-01-19 Fixed bug#[10980](http://bugs.otrs.org/show_bug.cgi?id=10980) - InterfaceCustomer.pm has no translation.
 
 #4.0.5 2015-01-20
  - 2015-01-14 Updated translations, thanks to all translators.
