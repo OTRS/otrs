@@ -323,19 +323,30 @@ sub OTRSBusinessGetDependencies {
     my @Packages = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList();
 
     my @DependentPackages;
+    PACKAGE:
     for my $Package (@Packages) {
-        my $Dependencies = $Package->{PackageRequired} // [];
-        for my $Dependency ( @{$Dependencies} ) {
-            if ( $Dependency->{Content} eq 'OTRSBusiness' ) {
-                push @DependentPackages, {
-                    Name        => $Package->{Name}->{Content},
-                    Vendor      => $Package->{Vendor}->{Content},
-                    Version     => $Package->{Version}->{Content},
-                    Description => $Package->{Description},
-                };
-            }
+
+        next PACKAGE if !IsHashRefWithData($Package);
+        next PACKAGE if !IsArrayRefWithData( $Package->{PackageRequired} );
+
+        DEPENDENCY:
+        for my $Dependency ( @{ $Package->{PackageRequired} } ) {
+
+            next DEPENDENCY if !IsHashRefWithData($Dependency);
+            next DEPENDENCY if !$Dependency->{Content};
+            next DEPENDENCY if $Dependency->{Content} ne 'OTRSBusiness';
+
+            push @DependentPackages, {
+                Name        => $Package->{Name}->{Content},
+                Vendor      => $Package->{Vendor}->{Content},
+                Version     => $Package->{Version}->{Content},
+                Description => $Package->{Description},
+            };
+
+            last DEPENDENCY;
         }
     }
+
     return \@DependentPackages;
 }
 
