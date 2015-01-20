@@ -51,11 +51,19 @@
                 <p class="Center">
                     [% Translate("Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!", OTRSBusinessLabel) %]
                 </p>
+                [%  IF Config("Frontend::Module").AdminRegistration %]
                 <div class="Center SpacingTop">
                     <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction Primary">
                         <span><i class="fa fa-sign-in"></i> [% Translate("Register this System") | html %]</span>
                     </a>
                 </div>
+                [% ELSE %]
+                <div class="Center SpacingTop">
+                    <p>
+                        [% Translate("System Registration is disabled for your system. Please check your configuration.") %]
+                    </p>
+                </div>
+                [% END %]
             </div>
             <div class="Clear"></div>
         </div>

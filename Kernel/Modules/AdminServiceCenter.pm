@@ -102,7 +102,6 @@ sub _SupportDataCollectorView {
             || $Self->{SupportDataSending} ne 'Yes'
             )
         {
-
             $Self->{LayoutObject}->Block(
                 Name => 'NoteNotRegisteredNotSending',
             );
