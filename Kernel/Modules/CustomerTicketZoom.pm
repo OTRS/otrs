@@ -51,6 +51,19 @@ sub new {
         $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpand') || '';
     }
 
+    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
+        my %UserPreferences = $Self->{UserObject}->GetPreferences(
+            UserID => $Self->{UserID},
+        );
+
+        if ( $UserPreferences{UserCustomerDoNotShowBrowserLinkMessage} ) {
+            $Self->{DoNotShowBrowserLinkMessage} = 1;
+        }
+        else {
+            $Self->{DoNotShowBrowserLinkMessage} = 0;
+        }
+    }
+
     # needed objects
     $Self->{AgentUserObject}    = Kernel::System::User->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
@@ -311,6 +324,23 @@ sub Run {
     }
 
     #   end AJAX Update
+
+    # save, if browser link message was closed
+    elsif ( $Self->{Subaction} eq 'BrowserLinkMessage' ) {
+
+        $Self->{UserObject}->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => 'UserCustomerDoNotShowBrowserLinkMessage',
+            Value  => 1,
+        );
+
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => 1,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
 
     # check follow up
     elsif ( $Self->{Subaction} eq 'Store' ) {
@@ -1388,6 +1418,13 @@ sub _Mask {
                             %Article,
                         },
                     );
+
+                    # show message about links in iframes, if user didn't close it already
+                    if ( !$Self->{DoNotShowBrowserLinkMessage} ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'BrowserLinkMessage',
+                        );
+                    }
                 }
                 else {
                     my $SessionInformation;
@@ -1406,6 +1443,13 @@ sub _Mask {
                             SessionInformation => $SessionInformation,
                         },
                     );
+
+                    # show message about links in iframes, if user didn't close it already
+                    if ( !$Self->{DoNotShowBrowserLinkMessage} ) {
+                        $Self->{LayoutObject}->Block(
+                            Name => 'BrowserLinkMessage',
+                        );
+                    }
                 }
             }
             else {

@@ -83,6 +83,15 @@ sub new {
         UserID => $Self->{UserID},
     );
 
+    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
+        if ( $UserPreferences{UserAgentDoNotShowBrowserLinkMessage} ) {
+            $Self->{DoNotShowBrowserLinkMessage} = 1;
+        }
+        else {
+            $Self->{DoNotShowBrowserLinkMessage} = 0;
+        }
+    }
+
     if ( !defined $Self->{ZoomExpand} ) {
         if (
             $UserPreferences{UserLastUsedZoomViewType}
@@ -2876,6 +2885,13 @@ sub _ArticleItem {
         Name => $ViewMode,
         Data => {%Article},
     );
+
+    # show message about links in iframes, if user didn't close it already
+    if ( $ViewMode eq 'BodyHTML' && !$Self->{DoNotShowBrowserLinkMessage} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'BrowserLinkMessage',
+        );
+    }
 
     # restore plain body for further processing by ArticleViewModules
     if ( !$Self->{RichText} || !$Article{AttachmentIDOfHTMLBody} ) {

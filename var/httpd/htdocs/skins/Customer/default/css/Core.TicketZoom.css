@@ -442,6 +442,40 @@
 }
 
 /**
+ * @subsection  ArticleBody
+ * @note        styles for article body
+ */
+.MessageBrowser {
+    margin: 5px 0;
+    padding: 0px;
+    border: 1px solid #999;
+    border-radius: 2px;
+    position: relative;
+}
+
+.MessageBrowser p {
+     margin: 0;
+     padding: 5px;
+     background-color: #DDD;
+     font-size: 11px;
+     text-align: center;
+}
+
+.MessageBrowser a.Close {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: #5D5D5D;
+}
+
+.MessageBrowser a.Close:hover {
+    color: #000;
+}
+
+/**
  * @subsection  Message colors
  */
 

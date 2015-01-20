@@ -351,6 +351,15 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         if ( !ZoomExpand && $('#ArticleTable tbody tr.Active').length ) {
             $('div.Scroller').get(0).scrollTop = parseInt($('#ArticleTable tbody tr.Active').position().top, 10) - 30;
         }
+
+        // init browser link message close button
+        if ($('.MessageBrowser').length) {
+            $('.MessageBrowser a.Close').on('click', function () {
+                $('.MessageBrowser').fadeOut("slow");
+                Core.Agent.PreferencesUpdate('UserAgentDoNotShowBrowserLinkMessage', 1);
+                return false;
+            });
+        }
     };
 
     return TargetNS;
