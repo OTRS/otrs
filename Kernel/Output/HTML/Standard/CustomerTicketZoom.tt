@@ -137,6 +137,16 @@
                             </div>
 [% RenderBlockEnd("BodyPlain") %]
 [% RenderBlockStart("BodyHTMLLoad") %]
+[% RenderBlockStart("BrowserLinkMessage") %]
+# Show info, that links within the iframe must be clicked with strg/cmd/shift (depending on the used browser and os)
+# to open the links in a new window without the security permissions given to the iframe
+                            <div class="MessageBrowser">
+                                <p>
+        [% Translate("To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).") | html %]
+                                </p>
+                                <a class="Close" title="[% Translate("Close this message") | html %]" href="#"><i class="fa fa-times"></i></a>
+                            </div>
+[% RenderBlockEnd("BrowserLinkMessage") %]
 # Use the HTML5 sandbox attribute to prevent plugins and scripts from being executed in the browser.
 # Use IE's (non-standard) security attribute to achieve something similar in older IE browsers. Append session info to URL because IE will not send cookies.
 # Set 'allow-popups' to allow IE10+ to open links. ref: http://www.w3.org/html/wg/wiki/ChangeProposals/sandbox_allow_popups

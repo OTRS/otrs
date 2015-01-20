@@ -199,6 +199,28 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $('> input[name=ArticleState]', $VisibleMessage).val("true");
             ResizeIframe($VisibleIframe.get(0));
         }
+
+        // init browser link message close button
+        if ($('.MessageBrowser').length) {
+            $('.MessageBrowser a.Close').on('click', function () {
+                var Data = {
+                    Action: 'CustomerTicketZoom',
+                    Subaction: 'BrowserLinkMessage',
+                    TicketID: $('input[name=TicketID]').val()
+                };
+
+                $('.MessageBrowser').fadeOut("slow");
+
+                // call server, to save that the bo was closed and do not show it again on reload
+                Core.AJAX.FunctionCall(
+                    Core.Config.Get('CGIHandle'),
+                    Data,
+                    function () {}
+                );
+
+                return false;
+            });
+        }
     };
 
     return TargetNS;

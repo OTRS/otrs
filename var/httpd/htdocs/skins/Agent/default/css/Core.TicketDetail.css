@@ -276,13 +276,28 @@ div.Headline .Flag {
     padding: 0px;
     border: 1px solid #999;
     border-radius: 2px;
+    position: relative;
 }
 
 .MessageBrowser p {
-     padding: 5px;
+     padding: 5px 25px 5px 25px;
      background-color: #DDD;
      font-size: 11px;
      text-align: center;
+}
+
+.MessageBrowser a.Close {
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: #5D5D5D;
+}
+
+.MessageBrowser a.Close:hover {
+    color: #000;
 }
 
 
