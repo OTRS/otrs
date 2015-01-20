@@ -2,12 +2,14 @@
 # Translators:
 # bb16390 <bb16390@gmail.com>, 2014
 # bb16390 <bb16390@gmail.com>, 2014
+# Never.Min <never.min@gmail.com>, 2015
+# Never.Min <never.min@gmail.com>, 2015
 # 陈德文 <sggggy@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -326,7 +328,7 @@ msgstr "下一步"
 
 #. Template: AAABase
 msgid "Back"
-msgstr "上一步"
+msgstr "后退"
 
 #. Template: AAABase
 msgid "Next..."
@@ -634,7 +636,7 @@ msgstr "相对"
 
 #. Template: AAABase
 msgid "Fulltext Search"
-msgstr ""
+msgstr "全文搜索"
 
 #. Template: AAABase
 msgid "Data"
@@ -1276,11 +1278,6 @@ msgstr "您好, %s:"
 
 #. Template: AAABase
 msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "邮件地址已存在，请登录或重新初始化密码。"
-
-#. Template: AAABase
-msgid ""
 "This email address is not allowed to register. Please contact support staff."
 msgstr ""
 
@@ -1496,7 +1493,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "现在就更新到 %s"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
@@ -1516,7 +1513,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "你的系统已成功更新到 %s"
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
@@ -1552,7 +1549,7 @@ msgstr "新年"
 
 #. Template: AAACalendar
 msgid "International Workers' Day"
-msgstr ""
+msgstr "五一劳动节"
 
 #. Template: AAACalendar
 msgid "Christmas Eve"
@@ -1979,7 +1976,7 @@ msgstr "降序"
 
 #. Template: AAAStats
 msgid "First Lock"
-msgstr ""
+msgstr "首次锁定"
 
 #. Template: AAAStats
 msgid "Evaluation by"
@@ -2043,7 +2040,7 @@ msgstr "工单关闭时间"
 
 #. Template: AAASupportDataCollector
 msgid "Unknown"
-msgstr ""
+msgstr "未知"
 
 #. Template: AAASupportDataCollector
 msgid "Information"
@@ -2190,7 +2187,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
-msgstr ""
+msgstr "日期格式"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
@@ -2218,11 +2215,11 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "硬盘使用情况"
 
 #. Template: AAASupportDataCollector
 msgid "Distribution"
-msgstr ""
+msgstr "发行版本"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine distribution."
@@ -2230,7 +2227,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Kernel Version"
-msgstr ""
+msgstr "内核版本"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine kernel version."
@@ -2248,7 +2245,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Perl Modules"
-msgstr ""
+msgstr "Perl 模块"
 
 #. Template: AAASupportDataCollector
 msgid "Not all required Perl modules are correctly installed."
@@ -2260,15 +2257,15 @@ msgstr "Perl版本"
 
 #. Template: AAASupportDataCollector
 msgid "Free Swap Space (%)"
-msgstr ""
+msgstr "可用的交换分区空间(%)"
 
 #. Template: AAASupportDataCollector
 msgid "No Swap Enabled."
-msgstr ""
+msgstr "交换分区没有激活"
 
 #. Template: AAASupportDataCollector
 msgid "Used Swap Space (MB)"
-msgstr ""
+msgstr "交换分区已使用(MB)"
 
 #. Template: AAASupportDataCollector
 msgid "There should be more than 60% free swap space."
@@ -2280,7 +2277,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Config Settings"
-msgstr ""
+msgstr "编辑配置。"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine value."
@@ -2438,7 +2435,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Open Tickets"
-msgstr ""
+msgstr "处理中的工单"
 
 #. Template: AAASupportDataCollector
 msgid "You should not have more than 8,000 open tickets in your system."
@@ -2545,7 +2542,7 @@ msgstr "状态视图"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "服务视图"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2849,7 +2846,7 @@ msgstr "工单升级视图"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "消息来自"
 
 #. Template: AAATicket
 msgid "End message"
@@ -2857,7 +2854,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Forwarded message from"
-msgstr ""
+msgstr "已转发的消息来自"
 
 #. Template: AAATicket
 msgid "End forwarded message"
@@ -2869,7 +2866,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "回复为备注"
 
 #. Template: AAATicket
 msgid "new"
@@ -3550,31 +3547,31 @@ msgstr "工单信息"
 
 #. Template: AAAWeekDay
 msgid "Sun"
-msgstr ""
+msgstr "一"
 
 #. Template: AAAWeekDay
 msgid "Mon"
-msgstr ""
+msgstr "一"
 
 #. Template: AAAWeekDay
 msgid "Tue"
-msgstr ""
+msgstr "二"
 
 #. Template: AAAWeekDay
 msgid "Wed"
-msgstr ""
+msgstr "三"
 
 #. Template: AAAWeekDay
 msgid "Thu"
-msgstr ""
+msgstr "四"
 
 #. Template: AAAWeekDay
 msgid "Fri"
-msgstr ""
+msgstr "五"
 
 #. Template: AAAWeekDay
 msgid "Sat"
-msgstr ""
+msgstr "六"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -3741,7 +3738,7 @@ msgstr "保存"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr ""
+msgstr "或"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
@@ -4629,7 +4626,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "工单最后修改"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
@@ -5857,7 +5854,7 @@ msgstr "系统管理员"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "管理员在线手册"
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -5995,7 +5992,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr ""
+msgstr "降级到社区版本"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6025,7 +6022,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "重新安装 %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6040,7 +6037,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "更新 %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
@@ -6068,7 +6065,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "升级到 %s"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "%s will be available soon. Please check again in a few days."
@@ -6086,6 +6083,12 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Register this System"
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
@@ -6115,7 +6118,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr ""
+msgstr "进入 OTRS 软件包管理"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6140,14 +6143,26 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "对话"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
-msgstr ""
+msgstr "以时间轴视图展开工单"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -7642,7 +7657,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Service Center"
-msgstr ""
+msgstr "服务中心"
 
 #. Template: AdminRegistration
 msgid "Support Data Management"
@@ -7688,11 +7703,11 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
-msgstr ""
+msgstr "系统注册信息"
 
 #. Template: AdminRegistration
 msgid "Support Data"
-msgstr ""
+msgstr "诊断数据"
 
 #. Template: AdminRole
 msgid "Role Management"
@@ -7760,7 +7775,7 @@ msgstr "对于组/队列中的工单具有 '转移队列' 的权限"
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr ""
+msgstr "创建"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
@@ -7768,7 +7783,7 @@ msgstr "对于组/队列具有 '创建工单' 的权限"
 
 #. Template: AdminRoleGroup
 msgid "priority"
-msgstr ""
+msgstr "优先级"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
@@ -8017,15 +8032,15 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Send Update"
-msgstr ""
+msgstr "发送更新"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending Update..."
-msgstr ""
+msgstr "正在发送更新..."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Support Data information was successfully sent."
-msgstr ""
+msgstr "诊断信息已发送成功."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Was not possible to send Support Data information."
@@ -8033,7 +8048,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "更新结果"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Currently this data is only shown in this system."
@@ -8093,7 +8108,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "通过邮件发送"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
@@ -8103,12 +8118,12 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "发送中"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8116,7 +8131,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "下载文件"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
@@ -8267,7 +8282,7 @@ msgstr "元素"
 
 #. Template: AdminSysConfigEdit
 msgid "Edit Config Settings"
-msgstr ""
+msgstr "编辑配置。"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -8433,31 +8448,31 @@ msgstr "邮件地址和名称将在邮件中显示。"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "系统维护管理"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
-msgstr ""
+msgstr "系统维护排程"
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers"
 " the system is down for a time period."
-msgstr ""
+msgstr "当系统在特定的时间进行周期性维护时, 排程会通知服务人员或用户."
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
-msgstr ""
+msgstr "当到达维护时间之前, 当前登录到系统的用户将会在屏幕上收到一个通知."
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
-msgstr ""
+msgstr "开始时间"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr ""
+msgstr "结束时间"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
@@ -8603,7 +8618,7 @@ msgstr "编辑工单类型"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "这个类型的名字已存在!"
 
 #. Template: AdminUser
 msgid "Add agent"
@@ -8647,7 +8662,7 @@ msgstr "姓"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "这个用户名已被使用!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
@@ -8675,7 +8690,7 @@ msgstr "为此组选择服务人员的权限"
 
 #. Template: AdminUserGroup
 msgid "note"
-msgstr ""
+msgstr "备注"
 
 #. Template: AdminUserGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8683,7 +8698,7 @@ msgstr "对于组/队列具有 '添加备注' 的权限"
 
 #. Template: AdminUserGroup
 msgid "owner"
-msgstr ""
+msgstr "所有者"
 
 #. Template: AdminUserGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
@@ -8739,7 +8754,7 @@ msgstr "注意：用户是无效的！"
 
 #. Template: AgentDashboard
 msgid "Dashboard"
-msgstr "仪表板"
+msgstr "信息中心"
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
@@ -8771,7 +8786,7 @@ msgstr "邮件工单"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "开始对话"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8791,7 +8806,7 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "开始对话"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8860,7 +8875,7 @@ msgstr "我队列中的工单"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "我服务的工单"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8932,7 +8947,7 @@ msgstr "编辑个人设置"
 
 #. Template: AgentSchedulerInfo
 msgid "General Information"
-msgstr ""
+msgstr "一般信息"
 
 #. Template: AgentSchedulerInfo
 msgid "Scheduler is an OTRS separated process that perform asynchronous tasks"
@@ -8950,7 +8965,7 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Starting Scheduler"
-msgstr ""
+msgstr "启动计划任务"
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
@@ -8958,11 +8973,11 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Check that cron deamon is running in the system"
-msgstr ""
+msgstr "检查系统进程已经运行"
 
 #. Template: AgentSchedulerInfo
 msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr ""
+msgstr "确定 OTRS cron 任务已运行, 执行 %s 启动"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -9091,13 +9106,13 @@ msgstr "大多数的统计资料可以缓存，这将提高统计报表的计算
 
 #. Template: AgentStatsEditSpecification
 msgid "Show as dashboard widget"
-msgstr "作为仪表板显示部件"
+msgstr "作为信息中心显示部件"
 
 #. Template: AgentStatsEditSpecification
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
-msgstr "将该统计作为部件显示在仪表板中."
+msgstr "将该统计作为部件显示在信息中心中."
 
 #. Template: AgentStatsEditSpecification
 msgid "Please note"
@@ -9107,17 +9122,17 @@ msgstr "请注意"
 msgid ""
 "Enabling the dashboard widget will activate caching for this statistic in "
 "the dashboard."
-msgstr "启用仪表板中的统计部件将激活统计缓存"
+msgstr "启用信息中心中的统计部件将激活统计缓存"
 
 #. Template: AgentStatsEditSpecification
 msgid ""
 "Agents will not be able to change absolute time settings for statistics "
 "dashboard widgets."
-msgstr "对于仪表板统计部件你只能设置相对时间"
+msgstr "对于信息中心统计部件你只能设置相对时间"
 
 #. Template: AgentStatsEditSpecification
 msgid "IE8 doesn't support statistics dashboard widgets."
-msgstr "IE8不能显示仪表板统计部件"
+msgstr "IE8不能显示信息中心统计部件"
 
 #. Template: AgentStatsEditSpecification
 msgid "If set to invalid end users can not generate the stat."
@@ -9248,7 +9263,7 @@ msgstr "至"
 
 #. Template: AgentStatsViewSettings
 msgid "not changable for dashboard statistics"
-msgstr ""
+msgstr "无法改变信息中心统计数据"
 
 #. Template: AgentStatsViewSettings
 msgid "Select Chart Type"
@@ -9506,7 +9521,7 @@ msgstr "获取全部"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "发邮件"
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -9606,7 +9621,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "保存对话为新的电话工单"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
@@ -9622,11 +9637,11 @@ msgstr "队列"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "对话记录"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "将对话追加到已有工单"
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -9856,7 +9871,7 @@ msgstr "此条目没有信件。"
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "工单时间轴"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
@@ -9892,7 +9907,7 @@ msgstr "显示所有信件"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "以时间轴视图显示工单"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -9946,6 +9961,10 @@ msgstr ""
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
+msgstr ""
+
+#. Template: AgentTicketZoom
+msgid "Close this message"
 msgstr ""
 
 #. Template: AgentTicketZoom
@@ -10092,11 +10111,11 @@ msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Incoming Chat Requests"
-msgstr ""
+msgstr "进入的会话请求"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
-msgstr ""
+msgstr "你有未响应的对话请求"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -10228,7 +10247,7 @@ msgstr "回复"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "全天"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
@@ -10364,6 +10383,10 @@ msgstr ""
 #. Template: Header
 msgid "You are logged in as"
 msgstr "您已登录为"
+
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr "这里有新的对话请求. 请访问对话管理器"
 
 #. Template: Installer
 msgid "JavaScript not available"
@@ -10553,7 +10576,7 @@ msgstr ""
 
 #. Template: InstallerDBoracle
 msgid "Port"
-msgstr ""
+msgstr "端口"
 
 #. Template: InstallerFinish
 msgid ""
@@ -10685,10 +10708,6 @@ msgstr "没有足够的权限"
 #. Template: NoPermission
 msgid "Back to the previous page"
 msgstr "返回前一页"
-
-#. Template: Notify
-msgid "Close this message"
-msgstr ""
 
 #. Template: Pagination
 msgid "Show first page"
@@ -15226,15 +15245,15 @@ msgstr "多选"
 
 #. SysConfig
 msgid "My Queues and My Services"
-msgstr ""
+msgstr "我的队列 和 我的服务"
 
 #. SysConfig
 msgid "My Queues or My Services"
-msgstr ""
+msgstr "我的队列 或 我的服务"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "我的服务"
 
 #. SysConfig
 msgid "My Tickets"
@@ -15298,7 +15317,7 @@ msgstr ""
 
 #. SysConfig
 msgid "No Notification"
-msgstr ""
+msgstr "不通知"
 
 #. SysConfig
 msgid "None"
@@ -15940,21 +15959,21 @@ msgstr ""
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my queues/services."
-msgstr ""
+msgstr "如果用户有新回复, 我是该工单的所有者或该工单未锁定并位于我的队列/服务请通知我."
 
 #. SysConfig
 msgid ""
 "Send me a notification if the service of a ticket is changed to a service in"
 " \"My Services\" and the ticket is in a queue where I have read permissions."
-msgstr ""
+msgstr "如果工单的服务有改变, 并且我对该服务涉及\"我的服务\"的队列有读的权限的话, 请通知我."
 
 #. SysConfig
 msgid "Send me a notification if there is a new ticket in my queues/services."
-msgstr ""
+msgstr "如果我的队列或我的服务中有新的工单，请通知我。"
 
 #. SysConfig
 msgid "Send new ticket notifications if subscribed to"
-msgstr ""
+msgstr "发送新工单通知给我"
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -15962,11 +15981,11 @@ msgstr "给用户和服务人员发送通知"
 
 #. SysConfig
 msgid "Send service update notifications"
-msgstr ""
+msgstr "发送服务更新通知"
 
 #. SysConfig
 msgid "Send ticket follow up notifications if subscribed to"
-msgstr ""
+msgstr "发送工单跟进通知给我"
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."
@@ -16004,7 +16023,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Service update notification"
-msgstr ""
+msgstr "服务更新通知"
 
 #. SysConfig
 msgid "Service view"

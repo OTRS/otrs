@@ -1741,6 +1741,8 @@ sub Data {
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
+        'System Registration is disabled for your system. Please check your configuration.' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -2369,7 +2371,7 @@ sub Data {
         'Send by Email' => 'Send på e-post',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             '',
-        'The email address for this user is invalid, this ption has been disabled.' =>
+        'The email address for this user is invalid, this option has been disabled.' =>
             '',
         'Sending' => 'Sender',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
@@ -2988,6 +2990,7 @@ sub Data {
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
+        'Close this message' => 'Lukk denne meldingen',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
 
@@ -3248,9 +3251,6 @@ sub Data {
         # Template: NoPermission
         'Insufficient Rights' => 'Utilstrekkelige rettigheter',
         'Back to the previous page' => 'Tilbake til forrige side',
-
-        # Template: Notify
-        'Close this message' => 'Lukk denne meldingen',
 
         # Template: Pagination
         'Show first page' => 'Vis første side',

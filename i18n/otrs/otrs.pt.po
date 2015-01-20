@@ -1,10 +1,11 @@
 # 
 # Translators:
+# Sandra Dias Correia <scorreia@itsquare.pt>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -67,27 +68,27 @@ msgstr "Limpar"
 
 #. Template: AAABase
 msgid "more than ... ago"
-msgstr ""
+msgstr "mais de ... atrás"
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr ""
+msgstr "em mais de ..."
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr ""
+msgstr "no último ..."
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr ""
+msgstr "no próximo ..."
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr ""
+msgstr "Criado no último"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "Criado há mais de ... atrás"
 
 #. Template: AAABase
 msgid "Today"
@@ -99,7 +100,7 @@ msgstr "Amanhã"
 
 #. Template: AAABase
 msgid "Next week"
-msgstr ""
+msgstr "Próxima semana"
 
 #. Template: AAABase
 msgid "day"
@@ -115,7 +116,7 @@ msgstr "dia(s)"
 
 #. Template: AAABase
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #. Template: AAABase
 msgid "hour"
@@ -135,7 +136,7 @@ msgstr "Horas"
 
 #. Template: AAABase
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #. Template: AAABase
 msgid "minute"
@@ -155,7 +156,7 @@ msgstr "Minutos"
 
 #. Template: AAABase
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #. Template: AAABase
 msgid "month"
@@ -203,11 +204,11 @@ msgstr "segundo"
 
 #. Template: AAABase
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #. Template: AAABase
 msgid "Time unit"
-msgstr ""
+msgstr "Unidade de tempo"
 
 #. Template: AAABase
 msgid "wrote"
@@ -279,7 +280,7 @@ msgstr "inválido"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr ""
+msgstr "Inválido"
 
 #. Template: AAABase
 msgid "* invalid"
@@ -355,7 +356,7 @@ msgstr "por favor não editar!"
 
 #. Template: AAABase
 msgid "Need Action"
-msgstr ""
+msgstr "Precisa de Actividade"
 
 #. Template: AAABase
 msgid "AddLink"
@@ -411,7 +412,7 @@ msgstr "Texto"
 
 #. Template: AAABase
 msgid "Standard"
-msgstr ""
+msgstr "Padrão"
 
 #. Template: AAABase
 msgid "Lite"
@@ -731,15 +732,15 @@ msgstr ""
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "O conteúdo do campo é muito longo!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "O Tamanho máximo são %s caracteres"
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "O campo é necessário ou"
 
 #. Template: AAABase
 msgid "New message"
@@ -771,7 +772,7 @@ msgstr "Alterar a sua password"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr ""
+msgstr "Por favor active %s primeiro!"
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -809,12 +810,12 @@ msgstr "Por favor contate o administrador"
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Autenticação efectuada com sucesso, mas não existe registo de cliente no backend de clientes. Por favor, contacte o seu administrador"
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "O endereço de e-mail já existe. Por favor, entre ou altere a sua password."
 
 #. Template: AAABase
 msgid "Logout"
@@ -854,11 +855,11 @@ msgstr "Terminado"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr ""
+msgstr "Instalar OTRS"
 
 #. Template: AAABase
 msgid "Intro"
-msgstr ""
+msgstr "Intro"
 
 #. Template: AAABase
 msgid "License"
@@ -870,19 +871,19 @@ msgstr "Base de dados"
 
 #. Template: AAABase
 msgid "Configure Mail"
-msgstr ""
+msgstr "Configurar Mail"
 
 #. Template: AAABase
 msgid "Database deleted."
-msgstr ""
+msgstr "Base de dados apagada."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "Insira a password para a base de dados de administrador"
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "Insira a password para a base de dados"
 
 #. Template: AAABase
 msgid ""
@@ -892,7 +893,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "A base de dado já contém dados - deveria estar vazia!"
 
 #. Template: AAABase
 msgid "Login is needed!"
@@ -901,7 +902,7 @@ msgstr "Entrada necessária"
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Não é possível efectuar login devido a uma manutenção agendada do sistema"
 
 #. Template: AAABase
 msgid "Password is needed!"
@@ -959,7 +960,7 @@ msgstr "Não se encontrou nada!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr ""
+msgstr "Sessão inválida. Por favor, faça o login novamente."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
@@ -967,7 +968,7 @@ msgstr "A sessão expirou. Por favor autentique-se novamente"
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
-msgstr ""
+msgstr "Terminou o tempo limite de sessão! Por favor tente novamente mais tarde."
 
 #. Template: AAABase
 msgid "No Permission!"
@@ -999,11 +1000,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr ""
+msgstr "Tem Fora do Escritório activo, deseja desactivar?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Notícias acerca dos lançamentos OTRS!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1067,23 +1068,23 @@ msgstr "Cliente atualizado!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr ""
+msgstr "Empresa cliente adicionada!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr ""
+msgstr "Empresa cliente actualizada!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr ""
+msgstr "Nota: Empresa não é válida!"
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr ""
+msgstr "Conta de Mail adicionada!"
 
 #. Template: AAABase
 msgid "Mail account updated!"
-msgstr ""
+msgstr "Conta de Mail actualizada!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
@@ -1183,7 +1184,7 @@ msgstr "Telefone"
 
 #. Template: AAABase
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #. Template: AAABase
 msgid "Mobile"
@@ -1221,7 +1222,7 @@ msgstr "desinstalado"
 msgid ""
 "Security Note: You should activate %s because application is already "
 "running!"
-msgstr ""
+msgstr "Nota de Segurança: Deveria activar %s porque a aplicação já está a correr!"
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
@@ -1239,7 +1240,7 @@ msgstr "Não existem pacotes no repositório selecionado"
 
 #. Template: AAABase
 msgid "Edit the system configuration settings."
-msgstr ""
+msgstr "Edite as definições de configuração do sistema."
 
 #. Template: AAABase
 msgid ""
@@ -1273,13 +1274,8 @@ msgstr "Cara %s,"
 
 #. Template: AAABase
 msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "O email já existe. Inicie a sessão ou recupere a sua password"
-
-#. Template: AAABase
-msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Não é permitido registar este endereço de e-mail. Por favor contacte a equipa de suporte."
 
 #. Template: AAABase
 msgid ""
@@ -6087,6 +6083,12 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 
@@ -6145,6 +6147,18 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -8100,7 +8114,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9946,6 +9960,10 @@ msgid ""
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
@@ -10362,6 +10380,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr "Autenticado como "
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr "Javascript não disponível"
@@ -10682,10 +10704,6 @@ msgstr "Permissões insuficientes"
 #. Template: NoPermission
 msgid "Back to the previous page"
 msgstr "Voltar à página anterior"
-
-#. Template: Notify
-msgid "Close this message"
-msgstr ""
 
 #. Template: Pagination
 msgid "Show first page"

@@ -5,20 +5,22 @@
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # Marc A. Bonsels, 2014
 # Mainboarder, 2014
+# Mainboarder, 2014
+# Marc A. Bonsels, 2014-2015
 # Marc A. Bonsels, 2015
 # Marc A. Bonsels, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
-# ru_otrs <robert.ullrich@otrs.com>, 2014
+# ru_otrs <robert.ullrich@otrs.com>, 2014-2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-14 11:18+0000\n"
-"Last-Translator: Marc A. Bonsels\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1283,11 +1285,6 @@ msgstr "Lieber %s,"
 #. Template: AAABase
 msgid "Hello %s,"
 msgstr "Hallo %s,"
-
-#. Template: AAABase
-msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "Diese E-Mail-Adresse existiert bereits. Bitte melden Sie sich an oder ändern Sie ihr Passwort."
 
 #. Template: AAABase
 msgid ""
@@ -6100,6 +6097,12 @@ msgstr "Registrieren Sie dieses System"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr "Damit Sie schon bald die %s nutzen können, fehlt nur noch ein Schritt: Bitte kontaktieren Sie unser Sales Team unter %s, um einen Vertrag abzuschließen."
 
@@ -6159,6 +6162,18 @@ msgstr "Timeline-View im Ticket-Zoom"
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
 msgstr "Dynamisches Feld Kontaktdaten"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
+msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
@@ -8113,7 +8128,7 @@ msgstr "Das Supportpaket ist zu groß, um es manuell zu versenden. Diese Option 
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr "Die E-Mailadresse für diesen Benutzer ist ungültig, Die Auswahl wurde deaktivert."
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9959,6 +9974,10 @@ msgid ""
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr "Diese Nachricht schließen"
+
+#. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr "Artikel konnte nicht geöffnet werden. Befindet er sich vielleicht auf einer anderen Artikelseite?"
 
@@ -10375,6 +10394,10 @@ msgstr "Verschieben Sie die Navigationsleiste"
 msgid "You are logged in as"
 msgstr "Angemeldet als"
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr "JavaScript nicht aktiviert oder nicht unterstützt."
@@ -10695,10 +10718,6 @@ msgstr "Nicht ausreichende Rechte"
 #. Template: NoPermission
 msgid "Back to the previous page"
 msgstr "Zurück zur vorhergehenden Seite"
-
-#. Template: Notify
-msgid "Close this message"
-msgstr "Diese Nachricht schließen"
 
 #. Template: Pagination
 msgid "Show first page"
@@ -11714,7 +11733,7 @@ msgstr "Definiert die maximale Tiefe von Queues"
 
 #. SysConfig
 msgid "Define the queue comment 2."
-msgstr ""
+msgstr "Definiert den 2. Queue-Kommentar"
 
 #. SysConfig
 msgid "Define the service comment 2."
