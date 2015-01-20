@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-14 18:08+0000\n"
-"Last-Translator: David Krotil <david.krotil@krotilovi.cz>\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1274,11 +1274,6 @@ msgstr "Dobrý den %s,"
 
 #. Template: AAABase
 msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "Tato emailová adresa již existuje. Prosím přihlašte se nebo vyresetujte své heslo."
-
-#. Template: AAABase
-msgid ""
 "This email address is not allowed to register. Please contact support staff."
 msgstr "Tato emailová adresa nemá povolení pro registraci. Prosím kontaktute technickou podporu."
 
@@ -2246,47 +2241,47 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Perl Modules"
-msgstr ""
+msgstr "Moduly Perlu"
 
 #. Template: AAASupportDataCollector
 msgid "Not all required Perl modules are correctly installed."
-msgstr ""
+msgstr "Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány"
 
 #. Template: AAASupportDataCollector
 msgid "Perl Version"
-msgstr ""
+msgstr "Verze Perlu"
 
 #. Template: AAASupportDataCollector
 msgid "Free Swap Space (%)"
-msgstr ""
+msgstr "Volný swap prostor (%)"
 
 #. Template: AAASupportDataCollector
 msgid "No Swap Enabled."
-msgstr ""
+msgstr "Není zapnut swap"
 
 #. Template: AAASupportDataCollector
 msgid "Used Swap Space (MB)"
-msgstr ""
+msgstr "Využitý prostor swap (MB)"
 
 #. Template: AAASupportDataCollector
 msgid "There should be more than 60% free swap space."
-msgstr ""
+msgstr "Mělo by být více jak 60 % volného prostoru swapu"
 
 #. Template: AAASupportDataCollector
 msgid "There should be no more than 200 MB swap space used."
-msgstr ""
+msgstr "Nemělo by být využito více jak 200 MB swapu"
 
 #. Template: AAASupportDataCollector
 msgid "Config Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine value."
-msgstr ""
+msgstr "Nelze zjistit hodnotu."
 
 #. Template: AAASupportDataCollector
 msgid "Database Records"
-msgstr ""
+msgstr "Záznamů v databázi"
 
 #. Template: AAASupportDataCollector
 msgid "Tickets"
@@ -2354,7 +2349,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Tickets Per Month (avg)"
-msgstr ""
+msgstr "Tiketů za měsíc ( prům.)"
 
 #. Template: AAASupportDataCollector
 msgid "Default SOAP Username and Password"
@@ -2368,49 +2363,49 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Default Admin Password"
-msgstr ""
+msgstr "Výchozí heslo admina"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
-msgstr ""
+msgstr "Bezpečnostní riziko: heslo účtu operátora root@localhost má stále výchozí heslo. Prosím změňte ho nebo deaktivujte tento účet."
 
 #. Template: AAASupportDataCollector
 msgid "Error Log"
-msgstr ""
+msgstr "Chybový log"
 
 #. Template: AAASupportDataCollector
 msgid "There are error reports in your system log."
-msgstr ""
+msgstr "V systémovém logu jsou chybová hlášení."
 
 #. Template: AAASupportDataCollector
 msgid "File System Writable"
-msgstr ""
+msgstr "Na souborový systém lze zapisovat"
 
 #. Template: AAASupportDataCollector
 msgid "The file system on your OTRS partition is not writable."
-msgstr ""
+msgstr "Na souborový systém na vaší OTRS particii není možné zapisovat."
 
 #. Template: AAASupportDataCollector
 msgid "Domain Name"
-msgstr ""
+msgstr "Doménové jméno"
 
 #. Template: AAASupportDataCollector
 msgid "Your FQDN setting is invalid."
-msgstr ""
+msgstr "Vaše nastavení FQDN je neplatné."
 
 #. Template: AAASupportDataCollector
 msgid "Package installation status"
-msgstr ""
+msgstr "Stav instalace balíčku"
 
 #. Template: AAASupportDataCollector
 msgid "Some packages are not correctly installed."
-msgstr ""
+msgstr "Některé balíčky nejsou korektně nainstalované."
 
 #. Template: AAASupportDataCollector
 msgid "Package List"
-msgstr ""
+msgstr "Seznam balíčků"
 
 #. Template: AAASupportDataCollector
 msgid "SystemID"
@@ -2418,7 +2413,7 @@ msgstr "Systémové ID"
 
 #. Template: AAASupportDataCollector
 msgid "Your SystemID setting is invalid, it should only contain digits."
-msgstr ""
+msgstr "Nastavení vašeho SystemID je neplatné, mělo by obsahovat jen čísla."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Version"
@@ -2436,11 +2431,11 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Open Tickets"
-msgstr ""
+msgstr "Otevřených tiketů"
 
 #. Template: AAASupportDataCollector
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr ""
+msgstr "Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Search Index module"
@@ -2478,7 +2473,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Webserver Version"
-msgstr ""
+msgstr "Verze webového serveru"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine webserver version."
@@ -2486,7 +2481,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "Aktivní Apache moduly"
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -2611,7 +2606,7 @@ msgstr "Priorita"
 
 #. Template: AAATicket
 msgid "Priorities"
-msgstr ""
+msgstr "Priority"
 
 #. Template: AAATicket
 msgid "Priority Update"
@@ -2619,31 +2614,31 @@ msgstr "Oprava Priority"
 
 #. Template: AAATicket
 msgid "Priority added!"
-msgstr ""
+msgstr "Priorita přídána!"
 
 #. Template: AAATicket
 msgid "Priority updated!"
-msgstr ""
+msgstr "Priorita aktualizována!"
 
 #. Template: AAATicket
 msgid "Signature added!"
-msgstr ""
+msgstr "Podpis přidán!"
 
 #. Template: AAATicket
 msgid "Signature updated!"
-msgstr ""
+msgstr "Podpis aktualizován!"
 
 #. Template: AAATicket
 msgid "SLA"
-msgstr ""
+msgstr "SLA"
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
-msgstr ""
+msgstr "Servisní smlouva SLA"
 
 #. Template: AAATicket
 msgid "Service Level Agreements"
-msgstr ""
+msgstr "Servisní smlouvy SLA"
 
 #. Template: AAATicket
 msgid "Service"
@@ -2651,7 +2646,7 @@ msgstr "Služba"
 
 #. Template: AAATicket
 msgid "Services"
-msgstr ""
+msgstr "Služby"
 
 #. Template: AAATicket
 msgid "State"
@@ -2659,7 +2654,7 @@ msgstr "Stav"
 
 #. Template: AAATicket
 msgid "States"
-msgstr ""
+msgstr "Stavy"
 
 #. Template: AAATicket
 msgid "Status"
@@ -2667,15 +2662,15 @@ msgstr "Stav"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr ""
+msgstr "Statusy"
 
 #. Template: AAATicket
 msgid "Ticket Type"
-msgstr ""
+msgstr "Typ ticketu"
 
 #. Template: AAATicket
 msgid "Ticket Types"
-msgstr ""
+msgstr "Typy ticketů"
 
 #. Template: AAATicket
 msgid "Compose"
@@ -2723,11 +2718,11 @@ msgstr "jednoduchý"
 
 #. Template: AAATicket
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #. Template: AAATicket
 msgid "email"
-msgstr ""
+msgstr "email"
 
 #. Template: AAATicket
 msgid "Close"
@@ -2847,19 +2842,19 @@ msgstr "Zobrazit eskalaci tiketu"
 
 #. Template: AAATicket
 msgid "Message from"
-msgstr ""
+msgstr "Zpráva od"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr ""
+msgstr "Zpráva ukončení"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
-msgstr ""
+msgstr "Předaná zpráva od"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr ""
+msgstr "Předaná zpráva ukončení"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
@@ -2867,7 +2862,7 @@ msgstr "Odeslat na jinou adresu"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Odpověď na poznámku"
 
 #. Template: AAATicket
 msgid "new"
@@ -2943,7 +2938,7 @@ msgstr "telefon"
 
 #. Template: AAATicket
 msgid "sms"
-msgstr ""
+msgstr "SMS"
 
 #. Template: AAATicket
 msgid "webrequest"
@@ -2999,23 +2994,23 @@ msgstr "5 velmi vysoká"
 
 #. Template: AAATicket
 msgid "auto follow up"
-msgstr ""
+msgstr "automatické navázání"
 
 #. Template: AAATicket
 msgid "auto reject"
-msgstr ""
+msgstr "automatické odmítnutí"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr ""
+msgstr "automatické smazání"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr ""
+msgstr "automatická odpověď"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "automatická odpověď/nový tiket"
 
 #. Template: AAATicket
 msgid "Create"
@@ -3059,15 +3054,15 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Ticket selected."
-msgstr ""
+msgstr "Tiket vybrán"
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
-msgstr ""
+msgstr "Tiket je zamčen jiným operátorem."
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr ""
+msgstr "Tiket zamčen."
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
@@ -3111,7 +3106,7 @@ msgstr "Vyhledávání Tiketů"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Historie zákazníka"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -3179,11 +3174,11 @@ msgstr "Zobrazené"
 
 #. Template: AAATicket
 msgid "Watch"
-msgstr ""
+msgstr "Sledovat"
 
 #. Template: AAATicket
 msgid "Unwatch"
-msgstr ""
+msgstr "Nesledovat"
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
@@ -3909,7 +3904,7 @@ msgstr "Vybrat"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
-msgstr ""
+msgstr "Prosím vložte hledaný výraz pro hledání zákazníků."
 
 #. Template: AdminCustomerCompany
 msgid "Add Customer"
@@ -3917,15 +3912,15 @@ msgstr "Přidat zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr ""
+msgstr "Správa uživatelů zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
-msgstr ""
+msgstr "Zpět na výsledek vyhledávání"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr ""
+msgstr "Přidat  uživatele zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Hint"
@@ -3947,19 +3942,19 @@ msgstr "Přihlásit jako"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr ""
+msgstr "Přepnout na zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr ""
+msgstr "Přidat uživatele zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr ""
+msgstr "Editovat uživatele zákazníka"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
-msgstr ""
+msgstr "Toto pole je vyžadováno a musí být funkční emailová adresa."
 
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
@@ -6088,6 +6083,12 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 
@@ -6146,6 +6147,18 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -8101,7 +8114,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9947,6 +9960,10 @@ msgid ""
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
@@ -10363,6 +10380,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr "Jste přihlášen jako"
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr ""
@@ -10682,10 +10703,6 @@ msgstr ""
 
 #. Template: NoPermission
 msgid "Back to the previous page"
-msgstr ""
-
-#. Template: Notify
-msgid "Close this message"
 msgstr ""
 
 #. Template: Pagination

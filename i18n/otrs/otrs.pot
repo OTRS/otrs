@@ -5847,6 +5847,10 @@ msgid "Register this System"
 msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
+msgid "System Registration is disabled for your system. Please check your configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
 msgid "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 
@@ -7695,7 +7699,7 @@ msgid "The support bundle is too large to send it by email, this option has been
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
-msgid "The email address for this user is invalid, this ption has been disabled."
+msgid "The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9495,6 +9499,10 @@ msgid "To open links in the following article, you might need to press Ctrl or C
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
@@ -10216,10 +10224,6 @@ msgstr ""
 
 #. Template: NoPermission
 msgid "Back to the previous page"
-msgstr ""
-
-#. Template: Notify
-msgid "Close this message"
 msgstr ""
 
 #. Template: Pagination

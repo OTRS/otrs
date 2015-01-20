@@ -1732,6 +1732,8 @@ sub Data {
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             'Bitte registrieren Sie Ihr OTRS Free zunächst, wenn Sie mit dem Upgrade auf die %s fortfahren möchten!',
         'Register this System' => 'Registrieren Sie dieses System',
+        'System Registration is disabled for your system. Please check your configuration.' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Damit Sie schon bald die %s nutzen können, fehlt nur noch ein Schritt: Bitte kontaktieren Sie unser Sales Team unter %s, um einen Vertrag abzuschließen.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -2360,7 +2362,7 @@ sub Data {
         'Send by Email' => 'Per E-Mail senden',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             'Das Supportpaket ist zu groß, um es manuell zu versenden. Diese Option wurde deaktiviert.',
-        'The email address for this user is invalid, this ption has been disabled.' =>
+        'The email address for this user is invalid, this option has been disabled.' =>
             'Die E-Mailadresse für diesen Benutzer ist ungültig, Die Auswahl wurde deaktivert.',
         'Sending' => 'Wird gesendet',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
@@ -2979,6 +2981,7 @@ sub Data {
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
+        'Close this message' => 'Diese Nachricht schließen',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Artikel konnte nicht geöffnet werden. Befindet er sich vielleicht auf einer anderen Artikelseite?',
 
@@ -3239,9 +3242,6 @@ sub Data {
         # Template: NoPermission
         'Insufficient Rights' => 'Nicht ausreichende Rechte',
         'Back to the previous page' => 'Zurück zur vorhergehenden Seite',
-
-        # Template: Notify
-        'Close this message' => 'Diese Nachricht schließen',
 
         # Template: Pagination
         'Show first page' => 'Erste Seite anzeigen',
@@ -3553,7 +3553,7 @@ sub Data {
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues',
-        'Define the queue comment 2.' => '',
+        'Define the queue comment 2.' => 'Definiert den 2. Queue-Kommentar',
         'Define the service comment 2.' => '',
         'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>

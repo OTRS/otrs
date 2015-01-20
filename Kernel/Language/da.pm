@@ -1733,6 +1733,8 @@ sub Data {
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => 'Registrer dette system',
+        'System Registration is disabled for your system. Please check your configuration.' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -2063,7 +2065,7 @@ sub Data {
         'Only business hours are counted.' => 'Kun normal kontor tid er beregnet.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             'Hvis en agent trækker sagen og ikke lukker den før frigivelses-timeout, vil sagen blive frigivet og gjort tilgængelig for andre agenter.',
-        'Notify by' => 'Adviser via',
+        'Notify by' => 'Adviser ved',
         '0 = no escalation' => '0 = ingen eskalering',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             'Hvis der ikke har været kontakt fra kunden, enten via mail eller telefon, vedr. en ny sag inden den specificerede tid udløber, bliver sagen eskaleret.',
@@ -2361,7 +2363,7 @@ sub Data {
         'Send by Email' => 'Send via mail',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             '',
-        'The email address for this user is invalid, this ption has been disabled.' =>
+        'The email address for this user is invalid, this option has been disabled.' =>
             '',
         'Sending' => 'Sender',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
@@ -2980,6 +2982,7 @@ sub Data {
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
+        'Close this message' => 'Luk denne besked',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
 
@@ -3240,9 +3243,6 @@ sub Data {
         # Template: NoPermission
         'Insufficient Rights' => 'Utilstrækkelige rettigheder',
         'Back to the previous page' => 'Tilbage til forrige side',
-
-        # Template: Notify
-        'Close this message' => 'Luk denne besked',
 
         # Template: Pagination
         'Show first page' => 'Vis frøste side',

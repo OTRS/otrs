@@ -1736,6 +1736,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             'OTRS huru yako ni msingi wa vitendo vyote vijavyo. Tafadhali sajili kwanza kabla haujaendelea na mchakato wa kuboresha wa %s!',
         'Register this System' => 'Sajili mfumo huu',
+        'System Registration is disabled for your system. Please check your configuration.' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Kabla haujafaidika kutoka %s, tafadhali wasiliana na %s kupata mkataba wako  %s ',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -2364,7 +2366,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Send by Email' => 'Tuma kwa barua pepe',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             'Kifurushi cha msaada ni kikubwa sana kukituma kwa barua pepe, chaguo hili halijawezeshwa.',
-        'The email address for this user is invalid, this ption has been disabled.' =>
+        'The email address for this user is invalid, this option has been disabled.' =>
             'Anwani ya barua pepe kwa mtumiaji huyu ni batili, chaguo hili halijawezeshwa.',
         'Sending' => 'Tuma',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
@@ -2983,6 +2985,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Hakuna matukio yaliyopatikana.Tafadhali jaribu kubadilisha mipangilio ya kuchuja.',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
+        'Close this message' => 'Funga ujumbe huu',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Makala haiwezi kufunguliwa! Huenda ipo kwenye ukurasa mwingine wa makala.',
 
@@ -3243,9 +3246,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Template: NoPermission
         'Insufficient Rights' => 'Haki zisizotosha',
         'Back to the previous page' => 'Nyuma kwenye ukurasa uliopita',
-
-        # Template: Notify
-        'Close this message' => 'Funga ujumbe huu',
 
         # Template: Pagination
         'Show first page' => 'Onyesha ukurasa wa kwanza',

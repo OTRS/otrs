@@ -115,7 +115,7 @@ sub Data {
         'Mr.' => '先生',
         'Mrs.' => '女士',
         'Next' => '下一步',
-        'Back' => '上一步',
+        'Back' => '后退',
         'Next...' => '下一步...',
         '...Back' => '...上一步',
         '-none-' => '-无-',
@@ -192,7 +192,7 @@ sub Data {
         'and' => '和',
         'between' => '绝对',
         'before/after' => '相对',
-        'Fulltext Search' => '',
+        'Fulltext Search' => '全文搜索',
         'Data' => '日期',
         'Options' => '选项',
         'Title' => '标题',
@@ -419,13 +419,13 @@ sub Data {
         'Problems processing server result. Please try again later.' => '',
         'Username and password do not match. Please try again.' => '',
         'The selected process is invalid!' => '',
-        'Upgrade to %s now!' => '',
+        'Upgrade to %s now!' => '现在就更新到 %s',
         '%s Go to the upgrade center %s' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             '',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
+        'Your system was successfully upgraded to %s.' => '你的系统已成功更新到 %s',
         'There was a problem during the upgrade to %s.' => '',
         '%s was correctly reinstalled.' => '',
         'There was a problem reinstalling %s.' => '',
@@ -436,7 +436,7 @@ sub Data {
 
         # Template: AAACalendar
         'New Year\'s Day' => '新年',
-        'International Workers\' Day' => '',
+        'International Workers\' Day' => '五一劳动节',
         'Christmas Eve' => '圣诞节前夕',
         'First Christmas Day' => '',
         'Second Christmas Day' => '',
@@ -560,7 +560,7 @@ sub Data {
         'Ticketlist' => '工单清单',
         'ascending' => '升序',
         'descending' => '降序',
-        'First Lock' => '',
+        'First Lock' => '首次锁定',
         'Evaluation by' => '评估方法',
         'Total Time' => '时间总合',
         'Ticket Average' => '工单平均处理时间',
@@ -578,7 +578,7 @@ sub Data {
         'Ticket Close Time' => '工单关闭时间',
 
         # Template: AAASupportDataCollector
-        'Unknown' => '',
+        'Unknown' => '未知',
         'Information' => '信息',
         'OK' => '好',
         'Problem' => '问题',
@@ -618,7 +618,7 @@ sub Data {
         'NLS_DATE_FORMAT Setting SQL Check' => '',
         'Setting client_encoding needs to be UNICODE or UTF8.' => '',
         'Setting server_encoding needs to be UNICODE or UTF8.' => '',
-        'Date Format' => '',
+        'Date Format' => '日期格式',
         'Setting DateStyle needs to be ISO.' => '',
         'PostgreSQL 8.x or higher is required.' => '',
         'OTRS Disk Partition' => '',
@@ -626,23 +626,23 @@ sub Data {
         'The partition where OTRS is located is almost full.' => '',
         'The partition where OTRS is located has no disk space problems.' =>
             '',
-        'Disk Partitions Usage' => '',
-        'Distribution' => '',
+        'Disk Partitions Usage' => '硬盘使用情况',
+        'Distribution' => '发行版本',
         'Could not determine distribution.' => '',
-        'Kernel Version' => '',
+        'Kernel Version' => '内核版本',
         'Could not determine kernel version.' => '',
         'System Load' => '',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
-        'Perl Modules' => '',
+        'Perl Modules' => 'Perl 模块',
         'Not all required Perl modules are correctly installed.' => '',
         'Perl Version' => 'Perl版本',
-        'Free Swap Space (%)' => '',
-        'No Swap Enabled.' => '',
-        'Used Swap Space (MB)' => '',
+        'Free Swap Space (%)' => '可用的交换分区空间(%)',
+        'No Swap Enabled.' => '交换分区没有激活',
+        'Used Swap Space (MB)' => '交换分区已使用(MB)',
         'There should be more than 60% free swap space.' => '',
         'There should be no more than 200 MB swap space used.' => '',
-        'Config Settings' => '',
+        'Config Settings' => '编辑配置。',
         'Could not determine value.' => '',
         'Database Records' => '',
         'Tickets' => '工单',
@@ -684,7 +684,7 @@ sub Data {
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             '',
-        'Open Tickets' => '',
+        'Open Tickets' => '处理中的工单',
         'You should not have more than 8,000 open tickets in your system.' =>
             '',
         'Ticket Search Index module' => '',
@@ -717,7 +717,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => '状态视图',
-        'Service View' => '',
+        'Service View' => '服务视图',
         'Bulk' => '批量',
         'Lock' => '锁定',
         'Unlock' => '解锁',
@@ -794,12 +794,12 @@ sub Data {
         'last-search' => '上次搜索',
         'QueueView' => '队列视图',
         'Ticket Escalation View' => '工单升级视图',
-        'Message from' => '',
+        'Message from' => '消息来自',
         'End message' => '',
-        'Forwarded message from' => '',
+        'Forwarded message from' => '已转发的消息来自',
         'End forwarded message' => '',
         'Bounce Article to a different mail address' => '',
-        'Reply to note' => '',
+        'Reply to note' => '回复为备注',
         'new' => '新建',
         'open' => '处理中',
         'Open' => '处理中',
@@ -979,13 +979,13 @@ sub Data {
         'Ticket Information' => '工单信息',
 
         # Template: AAAWeekDay
-        'Sun' => '',
-        'Mon' => '',
-        'Tue' => '',
-        'Wed' => '',
-        'Thu' => '',
-        'Fri' => '',
-        'Sat' => '',
+        'Sun' => '一',
+        'Mon' => '一',
+        'Tue' => '二',
+        'Wed' => '三',
+        'Thu' => '四',
+        'Fri' => '五',
+        'Sat' => '六',
 
         # Template: AdminACL
         'ACL Management' => 'ACL管理',
@@ -1033,7 +1033,7 @@ sub Data {
         'Stop after match' => '匹配后停止',
         'Edit ACL structure' => '编辑ACL结构',
         'Save' => '保存',
-        'or' => '',
+        'or' => '或',
         'Save and finish' => '保存并完成',
         'Do you really want to delete this ACL?' => '你确定要删除这个ACL吗？',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
@@ -1305,7 +1305,7 @@ sub Data {
         'Ticket created between' => '工单创建时间(绝对)',
         'Last changed times' => '',
         'No last changed time settings.' => '',
-        'Ticket last changed' => '',
+        'Ticket last changed' => '工单最后修改',
         'Ticket last changed between' => '',
         'Change times' => '修改时间',
         'No change time settings.' => '没有修改时间',
@@ -1662,7 +1662,7 @@ sub Data {
         'Queue Settings' => '队列设置',
         'Ticket Settings' => '工单设置',
         'System Administration' => '系统管理员',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => '管理员在线手册',
 
         # Template: AdminNotification
         'Notification Management' => '通知管理',
@@ -1706,7 +1706,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessInstalled
         'Manage %s' => '',
-        'Downgrade to OTRS Free' => '',
+        'Downgrade to OTRS Free' => '降级到社区版本',
         '%s makes contact regularly with cloud.otrs.com to check on available updates and the validity of the underlying contract.' =>
             '',
         'Unauthorized Usage Detected' => '',
@@ -1715,12 +1715,12 @@ sub Data {
         '%s not Correctly Installed' => '',
         'Your %s is not correctly installed. Please reinstall it with the button below.' =>
             '',
-        'Reinstall %s' => '',
+        'Reinstall %s' => '重新安装 %s',
         'Your %s is not correctly installed, and there is also an update available.' =>
             '',
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             '',
-        'Update %s' => '',
+        'Update %s' => '更新 %s',
         '%s Not Yet Available' => '',
         '%s will be available soon.' => '',
         '%s Update Available' => '',
@@ -1731,13 +1731,15 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessNotInstalled
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => '升级到 %s',
         '%s will be available soon. Please check again in a few days.' =>
             '',
         'Please have a look at %s for more information.' => '',
         'Your OTRS Free is the base for all future actions. Please register first before you continue with the upgrade process of %s!' =>
             '',
         'Register this System' => '',
+        'System Registration is disabled for your system. Please check your configuration.' =>
+            '',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             '',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1749,7 +1751,7 @@ sub Data {
 
         # Template: AdminOTRSBusinessUninstall
         'Cancel downgrade and go back' => '',
-        'Go to OTRS Package Manager' => '',
+        'Go to OTRS Package Manager' => '进入 OTRS 软件包管理',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
         'Vendor' => '提供者',
@@ -1757,8 +1759,8 @@ sub Data {
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
-        'Timeline view in ticket zoom' => '',
+        'Chat' => '对话',
+        'Timeline view in ticket zoom' => '以时间轴视图展开工单',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
         'SLA Selection Dialog' => '',
@@ -2215,7 +2217,7 @@ sub Data {
         'Optional description of this system.' => '这个系统可选的描述。',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
-        'Service Center' => '',
+        'Service Center' => '服务中心',
         'Support Data Management' => '',
         'Register' => '注册',
         'Deregister System' => '取消系统注册',
@@ -2229,8 +2231,8 @@ sub Data {
             '',
         'The data will be transferred in JSON format via a secure https connection.' =>
             '',
-        'System Registration Data' => '',
-        'Support Data' => '',
+        'System Registration Data' => '系统注册信息',
+        'Support Data' => '诊断数据',
 
         # Template: AdminRole
         'Role Management' => '角色管理',
@@ -2253,9 +2255,9 @@ sub Data {
         'Toggle %s permission for all' => '切换%s权限给全部',
         'move_into' => '',
         'Permissions to move tickets into this group/queue.' => '对于组/队列中的工单具有 \'转移队列\' 的权限',
-        'create' => '',
+        'create' => '创建',
         'Permissions to create tickets in this group/queue.' => '对于组/队列具有 \'创建工单\' 的权限',
-        'priority' => '',
+        'priority' => '优先级',
         'Permissions to change the ticket priority in this group/queue.' =>
             '对于组/队列中的工单具有 \'更改优先级\' 的权限',
 
@@ -2343,11 +2345,11 @@ sub Data {
             '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '',
-        'Send Update' => '',
-        'Sending Update...' => '',
-        'Support Data information was successfully sent.' => '',
+        'Send Update' => '发送更新',
+        'Sending Update...' => '正在发送更新...',
+        'Support Data information was successfully sent.' => '诊断信息已发送成功.',
         'Was not possible to send Support Data information.' => '',
-        'Update Result' => '',
+        'Update Result' => '更新结果',
         'Currently this data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             '',
@@ -2363,15 +2365,15 @@ sub Data {
         'The mail could not be sent' => '',
         'The support bundle has been generated.' => '',
         'Please choose one of the following options.' => '',
-        'Send by Email' => '',
+        'Send by Email' => '通过邮件发送',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             '',
-        'The email address for this user is invalid, this ption has been disabled.' =>
+        'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => '发送中',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
-        'Download File' => '',
+        'Download File' => '下载文件',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
             '',
         'Error: Support data could not be collected (%s).' => '',
@@ -2419,7 +2421,7 @@ sub Data {
         'Elements' => '元素',
 
         # Template: AdminSysConfigEdit
-        'Edit Config Settings' => '',
+        'Edit Config Settings' => '编辑配置。',
         'This config item is only available in a higher config level!' =>
             '该配置项只在高级配置可用！',
         'Reset this setting' => '重置设定',
@@ -2467,14 +2469,14 @@ sub Data {
             '邮件地址和名称将在邮件中显示。',
 
         # Template: AdminSystemMaintenance
-        'System Maintenance Management' => '',
-        'Schedule New System Maintenance' => '',
+        'System Maintenance Management' => '系统维护管理',
+        'Schedule New System Maintenance' => '系统维护排程',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
-            '',
+            '当系统在特定的时间进行周期性维护时, 排程会通知服务人员或用户.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
-            '',
-        'Start date' => '',
-        'Stop date' => '',
+            '当到达维护时间之前, 当前登录到系统的用户将会在屏幕上收到一个通知.',
+        'Start date' => '开始时间',
+        'Stop date' => '结束时间',
         'Delete System Maintenance' => '',
         'Do you really want to delete this scheduled system maintenance?' =>
             '',
@@ -2520,7 +2522,7 @@ sub Data {
         'Add ticket type' => '添加工单类型',
         'Add Type' => '添加工单类型',
         'Edit Type' => '编辑工单类型',
-        'A type with this name already exists!' => '',
+        'A type with this name already exists!' => '这个类型的名字已存在!',
 
         # Template: AdminUser
         'Add agent' => '添加服务人员',
@@ -2533,7 +2535,7 @@ sub Data {
         'Edit Agent' => '编辑服务人员',
         'Firstname' => '名',
         'Lastname' => '姓',
-        'A user with this username already exists!' => '',
+        'A user with this username already exists!' => '这个用户名已被使用!',
         'Will be auto-generated if left empty.' => '如果为空，将自动生成密码。',
         'Start' => '开始',
         'End' => '结束',
@@ -2542,9 +2544,9 @@ sub Data {
         'Manage Agent-Group Relations' => '定义服务人员的组权限',
         'Change Group Relations for Agent' => '选择此服务人员具备的组权限',
         'Change Agent Relations for Group' => '为此组选择服务人员的权限',
-        'note' => '',
+        'note' => '备注',
         'Permissions to add notes to tickets in this group/queue.' => '对于组/队列具有 \'添加备注\' 的权限',
-        'owner' => '',
+        'owner' => '所有者',
         'Permissions to change the owner of tickets in this group/queue.' =>
             '对于组/队列具有 \'所有者\' 的权限',
 
@@ -2571,7 +2573,7 @@ sub Data {
         'Note: Customer is invalid!' => '注意：用户是无效的！',
 
         # Template: AgentDashboard
-        'Dashboard' => '仪表板',
+        'Dashboard' => '信息中心',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '之内',
@@ -2587,12 +2589,12 @@ sub Data {
         'Customer information' => '用户信息',
         'Phone ticket' => '电话工单',
         'Email ticket' => '邮件工单',
-        'Start Chat' => '',
+        'Start Chat' => '开始对话',
         '%s open ticket(s) of %s' => '',
         '%s closed ticket(s) of %s' => '',
         'New phone ticket from %s' => '',
         'New email ticket to %s' => '',
-        'Start chat' => '',
+        'Start chat' => '开始对话',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s is 可用！',
@@ -2618,7 +2620,7 @@ sub Data {
         'My watched tickets' => '我订阅的工单',
         'My responsibilities' => '我负责的工单',
         'Tickets in My Queues' => '我队列中的工单',
-        'Tickets in My Services' => '',
+        'Tickets in My Services' => '我服务的工单',
         'Service Time' => '服务时间',
         'Remove active filters for this widget.' => '',
 
@@ -2652,16 +2654,16 @@ sub Data {
         'Edit your preferences' => '编辑个人设置',
 
         # Template: AgentSchedulerInfo
-        'General Information' => '',
+        'General Information' => '一般信息',
         'Scheduler is an OTRS separated process that perform asynchronous tasks' =>
             '',
         '(e.g. Generic Interface asynchronous invoker tasks)' => '',
         'It is necessary to have the Scheduler running to make the system work correctly!' =>
             '',
-        'Starting Scheduler' => '',
+        'Starting Scheduler' => '启动计划任务',
         'Make sure that %s exists (without .dist extension)' => '',
-        'Check that cron deamon is running in the system' => '',
-        'Confirm that OTRS cron jobs are running, execute %s start' => '',
+        'Check that cron deamon is running in the system' => '检查系统进程已经运行',
+        'Confirm that OTRS cron jobs are running, execute %s start' => '确定 OTRS cron 任务已运行, 执行 %s 启动',
 
         # Template: AgentSpelling
         'Spell Checker' => '拼写检查',
@@ -2705,15 +2707,15 @@ sub Data {
         'Use cache' => '使用缓存',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             '大多数的统计资料可以缓存，这将提高统计报表的计算速度。',
-        'Show as dashboard widget' => '作为仪表板显示部件',
+        'Show as dashboard widget' => '作为信息中心显示部件',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
-            '将该统计作为部件显示在仪表板中.',
+            '将该统计作为部件显示在信息中心中.',
         'Please note' => '请注意',
         'Enabling the dashboard widget will activate caching for this statistic in the dashboard.' =>
-            '启用仪表板中的统计部件将激活统计缓存',
+            '启用信息中心中的统计部件将激活统计缓存',
         'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
-            '对于仪表板统计部件你只能设置相对时间',
-        'IE8 doesn\'t support statistics dashboard widgets.' => 'IE8不能显示仪表板统计部件',
+            '对于信息中心统计部件你只能设置相对时间',
+        'IE8 doesn\'t support statistics dashboard widgets.' => 'IE8不能显示信息中心统计部件',
         'If set to invalid end users can not generate the stat.' => '如果设置为无效，将无法生成统计。',
 
         # Template: AgentStatsEditValueSeries
@@ -2762,7 +2764,7 @@ sub Data {
         'No element selected.' => '没有被选参数',
         'maximal period from' => '最大时间范围从',
         'to' => '至',
-        'not changable for dashboard statistics' => '',
+        'not changable for dashboard statistics' => '无法改变信息中心统计数据',
         'Select Chart Type' => '',
         'Chart Type' => '',
         'Multi Bar Chart' => '',
@@ -2843,7 +2845,7 @@ sub Data {
         'Get all' => '获取全部',
 
         # Template: AgentTicketEmailOutbound
-        'E-Mail Outbound' => '',
+        'E-Mail Outbound' => '发邮件',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
@@ -2884,12 +2886,12 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Split Into New Phone Ticket' => '',
-        'Save Chat Into New Phone Ticket' => '',
+        'Save Chat Into New Phone Ticket' => '保存对话为新的电话工单',
         'Create New Phone Ticket' => '创建电话工单',
         'Please include at least one customer for the ticket.' => '请包括至少一个工单用户。',
         'To queue' => '队列',
-        'Chat protocol' => '',
-        'The chat will be appended as a separate article.' => '',
+        'Chat protocol' => '对话记录',
+        'The chat will be appended as a separate article.' => '将对话追加到已有工单',
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '邮件纯文本视图',
@@ -2960,7 +2962,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             '目前流程中没有环节操作。',
         'This item has no articles yet.' => '此条目没有信件。',
-        'Ticket Timeline View' => '',
+        'Ticket Timeline View' => '工单时间轴',
         'Article Overview' => '',
         'Article(s)' => '信件',
         'Page' => '页',
@@ -2969,7 +2971,7 @@ sub Data {
         'Reset Filter' => '重置过滤器',
         'Show one article' => '显示单一信件',
         'Show all articles' => '显示所有信件',
-        'Show Ticket Timeline View' => '',
+        'Show Ticket Timeline View' => '以时间轴视图显示工单',
         'Unread articles' => '未读信件',
         'No.' => '编号：',
         'Important' => '重要',
@@ -2985,6 +2987,7 @@ sub Data {
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
             '',
+        'Close this message' => '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             '',
 
@@ -3038,8 +3041,8 @@ sub Data {
         'Your email address (this will become your username)' => '',
 
         # Template: CustomerNavigationBar
-        'Incoming Chat Requests' => '',
-        'You have unanswered chat requests' => '',
+        'Incoming Chat Requests' => '进入的会话请求',
+        'You have unanswered chat requests' => '你有未响应的对话请求',
         'Edit personal preferences' => '编辑个人设置',
 
         # Template: CustomerRichTextEditor
@@ -3088,7 +3091,7 @@ sub Data {
         'Reply' => '回复',
 
         # Template: DashboardEventsTicketCalendar
-        'All-day' => '',
+        'All-day' => '全天',
         'Sunday' => '星期天',
         'Monday' => '星期一',
         'Tuesday' => '星期二',
@@ -3134,7 +3137,7 @@ sub Data {
         # Template: Header
         'You are logged in as' => '您已登录为',
         'There are new chat requests available. Please visit the chat manager.' =>
-            '',
+            '这里有新的对话请求. 请访问对话管理器',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript没有启用',
@@ -3196,7 +3199,7 @@ sub Data {
 
         # Template: InstallerDBoracle
         'SID' => '',
-        'Port' => '',
+        'Port' => '端口',
 
         # Template: InstallerFinish
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' =>
@@ -3245,9 +3248,6 @@ sub Data {
         # Template: NoPermission
         'Insufficient Rights' => '没有足够的权限',
         'Back to the previous page' => '返回前一页',
-
-        # Template: Notify
-        'Close this message' => '',
 
         # Template: Pagination
         'Show first page' => '首页',
@@ -4652,9 +4652,9 @@ sub Data {
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '多选',
-        'My Queues and My Services' => '',
-        'My Queues or My Services' => '',
-        'My Services' => '',
+        'My Queues and My Services' => '我的队列 和 我的服务',
+        'My Queues or My Services' => '我的队列 或 我的服务',
+        'My Services' => '我的服务',
         'My Tickets' => '我的工单',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
@@ -4672,7 +4672,7 @@ sub Data {
             '',
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
-        'No Notification' => '',
+        'No Notification' => '不通知',
         'None' => '',
         'Notification sent to "%s".' => 'Notification sent to "%s".',
         'Notifications (Event)' => '通知(事件)',
@@ -4851,15 +4851,15 @@ sub Data {
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
-            '',
+            '如果用户有新回复, 我是该工单的所有者或该工单未锁定并位于我的队列/服务请通知我.',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
-            '',
+            '如果工单的服务有改变, 并且我对该服务涉及"我的服务"的队列有读的权限的话, 请通知我.',
         'Send me a notification if there is a new ticket in my queues/services.' =>
-            '',
-        'Send new ticket notifications if subscribed to' => '',
+            '如果我的队列或我的服务中有新的工单，请通知我。',
+        'Send new ticket notifications if subscribed to' => '发送新工单通知给我',
         'Send notifications to users.' => '给用户和服务人员发送通知',
-        'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to' => '',
+        'Send service update notifications' => '发送服务更新通知',
+        'Send ticket follow up notifications if subscribed to' => '发送工单跟进通知给我',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',
@@ -4871,7 +4871,7 @@ sub Data {
             '',
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '',
-        'Service update notification' => '',
+        'Service update notification' => '服务更新通知',
         'Service view' => '',
         'Set sender email addresses for this system.' => '为系统设置发件人的邮件地址.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>

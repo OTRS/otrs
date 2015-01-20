@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-13 11:45+0000\n"
-"Last-Translator: andreasberger <andreas.berger@hagfors.se>\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1272,11 +1272,6 @@ msgstr "Bäste %s,"
 #. Template: AAABase
 msgid "Hello %s,"
 msgstr "Hej %s,"
-
-#. Template: AAABase
-msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "Denna e-postadress finns redan. Logga in eller återställ ditt lösenord."
 
 #. Template: AAABase
 msgid ""
@@ -6089,6 +6084,12 @@ msgstr "Registrera detta system"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 
@@ -6147,6 +6148,18 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -8102,7 +8115,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9948,6 +9961,10 @@ msgid ""
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
@@ -10364,6 +10381,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr "Du är inloggad som"
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr ""
@@ -10683,10 +10704,6 @@ msgstr ""
 
 #. Template: NoPermission
 msgid "Back to the previous page"
-msgstr ""
-
-#. Template: Notify
-msgid "Close this message"
 msgstr ""
 
 #. Template: Pagination

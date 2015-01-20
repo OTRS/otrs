@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-08 22:13+0000\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (Canada) (http://www.transifex.com/projects/p/OTRS/language/fr_CA/)\n"
 "MIME-Version: 1.0\n"
@@ -1270,11 +1270,6 @@ msgstr "Cher %s,"
 #. Template: AAABase
 msgid "Hello %s,"
 msgstr "Bonjour %s,"
-
-#. Template: AAABase
-msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "Cette adresse de courrier électronique existe déjà. Veuillez vous authentifier ou réinitialiser votre mot de passe."
 
 #. Template: AAABase
 msgid ""
@@ -6087,6 +6082,12 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr ""
 
@@ -6145,6 +6146,18 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "DynamicField Database"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
@@ -8100,7 +8113,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9946,6 +9959,10 @@ msgid ""
 msgstr ""
 
 #. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr ""
+
+#. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
@@ -10362,6 +10379,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr "Vous êtes connecté en tant que"
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr ""
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr "JavaScript non disponible"
@@ -10682,10 +10703,6 @@ msgstr "Droits insuffisants"
 #. Template: NoPermission
 msgid "Back to the previous page"
 msgstr "Revenir à la page précédente"
-
-#. Template: Notify
-msgid "Close this message"
-msgstr ""
 
 #. Template: Pagination
 msgid "Show first page"

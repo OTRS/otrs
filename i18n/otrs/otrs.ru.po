@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-01-09 18:24+0000\n"
-"Last-Translator: Yuri Kolesniov <ynkolesnikov@gmail.com>\n"
+"PO-Revision-Date: 2015-01-20 18:39+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1274,11 +1274,6 @@ msgstr "Уважаемый(ая)"
 #. Template: AAABase
 msgid "Hello %s,"
 msgstr "Здравствуйте, %s."
-
-#. Template: AAABase
-msgid ""
-"This email address already exists. Please log in or reset your password."
-msgstr "Такой адрес электронной почты уже существует. Пожалуйста, войдите, или сбросьте свой пароль."
 
 #. Template: AAABase
 msgid ""
@@ -5117,7 +5112,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "соответствует"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
@@ -6091,6 +6086,12 @@ msgstr "Зарегистрируйте эту систему"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid ""
+"System Registration is disabled for your system. Please check your "
+"configuration."
+msgstr ""
+
+#. Template: AdminOTRSBusinessNotInstalled
+msgid ""
 "Before you can benefit from %s, please contact %s to get your %s contract."
 msgstr "Для получения пользы от использования %s, свяжитесь с %s для получения вашего контракта на %s."
 
@@ -6152,8 +6153,20 @@ msgid "DynamicField ContactWithData"
 msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
-msgid "The %s skin"
+msgid "DynamicField Database"
 msgstr ""
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "SLA Selection Dialog"
+msgstr "Диалог выбора SLA "
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "Ticket Attachment View"
+msgstr "Обзор вложений заявки"
+
+#. Template: AdminOTRSBusinessUninstall
+msgid "The %s skin"
+msgstr "Обложка %s"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -7318,7 +7331,7 @@ msgstr ""
 msgid ""
 "Please note that you can't register your system if your scheduler is not "
 "running correctly!"
-msgstr ""
+msgstr "Вы не можете зарегистрировать вашу систему если планировщик работает некорректно!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
@@ -7542,7 +7555,7 @@ msgstr "Поправка к Политике защиты данных"
 msgid ""
 "OTRS Group reserves the right to amend this security and data protection "
 "policy if required by technical developments."
-msgstr ""
+msgstr "OTRS Group оставляет за собой право вносить изменения в данную политику безопасности и защиты данных, если это требуется в технических целях разработки."
 
 #. Template: AdminRegistration
 msgid ""
@@ -7564,7 +7577,7 @@ msgid ""
 "You have the right to demand information concerning the data saved about "
 "you, its origin and recipients, as well as the purpose of the data "
 "processing at any time."
-msgstr ""
+msgstr "Вы имеете право требовать информацию о данных, сохраненных о вас, их происхождение и получателей, а также цели обработки данных в любое время."
 
 #. Template: AdminRegistration
 msgid ""
@@ -7580,14 +7593,14 @@ msgstr "Дополнительная информация"
 msgid ""
 "Your trust is very important to us. We are willing to inform you about the "
 "processing of your personal details at any time."
-msgstr ""
+msgstr "Ваше доверие очень важно для нас. Мы готовы сообщить Вам об обработке личных данных в любое время. "
 
 #. Template: AdminRegistration
 msgid ""
 "If you have any questions that have not been answered by this Data "
 "Protection Policy or if you require more detailed information about a "
 "specific topic, please contact info@otrs.com."
-msgstr ""
+msgstr "Если у вас есть какие-либо вопросы, которые не нашли ответа в этой Политике защиты данных или если вам нужна более подробная информация о конкретной теме, пожалуйста, свяжитесь с нами через info@otrs.com."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
@@ -7844,7 +7857,7 @@ msgid ""
 "Here you can add relations to your private certificate, these will be "
 "embedded to the S/MIME signature every time you use this certificate to sign"
 " an email."
-msgstr ""
+msgstr "Здесь вы можете добавить связи с вашим личным сертификатом, они будут включаться в подпись S/MIME каждый раз, когда вы используете этот сертификат для подписи письма."
 
 #. Template: AdminSMIME
 msgid "See also"
@@ -8070,11 +8083,11 @@ msgstr "Выполняется..."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
-msgstr ""
+msgstr "Не удалось сгенерировать Пакет поддержки/ Support Bundle."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Generate Result"
-msgstr ""
+msgstr "Результат генерации"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Support Bundle"
@@ -8104,7 +8117,7 @@ msgstr "Пакет поддержки слишком велик для отпр�
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
-"The email address for this user is invalid, this ption has been disabled."
+"The email address for this user is invalid, this option has been disabled."
 msgstr "Электронный адрес получателя неверный, эта функция будет отключена."
 
 #. Template: AdminServiceCenterSupportDataCollector
@@ -9325,7 +9338,7 @@ msgstr "Следующее состояние"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "Для всех состояний \"ожидает ...\""
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -9371,7 +9384,7 @@ msgstr "Здесь вы можете выбрать дополнительных
 
 #. Template: AgentTicketActionCommon
 msgid "Note will be (also) received by:"
-msgstr ""
+msgstr "Сообщение будет (также) получено:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -9947,7 +9960,11 @@ msgstr "Больше событий не найдено. Попробуйте и
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr ""
+msgstr "Для открытия ссылки в следующем сообщении/заметке необходимо нажать и удерживать клавишу Ctrl или Cmd или Shift и кликнуть по ссылке (зависит от вашего браузера и ОС)."
+
+#. Template: AgentTicketZoom
+msgid "Close this message"
+msgstr "Закрыть это сообщение"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -10366,6 +10383,10 @@ msgstr ""
 msgid "You are logged in as"
 msgstr "Вы вошли как"
 
+#. Template: Header
+msgid "There are new chat requests available. Please visit the chat manager."
+msgstr "Доступны новые чат - запросы. Перейдите к управлению чатами."
+
 #. Template: Installer
 msgid "JavaScript not available"
 msgstr "JavaScript недоступен"
@@ -10687,10 +10708,6 @@ msgstr "Недостаточно прав"
 msgid "Back to the previous page"
 msgstr "Обратно на предыдущую страницу"
 
-#. Template: Notify
-msgid "Close this message"
-msgstr "Закрыть это сообщение"
-
 #. Template: Pagination
 msgid "Show first page"
 msgstr "Показать первую страницу"
@@ -10741,7 +10758,7 @@ msgstr "Перейти на предыдущую страницу"
 
 #. SysConfig
 msgid " (work units)"
-msgstr ""
+msgstr "(единиц времени)"
 
 #. SysConfig
 msgid "\"%s\"-notification sent to \"%s\"."
@@ -10765,7 +10782,7 @@ msgstr "(UserLogin) Фамилия, Имя"
 
 #. SysConfig
 msgid "A Website"
-msgstr ""
+msgstr "Веб сайт"
 
 #. SysConfig
 msgid ""
@@ -10776,7 +10793,7 @@ msgstr "Список динамических полей, которые объ�
 
 #. SysConfig
 msgid "A picture"
-msgstr ""
+msgstr "Рисунок"
 
 #. SysConfig
 msgid ""
@@ -10931,7 +10948,7 @@ msgstr "Модуль проверки входящих emails в окне Ticket
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of locked tickets."
-msgstr ""
+msgstr "Модуль уведомлений в интерфейсе агента для просмотра количества заблокированных заявок."
 
 #. SysConfig
 msgid ""
@@ -11365,7 +11382,7 @@ msgstr "Комметарий для новых записей истории в 
 
 #. SysConfig
 msgid "Comment2"
-msgstr ""
+msgstr "Комментарий2"
 
 #. SysConfig
 msgid "Company Status"
@@ -11529,7 +11546,7 @@ msgstr "Создать новую процессную заявку"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "Пользовательская лента RSS "
 
 #. SysConfig
 msgid ""
@@ -11581,11 +11598,11 @@ msgstr "Веб-запрос пользователя."
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "Поиск клиента"
 
 #. SysConfig
 msgid "CustomerID search"
-msgstr ""
+msgstr "Поиск по CustomerID"
 
 #. SysConfig
 msgid "CustomerName"
@@ -11705,15 +11722,15 @@ msgstr "Задайте максимальный уровень вложенно�
 
 #. SysConfig
 msgid "Define the queue comment 2."
-msgstr ""
+msgstr "Внести Комментарий 2 для очереди."
 
 #. SysConfig
 msgid "Define the service comment 2."
-msgstr ""
+msgstr "Внести Комментарий 2 для сервиса."
 
 #. SysConfig
 msgid "Define the sla comment 2."
-msgstr ""
+msgstr "Внести Комментарий 2 для SLA."
 
 #. SysConfig
 msgid ""
@@ -14243,7 +14260,7 @@ msgstr "Фильтрация входящей почты."
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Имя первой Очереди"
 
 #. SysConfig
 msgid "FirstLock"
@@ -14339,7 +14356,7 @@ msgstr "Регулярное выражение для удаления част
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "Полнотекстовый поиск"
 
 #. SysConfig
 msgid ""
@@ -15851,7 +15868,7 @@ msgstr "Запущенные Процессные заявки"
 msgid ""
 "Runs an initial wildcard search of the existing customer company when "
 "accessing the AdminCustomerCompany module."
-msgstr ""
+msgstr "Выполняет начальный поиск по символу подстановки в списке компаний клиентов в модуле AdminCustomerCompany."
 
 #. SysConfig
 msgid ""
@@ -16959,7 +16976,7 @@ msgstr "Показывает все сообщения заявки в разв�
 msgid ""
 "Shows all the customer identifiers in a multi-select field (not useful if "
 "you have a lot of customer identifiers)."
-msgstr ""
+msgstr "Показывает все идентификаторы клиентов в поле типа \"multi-select\" (не следует использовать при наличии большого количества таких идентификаторов)."
 
 #. SysConfig
 msgid ""
@@ -17355,7 +17372,7 @@ msgid ""
 "Warning: Development releases might not be complete, your system might "
 "experience unrecoverable errors and on extreme cases could become "
 "unresponsive!"
-msgstr ""
+msgstr "Задает канал для получения обновлений OTRS Business Solution™. Предупреждение: Development-релизы могут быть незавершенными, в вашей системе могут проявляться неисправимые ошибки и в экстремальных случаях она может перестать отвечать на запросы!"
 
 #. SysConfig
 msgid ""
