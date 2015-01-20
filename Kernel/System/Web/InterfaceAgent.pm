@@ -286,7 +286,7 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         )
-                        || $Self->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() ),
+                        || $Self->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
                         || $Self->{LanguageObject}->Translate('Login failed! Your user name or password was entered incorrectly.'),
                     LoginFailed => 1,
                     User        => $User,
