@@ -217,6 +217,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                     Data,
                     function () {}
                 );
+
+                return false;
             });
         }
     };
