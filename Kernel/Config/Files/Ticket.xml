@@ -507,6 +507,7 @@
             <Array>
                 <Item><![CDATA[[,\&\<\>\?"\!\*\|;\[\]\(\)\+\$\^=]]]></Item>
                 <Item><![CDATA[^[':.]|[':.]$]]></Item>
+                <Item><![CDATA[^[^a-zA-Z0-9]+$]]></Item>
             </Array>
         </Setting>
     </ConfigItem>

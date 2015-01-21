@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-01-21 Improved fulltext filters in Ticket::SearchIndex::Filters.
  - 2015-01-15 Show 'add agent' and 'add group' action in UserGroup overview, thanks to ReneeB.
  - 2015-01-09 Improved stopword lists for StaticDB fulltext index to improve perfromance of fulltext searches. It is recommended to rebuild the fulltext search index.
  - 2015-01-08 Added new indices to link_relation table.
