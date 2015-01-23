@@ -1755,37 +1755,85 @@ sub _CheckEntityUsage {
             Method => 'ProcessListGet',
             Array  => 'Transitions',
         },
-        TransitionAction => {
-            Parent => 'Transition',
-            Method => 'TransitionListGet',
-            Array  => 'TransitionActions',
-        },
-    );
-
-    return if !$Config{ $Param{EntityType} };
-
-    my $Parent = $Config{ $Param{EntityType} }->{Parent};
-    my $Method = $Config{ $Param{EntityType} }->{Method};
-    my $Array  = $Config{ $Param{EntityType} }->{Array};
-
-    # get a list of parents with all the details
-    my $List = $Self->{ $Parent . 'Object' }->$Method(
-        UserID => 1,
     );
 
     my @Usage;
 
-    # search entity id in all parents
-    PARENT:
-    for my $ParentData ( @{$List} ) {
-        next PARENT if !$ParentData;
-        next PARENT if !$ParentData->{$Array};
+    # transition action needs to be handled on a different way than other process parts as it does
+    # not depend directly on a parent part, it is nested in the process path configuration
+    if ( $Param{EntityType} eq 'TransitionAction' ) {
 
-        ENTITY:
-        for my $EntityID ( @{ $ParentData->{$Array} } ) {
-            if ( $EntityID eq $Param{EntityID} ) {
-                push @Usage, $ParentData->{Name};
-                last ENTITY;
+        my $ProcessList = $Self->{ProcessObject}->ProcessListGet(
+            UserID => $Self->{UserID},
+        );
+
+        # search in all processes
+        PROCESS:
+        for my $Process ( @{$ProcessList} ) {
+
+            next PROCESS if !$Process->{Config}->{Path};
+            my $Path = $Process->{Config}->{Path};
+
+            # search on each activity on the process path
+            ACTIVITY:
+            for my $ActivityEntityID ( sort keys %{$Path} ) {
+
+                # search on each transition on the activity
+                TRANSITION:
+                for my $TransitionEntityID ( sort keys %{ $Path->{$ActivityEntityID} } ) {
+
+                    next TRANSITION if !$Path->{$ActivityEntityID}->{$TransitionEntityID};
+                    my $TransitionConfig = $Path->{$ActivityEntityID}->{$TransitionEntityID};
+
+                    next TRANSITION if !$TransitionConfig->{TransitionAction};
+                    my @TransitionActions = @{ $TransitionConfig->{TransitionAction} };
+
+                    ENTITY:
+                    for my $EntityID (@TransitionActions) {
+                        if ( $EntityID eq $Param{EntityID} ) {
+                            my $TransitionData = $Self->{TransitionObject}->TransitionGet(
+                                EntityID => $TransitionEntityID,
+                                UserID   => $Self->{UserID},
+                            );
+                            my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+                                EntityID => $ActivityEntityID,
+                                UserID   => $Self->{UserID},
+                            );
+
+                            push @Usage, "$Process->{Name} -> $ActivityData->{Name} -> $TransitionData->{Name}";
+                            last ENTITY;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else {
+
+        return if !$Config{ $Param{EntityType} };
+
+        my $Parent = $Config{ $Param{EntityType} }->{Parent};
+        my $Method = $Config{ $Param{EntityType} }->{Method};
+        my $Array  = $Config{ $Param{EntityType} }->{Array};
+
+        # get a list of parents with all the details
+        my $List = $Self->{ $Parent . 'Object' }->$Method(
+            UserID => 1,
+        );
+
+        # search entity id in all parents
+        PARENT:
+        for my $ParentData ( @{$List} ) {
+
+            next PARENT if !$ParentData;
+            next PARENT if !$ParentData->{$Array};
+
+            ENTITY:
+            for my $EntityID ( @{ $ParentData->{$Array} } ) {
+                if ( $EntityID eq $Param{EntityID} ) {
+                    push @Usage, $ParentData->{Name};
+                    last ENTITY;
+                }
             }
         }
     }
