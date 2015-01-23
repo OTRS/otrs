@@ -261,17 +261,31 @@ sub Run {
         );
     }
 
-    # validate the ProcessList with stored acls
+    # prepare process list for ACLs, use only entities instead of names, convert from
+    #   P1 => Name to P1 => P1. As ACLs should work only against entities
+    my %ProcessListACL = map { $_ => $_ } sort keys %{$ProcessList};
+
+    # validate the ProcessList with stored ACLs
     my $ACL = $Self->{TicketObject}->TicketAcl(
         ReturnType     => 'Process',
         ReturnSubType  => '-',
-        Data           => $ProcessList,
+        Data           => \%ProcessListACL,
         CustomerUserID => $Self->{UserID},
     );
 
     if ( IsHashRefWithData($ProcessList) && $ACL ) {
-        %{$ProcessList} = $Self->{TicketObject}->TicketAclData();
+
+        # get ACL results
+        my %ACLData = $Self->{TicketObject}->TicketAclData();
+
+        # recover process names
+        my %ReducedProcessList = map { $_ => $ProcessList->{$_} } sort keys %ACLData;
+
+        # replace original process list with the reduced one
+        $ProcessList = \%ReducedProcessList;
     }
+
+    my %FollowupProcessListACL = map { $_ => $_ } sort keys %{$FollowupProcessList};
 
     $ACL = $Self->{TicketObject}->TicketAcl(
         ReturnType     => 'Process',
@@ -281,7 +295,9 @@ sub Run {
     );
 
     if ( IsHashRefWithData($FollowupProcessList) && $ACL ) {
-        %{$FollowupProcessList} = $Self->{TicketObject}->TicketAclData();
+        my %ACLData = $Self->{TicketObject}->TicketAclData();
+        my %ReducedProcessList = map { $_ => $FollowupProcessList->{$_} } sort keys %ACLData;
+        $FollowupProcessList = \%ReducedProcessList;
     }
 
     # if we have no subaction display the process list to start a new one
