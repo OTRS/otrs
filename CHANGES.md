@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-01-22 Fixed bug#[11019](http://bugs.otrs.org/show_bug.cgi?id=11019) - ACLs for hiding Processes are not working anymore in 4.0.
  - 2015-01-20 Updated translations, thanks to all translators.
  - 2015-01-20 Message about opening external links from articles is now removable.
  - 2015-01-20 Removed buttons for System Registration if System Registration is disabled.
