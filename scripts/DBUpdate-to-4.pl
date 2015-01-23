@@ -574,13 +574,24 @@ sub _MigrateProcessManagementEntityIDs {
                 for my $TransitionEntityID ( sort keys %{$Activity} ) {
                     my $Transition = $Activity->{$TransitionEntityID};
                     my $NewTransition;
+
+                    TRANSITIONACTION:
                     for my $TransitionActionEntityID ( @{ $Transition->{TransitionAction} } ) {
 
                         # set new transition action EntityID from process path activity transition
                         my $NewTransitionActionEntityID = $EntityLookup{TransitionAction}->{$TransitionActionEntityID};
+
+                        # due to a bug in ProcessManagement GUI it could be that there are
+                        # references to Transition Actions that no longer exists, see bug 11021.
+                        # migration script must be tolerant on this issue and do not stop if there
+                        # is a non existing Transition Action, but skip it instead.
                         if ( !$NewTransitionActionEntityID ) {
-                            die
-                                "Error: No new EntityID was created for TransitionAction: $TransitionActionEntityID";
+                            print "\n Warning: Process '$Process->{EntityID} - $Process->{Name}'"
+                                . " path contains a reference to a non existing Transition Action"
+                                . " '$TransitionActionEntityID', this Transition Action will be"
+                                . " skipped. Please check the process after the migration process"
+                                . " ends\n";
+                            next TRANSITIONACTION;
                         }
                         push @{ $NewTransition->{TransitionAction} }, $NewTransitionActionEntityID;
                     }
