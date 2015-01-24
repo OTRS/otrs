@@ -141,7 +141,8 @@ $('.MasterAction').bind('click', function (Event) {
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="[% Data.Action | html %]Action"/>
                         <input type="hidden" name="Nav" value="[% Data.Nav | html %]"/>
-                        <input type="hidden" name="CustomerCompanyID" value="[% Data.CustomerID | html %]"/>
+                        <input type="hidden" name="CustomerCompanyID" value="[% Data.CustomerCompanyID | html %]"/>
+                        <input type="hidden" name="Source" value="[% Data.Source | html %]"/>
                         <fieldset class="TableLike">
 [% RenderBlockStart("PreferencesGeneric") %]
 [% RenderBlockStart("PreferencesGenericInputHidden") %]

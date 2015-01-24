@@ -53,6 +53,7 @@ sub Run {
         my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
+        $Data{CustomerCompanyID} = $CustomerID;
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar(
             Type => $NavigationBarType,
@@ -80,7 +81,7 @@ sub Run {
 
         my $Note = '';
         my ( %GetParam, %Errors );
-
+        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
         $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
 
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
@@ -94,6 +95,20 @@ sub Run {
 
         if ( !defined $GetParam{CustomerID} ) {
             $GetParam{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
+        }
+
+        # check for duplicate entries
+        if ( $GetParam{CustomerCompanyID} ne $GetParam{CustomerID} ) {
+            # get CustomerCompany list
+            my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+                Search => $Param{Search},
+                Valid  => 0,
+            );
+
+            # check duplicate field
+            if ( %List && $List{ $GetParam{CustomerID} } ) {
+                $Errors{Duplicate} = 'ServerError';
+            }
         }
 
         # if no errors occurred
@@ -131,6 +146,13 @@ sub Run {
             Type => $NavigationBarType,
         );
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        # set notification for duplicate entry
+        if ( $Errors{Duplicate} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Info     => "CustomerCompany $GetParam{CustomerID} already exists!.",
+            );
+        }
         $Self->_Edit(
             Action => 'Change',
             Nav    => $Nav,
@@ -179,6 +201,10 @@ sub Run {
 
         my $Note = '';
         my ( %GetParam, %Errors );
+        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
+        my $CustomerCompanyKey = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey};
+        my $CustomerCompanyID;
+
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
             $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
 
@@ -186,6 +212,21 @@ sub Run {
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
                 $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
             }
+            # save customer company key for checking duplicate
+            if ( $Entry->[2] eq $CustomerCompanyKey ) {
+                $CustomerCompanyID = $GetParam{ $Entry->[0] };
+            }
+        }
+
+        # get CustomerCompany list
+        my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            Search => $Param{Search},
+            Valid  => 0,
+        );
+
+        # check duplicate field
+        if ( %List && $List{$CustomerCompanyID} ) {
+            $Errors{Duplicate} = 'ServerError';
         }
 
         # if no errors occurred
@@ -223,6 +264,13 @@ sub Run {
             Type => $NavigationBarType,
         );
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        # set notification for duplicate entry
+        if ( $Errors{Duplicate} ) {
+            $Output .= $Self->{LayoutObject}->Notify(
+                Priority => 'Error',
+                Info     => "CustomerCompany $CustomerCompanyID already exists!.",
+            );
+        }
         $Self->_Edit(
             Action => 'Add',
             Nav    => $Nav,

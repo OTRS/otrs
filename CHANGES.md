@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-01-24 Fixed bug#[11018](http://bugs.otrs.org/show_bug.cgi?id=11018) - Internal Server Error, instead of warning.
  - 2015-01-24 Improved migration script to be tolerant on missing ProcessManagement Transition Actions.
  - 2015-01-22 Fixed bug#[11021](http://bugs.otrs.org/show_bug.cgi?id=11021) - ProcessManagement: TransitionAction delete does not check if is used.
  - 2015-01-22 Fixed bug#[11019](http://bugs.otrs.org/show_bug.cgi?id=11019) - ACLs for hiding Processes are not working anymore in 4.0.
