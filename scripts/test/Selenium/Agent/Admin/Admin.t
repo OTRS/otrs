@@ -43,29 +43,35 @@ $Selenium->RunTest(
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         my @AdminModules = qw(
+            AdminACL
             AdminAttachment
             AdminAutoResponse
             AdminCustomerCompany
             AdminCustomerUser
             AdminCustomerUserGroup
             AdminCustomerUserService
+            AdminDynamicField
             AdminEmail
             AdminGenericAgent
+            AdminGenericInterfaceWebservice
             AdminGroup
             AdminLog
             AdminMailAccount
             AdminNotification
             AdminNotificationEvent
+            AdminOTRSBusiness
             AdminPGP
             AdminPackageManager
             AdminPerformanceLog
             AdminPostMasterFilter
             AdminPriority
+            AdminProcessManagement
             AdminQueue
             AdminQueueAutoResponse
             AdminQueueTemplates
             AdminTemplate
             AdminTemplateAttachment
+            AdminRegistration
             AdminRole
             AdminRoleGroup
             AdminRoleUser
@@ -74,11 +80,13 @@ $Selenium->RunTest(
             AdminSalutation
             AdminSelectBox
             AdminService
+            AdminServiceCenter
             AdminSession
             AdminSignature
             AdminState
             AdminSysConfig
             AdminSystemAddress
+            AdminSystemMaintenance
             AdminType
             AdminUser
             AdminUserGroup
