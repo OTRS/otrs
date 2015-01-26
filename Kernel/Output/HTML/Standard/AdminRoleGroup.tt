@@ -97,7 +97,7 @@
                 <h2><label for="Filter">[% Translate("Filter") | html %]</label></h2>
             </div>
             <div class="Content">
-                <input type="text" id="Filter" class="W50pc" name="Filter" value="" />
+                <input type="text" id="Filter" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="Filter" value="" />
             </div>
         </div>
         <div class="WidgetSimple">
@@ -193,6 +193,16 @@
                     <dt>[% Translate("create") | html %]</dt>
                     <dd>
                         [% Translate("Permissions to create tickets in this group/queue.") | html %]
+                    </dd>
+
+                    <dt>[% Translate("note") | html %]</dt>
+                    <dd>
+                        [% Translate("Permissions to add notes to tickets in this group/queue.") | html %]
+                    </dd>
+
+                    <dt>[% Translate("owner") | html %]</dt>
+                    <dd>
+                        [% Translate("Permissions to change the owner of tickets in this group/queue.") | html %]
                     </dd>
 
                     <dt>[% Translate("priority") | html %]</dt>
