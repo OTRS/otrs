@@ -68,6 +68,8 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
             Data.Asynchronous = 1;
         }
 
+        $('#AddEvent').prop('disabled', true);
+
         Core.App.InternalRedirect(Data);
     };
 
@@ -134,7 +136,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
         var LocalDialogData;
 
         // get global saved DialogData for this function
-        LocalDialogData = DialogData[$(Event.target).attr('id')];
+        LocalDialogData = DialogData[$(this).attr('id')];
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteEventDialogContainer'),
             TargetNS.Localization.DeleteEventMsg,
