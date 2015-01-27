@@ -18,6 +18,7 @@ use Data::Dumper;
 use File::stat;
 use Unicode::Normalize;
 use List::Util qw();
+use Storable;
 
 use Kernel::System::Encode;
 
@@ -801,7 +802,7 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if ( $Self->Require('Storable') && $Type eq 'binary' ) {
+    if ( $Type eq 'binary' ) {
 
         # Clone the data because we need to disable the utf8 flag in all
         # reference variables and do not to want to do this in the orig.
