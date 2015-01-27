@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-01-27 Added DB consistency checks to the deployment check for the OTRS Business Solution™.
  - 2015-01-27 Fixed bug#[10198](http://bugs.otrs.org/show_bug.cgi?id=10198) - ORA-1795 occurrs, if a lot of tickets are selected at Column Filter in TicketOverviwSmall.
  - 2015-01-26 Fixed bug#[11034](http://bugs.otrs.org/show_bug.cgi?id=11034) - generic interface invoker event delete and add bug.
  - 2015-01-24 Fixed bug#[11018](http://bugs.otrs.org/show_bug.cgi?id=11018) - Internal Server Error, instead of warning.
