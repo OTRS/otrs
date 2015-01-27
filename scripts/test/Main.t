@@ -572,17 +572,16 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
     {
         Name             => 'Unicode dump 2',
         Source           => 'äöüßÄÖÜ€ис é í  ó',
-        ResultDumpBinary => "\$VAR1 = 'äöüßÄÖÜ€ис é í ó';\n",
-        ResultDumpAscii =>
-            '$VAR1 = "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed} \x{f3}";' . "\n",
+        ResultDumpBinary => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+        ResultDumpAscii => '$VAR1 = "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}";' . "\n",
     },
     {
         Name => 'Unicode dump 3',
         Source =>
             "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}",
-        ResultDumpBinary => "\$VAR1 = 'äöüßÄÖÜ€ис é í ó';\n",
+        ResultDumpBinary => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
         ResultDumpAscii =>
-            '$VAR1 = "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed} \x{f3}";' . "\n",
+            '$VAR1 = "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}";' . "\n",
     },
     {
         Name             => 'Unicode dump 4',
