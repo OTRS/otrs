@@ -18,6 +18,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::CloudService',
     'Kernel::System::Log',
+    'Kernel::System::DB',
     'Kernel::System::Package',
     'Kernel::System::SystemData',
     'Kernel::System::Time',
@@ -190,10 +191,31 @@ sub OTRSBusinessIsCorrectlyDeployed {
     # Package not found -> return failure
     return if !$Package;
 
-    return $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
+    # first check the regular way if the files are present and the package
+    # itself is installed correctly
+    return if !$Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
         Name    => $Package->{Name}->{Content},
         Version => $Package->{Version}->{Content},
     );
+
+    # check if all tables have been created correctly
+    # we can't rely on any .opm file here, so we just check
+    # the list of tables manually
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    TABLES:
+    for my $Table (qw(chat chat_participant chat_message)) {
+
+        # if a table does not exist, $TablePresent will be 'undef' for this table
+        my $TablePresent = $DBObject->Do(
+            SQL => "SELECT * FROM $Table",
+            Limit => 1,
+        );
+
+        return if !$TablePresent;
+    }
+
+    return 1;
 }
 
 =item OTRSBusinessIsReinstallable()
