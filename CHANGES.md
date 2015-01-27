@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2015-01-27 Fixed bug#[10712](http://bugs.otrs.org/show_bug.cgi?id=10712) - Incorrect utf8 in ZZZAuto.pm (via SysConfig).
  - 2015-01-22 Fixed bug#[11021](http://bugs.otrs.org/show_bug.cgi?id=11021) - ProcessManagement: TransitionAction delete does not check if is used.
  - 2015-01-09 Fixed bug#[9856](http://bugs.otrs.org/show_bug.cgi?id=9856) - gpg option 0xlong breaks decryption of emails.
  - 2015-01-09 Fixed bug#[10492](http://bugs.otrs.org/show_bug.cgi?id=10492) - ORA-03113 Error after scheduler start.
