@@ -14,7 +14,6 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::Language',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Auth',
     'Kernel::System::AuthSession',
@@ -87,15 +86,14 @@ sub new {
         },
     );
 
-    $Self->{EncodeObject}   = $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{GroupObject}    = $Kernel::OM->Get('Kernel::System::Group');
-    $Self->{LogObject}      = $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{MainObject}     = $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{ParamObject}    = $Kernel::OM->Get('Kernel::System::Web::Request');
-    $Self->{SessionObject}  = $Kernel::OM->Get('Kernel::System::AuthSession');
-    $Self->{TimeObject}     = $Kernel::OM->Get('Kernel::System::Time');
-    $Self->{UserObject}     = $Kernel::OM->Get('Kernel::System::User');
-    $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
+    $Self->{EncodeObject}  = $Kernel::OM->Get('Kernel::System::Encode');
+    $Self->{GroupObject}   = $Kernel::OM->Get('Kernel::System::Group');
+    $Self->{LogObject}     = $Kernel::OM->Get('Kernel::System::Log');
+    $Self->{MainObject}    = $Kernel::OM->Get('Kernel::System::Main');
+    $Self->{ParamObject}   = $Kernel::OM->Get('Kernel::System::Web::Request');
+    $Self->{SessionObject} = $Kernel::OM->Get('Kernel::System::AuthSession');
+    $Self->{TimeObject}    = $Kernel::OM->Get('Kernel::System::Time');
+    $Self->{UserObject}    = $Kernel::OM->Get('Kernel::System::User');
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -288,8 +286,8 @@ sub Run {
                         Type => 'Info',
                         What => 'Message',
                         )
-                        || $Self->{LanguageObject}->Translate( $AuthObject->GetLastErrorMessage() )
-                        || $Self->{LanguageObject}->Translate('Login failed! Your user name or password was entered incorrectly.'),
+                        || $AuthObject->GetLastErrorMessage()
+                        || 'Login failed! Your user name or password was entered incorrectly.',
                     LoginFailed => 1,
                     User        => $User,
                     %Param,
@@ -482,7 +480,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Logout',
-                    Message => $Self->{LanguageObject}->Translate('Session invalid. Please log in again.'),
+                    Message => 'Session invalid. Please log in again.',
                     %Param,
                 ),
             );
@@ -534,7 +532,7 @@ sub Run {
         }
 
         # show logout screen
-        my $LogoutMessage = $Self->{LanguageObject}->Translate(
+        my $LogoutMessage = $LayoutObject->{LanguageObject}->Translate(
             'Logout successful. Thank you for using %s!',
             $Self->{ConfigObject}->Get("ProductName"),
         );
@@ -562,7 +560,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => $Self->{LanguageObject}->Translate('Feature not active!'),
+                    Message => 'Feature not active!',
                 ),
             );
             return;
@@ -701,7 +699,7 @@ sub Run {
             );
             return;
         }
-        my $Message = $Self->{LanguageObject}->Translate(
+        my $Message = $LayoutObject->{LanguageObject}->Translate(
             'Sent new password to %s. Please check your email.',
             $UserData{UserEmail},
         );
@@ -804,7 +802,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
                     Title   => 'Login',
-                    Message => $Self->{LanguageObject}->Translate( $Self->{SessionObject}->SessionIDErrorMessage() ),
+                    Message => $Self->{SessionObject}->SessionIDErrorMessage(),
                     %Param,
                 ),
             );
