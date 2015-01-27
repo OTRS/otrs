@@ -17,7 +17,6 @@
  - 2015-01-20 Updated translations, thanks to all translators.
  - 2015-01-20 Message about opening external links from articles is now removable.
  - 2015-01-20 Removed buttons for System Registration if System Registration is disabled.
- - 2015-01-20 Fixed bug#[10902](http://bugs.otrs.org/show_bug.cgi?id=10902) - Missing translations on login screen.
  - 2015-01-19 Fixed bug#[10980](http://bugs.otrs.org/show_bug.cgi?id=10980) - InterfaceCustomer.pm has no translation.
 
 #4.0.5 2015-01-20
