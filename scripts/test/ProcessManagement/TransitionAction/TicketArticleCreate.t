@@ -248,7 +248,7 @@ my @Tests = (
                 SenderType  => 'agent',
                 ContentType => 'text/plain; charset=ISO-8859-15',
                 Subject =>
-                    '<OTRS_Ticket_Title>',
+                    '<OTRS_TICKET_Title>',
                 Body =>
                     'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
                 HistoryType    => 'OwnerUpdate',
@@ -279,7 +279,7 @@ my @Tests = (
                 SenderType  => 'agent',
                 ContentType => 'text/plain; charset=ISO-8859-15',
                 Subject =>
-                    '<OTRS_Ticket_NotExisting>',
+                    '<OTRS_TICKET_NotExisting>',
                 Body =>
                     'äöüßÄÖÜ€исáéíúóúÁÉÍÓÚñÑ-カスタ-用迎使用-Язык',
                 HistoryType    => 'OwnerUpdate',
@@ -377,7 +377,7 @@ for my $Test (@Tests) {
             next ATTRIBUTE if $ExcludedArtributes{$Attribute};
 
             if (
-                $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_Ticket_NotExisting>'
+                $OrigTest->{Config}->{Config}->{$Attribute} eq '<OTRS_TICKET_NotExisting>'
                 && $DBObject->GetDatabaseFunction('Type') eq 'oracle'
                 )
             {
@@ -393,7 +393,7 @@ for my $Test (@Tests) {
             my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute}
-                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';

@@ -212,7 +212,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                LockID => '<OTRS_Ticket_QueueID>',
+                LockID => '<OTRS_TICKET_QueueID>',
             },
         },
         Success => 1,
@@ -223,7 +223,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Lock => '<OTRS_Ticket_BotExisting>',
+                Lock => '<OTRS_TICKET_BotExisting>',
             },
         },
         Success => 0,
@@ -280,7 +280,7 @@ for my $Test (@Tests) {
             my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute}
-                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';

@@ -465,7 +465,7 @@ my @Tests = (
                 Title         => 'ProcessManagement::TransitionAction::TicketCreate::5::' . $RandomID,
                 CustomerID    => '123465',
                 CustomerUser  => 'customer@example.com',
-                OwnerID       => '<OTRS_Ticket_OwnerID>',
+                OwnerID       => '<OTRS_TICKET_OwnerID>',
                 TypeID        => 1,
                 ResponsibleID => 1,
                 PendingTime   => '2014-12-23 23:05:00',
@@ -667,7 +667,7 @@ for my $Test (@Tests) {
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute}
                 && $OrigTest->{Config}->{Config}->{$Attribute}
-                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';

@@ -214,7 +214,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                QueueID => '<OTRS_Ticket_OwnerID>',
+                QueueID => '<OTRS_TICKET_OwnerID>',
             },
         },
         Success => 1,
@@ -225,7 +225,7 @@ my @Tests = (
             UserID => $UserID,
             Ticket => \%Ticket,
             Config => {
-                Queue => '<OTRS_Ticket_NotExisting>',
+                Queue => '<OTRS_TICKET_NotExisting>',
             },
         },
         Success => 0,
@@ -286,7 +286,7 @@ for my $Test (@Tests) {
             my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
             if (
                 $OrigTest->{Config}->{Config}->{$Attribute}
-                =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+                =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
                 )
             {
                 $ExpectedValue = $Ticket{$1} // '';

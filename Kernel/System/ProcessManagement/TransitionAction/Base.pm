@@ -77,9 +77,12 @@ sub _ReplaceTicketAttributes {
 
     for my $Attribute ( sort keys %{ $Param{Config} } ) {
 
+        # replace ticket attributes such as <OTRS_Ticket_Dynamic_Field_Name1> or
+        # <OTRS_TICKET_Dynamic_Field_Name1>
+        # <OTRS_Ticket_*> is deprecated and should be removed in further versions of OTRS
         if (
             $Param{Config}->{$Attribute}
-            && $Param{Config}->{$Attribute} =~ m{\A<OTRS_Ticket_([A-Za-z0-9_]+)>\z}msx
+            && $Param{Config}->{$Attribute} =~ m{\A<OTRS_(?:Ticket|TICKET)_([A-Za-z0-9_]+)>\z}msx
             )
         {
             my $TicketAttribute = $1;
