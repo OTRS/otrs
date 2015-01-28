@@ -16,13 +16,15 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CloudService',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::DB',
     'Kernel::System::Package',
     'Kernel::System::SystemData',
     'Kernel::System::Time',
-    'Kernel::System::Cache',
 );
 
 # If we cannot connect to cloud.otrs.com for more than the first period, show a warning.
@@ -208,7 +210,7 @@ sub OTRSBusinessIsCorrectlyDeployed {
 
         # if a table does not exist, $TablePresent will be 'undef' for this table
         my $TablePresent = $DBObject->Do(
-            SQL => "SELECT * FROM $Table",
+            SQL   => "SELECT * FROM $Table",
             Limit => 1,
         );
 
@@ -736,6 +738,53 @@ sub OTRSBusinessUninstall {
 
     # Package not found -> return failure
     return if !$Package;
+
+    # get a list of all dynamic fields for ticket and article
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldList   = $DynamicFieldObject->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => [ 'Ticket', 'Article' ],
+    );
+
+    # filter only dynamic fields added by OTRSBusiness
+    my %OTRSBusinessDynamicFieldTypes = (
+        ContactWithData => 1,
+        Database        => 1,
+    );
+
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+        next DYNAMICFIELD if !$OTRSBusinessDynamicFieldTypes{ $DynamicFieldConfig->{FieldType} };
+
+        # remove data from the field
+        my $ValuesDeleteSuccess = $DynamicFieldBackendObject->AllValuesDelete(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            UserID             => 1,
+        );
+
+        if ( !$ValuesDeleteSuccess ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Values from dynamic field $DynamicFieldConfig->{Name} could not be deleted!",
+            );
+        }
+
+        my $Success = $DynamicFieldObject->DynamicFieldDelete(
+            ID      => $DynamicFieldConfig->{ID},
+            UserID  => 1,
+            Reorder => 1,
+        );
+
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Dynamic field $DynamicFieldConfig->{Name} could not be deleted!",
+            );
+        }
+    }
 
     my $PackageString = $Kernel::OM->Get('Kernel::System::Package')->RepositoryGet(
         Name    => $Package->{Name}->{Content},
