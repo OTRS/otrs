@@ -1224,7 +1224,7 @@ sub QueryCondition {
         }
 
         # if word exists, do something with it
-        if ($Word) {
+        if ( $Word ne '' ) {
 
             # remove escape characters from $Word
             $Word =~ s{\\}{}smxg;
