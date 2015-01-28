@@ -1032,6 +1032,61 @@ for my $Query (@Queries) {
     }
 }
 
+# extended test
+%Fill = (
+    Some0 => '0 otrs',
+    Some1 => '1 otrs',
+);
+for my $Key ( sort keys %Fill ) {
+    my $SQL = "INSERT INTO test_condition (name_a, name_b) VALUES ('$Key', '$Fill{$Key}')";
+    my $Do  = $DBObject->Do(
+        SQL => $SQL,
+    );
+    $Self->True(
+        $Do,
+        "#8 Do() INSERT ($SQL)",
+    );
+}
+@Queries = (
+    {
+        Query  => '0 otrs',
+        Result => {
+            Some0 => 1,
+            Some1 => 0,
+        },
+    },
+    {
+        Query  => '1 otrs',
+        Result => {
+            Some0 => 0,
+            Some1 => 1,
+        },
+    },
+);
+for my $Query (@Queries) {
+    my $Condition = $DBObject->QueryCondition(
+        Key          => [ 'name_a', 'name_b', 'name_a', 'name_a' ],
+        Value        => $Query->{Query},
+        SearchPrefix => '*',
+        SearchSuffix => '*',
+        Extended     => 1,
+    );
+    $DBObject->Prepare(
+        SQL => 'SELECT name_a FROM test_condition WHERE ' . $Condition,
+    );
+    my %Result;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $Result{ $Row[0] } = 1;
+    }
+    for my $Check ( sort keys %{ $Query->{Result} } ) {
+        $Self->Is(
+            $Result{$Check} || 0,
+            $Query->{Result}->{$Check} || 0,
+            "#8 Do() SQL SELECT $Query->{Query} / $Check",
+        );
+    }
+}
+
 # Query condition cleanup test - Checks if '* *' is converted correctly to '*'
 {
     my $Condition = $DBObject->QueryCondition(
