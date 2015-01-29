@@ -323,21 +323,6 @@ sub Run {
         $ProcessList = \%ReducedProcessList;
     }
 
-    my %FollowupProcessListACL = map { $_ => $_ } sort keys %{$FollowupProcessList};
-
-    $ACL = $Self->{TicketObject}->TicketAcl(
-        ReturnType    => 'Process',
-        ReturnSubType => '-',
-        Data          => $FollowupProcessList,
-        UserID        => $Self->{UserID},
-    );
-
-    if ( IsHashRefWithData($FollowupProcessList) && $ACL ) {
-        my %ACLData = $Self->{TicketObject}->TicketAclData();
-        my %ReducedProcessList = map { $_ => $FollowupProcessList->{$_} } sort keys %ACLData;
-        $FollowupProcessList = \%ReducedProcessList;
-    }
-
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
 

@@ -285,21 +285,6 @@ sub Run {
         $ProcessList = \%ReducedProcessList;
     }
 
-    my %FollowupProcessListACL = map { $_ => $_ } sort keys %{$FollowupProcessList};
-
-    $ACL = $Self->{TicketObject}->TicketAcl(
-        ReturnType     => 'Process',
-        ReturnSubType  => '-',
-        Data           => $FollowupProcessList,
-        CustomerUserID => $Self->{UserID},
-    );
-
-    if ( IsHashRefWithData($FollowupProcessList) && $ACL ) {
-        my %ACLData = $Self->{TicketObject}->TicketAclData();
-        my %ReducedProcessList = map { $_ => $FollowupProcessList->{$_} } sort keys %ACLData;
-        $FollowupProcessList = \%ReducedProcessList;
-    }
-
     # if we have no subaction display the process list to start a new one
     if ( !$Self->{Subaction} ) {
 
