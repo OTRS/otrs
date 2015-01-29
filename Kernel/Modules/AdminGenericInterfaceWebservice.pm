@@ -196,7 +196,10 @@ sub Run {
         }
 
         # define notification
-        my $Notify = 'Webservice "%s" updated!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" updated!',
+            $WebserviceData->{Name},
+        );
 
         # Save and finish button: go to Webservice.
         if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
@@ -311,7 +314,10 @@ sub Run {
         $WebserviceID = $ID;
 
         # define notification
-        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" created!',
+            $WebserviceData->{Name},
+        );
 
         # return to edit to continue changing the configuration
         return $Self->_ShowEdit(
@@ -455,7 +461,10 @@ sub Run {
         }
 
         # define notification
-        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" created!',
+            $WebserviceData->{Name},
+        );
 
         # return to overview
         return $Self->_ShowOverview(
@@ -565,7 +574,10 @@ sub Run {
         );
 
         # define notification
-        my $Notify = 'Webservice "%s" created!", "' . $WebserviceData->{Name};
+        my $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" created!',
+            $WebserviceData->{Name},
+        );
 
         return $Self->_ShowOverview(
             %Param,
@@ -599,7 +611,10 @@ sub Run {
     if ($DeletedWebservice) {
 
         # define notification
-        $Notify = 'Webservice "%s" deleted!", "' . $DeletedWebservice;
+        $Notify = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Webservice "%s" deleted!',
+            $DeletedWebservice,
+        );
 
     }
 
