@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-01-28 Fixed bug#[11033](http://bugs.otrs.org/show_bug.cgi?id=11033) - Wrong webservice update confirmation text.
  - 2015-01-28 Fixed bug#[11023](http://bugs.otrs.org/show_bug.cgi?id=11023) - SQL error with "0 oracle" for article body in Ticket Search.
  - 2015-01-27 Fixed bug#[11037](http://bugs.otrs.org/show_bug.cgi?id=11037) - TranstionAction smart thats should support <OTRS_TICKET_*> instead of <OTRS_Ticket_*>.
  - 2015-01-27 Added OTRS Business Solution™ dynamic fields removal on downgrade to OTRS Free.
