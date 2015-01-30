@@ -507,9 +507,17 @@ sub Run {
 
         # quote all CustomerIDs
         if ( $TicketSearch{CustomerID} ) {
-            $TicketSearch{CustomerID} = $Self->{DBObject}->QueryStringEscape(
-                QueryString => $TicketSearch{CustomerID},
-            );
+            if ( ref $TicketSearch{CustomerID} eq '' ) {
+                $TicketSearch{CustomerID} = [ $TicketSearch{CustomerID} ];
+            }
+            my @EscapedCustomerIDs;
+            for my $CustomerID ( @{ $TicketSearch{CustomerID} } ) {
+                push @EscapedCustomerIDs, $Self->{DBObject}->QueryStringEscape(
+                    QueryString => $CustomerID,
+                );
+            }
+
+            $TicketSearch{CustomerID} = \@EscapedCustomerIDs;
         }
 
         # add sort by parameter to the search
