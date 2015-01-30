@@ -266,7 +266,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::StorageModule" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.</Description>
+        <Description Translatable="1">Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
