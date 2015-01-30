@@ -1978,6 +1978,10 @@ sub _SearchParamsGet {
         next STRING if !$String;
         my ( $Key, $Value ) = split /=/, $String;
 
+        if ( $Key eq 'CustomerID' ) {
+            $Key = "CustomerIDRaw";
+        }
+
         # push ARRAYREF attributes directly in an ARRAYREF
         if (
             $Key
@@ -2118,7 +2122,6 @@ sub _SearchParamsGet {
         TicketSearch        => \%TicketSearch,
         TicketSearchSummary => \%TicketSearchSummary,
     );
-
 }
 
 sub _DefaultColumnSort {
