@@ -141,7 +141,8 @@ $('.MasterAction').bind('click', function (Event) {
                         <input type="hidden" name="Action" value="$Env{"Action"}"/>
                         <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
                         <input type="hidden" name="Nav" value="$QData{"Nav"}"/>
-                        <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerID"}"/>
+                        <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerCompanyID"}"/>
+                        <input type="hidden" name="Source" value="$QData{"Source"}"/>
                         <fieldset class="TableLike">
 <!-- dtl:block:PreferencesGeneric -->
 <!-- dtl:block:PreferencesGenericInputHidden -->

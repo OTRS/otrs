@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2015-01-30 Fixed bug#[11018](http://bugs.otrs.org/show_bug.cgi?id=11018) - Internal Server Error, instead of warning.
  - 2015-01-29 Fixed bug#[10968](http://bugs.otrs.org/show_bug.cgi?id=10968) - Dashlet: Filter Attributes with more then one CustomerID doesn't work.
  - 2015-01-28 Fixed bug#[11023](http://bugs.otrs.org/show_bug.cgi?id=11023) - SQL error with "0 oracle" for article body in Ticket Search.
  - 2015-01-22 Fixed bug#[11021](http://bugs.otrs.org/show_bug.cgi?id=11021) - ProcessManagement: TransitionAction delete does not check if is used.
