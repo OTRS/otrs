@@ -212,7 +212,7 @@ $('#TypeID').bind('change', function (Event) {
 [% RenderBlockEnd("Owner") %]
 
 [% RenderBlockStart("Responsible") %]
-                        <label for="NewResponsibleID">[% Translate("Responsible") | html %]:</label>
+                        <label for="NewResponsibleID">[% Translate("New Responsible") | html %]:</label>
                         <div class="Field">
                             [% Data.ResponsibleStrg %]
                         </div>
