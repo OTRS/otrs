@@ -473,7 +473,7 @@ sub Run {
             # show login screen
             print $LayoutObject->CustomerLogin(
                 Title   => 'Logout',
-                Message => 'Session invalid. Please log in again.',
+                Message => $Self->{LanguageObject}->Translate('Session invalid. Please log in again.'),
                 %Param,
             );
             return;
@@ -1007,7 +1007,7 @@ sub Run {
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
                     Title   => 'Login',
-                    Message => $Self->{SessionObject}->SessionIDErrorMessage(),
+                    Message => $Self->{LanguageObject}->Translate( $Self->{SessionObject}->SessionIDErrorMessage() ),
                     %Param,
                 ),
             );
