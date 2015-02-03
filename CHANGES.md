@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-02-03 Fixed bug#[11029](http://bugs.otrs.org/show_bug.cgi?id=11029) - Improved wording for responsible to make it more consitent.
  - 2015-01-21 Improved fulltext filters in Ticket::SearchIndex::Filters.
  - 2015-01-15 Show 'add agent' and 'add group' action in UserGroup overview, thanks to ReneeB.
  - 2015-01-09 Improved stopword lists for StaticDB fulltext index to improve perfromance of fulltext searches. It is recommended to rebuild the fulltext search index.
