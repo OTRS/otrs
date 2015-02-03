@@ -832,6 +832,7 @@ sub TicketListShow {
         SelectedID  => $PageShown,
         Translation => 0,
         Data        => \%Data,
+        Sort        => 'NumericValue',
     );
 
     # nav bar at the beginning of a overview
