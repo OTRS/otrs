@@ -682,11 +682,28 @@ sub Run {
             # dynamic fields will be translated in the next block
             next COLUMN if $Column =~ m{ \A DynamicField_ }xms;
 
+            my $TranslatedWord = $Column;
+            if ( $Column eq 'EscalationTime' ) {
+                $TranslatedWord = 'Service Time';
+            }
+            elsif ( $Column eq 'EscalationResponseTime' ) {
+                $TranslatedWord = 'First Response Time';
+            }
+            elsif ( $Column eq 'EscalationSolutionTime' ) {
+                $TranslatedWord = 'Solution Time';
+            }
+            elsif ( $Column eq 'EscalationUpdateTime' ) {
+                $TranslatedWord = 'Update Time';
+            }
+            elsif ( $Column eq 'PendingTime' ) {
+                $TranslatedWord = 'Pending till';
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'ColumnTranslation',
                 Data => {
                     ColumnName      => $Column,
-                    TranslateString => $Column,
+                    TranslateString => $TranslatedWord,
                 },
             );
             $Self->{LayoutObject}->Block(

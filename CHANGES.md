@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-02-03 Fixed bug#[10955](http://bugs.otrs.org/show_bug.cgi?id=10955) - Missing translations in Dashboard and TicketOverview settings.
  - 2015-01-29 Fixed bug#[10968](http://bugs.otrs.org/show_bug.cgi?id=10968) - Dashlet: Filter Attributes with more then one CustomerID doesn't work.
  - 2015-01-28 Fixed bug#[11033](http://bugs.otrs.org/show_bug.cgi?id=11033) - Wrong webservice update confirmation text.
  - 2015-01-28 Fixed bug#[11023](http://bugs.otrs.org/show_bug.cgi?id=11023) - SQL error with "0 oracle" for article body in Ticket Search.
