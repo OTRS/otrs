@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-02-03 Fixed bug#[11047](http://bugs.otrs.org/show_bug.cgi?id=11047) - Missing translation when updating password.
  - 2015-02-03 Fixed bug#[11050](http://bugs.otrs.org/show_bug.cgi?id=11050) - Wrong sortation of Ticket Overview settings.
  - 2015-02-03 Fixed bug#[10955](http://bugs.otrs.org/show_bug.cgi?id=10955) - Missing translations in Dashboard and TicketOverview settings.
  - 2015-01-29 Fixed bug#[10968](http://bugs.otrs.org/show_bug.cgi?id=10968) - Dashlet: Filter Attributes with more then one CustomerID doesn't work.
