@@ -564,30 +564,36 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 #
 @Tests = (
     {
-        Name   => 'Unicode dump 1',
-        Source => 'é',
-        Result => "\$VAR1 = 'é';\n",
+        Name             => 'Unicode dump 1',
+        Source           => 'é',
+        ResultDumpBinary => "\$VAR1 = 'é';\n",
+        ResultDumpAscii  => '$VAR1 = "\x{e9}";' . "\n",
     },
     {
-        Name   => 'Unicode dump 2',
-        Source => 'äöüßÄÖÜ€ис é í  ó',
-        Result => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+        Name             => 'Unicode dump 2',
+        Source           => 'äöüßÄÖÜ€ис é í  ó',
+        ResultDumpBinary => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+        ResultDumpAscii => '$VAR1 = "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}";' . "\n",
     },
     {
         Name => 'Unicode dump 3',
         Source =>
             "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}",
-        Result => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+        ResultDumpBinary => "\$VAR1 = 'äöüßÄÖÜ€ис é í  ó';\n",
+        ResultDumpAscii =>
+            '$VAR1 = "\x{e4}\x{f6}\x{fc}\x{df}\x{c4}\x{d6}\x{dc}\x{20ac}\x{438}\x{441} \x{e9} \x{ed}  \x{f3}";' . "\n",
     },
     {
-        Name   => 'Unicode dump 4',
-        Source => "Mus\x{e9}e royal de l\x{2019}Arm\x{e9}e et d\x{2019}histoire militaire",
-        Result => "\$VAR1 = 'Musée royal de l’Armée et d’histoire militaire';\n",
+        Name             => 'Unicode dump 4',
+        Source           => "Mus\x{e9}e royal de l\x{2019}Arm\x{e9}e et d\x{2019}histoire militaire",
+        ResultDumpBinary => "\$VAR1 = 'Musée royal de l’Armée et d’histoire militaire';\n",
+        ResultDumpAscii  => '$VAR1 = "Mus\x{e9}e royal de l\x{2019}Arm\x{e9}e et d\x{2019}histoire militaire";' . "\n",
     },
     {
-        Name   => 'Unicode dump 5',
-        Source => "Antonín Dvořák",
-        Result => "\$VAR1 = 'Antonín Dvořák';\n",
+        Name             => 'Unicode dump 5',
+        Source           => "Antonín Dvořák",
+        ResultDumpBinary => "\$VAR1 = 'Antonín Dvořák';\n",
+        ResultDumpAscii  => '$VAR1 = "Anton\x{ed}n Dvo\x{159}\x{e1}k";' . "\n",
     },
 
     # Strange things happen here. \x{e9} is not valid UTF8, but instead Latin1.
@@ -606,12 +612,15 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
 );
 
 for my $Test (@Tests) {
-    my $Result = $Self->{MainObject}->Dump( $Test->{Source} );
-
     $Self->Is(
-        $Result,
-        $Test->{Result},
-        "$Test->{Name} - Dump() result"
+        $Self->{MainObject}->Dump( $Test->{Source} ),
+        $Test->{ResultDumpBinary},
+        "$Test->{Name} - Dump() result (binary)"
+    );
+    $Self->Is(
+        $Self->{MainObject}->Dump( $Test->{Source}, 'ascii' ),
+        $Test->{ResultDumpAscii},
+        "$Test->{Name} - Dump() result (ascii)"
     );
 }
 

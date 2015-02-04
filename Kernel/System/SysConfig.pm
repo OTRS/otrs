@@ -479,7 +479,7 @@ sub ConfigItemUpdate {
         $Option = "delete \$Self->{'$Param{Key}'};\n";
     }
     else {
-        $Option = $Self->{MainObject}->Dump( $Param{Value}, 'ascii' );
+        $Option = $Self->{MainObject}->Dump( $Param{Value} );
         $Option =~ s/\$VAR1/\$Self->{'$Param{Key}'}/;
     }
 
@@ -566,7 +566,7 @@ sub ConfigItemGet {
     return if !$Self->{Config}->{ $Param{Name} };
 
     # copy config and store it as default
-    my $Dump = $Self->{MainObject}->Dump( $Self->{Config}->{ $Param{Name} }, 'ascii' );
+    my $Dump = $Self->{MainObject}->Dump( $Self->{Config}->{ $Param{Name} } );
     $Dump =~ s/\$VAR1 =/\$ConfigItem =/;
 
     # rh as 8 bug fix
@@ -1657,7 +1657,7 @@ sub _Init {
 
         $Data{$File} = \@XMLHash;
 
-        my $Dump = $Self->{MainObject}->Dump( \@XMLHash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \@XMLHash );
         $Dump =~ s/\$VAR1/\$XMLHashRef/;
 
         my $Out;
@@ -2066,7 +2066,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2076,7 +2076,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2087,7 +2087,7 @@ sub _XML2Perl {
         $Data = $D;
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( $Data, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump($Data);
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2132,7 +2132,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2147,7 +2147,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \@ArrayNew, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \@ArrayNew );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2245,7 +2245,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2264,7 +2264,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Days, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Days );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2276,7 +2276,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2289,7 +2289,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
@@ -2302,7 +2302,7 @@ sub _XML2Perl {
         }
 
         # store in config
-        my $Dump = $Self->{MainObject}->Dump( \%Hash, 'ascii' );
+        my $Dump = $Self->{MainObject}->Dump( \%Hash );
         $Dump =~ s/\$VAR1 =//;
         $Data = $Dump;
     }
