@@ -8,6 +8,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.6 2015-??-??
+ - 2015-02-06 Fixed bug#[11011](http://bugs.otrs.org/show_bug.cgi?id=11011) - OTRS does not honor customer change.
  - 2015-02-03 Fixed bug#[10902](http://bugs.otrs.org/show_bug.cgi?id=10902) - Missing translations on login screen.
  - 2015-02-03 Fixed bug#[11047](http://bugs.otrs.org/show_bug.cgi?id=11047) - Missing translation when updating password.
  - 2015-02-03 Fixed bug#[11050](http://bugs.otrs.org/show_bug.cgi?id=11050) - Wrong sortation of Ticket Overview settings.
