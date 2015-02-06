@@ -12,35 +12,16 @@ package Kernel::Modules::AdminDynamicField;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Valid;
 use Kernel::System::CheckItem;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
-
-    $Self->{DynamicFieldObject}        = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{DynamicFieldBackendObject} = Kernel::System::DynamicField::Backend->new( %{$Self} );
-
-    # get configured object types
-    $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
-
-    # get configured field types
-    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Driver');
 
     return $Self;
 }
@@ -51,7 +32,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'DynamicFieldDelete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ChallengeTokenCheck();
 
         return $Self->_DynamicFieldDelete(
             %Param,
@@ -68,24 +49,28 @@ sub Run {
 sub _DynamicFieldDelete {
     my ( $Self, %Param ) = @_;
 
-    my $Confirmed = $Self->{ParamObject}->GetParam( Param => 'Confirmed' );
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+
+    my $Confirmed = $ParamObject->GetParam( Param => 'Confirmed' );
 
     if ( !$Confirmed ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Need 'Confirmed'!",
         );
         return;
     }
 
-    my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $ID = $ParamObject->GetParam( Param => 'ID' );
 
-    my $DynamicFieldConfig = $Self->{DynamicFieldObject}->DynamicFieldGet(
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $ID,
     );
 
     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Could not find DynamicField $ID!",
         );
@@ -93,14 +78,14 @@ sub _DynamicFieldDelete {
     }
 
     if ( $DynamicFieldConfig->{InternalField} ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             'Priority' => 'error',
             'Message'  => "Could not delete internal DynamicField $ID!",
         );
         return;
     }
 
-    my $ValuesDeleteSuccess = $Self->{DynamicFieldBackendObject}->AllValuesDelete(
+    my $ValuesDeleteSuccess = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->AllValuesDelete(
         DynamicFieldConfig => $DynamicFieldConfig,
         UserID             => $Self->{UserID},
     );
@@ -108,13 +93,13 @@ sub _DynamicFieldDelete {
     my $Success;
 
     if ($ValuesDeleteSuccess) {
-        $Success = $Self->{DynamicFieldObject}->DynamicFieldDelete(
+        $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $ID,
             UserID => $Self->{UserID},
         );
     }
 
-    return $Self->{LayoutObject}->Attachment(
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
         ContentType => 'text/html',
         Content     => $Success,
         Type        => 'inline',
@@ -125,11 +110,16 @@ sub _DynamicFieldDelete {
 sub _ShowOverview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $FieldTypeConfig    = $ConfigObject->Get('DynamicFields::Driver');
+
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # check for possible order collisions or gaps
-    my $OrderSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderCheck();
+    my $OrderSuccess = $DynamicFieldObject->DynamicFieldOrderCheck();
     if ( !$OrderSuccess ) {
         return $Self->_DynamicFieldOrderReset(
             %Param,
@@ -137,7 +127,7 @@ sub _ShowOverview {
     }
 
     # call all needed template blocks
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Main',
         Data => \%Param,
     );
@@ -145,35 +135,37 @@ sub _ShowOverview {
     my %FieldTypes;
     my %FieldDialogs;
 
-    if ( !IsHashRefWithData( $Self->{FieldTypeConfig} ) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+    if ( !IsHashRefWithData($FieldTypeConfig) ) {
+        return $LayoutObject->ErrorScreen(
             Message => "Fields configuration is not valid",
         );
     }
 
     # get the field types (backends) and its config dialogs
     FIELDTYPE:
-    for my $FieldType ( sort keys %{ $Self->{FieldTypeConfig} } ) {
+    for my $FieldType ( sort keys %{$FieldTypeConfig} ) {
 
-        next FIELDTYPE if !$Self->{FieldTypeConfig}->{$FieldType};
-        next FIELDTYPE if $Self->{FieldTypeConfig}->{$FieldType}->{DisabledAdd};
+        next FIELDTYPE if !$FieldTypeConfig->{$FieldType};
+        next FIELDTYPE if $FieldTypeConfig->{$FieldType}->{DisabledAdd};
 
         # add the field type to the list
-        $FieldTypes{$FieldType} = $Self->{FieldTypeConfig}->{$FieldType}->{DisplayName};
+        $FieldTypes{$FieldType} = $FieldTypeConfig->{$FieldType}->{DisplayName};
 
         # get the config dialog
         $FieldDialogs{$FieldType} =
-            $Self->{FieldTypeConfig}->{$FieldType}->{ConfigDialog};
+            $FieldTypeConfig->{$FieldType}->{ConfigDialog};
     }
 
-    if ( !IsHashRefWithData( $Self->{ObjectTypeConfig} ) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+    my $ObjectTypeConfig = $ConfigObject->Get('DynamicFields::ObjectType');
+
+    if ( !IsHashRefWithData($ObjectTypeConfig) ) {
+        return $LayoutObject->ErrorScreen(
             Message => "Objects configuration is not valid",
         );
     }
 
     # make ObjectTypeConfig local variable to proper sorting
-    my %ObjectTypeConfig = %{ $Self->{ObjectTypeConfig} };
+    my %ObjectTypeConfig = %{$ObjectTypeConfig};
 
     # cycle thought all objects to create the select add field selects
     OBJECTTYPE:
@@ -184,12 +176,12 @@ sub _ShowOverview {
         } keys %ObjectTypeConfig
         )
     {
-        next OBJECTTYPE if !$Self->{ObjectTypeConfig}->{$ObjectType};
+        next OBJECTTYPE if !$ObjectTypeConfig->{$ObjectType};
 
         my $SelectName = $ObjectType . 'DynamicField';
 
         # create the Add Dynamic Field select
-        my $AddDynamicFieldStrg = $Self->{LayoutObject}->BuildSelection(
+        my $AddDynamicFieldStrg = $LayoutObject->BuildSelection(
             Data          => \%FieldTypes,
             Name          => $SelectName,
             PossibleNone  => 1,
@@ -200,7 +192,7 @@ sub _ShowOverview {
         );
 
         # call ActionAddDynamicField block
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionAddDynamicField',
             Data => {
                 %Param,
@@ -212,12 +204,12 @@ sub _ShowOverview {
     }
 
     # parse the fields dialogs as JSON structure
-    my $FieldDialogsConfig = $Self->{LayoutObject}->JSONEncode(
+    my $FieldDialogsConfig = $LayoutObject->JSONEncode(
         Data => \%FieldDialogs,
     );
 
     # set JS configuration
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ConfigSet',
         Data => {
             FieldDialogsConfig => $FieldDialogsConfig,
@@ -225,13 +217,13 @@ sub _ShowOverview {
     );
 
     # call hint block
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Hint',
         Data => \%Param,
     );
 
     # get dynamic fields list
-    my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList(
+    my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
         Valid => 0,
     );
 
@@ -241,23 +233,26 @@ sub _ShowOverview {
         Total         => scalar @{$DynamicFieldsList},
     );
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicField',
         Data         => {
             %Param,
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
 sub _DynamicFieldsListShow {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $FieldTypeConfig = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::Driver');
+
     # check start option, if higher than fields available, set
     # it to the last field page
-    my $StartHit = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    my $StartHit = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'StartHit' ) || 1;
 
     # get personal page shown count
     my $PageShownPreferencesKey = 'AdminDynamicFieldsOverviewPageShown';
@@ -266,7 +261,7 @@ sub _DynamicFieldsListShow {
 
     # get data selection
     my %Data;
-    my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
+    my $Config = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups');
     if ( $Config && $Config->{$Group} && $Config->{$Group}->{Data} ) {
         %Data = %{ $Config->{$Group}->{Data} };
     }
@@ -279,21 +274,21 @@ sub _DynamicFieldsListShow {
 
     # build nav bar
     my $Limit = $Param{Limit} || 20_000;
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
+    my %PageNav = $LayoutObject->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,
         PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
-        Action    => 'Action=' . $Self->{LayoutObject}->{Action},
+        Action    => 'Action=' . $LayoutObject->{Action},
         Link      => $Param{LinkPage},
-        IDPrefix  => $Self->{LayoutObject}->{Action},
+        IDPrefix  => $LayoutObject->{Action},
     );
 
     # build shown dynamic fields per page
     $Param{RequestedURL}    = "Action=$Self->{Action}";
     $Param{Group}           = $Group;
     $Param{PreferencesKey}  = $PageShownPreferencesKey;
-    $Param{PageShownString} = $Self->{LayoutObject}->BuildSelection(
+    $Param{PageShownString} = $LayoutObject->BuildSelection(
         Name        => $PageShownPreferencesKey,
         SelectedID  => $PageShown,
         Translation => 0,
@@ -301,12 +296,12 @@ sub _DynamicFieldsListShow {
     );
 
     if (%PageNav) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewNavBarPageNavBar',
             Data => \%PageNav,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContextSettings',
             Data => { %PageNav, %Param, },
         );
@@ -325,30 +320,31 @@ sub _DynamicFieldsListShow {
             $Counter++;
             if ( $Counter >= $StartHit && $Counter < ( $PageShown + $StartHit ) ) {
 
-                my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+                my $DynamicFieldData = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
                     ID => $DynamicFieldID,
                 );
                 next DYNAMICFIELDID if !IsHashRefWithData($DynamicFieldData);
 
                 # convert ValidID to Validity string
-                my $Valid = $Self->{ValidObject}->ValidLookup(
+                my $Valid = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
                     ValidID => $DynamicFieldData->{ValidID},
                 );
 
                 # get the object type display name
-                my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $DynamicFieldData->{ObjectType} }->{DisplayName}
+                my $ObjectTypeName = $Kernel::OM->Get('Kernel::Config')->Get('DynamicFields::ObjectType')
+                    ->{ $DynamicFieldData->{ObjectType} }->{DisplayName}
                     || $DynamicFieldData->{ObjectType};
 
                 # get the field type display name
-                my $FieldTypeName = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{DisplayName}
+                my $FieldTypeName = $FieldTypeConfig->{ $DynamicFieldData->{FieldType} }->{DisplayName}
                     || $DynamicFieldData->{FieldType};
 
                 # get the field backend dialog
-                my $ConfigDialog = $Self->{FieldTypeConfig}->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
+                my $ConfigDialog = $FieldTypeConfig->{ $DynamicFieldData->{FieldType} }->{ConfigDialog}
                     || '';
 
                 # print each dynamic field row
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'DynamicFieldsRow',
                     Data => {
                         %{$DynamicFieldData},
@@ -361,7 +357,7 @@ sub _DynamicFieldsListShow {
 
                 # Internal fields can not be deleted.
                 if ( !$DynamicFieldData->{InternalField} ) {
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'DeleteLink',
                         Data => {
                             %{$DynamicFieldData},
@@ -383,13 +379,13 @@ sub _DynamicFieldsListShow {
 
     # otherwise show a no data found message
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoDataFound',
             Data => \%Param,
         );
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'MaxFieldOrder',
         Data => {
             MaxFieldOrder => $MaxFieldOrder,
@@ -402,18 +398,19 @@ sub _DynamicFieldsListShow {
 sub _DynamicFieldOrderReset {
     my ( $Self, %Param ) = @_;
 
-    my $ResetSuccess = $Self->{DynamicFieldObject}->DynamicFieldOrderReset();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ResetSuccess = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldOrderReset();
 
     # show error message if the order reset was not successful
     if ( !$ResetSuccess ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not reset Dynamic Field order properly, please check the error log"
                 . " for more details",
         );
     }
 
     # redirect to main screen
-    return $Self->{LayoutObject}->Redirect(
+    return $LayoutObject->Redirect(
         OP => "Action=AdminDynamicField",
     );
 }

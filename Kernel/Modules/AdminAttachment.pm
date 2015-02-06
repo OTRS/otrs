@@ -12,8 +12,7 @@ package Kernel::Modules::AdminAttachment;
 use strict;
 use warnings;
 
-use Kernel::System::StdAttachment;
-use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,41 +21,36 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
-    $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject         = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
+        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my %Data = $StdAttachmentObject->StdAttachmentGet(
             ID => $ID,
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
             %Data,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -66,16 +60,16 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        my @NewIDs = $ParamObject->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # get attachment
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        my %UploadStuff = $ParamObject->GetUploadAll(
             Param => 'FileUpload',
         );
 
@@ -90,39 +84,39 @@ sub Run {
         if ( !%Errors ) {
 
             # update attachment
-            my $Update = $Self->{StdAttachmentObject}->StdAttachmentUpdate(
+            my $Update = $StdAttachmentObject->StdAttachmentUpdate(
                 %GetParam,
                 %UploadStuff,
                 UserID => $Self->{UserID},
             );
             if ($Update) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Attachment updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAttachment',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -131,18 +125,18 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -152,16 +146,16 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        my @NewIDs = $ParamObject->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # get attachment
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        my %UploadStuff = $ParamObject->GetUploadAll(
             Param => 'FileUpload',
         );
 
@@ -179,39 +173,39 @@ sub Run {
         if ( !%Errors ) {
 
             # add state
-            my $StdAttachmentID = $Self->{StdAttachmentObject}->StdAttachmentAdd(
+            my $StdAttachmentID = $StdAttachmentObject->StdAttachmentAdd(
                 %GetParam,
                 %UploadStuff,
                 UserID => $Self->{UserID},
             );
             if ($StdAttachmentID) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Attachment added!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Attachment added!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminAttachment',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -221,18 +215,18 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
 
-        my $Delete = $Self->{StdAttachmentObject}->StdAttachmentDelete(
+        my $Delete = $StdAttachmentObject->StdAttachmentDelete(
             ID => $ID,
         );
         if ( !$Delete ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -241,18 +235,18 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Download' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
 
-        my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
+        my %Data = $StdAttachmentObject->StdAttachmentGet(
             ID => $ID,
         );
         if ( !%Data ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             %Data,
             Type => 'attachment',
         );
@@ -263,13 +257,13 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview();
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminAttachment',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -278,23 +272,25 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionList',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionOverview',
     );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
@@ -306,7 +302,7 @@ sub _Edit {
         $Param{ValidateContent} = "Validate_Required";
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param,
@@ -316,12 +312,12 @@ sub _Edit {
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
-        $Self->{LayoutObject}->Block( Name => 'ContenLabelEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'ContenLabelEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
-        $Self->{LayoutObject}->Block( Name => 'ContenLabelAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'ContenLabelAdd' );
     }
 
     return 1;
@@ -330,21 +326,24 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $StdAttachmentObject = $Kernel::OM->Get('Kernel::System::StdAttachment');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionList',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionAdd',
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{StdAttachmentObject}->StdAttachmentList(
+    my %List = $StdAttachmentObject->StdAttachmentList(
         UserID => 1,
         Valid  => 0,
     );
@@ -353,9 +352,9 @@ sub _Overview {
     if (%List) {
 
         # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
         for my $ID ( sort { $List{$a} cmp $List{$b} } keys %List ) {
-            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet(
+            my %Data = $StdAttachmentObject->StdAttachmentGet(
                 ID => $ID,
             );
 
@@ -366,7 +365,7 @@ sub _Overview {
                 $Data{Invalid} = 'Invalid';
             }
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
                     Valid => $ValidList{ $Data{ValidID} },
@@ -378,7 +377,7 @@ sub _Overview {
 
     # otherwise a no data message is displayed
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoDataFoundMsg',
             Data => {},
         );
