@@ -9555,6 +9555,7 @@
                 <Item>AgentTicketPhoneOutbound</Item>
                 <Item>AgentTicketPrint</Item>
                 <Item>AgentTicketPriority</Item>
+                <Item>AgentTicketProcess</Item>
                 <Item>AgentTicketResponsible</Item>
                 <Item>AgentTicketWatcher</Item>
                 <Item>AgentTicketZoom</Item>
