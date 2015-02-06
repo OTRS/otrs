@@ -684,13 +684,28 @@ sub Run {
 
             if ( lc $Self->{Config}->{SenderType} eq 'customer' ) {
 
-                # Use customer data as From, if possible
-                my %LastCustomerArticle = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                    TicketID      => $Self->{TicketID},
-                    DynamicFields => 0,
-                );
+                # get customer email address
+                if ( $Ticket{CustomerUserID} ) {
+                    my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Ticket{CustomerUserID}
+                    );
 
-                $From = $LastCustomerArticle{From};
+                    # use data from customer user (if customer user is in database)
+                    if ( IsHashRefWithData( \%CustomerUserData ) ) {
+                        $From = '"'
+                            . $CustomerUserData{UserFirstname} . ' '
+                            . $CustomerUserData{UserLastname} . '"'
+                            . ' <' . $CustomerUserData{UserEmail} . '>';
+                    }
+                }
+                else {
+                    # Use customer data as From, if possible
+                    my %LastCustomerArticle = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                        TicketID      => $Self->{TicketID},
+                        DynamicFields => 0,
+                    );
+                    $From = $LastCustomerArticle{From};
+                }
             }
 
             # If we don't have a customer article, or if SenderType is "agent", use the agent as From.
