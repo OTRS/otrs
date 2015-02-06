@@ -230,7 +230,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 BackupData.CustomerEmail = CustomerValue;
 
                 if (Core.Config.Get('Action') === 'AgentBook') {
-                    $('#' + $(this).attr('id')).val(CustomerValue);
+                    $(Event.target).val(CustomerValue);
                     return false;
                 }
 
