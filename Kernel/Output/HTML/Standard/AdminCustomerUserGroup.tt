@@ -253,7 +253,7 @@
             </div>
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
-                    <ul class="Tablelike" id="Always Groups">
+                    <ul class="Tablelike" id="AlwaysGroups">
                         <li class="Header">[% Translate("Groups") | html %]</li>
 [% RenderBlockStart("AlwaysGroupsList") %]
                         <li>[% Data.Name | html %]</li>
