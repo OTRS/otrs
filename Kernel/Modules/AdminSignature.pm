@@ -12,9 +12,7 @@ package Kernel::Modules::AdminSignature;
 use strict;
 use warnings;
 
-use Kernel::System::Signature;
-use Kernel::System::Valid;
-use Kernel::System::HTMLUtils;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,41 +21,35 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{SignatureObject} = Kernel::System::Signature->new(%Param);
-    $Self->{ValidObject}     = Kernel::System::Valid->new(%Param);
-    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{SignatureObject}->SignatureGet(
+        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my %Data = $SignatureObject->SignatureGet(
             ID => $ID,
         );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
             %Data,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSignature',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -67,20 +59,20 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Text Comment ValidID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
-        $GetParam{'Text'} = $Self->{ParamObject}->GetParam(
+        $GetParam{'Text'} = $ParamObject->GetParam(
             Param => 'Text',
             Raw   => 1
         ) || '';
 
         # get content type
         my $ContentType = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $ContentType = 'text/html';
         }
 
@@ -95,39 +87,39 @@ sub Run {
         if ( !%Errors ) {
 
             # update signature
-            my $Update = $Self->{SignatureObject}->SignatureUpdate(
+            my $Update = $SignatureObject->SignatureUpdate(
                 %GetParam,
                 ContentType => $ContentType,
                 UserID      => $Self->{UserID},
             );
             if ($Update) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Signature updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Signature updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSignature',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Change',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSignature',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -136,18 +128,18 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSignature',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -157,20 +149,20 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
-        $GetParam{'Text'} = $Self->{ParamObject}->GetParam(
+        $GetParam{'Text'} = $ParamObject->GetParam(
             Param => 'Text',
             Raw   => 1
         ) || '';
 
         # get content type
         my $ContentType = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $ContentType = 'text/html';
         }
 
@@ -185,7 +177,7 @@ sub Run {
         if ( !%Errors ) {
 
             # add signature
-            my $NewSignature = $Self->{SignatureObject}->SignatureAdd(
+            my $NewSignature = $SignatureObject->SignatureAdd(
                 %GetParam,
                 ContentType => $ContentType,
                 UserID      => $Self->{UserID},
@@ -193,32 +185,32 @@ sub Run {
 
             if ($NewSignature) {
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Signature added!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Signature added!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSignature',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action => 'Add',
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSignature',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -227,13 +219,13 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview();
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSignature',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -242,16 +234,19 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
     # add rich text editor
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $LayoutObject->{BrowserRichText} ) {
+        $LayoutObject->Block(
             Name => 'RichText',
             Data => \%Param,
         );
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Text} = $Self->{HTMLUtilsObject}->ToHTML(
+            $Param{Text} = $HTMLUtilsObject->ToHTML(
                 String => $Param{Text},
             );
         }
@@ -260,36 +255,36 @@ sub _Edit {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Text} = $Self->{HTMLUtilsObject}->ToAscii(
+            $Param{Text} = $HTMLUtilsObject->ToAscii(
                 String => $Param{Text},
             );
         }
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionList',
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionOverview',
     );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param,
@@ -299,10 +294,10 @@ sub _Edit {
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
     return 1;
@@ -311,24 +306,28 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionList',
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ActionAdd',
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{SignatureObject}->SignatureList(
+
+    my $SignatureObject = $Kernel::OM->Get('Kernel::System::Signature');
+    my %List            = $SignatureObject->SignatureList(
         Valid => 0,
     );
 
@@ -336,11 +335,11 @@ sub _Overview {
     if (%List) {
 
         # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
         for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-            my %Data = $Self->{SignatureObject}->SignatureGet( ID => $ListKey );
-            $Self->{LayoutObject}->Block(
+            my %Data = $SignatureObject->SignatureGet( ID => $ListKey );
+            $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
                     Valid => $ValidList{ $Data{ValidID} },
@@ -352,7 +351,7 @@ sub _Overview {
 
     # otherwise a no data message is displayed
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoDataFoundMsg',
             Data => {},
         );

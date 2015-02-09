@@ -12,11 +12,7 @@ package Kernel::Modules::AdminACL;
 use strict;
 use warnings;
 
-use Kernel::System::YAML;
-use Kernel::System::Valid;
-use Kernel::System::JSON;
-use Kernel::System::DynamicField;
-use Kernel::System::ACL::DB::ACL;
+our $ObjectManagerDisabled = 1;
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -27,38 +23,26 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (
-        qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)
-        )
-    {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
-    $Self->{YAMLObject}         = Kernel::System::YAML->new( %{$Self} );
-    $Self->{ACLObject}          = Kernel::System::ACL::DB::ACL->new( %{$Self} );
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $ACLID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+    $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
+
+    my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
 
     my $SynchronizeMessage
         = 'ACL information from database is not in sync with the system configuration, please deploy all ACLs.';
 
     my $SynchronizedMessageVisible = 0;
-    if ( $Self->{ACLObject}->ACLsNeedSync() ) {
+
+    my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+
+    if ( $ACLObject->ACLsNeedSync() ) {
 
         # create a notification if system is not up to date
         $Param{NotifyData} = [
@@ -69,23 +53,25 @@ sub Run {
         $SynchronizedMessageVisible = 1;
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # ------------------------------------------------------------ #
     # ACLImport
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ACLImport' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
+        my %UploadStuff = $ParamObject->GetUploadAll(
             Param  => 'FileUpload',
             Source => 'string',
         );
 
-        my $OverwriteExistingEntities = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' ) || '';
+        my $OverwriteExistingEntities = $ParamObject->GetParam( Param => 'OverwriteExistingEntities' ) || '';
 
-        my $ACLImport = $Self->{ACLObject}->ACLImport(
+        my $ACLImport = $ACLObject->ACLImport(
             Content                   => $UploadStuff{Content},
             OverwriteExistingEntities => $OverwriteExistingEntities,
             UserID                    => $Self->{UserID},
@@ -95,7 +81,7 @@ sub Run {
             my $Message = $ACLImport->{Message}
                 || 'ACLs could not be Imported due to a unknown error,'
                 . ' please check OTRS logs for more information';
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => $Message,
             );
         }
@@ -157,7 +143,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ACLNewAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get ACL data
         my $ACLData;
@@ -199,7 +185,7 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        my $ACLID = $Self->{ACLObject}->ACLAdd(
+        my $ACLID = $ACLObject->ACLAdd(
             Name           => $ACLData->{Name},
             Comment        => $ACLData->{Comment},
             Description    => $ACLData->{Description},
@@ -210,13 +196,13 @@ sub Run {
 
         # show error if can't create
         if ( !$ACLID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error creating the ACL",
             );
         }
 
         # redirect to edit screen
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action};Subaction=ACLEdit;ID=$ACLID" );
     }
 
     # ------------------------------------------------------------ #
@@ -226,32 +212,34 @@ sub Run {
 
         # check for ACLID
         if ( !$ACLID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need ACLID!",
             );
         }
 
         # get ACL data
-        my $ACLData = $Self->{ACLObject}->ACLGet(
+        my $ACLData = $ACLObject->ACLGet(
             ID     => $ACLID,
             UserID => $Self->{UserID},
         );
 
         # check for valid ACL data
         if ( !IsHashRefWithData($ACLData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Could not get data for ACLID $ACLID",
             );
         }
 
+        my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
         if ( $ACLData->{ConfigMatch} ) {
-            $ACLData->{ConfigMatch} = $Self->{JSONObject}->Encode(
+            $ACLData->{ConfigMatch} = $JSONObject->Encode(
                 Data => $ACLData->{ConfigMatch},
             );
         }
 
         if ( $ACLData->{ConfigChange} ) {
-            $ACLData->{ConfigChange} = $Self->{JSONObject}->Encode(
+            $ACLData->{ConfigChange} = $JSONObject->Encode(
                 Data => $ACLData->{ConfigChange},
             );
         }
@@ -270,7 +258,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ACLEditAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get webserice configuration
         my $ACLData;
@@ -314,7 +302,7 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        my $Success = $Self->{ACLObject}->ACLUpdate(
+        my $Success = $ACLObject->ACLUpdate(
             ID             => $ACLID,
             Name           => $ACLData->{Name},
             Comment        => $ACLData->{Comment},
@@ -328,15 +316,15 @@ sub Run {
 
         # show error if can't update
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error updating the ACL",
             );
         }
 
-        if ( $Self->{ParamObject}->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
 
             # if the user would like to continue editing the ACL, just redirect to the edit screen
-            return $Self->{LayoutObject}->Redirect(
+            return $LayoutObject->Redirect(
                 OP =>
                     "Action=AdminACL;Subaction=ACLEdit;ID=$ACLID"
             );
@@ -344,7 +332,7 @@ sub Run {
         else {
 
             # otherwise return to overview
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
         }
     }
 
@@ -353,9 +341,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ACLDeploy' ) {
 
-        my $Location = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
+        my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
-        my $ACLDump = $Self->{ACLObject}->ACLDump(
+        my $ACLDump = $ACLObject->ACLDump(
             ResultType => 'FILE',
             Location   => $Location,
             UserID     => $Self->{UserID},
@@ -363,15 +351,15 @@ sub Run {
 
         if ($ACLDump) {
 
-            my $Success = $Self->{ACLObject}->ACLsNeedSyncReset();
+            my $Success = $ACLObject->ACLsNeedSyncReset();
 
             if ($Success) {
-                return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+                return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
             }
             else {
 
                 # show error if can't set state
-                return $Self->{LayoutObject}->ErrorScreen(
+                return $LayoutObject->ErrorScreen(
                     Message => "There was an error setting the entity sync status.",
                 );
             }
@@ -379,7 +367,7 @@ sub Run {
         else {
 
             # show error if can't synch
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error synchronizing the ACLs.",
             );
         }
@@ -391,7 +379,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ACLDelete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # check for ACLID
         return if !$ACLID;
@@ -401,7 +389,7 @@ sub Run {
         my $JSON;
         if ( $CheckResult->{Success} ) {
 
-            my $Success = $Self->{ACLObject}->ACLDelete(
+            my $Success = $ACLObject->ACLDelete(
                 ID     => $ACLID,
                 UserID => $Self->{UserID},
             );
@@ -415,7 +403,7 @@ sub Run {
             }
 
             # build JSON output
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     %DeleteResult,
                 },
@@ -424,7 +412,7 @@ sub Run {
         else {
 
             # build JSON output
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     %{$CheckResult},
                 },
@@ -432,8 +420,8 @@ sub Run {
         }
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -445,20 +433,20 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ACLExport' ) {
 
-        my $ACLID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ACLID = $ParamObject->GetParam( Param => 'ID' ) || '';
         my $ACLData;
         my $ACLSingleData;
         my $Filename = 'Export_ACL.yml';
 
         if ($ACLID) {
 
-            $ACLSingleData = $Self->{ACLObject}->ACLGet(
+            $ACLSingleData = $ACLObject->ACLGet(
                 ID     => $ACLID,
                 UserID => 1,
             );
 
             if ( !$ACLSingleData || !IsHashRefWithData($ACLSingleData) ) {
-                return $Self->{LayoutObject}->ErrorScreen(
+                return $LayoutObject->ErrorScreen(
                     Message => "There was an error getting data for ACL with ID " . $ACLID,
                 );
             }
@@ -471,18 +459,18 @@ sub Run {
         }
         else {
 
-            $ACLData = $Self->{ACLObject}->ACLListGet(
+            $ACLData = $ACLObject->ACLListGet(
                 UserID   => 1,
                 ValidIDs => [ '1', '2' ],
             );
         }
 
         # convert the ACL data hash to string
-        my $ACLDataYAML = $Self->{YAMLObject}->Dump( Data => $ACLData );
+        my $ACLDataYAML = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $ACLData );
 
         # send the result to the browser
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'text/html; charset=' . $LayoutObject->{Charset},
             Content     => $ACLDataYAML,
             Type        => 'attachment',
             Filename    => $Filename,
@@ -496,15 +484,15 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ACLCopy' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get ACL data
-        my $ACLData = $Self->{ACLObject}->ACLGet(
+        my $ACLData = $ACLObject->ACLGet(
             ID     => $ACLID,
             UserID => $Self->{UserID},
         );
         if ( !$ACLData ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Unknown ACL $ACLID!",
             );
         }
@@ -513,11 +501,11 @@ sub Run {
         my $ACLName =
             $ACLData->{Name}
             . ' ('
-            . $Self->{LayoutObject}->{LanguageObject}->Translate('Copy')
+            . $LayoutObject->{LanguageObject}->Translate('Copy')
             . ')';
 
         # otherwise save configuration and return to overview screen
-        my $ACLID = $Self->{ACLObject}->ACLAdd(
+        my $ACLID = $ACLObject->ACLAdd(
             Name           => $ACLName,
             Comment        => $ACLData->{Comment},
             Description    => $ACLData->{Description},
@@ -530,13 +518,13 @@ sub Run {
 
         # show error if can't create
         if ( !$ACLID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error creating the ACL",
             );
         }
 
         # return to overview
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -552,20 +540,22 @@ sub Run {
 sub _ShowOverview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ACLObject    = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+    my $Output       = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # show notifications if any
     if ( $Param{NotifyData} ) {
         for my $Notification ( @{ $Param{NotifyData} } ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+            $Output .= $LayoutObject->Notify(
                 %{$Notification},
             );
         }
     }
 
     # get ACL list
-    my $ACLList = $Self->{ACLObject}->ACLList( UserID => $Self->{UserID} );
+    my $ACLList = $ACLObject->ACLList( UserID => $Self->{UserID} );
 
     if ( IsHashRefWithData($ACLList) ) {
 
@@ -575,16 +565,17 @@ sub _ShowOverview {
         # get each ACLs data
         for my $ACLID (@ACLIDsSorted) {
 
-            my $ACLData = $Self->{ACLObject}->ACLGet(
+            my $ACLData = $ACLObject->ACLGet(
                 ID     => $ACLID,
                 UserID => $Self->{UserID},
             );
 
             # set the valid state
-            $ACLData->{ValidID} = $Self->{ValidObject}->ValidLookup( ValidID => $ACLData->{ValidID} );
+            $ACLData->{ValidID}
+                = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup( ValidID => $ACLData->{ValidID} );
 
             # print each ACL in overview table
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ACLRow',
                 Data => {
                     %{$ACLData},
@@ -595,17 +586,17 @@ sub _ShowOverview {
     else {
 
         # print no data found message
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ACLNoDataRow',
             Data => {},
         );
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminACL',
         Data         => \%Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -613,12 +604,15 @@ sub _ShowOverview {
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get ACL information
     my $ACLData = $Param{ACLData} || {};
 
     # decide wether to show delete button
     if ( $Param{Action} eq 'Edit' && $ACLData && $ACLData->{ValidID} ne '1' ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ACLDeleteAction',
             Data => {
                 %{$ACLData},
@@ -627,17 +621,17 @@ sub _ShowEdit {
     }
 
     # get valid list
-    my %ValidList = $Self->{ValidObject}->ValidList();
+    my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $ACLData->{ValidID} || $ValidList{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    my $ACLKeysLevel1Match = $Self->{ConfigObject}->Get('ACLKeysLevel1Match') || {};
-    $Param{ACLKeysLevel1Match} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel1Match = $ConfigObject->Get('ACLKeysLevel1Match') || {};
+    $Param{ACLKeysLevel1Match} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel1Match,
         Name         => 'ItemAdd',
         Class        => 'ItemAdd ItemAddLevel1',
@@ -647,8 +641,8 @@ sub _ShowEdit {
         Translation  => 0,
     );
 
-    my $ACLKeysLevel1Change = $Self->{ConfigObject}->Get('ACLKeysLevel1Change') || {};
-    $Param{ACLKeysLevel1Change} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel1Change = $ConfigObject->Get('ACLKeysLevel1Change') || {};
+    $Param{ACLKeysLevel1Change} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel1Change,
         Name         => 'ItemAdd',
         Class        => 'ItemAdd ItemAddLevel1',
@@ -658,8 +652,8 @@ sub _ShowEdit {
         Translation  => 0,
     );
 
-    my $ACLKeysLevel2Possible = $Self->{ConfigObject}->Get('ACLKeysLevel2::Possible') || {};
-    $Param{ACLKeysLevel2Possible} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel2Possible = $ConfigObject->Get('ACLKeysLevel2::Possible') || {};
+    $Param{ACLKeysLevel2Possible} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2Possible,
         Name         => 'ItemAdd',
         ID           => 'Possible',
@@ -668,8 +662,8 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PossibleAdd = $Self->{ConfigObject}->Get('ACLKeysLevel2::PossibleAdd') || {};
-    $Param{ACLKeysLevel2PossibleAdd} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel2PossibleAdd = $ConfigObject->Get('ACLKeysLevel2::PossibleAdd') || {};
+    $Param{ACLKeysLevel2PossibleAdd} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PossibleAdd,
         Name         => 'ItemAdd',
         ID           => 'PossibleAdd',
@@ -678,8 +672,8 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PossibleNot = $Self->{ConfigObject}->Get('ACLKeysLevel2::PossibleNot') || {};
-    $Param{ACLKeysLevel2PossibleNot} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel2PossibleNot = $ConfigObject->Get('ACLKeysLevel2::PossibleNot') || {};
+    $Param{ACLKeysLevel2PossibleNot} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PossibleNot,
         Name         => 'ItemAdd',
         ID           => 'PossibleNot',
@@ -688,8 +682,8 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2Properties = $Self->{ConfigObject}->Get('ACLKeysLevel2::Properties') || {};
-    $Param{ACLKeysLevel2Properties} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel2Properties = $ConfigObject->Get('ACLKeysLevel2::Properties') || {};
+    $Param{ACLKeysLevel2Properties} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2Properties,
         Name         => 'ItemAdd',
         ID           => 'Properties',
@@ -698,8 +692,8 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    my $ACLKeysLevel2PropertiesDatabase = $Self->{ConfigObject}->Get('ACLKeysLevel2::PropertiesDatabase') || {};
-    $Param{ACLKeysLevel2PropertiesDatabase} = $Self->{LayoutObject}->BuildSelection(
+    my $ACLKeysLevel2PropertiesDatabase = $ConfigObject->Get('ACLKeysLevel2::PropertiesDatabase') || {};
+    $Param{ACLKeysLevel2PropertiesDatabase} = $LayoutObject->BuildSelection(
         Data         => $ACLKeysLevel2PropertiesDatabase,
         Name         => 'ItemAdd',
         ID           => 'PropertiesDatabase',
@@ -708,7 +702,7 @@ sub _ShowEdit {
         PossibleNone => 1,
     );
 
-    $Param{ACLKeysLevel4Prefixes} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ACLKeysLevel4Prefixes} = $LayoutObject->BuildSelection(
         Data => {
             ''            => 'Exact match',
             '[Not]'       => 'Negated Exact match',
@@ -727,7 +721,7 @@ sub _ShowEdit {
     );
 
     # get list of all possible dynamic fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
+    my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
         ObjectType => 'Ticket',
         ResultType => 'HASH',
     );
@@ -736,7 +730,7 @@ sub _ShowEdit {
     for my $DynamicFieldName ( sort keys %DynamicFieldNames ) {
         $DynamicFields{ 'DynamicField_' . $DynamicFieldName } = $DynamicFieldName;
     }
-    $Param{ACLKeysLevel3DynamicFields} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ACLKeysLevel3DynamicFields} = $LayoutObject->BuildSelection(
         Data         => \%DynamicFields,
         Name         => 'NewDataKeyDropdown',
         Class        => 'NewDataKeyDropdown',
@@ -747,13 +741,13 @@ sub _ShowEdit {
 
     # get list of all possible actions
     my @PossibleActionsList;
-    my $ACLKeysLevel3Actions = $Self->{ConfigObject}->Get('ACLKeysLevel3::Actions') || [];
+    my $ACLKeysLevel3Actions = $ConfigObject->Get('ACLKeysLevel3::Actions') || [];
 
     for my $Key ( sort keys %{$ACLKeysLevel3Actions} ) {
         push @PossibleActionsList, @{ $ACLKeysLevel3Actions->{$Key} };
     }
 
-    $Param{ACLKeysLevel3Actions} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ACLKeysLevel3Actions} = $LayoutObject->BuildSelection(
         Data         => \@PossibleActionsList,
         Name         => 'NewDataKeyDropdown',
         Class        => 'NewDataKeyDropdown Boolean',
@@ -768,19 +762,19 @@ sub _ShowEdit {
         $Param{Checked} = 'checked="checked"';
     }
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # show notifications if any
     if ( $Param{NotifyData} ) {
         for my $Notification ( @{ $Param{NotifyData} } ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+            $Output .= $LayoutObject->Notify(
                 %{$Notification},
             );
         }
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => "AdminACL$Param{Action}",
         Data         => {
             %Param,
@@ -788,7 +782,7 @@ sub _ShowEdit {
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -796,6 +790,7 @@ sub _ShowEdit {
 sub _GetParams {
     my ( $Self, %Param ) = @_;
 
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
     my $GetParam;
 
     # get parameters from web browser
@@ -803,11 +798,12 @@ sub _GetParams {
         qw( Name EntityID Comment Description StopAfterMatch ValidID ConfigMatch ConfigChange )
         )
     {
-        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+        $GetParam->{$ParamName}
+            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName ) || '';
     }
 
     if ( $GetParam->{ConfigMatch} ) {
-        $GetParam->{ConfigMatch} = $Self->{JSONObject}->Decode(
+        $GetParam->{ConfigMatch} = $JSONObject->Decode(
             Data => $GetParam->{ConfigMatch},
         );
         if ( !IsHashRefWithData( $GetParam->{ConfigMatch} ) ) {
@@ -816,7 +812,7 @@ sub _GetParams {
     }
 
     if ( $GetParam->{ConfigChange} ) {
-        $GetParam->{ConfigChange} = $Self->{JSONObject}->Decode(
+        $GetParam->{ConfigChange} = $JSONObject->Decode(
             Data => $GetParam->{ConfigChange},
         );
         if ( !IsHashRefWithData( $GetParam->{ConfigChange} ) ) {
@@ -831,7 +827,7 @@ sub _CheckACLDelete {
     my ( $Self, %Param ) = @_;
 
     # get ACL data
-    my $ACLData = $Self->{ACLObject}->ACLGet(
+    my $ACLData = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL')->ACLGet(
         ID     => $Param{ID},
         UserID => $Self->{UserID},
     );

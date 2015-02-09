@@ -12,9 +12,7 @@ package Kernel::Modules::AdminSLA;
 use strict;
 use warnings;
 
-use Kernel::System::Service;
-use Kernel::System::SLA;
-use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,23 +21,17 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
-    $Self->{SLAObject}     = Kernel::System::SLA->new(%Param);
-    $Self->{ValidObject}   = Kernel::System::Valid->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Error = ();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $SLAObject    = $Kernel::OM->Get('Kernel::System::SLA');
+    my %Error        = ();
 
     # ------------------------------------------------------------ #
     # sla edit
@@ -47,14 +39,14 @@ sub Run {
     if ( $Self->{Subaction} eq 'SLAEdit' ) {
 
         # header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
         # html output
         $Output .= $Self->_MaskNew(
             %Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -65,7 +57,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'SLASave' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get params
         my %GetParam;
@@ -73,7 +65,7 @@ sub Run {
             qw(SLAID Name Calendar FirstResponseTime FirstResponseNotify SolutionTime SolutionNotify UpdateTime UpdateNotify ValidID Comment)
             )
         {
-            $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+            $GetParam{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
         }
 
         # check needed stuff
@@ -82,23 +74,25 @@ sub Run {
             $Error{'NameInvalid'} = 'ServerError';
         }
 
+        my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
         # if no errors occurred
         if ( !%Error ) {
 
             # get service ids
-            my @ServiceIDs = $Self->{ParamObject}->GetArray( Param => 'ServiceIDs' );
+            my @ServiceIDs = $ParamObject->GetArray( Param => 'ServiceIDs' );
             $GetParam{ServiceIDs} = \@ServiceIDs;
 
             # save to database
             if ( !$GetParam{SLAID} ) {
 
                 # add a new sla
-                $GetParam{SLAID} = $Self->{SLAObject}->SLAAdd(
+                $GetParam{SLAID} = $SLAObject->SLAAdd(
                     %GetParam,
                     UserID => $Self->{UserID},
                 );
                 if ( !$GetParam{SLAID} ) {
-                    $Error{Message} = $Self->{LogObject}->GetLogEntry(
+                    $Error{Message} = $LogObject->GetLogEntry(
                         Type => 'Error',
                         What => 'Message',
                     );
@@ -107,12 +101,12 @@ sub Run {
             else {
 
                 # update the sla
-                my $Success = $Self->{SLAObject}->SLAUpdate(
+                my $Success = $SLAObject->SLAUpdate(
                     %GetParam,
                     UserID => $Self->{UserID},
                 );
                 if ( !$Success ) {
-                    $Error{Message} = $Self->{LogObject}->GetLogEntry(
+                    $Error{Message} = $LogObject->GetLogEntry(
                         Type => 'Error',
                         What => 'Message',
                     );
@@ -122,21 +116,21 @@ sub Run {
             if ( !%Error ) {
 
                 # update preferences
-                my %SLAData = $Self->{SLAObject}->SLAGet(
+                my %SLAData = $SLAObject->SLAGet(
                     SLAID  => $GetParam{SLAID},
                     UserID => $Self->{UserID},
                 );
                 my %Preferences = ();
-                if ( $Self->{ConfigObject}->Get('SLAPreferences') ) {
-                    %Preferences = %{ $Self->{ConfigObject}->Get('SLAPreferences') };
+                if ( $ConfigObject->Get('SLAPreferences') ) {
+                    %Preferences = %{ $ConfigObject->Get('SLAPreferences') };
                 }
                 for my $Item ( sort keys %Preferences ) {
                     my $Module = $Preferences{$Item}->{Module}
                         || 'Kernel::Output::HTML::SLAPreferencesGeneric';
 
                     # load module
-                    if ( !$Self->{MainObject}->Require($Module) ) {
-                        return $Self->{LayoutObject}->FatalError();
+                    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+                        return $LayoutObject->FatalError();
                     }
 
                     my $Object = $Module->new(
@@ -149,7 +143,7 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $ParamObject->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
                         if (
@@ -159,21 +153,21 @@ sub Run {
                             )
                             )
                         {
-                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                            $Note .= $LayoutObject->Notify( Info => $Object->Error() );
                         }
                     }
                 }
 
-                return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+                return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
             }
 
         }
 
         # header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Error{Message}
-            ? $Self->{LayoutObject}->Notify(
+            ? $LayoutObject->Notify(
             Priority => 'Error',
             Info     => $Error{Message},
             )
@@ -186,7 +180,7 @@ sub Run {
             %Error,
         );
 
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -196,33 +190,33 @@ sub Run {
     else {
 
         # output header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
         # check if service is enabled to use it here
-        if ( !$Self->{ConfigObject}->Get('Ticket::Service') ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+        if ( !$ConfigObject->Get('Ticket::Service') ) {
+            $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
-                Data => $Self->{LayoutObject}->{LanguageObject}->Translate( "Please activate %s first!", "Service" ),
+                Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Service" ),
                 Link =>
-                    $Self->{LayoutObject}->{Baselink}
+                    $LayoutObject->{Baselink}
                     . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
             );
         }
 
         # output overview
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => {
                 %Param,
             },
         );
 
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $LayoutObject->Block( Name => 'ActionList' );
+        $LayoutObject->Block( Name => 'ActionAdd' );
 
         # output overview result
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewList',
             Data => {
                 %Param,
@@ -230,17 +224,17 @@ sub Run {
         );
 
         # get service list
-        my %ServiceList = $Self->{ServiceObject}->ServiceList(
+        my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
             Valid        => 0,
             KeepChildren => 1,
             UserID       => $Self->{UserID},
         );
 
         # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
         # get sla list
-        my %SLAList = $Self->{SLAObject}->SLAList(
+        my %SLAList = $SLAObject->SLAList(
             Valid  => 0,
             UserID => $Self->{UserID},
         );
@@ -251,7 +245,7 @@ sub Run {
             for my $SLAID ( sort { lc $SLAList{$a} cmp lc $SLAList{$b} } keys %SLAList ) {
 
                 # get the sla data
-                my %SLAData = $Self->{SLAObject}->SLAGet(
+                my %SLAData = $SLAObject->SLAGet(
                     SLAID  => $SLAID,
                     UserID => $Self->{UserID},
                 );
@@ -267,7 +261,7 @@ sub Run {
                 }
 
                 # output overview list row
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewListRow',
                     Data => {
                         %SLAData,
@@ -284,7 +278,7 @@ sub Run {
                 for my $ServiceName (@ServiceList) {
 
                     # output overview list row
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'OverviewListRow',
                         Data => {
                             Service => $ServiceName,
@@ -296,55 +290,60 @@ sub Run {
 
         # otherwise a no data found msg is displayed
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {},
             );
         }
 
         # generate output
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSLA',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
 }
 
 sub _MaskNew {
-
     my ( $Self, %Param ) = @_;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get params
     my %SLAData;
-    $SLAData{SLAID} = $Self->{ParamObject}->GetParam( Param => 'SLAID' ) || '';
+    $SLAData{SLAID} = $ParamObject->GetParam( Param => 'SLAID' ) || '';
 
     if ( $SLAData{SLAID} ) {
 
         # get sla data
-        %SLAData = $Self->{SLAObject}->SLAGet(
+        %SLAData = $Kernel::OM->Get('Kernel::System::SLA')->SLAGet(
             SLAID  => $SLAData{SLAID},
             UserID => $Self->{UserID},
         );
     }
     else {
-        $SLAData{ServiceID} = $Self->{ParamObject}->GetParam( Param => 'ServiceID' );
+        $SLAData{ServiceID} = $ParamObject->GetParam( Param => 'ServiceID' );
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get list type
-    my $ListType = $Self->{ConfigObject}->Get('Ticket::Frontend::ListType');
+    my $ListType = $ConfigObject->Get('Ticket::Frontend::ListType');
 
     # get service list
-    my %ServiceList = $Self->{ServiceObject}->ServiceList(
+    my %ServiceList = $Kernel::OM->Get('Kernel::System::Service')->ServiceList(
         Valid        => 1,
         KeepChildren => 1,
         UserID       => $Self->{UserID},
     );
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # generate ServiceOptionStrg
-    $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ServiceOptionStrg} = $LayoutObject->BuildSelection(
         Data        => \%ServiceList,
         Name        => 'ServiceIDs',
         SelectedID  => $SLAData{ServiceIDs} || [],
@@ -358,12 +357,12 @@ sub _MaskNew {
     # generate CalendarOptionStrg
     my %CalendarList;
     for my $CalendarNumber ( '', 1 .. 50 ) {
-        if ( $Self->{ConfigObject}->Get("TimeVacationDays::Calendar$CalendarNumber") ) {
+        if ( $ConfigObject->Get("TimeVacationDays::Calendar$CalendarNumber") ) {
             $CalendarList{$CalendarNumber} = "Calendar $CalendarNumber - "
-                . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $CalendarNumber . "Name" );
+                . $ConfigObject->Get( "TimeZone::Calendar" . $CalendarNumber . "Name" );
         }
     }
-    $SLAData{CalendarOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $SLAData{CalendarOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%CalendarList,
         Name         => 'Calendar',
         SelectedID   => $Param{Calendar} || $SLAData{Calendar},
@@ -381,21 +380,21 @@ sub _MaskNew {
         80 => '80%',
         90 => '90%',
     );
-    $SLAData{FirstResponseNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $SLAData{FirstResponseNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
         Name         => 'FirstResponseNotify',
         SelectedID   => $Param{FirstResponseNotify} || $SLAData{FirstResponseNotify},
         Translation  => 0,
         PossibleNone => 1,
     );
-    $SLAData{UpdateNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $SLAData{UpdateNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
         Name         => 'UpdateNotify',
         SelectedID   => $Param{UpdateNotify} || $SLAData{UpdateNotify},
         Translation  => 0,
         PossibleNone => 1,
     );
-    $SLAData{SolutionNotifyOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $SLAData{SolutionNotifyOptionStrg} = $LayoutObject->BuildSelection(
         Data         => \%NotifyLevelList,
         Name         => 'SolutionNotify',
         SelectedID   => $Param{SolutionNotify} || $SLAData{SolutionNotify},
@@ -404,27 +403,27 @@ sub _MaskNew {
     );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $SLAData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $SLAData{ValidOptionStrg} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $SLAData{ValidID} || $ValidListReverse{valid},
     );
 
     # output sla edit
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => {
             %Param
         },
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'SLAEdit',
         Data => {
             %Param,
@@ -434,24 +433,24 @@ sub _MaskNew {
 
     # shows header
     if ( $SLAData{SLAID} ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
     # show each preferences setting
     my %Preferences = ();
-    if ( $Self->{ConfigObject}->Get('SLAPreferences') ) {
-        %Preferences = %{ $Self->{ConfigObject}->Get('SLAPreferences') };
+    if ( $ConfigObject->Get('SLAPreferences') ) {
+        %Preferences = %{ $ConfigObject->Get('SLAPreferences') };
     }
     for my $Item ( sort keys %Preferences ) {
         my $Module = $Preferences{$Item}->{Module}
             || 'Kernel::Output::HTML::SLAPreferencesGeneric';
 
         # load module
-        if ( !$Self->{MainObject}->Require($Module) ) {
-            return $Self->{LayoutObject}->FatalError();
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+            return $LayoutObject->FatalError();
         }
         my $Object = $Module->new(
             %{$Self},
@@ -461,7 +460,7 @@ sub _MaskNew {
         my @Params = $Object->Param( SLAData => \%SLAData );
         if (@Params) {
             for my $ParamItem (@Params) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'SLAItem',
                     Data => { %Param, },
                 );
@@ -470,12 +469,12 @@ sub _MaskNew {
                     || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
                     )
                 {
-                    $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
+                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
                         %{ $Preferences{$Item} },
                         %{$ParamItem},
                     );
                 }
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
                     Data => {
                         %{ $Preferences{$Item} },
@@ -487,7 +486,7 @@ sub _MaskNew {
     }
 
     # get output back
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AdminSLA',
         Data         => \%Param
     );
