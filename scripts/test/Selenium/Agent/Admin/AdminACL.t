@@ -204,6 +204,27 @@ JAVASCRIPT
             '1',
             'Check for .AddAll element',
         );
+
+        # delete test ACL from the database
+        my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
+        my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $TestUserLogin,
+        );
+        my $ACLID = $ACLObject->ACLGet(
+            Name   => $RandomID,
+            UserID => $UserID,
+        )->{ID};
+
+        my $Success = $ACLObject->ACLDelete(
+            ID     => $ACLID,
+            UserID => $UserID,
+        );
+
+        $Self->True(
+            $Success,
+            "Deleted $RandomID ACL",
+        );
+
         }
 );
 

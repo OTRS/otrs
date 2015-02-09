@@ -188,6 +188,25 @@ $Selenium->RunTest(
             '',
             "#Comment updated value",
         );
+
+        # Since there are no tickets that rely on our test queue, we can remove them again
+        # from the DB.
+        my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
+            Queue => $RandomID,
+        );
+        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL => "DELETE FROM queue WHERE id = $QueueID",
+        );
+        $Self->True(
+            $Success,
+            "QueueDelete - $RandomID",
+        );
+
+        # Make sure the cache is correct.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'Queue',
+        );
+
         }
 );
 
