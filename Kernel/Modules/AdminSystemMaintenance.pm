@@ -237,7 +237,7 @@ sub Run {
             # add notification
             push @NotifyData, {
                 Priority => 'Notice',
-                Info     => 'All sessions has been killed, except the current one!',
+                Info     => 'All sessions has been killed, except for the current one!',
             };
 
             # set class for expanding sessions widget
