@@ -35,9 +35,15 @@ sub Run {
         Priority => 'Warning',
     );
 
-    # switch to priotity error
+    # Check which class to add
     if ( $Param{Config}->{Priority} && $Param{Config}->{Priority} eq 'Error' ) {
         $Arguments{Priority} = 'Error';
+    }
+    elsif ( $Param{Config}->{Priority} && $Param{Config}->{Priority} eq 'Success' ) {
+        $Arguments{Priority} = 'Success';
+    }
+    elsif ( $Param{Config}->{Priority} && $Param{Config}->{Priority} eq 'Info' ) {
+        $Arguments{Priority} = 'Info';
     }
 
     if ( $Param{Config}->{Text} ) {
