@@ -1,4 +1,5 @@
 #4.0.6 2015-??-??
+ - 2015-02-09 Fixed bug for IE8 - Handle jQuery selectors correctly (Ticket#2014120242045831).
  - 2015-02-06 Fixed bug#[10942](http://bugs.otrs.org/show_bug.cgi?id=10942) - Adressbook search does not permit to add contacts via click.
  - 2015-02-06 Fixed bug#[11011](http://bugs.otrs.org/show_bug.cgi?id=11011) - OTRS does not honor customer change.
  - 2015-02-03 Fixed bug#[10902](http://bugs.otrs.org/show_bug.cgi?id=10902) - Missing translations on login screen.

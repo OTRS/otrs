@@ -31,9 +31,9 @@ Core.UI.ActionRow = (function (TargetNS) {
     }
 
     var TicketElementSelectors = {
-            'Small': 'div.Overview table td input:checkbox[name=TicketID]',
-            'Medium': 'ul.Overview input:checkbox[name=TicketID]',
-            'Large': 'ul.Overview input:checkbox[name=TicketID]'
+            'Small': 'div.Overview table td input[type="checkbox"][name=TicketID]',
+            'Medium': 'ul.Overview input[type="checkbox"][name=TicketID]',
+            'Large': 'ul.Overview input[type="checkbox"][name=TicketID]'
         },
         TicketView;
 

@@ -120,7 +120,7 @@ Core.Form = (function (TargetNS) {
         if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
             var ElementName = $ClickedBox.attr('name'),
                 SelectAllID = $SelectAllCheckbox.attr('id'),
-                $Elements = $('input:checkbox[name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible'),
+                $Elements = $('input[type="checkbox"][name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible'),
                 Status = $ClickedBox.prop('checked'),
                 CountCheckboxes,
                 CountSelectedCheckboxes;

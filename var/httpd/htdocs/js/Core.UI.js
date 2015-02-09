@@ -164,13 +164,13 @@ Core.UI = (function (TargetNS) {
 
         // e.g. 'table td.Checkbox' or 'div.Checkbox'
         $Element.unbind('click.CheckboxSelection').bind('click.CheckboxSelection', function (Event) {
-            var $Checkbox = $(this).find('input:checkbox');
+            var $Checkbox = $(this).find('input[type="checkbox"]');
 
             if (!$Checkbox.length) {
                 return;
             }
 
-            if ($(Event.target).is('input:checkbox')) {
+            if ($(Event.target).is('input[type="checkbox"]')) {
                 return;
             }
 
