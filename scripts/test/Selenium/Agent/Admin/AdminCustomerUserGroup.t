@@ -173,13 +173,6 @@ $Selenium->RunTest(
             );
         }
 
-        # enable CustomerGroupSupport
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'CustomerGroupSupport',
-            Value => 0
-        );
-
         # make sure cache is correct
         for my $Cache (
             qw(Group User DBGroupUserGet)
