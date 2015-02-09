@@ -9,6 +9,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.6 2015-??-??
+ - 2015-02-09 Fixed bug#[10905](http://bugs.otrs.org/show_bug.cgi?id=10905) - ArticleContent with Inline-Images are not shown completely.
  - 2015-02-09 Fixed bug for IE8 - Handle jQuery selectors correctly (Ticket#2014120242045831).
  - 2015-02-06 Fixed bug#[10942](http://bugs.otrs.org/show_bug.cgi?id=10942) - Adressbook search does not permit to add contacts via click.
  - 2015-02-06 Fixed bug#[11011](http://bugs.otrs.org/show_bug.cgi?id=11011) - OTRS does not honor customer change.
