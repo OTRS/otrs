@@ -513,7 +513,7 @@ sub Prepare {
             $SQL .= " LIMIT $Limit";
         }
         elsif ( $Self->{Backend}->{'DB::Limit'} eq 'top' ) {
-            $SQL =~ s{ \A (SELECT ([ ]DISTINCT|)) }{$1 TOP $Limit}xmsi;
+            $SQL =~ s{ \A \s* (SELECT ([ ]DISTINCT|)) }{$1 TOP $Limit}xmsi;
         }
         else {
             $Self->{Limit} = $Limit;
