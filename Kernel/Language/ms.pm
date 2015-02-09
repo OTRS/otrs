@@ -406,6 +406,7 @@ sub Data {
         'Redo' => 'Buat semula',
         'Scheduler process is registered but might not be running.' => 'Proses penjadual adalah berdaftar tetapi kemungkinan besar tidak berjalan.',
         'Scheduler is not running.' => 'Penjadualan tidak berjalan.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2250,6 +2251,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Kebenaran untuk bergerak tiket ke kumpulan ini / barisan.',
         'create' => 'mewujudkan',
         'Permissions to create tickets in this group/queue.' => 'Kebenaran untuk mewujudkan tiket dalam kumpulan ini / barisan.',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Kebenaran untuk menambah nota untuk tiket dalam kumpulan ini / beratur.',
+        'owner' => 'pemilik',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Kebenaran untuk menukar pemilik tiket dalam kumpulan ini / beratur.',
         'priority' => 'Keutamaan',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Keizinan untuk menukar keutamaan tiket dalam kumpulan ini / barisan.',
@@ -2485,7 +2491,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2537,11 +2543,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Mengurus Perhubungan Kumpulan-Ejen',
         'Change Group Relations for Agent' => 'Tukar Kumpulan Perhubungan untuk Ejen',
         'Change Agent Relations for Group' => 'Tukar Perhubungan Agen untuk Kumpulan',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Kebenaran untuk menambah nota untuk tiket dalam kumpulan ini / beratur.',
-        'owner' => 'pemilik',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Kebenaran untuk menukar pemilik tiket dalam kumpulan ini / beratur.',
 
         # Template: AgentBook
         'Address Book' => 'Buku Alamat',
@@ -4829,8 +4830,8 @@ sub Data {
             'Menjalankan sistem dalam mod "Demo". Jika ditetapkan kepada "Yes", ejen boleh menukar pilihan, seperti pemilihan bahasa dan tema melalui antara muka web ejen. Perubahan ini hanya sah untuk sesi semasa. Ia tidak akan mungkin bagi ejen untuk menukar kata laluan mereka.',
         'S/MIME Certificate Upload' => 'Muatnaik perakuan S/MME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'Menyimpan lampiran artikel. "DB" menyimpan semua data dalam pangkalan data (tidak digalakkan untuk menyimpan lampiran besar). "FS" menyimpan data pada sistem fail, ini adalah lebih cepat tetapi server web perlu dijalankan di bawah pengguna OTRS itu. Anda boleh bertukar antara modul walaupun pada satu sistem yang sudah dalam pengeluaran tanpa kehilangan data.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Carian Pelanggan',
         'Search User' => '',

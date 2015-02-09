@@ -415,6 +415,7 @@ sub Data {
         'Redo' => 'Ripeti',
         'Scheduler process is registered but might not be running.' => 'Il processo Scheduler è registrato ma potrebbe non essere in esecuzione',
         'Scheduler is not running.' => 'Lo Schedulatore non è in esecuzione',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Impossibile contattare il server per la registrazione. Riprovare più tardi, grazie.',
         'No content received from registration server. Please try again later.' =>
             'Nessun dato ricevuto dal server per la registrazione. Riprovare più tardi, grazie.',
@@ -2259,6 +2260,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Autorizzazione a muovere richieste in questo gruppo/coda',
         'create' => 'crea',
         'Permissions to create tickets in this group/queue.' => 'Autorizzazione a creare richieste in questo gruppo/coda',
+        'note' => 'Annotazioni',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permesso di aggiungere note ai ticket in questo gruppo/coda.',
+        'owner' => 'gestore',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permesso di cambiare il gestore dei ticket in questo gruppo/coda.',
         'priority' => 'priorità',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Autorizzazione a cambiare la priorità di una richiesta in questo gruppo/coda',
@@ -2494,7 +2500,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2546,11 +2552,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestisci relazioni Agente-Gruppo',
         'Change Group Relations for Agent' => 'Cambia relazioni di gruppo per l\'agente',
         'Change Agent Relations for Group' => 'Cambia relazioni di agente per il gruppo',
-        'note' => 'Annotazioni',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permesso di aggiungere note ai ticket in questo gruppo/coda.',
-        'owner' => 'gestore',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permesso di cambiare il gestore dei ticket in questo gruppo/coda.',
 
         # Template: AgentBook
         'Address Book' => 'Rubrica',
@@ -4838,7 +4839,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Ricerca cliente',

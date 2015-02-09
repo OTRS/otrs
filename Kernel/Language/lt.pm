@@ -407,6 +407,7 @@ sub Data {
         'Redo' => 'Atstatyti',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2251,6 +2252,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Leidimai perkelti triktis į šią grupę/eilę.',
         'create' => 'sukurti',
         'Permissions to create tickets in this group/queue.' => 'Leidimai kurti triktis šioje grupėje/eilėje.',
+        'note' => 'pastaba',
+        'Permissions to add notes to tickets in this group/queue.' => 'Leidimai pridėti pastabas triktims šioje grupėje/eilėje.',
+        'owner' => 'savininkas',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Leidimai keisti trikčių savininkus šioje grupėje/eilėje.',
         'priority' => 'prioritetas',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Leidimai keisti trikčių prioritetus šioje grupėje/eilėje.',
@@ -2486,7 +2492,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2538,11 +2544,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Valdyti Agentas-Grupė ryšius',
         'Change Group Relations for Agent' => 'Keisti grupių ryšius agentui',
         'Change Agent Relations for Group' => 'Keisti agentų ryšius grupei',
-        'note' => 'pastaba',
-        'Permissions to add notes to tickets in this group/queue.' => 'Leidimai pridėti pastabas triktims šioje grupėje/eilėje.',
-        'owner' => 'savininkas',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Leidimai keisti trikčių savininkus šioje grupėje/eilėje.',
 
         # Template: AgentBook
         'Address Book' => 'Adresų knyga',
@@ -4830,7 +4831,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Įkelti S/MIME sertifikatą',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Ieškoti kliento',

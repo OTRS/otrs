@@ -413,6 +413,7 @@ sub Data {
         'Redo' => 'Herhalen',
         'Scheduler process is registered but might not be running.' => 'Schedulerproces is geregistreerd, maar niet actief.',
         'Scheduler is not running.' => 'De Scheduler is niet actief.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Kan registratieserver niet bereiken. Probeer het later nogmaals.',
         'No content received from registration server. Please try again later.' =>
             'Geen data ontvangen van registratieserver. Probeer het later nogmaals.',
@@ -2257,6 +2258,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permissies om tickets naar deze groep/wachtrij te verplaatsen.',
         'create' => 'aanmaken',
         'Permissions to create tickets in this group/queue.' => 'Permissies om tickets in deze groep/wachtrij aan te maken.',
+        'note' => 'notitie',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permissies om notities aan tickets in de wachtrijen behorende bij deze groep toe te voegen.',
+        'owner' => 'eigenaar',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permissies om de eigenaar van de tickets in de wachtrijen behorende bij deze groep te wijzigen.',
         'priority' => 'prioriteit',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permissies om de prioriteit van een ticket in deze groep/wachtrij te wijzigen.',
@@ -2492,7 +2498,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Beheer sjablonen',
@@ -2544,11 +2550,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Beheer Behandelaar-Groep koppelingen',
         'Change Group Relations for Agent' => 'Bewerk gekoppelde groepen voor behandelaar',
         'Change Agent Relations for Group' => 'Bewerk gekoppelde behandelaars voor groep',
-        'note' => 'notitie',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permissies om notities aan tickets in de wachtrijen behorende bij deze groep toe te voegen.',
-        'owner' => 'eigenaar',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permissies om de eigenaar van de tickets in de wachtrijen behorende bij deze groep te wijzigen.',
 
         # Template: AgentBook
         'Address Book' => 'Adresboek',
@@ -4836,7 +4837,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'S/MIME Certificaten Uploaden',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Klanten zoeken',

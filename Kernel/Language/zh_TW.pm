@@ -409,6 +409,7 @@ sub Data {
         'Redo' => '重做',
         'Scheduler process is registered but might not be running.' => '調度程序已註冊，但可能沒有運行。',
         'Scheduler is not running.' => '調度程序沒有運行。',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2253,6 +2254,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => '對於組/隊列中的工單具有 \'轉移隊列\' 的權限',
         'create' => '',
         'Permissions to create tickets in this group/queue.' => '對於組/隊列具有 \'創建工單\' 的權限',
+        'note' => '',
+        'Permissions to add notes to tickets in this group/queue.' => '對於組/隊列具有 \'添加備註\' 的權限',
+        'owner' => '',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            '對於組/隊列具有 \'所有者\' 的權限',
         'priority' => '',
         'Permissions to change the ticket priority in this group/queue.' =>
             '對於組/隊列中的工單具有 \'更改優先級\' 的權限',
@@ -2488,7 +2494,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '模板管理',
@@ -2540,11 +2546,6 @@ sub Data {
         'Manage Agent-Group Relations' => '定義服務人員的組權限',
         'Change Group Relations for Agent' => '選擇此服務人員具備的組權限',
         'Change Agent Relations for Group' => '為此組選擇服務人員的權限',
-        'note' => '',
-        'Permissions to add notes to tickets in this group/queue.' => '對於組/隊列具有 \'添加備註\' 的權限',
-        'owner' => '',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            '對於組/隊列具有 \'所有者\' 的權限',
 
         # Template: AgentBook
         'Address Book' => '地址簿',
@@ -4832,7 +4833,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '上傳的S/MIME証書',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => '搜索用戶',

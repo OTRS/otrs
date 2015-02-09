@@ -1439,6 +1439,10 @@ msgid "Scheduler is not running."
 msgstr ""
 
 #. Template: AAABase
+msgid "All sessions have been killed, except for your own."
+msgstr ""
+
+#. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
 msgstr ""
 
@@ -7391,6 +7395,22 @@ msgid "Permissions to create tickets in this group/queue."
 msgstr ""
 
 #. Template: AdminRoleGroup
+msgid "note"
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to add notes to tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "owner"
+msgstr ""
+
+#. Template: AdminRoleGroup
+msgid "Permissions to change the owner of tickets in this group/queue."
+msgstr ""
+
+#. Template: AdminRoleGroup
 msgid "priority"
 msgstr ""
 
@@ -8095,7 +8115,7 @@ msgid "Customer Sessions"
 msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
-msgid "Kill all Sessions, exept current"
+msgid "Kill all Sessions, except for your own"
 msgstr ""
 
 #. Template: AdminTemplate
@@ -8256,22 +8276,6 @@ msgstr ""
 
 #. Template: AdminUserGroup
 msgid "Change Agent Relations for Group"
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "note"
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "Permissions to add notes to tickets in this group/queue."
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "owner"
-msgstr ""
-
-#. Template: AdminUserGroup
-msgid "Permissions to change the owner of tickets in this group/queue."
 msgstr ""
 
 #. Template: AgentBook
@@ -13031,7 +13035,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -14051,7 +14055,7 @@ msgid "Sample command output"
 msgstr ""
 
 #. SysConfig
-msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data."
+msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when \"FS\" is used."
 msgstr ""
 
 #. SysConfig

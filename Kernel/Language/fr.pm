@@ -220,7 +220,7 @@ sub Data {
         'Date picker' => 'Selection de date',
         'Show Tree Selection' => 'Afficher l\'Arbre de Sélection',
         'The field content is too long!' => 'Le contenu du champ est trop long',
-        'Maximum size is %s characters.' => '',
+        'Maximum size is %s characters.' => 'La taille maximum est de %s caractères. ',
         'This field is required or' => 'Le champ est requis ou',
         'New message' => 'Nouveau message',
         'New message!' => 'Nouveau message !',
@@ -365,7 +365,7 @@ sub Data {
         'Dear %s,' => 'Cher %s',
         'Hello %s,' => 'Bonjour %s',
         'This email address is not allowed to register. Please contact support staff.' =>
-            '',
+            'Cette adresse mail n\'est pas autorisée. Merci de contacter votre équipe support. ',
         'New account created. Sent login information to %s. Please check your email.' =>
             'Nouveau compte créé. Informations de connexion envoyées à %s. Veuillez consulter votre e-mail.',
         'Please press Back and try again.' => 'Veuillez retourner à la page précédente et rééssayer.',
@@ -415,6 +415,7 @@ sub Data {
         'Redo' => 'Refaire',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -588,14 +589,14 @@ sub Data {
         'Operating System' => 'Système d\'Exploitation',
         'OTRS' => 'OTRS',
         'Table Presence' => '',
-        'Internal Error: Could not open file.' => '',
+        'Internal Error: Could not open file.' => 'Erreur interne : impossible d\'ouvrir le fichier. ',
         'Table Check' => '',
         'Internal Error: Could not read file.' => 'Erreur interne: Ne peut pas lire le fichier.',
         'Tables found which are not present in the database.' => '',
         'Database Size' => 'Taille de la base de donnée',
         'Could not determine database size.' => 'N\'a pas pu déteminer la taille de la base de donnée',
         'Database Version' => 'Version de la base de donnée',
-        'Could not determine database version.' => '',
+        'Could not determine database version.' => 'Impossible de déterminer la version de la base de données. ',
         'Client Connection Charset' => '',
         'Setting character_set_client needs to be utf8.' => '',
         'Server Database Charset' => '',
@@ -622,18 +623,18 @@ sub Data {
         'Setting server_encoding needs to be UNICODE or UTF8.' => '',
         'Date Format' => 'Format de la Date',
         'Setting DateStyle needs to be ISO.' => '',
-        'PostgreSQL 8.x or higher is required.' => '',
-        'OTRS Disk Partition' => '',
+        'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x ou supérieur est requis. ',
+        'OTRS Disk Partition' => 'Partition disque OTRS',
         'Disk Usage' => 'Utilisation du Disque',
         'The partition where OTRS is located is almost full.' => 'La partition où OTRS est installé est presque pleine.',
         'The partition where OTRS is located has no disk space problems.' =>
             'La partition où OTRS est installé n\'a pas de problèmes d\'espace disque.',
-        'Disk Partitions Usage' => '',
-        'Distribution' => '',
-        'Could not determine distribution.' => '',
+        'Disk Partitions Usage' => 'Utilisation de la partition disque',
+        'Distribution' => 'Distribution',
+        'Could not determine distribution.' => 'Impossible de déterminer la distribution. ',
         'Kernel Version' => 'Version du Noyau',
-        'Could not determine kernel version.' => '',
-        'System Load' => '',
+        'Could not determine kernel version.' => 'Impossible de déterminer la version du noyau. ',
+        'System Load' => 'Charge système',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
         'Perl Modules' => 'Modules Perl',
@@ -644,12 +645,12 @@ sub Data {
         'Used Swap Space (MB)' => '',
         'There should be more than 60% free swap space.' => '',
         'There should be no more than 200 MB swap space used.' => '',
-        'Config Settings' => '',
+        'Config Settings' => 'Paramètres de configuration',
         'Could not determine value.' => '',
         'Database Records' => '',
         'Tickets' => 'Ticket',
         'Ticket History Entries' => '',
-        'Articles' => '',
+        'Articles' => 'Articles',
         'Attachments (DB, Without HTML)' => '',
         'Customers With At Least One Ticket' => '',
         'Queues' => 'Files',
@@ -657,7 +658,7 @@ sub Data {
         'Roles' => 'Rôles',
         'Groups' => 'Groupes',
         'Dynamic Fields' => 'Champs dynamiques',
-        'Dynamic Field Values' => '',
+        'Dynamic Field Values' => 'Valeurs de Champ Dynamique',
         'Invalid Dynamic Fields' => '',
         'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
@@ -682,7 +683,7 @@ sub Data {
         'SystemID' => 'ID Système',
         'Your SystemID setting is invalid, it should only contain digits.' =>
             '',
-        'OTRS Version' => '',
+        'OTRS Version' => 'Version OTRS',
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
             '',
@@ -2259,6 +2260,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permission de déplacer un ticket dans cette file/ce groupe.',
         'create' => 'créer',
         'Permissions to create tickets in this group/queue.' => 'Permission de créer un ticket dans cette file/ce groupe.',
+        'note' => 'note',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permissions d\'ajouter des notes aux tickets dans ce groupe/cette file',
+        'owner' => 'propriétaire',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permissions de changer le propriétaire des tickets dans ce gorupe/cette file.',
         'priority' => 'priorité',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permission de changer la priorité d\'un ticket dans cette file/ce groupe.',
@@ -2494,7 +2500,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2546,11 +2552,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gérer Relations opérateur-Groupe',
         'Change Group Relations for Agent' => 'Changer les relations de groupe pour l\'opérateur : ',
         'Change Agent Relations for Group' => 'Changer les relations avec les opérateurs pour le groupe : ',
-        'note' => 'note',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permissions d\'ajouter des notes aux tickets dans ce groupe/cette file',
-        'owner' => 'propriétaire',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permissions de changer le propriétaire des tickets dans ce gorupe/cette file.',
 
         # Template: AgentBook
         'Address Book' => 'Carnet d\'adresses',
@@ -2847,7 +2848,7 @@ sub Data {
         'Get all' => 'Tout prendre',
 
         # Template: AgentTicketEmailOutbound
-        'E-Mail Outbound' => '',
+        'E-Mail Outbound' => 'Mail sortant',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Tranférer le ticket: %s - %s',
@@ -4838,7 +4839,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Envoyer Certificat S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Recherche de client',

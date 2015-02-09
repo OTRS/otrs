@@ -407,6 +407,7 @@ sub Data {
         'Redo' => 'Tekrar',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => 'Zamanlama çalışmıyor',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2251,6 +2252,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Biletleri bu gruba/kuyruğa taşıma izni.',
         'create' => 'yarat',
         'Permissions to create tickets in this group/queue.' => 'Bu grupta/kuyrukta bilet oluşturma izni.',
+        'note' => 'not',
+        'Permissions to add notes to tickets in this group/queue.' => 'Bu grup/kuyruğa not eklemek için izinler.',
+        'owner' => 'sahip',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Bu grup/kuyrukta bilet sahibini değiştirmek için izinler. ',
         'priority' => 'öncelik',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Bu grupta/kuyrukta bilet önceliğini değiştirme izni.',
@@ -2486,7 +2492,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2538,11 +2544,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Aracı-Grup ilişkilerini yönet',
         'Change Group Relations for Agent' => 'Aracı için grup ilişkisini değiştir',
         'Change Agent Relations for Group' => 'Grup için aracı ilişkisini değiştir',
-        'note' => 'not',
-        'Permissions to add notes to tickets in this group/queue.' => 'Bu grup/kuyruğa not eklemek için izinler.',
-        'owner' => 'sahip',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Bu grup/kuyrukta bilet sahibini değiştirmek için izinler. ',
 
         # Template: AgentBook
         'Address Book' => 'Adres Defteri',
@@ -4830,7 +4831,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Kullanıcı Ara',

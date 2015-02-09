@@ -411,6 +411,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Redo' => 'Rudia',
         'Scheduler process is registered but might not be running.' => 'Mchakato wa kipanga ratiba umesajiliwa lakini unaweza usifanye kazi. ',
         'Scheduler is not running.' => 'Kipanga ratiba hakifanyi kazi.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Huwezi kuwasiliana na seva ya usajili. Tafadhali jaribu tena baadae.',
         'No content received from registration server. Please try again later.' =>
             'Hakuna maudhui yaliyopokelewa kutoka kwenye seva ya usajili. Tafadhali jaribu tena baadae.',
@@ -2255,6 +2256,11 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Permissions to move tickets into this group/queue.' => 'Ruhusa za kuhamisha tiketi katika kikundi/foleni.',
         'create' => 'Tengeneza',
         'Permissions to create tickets in this group/queue.' => 'Ruhusa ya kutengeneza tiketi katika kikundi/foleni.',
+        'note' => 'Kidokezo',
+        'Permissions to add notes to tickets in this group/queue.' => 'Ruhusa za kuongeza vidokezo kwenye tiketi katika kikundi/foleni.',
+        'owner' => 'Mmiliki',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Ruhusa za kubadili mmiliki wa tiketi katika kikundi hiki/foleni.',
         'priority' => 'Kipaumbele',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Ruhusa za kubadilisha kipaumbele cha tiketi katika kikundi/foleni.',
@@ -2490,7 +2496,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'All Sessions' => 'Vipindi vyote',
         'Agent Sessions' => 'Vipindi vya wakala',
         'Customer Sessions' => 'Vipindi vya mteja',
-        'Kill all Sessions, exept current' => 'Ua kvipindi vyote, isipokuwa vya sasa',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Simamia vielezo',
@@ -2542,11 +2548,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Manage Agent-Group Relations' => 'Simamia mahusiano ya Wakala-Kikundi',
         'Change Group Relations for Agent' => 'Badili mahusiano ya kikundi kwa wakala',
         'Change Agent Relations for Group' => 'Badili mahusiano ya wakala kwa kikundi',
-        'note' => 'Kidokezo',
-        'Permissions to add notes to tickets in this group/queue.' => 'Ruhusa za kuongeza vidokezo kwenye tiketi katika kikundi/foleni.',
-        'owner' => 'Mmiliki',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Ruhusa za kubadili mmiliki wa tiketi katika kikundi hiki/foleni.',
 
         # Template: AgentBook
         'Address Book' => 'Kitabu cha anuani',
@@ -4838,8 +4839,8 @@ Mfano:
  ',
         'S/MIME Certificate Upload' => 'Upakizi wa cheti cha S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'HIfadhi viambatanishi vya makala. "DB" inahifadhi data zote kwenye hifadhi data (haishauriwi kuhifadhi viambatanishi vikubwa). "FS" inahifadhi data katiak mfumo wa faili; hii ipo haraka lakiniseva ya wavuti ifanye kazi chini ya mtumiaji wa OTRS. Unaweza kubadilisha kati ya moduli hata katika mfumo ambao tayari upo katika uzalishaji bila ya upotevu wa data.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => 'Panga ratiba ya muda wa matengenezo.',
         'Search Customer' => 'Tafuta mteja',
         'Search User' => 'Tafuta mtumiaji',

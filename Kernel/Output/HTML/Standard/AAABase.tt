@@ -401,6 +401,9 @@
 [% Translate("Scheduler process is registered but might not be running.") | html %]
 [% Translate("Scheduler is not running.") | html %]
 
+# system maintenance
+[% Translate("All sessions have been killed, except for your own.") | html %]
+
 # system registration
 [% Translate("Can't contact registration server. Please try again later.") | html %]
 [% Translate("No content received from registration server. Please try again later.") | html %]

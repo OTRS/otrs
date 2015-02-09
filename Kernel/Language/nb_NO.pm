@@ -416,6 +416,7 @@ sub Data {
         'Redo' => 'Omgjør',
         'Scheduler process is registered but might not be running.' => 'Oppgaveplanlegger prosessen er registrert men kjører kanskje ikke.',
         'Scheduler is not running.' => 'Oppgaveplanleggeren kjører ikke.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Kan ikke kontakte registreringsserver. Prøv igjen senere.',
         'No content received from registration server. Please try again later.' =>
             'Fikk ikke noe innhold fra registreringsserver. Prøv igjen senere.',
@@ -2260,6 +2261,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Rettighet til å flytte saker i denne gruppen/køen.',
         'create' => 'opprett',
         'Permissions to create tickets in this group/queue.' => 'Rettighet til å opprette saker i denne gruppen/køen.',
+        'note' => 'notis',
+        'Permissions to add notes to tickets in this group/queue.' => 'Rettigheter for å svare på saker i denne gruppen/køen',
+        'owner' => 'Eier',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Rettigheter til å endre eier av saker i denne gruppen/køen',
         'priority' => 'prioritet',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Rettighet til å endre prioritet i denne gruppen/køen.',
@@ -2495,7 +2501,7 @@ sub Data {
         'All Sessions' => 'Alle sesjoner',
         'Agent Sessions' => 'Saksbehandler-sesjoner',
         'Customer Sessions' => 'Kunde-sesjoner',
-        'Kill all Sessions, exept current' => 'Terminer alle sesjoner, untatt gjeldende',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Mal-administrasjon',
@@ -2547,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Koplinger mellom Saksbehandler og Gruppe',
         'Change Group Relations for Agent' => 'Endre gruppekoplinger for saksbehandler',
         'Change Agent Relations for Group' => 'Endre saksbehandlerkoplinger for gruppe',
-        'note' => 'notis',
-        'Permissions to add notes to tickets in this group/queue.' => 'Rettigheter for å svare på saker i denne gruppen/køen',
-        'owner' => 'Eier',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Rettigheter til å endre eier av saker i denne gruppen/køen',
 
         # Template: AgentBook
         'Address Book' => 'Adressebok',
@@ -4839,7 +4840,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Opplasting av S/MIME-sertifikat',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Kunde-søk',

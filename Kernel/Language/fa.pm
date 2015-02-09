@@ -412,6 +412,7 @@ sub Data {
         'Redo' => 'از نو',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2256,6 +2257,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'مجوز انتقال درخواست به این گروه/لیست.',
         'create' => 'ساختن',
         'Permissions to create tickets in this group/queue.' => 'مجوز ایجاد درخواست در این گروه/لیست.',
+        'note' => 'یادداشت',
+        'Permissions to add notes to tickets in this group/queue.' => 'دسترسی‌ها برای افزودن یادداشت به درخواست‌ها در این گروه/صف درخواست',
+        'owner' => 'صاحب',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'دسترسی‌ها برای تغییر صاحب درخواست‌ها در این گروه/صف درخواست',
         'priority' => 'الویت',
         'Permissions to change the ticket priority in this group/queue.' =>
             'مجوز تغییر اولویت درخواست در این گروه/لیست.',
@@ -2491,7 +2497,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2543,11 +2549,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'مدیریت روابط کارشناس-گروه',
         'Change Group Relations for Agent' => 'تغییر روابط گروه برای کارشناس',
         'Change Agent Relations for Group' => 'تغییر روابط کارشناس برای گروه',
-        'note' => 'یادداشت',
-        'Permissions to add notes to tickets in this group/queue.' => 'دسترسی‌ها برای افزودن یادداشت به درخواست‌ها در این گروه/صف درخواست',
-        'owner' => 'صاحب',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'دسترسی‌ها برای تغییر صاحب درخواست‌ها در این گروه/صف درخواست',
 
         # Template: AgentBook
         'Address Book' => 'دفترچه  آدرس و تماس‌ها',
@@ -4835,7 +4836,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'جستجوی مشترک',

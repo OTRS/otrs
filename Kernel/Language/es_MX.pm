@@ -407,6 +407,7 @@ sub Data {
         'Redo' => 'Rehacer',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2251,6 +2252,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permiso para mover tickets a este grupo/fila',
         'create' => 'crear',
         'Permissions to create tickets in this group/queue.' => 'Permiso para crear tickets en este grupo/fila',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para añadir notas a los tickets de este/a grupo/fila',
+        'owner' => 'propietario',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permisos para modificar el propietario de los tickets en este/a grupo/fila.',
         'priority' => 'prioridad',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permiso para cambiar la prioridad del ticket en este grupo/fila',
@@ -2486,7 +2492,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2538,11 +2544,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestionar Relaciones Agente-Grupo',
         'Change Group Relations for Agent' => 'Modificar Relaciones de Grupo para los Agentes',
         'Change Agent Relations for Group' => 'Modificar Relaciones de Agente para los Grupos',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para añadir notas a los tickets de este/a grupo/fila',
-        'owner' => 'propietario',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permisos para modificar el propietario de los tickets en este/a grupo/fila.',
 
         # Template: AgentBook
         'Address Book' => 'Libreta de Direcciones',
@@ -4830,8 +4831,8 @@ sub Data {
             'Ejecuta el sistema en modo "Demo". Si se selecciona "Sí", los agentes pueden modificar preferencias, como elegir el idioma y el tema, a través de la interfaz del agente. Estos cambios sólo serán válidos en la sesión actual. No se les permitirá a los agentes que cambien su contraseña.',
         'S/MIME Certificate Upload' => 'Cargar Certificado S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'Guarda los archivos adjuntos de los artículos. "DB" almacena todos en la base de datos (no se recomienda para guardar archivos adjuntos grandes), mientras que "FS" usa el sistema de archivos, lo cual es más rápido, pero el servidor web tiene que ser ejecutado con el usuario OTRS. Es posible cambiar entre los módulos sin perder información, inclusive en un sistema en producción.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Búsqueda de cliente',
         'Search User' => '',

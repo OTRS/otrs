@@ -411,6 +411,7 @@ sub Data {
         'Redo' => 'Uveljavi',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => 'Urnik se ne izvaja.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2255,6 +2256,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Dovoljenje, da se premaknete zahtevek v to skupino/čakalno vrsto.',
         'create' => 'ustvarjanje',
         'Permissions to create tickets in this group/queue.' => 'Dovoljenje za ustvarjanje zahtevka v tej skupini/čakalni vrsti.',
+        'note' => 'opomba',
+        'Permissions to add notes to tickets in this group/queue.' => 'Dovolenje za dodajanje opomb na zahtevke v tej skupini/vrsti.',
+        'owner' => 'Lastnik',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Dovolenje za spremembo lastnika zahtevka v tej skupini/vrsti.',
         'priority' => 'prioritete',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Dovoljenje, da se spremeni prioriteta zahtevka v tej skupini/vrsti.',
@@ -2490,7 +2496,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2542,11 +2548,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Upravljanje s povezavami operater <-> skupina',
         'Change Group Relations for Agent' => 'Spremeni povezave z skupinami za zaposlene',
         'Change Agent Relations for Group' => 'Spremeni povezave z zaposlenimi za skupino',
-        'note' => 'opomba',
-        'Permissions to add notes to tickets in this group/queue.' => 'Dovolenje za dodajanje opomb na zahtevke v tej skupini/vrsti.',
-        'owner' => 'Lastnik',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Dovolenje za spremembo lastnika zahtevka v tej skupini/vrsti.',
 
         # Template: AgentBook
         'Address Book' => 'Imenik',
@@ -4834,7 +4835,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Pošiljanje "S/MIME" certifikata',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Iskanje kupca',

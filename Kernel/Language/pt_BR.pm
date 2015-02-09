@@ -412,6 +412,7 @@ sub Data {
         'Redo' => 'Refazer',
         'Scheduler process is registered but might not be running.' => 'Processo do agendador está registrado mas pode não estar em execução.',
         'Scheduler is not running.' => 'Agendador não está em execução',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Não é possível contatar o servidor de registro. Por favor, tente novamente mais tarde.',
         'No content received from registration server. Please try again later.' =>
             'Nenhum conteúdo recebido do servidor de registro. Por favor, tente novamente mais tarde.',
@@ -419,13 +420,13 @@ sub Data {
         'Username and password do not match. Please try again.' => 'Usuário e senha não coincidem. Por favor, tente novamente mais tarde.',
         'The selected process is invalid!' => 'O processo selecionado é inválido!',
         'Upgrade to %s now!' => 'Atualize para %s agora!',
-        '%s Go to the upgrade center %s' => '',
+        '%s Go to the upgrade center %s' => '%s Ir para o centro de atualização %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
             '',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
             '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
+        'Your system was successfully upgraded to %s.' => 'Seu sistema foi atualizado com sucesso para %s.',
+        'There was a problem during the upgrade to %s.' => 'Ocorreu um problema durante a atualização para %s.',
         '%s was correctly reinstalled.' => '',
         'There was a problem reinstalling %s.' => '',
         'Your %s was successfully updated.' => 'Seu %s foi atualizado com sucesso.',
@@ -682,7 +683,7 @@ sub Data {
         'OTRS Version' => 'Versão do OTRS',
         'Ticket Index Module' => '',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'Você possui mais de 60.000 artigos e deveria usar o backend StaticDB. Veja o manual do administrador (Performance Tuning) para mais informações.',
         'Open Tickets' => 'Chamados Abertos',
         'You should not have more than 8,000 open tickets in your system.' =>
             'Você não deveria ter mais que 8.000 chamados abertos em seu sistema.',
@@ -860,7 +861,7 @@ sub Data {
         'Create new Email Ticket' => 'Criar Novo Chamado via E-mail',
         'Phone-Ticket' => 'Chamado Fone',
         'Search Tickets' => 'Pesquisar Chamados',
-        'Customer History' => 'Histórico de Cliente',
+        'Customer History' => 'Histórico do Cliente',
         'Edit Customer Users' => 'Editar Usuários Clientes',
         'Edit Customer' => 'Alterar Cliente',
         'Bulk Action' => 'Ação em Massa',
@@ -1661,7 +1662,7 @@ sub Data {
         'Queue Settings' => 'Configurações de Fila',
         'Ticket Settings' => 'Configurações de Chamado',
         'System Administration' => 'Administração do Sistema',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'Manual Online do Administrador',
 
         # Template: AdminNotification
         'Notification Management' => 'Administração de Notificações',
@@ -1730,7 +1731,7 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessNotInstalled
-        'Upgrade to %s' => '',
+        'Upgrade to %s' => 'Atualize para %s',
         '%s will be available soon. Please check again in a few days.' =>
             '',
         'Please have a look at %s for more information.' => '',
@@ -2106,7 +2107,7 @@ sub Data {
         # Template: AdminRegistration
         'System Registration Management' => 'Gerenciamento do Registro do Sistema',
         'Edit details' => 'Editar detalhes',
-        'Show transmitted data' => '',
+        'Show transmitted data' => 'Exibir dados transmitidos',
         'Deregister system' => 'Desregistrar sistema',
         'Overview of registered systems' => 'Visão geral de sistemas registrados',
         'System Registration' => 'Registro do Sistema',
@@ -2256,6 +2257,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permissões para mover chamados para este grupo/fila.',
         'create' => 'criar',
         'Permissions to create tickets in this group/queue.' => 'Permissões para criar chamados neste grupo/fila. ',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permissões para adicionar notas aos chamados neste grupo/fila.',
+        'owner' => 'proprietário',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permissões para alterar o proprietário do chamado para este grupo/fila.',
         'priority' => 'prioridade',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permissões para alterar a prioridade do chamado neste grupo/fila.',
@@ -2355,26 +2361,26 @@ sub Data {
         'To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             'Para habilitar o envio de dados, por favor registre seu sistema no Grupo OTRS ou atualize a informação de registro de seu sistema (tenha certeza de ativar a opção \'enviar dados de suporte\').',
         'A support bundle (including: system registration information, support data, a list of installed packages and all locally modified source code files) can be generated by pressing this button:' =>
-            '',
-        'Generate Support Bundle' => '',
+            'Um pacote de suporte (incluindo: informações de registro do sistema, dados de suporte, uma lista de pacotes instalados e todos os arquivos de código fonte modificados localmente) pode ser gerado pressionando este botão:',
+        'Generate Support Bundle' => 'Gerar Pacote de Suporte',
         'Generating...' => 'Gerando...',
-        'It was not possible to generate the Support Bundle.' => '',
+        'It was not possible to generate the Support Bundle.' => 'Não foi possível gerar o Pacote de Suporte.',
         'Generate Result' => 'Gerar Resultado',
-        'Support Bundle' => '',
+        'Support Bundle' => 'Pacote de Suporte',
         'The mail could not be sent' => 'A mensagem não pôde ser enviada',
-        'The support bundle has been generated.' => '',
+        'The support bundle has been generated.' => 'O pacote de suporte foi gerado.',
         'Please choose one of the following options.' => 'Por favor escolha uma das opções a seguir.',
         'Send by Email' => 'Enviar por E-mail',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
-            '',
+            'O pacote de suporte é muito grande para enviar via e-mail, esta opção foi desabilitada.',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
         'Sending' => 'Enviando',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
-            '',
+            'O pacote de suporte será enviado para o Grupo OTRS via e-mail automaticamente.',
         'Download File' => 'Baixar Arquivo',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTRS Group, using an alternate method.' =>
-            '',
+            'Um arquivo contendo o pacote de suporte será baixado para o sistema local. Por favor, salve o arquivo e o envie para o Grupo OTRS usando um método alternativo.',
         'Error: Support data could not be collected (%s).' => '',
         'Details' => 'Detalhes',
 
@@ -2469,11 +2475,11 @@ sub Data {
 
         # Template: AdminSystemMaintenance
         'System Maintenance Management' => 'Gerenciamento de Manutenção do Sistema',
-        'Schedule New System Maintenance' => '',
+        'Schedule New System Maintenance' => 'Agendar Nova Manutenção do Sistema',
         'Schedule a system maintenance period for announcing the Agents and Customers the system is down for a time period.' =>
-            '',
+            'Agende um período de manutenção do sistema para anunciar aos Atendentes e Clientes que o sistema estará indisponível por um período de tempo.',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
-            '',
+            'Algum tempo antes da manutenção do sistema iniciar, os usuários receberão uma notificação em todas as telas anunciando sobre  este fato.',
         'Start date' => 'Data de início',
         'Stop date' => 'Data de fim',
         'Delete System Maintenance' => '',
@@ -2486,12 +2492,12 @@ sub Data {
         'Date invalid!' => 'Data inválida!',
         'Login message' => 'Mensagem de autenticação',
         'Show login message' => 'Mostrar mensagem de autenticação',
-        'Notify message' => '',
+        'Notify message' => 'Mensagem de notificação',
         'Manage Sessions' => 'Gerenciar Sessões',
         'All Sessions' => 'Todas as Sessões',
         'Agent Sessions' => 'Sessões de Atendente',
         'Customer Sessions' => 'Sessões de Cliente',
-        'Kill all Sessions, exept current' => 'Matar toas as Sessões, exceto a atual',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Gerenciar Modelos',
@@ -2543,11 +2549,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gerenciar Relações Atendente-Grupo',
         'Change Group Relations for Agent' => 'Alterar Relações de Grupo Para Atendente',
         'Change Agent Relations for Group' => 'Alterar Relações de Atendente Para Grupo',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permissões para adicionar notas aos chamados neste grupo/fila.',
-        'owner' => 'proprietário',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permissões para alterar o proprietário do chamado para este grupo/fila.',
 
         # Template: AgentBook
         'Address Book' => 'Catálogo de Endereços',
@@ -2924,7 +2925,7 @@ sub Data {
         'Remove' => 'Remover',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Buscas pelos atributos De, Para, Cc, Assunto e corpo do artigo, sobrescreve outros atributos com o mesmo nome.',
-        'Customer User Login' => 'Autenticação de Usuário Cliente',
+        'Customer User Login' => 'Login de Usuário Cliente',
         'Attachment Name' => 'Nome do Anexo',
         '(e. g. m*file or myfi*)' => '(ex. meu*rquivo ou meuarq*)',
         'Created in Queue' => 'Criado na Fila',
@@ -2985,7 +2986,7 @@ sub Data {
         'No more events found. Please try changing the filter settings.' =>
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            '',
+            'Para abrir links no artigo seguinte, talvez você precise pressionar Ctrl, Cmd ou Shift enquanto clica no link (dependendo do seu navegador ou sistema operacional).',
         'Close this message' => '',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'O artigo não pôde ser aberto! Talvez ele esteja em outra página de artigo?',
@@ -3022,7 +3023,7 @@ sub Data {
             'A fim de experimentar o OTRS, você deve habilitar o JavaScript no seu navegador.',
         'Browser Warning' => 'Aviso de Navegador',
         'One moment please, you are being redirected...' => '',
-        'Login' => 'Usuário',
+        'Login' => 'Login',
         'User name' => 'Nome de usuário',
         'Your user name' => 'Seu nome de usuário',
         'Your password' => 'Sua senha',
@@ -4095,7 +4096,7 @@ sub Data {
             '',
         'Defines the spacing of the legends.' => '',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
-            '',
+            'Define as permissões padrão disponíveis para clientes dentro da aplicação. Se mais permissões são necessárias, você pode adicioná-las aqui. Permissões devem ser codificadas para serem efetivas. Por favor, assegure-se que, ao adicionar permissões que não as mencionadas, a permissão "rw" seja a última entrada.',
         'Defines the standard size of PDF pages.' => '',
         'Defines the state of a ticket if it gets a follow-up and the ticket was already closed.' =>
             'Define o estado do chamado se ele for revisado e o chamado já estiver fechado.',
@@ -4308,13 +4309,13 @@ sub Data {
         'Enroll this ticket into a process' => '',
         'Escalation response time finished' => '',
         'Escalation response time forewarned' => '',
-        'Escalation response time in effect' => '',
+        'Escalation response time in effect' => 'Escalação - Prazo de resposta inicial em vigor.',
         'Escalation solution time finished' => 'Interrupção do prazo de solução.',
         'Escalation solution time forewarned' => '',
-        'Escalation solution time in effect' => '',
+        'Escalation solution time in effect' => 'Escalação - Prazo de solução em vigor.',
         'Escalation update time finished' => '',
         'Escalation update time forewarned' => '',
-        'Escalation update time in effect' => '',
+        'Escalation update time in effect' => 'Escalação - Prazo de atualização em vigor.',
         'Escalation view' => 'Visão de Escalação',
         'EscalationTime' => 'Horário de Escalação',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -4835,7 +4836,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Upload de certificado S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => 'Agendar um período de manutenção',
         'Search Customer' => 'Procurar cliente',
@@ -5312,7 +5313,7 @@ sub Data {
         'Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!' =>
             '',
         'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            '',
+            'Define as permissões padrão disponíveis para atendentes dentro da aplicação. Se mais permissões são necessárias, elas podem ser adicionadas aqui. Permissões devem ser definidas para serem efetivas. Algumas outras permissões úteis foram definidas internamente: nota, fechar, lembrete de pendente, cliente, campos livres, mover, compor chamado, responsável, encaminhar e devolver. Assegure-se que a permissão "rw" é a última permissão registrada.',
         'Start number for statistics counting. Every new stat increments this number.' =>
             '',
         'Starts a wildcard search of the active object after the link object mask is started.' =>

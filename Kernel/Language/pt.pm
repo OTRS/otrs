@@ -408,6 +408,7 @@ sub Data {
         'Redo' => 'Refazer',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -2252,6 +2253,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permissões para mover tickets para este grupo/queue',
         'create' => 'criar',
         'Permissions to create tickets in this group/queue.' => 'Permissões para criar tickets neste grupo/queue',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permissões para adicionar notas a tickets neste grupo/fila',
+        'owner' => 'proprietário',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permissões para alterar o proprietário do ticket neste grupo/fila',
         'priority' => 'Prioridade',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permissões para modificar a Prioridade do ticket neste grupo/queue',
@@ -2487,7 +2493,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2539,11 +2545,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gerir relações Agente-grupo',
         'Change Group Relations for Agent' => 'Gerir relações de grupo com o agente',
         'Change Agent Relations for Group' => 'Gerir relações de agente com o grupo',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permissões para adicionar notas a tickets neste grupo/fila',
-        'owner' => 'proprietário',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permissões para alterar o proprietário do ticket neste grupo/fila',
 
         # Template: AgentBook
         'Address Book' => 'Lista de Endereços',
@@ -4831,7 +4832,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Procurar Cliente',

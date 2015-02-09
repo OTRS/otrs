@@ -237,7 +237,7 @@ sub Data {
         'Please contact your administrator' => '管理者に連絡してください',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             '承認に成功しましたが、顧客レコードが顧客バックエンドで見つかりませんでした。
-管理者にお問い合わせください。',
+管理者に連絡してください。',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'このe-mailアドレスはすでに存在します。ログイン、またはパスワードのリセットを行ってください。',
         'Logout' => 'ログアウト',
@@ -411,6 +411,7 @@ sub Data {
         'Redo' => 'やり直し',
         'Scheduler process is registered but might not be running.' => 'スケジューラプロセスは登録されているものの起動していないかもしれません。',
         'Scheduler is not running.' => 'スケジューラが起動していません。',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '登録サーバに接続できません。しばらくしてから再試行してください。',
         'No content received from registration server. Please try again later.' =>
             '登録サーバから受信した内容がありません。しばらくしてから再試行してください。',
@@ -797,7 +798,7 @@ sub Data {
         'Forwarded message from' => 'Forwarded message from',
         'End forwarded message' => 'End forwarded message',
         'Bounce Article to a different mail address' => '異なるメールアドレスに記事をバウンス',
-        'Reply to note' => '注釈に返信',
+        'Reply to note' => 'メモに返信',
         'new' => '新規',
         'open' => '対応中',
         'Open' => '対応中',
@@ -1002,7 +1003,7 @@ sub Data {
         'Upload ACL configuration' => 'ACL設定を更新',
         'Import ACL configuration(s)' => 'ACL設定をインポート',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            '新規のACLは、他のシステムからエクスポートしたACLをインポートするか、完全に新規で作成するかのいずれかの方法で作成できます。',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
             '',
         'ACLs' => 'ACL',
@@ -1119,7 +1120,7 @@ sub Data {
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             '',
         'Filter for Groups' => 'グループでフィルタ',
-        'Just start typing to filter...' => '',
+        'Just start typing to filter...' => 'フィルタリングするには入力してください...',
         'Select the customer:group permissions.' => '顧客：グループ権限を選択',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             '何も選択しない場合、このグループは権限がありません (チケットは顧客が使用できません)',
@@ -1166,7 +1167,7 @@ sub Data {
         # Template: AdminDynamicFieldCheckbox
         'Field' => '領域',
         'Go back to overview' => '一覧に戻る',
-        'General' => '',
+        'General' => 'ジェネラル',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
             'この領域は必須であり、値はアルファベットと数値のみでなければなりません。',
         'Must be unique and only accept alphabetic and numeric characters.' =>
@@ -1202,8 +1203,8 @@ sub Data {
         'Show link' => 'リンクを表示',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
-        'Restrict entering of dates' => '',
-        'Here you can restrict the entering of dates of tickets.' => '',
+        'Restrict entering of dates' => '日付入力の制限',
+        'Here you can restrict the entering of dates of tickets.' => '本項目でチケットの日付入力の制限できます',
 
         # Template: AdminDynamicFieldDropdown
         'Possible values' => '選択肢',
@@ -1213,9 +1214,9 @@ sub Data {
         'Add value' => '値を追加',
         'Add Value' => '値を追加',
         'Add empty value' => '空の値の追加',
-        'Activate this option to create an empty selectable value.' => '',
+        'Activate this option to create an empty selectable value.' => '本項目を有効にすれば空の選択可能項目が作成できます。',
         'Tree View' => 'ツリー表示',
-        'Activate this option to display values as a tree.' => '',
+        'Activate this option to display values as a tree.' => '本項目を有効にすれば、値をツリー形式で表示できます。',
         'Translatable values' => '翻訳可能な値',
         'If you activate this option the values will be translated to the user defined language.' =>
             'このオプションを有効にすると、値がユーザーの定義した言語に翻訳されます。',
@@ -1232,7 +1233,7 @@ sub Data {
             '編集画面におけるこの領域の幅(文字数)を指定します。',
         'Check RegEx' => '正規表現をチェック',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
-            '',
+            '本項目で入力値に対する正規表現を設定可能です。　正規表現は モディファイXMSとともに実行されます。',
         'RegEx' => '正規表現',
         'Invalid RegEx' => '無効な正規表現',
         'Error Message' => 'エラーメッセージ',
@@ -1285,7 +1286,7 @@ sub Data {
         'Add Event' => 'イベントを追加',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
-        'Duplicate event.' => '',
+        'Duplicate event.' => 'イベントを複製',
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => 'このイベントトリガーを削除',
@@ -2255,6 +2256,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'このグループ／キューにチケットの移転権限を付与',
         'create' => '作成',
         'Permissions to create tickets in this group/queue.' => 'このグループ／キューにチケットの作成権限を付与',
+        'note' => 'メモ',
+        'Permissions to add notes to tickets in this group/queue.' => 'このグループ／キューにチケットへメモ追加権限を付与',
+        'owner' => '所有者',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'このグループ／キューにチケットへ所有者変更権限を付与',
         'priority' => '優先度',
         'Permissions to change the ticket priority in this group/queue.' =>
             'このグループ／キューにチケットの優先度変更権限を付与',
@@ -2490,7 +2496,7 @@ sub Data {
         'All Sessions' => '全てのセッション',
         'Agent Sessions' => '担当者のセッション',
         'Customer Sessions' => '顧客のセッション',
-        'Kill all Sessions, exept current' => '現在のセッションを除く全てのセッションを削除',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'テンプレート管理',
@@ -2542,11 +2548,6 @@ sub Data {
         'Manage Agent-Group Relations' => '担当者 - グループの関連性の管理',
         'Change Group Relations for Agent' => '担当者に対するグループの関連性を変更',
         'Change Agent Relations for Group' => 'グループに対する担当者の関連性を変更',
-        'note' => 'メモ',
-        'Permissions to add notes to tickets in this group/queue.' => 'このグループ／キューにチケットへメモ追加権限を付与',
-        'owner' => '所有者',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'このグループ／キューにチケットへ所有者変更権限を付与',
 
         # Template: AgentBook
         'Address Book' => 'アドレス帳',
@@ -2913,7 +2914,7 @@ sub Data {
         'Search template' => '検索テンプレート',
         'Create Template' => 'テンプレート作成',
         'Create New' => '新規作成',
-        'Profile link' => '',
+        'Profile link' => '編集せずに検索',
         'Save changes in template' => '変更したテンプレートを保存',
         'Filters in use' => '使用中のフィルタ',
         'Additional filters' => '追加のフィルタ',
@@ -4288,7 +4289,7 @@ sub Data {
         'Enables PGP support. When PGP support is enabled for signing and encrypting mail, it is HIGHLY recommended that the web server runs as the OTRS user. Otherwise, there will be problems with the privileges when accessing .gnupg folder.' =>
             '',
         'Enables S/MIME support.' => 'S/MIMEサポートを有効にします。',
-        'Enables customers to create their own accounts.' => '顧客に自らのアカウントを作成できるようにします。',
+        'Enables customers to create their own accounts.' => '顧客が自ら自身のアカウントを作成できるようにします。',
         'Enables file upload in the package manager frontend.' => 'パッケージ・マネジャー・フロントエンドでの、ファイル・アップロードを有効にします。',
         'Enables or disables the caching for templates. WARNING: Do NOT disable template caching for production environments for it will cause a massive performance drop! This setting should only be disabled for debugging reasons!' =>
             '',
@@ -4838,8 +4839,8 @@ sub Data {
             'システムを“デモ”モードで動作させます。“Yes”に設定すると、担当者が、担当者用ウェブ・インタフェースを通して、言語選択やテーマなどのプレファレンスを変更できるようになります。これらの変更は、現在のセッションにおいてのみ有効です。担当者がパスワードを変更することはできません。',
         'S/MIME Certificate Upload' => 'S/MIME証明書アップロード',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            '項目の添付ファイルを保存します。. "DB"は、全てのデータをデータベースに保存します（大きな添付物の保存にはお奨めしません）。"FS"は、データをファイル・システム上に保存するもので、これは速い方法ですがウェブ・サーバがOTRSユーザの配下で動作している必要があります。すでに製品となっているシステムにおいても、データを損失すること無く、モジュール間で切替を行うことができます。',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => 'メンテナンス期間をスケジュール',
         'Search Customer' => '顧客を検索します。',
         'Search User' => 'ユーザを検索します。',
