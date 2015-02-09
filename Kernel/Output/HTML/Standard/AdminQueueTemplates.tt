@@ -158,8 +158,8 @@
             </div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-Core.Form.InitSelectAllCheckboxes($('table td input:checkbox[name=ItemsSelected]'), $('#SelectAllItemsSelected'));
-$('input:checkbox[name=ItemsSelected]').bind('click', function () {
+Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=ItemsSelected]'), $('#SelectAllItemsSelected'));
+$('input[type="checkbox"][name=ItemsSelected]').bind('click', function () {
     Core.Form.SelectAllCheckboxes($(this), $('#SelectAllItemsSelected'));
 });
 Core.UI.Table.InitTableFilter($('#Filter'), $('#ItemsTable'));

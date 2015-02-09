@@ -302,10 +302,10 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     TargetNS.InitSpellCheck = function () {
         // Register onchange event for dropdown and input field to change the radiobutton
-        $('#SpellCheck select, #SpellCheck input:text').bind('change', function (Event) {
+        $('#SpellCheck select, #SpellCheck input[type="text"]').bind('change', function (Event) {
             var $Row = $(this).closest('tr'),
                 RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
-            $Row.find('input:radio[id=ChangeWord' + RowCount + ']').prop('checked', true);
+            $Row.find('input[type="radio"][id=ChangeWord' + RowCount + ']').prop('checked', true);
         });
 
         // Register Apply button event
@@ -361,7 +361,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      * @param {Object} The name of the radio button to be selected
      */
     TargetNS.SelectRadioButton = function (Value, Name) {
-        $('input:radio[name=' + Name + '][value=' + Value + ']').prop('checked', true);
+        $('input[type="radio"][name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };
 
     return TargetNS;

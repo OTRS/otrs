@@ -341,7 +341,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         }
 
         // get number of how much customer ticket are present
-        TicketCustomerIDs = $('.CustomerContainer input:radio').length;
+        TicketCustomerIDs = $('.CustomerContainer input[type="radio"]').length;
 
         // increment customer counter
         CustomerTicketCounter ++;
@@ -413,7 +413,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 $('#CustomerSelected_' + CustomerTicketCounter).prop('checked', true).trigger('change');
             }
             else {
-                $('.CustomerContainer input:radio:first').prop('checked', true).trigger('change');
+                $('.CustomerContainer input[type="radio"]:first').prop('checked', true).trigger('change');
             }
         }
 
@@ -456,7 +456,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             $Form = Object.closest('form');
         }
         Object.parent().remove();
-        TicketCustomerIDs = $('.CustomerContainer input:radio').length;
+        TicketCustomerIDs = $('.CustomerContainer input[type="radio"]').length;
         if (TicketCustomerIDs === 0) {
             TargetNS.ResetCustomerInfo();
         }
@@ -466,9 +466,9 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Core.AJAX.FormUpdate($Form, 'AJAXUpdate', '', ['CryptKeyID']);
         }
 
-        if( !$('.CustomerContainer input:radio').is(':checked') ){
+        if( !$('.CustomerContainer input[type="radio"]').is(':checked') ){
             //set the first one as checked
-            $('.CustomerContainer input:radio:first').prop('checked', true).trigger('change');
+            $('.CustomerContainer input[type="radio"]:first').prop('checked', true).trigger('change');
         }
 
         if ($Field.find('.CustomerTicketText:visible').length === 0) {

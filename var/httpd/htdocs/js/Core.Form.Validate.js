@@ -91,7 +91,7 @@ Core.Form.Validate = (function (TargetNS) {
         // save value of element for a later check if field value was changed.
         // if the field has a servererror class and the value was not changed,
         // keep the error class.
-        if ($Element.is('input:checkbox, input:radio')) {
+        if ($Element.is('input[type="checkbox"], input[type="radio"]')) {
             $Element.data('ValidateOldValue', $Element.prop('checked'));
         }
         else {
@@ -142,7 +142,7 @@ Core.Form.Validate = (function (TargetNS) {
         // check ServerError
         // if the field value has not changed, do not remove error class
         if ($Element.hasClass(Options.ServerErrorClass)) {
-            if ($Element.is('input:checkbox, input:radio')) {
+            if ($Element.is('input[type="checkbox"], input[type="radio"]')) {
                 ElementValue = $Element.prop('checked');
             }
             else {
@@ -236,7 +236,7 @@ Core.Form.Validate = (function (TargetNS) {
         }
 
         // checkable inputs
-        if ($Element.filter('input:checkbox, input:radio').length) {
+        if ($Element.filter('input[type="checkbox"], input[type="radio"]').length) {
             return $Element.filter(':checked').length > 0;
         }
 

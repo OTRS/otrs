@@ -26,7 +26,7 @@ Core.Agent.Admin.SysConfig = (function (TargetNS) {
      *      This function initializes the special module functions
      */
     TargetNS.Init = function () {
-        $('#AdminSysConfig h3 input:checkbox').click(function () {
+        $('#AdminSysConfig h3 input[type="checkbox"]').click(function () {
             $(this).parent('h3').parent('fieldset').toggleClass('Invalid');
         });
     };

@@ -49,10 +49,10 @@ Core.Form.Validate = (function (Namespace) {
                 equal($(this).hasClass('Error'), true);
 
                 // now focus field, change something and leave again
-                if ($(this).is('input:text, input:password, input:hidden, textarea, select')) {
+                if ($(this).is('input[type="text"], input[type="password"], input:hidden, textarea, select')) {
                     $(this).val('2');
                 }
-                else if ($(this).is('input:checkbox, input:radio')) {
+                else if ($(this).is('input[type="checkbox"], input[type="radio"]')) {
                     if (!$(this).prop('checked')) {
                         $(this).prop('checked', true);
                     }

@@ -1,6 +1,6 @@
 #5.0.0.beta1 20??-??-??
  - 2015-02-06 Fixed bug#[11054](http://bugs.otrs.org/show_bug.cgi?id=11054) - HTMLUtils::Safety breaks links.
- - 2015-02-03 Fixed bug#[11029](http://bugs.otrs.org/show_bug.cgi?id=11029) - Improved wording for responsible to make it more consitent.
+ - 2015-02-03 Fixed bug#[11029](http://bugs.otrs.org/show_bug.cgi?id=11029) - Improved wording for responsible to make it more consistent.
  - 2015-01-21 Improved fulltext filters in Ticket::SearchIndex::Filters.
  - 2015-01-15 Show 'add agent' and 'add group' action in UserGroup overview, thanks to ReneeB.
  - 2015-01-09 Improved stopword lists for StaticDB fulltext index to improve perfromance of fulltext searches. It is recommended to rebuild the fulltext search index.
@@ -9,6 +9,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.6 2015-??-??
+ - 2015-02-09 Fixed bug for IE8 - Handle jQuery selectors correctly (Ticket#2014120242045831).
  - 2015-02-06 Fixed bug#[10942](http://bugs.otrs.org/show_bug.cgi?id=10942) - Adressbook search does not permit to add contacts via click.
  - 2015-02-06 Fixed bug#[11011](http://bugs.otrs.org/show_bug.cgi?id=11011) - OTRS does not honor customer change.
  - 2015-02-03 Fixed bug#[10902](http://bugs.otrs.org/show_bug.cgi?id=10902) - Missing translations on login screen.
