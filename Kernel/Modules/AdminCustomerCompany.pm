@@ -12,9 +12,7 @@ package Kernel::Modules::AdminCustomerCompany;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerCompany;
-use Kernel::System::ReferenceData;
-use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,39 +21,34 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
-    $Self->{ReferenceDataObject}   = Kernel::System::ReferenceData->new(%Param);
-    $Self->{ValidObject}           = Kernel::System::Valid->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Nav = $Self->{ParamObject}->GetParam( Param => 'Nav' ) || 0;
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Nav = $ParamObject->GetParam( Param => 'Nav' ) || 0;
     my $NavigationBarType = $Nav eq 'Agent' ? 'Companies' : 'Admin';
-    my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
+    my $Search = $ParamObject->GetParam( Param => 'Search' );
     $Search
-        ||= $Self->{ConfigObject}->Get('AdminCustomerCompany::RunInitialWildcardSearch') ? '*' : '';
+        ||= $ConfigObject->Get('AdminCustomerCompany::RunInitialWildcardSearch') ? '*' : '';
+    my $LayoutObject          = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
 
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $CustomerID = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
-        my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+        my $CustomerID = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
+        my %Data = $CustomerCompanyObject->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
         $Data{CustomerCompanyID} = $CustomerID;
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar(
             Type => $NavigationBarType,
         );
         $Self->_Edit(
@@ -63,11 +56,11 @@ sub Run {
             Nav    => $Nav,
             %Data,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -77,15 +70,16 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my $Note = '';
         my ( %GetParam, %Errors );
-        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
-        $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
+        $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' );
+        $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
+        $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
 
-        for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
-            $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
+        for my $Entry ( @{ $ConfigObject->Get('CustomerCompany')->{Map} } ) {
+            $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
 
             # check mandatory fields
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
@@ -94,13 +88,13 @@ sub Run {
         }
 
         if ( !defined $GetParam{CustomerID} ) {
-            $GetParam{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' ) || '';
+            $GetParam{CustomerID} = $ParamObject->GetParam( Param => 'CustomerID' ) || '';
         }
 
         # check for duplicate entries
         if ( $GetParam{CustomerCompanyID} ne $GetParam{CustomerID} ) {
             # get CustomerCompany list
-            my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+            my %List = $CustomerCompanyObject->CustomerCompanyList(
                 Search => $Param{Search},
                 Valid  => 0,
             );
@@ -116,7 +110,7 @@ sub Run {
 
             # update group
             if (
-                $Self->{CustomerCompanyObject}->CustomerCompanyUpdate(
+                $CustomerCompanyObject->CustomerCompanyUpdate(
                     %GetParam,
                     UserID => $Self->{UserID},
                 )
@@ -126,44 +120,46 @@ sub Run {
                     Nav    => $Nav,
                     Search => $Search,
                 );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar(
                     Type => $NavigationBarType,
                 );
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Customer company updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                $Output .= $LayoutObject->Notify( Info => 'Customer company updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminCustomerCompany',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something went wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar(
             Type => $NavigationBarType,
         );
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         # set notification for duplicate entry
         if ( $Errors{Duplicate} ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+            $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Info     => "CustomerCompany $GetParam{CustomerID} already exists!.",
             );
         }
+
         $Self->_Edit(
             Action => 'Change',
             Nav    => $Nav,
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -172,10 +168,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        $GetParam{Name}   = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar(
+        $GetParam{Name}   = $ParamObject->GetParam( Param => 'Name' );
+        $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar(
             Type => $NavigationBarType,
         );
         $Self->_Edit(
@@ -183,11 +179,11 @@ sub Run {
             Nav    => $Nav,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -197,16 +193,17 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my $Note = '';
         my ( %GetParam, %Errors );
-        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
-        my $CustomerCompanyKey = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey};
+
+        $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' );
+        my $CustomerCompanyKey = $ConfigObject->Get('CustomerCompany')->{CustomerCompanyKey};
         my $CustomerCompanyID;
 
-        for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
-            $GetParam{ $Entry->[0] } = $Self->{ParamObject}->GetParam( Param => $Entry->[0] ) || '';
+        for my $Entry ( @{ $ConfigObject->Get('CustomerCompany')->{Map} } ) {
+            $GetParam{ $Entry->[0] } = $ParamObject->GetParam( Param => $Entry->[0] ) || '';
 
             # check mandatory fields
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
@@ -219,7 +216,7 @@ sub Run {
         }
 
         # get CustomerCompany list
-        my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+        my %List = $CustomerCompanyObject->CustomerCompanyList(
             Search => $Param{Search},
             Valid  => 0,
         );
@@ -234,7 +231,7 @@ sub Run {
 
             # add company
             if (
-                $Self->{CustomerCompanyObject}->CustomerCompanyAdd(
+                $CustomerCompanyObject->CustomerCompanyAdd(
                     %GetParam,
                     UserID => $Self->{UserID},
                 )
@@ -244,44 +241,46 @@ sub Run {
                     Nav    => $Nav,
                     Search => $Search,
                 );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar(
                     Type => $NavigationBarType,
                 );
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Customer company added!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                $Output .= $LayoutObject->Notify( Info => 'Customer company added!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminCustomerCompany',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something went wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar(
             Type => $NavigationBarType,
         );
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         # set notification for duplicate entry
         if ( $Errors{Duplicate} ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+            $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
                 Info     => "CustomerCompany $CustomerCompanyID already exists!.",
             );
         }
+
         $Self->_Edit(
             Action => 'Add',
             Nav    => $Nav,
             Errors => \%Errors,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -293,17 +292,17 @@ sub Run {
             Nav    => $Nav,
             Search => $Search,
         );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar(
             Type => $NavigationBarType,
         );
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminCustomerCompany',
             Data         => \%Param,
         );
 
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }
@@ -311,42 +310,48 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block(
         Name => 'ActionOverview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => \%Param,
     );
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
-    $Param{'ValidOption'} = $Self->{LayoutObject}->BuildSelection(
-        Data       => { $Self->{ValidObject}->ValidList(), },
+    my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
+
+    $Param{'ValidOption'} = $LayoutObject->BuildSelection(
+        Data       => { $ValidObject->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
-    for my $Entry ( @{ $Self->{ConfigObject}->Get( $Param{Source} )->{Map} } ) {
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    for my $Entry ( @{ $ConfigObject->Get( $Param{Source} )->{Map} } ) {
         if ( $Entry->[0] ) {
             my $Block = 'Input';
 
             # build selections or input fields
-            if ( $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}->{ $Entry->[0] } ) {
+            if ( $ConfigObject->Get('CustomerCompany')->{Selections}->{ $Entry->[0] } ) {
                 my $OptionRequired = '';
                 if ( $Entry->[4] ) {
                     $OptionRequired = 'Validate_Required';
@@ -354,9 +359,9 @@ sub _Edit {
 
                 # build ValidID string
                 $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
+                $Param{Option} = $LayoutObject->BuildSelection(
                     Data =>
-                        $Self->{ConfigObject}->Get('CustomerCompany')->{Selections}
+                        $ConfigObject->Get('CustomerCompany')->{Selections}
                         ->{ $Entry->[0] },
                     Name  => $Entry->[0],
                     Class => $OptionRequired . ' ' .
@@ -374,10 +379,10 @@ sub _Edit {
                 }
 
                 # build Country string
-                my $CountryList = $Self->{ReferenceDataObject}->CountryList();
+                my $CountryList = $Kernel::OM->Get('Kernel::System::ReferenceData')->CountryList();
 
                 $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
+                $Param{Option} = $LayoutObject->BuildSelection(
                     Data         => $CountryList,
                     PossibleNone => 1,
                     Sort         => 'AlphanumericValue',
@@ -395,8 +400,8 @@ sub _Edit {
 
                 # build ValidID string
                 $Block = 'Option';
-                $Param{Option} = $Self->{LayoutObject}->BuildSelection(
-                    Data  => { $Self->{ValidObject}->ValidList(), },
+                $Param{Option} = $LayoutObject->BuildSelection(
+                    Data  => { $ValidObject->ValidList(), },
                     Name  => $Entry->[0],
                     Class => $OptionRequired . ' ' .
                         ( $Param{Errors}->{ $Entry->[0] . 'Invalid' } || '' ),
@@ -432,14 +437,14 @@ sub _Edit {
                 $Param{Preferences} .= $Param{Value};
             }
             else {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PreferencesGeneric',
                     Data => {
                         Item => $Entry->[1],
                         %Param
                     },
                 );
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => "PreferencesGeneric$Block",
                     Data => {
                         %Param,
@@ -450,7 +455,7 @@ sub _Edit {
                     },
                 );
                 if ( $Entry->[4] ) {
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => "PreferencesGeneric${Block}Required",
                         Data => {
                             Name => $Entry->[0],
@@ -466,37 +471,41 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block(
         Name => 'ActionSearch',
         Data => \%Param,
     );
 
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+
     # get writable data sources
-    my %CustomerCompanySource = $Self->{CustomerCompanyObject}->CustomerCompanySourceList(
+    my %CustomerCompanySource = $CustomerCompanyObject->CustomerCompanySourceList(
         ReadOnly => 0,
     );
 
     # only show Add option if we have at least one writable backend
     if ( scalar keys %CustomerCompanySource ) {
-        $Param{SourceOption} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SourceOption} = $LayoutObject->BuildSelection(
             Data       => { %CustomerCompanySource, },
             Name       => 'Source',
             SelectedID => $Param{Source} || '',
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionAdd',
             Data => \%Param,
         );
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewHeader',
         Data => {},
     );
@@ -505,28 +514,30 @@ sub _Overview {
 
     # if there are any registries to search, the table is filled and shown
     if ( $Param{Search} ) {
-        my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
+        my %List = $CustomerCompanyObject->CustomerCompanyList(
             Search => $Param{Search},
             Valid  => 0,
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewResult',
             Data => \%Param,
         );
 
         # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
-        if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
-            $Self->{LayoutObject}->Block( Name => 'LocalDB' );
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        if ( !$ConfigObject->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+            $LayoutObject->Block( Name => 'LocalDB' );
         }
 
         # if there are results to show
         if (%List) {
             for my $ListKey ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
-                my %Data = $Self->{CustomerCompanyObject}->CustomerCompanyGet( CustomerID => $ListKey );
-                $Self->{LayoutObject}->Block(
+                my %Data = $CustomerCompanyObject->CustomerCompanyGet( CustomerID => $ListKey );
+                $LayoutObject->Block(
                     Name => 'OverviewResultRow',
                     Data => {
                         %Data,
@@ -535,8 +546,8 @@ sub _Overview {
                     },
                 );
 
-                if ( !$Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
-                    $Self->{LayoutObject}->Block(
+                if ( !$ConfigObject->Get('CustomerCompany')->{Params}->{ForeignDB} ) {
+                    $LayoutObject->Block(
                         Name => 'LocalDBRow',
                         Data => {
                             Valid => $ValidList{ $Data{ValidID} },
@@ -550,7 +561,7 @@ sub _Overview {
 
         # otherwise it displays a no data found message
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {},
             );
@@ -560,7 +571,7 @@ sub _Overview {
     # if there is nothing to search it shows a message
     else
     {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoSearchTerms',
             Data => {},
         );

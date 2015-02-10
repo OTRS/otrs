@@ -12,10 +12,9 @@ package Kernel::Modules::AdminDynamicFieldText;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Valid;
-use Kernel::System::CheckItem;
-use Kernel::System::DynamicField;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,28 +22,13 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
-
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-
-    # get configured object types
-    $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
-
-    # get the fields config
-    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Driver') || {};
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( $Self->{Subaction} eq 'Add' ) {
         return $Self->_Add(
@@ -54,7 +38,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_AddAction(
             %Param,
@@ -68,13 +52,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_ChangeAction(
             %Param,
         );
     }
-    return $Self->{LayoutObject}->ErrorScreen(
+    return $LayoutObject->ErrorScreen(
         Message => "Undefined subaction.",
     );
 }
@@ -84,17 +68,19 @@ sub _Add {
 
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Needed );
         if ( !$Needed ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen(
                 Message => "Need $Needed",
             );
         }
     }
 
     # get the object type and field type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
-    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ObjectTypeName
+        = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
 
     return $Self->_ShowScreen(
         %Param,
@@ -110,14 +96,17 @@ sub _AddAction {
 
     my %Errors;
     my %GetParam;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     for my $Needed (qw(Name Label FieldOrder)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
             $Errors{ $Needed . 'ServerErrorMessage' } = 'This field is required.';
         }
     }
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     if ( $GetParam{Name} ) {
 
@@ -132,7 +121,7 @@ sub _AddAction {
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
-            $Self->{DynamicFieldObject}->DynamicFieldList(
+            $DynamicFieldObject->DynamicFieldList(
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
@@ -163,19 +152,21 @@ sub _AddAction {
         qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link)
         )
     {
-        $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    $GetParam{RegExCounter} = $Self->{ParamObject}->GetParam( Param => 'RegExCounter' ) || 0;
+    $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
 
     my @RegExList = $Self->GetParamRegexList(
         GetParam => \%GetParam,
         Errors   => \%Errors,
     );
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ValidID",
         );
     }
@@ -206,7 +197,7 @@ sub _AddAction {
     }
 
     # create a new field
-    my $FieldID = $Self->{DynamicFieldObject}->DynamicFieldAdd(
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
         FieldOrder => $GetParam{FieldOrder},
@@ -218,12 +209,12 @@ sub _AddAction {
     );
 
     if ( !$FieldID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not create the new field",
         );
     }
 
-    return $Self->{LayoutObject}->Redirect(
+    return $LayoutObject->Redirect(
         OP => "Action=AdminDynamicField",
     );
 }
@@ -231,36 +222,41 @@ sub _AddAction {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my %GetParam;
+
     for my $Needed (qw(ObjectType FieldType)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$Needed ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need $Needed",
             );
         }
     }
 
     # get the object type and field type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
-    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ObjectTypeName
+        = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
 
-    my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $FieldID = $ParamObject->GetParam( Param => 'ID' );
 
     if ( !$FieldID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ID",
         );
     }
 
     # get dynamic field data
-    my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+    my $DynamicFieldData = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         ID => $FieldID,
     );
 
     # check for valid dynamic field configuration
     if ( !IsHashRefWithData($DynamicFieldData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get data for dynamic field $FieldID",
         );
     }
@@ -289,30 +285,34 @@ sub _ChangeAction {
 
     my %Errors;
     my %GetParam;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     for my $Needed (qw(Name Label FieldOrder)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
             $Errors{ $Needed . 'ServerErrorMessage' } = 'This field is required.';
         }
     }
 
-    my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $FieldID = $ParamObject->GetParam( Param => 'ID' );
     if ( !$FieldID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ID",
         );
     }
 
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
     # get dynamic field data
-    my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+    my $DynamicFieldData = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
     );
 
     # check for valid dynamic field configuration
     if ( !IsHashRefWithData($DynamicFieldData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get data for dynamic field $FieldID",
         );
     }
@@ -330,7 +330,7 @@ sub _ChangeAction {
 
         # check if name is duplicated
         my %DynamicFieldsList = %{
-            $Self->{DynamicFieldObject}->DynamicFieldList(
+            $DynamicFieldObject->DynamicFieldList(
                 Valid      => 0,
                 ResultType => 'HASH',
                 )
@@ -378,10 +378,10 @@ sub _ChangeAction {
         qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link)
         )
     {
-        $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
-    $GetParam{RegExCounter} = $Self->{ParamObject}->GetParam( Param => 'RegExCounter' ) || 0;
+    $GetParam{RegExCounter} = $ParamObject->GetParam( Param => 'RegExCounter' ) || 0;
 
     my @RegExList = $Self->GetParamRegexList(
         GetParam => \%GetParam,
@@ -390,7 +390,7 @@ sub _ChangeAction {
 
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ValidID",
         );
     }
@@ -446,7 +446,7 @@ sub _ChangeAction {
     }
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
-    my $UpdateSuccess = $Self->{DynamicFieldObject}->DynamicFieldUpdate(
+    my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
         ID         => $FieldID,
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
@@ -459,12 +459,12 @@ sub _ChangeAction {
     );
 
     if ( !$UpdateSuccess ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not update the field $GetParam{Name}",
         );
     }
 
-    return $Self->{LayoutObject}->Redirect(
+    return $LayoutObject->Redirect(
         OP => "Action=AdminDynamicField",
     );
 }
@@ -479,12 +479,16 @@ sub _ShowScreen {
         $Param{DisplayFieldName} = $Param{Name};
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # header
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     # get all fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
         Valid => 0,
     );
 
@@ -509,7 +513,7 @@ sub _ShowScreen {
 
     # show the names of the other fields to ease ordering
     my %OrderNamesList;
-    my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Translate('Currently') . ': ';
+    my $CurrentlyText = $LayoutObject->{LanguageObject}->Translate('Currently') . ': ';
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
@@ -519,7 +523,7 @@ sub _ShowScreen {
         }
     }
 
-    my $DynamicFieldOrderStrg = $Self->{LayoutObject}->BuildSelection(
+    my $DynamicFieldOrderStrg = $LayoutObject->BuildSelection(
         Data          => \%OrderNamesList,
         Name          => 'FieldOrder',
         SelectedValue => $Param{FieldOrder} || 1,
@@ -529,10 +533,10 @@ sub _ShowScreen {
         Class         => 'W75pc Validate_Number',
     );
 
-    my %ValidList = $Self->{ValidObject}->ValidList();
+    my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
     # create the Validity select
-    my $ValidityStrg = $Self->{LayoutObject}->BuildSelection(
+    my $ValidityStrg = $LayoutObject->BuildSelection(
         Data         => \%ValidList,
         Name         => 'ValidID',
         SelectedID   => $Param{ValidID} || 1,
@@ -545,7 +549,7 @@ sub _ShowScreen {
     my $DefaultValue = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
 
     # create the default value element
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'DefaultValue' . $Param{FieldType},
         Data => {
             %Param,
@@ -559,7 +563,7 @@ sub _ShowScreen {
     if ( $Param{FieldType} eq 'Text' ) {
 
         # create the default link element
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Link',
             Data => {
                 %Param,
@@ -571,7 +575,7 @@ sub _ShowScreen {
     if ( $Param{FieldType} eq 'TextArea' ) {
 
         # create the default value element
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ColsRowsValues',
             Data => {
                 %Param,
@@ -585,7 +589,7 @@ sub _ShowScreen {
 
     # Internal fields can not be deleted and name should not change.
     if ( $Param{InternalField} ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'InternalField',
             Data => {%Param},
         );
@@ -593,13 +597,13 @@ sub _ShowScreen {
     }
 
     # get the field id
-    my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $FieldID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ID' );
 
     # only if the dymamic field exists and should be edited,
     # not if the field is added for the first time
     if ($FieldID) {
 
-        my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldGet(
+        my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
             ID => $FieldID,
         );
 
@@ -626,7 +630,7 @@ sub _ShowScreen {
                 # check existing regex
                 next REGEXENTRY if !$Param{ 'RegEx_' . $CurrentRegExEntryID };
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'RegExRow',
                     Data => {
                         EntryCounter => $CurrentRegExEntryID,
@@ -659,7 +663,7 @@ sub _ShowScreen {
     }
 
     # generate output
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicFieldText',
         Data         => {
             %Param,
@@ -672,7 +676,7 @@ sub _ShowScreen {
             }
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -687,17 +691,19 @@ sub GetParamRegexList {
     # Check regex list
     if ( $GetParam->{RegExCounter} && $GetParam->{RegExCounter} =~ m{\A\d+\z}xms ) {
 
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
         REGEXENTRY:
         for my $CurrentRegExEntryID ( 1 .. $GetParam->{RegExCounter} ) {
 
             # check existing regex
             $GetParam->{ 'RegEx_' . $CurrentRegExEntryID }
-                = $Self->{ParamObject}->GetParam( Param => 'RegEx_' . $CurrentRegExEntryID );
+                = $ParamObject->GetParam( Param => 'RegEx_' . $CurrentRegExEntryID );
 
             next REGEXENTRY if !$GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
 
             $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID }
-                = $Self->{ParamObject}->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
+                = $ParamObject->GetParam( Param => 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID );
 
             my $RegEx                     = $GetParam->{ 'RegEx_' . $CurrentRegExEntryID };
             my $CustomerRegExErrorMessage = $GetParam->{ 'CustomerRegExErrorMessage_' . $CurrentRegExEntryID };

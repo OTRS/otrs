@@ -12,33 +12,15 @@ package Kernel::Modules::AdminDynamicFieldMultiselect;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Valid;
-use Kernel::System::CheckItem;
-use Kernel::System::DynamicField;
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
-
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-
-    # get configured object types
-    $Self->{ObjectTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::ObjectType');
-
-    # get the fields config
-    $Self->{FieldTypeConfig} = $Self->{ConfigObject}->Get('DynamicFields::Driver') || {};
 
     # set possible values handling strings
     $Self->{EmptyString}     = '_DynamicFields_EmptyString_Dont_Use_It_String_Please';
@@ -51,6 +33,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( $Self->{Subaction} eq 'Add' ) {
         return $Self->_Add(
             %Param,
@@ -59,7 +43,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_AddAction(
             %Param,
@@ -73,13 +57,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_ChangeAction(
             %Param,
         );
     }
-    return $Self->{LayoutObject}->ErrorScreen(
+    return $LayoutObject->ErrorScreen(
         Message => "Undefined subaction.",
     );
 }
@@ -89,17 +73,19 @@ sub _Add {
 
     my %GetParam;
     for my $Needed (qw(ObjectType FieldType FieldOrder)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Needed );
         if ( !$Needed ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $Kernel::OM->Get('Kernel::Output::HTML::Layout') > ErrorScreen(
                 Message => "Need $Needed",
             );
         }
     }
 
     # get the object type and field type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
-    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ObjectTypeName
+        = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
 
     return $Self->_ShowScreen(
         %Param,
@@ -115,9 +101,10 @@ sub _AddAction {
 
     my %Errors;
     my %GetParam;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     for my $Needed (qw(Name Label FieldOrder)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
             $Errors{ $Needed . 'ServerErrorMessage' } = 'This field is required.';
@@ -125,8 +112,10 @@ sub _AddAction {
     }
 
     # get the TreeView option and set it to '0' if it is undefined
-    $GetParam{TreeView} = $Self->{ParamObject}->GetParam( Param => 'TreeView' );
+    $GetParam{TreeView} = $ParamObject->GetParam( Param => 'TreeView' );
     $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
     if ( $GetParam{Name} ) {
 
@@ -140,7 +129,7 @@ sub _AddAction {
         }
 
         # get dynamic field list
-        my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList(
+        my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
             Valid      => 0,
             ResultType => 'HASH',
         ) || {};
@@ -175,12 +164,14 @@ sub _AddAction {
         )
         )
     {
-        $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ValidID",
         );
     }
@@ -234,7 +225,7 @@ sub _AddAction {
     };
 
     # create a new field
-    my $FieldID = $Self->{DynamicFieldObject}->DynamicFieldAdd(
+    my $FieldID = $DynamicFieldObject->DynamicFieldAdd(
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
         FieldOrder => $GetParam{FieldOrder},
@@ -246,12 +237,12 @@ sub _AddAction {
     );
 
     if ( !$FieldID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not create the new field",
         );
     }
 
-    return $Self->{LayoutObject}->Redirect(
+    return $LayoutObject->Redirect(
         OP => "Action=AdminDynamicField",
     );
 }
@@ -259,36 +250,41 @@ sub _AddAction {
 sub _Change {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my %GetParam;
+
     for my $Needed (qw(ObjectType FieldType)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$Needed ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need $Needed",
             );
         }
     }
 
     # get the object type and field type display name
-    my $ObjectTypeName = $Self->{ObjectTypeConfig}->{ $GetParam{ObjectType} }->{DisplayName} || '';
-    my $FieldTypeName  = $Self->{FieldTypeConfig}->{ $GetParam{FieldType} }->{DisplayName}   || '';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ObjectTypeName
+        = $ConfigObject->Get('DynamicFields::ObjectType')->{ $GetParam{ObjectType} }->{DisplayName} || '';
+    my $FieldTypeName = $ConfigObject->Get('DynamicFields::Driver')->{ $GetParam{FieldType} }->{DisplayName} || '';
 
-    my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $FieldID = $ParamObject->GetParam( Param => 'ID' );
 
     if ( !$FieldID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ID",
         );
     }
 
     # get dynamic field data
-    my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+    my $DynamicFieldData = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         ID => $FieldID,
     );
 
     # check for valid dynamic field configuration
     if ( !IsHashRefWithData($DynamicFieldData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get data for dynamic field $FieldID",
         );
     }
@@ -334,9 +330,10 @@ sub _ChangeAction {
 
     my %Errors;
     my %GetParam;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     for my $Needed (qw(Name Label FieldOrder)) {
-        $GetParam{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed );
+        $GetParam{$Needed} = $ParamObject->GetParam( Param => $Needed );
         if ( !$GetParam{$Needed} ) {
             $Errors{ $Needed . 'ServerError' }        = 'ServerError';
             $Errors{ $Needed . 'ServerErrorMessage' } = 'This field is required.';
@@ -344,24 +341,26 @@ sub _ChangeAction {
     }
 
     # get the TreeView option and set it to '0' if it is undefined
-    $GetParam{TreeView} = $Self->{ParamObject}->GetParam( Param => 'TreeView' );
+    $GetParam{TreeView} = $ParamObject->GetParam( Param => 'TreeView' );
     $GetParam{TreeView} = defined $GetParam{TreeView} && $GetParam{TreeView} ? '1' : '0';
 
-    my $FieldID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $FieldID = $ParamObject->GetParam( Param => 'ID' );
     if ( !$FieldID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ID",
         );
     }
 
     # get dynamic field data
-    my $DynamicFieldData = $Self->{DynamicFieldObject}->DynamicFieldGet(
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $DynamicFieldData   = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
     );
 
     # check for valid dynamic field configuration
     if ( !IsHashRefWithData($DynamicFieldData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get data for dynamic field $FieldID",
         );
     }
@@ -378,7 +377,7 @@ sub _ChangeAction {
         }
 
         # get dynamic field list
-        my $DynamicFieldsList = $Self->{DynamicFieldObject}->DynamicFieldList(
+        my $DynamicFieldsList = $DynamicFieldObject->DynamicFieldList(
             Valid      => 0,
             ResultType => 'HASH',
         ) || {};
@@ -430,16 +429,16 @@ sub _ChangeAction {
         )
         )
     {
-        $GetParam{$ConfigParam} = $Self->{ParamObject}->GetParam( Param => $ConfigParam );
+        $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
 
     # get default values
-    my @DefaultValues = $Self->{ParamObject}->GetArray( Param => 'DefaultValue' );
+    my @DefaultValues = $ParamObject->GetArray( Param => 'DefaultValue' );
     $GetParam{DefaultValue} = \@DefaultValues;
 
     # uncorrectable errors
     if ( !$GetParam{ValidID} ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need ValidID",
         );
     }
@@ -494,7 +493,7 @@ sub _ChangeAction {
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
-    my $UpdateSuccess = $Self->{DynamicFieldObject}->DynamicFieldUpdate(
+    my $UpdateSuccess = $DynamicFieldObject->DynamicFieldUpdate(
         ID         => $FieldID,
         Name       => $GetParam{Name},
         Label      => $GetParam{Label},
@@ -507,12 +506,12 @@ sub _ChangeAction {
     );
 
     if ( !$UpdateSuccess ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not update the field $GetParam{Name}",
         );
     }
 
-    return $Self->{LayoutObject}->Redirect(
+    return $LayoutObject->Redirect(
         OP => "Action=AdminDynamicField",
     );
 }
@@ -529,12 +528,14 @@ sub _ShowScreen {
 
     $Param{DeletedString} = $Self->{DeletedString};
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # header
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # get all fields
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid => 0,
     );
 
@@ -559,7 +560,7 @@ sub _ShowScreen {
 
     # show the names of the other fields to ease ordering
     my %OrderNamesList;
-    my $CurrentlyText = $Self->{LayoutObject}->{LanguageObject}->Translate('Currently') . ': ';
+    my $CurrentlyText = $LayoutObject->{LanguageObject}->Translate('Currently') . ': ';
     for my $OrderNumber ( sort @DynamicfieldOrderList ) {
         $OrderNamesList{$OrderNumber} = $OrderNumber;
         if ( $DynamicfieldNamesList{$OrderNumber} && $OrderNumber ne $Param{FieldOrder} ) {
@@ -569,7 +570,7 @@ sub _ShowScreen {
         }
     }
 
-    my $DynamicFieldOrderStrg = $Self->{LayoutObject}->BuildSelection(
+    my $DynamicFieldOrderStrg = $LayoutObject->BuildSelection(
         Data          => \%OrderNamesList,
         Name          => 'FieldOrder',
         SelectedValue => $Param{FieldOrder} || 1,
@@ -579,10 +580,10 @@ sub _ShowScreen {
         Class         => 'W75pc Validate_Number',
     );
 
-    my %ValidList = $Self->{ValidObject}->ValidList();
+    my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
     # create the Validity select
-    my $ValidityStrg = $Self->{LayoutObject}->BuildSelection(
+    my $ValidityStrg = $LayoutObject->BuildSelection(
         Data         => \%ValidList,
         Name         => 'ValidID',
         SelectedID   => $Param{ValidID} || 1,
@@ -649,7 +650,7 @@ sub _ShowScreen {
         }
 
         # create a value map row
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ValueRow',
             Data => {
                 KeyError     => $KeyError,
@@ -663,7 +664,7 @@ sub _ShowScreen {
     }
 
     # create the possible values template
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ValueTemplate',
         Data => {
             %Param,
@@ -682,7 +683,7 @@ sub _ShowScreen {
     my $DefaultValue = ( defined $Param{DefaultValue} ? $Param{DefaultValue} : '' );
 
     # create the default value select
-    my $DefaultValueStrg = $Self->{LayoutObject}->BuildSelection(
+    my $DefaultValueStrg = $LayoutObject->BuildSelection(
         Data         => \%DefaultValuesList,
         Name         => 'DefaultValue',
         SelectedID   => $DefaultValue,
@@ -700,7 +701,7 @@ sub _ShowScreen {
     my $PossibleNone = $Param{PossibleNone} || '0';
 
     # create translatable values option list
-    my $PossibleNoneStrg = $Self->{LayoutObject}->BuildSelection(
+    my $PossibleNoneStrg = $LayoutObject->BuildSelection(
         Data => {
             0 => 'No',
             1 => 'Yes',
@@ -713,7 +714,7 @@ sub _ShowScreen {
     my $TranslatableValues = $Param{TranslatableValues} || '0';
 
     # create translatable values option list
-    my $TranslatableValuesStrg = $Self->{LayoutObject}->BuildSelection(
+    my $TranslatableValuesStrg = $LayoutObject->BuildSelection(
         Data => {
             0 => 'No',
             1 => 'Yes',
@@ -726,7 +727,7 @@ sub _ShowScreen {
     my $TreeView = $Param{TreeView} || '0';
 
     # create treeview option list
-    my $TreeViewStrg = $Self->{LayoutObject}->BuildSelection(
+    my $TreeViewStrg = $LayoutObject->BuildSelection(
         Data => {
             0 => 'No',
             1 => 'Yes',
@@ -740,7 +741,7 @@ sub _ShowScreen {
 
     # Internal fields can not be deleted and name should not change.
     if ( $Param{InternalField} ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'InternalField',
             Data => {%Param},
         );
@@ -748,7 +749,7 @@ sub _ShowScreen {
     }
 
     # generate output
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminDynamicFieldMultiselect',
         Data         => {
             %Param,
@@ -763,7 +764,7 @@ sub _ShowScreen {
             }
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -771,19 +772,20 @@ sub _ShowScreen {
 sub _GetPossibleValues {
     my ( $Self, %Param ) = @_;
 
-    my $PossibleValueConfig;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get parameters from web browser
     # get ValueCounters
-    my $ValueCounter          = $Self->{ParamObject}->GetParam( Param => 'ValueCounter' ) || 0;
+    my $ValueCounter          = $ParamObject->GetParam( Param => 'ValueCounter' ) || 0;
     my $EmptyValueCounter     = 0;
     my $DuplicateValueCounter = 0;
+    my $PossibleValueConfig;
 
     # get possible values
     my $Values;
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
-        my $Key = $Self->{ParamObject}->GetParam( Param => 'Key' . '_' . $ValueIndex );
+        my $Key = $ParamObject->GetParam( Param => 'Key' . '_' . $ValueIndex );
         $Key = ( defined $Key ? $Key : '' );
 
         # check if key was deleted by the user and skip it
@@ -805,7 +807,7 @@ sub _GetPossibleValues {
             $DuplicateValueCounter++;
         }
 
-        my $Value = $Self->{ParamObject}->GetParam( Param => 'Value' . '_' . $ValueIndex );
+        my $Value = $ParamObject->GetParam( Param => 'Value' . '_' . $ValueIndex );
         $Value = ( defined $Value ? $Value : '' );
         $PossibleValueConfig->{$Key} = $Value;
     }
