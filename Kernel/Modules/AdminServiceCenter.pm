@@ -12,15 +12,7 @@ package Kernel::Modules::AdminServiceCenter;
 use strict;
 use warnings;
 
-use Kernel::System::CheckItem;
-use Kernel::System::Email;
-use Kernel::System::JSON;
-use Kernel::System::Registration;
-use Kernel::System::SystemData;
-use Kernel::System::SupportBundleGenerator;
-use Kernel::System::SupportDataCollector;
-use Kernel::System::SupportDataCollector::PluginBase;
-use Kernel::System::User;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,27 +20,6 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    # check all needed objects
-    for my $Needed (qw(ParamObject LayoutObject ConfigObject LogObject SessionObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{RegistrationObject} = Kernel::System::Registration->new(%Param);
-    $Self->{SystemDataObject}   = Kernel::System::SystemData->new(%Param);
-    $Self->{RegistrationState}  = $Self->{SystemDataObject}->SystemDataGet(
-        Key => 'Registration::State',
-    ) || '';
-    $Self->{SupportDataSending} = $Self->{SystemDataObject}->SystemDataGet(
-        Key => 'Registration::SupportDataSending',
-    ) || 'No';
-    $Self->{SupportDataCollectorObject}   = Kernel::System::SupportDataCollector->new(%Param);
-    $Self->{SupportBundleGeneratorObject} = Kernel::System::SupportBundleGenerator->new(%Param);
-    $Self->{JSONObject}                   = Kernel::System::JSON->new(%Param);
-    $Self->{UserObject}                   = Kernel::System::User->new(%Param);
-    $Self->{EmailObject}                  = Kernel::System::Email->new(%Param);
-    $Self->{CheckItemObject}              = Kernel::System::CheckItem->new(%Param);
 
     return $Self;
 }
@@ -62,9 +33,9 @@ sub Run {
 
     if ( $Self->{Subaction} eq 'SendUpdate' ) {
 
-        my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend();
+        my %Result = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationUpdateSend();
 
-        return $Self->{LayoutObject}->Attachment(
+        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
             ContentType => 'text/html',
             Content     => $Result{Success},
             Type        => 'inline',
@@ -86,33 +57,43 @@ sub Run {
 sub _SupportDataCollectorView {
     my ( $Self, %Param ) = @_;
 
-    my %SupportData = $Self->{SupportDataCollectorObject}->Collect(
+    my $SystemDataObject  = $Kernel::OM->Get('Kernel::System::SystemData');
+    my $RegistrationState = $SystemDataObject->SystemDataGet(
+        Key => 'Registration::State',
+    ) || '';
+    my $SupportDataSending = $SystemDataObject->SystemDataGet(
+        Key => 'Registration::SupportDataSending',
+    ) || 'No';
+
+    my %SupportData = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect(
         UseCache => 1,
     );
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !$SupportData{Success} ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'SupportDataCollectionFailed',
             Data => \%SupportData,
         );
     }
     else {
         if (
-            $Self->{RegistrationState} ne 'registered'
-            || $Self->{SupportDataSending} ne 'Yes'
+            $RegistrationState ne 'registered'
+            || $SupportDataSending ne 'Yes'
             )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoteNotRegisteredNotSending',
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoteRegisteredSending',
             );
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'SupportData',
         );
         my ( $LastGroup, $LastSubGroup ) = ( '', '' );
@@ -125,7 +106,7 @@ sub _SupportDataCollectorView {
 
             my ( $Group, $SubGroup ) = split( m{/}, $Entry->{DisplayPath} // '' );
             if ( $Group ne $LastGroup ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'SupportDataGroup',
                     Data => {
                         Group => $Group,
@@ -135,14 +116,14 @@ sub _SupportDataCollectorView {
             $LastGroup = $Group // '';
 
             if ( !$SubGroup || $SubGroup ne $LastSubGroup ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'SupportDataRow',
                     Data => $Entry,
                 );
             }
 
             if ( $SubGroup && $SubGroup ne $LastSubGroup ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'SupportDataSubGroup',
                     Data => {
                         %{$Entry},
@@ -153,19 +134,19 @@ sub _SupportDataCollectorView {
             $LastSubGroup = $SubGroup // '';
 
             if ( !$SubGroup ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'SupportDataEntry',
                     Data => $Entry,
                 );
                 if ( defined $Entry->{Value} && length $Entry->{Value} ) {
                     if ( $Entry->{Value} =~ m{\n} ) {
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'SupportDataEntryValueMultiLine',
                             Data => $Entry,
                         );
                     }
                     else {
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'SupportDataEntryValueSingleLine',
                             Data => $Entry,
                         );
@@ -174,13 +155,13 @@ sub _SupportDataCollectorView {
             }
             else {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'SupportDataSubEntry',
                     Data => $Entry,
                 );
 
                 if ( $Entry->{Message} ) {
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'SupportDataSubEntryMessage',
                         Data => {
                             Message => $Entry->{Message},
@@ -192,38 +173,41 @@ sub _SupportDataCollectorView {
     }
 
     # get user data
-    my %User = $Self->{UserObject}->GetUserData(
+    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
         UserID => $Self->{UserID},
         Cached => 1,
     );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get sender email address
     if ( $User{UserEmail} && $User{UserEmail} !~ /root\@localhost/ ) {
         $Param{SenderAddress} = $User{UserEmail};
     }
     elsif (
-        $Self->{ConfigObject}->Get('AdminEmail')
-        && $Self->{ConfigObject}->Get('AdminEmail') !~ /root\@localhost/
-        && $Self->{ConfigObject}->Get('AdminEmail') !~ /admin\@example.com/
+
+        $ConfigObject->Get('AdminEmail')
+        && $ConfigObject->Get('AdminEmail') !~ /root\@localhost/
+        && $ConfigObject->Get('AdminEmail') !~ /admin\@example.com/
         )
     {
-        $Param{SenderAddress} = $Self->{ConfigObject}->Get('AdminEmail');
+        $Param{SenderAddress} = $ConfigObject->Get('AdminEmail');
     }
     $Param{SenderName} = $User{UserFirstname} . ' ' . $User{UserLastname};
 
     # verify if the email is valid, set it to empty string if not, this will be checked on client
     #    side
-    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Param{SenderAddress} ) ) {
+    if ( !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Param{SenderAddress} ) ) {
         $Param{SenderAddress} = '';
     }
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output(
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminServiceCenterSupportDataCollector',
         Data         => \%Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -231,19 +215,21 @@ sub _SupportDataCollectorView {
 sub _GenerateSupportBundle {
     my ( $Self, %Param ) = @_;
 
-    my $RandomID = $Self->{MainObject}->GenerateRandomString(
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my $RandomID   = $MainObject->GenerateRandomString(
         Length     => 8,
         Dictionary => [ 0 .. 9, 'a' .. 'f' ],
     );
 
     # remove any older file
-    my $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TempDir      = $ConfigObject->Get('TempDir') . '/SupportBundleDownloadCache';
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;
     }
 
-    $TempDir = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
+    $TempDir = $ConfigObject->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
 
     if ( !-d $TempDir ) {
         mkdir $TempDir;
@@ -256,10 +242,10 @@ sub _GenerateSupportBundle {
     }
 
     # create the support bundle
-    my $Result = $Self->{SupportBundleGeneratorObject}->Generate();
+    my $Result = $Kernel::OM->Get('Kernel::System::SupportBundleGenerator')->Generate();
 
     if ( !$Result->{Success} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Result->{Message},
         );
@@ -267,7 +253,7 @@ sub _GenerateSupportBundle {
     else {
 
         # save support bundle in the FS (temporary)
-        my $FileLocation = $Self->{MainObject}->FileWrite(
+        my $FileLocation = $MainObject->FileWrite(
             Location   => $TempDir . '/' . $Result->{Data}->{Filename},
             Content    => $Result->{Data}->{Filecontent},
             Mode       => 'binmode',
@@ -276,7 +262,7 @@ sub _GenerateSupportBundle {
         );
     }
 
-    my $JSONString = $Self->{JSONObject}->Encode(
+    my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => {
             Success  => $Result->{Success},
             Message  => $Result->{Message} || '',
@@ -286,7 +272,7 @@ sub _GenerateSupportBundle {
         },
     );
 
-    return $Self->{LayoutObject}->Attachment(
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
         ContentType => 'text/html',
         Content     => $JSONString,
         Type        => 'inline',
@@ -297,19 +283,22 @@ sub _GenerateSupportBundle {
 sub _DownloadSupportBundle {
     my ( $Self, %Param ) = @_;
 
-    my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
-    my $RandomID = $Self->{ParamObject}->GetParam( Param => 'RandomID' ) || '';
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $Filename     = $ParamObject->GetParam( Param => 'Filename' ) || '';
+    my $RandomID     = $ParamObject->GetParam( Param => 'RandomID' ) || '';
 
     if ( !$Filename ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need Filename!",
         );
     }
 
-    my $TempDir  = $Self->{ConfigObject}->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
+    my $TempDir  = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . '/SupportBundleDownloadCache/' . $RandomID;
     my $Location = $TempDir . '/' . $Filename;
 
-    my $Content = $Self->{MainObject}->FileRead(
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my $Content    = $MainObject->FileRead(
         Location => $Location,
         Mode     => 'binmode',
         Type     => 'Local',
@@ -317,18 +306,18 @@ sub _DownloadSupportBundle {
     );
 
     if ( !$Content ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "File $Location could not be read!",
         );
     }
 
-    my $Success = $Self->{MainObject}->FileDelete(
+    my $Success = $MainObject->FileDelete(
         Location => $Location,
         Type     => 'Local',
     );
 
     if ( !$Success ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "File $Location could not be deleted!",
         );
@@ -336,9 +325,9 @@ sub _DownloadSupportBundle {
 
     rmdir $TempDir;
 
-    return $Self->{LayoutObject}->Attachment(
+    return $LayoutObject->Attachment(
         Filename    => $Filename,
-        ContentType => 'application/octet-stream; charset=' . $Self->{LayoutObject}->{UserCharset},
+        ContentType => 'application/octet-stream; charset=' . $LayoutObject->{UserCharset},
         Content     => $$Content,
     );
 }
@@ -346,18 +335,24 @@ sub _DownloadSupportBundle {
 sub _SendSupportBundle {
     my ( $Self, %Param ) = @_;
 
-    my $Filename = $Self->{ParamObject}->GetParam( Param => 'Filename' ) || '';
-    my $RandomID = $Self->{ParamObject}->GetParam( Param => 'RandomID' ) || '';
-
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LogObject   = $Kernel::OM->Get('Kernel::System::Log');
+    my $Filename    = $ParamObject->GetParam( Param => 'Filename' ) || '';
+    my $RandomID    = $ParamObject->GetParam( Param => 'RandomID' ) || '';
     my $Success;
+
     if ($Filename) {
 
-        my $TempDir = $Self->{ConfigObject}->Get('TempDir')
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        my $TempDir = $ConfigObject->Get('TempDir')
             . '/SupportBundleDownloadCache/'
             . $RandomID;
         my $Location = $TempDir . '/' . $Filename;
 
-        my $Content = $Self->{MainObject}->FileRead(
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+        my $Content = $MainObject->FileRead(
             Location => $Location,
             Mode     => 'binmode',
             Type     => 'Local',
@@ -366,13 +361,13 @@ sub _SendSupportBundle {
 
         if ($Content) {
 
-            $Success = $Self->{MainObject}->FileDelete(
+            $Success = $MainObject->FileDelete(
                 Location => $Location,
                 Type     => 'Local',
             );
 
             if ( !$Success ) {
-                $Self->{LogObject}->Log(
+                $LogObject->Log(
                     Priority => 'error',
                     Message  => "File $Location could not be deleted!",
                 );
@@ -380,7 +375,7 @@ sub _SendSupportBundle {
 
             rmdir $TempDir;
 
-            my %RegistrationInfo = $Self->{RegistrationObject}->RegistrationDataGet(
+            my %RegistrationInfo = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationDataGet(
                 Extended => 1,
             );
 
@@ -406,7 +401,7 @@ sub _SendSupportBundle {
             }
 
             # get user data
-            my %User = $Self->{UserObject}->GetUserData(
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID => $Self->{UserID},
                 Cached => 1,
             );
@@ -417,12 +412,12 @@ sub _SendSupportBundle {
                 $SenderAddress = $User{UserEmail};
             }
             elsif (
-                $Self->{ConfigObject}->Get('AdminEmail')
-                && $Self->{ConfigObject}->Get('AdminEmail') !~ /root\@localhost/
-                && $Self->{ConfigObject}->Get('AdminEmail') !~ /admin\@example.com/
+                $ConfigObject->Get('AdminEmail')
+                && $ConfigObject->Get('AdminEmail') !~ /root\@localhost/
+                && $ConfigObject->Get('AdminEmail') !~ /admin\@example.com/
                 )
             {
-                $SenderAddress = $Self->{ConfigObject}->Get('AdminEmail');
+                $SenderAddress = $ConfigObject->Get('AdminEmail');
             }
 
             my $SenderName = $User{UserFirstname} . ' ' . $User{UserLastname};
@@ -442,7 +437,7 @@ sub _SendSupportBundle {
                 $Body .= "Not registered\n";
             }
 
-            my ( $HeadRef, $BodyRef ) = $Self->{EmailObject}->Send(
+            my ( $HeadRef, $BodyRef ) = $Kernel::OM->Get('Kernel::System::Email')->Send(
                 From          => $SenderAddress,
                 To            => 'SupportBundle@otrs.com',
                 Subject       => 'Support::Bundle::Email',
@@ -467,26 +462,26 @@ sub _SendSupportBundle {
             }
         }
         else {
-            $Self->{LogObject}->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "$Filename could not be read!",
             );
         }
     }
     else {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Need Filename",
         );
     }
 
-    my $JSONString = $Self->{JSONObject}->Encode(
+    my $JSONString = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => {
             Success => $Success || '',
         },
     );
 
-    return $Self->{LayoutObject}->Attachment(
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
         ContentType => 'text/html',
         Content     => $JSONString,
         Type        => 'inline',

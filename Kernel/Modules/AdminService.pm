@@ -12,8 +12,7 @@ package Kernel::Modules::AdminService;
 use strict;
 use warnings;
 
-use Kernel::System::Service;
-use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,20 +21,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
-    $Self->{ValidObject}   = Kernel::System::Valid->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
 
     # ------------------------------------------------------------ #
     # service edit
@@ -43,14 +37,14 @@ sub Run {
     if ( $Self->{Subaction} eq 'ServiceEdit' ) {
 
         # header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
         # html output
         $Output .= $Self->_MaskNew(
             %Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -61,12 +55,14 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ServiceSave' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
+
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
         # get params
         my %GetParam;
         for (qw(ServiceID ParentID Name ValidID Comment)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+            $GetParam{$_} = $ParamObject->GetParam( Param => $_ ) || '';
         }
 
         my %Error;
@@ -77,26 +73,28 @@ sub Run {
 
         if ( !%Error ) {
 
+            my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
             # save to database
             if ( $GetParam{ServiceID} eq 'NEW' ) {
-                $GetParam{ServiceID} = $Self->{ServiceObject}->ServiceAdd(
+                $GetParam{ServiceID} = $ServiceObject->ServiceAdd(
                     %GetParam,
                     UserID => $Self->{UserID},
                 );
                 if ( !$GetParam{ServiceID} ) {
-                    $Error{Message} = $Self->{LogObject}->GetLogEntry(
+                    $Error{Message} = $LogObject->GetLogEntry(
                         Type => 'Error',
                         What => 'Message',
                     );
                 }
             }
             else {
-                my $Success = $Self->{ServiceObject}->ServiceUpdate(
+                my $Success = $ServiceObject->ServiceUpdate(
                     %GetParam,
                     UserID => $Self->{UserID},
                 );
                 if ( !$Success ) {
-                    $Error{Message} = $Self->{LogObject}->GetLogEntry(
+                    $Error{Message} = $LogObject->GetLogEntry(
                         Type => 'Error',
                         What => 'Message',
                     );
@@ -106,21 +104,21 @@ sub Run {
             if ( !%Error ) {
 
                 # update preferences
-                my %ServiceData = $Self->{ServiceObject}->ServiceGet(
+                my %ServiceData = $ServiceObject->ServiceGet(
                     ServiceID => $GetParam{ServiceID},
                     UserID    => $Self->{UserID},
                 );
                 my %Preferences = ();
-                if ( $Self->{ConfigObject}->Get('ServicePreferences') ) {
-                    %Preferences = %{ $Self->{ConfigObject}->Get('ServicePreferences') };
+                if ( $ConfigObject->Get('ServicePreferences') ) {
+                    %Preferences = %{ $ConfigObject->Get('ServicePreferences') };
                 }
                 for my $Item ( sort keys %Preferences ) {
                     my $Module = $Preferences{$Item}->{Module}
                         || 'Kernel::Output::HTML::ServicePreferencesGeneric';
 
                     # load module
-                    if ( !$Self->{MainObject}->Require($Module) ) {
-                        return $Self->{LayoutObject}->FatalError();
+                    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+                        return $LayoutObject->FatalError();
                     }
 
                     my $Object = $Module->new(
@@ -133,7 +131,7 @@ sub Run {
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            my @Array = $ParamObject->GetArray( Param => $ParamItem->{Name} );
                             $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
                         if (
@@ -143,21 +141,21 @@ sub Run {
                             )
                             )
                         {
-                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                            $Note .= $LayoutObject->Notify( Info => $Object->Error() );
                         }
                     }
                 }
 
                 # redirect to overview
-                return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+                return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
             }
         }
 
         # something went wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Error{Message}
-            ? $Self->{LayoutObject}->Notify(
+            ? $LayoutObject->Notify(
             Priority => 'Error',
             Info     => $Error{Message},
             )
@@ -169,7 +167,7 @@ sub Run {
             %GetParam,
             %Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
     }
 
@@ -179,37 +177,37 @@ sub Run {
     else {
 
         # output header
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
         # check if service is enabled to use it here
-        if ( !$Self->{ConfigObject}->Get('Ticket::Service') ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+        if ( !$ConfigObject->Get('Ticket::Service') ) {
+            $Output .= $LayoutObject->Notify(
                 Priority => 'Error',
-                Data => $Self->{LayoutObject}->{LanguageObject}->Translate( "Please activate %s first!", "Service" ),
+                Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Service" ),
                 Link =>
-                    $Self->{LayoutObject}->{Baselink}
+                    $LayoutObject->{Baselink}
                     . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Service',
             );
         }
 
         # output overview
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => { %Param, },
         );
 
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $LayoutObject->Block( Name => 'ActionList' );
+        $LayoutObject->Block( Name => 'ActionAdd' );
 
         # output overview result
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewList',
             Data => { %Param, },
         );
 
         # get service list
-        my $ServiceList = $Self->{ServiceObject}->ServiceListGet(
+        my $ServiceList = $ServiceObject->ServiceListGet(
             Valid  => 0,
             UserID => $Self->{UserID},
         );
@@ -218,7 +216,7 @@ sub Run {
         if ( @{$ServiceList} ) {
 
             # get valid list
-            my %ValidList = $Self->{ValidObject}->ValidList();
+            my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
 
             # sort the service list by long service name
             @{$ServiceList} = sort { $a->{Name} . '::' cmp $b->{Name} . '::' } @{$ServiceList};
@@ -226,7 +224,7 @@ sub Run {
             for my $ServiceData ( @{$ServiceList} ) {
 
                 # output row
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewListRow',
                     Data => {
                         %{$ServiceData},
@@ -239,18 +237,18 @@ sub Run {
 
         # otherwise a no data found msg is displayed
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {},
             );
         }
 
         # generate output
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminService',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -259,35 +257,40 @@ sub Run {
 sub _MaskNew {
     my ( $Self, %Param ) = @_;
 
+    my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
     my %ServiceData;
 
     # get params
-    $ServiceData{ServiceID} = $Self->{ParamObject}->GetParam( Param => "ServiceID" );
+    $ServiceData{ServiceID} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => "ServiceID" );
     if ( $ServiceData{ServiceID} ne 'NEW' ) {
-        %ServiceData = $Self->{ServiceObject}->ServiceGet(
+        %ServiceData = $ServiceObject->ServiceGet(
             ServiceID => $ServiceData{ServiceID},
             UserID    => $Self->{UserID},
         );
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # output overview
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => { %Param, },
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get list type
-    my $ListType = $Self->{ConfigObject}->Get('Ticket::Frontend::ListType');
+    my $ListType = $ConfigObject->Get('Ticket::Frontend::ListType');
 
     # generate ParentOptionStrg
-    my %ServiceList = $Self->{ServiceObject}->ServiceList(
+    my %ServiceList = $ServiceObject->ServiceList(
         Valid  => 0,
         UserID => $Self->{UserID},
     );
-    $ServiceData{ParentOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $ServiceData{ParentOptionStrg} = $LayoutObject->BuildSelection(
         Data           => \%ServiceList,
         Name           => 'ParentID',
         SelectedID     => $Param{ParentID} || $ServiceData{ParentID},
@@ -298,44 +301,44 @@ sub _MaskNew {
     );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $ServiceData{ValidOptionStrg} = $Self->{LayoutObject}->BuildSelection(
+    $ServiceData{ValidOptionStrg} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $ServiceData{ValidID} || $ValidListReverse{valid},
     );
 
     # output service edit
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ServiceEdit',
         Data => { %Param, %ServiceData, },
     );
 
     # shows header
     if ( $ServiceData{ServiceID} ne 'NEW' ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'HeaderEdit',
             Data => {%ServiceData},
         );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
     # show each preferences setting
     my %Preferences = ();
-    if ( $Self->{ConfigObject}->Get('ServicePreferences') ) {
-        %Preferences = %{ $Self->{ConfigObject}->Get('ServicePreferences') };
+    if ( $ConfigObject->Get('ServicePreferences') ) {
+        %Preferences = %{ $ConfigObject->Get('ServicePreferences') };
     }
     for my $Item ( sort keys %Preferences ) {
         my $Module = $Preferences{$Item}->{Module}
             || 'Kernel::Output::HTML::ServicePreferencesGeneric';
 
         # load module
-        if ( !$Self->{MainObject}->Require($Module) ) {
-            return $Self->{LayoutObject}->FatalError();
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+            return $LayoutObject->FatalError();
         }
         my $Object = $Module->new(
             %{$Self},
@@ -345,7 +348,7 @@ sub _MaskNew {
         my @Params = $Object->Param( ServiceData => \%ServiceData );
         if (@Params) {
             for my $ParamItem (@Params) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'Item',
                     Data => { %Param, },
                 );
@@ -354,12 +357,12 @@ sub _MaskNew {
                     || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
                     )
                 {
-                    $ParamItem->{'Option'} = $Self->{LayoutObject}->BuildSelection(
+                    $ParamItem->{'Option'} = $LayoutObject->BuildSelection(
                         %{ $Preferences{$Item} },
                         %{$ParamItem},
                     );
                 }
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
                     Data => {
                         %{ $Preferences{$Item} },
@@ -371,7 +374,7 @@ sub _MaskNew {
     }
 
     # generate output
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AdminService',
         Data         => \%Param
     );

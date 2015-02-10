@@ -12,6 +12,8 @@ package Kernel::Modules::AdminSession;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -19,20 +21,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject TimeObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $WantSessionID = $Self->{ParamObject}->GetParam( Param => 'WantSessionID' ) || '';
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+    my $WantSessionID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'WantSessionID' ) || '';
 
     # ------------------------------------------------------------ #
     # kill session id
@@ -40,10 +37,10 @@ sub Run {
     if ( $Self->{Subaction} eq 'Kill' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        $Self->{SessionObject}->RemoveSessionID( SessionID => $WantSessionID );
-        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminSession" );
+        $SessionObject->RemoveSessionID( SessionID => $WantSessionID );
+        return $LayoutObject->Redirect( OP => "Action=AdminSession" );
     }
 
     # ------------------------------------------------------------ #
@@ -52,10 +49,10 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'KillAll' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        $Self->{SessionObject}->CleanUp();
-        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminSession" );
+        $SessionObject->CleanUp();
+        return $LayoutObject->Redirect( OP => "Action=AdminSession" );
     }
 
     # ------------------------------------------------------------ #
@@ -64,10 +61,10 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Detail' ) {
 
         # Get data for session ID
-        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $WantSessionID );
+        my %Data = $SessionObject->GetSessionIDData( SessionID => $WantSessionID );
 
         if ( !%Data ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Message  => "No Session Data for Session ID $WantSessionID",
                 Priority => 'error',
             );
@@ -76,18 +73,18 @@ sub Run {
         $Data{SessionID} = $WantSessionID;
 
         # create blocks
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionList',
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionOverview',
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionKillSession',
             Data => {%Data},
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'DetailView',
             Data => {%Data},
         );
@@ -102,14 +99,16 @@ sub Run {
                     $Data{$Key} = 'xxxxxxxx';
                 }
                 else {
-                    $Data{$Key} = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$Key} );
+                    $Data{$Key} = $LayoutObject->Ascii2Html( Text => $Data{$Key} );
                 }
                 if ( $Key eq 'UserSessionStart' ) {
-                    my $Age = int(
-                        ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} )
+
+                    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+                    my $Age        = int(
+                        ( $TimeObject->SystemTime() - $Data{UserSessionStart} )
                         / 3600
                     );
-                    my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                    my $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                         SystemTime => $Data{UserSessionStart},
                     );
                     $Data{$Key} = "$TimeStamp / $Age h ";
@@ -125,7 +124,7 @@ sub Run {
             if ( $Data{$Key} ) {
 
                 # create blocks
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'DetailViewRow',
                     Data => {
                         Key   => $Key,
@@ -136,14 +135,14 @@ sub Run {
         }
 
         # generate output
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSession',
         );
 
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -153,7 +152,7 @@ sub Run {
     else {
 
         # get all sessions
-        my @List     = $Self->{SessionObject}->GetAllSessionIDs();
+        my @List     = $SessionObject->GetAllSessionIDs();
         my $Table    = '';
         my $Counter  = @List;
         my %MetaData = ();
@@ -162,13 +161,13 @@ sub Run {
         $MetaData{UserSessionUniq}     = 0;
         $MetaData{CustomerSessionUniq} = 0;
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
         );
 
         for my $SessionID (@List) {
             my $List = '';
-            my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+            my %Data = $SessionObject->GetSessionIDData( SessionID => $SessionID );
             $MetaData{"$Data{UserType}Session"}++;
             if ( !$MetaData{"$Data{UserLogin}"} ) {
                 $MetaData{"$Data{UserType}SessionUniq"}++;
@@ -178,7 +177,7 @@ sub Run {
             $Data{UserType} = 'Agent' if ( $Data{UserType} ne 'Customer' );
 
             # create blocks
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'Session',
                 Data => {
                     SessionID     => $SessionID,
@@ -190,10 +189,10 @@ sub Run {
         }
 
         # create blocks
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionList',
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ActionSummary',
             Data => {
                 Counter => $Counter,
@@ -202,16 +201,16 @@ sub Run {
         );
 
         # generate output
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSession',
             Data         => {
                 Counter => $Counter,
                 %MetaData
                 }
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }

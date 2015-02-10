@@ -9770,7 +9770,7 @@
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,2}$">12</String>
+            <String Regex="^([1-9]|[1-9][0-9])$">12</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterX-Header" Required="1" Valid="1">

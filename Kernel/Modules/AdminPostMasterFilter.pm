@@ -12,8 +12,7 @@ package Kernel::Modules::AdminPostMasterFilter;
 use strict;
 use warnings;
 
-use Kernel::System::DynamicField;
-use Kernel::System::PostMaster::Filter;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,33 +21,29 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{PostMasterFilter}   = Kernel::System::PostMaster::Filter->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' );
-    my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' );
-    my $StopAfterMatch = $Self->{ParamObject}->GetParam( Param => 'StopAfterMatch' ) || 0;
-    my %GetParam = ();
-    for my $Number ( 1 .. $Self->{ConfigObject}->Get('PostmasterHeaderFieldCount') ) {
-        $GetParam{"MatchHeader$Number"} = $Self->{ParamObject}->GetParam( Param => "MatchHeader$Number" );
-        $GetParam{"MatchValue$Number"}  = $Self->{ParamObject}->GetParam( Param => "MatchValue$Number" );
-        $GetParam{"MatchNot$Number"}    = $Self->{ParamObject}->GetParam( Param => "MatchNot$Number" );
-        $GetParam{"SetHeader$Number"}   = $Self->{ParamObject}->GetParam( Param => "SetHeader$Number" );
-        $GetParam{"SetValue$Number"}    = $Self->{ParamObject}->GetParam( Param => "SetValue$Number" );
+    my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $Name           = $ParamObject->GetParam( Param => 'Name' );
+    my $OldName        = $ParamObject->GetParam( Param => 'OldName' );
+    my $StopAfterMatch = $ParamObject->GetParam( Param => 'StopAfterMatch' ) || 0;
+    my %GetParam       = ();
+
+    for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
+        $GetParam{"MatchHeader$Number"} = $ParamObject->GetParam( Param => "MatchHeader$Number" );
+        $GetParam{"MatchValue$Number"}  = $ParamObject->GetParam( Param => "MatchValue$Number" );
+        $GetParam{"MatchNot$Number"}    = $ParamObject->GetParam( Param => "MatchNot$Number" );
+        $GetParam{"SetHeader$Number"}   = $ParamObject->GetParam( Param => "SetHeader$Number" );
+        $GetParam{"SetValue$Number"}    = $ParamObject->GetParam( Param => "SetValue$Number" );
     }
+
+    my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $PostMasterFilter = $Kernel::OM->Get('Kernel::System::PostMaster::Filter');
 
     # ------------------------------------------------------------ #
     # delete
@@ -56,12 +51,12 @@ sub Run {
     if ( $Self->{Subaction} eq 'Delete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        if ( !$Self->{PostMasterFilter}->FilterDelete( Name => $Name ) ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+        if ( !$PostMasterFilter->FilterDelete( Name => $Name ) ) {
+            return $LayoutObject->ErrorScreen();
         }
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -75,9 +70,9 @@ sub Run {
     # update
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Update' ) {
-        my %Data = $Self->{PostMasterFilter}->FilterGet( Name => $Name );
+        my %Data = $PostMasterFilter->FilterGet( Name => $Name );
         if ( !%Data ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "No such filter: $Name" );
+            return $LayoutObject->ErrorScreen( Message => "No such filter: $Name" );
         }
         return $Self->_MaskUpdate(
             Name => $Name,
@@ -91,13 +86,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdateAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my %Match = ();
         my %Set   = ();
         my %Not;
 
-        for my $Number ( 1 .. $Self->{ConfigObject}->Get('PostmasterHeaderFieldCount') ) {
+        for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
             if ( $GetParam{"MatchHeader$Number"} && $GetParam{"MatchValue$Number"} ) {
                 $Match{ $GetParam{"MatchHeader$Number"} } = $GetParam{"MatchValue$Number"};
                 $Not{ $GetParam{"MatchHeader$Number"} }   = $GetParam{"MatchNot$Number"};
@@ -157,37 +152,37 @@ sub Run {
                 },
             );
         }
-        $Self->{PostMasterFilter}->FilterDelete( Name => $OldName );
-        $Self->{PostMasterFilter}->FilterAdd(
+        $PostMasterFilter->FilterDelete( Name => $OldName );
+        $PostMasterFilter->FilterAdd(
             Name           => $Name,
             Match          => \%Match,
             Set            => \%Set,
             StopAfterMatch => $StopAfterMatch,
             Not            => \%Not,
         );
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
     else {
-        my %List = $Self->{PostMasterFilter}->FilterList();
+        my %List = $PostMasterFilter->FilterList();
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => { %Param, },
         );
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
+        $LayoutObject->Block( Name => 'ActionList' );
+        $LayoutObject->Block( Name => 'ActionAdd' );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OverviewResult',
             Data => { %Param, },
         );
         if (%List) {
             for my $Key ( sort keys %List ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewResultRow',
                     Data => {
                         Name => $Key,
@@ -196,19 +191,19 @@ sub Run {
             }
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoDataFoundMsg',
                 Data => {},
             );
         }
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminPostMasterFilter',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }
@@ -239,18 +234,22 @@ sub _MaskUpdate {
         }
     }
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Self->{LayoutObject}->Block( Name => 'Overview' );
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+
+    $LayoutObject->Block( Name => 'Overview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # all headers
-    my @Headers = @{ $Self->{ConfigObject}->Get('PostmasterX-Header') };
+    my @Headers = @{ $ConfigObject->Get('PostmasterX-Header') };
 
     # add Dynamic Field headers
-    my $DynamicFields = $Self->{DynamicFieldObject}->DynamicFieldList(
+    my $DynamicFields = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
         Valid      => 1,
         ObjectType => [ 'Ticket', 'Article' ],
         ResultType => 'HASH',
@@ -274,8 +273,8 @@ sub _MaskUpdate {
     $SetHeader{''} = '-';
 
     # build strings
-    for my $Number ( 1 .. $Self->{ConfigObject}->Get('PostmasterHeaderFieldCount') ) {
-        $Data{"MatchHeader$Number"} = $Self->{LayoutObject}->BuildSelection(
+    for my $Number ( 1 .. $ConfigObject->Get('PostmasterHeaderFieldCount') ) {
+        $Data{"MatchHeader$Number"} = $LayoutObject->BuildSelection(
             Data        => \%Header,
             Name        => "MatchHeader$Number",
             SelectedID  => $Data{"MatchHeader$Number"},
@@ -283,7 +282,7 @@ sub _MaskUpdate {
             Translation => 0,
             HTMLQuote   => 1,
         );
-        $Data{"SetHeader$Number"} = $Self->{LayoutObject}->BuildSelection(
+        $Data{"SetHeader$Number"} = $LayoutObject->BuildSelection(
             Data        => \%SetHeader,
             Name        => "SetHeader$Number",
             SelectedID  => $Data{"SetHeader$Number"},
@@ -292,7 +291,7 @@ sub _MaskUpdate {
             HTMLQuote   => 1,
         );
     }
-    $Data{"StopAfterMatch"} = $Self->{LayoutObject}->BuildSelection(
+    $Data{"StopAfterMatch"} = $LayoutObject->BuildSelection(
         Data => {
             0 => 'No',
             1 => 'Yes'
@@ -304,7 +303,7 @@ sub _MaskUpdate {
         HTMLQuote   => 1,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param, %Data,
@@ -314,17 +313,17 @@ sub _MaskUpdate {
 
     # shows header
     if ( $Self->{Subaction} eq 'AddAction' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminPostMasterFilter',
         Data         => \%Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 

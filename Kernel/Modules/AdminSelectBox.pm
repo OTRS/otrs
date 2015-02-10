@@ -13,7 +13,7 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 use warnings;
 
-use Kernel::System::CSV;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,39 +22,37 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject LogObject ConfigObject TimeObject)) {
-        $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" ) if !$Self->{$Needed};
-    }
-
-    $Self->{CSVObject} = Kernel::System::CSV->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # secure mode message (don't allow this action until secure mode is enabled)
-    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        return $Self->{LayoutObject}->SecureMode();
+    if ( !$ConfigObject->Get('SecureMode') ) {
+        return $LayoutObject->SecureMode();
     }
 
-    $Param{ResultFormatStrg} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ResultFormatStrg} = $LayoutObject->BuildSelection(
         Name => 'ResultFormat',
         Data => [ 'HTML', 'CSV', 'Excel' ],
     );
 
-    if ( !$Self->{ConfigObject}->Get('AdminSelectBox::AllowDatabaseModification') ) {
-        $Self->{LayoutObject}->Block(
+    if ( !$ConfigObject->Get('AdminSelectBox::AllowDatabaseModification') ) {
+        $LayoutObject->Block(
             Name => 'ExplanationOnlySelect',
         );
     }
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ExplanationAllSqlQueries',
         );
     }
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # ------------------------------------------------------------ #
     # do select
@@ -63,11 +61,11 @@ sub Run {
         my %Errors;
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get params
         for my $Parameter (qw(SQL Max ResultFormat)) {
-            $Param{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $Param{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # check needed data
@@ -77,7 +75,7 @@ sub Run {
         }
 
         # check if enabled all SQL queries
-        if ( !$Self->{ConfigObject}->Get('AdminSelectBox::AllowDatabaseModification') ) {
+        if ( !$ConfigObject->Get('AdminSelectBox::AllowDatabaseModification') ) {
 
             # check if SQL query is "SELECT" one
             if ( uc( $Param{SQL} ) !~ m{ \A \s* (?:SELECT|SHOW|DESC) }smx ) {
@@ -89,9 +87,11 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
+            my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
             # fetch database and add row blocks
             if (
-                $Self->{DBObject}->Prepare(
+                $DBObject->Prepare(
                     SQL   => $Param{SQL},
                     Limit => $Param{Max}
                 )
@@ -102,14 +102,14 @@ sub Run {
                 my $MatchesFound;
 
                 # add result block
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'Result',
                     Data => \%Param,
                 );
 
-                my @Head = $Self->{DBObject}->GetColumnNames();
+                my @Head = $DBObject->GetColumnNames();
                 for my $Column (@Head) {
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'ColumnHead',
                         Data => {
                             ColumnName => $Column,
@@ -119,7 +119,7 @@ sub Run {
 
                 # if there are any matching rows, they are shown
                 ROW:
-                while ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
+                while ( my @Row = $DBObject->FetchrowArray( RowNames => 1 ) ) {
 
                     $MatchesFound = 1;
 
@@ -133,7 +133,7 @@ sub Run {
                         next ROW;
                     }
 
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'Row',
                     );
 
@@ -144,7 +144,7 @@ sub Run {
                             $Item = 'NULL';
                         }
 
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'Cell',
                             Data => {
                                 Content => $Item,
@@ -156,7 +156,7 @@ sub Run {
                 # otherwise a no matches found msg is displayed
                 if ( !$MatchesFound ) {
                     if ( uc( $Param{SQL} ) !~ m{ \A \s* (?:SELECT|SHOW|DESC) }smx ) {
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'NoSelectResult',
                             Data => {
                                 Colspan => scalar @Head,
@@ -164,7 +164,7 @@ sub Run {
                         );
                     }
                     else {
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'NoMatches',
                             Data => {
                                 Colspan => scalar @Head,
@@ -174,26 +174,27 @@ sub Run {
                 }
 
                 # get Separator from language file
-                my $UserCSVSeparator = $Self->{LayoutObject}->{LanguageObject}->{Separator};
+                my $UserCSVSeparator = $LayoutObject->{LanguageObject}->{Separator};
 
-                if ( $Self->{ConfigObject}->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
-                    my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+                if ( $ConfigObject->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
+                    my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{UserID} );
                     $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
                 }
 
-                my $TimeStamp = $Self->{TimeObject}->CurrentTimestamp();
+                my $TimeStamp = $Kernel::OM->Get('Kernel::System::Time')->CurrentTimestamp();
                 $TimeStamp =~ s/[:-]//g;
                 $TimeStamp =~ s/ /-/;
-                my $FileName = 'admin-select-' . $TimeStamp;
+                my $FileName  = 'admin-select-' . $TimeStamp;
+                my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
 
                 # generate csv output
                 if ( $Param{ResultFormat} eq 'CSV' ) {
-                    my $CSV = $Self->{CSVObject}->Array2CSV(
+                    my $CSV = $CSVObject->Array2CSV(
                         Head      => \@Head,
                         Data      => \@Data,
                         Separator => $UserCSVSeparator,
                     );
-                    return $Self->{LayoutObject}->Attachment(
+                    return $LayoutObject->Attachment(
                         Filename    => "$FileName" . ".csv",
                         ContentType => 'text/csv',
                         Content     => $CSV,
@@ -203,12 +204,12 @@ sub Run {
 
                 # generate Excel output
                 elsif ( $Param{ResultFormat} eq 'Excel' ) {
-                    my $Excel = $Self->{CSVObject}->Array2CSV(
+                    my $Excel = $CSVObject->Array2CSV(
                         Head   => \@Head,
                         Data   => \@Data,
                         Format => 'Excel',
                     );
-                    return $Self->{LayoutObject}->Attachment(
+                    return $LayoutObject->Attachment(
                         Filename => "$FileName" . ".xlsx",
                         ContentType =>
                             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -218,17 +219,17 @@ sub Run {
                 }
 
                 # generate html output
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminSelectBox',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
             else {
-                $Errors{ErrorMessage} = $Self->{LogObject}->GetLogEntry(
+                $Errors{ErrorMessage} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
                     Type => 'Error',
                     What => 'Message',
                 );
@@ -238,22 +239,22 @@ sub Run {
         }
 
         # add server error message block
-        $Self->{LayoutObject}->Block( Name => $Errors{ErrorType} . 'ServerError' );
+        $LayoutObject->Block( Name => $Errors{ErrorType} . 'ServerError' );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify(
             Info     => $Errors{ErrorMessage},
             Priority => 'Error'
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSelectBox',
             Data         => {
                 %Param,
                 %Errors,
             },
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -263,16 +264,16 @@ sub Run {
     else {
 
         # get params
-        $Param{SQL} = $Self->{ParamObject}->GetParam( Param => 'SQL' ) || 'SELECT * FROM ';
-        $Param{Max} = $Self->{ParamObject}->GetParam( Param => 'Max' ) || 40;
+        $Param{SQL} = $ParamObject->GetParam( Param => 'SQL' ) || 'SELECT * FROM ';
+        $Param{Max} = $ParamObject->GetParam( Param => 'Max' ) || 40;
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSelectBox',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }
