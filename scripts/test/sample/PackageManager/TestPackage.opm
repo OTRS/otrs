@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+  <Name>Test</Name>
+  <Version>0.0.1</Version>
+  <Vendor>OTRS AG</Vendor>
+  <URL>http://otrs.org/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 199</License>
+  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
+  <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
+  <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
+  <ModuleRequired Version="1.112">Encode</ModuleRequired>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <CodeInstall>
+   # just a test &lt;some&gt; plus some &amp; text
+  </CodeInstall>
+  <DatabaseInstall>
+    <TableCreate Name="test_package">
+        <Column Name="name_a" Required="true" Type="INTEGER"/>
+        <Column Name="name_b" Required="true" Size="60" Type="VARCHAR"/>
+        <Column Name="name_c" Required="false" Size="60" Type="VARCHAR"/>
+    </TableCreate>
+    <Insert Table="test_package">
+        <Data Key="name_a">1234</Data>
+        <Data Key="name_b" Type="Quote">some text</Data>
+        <Data Key="name_c" Type="Quote">some text &lt;more&gt;
+          text &amp; text
+        </Data>
+    </Insert>
+    <Insert Table="test_package">
+        <Data Key="name_a">0</Data>
+        <Data Key="name_b" Type="Quote">1</Data>
+    </Insert>
+  </DatabaseInstall>
+  <DatabaseUninstall>
+    <TableDrop Name="test_package"/>
+  </DatabaseUninstall>
+  <Filelist>
+    <File Location="var/tmp/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location="var/Test" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otrs_package>
