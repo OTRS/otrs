@@ -1,4 +1,5 @@
 #3.3.12 ???-??-??
+ - 2015-02-06 Fixed bug#[10942](http://bugs.otrs.org/show_bug.cgi?id=10942) - Adressbook search does not permit to add contacts via click.
  - 2015-02-03 Fixed bug#[11050](http://bugs.otrs.org/show_bug.cgi?id=11050) - Wrong sortation of Ticket Overview settings.
  - 2015-02-03 Fixed bug#[10955](http://bugs.otrs.org/show_bug.cgi?id=10955) - Missing translations in Dashboard and TicketOverview settings.
  - 2015-01-30 Fixed bug#[11018](http://bugs.otrs.org/show_bug.cgi?id=11018) - Internal Server Error, instead of warning.
