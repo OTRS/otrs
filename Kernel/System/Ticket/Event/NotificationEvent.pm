@@ -638,20 +638,6 @@ sub _SendNotification {
     # get recipient data
     my %Recipient = %{ $Param{Recipient} };
 
-    # convert values to html to get correct line breaks etc.
-    if ( $Notification{Type} =~ m{text\/html} ) {
-
-        KEY:
-        for my $Key ( sort keys %Recipient ) {
-
-            next KEY if !$Recipient{$Key};
-
-            $Recipient{$Key} = $HTMLUtilsObject->ToHTML(
-                String => $Recipient{$Key},
-            );
-        }
-    }
-
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
