@@ -665,19 +665,33 @@ sub ArticleAttachment {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    # try database
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT content_type, content, content_id, content_alternative, disposition, filename
+            SELECT id
             FROM article_attachment
             WHERE article_id = ?
             ORDER BY filename, id',
         Bind   => [ \$Param{ArticleID} ],
         Limit  => $Param{FileID},
+    );
+
+    my $AttachmentID;
+    while ( my @Row = $DBObject->FetchrowArray() ) {
+        $AttachmentID = $Row[0];
+    }
+
+    # try database
+    return if !$DBObject->Prepare(
+        SQL => '
+            SELECT content_type, content, content_id, content_alternative, disposition, filename
+            FROM article_attachment
+            WHERE id = ?',
+        Bind   => [ \$AttachmentID ],
         Encode => [ 1, 0, 0, 0, 1, 1 ],
     );
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
+
         $Data{ContentType} = $Row[0];
 
         # decode attachment if it's e. g. a postgresql backend!!!
