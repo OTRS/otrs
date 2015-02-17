@@ -173,10 +173,6 @@ sub Run {
         $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
     }
 
-    # ACL compatibility translation
-    my %ACLCompatGetParam;
-    $ACLCompatGetParam{OwnerID} = $GetParam{NewUserID};
-
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
@@ -218,13 +214,11 @@ sub Run {
 
         my $Priorities = $Self->_GetPriorities(
             %GetParam,
-            %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
             TicketID => $Self->{TicketID},
         );
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
-            %ACLCompatGetParam,
             CustomerUserID => $CustomerUser || '',
             TicketID => $Self->{TicketID},
         );
@@ -255,7 +249,6 @@ sub Run {
             # set possible values filter from ACLs
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 %GetParam,
-                %ACLCompatGetParam,
                 Action         => $Self->{Action},
                 ReturnType     => 'Ticket',
                 ReturnSubType  => 'DynamicField_' . $DynamicFieldConfig->{Name},
@@ -522,7 +515,6 @@ sub Run {
                 TicketState   => $Ticket{State},
                 TicketStateID => $Ticket{StateID},
                 %GetParam,
-                %ACLCompatGetParam,
                 DynamicFieldHTML => \%DynamicFieldHTML,
             );
             $Output .= $Self->{LayoutObject}->CustomerFooter();
@@ -794,7 +786,6 @@ sub Run {
         TicketState   => $Ticket{State},
         TicketStateID => $Ticket{StateID},
         %GetParam,
-        %ACLCompatGetParam,
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
 
