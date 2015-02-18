@@ -1733,7 +1733,7 @@ sub Data {
             'Bitte registrieren Sie Ihr OTRS Free zunächst, wenn Sie mit dem Upgrade auf die %s fortfahren möchten!',
         'Register this System' => 'Registrieren Sie dieses System',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'Die Systemregistrierung ist für Ihr System deaktiviert. Bitte überprüfen Sie die Konfiguration.',
         'Before you can benefit from %s, please contact %s to get your %s contract.' =>
             'Damit Sie schon bald die %s nutzen können, fehlt nur noch ein Schritt: Bitte kontaktieren Sie unser Sales Team unter %s, um einen Vertrag abzuschließen.',
         'Connection to cloud.otrs.com via HTTPS couldn\'t be established. Please make sure that your OTRS can connect to cloud.otrs.com via port 443.' =>
@@ -1756,9 +1756,9 @@ sub Data {
         'Chat' => 'Chat',
         'Timeline view in ticket zoom' => 'Timeline-View im Ticket-Zoom',
         'DynamicField ContactWithData' => 'Dynamisches Feld Kontaktdaten',
-        'DynamicField Database' => '',
-        'SLA Selection Dialog' => '',
-        'Ticket Attachment View' => '',
+        'DynamicField Database' => 'Dynamisches Datenbank Feld',
+        'SLA Selection Dialog' => 'SLA Auswahldialog',
+        'Ticket Attachment View' => 'Ticket-Anlagenansicht',
         'The %s skin' => 'Den %s-Skin',
 
         # Template: AdminPGP
@@ -1910,7 +1910,7 @@ sub Data {
         'Please note that changing this activity dialog will affect the following activities' =>
             'Veränderungen an diesem ActivityDialog werden sich auf folgende Activities auswirken',
         'Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID.' =>
-            'Bitte beachten Sie, dass Kunden-Benutzer die folgenden Felder nicht sehen oder benutzen können: Besitzer (Owner), Verantwortlicher (Responsible), Sperre (Lock), Warten bis (PendingTime) und Kundennummer (CustomerID).',
+            'Bitte beachten Sie, dass Kundenbenutzer die folgenden Felder nicht sehen oder benutzen können: Besitzer (Owner), Verantwortlicher (Responsible), Sperre (Lock), Warten bis (PendingTime) und Kundennummer (CustomerID).',
         'The Queue field can only be used by customers when creating a new ticket.' =>
             'Das Queue-Feld kann nur von Kunden ausgewählt werden, wenn diese ein neues Ticket erstellen.',
         'Activity Dialog' => 'Aktivitäts-Dialog',
@@ -2791,7 +2791,7 @@ sub Data {
         'Inform involved Agents' => 'Involvierte Agenten informieren',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Hier können Sie zusätzliche Agenten auswählen, die eine Benachrichtigung über den neuen Artikel enthalten sollen.',
-        'Note will be (also) received by:' => '',
+        'Note will be (also) received by:' => 'Die Notiz wird (auch) gesendet an:',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Ticket umleiten',
@@ -3057,7 +3057,7 @@ sub Data {
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'z. B. 10*5155 oder 105658*',
-        'Customer ID' => 'Kunden-ID',
+        'Customer ID' => 'Kundennummer',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Volltextsuche in Tickets (z. B. "Max*" oder "Muster*")',
         'Carbon Copy' => 'Kopie an',
         'e. g. m*file or myfi*' => 'z.B.. m*file oder myfi*',
@@ -3131,7 +3131,7 @@ sub Data {
         # Template: Header
         'You are logged in as' => 'Angemeldet als',
         'There are new chat requests available. Please visit the chat manager.' =>
-            '',
+            'Es sind neue Chat-Anfragen verfügbar. Bitte öffnen Sie die Chat-Verwaltung.',
 
         # Template: Installer
         'JavaScript not available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
@@ -3325,7 +3325,7 @@ sub Data {
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
             'Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf vorhandene und gültige S/MIME-Schlüssel zu überprüfen. ',
         'Agent interface notification module to see the number of locked tickets.' =>
-            '',
+            'Benachrichtigunsmodul im Agenten-Interface um die Anzahl an gesperrten Tickets einsehen zu können.',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
             'Benachrichtigungsmodul im Agenten-Interface um die Zahl der Tickets anzuzeigen, für die ein Agent verantwortlich ist.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
@@ -3505,7 +3505,7 @@ sub Data {
         'Create new email ticket and send this out (outbound)' => 'Neues E-Mail-Ticket erzeugen und versenden (ausgehend)',
         'Create new phone ticket (inbound)' => 'Neues Telefonticket erstellen (eingehend)',
         'Create new process ticket' => 'Neues Prozessticket',
-        'Custom RSS Feed' => '',
+        'Custom RSS Feed' => 'Benutzerspezifischer RSS Feed',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Benutzerdefinierter Text für Kunden, die noch keine Tickets haben (wenn Sie für diesen Text eine Übersetzung wünschen, fügen Sie die Übersetzung in einem eigenen Übersetzungsmodul hinzu).',
         'Customer Administration' => 'Kundenverwaltung',
@@ -3519,8 +3519,8 @@ sub Data {
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Kunden-Tickets (Symbol), die die offenen Tickets eines Kunden als Infoblock anzeigt. Setzen Sie die Einstellung CustomerUserLogin auf 1 um Tickets auf Basis des Login-Namens zu suchen anstatt auf Basis der CustomerID.',
         'Customer request via web.' => 'Kunde stellte Anfrage über Web.',
-        'Customer user search' => '',
-        'CustomerID search' => '',
+        'Customer user search' => 'Kundenbenutzersuche',
+        'CustomerID search' => 'Kundennummernsuche',
         'CustomerName' => 'Kundenname',
         'Customers <-> Groups' => 'Kunden <-> Gruppen',
         'Data used to export the search result in CSV format.' => 'Daten die verwendet werden um das Suchergebnis im CSV-Format zu exportieren.',
@@ -3554,8 +3554,8 @@ sub Data {
             'Definiert dynamische Feldnamen für die Startzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define the max depth of queues.' => 'Definiert die maximale Tiefe von Queues',
         'Define the queue comment 2.' => 'Definiert den 2. Queue-Kommentar',
-        'Define the service comment 2.' => '',
-        'Define the sla comment 2.' => '',
+        'Define the service comment 2.' => 'Lege den Servicekommentar 2 fest.',
+        'Define the sla comment 2.' => 'Lege den SLA-Kommentar 2 fest.',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             'Definiert den Wochentag, mit dem die Woche im angegebenen Kalender beginnt.',
         'Define the start day of the week for the date picker.' => 'Definiert den Beginn einer Woche für den Datumswähler.',

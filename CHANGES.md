@@ -9,6 +9,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.6 2015-??-??
+ - 2015-02-18 Updated translations, thanks to all translators.
  - 2015-02-13 Fixed bug#[11038](http://bugs.otrs.org/show_bug.cgi?id=11038) - Notification is not sent.
  - 2015-02-13 Added otrs.CheckCloudServices.pl script to help to diagnose cloud services connection problems.
  - 2015-02-09 Fixed bug#[10905](http://bugs.otrs.org/show_bug.cgi?id=10905) - ArticleContent with Inline-Images are not shown completely.
