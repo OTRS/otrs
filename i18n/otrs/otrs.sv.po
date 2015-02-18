@@ -2,12 +2,13 @@
 # Translators:
 # andreasberger <andreas.berger@hagfors.se>, 2014
 # andreasberger <andreas.berger@hagfors.se>, 2014-2015
+# Anthon Nilsson <superdos@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-02-09 09:30+0000\n"
-"Last-Translator: Marc A. Bonsels\n"
+"PO-Revision-Date: 2015-02-18 19:15+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -809,11 +810,11 @@ msgstr "Vänligen kontakta din administratör"
 
 #. Template: AAABase
 msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
-msgstr ""
+msgstr "Autentisering lyckad, men inga kunder-poster fanns i kunddatabase. Vänligen kontakta din administratör."
 
 #. Template: AAABase
 msgid "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Den här e-postadressen finns redan. Vänligen logga in eller återställ ditt lösenord."
 
 #. Template: AAABase
 msgid "Logout"
@@ -1041,7 +1042,7 @@ msgstr "Kö uppdaterad!"
 
 #. Template: AAABase
 msgid "State added!"
-msgstr ""
+msgstr "Status tillagd!"
 
 #. Template: AAABase
 msgid "State updated!"
@@ -1477,7 +1478,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "The license for your %s is about to expire. Please make contact with %s to renew your contract!"
-msgstr ""
+msgstr "Din licens för %s håller på att gå ut. Vänligen ta kontakt med %s för att förnya ditt kontrakt!"
 
 #. Template: AAABase
 msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
@@ -1509,7 +1510,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s blev avinstallerat korrekt."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
@@ -2477,7 +2478,7 @@ msgstr "Statusvy"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Service-vy"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2957,7 +2958,7 @@ msgstr "Skapa"
 
 #. Template: AAATicket
 msgid "Answer"
-msgstr ""
+msgstr "Svar"
 
 #. Template: AAATicket
 msgid "Phone call"
@@ -3393,7 +3394,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr ""
+msgstr "Frånvarande"
 
 #. Template: AAATicket
 msgid "New Ticket"
@@ -3709,11 +3710,11 @@ msgstr "Autosvar-hantering"
 
 #. Template: AdminAutoResponse
 msgid "Add auto response"
-msgstr ""
+msgstr "Lägg till autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Add Auto Response"
-msgstr ""
+msgstr "Lägg till Autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Edit Auto Response"
@@ -3733,7 +3734,7 @@ msgstr "Referens"
 
 #. Template: AdminAutoResponse
 msgid "You can use the following tags"
-msgstr ""
+msgstr "Du kan använda följande taggar"
 
 #. Template: AdminAutoResponse
 msgid "To get the first 20 character of the subject."
@@ -4189,7 +4190,7 @@ msgstr "Ta bort värde"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add value"
-msgstr ""
+msgstr "Lägg till värde"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add Value"
@@ -4317,7 +4318,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add job"
-msgstr ""
+msgstr "Lägg till jobb"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -4341,7 +4342,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Job name"
-msgstr ""
+msgstr "Namn på jobb"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
@@ -4413,7 +4414,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Lägg till Händelse"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name and click on the \"+\" button"
@@ -4461,7 +4462,7 @@ msgstr "Agent"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr ""
+msgstr "Ärendelås"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -4729,11 +4730,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
-msgstr ""
+msgstr "Ändra jobb"
 
 #. Template: AdminGenericAgent
 msgid "Run job"
-msgstr ""
+msgstr "Kör jobb"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
@@ -6209,15 +6210,15 @@ msgstr ""
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
-msgstr ""
+msgstr "Radera detta filter"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr ""
+msgstr "Lägg till PostMaster-filter"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr ""
+msgstr "Ändra PostMaster-Filter"
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
@@ -8469,7 +8470,7 @@ msgstr "Totaler"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "frånvarande"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -9081,7 +9082,7 @@ msgstr "Historik för"
 
 #. Template: AgentTicketHistory
 msgid "History Content"
-msgstr ""
+msgstr "Historikinnehåll"
 
 #. Template: AgentTicketHistory
 msgid "Zoom view"
@@ -9525,7 +9526,7 @@ msgstr ""
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Första meddelandet"
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -10937,7 +10938,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Administration"
-msgstr ""
+msgstr "Kundadministration"
 
 #. SysConfig
 msgid "Customer User <-> Groups"
@@ -13040,7 +13041,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
@@ -13285,7 +13286,7 @@ msgstr "Efternamn, förnamn"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "Förnamn Efternamn (Användarnamn)"
 
 #. SysConfig
 msgid "Left"
@@ -13701,7 +13702,7 @@ msgstr "Öppna ärenden (kund)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Frånvarande"
 
 #. SysConfig
 msgid "Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations."

@@ -12,6 +12,7 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
+# nilsleideck <nils.leideck@leidex.net>, 2015
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
 # ru_otrs <robert.ullrich@otrs.com>, 2014
@@ -19,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-02-09 09:51+0000\n"
-"Last-Translator: Marc A. Bonsels\n"
+"PO-Revision-Date: 2015-02-18 19:15+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -5870,7 +5871,7 @@ msgstr "Registrieren Sie dieses System"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "System Registration is disabled for your system. Please check your configuration."
-msgstr ""
+msgstr "Die Systemregistrierung ist für Ihr System deaktiviert. Bitte überprüfen Sie die Konfiguration."
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "Before you can benefit from %s, please contact %s to get your %s contract."
@@ -5926,15 +5927,15 @@ msgstr "Dynamisches Feld Kontaktdaten"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField Database"
-msgstr ""
+msgstr "Dynamisches Datenbank Feld"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "SLA Selection Dialog"
-msgstr ""
+msgstr "SLA Auswahldialog"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Ticket Attachment View"
-msgstr ""
+msgstr "Ticket-Anlagenansicht"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
@@ -6406,7 +6407,7 @@ msgstr "Veränderungen an diesem ActivityDialog werden sich auf folgende Activit
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Please note that customer users will not be able to see or use the following fields: Owner, Responsible, Lock, PendingTime and CustomerID."
-msgstr "Bitte beachten Sie, dass Kunden-Benutzer die folgenden Felder nicht sehen oder benutzen können: Besitzer (Owner), Verantwortlicher (Responsible), Sperre (Lock), Warten bis (PendingTime) und Kundennummer (CustomerID)."
+msgstr "Bitte beachten Sie, dass Kundenbenutzer die folgenden Felder nicht sehen oder benutzen können: Besitzer (Owner), Verantwortlicher (Responsible), Sperre (Lock), Warten bis (PendingTime) und Kundennummer (CustomerID)."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The Queue field can only be used by customers when creating a new ticket."
@@ -8946,7 +8947,7 @@ msgstr "Hier können Sie zusätzliche Agenten auswählen, die eine Benachrichtig
 
 #. Template: AgentTicketActionCommon
 msgid "Note will be (also) received by:"
-msgstr ""
+msgstr "Die Notiz wird (auch) gesendet an:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -9710,7 +9711,7 @@ msgstr "z. B. 10*5155 oder 105658*"
 
 #. Template: CustomerTicketSearch
 msgid "Customer ID"
-msgstr "Kunden-ID"
+msgstr "Kundennummer"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
@@ -9934,7 +9935,7 @@ msgstr "Angemeldet als"
 
 #. Template: Header
 msgid "There are new chat requests available. Please visit the chat manager."
-msgstr ""
+msgstr "Es sind neue Chat-Anfragen verfügbar. Bitte öffnen Sie die Chat-Verwaltung."
 
 #. Template: Installer
 msgid "JavaScript not available"
@@ -10458,7 +10459,7 @@ msgstr "Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView a
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of locked tickets."
-msgstr ""
+msgstr "Benachrichtigunsmodul im Agenten-Interface um die Anzahl an gesperrten Tickets einsehen zu können."
 
 #. SysConfig
 msgid "Agent interface notification module to see the number of tickets an agent is responsible for."
@@ -10942,7 +10943,7 @@ msgstr "Neues Prozessticket"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "Benutzerspezifischer RSS Feed"
 
 #. SysConfig
 msgid "Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module)."
@@ -10986,11 +10987,11 @@ msgstr "Kunde stellte Anfrage über Web."
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "Kundenbenutzersuche"
 
 #. SysConfig
 msgid "CustomerID search"
-msgstr ""
+msgstr "Kundennummernsuche"
 
 #. SysConfig
 msgid "CustomerName"
@@ -11086,11 +11087,11 @@ msgstr "Definiert den 2. Queue-Kommentar"
 
 #. SysConfig
 msgid "Define the service comment 2."
-msgstr ""
+msgstr "Lege den Servicekommentar 2 fest."
 
 #. SysConfig
 msgid "Define the sla comment 2."
-msgstr ""
+msgstr "Lege den SLA-Kommentar 2 fest."
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker for the indicated calendar."
@@ -13053,7 +13054,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

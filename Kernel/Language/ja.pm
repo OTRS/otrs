@@ -411,7 +411,7 @@ sub Data {
         'Redo' => 'やり直し',
         'Scheduler process is registered but might not be running.' => 'スケジューラプロセスは登録されているものの起動していないかもしれません。',
         'Scheduler is not running.' => 'スケジューラが起動していません。',
-        'All sessions have been killed, except for your own.' => '',
+        'All sessions have been killed, except for your own.' => '貴方自身のセッション以外のセッションは切断されました。',
         'Can\'t contact registration server. Please try again later.' => '登録サーバに接続できません。しばらくしてから再試行してください。',
         'No content received from registration server. Please try again later.' =>
             '登録サーバから受信した内容がありません。しばらくしてから再試行してください。',

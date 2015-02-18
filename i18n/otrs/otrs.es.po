@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-02-09 09:30+0000\n"
-"Last-Translator: Marc A. Bonsels\n"
+"PO-Revision-Date: 2015-02-18 19:15+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -352,7 +352,7 @@ msgstr "ninguno  - respondido"
 
 #. Template: AAABase
 msgid "please do not edit!"
-msgstr "¡Por favor, no lo edite!"
+msgstr "¡Por favor, no editar!"
 
 #. Template: AAABase
 msgid "Need Action"
@@ -768,7 +768,7 @@ msgstr "¡El juego de caracteres recomendado para su idioma es %s!"
 
 #. Template: AAABase
 msgid "Change your password."
-msgstr "Cambiar la contraseña"
+msgstr "Cambie su contraseña"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
@@ -792,11 +792,11 @@ msgstr "reemplazar con"
 
 #. Template: AAABase
 msgid "There is no account with that login name."
-msgstr "No existe ninguna cuenta con ese nombre de usuario"
+msgstr "No existe ninguna cuenta con ese nombre de usuario."
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "El inicio de sesión ha fallado. Nombre de usuario o contraseña incorrecto."
+msgstr "Inicio de sesión fallido. El nombre de usuario o contraseña son incorrectas."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
@@ -808,7 +808,7 @@ msgstr "Por favor, contacte con su administrador"
 
 #. Template: AAABase
 msgid "Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator."
-msgstr "Autenticación exitosa, pero no se encontró ningún registro del cliente en el backend cliente. Por favor contactar con su administrador"
+msgstr "Autenticación exitosa, pero no se encontró ningún registro del cliente en el backend cliente. Por favor, contactar con su administrador"
 
 #. Template: AAABase
 msgid "This e-mail address already exists. Please log in or reset your password."
@@ -872,7 +872,7 @@ msgstr "Configurar el correo"
 
 #. Template: AAABase
 msgid "Database deleted."
-msgstr "Base de datos borroada."
+msgstr "Base de datos borrada."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
@@ -892,7 +892,7 @@ msgstr "La base de datos ya contiene datos. Debería estar vacía."
 
 #. Template: AAABase
 msgid "Login is needed!"
-msgstr "¡Se requiere un nombre de usuario!"
+msgstr "¡Se requiere inicio de sesión!"
 
 #. Template: AAABase
 msgid "It is currently not possible to login due to a scheduled system maintenance."
@@ -936,7 +936,7 @@ msgstr "Pendiente hasta"
 
 #. Template: AAABase
 msgid "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
-msgstr "No usue la cuenta de superusuario para trabajar con OTRS. Cree nuevos agentes y trabaje con esas cuentas."
+msgstr "No use la cuenta de superusuario para trabajar con OTRS. Cree nuevos agentes y trabaje con esas cuentas."
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
@@ -996,7 +996,7 @@ msgstr "Tiene habilitado «Fuera de la oficina», ¿desea inhabilitarlo?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr "Noticias acerca de lanzamiento de OTRS!"
+msgstr "Noticias acerca de lanzamientos de OTRS!"
 
 #. Template: AAABase
 msgid "Customer %s added"
@@ -1060,11 +1060,11 @@ msgstr "¡Cliente actualizado!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr "¡Empresa del cliente actualizada!"
+msgstr "¡Empresa del cliente añadido!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr "¡Actualizada la empresa del cliente!"
+msgstr "¡Empresa del cliente actualizado!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
@@ -1072,7 +1072,7 @@ msgstr "Nota: La empresa no es válida."
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr "¡Añadida la cuenta de correo!"
+msgstr "¡Cuenta de correo añadida!"
 
 #. Template: AAABase
 msgid "Mail account updated!"
@@ -1080,11 +1080,11 @@ msgstr "¡Cuenta de correo actualizada!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr "¡Añadida la dirección de correo del sistema!"
+msgstr "¡Cuenta de correo del sistemas añadido!"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr "¡Actualizada la dirección de correo del sistema!"
+msgstr "¡Cuenta de correo del sistema actualizada!"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1104,11 +1104,11 @@ msgstr "Calendario"
 
 #. Template: AAABase
 msgid "File"
-msgstr "Fichero"
+msgstr "Archivo"
 
 #. Template: AAABase
 msgid "Filename"
-msgstr "Nombre del fichero"
+msgstr "Nombre del archivo"
 
 #. Template: AAABase
 msgid "Type"
@@ -1120,7 +1120,7 @@ msgstr "Tamaño"
 
 #. Template: AAABase
 msgid "Upload"
-msgstr "Subir"
+msgstr "Cargar"
 
 #. Template: AAABase
 msgid "Directory"
@@ -1184,7 +1184,7 @@ msgstr "Móvil"
 
 #. Template: AAABase
 msgid "Zip"
-msgstr "CP"
+msgstr "Código Postal"
 
 #. Template: AAABase
 msgid "City"
@@ -1220,7 +1220,7 @@ msgstr "No es posible analizar el documento índice del repositorio."
 
 #. Template: AAABase
 msgid "No packages for your framework version found in this repository, it only contains packages for other framework versions."
-msgstr "En este repositorio no se encontraros paquetes para su versión del marco de trabajo, sólo contiene paquetes para otras versiones del marco de trabajo"
+msgstr "En este repositorio no se encontraros paquetes para su versión del marco de trabajo, sólo contiene paquetes para otras versiones del marco de trabajo."
 
 #. Template: AAABase
 msgid "No packages, or no new packages, found in selected repository."
@@ -1260,7 +1260,7 @@ msgstr "Hola %s."
 
 #. Template: AAABase
 msgid "This email address is not allowed to register. Please contact support staff."
-msgstr "Autenticación exitosa, pero no se encontró ningún registro del cliente en el cliente backend. Por favor contactar con su administrador"
+msgstr "Esta cuenta no está permitida para registrarse. Por favor, póngase en contacto con el personal de apoyo."
 
 #. Template: AAABase
 msgid "New account created. Sent login information to %s. Please check your email."
@@ -1320,7 +1320,7 @@ msgstr "Noticias de productos"
 
 #. Template: AAABase
 msgid "OTRS News"
-msgstr "Novedades de OTRS"
+msgstr "Noticias de OTRS"
 
 #. Template: AAABase
 msgid "7 Day Stats"
@@ -1444,7 +1444,7 @@ msgstr "El planificador no está en ejecución."
 
 #. Template: AAABase
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "Todas las sesiones se han cerrado, excepto la suya propia."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -1700,7 +1700,7 @@ msgstr "La contraseña actual no es correcta. ¡Inténtelo de nuevo!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, your new passwords do not match. Please try again!"
-msgstr "No es posible actualizar la contraseña, sus nuevas contraseñas no coinciden. ¡Inténtelo de nuevo!"
+msgstr "No es posible actualizar la contraseña, su nueva contraseña no coinciden. ¡Inténtelo de nuevo!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
@@ -1728,7 +1728,7 @@ msgstr "No es posible actualizar la contraseña, esta contraseña ya ha sido usa
 
 #. Template: AAAPreferences
 msgid "Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used."
-msgstr "Seleccione el carácter separador a usar en los ficheros CSV (estadísticas y búsquedas). Si no selecciona ningún separador aquí, se usará el separador predeterminado para su idioma."
+msgstr "Seleccione el carácter separador a usar en los archivos CSV (estadísticas y búsquedas). Si no selecciona ningún separador aquí, se usará el separador predeterminado para su idioma."
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
@@ -1756,7 +1756,7 @@ msgstr "¡Por favor, proporcione los campos requeridos!"
 
 #. Template: AAAStats
 msgid "Please select a file!"
-msgstr "¡Por favor, seleccione un fichero!"
+msgstr "¡Por favor, seleccione un archivo!"
 
 #. Template: AAAStats
 msgid "Please select an object!"
@@ -2044,7 +2044,7 @@ msgstr "Tablas encontradas que no se encuentran presentes en la base de datos"
 
 #. Template: AAASupportDataCollector
 msgid "Database Size"
-msgstr "Tamaño De La Base De Datos"
+msgstr "Tamaño de la Base De Datos"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database size."
@@ -2060,11 +2060,11 @@ msgstr "No se pudo determinar la versión de la base de datos"
 
 #. Template: AAASupportDataCollector
 msgid "Client Connection Charset"
-msgstr "Charset De La conexión Del cliente"
+msgstr "Juego de Caracteres de la Conexión del Cliente"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr "La configuración de character_set_client necesita ser utf8."
+msgstr "El ajuste de character_set_client necesita ser utf8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
@@ -2072,7 +2072,7 @@ msgstr "Juego de Caracteres del Servidor de Base de Datos"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr "La configuración de character_set_database necesita ser UNICODE o UTF8."
+msgstr "el ajuste de character_set_database necesita ser UNICODE o UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
@@ -2088,7 +2088,7 @@ msgstr "Tamaño Máximo de la Consulta"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr "La configuración 'max_allowed_packet' debe ser mayor de 20 MB,"
+msgstr "El ajuste 'max_allowed_packet' debe ser mayor de 20 MB,"
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
@@ -2096,7 +2096,7 @@ msgstr "Tamaño de la Cache de la Consulta"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB)."
-msgstr "La configuración 'query_cache_size' debe ser usada (mayor de 10 MB pero no menor de 512 MB)."
+msgstr "El ajuste 'query_cache_size' debe ser usada (mayor de 10 MB pero no menor de 512 MB)."
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
@@ -2112,7 +2112,7 @@ msgstr "MySQL 5.x o mayor es requerida."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG Setting"
-msgstr "Configuración NLS_LANG"
+msgstr "Ajuste NLS_LANG"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
@@ -2120,7 +2120,7 @@ msgstr "NLS_LANG debe ser configurada a AL32UTF8 (ejm. GERMAN_GERMANY.AL32UTF8).
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
-msgstr "Configuración NLS_DATE_FORMAT"
+msgstr "Ajuste NLS_DATE_FORMAT"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
@@ -2128,15 +2128,15 @@ msgstr "NLS_DATE_FORMAT debe ser configurado a 'YYYY-MM-DD HH24:MI:SS'."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "El ajuste NLS_DATE_FORMAT Comprobar SQL"
 
 #. Template: AAASupportDataCollector
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr "La configuración client_encoding necesita ser UNICODE o UTF8."
+msgstr "El ajuste client_encoding necesita ser UNICODE o UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr "La configuración server_encoding necesita ser UNICODE o UTF8."
+msgstr "El ajuste server_encoding necesita ser UNICODE o UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
@@ -2144,7 +2144,7 @@ msgstr "Formato de Fecha"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
-msgstr "La configuración DateStyle necesita ser ISO."
+msgstr "El ajuste DateStyle necesita ser ISO."
 
 #. Template: AAASupportDataCollector
 msgid "PostgreSQL 8.x or higher is required."
@@ -2280,7 +2280,7 @@ msgstr "Campos Dinámicos"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Field Values"
-msgstr "Valores De Campos Dinámicos"
+msgstr "Valores de Campos Dinámicos"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Fields"
@@ -2292,7 +2292,7 @@ msgstr "Valor del Campo Dinámico Invalido"
 
 #. Template: AAASupportDataCollector
 msgid "GenericInterface Webservices"
-msgstr "Servicios web De La Interfaz Genérica"
+msgstr "Servicios Web de la Interfaz Genérica"
 
 #. Template: AAASupportDataCollector
 msgid "Processes"
@@ -2300,7 +2300,7 @@ msgstr "Procesos"
 
 #. Template: AAASupportDataCollector
 msgid "Months Between First And Last Ticket"
-msgstr "Meses Entre El Primero y El Último Ticket"
+msgstr "Meses Entre el Primer y Último Ticket"
 
 #. Template: AAASupportDataCollector
 msgid "Tickets Per Month (avg)"
@@ -2324,7 +2324,7 @@ msgstr "Riesgo de seguridad: la cuenta del agente root@ ocalhost todavía tiene 
 
 #. Template: AAASupportDataCollector
 msgid "Error Log"
-msgstr "Registro De Errores"
+msgstr "Registro de Errores"
 
 #. Template: AAASupportDataCollector
 msgid "There are error reports in your system log."
@@ -2332,7 +2332,7 @@ msgstr "Existen reportes de error en el registro del sistema."
 
 #. Template: AAASupportDataCollector
 msgid "File System Writable"
-msgstr "Sistema De Archivos Gravable"
+msgstr "Sistema de Archivos Grabable"
 
 #. Template: AAASupportDataCollector
 msgid "The file system on your OTRS partition is not writable."
@@ -2340,11 +2340,11 @@ msgstr "El sistema de archivos de la partición OTRS no es grabable."
 
 #. Template: AAASupportDataCollector
 msgid "Domain Name"
-msgstr "Nombre De Dominio"
+msgstr "Nombre de Dominio"
 
 #. Template: AAASupportDataCollector
 msgid "Your FQDN setting is invalid."
-msgstr "La configuración de su FQDN es invalida."
+msgstr "El ajuste de su FQDN es invalida."
 
 #. Template: AAASupportDataCollector
 msgid "Package installation status"
@@ -2356,15 +2356,15 @@ msgstr "Algunos paquetes no estan correctamente instalados."
 
 #. Template: AAASupportDataCollector
 msgid "Package List"
-msgstr "Listado De paquetes"
+msgstr "Listado de paquetes"
 
 #. Template: AAASupportDataCollector
 msgid "SystemID"
-msgstr "ID de sistema"
+msgstr "ID del sistema"
 
 #. Template: AAASupportDataCollector
 msgid "Your SystemID setting is invalid, it should only contain digits."
-msgstr "La configuración SystemID es invalida, debe contener solamente dígitos."
+msgstr "El ajuste del ID del Sistema es invalida, debe contener solamente dígitos."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Version"
@@ -2376,7 +2376,7 @@ msgstr "Módulo De Índice de Tickets"
 
 #. Template: AAASupportDataCollector
 msgid "You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information."
-msgstr "Usted tiene mas de 60,000 tickets y debería usar el backend StaticDB. Ver el manual admin (Optimización del Rendimiento) para más información."
+msgstr "Usted tiene más de 60,000 tickets y debería usar el backend StaticDB. Ver el manual admin (Optimización del Rendimiento) para más información."
 
 #. Template: AAASupportDataCollector
 msgid "Open Tickets"
@@ -2384,7 +2384,7 @@ msgstr "Tickets Abiertos"
 
 #. Template: AAASupportDataCollector
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr "No debe tener mas de 8,000 tickets abiertos en su sistema."
+msgstr "No debe tener más de 8,000 tickets abiertos en su sistema."
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Search Index module"
@@ -2392,7 +2392,7 @@ msgstr "Módulo de Busqueda por Índice de Ticket"
 
 #. Template: AAASupportDataCollector
 msgid "You have more than 50,000 articles and should use the StaticDB backend. See admin manual (Performance Tuning) for more information."
-msgstr "Usted tiene mas de 50,000 artículos y debería usar el backend StaticDB. Ver el manual admin (Optimización del Rendimiento) para más información."
+msgstr "Usted tiene más de 50,000 artículos y debería usar el backend StaticDB. Ver el manual admin (Optimización del Rendimiento) para más información."
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_lock_index Table"
@@ -2416,11 +2416,11 @@ msgstr "Variables de entorno"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver Version"
-msgstr "Versión del servidor web"
+msgstr "Versión del Servidor Web"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine webserver version."
-msgstr "No se pudo determinar la version del servidor web."
+msgstr "No se pudo determinar la versión del servidor web."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
@@ -2432,7 +2432,7 @@ msgstr "Uso Del Acelerador de CGI"
 
 #. Template: AAASupportDataCollector
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr "Usted debe usar FastCGI o mod_perl para aumentar su rendimiento."
+msgstr "Usted debe usar FastCGI o mod_perl para aumentar el rendimiento."
 
 #. Template: AAASupportDataCollector
 msgid "mod_deflate Usage"
@@ -2456,7 +2456,7 @@ msgstr "Uso del Apache::Reload"
 
 #. Template: AAASupportDataCollector
 msgid "Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules."
-msgstr ""
+msgstr "Apache::Reload o Apache2::Reload debe ser usado como PerlModulo y PerlInitHandler para prevenir que el servidor web se reinicie cuando se instala o se actualiza un módulo."
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
@@ -2464,23 +2464,23 @@ msgstr "Uso del Apache::DBI"
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI should be used to get a better performance  with pre-established database connections."
-msgstr ""
+msgstr "Apache::DBI debe ser usado para obtener una mejor performance con conexiones a la base de datos pre-establecidas."
 
 #. Template: AAASupportDataCollector
 msgid "You should use PerlEx to increase your performance."
-msgstr ""
+msgstr "Debe usar PerlEx para incrementar la performance."
 
 #. Template: AAATicket
 msgid "Status View"
-msgstr "Vista de estados"
+msgstr "Vista de Estados"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Vista de Servicios"
 
 #. Template: AAATicket
 msgid "Bulk"
-msgstr "En masa"
+msgstr "Bloque"
 
 #. Template: AAATicket
 msgid "Lock"
@@ -2572,11 +2572,11 @@ msgstr "SLA"
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
-msgstr "Acuerdo de nivel de servicio"
+msgstr "Acuerdo de Nivel de Servicio"
 
 #. Template: AAATicket
 msgid "Service Level Agreements"
-msgstr "Acuerdos de nivel de servicio"
+msgstr "Acuerdos de Niveles de Servicios"
 
 #. Template: AAATicket
 msgid "Service"
@@ -2596,7 +2596,7 @@ msgstr "Estados"
 
 #. Template: AAATicket
 msgid "Status"
-msgstr "Estados"
+msgstr "Estado"
 
 #. Template: AAATicket
 msgid "Statuses"
@@ -2604,11 +2604,11 @@ msgstr "Estados"
 
 #. Template: AAATicket
 msgid "Ticket Type"
-msgstr "Tipo de ticket"
+msgstr "Tipo de Ticket"
 
 #. Template: AAATicket
 msgid "Ticket Types"
-msgstr "Tipos de ticket"
+msgstr "Tipos de Tickets"
 
 #. Template: AAATicket
 msgid "Compose"
@@ -2624,7 +2624,7 @@ msgstr "Propietario"
 
 #. Template: AAATicket
 msgid "Owner Update"
-msgstr "Actualización del propietario"
+msgstr "Actualización del Propietario"
 
 #. Template: AAATicket
 msgid "Responsible"
@@ -2648,11 +2648,11 @@ msgstr "Ticket"
 
 #. Template: AAATicket
 msgid "Createtime"
-msgstr "Fecha de creación"
+msgstr "Fecha de Creación"
 
 #. Template: AAATicket
 msgid "plain"
-msgstr "texto plano"
+msgstr "plano"
 
 #. Template: AAATicket
 msgid "Email"
@@ -2684,7 +2684,7 @@ msgstr "Este mensaje fue escrito usando un juego de caracteres distinto al suyo"
 
 #. Template: AAATicket
 msgid "If it is not displayed correctly,"
-msgstr "Si no se muestra correctamente"
+msgstr "Si no se muestra correctamente,"
 
 #. Template: AAATicket
 msgid "This is a"
@@ -2692,11 +2692,11 @@ msgstr "Este es un"
 
 #. Template: AAATicket
 msgid "to open it in a new window."
-msgstr "para abrirlo en una nueva ventana"
+msgstr "para abrirlo en una nueva ventana."
 
 #. Template: AAATicket
 msgid "This is a HTML email. Click here to show it."
-msgstr "Éste es un mensaje HTML. Pulse aquí para mostrarlo."
+msgstr "Éste es un correo HTML. Pulse aquí para mostrarlo."
 
 #. Template: AAATicket
 msgid "Free Fields"
@@ -2732,27 +2732,27 @@ msgstr "Nuevos tickets bloqueados"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
-msgstr "Total de tickets bajo mi responsabilidad"
+msgstr "Total de Tickets del Responsable"
 
 #. Template: AAATicket
 msgid "Responsible Tickets New"
-msgstr "Nuevo ticket bajo mi responsabilidad"
+msgstr "Nuevo Ticket del Responsable"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr "Alcanzado recordatorio de tickets bajo mi responsabilidad"
+msgstr "Recordatorio de Tickets del Responsable Alcanzado"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr "Total de tickets vigilados"
+msgstr "Total de Tickets Vistas"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr "Nuevos tickets vigilados"
+msgstr "Nuevo Tickets Visto"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr "Alcanzado recordatorio de tickets vigilados"
+msgstr "Recordatorio de Tickets Vistos Alcanzados"
 
 #. Template: AAATicket
 msgid "All tickets"
@@ -2772,11 +2772,11 @@ msgstr "última-búsqueda"
 
 #. Template: AAATicket
 msgid "QueueView"
-msgstr "Vista de colas"
+msgstr "Vista de Colas"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
-msgstr "Vista de escalados de tickets"
+msgstr "Vista de Tickets Escalados"
 
 #. Template: AAATicket
 msgid "Message from"
@@ -2792,15 +2792,15 @@ msgstr "Mensaje reenviado de"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr "Fin dle mensaje reenviado"
+msgstr "Fin del mensaje reenviado"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Rebote Artículo a una dirección de correo diferente"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Responder la nota"
 
 #. Template: AAATicket
 msgid "new"
@@ -2844,11 +2844,11 @@ msgstr "pendiente automático"
 
 #. Template: AAATicket
 msgid "pending auto close+"
-msgstr "pendiente de cierre automático con éxito"
+msgstr "pendiente de cierre automático+"
 
 #. Template: AAATicket
 msgid "pending auto close-"
-msgstr "pendiente de cierre automático sin éxito"
+msgstr "pendiente de cierre automático-"
 
 #. Template: AAATicket
 msgid "email-external"
@@ -2968,15 +2968,15 @@ msgstr "¡Ticket \"%s\" creado!"
 
 #. Template: AAATicket
 msgid "Ticket Number"
-msgstr "Ticket número"
+msgstr "Número de Ticket"
 
 #. Template: AAATicket
 msgid "Ticket Object"
-msgstr "Objeto ticket"
+msgstr "Ticket Objeto"
 
 #. Template: AAATicket
 msgid "No such Ticket Number \"%s\"! Can't link it!"
-msgstr "¡No existe el ticket número «%s»! ¡No se puede enlazar a él!"
+msgstr "¡No existe el número de ticket \"%s\"! ¡No se puede enlazar a él!"
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
@@ -3020,11 +3020,11 @@ msgstr "Artículo(s) sin leer disponible(s)"
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
-msgstr "Eliminar de la lista de tickets vigilados"
+msgstr "Eliminar de la lista de tickets vistos"
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
-msgstr "Añadir a la lista de tickets vigilados"
+msgstr "Añadir a la lista de tickets vistos"
 
 #. Template: AAATicket
 msgid "Email-Ticket"
@@ -3048,19 +3048,19 @@ msgstr "Historial del Cliente"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
-msgstr "Editar clientes"
+msgstr "Editar Usuario Cliente"
 
 #. Template: AAATicket
 msgid "Edit Customer"
-msgstr "Editar el cliente"
+msgstr "Editar Cliente"
 
 #. Template: AAATicket
 msgid "Bulk Action"
-msgstr "Acción en masa"
+msgstr "Acción en Bloque"
 
 #. Template: AAATicket
 msgid "Bulk Actions on Tickets"
-msgstr "Acción en masa sobre tickets"
+msgstr "Acción en Bloque sobre tickets"
 
 #. Template: AAATicket
 msgid "Send Email and create a new Ticket"
@@ -3080,43 +3080,43 @@ msgstr "Dirección %s reemplaza con la del cliente registrado."
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr "Usuario cliente añadido automáticamente a Cc."
+msgstr "Usuario Cliente añadido automáticamente a Cc."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
-msgstr "Vista general de todos los tickets abiertos"
+msgstr "Vista general de todos los Tickets abiertos"
 
 #. Template: AAATicket
 msgid "Locked Tickets"
-msgstr "Tickets bloqueados"
+msgstr "Tickets Bloqueados"
 
 #. Template: AAATicket
 msgid "My Locked Tickets"
-msgstr "Mis tickets bloqueados"
+msgstr "Mis Tickets Bloqueados"
 
 #. Template: AAATicket
 msgid "My Watched Tickets"
-msgstr "Mis tickets vigilados"
+msgstr "Mis Tickets vistos"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
-msgstr "Tickets bajo mi responsabilidad"
+msgstr "Tickets de mi Responsabilidad"
 
 #. Template: AAATicket
 msgid "Watched Tickets"
-msgstr "Tickets vigilados"
+msgstr "Tickets Vistos"
 
 #. Template: AAATicket
 msgid "Watched"
-msgstr "Vigilado"
+msgstr "Vistos"
 
 #. Template: AAATicket
 msgid "Watch"
-msgstr "Vigilar"
+msgstr "Ver"
 
 #. Template: AAATicket
 msgid "Unwatch"
-msgstr "Dejar de vigilar"
+msgstr "No Vistos"
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
@@ -3212,7 +3212,7 @@ msgstr "Columnas mostradas"
 
 #. Template: AAATicket
 msgid "Your email with ticket number \"<OTRS_TICKET>\" is merged to \"<OTRS_MERGE_TO_TICKET>\"."
-msgstr "Su correo con el ticket número \"<OTRS_TICKET>\" se fusionó con \"<OTRS_MERGE_TO_TICKET>\"."
+msgstr "Su correo con el número de ticket \"<OTRS_TICKET>\" se fusionó con \"<OTRS_MERGE_TO_TICKET>\"."
 
 #. Template: AAATicket
 msgid "Ticket %s: first response time is over (%s)!"
@@ -3244,7 +3244,7 @@ msgstr "¡Hay más tickets escalados¡"
 
 #. Template: AAATicket
 msgid "Plain Format"
-msgstr "Formato texto plano"
+msgstr "Formato plano"
 
 #. Template: AAATicket
 msgid "Reply All"
@@ -3320,7 +3320,7 @@ msgstr "La selección de sus colas favoritas. También se le notifican estas col
 
 #. Template: AAATicket
 msgid "Custom Queue"
-msgstr "Cola personal"
+msgstr "Cola personalizada"
 
 #. Template: AAATicket
 msgid "QueueView refresh time"
@@ -3380,15 +3380,15 @@ msgstr "Límite de tickets por página en la Vista general de tickets «previsua
 
 #. Template: AAATicket
 msgid "Ticket watch notification"
-msgstr "Notificación de vigilancia de tickets"
+msgstr "Notificación de tickets vistos"
 
 #. Template: AAATicket
 msgid "Send me the same notifications for my watched tickets that the ticket owners will get."
-msgstr "Enviarme las mismas notificaciones para mis tickets vigilados que recibirán los propietarios del ticket"
+msgstr "Enviarme las mismas notificaciones para mis tickets vistos que recibirán los propietarios del ticket"
 
 #. Template: AAATicket
 msgid "Send ticket watch notifications"
-msgstr "Enviar notificaciones de vigilancia de tickets"
+msgstr "Enviar notificaciones de tickets vistos"
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
@@ -3396,11 +3396,11 @@ msgstr "Tiempo de ausencia de la oficina"
 
 #. Template: AAATicket
 msgid "New Ticket"
-msgstr "Nuevo ticket"
+msgstr "Nuevo Ticket"
 
 #. Template: AAATicket
 msgid "Create new Ticket"
-msgstr "Crear un nuevo ticket"
+msgstr "Crear un nuevo Ticket"
 
 #. Template: AAATicket
 msgid "Customer called"
@@ -3412,47 +3412,47 @@ msgstr "llamada telefónica"
 
 #. Template: AAATicket
 msgid "Phone Call Outbound"
-msgstr "Llamada telefónica saliente"
+msgstr "Llamada Telefónica Saliente"
 
 #. Template: AAATicket
 msgid "Phone Call Inbound"
-msgstr "Llamada telefónica entrante"
+msgstr "Llamada Telefónica Entrante"
 
 #. Template: AAATicket
 msgid "Reminder Reached"
-msgstr "Recordatorio alcanzado"
+msgstr "Recordatorio Alcanzado"
 
 #. Template: AAATicket
 msgid "Reminder Tickets"
-msgstr "Tickets recordatorio"
+msgstr "Tickets Recordatorio"
 
 #. Template: AAATicket
 msgid "Escalated Tickets"
-msgstr "Tickets escalados"
+msgstr "Tickets Escalados"
 
 #. Template: AAATicket
 msgid "New Tickets"
-msgstr "Nuevos tickets"
+msgstr "Nuevos Tickets"
 
 #. Template: AAATicket
 msgid "Open Tickets / Need to be answered"
-msgstr "Tickets abiertos / Que necesitan de una respuesta"
+msgstr "Tickets Abiertos / Que necesitan de una respuesta"
 
 #. Template: AAATicket
 msgid "All open tickets, these tickets have already been worked on, but need a response"
-msgstr "Todos los tickets abiertos, ya se ha trabajado en estos tickets, pero necesitan una respuesta"
+msgstr "Todos los Tickets abiertos, ya se ha trabajado en estos tickets, pero necesitan una respuesta"
 
 #. Template: AAATicket
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr "Todos los tickets nuevos, todavía no se ha trabajado en estos tickets"
+msgstr "Todos los Tickets nuevos, todavía no se ha trabajado en estos tickets"
 
 #. Template: AAATicket
 msgid "All escalated tickets"
-msgstr "Todos los tickets escalados"
+msgstr "Todos los Tickets escalados"
 
 #. Template: AAATicket
 msgid "All tickets with a reminder set where the reminder date has been reached"
-msgstr "Todos los tickets para los que se ha alcanzado su fecha de recordatorio"
+msgstr "Todos los Tickets para los que se ha alcanzado su fecha de recordatorio"
 
 #. Template: AAATicket
 msgid "Archived tickets"
@@ -3532,11 +3532,11 @@ msgstr "Importar configuración"
 
 #. Template: AdminACL
 msgid "Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module."
-msgstr "Aquí puede cargar un fichero de configuración para importar ACLs a su sistema. El fichero debe estar en formato .yml tal y como lo exporta el módulo de edición de ACL."
+msgstr "Aquí puede cargar un archivo de configuración para importar ACLs a su sistema. El archivo debe estar en formato .yml tal y como lo exporta el módulo de edición de ACL."
 
 #. Template: AdminACL
 msgid "This field is required."
-msgstr "Este campo es necesario."
+msgstr "Este campo es requerido."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
@@ -3544,7 +3544,7 @@ msgstr "¿Sobrescribir las ACL existentes?"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr "Cargar fichero de configuración"
+msgstr "Cargar configuración de ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
@@ -3688,19 +3688,19 @@ msgstr "Lista"
 
 #. Template: AdminAttachment
 msgid "Download file"
-msgstr "Descargar el fichero"
+msgstr "Descargar el archivo"
 
 #. Template: AdminAttachment
 msgid "Delete this attachment"
-msgstr "Borrar este anexo"
+msgstr "Borrar este adjunto"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
-msgstr "Añadir un anexo"
+msgstr "Añadir un adjunto"
 
 #. Template: AdminAttachment
 msgid "Edit Attachment"
-msgstr "Editar el anexo"
+msgstr "Editar adjunto"
 
 #. Template: AdminAutoResponse
 msgid "Auto Response Management"
@@ -3756,7 +3756,7 @@ msgstr "v. g."
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr "Opciones de los datos del ciente actual"
+msgstr "Opciones de los datos del ciente usuario actual"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -3796,7 +3796,7 @@ msgstr "Gestión de clientes"
 
 #. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
-msgstr "Se permiten caracteres comodín como «*»."
+msgstr "Se permiten caracteres comodín como '*'."
 
 #. Template: AdminCustomerCompany
 msgid "Add customer"
@@ -3808,7 +3808,7 @@ msgstr "Seleccionar"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
-msgstr "Introduzca un términa de búsqueda para buscar clientes."
+msgstr "Introduzca un término de búsqueda para buscar clientes."
 
 #. Template: AdminCustomerCompany
 msgid "Add Customer"
@@ -3816,7 +3816,7 @@ msgstr "Añadir un cliente"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Gestión de usuarios cliente"
+msgstr "Gestión de Usuarios Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3844,15 +3844,15 @@ msgstr "Conectarse como"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr "Cambiar al cliente"
+msgstr "Cambiar a cliente"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr "Añadir usuario cliente"
+msgstr "Añadir Usuario Cliente"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Editar usuario cliente"
+msgstr "Editar Usuario Cliente"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -3876,7 +3876,7 @@ msgstr "La sintaxis de esta dirección de correo es incorrecta"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer-Group Relations"
-msgstr "Gestionar las relaciones cliente-grupo"
+msgstr "Gestionar las relaciones Cliente-Grupo"
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
@@ -3888,7 +3888,7 @@ msgstr "¡Esta característica está inhabilitada!"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just use this feature if you want to define group permissions for customers."
-msgstr "Utilice esta característica sólo si desea definir permisos de group para los clientes."
+msgstr "Utilice esta característica sólo si desea definir permisos de grupo para los clientes."
 
 #. Template: AdminCustomerUserGroup
 msgid "Enable it here!"
@@ -3896,7 +3896,7 @@ msgstr "¡Habilítelo aquí!"
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer Default Groups"
-msgstr "Editar los grupos predeterminados de los clientes"
+msgstr "Editar los Grupos Predeterminados de los Clientes"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customers."
@@ -3912,7 +3912,7 @@ msgstr "Filtrar por grupos"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "Empiece a escribir para filtrar..."
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer:group permissions."
@@ -3932,15 +3932,15 @@ msgstr "Clientes"
 
 #. Template: AdminCustomerUserGroup
 msgid "No matches found."
-msgstr "Ningún resultado."
+msgstr "No se encontraron coincidencias."
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Group Relations for Customer"
-msgstr "Cambiar las relaciones de grupo del cliente"
+msgstr "Cambiar las Relaciones de Grupo del Cliente"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Customer Relations for Group"
-msgstr "Cambiar las relaciones de cliente del grupo"
+msgstr "Cambiar las Relaciones de Cliente del Grupo"
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s Permission for all"
@@ -3952,7 +3952,7 @@ msgstr "Conmutar el permiso %s para %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
-msgstr "Grupos predeterminados del cliente"
+msgstr "Grupos Predeterminados del Cliente:"
 
 #. Template: AdminCustomerUserGroup
 msgid "No changes can be made to these groups."
@@ -3976,7 +3976,7 @@ msgstr "Acceso completo de lectura y escritura a los tickets de este grupo/cola.
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer-Services Relations"
-msgstr "Gestionar las relaciones cliente-servicios"
+msgstr "Gestionar las Relaciones Cliente-Servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -3988,11 +3988,11 @@ msgstr "Filtro para los servicios"
 
 #. Template: AdminCustomerUserService
 msgid "Allocate Services to Customer"
-msgstr "Asignar servicios al cliente"
+msgstr "Asignar Servicios al Cliente"
 
 #. Template: AdminCustomerUserService
 msgid "Allocate Customers to Service"
-msgstr "Asignar clientes al servicio"
+msgstr "Asignar Clientes al Servicio"
 
 #. Template: AdminCustomerUserService
 msgid "Toggle active state for all"
@@ -4008,7 +4008,7 @@ msgstr "Conmutar el estado activo a %s"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
-msgstr "Gestión de campos dinámicos"
+msgstr "Gestión de Campos Dinámicos"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
@@ -4016,11 +4016,11 @@ msgstr "Añadir un nuevo campo al objeto"
 
 #. Template: AdminDynamicField
 msgid "To add a new field, select the field type from one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation."
-msgstr ""
+msgstr "Para añadir un nuevo campo, seleccione el tipo de campo de la lista de objetos, el objeto define los limites del campo y no puede ser cambiado despues de la creación del campo."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
-msgstr "Lista de campos dinámicos"
+msgstr "Lista de Campos Dinámicos"
 
 #. Template: AdminDynamicField
 msgid "Dynamic fields per page"
@@ -4080,7 +4080,7 @@ msgstr "Éste es el nombre a mostrar en las pantallas en las que el campo esté 
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
-msgstr "Orden de los campos"
+msgstr "Orden de campo"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is required and must be numeric."
@@ -4128,7 +4128,7 @@ msgstr "Este campo debe ser numérico."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "The difference from NOW (in seconds) to calculate the field default value (e.g. 3600 or -60)."
-msgstr "La diferencia desde AHORA (en segundos) para calcular el valor predeterminado del campo (vg 3600 o -60)."
+msgstr "La diferencia de AHORA (en segundos) para calcular el valor predeterminado del campo (vg 3600 o -60)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
@@ -4144,7 +4144,7 @@ msgstr "Años en el pasado"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past to display (default: 5 years)."
-msgstr "Años en el pasado a mostrar (por omisión: 5 años)."
+msgstr "Años en el pasado a mostrar (por defecto: 5 años)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future"
@@ -4152,7 +4152,7 @@ msgstr "Años en el futuro"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future to display (default: 5 years)."
-msgstr "Años en el futuro a mostrar (por omisión: 5 años)."
+msgstr "Años en el futuro a mostrar (por defecto: 5 años)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Show link"
@@ -4164,11 +4164,11 @@ msgstr "Aquí puede indicar un enlace HTTP opcional para el valor del campo en l
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "Restringir entrada de fechas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "Aquí puede restringir la entrada de fechas para los tickets."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Possible values"
@@ -4244,11 +4244,11 @@ msgstr "Indica la anchura (en caracteres) de este campo en el modo de edición."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Comprobar RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms."
-msgstr ""
+msgstr "Aquí puede especificar una expresión regular para comprobar el valor. El regex se ejecutara con los modificadores xms."
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
@@ -4256,7 +4256,7 @@ msgstr "RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Inválido RegEx"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
@@ -4404,11 +4404,11 @@ msgstr "Si se dispara un evento de ticket, se aplicará el filtro de tickets par
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr "¿Realmente desea borrar este disparador de eventos?"
+msgstr "¿Realmente desea borrar este disparador de evento?"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr "Añadir disparador de eventos"
+msgstr "Añadir disparador de evento"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
@@ -4416,7 +4416,7 @@ msgstr "Añadir Evento"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name and click on the \"+\" button"
-msgstr "Para añadir un nuevo evento seleccione el objeto evento y el nombre del evento y pulse el botón «+»"
+msgstr "Para añadir un nuevo evento seleccione el objeto evento y el nombre del evento y pulse el botón \"+\""
 
 #. Template: AdminGenericAgent
 msgid "Duplicate event."
@@ -4452,7 +4452,7 @@ msgstr "(ej: U5150)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr "Búsqueda de texto completo en un artículo (vg «Mar*in» o «Baue*»)."
+msgstr "Búsqueda de texto completo en un artículo (ej. «Mar*in» o «Baue*»)."
 
 #. Template: AdminGenericAgent
 msgid "Agent"
@@ -4480,23 +4480,23 @@ msgstr "Ticket creado entre"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Últimas fechas modificadas"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "No hay últimas ajustes de fechas modificadas."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "Último Ticket modificado"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "Último Ticket modificado entre"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr "Fechas de modificación"
+msgstr "Fecha de modificación"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
@@ -4600,7 +4600,7 @@ msgstr "Buscar en el archivo"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Actualizar/Añadir Atributos de Ticket"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -4608,7 +4608,7 @@ msgstr "Establecer nuevo servicio"
 
 #. Template: AdminGenericAgent
 msgid "Set new Service Level Agreement"
-msgstr "Establecer nuevo Acuerdo de nivel de servicio"
+msgstr "Establecer nuevo Acuerdo de Nivel de Servicio"
 
 #. Template: AdminGenericAgent
 msgid "Set new priority"
@@ -4640,7 +4640,7 @@ msgstr "nuevo responsable"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
-msgstr "Establecer nuevo bloqueo sobre el ticket"
+msgstr "Establecer nuevo bloqueo de ticket"
 
 #. Template: AdminGenericAgent
 msgid "New customer"
@@ -4676,7 +4676,7 @@ msgstr "Unidades de tiempo"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Ejecutar Comandos del Ticket"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -4696,7 +4696,7 @@ msgstr "Borrar los tickets"
 
 #. Template: AdminGenericAgent
 msgid "Warning: All affected tickets will be removed from the database and cannot be restored!"
-msgstr "Aviso: ¡Se eliminarán de la base de datos todos los tickets afectados, y no podrán restaurarse!"
+msgstr "Advertencia: ¡Se eliminarán de la base de datos todos los tickets afectados, y no podrán restaurarse!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -4724,7 +4724,7 @@ msgstr "¡%s tickets afectados! ¿Qué desea hacer?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "Aviso: Ha usado la opción BORRAR. ¡Se perderán todos los tickets borrados!"
+msgstr "Advertencia: Ha usado la opción BORRAR. ¡Se perderán todos los tickets borrados!"
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -4812,7 +4812,7 @@ msgstr "Se produjo un error durante la comunicación."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Show or hide the content."
-msgstr ""
+msgstr "Mostrar u ocultar el contenido."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear debug log"
@@ -4856,11 +4856,11 @@ msgstr "Proporcione un nombre único para este invocador de servicio web."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr "Motor del invocador"
+msgstr "Backend del invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data."
-msgstr "Se llamará a este módulo de motor de invocador OTRS para preparar los datos a enviar al sistema remoto, y para procesar los datos de la respuesta."
+msgstr "Se llamará a este módulo del backend del invocador OTRS para preparar los datos a enviar al sistema remoto, y para procesar los datos de la respuesta."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
@@ -4892,7 +4892,7 @@ msgstr "Este invocador será disparado por los eventos configurados."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended)."
-msgstr "Los disparadores de eventos asíncronos son gestionador por el planificador de OTRS en segundo plano (recomendado)"
+msgstr "Los disparadores de eventos asíncronos son gestionados por el planificador de OTRS en segundo plano (recomendado)"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Synchronous event triggers would be processed directly during the web request."
@@ -4908,203 +4908,203 @@ msgstr "Borrar este invocador"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "GenericInterface Mapping Simple for Web Service %s"
-msgstr ""
+msgstr "Simple Mapeo de la Interface Genérica para Servicio Web %s"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
-msgstr ""
+msgstr "Volver a"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "Simple Mapeo"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
-msgstr ""
+msgstr "Regla por defecto para llaves sin asignar"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr ""
+msgstr "Esta regla aplica para todas las claves sin regla asignada."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr ""
+msgstr "Regla por defecto para valores sin asignar"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
-msgstr ""
+msgstr "Esta regla aplica para todos los valores sin regla asignada."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "Nueva asignación de clave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Añadir asignación de clave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Asignación para clave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Remover asignación de clave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Asignación de clave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Clave Asignada"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "coincida con el"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "a nueva clave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "Asignacion de Valores"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Valor Asignado"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "a nuevo valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "Remover asignación de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "Nuevo asignación de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "Añadir asignación de valor"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "¿De verdad quiere eliminar esta asignación de clave?"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "Borrar esta Asignación de Clave"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
-msgstr ""
+msgstr "Añadir nueva operación al Servicio Web %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change Operation %s of Web Service %s"
-msgstr ""
+msgstr "Cambiar Operación %s del Servicio Web %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
-msgstr ""
+msgstr "Añadir nueva operación"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr ""
+msgstr "Cambiar operación %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "¿De verdad quiere eliminar esta operación?"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Detalles de la Operación"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The name is typically used to call up this web service operation from a remote system."
-msgstr ""
+msgstr "El nombre se utiliza normalmente para acceder a esta operación de servicio web desde un sistema remoto."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "Por favor, proporcione un nombre único para este servicio web."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
-msgstr ""
+msgstr "Asignación para la solicitud de datos entrantes"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The request data will be processed by this mapping, to transform it to the kind of data OTRS expects."
-msgstr ""
+msgstr "La solicitud de datos serán procesados por esta asignación, para transformar a la clase de datos que OTRS espera."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr ""
+msgstr "Backend Operación"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "This OTRS operation backend module will be called internally to process the request, generating data for the response."
-msgstr ""
+msgstr "Este módulo OTRS backend operación será llamado internamente para procesar la solicitud, la generación de datos para la respuesta."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
-msgstr ""
+msgstr "Asignación de datos de respuesta de salida"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "The response data will be processed by this mapping, to transform it to the kind of data the remote system expects."
-msgstr ""
+msgstr "Los datos de respuesta serán procesados por esta asignación, para transformar a la clase de datos que el sistema remoto espera."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
-msgstr ""
+msgstr "Borrar esta Operación"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
-msgstr ""
+msgstr "Transporte HTTP::REST de la Interface Genérica para Servicio Web %s"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
-msgstr ""
+msgstr "Transporte de Red"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
-msgstr ""
+msgstr "Propiedades"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "Asignación de rutas para la Operación"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Define the route that should get mapped to this operation. Variables marked by a ':' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID)."
-msgstr ""
+msgstr "Definir la ruta que debe ser asignada a esta operación. Variables marcadas por una ':' serán asignadas al nombre ingresado y pasadas por otras asignaciones. (ej. /Ticket/:TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
-msgstr ""
+msgstr "Métodos solicitud válida para la Operación"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Limit this Operation to specific request methods. If no method is selected all requests will be accepted."
-msgstr ""
+msgstr "Limitar esta operación a los métodos de petición específicos. Si no se selecciona ningún método se aceptarán todas las solicitudes."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "Longitud máxima del mensaje"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
-msgstr ""
+msgstr "Este campo debe ser un número entero."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Here you can specify the maximum size (in bytes) of REST messages that OTRS will process."
-msgstr ""
+msgstr "Aquí puede especificar el tamaño máximo (en bytes) de mensajes REST que procesará OTRS."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Enviar Mantener-Activo"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This configuration defines if incoming connections should get closed or kept alive."
-msgstr ""
+msgstr "Esta configuración define si las conexiones entrantes deben quedar cerrados o mantenerse activas."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
@@ -5112,15 +5112,15 @@ msgstr "Host"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "URL del host remoto para las solicitudes REST."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "ej. https://www.otrs.com:10745/api/v1.0 (sin la barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
-msgstr ""
+msgstr "Asignación del Controlador para el Invocador"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The controller that the invoker should send requests to. Variables marked by a ':' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
@@ -8964,7 +8964,7 @@ msgstr "Enviar correo"
 
 #. Template: AgentTicketBulk
 msgid "Ticket Bulk Action"
-msgstr "Acción múltiple con tickets"
+msgstr "Acción en Bloque con Tickets"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
@@ -13039,7 +13039,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-02-09 09:30+0000\n"
-"Last-Translator: Marc A. Bonsels\n"
+"PO-Revision-Date: 2015-02-18 19:15+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3608,7 +3608,7 @@ msgstr "Configurações de casamento"
 
 #. Template: AdminACLEdit
 msgid "Set up matching criteria for this ACL. Use 'Properties' to match the current screen or 'PropertiesDatabase' to match attributes of the current ticket that are in the database."
-msgstr "Configure critérios de casamento para esta ACL. Use 'Properties\\\\ para casar na tela atual ou 'PropertiesDatabase' para casar atributos do chamado atual que está armazenado no banco de dados."
+msgstr "Configure critérios de casamento para esta ACL. Use 'Properties\\ para casar na tela atual ou 'PropertiesDatabase' para casar atributos do chamado atual que está armazenado no banco de dados."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -13043,7 +13043,7 @@ msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can speci
 msgstr ""
 
 #. SysConfig
-msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\\\user to user)."
+msgid "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify to strip leading parts of user names (e. g. for domains like example_domain\\user to user)."
 msgstr ""
 
 #. SysConfig
