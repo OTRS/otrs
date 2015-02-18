@@ -1,18 +1,14 @@
-#
-# Translators:
-# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-02-18 19:15+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Spanish (Colombia) (http://www.transifex.com/projects/p/OTRS/language/es_CO/)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es_CO\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Template: AAABase
 msgid "Yes"
@@ -748,7 +744,7 @@ msgstr "Mensaje nuevo"
 
 #. Template: AAABase
 msgid "New message!"
-msgstr "¬°Mensaje nuevo!"
+msgstr "¡Mensaje nuevo!"
 
 #. Template: AAABase
 msgid "Please answer this ticket(s) to get back to the normal queue view!"
@@ -772,7 +768,7 @@ msgstr "Cambiar contraseña"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr "¬°Favor de activar %s primero!"
+msgstr "¡Favor de activar %s primero!"
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -796,7 +792,7 @@ msgstr "No existe una cuenta para ese nombre de usuario."
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "¬°Inicio de sesión fallido! Nombre de usuario o contraseña incorrecto."
+msgstr "¡Inicio de sesión fallido! Nombre de usuario o contraseña incorrecto."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
@@ -828,7 +824,7 @@ msgstr "Funcionalidad inactiva."
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr "¬°Agente actualizado!"
+msgstr "¡Agente actualizado!"
 
 #. Template: AAABase
 msgid "Database Selection"
@@ -992,7 +988,7 @@ msgstr "Chequear para activar esta fecha"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr "Usted configuró su cuenta como \"Fuera de la Oficina\", ¬ødesea deshabilitarlo?"
+msgstr "Usted configuró su cuenta como \"Fuera de la Oficina\", ¿desea deshabilitarlo?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
@@ -1004,67 +1000,67 @@ msgstr "Cliente %s añadido"
 
 #. Template: AAABase
 msgid "Role added!"
-msgstr "¬°Rol añadido!"
+msgstr "¡Rol añadido!"
 
 #. Template: AAABase
 msgid "Role updated!"
-msgstr "¬°Rol actualizado!"
+msgstr "¡Rol actualizado!"
 
 #. Template: AAABase
 msgid "Attachment added!"
-msgstr "¬°Archivo adjunto añadido!"
+msgstr "¡Archivo adjunto añadido!"
 
 #. Template: AAABase
 msgid "Attachment updated!"
-msgstr "¬°Archivo adjunto actualizado!"
+msgstr "¡Archivo adjunto actualizado!"
 
 #. Template: AAABase
 msgid "Response added!"
-msgstr "¬°Respuesta añadida!"
+msgstr "¡Respuesta añadida!"
 
 #. Template: AAABase
 msgid "Response updated!"
-msgstr "¬°Respuesta actualizada!"
+msgstr "¡Respuesta actualizada!"
 
 #. Template: AAABase
 msgid "Group updated!"
-msgstr "¬°Grupo actualizado!"
+msgstr "¡Grupo actualizado!"
 
 #. Template: AAABase
 msgid "Queue added!"
-msgstr "¬°Fila añadida!"
+msgstr "¡Fila añadida!"
 
 #. Template: AAABase
 msgid "Queue updated!"
-msgstr "¬°Fila actualizada!"
+msgstr "¡Fila actualizada!"
 
 #. Template: AAABase
 msgid "State added!"
-msgstr "¬°Estado añadido!"
+msgstr "¡Estado añadido!"
 
 #. Template: AAABase
 msgid "State updated!"
-msgstr "¬°Estado actualizado!"
+msgstr "¡Estado actualizado!"
 
 #. Template: AAABase
 msgid "Type added!"
-msgstr "¬°Tipo añadido!"
+msgstr "¡Tipo añadido!"
 
 #. Template: AAABase
 msgid "Type updated!"
-msgstr "¬°Tipo actualizado!"
+msgstr "¡Tipo actualizado!"
 
 #. Template: AAABase
 msgid "Customer updated!"
-msgstr "¬°Cliente actualizado!"
+msgstr "¡Cliente actualizado!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr "¬°Compañía cliente agregada!"
+msgstr "¡Compañía cliente agregada!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr "¬°Compañía cliente actualizada!"
+msgstr "¡Compañía cliente actualizada!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
@@ -1072,19 +1068,19 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Mail account added!"
-msgstr "¬°Cuenta de correo agregada!"
+msgstr "¡Cuenta de correo agregada!"
 
 #. Template: AAABase
 msgid "Mail account updated!"
-msgstr "¬°Cuenta de correo actualizada!"
+msgstr "¡Cuenta de correo actualizada!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr "¬°Dirección de correo del sistema agregada!"
+msgstr "¡Dirección de correo del sistema agregada!"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr "¬°Dirección de correo del sistema actualizada!"
+msgstr "¡Dirección de correo del sistema actualizada!"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1548,11 +1544,11 @@ msgstr "OTRS como proveedor"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr "¬°Webservice \"%s\" creado!"
+msgstr "¡Webservice \"%s\" creado!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr "¬°Webservice \"%s\" actualizado!"
+msgstr "¡Webservice \"%s\" actualizado!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1696,35 +1692,35 @@ msgstr "Cantidad máxima de Tickets a mostrar en vista Resumen."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
-msgstr "¬°Contraseña incorrecta! Por favor, intente de nuevo."
+msgstr "¡Contraseña incorrecta! Por favor, intente de nuevo."
 
 #. Template: AAAPreferences
 msgid "Can't update password, your new passwords do not match. Please try again!"
-msgstr "¬°No se puede actualizar su contraseña, porque las contraseñas nuevas no coinciden! Por favor, intente de nuevo."
+msgstr "¡No se puede actualizar su contraseña, porque las contraseñas nuevas no coinciden! Por favor, intente de nuevo."
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
-msgstr "¬°No se puede actualizar su contraseña, porque contiene caracteres inválidos!"
+msgstr "¡No se puede actualizar su contraseña, porque contiene caracteres inválidos!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "¬°No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!"
+msgstr "¡No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 2 lowercase and 2 uppercase characters!"
-msgstr "¬°No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!"
+msgstr "¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "¬°No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!"
+msgstr "¡No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 2 characters!"
-msgstr "¬°No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres!"
+msgstr "¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, this password has already been used. Please choose a new one!"
-msgstr "¬°No se puede actualizar su contraseña, porque la que proporcinó ya se está usando! Por favor, elija una nueva."
+msgstr "¡No se puede actualizar su contraseña, porque la que proporcinó ya se está usando! Por favor, elija una nueva."
 
 #. Template: AAAPreferences
 msgid "Select the separator character used in CSV files (stats and searches). If you don't select a separator here, the default separator for your language will be used."
@@ -2552,7 +2548,7 @@ msgstr "Modificar prioridad"
 
 #. Template: AAATicket
 msgid "Priority added!"
-msgstr "¬°Prioridad agregada!"
+msgstr "¡Prioridad agregada!"
 
 #. Template: AAATicket
 msgid "Priority updated!"
@@ -2560,7 +2556,7 @@ msgstr "Prioridad actualizada!"
 
 #. Template: AAATicket
 msgid "Signature added!"
-msgstr "¬°Firma agregada!"
+msgstr "¡Firma agregada!"
 
 #. Template: AAATicket
 msgid "Signature updated!"
@@ -4044,7 +4040,7 @@ msgstr "Eliminar este campo"
 
 #. Template: AdminDynamicField
 msgid "Do you really want to delete this dynamic field? ALL associated data will be LOST!"
-msgstr "¬øRealmente desea eliminar este campo dinamico? TODA la información asociada al mismo se PERDERÁ!"
+msgstr "¿Realmente desea eliminar este campo dinamico? TODA la información asociada al mismo se PERDERÁ!"
 
 #. Template: AdminDynamicField
 msgid "Delete field"
@@ -4696,7 +4692,7 @@ msgstr "Eliminar tickets"
 
 #. Template: AdminGenericAgent
 msgid "Warning: All affected tickets will be removed from the database and cannot be restored!"
-msgstr "Advertencia: ¬°Todos los tickets afectados serán eliminados de la base de datos y no se podrá restaurar!"
+msgstr "Advertencia: ¡Todos los tickets afectados serán eliminados de la base de datos y no se podrá restaurar!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
@@ -4720,11 +4716,11 @@ msgstr "Resultados"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
-msgstr "¬°%s Tickets afectados! ¬øQué desea hacer?"
+msgstr "¡%s Tickets afectados! ¿Qué desea hacer?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "Advertencia: Eligió la opción ELIMINAR. ¬°Todos los tickets eliminados se perderán!. "
+msgstr "Advertencia: Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se perderán!. "
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -4760,7 +4756,7 @@ msgstr "Limpiar"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr "¬øUsted realmente desea limpiar los registros del depurador para este servicio web?"
+msgstr "¿Usted realmente desea limpiar los registros del depurador para este servicio web?"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
@@ -5384,7 +5380,7 @@ msgstr "Eliminar servicio web"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr "¬øEsta seguro que desea eliminar este servicio web¬ø"
+msgstr "¿Esta seguro que desea eliminar este servicio web¿"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "After you save the configuration you will be redirected again to the edit screen."
@@ -5988,7 +5984,7 @@ msgstr "Desinstalar paquete"
 
 #. Template: AdminPackageManager
 msgid "Do you really want to uninstall this package?"
-msgstr "¬øEstá seguro de que desea desinstalar este paquete?"
+msgstr "¿Está seguro de que desea desinstalar este paquete?"
 
 #. Template: AdminPackageManager
 msgid "Reinstall package"
@@ -5996,7 +5992,7 @@ msgstr "Reinstalar paquete"
 
 #. Template: AdminPackageManager
 msgid "Do you really want to reinstall this package? Any manual changes will be lost."
-msgstr "¬øEstá seguro de que desea reinstalar este paquete? Cualquier cambio manual se perderá."
+msgstr "¿Está seguro de que desea reinstalar este paquete? Cualquier cambio manual se perderá."
 
 #. Template: AdminPackageManager
 msgid "Continue"
@@ -7456,7 +7452,7 @@ msgstr "Modificar SLA"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
-msgstr "¬°Por favor, escriba sólo números!"
+msgstr "¡Por favor, escriba sólo números!"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
@@ -7572,7 +7568,7 @@ msgstr "Saludo de ejemplo"
 
 #. Template: AdminSecureMode
 msgid "Secure mode needs to be enabled!"
-msgstr "¬°El modo seguro necesita estar habilitado!"
+msgstr "¡El modo seguro necesita estar habilitado!"
 
 #. Template: AdminSecureMode
 msgid "Secure mode will (normally) be set after the initial installation is completed."
@@ -7888,7 +7884,7 @@ msgstr "Modificar Configuraciones"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
-msgstr "¬°Este elemento de configuración sólo está disponible en un nivel de configuración más alto!"
+msgstr "¡Este elemento de configuración sólo está disponible en un nivel de configuración más alto!"
 
 #. Template: AdminSysConfigEdit
 msgid "Reset this setting"
@@ -8088,7 +8084,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
-msgstr "¬°Fecha inválida!"
+msgstr "¡Fecha inválida!"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
@@ -8224,7 +8220,7 @@ msgstr "Los agentes se requieren para que se encarguen de los tickets."
 
 #. Template: AdminUser
 msgid "Don't forget to add a new agent to groups and/or roles!"
-msgstr "¬°Recuerde añadir a los agentes nuevos a grupos y/o roles!"
+msgstr "¡Recuerde añadir a los agentes nuevos a grupos y/o roles!"
 
 #. Template: AdminUser
 msgid "Please enter a search term to look for agents."
@@ -8572,7 +8568,7 @@ msgstr "Eliminar estadística"
 
 #. Template: AgentStatsDelete
 msgid "Do you really want to delete this stat?"
-msgstr "¬øRealmente desea eliminar esta estadística?"
+msgstr "¿Realmente desea eliminar esta estadística?"
 
 #. Template: AgentStatsEditRestrictions
 msgid "Step %s"
@@ -8976,7 +8972,7 @@ msgstr "Fusionar con"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
-msgstr "¬°Identificador de ticket inválido!"
+msgstr "¡Identificador de ticket inválido!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to oldest"
@@ -9024,7 +9020,7 @@ msgstr "Agenda de direcciones"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
-msgstr "¬°Fecha Inválida!"
+msgstr "¡Fecha Inválida!"
 
 #. Template: AgentTicketCustomer
 msgid "Change customer of ticket"
@@ -9092,7 +9088,7 @@ msgstr "Fusionar Ticket"
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
-msgstr "¬°Necesita usar un número de ticket!"
+msgstr "¡Necesita usar un número de ticket!"
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
@@ -9468,7 +9464,7 @@ msgstr "Importante"
 
 #. Template: AgentTicketZoom
 msgid "Unread Article!"
-msgstr "¬°Artículo sin leer!"
+msgstr "¡Artículo sin leer!"
 
 #. Template: AgentTicketZoom
 msgid "Incoming message"
@@ -9536,7 +9532,7 @@ msgstr "Impulsado por"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
-msgstr "¬°Ha ocurrido al menos un error!"
+msgstr "¡Ha ocurrido al menos un error!"
 
 #. Template: CustomerFooterJS
 msgid "Close this dialog"
@@ -9600,7 +9596,7 @@ msgstr "Su contraseña"
 
 #. Template: CustomerLogin
 msgid "Forgot password?"
-msgstr "¬øOlvidó su contraseña?"
+msgstr "¿Olvidó su contraseña?"
 
 #. Template: CustomerLogin
 msgid "Log In"
@@ -9608,7 +9604,7 @@ msgstr "Iniciar sesión"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
-msgstr "¬øAún no se ha registrado?"
+msgstr "¿Aún no se ha registrado?"
 
 #. Template: CustomerLogin
 msgid "Request new password"
@@ -9740,7 +9736,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
-msgstr "¬øGuardar como Plantilla?"
+msgstr "¿Guardar como Plantilla?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template"
@@ -9856,7 +9852,7 @@ msgstr ""
 
 #. Template: Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr "¬°Fecha inválida (se requiere una fecha futura)!"
+msgstr "¡Fecha inválida (se requiere una fecha futura)!"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
@@ -9896,7 +9892,7 @@ msgstr "Si sale de esta página ahora, todas las ventanas pop-up también se cer
 
 #. Template: FooterJS
 msgid "A popup of this screen is already open. Do you want to close it and load this one instead?"
-msgstr "Ya hay una pop-up abierta de esta pantalla. ¬øDesea cerrarla y cargar esta en su lugar?"
+msgstr "Ya hay una pop-up abierta de esta pantalla. ¿Desea cerrarla y cargar esta en su lugar?"
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
@@ -9980,7 +9976,7 @@ msgstr "Autenticación SMTP"
 
 #. Template: InstallerConfigureMail
 msgid "Does your SMTP host need authentication?"
-msgstr "¬øSu host SMTP requiere autenticación?"
+msgstr "¿Su host SMTP requiere autenticación?"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth user"
@@ -10212,7 +10208,7 @@ msgstr "Eliminar enlaces"
 
 #. Template: Login
 msgid "Lost your password?"
-msgstr "¬øPerdió su contraseña?"
+msgstr "¿Perdió su contraseña?"
 
 #. Template: Login
 msgid "Request New Password"
@@ -10260,11 +10256,11 @@ msgstr "Se necesita el ID del Formulario"
 
 #. Template: PictureUpload
 msgid "No file found!"
-msgstr "¬°No se encontró el archivo!"
+msgstr "¡No se encontró el archivo!"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
-msgstr "¬°El archivo no es una imagen que se pueda mostrar en línea!"
+msgstr "¡El archivo no es una imagen que se pueda mostrar en línea!"
 
 #. Template: PrintHeader
 msgid "printed by"
