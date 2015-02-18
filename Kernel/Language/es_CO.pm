@@ -215,21 +215,21 @@ sub Data {
         'Maximum size is %s characters.' => '',
         'This field is required or' => '',
         'New message' => 'Mensaje nuevo',
-        'New message!' => '¬°Mensaje nuevo!',
+        'New message!' => '¡Mensaje nuevo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
             'Por favor, responda a este(os) ticket(s) para regresar a la vista normal de la fila.',
         'You have %s new message(s)!' => 'Tiene %s mensaje(s) nuevo(s)',
         'You have %s reminder ticket(s)!' => 'Tiene %s recordatorio(s) de ticket',
         'The recommended charset for your language is %s!' => 'El juego de caracteres recomendado para su idioma es %s.',
         'Change your password.' => 'Cambiar contraseña',
-        'Please activate %s first!' => '¬°Favor de activar %s primero!',
+        'Please activate %s first!' => '¡Favor de activar %s primero!',
         'No suggestions' => 'Sin sugerencias.',
         'Word' => 'Palabra',
         'Ignore' => 'Ignorar',
         'replace with' => 'reemplazar con',
         'There is no account with that login name.' => 'No existe una cuenta para ese nombre de usuario.',
         'Login failed! Your user name or password was entered incorrectly.' =>
-            '¬°Inicio de sesión fallido! Nombre de usuario o contraseña incorrecto.',
+            '¡Inicio de sesión fallido! Nombre de usuario o contraseña incorrecto.',
         'There is no acount with that user name.' => 'No existe una cuenta para ese nombre de usuario',
         'Please contact your administrator' => 'Favor de contactar a su administrador',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
@@ -239,7 +239,7 @@ sub Data {
         'Logout' => 'Cerrar Sesión',
         'Logout successful. Thank you for using %s!' => '',
         'Feature not active!' => 'Funcionalidad inactiva.',
-        'Agent updated!' => '¬°Agente actualizado!',
+        'Agent updated!' => '¡Agente actualizado!',
         'Database Selection' => '',
         'Create Database' => 'Crear Base de Datos',
         'System Settings' => 'Configuración del sistema',
@@ -285,30 +285,30 @@ sub Data {
         'Cannot create %s!' => 'No se puede crear %s!',
         'Check to activate this date' => 'Chequear para activar esta fecha',
         'You have Out of Office enabled, would you like to disable it?' =>
-            'Usted configuró su cuenta como "Fuera de la Oficina", ¬ødesea deshabilitarlo?',
+            'Usted configuró su cuenta como "Fuera de la Oficina", ¿desea deshabilitarlo?',
         'News about OTRS releases!' => '',
         'Customer %s added' => 'Cliente %s añadido',
-        'Role added!' => '¬°Rol añadido!',
-        'Role updated!' => '¬°Rol actualizado!',
-        'Attachment added!' => '¬°Archivo adjunto añadido!',
-        'Attachment updated!' => '¬°Archivo adjunto actualizado!',
-        'Response added!' => '¬°Respuesta añadida!',
-        'Response updated!' => '¬°Respuesta actualizada!',
-        'Group updated!' => '¬°Grupo actualizado!',
-        'Queue added!' => '¬°Fila añadida!',
-        'Queue updated!' => '¬°Fila actualizada!',
-        'State added!' => '¬°Estado añadido!',
-        'State updated!' => '¬°Estado actualizado!',
-        'Type added!' => '¬°Tipo añadido!',
-        'Type updated!' => '¬°Tipo actualizado!',
-        'Customer updated!' => '¬°Cliente actualizado!',
-        'Customer company added!' => '¬°Compañía cliente agregada!',
-        'Customer company updated!' => '¬°Compañía cliente actualizada!',
+        'Role added!' => '¡Rol añadido!',
+        'Role updated!' => '¡Rol actualizado!',
+        'Attachment added!' => '¡Archivo adjunto añadido!',
+        'Attachment updated!' => '¡Archivo adjunto actualizado!',
+        'Response added!' => '¡Respuesta añadida!',
+        'Response updated!' => '¡Respuesta actualizada!',
+        'Group updated!' => '¡Grupo actualizado!',
+        'Queue added!' => '¡Fila añadida!',
+        'Queue updated!' => '¡Fila actualizada!',
+        'State added!' => '¡Estado añadido!',
+        'State updated!' => '¡Estado actualizado!',
+        'Type added!' => '¡Tipo añadido!',
+        'Type updated!' => '¡Tipo actualizado!',
+        'Customer updated!' => '¡Cliente actualizado!',
+        'Customer company added!' => '¡Compañía cliente agregada!',
+        'Customer company updated!' => '¡Compañía cliente actualizada!',
         'Note: Company is invalid!' => '',
-        'Mail account added!' => '¬°Cuenta de correo agregada!',
-        'Mail account updated!' => '¬°Cuenta de correo actualizada!',
-        'System e-mail address added!' => '¬°Dirección de correo del sistema agregada!',
-        'System e-mail address updated!' => '¬°Dirección de correo del sistema actualizada!',
+        'Mail account added!' => '¡Cuenta de correo agregada!',
+        'Mail account updated!' => '¡Cuenta de correo actualizada!',
+        'System e-mail address added!' => '¡Dirección de correo del sistema agregada!',
+        'System e-mail address updated!' => '¡Dirección de correo del sistema actualizada!',
         'Contract' => 'Contrato',
         'Online Customer: %s' => 'Cliente Conectado: %s',
         'Online Agent: %s' => 'Agente Conectado: %s',
@@ -440,8 +440,8 @@ sub Data {
         # Template: AAAGenericInterface
         'OTRS as requester' => 'OTRS como solicitante',
         'OTRS as provider' => 'OTRS como proveedor',
-        'Webservice "%s" created!' => '¬°Webservice "%s" creado!',
-        'Webservice "%s" updated!' => '¬°Webservice "%s" actualizado!',
+        'Webservice "%s" created!' => '¡Webservice "%s" creado!',
+        'Webservice "%s" updated!' => '¡Webservice "%s" actualizado!',
 
         # Template: AAAMonth
         'Jan' => 'Ene',
@@ -481,19 +481,19 @@ sub Data {
         'Spelling Dictionary' => 'Diccionario Ortográfico',
         'Default spelling dictionary' => 'Diccionario por defecto',
         'Max. shown Tickets a page in Overview.' => 'Cantidad máxima de Tickets a mostrar en vista Resumen.',
-        'The current password is not correct. Please try again!' => '¬°Contraseña incorrecta! Por favor, intente de nuevo.',
+        'The current password is not correct. Please try again!' => '¡Contraseña incorrecta! Por favor, intente de nuevo.',
         'Can\'t update password, your new passwords do not match. Please try again!' =>
-            '¬°No se puede actualizar su contraseña, porque las contraseñas nuevas no coinciden! Por favor, intente de nuevo.',
-        'Can\'t update password, it contains invalid characters!' => '¬°No se puede actualizar su contraseña, porque contiene caracteres inválidos!',
+            '¡No se puede actualizar su contraseña, porque las contraseñas nuevas no coinciden! Por favor, intente de nuevo.',
+        'Can\'t update password, it contains invalid characters!' => '¡No se puede actualizar su contraseña, porque contiene caracteres inválidos!',
         'Can\'t update password, it must be at least %s characters long!' =>
-            '¬°No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!',
+            '¡No se puede actualizar su contraseña, porque debe contener al menos %s caracteres!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!' =>
-            '¬°No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
-        'Can\'t update password, it must contain at least 1 digit!' => '¬°No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!',
+            '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres en mayúscula y 2 en minúscula!',
+        'Can\'t update password, it must contain at least 1 digit!' => '¡No se puede actualizar su contraseña, porque debe contener al menos 1 dígito!',
         'Can\'t update password, it must contain at least 2 characters!' =>
-            '¬°No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres!',
+            '¡No se puede actualizar su contraseña, porque debe contener al menos 2 caracteres!',
         'Can\'t update password, this password has already been used. Please choose a new one!' =>
-            '¬°No se puede actualizar su contraseña, porque la que proporcinó ya se está usando! Por favor, elija una nueva.',
+            '¡No se puede actualizar su contraseña, porque la que proporcinó ya se está usando! Por favor, elija una nueva.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Seleccione el caracter de separación para los archivos CSV (estadísticas y búsquedas). En caso de que no lo seleccione, se usará el separador por defecto para su idioma.',
         'CSV Separator' => 'Separador CSV',
@@ -731,9 +731,9 @@ sub Data {
         'Priority' => 'Prioridad',
         'Priorities' => 'Prioridades',
         'Priority Update' => 'Modificar prioridad',
-        'Priority added!' => '¬°Prioridad agregada!',
+        'Priority added!' => '¡Prioridad agregada!',
         'Priority updated!' => 'Prioridad actualizada!',
-        'Signature added!' => '¬°Firma agregada!',
+        'Signature added!' => '¡Firma agregada!',
         'Signature updated!' => 'Firma actualizada!',
         'SLA' => 'SLA',
         'Service Level Agreement' => 'Acuerdo de Nivel de Servicio',
@@ -1157,7 +1157,7 @@ sub Data {
         'Object' => 'Objeto',
         'Delete this field' => 'Eliminar este campo',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '¬øRealmente desea eliminar este campo dinamico? TODA la información asociada al mismo se PERDERÁ!',
+            '¿Realmente desea eliminar este campo dinamico? TODA la información asociada al mismo se PERDERÁ!',
         'Delete field' => 'Eliminar campo',
 
         # Template: AdminDynamicFieldCheckbox
@@ -1354,15 +1354,15 @@ sub Data {
             'Este comando se ejecutará. ARG[0] será el número del ticket y ARG[0] el identificador del ticket.',
         'Delete tickets' => 'Eliminar tickets',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
-            'Advertencia: ¬°Todos los tickets afectados serán eliminados de la base de datos y no se podrá restaurar!',
+            'Advertencia: ¡Todos los tickets afectados serán eliminados de la base de datos y no se podrá restaurar!',
         'Execute Custom Module' => 'Ejecutar Módulo Personalizado',
         'Param %s key' => 'Parámetro %s llave',
         'Param %s value' => 'Parámetro %s valor',
         'Save Changes' => 'Guardar Cambios',
         'Results' => 'Resultados',
-        '%s Tickets affected! What do you want to do?' => '¬°%s Tickets afectados! ¬øQué desea hacer?',
+        '%s Tickets affected! What do you want to do?' => '¡%s Tickets afectados! ¿Qué desea hacer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'Advertencia: Eligió la opción ELIMINAR. ¬°Todos los tickets eliminados se perderán!. ',
+            'Advertencia: Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se perderán!. ',
         'Edit job' => 'Modificar tarea',
         'Run job' => 'Ejecutar tarea',
         'Affected Tickets' => 'Tickets Afectados',
@@ -1374,7 +1374,7 @@ sub Data {
         'Go back to web service' => 'Volver al servicio web',
         'Clear' => 'Limpiar',
         'Do you really want to clear the debug log of this web service?' =>
-            '¬øUsted realmente desea limpiar los registros del depurador para este servicio web?',
+            '¿Usted realmente desea limpiar los registros del depurador para este servicio web?',
         'Request List' => 'Límite de solicitudes',
         'Time' => 'Tiempo',
         'Remote IP' => 'Dirección IP remota',
@@ -1568,7 +1568,7 @@ sub Data {
         'Import' => 'Importar',
         'Configuration history' => 'Historial de configuración',
         'Delete web service' => 'Eliminar servicio web',
-        'Do you really want to delete this web service?' => '¬øEsta seguro que desea eliminar este servicio web¬ø',
+        'Do you really want to delete this web service?' => '¿Esta seguro que desea eliminar este servicio web¿',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Después de guardar la configuración usted será redireccionado de nuevo a la ventana de edición.',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -1781,10 +1781,10 @@ sub Data {
         # Template: AdminPackageManager
         'Package Manager' => 'Gestor de paquetes',
         'Uninstall package' => 'Desinstalar paquete',
-        'Do you really want to uninstall this package?' => '¬øEstá seguro de que desea desinstalar este paquete?',
+        'Do you really want to uninstall this package?' => '¿Está seguro de que desea desinstalar este paquete?',
         'Reinstall package' => 'Reinstalar paquete',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
-            '¬øEstá seguro de que desea reinstalar este paquete? Cualquier cambio manual se perderá.',
+            '¿Está seguro de que desea reinstalar este paquete? Cualquier cambio manual se perderá.',
         'Continue' => 'Continuar',
         'Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
@@ -2272,7 +2272,7 @@ sub Data {
         'SLA Management' => 'Administración de SLA',
         'Add SLA' => 'Añadir SLA',
         'Edit SLA' => 'Modificar SLA',
-        'Please write only numbers!' => '¬°Por favor, escriba sólo números!',
+        'Please write only numbers!' => '¡Por favor, escriba sólo números!',
 
         # Template: AdminSMIME
         'S/MIME Management' => 'Gestion S/MIME',
@@ -2312,7 +2312,7 @@ sub Data {
         'Example salutation' => 'Saludo de ejemplo',
 
         # Template: AdminSecureMode
-        'Secure mode needs to be enabled!' => '¬°El modo seguro necesita estar habilitado!',
+        'Secure mode needs to be enabled!' => '¡El modo seguro necesita estar habilitado!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
             'El Modo Seguro (normalmente) queda habilitado cuando la instalación inicial se completa.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
@@ -2423,7 +2423,7 @@ sub Data {
         # Template: AdminSysConfigEdit
         'Edit Config Settings' => 'Modificar Configuraciones',
         'This config item is only available in a higher config level!' =>
-            '¬°Este elemento de configuración sólo está disponible en un nivel de configuración más alto!',
+            '¡Este elemento de configuración sólo está disponible en un nivel de configuración más alto!',
         'Reset this setting' => 'Restablecer esta configuración',
         'Error: this file could not be found.' => 'Error: no se encontró el archivo.',
         'Error: this directory could not be found.' => 'Error: no se encontró el directorio.',
@@ -2484,7 +2484,7 @@ sub Data {
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => '',
         'Edit System Maintenance information' => '',
-        'Date invalid!' => '¬°Fecha inválida!',
+        'Date invalid!' => '¡Fecha inválida!',
         'Login message' => '',
         'Show login message' => '',
         'Notify message' => '',
@@ -2527,7 +2527,7 @@ sub Data {
         # Template: AdminUser
         'Add agent' => 'Añadir agente',
         'Agents will be needed to handle tickets.' => 'Los agentes se requieren para que se encarguen de los tickets.',
-        'Don\'t forget to add a new agent to groups and/or roles!' => '¬°Recuerde añadir a los agentes nuevos a grupos y/o roles!',
+        'Don\'t forget to add a new agent to groups and/or roles!' => '¡Recuerde añadir a los agentes nuevos a grupos y/o roles!',
         'Please enter a search term to look for agents.' => 'Por favor, introduzca un parámetro de búsqueda para buscar agentes.',
         'Last login' => 'Último inicio de sesión',
         'Switch to agent' => 'Cambiar a agente',
@@ -2667,7 +2667,7 @@ sub Data {
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Eliminar estadística',
-        'Do you really want to delete this stat?' => '¬øRealmente desea eliminar esta estadística?',
+        'Do you really want to delete this stat?' => '¿Realmente desea eliminar esta estadística?',
 
         # Template: AgentStatsEditRestrictions
         'Step %s' => 'Paso %s',
@@ -2808,7 +2808,7 @@ sub Data {
         'Ticket Bulk Action' => 'Acción múltiple con Tickets',
         'Send Email' => '',
         'Merge to' => 'Fusionar con',
-        'Invalid ticket identifier!' => '¬°Identificador de ticket inválido!',
+        'Invalid ticket identifier!' => '¡Identificador de ticket inválido!',
         'Merge to oldest' => 'Combinar con el mas viejo',
         'Link together' => 'Enlazar juntos',
         'Link to parent' => 'Enlazar al padre',
@@ -2823,7 +2823,7 @@ sub Data {
         'Remove Cc' => '',
         'Remove Bcc' => '',
         'Address book' => 'Agenda de direcciones',
-        'Date Invalid!' => '¬°Fecha Inválida!',
+        'Date Invalid!' => '¡Fecha Inválida!',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Cambiar cliente del ticket',
@@ -2852,7 +2852,7 @@ sub Data {
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Fusionar Ticket',
-        'You need to use a ticket number!' => '¬°Necesita usar un número de ticket!',
+        'You need to use a ticket number!' => '¡Necesita usar un número de ticket!',
         'A valid ticket number is required.' => 'Se requiere un número de ticket válido.',
         'Need a valid email address.' => 'Se require una dirección de correo electrónica válida.',
 
@@ -2970,7 +2970,7 @@ sub Data {
         'Unread articles' => 'Artículos no leídos',
         'No.' => 'Núm.',
         'Important' => 'Importante',
-        'Unread Article!' => '¬°Artículo sin leer!',
+        'Unread Article!' => '¡Artículo sin leer!',
         'Incoming message' => 'Mensaje entrante',
         'Outgoing message' => 'Mensaje saliente',
         'Internal message' => 'Mensaje interno',
@@ -3000,7 +3000,7 @@ sub Data {
         'Powered by' => 'Impulsado por',
 
         # Template: CustomerFooterJS
-        'One or more errors occurred!' => '¬°Ha ocurrido al menos un error!',
+        'One or more errors occurred!' => '¡Ha ocurrido al menos un error!',
         'Close this dialog' => 'Cerrar este diálogo',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
             'No se pudo abrir la ventana pop-up. Por favor, deshabilite cualquier bloqueador de pop-ups para esta aplicación.',
@@ -3022,9 +3022,9 @@ sub Data {
         'User name' => 'Nombre de usuario',
         'Your user name' => 'Su nombre de usuario',
         'Your password' => 'Su contraseña',
-        'Forgot password?' => '¬øOlvidó su contraseña?',
+        'Forgot password?' => '¿Olvidó su contraseña?',
         'Log In' => 'Iniciar sesión',
-        'Not yet registered?' => '¬øAún no se ha registrado?',
+        'Not yet registered?' => '¿Aún no se ha registrado?',
         'Request new password' => 'Solicitar una nueva contraseña',
         'Your User Name' => 'Su Nombre de Usuario',
         'A new password will be sent to your email address.' => 'Una contraseña nueva se enviará a su dirección de correo electrónico.',
@@ -3069,7 +3069,7 @@ sub Data {
         'Only tickets created between' => 'Únicamente tickets creados entre',
         'Ticket archive system' => '',
         'Save search as template?' => '',
-        'Save as Template?' => '¬øGuardar como Plantilla?',
+        'Save as Template?' => '¿Guardar como Plantilla?',
         'Save as Template' => '',
         'Template Name' => 'Nombre de la Plantilla',
         'Pick a profile name' => '',
@@ -3106,7 +3106,7 @@ sub Data {
         'Dynamic fields' => '',
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '¬°Fecha inválida (se requiere una fecha futura)!',
+        'Invalid date (need a future date)!' => '¡Fecha inválida (se requiere una fecha futura)!',
         'Invalid date (need a past date)!' => '',
         'Previous' => 'Previo(a)',
         'Open date selection' => 'Abrir fecha seleccionada',
@@ -3122,7 +3122,7 @@ sub Data {
         'If you now leave this page, all open popup windows will be closed, too!' =>
             'Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán.',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
-            'Ya hay una pop-up abierta de esta pantalla. ¬øDesea cerrarla y cargar esta en su lugar?',
+            'Ya hay una pop-up abierta de esta pantalla. ¿Desea cerrarla y cargar esta en su lugar?',
         'Please enter at least one search value or * to find anything.' =>
             '',
         'Please check the fields marked as red for valid inputs.' => '',
@@ -3151,7 +3151,7 @@ sub Data {
         'SMTP host' => 'Host SMTP',
         'SMTP host.' => 'Host SMTP.',
         'SMTP authentication' => 'Autenticación SMTP',
-        'Does your SMTP host need authentication?' => '¬øSu host SMTP requiere autenticación?',
+        'Does your SMTP host need authentication?' => '¿Su host SMTP requiere autenticación?',
         'SMTP auth user' => 'Autenticación de usuario SMTP',
         'Username for SMTP auth.' => 'Nombre de usuario para la autenticación SMTP.',
         'SMTP auth password' => 'Contraseña de autenticación SMTP',
@@ -3233,7 +3233,7 @@ sub Data {
         'Delete links' => 'Eliminar enlaces',
 
         # Template: Login
-        'Lost your password?' => '¬øPerdió su contraseña?',
+        'Lost your password?' => '¿Perdió su contraseña?',
         'Request New Password' => 'Solicite una Contraseña Nueva',
         'Back to login' => 'Regresar al inicio de sesión',
 
@@ -3253,8 +3253,8 @@ sub Data {
 
         # Template: PictureUpload
         'Need FormID!' => 'Se necesita el ID del Formulario',
-        'No file found!' => '¬°No se encontró el archivo!',
-        'The file is not an image that can be shown inline!' => '¬°El archivo no es una imagen que se pueda mostrar en línea!',
+        'No file found!' => '¡No se encontró el archivo!',
+        'The file is not an image that can be shown inline!' => '¡El archivo no es una imagen que se pueda mostrar en línea!',
 
         # Template: PrintHeader
         'printed by' => 'impreso por',
