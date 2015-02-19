@@ -1,4 +1,6 @@
-#3.3.12 ???-??-??
+#3.3.13 ????-??-??
+
+#3.3.12 2015-02-24
  - 2015-02-17 Fixed bug#[10623](http://bugs.otrs.org/show_bug.cgi?id=10623) - Ticket owner is not shown regardless what is configured, thanks to Renee Bäcker.
  - 2015-02-06 Fixed bug#[10942](http://bugs.otrs.org/show_bug.cgi?id=10942) - Adressbook search does not permit to add contacts via click.
  - 2015-02-03 Fixed bug#[11050](http://bugs.otrs.org/show_bug.cgi?id=11050) - Wrong sortation of Ticket Overview settings.
