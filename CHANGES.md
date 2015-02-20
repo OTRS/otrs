@@ -1,4 +1,5 @@
 #3.3.13 ????-??-??
+ - 2015-02-20 Updated CPAN module Crypt::PasswdMD5 to version 1.40 to fix problems with perl 5.20.
 
 #3.3.12 2015-02-24
  - 2015-02-17 Fixed bug#[10623](http://bugs.otrs.org/show_bug.cgi?id=10623) - Ticket owner is not shown regardless what is configured, thanks to Renee Bäcker.
