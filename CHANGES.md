@@ -1,4 +1,5 @@
 #3.3.13 ????-??-??
+ - 2015-02-20 Fixed problem with missing TimeObject in GenericInterface/Event/Handler.pm.
  - 2015-02-20 Updated CPAN module Crypt::PasswdMD5 to version 1.40 to fix problems with perl 5.20.
 
 #3.3.12 2015-02-24
