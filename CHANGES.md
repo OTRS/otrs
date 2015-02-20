@@ -9,6 +9,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-02-20 Allow multiline chat feeds; reduced chat request polling frequency.
 
 #4.0.6 2015-02-24
  - 2015-02-18 Updated translations, thanks to all translators.

@@ -867,6 +867,7 @@ iframe.TextOption.Customer {
 
 #ChatStartDialog {
     width: 500px;
+    position: relative;
 }
 
 #ChatStartDialog form {
@@ -874,8 +875,26 @@ iframe.TextOption.Customer {
     padding: 10px;
 }
 
-#ChatStartDialog form input {
-    width: 375px;
+#ChatStartDialog form textarea {
+    width: 380px;
+    height: 30px;
+    font-family: arial, sans-serif;
+    padding: 3px;
+}
+
+#ChatStartDialog form .Primary {
+    position: absolute;
+    right: 20px;
+    top: 11px;
+}
+
+#ChatStartDialog form .Primary span {
+    line-height: 26px;
+    height: 26px;
+}
+
+#ChatStartDialog form .Primary:focus {
+    border-color: #333;
 }
 
 .ChatProtocol {

@@ -15,7 +15,7 @@
             <input type="hidden" name="ChatStartUserID" />
             <input type="hidden" name="ChatStartUserType" />
             <input type="hidden" name="ChatStartUserFullname" />
-            <input type="text"   name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]" />
+            <textarea name="ChatStartFirstMessage" placeholder="[% Translate('First message') | html %]"></textarea>
             <button type="submit" class="CallForAction Primary" disabled="disabled"><span>[% Translate('Start Chat') | html %]</span></button>
         </form>
     </div>

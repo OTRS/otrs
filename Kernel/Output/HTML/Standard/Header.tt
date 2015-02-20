@@ -167,7 +167,7 @@ if ($('#ToolBar li.ChatRequests').length) {
             'text'
         );
 
-    }, 10000);
+    }, 60000);
 }
 //]]></script>
 [% END %]
