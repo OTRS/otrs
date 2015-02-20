@@ -1879,9 +1879,10 @@ sub _SearchParamsGet {
             sort { $Self->_DefaultColumnSort() } keys %{ $Self->{Config}->{DefaultColumns} };
     }
     if ($PreferencesColumn) {
-        @Columns = grep { $PreferencesColumn->{Columns}->{$_} eq '1' }
-            sort { $Self->_DefaultColumnSort() } keys %{ $Self->{Config}->{DefaultColumns} };
-
+        if ( $PreferencesColumn->{Columns} && %{$PreferencesColumn->{Columns}}) {
+            @Columns = grep { $PreferencesColumn->{Columns}->{$_} eq '1' }
+                sort { $Self->_DefaultColumnSort() } keys %{ $Self->{Config}->{DefaultColumns} };
+        }
         if ( $PreferencesColumn->{Order} && @{ $PreferencesColumn->{Order} } ) {
             @Columns = @{ $PreferencesColumn->{Order} };
         }
