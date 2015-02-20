@@ -6,8 +6,11 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
 use strict;
 use warnings;
+use utf8;
+
 use vars (qw($Self));
 
 use Kernel::Config;
@@ -39,7 +42,6 @@ my $CacheObject = Kernel::System::Cache->new(
 my $UserID = '';
 for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     my $UserRand = 'Example-Customer-User' . $Key . int( rand(1000000) );
-    $Self->{EncodeObject}->EncodeInput( \$UserRand );
 
     $UserID = $UserRand;
     my $UserID = $CustomerUserObject->CustomerUserAdd(
@@ -492,17 +494,19 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
 
     # check password support
     for my $Config (qw( md5 crypt plain sha1 sha2 )) {
+
         $ConfigObject->Set(
             Key   => 'Customer::AuthModule::DB::CryptType',
             Value => $Config,
         );
+
         my $CustomerAuth = Kernel::System::CustomerAuth->new(
             %{$Self},
             ConfigObject => $ConfigObject,
         );
 
-        for my $Password (qw(some_pass someカス someäöü)) {
-            $Self->{EncodeObject}->EncodeInput( \$Password );
+        for my $Password ( 'some_pass', 'someäöü' ) {
+
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
                 PW        => $Password,
