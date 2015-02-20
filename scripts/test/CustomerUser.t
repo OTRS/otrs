@@ -505,7 +505,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
             ConfigObject => $ConfigObject,
         );
 
-        for my $Password ( 'some_pass', 'someäöü' ) {
+        for my $Password ( 'some_pass' ) {
 
             my $Set = $CustomerUserObject->SetPassword(
                 UserLogin => $UserID,
