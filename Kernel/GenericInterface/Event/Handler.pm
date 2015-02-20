@@ -15,6 +15,7 @@ use warnings;
 use Kernel::GenericInterface::Requester;
 use Kernel::Scheduler;
 use Kernel::System::GenericInterface::Webservice;
+use Kernel::System::Time;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 =head1 NAME
@@ -37,10 +38,17 @@ sub new {
 
     # get needed objects
     for (
-        qw(ConfigObject LogObject DBObject MainObject EncodeObject TimeObject)
+        qw(ConfigObject LogObject DBObject MainObject EncodeObject)
         )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
+    }
+
+    if ( $Param{TimeObject} ) {
+        $Self->{TimeObject} = $Param{TimeObject};
+    }
+    else {
+        $Self->{TimeObject} = Kernel::System::Time->new(%$Self);
     }
 
     $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new(%$Self);
