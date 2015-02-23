@@ -10,6 +10,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-02-23 Improved performance on Article Attachment read from Database.
  - 2015-02-20 Allow multiline chat feeds; reduced chat request polling frequency.
  - 2015-02-23 Improved automated scrolling of article table in TicketZoom, if a new active article is not completely visible in the article table.
 

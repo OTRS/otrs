@@ -665,14 +665,15 @@ sub ArticleAttachment {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # try database
     return if !$DBObject->Prepare(
         SQL => '
             SELECT id
             FROM article_attachment
             WHERE article_id = ?
             ORDER BY filename, id',
-        Bind   => [ \$Param{ArticleID} ],
-        Limit  => $Param{FileID},
+        Bind  => [ \$Param{ArticleID} ],
+        Limit => $Param{FileID},
     );
 
     my $AttachmentID;
@@ -680,7 +681,6 @@ sub ArticleAttachment {
         $AttachmentID = $Row[0];
     }
 
-    # try database
     return if !$DBObject->Prepare(
         SQL => '
             SELECT content_type, content, content_id, content_alternative, disposition, filename
