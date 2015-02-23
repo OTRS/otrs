@@ -120,7 +120,20 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         // Add loader to the widget
         $('#ArticleItems .WidgetBox').addClass('Loading');
         Core.AJAX.ContentUpdate($('#ArticleItems'), ArticleURL, function () {
-            var TicketScrollerTop = 0;
+            // Top position of Scroller element (surrounds article table)
+            var ScrollerY = parseInt($('div.Scroller').offset().top, 10),
+            // Height of scroller element
+                ScrollerHeight = parseInt($('div.Scroller').height(), 10),
+            // Top position of active article (offset based on screen position)
+                ActiveArticlePosY = parseInt($('#ArticleTable tbody tr.Active').offset().top, 10),
+            // Height of active article
+                ActiveArticleHeight = parseInt($('#ArticleTable tbody tr.Active').height(), 10),
+            // Bottom position of active article
+                ActiveArticleBottomY = ActiveArticlePosY + ActiveArticleHeight,
+            // Bottom position of scroller element
+                ScrollerBottomY = ScrollerY + ScrollerHeight,
+            // Offset of scroller element (relative)
+                ScrollerOffset = $('div.Scroller').get(0).scrollTop;
 
             $('#ArticleItems a.AsPopup').bind('click', function (Event) {
                 var Matches,
@@ -152,8 +165,17 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             $('#ArticleItems .WidgetBox').removeClass('Loading');
 
             // Scroll to new active article
-            TicketScrollerTop = parseInt($('#ArticleTable tbody tr.Active').offset().top, 10) - parseInt($('#ArticleTable tbody').offset().top, 10);
-            $('div.Scroller').get(0).scrollTop = TicketScrollerTop;
+            // if article is not visible and is above the visible area, move the visible area
+            // add 5px of delta for better usability (top border is definetly visible)
+            if (ActiveArticlePosY < ScrollerY) {
+                $('div.Scroller').get(0).scrollTop = ScrollerOffset + (ActiveArticlePosY - ScrollerY) - 5;
+            }
+            // if article is not visible and is below the visible area, move the visible area
+            // add 5px of delta for better usability (bottom border is definetly visible)
+            else if (ScrollerBottomY < ActiveArticleBottomY) {
+                $('div.Scroller').get(0).scrollTop = ScrollerOffset + (ActiveArticleBottomY - ScrollerBottomY) + 5;
+            }
+
 
             // Initiate URL hash check again
             TargetNS.CheckURLHash();
