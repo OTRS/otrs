@@ -1480,6 +1480,34 @@ sub QueryStringEscape {
     return $Param{QueryString};
 }
 
+=item Ping()
+
+checks if the  database is reachable
+
+    my $Success = $DBObject->Ping();
+
+=cut
+
+sub Ping {
+    my ( $Self, %Param ) = @_;
+
+    # debug
+    if ( $Self->{Debug} > 2 ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Caller   => 1,
+            Priority => 'debug',
+            Message  => 'DB.pm->Ping',
+        );
+    }
+
+    # do disconnect
+    if ( $Self->{dbh} ) {
+        return $Self->{dbh}->ping();
+    }
+
+    return;
+}
+
 =begin Internal:
 
 =cut

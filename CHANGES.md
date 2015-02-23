@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-02-23 Added Ping() to Kernel::System::DB.pm API.
  - 2015-02-06 Fixed bug#[11054](http://bugs.otrs.org/show_bug.cgi?id=11054) - HTMLUtils::Safety breaks links.
  - 2015-02-03 Fixed bug#[11029](http://bugs.otrs.org/show_bug.cgi?id=11029) - Improved wording for responsible to make it more consistent.
  - 2015-01-21 Improved fulltext filters in Ticket::SearchIndex::Filters.
