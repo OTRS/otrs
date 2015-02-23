@@ -12,6 +12,8 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -19,21 +21,15 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (
-        qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject SessionObject UserObject)
-        )
-    {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
 
     # ------------------------------------------------------------ #
     # update preferences via AJAX
@@ -41,13 +37,13 @@ sub Run {
     if ( $Self->{Subaction} eq 'UpdateAJAX' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $Key   = $Self->{ParamObject}->GetParam( Param => 'Key' );
-        my $Value = $Self->{ParamObject}->GetParam( Param => 'Value' );
+        my $Key   = $ParamObject->GetParam( Param => 'Key' );
+        my $Value = $ParamObject->GetParam( Param => 'Value' );
 
         # update preferences
-        my $Success = $Self->{UserObject}->SetPreferences(
+        my $Success = $UserObject->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Key,
             Value  => $Value,
@@ -61,11 +57,11 @@ sub Run {
                 Value     => $Value,
             );
         }
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
+        my $JSON = $LayoutObject->JSONEncode(
             Data => $Success,
         );
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -78,30 +74,30 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Update' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my $Message  = '';
         my $Priority = '';
 
         # check group param
-        my @Groups = $Self->{ParamObject}->GetArray( Param => 'Group' );
+        my @Groups = $ParamObject->GetArray( Param => 'Group' );
         if ( !@Groups ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Param Group is required!' );
+            return $LayoutObject->ErrorScreen( Message => 'Param Group is required!' );
         }
 
         for my $Group (@Groups) {
 
             # check preferences setting
-            my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+            my %Preferences = %{ $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups') };
             if ( !$Preferences{$Group} ) {
-                return $Self->{LayoutObject}->ErrorScreen( Message => "No such config for $Group" );
+                return $LayoutObject->ErrorScreen( Message => "No such config for $Group" );
             }
 
             # get user data
-            my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+            my %UserData = $UserObject->GetUserData( UserID => $Self->{UserID} );
             my $Module = $Preferences{$Group}->{Module};
-            if ( !$Self->{MainObject}->Require($Module) ) {
-                return $Self->{LayoutObject}->FatalError();
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+                return $LayoutObject->FatalError();
             }
 
             my $Object = $Module->new(
@@ -112,7 +108,7 @@ sub Run {
             my @Params = $Object->Param( UserData => \%UserData );
             my %GetParam;
             for my $ParamItem (@Params) {
-                my @Array = $Self->{ParamObject}->GetArray(
+                my @Array = $ParamObject->GetArray(
                     Param => $ParamItem->{Name},
                     Raw   => $ParamItem->{Raw} || 0,
                 );
@@ -137,15 +133,15 @@ sub Run {
         }
 
         # check redirect
-        my $RedirectURL = $Self->{ParamObject}->GetParam( Param => 'RedirectURL' );
+        my $RedirectURL = $ParamObject->GetParam( Param => 'RedirectURL' );
         if ($RedirectURL) {
-            return $Self->{LayoutObject}->Redirect(
+            return $LayoutObject->Redirect(
                 OP => $RedirectURL,
             );
         }
 
         # redirect
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => "Action=AgentPreferences;Priority=$Priority;Message=$Message",
         );
     }
@@ -155,30 +151,30 @@ sub Run {
     # ------------------------------------------------------------ #
 
     # get header
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # get param
-    my $Message  = $Self->{ParamObject}->GetParam( Param => 'Message' )  || '';
-    my $Priority = $Self->{ParamObject}->GetParam( Param => 'Priority' ) || '';
+    my $Message  = $ParamObject->GetParam( Param => 'Message' )  || '';
+    my $Priority = $ParamObject->GetParam( Param => 'Priority' ) || '';
 
     # add notification
     if ( $Message && $Priority eq 'Error' ) {
-        $Output .= $Self->{LayoutObject}->Notify(
+        $Output .= $LayoutObject->Notify(
             Priority => $Priority,
             Info     => $Message,
         );
     }
     elsif ($Message) {
-        $Output .= $Self->{LayoutObject}->Notify(
+        $Output .= $LayoutObject->Notify(
             Info => $Message,
         );
     }
 
     # get user data
-    my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+    my %UserData = $UserObject->GetUserData( UserID => $Self->{UserID} );
     $Output .= $Self->AgentPreferencesForm( UserData => \%UserData );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -186,12 +182,15 @@ sub Run {
 sub AgentPreferencesForm {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Body',
         Data => { %Param, },
     );
 
-    my @Groups = @{ $Self->{ConfigObject}->Get('PreferencesView') };
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my @Groups       = @{ $ConfigObject->Get('PreferencesView') };
 
     COLUMN:
     for my $Column (@Groups) {
@@ -199,7 +198,7 @@ sub AgentPreferencesForm {
         next COLUMN if !$Column;
 
         my %Data;
-        my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+        my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
 
         GROUP:
         for my $Group ( sort keys %Preferences ) {
@@ -228,7 +227,7 @@ sub AgentPreferencesForm {
             $Data{ $Preferences{$Group}->{Prio} } = $Group;
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Column',
             Data => {
                 Header => $Column,
@@ -246,15 +245,15 @@ sub AgentPreferencesForm {
         PRIO:
         for my $Prio ( sort keys %Data ) {
             my $Group = $Data{$Prio};
-            next PRIO if !$Self->{ConfigObject}->{PreferencesGroups}->{$Group};
+            next PRIO if !$ConfigObject->{PreferencesGroups}->{$Group};
 
-            my %Preference = %{ $Self->{ConfigObject}->{PreferencesGroups}->{$Group} };
+            my %Preference = %{ $ConfigObject->{PreferencesGroups}->{$Group} };
             next PRIO if !$Preference{Active};
 
             # load module
             my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
-            if ( !$Self->{MainObject}->Require($Module) ) {
-                return $Self->{LayoutObject}->FatalError();
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+                return $LayoutObject->FatalError();
             }
             my $Object = $Module->new(
                 %{$Self},
@@ -265,7 +264,7 @@ sub AgentPreferencesForm {
             next PRIO if !@Params;
 
             # show item
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'Item',
                 Data => {
                     Group => $Group,
@@ -274,25 +273,25 @@ sub AgentPreferencesForm {
             );
             for my $ParamItem (@Params) {
                 if ( ref $ParamItem->{Data} eq 'HASH' || ref $Preference{Data} eq 'HASH' ) {
-                    $ParamItem->{Option} = $Self->{LayoutObject}->BuildSelection(
+                    $ParamItem->{Option} = $LayoutObject->BuildSelection(
                         %Preference,
                         %{$ParamItem},
                         OptionTitle => 1,
                     );
                 }
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'Block',
                     Data => { %Preference, %{$ParamItem}, },
                 );
                 my $BlockName = $ParamItem->{Block} || $Preference{Block} || 'Option';
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $BlockName,
                     Data => { %Preference, %{$ParamItem}, },
                 );
 
                 if ( scalar @Params == 1 ) {
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => $BlockName . 'SingleBlock',
                         Data => { %Preference, %{$ParamItem}, },
                     );
@@ -300,7 +299,7 @@ sub AgentPreferencesForm {
             }
 
             if ( scalar @Params > 1 ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'MultipleBlocks',
                     Data => {%Preference},
                 );
@@ -309,7 +308,7 @@ sub AgentPreferencesForm {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AgentPreferences',
         Data         => \%Param,
     );
