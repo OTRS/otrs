@@ -1,5 +1,6 @@
 #4.0.7 2015-??-??
 - 2015-02-20 Allow multiline chat feeds; reduced chat request polling frequency.
+- 2015-02-23 Improved automated scrolling of article table in TicketZoom, if a new active article is not completely visible in the article table.
 
 #4.0.6 2015-02-24
  - 2015-02-18 Updated translations, thanks to all translators.
