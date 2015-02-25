@@ -208,10 +208,23 @@ sub StdAttachmentUpdate {
     my %Data = $Self->StdAttachmentGet(
         ID => $Param{ID},
     );
-    $Self->{ 'StdAttachmentLookupID::' . $Data{ID} }      = 0;
-    $Self->{ 'StdAttachmentLookupName::' . $Data{Name} }  = 0;
-    $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }     = 0;
-    $Self->{ 'StdAttachmentLookupName::' . $Param{Name} } = 0;
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupID::' . $Data{ID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupName::' . $Data{Name},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupID::' . $Param{ID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupName::' . $Param{Name},
+    );
 
     # sql
     return if !$Self->{DBObject}->Do(
@@ -269,8 +282,15 @@ sub StdAttachmentDelete {
     my %Data = $Self->StdAttachmentGet(
         ID => $Param{ID},
     );
-    $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }    = 0;
-    $Self->{ 'StdAttachmentLookupName::' . $Data{Name} } = 0;
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupID::' . $Param{ID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'StdAttachmentLookupName::' . $Data{Name},
+    );
 
     # delete attachment<->std template relation
     return if !$Self->{DBObject}->Do(
@@ -326,8 +346,16 @@ sub StdAttachmentLookup {
         $Key      = 'StdAttachment';
         $Value    = $Param{StdAttachment};
     }
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
+
+    my $Cached = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type           => $Self->{CacheType},
+        Key            => $CacheKey,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    if ($Cached) {
+        return $Cached;
     }
 
     # get data
@@ -345,12 +373,14 @@ sub StdAttachmentLookup {
         SQL  => $SQL,
         Bind => \@Bind
     );
+
+    my $DBValue;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $DBValue = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$DBValue ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Found no $Key found for $Value!",
@@ -358,7 +388,17 @@ sub StdAttachmentLookup {
         return;
     }
 
-    return $Self->{$CacheKey};
+    # cache result
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type           => $Self->{CacheType},
+        TTL            => $Self->{CacheTTL},
+        Key            => $CacheKey,
+        Value          => $DBValue,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    return $DBValue;
 }
 
 =item StdAttachmentsByResponseID()
