@@ -14,6 +14,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Cache',
     'Kernel::System::CheckItem',
     'Kernel::System::DB',
     'Kernel::System::Log',
@@ -57,6 +58,9 @@ sub new {
 
     # get preferences object
     $Self->{PreferencesObject} = $Kernel::OM->Get($GeneratorModule);
+
+    $Self->{CacheType} = 'SLA';
+    $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     return $Self;
 }
@@ -188,8 +192,15 @@ sub SLAGet {
 
     # check if result is already cached
     my $CacheKey = 'Cache::SLAGet::' . $Param{SLAID};
-    if ( $Self->{$CacheKey} ) {
-        return %{ $Self->{$CacheKey} };
+    my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type           => $Self->{CacheType},
+        Key            => $CacheKey,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    if ( ref $Cached eq 'HASH' ) {
+        return %{$Cached};
     }
 
     # get database object
@@ -259,8 +270,17 @@ sub SLAGet {
         %SLAData = ( %SLAData, %Preferences );
     }
 
-    # cache the result
-    $Self->{$CacheKey} = \%SLAData;
+    # cache result
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key  => $CacheKey,
+
+        # make a local copy of the sla data to avoid it being altered in-memory later
+        Value          => {%SLAData},
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
 
     return %SLAData;
 }
@@ -300,8 +320,14 @@ sub SLALookup {
 
         # check cache
         my $CacheKey = 'Cache::SLALookup::ID::' . $Param{SLAID};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
+        my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type           => $Self->{CacheType},
+            Key            => $CacheKey,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
+        if ( defined $Cached ) {
+            return $Cached;
         }
 
         # lookup
@@ -318,7 +344,14 @@ sub SLALookup {
         }
 
         # cache
-        $Self->{$CacheKey} = $Name;
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type           => $Self->{CacheType},
+            TTL            => $Self->{CacheTTL},
+            Key            => $CacheKey,
+            Value          => $Name,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
 
         return $Name;
     }
@@ -326,8 +359,14 @@ sub SLALookup {
 
         # check cache
         my $CacheKey = 'Cache::SLALookup::Name::' . $Param{Name};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
+        my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+            Type           => $Self->{CacheType},
+            Key            => $CacheKey,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
+        if ( defined $Cached ) {
+            return $Cached;
         }
 
         # lookup
@@ -344,7 +383,14 @@ sub SLALookup {
         }
 
         # cache
-        $Self->{$CacheKey} = $SLAID;
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type           => $Self->{CacheType},
+            TTL            => $Self->{CacheTTL},
+            Key            => $CacheKey,
+            Value          => $SLAID,
+            CacheInMemory  => 1,
+            CacheInBackend => 0,
+        );
 
         return $SLAID;
     }
@@ -594,9 +640,18 @@ sub SLAUpdate {
     }
 
     # reset cache
-    delete $Self->{ 'Cache::SLAGet::' . $Param{SLAID} };
-    delete $Self->{ 'Cache::SLALookup::Name::' . $Param{Name} };
-    delete $Self->{ 'Cache::SLALookup::ID::' . $Param{SLAID} };
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'Cache::SLAGet::' . $Param{SLAID},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'Cache::SLALookup::Name::' . $Param{Name},
+    );
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => $Self->{CacheType},
+        Key  => 'Cache::SLALookup::ID::' . $Param{SLAID},
+    );
 
     # update service
     return if !$DBObject->Do(

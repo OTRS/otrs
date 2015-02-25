@@ -1047,7 +1047,7 @@ sub TicketGet {
         );
         return;
     }
-    $Param{Extended} ||= '';
+    $Param{Extended} = $Param{Extended} ? 1 : 0;
 
     # Caching TicketGet() is a bit more complex than usual.
     #   The full function result will be cached in an in-memory cache to
@@ -1061,10 +1061,19 @@ sub TicketGet {
     my $FetchDynamicFields = $Param{DynamicFields} ? 1 : 0;
 
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
+    my $CacheKeyDynamicFields
+        = 'Cache::GetTicket' . $Param{TicketID} . '::' . $Param{Extended} . '::' . $FetchDynamicFields;
+
+    my $CachedDynamicFields = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type           => $Self->{CacheType},
+        Key            => $CacheKeyDynamicFields,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
 
     # check if result is cached
-    if ( $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} ) {
-        return %{ $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} };
+    if ( ref $CachedDynamicFields eq 'HASH' ) {
+        return %{$CachedDynamicFields};
     }
 
     my %Ticket;
@@ -1276,7 +1285,16 @@ sub TicketGet {
     }
 
     # cache user result
-    $Self->{$CacheKey}->{ $Param{Extended} }->{$FetchDynamicFields} = \%Ticket;
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type => $Self->{CacheType},
+        TTL  => $Self->{CacheTTL},
+        Key  => $CacheKeyDynamicFields,
+
+        # make a local copy of the ticket data to avoid it being altered in-memory later
+        Value          => {%Ticket},
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
 
     return %Ticket;
 }
@@ -1296,11 +1314,22 @@ sub _TicketCacheClear {
 
     # TicketGet()
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
-    delete $Self->{$CacheKey};
     $Kernel::OM->Get('Kernel::System::Cache')->Delete(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
+    # delete extended cache for TicketGet()
+    for my $Extended ( 0 .. 1 ) {
+        for my $FetchDynamicFields ( 0 .. 1 ) {
+            my $CacheKeyDynamicFields = $CacheKey . '::' . $Extended . '::' . $FetchDynamicFields;
+
+            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                Type => $Self->{CacheType},
+                Key  => $CacheKeyDynamicFields,
+            );
+        }
+    }
 
     # ArticleIndex()
     $Kernel::OM->Get('Kernel::System::Cache')->Delete(
@@ -5483,8 +5512,13 @@ sub HistoryTypeLookup {
 
     # check if we ask the same request?
     my $CacheKey = 'Ticket::History::HistoryTypeLookup::' . $Param{Type};
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
+    my $Cached   = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+
+    if ( $Cached ) {
+        return $Cached;
     }
 
     # get database object
@@ -5495,12 +5529,14 @@ sub HistoryTypeLookup {
         SQL  => 'SELECT id FROM ticket_history_type WHERE name = ?',
         Bind => [ \$Param{Type} ],
     );
+
+    my $HistoryTypeID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Self->{$CacheKey} = $Row[0];
+        $HistoryTypeID = $Row[0];
     }
 
     # check if data exists
-    if ( !$Self->{$CacheKey} ) {
+    if ( !$HistoryTypeID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No TypeID for $Param{Type} found!",
@@ -5508,7 +5544,17 @@ sub HistoryTypeLookup {
         return;
     }
 
-    return $Self->{$CacheKey};
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type           => $Self->{CacheType},
+        TTL            => $Self->{CacheTTL},
+        Key            => $CacheKey,
+        Value          => $HistoryTypeID,
+        CacheInMemory  => 1,
+        CacheInBackend => 0,
+    );
+
+    return $HistoryTypeID;
 }
 
 =item HistoryAdd()
