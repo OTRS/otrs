@@ -800,9 +800,6 @@ $('.ShowFieldInfoOverlay').bind('click', function() {
                 <li class="cc">
                     <strong>[% Translate("Cc") | html %]: </strong>
                 </li>
-                <li class="bcc">
-                    <strong>[% Translate("Bcc") | html %]: </strong>
-                </li>
             </ul>
             <div class="Hidden FullArticlePlainText" data-title="[% Translate("Full Article Text") | html %]">
                 <div class="ChronicalPlainText"></div>
@@ -840,11 +837,10 @@ var TicketID    = [% Data.TicketID | JSON %],
         'is_chat'       : [% Item.IsChatArticle | JSON %],
         'article_data'  : {
         [% IF Item.ArticleID %]
-            'subject': [% Item.ArticleData.Subject | truncate(75) | JSON %],
-            'from'   : [% Item.ArticleData.From | truncate(75) | JSON %],
-            'to'     : [% Item.ArticleData.To | truncate(75) | JSON %],
-            'cc'     : [% Item.ArticleData.Cc | truncate(75) | JSON %],
-            'bcc'    : [% Item.ArticleData.Bcc | truncate(75) | JSON %],
+            'subject': [% Item.ArticleData.Subject | html | JSON %],
+            'from'   : [% Item.ArticleData.From | html | JSON %],
+            'to'     : [% Item.ArticleData.To | html | JSON %],
+            'cc'     : [% Item.ArticleData.Cc | html | JSON %],
             'is_important' : [% Item.ArticleData.ArticleIsImportant | JSON %],
             'is_seen' : [% Item.ArticleData.ArticleIsSeen | JSON %],
             'text'   : [% IF Item.IsChatArticle %][% Item.ArticleData.BodyChat | JSON %][% ELSE %][% Item.ArticleData.Body | truncate(650) | JSON %][% END %],

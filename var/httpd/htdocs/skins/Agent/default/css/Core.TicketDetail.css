@@ -672,6 +672,15 @@ div.Headline .Flag {
     margin-top: 3px;
 }
 
+.ChronicalView li ul li.subject,
+.ChronicalView li ul li.from,
+.ChronicalView li ul li.to,
+.ChronicalView li ul li.cc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .ChronicalView li ul li.AttachmentsLink {
     background: #ddd;
     color: #555;
