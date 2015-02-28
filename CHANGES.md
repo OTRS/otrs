@@ -11,6 +11,7 @@
 
 #4.0.7 2015-??-??
  - 2015-02-27 Fixed bug#[11065](http://bugs.otrs.org/show_bug.cgi?id=11065) - Transitions based in DynamicFields Multi-Select does not work.
+ - 2015-02-27 Make sure article data is escaped properly in timeline view.
  - 2015-02-25 Fixed bug#[10820](http://bugs.otrs.org/show_bug.cgi?id=10820) - memory cache does not get updated.
  - 2015-02-23 Improved performance on Article Attachment read from Database.
  - 2015-02-20 Allow multiline chat feeds; reduced chat request polling frequency.
