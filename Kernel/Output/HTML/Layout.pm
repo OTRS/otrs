@@ -3121,6 +3121,7 @@ sub CustomerLogin {
 
     # set Action parameter for the loader
     $Self->{Action} = 'CustomerLogin';
+    $Param{'XLoginHeader'} = 1;
 
     if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
 

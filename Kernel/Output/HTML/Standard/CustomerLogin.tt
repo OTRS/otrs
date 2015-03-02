@@ -6,10 +6,6 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-[%- INCLUDE "HTTPHeaders.tt" -%]
-# With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
-X-OTRS-Login: [% Env("Baselink") %]
-
 [% InsertTemplate("CustomerHeader.tt") %]
 
 <!-- start login -->
