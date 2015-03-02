@@ -1,4 +1,5 @@
 #4.0.7 2015-??-??
+ - 2015-03-02 Fixed wrong header in customer login.
  - 2015-03-02 Fixed bug#[11120](http://bugs.otrs.org/show_bug.cgi?id=11120) - Logged invalid message at login failure, thanks to Norihiro Tanaka.
  - 2015-03-02 Fixed bug#[11128](http://bugs.otrs.org/show_bug.cgi?id=11128) - Uninitialized variable warning in dashboard after addition of new dynamic field, thanks to Norihiro Tanaka.
  - 2015-02-27 Fixed bug#[11065](http://bugs.otrs.org/show_bug.cgi?id=11065) - Transitions based in DynamicFields Multi-Select does not work.
