@@ -141,11 +141,11 @@ sub Auth {
 
             if ( $Magic eq '$apr1$' ) {
                 $CryptedPw = apache_md5_crypt( $Pw, $Salt );
-                $Method = 'unix_md5_crypt';
+                $Method = 'apache_md5_crypt';
             }
             else {
                 $CryptedPw = unix_md5_crypt( $Pw, $Salt );
-                $Method = 'apache_md5_crypt';
+                $Method = 'unix_md5_crypt';
             }
 
         }
