@@ -951,7 +951,16 @@ sub _ReportingValues {
         if ( $Attribute =~ m{ \A DynamicField_ }xms ) {
             SEARCHATTRIBUTE:
             for my $SearchAttribute ( sort keys %{$SearchAttributes} ) {
-                next SEARCHATTRIBUTE if $SearchAttribute !~ m{ \A \Q$Attribute\E _ }xms;
+
+                # because of Date/DateTime dynamic fields we allow multiple
+                # values for a single dynamic field.
+                # e.g. Text
+                # DynamicField_TestText
+                # e.g. DateTime
+                # DynamicField_DateTest_SmallerThanEquals
+                # DynamicField_DateTest_GreaterThanEquals
+                next SEARCHATTRIBUTE if $SearchAttribute !~ m{ \A \Q$Attribute\E }xms;
+
                 $TicketSearch{$SearchAttribute} = $SearchAttributes->{$SearchAttribute};
 
                 # don't exist loop
