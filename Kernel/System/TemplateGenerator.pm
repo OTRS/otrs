@@ -968,6 +968,41 @@ sub _Replace {
         }
     }
 
+    # check for mailto links
+    # since the subject and body of those mailto links are
+    # uri escaped we have to uri unescape them, replace
+    # possible placeholders and then re-uri escape them
+    $Param{Text} =~ s{
+        (href="mailto:[^\?]+\?)([^"]+")
+    }
+    {
+        my $MailToHref        = $1;
+        my $MailToHrefContent = $2;
+
+        $MailToHrefContent =~ s{
+            ((?:subject|body)=)(.+?)("|&)
+        }
+        {
+            my $SubjectOrBodyPrefix  = $1;
+            my $SubjectOrBodyContent = $2;
+            my $SubjectOrBodySuffix  = $3;
+
+            my $SubjectOrBodyContentUnescaped = URI::Escape::uri_unescape $SubjectOrBodyContent;
+
+            my $SubjectOrBodyContentReplaced = $Self->_Replace(
+                %Param,
+                Text     => $SubjectOrBodyContentUnescaped,
+                RichText => 0,
+            );
+
+            my $SubjectOrBodyContentEscaped = URI::Escape::uri_escape_utf8 $SubjectOrBodyContentReplaced;
+
+            $SubjectOrBodyPrefix . $SubjectOrBodyContentEscaped . $SubjectOrBodySuffix;
+        }egx;
+
+        $MailToHref . $MailToHrefContent;
+    }egx;
+
     my $Start = '<';
     my $End   = '>';
     if ( $Param{RichText} ) {
