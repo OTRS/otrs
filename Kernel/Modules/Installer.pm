@@ -598,8 +598,8 @@ sub Run {
         elsif ( $DB{DBType} eq 'oracle' ) {
 
             # set DSN for Config.pm
-            $DB{ConfigDSN} = 'DBI:Oracle://$Self->{DatabaseHost}:' . $DB{DBPort} . '/' . $DB{DBSID};
-            $DB{DSN}       = "DBI:Oracle://$Self->{DBHost}:$DB{DBPort}/$Self->{DBSID}";
+            $DB{ConfigDSN} = 'DBI:Oracle://$Self->{DatabaseHost}:' . $DB{DBPort} . '/$Self->{Database}';
+            $DB{DSN}       = "DBI:Oracle://$DB{DBHost}:$DB{DBPort}/$DB{DBSID}";
             $Self->{ConfigObject}->Set(
                 Key   => 'Database::Connect',
                 Value => "ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD HH24:MI:SS'",
@@ -650,13 +650,25 @@ sub Run {
         }
 
         # ReConfigure Config.pm
-        my $ReConfigure = $Self->ReConfigure(
-            DatabaseDSN  => $DB{ConfigDSN},
-            DatabaseHost => $DB{DBHost},
-            Database     => $DB{DBName},
-            DatabaseUser => $DB{OTRSDBUser},
-            DatabasePw   => $DB{OTRSDBPassword},
-        );
+        my $ReConfigure;
+        if ( $DB{DBType} eq 'oracle' ) {
+            $ReConfigure = $Self->ReConfigure(
+                DatabaseDSN  => $DB{ConfigDSN},
+                DatabaseHost => $DB{DBHost},
+                Database     => $DB{DBSID},
+                DatabaseUser => $DB{OTRSDBUser},
+                DatabasePw   => $DB{OTRSDBPassword},
+            );
+        }
+        else {
+            $ReConfigure = $Self->ReConfigure(
+                DatabaseDSN  => $DB{ConfigDSN},
+                DatabaseHost => $DB{DBHost},
+                Database     => $DB{DBName},
+                DatabaseUser => $DB{OTRSDBUser},
+                DatabasePw   => $DB{OTRSDBPassword},
+            );
+        }
 
         if ($ReConfigure) {
             my $Output =
@@ -1170,7 +1182,7 @@ sub ConnectToDB {
         $Param{DSN} = "DBI:Pg:host=$Param{DBHost};dbname=$Param{DBName}";
     }
     elsif ( $Param{DBType} eq 'oracle' ) {
-        $Param{DSN} = "DBI:Oracle:host=$Param{DBHost};sid=$Param{DBSID};port=$Param{DBPort};"
+        $Param{DSN} = "DBI:Oracle://$Param{DBHost}:$Param{DBPort}/$Param{DBSID}";
     }
 
     # extract driver to load for install test
