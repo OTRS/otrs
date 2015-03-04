@@ -94,7 +94,6 @@ sub Run {
         $JSON = $Self->{LayoutObject}->JSONEncode(
             Data => \@Data,
         );
-
     }
 
     # get customer info
