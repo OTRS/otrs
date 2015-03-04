@@ -75,9 +75,15 @@ sub Run {
             )
         {
 
+            my $CustomerValue = $CustomerUserList{$CustomerUserID};
+
+            # replace new lines with one space (see bug#11133)
+            $CustomerValue =~ s/\n/ /gs;
+            $CustomerValue =~ s/\r/ /gs;
+
             push @Data, {
                 CustomerKey   => $CustomerUserID,
-                CustomerValue => $CustomerUserList{$CustomerUserID},
+                CustomerValue => $CustomerValue,
             };
 
             $MaxResultCount--;
@@ -88,6 +94,7 @@ sub Run {
         $JSON = $Self->{LayoutObject}->JSONEncode(
             Data => \@Data,
         );
+
     }
 
     # get customer info
