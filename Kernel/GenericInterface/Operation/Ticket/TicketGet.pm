@@ -394,7 +394,9 @@ sub Run {
         }    # finish article loop
 
         # set Ticket entry data
-        $TicketBundle->{Article} = \@ArticleBox;
+        if (@ArticleBox) {
+            $TicketBundle->{Article} = \@ArticleBox;
+        }
 
         # add
         push @Item, $TicketBundle;
