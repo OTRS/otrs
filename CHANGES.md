@@ -1,4 +1,5 @@
 #3.3.13 ????-??-??
+ - 2015-03-03 Fixed bug#[11133](http://bugs.otrs.org/show_bug.cgi?id=11133) - Not possible to change customer.
  - 2015-03-03 Fixed bug#[11115](http://bugs.otrs.org/show_bug.cgi?id=11115) - Error from GenericInterface using SOAP and TicketGet operation.
  - 2015-02-20 Fixed problem with missing TimeObject in GenericInterface/Event/Handler.pm.
  - 2015-02-20 Updated CPAN module Crypt::PasswdMD5 to version 1.40 to fix problems with perl 5.20.
