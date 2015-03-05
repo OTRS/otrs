@@ -1,5 +1,5 @@
 # --
-# Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm - system data collector plugin
+# Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm - system data collector plugin
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::SupportDataCollector::Plugin::Database::mysql::MaxAllowedPacket;
+package Kernel::System::SupportDataCollector::Plugin::Database::mysql::InnoDBLogFileSize;
 
 use strict;
 use warnings;
@@ -32,24 +32,24 @@ sub Run {
         return $Self->GetResults();
     }
 
-    $DBObject->Prepare( SQL => "show variables like 'max_allowed_packet'" );
+    $DBObject->Prepare( SQL => "show variables like 'innodb_log_file_size'" );
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         if (
             !$Row[1]
-            || $Row[1] < 1024 * 1024 * 20
+            || $Row[1] < 1024 * 1024 * 256
             )
         {
             $Self->AddResultProblem(
-                Label => 'Maximum Query Size',
+                Label => 'InnoDB Log File Size',
                 Value => $Row[1] / 1024 / 1024 . ' MB',
                 Message =>
-                    "The setting 'max_allowed_packet' must be higher than 20 MB.",
+                    "The setting innodb_log_file_size must be at least 256 MB.",
             );
         }
         else {
             $Self->AddResultOk(
-                Label => 'Maximum Query Size',
+                Label => 'InnoDB Log File Size',
                 Value => $Row[1] / 1024 / 1024 . ' MB',
             );
         }
