@@ -1,4 +1,5 @@
 #4.0.7 2015-??-??
+ - 2015-03-04 Fixed bug#[11097](http://bugs.otrs.org/show_bug.cgi?id=11097) - Generic Agent - Event Delete Icon disappear.
  - 2015-03-04 Fixed bug#[11137](http://bugs.otrs.org/show_bug.cgi?id=11137) - Installer fails on Oracle.
  - 2015-03-03 Fixed bug#[11133](http://bugs.otrs.org/show_bug.cgi?id=11133) - Not possible to change customer.
  - 2015-03-03 Fixed bug#[11115](http://bugs.otrs.org/show_bug.cgi?id=11115) - Error from GenericInterface using SOAP and TicketGet operation.
