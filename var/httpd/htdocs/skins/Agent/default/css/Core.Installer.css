@@ -39,14 +39,18 @@ div.DBItem {
 
 div.Result {
    color: #049e35;
-   font-size: 16px;
    font-weight: bold;
-   padding: 8px 8px 10px;
+   padding: 6px 8px 10px;
 }
 
 span.Emphasis {
     color: #049e35;
     font-weight: bold;
+}
+
+#FormDB fieldset > h4 {
+  margin-left: 31%;
+  margin-top: 15px;
 }
 
 } /* end @media */

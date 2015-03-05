@@ -1243,6 +1243,60 @@ sub CheckDBRequirements {
         %Param,
     );
 
+    my $DBObject = Kernel::System::DB->new(%Param);
+
+    # if mysql, check some more values
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
+
+        # max_allowed_packed
+        my $MySQLMaxAllowedPacket            = 0;
+        my $MySQLMaxAllowedPacketRecommended = 20;
+        $DBObject->Prepare(
+            SQL => "SHOW variables WHERE Variable_name = 'max_allowed_packet'",
+        );
+        while ( my @Data = $DBObject->FetchrowArray() ) {
+            if ( $Data[1] ) {
+                $MySQLMaxAllowedPacket = $Data[1] / 1024 / 1024;
+            }
+        }
+
+        if ( $MySQLMaxAllowedPacket < $MySQLMaxAllowedPacketRecommended ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                "Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.",
+                $MySQLMaxAllowedPacketRecommended, $MySQLMaxAllowedPacket
+            );
+        }
+    }
+
+    if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
+
+        # innodb_log_file_size
+        my $MySQLInnoDBLogFileSize            = 0;
+        my $MySQLInnoDBLogFileSizeMinimum     = 256;
+        my $MySQLInnoDBLogFileSizeRecommended = 512;
+        $DBObject->Prepare(
+            SQL => "SHOW variables WHERE Variable_name = 'innodb_log_file_size'",
+        );
+
+        while ( my @Data = $DBObject->FetchrowArray() ) {
+            if ( $Data[1] ) {
+                $MySQLInnoDBLogFileSize = $Data[1] / 1024 / 1024;
+            }
+        }
+
+        if ( $MySQLInnoDBLogFileSize < $MySQLInnoDBLogFileSizeMinimum ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                "Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.",
+                $MySQLInnoDBLogFileSizeMinimum,
+                $MySQLInnoDBLogFileSize,
+                $MySQLInnoDBLogFileSizeRecommended,
+                'http://dev.mysql.com/doc/refman/5.6/en/innodb-data-log-reconfiguration.html',
+            );
+        }
+    }
+
     # delete not necessary key/value pairs
     delete $Result{DB};
     delete $Result{DBH};

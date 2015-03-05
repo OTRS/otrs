@@ -67,8 +67,8 @@
                 <fieldset class="TableLike Hidden Success">
                     <h4>[% Translate("Result of database check") | html %]</h4>
 
-                    <div class="Center Result">
-                        <p><img src="[% Config("Frontend::ImagePath") %]/icons/tick.png" alt="[% Translate("OK") | html %]" />&nbsp;[% Translate("Database check successful.") | html %]</p>
+                    <div class="Field Result">
+                        <p><i class="fa fa-check"></i> [% Translate("Database check successful.") | html %]</p>
                     </div>
 
                     <div class="Clear"></div>
@@ -118,7 +118,7 @@
 
                 <div class="Spacing Right">
                     <button type="button" class="CallForAction" id="ButtonBack"><span>[% Translate("Back") | html %]</span></button>
-                    <button class="Primary CallForAction HideMe" type="submit" id="FormDBSubmit" disabled><span>[% Translate("Next") | html %]</span></button>
+                    <button class="Primary CallForAction Disabled HideMe" type="submit" id="FormDBSubmit" disabled><span>[% Translate("Next") | html %]</span></button>
                 </div>
             </div>
         </div>

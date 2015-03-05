@@ -45,6 +45,10 @@
 [% Translate("Table Charset") | html %]
 [% Translate("There were tables found which do not have utf8 as charset.") | html %]
 
+# Database/mysql/InnoDBLogFileSize.pm
+[% Translate("InnoDB Log File Size") | html %]
+[% Translate("The setting innodb_log_file_size must be at least 256 MB.") | html %]
+
 # Database/mysql/MaxAllowedPacket.pm
 [% Translate("Maximum Query Size") | html %]
 [% Translate("The setting 'max_allowed_packet' must be higher than 20 MB.") | html %]

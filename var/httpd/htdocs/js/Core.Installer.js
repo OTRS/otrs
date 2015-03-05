@@ -48,8 +48,8 @@ InstallerDBStart
             $('fieldset.Success').hide();
         }
         else {
-            $('#ButtonCheckDB').hide();
-            $('#FormDBSubmit').removeAttr('disabled');
+            $('#ButtonCheckDB').closest('.Field').hide();
+            $('#FormDBSubmit').removeAttr('disabled').removeClass('Disabled');
             $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
             $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
         }
