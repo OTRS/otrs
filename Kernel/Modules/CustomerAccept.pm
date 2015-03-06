@@ -12,6 +12,8 @@ package Kernel::Modules::CustomerAccept;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -19,15 +21,9 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{InfoKey}  = $Self->{ConfigObject}->Get('CustomerPanel::InfoKey');
-    $Self->{InfoFile} = $Self->{ConfigObject}->Get('CustomerPanel::InfoFile');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    $Self->{InfoKey}  = $ConfigObject->Get('CustomerPanel::InfoKey');
+    $Self->{InfoFile} = $ConfigObject->Get('CustomerPanel::InfoFile');
 
     return $Self;
 }
@@ -44,12 +40,12 @@ sub PreRun {
     if ( !$Self->{ $Self->{InfoKey} } && $Self->{Action} ne 'CustomerAccept' ) {
 
         # remove requested url from session storage
-        $Self->{SessionObject}->UpdateSessionID(
+        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'UserRequestedURL',
             Value     => $Self->{RequestedURL},
         );
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=CustomerAccept' );
+        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect( OP => 'Action=CustomerAccept' );
     }
     else {
         return;
@@ -63,55 +59,58 @@ sub Run {
     if ( !$Self->{RequestedURL} ) {
         $Self->{RequestedURL} = 'Action=';
     }
-    my $Accept = $Self->{ParamObject}->GetParam( Param => 'Accept' ) || '';
+    my $Accept        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Accept' ) || '';
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
     if ( $Self->{ $Self->{InfoKey} } ) {
 
         # remove requested url from session storage
-        $Self->{SessionObject}->UpdateSessionID(
+        $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'UserRequestedURL',
             Value     => '',
         );
 
         # redirect
-        return $Self->{LayoutObject}->Redirect( OP => "$Self->{UserRequestedURL}" );
+        return $LayoutObject->Redirect( OP => "$Self->{UserRequestedURL}" );
     }
     elsif ($Accept) {
 
         # set session
-        $Self->{SessionObject}->UpdateSessionID(
+        $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Self->{InfoKey},
             Value     => 1,
         );
 
         # set preferences
-        $Self->{UserObject}->SetPreferences(
+        $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $Self->{InfoKey},
             Value  => 1,
         );
 
         # remove requested url from session storage
-        $Self->{SessionObject}->UpdateSessionID(
+        $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'UserRequestedURL',
             Value     => '',
         );
 
         # redirect
-        return $Self->{LayoutObject}->Redirect( OP => "$Self->{UserRequestedURL}" );
+        return $LayoutObject->Redirect( OP => "$Self->{RequestedURL}" );
     }
     else {
 
         # show info
-        $Output = $Self->{LayoutObject}->CustomerHeader();
+        $Output = $LayoutObject->CustomerHeader();
         $Output
-            .= $Self->{LayoutObject}->Output(
+            .= $LayoutObject->Output(
             TemplateFile => $Self->{InfoFile},
             Data         => \%Param
             );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
 }

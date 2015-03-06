@@ -12,7 +12,7 @@ package Kernel::Modules::AgentSpelling;
 use strict;
 use warnings;
 
-use Kernel::System::Spelling;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,37 +21,32 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get params
-    my $SpellLanguage = $Self->{ParamObject}->GetParam( Param => 'SpellLanguage' )
-        || $Self->{UserSpellDict}
-        || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get params
-    $Param{Body} = $Self->{ParamObject}->GetParam( Param => 'Body' );
-    $Param{Field} = $Self->{ParamObject}->GetParam( Param => 'Field' ) || 'Body';
+    my $SpellLanguage = $ParamObject->GetParam( Param => 'SpellLanguage' )
+        || $Self->{UserSpellDict}
+        || $Kernel::OM->Get('Kernel::Config')->Get('SpellCheckerDictDefault');
+
+    # get params
+    $Param{Body} = $ParamObject->GetParam( Param => 'Body' );
+    $Param{Field} = $ParamObject->GetParam( Param => 'Field' ) || 'Body';
 
     # get and replace all wrong words
     my %Words = ();
     COUNT:
     for ( 0 .. 300 ) {
-        my $Replace = $Self->{ParamObject}->GetParam( Param => "SpellCheck::Replace::$_" );
+        my $Replace = $ParamObject->GetParam( Param => "SpellCheck::Replace::$_" );
         next COUNT if !$Replace;
-        my $Old = $Self->{ParamObject}->GetParam( Param => "SpellCheckOld::$_" );
-        my $New = $Self->{ParamObject}->GetParam( Param => "SpellCheckOrReplace::$_" )
-            || $Self->{ParamObject}->GetParam( Param => "SpellCheckOption::$_" );
+        my $Old = $ParamObject->GetParam( Param => "SpellCheckOld::$_" );
+        my $New = $ParamObject->GetParam( Param => "SpellCheckOrReplace::$_" )
+            || $ParamObject->GetParam( Param => "SpellCheckOption::$_" );
         if ( $Old && $New ) {
             $Param{Body} =~ s/^$Old$/$New/g;
             $Param{Body} =~ s/^$Old( |\n|\r|\s)/$New$1/g;
@@ -63,7 +58,8 @@ sub Run {
     }
 
     # do spell check
-    my $SpellingObject = Kernel::System::Spelling->new( %{$Self} );
+    my $LayoutObject   = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $SpellingObject = $Kernel::OM->Get('Kernel::System::Spelling');
     my %SpellCheck     = $SpellingObject->Check(
         Text          => $Param{Body},
         SpellLanguage => $SpellLanguage,
@@ -71,31 +67,33 @@ sub Run {
 
     # check error
     if ( $SpellingObject->Error() ) {
-        return $Self->{LayoutObject}->ErrorScreen();
+        return $LayoutObject->ErrorScreen();
     }
 
     # start with page ...
-    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
+    my $Output = $LayoutObject->Header( Type => 'Small' );
     $Output .= $Self->_Mask(
         SpellCheck    => \%SpellCheck,
         SpellLanguage => $SpellLanguage,
         %Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+    $Output .= $LayoutObject->Footer( Type => 'Small' );
     return $Output;
 }
 
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # dict language selection
-    $Param{SpellLanguageString} .= $Self->{LayoutObject}->BuildSelection(
-        Data       => $Self->{ConfigObject}->Get('PreferencesGroups')->{SpellDict}->{Data},
+    $Param{SpellLanguageString} .= $LayoutObject->BuildSelection(
+        Data       => $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups')->{SpellDict}->{Data},
         Name       => 'SpellLanguage',
         SelectedID => $Param{SpellLanguage},
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'SpellCheckerExtern',
         Data => \%Param,
     );
@@ -115,11 +113,11 @@ sub _Mask {
                 else {
                     $ReplaceWords{''} = 'No suggestions';
                 }
-                $Param{SpellCheckString} = $Self->{LayoutObject}->BuildSelection(
+                $Param{SpellCheckString} = $LayoutObject->BuildSelection(
                     Data => \%ReplaceWords,
                     Name => "SpellCheckOption::$Param{SpellCounter}",
                 );
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'Row',
                     Data => {
                         %{ $Param{SpellCheck}->{$_} },
@@ -132,7 +130,7 @@ sub _Mask {
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AgentSpelling',
         Data         => \%Param
     );

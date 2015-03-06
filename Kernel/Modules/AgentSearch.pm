@@ -12,19 +12,14 @@ package Kernel::Modules::AgentSearch;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
 
     return $Self;
 }
@@ -33,14 +28,16 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get params
-    my $Referrer = $Self->{ParamObject}->GetParam( Param => 'Referrer' );
-    my $Profile  = $Self->{ParamObject}->GetParam( Param => 'Profile' );
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Referrer    = $ParamObject->GetParam( Param => 'Referrer' );
+    my $Profile     = $ParamObject->GetParam( Param => 'Profile' );
 
     # set default backend
-    my $DefaultBackend = $Self->{ConfigObject}->Get('Frontend::SearchDefault');
+    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
+    my $DefaultBackend = $ConfigObject->Get('Frontend::SearchDefault');
 
     # config
-    my $Config = $Self->{ConfigObject}->Get('Frontend::Search');
+    my $Config = $ConfigObject->Get('Frontend::Search');
 
     # get target backend
     my $Redirect = $DefaultBackend;
@@ -62,7 +59,7 @@ sub Run {
     }
 
     # redirect to new backend
-    return $Self->{LayoutObject}->Redirect( OP => $Redirect );
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Redirect( OP => $Redirect );
 }
 
 1;
