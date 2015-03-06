@@ -1005,8 +1005,9 @@ sub Run {
             # show login
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title   => 'Login',
-                    Message => $LayoutObject->{LanguageObject}->Translate( $Self->{SessionObject}->SessionIDErrorMessage() ),
+                    Title => 'Login',
+                    Message =>
+                        $LayoutObject->{LanguageObject}->Translate( $Self->{SessionObject}->SessionIDErrorMessage() ),
                     %Param,
                 ),
             );

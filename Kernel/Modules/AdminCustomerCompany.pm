@@ -81,7 +81,7 @@ sub Run {
 
         my $Note = '';
         my ( %GetParam, %Errors );
-        $GetParam{Source} = $Self->{ParamObject}->GetParam( Param => 'Source' );
+        $GetParam{Source}            = $Self->{ParamObject}->GetParam( Param => 'Source' );
         $GetParam{CustomerCompanyID} = $Self->{ParamObject}->GetParam( Param => 'CustomerCompanyID' );
 
         for my $Entry ( @{ $Self->{ConfigObject}->Get('CustomerCompany')->{Map} } ) {
@@ -99,6 +99,7 @@ sub Run {
 
         # check for duplicate entries
         if ( $GetParam{CustomerCompanyID} ne $GetParam{CustomerID} ) {
+
             # get CustomerCompany list
             my %List = $Self->{CustomerCompanyObject}->CustomerCompanyList(
                 Search => $Param{Search},
@@ -146,6 +147,7 @@ sub Run {
             Type => $NavigationBarType,
         );
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
         # set notification for duplicate entry
         if ( $Errors{Duplicate} ) {
             $Output .= $Self->{LayoutObject}->Notify(
@@ -212,6 +214,7 @@ sub Run {
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
                 $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
             }
+
             # save customer company key for checking duplicate
             if ( $Entry->[2] eq $CustomerCompanyKey ) {
                 $CustomerCompanyID = $GetParam{ $Entry->[0] };
@@ -264,6 +267,7 @@ sub Run {
             Type => $NavigationBarType,
         );
         $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+
         # set notification for duplicate entry
         if ( $Errors{Duplicate} ) {
             $Output .= $Self->{LayoutObject}->Notify(

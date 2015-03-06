@@ -2235,7 +2235,8 @@ sub _InConditionGet {
     }
 
     my $SQL = '';
-    if ( @SQLStrings ) {
+    if (@SQLStrings) {
+
         # combine statements
         $SQL = join ' OR ', @SQLStrings;
 

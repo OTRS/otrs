@@ -999,7 +999,7 @@ sub _TicketIDStringGet {
 
         # quote values
         SORTEDID:
-        for my $TicketID ( @SortedIDs ) {
+        for my $TicketID (@SortedIDs) {
             next SORTEDID if !defined $DBObject->Quote( $TicketID, 'Integer' );
         }
 
@@ -1031,7 +1031,6 @@ sub _TicketIDStringGet {
 
     return $TicketIDString;
 }
-
 
 =back
 
