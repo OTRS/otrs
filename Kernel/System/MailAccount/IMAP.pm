@@ -52,7 +52,7 @@ sub Connect {
     my $IMAPObject = Net::IMAP::Simple->new(
         $Param{Host},
         timeout => $Param{Timeout},
-        debug   => $Param{Debug}
+        debug   => $Param{Debug} || undef,
     );
     if ( !$IMAPObject ) {
         return (

@@ -10,6 +10,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-03-06 Fixed bug#[11113](http://bugs.otrs.org/show_bug.cgi?id=11113) - Internal server error at importing with IMAP.
  - 2015-03-06 Fixed bug#[11135](http://bugs.otrs.org/show_bug.cgi?id=11135) - Use of uninitialized value warning in CustomerCompanyList.
  - 2015-03-05 MySQL: Added check for innodb_log_file_size setting to both the installer and the support data collector in order to make sure it matches the minimum requirements.
  - 2015-03-04 Fixed bug#[11097](http://bugs.otrs.org/show_bug.cgi?id=11097) - Generic Agent - Event Delete Icon disappear.
