@@ -173,7 +173,7 @@ sub CustomerCompanyList {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         my $CustomerCompanyID = shift @Row;
-        $List{$CustomerCompanyID} = join( ' ', @Row );
+        $List{$CustomerCompanyID} = join( ' ', map { defined($_) ? $_ : '' } @Row );
     }
 
     # cache request
