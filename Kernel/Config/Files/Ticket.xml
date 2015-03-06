@@ -5395,7 +5395,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
         <Setting>
-            <TextArea Translatable="1">Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is merged to "&lt;OTRS_MERGE_TO_TICKET&gt;".</TextArea>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AutomaticMergeSubject" Required="1" Valid="1">
