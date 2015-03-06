@@ -49,8 +49,8 @@ sub Run {
 sub _DynamicFieldDelete {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LogObject          = $Kernel::OM->Get('Kernel::System::Log');
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LogObject   = $Kernel::OM->Get('Kernel::System::Log');
 
     my $Confirmed = $ParamObject->GetParam( Param => 'Confirmed' );
 

@@ -74,7 +74,7 @@ sub Run {
 
         my $Note = '';
         my ( %GetParam, %Errors );
-        $GetParam{Source} = $ParamObject->GetParam( Param => 'Source' );
+        $GetParam{Source}            = $ParamObject->GetParam( Param => 'Source' );
         $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
         $GetParam{CustomerCompanyID} = $ParamObject->GetParam( Param => 'CustomerCompanyID' );
 
@@ -93,6 +93,7 @@ sub Run {
 
         # check for duplicate entries
         if ( $GetParam{CustomerCompanyID} ne $GetParam{CustomerID} ) {
+
             # get CustomerCompany list
             my %List = $CustomerCompanyObject->CustomerCompanyList(
                 Search => $Param{Search},
@@ -141,6 +142,7 @@ sub Run {
         );
 
         $Output .= $LayoutObject->Notify( Priority => 'Error' );
+
         # set notification for duplicate entry
         if ( $Errors{Duplicate} ) {
             $Output .= $LayoutObject->Notify(
@@ -209,6 +211,7 @@ sub Run {
             if ( !$GetParam{ $Entry->[0] } && $Entry->[4] ) {
                 $Errors{ $Entry->[0] . 'Invalid' } = 'ServerError';
             }
+
             # save customer company key for checking duplicate
             if ( $Entry->[2] eq $CustomerCompanyKey ) {
                 $CustomerCompanyID = $GetParam{ $Entry->[0] };
@@ -262,6 +265,7 @@ sub Run {
         );
 
         $Output .= $LayoutObject->Notify( Priority => 'Error' );
+
         # set notification for duplicate entry
         if ( $Errors{Duplicate} ) {
             $Output .= $LayoutObject->Notify(

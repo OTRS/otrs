@@ -220,7 +220,8 @@ sub CustomerSearch {
         if ( !$Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need CustomerUserSearchFields in CustomerUser config, unable to search for '$Param{Search}'!",
+                Message =>
+                    "Need CustomerUserSearchFields in CustomerUser config, unable to search for '$Param{Search}'!",
             );
             return;
         }
@@ -1057,7 +1058,8 @@ sub SetPassword {
         if ( !$MainObject->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message => "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
+                Message =>
+                    "CustomerUser: '$Login' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
         }

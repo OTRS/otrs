@@ -125,7 +125,8 @@ sub Run {
         )
         )
     {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('The current password is not correct. Please try again!');
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('The current password is not correct. Please try again!');
         return;
     }
 
@@ -137,7 +138,8 @@ sub Run {
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Can\'t update password, your new passwords do not match. Please try again!');
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, your new passwords do not match. Please try again!');
         return;
     }
 
@@ -146,13 +148,17 @@ sub Run {
 
     # check if password is not matching PasswordRegExp
     if ( $Config->{PasswordRegExp} && $Pw !~ /$Config->{PasswordRegExp}/ ) {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Can\'t update password, it contains invalid characters!');
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it contains invalid characters!');
         return;
     }
 
     # check min size of password
     if ( $Config->{PasswordMinSize} && length $Pw < $Config->{PasswordMinSize} ) {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Can\'t update password, it must be at least %s characters long!', $Config->{PasswordMinSize});
+        $Self->{Error}
+            = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate( 'Can\'t update password, it must be at least %s characters long!',
+            $Config->{PasswordMinSize} );
         return;
     }
 
@@ -162,19 +168,22 @@ sub Run {
         && ( $Pw !~ /[A-Z].*[A-Z]/ || $Pw !~ /[a-z].*[a-z]/ )
         )
     {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!');
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it must contain at least 2 lowercase and 2 uppercase characters!');
         return;
     }
 
     # check min 1 digit password
     if ( $Config->{PasswordNeedDigit} && $Pw !~ /\d/ ) {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Can\'t update password, it must contain at least 1 digit!');
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it must contain at least 1 digit!');
         return;
     }
 
     # check min 2 char password
     if ( $Config->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate('Can\'t update password, it must contain at least 2 characters!');
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}
+            ->Translate('Can\'t update password, it must contain at least 2 characters!');
         return;
     }
 

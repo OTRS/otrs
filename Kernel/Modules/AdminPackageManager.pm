@@ -2030,7 +2030,7 @@ sub _UpgradeHandling {
 sub _GetFeatureAddonData {
     my ( $Self, %Param ) = @_;
 
-    my $Language    = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage};
+    my $Language = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage};
 
     # cleanup main language for languages like es_MX (es in this case)
     $Language = substr $Language, 0, 2;

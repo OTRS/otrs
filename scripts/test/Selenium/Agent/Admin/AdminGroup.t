@@ -53,7 +53,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add group' linK
-        $Selenium->find_element( "//button[\@value='Add'][\@type='submit']")->click();
+        $Selenium->find_element("//button[\@value='Add'][\@type='submit']")->click();
 
         # check add page
         my $Element = $Selenium->find_element( "#GroupName", 'css' );
@@ -81,7 +81,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test group');
         $Selenium->find_element( "#GroupName",                 'css' )->submit();
 
-        # after add group followed screen is AddUserGroup(Subaction=Group), there is posible to set permission for added group
+  # after add group followed screen is AddUserGroup(Subaction=Group), there is posible to set permission for added group
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
@@ -96,7 +96,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->click();
-        $Selenium->find_element( "//button[\@value='Submit'][\@type='submit']" )->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
         # check if test group is present in AdminUserGroup
         $Self->True(
@@ -116,7 +116,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->click();
 
-        $Selenium->find_element( "//button[\@value='Submit'][\@type='submit']" )->click();
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
         # check edited test group permissions
         $Selenium->find_element( $RandomID, 'link_text' )->click();

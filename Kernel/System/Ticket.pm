@@ -5515,7 +5515,7 @@ sub HistoryTypeLookup {
         Key  => $CacheKey,
     );
 
-    if ( $Cached ) {
+    if ($Cached) {
         return $Cached;
     }
 

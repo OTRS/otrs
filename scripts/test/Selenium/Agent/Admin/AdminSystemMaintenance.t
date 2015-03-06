@@ -148,7 +148,8 @@ $Selenium->RunTest(
 
         # go to new test SystemMaintenance and check values
         $Selenium->find_element(
-            "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]")->click();
+            "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]"
+        )->click();
         $Self->Is(
             $Selenium->find_element( '#Comment', 'css' )->get_value(),
             $SysMainComment,
@@ -180,7 +181,8 @@ $Selenium->RunTest(
 
         # check updated test SystemMaintenance values
         $Selenium->find_element(
-            "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]")->click();
+            "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]"
+        )->click();
         $Self->Is(
             $Selenium->find_element( '#LoginMessage', 'css' )->get_value(),
             "$SysMainLogin-update",

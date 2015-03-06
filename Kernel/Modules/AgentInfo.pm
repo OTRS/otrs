@@ -21,7 +21,7 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     $Self->{InfoKey}  = $ConfigObject->Get('InfoKey');
     $Self->{InfoFile} = $ConfigObject->Get('InfoFile');
 
