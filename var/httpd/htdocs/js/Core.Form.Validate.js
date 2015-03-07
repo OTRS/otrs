@@ -402,6 +402,35 @@ Core.Form.Validate = (function (TargetNS) {
         }
     });
 
+    /*
+     * Adds a generic method to compare if the given fields are not equal
+     */
+    $.validator.addMethod("Validate_NotEqual", function (Value, Element) {
+        var Classes = $(Element).attr('class'),
+            GroupClass = '',
+            ApplyRule = 1,
+            EqualClassPrefix = 'Validate_NotEqual_',
+            RegExEqual;
+
+        RegExEqual = new RegExp(EqualClassPrefix);
+        $.each(Classes.split(' '), function (Index, ClassValue) {
+            if (RegExEqual.test(ClassValue)) {
+                GroupClass = ClassValue;
+            }
+        });
+
+        if ( GroupClass !== '' ) {
+            $(Element).closest('fieldset fieldset.TableLike').find('.' + GroupClass).each( function () {
+                if ( $(Element).attr('id') !== $(this).attr('id') && $(this).val() === Value ) {
+                    ApplyRule = 0;
+                }
+            });
+
+        }
+
+        return ApplyRule;
+    });
+
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
     });
@@ -453,6 +482,10 @@ Core.Form.Validate = (function (TargetNS) {
 
     $.validator.addClassRules("Validate_Equal", {
         Validate_Equal: true
+    });
+
+    $.validator.addClassRules("Validate_NotEqual", {
+        Validate_NotEqual: true
     });
 
     function GetDependentElements(Element) {
