@@ -770,9 +770,9 @@ sub Run {
                             Secure   => scalar $CookieSecureAttribute,
                             HTTPOnly => 1,
                         ),
-                        %Param,
                     },
-                    }
+                    %Param,
+                },
             );
 
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Output::HTML::Layout'] );
