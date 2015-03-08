@@ -155,10 +155,10 @@ sub Run {
 
     # check min size of password
     if ( $Config->{PasswordMinSize} && length $Pw < $Config->{PasswordMinSize} ) {
-        $Self->{Error}
-            = $Self->{LayoutObject}->{LanguageObject}
-            ->Translate( 'Can\'t update password, it must be at least %s characters long!',
-            $Config->{PasswordMinSize} );
+        $Self->{Error} = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            'Can\'t update password, it must be at least %s characters long!',
+            $Config->{PasswordMinSize}
+        );
         return;
     }
 
