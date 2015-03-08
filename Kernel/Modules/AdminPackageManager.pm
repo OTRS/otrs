@@ -1402,8 +1402,10 @@ sub Run {
 
     # remove not visible packages
     @RepositoryList = map {
-        ( !defined $_->{PackageIsVisible}
-                || ( $_->{PackageIsVisible}->{Content} && $_->{PackageIsVisible}->{Content} eq '1' ) )
+        (
+            !defined $_->{PackageIsVisible}
+                || ( $_->{PackageIsVisible}->{Content} && $_->{PackageIsVisible}->{Content} eq '1' )
+            )
             ? $_
             : ()
     } @RepositoryList;
