@@ -1243,22 +1243,15 @@ sub CheckDBRequirements {
         %Param,
     );
 
-    my $DBObject = Kernel::System::DB->new(%Param);
-
     # if mysql, check some more values
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
 
         # max_allowed_packed
         my $MySQLMaxAllowedPacket            = 0;
         my $MySQLMaxAllowedPacketRecommended = 20;
-        $DBObject->Prepare(
-            SQL => "SHOW variables WHERE Variable_name = 'max_allowed_packet'",
-        );
-        while ( my @Data = $DBObject->FetchrowArray() ) {
-            if ( $Data[1] ) {
-                $MySQLMaxAllowedPacket = $Data[1] / 1024 / 1024;
-            }
-        }
+
+        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
+        $MySQLMaxAllowedPacket = $Data->[0]->[1] / 1024 / 1024;
 
         if ( $MySQLMaxAllowedPacket < $MySQLMaxAllowedPacketRecommended ) {
             $Result{Successful} = 0;
@@ -1275,15 +1268,9 @@ sub CheckDBRequirements {
         my $MySQLInnoDBLogFileSize            = 0;
         my $MySQLInnoDBLogFileSizeMinimum     = 256;
         my $MySQLInnoDBLogFileSizeRecommended = 512;
-        $DBObject->Prepare(
-            SQL => "SHOW variables WHERE Variable_name = 'innodb_log_file_size'",
-        );
 
-        while ( my @Data = $DBObject->FetchrowArray() ) {
-            if ( $Data[1] ) {
-                $MySQLInnoDBLogFileSize = $Data[1] / 1024 / 1024;
-            }
-        }
+        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'innodb_log_file_size'");
+        $MySQLInnoDBLogFileSize = $Data->[0]->[1] / 1024 / 1024;
 
         if ( $MySQLInnoDBLogFileSize < $MySQLInnoDBLogFileSizeMinimum ) {
             $Result{Successful} = 0;
