@@ -1064,13 +1064,13 @@ sub DebugLog {
 
     return 1 if !$Self->{TransitionDebug};
 
-    my $Message;
+    my $Message = "Transition:'$Param{TransitionName}'";
+
     if ( $Param{MessageType} eq 'Match' || $Param{MessageType} eq 'NoMatch' ) {
 
         my $MatchedString = $Param{MessageType} eq 'Match' ? 'Matched' : 'Not matched';
 
-        $Message = "Transition:'$Param{TransitionName}' Condition:'$Param{ConditionName}'"
-            . " $MatchedString Field:'$Param{FieldName}'";
+        $Message = " Condition:'$Param{ConditionName}' $MatchedString Field:'$Param{FieldName}'";
 
         if ( $Param{MatchType} eq 'Module' ) {
             $Message .= " with Transition Validation Module: '$Param{Module}'";
@@ -1086,13 +1086,15 @@ sub DebugLog {
     elsif ( $Param{MessageType} eq 'Success' ) {
 
         if ( $Param{ConditionName} && $Param{ConditionType} ) {
-            $Message = "Transition:'$Param{TransitionName}' Condition:'$Param{ConditionName}'"
-                . " Success on Condition Linking:'$Param{ConditionLinking}' and Condition Type:'$Param{ConditionType}'";
+            $Message = " Condition:'$Param{ConditionName}' Success on Condition Linking:'$Param{ConditionLinking}'"
+                . "  and Condition Type:'$Param{ConditionType}'";
         }
         else {
-            $Message = "Transition:'$Param{TransitionName}' Success on Condition Linking:'$Param{ConditionLinking}'";
+            $Message = " Success on Condition Linking:'$Param{ConditionLinking}'";
         }
     }
+
+    # for MessageType 'Custom' or any other, use the given message
     else {
         return if !$Param{Message};
         $Message = $Param{Message};
