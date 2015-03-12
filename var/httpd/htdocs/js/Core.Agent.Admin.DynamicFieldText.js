@@ -98,16 +98,3 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
 
     return TargetNS;
 }(Core.Agent.Admin.DynamicFieldText || {}));
-
-// click handler to remove regex
-$('.RemoveRegEx').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldText.RemoveRegEx( $(this).attr('id') );
-    return false;
-});
-// click handler to add regex
-$('#AddRegEx').bind('click', function () {
-    Core.Agent.Admin.DynamicFieldText.AddRegEx(
-        $(this).closest('fieldset').find('.RegExInsert')
-    );
-    return false;
-});
