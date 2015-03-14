@@ -1137,6 +1137,7 @@ sub _Mask {
             my $ACL = $Self->{TicketObject}->TicketAcl(
                 Data           => \%PermissionActivityDialogList,
                 TicketID       => $Param{TicketID},
+                Action         => $Self->{Action},
                 ReturnType     => 'ActivityDialog',
                 ReturnSubType  => '-',
                 CustomerUserID => $Self->{UserID},
