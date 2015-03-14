@@ -712,7 +712,7 @@ sub _SendNotification {
 
         my $RealName = $CustomerUserObject->CustomerName(
             UserLogin => $Ticket{CustomerUserID}
-        ) || $Recipient{Realname};
+        ) || $Recipient{Realname} || '';
 
         $Notification{Body} =~ s/${Start}OTRS_CUSTOMER_REALNAME${End}/$RealName/g;
     }
