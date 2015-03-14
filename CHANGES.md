@@ -10,6 +10,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-03-13 Fixed bug#[11106](http://bugs.otrs.org/show_bug.cgi?id=11106) - Owner type is ignored if set previous owner to blanc in AgentTicketOwner.
  - 2015-03-06 Fixed bug#[11084](http://bugs.otrs.org/show_bug.cgi?id=11142) - Transition do not store more than one criteria in a condition.
  - 2015-03-06 Fixed bug#[11142](http://bugs.otrs.org/show_bug.cgi?id=11142) - At times, undefined variable warning in agent interface.
  - 2015-03-06 Fixed bug#[11147](http://bugs.otrs.org/show_bug.cgi?id=11147) - SLA can not be set over Free Fields Dialog.
