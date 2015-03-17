@@ -495,13 +495,58 @@ sub Run {
             );
         }
 
+        # determine skin for selection of the correct logo
+        # 1. use UserSkin setting from Agent preferences, if available
+        # 2. use HostBased skin setting, if available
+        # 3. use default skin from configuration
+
+        my $SkinSelectedHostBased;
+        my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+        if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
+            REGEXP:
+            for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
+
+                # do not use empty regexp or skin directories
+                next REGEXP if !$RegExp;
+                next REGEXP if !$DefaultSkinHostBased->{$RegExp};
+
+                # check if regexp is matching
+                if ( $ENV{HTTP_HOST} =~ /$RegExp/i ) {
+                    $SkinSelectedHostBased = $DefaultSkinHostBased->{$RegExp};
+                }
+            }
+        }
+
+        my $SkinSelected = $Self->{'UserSkin'}
+            || $SkinSelectedHostBased
+            || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+            || 'default';
+
+        my %AgentLogo;
+
+        # check if we need to display a custom logo for the selected skin
+        my $AgentLogoCustom = $Self->{ConfigObject}->Get('AgentLogoCustom');
+        if (
+            $SkinSelected
+            && $AgentLogoCustom
+            && IsHashRefWithData($AgentLogoCustom)
+            && $AgentLogoCustom->{ $SkinSelected }
+            )
+        {
+            %AgentLogo = %{ $AgentLogoCustom->{ $SkinSelected } };
+        }
+
+        # Otherwise show default header logo, if configured
+        elsif ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
+            %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
+        }
+
         # get logo
-        my $Logo = $Self->{ConfigObject}->Get('AgentLogo');
-        if ( $Logo && %{$Logo} ) {
+        if ( $AgentLogo{URL} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Logo',
                 Data => {
-                    LogoURL => $Param{LogoURL} = $Self->{ConfigObject}->Get('Frontend::WebPath') . $Logo->{URL},
+                    LogoURL => $Self->{ConfigObject}->Get('Frontend::WebPath') . $AgentLogo{URL},
                 },
             );
         }
