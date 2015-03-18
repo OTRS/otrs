@@ -160,6 +160,23 @@ sub Request {
         # init agent
         my $UserAgent = LWP::UserAgent->new();
 
+        # In some scenarios like transparent HTTPS proxies, it can be neccessary to turn off
+        #   SSL certificate validation.
+        if ( $Self->{ConfigObject}->Get('WebUserAgent::DisableSSLVerification') ) {
+            my $Loaded = $Self->{MainObject}->Require(
+                'Net::SSLeay',
+                Silent => 1,
+            );
+            if ($Loaded) {
+                $UserAgent->ssl_opts(
+                    verify_hostname => 0,
+                );
+                $UserAgent->ssl_opts(
+                    SSL_verify_mode => Net::SSLeay::VERIFY_NONE(),
+                );
+            }
+        }
+
         # set timeout
         $UserAgent->timeout( $Self->{Timeout} );
 
