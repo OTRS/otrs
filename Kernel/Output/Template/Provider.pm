@@ -379,6 +379,27 @@ sub _PreProcessTemplateContent {
     my $TemplateFileWithoutTT = substr( $Param{TemplateFile}, 0, -3 );
 
     #
+    # Include other templates into this one before parsing.
+    # [% IncludeTemplate("DatePicker.tt") %]
+    #
+    my ( $ReplaceCounter, $Replaced );
+    do {
+        $Replaced = $Content =~ s{
+            \[% -? \s* InsertTemplate \( \s* ['"]? (.*?) ['"]? \s* \) \s* -? %\]\n?
+            }{
+                # Load the template via the provider.
+                # We'll use SUPER::load here because we don't need the preprocessing twice.
+                my $TemplateContent = ($Self->SUPER::load($1))[0];
+
+                # Remove commented lines already here because of problems when the InsertTemplate tag
+                #   is not on the beginning of the line.
+                $TemplateContent =~ s/^#.*\n//gm;
+                $TemplateContent;
+            }esmxg;
+
+    } until ( !$Replaced || ++$ReplaceCounter > 100 );
+
+    #
     # pre putput filter handling
     #
     if ( $Self->{FilterElementPre} && ref $Self->{FilterElementPre} eq 'HASH' ) {
@@ -416,27 +437,6 @@ sub _PreProcessTemplateContent {
             );
         }
     }
-
-    #
-    # Include other templates into this one before parsing.
-    # [% IncludeTemplate("DatePicker.tt") %]
-    #
-    my ( $ReplaceCounter, $Replaced );
-    do {
-        $Replaced = $Content =~ s{
-            \[% -? \s* InsertTemplate \( \s* ['"]? (.*?) ['"]? \s* \) \s* -? %\]\n?
-            }{
-                # Load the template via the provider.
-                # We'll use SUPER::load here because we don't need the preprocessing twice.
-                my $TemplateContent = ($Self->SUPER::load($1))[0];
-
-                # Remove commented lines already here because of problems when the InsertTemplate tag
-                #   is not on the beginning of the line.
-                $TemplateContent =~ s/^#.*\n//gm;
-                $TemplateContent;
-            }esmxg;
-
-    } until ( !$Replaced || ++$ReplaceCounter > 100 );
 
     #
     # Remove DTL-style comments (lines starting with #)

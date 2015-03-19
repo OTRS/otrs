@@ -10,6 +10,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-03-19 Fixed bug#[11181](http://bugs.otrs.org/show_bug.cgi?id=11181) - outputfilters pre not matching on includes.
  - 2015-03-13 Fixed bug#[11119](http://bugs.otrs.org/show_bug.cgi?id=11119) - Activity Dialog can't be hidden if ACL features Action condition in CustomerTicketZoom.
  - 2015-03-13 Fixed bug#[11136](http://bugs.otrs.org/show_bug.cgi?id=11136) - uninitialized value $RealName NotificationEvent.pm line 717.
  - 2015-03-13 Fixed bug#[11106](http://bugs.otrs.org/show_bug.cgi?id=11106) - Owner type is ignored if set previous owner to blanc in AgentTicketOwner.
