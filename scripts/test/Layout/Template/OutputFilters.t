@@ -37,6 +37,7 @@ my @Tests = (
         Data        => {
             Title => 'B&B 1'
         },
+        Output => 'OutputFilters',
         Result => 'OutputFilterPostPrefix1:
 Test: B&B 1
 ',
@@ -60,6 +61,7 @@ Test: B&B 1
         Data        => {
             Title => 'B&B 2'
         },
+        Output => 'OutputFilters',
         Result => 'OutputFilterPostPrefix2:
 Test: B&B 2
 ',
@@ -83,6 +85,7 @@ Test: B&B 2
         Data        => {
             Title => 'B&B 3'
         },
+        Output => 'OutputFilters',
         Result => 'OutputFilterPostPrefix3:
 Test: B&B 3
 ',
@@ -106,6 +109,7 @@ Test: B&B 3
         Data        => {
             Title => 'B&B 4'
         },
+        Output => 'OutputFilters',
         Result => 'OutputFilterPostPrefix4:
 Test: B&B 4
 ',
@@ -129,6 +133,7 @@ Test: B&B 4
         Data        => {
             Title => 'B&B 5'
         },
+        Output => 'OutputFilters',
         Result => 'Test: B&B 5
 ',
     },
@@ -151,6 +156,7 @@ Test: B&B 4
         Data        => {
             Title => 'B&B 6'
         },
+        Output => 'OutputFilters',
         Result => 'Test: B&B 6
 ',
     },
@@ -173,6 +179,7 @@ Test: B&B 4
         Data        => {
             Title => 'B&B 7'
         },
+        Output => 'OutputFilters',
         Result => 'OutputFilterPrePrefix7:
 Test: B&B 7
 ',
@@ -196,8 +203,33 @@ Test: B&B 7
         Data        => {
             Title => 'B&B 8'
         },
+        Output => 'OutputFilters',
         Result => 'OutputFilterPrePrefix8:
 Test: B&B 8
+',
+    },
+    {
+        Name   => 'Output filter pre, OutputFilters template, include test',
+        Config => {
+            "Frontend::Output::FilterElementPre" => {
+                "100-TestFilter" => {
+                    Module    => 'scripts::test::Layout::Template::OutputFilterInclude',
+                    Templates => {
+                        'OutputFiltersInclude' => 1,
+                    },
+                    Prefix => "OutputFilterPrePrefix9:\n",
+                },
+            },
+            "Frontend::Output::FilterElementPost" => {},
+        },
+        IsCacheable => 0,
+        UseCache    => 1,
+        Data        => {
+            Title => 'B&B 9'
+        },
+        Output => 'OutputFiltersInclude',
+        Result => 'OutputFilterPrePrefix9:
+Test: B&B 9
 ',
     },
 );
@@ -238,7 +270,7 @@ for my $Test (@Tests) {
     }
 
     my $Result = $LayoutObject->Output(
-        TemplateFile => 'OutputFilters',
+        TemplateFile => $Test->{Output},
         Data         => $Test->{Data} // {},
     );
 
@@ -255,7 +287,8 @@ for my $Test (@Tests) {
         $Test->{IsCacheable},
         'Have uncacheable templates',
     );
-    my $FileName = $ConfigObject->Get('Home') . '/scripts/test/Layout/Template/OutputFilters.tt';
+
+    my $FileName = $ConfigObject->Get('Home') . '/scripts/test/Layout/Template/' . $Test->{Output} . '.tt';
     $FileName =~ s{/{2,}}{/}g;    # remove duplicated //
     $Self->Is(
         $LayoutObject->{TemplateProviderObject}->{_TemplateCache}->{$FileName} ? 1 : 0,
