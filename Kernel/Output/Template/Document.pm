@@ -151,11 +151,18 @@ sub _InstallOTRSExtensions {
         eval {
 
             my $Code = join "\n", @{ $context->{LayoutObject}->{_JSOnDocumentComplete} || [] };
+
+            # remove opening script tags
             $Code =~ s{ \s* <script[^>]+> (?:\s*<!--)? (?:\s*//\s*<!\[CDATA\[)? \n? }{}smxg;
-            $Code =~ s{ \s* (?:-->\s*)? (?://\s*\]\]>\s*)? </script> \n? }{}smxg;
+
+            # remove closing script tags
+            $Code =~ s{ \s* (?:-->\s*)? (?://\s*\]\]>\s*)? </script> \n? }{\n\n}smxg;
+
+            # remove additional newlines at the end of the code block
+            $Code =~ s{ \n+ \z }{}smxg;
+
             $output .= $Code;
             delete $context->{LayoutObject}->{_JSOnDocumentComplete};
-
         };
 
         if ($@) {
