@@ -1,4 +1,5 @@
 #4.0.7 2015-??-??
+ - 2015-03-20 Fixed bug#[11178](http://bugs.otrs.org/show_bug.cgi?id=11178) - Undefined variable warning with "Reply to note" in AgentTicketZoom.
  - 2015-03-20 Fixed bug#[11188](http://bugs.otrs.org/show_bug.cgi?id=11188) - SOAP WSDL TicketGet response is incomplete.
  - 2015-03-20 Fixed bug#[10816](http://bugs.otrs.org/show_bug.cgi?id=10816) - apache2 with mod_deflate enabled will not start.
  - 2015-03-19 Fixed bug#[11181](http://bugs.otrs.org/show_bug.cgi?id=11181) - outputfilters pre not matching on includes.
