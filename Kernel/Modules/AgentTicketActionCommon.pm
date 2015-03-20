@@ -1997,7 +1997,7 @@ sub _Mask {
         my %ReplyToUserIDs;
         if ( $Self->{ReplyToArticle} ) {
             my @ReplyToParts = $Self->{EmailParserObject}->SplitAddressLine(
-                Line => $Self->{ReplyToArticleContent}->{To},
+                Line => $Self->{ReplyToArticleContent}->{To} || '',
             );
 
             REPLYTOPART:
