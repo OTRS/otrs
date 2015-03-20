@@ -1891,7 +1891,7 @@ sub ArticleGet {
             $Data{MimeType} = '';
         }
 
-        # fill up dynamic varaibles
+        # fill up dynamic variables
         $Data{Age} = $TimeObject->SystemTime() - $Ticket{CreateTimeUnix};
 
         # strip not wanted stuff
@@ -1904,7 +1904,7 @@ sub ArticleGet {
         push @Content, { %Ticket, %Data };
     }
 
-    # checl if need to return dynamic fields
+    # check if need to return dynamic fields
     if ($FetchDynamicFields) {
 
         # get dynamic field objects
