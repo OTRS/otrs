@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-03-20 Let LWP::UserAgent handle https-proxy commands, thanks to Michiel Beijen.
  - 2015-03-20 Added possibility to specify minimum log level, thanks to Renée Bäcker.
  - 2015-02-23 Added Ping() to Kernel::System::DB.pm API.
  - 2015-02-06 Fixed bug#[11054](http://bugs.otrs.org/show_bug.cgi?id=11054) - HTMLUtils::Safety breaks links.
