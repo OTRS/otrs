@@ -12,6 +12,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-03-20 Fixed bug#[10702](http://bugs.otrs.org/show_bug.cgi?id=10702) - Can't select customer and/or public interface in AdminACL.
  - 2015-03-20 Fixed bug#[11178](http://bugs.otrs.org/show_bug.cgi?id=11178) - Undefined variable warning with "Reply to note" in AgentTicketZoom.
  - 2015-03-20 Fixed bug#[11188](http://bugs.otrs.org/show_bug.cgi?id=11188) - SOAP WSDL TicketGet response is incomplete.
  - 2015-03-20 Fixed bug#[10816](http://bugs.otrs.org/show_bug.cgi?id=10816) - apache2 with mod_deflate enabled will not start.
