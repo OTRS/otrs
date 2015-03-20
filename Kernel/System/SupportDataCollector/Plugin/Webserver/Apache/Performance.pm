@@ -74,6 +74,25 @@ sub Run {
             );
         }
 
+        my $ModFilterLoaded =
+            Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
+
+        if ($ModFilterLoaded) {
+            $Self->AddResultOk(
+                Identifier => "ModFilterLoaded",
+                Label      => 'mod_filter Usage',
+                Value      => 'active',
+            );
+        }
+        else {
+            $Self->AddResultWarning(
+                Identifier => "ModFilterLoaded",
+                Label      => 'mod_filter Usage',
+                Value      => 'not active',
+                Message    => 'Please install mod_filter if mod_deflate is used.',
+            );
+        }
+
         my $ModHeadersLoaded =
             Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
 
