@@ -1071,6 +1071,16 @@ sub _Dump {
 
             # start recursion
             $Self->_Dump( \${$Data}->{$Key} );
+
+            my $KeyNew = $Key;
+
+            $Self->_Dump( \$KeyNew );
+
+            if ( $Key ne $KeyNew ) {
+
+                ${$Data}->{$KeyNew} = ${$Data}->{$Key};
+                delete ${$Data}->{$Key};
+            }
         }
 
         return;
