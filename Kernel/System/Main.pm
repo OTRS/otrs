@@ -1074,13 +1074,13 @@ sub _Dump {
 
             my $KeyNew = $Key;
 
+            # check for changed keys
             $Self->_Dump( \$KeyNew );
 
-            if ( $Key ne $KeyNew ) {
+            next KEY if $Key eq $KeyNew;
 
-                ${$Data}->{$KeyNew} = ${$Data}->{$Key};
-                delete ${$Data}->{$Key};
-            }
+            ${$Data}->{$KeyNew} = ${$Data}->{$Key};
+            delete ${$Data}->{$Key};
         }
 
         return;
