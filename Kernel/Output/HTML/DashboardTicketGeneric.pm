@@ -2011,7 +2011,7 @@ sub _SearchParamsGet {
                 next STRING if $2 eq $Self->{ProcessManagementActivityID};
             }
 
-            $DynamicFieldsParameters{$1}->{$2} = $Value;
+            push @{ $DynamicFieldsParameters{$1}->{$2} }, $Value;
         }
 
         elsif ( !defined $TicketSearch{$Key} ) {
