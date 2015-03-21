@@ -32,7 +32,7 @@ Authors:
     - Webinterface with themes support
     - Multi language support (Brazilian Portuguese, Bulgarian, Dutch, English,
        Finnish, French, German, Italian and Spanish)
-    - customize the output templates (dtl) release independently
+    - customize the output templates (tt) release independently
     - Webinterface with attachment support
     - easy and logical to use
 

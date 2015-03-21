@@ -638,7 +638,7 @@ sub _ShowOverview {
         );
     }
 
-    # call all needed dtl blocks
+    # call all needed tt blocks
     $Self->{LayoutObject}->Block(
         Name => 'Main',
         Data => \%Param,
@@ -752,7 +752,7 @@ sub _ShowEdit {
         );
     }
 
-    # call all needed dtl blocks
+    # call all needed tt blocks
     $Self->{LayoutObject}->Block(
         Name => 'Main',
         Data => \%Param,

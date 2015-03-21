@@ -90,7 +90,7 @@ Directories & Files
     |   |
     |   |---- /Output/        (all output generating modules)
     |   |      |---- /HTML/
-    |   |             |--- /Standard/*.dtl (all dtl files for Standard theme)
+    |   |             |--- /Standard/*.tt (all tt files for Standard theme)
     |   |
     |   |--- /GenericInterface (GenericInterface framework)
     |          |--- /Invoker/ (invoker backends)

@@ -4243,7 +4243,7 @@ sub _StoreActivityDialog {
         if ( !$ProcessEntityID )
         {
             return $Self->{LayoutObject}->FatalError(
-                Message => "Missing ProcessEntityID, check your ActivityDialogHeader.dtl!",
+                Message => "Missing ProcessEntityID, check your ActivityDialogHeader.tt!",
             );
         }
 

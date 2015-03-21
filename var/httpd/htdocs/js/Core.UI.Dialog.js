@@ -247,7 +247,7 @@ Core.UI.Dialog = (function (TargetNS) {
         if (Params.HTML) {
             // If the data is a string, this is created dynamically or was delivered via AJAX.
             // But if the data is a jQueryObject, that means, that the prepared HTML code for the dialog
-            // was originally put as part of the DTL into the HTML page
+            // was originally put as part of the tt into the HTML page
             // For compatibility reasons (no double IDs etc.) we have to cut out the dialog HTML and
             // only use it for the dialog itself.
             // After the dialog is closed again we have to revert this cut-out, because otherwise we

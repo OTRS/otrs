@@ -1671,7 +1671,7 @@ sub _OutputActivityDialog {
         # the selects, so we get the complete JSOnDocumentComplete code
         # and deliver it in the FooterJS block.
         # This Javascript Part is executed in
-        # CustomerTicketProcess.dtl
+        # CustomerTicketProcess.tt
         $Self->{LayoutObject}->Block(
             Name => 'FooterJS',
             Data => {},
@@ -3251,7 +3251,7 @@ sub _StoreActivityDialog {
         if ( !$ProcessEntityID )
         {
             return $Self->{LayoutObject}->CustomerFatalError(
-                Message => "Missing ProcessEntityID, check your ActivityDialogHeader.dtl!",
+                Message => "Missing ProcessEntityID, check your ActivityDialogHeader.tt!",
             );
         }
 

@@ -609,7 +609,7 @@ sub Run {
             PARAM:
             for my $Param ( @{ $Element{Preferences} } ) {
 
-                # special parameters are added, which do not have a dtl block,
+                # special parameters are added, which do not have a tt block,
                 # because the displayed fields are added with the output filter,
                 # so there is no need to call any block here
                 next PARAM if !$Param->{Block};

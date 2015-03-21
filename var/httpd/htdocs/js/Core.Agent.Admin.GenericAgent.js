@@ -24,7 +24,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
     /**
      * @variable
      * @private
-     *     This variable stores the parameters that are passed from the DTL and contain all the data that the dialog needs.
+     *     This variable stores the parameters that are passed from the tt and contain all the data that the dialog needs.
      */
     var DialogData = [];
 

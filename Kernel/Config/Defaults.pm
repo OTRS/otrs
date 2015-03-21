@@ -608,7 +608,7 @@ sub LoadDefaults {
     # Kernel::Modules::AgentInfo check key, if this user preferences key
     # is true, then the message is already accepted
 #    $Self->{InfoKey} = 'wpt22';
-    # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.dtl
+    # shown InfoFile located under Kernel/Output/HTML/Standard/AgentInfo.tt
 #    $Self->{InfoFile} = 'AgentInfo';
 
     # --------------------------------------------------- #
@@ -1179,7 +1179,7 @@ You can log in via the following URL:
     # Kernel::Modules::CustomerAccept check key, if this user preferences key
     # is true, then the message is already accepted
 #    $Self->{'CustomerPanel::InfoKey'} = 'CustomerAccept1';
-    # shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.dtl
+    # shown InfoFile located under Kernel/Output/HTML/Standard/CustomerAccept.tt
 #    $Self->{'CustomerPanel::InfoFile'} = 'CustomerAccept';
 
     # CustomerPanelLostPassword

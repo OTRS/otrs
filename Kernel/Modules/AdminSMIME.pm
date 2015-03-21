@@ -531,7 +531,7 @@ sub _MaskAdd {
         Name => 'ActionOverview',
     );
 
-    # show the right dtl block
+    # show the right tt block
     $Self->{LayoutObject}->Block(
         Name => 'OverviewAdd' . $Param{Type},
         Data => \%Param,

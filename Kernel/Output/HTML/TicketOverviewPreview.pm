@@ -757,7 +757,7 @@ sub _Show {
             }
         }
 
-        # define proper DTL block based on permissions
+        # define proper tt block based on permissions
         my $CustomerIDBlock = $Access ? 'CustomerIDRW' : 'CustomerIDRO';
 
         $Self->{LayoutObject}->Block(
