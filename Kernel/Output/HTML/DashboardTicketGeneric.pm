@@ -1875,7 +1875,7 @@ sub _SearchParamsGet {
         #   DynamicField_NameX_SmallerThan=2002-02-02 02:02:02;
         #   DynamicField_NameX_SmallerThanEquals=2002-02-02 02:02:02;
         elsif ( $Key =~ m{\A (DynamicField_.+?) _ (.+?) \z}sxm ) {
-            $DynamicFieldsParameters{$1}->{$2} = $Value;
+            push @{ $DynamicFieldsParameters{$1}->{$2} }, $Value;
         }
 
         elsif ( !defined $TicketSearch{$Key} ) {
