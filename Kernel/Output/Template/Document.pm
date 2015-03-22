@@ -159,7 +159,7 @@ sub _InstallOTRSExtensions {
             $Code =~ s{ \s* (?:-->\s*)? (?://\s*\]\]>\s*)? </script> \n? }{\n\n}smxg;
 
             # remove additional newlines at the end of the code block
-            $Code =~ s{ \n+ \z }{}smxg;
+            $Code =~ s{ \n+ \z }{\n}smxg;
 
             $output .= $Code;
             delete $context->{LayoutObject}->{_JSOnDocumentComplete};
