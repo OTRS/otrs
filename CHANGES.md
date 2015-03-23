@@ -1,4 +1,5 @@
 #4.0.7 2015-??-??
+ - 2015-03-23 Fixed bug#[11104](http://bugs.otrs.org/show_bug.cgi?id=11104) - Invalid utf-8 parameters not filtered sufficciently.
  - 2015-03-20 Fixed bug#[11072](http://bugs.otrs.org/show_bug.cgi?id=11072) - DynamicField Filter in AgentDashboard accepts only one value.
  - 2015-03-20 Fixed bug#[10702](http://bugs.otrs.org/show_bug.cgi?id=10702) - Can't select customer and/or public interface in AdminACL.
  - 2015-03-20 Fixed bug#[11178](http://bugs.otrs.org/show_bug.cgi?id=11178) - Undefined variable warning with "Reply to note" in AgentTicketZoom.
