@@ -12,6 +12,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.7 2015-??-??
+ - 2015-03-23 Fixed bug#[11194](http://bugs.otrs.org/show_bug.cgi?id=11194) - Download button for dashboard stats visible even if no permissions for AgentStats exist..
  - 2015-03-23 Fixed bug#[11104](http://bugs.otrs.org/show_bug.cgi?id=11104) - Invalid utf-8 parameters not filtered sufficciently.
  - 2015-03-20 Fixed bug#[11072](http://bugs.otrs.org/show_bug.cgi?id=11072) - DynamicField Filter in AgentDashboard accepts only one value.
  - 2015-03-20 Fixed bug#[10702](http://bugs.otrs.org/show_bug.cgi?id=10702) - Can't select customer and/or public interface in AdminACL.
