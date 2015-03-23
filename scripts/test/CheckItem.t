@@ -292,6 +292,18 @@ for my $Test (@Tests) {
         },
         Result => "TesttestTest",
     },
+
+    # strip invalid utf8 characters
+    {
+        String => 'aäöüß€z',
+        Params => {},
+        Result => 'aäöüß€z',
+    },
+    {
+        String => 'a����z',
+        Params => {},
+        Result => undef,
+    },
 );
 
 for my $Test (@Tests) {
