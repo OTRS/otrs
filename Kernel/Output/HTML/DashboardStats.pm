@@ -625,7 +625,7 @@ sub Run {
         my $Stat = $StatsObject->StatsGet( StatID => $StatID );
 
         # check permission for AgentStats
-        my $StatsReg   = $Self->{ConfigObject}->Get('Frontend::Module')->{'AgentStats'};
+        my $StatsReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{'AgentStats'};
         my $StatsPermission;
         if ( !$StatsReg->{GroupRo} && !$StatsReg->{Group} ) {
             $StatsPermission = 1;
