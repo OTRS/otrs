@@ -254,6 +254,16 @@ sub StringClean {
     return $Param{StringRef} if !defined ${ $Param{StringRef} };
     return $Param{StringRef} if ${ $Param{StringRef} } eq '';
 
+    # check for invalid utf8 characters and remove invalid strings
+    if ( !utf8::valid( ${ $Param{StringRef} } ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Removed string containing invalid utf8: '${ $Param{StringRef} }'!",
+        );
+        ${ $Param{StringRef} } = '';
+        return;
+    }
+
     # set default values
     $Param{TrimLeft}  = defined $Param{TrimLeft}  ? $Param{TrimLeft}  : 1;
     $Param{TrimRight} = defined $Param{TrimRight} ? $Param{TrimRight} : 1;
