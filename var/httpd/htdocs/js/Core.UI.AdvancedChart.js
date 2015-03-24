@@ -240,14 +240,18 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             }
 
             var ResultLine = {
-                key: DataElement[0],
-                color: Colors[Counter % Colors.length],
-                disabled: (PreferencesData && PreferencesData.Filter && $.inArray(DataElement[0], PreferencesData.Filter) === -1) ? true : false,
-                values: []
-            };
+                    key: DataElement[0],
+                    color: Colors[Counter % Colors.length],
+                    disabled: (PreferencesData && PreferencesData.Filter && $.inArray(DataElement[0], PreferencesData.Filter) === -1) ? true : false,
+                    values: []
+                },
+                Counter = 0;
 
             $.each(Headings, function(HeadingIndex, HeadingElement){
                 var Value;
+
+                Counter++;
+
                 // First element is x axis label
                 if (HeadingIndex === 0){
                     return;
@@ -269,8 +273,12 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                 }
 
                 // nv d3 does not work correcly with non numeric values
+                // because it could happen that x axis headings occur multiple
+                // times (such as Thu 18 for two different months), we
+                // add a custom label for uniquity of the headings which is being
+                // removed later (see OTRSmultiBarChart.js)
                 ResultLine.values.push({
-                    x: HeadingElement + ' ',
+                    x: '__LABEL_START__' + Counter + '__LABEL_END__' + HeadingElement + ' ',
                     y: Value
                 });
             });
