@@ -1166,6 +1166,25 @@ sub Run {
             Type        => 'inline'
         );
     }
+    elsif ( $Self->{Subaction} eq 'AJAXStopWordCheck' ) {
+
+        my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
+        my $FoundStopWords      = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
+        my @FoundStopWords      = keys %{$FoundStopWords};
+        my $StopWordCheckResult = {
+            FoundStopWords => \@FoundStopWords,
+        };
+
+        my $Output = $Self->{LayoutObject}->JSONEncode(
+            Data => $StopWordCheckResult,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
+    }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
         my $Profile = $Self->{ParamObject}->GetParam( Param => 'Profile' ) || '';
         my $EmptySearch = $Self->{ParamObject}->GetParam( Param => 'EmptySearch' );

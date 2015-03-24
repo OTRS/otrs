@@ -53,6 +53,7 @@ Core.App.Ready(function () {
         LoadingMsg: [% Translate("Loading...") | JSON %],
         EmptySearchMsg: [% Translate("Please enter at least one search value or * to find anything.") | JSON %],
         SearchMsg: [% Translate("Search") | JSON %],
+        SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from your search as they cannot be searched for:") |JSON %],
         ValidationErrorMsg: [% Translate("Please check the fields marked as red for valid inputs.") | JSON %],
         SpellCheckNeededMsg: [% Translate("Please perform a spell check on the the text first.") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],

@@ -305,6 +305,7 @@ sub TicketSearch {
     if ( !$Param{ContentSearch} ) {
         $Param{ContentSearch} = 'AND';
     }
+
     my %SortOptions = (
         Owner                  => 'st.user_id',
         Responsible            => 'st.responsible_user_id',
@@ -2175,6 +2176,73 @@ sub TicketSearch {
         }
         return @TicketIDs;
     }
+}
+
+=item SearchStringStopWordsFind()
+
+Find stop words within given search string.
+
+    my $StopWords = $TicketObject->SearchStringStopWordsFind(
+        SearchStrings => [ '(this AND is) OR test', ],
+    );
+
+    Returns Hashref with found stop words.
+
+=cut
+
+sub SearchStringStopWordsFind {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(SearchStrings)) {
+        if ( !$Param{$Key} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!",
+            );
+            return;
+        }
+    }
+
+    my %Words;
+
+    for my $SearchString ( @{ $Param{SearchStrings} } ) {
+        my %Result = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
+            'Key'      => '.',             # resulting SQL is irrelevant
+            'Value'    => $SearchString,
+            'BindMode' => 1,
+        );
+
+        if (
+            %Result
+            && ref $Result{Values} eq 'ARRAY'
+            && @{ $Result{Values} }
+            )
+        {
+            for my $Value ( @{ $Result{Values} } ) {
+                my @Words = split '\s+', $$Value;
+                for my $Word (@Words) {
+                    $Words{ lc $Word } = 1;
+                }
+            }
+        }
+    }
+
+    my %StopWordRaw = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {} };
+    my %StopWord;
+    WORD:
+    for my $Word ( sort keys %StopWordRaw ) {
+
+        next WORD if !$Word;
+
+        $Word = lc $Word;
+
+        $StopWord{$Word} = 1;
+    }
+
+    my %StopWordsFound = map { $_ => 1 } grep { $StopWord{$_} } keys %Words;
+
+    return \%StopWordsFound;
 }
 
 =begin Internal:

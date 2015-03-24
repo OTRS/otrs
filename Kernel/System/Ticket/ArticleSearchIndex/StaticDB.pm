@@ -179,8 +179,6 @@ sub _ArticleIndexQuerySQLExt {
         Body    => 'art.a_body',
     );
 
-    my $StopWord = $Self->_StopWordPrepare();
-
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -189,16 +187,6 @@ sub _ArticleIndexQuerySQLExt {
     KEY:
     for my $Key ( sort keys %FieldSQLMapFullText ) {
         next KEY if !$Param{Data}->{$Key};
-
-        # remove stop words from search string
-        # note: if search string consists entirely of stop words, execute search with original
-        # search string, which leads to an empty search result. otherwise all tickets would be
-        # returned as result which is not desired.
-        my @Words = split '\s+', lc $Param{Data}->{$Key};
-        @Words = grep { !$StopWord->{$_} } @Words;
-        if (@Words) {
-            $Param{Data}->{$Key} = join ' ', @Words;
-        }
 
         # replace * by % for SQL like
         $Param{Data}->{$Key} =~ s/\*/%/gi;

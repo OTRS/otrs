@@ -310,8 +310,10 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                           $('#SearchForm').submit();
-                           ShowWaitingDialog();
+                            CheckSearchStringsForStopWords( function () {
+                                $('#SearchForm').submit();
+                                ShowWaitingDialog();
+                           });
                         }
                     }
                     else { // Print and CSV should open in a new window, no waiting dialog
@@ -320,8 +322,10 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                           $('#SearchForm').submit();
-                           $('#SearchForm').attr('target', '');
+                            CheckSearchStringsForStopWords( function () {
+                                $('#SearchForm').submit();
+                                $('#SearchForm').attr('target', '');
+                            });
                         }
                     }
                     return false;
@@ -434,6 +438,81 @@ Core.Agent.Search = (function (TargetNS) {
             }, 'html'
         );
     };
+
+    /**
+     * @function
+     * @private
+     * @param {Function} Callback function to execute, if no stop words were found.
+     * @return nothing
+     * @description Checks if specific values of the search form contain stop words.
+     *              If stop words are present, a warning will be displayed.
+     *              If stop words are not present, the given callback will be executed.
+     */
+    function CheckSearchStringsForStopWords(Callback) {
+        var SearchStrings = [],
+            SearchStringsFound = 0,
+            RelevantElementNames = {
+                'From': 1,
+                'To': 1,
+                'Cc': 1,
+                'Subject': 1,
+                'Body': 1,
+                'Fulltext': 1,
+            };
+
+        $('#SearchForm label').each(function () {
+            var ElementName,
+                $Element,
+                $LabelElement = $(this),
+                $FieldElement = $LabelElement.next('.Field');
+
+            // those with ID's are used for searching
+            if ( $(this).attr('id') ) {
+
+                // substring "Label" (e.g. first five characters ) from the
+                // label id, use the remaining name as name string for accessing
+                // the form input's value
+                ElementName = $(this).attr('id').substring(5);
+                if ( !RelevantElementNames[ElementName] ) {
+                    return;
+                }
+
+                $Element = $('#SearchForm input[name='+ElementName+']');
+
+                if ($Element.length) {
+                    if ( $Element.val() && $Element.val() !== '' ) {
+                        SearchStrings.push($Element.val());
+                        SearchStringsFound = 1;
+                    }
+                }
+            }
+        });
+
+        // Check if stop words are present.
+        if (!SearchStringsFound) {
+            Callback();
+            return;
+        }
+
+        StopWordCheckData = {
+            Action: 'AgentTicketSearch',
+            Subaction: 'AJAXStopWordCheck',
+            SearchStrings: SearchStrings
+        };
+
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('CGIHandle'),
+            StopWordCheckData,
+            function (Result) {
+                if ( Result.FoundStopWords.length ) {
+                    alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + Result.FoundStopWords);
+                }
+                else {
+                    Callback();
+                }
+            }
+        );
+    }
 
     return TargetNS;
 }(Core.Agent.Search || {}));
