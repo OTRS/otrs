@@ -35,6 +35,27 @@ This is a sub module of Kernel::System::Crypt and contains all smime functions.
 
 =cut
 
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    # allocate new hash for object
+    my $Self = {};
+    bless( $Self, $Type );
+
+    $Self->{Debug} = $Param{Debug} || 0;
+
+    # check if module is enabled
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('SMIME');
+
+    # call init()
+    $Self->_Init();
+
+    # check working ENV
+    return if $Self->Check();
+
+    return $Self;
+}
+
 =item Check()
 
 check if environment is working
@@ -1091,7 +1112,7 @@ sub PrivateAdd {
         );
         %Result = (
             Successful => 0,
-            Message    => 'Need Certificate of Private Key first -$Attributes{Modulus})!',
+            Message    => "Need Certificate of Private Key first -$Attributes{Modulus})!",
         );
         return %Result;
     }

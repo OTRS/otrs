@@ -13,8 +13,12 @@ use strict;
 use warnings;
 
 use Mail::Address;
-use Kernel::System::Crypt;
 use Kernel::System::Queue;
+
+our @ObjectDependencies = (
+    'Kernel::System::Crypt::PGP',
+    'Kernel::System::Crypt::SMIME',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,9 +102,9 @@ sub Data {
         my @SearchAddress = Mail::Address->parse( $Param{From} );
 
         # check pgp backend
-        my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
-        if ($CryptObjectPGP) {
-            my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch(
+        my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
+        if ($PGPObject) {
+            my @PrivateKeys = $PGPObject->PrivateKeySearch(
                 Search => $SearchAddress[0]->address(),
             );
             for my $DataRef (@PrivateKeys) {
@@ -120,9 +124,9 @@ sub Data {
         }
 
         # check smime backend
-        my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
-        if ($CryptObjectSMIME) {
-            my @PrivateKeys = $CryptObjectSMIME->PrivateSearch(
+        my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+        if ($SMIMEObject) {
+            my @PrivateKeys = $SMIMEObject->PrivateSearch(
                 Search => $SearchAddress[0]->address(),
             );
             for my $DataRef (@PrivateKeys) {

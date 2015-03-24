@@ -14,13 +14,13 @@ use warnings;
 
 use MIME::Parser;
 
-use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Crypt::PGP',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
     'Kernel::System::Encode',
@@ -73,7 +73,7 @@ sub Check {
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
     my $StoreDecryptedData = $Self->{ConfigObject}->Get('PGP::StoreDecryptedData');
-    $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
+    my $PGPObject          = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
     # check inline pgp crypt
     if ( $Param{Article}->{Body} =~ /\A[\s\n]*^-----BEGIN PGP MESSAGE-----/m ) {
@@ -89,7 +89,7 @@ sub Check {
                 }
             );
         }
-        my %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Param{Article}->{Body} );
+        my %Decrypt = $PGPObject->Decrypt( Message => $Param{Article}->{Body} );
         if ( $Decrypt{Successful} ) {
 
             # remember to result
@@ -129,7 +129,7 @@ sub Check {
                         my $AttachmentFilename = $Attachment{Filename};
 
                         # try to decrypt the attachment, non ecrypted attachments will succeed too.
-                        %Decrypt = $Self->{CryptObject}->Decrypt( Message => $Attachment{Content} );
+                        %Decrypt = $PGPObject->Decrypt( Message => $Attachment{Content} );
 
                         if ( $Decrypt{Successful} ) {
 
@@ -204,7 +204,7 @@ sub Check {
         my $Charset = $ParserObject->GetCharset();
 
         # verify message PGP signature
-        %SignCheck = $Self->{CryptObject}->Verify(
+        %SignCheck = $PGPObject->Verify(
             Message => $Param{Article}->{Body},
             Charset => $Charset
         );
@@ -274,7 +274,7 @@ sub Check {
             my $Crypted = $Entity->parts(1)->as_string();
 
             # decrypt it
-            my %Decrypt = $Self->{CryptObject}->Decrypt(
+            my %Decrypt = $PGPObject->Decrypt(
                 Message => $Crypted,
             );
             if ( $Decrypt{Successful} ) {
@@ -355,7 +355,7 @@ sub Check {
             $SignedText =~ s/\x0A/\x0D\x0A/g;
             $SignedText =~ s/\x0D+/\x0D/g;
 
-            %SignCheck = $Self->{CryptObject}->Verify(
+            %SignCheck = $PGPObject->Verify(
                 Message => $SignedText,
                 Sign    => $SignatureText,
             );

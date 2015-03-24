@@ -12,11 +12,11 @@ package Kernel::Output::HTML::ArticleCheckSMIME;
 use strict;
 use warnings;
 
-use Kernel::System::Crypt;
 use Kernel::System::EmailParser;
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Crypt::SMIME',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::DB',
     'Kernel::System::Encode',
@@ -69,11 +69,11 @@ sub Check {
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
     my $StoreDecryptedData = $Self->{ConfigObject}->Get('SMIME::StoreDecryptedData');
-    $Self->{CryptObject} = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
+    my $SMIMEObject        = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     # check inline smime
     if ( $Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/ ) {
-        %SignCheck = $Self->{CryptObject}->Verify( Message => $Param{Article}->{Body} );
+        %SignCheck = $SMIMEObject->Verify( Message => $Param{Article}->{Body} );
         if (%SignCheck) {
 
             # remember to result
@@ -176,7 +176,7 @@ sub Check {
             # extract every resulting cert and put it into an hash of hashes avoiding repeated
             my %PrivateKeys;
             for my $EmailAddress ( sort keys %EmailsToSearch ) {
-                my @PrivateKeysResult = $Self->{CryptObject}->PrivateSearch(
+                my @PrivateKeysResult = $SMIMEObject->PrivateSearch(
                     Search => $EmailAddress,
                 );
                 for my $Cert (@PrivateKeysResult) {
@@ -201,7 +201,7 @@ sub Check {
             for my $CertResult ( values %PrivateKeys ) {
 
                 # decrypt
-                %Decrypt = $Self->{CryptObject}->Decrypt(
+                %Decrypt = $SMIMEObject->Decrypt(
                     Message            => $Message,
                     SearchingNeededKey => 1,
                     %{$CertResult},
@@ -225,7 +225,7 @@ sub Check {
                 my $EmailContent = $Decrypt{Data};
 
                 # now check if the data contains a signature too
-                %SignCheck = $Self->{CryptObject}->Verify(
+                %SignCheck = $SMIMEObject->Verify(
                     Message => $Decrypt{Data},
                 );
 
@@ -361,7 +361,7 @@ sub Check {
             }
 
             # check sign and get clear content
-            %SignCheck = $Self->{CryptObject}->Verify(
+            %SignCheck = $SMIMEObject->Verify(
                 Message => $Message,
             );
 
@@ -500,10 +500,10 @@ sub Filter {
     # remove signature if one is found
     if ( $Self->{Result}->{SignatureFound} ) {
 
-        # remove pgp begin signed message
+        # remove SMIME begin signed message
         $Param{Article}->{Body} =~ s/^-----BEGIN\sPKCS7-----.+?Hash:\s.+?$//sm;
 
-        # remove pgp inline sign
+        # remove SMIME inline sign
         $Param{Article}->{Body} =~ s/^-----END\sPKCS7-----//sm;
     }
     return 1;

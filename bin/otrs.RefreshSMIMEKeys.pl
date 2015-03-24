@@ -59,9 +59,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-otrs.RefreshSMIMEKeys.pl',
     },
-    'Kernel::System::Crypt' => {
-        CryptType => 'SMIME',
-    },
 );
 
 # check for force option to activate SMIME support in SysConfig during the execution of this script
@@ -72,7 +69,7 @@ if ( exists $Opts{f} ) {
     );
 }
 
-if ( !$Kernel::OM->Get('Kernel::System::Crypt') ) {
+if ( !$Kernel::OM->Get('Kernel::System::Crypt::SMIME') ) {
     print "NOTICE: No SMIME support!\n";
 
     my $SMIMEActivated = $Kernel::OM->Get('Kernel::Config')->Get('SMIME');
@@ -110,7 +107,7 @@ if ( !$Kernel::OM->Get('Kernel::System::Crypt') ) {
     exit 1;
 }
 
-my $CheckCertPathResult = $Kernel::OM->Get('Kernel::System::Crypt')->CheckCertPath();
+my $CheckCertPathResult = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CheckCertPath();
 print $CheckCertPathResult->{ $Options{Details} };
 
 exit !$CheckCertPathResult->{Success};

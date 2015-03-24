@@ -13,7 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::Crypt;
 use Kernel::Output::HTML::ArticleCheckSMIME;
 
 # get needed objects
@@ -67,11 +66,9 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 }
 
 # create crypt object
-my $CryptObject = Kernel::System::Crypt->new(
-    CryptType => 'SMIME',
-);
+my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$CryptObject ) {
+if ( !$SMIMEObject ) {
     print STDERR "NOTICE: No SMIME support!\n";
 
     if ( !-e $OpenSSLBin ) {
@@ -201,7 +198,7 @@ for my $Certificate (@Certificates) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $Certificate->{CertificateFileName},
     );
-    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
     $Self->True(
         $Result{Successful} || '',
         "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}",
@@ -216,7 +213,7 @@ for my $Certificate (@Certificates) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => $Certificate->{PrivateSecretFileName},
     );
-    %Result = $CryptObject->PrivateAdd(
+    %Result = $SMIMEObject->PrivateAdd(
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
@@ -587,7 +584,7 @@ $TicketObject->TicketDelete(
 );
 
 for my $Certificate (@Certificates) {
-    my @Keys = $CryptObject->Search(
+    my @Keys = $SMIMEObject->Search(
         Search => $Certificate->{CertificateHash},
     );
     $Self->True(
@@ -595,7 +592,7 @@ for my $Certificate (@Certificates) {
         "$Certificate->{CertificateName} Search()",
     );
 
-    my %Result = $CryptObject->PrivateRemove(
+    my %Result = $SMIMEObject->PrivateRemove(
         Hash    => $Keys[0]->{Hash},
         Modulus => $Keys[0]->{Modulus},
     );
@@ -604,7 +601,7 @@ for my $Certificate (@Certificates) {
         "$Certificate->{CertificateName} PrivateRemove() - $Result{Message}",
     );
 
-    %Result = $CryptObject->CertificateRemove(
+    %Result = $SMIMEObject->CertificateRemove(
         Hash        => $Keys[0]->{Hash},
         Fingerprint => $Keys[0]->{Fingerprint},
     );

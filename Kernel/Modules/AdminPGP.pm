@@ -12,7 +12,7 @@ package Kernel::Modules::AdminPGP;
 use strict;
 use warnings;
 
-use Kernel::System::Crypt;
+use Kernel::System::Crypt::PGP;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,7 +28,7 @@ sub new {
         }
     }
 
-    $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'PGP' );
+    $Self->{PGPObject} = Kernel::System::Crypt::PGP->new();
 
     return $Self;
 }
@@ -91,12 +91,12 @@ sub Run {
         }
         my $Success = '';
         if ( $Type eq 'sec' ) {
-            $Success = $Self->{CryptObject}->SecretKeyDelete( Key => $Key );
+            $Success = $Self->{PGPObject}->SecretKeyDelete( Key => $Key );
         }
         else {
-            $Success = $Self->{CryptObject}->PublicKeyDelete( Key => $Key );
+            $Success = $Self->{PGPObject}->PublicKeyDelete( Key => $Key );
         }
-        my @List = $Self->{CryptObject}->KeySearch( Search => $Param{Search} );
+        my @List = $Self->{PGPObject}->KeySearch( Search => $Param{Search} );
         if (@List) {
             for my $Key (@List) {
                 $Self->{LayoutObject}->Block(
@@ -176,7 +176,7 @@ sub Run {
         if ( !%Errors ) {
 
             # add pgp key
-            my $KeyAdd = $Self->{CryptObject}->KeyAdd( Key => $UploadStuff{Content} );
+            my $KeyAdd = $Self->{PGPObject}->KeyAdd( Key => $UploadStuff{Content} );
 
             if ($KeyAdd) {
                 $Self->{LayoutObject}->Block( Name => 'Overview' );
@@ -185,7 +185,7 @@ sub Run {
                 $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
                 $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
-                my @List = $Self->{CryptObject}->KeySearch( Search => '' );
+                my @List = $Self->{PGPObject}->KeySearch( Search => '' );
                 if (@List) {
                     for my $Key (@List) {
                         $Self->{LayoutObject}->Block(
@@ -244,10 +244,10 @@ sub Run {
         }
         my $KeyString = '';
         if ( $Type eq 'sec' ) {
-            $KeyString = $Self->{CryptObject}->SecretKeyGet( Key => $Key );
+            $KeyString = $Self->{PGPObject}->SecretKeyGet( Key => $Key );
         }
         else {
-            $KeyString = $Self->{CryptObject}->PublicKeyGet( Key => $Key );
+            $KeyString = $Self->{PGPObject}->PublicKeyGet( Key => $Key );
         }
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/plain',
@@ -274,13 +274,13 @@ sub Run {
         }
         my $Download = '';
         if ( $Type eq 'sec' ) {
-            my @Result = $Self->{CryptObject}->PrivateKeySearch( Search => $Key );
+            my @Result = $Self->{PGPObject}->PrivateKeySearch( Search => $Key );
             if ( $Result[0] ) {
                 $Download = $Result[0]->{Fingerprint};
             }
         }
         else {
-            my @Result = $Self->{CryptObject}->PublicKeySearch( Search => $Key );
+            my @Result = $Self->{PGPObject}->PublicKeySearch( Search => $Key );
             if ( $Result[0] ) {
                 $Download = $Result[0]->{Fingerprint};
             }
@@ -301,7 +301,7 @@ sub Run {
         my $Output .= $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
-        if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('PGP') ) {
+        if ( !$Self->{PGPObject} && $Self->{ConfigObject}->Get('PGP') ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
@@ -319,8 +319,8 @@ sub Run {
         $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
 
         my @List = ();
-        if ( $Self->{CryptObject} ) {
-            @List = $Self->{CryptObject}->KeySearch( Search => $Param{Search} );
+        if ( $Self->{PGPObject} ) {
+            @List = $Self->{PGPObject}->KeySearch( Search => $Param{Search} );
         }
         if (@List) {
             for my $Key (@List) {
@@ -337,10 +337,10 @@ sub Run {
             );
         }
 
-        if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
+        if ( $Self->{PGPObject} && $Self->{PGPObject}->Check() ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{CryptObject}->Check() ),
+                Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( $Self->{PGPObject}->Check() ),
             );
         }
         $Output .= $Self->{LayoutObject}->Output(

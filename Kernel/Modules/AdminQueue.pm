@@ -13,7 +13,8 @@ package Kernel::Modules::AdminQueue;
 use strict;
 use warnings;
 
-use Kernel::System::Crypt;
+use Kernel::System::Crypt::PGP;
+use Kernel::System::Crypt::SMIME;
 use Kernel::System::Valid;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
@@ -68,10 +69,7 @@ sub Run {
 
         %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
-        my $CryptObjectPGP = Kernel::System::Crypt->new(
-            %{$Self},
-            CryptType => 'PGP',
-        );
+        my $CryptObjectPGP = Kernel::System::Crypt::PGP->new();
 
         if ($CryptObjectPGP) {
 
@@ -83,10 +81,7 @@ sub Run {
             }
         }
 
-        my $CryptObjectSMIME = Kernel::System::Crypt->new(
-            %{$Self},
-            CryptType => 'SMIME',
-        );
+        my $CryptObjectSMIME = Kernel::System::Crypt::SMIME->new();
 
         if ($CryptObjectSMIME) {
 

@@ -12,7 +12,9 @@ package Kernel::Output::HTML::PreferencesSMIME;
 use strict;
 use warnings;
 
-use Kernel::System::Crypt;
+our @ObjectDependencies = (
+    'Kernel::System::Crypt::SMIME',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,23 +60,16 @@ sub Run {
     );
     return 1 if !$UploadStuff{Content};
 
-    my $CryptObject = Kernel::System::Crypt->new(
-        LogObject    => $Self->{LogObject},
-        DBObject     => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        CryptType    => 'SMIME',
-        MainObject   => $Self->{MainObject},
-    );
-    return 1 if !$CryptObject;
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    return 1 if !$SMIMEObject;
 
-    my %Result = $CryptObject->CertificateAdd( Certificate => $UploadStuff{Content} );
+    my %Result = $SMIMEObject->CertificateAdd( Certificate => $UploadStuff{Content} );
     if ( !$Result{Successful} ) {
         $Self->{Error} = $Result{Message};
         return;
     }
     else {
-        my %Attributes = $CryptObject->CertificateAttributes(
+        my %Attributes = $SMIMEObject->CertificateAttributes(
             Certificate => $UploadStuff{Content},
         );
         if ( $Result{Filename} ) {
@@ -104,15 +99,8 @@ sub Run {
 sub Download {
     my ( $Self, %Param ) = @_;
 
-    my $CryptObject = Kernel::System::Crypt->new(
-        LogObject    => $Self->{LogObject},
-        DBObject     => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        CryptType    => 'SMIME',
-        MainObject   => $Self->{MainObject},
-    );
-    return 1 if !$CryptObject;
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    return 1 if !$SMIMEObject;
 
     # get preferences with key parameters
     my %Preferences = $Self->{UserObject}->GetPreferences(
@@ -129,7 +117,7 @@ sub Download {
         return;
     }
     else {
-        $Preferences{SMIMECert} = $CryptObject->CertificateGet(
+        $Preferences{SMIMECert} = $SMIMEObject->CertificateGet(
             Filename => $Preferences{SMIMEFilename},
         );
     }

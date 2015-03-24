@@ -12,7 +12,9 @@ package Kernel::Output::HTML::PreferencesPGP;
 use strict;
 use warnings;
 
-use Kernel::System::Crypt;
+our @ObjectDependencies = (
+    'Kernel::System::Crypt::PGP',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,17 +60,10 @@ sub Run {
     );
     return 1 if !$UploadStuff{Content};
 
-    my $CryptObject = Kernel::System::Crypt->new(
-        LogObject    => $Self->{LogObject},
-        DBObject     => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        CryptType    => 'PGP',
-        MainObject   => $Self->{MainObject},
-    );
-    return 1 if !$CryptObject;
+    my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
+    return 1 if !$PGPObject;
 
-    my $Message = $CryptObject->KeyAdd( Key => $UploadStuff{Content} );
+    my $Message = $PGPObject->KeyAdd( Key => $UploadStuff{Content} );
     if ( !$Message ) {
         $Self->{Error} = $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
@@ -78,7 +73,7 @@ sub Run {
     }
     else {
         if ( $Message =~ /gpg: key (.*):/ ) {
-            my @Result = $CryptObject->PublicKeySearch( Search => $1 );
+            my @Result = $PGPObject->PublicKeySearch( Search => $1 );
             if ( $Result[0] ) {
                 $UploadStuff{Filename}
                     = "$Result[0]->{Identifier}-$Result[0]->{Bit}-$Result[0]->{Key}.$Result[0]->{Type}";
@@ -114,15 +109,8 @@ sub Run {
 sub Download {
     my ( $Self, %Param ) = @_;
 
-    my $CryptObject = Kernel::System::Crypt->new(
-        LogObject    => $Self->{LogObject},
-        DBObject     => $Self->{DBObject},
-        ConfigObject => $Self->{ConfigObject},
-        EncodeObject => $Self->{EncodeObject},
-        CryptType    => 'PGP',
-        MainObject   => $Self->{MainObject},
-    );
-    return 1 if !$CryptObject;
+    my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
+    return 1 if !$PGPObject;
 
     # get preferences with key parameters
     my %Preferences = $Self->{UserObject}->GetPreferences(
@@ -138,7 +126,7 @@ sub Download {
         return ();
     }
     else {
-        $Preferences{PGPKeyContent} = $CryptObject->PublicKeyGet(
+        $Preferences{PGPKeyContent} = $PGPObject->PublicKeyGet(
             Key => $Preferences{PGPKeyID},
         );
     }

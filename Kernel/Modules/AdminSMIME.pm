@@ -12,7 +12,8 @@ package Kernel::Modules::AdminSMIME;
 use strict;
 use warnings;
 
-use Kernel::System::Crypt;
+our $ObjectManagerDisabled = 1;
+
 use Kernel::System::CustomerUser;
 
 sub new {
@@ -32,7 +33,6 @@ sub new {
         }
     }
 
-    $Self->{CryptObject} = Kernel::System::Crypt->new( %Param, CryptType => 'SMIME' );
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
@@ -53,6 +53,8 @@ sub Run {
         Key       => 'SMIMESearch',
         Value     => $Param{Search},
     );
+
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     # ------------------------------------------------------------ #
     # delete cert
@@ -75,18 +77,18 @@ sub Run {
 
         # remove private key
         if ( $Type eq 'key' ) {
-            %Result = $Self->{CryptObject}->PrivateRemove( Filename => $Filename );
+            %Result = $SMIMEObject->PrivateRemove( Filename => $Filename );
             push @Result, \%Result if %Result;
         }
 
         # remove certificate and private key if exists
         else {
-            my $Certificate = $Self->{CryptObject}->CertificateGet( Filename => $Filename );
-            my %Attributes = $Self->{CryptObject}->CertificateAttributes(
+            my $Certificate = $SMIMEObject->CertificateGet( Filename => $Filename );
+            my %Attributes = $SMIMEObject->CertificateAttributes(
                 Certificate => $Certificate,
             );
 
-            %Result = $Self->{CryptObject}->CertificateRemove( Filename => $Filename );
+            %Result = $SMIMEObject->CertificateRemove( Filename => $Filename );
             push @Result, \%Result if %Result;
 
             # delete certificate from customer preferences
@@ -121,7 +123,7 @@ sub Run {
             }
 
             if ( defined $Attributes{Private} && $Attributes{Private} eq 'Yes' ) {
-                %Result = $Self->{CryptObject}->PrivateRemove( Filename => $Filename );
+                %Result = $SMIMEObject->PrivateRemove( Filename => $Filename );
                 push @Result, \%Result if %Result;
             }
         }
@@ -178,7 +180,7 @@ sub Run {
         if ( !%Errors ) {
 
             # add certificate
-            my %Result = $Self->{CryptObject}->CertificateAdd( Certificate => $UploadStuff{Content} );
+            my %Result = $SMIMEObject->CertificateAdd( Certificate => $UploadStuff{Content} );
             my @Result;
             push @Result, \%Result if %Result;
 
@@ -245,7 +247,7 @@ sub Run {
         if ( !%Errors ) {
 
             # add private key
-            my %Result = $Self->{CryptObject}->PrivateAdd(
+            my %Result = $SMIMEObject->PrivateAdd(
                 Private => $UploadStuff{Content},
                 Secret  => $GetParam{Secret},
             );
@@ -290,8 +292,8 @@ sub Run {
         my $Hash = $Filename;
         $Hash =~ s{(.+)\.\d}{$1}xms;
 
-        my $Certificate = $Self->{CryptObject}->CertificateGet( Filename => $Filename );
-        my %Attributes = $Self->{CryptObject}->CertificateAttributes( Certificate => $Certificate );
+        my $Certificate = $SMIMEObject->CertificateGet( Filename => $Filename );
+        my %Attributes = $SMIMEObject->CertificateAttributes( Certificate => $Certificate );
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/plain',
             Content     => $Attributes{Fingerprint},
@@ -321,12 +323,12 @@ sub Run {
         # download key
         if ( $Type eq 'key' ) {
             my $Secret;
-            ( $Download, $Secret ) = $Self->{CryptObject}->PrivateGet( Filename => $Filename );
+            ( $Download, $Secret ) = $SMIMEObject->PrivateGet( Filename => $Filename );
         }
 
         # download certificate
         else {
-            $Download = $Self->{CryptObject}->CertificateGet( Filename => $Filename );
+            $Download = $SMIMEObject->CertificateGet( Filename => $Filename );
         }
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/plain',
@@ -367,7 +369,7 @@ sub Run {
         }
 
         # relation already exists?
-        my $Exists = $Self->{CryptObject}->SignerCertRelationExists(
+        my $Exists = $SMIMEObject->SignerCertRelationExists(
             CertFingerprint => $CertFingerprint,
             CAFingerprint   => $CAFingerprint,
         );
@@ -393,7 +395,7 @@ sub Run {
             );
         }
         else {
-            my $Result = $Self->{CryptObject}->SignerCertRelationAdd(
+            my $Result = $SMIMEObject->SignerCertRelationAdd(
                 CertFingerprint => $CertFingerprint,
                 CAFingerprint   => $CAFingerprint,
                 UserID          => $Self->{UserID},
@@ -436,7 +438,7 @@ sub Run {
         }
 
         # relation exists?
-        my $Exists = $Self->{CryptObject}->SignerCertRelationExists(
+        my $Exists = $SMIMEObject->SignerCertRelationExists(
             CertFingerprint => $CertFingerprint,
             CAFingerprint   => $CAFingerprint,
         );
@@ -457,7 +459,7 @@ sub Run {
             );
         }
         else {
-            my $Success = $Self->{CryptObject}->SignerCertRelationDelete(
+            my $Success = $SMIMEObject->SignerCertRelationDelete(
                 CertFingerprint => $CertFingerprint,
                 CAFingerprint   => $CAFingerprint,
                 UserID          => $Self->{UserID},
@@ -584,7 +586,10 @@ sub _Overview {
             );
         }
     }
-    if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('SMIME') ) {
+
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+    if ( !$SMIMEObject && $Self->{ConfigObject}->Get('SMIME') ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
             Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
@@ -593,10 +598,10 @@ sub _Overview {
                 . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
         );
     }
-    if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
+    if ( $SMIMEObject && $SMIMEObject->Check() ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("' . $Self->{CryptObject}->Check() . '"),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("' . $SMIMEObject->Check() . '"),
         );
     }
 
@@ -609,8 +614,8 @@ sub _Overview {
     }
 
     my @List = ();
-    if ( $Self->{CryptObject} ) {
-        @List = $Self->{CryptObject}->Search();
+    if ($SMIMEObject) {
+        @List = $SMIMEObject->Search();
     }
     $Self->{LayoutObject}->Block(
         Name => 'OverviewResult',
@@ -673,24 +678,26 @@ sub _SignerCertificateOverview {
         );
     }
 
-    my @SignerCertResults = $Self->{CryptObject}->PrivateSearch(
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+    my @SignerCertResults = $SMIMEObject->PrivateSearch(
         Search => $Param{CertFingerprint},
     );
     my %SignerCert;
     %SignerCert = %{ $SignerCertResults[0] } if @SignerCertResults;
 
     # get all certificates
-    my @AvailableCerts = $Self->{CryptObject}->CertificateSearch();
+    my @AvailableCerts = $SMIMEObject->CertificateSearch();
 
     # get all relations for that certificate @ActualRelations
-    my @ActualRelations = $Self->{CryptObject}->SignerCertRelationGet(
+    my @ActualRelations = $SMIMEObject->SignerCertRelationGet(
         CertFingerprint => $Param{CertFingerprint},
     );
 
     # get needed data from actual relations
     my @RelatedCerts;
     for my $RelatedCert (@ActualRelations) {
-        my @Certificate = $Self->{CryptObject}->CertificateSearch(
+        my @Certificate = $SMIMEObject->CertificateSearch(
             Search => $RelatedCert->{CAFingerprint},
         );
         push @RelatedCerts, $Certificate[0] if $Certificate[0];
@@ -792,7 +799,7 @@ sub _SignerCertificateOverview {
             );
         }
     }
-    if ( !$Self->{CryptObject} && $Self->{ConfigObject}->Get('SMIME') ) {
+    if ( !$SMIMEObject && $Self->{ConfigObject}->Get('SMIME') ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
             Data     => $Self->{LayoutObject}->{LanguageObject}->Translate( "Cannot create %s!", "CryptObject" ),
@@ -801,10 +808,10 @@ sub _SignerCertificateOverview {
                 . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Framework;SysConfigSubGroup=Crypt::SMIME',
         );
     }
-    if ( $Self->{CryptObject} && $Self->{CryptObject}->Check() ) {
+    if ( $SMIMEObject && $SMIMEObject->Check() ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("' . $Self->{CryptObject}->Check() . '"),
+            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("' . $SMIMEObject->Check() . '"),
         );
     }
 
@@ -828,8 +835,10 @@ sub _CertificateRead {
         Type  => 'Small',
     );
 
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
     # get the certificate content as plain text
-    my $CertificateText = $Self->{CryptObject}->CertificateRead(%Param);
+    my $CertificateText = $SMIMEObject->CertificateRead(%Param);
 
     return if !$CertificateText;
 

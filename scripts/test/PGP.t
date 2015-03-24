@@ -1,5 +1,5 @@
 # --
-# Crypt.t - Crypt tests
+# PGP.t - Crypt PGP tests
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -11,8 +11,6 @@ use strict;
 use warnings;
 
 use vars (qw($Self));
-
-use Kernel::System::Crypt;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -45,11 +43,9 @@ if ( !-e $ConfigObject->Get('PGP::Bin') ) {
 }
 
 # create local crypt object
-my $CryptObject = Kernel::System::Crypt->new(
-    CryptType => 'PGP',
-);
+my $PGPObject = $Kernel::OM->Get('Kernel::System::Crypt::PGP');
 
-if ( !$CryptObject ) {
+if ( !$PGPObject ) {
     print STDERR "NOTICE: No PGP support!\n";
     return;
 }
@@ -87,7 +83,7 @@ my %Check = (
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $CryptObject->KeySearch(
+    my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(
@@ -102,7 +98,7 @@ for my $Count ( 1 .. 2 ) {
             Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
             Filename  => "PGP${Privacy}Key-$Count.asc",
         );
-        my $Message = $CryptObject->KeyAdd(
+        my $Message = $PGPObject->KeyAdd(
             Key => ${$KeyString},
         );
 
@@ -112,7 +108,7 @@ for my $Count ( 1 .. 2 ) {
         );
     }
 
-    @Keys = $CryptObject->KeySearch(
+    @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
 
@@ -129,7 +125,7 @@ for my $Count ( 1 .. 2 ) {
         );
     }
 
-    my $PublicKeyString = $CryptObject->PublicKeyGet(
+    my $PublicKeyString = $PGPObject->PublicKeyGet(
         Key => $Keys[0]->{Key},
     );
     $Self->True(
@@ -137,7 +133,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PublicKeyGet()",
     );
 
-    my $PrivateKeyString = $CryptObject->SecretKeyGet(
+    my $PrivateKeyString = $PGPObject->SecretKeyGet(
         Key => $Keys[0]->{KeyPrivate},
     );
     $Self->True(
@@ -146,7 +142,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # crypt
-    my $Crypted = $CryptObject->Crypt(
+    my $Crypted = $PGPObject->Crypt(
         Message => $TestText,
         Key     => $Keys[0]->{Key},
     );
@@ -160,7 +156,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # decrypt
-    my %Decrypt = $CryptObject->Decrypt(
+    my %Decrypt = $PGPObject->Decrypt(
         Message => $Crypted,
     );
     $Self->True(
@@ -179,7 +175,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # sign inline
-    my $Sign = $CryptObject->Sign(
+    my $Sign = $PGPObject->Sign(
         Message => $TestText,
         Key     => $Keys[0]->{KeyPrivate},
         Type    => 'Inline'                  # Detached|Inline
@@ -190,7 +186,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify
-    my %Verify = $CryptObject->Verify(
+    my %Verify = $PGPObject->Verify(
         Message => $Sign,
     );
     $Self->True(
@@ -211,7 +207,7 @@ for my $Count ( 1 .. 2 ) {
     # verify failure on manipulated text
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{$TestText}{garble-$TestText-garble};
-    %Verify = $CryptObject->Verify(
+    %Verify = $PGPObject->Verify(
         Message => $ManipulatedSign,
     );
     $Self->True(
@@ -220,7 +216,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # sign detached
-    $Sign = $CryptObject->Sign(
+    $Sign = $PGPObject->Sign(
         Message => $TestText,
         Key     => $Keys[0]->{KeyPrivate},
         Type    => 'Detached'                # Detached|Inline
@@ -231,7 +227,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify
-    %Verify = $CryptObject->Verify(
+    %Verify = $PGPObject->Verify(
         Message => $TestText,
         Sign    => $Sign,
     );
@@ -251,7 +247,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify failure
-    %Verify = $CryptObject->Verify(
+    %Verify = $PGPObject->Verify(
         Message => " $TestText ",
         Sign    => $Sign,
     );
@@ -270,7 +266,7 @@ for my $Count ( 1 .. 2 ) {
         my $Reference = ${$Content};
 
         # crypt
-        my $Crypted = $CryptObject->Crypt(
+        my $Crypted = $PGPObject->Crypt(
             Message => $Reference,
             Key     => $Keys[0]->{Key},
         );
@@ -284,7 +280,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # decrypt
-        my %Decrypt = $CryptObject->Decrypt(
+        my %Decrypt = $PGPObject->Decrypt(
             Message => $Crypted,
         );
         $Self->True(
@@ -302,7 +298,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # sign inline
-        my $Sign = $CryptObject->Sign(
+        my $Sign = $PGPObject->Sign(
             Message => $Reference,
             Key     => $Keys[0]->{KeyPrivate},
             Type    => 'Inline'                  # Detached|Inline
@@ -313,7 +309,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # verify
-        my %Verify = $CryptObject->Verify(
+        my %Verify = $PGPObject->Verify(
             Message => $Sign,
         );
         $Self->True(
@@ -332,7 +328,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # sign detached
-        $Sign = $CryptObject->Sign(
+        $Sign = $PGPObject->Sign(
             Message => $Reference,
             Key     => $Keys[0]->{KeyPrivate},
             Type    => 'Detached'                # Detached|Inline
@@ -343,7 +339,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # verify
-        %Verify = $CryptObject->Verify(
+        %Verify = $PGPObject->Verify(
             Message => ${$Content},
             Sign    => $Sign,
         );
@@ -371,7 +367,7 @@ for my $Count ( 1 .. 2 ) {
         utf8::is_utf8($UTF8Text),
         "Should now have a UTF8-string",
     );
-    $Crypted = $CryptObject->Crypt(
+    $Crypted = $PGPObject->Crypt(
         Message => $UTF8Text,
         Key     => $Keys[0]->{Key},
     );
@@ -385,7 +381,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # decrypt
-    %Decrypt = $CryptObject->Decrypt(
+    %Decrypt = $PGPObject->Decrypt(
         Message => $Crypted,
     );
     $Self->True(
@@ -416,10 +412,10 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # add the key to the keyring
-    $CryptObject->KeyAdd( Key => ${$KeyString} );
+    $PGPObject->KeyAdd( Key => ${$KeyString} );
 
     # search for expired key and wait for expired status
-    my @Keys = $CryptObject->KeySearch(
+    my @Keys = $PGPObject->KeySearch(
         Search => $Search,
     );
 
@@ -440,7 +436,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # add the key to the keyring
-    $CryptObject->KeyAdd( Key => ${$KeyString} );
+    $PGPObject->KeyAdd( Key => ${$KeyString} );
 
     # get key
     $KeyString = $MainObject->FileRead(
@@ -449,10 +445,10 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # add the key to the keyring
-    $CryptObject->KeyAdd( Key => ${$KeyString} );
+    $PGPObject->KeyAdd( Key => ${$KeyString} );
 
     # search for revoked key and wait for revoked status
-    @Keys = $CryptObject->KeySearch(
+    @Keys = $PGPObject->KeySearch(
         Search => $Search,
     );
 
@@ -465,14 +461,14 @@ for my $Count ( 1 .. 2 ) {
 
 # delete keys
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $CryptObject->KeySearch(
+    my @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->True(
         $Keys[0] || '',
         "#$Count KeySearch()",
     );
-    my $DeleteSecretKey = $CryptObject->SecretKeyDelete(
+    my $DeleteSecretKey = $PGPObject->SecretKeyDelete(
         Key => $Keys[0]->{KeyPrivate},
     );
     $Self->True(
@@ -480,7 +476,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count SecretKeyDelete()",
     );
 
-    my $DeletePublicKey = $CryptObject->PublicKeyDelete(
+    my $DeletePublicKey = $PGPObject->PublicKeyDelete(
         Key => $Keys[0]->{Key},
     );
     $Self->True(
@@ -488,7 +484,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PublicKeyDelete()",
     );
 
-    @Keys = $CryptObject->KeySearch(
+    @Keys = $PGPObject->KeySearch(
         Search => $Search{$Count},
     );
     $Self->False(

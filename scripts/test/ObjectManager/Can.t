@@ -21,9 +21,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::PostMaster' => {
         Email => [],
     },
-    'Kernel::System::Crypt' => {
-        CryptType => 'SMIME',
-    },
 );
 
 $Self->True( $Kernel::OM, 'Could build object manager' );
@@ -31,9 +28,14 @@ $Self->True( $Kernel::OM, 'Could build object manager' );
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-my $SkipCrypt;
+my $SkipCryptSMIME;
 if ( !$ConfigObject->Get('SMIME') ) {
-    $SkipCrypt = 1;
+    $SkipCryptSMIME = 1;
+}
+
+my $SkipCryptPGP;
+if ( !$ConfigObject->Get('PGP') ) {
+    $SkipCryptPGP = 1;
 }
 
 my $Home = $ConfigObject->Get('Home');
@@ -87,7 +89,8 @@ for my $Directory ( sort @DirectoriesToSearch ) {
             next OPERATION if $OperationChecked{"$1->$2()"};
 
             # skip crypt object if it is not configured
-            next OPERATION if $1 eq 'Kernel::System::Crypt' && $SkipCrypt;
+            next OPERATION if $1 eq 'Kernel::System::Crypt::SMIME' && $SkipCryptSMIME;
+            next OPERATION if $1 eq 'Kernel::System::Crypt::PGP' && $SkipCryptPGP;
 
             # load object
             my $Object = $Kernel::OM->Get("$1");

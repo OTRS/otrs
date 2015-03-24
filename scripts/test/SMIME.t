@@ -13,8 +13,6 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::Crypt;
-
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
@@ -62,11 +60,9 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 }
 
 # create crypt object
-my $CryptObject = Kernel::System::Crypt->new(
-    CryptType => 'SMIME',
-);
+my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$CryptObject ) {
+if ( !$SMIMEObject ) {
     print STDERR "NOTICE: No SMIME support!\n";
 
     if ( !-e $OpenSSLBin ) {
@@ -237,7 +233,7 @@ if ( $^O =~ m{Win}i ) {
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 2 ) {
-    my @Certs = $CryptObject->Search( Search => $Search{$Count} );
+    my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Certs[0] || '',
         "#$Count Search()",
@@ -248,7 +244,7 @@ for my $Count ( 1 .. 2 ) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMECertificate-$Count.asc",
     );
-    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
 
     $Certs[0]->{Filename} = $Result{Filename};
 
@@ -264,7 +260,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count CertificateSearch() - Test if read cert from file is the same as in unittest file",
     );
 
-    @Certs = $CryptObject->CertificateSearch(
+    @Certs = $SMIMEObject->CertificateSearch(
         Search => $Search{$Count},
     );
 
@@ -290,7 +286,7 @@ for my $Count ( 1 .. 2 ) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );
-    %Result = $CryptObject->PrivateAdd(
+    %Result = $SMIMEObject->PrivateAdd(
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
@@ -299,14 +295,14 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PrivateAdd()",
     );
 
-    my @Keys = $CryptObject->PrivateSearch( Search => $Search{$Count} );
+    my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
 
     $Self->True(
         $Keys[0] || '',
         "#$Count PrivateSearch()",
     );
 
-    my $CertificateString = $CryptObject->CertificateGet(
+    my $CertificateString = $SMIMEObject->CertificateGet(
         Hash        => $Certs[0]->{Hash},
         Fingerprint => $Certs[0]->{Fingerprint},
     );
@@ -315,7 +311,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count CertificateGet()",
     );
 
-    my $PrivateKeyString = $CryptObject->PrivateGet(
+    my $PrivateKeyString = $SMIMEObject->PrivateGet(
         Hash    => $Keys[0]->{Hash},
         Modulus => $Certs[0]->{Modulus},
     );
@@ -325,7 +321,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # crypt
-    my $Crypted = $CryptObject->Crypt(
+    my $Crypted = $SMIMEObject->Crypt(
         Message  => $TestText,
         Filename => $Certs[0]->{Filename},
     );
@@ -341,7 +337,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # decrypt
-    my %Decrypt = $CryptObject->Decrypt(
+    my %Decrypt = $SMIMEObject->Decrypt(
         Message  => $Crypted,
         Filename => $Certs[0]->{Filename},
     );
@@ -356,7 +352,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # sign
-    my $Sign = $CryptObject->Sign(
+    my $Sign = $SMIMEObject->Sign(
         Message  => $TestText,
         Filename => $Certs[0]->{Filename},
     );
@@ -366,7 +362,7 @@ for my $Count ( 1 .. 2 ) {
     );
 
     # verify
-    my %Verify = $CryptObject->Verify(
+    my %Verify = $SMIMEObject->Verify(
         Message => $Sign,
         CACert  => "$CertPath/$Certs[0]->{Filename}",
     );
@@ -383,7 +379,7 @@ for my $Count ( 1 .. 2 ) {
     # verify failure on manipulated text
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{Q}{W}g;
-    %Verify = $CryptObject->Verify(
+    %Verify = $SMIMEObject->Verify(
         Message => $ManipulatedSign,
         CACert  => "$CertPath/$Certs[0]->{Filename}",
     );
@@ -406,7 +402,7 @@ for my $Count ( 1 .. 2 ) {
         $Reference =~ s{\n}{\r\n}gsm;
 
         # crypt
-        my $Crypted = $CryptObject->Crypt(
+        my $Crypted = $SMIMEObject->Crypt(
             Message     => $Reference,
             Hash        => $Certs[0]->{Hash},
             Fingerprint => $Certs[0]->{Fingerprint},
@@ -422,7 +418,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # decrypt
-        my %Decrypt = $CryptObject->Decrypt(
+        my %Decrypt = $SMIMEObject->Decrypt(
             Message     => $Crypted,
             Hash        => $Certs[0]->{Hash},
             Fingerprint => $Certs[0]->{Fingerprint},
@@ -437,7 +433,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # sign
-        my $Signed = $CryptObject->Sign(
+        my $Signed = $SMIMEObject->Sign(
             Message     => $Reference,
             Hash        => $Keys[0]->{Hash},
             Fingerprint => $Keys[0]->{Fingerprint},
@@ -448,7 +444,7 @@ for my $Count ( 1 .. 2 ) {
         );
 
         # verify
-        my %Verify = $CryptObject->Verify(
+        my %Verify = $SMIMEObject->Verify(
             Message => $Signed,
             CACert  => "$CertPath/$Certs[0]->{Filename}",
         );
@@ -465,14 +461,14 @@ for my $Count ( 1 .. 2 ) {
 
 # delete keys
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $CryptObject->Search(
+    my @Keys = $SMIMEObject->Search(
         Search => $Search{$Count},
     );
     $Self->True(
         $Keys[0] || '',
         "#$Count Search()",
     );
-    my %Result = $CryptObject->PrivateRemove(
+    my %Result = $SMIMEObject->PrivateRemove(
         Hash    => $Keys[0]->{Hash},
         Modulus => $Keys[0]->{Modulus},
     );
@@ -481,7 +477,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PrivateRemove() - $Result{Message}",
     );
 
-    %Result = $CryptObject->CertificateRemove(
+    %Result = $SMIMEObject->CertificateRemove(
         Hash        => $Keys[0]->{Hash},
         Fingerprint => $Keys[0]->{Fingerprint},
     );
@@ -491,7 +487,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count CertificateRemove()",
     );
 
-    @Keys = $CryptObject->Search( Search => $Search{$Count} );
+    @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Keys[0] || '',
         "#$Count Search()",
@@ -609,13 +605,13 @@ $Certificates{OTRSRootCA} = {
         PrivateString => $PrivateString,
     );
 
-    my %Result = $CryptObject->CertificateAdd(
+    my %Result = $SMIMEObject->CertificateAdd(
         Certificate => $SMIMEUser1Certificate{String},
     );
 
     $SMIMEUser1Certificate{Filename} = $Result{Filename};
 
-    %Result = $CryptObject->PrivateAdd(
+    %Result = $SMIMEObject->PrivateAdd(
         Private => $SMIMEUser1Certificate{PrivateString},
         Secret  => $SMIMEUser1Certificate{PrivateSecret},
     );
@@ -626,14 +622,14 @@ $Certificates{OTRSRootCA} = {
     my $Message =
         'This is a signed message to sign, and verification must pass a certificate chain validation.';
 
-    my $Sign = $CryptObject->Sign(
+    my $Sign = $SMIMEObject->Sign(
         Message     => $Message,
         Hash        => $SMIMEUser1Certificate{PrivateHash},
         Fingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
 
     # verify it
-    my %Data = $CryptObject->Verify(
+    my %Data = $SMIMEObject->Verify(
         Message => $Sign,
     );
 
@@ -645,20 +641,20 @@ $Certificates{OTRSRootCA} = {
 
     # add CA certificates to the local cert storage (OTRSLabCA and OTRSRDCA)
     for my $Cert (qw( OTRSLabCA OTRSRDCA )) {
-        $CryptObject->CertificateAdd(
+        $SMIMEObject->CertificateAdd(
             Certificate => $Certificates{$Cert}->{String},
         );
     }
 
     # sign a message with smimeuser1
-    $Sign = $CryptObject->Sign(
+    $Sign = $SMIMEObject->Sign(
         Message     => $Message,
         Hash        => $SMIMEUser1Certificate{PrivateHash},
         Fingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
 
     # verify must fail not root cert added to the trusted cert path
-    %Data = $CryptObject->Verify(
+    %Data = $SMIMEObject->Verify(
         Message => $Sign,
     );
 
@@ -669,12 +665,12 @@ $Certificates{OTRSRootCA} = {
     );
 
     # add the root CA cert to the trusted certificates path
-    $CryptObject->CertificateAdd(
+    $SMIMEObject->CertificateAdd(
         Certificate => $Certificates{OTRSRootCA}->{String},
     );
 
     # verify now must works
-    %Data = $CryptObject->Verify(
+    %Data = $SMIMEObject->Verify(
         Message => $Sign,
         CACert  => "$CertPath/$OTRSRootCAHash.0",
     );
@@ -689,7 +685,7 @@ $Certificates{OTRSRootCA} = {
     # fail
 
     # add relation
-    my $Success = $CryptObject->SignerCertRelationAdd(
+    my $Success = $SMIMEObject->SignerCertRelationAdd(
         CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
         CAFingerprint   => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:',
         UserID          => 1,
@@ -700,7 +696,7 @@ $Certificates{OTRSRootCA} = {
     );
 
     # get all relations for a certificate
-    $Success = $CryptObject->SignerCertRelationGet(
+    $Success = $SMIMEObject->SignerCertRelationGet(
         CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
     );
     $Self->False(
@@ -709,7 +705,7 @@ $Certificates{OTRSRootCA} = {
     );
 
     # get one relation by ID
-    $Success = $CryptObject->SignerCertRelationGet(
+    $Success = $SMIMEObject->SignerCertRelationGet(
         ID => '9999999',
     );
     $Self->False(
@@ -719,7 +715,7 @@ $Certificates{OTRSRootCA} = {
 
     # true cert
     # add relation
-    $Success = $CryptObject->SignerCertRelationAdd(
+    $Success = $SMIMEObject->SignerCertRelationAdd(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
         CAFingerprint   => $Certificates{OTRSRDCA}->{Fingerprint},
         UserID          => 1,
@@ -729,7 +725,7 @@ $Certificates{OTRSRootCA} = {
         'SignerCertRelationAdd(), add relation for certificate',
     );
 
-    $Success = $CryptObject->SignerCertRelationAdd(
+    $Success = $SMIMEObject->SignerCertRelationAdd(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
         CAFingerprint   => $Certificates{OTRSLabCA}->{Fingerprint},
         UserID          => 1,
@@ -740,13 +736,13 @@ $Certificates{OTRSRootCA} = {
     );
 
     # sign a message after relations added not send CA certs now should be taken automatically by the sign function
-    $Sign = $CryptObject->Sign(
+    $Sign = $SMIMEObject->Sign(
         Message  => $Message,
         Filename => $SMIMEUser1Certificate{Filename},
     );
 
     # verify now must works
-    %Data = $CryptObject->Verify(
+    %Data = $SMIMEObject->Verify(
         Message => $Sign,
         CACert  => "$CertPath/$OTRSRootCAHash.0",
     );
@@ -758,7 +754,7 @@ $Certificates{OTRSRootCA} = {
     );
 
     # get all relations for a certificate
-    my @CertResults = $CryptObject->SignerCertRelationGet(
+    my @CertResults = $SMIMEObject->SignerCertRelationGet(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
     $Self->Is(
@@ -768,7 +764,7 @@ $Certificates{OTRSRootCA} = {
     );
 
     # get one relation by ID
-    $Success = $CryptObject->SignerCertRelationGet(
+    $Success = $SMIMEObject->SignerCertRelationGet(
         ID => $CertResults[0]->{ID},
     );
     $Self->True(
@@ -777,7 +773,7 @@ $Certificates{OTRSRootCA} = {
     );
 
     # exists function
-    $Success = $CryptObject->SignerCertRelationExists(
+    $Success = $SMIMEObject->SignerCertRelationExists(
         CertFingerprint => $CertResults[0]->{CertFingerprint},
         CAFingerprint   => $CertResults[0]->{CAFingerprint},
     );
@@ -786,7 +782,7 @@ $Certificates{OTRSRootCA} = {
         'SignerCertRelationExists(), check relation by fingerprints',
     );
 
-    $Success = $CryptObject->SignerCertRelationExists(
+    $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[0]->{ID},
     );
     $Self->True(
@@ -795,10 +791,10 @@ $Certificates{OTRSRootCA} = {
     );
 
     # delete one relation by ID
-    $CryptObject->SignerCertRelationDelete(
+    $SMIMEObject->SignerCertRelationDelete(
         ID => $CertResults[0]->{ID},
     );
-    $Success = $CryptObject->SignerCertRelationExists(
+    $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[0]->{ID},
     );
     $Self->False(
@@ -807,10 +803,10 @@ $Certificates{OTRSRootCA} = {
     );
 
     # delete all relations for a certificate
-    $CryptObject->SignerCertRelationDelete(
+    $SMIMEObject->SignerCertRelationDelete(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
-    $Success = $CryptObject->SignerCertRelationExists(
+    $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[1]->{ID},
     );
     $Self->False(
@@ -819,13 +815,13 @@ $Certificates{OTRSRootCA} = {
     );
 
     # delete certificates
-    $CryptObject->CertificateRemove(
+    $SMIMEObject->CertificateRemove(
         Hash        => $SMIMEUser1Certificate{Hash},
         Fingerprint => $SMIMEUser1Certificate{Fingerprint},
     );
 
     for my $Cert ( values %Certificates ) {
-        $CryptObject->CertificateRemove(
+        $SMIMEObject->CertificateRemove(
             Hash        => $Cert->{Hash},
             Fingerprint => $Cert->{Fingerprint},
         );
@@ -979,7 +975,7 @@ xqdO7PfndBF8qwrJ7S91
         $CertInfo{ 'SmimeTest_' . $Number }->{Email} = 'smime@test.com';
 
         # add every SmimeTest_N certificate
-        my %Result = $CryptObject->CertificateAdd(
+        my %Result = $SMIMEObject->CertificateAdd(
             Certificate => $CertInfo{ 'SmimeTest_' . $Number }->{CertString}
         );
 
@@ -990,7 +986,7 @@ xqdO7PfndBF8qwrJ7S91
 
         $CertInfo{ 'SmimeTest_' . $Number }->{Filename} = $Result{Filename} || '';
 
-        my @Result = $CryptObject->CertificateSearch(
+        my @Result = $SMIMEObject->CertificateSearch(
             Search => 'smime@test.com',
         );
 
@@ -1000,7 +996,7 @@ xqdO7PfndBF8qwrJ7S91
             '# Testing the addition, no overwriting other certs with same hash',
         );
 
-        my $CertificateString = $CryptObject->CertificateGet(
+        my $CertificateString = $SMIMEObject->CertificateGet(
             Filename => $Result{Filename},
         );
 
@@ -1010,7 +1006,7 @@ xqdO7PfndBF8qwrJ7S91
             '# CertificateGet(), by filename',
         );
 
-        $CertificateString = $CryptObject->CertificateGet(
+        $CertificateString = $SMIMEObject->CertificateGet(
             Hash        => $CertInfo{ 'SmimeTest_' . $Number }->{Hash},
             Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
         );
@@ -1022,7 +1018,7 @@ xqdO7PfndBF8qwrJ7S91
         );
 
         # test if search is case insensitive
-        @Result = $CryptObject->CertificateSearch(
+        @Result = $SMIMEObject->CertificateSearch(
             Search => 'SMIME@test.com',
         );
 
@@ -1032,7 +1028,7 @@ xqdO7PfndBF8qwrJ7S91
             '# CertificateSearch()  - uppercase left',
         );
 
-        @Result = $CryptObject->CertificateSearch(
+        @Result = $SMIMEObject->CertificateSearch(
             Search => 'smime@TEST.COM',
         );
 
@@ -1128,11 +1124,11 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 -----END RSA PRIVATE KEY-----',
     };
 
-    my $OriginalPrivateListCount = $CryptObject->PrivateList();
+    my $OriginalPrivateListCount = $SMIMEObject->PrivateList();
 
     # test privates
     for my $Number ( 0 .. 3 ) {
-        my %Result = $CryptObject->PrivateAdd(
+        my %Result = $SMIMEObject->PrivateAdd(
             Private => $Private{ 'SmimeTest_' . $Number }->{CertString},
             Secret  => 'smime',
         );
@@ -1152,7 +1148,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # is overwriting one each other?
-        my @Result = $CryptObject->PrivateSearch(
+        my @Result = $SMIMEObject->PrivateSearch(
             Search => 'smime@test.com',
         );
         my $Counter      = $Number + 1;
@@ -1165,7 +1161,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
         # is linked to the correct certificate? - ADD TEST
 
-        @Result       = $CryptObject->PrivateList();
+        @Result       = $SMIMEObject->PrivateList();
         $ResultNumber = scalar @Result;
         $Self->Is(
             $ResultNumber,
@@ -1174,7 +1170,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # test if search is case insensitive
-        @Result = $CryptObject->PrivateSearch(
+        @Result = $SMIMEObject->PrivateSearch(
             Search => 'SMIME@test.com',
         );
         $ResultNumber = scalar @Result;
@@ -1184,7 +1180,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             '# PrivateSearch() - uppercase left',
         );
 
-        @Result = $CryptObject->PrivateSearch(
+        @Result = $SMIMEObject->PrivateSearch(
             Search => 'smime@TEST.COM',
         );
         $ResultNumber = scalar @Result;
@@ -1199,7 +1195,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     for my $Number ( 0 .. 1 ) {
 
         # delete certificates
-        my %Result = $CryptObject->CertificateRemove(
+        my %Result = $SMIMEObject->CertificateRemove(
             Hash        => $CertInfo{ 'SmimeTest_' . $Number }->{Hash},
             Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
         );
@@ -1209,7 +1205,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             "# CertificateRemove() by Hash/Fingerprint, $Result{Message}",
         );
 
-        my @Result = $CryptObject->CertificateSearch(
+        my @Result = $SMIMEObject->CertificateSearch(
             Search => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint}
         );
         $Self->False(
@@ -1221,7 +1217,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     for my $Number ( 2 .. 3 ) {
 
         # delete certificate 2, must delete its corresponding private
-        my %Result = $CryptObject->CertificateRemove(
+        my %Result = $SMIMEObject->CertificateRemove(
             Hash        => $CertInfo{ 'SmimeTest_' . $Number }->{Hash},
             Fingerprint => $CertInfo{ 'SmimeTest_' . $Number }->{Fingerprint},
         );
@@ -1232,7 +1228,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # private must be deleted
-        my ($PrivateExists) = $CryptObject->PrivateGet(
+        my ($PrivateExists) = $SMIMEObject->PrivateGet(
             Filename => $Private{ 'SmimeTest_' . $Number }->{Filename},
         );
 
@@ -1338,7 +1334,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         $FileExists = 0;
 
         # normalize private secret
-        my $Response = $CryptObject->CheckCertPath();
+        my $Response = $SMIMEObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
@@ -1404,7 +1400,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # normalize private secrets
-        $Response = $CryptObject->CheckCertPath();
+        $Response = $SMIMEObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
@@ -1477,7 +1473,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
         );
 
         # normalize private secrets
-        $Response = $CryptObject->CheckCertPath();
+        $Response = $SMIMEObject->CheckCertPath();
         $Self->True(
             $Response->{Success},
             "NormalizePrivateSecret: CheckCertPath() executed successfully with true",
@@ -1757,7 +1753,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             }
 
             # check CA certificates, private keys and secrets contents is correct
-            my $Certificate = $CryptObject->CertificateGet(
+            my $Certificate = $SMIMEObject->CertificateGet(
                 Filename => $CorrectCAFile,
             );
 
@@ -1773,7 +1769,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
             # use CryptObject if use both private keys and secrets
             if ( $UsePrivateKeys && $UsePrivateSecrets ) {
-                ( $PrivateKeyString, $PrivateSecret ) = $CryptObject->PrivateGet(
+                ( $PrivateKeyString, $PrivateSecret ) = $SMIMEObject->PrivateGet(
                     Filename => $CorrectCAPrivateKeyFile,
                 );
             }
@@ -2104,7 +2100,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     }
 
                     # get relations
-                    my @RelationsData = $CryptObject->SignerCertRelationGet(
+                    my @RelationsData = $SMIMEObject->SignerCertRelationGet(
                         CertFingerprint => $CertificateFingerprint,
                     );
 
@@ -2135,7 +2131,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
             }
 
             # refresh the hases
-            my $Response = $CryptObject->CheckCertPath();
+            my $Response = $SMIMEObject->CheckCertPath();
             $Self->True(
                 $Response->{Success},
                 "Re-Hash $Test->{Name}: CheckCertPath() executed successfully with true",
@@ -2177,7 +2173,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     my $CertificateHash        = $Certificates{$CertName}->{Hash};
 
                     # get relations
-                    my @RelationsData = $CryptObject->SignerCertRelationGet(
+                    my @RelationsData = $SMIMEObject->SignerCertRelationGet(
                         CertFingerprint => $CertificateFingerprint,
                     );
 
@@ -2209,14 +2205,14 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
             # remove certificates, private keys and secrets from the file system
             # db relations are deleted automatically when private keys are removed when using
-            # $CryptObject
+            # $SMIMEObject
             for my $CAName ( sort keys %WrongCAs ) {
 
                 my $CorrectCAPrivateKeyFile    = $CorrectCAs{$CAName}->{CorrectCAFile};
                 my $CorrectCAPrivateSecretFile = "$CorrectCAPrivateKeyFile.P";
                 my $WrongCAPrivateSecretFile   = "$WrongCAs{$CAName}->{WrongCAFile}.P";
 
-                my $RemoveSuccess = $CryptObject->CertificateRemove(
+                my $RemoveSuccess = $SMIMEObject->CertificateRemove(
                     Filename => $CorrectCAs{$CAName}->{CorrectCAFile},
                 );
                 $Self->True(
@@ -2227,7 +2223,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
                 # use CryptObject if use both private keys and secrets
                 if ( $Test->{UsePrivateKeys} && $Test->{UsePrivateSecrets} ) {
-                    $RemoveSuccess = $CryptObject->PrivateRemove(
+                    $RemoveSuccess = $SMIMEObject->PrivateRemove(
                         Filename => $CorrectCAPrivateKeyFile,
                     );
                     $Self->True(
@@ -2249,7 +2245,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                     );
 
                     # remove also certificate relations (if any)
-                    my $Success = $CryptObject->SignerCertRelationDelete(
+                    my $Success = $SMIMEObject->SignerCertRelationDelete(
                         CertFingerprint => $Certificates{$CAName}->{Fingerprint},
                         UserID          => 1,
                     );
@@ -2272,7 +2268,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
                 }
 
                 # check for certificate relations
-                my @RelationsData = $CryptObject->SignerCertRelationGet(
+                my @RelationsData = $SMIMEObject->SignerCertRelationGet(
                     CertFingerprint => $Certificates{$CAName}->{Fingerprint},
                 );
                 $Self->Is(
@@ -2291,7 +2287,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
     # add certificates
     for my $CA (qw( OTRSRootCA OTRSLabCA )) {
-        my %Result = $CryptObject->CertificateAdd(
+        my %Result = $SMIMEObject->CertificateAdd(
             Certificate => $Certificates{$CA}->{String},
         );
 
@@ -2367,7 +2363,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     );
 
     for my $Test (@Tests) {
-        my $CertificateText = $CryptObject->CertificateRead( %{ $Test->{Params} } );
+        my $CertificateText = $SMIMEObject->CertificateRead( %{ $Test->{Params} } );
 
         if ( $Test->{Success} ) {
             $Self->IsNot(
@@ -2404,10 +2400,10 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
     }
 
     # compare both methods
-    my $CertificateText1 = $CryptObject->CertificateRead(
+    my $CertificateText1 = $SMIMEObject->CertificateRead(
         Filename => "$Certificates{OTRSRootCA}->{Hash}.0",
     );
-    my $CertificateText2 = $CryptObject->CertificateRead(
+    my $CertificateText2 = $SMIMEObject->CertificateRead(
         Hash        => $Certificates{OTRSRootCA}->{Hash},
         Fingerprint => $Certificates{OTRSRootCA}->{Fingerprint},
     );
@@ -2420,7 +2416,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
     # clean system, remove certificates
     for my $CA (qw( OTRSRootCA OTRSLabCA )) {
-        my %Result = $CryptObject->CertificateRemove(
+        my %Result = $SMIMEObject->CertificateRemove(
             Hash        => $Certificates{$CA}->{Hash},
             Fingerprint => $Certificates{$CA}->{Fingerprint},
         );
@@ -2435,7 +2431,7 @@ VvHrdzP1tlEqZhMhfEgiNYVhYaxg6SaKSVY9GlGmMVrL2rUNIJ5I+Ef0lZh842bF
 
 # attributes cache tests
 for my $Count ( 1 .. 2 ) {
-    my @Certs = $CryptObject->Search( Search => $Search{$Count} );
+    my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Certs[0] || '',
         "#$Count Search()",
@@ -2446,7 +2442,7 @@ for my $Count ( 1 .. 2 ) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMECertificate-$Count.asc",
     );
-    my %Result = $CryptObject->CertificateAdd( Certificate => ${$CertString} );
+    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
 
     $Certs[0]->{Filename} = $Result{Filename};
 
@@ -2470,7 +2466,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Cache for Certificarte Attributes is empty",
 
     );
-    my %CertificateAttributes = $CryptObject->CertificateAttributes(
+    my %CertificateAttributes = $SMIMEObject->CertificateAttributes(
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
@@ -2492,7 +2488,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Cache for Certificarte Attributes is not empty",
 
     );
-    my %CertificateAttributesCached = $CryptObject->CertificateAttributes(
+    my %CertificateAttributesCached = $SMIMEObject->CertificateAttributes(
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
@@ -2509,7 +2505,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Certificated Attributes OpenSSL and Cached"
     );
 
-    @Certs = $CryptObject->CertificateSearch(
+    @Certs = $SMIMEObject->CertificateSearch(
         Search => $Search{$Count},
     );
 
@@ -2527,7 +2523,7 @@ for my $Count ( 1 .. 2 ) {
         Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
         Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );
-    %Result = $CryptObject->PrivateAdd(
+    %Result = $SMIMEObject->PrivateAdd(
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
@@ -2548,7 +2544,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Cache for Private Attributes is empty",
 
     );
-    my %PrivateAttributes = $CryptObject->PrivateAttributes(
+    my %PrivateAttributes = $SMIMEObject->PrivateAttributes(
         Private  => ${$KeyString},
         Secret   => ${$Secret},
         Filename => $Result{Filename},
@@ -2571,7 +2567,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Cache for Private Attributes is not empty",
 
     );
-    my %PrivateAttributesCached = $CryptObject->PrivateAttributes(
+    my %PrivateAttributesCached = $SMIMEObject->PrivateAttributes(
         Private  => ${$KeyString},
         Secret   => ${$Secret},
         Filename => $Result{Filename},
@@ -2601,7 +2597,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Cache for Certificarte Attributes after private is empty",
 
     );
-    my %CertificateAttributesAfterPrivate = $CryptObject->CertificateAttributes(
+    my %CertificateAttributesAfterPrivate = $SMIMEObject->CertificateAttributes(
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
@@ -2623,7 +2619,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Cache for Certificarte Attributes after private is not empty",
 
     );
-    my %CertificateAttributesCachedAfterPrivate = $CryptObject->CertificateAttributes(
+    my %CertificateAttributesCachedAfterPrivate = $SMIMEObject->CertificateAttributes(
         Certificate => ${$CertString},
         Filename    => $Result{Filename},
     );
@@ -2647,7 +2643,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count Certificated Attributes Cached before and after private must be different",
     );
 
-    my @Keys = $CryptObject->PrivateSearch( Search => $Search{$Count} );
+    my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
 
     $Self->True(
         $Keys[0] || '',
@@ -2657,14 +2653,14 @@ for my $Count ( 1 .. 2 ) {
 
 # delete keys
 for my $Count ( 1 .. 2 ) {
-    my @Keys = $CryptObject->Search(
+    my @Keys = $SMIMEObject->Search(
         Search => $Search{$Count},
     );
     $Self->True(
         $Keys[0] || '',
         "#$Count Search()",
     );
-    my %Result = $CryptObject->PrivateRemove(
+    my %Result = $SMIMEObject->PrivateRemove(
         Hash    => $Keys[0]->{Hash},
         Modulus => $Keys[0]->{Modulus},
     );
@@ -2673,7 +2669,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count PrivateRemove() - $Result{Message}",
     );
 
-    %Result = $CryptObject->CertificateRemove(
+    %Result = $SMIMEObject->CertificateRemove(
         Hash        => $Keys[0]->{Hash},
         Fingerprint => $Keys[0]->{Fingerprint},
     );
@@ -2683,7 +2679,7 @@ for my $Count ( 1 .. 2 ) {
         "#$Count CertificateRemove()",
     );
 
-    @Keys = $CryptObject->Search( Search => $Search{$Count} );
+    @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
     $Self->False(
         $Keys[0] || '',
         "#$Count Search()",
