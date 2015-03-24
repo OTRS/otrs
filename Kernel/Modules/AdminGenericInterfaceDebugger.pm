@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminGenericInterfaceDebugger.pm - provides a log view for admins
+# Kernel/Modules/AdminGenericInterfaceDebugger.pm - provides a log view for administrators
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -12,10 +12,9 @@ package Kernel::Modules::AdminGenericInterfaceDebugger;
 use strict;
 use warnings;
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::GenericInterface::DebugLog;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,32 +22,29 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{WebserviceObject} = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-    $Self->{DebugLogObject}   = Kernel::System::GenericInterface::DebugLog->new( %{$Self} );
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $WebserviceID = $Self->{ParamObject}->GetParam( Param => 'WebserviceID' );
+    my $WebserviceID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'WebserviceID' );
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !$WebserviceID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need WebserviceID!",
         );
     }
 
-    my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+    my $WebserviceData = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        ID => $WebserviceID,
+    );
 
     if ( !IsHashRefWithData($WebserviceData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get data for WebserviceID $WebserviceID",
         );
     }
@@ -86,10 +82,13 @@ sub Run {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $FilterTypeStrg = $Self->{LayoutObject}->BuildSelection(
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+
+    my $FilterTypeStrg = $LayoutObject->BuildSelection(
         Data => [
             'Provider',
             'Requester',
@@ -99,16 +98,16 @@ sub _ShowScreen {
         Translate    => 0,
     );
 
-    my $FilterFromStrg = $Self->{LayoutObject}->BuildDateSelection(
+    my $FilterFromStrg = $LayoutObject->BuildDateSelection(
         Prefix   => 'FilterFrom',
         DiffTime => -60 * 60 * 24 * 356,
     );
 
-    my $FilterToStrg = $Self->{LayoutObject}->BuildDateSelection(
+    my $FilterToStrg = $LayoutObject->BuildDateSelection(
         Prefix => 'FilterTo',
     );
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminGenericInterfaceDebugger',
         Data         => {
             %Param,
@@ -119,7 +118,7 @@ sub _ShowScreen {
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
@@ -130,31 +129,39 @@ sub _GetRequestList {
         WebserviceID => $Param{WebserviceID},
     );
 
-    my $FilterType = $Self->{ParamObject}->GetParam( Param => 'FilterType' );
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    my $FilterType = $ParamObject->GetParam( Param => 'FilterType' );
     $LogSearchParam{CommunicationType} = $FilterType if ($FilterType);
 
-    my $FilterRemoteIP = $Self->{ParamObject}->GetParam( Param => 'FilterRemoteIP' );
-    $LogSearchParam{RemoteIP} = $FilterRemoteIP
-        if ( $FilterRemoteIP && IsIPv4Address($FilterRemoteIP) );
+    my $FilterRemoteIP = $ParamObject->GetParam( Param => 'FilterRemoteIP' );
 
-    $LogSearchParam{CreatedAtOrAfter}  = $Self->{ParamObject}->GetParam( Param => 'FilterFrom' );
-    $LogSearchParam{CreatedAtOrBefore} = $Self->{ParamObject}->GetParam( Param => 'FilterTo' );
+    if ( $FilterRemoteIP && IsIPv4Address($FilterRemoteIP) ) {
+        $LogSearchParam{RemoteIP} = $FilterRemoteIP;
+    }
 
-    my $LogData = $Self->{DebugLogObject}->LogSearch(%LogSearchParam);
+    $LogSearchParam{CreatedAtOrAfter}  = $ParamObject->GetParam( Param => 'FilterFrom' );
+    $LogSearchParam{CreatedAtOrBefore} = $ParamObject->GetParam( Param => 'FilterTo' );
 
-    # Fail gracefully
-    $LogData = [] if ( !$LogData );
+    my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogSearch(%LogSearchParam);
+
+    # fail gracefully
+    $LogData ||= [];
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # build JSON output
-    my $JSON = $Self->{LayoutObject}->JSONEncode(
+    my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => $LogData,
         },
     );
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
@@ -164,10 +171,10 @@ sub _GetRequestList {
 sub _GetCommunicationDetails {
     my ( $Self, %Param ) = @_;
 
-    my $CommunicationID = $Self->{ParamObject}->GetParam( Param => 'CommunicationID' );
+    my $CommunicationID = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'CommunicationID' );
 
     if ( !$CommunicationID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no CommunicationID',
         );
@@ -175,21 +182,24 @@ sub _GetCommunicationDetails {
         return;    # return empty response
     }
 
-    my $LogData = $Self->{DebugLogObject}->LogGetWithData(
+    my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogGetWithData(
         WebserviceID    => $Param{WebserviceID},
         CommunicationID => $CommunicationID,
     );
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # build JSON output
-    my $JSON = $Self->{LayoutObject}->JSONEncode(
+    my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => $LogData,
         },
     );
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
@@ -199,20 +209,23 @@ sub _GetCommunicationDetails {
 sub _ClearDebugLog {
     my ( $Self, %Param ) = @_;
 
-    my $Success = $Self->{DebugLogObject}->LogDelete(
+    my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog')->LogDelete(
         WebserviceID => $Param{WebserviceID},
     );
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # build JSON output
-    my $JSON = $Self->{LayoutObject}->JSONEncode(
+    my $JSON = $LayoutObject->JSONEncode(
         Data => {
             Success => $Success,
         },
     );
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,

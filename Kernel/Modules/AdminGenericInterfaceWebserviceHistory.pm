@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for admins
+# Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm - provides a log view for administrators
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -12,12 +12,9 @@ package Kernel::Modules::AdminGenericInterfaceWebserviceHistory;
 use strict;
 use warnings;
 
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::GenericInterface::WebserviceHistory;
-
 use Kernel::System::VariableCheck qw(:all);
 
-use Kernel::System::YAML;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,37 +22,33 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{YAMLObject} = Kernel::System::YAML->new( %{$Self} );
-
-    $Self->{WebserviceObject}        = Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-    $Self->{WebserviceHistoryObject} = Kernel::System::GenericInterface::WebserviceHistory->new( %{$Self} );
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $WebserviceHistoryID = $Self->{ParamObject}->GetParam( Param => 'WebserviceHistoryID' );
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $WebserviceID = $Self->{ParamObject}->GetParam( Param => 'WebserviceID' );
+    my $WebserviceHistoryID = $ParamObject->GetParam( Param => 'WebserviceHistoryID' );
+    my $WebserviceID        = $ParamObject->GetParam( Param => 'WebserviceID' );
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !$WebserviceID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Need WebserviceID!",
         );
     }
 
-    my $WebserviceData = $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+    my $WebserviceData = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(
+        ID => $WebserviceID,
+    );
 
     if ( !IsHashRefWithData($WebserviceData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get data for WebserviceID $WebserviceID",
         );
     }
@@ -84,7 +77,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Rollback' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         return $Self->_RollbackWebserviceHistory(
             %Param,
@@ -105,10 +98,13 @@ sub Run {
 sub _ShowScreen {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Output .= $Self->{LayoutObject}->Output(
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminGenericInterfaceWebserviceHistory',
         Data         => {
             %Param,
@@ -116,7 +112,7 @@ sub _ShowScreen {
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
@@ -126,31 +122,36 @@ sub _GetWebserviceList {
         WebserviceID => $Param{WebserviceID},
     );
 
-    my @List = $Self->{WebserviceHistoryObject}->WebserviceHistoryList(
+    # get web service history object
+    my $WebserviceHistoryObject = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory');
+    my @List                    = $WebserviceHistoryObject->WebserviceHistoryList(
         WebserviceID => $Param{WebserviceID},
     );
 
     my @LogData;
 
-    # get webservice history info
+    # get web service history info
     for my $Key (@List) {
-        my $WebserviceHistory = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
+        my $WebserviceHistory = $WebserviceHistoryObject->WebserviceHistoryGet(
             ID => $Key,
         );
         $WebserviceHistory->{Config} = '';
         push @LogData, $WebserviceHistory;
     }
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # build JSON output
-    my $JSON = $Self->{LayoutObject}->JSONEncode(
+    my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => \@LogData,
         },
     );
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
@@ -165,7 +166,7 @@ sub _GetWebserviceHistoryDetails {
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
     if ( !$WebserviceHistoryID ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Got no WebserviceID',
         );
@@ -173,36 +174,39 @@ sub _GetWebserviceHistoryDetails {
         return;    # return empty response
     }
 
-    my $LogData = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
+    my $LogData = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
     );
 
     # change password string for asterisks
     for my $CommunicationType (qw(Provider Requester)) {
         if (
-            defined $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}
-            ->{Authentication}->{Password}
+            defined $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}->{Password}
             )
         {
-            $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}
-                ->{Password} =
-                $PasswordMask;
+            $LogData->{Config}->{$CommunicationType}->{Transport}->{Config}->{Authentication}->{Password}
+                = $PasswordMask;
         }
     }
 
     # dump config
-    $LogData->{Config} = $Self->{YAMLObject}->Dump( Data => $LogData->{Config} );
+    $LogData->{Config} = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+        Data => $LogData->{Config},
+    );
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # build JSON output
-    my $JSON = $Self->{LayoutObject}->JSONEncode(
+    my $JSON = $LayoutObject->JSONEncode(
         Data => {
             LogData => $LogData,
         },
     );
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON,
         Type        => 'inline',
         NoCache     => 1,
@@ -212,31 +216,37 @@ sub _GetWebserviceHistoryDetails {
 sub _ExportWebserviceHistory {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !$Param{WebserviceHistoryID} ) {
-        $Self->{LayoutObject}->FatalError( Message => "Got no WebserviceHistoryID!" );
+        $LayoutObject->FatalError( Message => "Got no WebserviceHistoryID!" );
     }
 
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
-    my $WebserviceHistoryData = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
+    my $WebserviceHistoryData
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
-    );
+        );
 
-    # check for valid webservice configuration
+    # check for valid web service configuration
     if ( !IsHashRefWithData($WebserviceHistoryData) ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "Could not get history data for WebserviceHistoryID $WebserviceHistoryID",
         );
     }
 
     # dump configuration into a YAML structure
-    my $YAMLContent = $Self->{YAMLObject}->Dump( Data => $WebserviceHistoryData->{Config} );
+    my $YAMLContent = $Kernel::OM->Get('Kernel::System::YAML')->Dump(
+        Data => $WebserviceHistoryData->{Config},
+    );
 
-    # return yaml to download
+    # return YAML to download
     my $YAMLFile = $Param{WebserviceData}->{Name} || 'yamlfile';
-    return $Self->{LayoutObject}->Attachment(
+    return $LayoutObject->Attachment(
         Filename    => $YAMLFile . '.yml',
-        ContentType => "text/plain; charset=" . $Self->{LayoutObject}->{UserCharset},
+        ContentType => "text/plain; charset=" . $LayoutObject->{UserCharset},
         Content     => $YAMLContent,
     );
 }
@@ -244,18 +254,22 @@ sub _ExportWebserviceHistory {
 sub _RollbackWebserviceHistory {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( !$Param{WebserviceHistoryID} ) {
-        $Self->{LayoutObject}->FatalError( Message => "Got no WebserviceHistoryID!" );
+        $LayoutObject->FatalError( Message => "Got no WebserviceHistoryID!" );
     }
 
     my $WebserviceID        = $Param{WebserviceID};
     my $WebserviceHistoryID = $Param{WebserviceHistoryID};
 
-    my $WebserviceHistoryData = $Self->{WebserviceHistoryObject}->WebserviceHistoryGet(
+    my $WebserviceHistoryData
+        = $Kernel::OM->Get('Kernel::System::GenericInterface::WebserviceHistory')->WebserviceHistoryGet(
         ID => $WebserviceHistoryID,
-    );
+        );
 
-    my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+    my $Success = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         ID      => $WebserviceID,
         Name    => $Param{WebserviceData}->{Name},
         Config  => $WebserviceHistoryData->{Config},
@@ -263,7 +277,7 @@ sub _RollbackWebserviceHistory {
         UserID  => $Self->{UserID},
     );
 
-    return $Self->{LayoutObject}->Redirect(
+    return $LayoutObject->Redirect(
         OP => "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID",
     );
 }
