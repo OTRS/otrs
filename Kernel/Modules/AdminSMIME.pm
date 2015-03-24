@@ -23,6 +23,11 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # check if SMIME is enabled at all
+    if (!$Self->{ConfigObject}->Get('SMIME')) {
+        $Self->{LayoutObject}->FatalError( Message => "SMIME support is disabled in Kernel::Config::SMIME." );
+    }
+
     # check all needed objects
     for my $Needed (
         qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)

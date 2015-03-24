@@ -21,6 +21,11 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
+    # check if PGP is enabled at all
+    if (!$Self->{ConfigObject}->Get('PGP')) {
+        $Self->{LayoutObject}->FatalError( Message => "PGP support is disabled in Kernel::Config::PGP." );
+    }
+
     # check all needed objects
     for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)) {
         if ( !$Self->{$_} ) {
