@@ -21,7 +21,7 @@ my $ExitCode = $CommandObject->Execute();
 # just check exit code
 $Self->Is(
     $ExitCode,
-    0,
+    $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ? 0 : 1,
     "Maint::Ticket::ArchiveCleanup exit code",
 );
 
