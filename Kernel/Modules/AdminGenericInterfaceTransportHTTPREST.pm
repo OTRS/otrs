@@ -1,5 +1,5 @@
 # --
-# Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm - provides a TransportHTTPSOAP view for admins
+# Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm - provides a TransportHTTPSOAP view for administrators
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -13,12 +13,8 @@ use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::GenericInterface::Webservice;
-use Kernel::System::Valid;
-use Kernel::System::JSON;
-use YAML;
 
-use Kernel::System::VariableCheck qw(:all);
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -26,48 +22,38 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    for my $Needed (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
-    $Self->{JSONObject}  = Kernel::System::JSON->new( %{$Self} );
-    $Self->{WebserviceObject} =
-        Kernel::System::GenericInterface::Webservice->new( %{$Self} );
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $WebserviceID = $Self->{ParamObject}->GetParam( Param => 'WebserviceID' )
-        || '';
-    my $CommunicationType = $Self->{ParamObject}->GetParam( Param => 'CommunicationType' )
-        || '';
+    # get needed objects
+    my $ParamObject      = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject     = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+
+    my $WebserviceID      = $ParamObject->GetParam( Param => 'WebserviceID' )      || '';
+    my $CommunicationType = $ParamObject->GetParam( Param => 'CommunicationType' ) || '';
 
     # ------------------------------------------------------------ #
-    # subaction Change: load webservice and show edit screen
+    # sub-action Change: load web service and show edit screen
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Add' || $Self->{Subaction} eq 'Change' ) {
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need WebserviceID!",
             );
         }
 
-        # get webserice configuration
-        my $WebserviceData =
-            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+        # get web service configuration
+        my $WebserviceData = $WebserviceObject->WebserviceGet( ID => $WebserviceID );
 
-        # check for valid webservice configuration
+        # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Could not get data for WebserviceID $WebserviceID",
             );
         }
@@ -82,27 +68,28 @@ sub Run {
     }
 
     # ------------------------------------------------------------ #
-    # subaction ChangeAction: write config and return to overview
+    # sub-action ChangeAction: write config and return to overview
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # check for WebserviceID
         if ( !$WebserviceID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need WebserviceID!",
             );
         }
 
-        # get webserice configuration
-        my $WebserviceData =
-            $Self->{WebserviceObject}->WebserviceGet( ID => $WebserviceID );
+        # get web service configuration
+        my $WebserviceData = $WebserviceObject->WebserviceGet(
+            ID => $WebserviceID,
+        );
 
-        # check for valid webservice configuration
+        # check for valid web service configuration
         if ( !IsHashRefWithData($WebserviceData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Could not get data for WebserviceID $WebserviceID",
             );
         }
@@ -116,7 +103,7 @@ sub Run {
             )
             )
         {
-            $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+            $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
         }
 
         # check required parameters
@@ -146,12 +133,13 @@ sub Run {
             }
 
             my $Invokers = $WebserviceData->{Config}->{$CommunicationType}->{Invoker};
+
             if ( IsHashRefWithData($Invokers) ) {
 
                 INVOKER:
                 for my $CurrentInvoker ( sort keys %{$Invokers} ) {
 
-                    my $Controller = $Self->{ParamObject}->GetParam(
+                    my $Controller = $ParamObject->GetParam(
                         Param => 'InvokerControllerMapping' . $CurrentInvoker,
                     );
 
@@ -167,7 +155,7 @@ sub Run {
 
                     $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller} = $Controller;
 
-                    my $Command = $Self->{ParamObject}->GetParam(
+                    my $Command = $ParamObject->GetParam(
                         Param => 'Command' . $CurrentInvoker
                     );
                     next INVOKER if !$Command;
@@ -194,7 +182,7 @@ sub Run {
             # check SSL options
             if ( $GetParam->{UseX509} && $GetParam->{UseX509} eq 'Yes' ) {
 
-                # get X509 auth settings
+                # get X509 authentication settings
                 $TransportConfig->{X509}->{UseX509} = $GetParam->{UseX509};
 
                 NEEDED:
@@ -238,12 +226,13 @@ sub Run {
             }
 
             my $Operations = $WebserviceData->{Config}->{$CommunicationType}->{Operation};
+
             if ( IsHashRefWithData($Operations) ) {
 
                 OPERATION:
                 for my $CurrentOperation ( sort keys %{$Operations} ) {
 
-                    my $Route = $Self->{ParamObject}->GetParam(
+                    my $Route = $ParamObject->GetParam(
                         Param => 'RouteOperationMapping' . $CurrentOperation,
                     );
 
@@ -256,7 +245,7 @@ sub Run {
 
                     $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route} = $Route;
 
-                    my @RequestMethod = $Self->{ParamObject}->GetArray(
+                    my @RequestMethod = $ParamObject->GetArray(
                         Param => 'RequestMethod' . $CurrentOperation,
                     );
                     next OPERATION if !scalar @RequestMethod;
@@ -293,7 +282,7 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        my $Success = $Self->{WebserviceObject}->WebserviceUpdate(
+        my $Success = $WebserviceObject->WebserviceUpdate(
             ID      => $WebserviceID,
             Name    => $WebserviceData->{Name},
             Config  => $WebserviceData->{Config},
@@ -305,18 +294,18 @@ sub Run {
         my $RedirectURL = "Action=AdminGenericInterfaceTransportHTTPREST;Subaction=Change;"
             . "WebserviceID=$WebserviceID;CommunicationType=$CommunicationType;";
 
-        # Save and finish button: go to Webservice.
-        if ( $Self->{ParamObject}->GetParam( Param => 'ReturnToWebservice' ) ) {
+        # Save and finish button: go to web service.
+        if ( $ParamObject->GetParam( Param => 'ReturnToWebservice' ) ) {
             $RedirectURL = "Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=$WebserviceID;";
 
         }
 
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => $RedirectURL,
         );
     }
 
-    return $Self->{LayoutObject}->ErrorScreen(
+    return $LayoutObject->ErrorScreen(
         Message => "Need Subaction!",
     );
 }
@@ -324,14 +313,16 @@ sub Run {
 sub _ShowEdit {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # configuration
     $Param{Type}           = 'HTTP::REST';
     $Param{WebserviceName} = $Param{WebserviceData}->{Name};
-    my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }
-        ->{Transport}->{Config};
+    my $TransportConfig = $Param{WebserviceData}->{Config}->{ $Param{CommunicationType} }->{Transport}->{Config};
 
     # extract display parameters from transport config
     $Param{Host}           = $TransportConfig->{Host};
@@ -347,7 +338,7 @@ sub _ShowEdit {
     $Param{MaxLength}      = $TransportConfig->{MaxLength};
 
     # call bread crumbs blocks
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'WebservicePathElement',
         Data => {
             Name => 'Web Services',
@@ -355,7 +346,7 @@ sub _ShowEdit {
             Nav  => '',
         },
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'WebservicePathElement',
         Data => {
             Name => $Param{WebserviceName},
@@ -365,7 +356,7 @@ sub _ShowEdit {
         },
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'WebservicePathElement',
         Data => {
             Name => $Param{CommunicationType} . ' Transport ' . $Param{Type},
@@ -382,7 +373,7 @@ sub _ShowEdit {
     if ( $Param{CommunicationType} ne 'Provider' ) {
 
         # create Authentication types select
-        $Param{DefaultCommandStrg} = $Self->{LayoutObject}->BuildSelection(
+        $Param{DefaultCommandStrg} = $LayoutObject->BuildSelection(
             Data          => \@PossibleRequestMethods,
             Name          => 'DefaultCommand',
             SelectedValue => $Param{DefaultCommand} || 'GET',
@@ -390,7 +381,7 @@ sub _ShowEdit {
         );
 
         # create Authentication types select
-        $Param{AuthenticationStrg} = $Self->{LayoutObject}->BuildSelection(
+        $Param{AuthenticationStrg} = $LayoutObject->BuildSelection(
             Data          => ['BasicAuth'],
             Name          => 'Authentication',
             SelectedValue => $Param{Authentication} || '-',
@@ -407,7 +398,7 @@ sub _ShowEdit {
         }
 
         # create use X509 select
-        $Param{UseX509Strg} = $Self->{LayoutObject}->BuildSelection(
+        $Param{UseX509Strg} = $LayoutObject->BuildSelection(
             Data => [ 'No', 'Yes' ],
             Name => 'UseX509',
             SelectedValue => $Param{UseX509} || 'No',
@@ -426,14 +417,14 @@ sub _ShowEdit {
         }
 
         # call Endpoint block
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Endpoint',
             Data => \%Param,
         );
     }
 
     # call provider or requester specific bocks
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Transport' . $Param{CommunicationType},
         Data => \%Param,
     );
@@ -447,7 +438,7 @@ sub _ShowEdit {
 
             for my $CurrentInvoker ( sort keys %{$Invokers} ) {
 
-                my $CommandStrg = $Self->{LayoutObject}->BuildSelection(
+                my $CommandStrg = $LayoutObject->BuildSelection(
                     Data => \@PossibleRequestMethods,
                     Name => 'Command' . $CurrentInvoker,
                     SelectedValue =>
@@ -457,17 +448,13 @@ sub _ShowEdit {
                     Sort         => 'AlphanumericValue',
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'InvokerControllerMapping',
                     Data => {
-                        Invoker => $CurrentInvoker,
-                        Controller =>
-                            $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}
-                            ->{Controller},
+                        Invoker     => $CurrentInvoker,
+                        Controller  => $TransportConfig->{InvokerControllerMapping}->{$CurrentInvoker}->{Controller},
                         CommandStrg => $CommandStrg,
-                        ServerError =>
-                            $Param{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' }
-                            || '',
+                        ServerError => $Param{ 'InvokerControllerMapping' . $CurrentInvoker . 'ServerError' } || '',
                         ServerErrorMessage => $Param{
                             'InvokerControllerMapping'
                                 . $CurrentInvoker
@@ -491,26 +478,23 @@ sub _ShowEdit {
 
             for my $CurrentOperation ( sort keys %{$Operations} ) {
 
-                my $RequestMethodStrg = $Self->{LayoutObject}->BuildSelection(
+                my $RequestMethodStrg = $LayoutObject->BuildSelection(
                     Data          => \@PossibleRequestMethods,
                     Name          => 'RequestMethod' . $CurrentOperation,
-                    SelectedValue => $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}
-                        ->{RequestMethod} || ['-'],
+                    SelectedValue => $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{RequestMethod}
+                        || ['-'],
                     PossibleNone => 1,
                     Multiple     => 1,
                     Sort         => 'AlphanumericValue',
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'RouteOperationMapping',
                     Data => {
-                        Operation => $CurrentOperation,
-                        Route =>
-                            $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route},
+                        Operation         => $CurrentOperation,
+                        Route             => $TransportConfig->{RouteOperationMapping}->{$CurrentOperation}->{Route},
                         RequestMethodStrg => $RequestMethodStrg,
-                        ServerError =>
-                            $Param{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' }
-                            || '',
+                        ServerError => $Param{ 'RouteOperationMapping' . $CurrentOperation . 'ServerError' } || '',
                         ServerErrorMessage => $Param{
                             'RouteOperationMapping'
                                 . $CurrentOperation
@@ -522,7 +506,7 @@ sub _ShowEdit {
             }
         }
 
-        $Param{KeepAliveStrg} = $Self->{LayoutObject}->BuildSelection(
+        $Param{KeepAliveStrg} = $LayoutObject->BuildSelection(
             Data => {
                 0 => 'No',
                 1 => 'Yes',
@@ -540,18 +524,18 @@ sub _ShowEdit {
 
     # call save and finish block
     if ($SaveAndFinishOK) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'SaveAndFinishButton',
             Data => \%Param
         );
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminGenericInterfaceTransportHTTPREST',
         Data         => { %Param, },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
