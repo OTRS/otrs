@@ -1,0 +1,49 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: 1
+Description: Connector to send and receive date from Nagios 2.
+Name: Nagios
+Provider:
+  Operation:
+    Operation1:
+      Mapping:
+        Inbound:
+          1: 2
+          2: 4
+        Outbound:
+          1: 2
+          2: 5
+      Type: Test::Test
+    Operation2:
+      Mapping:
+        Inbound:
+          1: 2
+          2: 4
+        Outbound:
+          1: 2
+          2: 5
+  Transport:
+    Config:
+      Encoding: ''
+      Endpoint: iojfoiwjeofjweoj ojerojgv oiaejroitjvaioejhtioja viorjhiojgijairogj aiovtq348tu 08qrujtio juortu oquejrtwoiajdoifhaois hnaeruoigbo eghjiob jaer89ztuio45u603u4i9tj340856u903 jvipojziopeji
+      NameSpace: ÁÉÍÓÚáéíóúÄËÏÖÚäëïöüß€ис
+      SOAPAction: ''
+    Type: HTTP::SOAP
+Requester:
+  Invokers:
+    Invoker1:
+      Mapping:
+        Inbound:
+          1: 2
+          2: 4
+        Outbound:
+          1: 2
+          2: 5
+      Type: Test::Test
+  Transport:
+    Config:
+      Encoding: ''
+      Endpoint: ''
+      NameSpace: ''
+    Type: HTTP::REST
