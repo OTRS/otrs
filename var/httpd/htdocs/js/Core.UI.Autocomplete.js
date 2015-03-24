@@ -13,21 +13,57 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.Autocomplete
+ * @namespace Core.UI.Autocomplete
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
  *      This namespace contains autocomplete specific functions.
  */
 Core.UI.Autocomplete = (function (TargetNS) {
+    /**
+     * @private
+     * @name ConfigFallback
+     * @memberof Core.UI.Autocomplete
+     * @member {Object}
+     * @description
+     *      The configuration fallback values.
+     */
     var ConfigFallback = {
             AutoCompleteActive: 1,
             MinQueryLength: 2,
             QueryDelay: 100,
             MaxResultsDisplayed: 20
         },
+    /**
+     * @private
+     * @name ConfigElements
+     * @memberof Core.UI.Autocomplete
+     * @member {Object}
+     * @description
+     *      The possible config parameters.
+     */
         ConfigElements = ['AutoCompleteActive', 'MinQueryLength', 'QueryDelay', 'MaxResultsDisplayed', 'ButtonText'],
+    /**
+     * @private
+     * @name Config
+     * @memberof Core.UI.Autocomplete
+     * @member {Object}
+     * @description
+     *      The actual config, after merging the fallback values.
+     */
         Config = {};
 
+    /**
+     * @private
+     * @name InitConfig
+     * @memberof Core.UI.Autocomplete
+     * @function
+     * @return {Object} The autocompletion config.
+     * @param {String} Type - Type of config, e.g. "CustomerSearch.
+     * @param {String} Options - Autocompletion config options.
+     * @description
+     *      Gets the needed config options object.
+     */
     function InitConfig(Type, Options) {
         var TypeConfig = Core.Config.Get('Autocomplete');
 
@@ -55,29 +91,52 @@ Core.UI.Autocomplete = (function (TargetNS) {
         return Config;
     }
 
+    /**
+     * @name GetConfig
+     * @memberof Core.UI.Autocomplete
+     * @function
+     * @return {Object} Config option value.
+     * @param {String} Key - The config option name.
+     * @description
+     *      gets the config value of a specific key.
+     */
     TargetNS.GetConfig = function(Key) {
         return Config[Key];
     };
 
-    // Needed for the handling of searches with ActiveAutoComplete = 0
+    /**
+     * @name SearchButtonClicked
+     * @memberof Core.UI.Autocomplete
+     * @member {Object}
+     * @description
+     *      Needed for the handling of searches with ActiveAutoComplete = 0.
+     */
     TargetNS.SearchButtonClicked = {};
 
     /**
+     * @callback Core.UI.Autocomplete~SourceFunction
+     * @returns {Array}  Data collected for autocompletion, every array element is an object with label and value keys.
+     * @param {String} Request - The data provided by the autocomplete (e.g. the entered text).
+     * @param {Function} Response - The function defined by the autocomplete to call with the selected data.
+     */
+
+    /**
+     * @callback Core.UI.Autocomplete~SelectFunction
+     * @param {EventObject} Event - The original browser event object.
+     * @param {Object} UI - The data given from the UI (e.g. UI.item is the selected autocomplete list item).
+     */
+
+    /**
+     * @name Init
+     * @memberof Core.UI.Autocomplete
      * @function
-     * @description
-     *      This function initializes autocomplete on an input element.
-     * @param {jQueryObject} $Element which gets autocomplete infos.
-     * @param {Function} SourceFunction defines the source data for the autocomplete
-     *              Two params: Request and Response
-     *                      Request: the data provided by the autocomplete (e.g. the entered text)
-     *                      Response: the function defined by the autocomplete to call with the selected data
-     * @param {Function} SelectFunction is executed, if an entry is selected
-     *              Two params: Event and UI
-     *                      Event: the original browser event object
-     *                      UI: the data given from the UI (e.g. UI.item is the selected autocomplete list item)
+     * @param {jQueryObject} $Element - The element which gets autocomplete infos.
+     * @param {Core.UI.Autocomplete~SourceFunction} SourceFunction - Defines the source data for the autocomplete.
+     * @param {Core.UI.Autocomplete~SelectFunction} SelectFunction - Is executed, if an entry is selected.
      * @param {String} Type of autocompletion, e.g. "CustomerSearch" etc.
      * @param {Object} Options object data with autocomplete plugin options
-     * @return nothing
+     * @description
+     *      This function initializes autocomplete on an input element.
      */
     TargetNS.Init = function ($Element, SourceFunction, SelectFunction, Type, Options) {
         var Config;

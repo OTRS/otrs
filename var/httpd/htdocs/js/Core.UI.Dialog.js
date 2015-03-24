@@ -13,8 +13,9 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.Dialog
+ * @namespace Core.UI.Dialog
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
  *      Contains the code for the different dialogs.
  */
@@ -31,9 +32,13 @@ Core.UI.Dialog = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name AdjustScrollableHeight
+     * @memberof Core.UI.Dialog
      * @function
-     * @return nothing
-     * @description Adjusts the scrollable inner container of the dialog after every resizing.
+     * @param {Boolean} AllowAutoGrow - If AllowAutoGrow is set, auto-resizing should be possible.
+     * @description
+     *      Adjusts the scrollable inner container of the dialog after every resizing.
      */
     function AdjustScrollableHeight(AllowAutoGrow) {
         // Check window height and adjust the scrollable height of InnerContent
@@ -60,10 +65,12 @@ Core.UI.Dialog = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Focuses the first element within the dialog.
+     * @name FocusFirstElement
+     * @memberof Core.UI.Dialog
+     * @function
+     * @description
+     *      Focuses the first element within the dialog.
      */
     function FocusFirstElement() {
         $('div.Dialog:visible .Content')
@@ -73,12 +80,14 @@ Core.UI.Dialog = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @param CloseOnEscape If set to true, the escape key is checked for closing the dialog.
-     * @return nothing
-     * @description Initializes the key event logger for the dialog.
-     *              Must be unbinded when closing the dialog.
+     * @name InitKeyEvent
+     * @memberof Core.UI.Dialog
+     * @function
+     * @param {Boolean} CloseOnEscape - If set to true, the escape key is checked for closing the dialog.
+     * @description
+     *      Initializes the key event logger for the dialog.
+     *      Must be unbinded when closing the dialog.
      */
     function InitKeyEvent(CloseOnEscape) {
         var $Dialog = $('div.Dialog:visible');
@@ -126,44 +135,67 @@ Core.UI.Dialog = (function (TargetNS) {
         });
     }
 
+    /**
+     * @private
+     * @name DefaultSubmitFunction
+     * @memberof Core.UI.Dialog
+     * @function
+     * @description
+     *      The default submit function in the dialog.
+     */
     function DefaultSubmitFunction() {
         $('.Dialog:visible form').submit();
     }
 
+    /**
+     * @private
+     * @name DefaultCloseFunction
+     * @memberof Core.UI.Dialog
+     * @function
+     * @description
+     *      The default function to close the dialog.
+     */
     function DefaultCloseFunction() {
         TargetNS.CloseDialog($('.Dialog:visible'));
     }
 
     /**
+     * @name ShowDialog
+     * @memberof Core.UI.Dialog
      * @function
-     * @param Params Hash with different config options:
-     *               Modal: true|false (default: false) Shows a dark background overlay behind the dialog
-     *               Type: Alert|Search (default: undefined) Defines a special type of dialog
-     *               Title: string (default: undefined) Defines the title of the dialog window
-     *               Headline: string (default: undefined) Defines a special headline within the dialog window
-     *               Text: string (default: undefined) The text which is outputtet in the dialog window
-     *               HTML: string (default: undefined) Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML
-     *               PositionTop: value (default: undefined) Defines the top position of the dialog window
-     *               PositionBottom: value (default: undefined) Defines the bottom position of the dialog window
-     *               PositionLeft: value|Center (default: undefined) Defines the left position of the dialog window. Center centers the window
-     *               PositionRight: value (default: undefined) Defines the right position of the dialog window
-     *               CloseOnClickOutside true|false (default: false) If true, clicking outside the dialog closes the dialog
-     *               CloseOnEscape true|false (default: false) If true, pressing escape key closes the dialog
-     *               AllowAutoGrow: true|false (default: false) If true, the InnerContent of the dialog can resize until the max window height is reached,
-     *                                                          If false (default), InnerContent of small dialogs does not resize over 200px
-     *               Buttons: Array of Hashes with the following properties (buttons are placed in a div "footer" of the dialog):
-     *                  Label: string Text of the button
-     *                  Type: string 'Submit'|'Close' (default: none) Special type of the button - invokes a standard function
-     *                  Class: string Optional class parameters for the button element
-     *                  Function: function The function which is executed on click (optional)
-     * @return nothing
-     * @description The main dialog function used for all different types of dialogs.
+     * @param {Object} Params - The different config options.
+     * @param {Boolean} Params.Modal - Shows a dark background overlay behind the dialog (default: false)
+     * @param {String} Params.Type - Alert|Search (default: undefined) Defines a special type of dialog.
+     * @param {String} Params.Title - Defines the title of the dialog window (default: undefined).
+     * @param {String} Params.Headline - Defines a special headline within the dialog window (default: undefined).
+     * @param {String} Params.Text - The text which is outputtet in the dialog window (default: undefined).
+     * @param {String} Params.HTML - Used for content dialog windows. Contains a complete HTML snippet or an jQuery object with containing HTML (default: undefined).
+     * @param {Number} Params.PositionTop - Defines the top position of the dialog window (default: undefined).
+     * @param {Number} Params.PositionBottom - Defines the bottom position of the dialog window (default: undefined).
+     * @param {Number|String} Params.PositionLeft - Defines the left position of the dialog window. 'Center' centers the window (default: undefined).
+     * @param {Number} Params.PositionRight - Defines the right position of the dialog window (default: undefined).
+     * @param {Boolean} Params.CloseOnClickOutside - If true, clicking outside the dialog closes the dialog (default: false).
+     * @param {Boolean} Params.CloseOnEscape - If true, pressing escape key closes the dialog (default: false).
+     * @param {Boolean} Params.AllowAutoGrow - If true, the InnerContent of the dialog can resize until the max window height is reached, if false (default), InnerContent of small dialogs does not resize over 200px.
+     * @param {Object} Params.Buttons - Array of Hashes with the following properties (buttons are placed in a div "footer" of the dialog):
+     * @param {String} Params.Buttons.Label - Text of the button.
+     * @param {String} Params.Buttons.Type - 'Submit'|'Close' (default: none) Special type of the button - invokes a standard function.
+     * @param {String} Params.Buttons.Class - Optional class parameters for the button element.
+     * @param {Function} Params.Buttons.Function - The function which is executed on click (optional).
+     * @description
+     *      The main dialog function used for all different types of dialogs.
      */
     TargetNS.ShowDialog = function(Params) {
-        // If no callback function for the close is given (via the Button definition),
-        // the dialog is just closed
-        // otherwise the defined Close button is triggered
-        // this invokes the callback and the closing of the dialog
+        /**
+         * @private
+         * @name HandleClosingAction
+         * @memberof Core.UI.Dialog.ShowDialog
+         * @function
+         * @description
+         *      If no callback function for the close is given (via the Button definition),
+         *      the dialog is just closed. Otherwise the defined Close button is triggered,
+         *      which invokes the callback and the closing of the dialog.
+         */
         function HandleClosingAction() {
             var $CloseButton = $('.Dialog:visible button.Close');
 
@@ -180,8 +212,17 @@ Core.UI.Dialog = (function (TargetNS) {
             }
         }
 
-        // Calculates the correct position of the dialog, given by the Position
-        // Type can be 'top' or 'bottom'
+        /**
+         * @private
+         * @name CalculateDialogPosition
+         * @memberof Core.UI.Dialog.ShowDialog
+         * @function
+         * @returns {String} The position of the dialog.
+         * @param {String|Number} Position - The position of the dialog.
+         * @param {String} Type - Can be 'top' or 'bottom'.
+         * @description
+         *      Calculates the correct position of the dialog, given by the Position.
+         */
         function CalculateDialogPosition(Position, Type) {
             var ScrollTop = $(window).scrollTop(),
                 WindowHeight = $(window).height();
@@ -459,16 +500,18 @@ Core.UI.Dialog = (function (TargetNS) {
     };
 
     /**
+     * @name ShowContentDialog
+     * @memberof Core.UI.Dialog
      * @function
+     * @param {String} HTML - The content HTML which should be shown.
+     * @param {String} Title - The title of the dialog.
+     * @param {Number|String} PositionTop - The top position the dialog is positioned initially.
+     * @param {Numer|String} PositionLeft - The left position the dialog is positioned initially.
+     * @param {Boolean} Modal - If defined and set to true, an overlay is shown for a modal dialog.
+     * @param {Array} Buttons - The button array.
+     * @param {Boolean} AllowAutoGrow - If true, the InnerContent of the dialog can resize until the max window height is reached, if false (default), InnerContent of small dialogs does not resize over 200px.
      * @description
      *      Shows a default dialog.
-     * @param HTML The content HTML which should be shown
-     * @param Title The title of the dialog
-     * @param PositionTop The top position the dialog is positioned initially
-     * @param PositionLeft The left position the dialog is positioned initially
-     * @param Modal If defined and set to true, an overlay is shown for a modal dialog
-     * @param Buttons The button array
-     * @return nothing
      */
     TargetNS.ShowContentDialog = function (HTML, Title, PositionTop, PositionLeft, Modal, Buttons, AllowAutoGrow) {
         TargetNS.ShowDialog({
@@ -485,13 +528,15 @@ Core.UI.Dialog = (function (TargetNS) {
     };
 
     /**
+     * @name ShowAlert
+     * @memberof Core.UI.Dialog
      * @function
+     * @param {String} Headline - The bold headline text.
+     * @param {String} Text - The description.
+     * @param {Function} CloseFunction - The special function which is started on closing the dialog
+     *                                   (optional, if used also the removing of the dialog itself must be handled).
      * @description
-     *      Shows a alert dialog.
-     * @param Headline The bold headline
-     * @param Text The description
-     * @param CloseFunction The special function which is started on closing the dialog (optional, if used also the removing of the dialog itself must be handled)
-     * @return nothing
+     *      Shows an alert dialog.
      */
     TargetNS.ShowAlert = function (Headline, Text, CloseFunction) {
         TargetNS.ShowDialog({
@@ -504,11 +549,12 @@ Core.UI.Dialog = (function (TargetNS) {
     };
 
     /**
+     * @name CloseDialog
+     * @memberof Core.UI.Dialog
      * @function
+     * @param {jQueryObject} Object - The jQuery object that defines the dialog or any child element of it, which should be closed.
      * @description
      *      Closes all dialogs specified.
-     * @param Object The jQuery object that defines the dialog or any child element of it, which should be closed
-     * @return nothing
      */
     TargetNS.CloseDialog = function (Object) {
         var $Dialog, DialogCopy, DialogCopySelector, BackupHTML, Editor;

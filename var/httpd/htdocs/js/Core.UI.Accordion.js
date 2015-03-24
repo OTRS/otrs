@@ -13,54 +13,76 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.Accordion
+ * @namespace Core.UI.Accordion
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
- *      This namespace contains the Accordion code
+ *      This namespace contains the Accordion code.
  */
 Core.UI.Accordion = (function (TargetNS) {
+    /**
+     * @private
+     * @name AccordionAnimationRunning
+     * @memberof Core.UI.Accordion
+     * @member {Boolean}
+     * @description
+     *      Indicates if an accordion animation is still running.
+     */
     var AccordionAnimationRunning = false;
 
     /**
+     * @name AnimationIsRunning
+     * @memberof Core.UI.Accordion
      * @function
+     * @returns {Boolean} True, if animation is still running, false otherwise.
      * @description
-     *      This function checks, if an accordion animation is currently running
-     * @return boolean
+     *      This function checks, if an accordion animation is currently running.
      */
     TargetNS.AnimationIsRunning = function () {
         return AccordionAnimationRunning;
     };
 
     /**
+     * @name StartAnimation
+     * @memberof Core.UI.Accordion
      * @function
      * @description
-     *      This function indicates that an accordion animation is now running
-     * @return nothing
+     *      This function indicates that an accordion animation is now running.
      */
     TargetNS.StartAnimation = function () {
         AccordionAnimationRunning = true;
     };
 
     /**
+     * @name StopAnimation
+     * @memberof Core.UI.Accordion
      * @function
      * @description
-     *      This function indicates that all accordion animations have stopped now
-     * @return nothing
+     *      This function indicates that all accordion animations have stopped now.
      */
     TargetNS.StopAnimation = function () {
         AccordionAnimationRunning = false;
     };
 
+    /**
+     * @name ContentSelector
+     * @memberof Core.UI.Accordion
+     * @member {String}
+     * @description
+     *      The selector for the content, which is shown or hidden.
+     */
     TargetNS.ContentSelector = undefined;
 
     /**
+     * @name Init
+     * @memberof Core.UI.Accordion
      * @function
+     * @returns {Boolean} Returns false on error.
+     * @param {jQueryObject} $Element - The parent list element (ul) for the accordion.
+     * @param {String} LinkSelector - The selector for the link, on which an element is opened/closed.
+     * @param {String} ContentSelector - The selector for the content, which is shown or hidden.
      * @description
-     *      This function initializes the accordion effect on the specified list
-     * @param {jQueryObject} $Element the parent list element (ul) for the accordion
-     * @param {String} LinkSelector The selector for the link, on which an element is opened/closed
-     * @param {String} ContentSelector The selector for the content, which is shown or hidden
-     * @return nothing
+     *      This function initializes the accordion effect on the specified list.
      */
     TargetNS.Init = function ($Element, LinkSelector, ContentSelector) {
         // If no accordion element is found, stop
@@ -88,6 +110,16 @@ Core.UI.Accordion = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name OpenElement
+     * @memberof Core.UI.Accordion
+     * @function
+     * @returns {Boolean} Returns false on error.
+     * @param {jQueryObject} $ListElement
+     * @param {Boolean} WithAnimation
+     * @description
+     *      Open a single accordion element.
+     */
     TargetNS.OpenElement = function ($ListElement, WithAnimation) {
         var $AllListElements,
             $ActiveListElement;

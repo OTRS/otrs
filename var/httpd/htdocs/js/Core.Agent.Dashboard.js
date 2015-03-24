@@ -13,17 +13,21 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Dashboard
+ * @namespace Core.Agent.Dashboard
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the Dashboard.
  */
 Core.Agent.Dashboard = (function (TargetNS) {
 
     /**
+     * @name InitCustomerIDAutocomplete
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @description
+     *      Initialize autocompletion for CustomerID.
      */
     TargetNS.InitCustomerIDAutocomplete = function ($Input) {
         $Input.autocomplete({
@@ -74,10 +78,12 @@ Core.Agent.Dashboard = (function (TargetNS) {
     };
 
     /**
+     * @name InitCustomerUserAutocomplete
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @description
+     *      Initialize autocompletion for CustomerUser.
      */
     TargetNS.InitCustomerUserAutocomplete = function ($Input) {
         $Input.autocomplete({
@@ -128,10 +134,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
     };
 
     /**
+     * @name InitUserAutocomplete
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @param {String} Subaction - Subaction to execute, "SearchCustomerID" or "SearchCustomerUser".
+     * @description
+     *      Initialize autocompletion for User.
      */
     TargetNS.InitUserAutocomplete = function ($Input, Subaction) {
         $Input.autocomplete({
@@ -182,11 +191,12 @@ Core.Agent.Dashboard = (function (TargetNS) {
         });
     };
 
-
     /**
+     * @name Init
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @return nothing
-     *      This function initializes the special module functions
+     * @description
+     *      Initialize the dashboard module.
      */
     TargetNS.Init = function () {
         Core.UI.DnD.Sortable(
@@ -252,12 +262,14 @@ Core.Agent.Dashboard = (function (TargetNS) {
     };
 
     /**
+     * @name RegisterUpdatePreferences
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @return nothing
+     * @param {jQueryObject} $ClickedElement - The jQuery object of the element(s) that get the event listener.
+     * @param {string} ElementID - The ID of the element whose content should be updated with the server answer.
+     * @param {jQueryObject} $Form - The jQuery object of the form with the data for the server request.
+     * @description
      *      This function binds a click event on an html element to update the preferences of the given dahsboard widget
-     * @param {jQueryObject} $ClickedElement The jQuery object of the element(s) that get the event listener
-     * @param {string} ElementID The ID of the element whose content should be updated with the server answer
-     * @param {jQueryObject} $Form The jQuery object of the form with the data for the server request
      */
     TargetNS.RegisterUpdatePreferences = function ($ClickedElement, ElementID, $Form) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
@@ -297,22 +309,23 @@ Core.Agent.Dashboard = (function (TargetNS) {
     };
 
     /**
+     * @name EventsTicketCalendarInit
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @param Params Hash with different config options:
-     *               MonthNames: Array containing the localized strings for each month
-     *               MonthNamesShort: Array containing the localized strings for each month on shorth format
-     *               DayNames: Array containing the localized strings for each week day
-     *               DayNamesShort: Array containing the localized strings for each week day on short format
-     *               ButtonText: Array containing the localized strings for each week day on short format:
-     *                  today: Localized string for the word "Today"
-     *                  month: Localized string for the word "month"
-     *                  week: Localized string for the word "week"
-     *                  day: Localized string for the word "day"
-     *              Events: Array of hashes including the data for each event
-     * @return nothing
-     * @description The main dialog function used for all different types of dialogs.
+     * @param {Object} Params - Hash with different config options.
+     * @param {Array} Params.MonthNames - Array containing the localized strings for each month.
+     * @param {Array} Params.MonthNamesShort - Array containing the localized strings for each month on shorth format.
+     * @param {Array} Params.DayNames - Array containing the localized strings for each week day.
+     * @param {Array} Params.DayNamesShort - Array containing the localized strings for each week day on short format.
+     * @param {Array} Params.ButtonText - Array containing the localized strings for each week day on short format.
+     * @param {String} Params.ButtonText.today - Localized string for the word "Today".
+     * @param {String} Params.ButtonText.month - Localized string for the word "month".
+     * @param {String} Params.ButtonText.week - Localized string for the word "week".
+     * @param {String} Params.ButtonText.day - Localized string for the word "day".
+     * @param {Array} Params.Events - Array of hashes including the data for each event.
+     * @description
+     *      Initializes the event ticket calendar.
      */
-
     TargetNS.EventsTicketCalendarInit = function (Params) {
         var date = new Date(),
         d = date.getDate(),
@@ -392,9 +405,12 @@ Core.Agent.Dashboard = (function (TargetNS) {
     };
 
     /**
+     * @name InitStatsConfiguration
+     * @memberof Core.Agent.Dashboard
      * @function
-     * @return nothing
-     *      Initializes the configuration page for a stats dashboard widget
+     * @param {jQueryObject} $Container
+     * @description
+     *      Initializes the configuration page for a stats dashboard widget.
      */
     TargetNS.InitStatsConfiguration = function($Container) {
 
@@ -413,10 +429,18 @@ Core.Agent.Dashboard = (function (TargetNS) {
             $(this).attr('data-seconds', SecondsMapping[$(this).val()]);
         });
 
-        // check for validity of relative time settings
-        // each time setting has its own maximum value in data-max-seconds attribute on the .Value div.
-        // if the combination of unit and count is higher than this value, the select boxes will be
-        // colored with red and the submit button will be blocked.
+
+        /**
+         * @private
+         * @name ValidateTimeSettings
+         * @memberof Core.Agent.Dashboard.InitStatsConfiguration
+         * @function
+         * @description
+         *      Check for validity of relative time settings
+         *      Each time setting has its own maximum value in data-max-seconds attribute on the .Value div.
+         *      If the combination of unit and count is higher than this value, the select boxes will be
+         *      colored with red and the submit button will be blocked.
+         */
         function ValidateTimeSettings() {
 
             $Container.find('.TimeRelativeUnitGeneric').each(function() {
@@ -469,7 +493,14 @@ Core.Agent.Dashboard = (function (TargetNS) {
             });
         }
 
-        // Serializes all configured settings to a hidden field with JSON
+        /**
+         * @private
+         * @name CollectStatsData
+         * @memberof Core.Agent.Dashboard.InitStatsConfiguration
+         * @function
+         * @description
+         *      Serializes all configured settings to a hidden field with JSON.
+         */
         function CollectStatsData() {
             var Data = {};
 

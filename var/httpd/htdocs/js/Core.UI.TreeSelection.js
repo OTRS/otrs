@@ -13,15 +13,27 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.TreeSelection
+ * @namespace Core.UI.TreeSelection
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
- *      Tree Selection for Queue, Service, etc. with JSTree
+ *      Tree Selection for Queue, Service, etc. with JSTree.
  */
 Core.UI.TreeSelection = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name GetChildren
+     * @memberof Core.UI.TreeSelection
+     * @function
+     * @returns {Object|Boolean} Returns elements object or false if no children available.
+     * @param {Object} Elements
+     * @param {String} Index
+     * @param {Object} Data
+     * @description
+     *      Gets all children of a(sub)tree.
+     */
     function GetChildren(Elements, Index, Data) {
-
         $.each(Elements, function(InnerIndex, InnerData) {
             if (typeof InnerData !== 'object') {
                 return false;
@@ -35,8 +47,18 @@ Core.UI.TreeSelection = (function (TargetNS) {
         return Elements;
     }
 
+    /**
+     * @private
+     * @name CollectElements
+     * @memberof Core.UI.TreeSelection
+     * @function
+     * @returns {Object|Boolean} Returns elements object or false on error.
+     * @param {Object} Elements
+     * @param {Number} Level
+     * @description
+     *      Collect all elements of a tree.
+     */
     function CollectElements(Elements, Level) {
-
         $.each(Elements, function(Index, Data) {
             if (typeof Data !== 'object') {
                 return false;
@@ -52,20 +74,19 @@ Core.UI.TreeSelection = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name BuildElementsArray
+     * @memberof Core.UI.TreeSelection
      * @function
+     * @returns {Object} Returns an object which is suitable for passing to JSTree in order to build a tree selection.
+     * @param {jQueryObject} $Element - The select element which contains the data.
      * @description
      *      This function receives a select element which was built
      *      with TreeView => 1 (= intended elements) and builds a
      *      javascript object from it which contains all the elements
      *      and their children.
-     * @param {jQueryObject} $Element
-     *      The select element which contains the data
-     * @return
-     *      Returns an object which is suitable for passing to JSTree in order
-     *      to build a tree selection.
      */
     function BuildElementsArray($Element) {
-
         var Elements = [],
             Level,
             HighestLevel = 0;
@@ -160,11 +181,14 @@ Core.UI.TreeSelection = (function (TargetNS) {
         return Elements;
     }
 
-      /**
+    /**
+     * @name ShowTreeSelection
+     * @memberof Core.UI.TreeSelection
      * @function
-     * @private
-     * @return nothing
-     * @description Open the tree view selection dialog
+     * @returns {Boolean} Returns false on error.
+     * @param {jQueryObject} $TriggerObj - Object for which the event was triggered.
+     * @description
+     *      Open the tree view selection dialog.
      */
     TargetNS.ShowTreeSelection = function($TriggerObj) {
 
@@ -381,10 +405,11 @@ Core.UI.TreeSelection = (function (TargetNS) {
     };
 
     /**
+     * @name InitTreeSelection
+     * @memberof Core.UI.TreeSelection
      * @function
-     * @private
-     * @return nothing
-     * @description to bind click event no tree selection icons next to select boxes
+     * @description
+     *      To bind click event no tree selection icons next to select boxes.
      */
     TargetNS.InitTreeSelection = function() {
         $('.Field, fieldset').off('click.ShowTreeSelection').on('click.ShowTreeSelection', '.ShowTreeSelection', function (Event) {
@@ -394,10 +419,11 @@ Core.UI.TreeSelection = (function (TargetNS) {
     };
 
     /**
+     * @name InitDynamicFieldTreeViewRestore
+     * @memberof Core.UI.TreeSelection
      * @function
-     * @private
-     * @return nothing
-     * @description Initially display dynamic fields with TreeMode = 1 correctly
+     * @description
+     *      Initially display dynamic fields with TreeMode = 1 correctly.
      */
     TargetNS.InitDynamicFieldTreeViewRestore = function() {
         $('.DynamicFieldWithTreeView').each(function() {
@@ -415,10 +441,16 @@ Core.UI.TreeSelection = (function (TargetNS) {
     };
 
     /**
+     * @name RestoreDynamicFieldTreeView
+     * @memberof Core.UI.TreeSelection
      * @function
-     * @private
-     * @return nothing
-     * @description Restores tree view (intended values) for dynamic fields
+     * @returns {Boolean} False on error.
+     * @param {jQueryObject} $FieldObj
+     * @param {Array} Data
+     * @param {Boolean} CheckClass
+     * @param {Number} AJAXUpdate
+     * @description
+     *      Restores tree view (intended values) for dynamic fields.
      */
     TargetNS.RestoreDynamicFieldTreeView = function($FieldObj, Data, CheckClass, AJAXUpdate) {
 
@@ -504,7 +536,6 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $FieldObj.addClass('TreeViewRestored');
     };
-
 
     return TargetNS;
 }(Core.UI.TreeSelection || {}));

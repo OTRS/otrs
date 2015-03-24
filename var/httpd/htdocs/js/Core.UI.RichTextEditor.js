@@ -13,20 +13,41 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.RichTextEditor
+ * @namespace Core.UI.RichTextEditor
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
- *      Richtext Editor
- * @requires
- *      CKEDITOR
+ *      Richtext Editor.
  */
 Core.UI.RichTextEditor = (function (TargetNS) {
-    var $FormID, TimeOutRTEOnChange;
+    /**
+     * @private
+     * @name $FormID
+     * @memberof Core.UI.RichTextEditor
+     * @member {jQueryObject}
+     * @description
+     *      Hidden input field with name FormID.
+     */
+    var $FormID,
 
     /**
-     * @function
      * @private
-     * @description Check in the window which hidden element has a name same to 'FormID' and return it like a JQuery object
+     * @name TimeOutRTEOnChange
+     * @memberof Core.UI.RichTextEditor
+     * @member {Object}
+     * @description
+     *      Object to handle timeout.
+     */
+        TimeOutRTEOnChange;
+
+    /**
+     * @private
+     * @name CheckFormID
+     * @memberof Core.UI.RichTextEditor
+     * @function
+     * @returns {jQueryObject} FormID element.
+     * @description
+     *      Check in the window which hidden element has a name same to 'FormID' and return it like a JQuery object.
      */
     function CheckFormID() {
         if (typeof $FormID === 'undefined') {
@@ -36,10 +57,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     }
 
     /**
+     * @name Init
+     * @memberof Core.UI.RichTextEditor
      * @function
-     * @param {jQueryObject} $EditorArea The jQuery object of the element that will be a rich text editor
-     * @return nothing
-     *      This function initializes the application and executes the needed functions
+     * @returns {Boolean} Returns false on error.
+     * @param {jQueryObject} $EditorArea - The jQuery object of the element that will be a rich text editor.
+     * @description
+     *      This function initializes the application and executes the needed functions.
      */
     TargetNS.Init = function ($EditorArea) {
         var EditorID = '',
@@ -167,9 +191,11 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     };
 
     /**
+     * @name InitAll
+     * @memberof Core.UI.RichTextEditor
      * @function
-     * @return nothing
-     *      This function initializes as a rich text editor every textarea element that containing the RichText class
+     * @description
+     *      This function initializes as a rich text editor every textarea element that containing the RichText class.
      */
     TargetNS.InitAll = function () {
         $('textarea.RichText').each(function () {
@@ -178,10 +204,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     };
 
     /**
+     * @name GetRTE
+     * @memberof Core.UI.RichTextEditor
      * @function
-     * @param {jQueryObject} $EditorArea The jQuery object of the element that is a rich text editor
-     * @return The rich text editor length
-     *      This function return the length for a rich text editor object
+     * @returns {jQueryObject} jQuery object of the corresponsing RTE element.
+     * @param {jQueryObject} $EditorArea - The jQuery object of the element that is a rich text editor.
+     * @description
+     *      Get RTE jQuery element.
      */
     TargetNS.GetRTE = function ($EditorArea) {
         if (isJQueryObject($EditorArea)) {
@@ -191,10 +220,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     };
 
     /**
+     * @name UpdateLinkedField
+     * @memberof Core.UI.RichTextEditor
      * @function
-     * @param {jQueryObject} $EditorArea The jQuery object of the element that is a rich text editor
-     * @return nothing
-     *      This function updates the linked field for a rich text editor
+     * @param {jQueryObject} $EditorArea - The jQuery object of the element that is a rich text editor.
+     * @description
+     *      This function updates the linked field for a rich text editor.
      */
     TargetNS.UpdateLinkedField = function ($EditorArea) {
         var EditorID = '',
@@ -221,10 +252,13 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     };
 
     /**
+     * @name IsEnabled
+     * @memberof Core.UI.RichTextEditor
      * @function
-     * @param {jQueryObject} $EditorArea The jQuery object of the element that is a rich text editor
-     * @return nothing
-     *      This function check if a rich text editor is enable in this moment
+     * @returns {Boolean} True if RTE is enabled, false otherwise
+     * @param {jQueryObject} $EditorArea - The jQuery object of the element that is a rich text editor.
+     * @description
+     *      This function check if a rich text editor is enable in this moment.
      */
     TargetNS.IsEnabled = function ($EditorArea) {
         var EditorID = '';
@@ -240,10 +274,12 @@ Core.UI.RichTextEditor = (function (TargetNS) {
     };
 
     /**
+     * @name Focus
+     * @memberof Core.UI.RichTextEditor
      * @function
-     * @param {jQueryObject} $EditorArea The jQuery object of the element that is a rich text editor
-     * @return nothing
-     *      This function check if a rich text editor has the browser focus enabled
+     * @param {jQueryObject} $EditorArea - The jQuery object of the element that is a rich text editor.
+     * @description
+     *      This function focusses the given RTE.
      */
     TargetNS.Focus = function ($EditorArea) {
         var EditorID = '';

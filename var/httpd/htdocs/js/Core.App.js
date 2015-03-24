@@ -12,10 +12,11 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.App
+ * @namespace Core.App
+ * @memberof Core
+ * @author OTRS AG
  * @description
- *      This namespace contains the config options and functions.
+ *      This namespace contains main app functionalities.
  */
 Core.App = (function (TargetNS) {
 
@@ -28,11 +29,14 @@ Core.App = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @param {Object} Data The data that should be converted
-     * @return {string} query string of the data
-     * @description Converts a given hash into a query string
+     * @name SerializeData
+     * @memberof Core.App
+     * @function
+     * @returns {String} Query string of the data.
+     * @param {Object} Data - The data that should be converted.
+     * @description
+     *      Converts a given hash into a query string.
      */
     function SerializeData(Data) {
         var QueryString = '';
@@ -43,10 +47,12 @@ Core.App = (function (TargetNS) {
     }
 
     /**
+     * @name GetSessionInformation
+     * @memberof Core.App
      * @function
-     * @private
-     * @return {Object} Hash with session data, if needed
-     * @description Collects session data in a hash if available
+     * @returns {Object} Hash with session data, if needed.
+     * @description
+     *      Collects session data in a hash if available.
      */
     TargetNS.GetSessionInformation = function () {
         var Data = {};
@@ -59,13 +65,14 @@ Core.App = (function (TargetNS) {
     };
 
     /**
-     * @exports TargetNS.BrowserCheck as Core.App.BrowserCheck
+     * @name BrowserCheck
+     * @memberof Core.App
      * @function
-     * @param {String} Interface The interface we are in (Agent or Customer)
+     * @returns {Boolean} True if the used browser is *not* on the black list.
+     * @param {String} Interface - The interface we are in (Agent or Customer)
      * @description
      *      Checks if the used browser is not on the OTRS browser blacklist
      *      of the agent interface.
-     * @return true if the used browser is *not* on the black list.
      */
     TargetNS.BrowserCheck = function (Interface) {
         var AppropriateBrowser = true,
@@ -84,12 +91,13 @@ Core.App = (function (TargetNS) {
     };
 
     /**
-     * @exports TargetNS.BrowserCheckIECompatibilityMode as Core.App.BrowserCheckIECompatibilityMode
+     * @name BrowserCheckIECompatibilityMode
+     * @memberof Core.App
      * @function
+     * @returns {Boolean} True if the used browser is IE in Compatibility Mode.
      * @description
      *      Checks if the used browser is IE in Compatibility Mode.
      *      IE11 in Compatibility Mode is not recognized.
-     * @return true if the used browser is IE in Compatibility Mode.
      */
     TargetNS.BrowserCheckIECompatibilityMode = function  () {
         var IE7 = ($.browser.msie && $.browser.version === '7.0');
@@ -120,10 +128,12 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name Ready
+     * @memberof Core.App
      * @function
-     *      This functions callback is executed if all elements and files of this page are loaded
-     * @param {Function} Callback The callback function to be executed
-     * @return nothing
+     * @param {Function} Callback - The callback function to be executed.
+     * @description
+     *      This functions callback is executed if all elements and files of this page are loaded.
      */
     TargetNS.Ready = function (Callback) {
         if ($.isFunction(Callback)) {
@@ -144,11 +154,13 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name InternalRedirect
+     * @memberof Core.App
      * @function
-     *  Performs an internal redirect based on the given data parameters.
-     *  If needed, session information like SessionID and ChallengeToken are appended.
-     * @param {Object} Data The query data (like: {Action: 'MyAction', Subaction: 'Add'})
-     * @return nothing, performs redirect
+     * @param {Object} Data - The query data (like: {Action: 'MyAction', Subaction: 'Add'})
+     * @description
+     *      Performs an internal redirect based on the given data parameters.
+     *      If needed, session information like SessionID and ChallengeToken are appended.
      */
     TargetNS.InternalRedirect = function (Data) {
         var URL;
@@ -158,46 +170,53 @@ Core.App = (function (TargetNS) {
     };
 
     /**
+     * @name EscapeSelector
+     * @memberof Core.App
      * @function
-     *  Escapes the special characters (. :) in the given jQuery Selector
-     *  jQ does not allow the usage of dot or colon in ID or class names
-     * @param {String} Selector The original selector (e.g. ID, class, etc.)
-     * @return {String} The escaped selector
+     * @returns {String} The escaped selector.
+     * @param {String} Selector - The original selector (e.g. ID, class, etc.).
+     * @description
+     *      Escapes the special characters (. :) in the given jQuery Selector
+     *      jQ does not allow the usage of dot or colon in ID or class names
      */
     TargetNS.EscapeSelector = function (Selector) {
         return Selector.replace(/(#|:|\.|\[|\])/g,'\\$1');
     };
 
     /**
+     * @name Publish
+     * @memberof Core.App
      * @function
-     *  Publish some data on a named topic
-     * @param {String} Topic The channel to publish on
-     * @param {Array} Args  The data to publish.
-     *                      Each array item is converted into an ordered
-     *                      arguments on the subscribed functions.
+     * @param {String} Topic - The channel to publish on
+     * @param {Array} Args - The data to publish. Each array item is converted into an ordered arguments on the subscribed functions.
+     * @description
+     *      Publish some data on a named topic.
      */
     TargetNS.Publish = function (Topic, Args) {
         $.publish(Topic, Args);
     };
 
     /**
+     * @name Subscribe
+     * @memberof Core.App
      * @function
-     *  Register a callback on a named topic
-     * @param {String} Topic The channel to subscribe to
-     * @param {Function} Callback  The handler event.
-     *                             Anytime something is published on a
-     *                             subscribed channel, the callback will be called with the
-     *                             published array as ordered arguments.
-     * @return {Array} A handle which can be used to unsubscribe this particular subscription
+     * @returns {Array} A handle which can be used to unsubscribe this particular subscription
+     * @param {String} Topic - The channel to subscribe to
+     * @param {Function} Callback - The handler event. Anytime something is published on a subscribed channel, the callback will be called with the published array as ordered arguments.
+     * @description
+     *      Register a callback on a named topic.
      */
     TargetNS.Subscribe = function (Topic, Callback) {
         return $.subscribe(Topic, Callback);
     };
 
     /**
+     * @name Unsubscribe
+     * @memberof Core.App
      * @function
-     *  Disconnect a subscribed function for a topic
-     * @param {Array} Handle The return value from a $.subscribe call
+     * @param {Array} Handle - The return value from a $.subscribe call
+     * @description
+     *      Disconnect a subscribed function for a topic.
      */
     TargetNS.Unsubscribe = function (Handle) {
         $.unsubscribe(Handle);

@@ -13,17 +13,20 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.TicketProcess
+ * @namespace Core.Agent.TicketProcess
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for TicketProcess.
  */
 Core.Agent.TicketProcess = (function (TargetNS) {
 
     /**
+     * @name Init
+     * @memberof Core.Agent.TicketProcess
      * @function
-     * @return nothing
-     *      This function initializes the special module functions
+     * @description
+     *      This function initializes the special module functions.
      */
     TargetNS.Init = function () {
 

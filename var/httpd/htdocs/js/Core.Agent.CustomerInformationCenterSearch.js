@@ -13,23 +13,36 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.CustomerInformationCenterSearch
+ * @namespace Core.Agent.CustomerInformationCenterSearch
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for the search.
+ *      This namespace contains the special module functions for the customer information center search.
  */
 Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Shows waiting dialog until screen is ready.
+     * @name ShowWaitingDialog
+     * @memberof Core.Agent.CustomerInformationCenterSearch
+     * @function
+     * @description
+     *      Shows waiting dialog until screen is ready.
      */
     function ShowWaitingDialog(){
         Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', Core.Config.Get('LoadingMsg'), '10px', 'Center', true);
     }
 
+    /**
+     * @private
+     * @name Redirect
+     * @memberof Core.Agent.CustomerInformationCenterSearch
+     * @function
+     * @param {String} CustomerID
+     * @param {Object} Event
+     * @description
+     *      Redirect to Customer ID screen.
+     */
     function Redirect(CustomerID, Event) {
         var Session = '';
 
@@ -46,10 +59,13 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
     }
 
     /**
+     * @name InitAutocomplete
+     * @memberof Core.Agent.CustomerInformationCenterSearch
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @param {String} Subaction - Subaction to execute, "SearchCustomerID" or "SearchCustomerUser".
+     * @description
+     *      Initialize autocompletion.
      */
     TargetNS.InitAutocomplete = function ($Input, Subaction) {
         Core.UI.Autocomplete.Init($Input, function (Request, Response) {
@@ -77,13 +93,12 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
     };
 
     /**
+     * @name OpenSearchDialog
+     * @memberof Core.Agent.CustomerInformationCenterSearch
      * @function
-     * @param {String} Action which is used in framework right now.
-     * @param {String} Used profile name.
-     * @return nothing
+     * @description
      *      This function open the search dialog after clicking on "search" button in nav bar.
      */
-
     TargetNS.OpenSearchDialog = function () {
 
         var Data = {
@@ -108,11 +123,12 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
     };
 
     /**
+     * @name Init
+     * @memberof Core.Agent.CustomerInformationCenterSearch
      * @function
-     * @return nothing
-     *      This function initializes the search dialog
+     * @description
+     *      This function initializes the search dialog.
      */
-
     TargetNS.Init = function () {
         TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID' );
         TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser' );

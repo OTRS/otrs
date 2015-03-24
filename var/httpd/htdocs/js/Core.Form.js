@@ -12,8 +12,9 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Form
+ * @namespace Core.Form
+ * @memberof Core
+ * @author OTRS AG
  * @description
  *      This namespace contains all form functions.
  */
@@ -27,11 +28,12 @@ Core.Form = (function (TargetNS) {
     }
 
     /**
+     * @name DisableForm
+     * @memberof Core.Form
      * @function
-     * @param {jQueryObject} $Form All elements of this form will be disabled
+     * @param {jQueryObject} $Form - All elements of this form will be disabled.
      * @description
      *      This function disables all elements of the given form. If no form given, it disables all form elements on the site.
-     * @return nothing
      */
     TargetNS.DisableForm = function ($Form) {
         // If no form is given, disable all form elements on the complete site
@@ -68,11 +70,12 @@ Core.Form = (function (TargetNS) {
     };
 
     /**
+     * @name EnableForm
+     * @memberof Core.Form
      * @function
-     * @param {jQueryObject} $Form All elements of this form will be enabled
+     * @param {jQueryObject} $Form - All elements of this form will be enabled.
      * @description
      *      This function enables all elements of the given form. If no form given, it enables all form elements on the site.
-     * @return nothing
      */
     TargetNS.EnableForm = function ($Form) {
         // If no form is given, enable all form elements on the complete site
@@ -109,12 +112,13 @@ Core.Form = (function (TargetNS) {
     };
 
     /**
+     * @name SelectAllCheckboxes
+     * @memberof Core.Form
      * @function
+     * @param {jQueryObject} $ClickedBox - The clicked checkbox in the DOM.
+     * @param {jQueryObject} $SelectAllCheckbox - The object with the SelectAll checkbox.
      * @description
      *      This function selects or deselects all checkboxes given by the ElementName.
-     * @param {jQueryObject} $ClickedBox The clicked checkbox in the DOM
-     * @param {jQueryObject} $SelectAllCheckbox The object with the SelectAll checkbox
-     * @return nothing
      */
     TargetNS.SelectAllCheckboxes = function ($ClickedBox, $SelectAllCheckbox) {
         if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
@@ -141,13 +145,14 @@ Core.Form = (function (TargetNS) {
     };
 
     /**
+     * @name InitSelectAllCheckboxes
+     * @memberof Core.Form
      * @function
+     * @param {jQueryObject} $Checkboxes - The jquery object with all dependent checkboxes.
+     * @param {jQueryObject} $SelectAllCheckbox - The object with the SelectAll checkbox.
      * @description
      *      This function marks the "SelectAll checkbox" as checked if all depending checkboxes are already marked checked.
-     *      Adds PubSub event to control handling of checkboxes, if a filter is used
-     * @param {jQueryObject} $Checkboxes The jquery object with all dependent checkboxes
-     * @param {jQueryObject} $SelectAllCheckbox The object with the SelectAll checkbox
-     * @return nothing
+     *      Adds PubSub event to control handling of checkboxes, if a filter is used.
      */
     TargetNS.InitSelectAllCheckboxes = function ($Checkboxes, $SelectAllCheckbox) {
         if (isJQueryObject($Checkboxes, $SelectAllCheckbox)) {

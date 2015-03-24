@@ -13,17 +13,21 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Search
+ * @namespace Core.Agent.Search
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the search.
  */
 Core.Agent.Search = (function (TargetNS) {
 
     /**
+     * @name AdditionalAttributeSelectionRebuild
+     * @memberof Core.Agent.Search
      * @function
-     * @return nothing
-     *      This function rebuild attribute selection, only show available attributes.
+     * @returns {Boolean} Returns true.
+     * @description
+     *      This function rebuilds attribute selection, only show available attributes.
      */
     TargetNS.AdditionalAttributeSelectionRebuild = function () {
 
@@ -42,9 +46,12 @@ Core.Agent.Search = (function (TargetNS) {
     };
 
     /**
+     * @name SearchAttributeAdd
+     * @memberof Core.Agent.Search
      * @function
-     * @param {String} of attribute to add.
-     * @return nothing
+     * @returns {Boolean} Returns false.
+     * @param {String} Attribute - Name of attribute to add.
+     * @description
      *      This function adds one attributes for search.
      */
     TargetNS.SearchAttributeAdd = function (Attribute) {
@@ -77,13 +84,13 @@ Core.Agent.Search = (function (TargetNS) {
     };
 
     /**
+     * @name SearchAttributeRemove
+     * @memberof Core.Agent.Search
      * @function
-     * @param {jQueryObject} $Element The jQuery object of the form  or any element
-     *      within this form check.
-     * @return nothing
-     *      This function remove attributes from an element.
+     * @param {jQueryObject} $Element - The jQuery object of the form or any element within this form check.
+     * @description
+     *      This function removes attributes from an element.
      */
-
     TargetNS.SearchAttributeRemove = function ($Element) {
         $Element.prev().prev().remove();
         $Element.prev().remove();
@@ -91,8 +98,11 @@ Core.Agent.Search = (function (TargetNS) {
     };
 
     /**
+     * @name AdditionalAttributeSelectionRebuild
+     * @memberof Core.Agent.Search
      * @function
-     * @return nothing
+     * @returns {Boolean} Returns true.
+     * @description
      *      This function rebuild attribute selection, only show available attributes.
      */
     TargetNS.AdditionalAttributeSelectionRebuild = function () {
@@ -118,11 +128,13 @@ Core.Agent.Search = (function (TargetNS) {
     };
 
     /**
-     * @function
      * @private
-     * @param {String} Profile The profile name that will be delete.
-     * @return nothing
-     * @description Delete a profile via an ajax requests.
+     * @name SearchProfileDelete
+     * @memberof Core.Agent.Search
+     * @function
+     * @param {String} Profile - The profile name that will be delete.
+     * @description
+     *      Delete a profile via an ajax requests.
      */
     function SearchProfileDelete(Profile) {
         var Data = {
@@ -138,12 +150,15 @@ Core.Agent.Search = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return 0 if no values were found, 1 if values where there
-     * @description Checks if any values were entered in the search.
-     *              If nothing at all exists, it alerts with translated:
-     *              "Please enter at least one search value or * to find anything"
+     * @name CheckForSearchedValues
+     * @memberof Core.Agent.Search
+     * @function
+     * @returns {Boolean} False if no values were found, true if values where there.
+     * @description
+     *      Checks if any values were entered in the search.
+     *      If nothing at all exists, it alerts with translated:
+     *      "Please enter at least one search value or * to find anything"
      */
     function CheckForSearchedValues() {
         // loop through the SerachForm labels
@@ -193,23 +208,27 @@ Core.Agent.Search = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Shows waiting dialog until search screen is ready.
+     * @name ShowWaitingDialog
+     * @memberof Core.Agent.Search
+     * @function
+     * @description
+     *      Shows waiting dialog until search screen is ready.
      */
     function ShowWaitingDialog(){
         Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', Core.Config.Get('LoadingMsg'), '10px', 'Center', true);
     }
 
     /**
+     * @name OpenSearchDialog
+     * @memberof Core.Agent.Search
      * @function
-     * @param {String} Action which is used in framework right now.
-     * @param {String} Used profile name.
-     * @return nothing
+     * @param {String} Action - Action which is used in framework right now.
+     * @param {String} Profile - Used profile name.
+     * @param {Boolean} EmptySearch
+     * @description
      *      This function open the search dialog after clicking on "search" button in nav bar.
      */
-
     TargetNS.OpenSearchDialog = function (Action, Profile, EmptySearch) {
 
         var Referrer = Core.Config.Get('Action'),

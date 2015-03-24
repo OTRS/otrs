@@ -13,24 +13,50 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.Resizable
+ * @namespace Core.UI.Resizable
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
  *      Contains the code for resizable elements.
  */
 Core.UI.Resizable = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name ScrollerMinHeight
+     * @memberof Core.UI.Resizable
+     * @member {Number}
+     * @description
+     *      The minimum height fpr the resizable object.
+     */
     var ScrollerMinHeight = 101,
+    /**
+     * @private
+     * @name HandleHeight
+     * @memberof Core.UI.Resizable
+     * @member {Number}
+     * @description
+     *      The height of the handle to resize the resizable element.
+     */
         HandleHeight = 9;
 
     /**
+     * @callback Core.UI.Resizable~Callback
+     * @param {EventObject} Event - The javascript event object.
+     * @param {Object} UI - The jQuery UI object.
+     * @param {String} Height - Height of the resizable object.
+     * @param {String} Width - Width of the resizable object.
+     */
+
+    /**
+     * @name Init
+     * @memberof Core.UI.Resizable
      * @function
+     * @param {jQueryObject} $Element - jQuery object of the element, which should be resizable.
+     * @param {Number} ScrollerHeight - The default height of the resizable object.
+     * @param {Function} Callback - The callback if resizable has changed.
      * @description
-     *      This function initializes the resizability of the given element
-     * @param {jQueryObject} $Element jQuery object of the element, which should be resizable
-     * @param {jQueryObject} ScrollerHeight The default height of the resizable object
-     * @param {jQueryObject} Callback The callback if resizable has changed
-     * @return nothing
+     *      This function initializes the resizability of the given element.
      */
     TargetNS.Init = function ($Element, ScrollerHeight, Callback) {
         var CurrentTableHeight,

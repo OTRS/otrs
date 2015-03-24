@@ -13,28 +13,87 @@ var Core = Core || {};
 Core.Form = Core.Form || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Form.ErrorTooltips
+ * @namespace Core.Form.ErrorTooltips
+ * @memberof Core.Form
+ * @author OTRS AG
  * @description
- *      This namespace contains the Tooltip initialization functions
+ *      This namespace contains the Tooltip initialization functions.
  */
 Core.Form.ErrorTooltips = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name TooltipContainerID
+     * @memberof Core.Form.ErrorTooltips
+     * @member {String}
+     * @description
+     *      ID of the container DOM element.
+     */
     var TooltipContainerID = 'OTRS_UI_Tooltips_ErrorTooltip',
+    /**
+     * @private
+     * @name TooltipOffsetTop
+     * @memberof Core.Form.ErrorTooltips
+     * @member {Number}
+     * @description
+     *      Top offset in pixel of the tooltip from the DOM element.
+     */
         TooltipOffsetTop = 20,
+    /**
+     * @private
+     * @name TooltipOffsetLeft
+     * @memberof Core.Form.ErrorTooltips
+     * @member {Number}
+     * @description
+     *      Left offset in pixel of the tooltip from the DOM element.
+     */
         TooltipOffsetLeft = 20,
+    /**
+     * @private
+     * @name TongueClass
+     * @memberof Core.Form.ErrorTooltips
+     * @member {String}
+     * @description
+     *      Class name of the tooltip for the tongue. Defines if the tongue is left or right.
+     */
         TongueClass = 'TongueLeft',
+    /**
+     * @private
+     * @name $TooltipContent
+     * @memberof Core.Form.ErrorTooltips
+     * @member {jQueryObject}
+     * @description
+     *      The tooltip base HTML.
+     */
         $TooltipContent = $('<div class="Content" role="tooltip"></div>'),
+    /**
+     * @private
+     * @name $Tooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @member {jQueryObject}
+     * @description
+     *      The HTMl of the complete Tooltip.
+     */
         $Tooltip,
+    /**
+     * @private
+     * @name Offset
+     * @memberof Core.Form.ErrorTooltips
+     * @member {Object}
+     * @description
+     *      The offset of the element for which a tooltip is shown.
+     */
         Offset;
 
     /**
-     * @function
      * @private
-     * @param {jQueryObject} $Element jquery object
-     * @param {String} TooltipContent The string content that will be show in tooltip
-     * @return nothing
-     *      This function shows the tooltip for an element with a certain content
+     * @name ShowTooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @param {jQueryObject} $Element - jquery object.
+     * @param {String} TooltipContent - The string content that will be show in tooltip.
+     * @description
+     *      This function shows the tooltip for an element with a certain content.
      */
     function ShowTooltip($Element, TooltipContent) {
         var $TooltipContainer = $('#' + TooltipContainerID);
@@ -69,24 +128,24 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     }
 
     /**
+     * @name HideTooltip
+     * @memberof Core.Form.ErrorTooltips
      * @function
-     * @private
-     * @return nothing
-     *      This function hides the tooltip for an element
+     * @description
+     *      This function hides the tooltip for an element.
      */
     TargetNS.HideTooltip = function() {
         $('#' + TooltipContainerID).hide().empty();
     };
 
     /**
+     * @name InitTooltip
+     * @memberof Core.Form.ErrorTooltips
      * @function
+     * @param {jQueryObject} $Element - The elements (within a jQuery object) for whom the tooltips are initialized.
+     * @param {String} TooltipContent - Content of the tooltip, may contain HTML.
      * @description
-     *      This function initializes the tooltips on an input field
-     * @param {jQueryObject} $Elements
-     *      The elements (within a jQuery object) for whom the tooltips are initialized.
-     * @param {String} TooltipContent
-     *      Content of the tooltip, may contain HTML.
-     * @return nothing
+     *      This function initializes the tooltips on an input field.
      */
     TargetNS.InitTooltip = function ($Element, TooltipContent) {
         $Element.unbind('focus.Tooltip');
@@ -99,12 +158,12 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     };
 
     /**
+     * @name RemoveTooltip
+     * @memberof Core.Form.ErrorTooltips
      * @function
+     * @param {jQueryObject} $Element - The elements (within a jQuery object) for whom the tooltips are removed.
      * @description
-     *      This function removes the tooltip from an input field
-     * @param {jQueryObject} $Element
-     *      The elements (within a jQuery object) for whom the tooltips are removed.
-     * @return nothing
+     *      This function removes the tooltip from an input field.
      */
     TargetNS.RemoveTooltip = function ($Element) {
         TargetNS.HideTooltip();
@@ -113,35 +172,39 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     };
 
     /**
-     * @function
      * @private
-     * @return nothing
-     *      This function shows the tooltip for a rich text editor
+     * @name ShowRTETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @param {Object} Event - The event object.
+     * @description
+     *      This function shows the tooltip for a rich text editor.
      */
-
     function ShowRTETooltip(Event) {
         ShowTooltip($('#cke_' + Event.listenerData.ElementID + ' .cke_contents'), Event.listenerData.Message);
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     *      This function remove the tooltip from a rich text editor
+     * @name RemoveRTETooltip
+     * @memberof Core.Form.ErrorTooltips
+     * @function
+     * @param {Object} Event - The event object.
+     * @description
+     *      This function remove the tooltip from a rich text editor.
      */
     function RemoveRTETooltip(Event) {
         TargetNS.HideTooltip();
     }
 
     /**
+     * @name InitRTETooltip
+     * @memberof Core.Form.ErrorTooltips
      * @function
+     * @param {jQueryObject} $Element - The RTE element for whom the tooltips are initialized.
+     * @param {String} Message - The string content that will be show in tooltip.
      * @description
-     *      This function initializes the necessary stuff for a tooltip in a rich text editor
-     * @param {jQueryObject} $Element
-     *      The RTE element for whom the tooltips are inicialized.
-     * @param {String} Message
-     *      The string content that will be show in tooltip
-     * @return nothing
+     *      This function initializes the necessary stuff for a tooltip in a rich text editor.
      */
     TargetNS.InitRTETooltip = function ($Element, Message) {
         var ElementID = $Element.attr('id');
@@ -150,12 +213,12 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     };
 
     /**
+     * @name RemoveRTETooltip
+     * @memberof Core.Form.ErrorTooltips
      * @function
+     * @param {jQueryObject} $Element - The RTE element for whom the tooltips are removed.
      * @description
-     *      This function removes the tooltip in a rich text editor
-     * @param {jQueryObject} $Element
-     *      The RTE element for whom the tooltips are removed.
-     * @return nothing
+     *      This function removes the tooltip in a rich text editor.
      */
     TargetNS.RemoveRTETooltip = function ($Element) {
         var ElementID = $Element.attr('id');

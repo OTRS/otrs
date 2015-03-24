@@ -14,18 +14,22 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.DynamicFieldText
+ * @namespace Core.Agent.Admin.DynamicFieldText
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the DynamicFieldText module.
  */
 Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
 
     /**
+     * @name RemoveRegEx
+     * @memberof Core.Agent.Admin.DynamicFieldText
      * @function
-     * @param {string} IDSelector, id of the pressed remove RegEx button.
-     * @return nothing
-     *      This function removes a RegEx
+     * @returns {Boolean} Returns true.
+     * @param {String} IDSelector - ID of the pressed remove value button.
+     * @description
+     *      This function removes a RegEx.
      */
     TargetNS.RemoveRegEx = function(IDSelector) {
 
@@ -36,10 +40,13 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
     };
 
     /**
+     * @name AddRegEx
+     * @memberof Core.Agent.Admin.DynamicFieldText
      * @function
-     * @param {Object} RegExInsert, HTML container of the RegEx
-     * @return nothing
-     *      This function add a new RegEx
+     * @returns {Boolean} Returns false
+     * @param {Object} RegExInsert - HTML container of the RegEx.
+     * @description
+     *      This function adds a new RegEx.
      */
     TargetNS.AddRegEx = function(RegExInsert) {
         var $Clone = $('.RegExTemplate').clone(),

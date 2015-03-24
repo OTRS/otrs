@@ -13,40 +13,46 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.Scheduler
+ * @namespace Core.Agent.Scheduler
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the Scheduler module.
  */
 Core.Agent.Scheduler = (function (TargetNS) {
 
     /**
+     * @name Init
+     * @memberof Core.Agent.Scheduler
      * @function
-     * @param {Object} Params, initialization and internationalization parameters.
-     * @return nothing
-     *      This function initialize correctly all other function according to the local language
+     * @param {Boolean} Params - Initialization and internationalization parameters.
+     * @param {Object} Params.Localization - Localization strings.
+     * @description
+     *      This function initialize correctly all other function according to the local language.
      */
     TargetNS.Init = function (Params) {
         TargetNS.Localization = Params.Localization;
     };
 
-
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Shows waiting dialog until scheduler start screen is ready.
+     * @name ShowWaitingDialog
+     * @memberof Core.Agent.Scheduler
+     * @function
+     * @description
+     *      Shows waiting dialog until scheduler start screen is ready.
      */
     function ShowWaitingDialog(){
         Core.UI.Dialog.ShowContentDialog('<div class="Spacing Center"><span class="AJAXLoader" title="' + Core.Config.Get('LoadingMsg') + '"></span></div>', Core.Config.Get('LoadingMsg'), '240px', 'Center', true);
     }
 
     /**
+     * @name OpenSchedulerStartDialog
+     * @memberof Core.Agent.Scheduler
      * @function
-     * @return nothing
+     * @description
      *      This function open the scheduler start dialog.
      */
-
     TargetNS.OpenSchedulerStartDialog = function(){
 
         var Data = {

@@ -13,8 +13,9 @@ var Core = Core || {};
 Core.Customer = Core.Customer || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Customer.TicketZoom
+ * @namespace Core.Customer.TicketZoom
+ * @memberof Core.Customer
+ * @author OTRS AG
  * @description
  *      This namespace contains all functions for CustomerTicketZoom.
  */
@@ -24,13 +25,14 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name CalculateHeight
+     * @memberof Core.Customer.TicketZoom
      * @function
-     * @param {DOMObject} an iframe
+     * @param {DOMObject} Iframe - DOM representation of an iframe
      * @description
-     *      sets the size of the iframe to the size of its inner html
-     *      .contents accesses the iframe to get its height
+     *      Sets the size of the iframe to the size of its inner html.
      */
-
     function CalculateHeight(Iframe){
         Iframe =  isJQueryObject(Iframe) ? Iframe.get(0) : Iframe;
         setTimeout(function () {
@@ -50,9 +52,14 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name CalculateHeight
+     * @memberof Core.Customer.TicketZoom
      * @function
-     * @param {DOMObject} an iframe
-     * @description     *
+     * @param {DOMObject} Iframe - DOM representation of an iframe
+     * @param {Function} [Callback]
+     * @description
+     *      Resizes Iframe to its max inner height and (optionally) calls callback.
      */
     function ResizeIframe(Iframe, Callback){
         // initial height calculation
@@ -65,13 +72,17 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name CheckIframe
+     * @memberof Core.Customer.TicketZoom
      * @function
-     * @param {DOMObject} an iframe
+     * @param {DOMObject} Iframe - DOM representation of an iframe
+     * @param {Function} [Callback]
      * @description
-     *      This function contains some workarounds for all browsers to get re-size the iframe
+     *      This function contains some workarounds for all browsers to get re-size the iframe.
      * @see http://sonspring.com/journal/jquery-iframe-sizing
      */
-    function CheckIframe(Iframe, callback){
+    function CheckIframe(Iframe, Callback){
         if ($.browser.safari || $.browser.opera){
             $(Iframe).load(function(){
                 setTimeout(ResizeIframe, 0, this, callback);
@@ -82,19 +93,23 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         }
         else {
             $(Iframe).load(function(){
-                ResizeIframe(this, callback);
+                ResizeIframe(this, Callback);
             });
         }
     }
 
     /**
+     * @private
+     * @name LoadMessage
+     * @memberof Core.Customer.TicketZoom
      * @function
+     * @param {jQueryObject} $Message
+     * @param {jQueryObject} $Status
      * @description
      *      This function is called when an articles should be loaded. Our trick is, to hide the
      *      url of a containing iframe in the title attribute of the iframe so that it doesn't load
      *      immediately when the site loads. So we set the url in this function.
      */
-
     function LoadMessage($Message, $Status){
         var $SubjectHolder = $('h3 span', $Message),
             Subject = $SubjectHolder.text(),
@@ -130,7 +145,11 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name ToggleMessage
+     * @memberof Core.Customer.TicketZoom
      * @function
+     * @param {jQueryObject} $Message
      * @description
      *      This function checks the value of a hidden input field containing the state of the article:
      *      untouched (= not yet loaded), true or false. If the article is already loaded (-> true), and
@@ -139,7 +158,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      status is false (e.g. the article is hidden), the article gets the class 'Visible' again and
      *      the status gets changed to true.
      */
-
     function ToggleMessage($Message){
         var $Status = $('> input[name=ArticleState]', $Message);
         switch ($Status.val()){
@@ -158,6 +176,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     }
 
     /**
+     * @name Init
+     * @memberof Core.Customer.TicketZoom
      * @function
      * @description
      *      This function binds functions to the 'MessageHeader' and the 'Reply' button

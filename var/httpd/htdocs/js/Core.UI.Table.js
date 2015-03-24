@@ -13,14 +13,19 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.Table
+ * @namespace Core.UI.Table
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
  *      This namespace contains table specific functions.
  */
 Core.UI.Table = (function (TargetNS) {
     /**
+     * @name InitCSSPseudoClasses
+     * @memberof Core.UI.Table
      * @function
+     * @param {jQueryObject} $Context - Context to operate in (e.g. a specific table).
+     *                                  If not provided, this function will work on all tables.
      * @description
      *      This function sets some default classes on table rows and cells because
      *      CSS 2.1 does not contain the needed functionality yet.
@@ -28,9 +33,6 @@ Core.UI.Table = (function (TargetNS) {
      *      will receive the class "Last".
      *      This function also applies the specific classes to list elements of the
      *      type "tablelike".
-     * @param {jQueryObject} Context to operate in (e.g. a specific table).
-     *      If not provided, this function will work on all tables.
-     * @return nothing
      */
     TargetNS.InitCSSPseudoClasses = function ($Context) {
         var SelectorCount = 0;
@@ -62,13 +64,15 @@ Core.UI.Table = (function (TargetNS) {
     };
 
     /**
+     * @name InitTableFilter
+     * @memberof Core.UI.Table
      * @function
+     * @param {jQueryObject} $FilterInput - Filter input element.
+     * @param {jQueryObject} $Container - Table or list to be filtered.
+     * @param {Number|String} ColumnNumber - Only search in thsi special column of the table (counting starts with 0).
      * @description
      *      This function initializes a filter input field which can be used to
      *      dynamically filter a table or a list with the class TableLike (e.g. in the admin area overviews).
-     * @param {jQueryObject} $FilterInput Filter input element
-     * @param {jQueryObject} $Container Table or list to be filtered
-     * @return nothing
      */
     TargetNS.InitTableFilter = function ($FilterInput, $Container, ColumnNumber) {
         var Timeout,
@@ -86,12 +90,15 @@ Core.UI.Table = (function (TargetNS) {
             Timeout = window.setTimeout(function () {
 
                 /**
-                 * @function
                  * @private
-                 * @param {jQueryObject} Element that will be checked
-                 * @param {String} FilterText The current filter text
-                 * @return A true value
-                 * @description Ckeck if a text exist inside an element
+                 * @name CheckText
+                 * @memberof Core.UI.Table.InitTableFilter
+                 * @function
+                 * @returns {Boolean} True if text was found, false otherwise.
+                 * @param {jQueryObject} $Element - Element that will be checked.
+                 * @param {String} FilterText - The current filter text.
+                 * @description
+                 *      Check if a text exist inside an element.
                  */
                 function CheckText($Element, FilterText) {
                     var Text;

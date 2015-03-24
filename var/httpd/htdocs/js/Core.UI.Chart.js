@@ -13,12 +13,11 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.Chart
+ * @namespace Core.UI.Chart
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
- *      Chart drawing
- * @requires
- *      jquery-flot
+ *      Chart drawing.
  */
 Core.UI.Chart = (function (TargetNS) {
 
@@ -26,18 +25,83 @@ Core.UI.Chart = (function (TargetNS) {
         return;
     }
 
+    /**
+     * @private
+     * @name Charts
+     * @memberof Core.UI.Chart
+     * @member {Object}
+     * @description
+     *      Object of all charts.
+     */
     var Charts = {},
+
+    /**
+     * @private
+     * @name PageCoordinates
+     * @memberof Core.UI.Chart
+     * @member {Array}
+     * @description
+     *      Coordinates of the mouse to handle tooltips.
+     */
         PageCoordinates = [],
+
+    /**
+     * @private
+     * @name ChartCoordinates
+     * @memberof Core.UI.Chart
+     * @member {Array}
+     * @description
+     *      Coordinates of the latest chart.
+     */
         ChartCoordinates = [],
+
+    /**
+     * @private
+     * @name TooltipCoordinatesDelta
+     * @memberof Core.UI.Chart
+     * @member {Number}
+     * @description
+     *      Delta for checking mouse positions.
+     */
         TooltipCoordinatesDelta = 10,
+
+    /**
+     * @private
+     * @name ChartTooltipTimeout
+     * @memberof Core.UI.Chart
+     * @member {Object}
+     * @description
+     *      Timeout object.
+     */
         ChartTooltipTimeout,
+
+    /**
+     * @private
+     * @name TooltipTimeout
+     * @memberof Core.UI.Chart
+     * @member {Number}
+     * @description
+     *      Timeout to check mouse position for tooltip again.
+     */
         TooltipTimeout = 500,
+
+    /**
+     * @private
+     * @name PreviousPoint
+     * @memberof Core.UI.Chart
+     * @member {Number}
+     * @description
+     *      PreviousPoint.
+     */
         PreviousPoint = null;
 
     /**
-     * @function
      * @private
-     * @description Remove chart tooltip only when mouse is moved away
+     * @name RemoveChartTooltip
+     * @memberof Core.UI.Chart
+     * @function
+     * @description
+     *      Remove chart tooltip only when mouse is moved away.
      */
     function RemoveChartTooltip() {
         if (
@@ -59,12 +123,15 @@ Core.UI.Chart = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @param {string} PosX The horizontal coordinate
-     * @param {string} PosY The vertical coordinate
-     * @param {string} Content The type of a window, e.g. 'Action'
-     * @description This function add a tooltip to the window and show it
+     * @name ShowTooltip
+     * @memberof Core.UI.Chart
+     * @function
+     * @param {String} PosX - The horizontal coordinate.
+     * @param {String} PosY - The vertical coordinate.
+     * @param {String} Content - The type of a window, e.g. 'Action'.
+     * @description
+     *      This function adds a tooltip to the window and show it.
      */
     function ShowTooltip(PosX, PosY, Content) {
         var Top = PosY + 5,
@@ -88,10 +155,11 @@ Core.UI.Chart = (function (TargetNS) {
     }
 
     /**
+     * @name StartMouseTracking
+     * @memberof Core.UI.Chart
      * @function
      * @description
      *      This function starts the mouse tracking movement, in the page.
-     * @return nothing
      */
     TargetNS.StartMouseTracking = function () {
         $(document).bind('mousemove.Chart', function (Event) {
@@ -100,20 +168,26 @@ Core.UI.Chart = (function (TargetNS) {
     };
 
     /**
+     * @name StopMouseTracking
+     * @memberof Core.UI.Chart
      * @function
      * @description
      *      This function terminates the mouse tracking movement, in the page.
-     * @return nothing
      */
     TargetNS.StopMouseTracking = function () {
         $(document).unbind('mousemove.Chart');
     };
 
     /**
+     * @name DrawLineChart
+     * @memberof Core.UI.Chart
      * @function
+     * @param {String} ChartName
+     * @param {Object} ChartData
+     * @param {Object} TicksXAxis
+     * @param {Object} TicksYAxis
      * @description
      *      This function draws a line chart.
-     * @return nothing
      */
     TargetNS.DrawLineChart = function (ChartName, ChartData, TicksXAxis, TicksYAxis) {
         var Options = {

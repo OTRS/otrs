@@ -14,17 +14,21 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.DynamicFieldMultiselect
+ * @namespace Core.Agent.Admin.DynamicFieldMultiselect
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the DynamicFieldMultiselect module.
  */
 Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
 
     /**
+     * @name RemoveValue
+     * @memberof Core.Agent.Admin.DynamicFieldMultiselect
      * @function
-     * @param {string} IDSelector, id of the pressed remove value button.
-     * @return nothing
+     * @returns {Boolean} Returns false.
+     * @param {String} IDSelector - ID of the pressed remove value button.
+     * @description
      *      This function removes a value from possible values list and creates a stub input so
      *      the server can identify if a value is empty or deleted (useful for server validation)
      *      It also deletes the Value from the DefaultValues list
@@ -62,10 +66,13 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
     };
 
     /**
+     * @name AddValue
+     * @memberof Core.Agent.Admin.DynamicFieldMultiselect
      * @function
-     * @param {Object} ValueInsert, HTML container of the value mapping row
-     * @return nothing
-     *      This function add a new value to the possible values list
+     * @returns {Boolean} Returns false
+     * @param {Object} ValueInsert - HTML container of the value mapping row.
+     * @description
+     *      This function adds a new value to the possible values list
      */
     TargetNS.AddValue = function (ValueInsert) {
 
@@ -127,8 +134,11 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
     };
 
     /**
+     * @name RecreateDefaultValueList
+     * @memberof Core.Agent.Admin.DynamicFieldMultiselect
      * @function
-     * @return nothing
+     * @returns {Boolean} Returns false
+     * @description
      *      This function re-creates and sort the Default Values list taking the Possible Values
      *      as source, all deleted values will not be part of the re-created value list
      */

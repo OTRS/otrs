@@ -14,25 +14,31 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.GenericInterfaceInvoker
+ * @namespace Core.Agent.Admin.GenericInterfaceInvoker
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the GenericInterface invoker module.
  */
 Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
     /**
-     * @variable
      * @private
-     *     This variable stores the parameters that are passed from the tt and contain all the data that the dialog needs.
+     * @name DialogData
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
+     * @member {Array}
+     * @description
+     *     This variable stores the parameters that are passed from the TT and contain all the data that the dialog needs.
      */
     var DialogData = [];
 
     /**
+     * @name Init
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
      * @function
-     * @param {Object} Params, initialization and internationalization parameters.
-     * @return nothing
-     *      This function initialize correctly all other function according to the local language
+     * @param {Object} Params
+     * @description
+     *      Initializes the module functions.
      */
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
@@ -41,6 +47,14 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
         TargetNS.Localization = Params.Localization;
     };
 
+    /**
+     * @name ToogleEventSelect
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
+     * @function
+     * @param {String} SelectedEventType
+     * @description
+     *      Toggles the event list.
+     */
     TargetNS.ToogleEventSelect = function (SelectedEventType) {
         $('.EventList').addClass('Hidden');
         $('#' + SelectedEventType + 'Event').removeClass('Hidden');
@@ -48,11 +62,12 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
 
     /**
+     * @name AddEvent
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
      * @function
-     * @param {String} EventType, the type of event trigger to assign to an invoker
-     * i.e ticket or article
-     * @return nothing
-     *      This function calls the AddEvent action on the server
+     * @param {String} EventType - The type of event trigger to assign to an invoker i.e ticket or article.
+     * @description
+     *      This function calls the AddEvent action on the server.
      */
     TargetNS.AddEvent = function (EventType) {
         var Data = {
@@ -74,10 +89,12 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
     };
 
     /**
+     * @name ShowDeleteDialog
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
      * @function
-     * @param {EventObject} event object of the clicked element.
-     * @return nothing
-     *      This function shows a confirmation dialog with 2 buttons
+     * @param {Object} Event - Event object of the clicked element.
+     * @description
+     *      This function shows a confirmation dialog with 2 buttons.
      */
     TargetNS.ShowDeleteDialog = function(Event){
         Core.UI.Dialog.ShowContentDialog(
@@ -127,10 +144,12 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
     };
 
     /**
+     * @name ShowDeleteEventDialog
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
      * @function
-     * @param {EventObject} event object of the clicked element.
-     * @return nothing
-     *      This function shows a confirmation dialog with 2 buttons
+     * @param {Object} Event - Event object of the clicked element.
+     * @description
+     *      This function shows a confirmation dialog with 2 buttons.
      */
     TargetNS.ShowDeleteEventDialog = function(Event){
         var LocalDialogData;
@@ -188,12 +207,13 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
     };
 
     /**
+     * @name BindDeleteEventDialog
+     * @memberof Core.Agent.Admin.GenericInterfaceInvoker
      * @function
-     * @param {Object} Data a control structure that contains the jQueryObjectID,
-     * jQueryObjectSelector and the Invoker Event Trigger Name.
-     * @return nothing
+     * @param {Object} Data - A control structure that contains the jQueryObjectID, jQueryObjectSelector and the Invoker Event Trigger Name.
+     * @description
      *      This function binds a "trash can" link from the invoker event triggers table to the
-     *      function that opens a dialog to delete the event trigger
+     *      function that opens a dialog to delete the event trigger.
      */
     TargetNS.BindDeleteEventDialog = function (Data) {
         DialogData[Data.ElementID] = Data;

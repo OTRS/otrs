@@ -14,13 +14,26 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.GenericInterfaceDebugger
+ * @namespace Core.Agent.Admin.GenericInterfaceDebugger
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the GenericInterface debugger module.
  */
 Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name FormatISODate
+     * @memberof Core.Agent.Admin.GenericInterfaceDebugger
+     * @function
+     * @returns {String} ISO-formatted date
+     * @param {String} Year
+     * @param {String} Month
+     * @param {String} Day
+     * @description
+     *      Formats a date as ISO.
+     */
     function FormatISODate (Year, Month, Day) {
         var Result = '',
             Temp;
@@ -43,11 +56,26 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
         return Result;
     }
 
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.GenericInterfaceDebugger
+     * @function
+     * @param {Object} Params
+     * @description
+     *      Initializes the module functions.
+     */
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Localization = Params.Localization;
     };
 
+    /**
+     * @name GetRequestList
+     * @memberof Core.Agent.Admin.GenericInterfaceDebugger
+     * @function
+     * @description
+     *      Loads the request list via AJAX.
+     */
     TargetNS.GetRequestList = function() {
         var Data = {
             Action: 'AdminGenericInterfaceDebugger',
@@ -102,6 +130,14 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
         }, 'json');
     };
 
+    /**
+     * @name LoadCommunicationDetails
+     * @memberof Core.Agent.Admin.GenericInterfaceDebugger
+     * @function
+     * @param {String} CommunicationID
+     * @description
+     *      Load communication details via AJAX.
+     */
     TargetNS.LoadCommunicationDetails = function(CommunicationID) {
 
         var Data = {
@@ -156,6 +192,14 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
         }, 'json');
     };
 
+    /**
+     * @name ShowDeleteDialog
+     * @memberof Core.Agent.Admin.GenericInterfaceDebugger
+     * @function
+     * @param {String} Event
+     * @description
+     *      Shows a confirmation dialog to clear the log.
+     */
     TargetNS.ShowDeleteDialog = function(Event){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteDialogContainer'),

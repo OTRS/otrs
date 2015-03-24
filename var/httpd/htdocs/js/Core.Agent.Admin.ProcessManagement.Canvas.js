@@ -17,16 +17,43 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 Core.Agent.Admin.ProcessManagement = Core.Agent.Admin.ProcessManagement || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.ProcessManagement.Canvas
+ * @namespace Core.Agent.Admin.ProcessManagement.Canvas
+ * @memberof Core.Agent.Admin.ProcessManagement
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the ProcessManagement Diagram Canvas module.
  */
 Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name Elements
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @member {Array}
+     * @description
+     *      Glocal list of all process management elements (activities, ...).
+     */
     var Elements = {},
+    /**
+     * @private
+     * @name ActivityBoxHeight
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @member {Number}
+     * @description
+     *      Height of activity box in pixel.
+     */
         ActivityBoxHeight = 80;
 
+    /**
+     * @private
+     * @name EscapeHTML
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {String} Converted string.
+     * @param {String} Content - String to convert.
+     * @description
+     *      Converts special charachters in a string to HTML entities.
+     */
     function EscapeHTML(Content) {
         return Content
             .replace(/&/g, '&amp;')
@@ -36,6 +63,16 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .replace(/>/g, '&gt;');
     }
 
+    /**
+     * @private
+     * @name GetCanvasSize
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {Object} Needed width and height of canvas.
+     * @param {jQueryObject} $Element - jQuery object of Canvas area element.
+     * @description
+     *      Calculate minimum needed width ans height of canvas area to show all elements.
+     */
     function GetCanvasSize($Element) {
         var MinWidth = 500,
             MinHeight = 500,
@@ -83,6 +120,18 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         };
     }
 
+    /**
+     * @private
+     * @name ShowRemoveEntityCanvasConfirmationDialog
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityType
+     * @param {String} EntityName
+     * @param {String} EntityID
+     * @param {Function} Callback
+     * @description
+     *      Show confirmation dialog to remove entity from canvas.
+     */
     function ShowRemoveEntityCanvasConfirmationDialog(EntityType, EntityName, EntityID, Callback) {
         var DialogID = 'Remove' + EntityType + 'CanvasConfirmationDialog',
             $DialogElement = $('#Dialogs #' + DialogID);
@@ -116,6 +165,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         );
     }
 
+    /**
+     * @name CreateStartEvent
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} PosX
+     * @param {String} PosY
+     * @description
+     *      Create the initial start event at a specific position.
+     */
     TargetNS.CreateStartEvent = function (PosX, PosY) {
         var DefaultX = 30,
             DefaultY = 30;
@@ -129,6 +187,18 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name CreateActivity
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @param {String} EntityName
+     * @param {String} ActivityID
+     * @param {String} PosX
+     * @param {String} PosY
+     * @description
+     *      Create activity at specific position.
+     */
     TargetNS.CreateActivity = function (EntityID, EntityName, ActivityID, PosX, PosY) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
@@ -191,6 +261,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         Elements[EntityID] = $('#' + EntityID);
     };
 
+    /**
+     * @name CreateActivityDummy
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} StartActivityID
+     * @description
+     *      Create a dummy activity.
+     */
     TargetNS.CreateActivityDummy = function (StartActivityID) {
         var StartActivityPosition, DummyPosition, CanvasSize = {},
             Activities = Core.Agent.Admin.ProcessManagement.ProcessData.Activity;
@@ -222,6 +300,17 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name ShowTransitionTooltip
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {Boolean} Returns false, if transition is not defined.
+     * @param {Object} Connection
+     * @param {String} StartActivity
+     * @param {String} EndActivity
+     * @description
+     *      Show tooltip of a transition.
+     */
     TargetNS.ShowTransitionTooltip = function (Connection, StartActivity, EndActivity) {
         var $Tooltip = $('#DiagramTooltip'),
             $Element = $(Connection.canvas),
@@ -312,6 +401,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .show();
     };
 
+    /**
+     * @name ShowActivityTooltip
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {Boolean} Returns false, if activity is not defined.
+     * @param {jQueryObject} $Element
+     * @description
+     *      Show tooltip of an activity.
+     */
     TargetNS.ShowActivityTooltip = function ($Element) {
         var $Tooltip = $('#DiagramTooltip'),
             text = '<h4>' + EscapeHTML($Element.find('span').text()) + '</h4>',
@@ -395,6 +493,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .show();
     };
 
+    /**
+     * @name ShowActivityDeleteButton
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {Boolean} Returns false, if activity is not defined.
+     * @param {jQueryObject} $Element
+     * @description
+     *      Show button to delete an activity.
+     */
     TargetNS.ShowActivityDeleteButton = function ($Element) {
         var $delete = $('.DiagramDeleteLink').clone(),
             position = { x: 0, y: 0},
@@ -423,6 +530,15 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
     };
 
+    /**
+     * @name ShowActivityEditButton
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {Boolean} Returns false, if activity is not defined.
+     * @param {jQueryObject} $Element
+     * @description
+     *      Show button to edit an activity.
+     */
     TargetNS.ShowActivityEditButton = function ($Element) {
         var $edit = $('.DiagramEditLink').clone(),
             position = { x: 0, y: 0},
@@ -455,12 +571,28 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
     };
 
+    /**
+     * @name ShowActivityLoader
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @description
+     *      Show loader on activity element.
+     */
     TargetNS.ShowActivityLoader = function (EntityID) {
         if (typeof Elements[EntityID] !== 'undefined') {
             $('#' + EntityID).find('span').hide().parent().find('.Loader').show();
         }
     };
 
+    /**
+     * @name ShowActivityAddActivityDialogSuccess
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @description
+     *      Show success icon on activity (and fade out again after 1 second).
+     */
     TargetNS.ShowActivityAddActivityDialogSuccess = function (EntityID) {
         if (typeof Elements[EntityID] !== 'undefined') {
             // show icon for success
@@ -475,10 +607,26 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name ShowActivityAddActivityDialogError
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @description
+     *      Remove loader on activity on error.
+     */
     TargetNS.ShowActivityAddActivityDialogError = function (EntityID) {
         $('#' + EntityID).find('.Loader').hide().parent().find('span').show();
     };
 
+    /**
+     * @name RemoveActivity
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @description
+     *      Remove activity from canvas an data structures.
+     */
     TargetNS.RemoveActivity = function (EntityID) {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             Layout = Core.Agent.Admin.ProcessManagement.ProcessLayout,
@@ -527,10 +675,26 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         $('#Canvas').find('#' + EntityID).remove();
     };
 
+    /**
+     * @name RemoveActivityFromConfig
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @description
+     *      Remove activity from config.
+     */
     TargetNS.RemoveActivityFromConfig = function (EntityID) {
         delete Elements[EntityID];
     };
 
+    /**
+     * @name UpdateElementPosition
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {jQueryObject} $Element
+     * @description
+     *      Update position of element in layout data structure.
+     */
     TargetNS.UpdateElementPosition = function ($Element) {
         var EntityID;
         // Element can be "false" if newly placed on the canvas
@@ -547,6 +711,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name SetStartActivity
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} EntityID
+     * @description
+     *      Set start activity and add connection to it from start event.
+     */
     TargetNS.SetStartActivity = function (EntityID) {
 
         // Not more than one StartActivity allowed, function does not check this!
@@ -568,8 +740,27 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name LastTransitionDetails
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @member {Object}
+     * @description
+     *     Structure to save last transition to restore correctly after repaint.
+     */
     TargetNS.LastTransitionDetails = {};
 
+    /**
+     * @name CreateTransition
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @returns {Boolean} Returns fale, if start activity or end activity is not defined.
+     * @param {String} StartElement
+     * @param {String} EndElement
+     * @param {String} EntityID
+     * @param {String} TransitionName
+     * @description
+     *      Create new transition between StartElement and EndElement.
+     */
     TargetNS.CreateTransition = function (StartElement, EndElement, EntityID, TransitionName) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
@@ -676,6 +867,16 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name HighlightTransitionLabel
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} Connection
+     * @param {String} StartActivity
+     * @param {String} EndActivity
+     * @description
+     *      Highlight transition label.
+     */
     TargetNS.HighlightTransitionLabel = function(Connection, StartActivity, EndActivity) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
@@ -740,6 +941,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name UnHighlightTransitionLabel
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {String} Connection
+     * @description
+     *      Unhighlight transition label.
+     */
     TargetNS.UnHighlightTransitionLabel = function(Connection) {
         $('#DiagramTooltip').hide();
         if (TargetNS.DragTransitionAction) {
@@ -750,10 +959,40 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         Connection.component.setPaintStyle({ strokeStyle: "#000", lineWidth: '2' });
     };
 
+    /**
+     * @name DragActivityItem
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @member {Bool}
+     * @description
+     *     DragActivityItem.
+     */
     TargetNS.DragActivityItem = false;
+
+    /**
+     * @name DragTransitionAction
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @member {Bool}
+     * @description
+     *     DragTransitionAction.
+     */
     TargetNS.DragTransitionAction = false;
+
+    /**
+     * @name DragTransitionActionTransition
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @member {Object}
+     * @description
+     *     DragTransitionActionTransition.
+     */
     TargetNS.DragTransitionActionTransition = {};
 
+    /**
+     * @name DrawDiagram
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @description
+     *      Draws the diagram on the canvas.
+     */
     TargetNS.DrawDiagram = function () {
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             Layout = Core.Agent.Admin.ProcessManagement.ProcessLayout,
@@ -830,6 +1069,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             });
     };
 
+    /**
+     * @name MakeDraggable
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @description
+     *      Makes all activities draggable.
+     */
     TargetNS.MakeDraggable = function() {
         // make all activities draggable (note the z-index!)
         jsPlumb.draggable($('#Canvas .Activity'), {
@@ -845,6 +1091,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name Redraw
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @description
+     *      Redraws diagram.
+     */
     TargetNS.Redraw = function () {
         $('#ShowEntityIDs').removeClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.ShowEntityIDs);
         jsPlumb.reset();
@@ -852,6 +1105,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.Init();
     };
 
+    /**
+     * @name Extend
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @param {Object} CanvasSize
+     * @description
+     *      Extends the canvas size.
+     */
     TargetNS.Extend = function (CanvasSize) {
         var CanvasWidth,
             CanvasHeight;
@@ -865,6 +1126,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @description
+     *      Initialize module functionality.
+     */
     TargetNS.Init = function () {
         var CanvasSize = GetCanvasSize($('#Canvas')),
             CanvasWidth = CanvasSize.Width,
@@ -948,6 +1216,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.DrawDiagram();
     };
 
+    /**
+     * @name ShowEntityIDs
+     * @memberof Core.Agent.Admin.ProcessManagement.Canvas
+     * @function
+     * @description
+     *      Shows EntityIDs on every element for debugging.
+     */
     TargetNS.ShowEntityIDs = function () {
 
         var ActivityEntityID, TransitionEntityID, Connections, Overlay;

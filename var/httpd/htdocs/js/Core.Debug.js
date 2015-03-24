@@ -12,14 +12,32 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Debug
+ * @namespace Core.Debug
+ * @memberof Core
+ * @author OTRS AG
  * @description
- *      This namespace contains all debug functions
+ *      This namespace contains all debug functions.
  */
 Core.Debug = (function (TargetNS) {
 
-    var DebugConsole, DebugLog;
+    /**
+     * @private
+     * @name DebugConsole
+     * @memberof Core.Debug
+     * @member {Object}
+     * @description
+     *      Container variable for the generic DebugConsole object.
+     */
+    var DebugConsole,
+    /**
+     * @private
+     * @name DebugLog
+     * @memberof Core.Debug
+     * @member {Object}
+     * @description
+     *      Container variable for the generic DebugLog object.
+     */
+        DebugLog;
     if (typeof console === 'object' && typeof console.log === 'function') {
         DebugConsole = console;
         DebugLog = console.log;
@@ -30,10 +48,12 @@ Core.Debug = (function (TargetNS) {
     }
 
     /**
+     * @name Log
+     * @memberof Core.Debug
      * @function
      * @description
      *      Simple logging function. All parameters will be passed to
-     *      the debug console of Firebug et al, if present.
+     *      the debug console of Chrome, Firefox, Firebug et al, if present.
      */
     TargetNS.Log = DebugConsole ?
         function () {
@@ -57,6 +77,19 @@ Core.Debug = (function (TargetNS) {
      *      Do not issue an alert
      *
      * @return true if the required item was found, false otherwise (an an alert and an exception will be issued in that case)
+     */
+
+    /**
+     * @name CheckDependency
+     * @memberof Core.Debug
+     * @function
+     * @returns {Boolean} True if the required item was found, false otherwise (an an alert and an exception will be issued in that case).
+     * @param {String} TargetNamespace - Namespace for which the check is executed.
+     * @param {String} Required - The name of the function/namespace whose presence is checked.
+     * @param {String} RequiredLabel - Label for the required item which will be included in the error message.
+     * @param {Boolean} Silent - Do not issue an alert.
+     * @description
+     *      Checks if a required function or namespace is present.
      */
     /*jslint evil: true */
     TargetNS.CheckDependency = function (TargetNamespace, Required, RequiredLabel, Silent) {
@@ -83,8 +116,10 @@ Core.Debug = (function (TargetNS) {
     /*jslint evil: false */
 
     /**
-     * @exports TargetNS.SimulateRTLPage as Core.Debug.SimulateRTLPage
+     * @name SimulateRTLPage
+     * @memberof Core.Debug
      * @function
+     * @returns {Boolean} Returns undefined.
      * @description
      *      Use this function to test your HTML/CSS/JS code against usage in RTL.
      *
@@ -110,10 +145,13 @@ Core.Debug = (function (TargetNS) {
         Replacement = 'رسال الإجابة (البريد الإلكتروني';
 
         /**
-         * @function
          * @private
-         * @return nothing
-         * @description This function replaced the value attribute with the equivalent length in replacement string.
+         * @name ReplaceAllText
+         * @memberof Core.Debug.SimulateRTLPage
+         * @function
+         * @param {DOMObject} [Node] - The start element in the DOM, defaults to the document body.
+         * @description
+         *      This function replaced the value attribute with the equivalent length in replacement string.
          */
         function ReplaceAllText(Node) {
             var ChildNodes = (Node || document.body).childNodes,

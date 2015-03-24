@@ -13,19 +13,23 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.TicketAction
+ * @namespace Core.Agent.TicketAction
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
  *      This namespace contains functions for all ticket action popups.
  */
 Core.Agent.TicketAction = (function (TargetNS) {
 
     /**
-     * @function
      * @private
-     * @param {Object} Data The data that should be converted
-     * @return {string} query string of the data
-     * @description Converts a given hash into a query string
+     * @name SerializeData
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @returns {String} A query string based on the given hash.
+     * @param {Object} Data - The data that should be serialized
+     * @description
+     *      Converts a given hash into a query string.
      */
     function SerializeData(Data) {
         var QueryString = '';
@@ -36,10 +40,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Open the spellchecker screen
+     * @name OpenSpellChecker
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @description
+     *      Open the spellchecker screen.
      */
     function OpenSpellChecker() {
         var SpellCheckIFrame, SpellCheckIFrameURL;
@@ -50,10 +56,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Open the AddressBook screen
+     * @name OpenAddressBook
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @description
+     *      Open the AddressBook screen.
      */
     function OpenAddressBook() {
         var AddressBookIFrameURL, AddressBookIFrame;
@@ -67,10 +75,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description Open the CustomerDialog screen
+     * @name OpenCustomerDialog
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @description
+     *      Open the CustomerDialog screen.
      */
     function OpenCustomerDialog() {
         var CustomerIFrameURL, CustomerIFrame;
@@ -83,11 +93,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @param {Object} $Link Element link type that will receive the new email adrress in his value attribute
-     * @return nothing
-     * @description Open the spellchecker screen
+     * @name AddMailAddress
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @param {Object} $Link - Element link type that will receive the new email adrress in its value attribute
+     * @description
+     *      Add email address.
      */
     function AddMailAddress($Link) {
         var $Element = $('#' + $Link.attr('rel')),
@@ -100,9 +112,12 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @description Mark the primary customer
+     * @name MarkPrimaryCustomer
+     * @memberof Core.Agent.TicketAction
+     * @function
+     * @description
+     *      Mark the primary customer.
      */
     function MarkPrimaryCustomer() {
         $('.CustomerContainer').children('div').each(function() {
@@ -119,10 +134,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
     }
 
     /**
+     * @name Init
+     * @memberof Core.Agent.TicketAction
      * @function
      * @description
-     *      This function initializes the ticket action popups
-     * @return nothing
+     *      This function initializes the ticket action popups.
      */
     TargetNS.Init = function () {
 
@@ -232,9 +248,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
     };
 
     /**
+     * @name InitAddressBook
+     * @memberof Core.Agent.TicketAction
      * @function
-     * @return nothing
-     *      This function initializes the necessary stuff for address book link in TicketAction screens
+     * @description
+     *      This function initializes the necessary stuff for address book link in TicketAction screens.
      */
     TargetNS.InitAddressBook = function () {
         // Register event for copying mail address to input field
@@ -296,9 +314,11 @@ Core.Agent.TicketAction = (function (TargetNS) {
     };
 
     /**
+     * @name InitSpellCheck
+     * @memberof Core.Agent.TicketAction
      * @function
-     * @return nothing
-     *      This function initializes the necessary stuff for spell check link  in TicketAction screens
+     * @description
+     *      This function initializes the necessary stuff for spell check link  in TicketAction screens.
      */
     TargetNS.InitSpellCheck = function () {
         // Register onchange event for dropdown and input field to change the radiobutton
@@ -330,10 +350,10 @@ Core.Agent.TicketAction = (function (TargetNS) {
     };
 
     /**
+     * @name UpdateCustomer
+     * @memberof Core.Agent.TicketAction
      * @function
-     * @param
-     *      {String} Customer The customer that was selected in the customer popup window
-     * @return nothing
+     * @param {String} Customer - The customer that was selected in the customer popup window.
      * @description
      *      In some screens, the customer management dialog can be used as a borrowed view
      *      (iframe in a dialog). This function is used to take over the currently selected
@@ -354,11 +374,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
     };
 
     /**
+     * @name SelectRadioButton
+     * @memberof Core.Agent.TicketAction
      * @function
-     * @return nothing
-     *      Selects a radio button by name and value
-     * @param {Value} The value attribute of the radio button to be selected
-     * @param {Object} The name of the radio button to be selected
+     * @param {String} Value - The value attribute of the radio button to be selected.
+     * @param {String} Name - The name of the radio button to be selected.
+     * @description
+     *      Selects a radio button by name and value.
      */
     TargetNS.SelectRadioButton = function (Value, Name) {
         $('input[type="radio"][name=' + Name + '][value=' + Value + ']').prop('checked', true);

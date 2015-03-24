@@ -12,10 +12,11 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Customer
+ * @namespace Core.Customer
+ * @memberof Core
+ * @author OTRS AG
  * @description
- *      This namespace contains all form functions.
+ *      This namespace contains all global functions for the customer interface.
  */
 Core.Customer = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI', 'Core.UI')) {
@@ -31,13 +32,30 @@ Core.Customer = (function (TargetNS) {
         return;
     }
 
+    /**
+     * @name SupportedBrowser
+     * @memberof Core.Customer
+     * @member {Boolean}
+     * @description
+     *     Indicates a supported browser.
+     */
     TargetNS.SupportedBrowser = true;
+
+    /**
+     * @name IECompatibilityMode
+     * @memberof Core.Customer
+     * @member {Boolean}
+     * @description
+     *     IE Compatibility Mode is active.
+     */
     TargetNS.IECompatibilityMode = false;
 
     /**
+     * @name Init
+     * @memberof Core.Customer
      * @function
-     * @return nothing
-     *      This function initializes the application and executes the needed functions
+     * @description
+     *      This function initializes the application and executes the needed functions.
      */
     TargetNS.Init = function () {
         var $TableElements = $('table.Overview tbody tr');
@@ -77,11 +95,12 @@ Core.Customer = (function (TargetNS) {
     };
 
     /**
+     * @name ClickableRow
+     * @memberof Core.Customer
      * @function
      * @description
      *      This function makes the whole row in the MyTickets and CompanyTickets view clickable.
      */
-
     TargetNS.ClickableRow = function(){
         $("table tr").click(function(){
             window.location.href = $("a", this).attr("href");
@@ -90,6 +109,8 @@ Core.Customer = (function (TargetNS) {
     };
 
     /**
+     * @name Enhance
+     * @memberof Core.Customer
      * @function
      * @description
      *      This function adds the class 'JavaScriptAvailable' to the 'Body' div to enhance the interface (clickable rows).
@@ -98,6 +119,13 @@ Core.Customer = (function (TargetNS) {
         $('body').removeClass('NoJavaScript').addClass('JavaScriptAvailable');
     };
 
+    /**
+     * @name InitFocus
+     * @memberof Core.Customer
+     * @function
+     * @description
+     *      Gives focus to the first text input field.
+     */
     TargetNS.InitFocus = function(){
         $('input[type="text"]').first().focus();
     };

@@ -13,16 +13,20 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Login
+ * @namespace Core.Agent.Login
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for TicketZoom.
+ *      This namespace contains the special module functions for the Login.
  */
 Core.Agent.Login = (function (TargetNS) {
     /**
+     * @name Init
+     * @memberof Core.Agent.Login
      * @function
-     * @return nothing
-     *      This function initializes the special module functions
+     * @param {Boolean} LoginFailed
+     * @description
+     *      This function initializes the special module functions.
      */
     TargetNS.Init = function (LoginFailed) {
         // Browser is too old

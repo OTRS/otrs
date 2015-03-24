@@ -12,19 +12,19 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Installer
+ * @namespace Core.Installer
+ * @memberof Core
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for Installer.
  */
 Core.Installer = (function (TargetNS) {
-/*
-InstallerDBStart
-*/
     /**
+     * @name CheckDBData
+     * @memberof Core.Installer
      * @function
-     * @return nothing
-     *      This function check the values for the database configuration
+     * @description
+     *      This function check the values for the database configuration.
      */
     TargetNS.CheckDBData = function () {
         $('input[name=Subaction]').val('CheckRequirements');
@@ -36,9 +36,13 @@ InstallerDBStart
 
 
     /**
+     * @private
+     * @name CheckDBDataCallback
+     * @memberof Core.Installer
      * @function
-     * @return nothing
-     *      This function displays the results for the database credentials
+     * @param {Object} json - The server response JSON object.
+     * @description
+     *      This function displays the results for the database credentials.
      */
     function CheckDBDataCallback(json) {
         if (parseInt(json['Successful']) < 1) {
@@ -56,11 +60,12 @@ InstallerDBStart
     };
 
     /**
+     * @name SelectOutboundMailType
+     * @memberof Core.Installer
      * @function
+     * @param {Object} obj - The form object that holds the value that makes fields visible or hidden.
      * @description
      *      This function is used to enable or disable some mail configuration fields.
-     * @param {Object} obj The form object that holds the value that makes fields visible or hidden
-     * @return nothing
      */
     TargetNS.SelectOutboundMailType = function (obj) {
         var value = $(obj).val();
@@ -77,9 +82,12 @@ InstallerDBStart
     };
 
     /**
+     * @name CheckSMTPAuth
+     * @memberof Core.Installer
      * @function
-     * @return nothing
-     *      This function checks the SMTP configuration
+     * @param {Object} obj
+     * @description
+     *      This function checks the SMTP configuration.
      */
     TargetNS.CheckSMTPAuth = function (obj) {
         if ($(obj).is(':checked')) {
@@ -92,9 +100,11 @@ InstallerDBStart
     };
 
     /**
+     * @name SkipMailConfig
+     * @memberof Core.Installer
      * @function
-     * @return nothing
-     *      This function skips the mail configuration
+     * @description
+     *      This function skips the mail configuration.
      */
     TargetNS.SkipMailConfig = function () {
         $('input[name=Skip]').val('1');
@@ -103,9 +113,11 @@ InstallerDBStart
     };
 
     /**
+     * @name CheckMailConfig
+     * @memberof Core.Installer
      * @function
-     * @return nothing
-     *      This function check the mail configuration
+     * @description
+     *      This function checks the mail configuration.
      */
     TargetNS.CheckMailConfig = function () {
         $('input[name=Skip]').val('0');
@@ -117,10 +129,13 @@ InstallerDBStart
     };
 
     /**
-     * @function
      * @private
-     * @return nothing
-     * @description This function shows the mail configuration check result
+     * @name CheckMailConfigCallback
+     * @memberof Core.Installer
+     * @function
+     * @param {Object} json - The server response JSON object.
+     * @description
+     *      This function shows the mail configuration check result.
      */
     function CheckMailConfigCallback(json) {
         if (parseInt(json['Successful']) == 1) {

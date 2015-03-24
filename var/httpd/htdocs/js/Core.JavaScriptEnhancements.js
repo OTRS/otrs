@@ -12,11 +12,12 @@
 (function () {
 
     /**
+     * @name isJQueryObject
+     * @memberof window
      * @function
+     * @returns {Boolean} Returns true if all parameter objects are jQuery objects, false otherwise.
      * @description
      *      This function checks if all given parameter objects are jQuery objects.
-     * @return
-     *      {boolean} Returns true if all parameter objects are jQuery objects
      */
     window.isJQueryObject = function () {
         var I;

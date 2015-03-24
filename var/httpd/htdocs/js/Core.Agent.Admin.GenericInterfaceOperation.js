@@ -14,13 +14,22 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.GenericInterfaceOperation
+ * @namespace Core.Agent.Admin.GenericInterfaceOperation
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the GenericInterface debugger module.
  */
 Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
 
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.GenericInterfaceOperation
+     * @function
+     * @param {Object} Params - Initialization and internationalization parameters.
+     * @description
+     *      This function initialize the module.
+     */
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Operation    = Params.Operation;
@@ -28,6 +37,14 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
         TargetNS.Localization = Params.Localization;
     };
 
+    /**
+     * @name ShowDeleteDialog
+     * @memberof Core.Agent.Admin.GenericInterfaceOperation
+     * @function
+     * @param {Object} Event - The browser event object, e.g. of the clicked DOM element.
+     * @description
+     *      Shows a confirmation dialog to delete the operation.
+     */
     TargetNS.ShowDeleteDialog = function(Event){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteDialogContainer'),

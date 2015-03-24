@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "jquery": true
+    },
+    "rules": {
+        "quotes": 0,
+        "new-cap": 0,
+        "global-strict": 0,
+        "no-alert": 0,
+        "valid-jsdoc": [1, {
+            "requireReturn": false,
+            "requireParamDescription": false,
+            "requireReturnDescription": false
+        }],
+// Disable rules with errors to only check JSDoc at the first step
+// Enable them later one by one to also lint all other errors
+        "no-unused-vars": 0,
+        "no-multi-spaces": 0,
+        "no-native-reassign": 0,
+        "no-shadow": 0,
+        "camelcase": 0,
+        "space-infix-ops": 0,
+        "space-unary-ops": 0,
+        "key-spacing": 0,
+        "comma-spacing": 0,
+        "eol-last": 0,
+        "no-unused-expressions": 0,
+        "no-spaced-func": 0,
+        "consistent-return": 0,
+        "no-undef": 0,
+        "no-eval": 0,
+        "no-catch-shadow": 0,
+        "no-console": 0,
+        "no-use-before-define": 0,
+        "dot-notation": 0,
+        "eqeqeq": 0,
+        "no-extra-semi": 0,
+        "valid-typeof": 0
+    }
+}

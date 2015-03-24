@@ -14,19 +14,23 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.DynamicField
+ * @namespace Core.Agent.Admin.DynamicField
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for the .DynamicField module.
+ *      This namespace contains the special module functions for the DynamicField module.
  */
 Core.Agent.Admin.DynamicField = (function (TargetNS) {
 
     /**
-     * @function
      * @private
-     * @param {Object} Data The data that should be converted
-     * @return {string} query string of the data
-     * @description Converts a given hash into a query string
+     * @name SerializeData
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @returns {String} query string of the data
+     * @param {Object} Data - The data that should be converted.
+     * @description
+     *      Converts a given hash into a query string.
      */
     function SerializeData(Data) {
         var QueryString = '';
@@ -36,7 +40,16 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         return QueryString;
     }
 
-    TargetNS.Redirect = function( FieldType, ObjectType ) {
+    /**
+     * @name Redirect
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @param {String} FieldType - Type of DynamicField.
+     * @param {String} ObjectType
+     * @description
+     *      Redirect to URL based on DynamicField config.
+     */
+    TargetNS.Redirect = function(FieldType, ObjectType) {
         var DynamicFieldsConfig, Action, URL, FieldOrder;
 
         // get configuration
@@ -54,8 +67,14 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         window.location = URL;
     };
 
+    /**
+     * @name ValidationInit
+     * @memberof Core.Agent.Admin.DynamicField
+     * @function
+     * @description
+     *      Adds specific validation rules to the frontend module.
+     */
     TargetNS.ValidationInit = function() {
-
         Core.Form.Validate.AddRule("Validate_Alphanumeric", {
             Validate_Alphanumeric: true
         });
@@ -69,7 +88,6 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         Core.Form.Validate.AddMethod("Validate_PositiveNegativeNumbers", function (Value, Element) {
             return ( /^-?[0-9]+$/.test(Value));
         }, "");
-
     };
 
     return TargetNS;

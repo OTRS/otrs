@@ -14,38 +14,41 @@ Core.UI = Core.UI || {};
 Core.UI.Table = Core.UI.Table || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.TableSort
+ * @namespace Core.UI.Table.Sort
+ * @memberof Core.UI.Table
+ * @author OTRS AG
  * @description
- *      This namespace contains all functions for client side table sorting
+ *      This namespace contains all functions for client side table sorting.
  */
 Core.UI.Table.Sort = (function (TargetNS) {
 
-
     /**
+     * @private
+     * @name CustomTextExtractor
+     * @memberof Core.UI.Table.Sort
      * @function
+     * @returns {String} Extracted text.
+     * @param {DOMObject} $Node - Current node of which the sorting data should be extracted.
      * @description
      *      Custom text extractor. It will look if an hidden field with the class
      *      'SortData' is in the table cell and return its contents.
-     * @param {jQueryObject or DOM object} $Node
-     *      Current node of which the sorting data should be extracted
-     * @return {String} Extracted text.
      */
     function CustomTextExtractor($Node) {
         return $($Node).find('.SortData').val() || '';
     }
 
     /**
+     * @name Init
+     * @memberof Core.UI.Table.Sort
      * @function
+     * @param {jQueryObject} $Table - The table element which should be sorted.
+     * @param {Function} Finished  - An optional function, called after the sorting.
      * @description
      *      This function initializes the table sorting.
      *      If you have cells with special content like dates, you can
      *      put a hidden field with the class 'SortData' in them which contains
      *      a sortable text representation like an ISO date. This will then be
      *      used for the sorting.
-     * @param {jQueryObject} $Table The table element which should be sorted
-     * @param {Function} Finished A optional function, called after the sorting
-     * @return nothing
      */
     TargetNS.Init = function ($Table, Finished) {
         if (isJQueryObject($Table)) {

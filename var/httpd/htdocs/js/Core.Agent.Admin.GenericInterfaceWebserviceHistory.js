@@ -14,19 +14,34 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.GenericInterfaceWebserviceHistory
+ * @namespace Core.Agent.Admin.GenericInterfaceWebserviceHistory
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the GenericInterface WebserviceHistory module.
  */
 Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
 
-
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.GenericInterfaceWebserviceHistory
+     * @function
+     * @param {Object} Params - Initialization and internationalization parameters.
+     * @description
+     *      This function initialize the module.
+     */
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
         TargetNS.Localization = Params.Localization;
     };
 
+    /**
+     * @name GetWebserviceList
+     * @memberof Core.Agent.Admin.GenericInterfaceWebserviceHistory
+     * @function
+     * @description
+     *      Get list of webservices via AJAX..
+     */
     TargetNS.GetWebserviceList = function() {
         var Data = {
             Action: 'AdminGenericInterfaceWebserviceHistory',
@@ -82,6 +97,15 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
         }, 'json');
     };
 
+    /**
+     * @name LoadWebserviceHistoryDetails
+     * @memberof Core.Agent.Admin.GenericInterfaceWebserviceHistory
+     * @function
+     * @param {String} WebserviceHistoryID
+     * @param {String} WebserviceHistoryVersion
+     * @description
+     *      This function initialize the module.
+     */
     TargetNS.LoadWebserviceHistoryDetails = function(WebserviceHistoryID, WebserviceHistoryVersion) {
 
         var Data = {
@@ -133,7 +157,15 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
         }, 'json');
     };
 
-
+    /**
+     * @name ShowRollbackDialog
+     * @memberof Core.Agent.Admin.GenericInterfaceWebserviceHistory
+     * @function
+     * @returns {Boolean} Returns false.
+     * @param {Object} Event - The browser event object, e.g. of the clicked DOM element.
+     * @description
+     *      Shows a dialog to rollback log.
+     */
     TargetNS.ShowRollbackDialog = function(Event){
 
         Core.UI.Dialog.ShowContentDialog(

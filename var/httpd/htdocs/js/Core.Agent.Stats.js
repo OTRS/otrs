@@ -13,16 +13,18 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Stats
+ * @namespace Core.Agent.Stats
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for the Dashboard.
+ *      This namespace contains the special module functions for the statistic module.
  */
 Core.Agent.Stats = (function (TargetNS) {
 
     /**
+     * @name FormatGraphSizeRelation
+     * @memberof Core.Agent.Stats
      * @function
-     * @return nothing
      * @description
      *      Activates the graph size menu if a GD element is selected.
      */
@@ -48,23 +50,26 @@ Core.Agent.Stats = (function (TargetNS) {
     };
 
     /**
+     * @name SelectCheckbox
+     * @memberof Core.Agent.Stats
      * @function
-     * @return nothing
-     *      Selects a checbox by name
-     * @param {Object} The name of the radio button to be selected
+     * @param {String} Name - The name of the radio button to be selected.
+     * @description
+     *      Activate given checkbox.
      */
     TargetNS.SelectCheckbox = function (Name) {
         $('input[type="checkbox"][name=' + Name + ']').prop('checked', true);
     };
 
     /**
+     * @name SelectRadiobutton
+     * @memberof Core.Agent.Stats
      * @function
-     * @return nothing
-     *      Selects a radio button by name and value
-     * @param {Value} The value attribute of the radio button to be selected
-     * @param {Object} The name of the radio button to be selected
+     * @param {String} Value - The value attribute of the radio button to be selected.
+     * @param {String} Name - The name of the radio button to be selected.
+     * @description
+     *      Selects a radio button by name and value.
      */
-
     TargetNS.SelectRadiobutton = function (Value, Name) {
         $('input[type="radio"][name=' + Name + '][value=' + Value + ']').prop('checked', true);
     };

@@ -9,28 +9,33 @@
 
 "use strict";
 
-/**
- * @namespace
- * @description
- *      This is the global namespace
- */
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI
+ * @namespace Core.UI
+ * @memberof Core
+ * @author OTRS AG
  * @description
- *      This namespace contains all UI functions
+ *      This namespace contains all UI functions.
  */
 Core.UI = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name IDGeneratorCount
+     * @memberof Core.UI
+     * @member {Number}
+     * @description
+     *      Counter for automatic HTML element ID generation.
+     */
     var IDGeneratorCount = 0;
 
     /**
+     * @name InitWidgetActionToggle
+     * @memberof Core.UI
      * @function
      * @description
-     *      This function initializes the toggle mechanism for all widgets with a WidgetAction toggle icon
-     * @return nothing
+     *      This function initializes the toggle mechanism for all widgets with a WidgetAction toggle icon.
      */
     TargetNS.InitWidgetActionToggle = function () {
         $(".WidgetAction.Toggle > a")
@@ -52,13 +57,6 @@ Core.UI = (function (TargetNS) {
                 var $WidgetElement = $(this).closest("div.Header").parent('div'),
                     Animate = $WidgetElement.hasClass('Animate'),
                     $that = $(this);
-
-                /**
-                 * @function
-                 * @private
-                 * @return nothing
-                 * @description Interchange classes between Collapsed and Expanded
-                 */
 
                 function ToggleWidget() {
                     $WidgetElement
@@ -84,10 +82,11 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
+     * @name InitMessageBoxClose
+     * @memberof Core.UI
      * @function
      * @description
-     *      This function initializes the close buttons for the message boxes that show server messages
-     * @return nothing
+     *      This function initializes the close buttons for the message boxes that show server messages.
      */
     TargetNS.InitMessageBoxClose = function () {
         $(".MessageBox > a.Close")
@@ -99,11 +98,13 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
+     * @name GetID
+     * @memberof Core.UI
      * @function
+     * @returns {String} ID of the element
+     * @param {jQueryObject} $Element - The HTML element
      * @description
      *      Returns the ID of the Element and creates one for it if nessessary.
-     * @param {jQueryObject} Element
-     * @return {String} ID
      */
     TargetNS.GetID = function ($Element) {
         var ID = $Element.attr('id');
@@ -114,11 +115,13 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
+     * @name ToggleTwoContainer
+     * @memberof Core.UI
      * @function
+     * @param {jQueryObject} $Element1 - First container element.
+     * @param {jQueryObject} $Element2 - Second container element.
      * @description
      *      This functions toggles two Containers with a nice slide effect.
-     * @param {jQueryObject} $Element1 First container element
-     * @param {jQueryObject} $Element1 Second container element
      */
     TargetNS.ToggleTwoContainer = function ($Element1, $Element2) {
         if (isJQueryObject($Element1, $Element2) && $Element1.length && $Element2.length) {
@@ -128,6 +131,16 @@ Core.UI = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name RegisterToggleTwoContainer
+     * @memberof Core.UI
+     * @function
+     * @param {jQueryObject} $ClickedElement
+     * @param {jQueryObject} $Element1 - First container element.
+     * @param {jQueryObject} $Element2 - Second container element.
+     * @description
+     *      Registers click event to toggle the container.
+     */
     TargetNS.RegisterToggleTwoContainer = function ($ClickedElement, $Element1, $Element2) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
             $ClickedElement.click(function () {
@@ -142,6 +155,14 @@ Core.UI = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name ScrollTo
+     * @memberof Core.UI
+     * @function
+     * @param {jQueryObject} $Element
+     * @description
+     *      Scrolls the active window until an element is visible.
+     */
     TargetNS.ScrollTo = function ($Element) {
         if (isJQueryObject($Element) && $Element.length) {
             window.scrollTo(0, $Element.offset().top);
@@ -149,13 +170,14 @@ Core.UI = (function (TargetNS) {
     };
 
     /**
+     * @name InitCheckboxSelection
+     * @memberof Core.UI
      * @function
+     * @param {jQueryObject} $Element - The element selector which describes the element(s) which surround the checkboxes.
      * @description
      *      This function initializes a click event for tables / divs with checkboxes.
      *      If you click in the table cell / div around the checkbox the checkbox will be selected.
      *      A possible MasterAction will not be executed.
-     * @param {jQueryObject} $Element The element selector which describes the element(s) which surround the checkboxes
-     * @return nothing
      */
     TargetNS.InitCheckboxSelection = function ($Element) {
         if (!$Element.length) {
@@ -184,7 +206,17 @@ Core.UI = (function (TargetNS) {
         });
     };
 
-    // this part stolen from wordpress 3, many thanks guys
+    /**
+     * @private
+     * @name ShakeMe
+     * @memberof Core.UI
+     * @function
+     * @param {jQueryObject} $id - The element to shake.
+     * @param {Array} Position - Array of positions where the bo should be moved to.
+     * @param {Number} PostionEnd - The end position.
+     * @description
+     *      "Shakes" the element.
+     */
     function ShakeMe($id, Position, PostionEnd) {
         var PositionStart = Position.shift();
         $id.css('left', PositionStart + 'px');
@@ -200,6 +232,15 @@ Core.UI = (function (TargetNS) {
             catch (e) {}
         }
     }
+
+    /**
+     * @name Shake
+     * @memberof Core.UI
+     * @function
+     * @param {jQueryObject} $id - The element to shake.
+     * @description
+     *      "Shakes" the element.
+     */
     TargetNS.Shake = function ($id) {
         var Position = [15, 30, 15, 0, -15, -30, -15, 0];
         Position = Position.concat(Position.concat(Position));

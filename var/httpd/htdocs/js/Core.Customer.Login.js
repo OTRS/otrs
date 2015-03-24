@@ -13,10 +13,11 @@ var Core = Core || {};
 Core.Customer = Core.Customer || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Customer.Login
+ * @namespace Core.Customer.Login
+ * @memberof Core.Customer
+ * @author OTRS AG
  * @description
- *      This namespace contains all functions for the Customer login
+ *      This namespace contains all functions for the Customer login.
  */
 Core.Customer.Login = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer.Login', 'Core.UI', 'Core.UI')) {
@@ -24,8 +25,11 @@ Core.Customer.Login = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name ToggleLabel
+     * @memberof Core.Customer.Login
      * @function
-     * @param {DOMObject} $PopulatedInput is a filled out input filled
+     * @param {DOMObject} PopulatedInput - DOM representation of an input field
      * @description
      *      This function hides the label of the given field if there is value in the field
      *      or the field has focus, otherwise the label is made visible.
@@ -43,7 +47,10 @@ Core.Customer.Login = (function (TargetNS) {
     }
 
     /**
+     * @name Init
+     * @memberof Core.Customer.Login
      * @function
+     * @param {Object} Options - Options, mainly passed through from the sysconfig
      * @description
      *      This function initializes the login functions.
      *      Time gets tracked in a hidden field.

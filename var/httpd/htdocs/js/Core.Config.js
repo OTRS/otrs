@@ -12,24 +12,44 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Config
+ * @namespace Core.Config
+ * @memberof Core
+ * @author OTRS AG
  * @description
  *      This namespace contains the config options and functions.
  */
 Core.Config = (function (TargetNS) {
+    /**
+     * @private
+     * @name Config
+     * @memberof Core.Config
+     * @member {Object}
+     * @description
+     *      The global config object
+     */
     var Config = {},
+    /**
+     * @private
+     * @name ConfigPrefix
+     * @memberof Core.Config
+     * @member {String}
+     * @description
+     *      The prefix for all config keys to avoid name conflicts
+     */
         ConfigPrefix = 'Config';
 
     if (!Core.Debug.CheckDependency('Core.Config', 'Core.Data', 'Core.Data')) {
         return;
     }
+
     /**
+     * @name Set
+     * @memberof Core.Config
      * @function
-     *      Sets a single option value
-     * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
-     * @param {Object} Value The value of the option. Can be every kind of javascript variable type.
-     * @return nothing
+     * @param {String} Key - The name of the config option (also combined ones like Richtext.Width)
+     * @param {Object} Value - The value of the option. Can be every kind of javascript variable type.
+     * @description
+     *      Sets a single config value.
      */
     TargetNS.Set = function (Key, Value) {
         var Keys = Key.split('.'),
@@ -55,11 +75,14 @@ Core.Config = (function (TargetNS) {
     };
 
     /**
+     * @name Get
+     * @memberof Core.Config
      * @function
-     *      Gets a single option value
-     * @param {String} Key The name of the config option (also combined ones like Richtext.Width)
-     * @param {Object} DefaultValue (Optional) If nothing is saved in the config, return this default value
-     * @return {Object} The value of the option. Can be every kind of javascript variable type. Returns undefined if setting could not be found.
+     * @returns {Object} The value of the option. Can be every kind of javascript variable type. Returns undefined if setting could not be found.
+     * @param {String} Key - The name of the config option (also combined ones like Richtext.Width).
+     * @param {Object} [DefaultValue] - If nothing is saved in the config, return this default value.
+     * @description
+     *      Gets a single config value.
      */
     TargetNS.Get = function (Key, DefaultValue) {
         var Keys = Key.split('.'),
@@ -88,11 +111,13 @@ Core.Config = (function (TargetNS) {
     };
 
     /**
+     * @name AddConfig
+     * @memberof Core.Config
      * @function
-     * @return nothing
-     *      This function includes the given data into the config hash
-     * @param {Object} Data The config data to include as a javascript object
-     * @param {String} Key The key in the config where the data structure is saved to. If undefined, the Data is added to the root of the hash.
+     * @param {Object} Data - The config data to include as a javascript object
+     * @param {String} Key - The key in the config where the data structure is saved to. If undefined, the Data is added to the root of the hash.
+     * @description
+     *      This function includes the given data into the config hash.
      */
     TargetNS.AddConfig = function (Data, Key) {
         var ConfigOptions,
@@ -138,10 +163,10 @@ Core.Config = (function (TargetNS) {
      */
 
     /**
-     * @field
-     * @description This variable contains a hash of blacklisted browsers
-     *      of the agent interface and their recognition functions.
-     *      Each function returns true, if the browser is detected.
+     * @description
+     *     This variable contains a hash of blacklisted browsers
+     *     of the agent interface and their recognition functions.
+     *     Each function returns true, if the browser is detected.
      */
     TargetNS.AddConfig({
         'Microsoft Internet Explorer 5.5': function () {
@@ -171,10 +196,10 @@ Core.Config = (function (TargetNS) {
     }, 'BrowserBlackList::Agent');
 
     /**
-     * @field
-     * @description This variable contains a hash of blacklisted browsers
-     *      of the customer interface and their recognition functions.
-     *      Each function returns true, if the browser is detected.
+     * @description
+     *     This variable contains a hash of blacklisted browsers
+     *     of the customer interface and their recognition functions.
+     *     Each function returns true, if the browser is detected.
      */
     TargetNS.AddConfig({
         'Microsoft Internet Explorer 5.5': function () {

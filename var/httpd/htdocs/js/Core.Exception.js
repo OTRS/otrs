@@ -12,15 +12,20 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Exception
+ * @namespace Core.Exception
+ * @memberof Core
+ * @author OTRS AG
  * @description
  *      This namespace contains the functions for handling application errors.
  */
 Core.Exception = (function (TargetNS) {
 
     /**
-     * @function Initialization code.
+     * @name Init
+     * @memberof Core.Exception
+     * @function
+     * @description
+     *      Initializes the module functionality.
      */
     TargetNS.Init = function () {
         /*
@@ -33,12 +38,15 @@ Core.Exception = (function (TargetNS) {
             TargetNS.AboutToLeave = true;
         });
     };
+
     /**
+     * @name ApplicationError
+     * @memberof Core.Exception
      * @function
-     *      This is the constructor for the application error object
-     * @param {String} ErrorMessage The error message
-     * @param {String} ErrorType The error type
-     * @return nothing
+     * @param {String} ErrorMessage - The error message
+     * @param {String} ErrorType - The error type
+     * @description
+     *      This is the constructor for the application error object.
      */
     TargetNS.ApplicationError = function (ErrorMessage, ErrorType) {
         var Type = ErrorType,
@@ -50,44 +58,67 @@ Core.Exception = (function (TargetNS) {
             Type = DefaultType;
         }
 
+        /**
+         * @name GetType
+         * @memberof Core.Exception.ApplicationError
+         * @function
+         * @returns {String} Type of error.
+         * @description
+         *      Returns the type of error this ErrorObject is of (e.g. InternalError, TypeError, CommunicationError).
+         */
         this.GetType = function () {
             return Type;
         };
 
+        /**
+         * @name GetMessage
+         * @memberof Core.Exception.ApplicationError
+         * @function
+         * @returns {String} Error message.
+         * @description
+         *      Returns the error message of theErrorObject.
+         */
         this.GetMessage = function () {
             return Message;
         };
     };
 
     /**
+     * @name Throw
+     * @memberof Core.Exception
      * @function
-     *      This function throws an application error
-     * @param {String} ErrorMessage The error message
-     * @param {String} ErrorType The error type
-     * @return nothing
+     * @param {String} ErrorMessage - The error message
+     * @param {String} ErrorType - The error type
+     * @description
+     *      This function throws an application error.
      */
     TargetNS.Throw = function (ErrorMessage, ErrorType) {
         throw new TargetNS.ApplicationError(ErrorMessage, ErrorType);
     };
 
     /**
+     * @name Throw
+     * @memberof Core.Exception
      * @function
-     *      This function returns true, if the given ErrorObject is an ApplicationError of the given Type
-     * @param {Object} ErrorObject The error object
-     * @param {String} ErrorType The error type to be checked
-     * @return {Boolean} Returns true, if the ErrorObject is an ApplicationError object and has the type ErrorType
+     * @returns {Boolean} True, if ErrorObject is of given type, false otherwise.
+     * @param {Object} ErrorObject - The error object
+     * @param {String} ErrorType - The error type to be checked
+     * @description
+     *      Checks if the given ErrorObject is an ApplicationError of the given Type.
      */
     TargetNS.IsErrorOfType = function (ErrorObject, ErrorType) {
         return  (ErrorObject instanceof TargetNS.ApplicationError && ErrorObject.GetType === ErrorType);
     };
 
     /**
+     * @name Throw
+     * @memberof Core.HandleFinalError
      * @function
-     *      This function handles the given error object (used as last possibility to catch the error)
-     * @param {Object} Error The error object
-     * @param {String} Trace (Optional) A string containing the stacktrace
-     * @return {Boolean} If the error could be handled, returns if it was shown to the user or not.
-     *      If the error could not be handled, this method will rethrow it.
+     * @returns {Boolean} If the error could be handled, returns if it was shown to the user or not.
+     * @param {Object} ErrorObject - The error object
+     * @param {String} [Trace] - A string containing the stacktrace
+     * @description
+     *      This function handles the given error object (used as last possibility to catch the error).
      */
     TargetNS.HandleFinalError = function (ErrorObject, Trace) {
         var UserErrorMessage = 'An error occurred! Do you want to see the complete error message?';
@@ -120,12 +151,14 @@ Core.Exception = (function (TargetNS) {
     };
 
     /**
+     * @name ShowError
+     * @memberof Core.HandleFinalError
      * @function
-     *      This function shows an error message in the log
-     * @param {string} ErrorType The error type
-     * @param {string} ErrorMessage The error message
-     * @param {string} Trace (Optional) The stacktrace
-     * @return nothing
+     * @param {String} ErrorMessage - The error message.
+     * @param {String} ErrorType - The error type.
+     * @param {String} [Trace] - The stacktrace.
+     * @description
+     *      This function shows an error message in the log.
      */
     TargetNS.ShowError = function (ErrorMessage, ErrorType, Trace) {
         Core.Debug.Log('[ERROR] ' + ErrorType + ': ' + ErrorMessage);

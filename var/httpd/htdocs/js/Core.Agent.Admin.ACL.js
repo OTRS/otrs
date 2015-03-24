@@ -14,15 +14,39 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.ACL
+ * @namespace Core.Agent.Admin
+ * @memberof Core.Agent
+ * @author OTRS AG
+ */
+
+/**
+ * @namespace Core.Agent.Admin.ACL
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the ACL module.
  */
 Core.Agent.Admin.ACL = (function (TargetNS) {
 
+    /**
+     * @private
+     * @name KeysWithoutSubkeys
+     * @memberof Core.Agent.Admin.ACL
+     * @member {Array}
+     * @description
+     *      KeysWithoutSubkeys
+     */
     var KeysWithoutSubkeys = [ 'ActivityDialog', 'Action', 'Process' ];
 
+    /**
+     * @private
+     * @name ShowDeleteACLConfirmationDialog
+     * @memberof Core.Agent.Admin.ACL
+     * @function
+     * @param {jQueryObject} $Element - The confirmation dialog template in the HTML.
+     * @description
+     *      Shows a confirmation dialog to delete the ACL entry.
+     */
     function ShowDeleteACLConfirmationDialog($Element) {
         var DialogElement = $Element.data('dialog-element'),
             DialogTitle = $Element.data('dialog-title'),
@@ -74,6 +98,16 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         );
     }
 
+    /**
+     * @name RestoreACLData
+     * @memberof Core.Agent.Admin.ACL
+     * @function
+     * @returns {Boolean} Returns false, if $DataObj.val() is not defined
+     * @param {jQueryObject} $DataObj
+     * @param {jQueryObject} $TargetObj
+     * @description
+     *      Build up the DOM from the stored ACL data.
+     */
     TargetNS.RestoreACLData = function($DataObj, $TargetObj) {
 
         var JSONString = $DataObj.val(),
@@ -249,6 +283,15 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name AddItem
+     * @memberof Core.Agent.Admin.ACL
+     * @function
+     * @param {jQueryObject} $Object
+     * @param {String} Type
+     * @description
+     *      Adds an item to the list.
+     */
     TargetNS.AddItem = function($Object, Type) {
 
         var AlreadyAdded = false,
@@ -400,6 +443,16 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name CollectACLData
+     * @memberof Core.Agent.Admin.ACL
+     * @function
+     * @returns {Object} ACL data structure.
+     * @param {jQueryObject} $ItemObj
+     * @param {String} Type
+     * @description
+     *      Collects the ACL data.
+     */
     TargetNS.CollectACLData = function($ItemObj, Type) {
 
         var Structure = {},
@@ -460,6 +513,13 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         return Structure;
     };
 
+    /**
+     * @name InitACLEdit
+     * @memberof Core.Agent.Admin.ACL
+     * @function
+     * @description
+     *      Initializes the ACL editor.
+     */
     TargetNS.InitACLEdit = function () {
 
         $('#ACLDelete').bind('click.ACLDelete', function (Event) {

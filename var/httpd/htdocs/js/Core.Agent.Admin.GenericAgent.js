@@ -14,25 +14,40 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Admin = Core.Agent.Admin || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.Admin.GenericAgentEvent
+ * @namespace Core.Agent.Admin.GenericAgentEvent
+ * @memberof Core.Agent.Admin
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the GenericInterface job module.
  */
 Core.Agent.Admin.GenericAgent = (function (TargetNS) {
 
     /**
-     * @variable
      * @private
-     *     This variable stores the parameters that are passed from the tt and contain all the data that the dialog needs.
+     * @name DialogData
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @member {Array}
+     * @description
+     *     This variable stores the parameters that are passed from the TT and contain all the data that the dialog needs.
      */
     var DialogData = [];
 
     /**
+     * @name Localization
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @member {Array}
+     * @description
+     *     The localization array for translation strings.
+     */
+    TargetNS.Localization = undefined;
+
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
-     * @param {Object} Params, initialization and internationalization parameters.
-     * @return nothing
-     *      This function initialize correctly all other function according to the local language
+     * @param {Object} Params - Initialization and internationalization parameters.
+     * @description
+     *      This function initialize correctly all other function according to the local language.
      */
     TargetNS.Init = function (Params) {
 
@@ -55,6 +70,14 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         });
     };
 
+    /**
+     * @name ToogleEventSelect
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @function
+     * @param {String} SelectedEventType - Event Type.
+     * @description
+     *      Toggles the event selection.
+     */
     TargetNS.ToogleEventSelect = function (SelectedEventType) {
         $('.EventList').addClass('Hidden');
         $('#' + SelectedEventType + 'Event').removeClass('Hidden');
@@ -62,11 +85,13 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
 
 
     /**
+     * @name AddEvent
+     * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
-     * @param {String} EventType, the type of event trigger to assign to an jobr
-     * i.e ticket or article
-     * @return nothing
-     *      This function calls the AddEvent action on the server
+     * @returns {Boolean} Returns false, if event already exists.
+     * @param {String} EventType - The type of event trigger to assign to a job i.e. ticket or article.
+     * @description
+     *      This function calls the AddEvent action on the server.
      */
     TargetNS.AddEvent = function (EventType) {
 
@@ -110,10 +135,14 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
     };
 
     /**
+     * @name ShowDeleteEventDialog
+     * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
-     * @param {EventObject} event object of the clicked element.
-     * @return nothing
-     *      This function shows a confirmation dialog with 2 buttons
+     * @param {EventObject} Event - Object of the clicked element.
+     * @param {jQueryObject} Object
+     * @param {String} EventName
+     * @description
+     *      This function shows a confirmation dialog with 2 buttons.
      */
     TargetNS.ShowDeleteEventDialog = function(Event, Object, EventName){
         var LocalDialogData;
@@ -147,12 +176,13 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
     };
 
     /**
+     * @name ShowDuplicatedDialog
+     * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
-     * @param {string} Field ID object of the element should receive the focus on close event.
-     * @return nothing
+     * @description
      *      This function shows an alert dialog for duplicated entries.
      */
-    TargetNS.ShowDuplicatedDialog = function(Field){
+    TargetNS.ShowDuplicatedDialog = function() {
         Core.UI.Dialog.ShowAlert(
             TargetNS.Localization.DuplicateEventTitle,
             TargetNS.Localization.DuplicateEventMsg,

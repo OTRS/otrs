@@ -13,25 +13,44 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.CustomerSearch
+ * @namespace Core.Agent.CustomerSearch
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
  *      This namespace contains the special module functions for the customer search.
  */
 Core.Agent.CustomerSearch = (function (TargetNS) {
+    /**
+     * @private
+     * @name BackupData
+     * @memberof Core.Agent.CustomerSearch
+     * @member {Object}
+     * @description
+     *      Saves Customer data for later restore.
+     */
     var BackupData = {
-        CustomerInfo: '',
-        CustomerEmail: '',
-        CustomerKey: ''
-    },
-        // Needed for the change event of customer fields, if ActiveAutoComplete is false (disabled)
+            CustomerInfo: '',
+            CustomerEmail: '',
+            CustomerKey: ''
+        },
+    /**
+     * @private
+     * @name CustomerFieldChangeRunCount
+     * @memberof Core.Agent.CustomerSearch
+     * @member {Object}
+     * @description
+     *      Needed for the change event of customer fields, if ActiveAutoComplete is false (disabled).
+     */
         CustomerFieldChangeRunCount = {};
 
     /**
-     * @function
      * @private
-     * @return nothing
-     *      This function get customer data for customer info table
+     * @name GetCustomerInfo
+     * @memberof Core.Agent.CustomerSearch
+     * @function
+     * @param {String} CustomerUserID
+     * @description
+     *      This function gets customer data for customer info table.
      */
     function GetCustomerInfo(CustomerUserID) {
         var Data = {
@@ -67,10 +86,14 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     *      This function get customer tickets
+     * @name GetCustomerTickets
+     * @memberof Core.Agent.CustomerSearch
+     * @function
+     * @param {String} CustomerUserID
+     * @param {String} CustomerID
+     * @description
+     *      This function gets customer tickets.
      */
     function GetCustomerTickets(CustomerUserID, CustomerID) {
         // check if customer tickets should be shown
@@ -86,10 +109,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         };
 
         /**
-         * @function
          * @private
-         * @return nothing
-         *      This function replace and show customer ticket links
+         * @name ReplaceCustomerTicketLinks
+         * @memberof Core.Agent.CustomerSearch.GetCustomerTickets
+         * @function
+         * @returns {Boolean} Returns false.
+         * @description
+         *      This function replaces and shows customer ticket links.
          */
         function ReplaceCustomerTicketLinks() {
             var ResizeTimeoutWindow;
@@ -142,10 +168,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name CheckPhoneCustomerCountLimit
+     * @memberof Core.Agent.CustomerSearch
      * @function
+     * @description
      *      In AgentTicketPhone, this checks if more than one entry is allowed
      *      in the customer list and blocks/unblocks the autocomplete field as needed.
-     * @return nothing
      */
     function CheckPhoneCustomerCountLimit() {
 
@@ -169,10 +198,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     }
 
     /**
+     * @private
+     * @name Init
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @param {jQueryObject} $Element The jQuery object of the input field with autocomplete
-     * @return nothing
-     *      This function initializes the special module functions
+     * @param {jQueryObject} $Element - The jQuery object of the input field with autocomplete.
+     * @description
+     *      Initializes the module.
      */
     TargetNS.Init = function ($Element) {
         // get customer tickets for AgentTicketCustomer
@@ -305,12 +337,16 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     }
 
     /**
+     * @name AddTicketCustomer
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @param {String} CustomerValue The readable customer identifier.
-     * @param {String} Customerkey on system.
-     * @param {String} SetAsTicketCustomer set this customer as main ticket customer.
-     * @return nothing
-     *      This function add a new ticket customer
+     * @returns {Boolean} Returns false.
+     * @param {String} Field
+     * @param {String} CustomerValue - The readable customer identifier.
+     * @param {String} CustomerKey - Customer key on system.
+     * @param {String} SetAsTicketCustomer -  Set this customer as main ticket customer.
+     * @description
+     *      This function adds a new ticket customer
      */
     TargetNS.AddTicketCustomer = function (Field, CustomerValue, CustomerKey, SetAsTicketCustomer) {
 
@@ -440,10 +476,12 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     };
 
     /**
+     * @name RemoveCustomerTicket
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @param {jQueryObject} JQuery object used to as base to delete it's parent.
-     * @return nothing
-     *      This function removes a customer ticket entry
+     * @param {jQueryObject} Object - JQuery object used as base to delete it's parent.
+     * @description
+     *      This function removes a customer ticket entry.
      */
     TargetNS.RemoveCustomerTicket = function (Object) {
         var TicketCustomerIDs = 0,
@@ -479,12 +517,13 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     };
 
     /**
+     * @name ResetCustomerInfo
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @return nothing
-     *      This function clear all selected customer info
+     * @description
+     *      This function clears all selected customer info.
      */
     TargetNS.ResetCustomerInfo = function () {
-
             $('#SelectedCustomerUser').val('');
             $('#CustomerUserID').val('');
             $('#CustomerID').val('');
@@ -496,10 +535,12 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     };
 
     /**
+     * @name ReloadCustomerInfo
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @param {String} Customerkey on system.
-     * @return nothing
-     *      This function reloads info for selected customer
+     * @param {String} CustomerKey
+     * @description
+     *      This function reloads info for selected customer.
      */
     TargetNS.ReloadCustomerInfo = function (CustomerKey) {
 
@@ -514,9 +555,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     };
 
     /**
+     * @name InitCustomerField
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @return nothing
-     *      This function initializes the customer fields
+     * @description
+     *      This function initializes the customer fields.
      */
     TargetNS.InitCustomerField = function () {
 
@@ -589,9 +632,11 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     };
 
     /**
+     * @name ShowDuplicatedDialog
+     * @memberof Core.Agent.CustomerSearch
      * @function
-     * @param {string} Field ID object of the element should receive the focus on close event.
-     * @return nothing
+     * @param {String} Field - ID object of the element should receive the focus on close event.
+     * @description
      *      This function shows an alert dialog for duplicated entries.
      */
     TargetNS.ShowDuplicatedDialog = function(Field){

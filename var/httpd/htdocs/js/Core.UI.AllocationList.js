@@ -13,10 +13,11 @@ var Core = Core || {};
 Core.UI = Core.UI || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.UI.AllocationList
+ * @namespace Core.UI.AllocationList
+ * @memberof Core.UI
+ * @author OTRS AG
  * @description
- *      Support for Allocation Lists (sortable lists)
+ *      Support for Allocation Lists (sortable lists).
  */
 Core.UI.AllocationList = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.UI.AllocationList', '$([]).sortable', 'jQuery UI sortable')) {
@@ -24,14 +25,14 @@ Core.UI.AllocationList = (function (TargetNS) {
     }
 
     /**
+     * @name GetResult
+     * @memberof Core.UI.AllocationList
      * @function
+     * @return {Array} An array of values defined by DataAttribute.
+     * @param {String} ResultListSelector - The selector for the list which will be evaluated for the result.
+     * @param {String} DataAttribute - The data attribute to determine the selection.
      * @description
-     *      gets the result of an allocation list.
-     * @param {String} ResultListSelector
-     *      The selector for the list which will be evaluated for the result
-     * @param {String} DataAttribute
-     *      The data attribute to determine the selection
-     * @return {Array} An array of values defined by DataAttribute
+     *      Gets the result of an allocation list.
      */
     TargetNS.GetResult = function (ResultListSelector, DataAttribute) {
         var $List = $(ResultListSelector),
@@ -52,18 +53,16 @@ Core.UI.AllocationList = (function (TargetNS) {
     };
 
     /**
+     * @name Init
+     * @memberof Core.UI.AllocationList
      * @function
+     * @param {String} ListSelector - The selector for the lists to initialize
+     * @param {String} ConnectorSelector - The selector for the connection (dnd), probably a class
+     * @param {Function} ReceiveCallback - The Callback which is called if a list receives an element
+     * @param {Function} RemoveCallback - The Callback which is called if an element is removed from a list
+     * @param {Function} SortStopCallback - The Callback which is called if the sorting has stopped.
      * @description
      *      Initializes an allocation list.
-     * @param {String} ListSelector
-     *      The selector for the lists to initialize
-     * @param {String} ConnectorSelector
-     *      The selector for the connection (dnd), probably a class
-     * @param {Function} ReceiveCallback
-     *      The Callback which is called if a list receives an element
-     * @param {Function} RemoveCallback
-     *      The Callback which is called if an element is removed from a list
-     * @return nothing
      */
     TargetNS.Init = function (ListSelector, ConnectorSelector, ReceiveCallback, RemoveCallback, SortStopCallback) {
         var $Lists = $(ListSelector);

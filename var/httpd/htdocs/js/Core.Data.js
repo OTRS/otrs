@@ -12,20 +12,23 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Data
+ * @namespace Core.Data
+ * @memberof Core
+ * @author OTRS AG
  * @description
- *      Provides functions for setting and getting data (objects) to DOM elements
+ *      Provides functions for setting and getting data (objects) to and from DOM elements.
  */
 Core.Data = (function (TargetNS) {
 
     /**
+     * @name Set
+     * @memberof Core.Data
      * @function
+     * @param {jQueryObject} $Element - jquery object.
+     * @param {String} Name - The name of the object, which can be referenced to get the data again (-> the variable name).
+     * @param {Object} Object - The javascript data you want to save (any type of javascript object).
      * @description
-     *      Save object data to an element
-     * @param {jQueryObject} $Element jquery object
-     * @param {String} Name The name of the object, which can be referenced to get the data again (-> the variable name)
-     * @param {Object} Object The javascript data you want to save (any type of javascript object)
+     *      Save object data to an element.
      */
     TargetNS.Set = function ($Element, Name, Object) {
         if (isJQueryObject($Element)) {
@@ -34,12 +37,14 @@ Core.Data = (function (TargetNS) {
     };
 
     /**
+     * @name Get
+     * @memberof Core.Data
      * @function
+     * @returns {Object} The stored data or an empty object on failure.
+     * @param {jQueryObject} $Element - jquery object.
+     * @param {String} Name - The name of the object, which can be referenced to get the data again (-> the variable name).
      * @description
-     *      Retrieve data from dom element
-     * @param {jQueryObject} $Element jquery object
-     * @param {String} Name The name of the object, which can be referenced to get the data again (-> the variable name)
-     * @return {Object} The stored data or an empty object on failure
+     *      Retrieve data from dom element.
      */
     TargetNS.Get = function ($Element, Name) {
         var Object;
@@ -56,12 +61,14 @@ Core.Data = (function (TargetNS) {
     };
 
     /**
+     * @name CompareObject
+     * @memberof Core.Data
      * @function
+     * @returns {Boolean} True if objects are equal, false otherwise.
+     * @param {Object} ObjectOne - The object which should be compared
+     * @param {Object} ObjectTwo - The object which should be compared
      * @description
-     *      This function compares 2 JSONObjects
-     * @param {ObjectA} ObjectOne JSONObject The object which should be compared
-     * @param {ObjectB} ObjectTwo JSONObject The object which should be compared
-     * @return {Boolean} True or False Value
+     *      This function compares 2 JS Objects (based on their keys and values).
      */
     TargetNS.CompareObject = function (ObjectOne, ObjectTwo) {
         var Key;
@@ -109,11 +116,13 @@ Core.Data = (function (TargetNS) {
     };
 
     /**
+     * @name CopyObject
+     * @memberof Core.Data
      * @function
+     * @returns {Object} The copied object.
+     * @param {Object}  Data - The object which should be copied
      * @description
-     *      This function creates a copy of an object
-     * @param {Object}  Data The object which should be copied
-     * @return {Object} The new object
+     *      This function creates a real copy of an object.
      */
     TargetNS.CopyObject = function (Data) {
         var Key = '',

@@ -12,8 +12,14 @@
 var Core = Core || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent
+ * @namespace Core
+ * @author OTRS AG
+ */
+
+/**
+ * @namespace Core.Agent
+ * @memberof Core
+ * @author OTRS AG
  * @description
  *      This namespace contains the config options and functions.
  */
@@ -38,10 +44,12 @@ Core.Agent = (function (TargetNS) {
     }
 
     /**
-     * @function
      * @private
-     * @return nothing
-     *      This function initializes the main navigation
+     * @name InitNavigation
+     * @memberof Core.Agent
+     * @function
+     * @description
+     *      This function initializes the main navigation.
      */
     function InitNavigation() {
         /*
@@ -55,20 +63,27 @@ Core.Agent = (function (TargetNS) {
             NavigationResizeTimeout;
 
         /**
-         * @function
          * @private
-         * @return nothing
-         *      This function sets the Timeout for closing a subnav
+         * @name CreateSubnavCloseTimeout
+         * @memberof Core.Agent.InitNavigation
+         * @function
+         * @param {jQueryObject} $Element
+         * @param {Function} TimeoutFunction
+         * @description
+         *      This function sets the Timeout for closing a subnav.
          */
         function CreateSubnavCloseTimeout($Element, TimeoutFunction) {
             NavigationTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationDuration);
         }
 
         /**
-         * @function
          * @private
-         * @return nothing
-         *      This function clears the Timeout for a subnav
+         * @name ClearSubnavCloseTimeout
+         * @memberof Core.Agent.InitNavigation
+         * @function
+         * @param {jQueryObject} $Element
+         * @description
+         *      This function clears the Timeout for a subnav.
          */
         function ClearSubnavCloseTimeout($Element) {
             if (typeof NavigationTimer[$Element.attr('id')] !== 'undefined') {
@@ -77,20 +92,27 @@ Core.Agent = (function (TargetNS) {
         }
 
         /**
-         * @function
          * @private
-         * @return nothing
-         *      This function sets the Timeout for closing a subnav
+         * @name CreateSubnavOpenTimeout
+         * @memberof Core.Agent.InitNavigation
+         * @function
+         * @param {jQueryObject} $Element
+         * @param {Function} TimeoutFunction
+         * @description
+         *      This function sets the Timeout for closing a subnav.
          */
         function CreateSubnavOpenTimeout($Element, TimeoutFunction) {
             NavigationHoverTimer[$Element.attr('id')] = setTimeout(TimeoutFunction, NavigationHoverDuration);
         }
 
         /**
-         * @function
          * @private
-         * @return nothing
-         *      This function clears the Timeout for a subnav
+         * @name ClearSubnavOpenTimeout
+         * @memberof Core.Agent.InitNavigation
+         * @function
+         * @param {jQueryObject} $Element
+         * @description
+         *      This function clears the Timeout for a subnav.
          */
         function ClearSubnavOpenTimeout($Element) {
             if (typeof NavigationHoverTimer[$Element.attr('id')] !== 'undefined') {
@@ -251,6 +273,17 @@ Core.Agent = (function (TargetNS) {
         });
     }
 
+
+    /**
+     * @private
+     * @name NavigationBarShowSlideButton
+     * @memberof Core.Agent
+     * @function
+     * @param {String} Direction Right | Left
+     * @param {Number} Difference
+     * @description
+     *      Show slide button, if navigation is wider than the screen.
+     */
     function NavigationBarShowSlideButton(Direction, Difference) {
 
         var Opposites = (Direction === 'Right') ? 'Left' : 'Right',
@@ -321,10 +354,12 @@ Core.Agent = (function (TargetNS) {
     }
 
     /**
+     * @name ReorderNavigationItems
+     * @memberof Core.Agent
      * @function
-     * @private
-     * @return nothing
-     *      This function re-orders the navigation items based on the users preferences
+     * @param {Array} NavbarCustomOrderItems
+     * @description
+     *      This function re-orders the navigation items based on the users preferences.
      */
     TargetNS.ReorderNavigationItems = function(NavbarCustomOrderItems) {
 
@@ -363,6 +398,15 @@ Core.Agent = (function (TargetNS) {
         $('#Navigation').hide().css('visibility', 'visible').show();
     };
 
+    /**
+     * @private
+     * @name ToolBarIsAside
+     * @memberof Core.Agent
+     * @function
+     * @returns {Boolean} true, if toolbar is next to navigation bar, false otherwise.
+     * @description
+     *      Checks if the toolbar is next to the navigation bar.
+     */
     function ToolBarIsAside() {
 
         // the following needs to be the case if the Toolbar is next to the
@@ -384,8 +428,11 @@ Core.Agent = (function (TargetNS) {
     }
 
     /**
+     * @name ResizeNavigationBar
+     * @memberof Core.Agent
      * @function
-     * @return nothing
+     * @param {Boolean} RealResizeEvent
+     * @description
      *      This function checks if the navigation bar needs to be resized and equipped
      *      with slider navigation buttons. This can only happen if there are too many
      *      navigation icons.
@@ -447,13 +494,30 @@ Core.Agent = (function (TargetNS) {
         }
     };
 
+    /**
+     * @name SupportedBrowser
+     * @memberof Core.Agent
+     * @member {Boolean}
+     * @description
+     *     Indicates a supported browser.
+     */
     TargetNS.SupportedBrowser = true;
+
+    /**
+     * @name IECompatibilityMode
+     * @memberof Core.Agent
+     * @member {Boolean}
+     * @description
+     *     IE Compatibility Mode is active.
+     */
     TargetNS.IECompatibilityMode = false;
 
     /**
+     * @name Init
+     * @memberof Core.Agent
      * @function
-     * @return nothing
-     *      This function initializes the application and executes the needed functions
+     * @description
+     *      This function initializes the application and executes the needed functions.
      */
     TargetNS.Init = function () {
         TargetNS.SupportedBrowser = Core.App.BrowserCheck('Agent');
@@ -482,12 +546,14 @@ Core.Agent = (function (TargetNS) {
     };
 
     /**
+     * @name PreferencesUpdate
+     * @memberof Core.Agent
      * @function
+     * @returns {Boolean} returns true.
+     * @param {jQueryObject} Key - The name of the setting.
+     * @param {jQueryObject} Value - The value of the setting.
      * @description
-     *      This function set and session and preferences setting at runtime
-     * @param {jQueryObject} Key the name of the setting
-     * @param {jQueryObject} Value the value of the setting
-     * @return nothing
+     *      This function sets session and preferences setting at runtime.
      */
     TargetNS.PreferencesUpdate = function (Key, Value) {
         var URL = Core.Config.Get('Baselink'),
@@ -503,8 +569,10 @@ Core.Agent = (function (TargetNS) {
     };
 
     /**
+     * @name CheckSessionExpiredAndReload
+     * @memberof Core.Agent
      * @function
-     * @return nothing
+     * @description
      *      This function reload the page if the session is over and a login form is showed in some part of the current screen.
      */
     TargetNS.CheckSessionExpiredAndReload = function () {

@@ -13,10 +13,11 @@ var Core = Core || {};
 Core.Agent = Core.Agent || {};
 
 /**
- * @namespace
- * @exports TargetNS as Core.Agent.TableFilters
+ * @namespace Core.Agent.TableFilters
+ * @memberof Core.Agent
+ * @author OTRS AG
  * @description
- *      This namespace contains the special module functions for the Dashboard.
+ *      This namespace contains the special module functions for the table filters.
  */
 Core.Agent.TableFilters = (function (TargetNS) {
 
@@ -28,9 +29,12 @@ Core.Agent.TableFilters = (function (TargetNS) {
     }
 
     /**
+     * @name InitCustomerIDAutocomplete
+     * @memberof Core.Agent.TableFilters
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @description
+     *      Initialize autocompletion for CustomerID.
      */
     TargetNS.InitCustomerIDAutocomplete = function ($Input) {
         $Input.autocomplete({
@@ -81,10 +85,12 @@ Core.Agent.TableFilters = (function (TargetNS) {
     };
 
     /**
+     * @name InitCustomerUserAutocomplete
+     * @memberof Core.Agent.TableFilters
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @description
+     *      Initialize autocompletion for Customer User.
      */
     TargetNS.InitCustomerUserAutocomplete = function ($Input) {
         $Input.autocomplete({
@@ -135,10 +141,13 @@ Core.Agent.TableFilters = (function (TargetNS) {
     };
 
     /**
+     * @name InitUserAutocomplete
+     * @memberof Core.Agent.TableFilters
      * @function
-     * @param {jQueryObject} $Input Input element to add auto complete to
-     * @param {String} Subaction Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
-     * @return nothing
+     * @param {jQueryObject} $Input - Input element to add auto complete to.
+     * @param {String} Subaction  - Subaction to execute, "SearchCustomerID" or "SearchCustomerUser"
+     * @description
+     *      Initialize autocompletion for User.
      */
     TargetNS.InitUserAutocomplete = function ($Input, Subaction) {
         $Input.autocomplete({
@@ -189,11 +198,12 @@ Core.Agent.TableFilters = (function (TargetNS) {
         });
     };
 
-
     /**
+     * @name Init
+     * @memberof Core.Agent.TableFilters
      * @function
-     * @return nothing
-     *      This function initializes the special module functions
+     * @description
+     *      This function initializes the special module functions.
      */
     TargetNS.Init = function () {
             // Initiate allocation list
@@ -202,11 +212,14 @@ Core.Agent.TableFilters = (function (TargetNS) {
 
 
     /**
-     * @function
      * @private
-     * @param {string} FieldID Id of the field which is updated via ajax
-     * @param {string} Show Show or hide the AJAX loader image
-     * @description Shows and hides an ajax loader for every element which is updates via ajax
+     * @name UpdateAllocationList
+     * @memberof Core.Agent.TableFilters
+     * @function
+     * @param {Object} Event
+     * @param {Object} UI - jQuery UI object
+     * @description
+     *      Update allocation list entries.
      */
     function UpdateAllocationList(Event, UI) {
 
@@ -235,12 +248,13 @@ Core.Agent.TableFilters = (function (TargetNS) {
     }
 
     /**
+     * @name SetAllocationList
+     * @memberof Core.Agent.TableFilters
      * @function
-     * @return nothing
-     *      This function binds a click event on an html element to update the preferences of the given dahsboard widget
-     * @param {jQueryObject} $ClickedElement The jQuery object of the element(s) that get the event listener
-     * @param {string} ElementID The ID of the element whose content should be updated with the server answer
-     * @param {jQueryObject} $Form The jQuery object of the form with the data for the server request
+     * @param {Object} Event
+     * @param {Object} UI - jQuery UI object
+     * @description
+     *      Initialize allocation list.
      */
     TargetNS.SetAllocationList = function (Event, UI) {
         $('.AllocationListContainer').each(function() {
@@ -283,14 +297,15 @@ Core.Agent.TableFilters = (function (TargetNS) {
         });
     };
 
-
     /**
+     * @name RegisterUpdatePreferences
+     * @memberof Core.Agent.TableFilters
      * @function
-     * @return nothing
-     *      This function binds a click event on an html element to update the preferences of the given dahsboard widget
-     * @param {jQueryObject} $ClickedElement The jQuery object of the element(s) that get the event listener
-     * @param {string} ElementID The ID of the element whose content should be updated with the server answer
-     * @param {jQueryObject} $Form The jQuery object of the form with the data for the server request
+     * @param {jQueryObject} $ClickedElement - The jQuery object of the element(s) that get the event listener
+     * @param {String} ElementID - The ID of the element whose content should be updated with the server answer
+     * @param {jQueryObject} $Form - The jQuery object of the form with the data for the server request
+     * @description
+     *      This function binds a click event on an html element to update the preferences of the given dahsboard widget.
      */
     TargetNS.RegisterUpdatePreferences = function ($ClickedElement, ElementID, $Form) {
         if (isJQueryObject($ClickedElement) && $ClickedElement.length) {
