@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+    <TableDrop Name="test_xml_execute"/>
+</database>

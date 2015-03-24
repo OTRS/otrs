@@ -419,39 +419,40 @@ $Self->Is(
 );
 
 # ---
-# try to use otrs.GenerateStats.pl
+# try to use otrs.Console.pl Maint::Stats::Generate
 # ---
 
 # check the imported stat
 my $Stat4 = $StatsObject->StatsGet( StatID => $StatID );
-
-# get OTRS home
 my $Home = $ConfigObject->Get('Home');
-my $Perl = $^X;
+my ( $Result, $ExitCode );
+{
+    local *STDOUT;
+    open STDOUT, '>:utf8', \$Result;    ## no critic
+    my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Generate');
+    $ExitCode = $CommandObject->Execute( '--number', $Stat4->{StatNumber}, '--target-directory', "$Home/var/tmp/" );
+}
 
-my $Command = "$Perl $Home/bin/otrs.GenerateStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
+$Self->Is(
+    $ExitCode,
+    0,
+    "Stat successfully generated",
+);
 
-if ( open my $Filehandle, '-|', $Command ) {    ## no critic
-    @Lines = <$Filehandle>;
-    close $Filehandle;
+my $FileFound;
 
-    for my $Line (@Lines) {
-        if ( $Line =~ /\/\/(.+?csv)\./ ) {
-            unlink "$Home/var/tmp/$1";
-        }
+for my $Line ( split m{\n}, $Result ) {
+    if ( $Line =~ /\/\/(.+?csv)\./ ) {
+        unlink "$Home/var/tmp/$1";
+        $FileFound++;
     }
+}
 
-    $Self->True(
-        ( $Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/ ),
-        "otrs.GenerateStats.pl - Simple otrs.GenerateStats.pl check (check the program message)(Command: $Command ; OS: $^O )\n",
-    );
-}
-else {
-    $Self->True(
-        0,
-        "otrs.GenerateStats.pl - Simple otrs.GenerateStats.pl check (open the file).\n",
-    );
-}
+$Self->Is(
+    $FileFound,
+    1,
+    "CSV file generated",
+);
 
 $Self->True(
     $StatsObject->StatsDelete( StatID => $StatID ),
@@ -481,7 +482,7 @@ $Self->True(
 );
 
 # try the clean up function
-my $Result = $StatsObject->StatsCleanUp();
+$Result = $StatsObject->StatsCleanUp();
 $Self->True(
     $Result,
     'StatsCleanUp() - clean up stats',

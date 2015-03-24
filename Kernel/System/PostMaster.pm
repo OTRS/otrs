@@ -129,7 +129,10 @@ sub new {
 
 to execute the run process
 
-    $PostMasterObject->Run();
+    $PostMasterObject->Run(
+        Queue   => 'Junk',  # optional, specify target queue for new tickets
+        QueueID => 1,       # optional, specify target queue for new tickets
+    );
 
 return params
 

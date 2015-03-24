@@ -32,19 +32,9 @@ OTRS_CRON_TMP_FILE=$OTRS_ROOT/var/tmp/cron
 OTRS_CRON_USER=" -u otrs "
 
 #
-# location of otrs.PostMaster.pl
+# location of otrs.Console.pl
 #
-OTRS_POSTMASTER=$OTRS_ROOT/bin/otrs.PostMaster.pl
-
-#
-# location of otrs.CheckDB.pl
-#
-OTRS_CHECKDB=$OTRS_ROOT/bin/otrs.CheckDB.pl
-
-#
-# location of OTRS spool dir
-#
-OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
+OTRS_CONSOLE="$OTRS_ROOT/bin/otrs.Console.pl"
 
 #
 # OTRS location - means http://host/$OTRS_HTTP_LOCATION/index.pl

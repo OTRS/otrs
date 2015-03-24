@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+    <Table Name="test_xml_execute">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <ForeignKey ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+        </ForeignKey>
+    </Table>
+</database>

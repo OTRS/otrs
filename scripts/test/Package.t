@@ -1089,8 +1089,8 @@ if (
 if ( !$DeveloperSystem ) {
 
     # 12 check "do not remove framework file if no backup exists"
-    my $RemoveFile          = $Home . '/' . 'bin/otrs.CheckDB.pl.save';
-    my $RemoveFileFramework = $Home . '/' . 'bin/otrs.CheckDB.pl';
+    my $RemoveFile          = $Home . '/' . 'bin/otrs.CheckSum.pl.save';
+    my $RemoveFileFramework = $Home . '/' . 'bin/otrs.CheckSum.pl';
     copy( $RemoveFileFramework, $RemoveFileFramework . '.orig' );
     $String = '<?xml version="1.0" encoding="utf-8" ?>
     <otrs_package version="1.0">
@@ -1115,7 +1115,7 @@ if ( !$DeveloperSystem ) {
       <BuildDate>2005-11-10 21:17:16</BuildDate>
       <BuildHost>yourhost.example.com</BuildHost>
       <Filelist>
-        <File Location="bin/otrs.CheckDB.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
+        <File Location="bin/otrs.CheckSum.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
       </Filelist>
     </otrs_package>
     ';
@@ -1129,20 +1129,20 @@ if ( !$DeveloperSystem ) {
     # check if save file exists
     $Self->True(
         -e $RemoveFile,
-        '#12 PackageInstall() - save file bin/otrs.CheckDB.pl.save exists',
+        '#12 PackageInstall() - save file bin/otrs.CheckSum.pl.save exists',
     );
 
     # check if save file exists (should not anymore)
     my $RemoveFileUnlink = unlink $RemoveFile;
     $Self->True(
         $RemoveFileUnlink,
-        '#12 PackageInstall() - save file bin/otrs.CheckDB.pl.save got removed',
+        '#12 PackageInstall() - save file bin/otrs.CheckSum.pl.save got removed',
     );
 
     # check if save file exists (should not anymore)
     $Self->True(
         !-e $RemoveFile,
-        '#12 PackageInstall() - save file bin/otrs.CheckDB.pl.save does not exists',
+        '#12 PackageInstall() - save file bin/otrs.CheckSum.pl.save does not exists',
     );
 
     # uninstall package
@@ -1155,13 +1155,13 @@ if ( !$DeveloperSystem ) {
     # check if save file exists (should not)
     $Self->True(
         !-e $RemoveFile,
-        '#12 PackageUninstall() - save file bin/otrs.CheckDB.pl.save does not exists',
+        '#12 PackageUninstall() - save file bin/otrs.CheckSum.pl.save does not exists',
     );
 
     # check if framework file exists
     $Self->True(
         -e $RemoveFileFramework,
-        '#12 PackageUninstall() - save file bin/otrs.CheckDB.pl exists',
+        '#12 PackageUninstall() - save file bin/otrs.CheckSum.pl exists',
     );
     move(
         $RemoveFileFramework . '.orig',
@@ -1173,8 +1173,8 @@ if ( !$DeveloperSystem ) {
 if ( !$DeveloperSystem ) {
 
     # 13 check "do create .save file on reinstall if it's a framework file"
-    my $SaveFile          = $Home . '/' . 'bin/otrs.CheckDB.pl.save';
-    my $SaveFileFramework = $Home . '/' . 'bin/otrs.CheckDB.pl';
+    my $SaveFile          = $Home . '/' . 'bin/otrs.CheckSum.pl.save';
+    my $SaveFileFramework = $Home . '/' . 'bin/otrs.CheckSum.pl';
     copy( $SaveFileFramework, $SaveFileFramework . '.orig' );
     $String = '<?xml version="1.0" encoding="utf-8" ?>
     <otrs_package version="1.0">
@@ -1199,7 +1199,7 @@ if ( !$DeveloperSystem ) {
       <BuildDate>2005-11-10 21:17:16</BuildDate>
       <BuildHost>yourhost.example.com</BuildHost>
       <Filelist>
-        <File Location="bin/otrs.CheckDB.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
+        <File Location="bin/otrs.CheckSum.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
       </Filelist>
     </otrs_package>
     ';
@@ -1220,7 +1220,7 @@ if ( !$DeveloperSystem ) {
     );
     $Self->True(
         $Write,
-        '#13 FileWrite() - bin/otrs.CheckDB.pl modified',
+        '#13 FileWrite() - bin/otrs.CheckSum.pl modified',
     );
     my $ReadOrig = $MainObject->FileRead(
         Location => $SaveFileFramework,
@@ -1235,13 +1235,13 @@ if ( !$DeveloperSystem ) {
     my $SaveFileUnlink = unlink $SaveFile;
     $Self->True(
         $SaveFileUnlink,
-        '#13 PackageInstall() - save file bin/otrs.CheckDB.pl.save got removed',
+        '#13 PackageInstall() - save file bin/otrs.CheckSum.pl.save got removed',
     );
 
     # check if save file exists (should not anymore)
     $Self->True(
         !-e $SaveFile,
-        '#13 PackageInstall() - save file bin/otrs.CheckDB.pl.save does not exists',
+        '#13 PackageInstall() - save file bin/otrs.CheckSum.pl.save does not exists',
     );
 
     # reinstall
@@ -1258,7 +1258,7 @@ if ( !$DeveloperSystem ) {
     # check if save file exists
     $Self->True(
         -e $SaveFile,
-        '#13 PackageReinstall() - save file bin/otrs.CheckDB.pl.save exists',
+        '#13 PackageReinstall() - save file bin/otrs.CheckSum.pl.save exists',
     );
 
     # uninstall package
@@ -1279,15 +1279,15 @@ if ( !$DeveloperSystem ) {
 
     $Self->True(
         ${$ReadOrig} eq ${$ReadLater},
-        '#13 PackageReinstall() - file bin/otrs.CheckDB.pl is still the orig',
+        '#13 PackageReinstall() - file bin/otrs.CheckSum.pl is still the orig',
     );
     move(
         $SaveFileFramework . '.orig',
         $SaveFileFramework
     );
 
-    # return the correct permissions to otrs.CheckDB.pl
-    chmod 0755, $Home . '/' . 'bin/otrs.CheckDB.pl';
+    # return the correct permissions to otrs.CheckSum.pl
+    chmod 0755, $Home . '/' . 'bin/otrs.CheckSum.pl';
 }
 
 1;

@@ -38,7 +38,7 @@ sub Load {
     # The database user
     $Self->{DatabaseUser} = 'otrs';
 
-    # The password of database user. You also can use bin/otrs.CryptPassword.pl
+    # The password of database user. You also can use bin/otrs.Console.pl Maint::Database::PasswordCrypt
     # for crypted passwords
     $Self->{DatabasePw} = 'some-pass';
 

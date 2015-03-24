@@ -255,7 +255,7 @@ sub Run {
         print STDERR "NOTICE: Sent to $Param{SubmitURL} with SubmitID: '$Key'.\n";
     }
 
-    return 1;
+    return $ResultSummary{TestNotOk} ? 0 : 1;
 }
 
 =item True()

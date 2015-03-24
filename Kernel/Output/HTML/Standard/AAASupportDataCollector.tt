@@ -200,7 +200,7 @@
 [% Translate("Orphaned Records In ticket_lock_index Table") | html %]
 [% Translate("Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.") | html %]
 [% Translate("Orphaned Records In ticket_index Table") | html %]
-[% Translate("Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.") | html %]
+[% Translate('Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.') | html %]
 
 # Webserver/EnvironnmentVariables.pm
 [% Translate("Environment Variables") | html %]

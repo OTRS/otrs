@@ -824,8 +824,8 @@ sub CertificateRemove {
     # remove certificate
     my $Cert = unlink "$Self->{CertPath}/$Param{Filename}";
     if ( !$Cert ) {
-        $Message     = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!",
-            $Success = 0;
+        $Message = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!";
+        $Success = 0;
     }
 
     if ($PrivateExists) {
@@ -1237,6 +1237,8 @@ sub PrivateGet {
     my $Secret = $MainObject->FileRead( Location => $File );
 
     return ( $$Private, $$Secret ) if ( $Private && $Secret );
+
+    return;
 }
 
 =item PrivateRemove()
@@ -1836,8 +1838,8 @@ sub CheckCertPath {
         return {
             Success => 0,
             Details => $NormalizeResult->{Details}
-                . "\n**Error in Normalize Private Secret Files.\n\n",
-            ShortDetails => "**Error in Normalize Private Secret Files.\n\n",
+                . "\n<red>Error in Normalize Private Secret Files.</red>\n\n",
+            ShortDetails => "<red>Error in Normalize Private Secret Files.</red>\n\n",
         };
     }
 
@@ -1853,16 +1855,14 @@ sub CheckCertPath {
         return {
             Success => 0,
             Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details}
-                . "\n**Error in Re-Hash Certificate Files.\n\n",
-            ShortDetails => "**Error in Re-Hash Certificate Files.\n\n",
+                . "\n<red>Error in Re-Hash Certificate Files.</red>\n\n",
+            ShortDetails => "<red>Error in Re-Hash Certificate Files.</red>\n\n",
         };
     }
 
     return {
         Success => 1,
-        Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details}
-            . "\nSuccess.\n\n",
-        ShortDetails => "Success.\n\n",
+        Details => $NormalizeResult->{Details} . $ReHashSuccess->{Details},
     };
 }
 
@@ -1895,7 +1895,7 @@ sub _Init {
     }
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail)
-    $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';
+    $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic
 
     # prepend RANDFILE declaration to openssl cmd
     $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
@@ -2127,6 +2127,7 @@ sub _PrivateFilename {
             return $CertFilename;
         }
     }
+    return;
 }
 
 sub _NormalizePrivateSecretFiles {
@@ -2141,22 +2142,12 @@ sub _NormalizePrivateSecretFiles {
         Filter    => '*.P',
     );
 
-    my $Details;
-
-    $Details = $Self->_DetailsLog(
-        Message =>
-            "* Normalize Private Secrets Files\n"
-            . "- Private path: $Self->{PrivatePath}\n"
-            . "-",
-        Details => $Details,
-    );
+    my $Details = "<yellow>Normalizing private secret files...</yellow>\n"
+        . "  - Private path: $Self->{PrivatePath}\n\n";
 
     # stop if there are no private secrets stored
     if ( scalar @List == 0 ) {
-        $Details = $Self->_DetailsLog(
-            Message => "No private secret files found, nothing to do!... OK",
-            Details => $Details,
-        );
+        $Details .= "  No private secret files found, nothing to do!... <green>OK</green>\n";
 
         return {
             Success => 1,
@@ -2176,10 +2167,7 @@ sub _NormalizePrivateSecretFiles {
 
     # stop if the are no wrong files to normalize
     if ( scalar @WrongPrivateSecretList == 0 ) {
-        $Details = $Self->_DetailsLog(
-            Message => "Stored private secrets found, but they are all corect, nothing to do... OK",
-            Details => $Details,
-        );
+        $Details .= "  Stored private secrets found, but they are all correct, nothing to do... <green>OK</green>\n";
 
         return {
             Success => 1,
@@ -2222,27 +2210,24 @@ sub _NormalizePrivateSecretFiles {
 
         # if there are no keys for the private secret, the file could not be renamed
         if ( !$CorrectFile && scalar @UsedPrivateSecretFiles == 0 ) {
-            $Details = $Self->_DetailsLog(
-                Message => "Can't rename private secret file $File, because there is no"
-                    . " private key file for this private secret... Warning",
-                Details => $Details,
-            );
+            $Details .= "  Can't rename private secret file $File, because there is no"
+                . " private key file for this private secret... <red>Warning</red>\n";
             next FILENAME;
         }
 
         my $WrongFileLocation = "$Self->{PrivatePath}/$File";
 
-        # if an avaialble file name was found
+        # if an available file name was found
         if ($CorrectFile) {
             my $CorrectFileLocation = "$Self->{PrivatePath}/$CorrectFile";
             if ( !rename $WrongFileLocation, $CorrectFileLocation ) {
-
-                $Details = $Self->_DetailsLog(
-                    Message => "Could not rename private secret file $WrongFileLocation to"
-                        . " $CorrectFileLocation!",
-                    Error   => 1,
-                    Details => $Details,
+                my $Message = "Could not rename private secret file $WrongFileLocation to $CorrectFileLocation!";
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $Message,
                 );
+
+                $Details .= "  $Message\n";
 
                 return {
                     Success => 0,
@@ -2250,19 +2235,13 @@ sub _NormalizePrivateSecretFiles {
                 };
             }
 
-            $Details = $Self->_DetailsLog(
-                Message => "Renamed private secret file $File to $CorrectFile ... OK",
-                Details => $Details,
-            );
+            $Details .= "  Renamed private secret file $File to $CorrectFile ... <green>OK</green>\n";
             next FILENAME;
         }
 
         # otherwise try to find if any of the used files has the same content
-        $Details = $Self->_DetailsLog(
-            Message => "Can't rename private secret file: $File\nAll private key files for hash"
-                . " $Hash has already a correct private secret filename associated!",
-            Details => $Details,
-        );
+        $Details .= "  Can't rename private secret file: $File\nAll private key files for hash"
+            . " $Hash has already a correct private secret filename associated!\n";
 
         # get the contents of the wrong private secret file
         my $WrongFileContent = $MainObject->FileRead(
@@ -2283,11 +2262,10 @@ sub _NormalizePrivateSecretFiles {
             # safe to delete wrong file if contents are are identical
             if ( ${$WrongFileContent} eq ${$PrivateSecretFileContent} ) {
 
-                $Details = $Self->_DetailsLog(
-                    Message => "The content of files $File and $PrivateSecretFile is the same,"
-                        . " it is safe to remove $File",
-                    Details => $Details,
-                );
+                $Details
+                    .= "  The content of files $File and $PrivateSecretFile is the same, it is safe to remove $File\n";
+
+                $Details .= "    Remove private secret file $WrongFileLocation from the file system...";
 
                 # remove file
                 my $Success = $MainObject->FileDelete(
@@ -2296,12 +2274,14 @@ sub _NormalizePrivateSecretFiles {
 
                 # return error if file was not deleted
                 if ( !$Success ) {
-                    $Details = $Self->_DetailsLog(
-                        Message => "Could not remove private secret file $WrongFileLocation"
-                            . " from the file system!... Failed",
-                        Error   => 1,
-                        Details => $Details,
+                    my $Message = "Could not remove private secret file $WrongFileLocation from the file system!";
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => $Message,
                     );
+
+                    $Details .= " <red>Failed</red>\n";
+
                     return {
                         Success => 0,
                         Details => $Details,
@@ -2309,29 +2289,20 @@ sub _NormalizePrivateSecretFiles {
                 }
 
                 # continue to next wrong private secret file
-                $Details = $Self->_DetailsLog(
-                    Message => "The private secret file $File was removed from the file"
-                        . " system... OK",
-                    Details => $Details,
-                );
+                $Details .= " <green>OK</green>\n";
+
                 next FILENAME;
             }
 
-            # otherwise just log that the contents are diferent, do not delete file
-            $Details = $Self->_DetailsLog(
-                Message => "The content of files $File and $PrivateSecretFile is diferent",
-                Details => $Details,
-            );
+            # otherwise just log that the contents are different, do not delete file
+            $Details .= "  The content of files $File and $PrivateSecretFile is different\n";
         }
 
-        # all private secret files has differnt content, just log this as a waring and continue to
+        # all private secret files has different content, just log this as a waring and continue to
         # the next wrong private secret file
-        $Details = $Self->_DetailsLog(
-            Message => "The private secret file $File has information not stored in any other"
-                . " private secret file for hash $Hash\n"
-                . "The file will not be deleted... Warning",
-            Details => $Details,
-        );
+        $Details . "  The private secret file $File has information not stored in any other"
+            . " private secret file for hash $Hash\n"
+            . "    The file will not be deleted... <red>Warning</red>\n";
         next FILENAME;
     }
 
@@ -2347,22 +2318,13 @@ sub _ReHashCertificates {
     # get the list of certificates
     my @CertList = $Self->CertificateList();
 
-    my $Details;
-
-    $Details = $Self->_DetailsLog(
-        Message =>
-            "\n* Re-Hash Certificates\n"
-            . "- Certificate path: $Self->{CertPath}\n"
-            . "- Private path:     $Self->{PrivatePath}\n"
-            . "-",
-        Details => $Details,
-    );
+    my $Details = "\n<yellow>Re-Hashing Certificates...</yellow>\n"
+        . "  - Certificate path: $Self->{CertPath}\n"
+        . "  - Private path:     $Self->{PrivatePath}\n\n";
 
     if ( scalar @CertList == 0 ) {
-        $Details = $Self->_DetailsLog(
-            Message => "No certificate files found, nothing to do... OK\n",
-            Details => $Details,
-        );
+        $Details .= "  No certificate files found, nothing to do... <green>OK</green>\n\n";
+
         return {
             Success => 1,
             Details => $Details,
@@ -2376,7 +2338,7 @@ sub _ReHashCertificates {
     for my $File (@CertList) {
         $File =~ s{^.*/}{}xms;
 
-        # get certificate attributes with current openssl version
+        # get certificate attributes with current OpenSSL version
         my $Certificate = $Self->CertificateGet(
             Filename => $File,
         );
@@ -2390,7 +2352,7 @@ sub _ReHashCertificates {
         my $Hash  = $1;
         my $Index = $2;
 
-        # get new hash from certficate attributes
+        # get new hash from certificate attributes
         my $NewHash     = $CertificateAttributes{Hash};
         my $Fingerprint = $CertificateAttributes{Fingerprint};
 
@@ -2406,10 +2368,8 @@ sub _ReHashCertificates {
 
     # stop if the are no wrong files to re-hash
     if ( scalar @WrongCertificatesList == 0 ) {
-        $Details = $Self->_DetailsLog(
-            Message => "Stored certificates found, but they are all corect, nothing to do... OK",
-            Details => $Details,
-        );
+        $Details .= "  Stored certificates found, but they are all correct, nothing to do... <green>OK</green>\n";
+
         return {
             Success => 1,
             Details => $Details,
@@ -2428,11 +2388,13 @@ sub _ReHashCertificates {
 
         # check if certificate exists
         if ( !-e $WrongCertificateFile ) {
-            $Details = $Self->_DetailsLog(
-                Message => "SMIME certificate $WrongCertificateFile file does not exist!",
-                Error   => 1,
-                Details => $Details,
+            my $Message = "SMIME certificate $WrongCertificateFile file does not exist!";
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "$Message",
             );
+
+            $Details .= "  $Message\n";
 
             return {
                 Success => 0,
@@ -2457,12 +2419,13 @@ sub _ReHashCertificates {
         }
 
         if ( !$NewCertificateFile ) {
-            $Details = $Self->_DetailsLog(
-                Message => "No more available filenames for certificate hash:"
-                    . " $WrongCertificate->{NewHash}!",
-                Error   => 1,
-                Details => $Details,
+            my $Message = "No more available filenames for certificate hash: $WrongCertificate->{NewHash}!";
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $Message,
             );
+
+            $Details .= "  $Message\n";
 
             return {
                 Success => 0,
@@ -2483,11 +2446,13 @@ sub _ReHashCertificates {
 
             # check new private key and secret files
             if ( -e $NewPrivateKeyFile ) {
-                $Details = $Self->_DetailsLog(
-                    Message => "Filename for private key: $NewPrivateKeyFile is alredy in use!",
-                    Error   => 1,
-                    Details => $Details,
+                my $Message = "Filename for private key: $NewPrivateKeyFile is already in use!";
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $Message,
                 );
+
+                $Details .= "  $Message\n";
 
                 return {
                     Success => 0,
@@ -2500,12 +2465,13 @@ sub _ReHashCertificates {
                 $HasPrivateSecret = 1;
 
                 if ( -e "$NewPrivateKeyFile.P" ) {
-                    $Details = $Self->_DetailsLog(
-                        Message => "Filename for private secret: $NewPrivateKeyFile.P is alredy"
-                            . " in use!",
-                        Error   => 1,
-                        Details => $Details,
+                    my $Message = "Filename for private secret: $NewPrivateKeyFile.P is already in use!";
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => $Message,
                     );
+
+                    $Details .= "  $Message\n";
 
                     return {
                         Success => 0,
@@ -2516,29 +2482,24 @@ sub _ReHashCertificates {
         }
 
         # rename certificate
-        if ( !rename $WrongCertificateFile, $NewCertificateFile ) {
-            $Details = $Self->_DetailsLog(
-                Message => "Could not rename SMIME certificate file $WrongCertificateFile to"
-                    . " $NewCertificateFile!",
+        $Details .= "  Rename certificate $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
+            . " to $WrongCertificate->{NewHash}.$NewIndex...";
 
-                Error   => 1,
-                Details => $Details,
+        if ( !rename $WrongCertificateFile, $NewCertificateFile ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not rename SMIME certificate file $WrongCertificateFile to $NewCertificateFile!",
             );
-            $Details = $Self->_DetailsLog(
-                Message => "Rename certificate $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
-                    . " to $WrongCertificate->{NewHash}.$NewIndex ... Failed",
-                Details => $Details,
-            );
+
+            $Details .= " <red>Failed</red>\n";
+
             return {
                 Success => 0,
                 Details => $Details,
             };
         }
-        $Details = $Self->_DetailsLog(
-            Message => "Rename certificate $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
-                . " to $WrongCertificate->{NewHash}.$NewIndex ... OK",
-            Details => $Details,
-        );
+
+        $Details .= " <green>OK</green>\n";
 
         # update certificate relations
         # get relations that have this certificate
@@ -2567,11 +2528,8 @@ sub _ReHashCertificates {
             }
         }
 
-        $Details = $Self->_DetailsLog(
-            Message => "\tGet certificate DB relations for $WrongCertificate->{Hash}."
-                . "$WrongCertificate->{Index} as certificate",
-            Details => $Details,
-        );
+        $Details .= "    Get certificate DB relations for $WrongCertificate->{Hash}."
+            . "$WrongCertificate->{Index} as certificate\n";
 
         # update relations
         if ( scalar @WrongCertRelations > 0 ) {
@@ -2588,27 +2546,18 @@ sub _ReHashCertificates {
                     ],
                 );
 
+                $Details .= "      Updated relation ID: $WrongRelation->{ID} with CA $WrongRelation->{CAHash}...";
+
                 if ($Success) {
-                    $Details = $Self->_DetailsLog(
-                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
-                            . " CA $WrongRelation->{CAHash} ... OK",
-                        Details => $Details,
-                    );
+                    $Details .= "  <green>OK</green>\n";
                 }
                 else {
-                    $Details = $Self->_DetailsLog(
-                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
-                            . " CA $WrongRelation->{CAHash} ... Failed",
-                        Details => $Details,
-                    );
+                    $Details .= "  <red>Failed</red>\n";
                 }
             }
         }
         else {
-            $Details = $Self->_DetailsLog(
-                Message => "\t\tNo wrong relations found, nothing to do... OK",
-                Details => $Details,
-            );
+            $Details .= "      No wrong relations found, nothing to do... <green>OK</green>\n";
         }
 
         # get relations that have this certificate as a CA
@@ -2637,11 +2586,7 @@ sub _ReHashCertificates {
             }
         }
 
-        $Details = $Self->_DetailsLog(
-            Message => "Get certificate DB relations for $WrongCertificate->{Hash}."
-                . "$WrongCertificate->{Index} as CA",
-            Details => $Details,
-        );
+        $Details .= "    Get certificate DB relations for $WrongCertificate->{Hash}.$WrongCertificate->{Index} as CA\n";
 
         # update relations (CA)
         if ( scalar @WrongCertRelations > 0 ) {
@@ -2658,127 +2603,79 @@ sub _ReHashCertificates {
                     ],
                 );
 
+                $Details
+                    .= "      Updated relation ID: $WrongRelation->{ID} with certificate $WrongRelation->{CertHash}...";
+
                 if ($Success) {
-                    $Details = $Self->_DetailsLog(
-                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
-                            . " certificate $WrongRelation->{CertHash} ... OK",
-                        Details => $Details,
-                    );
+                    $Details .= " <green>OK</green>\n";
                 }
                 else {
-                    $Details = $Self->_DetailsLog(
-                        Message => "\t\tUpdated relation ID: $WrongRelation->{ID} with"
-                            . " certificate $WrongRelation->{CertHash} ... Failed",
-                        Details => $Details,
-                    );
+                    $Details .= " <red>Failed</red>\n";
                 }
             }
         }
         else {
-            $Details = $Self->_DetailsLog(
-                Message => "\t\tNo wrong relations found, nothing to do... OK",
-                Details => $Details,
-            );
+            $Details .= "      No wrong relations found, nothing to do... <green>OK</green>\n";
         }
 
         if ($HasPrivateKey) {
 
             # rename private key
+            $Details .= "  Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
+                . " $WrongCertificate->{NewHash}.$NewIndex...";
+
             if ( !rename $WrongPrivateKeyFile, $NewPrivateKeyFile ) {
-                $Details = $Self->_DetailsLog(
-                    Message => "Could not rename SMIME private key file $WrongPrivateKeyFile to"
-                        . " $NewPrivateKeyFile!",
-                    Error   => 1,
-                    Details => $Details,
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not rename SMIME private key file $WrongPrivateKeyFile to $NewPrivateKeyFile!",
                 );
-                $Details = $Self->_DetailsLog(
-                    Message =>
-                        "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} to"
-                        . " $WrongCertificate->{NewHash}.$NewIndex ... Failed",
-                    Details => $Details,
-                );
+
+                $Details .= " <red>Failed</red>\n";
 
                 return {
                     Success => 0,
                     Details => $Details,
                 };
             }
-            $Details = $Self->_DetailsLog(
-                Message => "Rename private key $WrongCertificate->{Hash}.$WrongCertificate->{Index}"
-                    . " to $WrongCertificate->{NewHash}.$NewIndex ... OK",
-                Details => $Details,
-            );
+            $Details .= " <green>OK</green>\n";
 
             # rename private secret
             if ($HasPrivateSecret) {
+
+                $Details .= "  Rename private secret $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
+                    . " $WrongCertificate->{NewHash}.$NewIndex.P...";
+
                 if ( !rename $WrongPrivateKeyFile . '.P', $NewPrivateKeyFile . '.P' ) {
-                    $Details = $Self->_DetailsLog(
-                        Message => "Could not rename SMIME private secret file"
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Could not rename SMIME private secret file"
                             . " $WrongPrivateKeyFile.P to $NewPrivateKeyFile.P!",
-                        Error   => 1,
-                        Details => $Details,
                     );
-                    $Details = $Self->_DetailsLog(
-                        Message =>
-                            "Rename private secret "
-                            . " $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
-                            . " $WrongCertificate->{NewHash}.$NewIndex.P ... Failed",
-                        Details => $Details,
-                    );
+
+                    $Details .= " <red>Failed</red>\n";
 
                     return {
                         Success => 0,
                         Details => $Details,
                     };
                 }
-                $Details = $Self->_DetailsLog(
-                    Message =>
-                        "Rename private secret"
-                        . " $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P to"
-                        . " $WrongCertificate->{NewHash}.$NewIndex.P ... OK",
-                    Details => $Details,
-                );
+                $Details .= " <green>OK</green>\n";
             }
             else {
-                $Details = $Self->_DetailsLog(
-                    Message =>
-                        "Private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} found,"
-                        . " but private secret:"
-                        . " $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P"
-                        . " is missing... Warning",
-                    Details => $Details,
-                );
+                $Details .= "  Private key $WrongCertificate->{Hash}.$WrongCertificate->{Index} found,"
+                    . " but private secret: $WrongCertificate->{Hash}.$WrongCertificate->{Index}.P"
+                    . " is missing... <red>Warning</red>\n";
             }
         }
         else {
-            $Details = $Self->_DetailsLog(
-                Message => "No Private key found for certificate $WrongCertificate->{Hash}."
-                    . "$WrongCertificate->{Index} ... OK",
-                Details => $Details,
-            );
+            $Details .= "  No Private key found for certificate $WrongCertificate->{Hash}."
+                . "$WrongCertificate->{Index}... <green>OK</green>\n";
         }
     }
     return {
         Success => 1,
         Details => $Details,
     };
-}
-
-sub _DetailsLog {
-    my ( $Self, %Param ) = @_;
-
-    my $Message = $Param{Message};
-
-    if ( defined $Param{Error} && $Param{Error} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $Message,
-        );
-    }
-
-    $Param{Details} .= "$Message\n";
-
-    return $Param{Details};
 }
 
 1;

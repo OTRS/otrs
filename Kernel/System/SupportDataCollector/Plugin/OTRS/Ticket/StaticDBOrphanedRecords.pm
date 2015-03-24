@@ -46,7 +46,7 @@ sub Run {
                 Label      => 'Orphaned Records In ticket_lock_index Table',
                 Value      => $OrphanedTicketLockIndex,
                 Message =>
-                    'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.',
+                    'Table ticket_lock_index contains orphaned records. Please run bin/otrs.Console.pl "Maint::Ticket::QueueIndexCleanup" to clean the StaticDB index.',
             );
         }
         else {

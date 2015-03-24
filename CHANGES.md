@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-03-24 Added new console interface for a massively improved user and developer experience on the commandline.
  - 2015-03-24 Removed Kernel::System::Crypt layer to use Kernel::System::Crypt::PGP and ::SMIME directly.
  - 2015-03-20 Let LWP::UserAgent handle https-proxy commands, thanks to Michiel Beijen.
  - 2015-03-20 Added possibility to specify minimum log level, thanks to Renée Bäcker.

@@ -48,14 +48,7 @@ if ! test $OTRS_ROOT; then
     echo "Error: Corrupt config file ($CONFIGFILE)! OTRS_ROOT not found! Please check your /etc/sysconfig/otrs - maybe it wasn't changed by rpm!"
     exit 5
 fi
-if ! test $OTRS_POSTMASTER; then
-    echo "Error: Corrupt config file ($CONFIGFILE)! OTRS_POSTMASTER not found! Please check your /etc/sysconfig/otrs - maybe it wasn't changed by rpm!"
-    exit 5
-fi
-if ! test $OTRS_SPOOLDIR; then
-    echo "Error: Corrupt config file ($CONFIGFILE)! OTRS_SPOOLDIR not found! Please check your /etc/sysconfig/otrs - maybe it wasn't changed by rpm!"
-    exit 5
-fi
+
 #
 # check needed files
 #
@@ -63,27 +56,9 @@ if ! test -r $OTRS_ROOT; then
     echo "Error: $OTRS_ROOT not found!"
     exit 5
 fi
-
-if ! test -r $OTRS_POSTMASTER; then
-    echo "Error: $OTRS_POSTMASTER not found!"
+if ! test -r $OTRS_CONSOLE; then
+    echo "Error: $OTRS_CONSOLE not found!"
     exit 5
-fi
-
-if ! test -d $OTRS_SPOOLDIR; then
-    echo "Error: $OTRS_SPOOLDIR not found!"
-    exit 5
-fi
-
-if ! test -r $OTRS_CHECKDB; then
-    echo "Error: $OTRS_CHECKDB not found!"
-    exit 5
-fi
-
-if test $OTRS_CLEANUP; then
-    if ! test -r $OTRS_CLEANUP; then
-        echo "Error: $OTRS_CLEANUP not found!"
-        exit 5
-    fi
 fi
 
 # reset status of this service
@@ -127,7 +102,7 @@ case "$1" in
       # database connect
       # --
       echo -n " Checking database connection... ("
-      if ! $OTRS_CHECKDB -s 1; then
+      if ! $OTRS_CONSOLE Maint::Database::Check; then
           echo ") "
           echo "----------------------------------------------------------------------------"
           echo " Error: Maybe your database isn't configured yet? "
@@ -150,35 +125,6 @@ case "$1" in
           echo ")."
           rc_status
       fi
-
-      # --
-      # enable otrs.PostMaster.pl
-      # --
-      echo -n " Enable $OTRS_POSTMASTER ..."
-      if chmod 755 $OTRS_POSTMASTER; then
-          echo " done."
-          rc_status
-      else
-          echo " failed."
-      fi
-
-      # --
-      # check otrs spool dir
-      # --
-      echo -n " Checking otrs spool dir... "
-      for i in $OTRS_SPOOLDIR/* ; do
-          # process old emails
-          if echo $i | grep -v '*' >> /dev/null; then
-              echo -n "   Starting otrs PostMaster... ($i) "
-              if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1; then
-                  rm $i && echo "(remove email)";
-              else
-                  rc_failed
-              fi
-          fi
-      done
-      echo " done."
-      rc_status
 
       # --
       # start cron stuff
@@ -207,17 +153,6 @@ case "$1" in
     # ------------------------------------------------------
     stop)
       echo "Shutting down $OTRS_PROG "
-
-      # --
-      # disable otrs.PostMaster.pl
-      # --
-      echo -n " Disable $OTRS_POSTMASTER ..."
-      if chmod 644 $OTRS_POSTMASTER; then
-          echo " done."
-          rc_status
-      else
-          echo " failed."
-      fi
 
       # --
       # stop cron stuff
@@ -344,28 +279,6 @@ case "$1" in
       rc_status
     ;;
     # ------------------------------------------------------
-    # cleanup
-    # ------------------------------------------------------
-    cleanup)
-      # --
-      # check otrs spool dir
-      # --
-      echo -n " Checking otrs spool dir... "
-      for i in $OTRS_SPOOLDIR/* ; do
-          # process old emails
-          echo $i | grep -v '*' >> /dev/null && \
-            echo "" && \
-            echo -n "   Starting otrs PostMaster... ($i) " && \
-            cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1 && \
-            echo -n "remove email... " && \
-            (rm $i || rc_failed)
-      done
-      echo " done."
-      rc_status
-      # Remember status and be quiet
-      rc_status
-    ;;
-    # ------------------------------------------------------
     # status
     # ------------------------------------------------------
     status)
@@ -378,7 +291,7 @@ case "$1" in
       # db check
       # --
       echo -n "Checking database connection... ("
-      if ! $OTRS_CHECKDB -s 1; then
+      if ! $OTRS_CONSOLE Maint::Database::Check; then
           echo ") "
           echo "----------------------------------------------------------------------------"
           echo " Error: Maybe your database isn't configured yet? "
@@ -386,31 +299,9 @@ case "$1" in
       else
           echo ")."
       fi
-
-      # --
-      # postmaster check
-      # --
-      echo -n "Checking $OTRS_POSTMASTER ... "
-      if test -x $OTRS_POSTMASTER; then
-          echo "(active) done."
-      else
-          echo "(not active) failed."
-      fi
-
-      # --
-      # spool dir
-      # --
-      echo -n "Checking otrs spool dir... "
-      for i in $OTRS_SPOOLDIR/* ; do
-          # echo old emails
-          echo $i | grep -v '*' > /dev/null && \
-          echo "" && \
-          echo -n " (message:$i) found! "
-      done
-      echo "done."
     ;;
     *)
-    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force|cleanup}"
+    echo "Usage: $0 {start|stop|stop-force|start-force|status|restart|restart-force}"
     exit 1
 esac
 

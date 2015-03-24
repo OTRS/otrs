@@ -63,7 +63,7 @@ cc ${SYS_HOME}/var/INBOX.Backup.${MONTHFOLDER}
 
 # Pipe all email into the PostMaster process.
 
-xfilter "${SYS_HOME}/bin/otrs.PostMaster.pl"
+xfilter "${SYS_HOME}/bin/otrs.Console.pl Maint::PostMaster::Read"
 
 
 # spool all the rest (which the otrs.PostMaster.pl can't process!)

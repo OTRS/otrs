@@ -101,8 +101,8 @@ fi
 # run OTRS rebuild config, delete cache, if the system was already in use (i.e. upgrade).
 export OTRSUSER=otrs
 if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm; then
-    su $OTRSUSER -s /bin/bash -c /opt/otrs/bin/otrs.RebuildConfig.pl;
-    su $OTRSUSER -s /bin/bash -c /opt/otrs/bin/otrs.DeleteCache.pl;
+    su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild";
+    su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Cache::Delete";
 fi
 
 # note

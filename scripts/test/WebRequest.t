@@ -16,9 +16,12 @@ use vars (qw($Self));
 use CGI;
 
 {
-    local $ENV{REQUEST_METHOD} = 'GET';
-    local $ENV{QUERY_STRING}   = 'a=4;b=5';
+    local %ENV = (
+        REQUEST_METHOD => 'GET',
+        QUERY_STRING   => 'a=4;b=5',
+    );
 
+    CGI->initialize_globals();
     my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my @ParamNames = $Request->GetParamNames();

@@ -59,7 +59,7 @@ sub Run {
                             .
                             'PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. '
                             .
-                            'Alternatively, you can use the cmd tool bin/otrs.PackageManager.pl to install packages!'
+                            'Alternatively, you can use the commandline tool bin/otrs.Console.pl to install packages!'
                     );
                 }
             }

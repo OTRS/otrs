@@ -8229,7 +8229,7 @@ msgstr "Typ bearbeiten"
 msgid "A type with this name already exists!"
 msgstr "Ein Typ mit diesem Namen existiert bereits!"
 
-#. Template: AdminUser
+#. Template: AdminRoleUser
 msgid "Add agent"
 msgstr "Agent hinzufügen"
 
@@ -15468,4 +15468,40 @@ msgstr "Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen übe
 #. SysConfig
 msgid "Your service selection of your favorite services. You also get notified about those services via email if enabled."
 msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
+
+#. Template: AAASupportDataCollector
+msgid "InnoDB Log File Size"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "The setting innodb_log_file_size must be at least 256 MB."
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "And can't be repeated on the same condition."
+msgstr ""
+
+#. Template: AgentTicketActionCommon
+msgid "New Responsible"
+msgstr ""
+
+#. SysConfig
+msgid "Customizable stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
+msgid "French stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
+msgid "German stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
+msgid "Italian stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
+
+#. SysConfig
+msgid "Spanish stop words for fulltext index. These words will be removed from the search index."
+msgstr ""
 

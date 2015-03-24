@@ -42,21 +42,6 @@ OTRS_HOST=`hostname -f`
 OTRS_HTTP_LOCATION="otrs"
 
 #
-# location of otrs.PostMaster.pl
+# location of otrs.Console.pl
 #
-OTRS_POSTMASTER=$OTRS_ROOT/bin/otrs.PostMaster.pl
-
-#
-# location of otrs.CheckDB.pl
-#
-OTRS_CHECKDB=$OTRS_ROOT/bin/otrs.CheckDB.pl
-
-#
-# location of otrs.CleanUp.pl
-#
-OTRS_CLEANUP=$OTRS_ROOT/bin/otrs.CleanUp.pl
-
-#
-# location of OTRS spool dir
-#
-OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
+OTRS_CONSOLE="$OTRS_ROOT/bin/otrs.Console.pl"
