@@ -59,7 +59,7 @@ Core.App = (function (Namespace) {
             // Subscribe to channel
             Handle = Core.App.Subscribe('UNITTEST1', function () {
                 Counter++;
-            })
+            });
 
             // publish channel
             Core.App.Publish('UNITTEST1');

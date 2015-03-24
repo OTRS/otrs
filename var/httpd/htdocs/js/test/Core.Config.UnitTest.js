@@ -49,7 +49,7 @@ Core.Config = (function (Namespace) {
             Core.Config.AddConfig(ConfigTest, 'RichText.Details');
             deepEqual(Core.Config.Get('RichText.Details'), ConfigTest);
 
-            var ConfigTest = '{"Width":"600","Height":"400","Name":"Test"}';
+            ConfigTest = '{"Width":"600","Height":"400","Name":"Test"}';
 
             Core.Config.AddConfig(ConfigTest,'RichText.JSONStuff');
             deepEqual(Core.Config.Get('RichText.JSONStuff'), ConfigTest);
