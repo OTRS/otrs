@@ -69,6 +69,18 @@ nv.models.OTRSmultiBarChart = function() {
         y = yAxis.tickFormat()(multibar.y()(e.point, e.pointIndex)),
         content = tooltip(e.series.key, x, y, e, chart);
 
+// ---
+// OTRS
+// ---
+      // because it could happen that x headings occurr multiple
+      // times (such as Thu 18 for two different months), we
+      // need to make sure the custom label which has been added to
+      // the data is removed properly for displaying
+      if ( content.match(/__LABEL_START__\d+__LABEL_END__/) ) {
+        content = content.replace(/__LABEL_START__\d+__LABEL_END__/, '');
+      }
+// ---
+
     nv.tooltip.show([left, top], content, e.value < 0 ? 'n' : 's', null, offsetElement);
   };
 
@@ -369,6 +381,23 @@ nv.models.OTRSmultiBarChart = function() {
         chart.update();
       });
 
+// ---
+// OTRS
+// ---
+      // because it could happen that x axis headings occur multiple
+      // times (such as Thu 18 for two different months), we
+      // need to make sure the custom label which has been added to
+      // the data is removed properly for displaying
+      var TicksText = container.selectAll('.tick');
+      TicksText.each(function() {
+        var Content = $(this).text(),
+            NewContent = '';
+        if ( Content.match(/__LABEL_START__\d+__LABEL_END__/) ) {
+          NewContent = Content.replace(/__LABEL_START__\d+__LABEL_END__/, '');
+          $(this).find('text').text(NewContent);
+        }
+      });
+// ---
       //============================================================
 
 
