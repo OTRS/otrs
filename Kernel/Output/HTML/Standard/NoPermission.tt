@@ -51,7 +51,7 @@
 [% RenderBlockStart("PossibleNextActionContainer") %]
                 <p class="SpacingTop">
 [% RenderBlockStart("PossibleNextActionRow") %]
-                    <a href="[% Data.Link %]" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Description) | html %]</a>
+                    <a href="[% Data.Link | Interpolate %]" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Description) | html %]</a>
                     <br/>
 [% RenderBlockEnd("PossibleNextActionRow") %]
                 </p>
