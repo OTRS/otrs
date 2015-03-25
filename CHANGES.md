@@ -13,7 +13,9 @@
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
-#4.0.7 2015-??-??
+#4.0.8 2015-??-??
+
+#4.0.7 2015-03-31
  - 2015-03-25 Updated translations, thanks to all translators.
  - 2015-03-24 Fixed bug#[11189](http://bugs.otrs.org/show_bug.cgi?id=11189) - Go to Dashboard link in No Permissions screen is broken.
  - 2015-03-23 Fixed bug#[11194](http://bugs.otrs.org/show_bug.cgi?id=11194) - Download button for dashboard stats visible even if no permissions for AgentStats exist..
