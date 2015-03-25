@@ -2079,6 +2079,14 @@ msgid "There were tables found which do not have utf8 as charset."
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "InnoDB Log File Size"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "The setting innodb_log_file_size must be at least 256 MB."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
 msgstr ""
 
@@ -2436,6 +2444,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_deflate to improve GUI speed."
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "mod_filter Usage"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "Please install mod_filter if mod_deflate is used."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -6780,6 +6796,10 @@ msgstr ""
 
 #. Template: AdminProcessManagementTransition
 msgid "Remove this Field"
+msgstr ""
+
+#. Template: AdminProcessManagementTransition
+msgid "And can't be repeated on the same condition."
 msgstr ""
 
 #. Template: AdminProcessManagementTransition

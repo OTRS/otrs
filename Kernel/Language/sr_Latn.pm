@@ -595,6 +595,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Podešavanje character_set_database mora biti UNICODE ili UTF8.',
         'Table Charset' => 'Tabela karakterseta',
         'There were tables found which do not have utf8 as charset.' => '',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Maksimalna veličina upita',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Podešavanje \'max_allowed_packet\' mora biti veće od 20 MB.',
@@ -700,6 +702,8 @@ sub Data {
             'Za povećanje performansi treba da koristite FastCGI ili mod_perl.',
         'mod_deflate Usage' => 'Upotreba mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Molimo instalirajte mod_deflate da povećate brzinu GUI.',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => 'Upotreba mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Molimo instalirajte mod_headers da povećate brzinu GUI',
         'Apache::Reload Usage' => 'Upotreba Apache::Reload',
@@ -2040,6 +2044,7 @@ sub Data {
         'Remove this Condition' => 'Ukloni ovaj uslov',
         'Type of Linking' => 'Tip veze',
         'Remove this Field' => 'Ukloni ovo polje',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => 'Dodaj novo polje',
         'Add New Condition' => 'Dodaj novi Uslov',
 
@@ -4070,7 +4075,7 @@ sub Data {
         'Defines the path for scheduler to store its console output (SchedulerOUT.log and SchedulerERR.log).' =>
             'Određuje putanju za planera za skladištenje izlaza njegove konzole (SchedulerOUT.log i SchedulerERR.log). ',
         'Defines the path of the shown info file, that is located under Kernel/Output/HTML/Standard/CustomerAccept.dtl.' =>
-            'Određuje putanju prikazanog info direktorijuma koji je lociran pod Kernel/Output/HTML/Standard/CustomerAccept.dtl.',
+            'Određuje putanju prikazanog info direktorijuma koji je lociran pod Kernel/Output/HTML/Standard/CustomerAccept.tt.',
         'Defines the path to PGP binary.' => 'Određuje putanju do PGP binary.',
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Određuje putanju do open ssl binary. Može biti potrebno HOME Env ($ENV{HOME} = \'/var/lib/wwwrun\';).',

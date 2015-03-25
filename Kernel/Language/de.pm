@@ -595,6 +595,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Einstellung character_set_database muss UNICODE oder UTF8 sein.',
         'Table Charset' => 'Zeichensatz der Tabellen',
         'There were tables found which do not have utf8 as charset.' => 'Es wurden Tabellen gefunden, die nicht utf8 als Zeichensatz eingestellt haben.',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Maximale Anfragegröße',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Die Einstellung max_allowed_packet muss größer als 20 MB sein.',
@@ -700,6 +702,8 @@ sub Data {
             'Sie sollten FastCGI oder mod_perl verwenden, um die Geschwindigkeit zu steigern.',
         'mod_deflate Usage' => 'Verwendung mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Bitte installieren Sie mod_deflate, um die Geschwindigkeit zu steigern.',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => 'Verwendung mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Bitte installieren Sie mod_headers, um die Geschwindigkeit zu steigern.',
         'Apache::Reload Usage' => 'Verwendung Apache::Reload',
@@ -2040,6 +2044,7 @@ sub Data {
         'Remove this Condition' => 'Bedingung entfernen',
         'Type of Linking' => 'Typ der Verknüpfung',
         'Remove this Field' => 'Feld entfernen',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
 
@@ -2981,7 +2986,7 @@ sub Data {
         'No more events found. Please try changing the filter settings.' =>
             'Keine weiteren Ereignisse gefunden. Versuchen Sie die Filtereinstellungen zu verändern.',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            '',
+            'Um die Links im folgenden Beitrag zu öffnen, kann es notwendig sein Strg oder Shift zu drücken, während auf den Link geklickt wird (abhängig vom verwendeten Browser und Betriebssystem).',
         'Close this message' => 'Diese Nachricht schließen',
         'Article could not be opened! Perhaps it is on another article page?' =>
             'Artikel konnte nicht geöffnet werden. Befindet er sich vielleicht auf einer anderen Artikelseite?',

@@ -601,6 +601,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Nastavení character_set_database musi být UNICODE nebo UTF8.',
         'Table Charset' => '',
         'There were tables found which do not have utf8 as charset.' => 'Jsou zde tabulky, které nemají nastavenou kódovou stránku UTF8.',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Maximální velikost SQL dotazu',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Nastavení \'max_allowed_packet\' musí být větší než 20 MB.',
@@ -706,6 +708,8 @@ sub Data {
             'Použijte FastCGI nebo mod_perl pro zvýšení výkonu',
         'mod_deflate Usage' => '',
         'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => '',
         'Please install mod_headers to improve GUI speed.' => '',
         'Apache::Reload Usage' => '',
@@ -718,7 +722,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Zobrazení stavu',
-        'Service View' => '',
+        'Service View' => 'Zobrazit službu',
         'Bulk' => 'Hromadný',
         'Lock' => 'Zamknout',
         'Unlock' => 'Odemknout',
@@ -2046,6 +2050,7 @@ sub Data {
         'Remove this Condition' => '',
         'Type of Linking' => '',
         'Remove this Field' => '',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => '',
         'Add New Condition' => '',
 
@@ -2621,7 +2626,7 @@ sub Data {
         'My watched tickets' => 'Moje sledované tikety',
         'My responsibilities' => '',
         'Tickets in My Queues' => 'Tikety v mých frontách',
-        'Tickets in My Services' => '',
+        'Tickets in My Services' => 'Tikety v mých službách',
         'Service Time' => 'Servisní čas',
         'Remove active filters for this widget.' => '',
 
@@ -4873,7 +4878,7 @@ sub Data {
         'Sends the notifications which are configured in the admin interface under "Notfication (Event)".' =>
             '',
         'Service update notification' => '',
-        'Service view' => '',
+        'Service view' => 'Zobrazit službu',
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',

@@ -600,6 +600,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'el ajuste de character_set_database necesita ser UNICODE o UTF8.',
         'Table Charset' => 'Juego de Caracter de la Tabla',
         'There were tables found which do not have utf8 as charset.' => 'Se encontrarón tablas las cuales el juego de caracteres no es utf8.',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Tamaño Máximo de la Consulta',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'El ajuste \'max_allowed_packet\' debe ser mayor de 20 MB,',
@@ -705,6 +707,8 @@ sub Data {
             'Usted debe usar FastCGI o mod_perl para aumentar el rendimiento.',
         'mod_deflate Usage' => 'Uso del mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Por favor instale mod_deflate para mejorar la velocidad del GUI',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => 'Uso del mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Por favor instale mod_headers para mejorar la velocidad del GUI',
         'Apache::Reload Usage' => 'Uso del Apache::Reload',
@@ -2045,6 +2049,7 @@ sub Data {
         'Remove this Condition' => '',
         'Type of Linking' => '',
         'Remove this Field' => '',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => '',
         'Add New Condition' => '',
 
