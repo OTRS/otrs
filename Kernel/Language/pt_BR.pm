@@ -412,6 +412,7 @@ sub Data {
         'Redo' => 'Refazer',
         'Scheduler process is registered but might not be running.' => 'Processo do agendador está registrado mas pode não estar em execução.',
         'Scheduler is not running.' => 'Agendador não está em execução',
+        'All sessions have been killed, except for your own.' => 'Todas sessões foram desconectadas, exceto por esta.',
         'Can\'t contact registration server. Please try again later.' => 'Não é possível contatar o servidor de registro. Por favor, tente novamente mais tarde.',
         'No content received from registration server. Please try again later.' =>
             'Nenhum conteúdo recebido do servidor de registro. Por favor, tente novamente mais tarde.',
@@ -421,17 +422,17 @@ sub Data {
         'Upgrade to %s now!' => 'Atualize para %s agora!',
         '%s Go to the upgrade center %s' => '',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'A licença do seu %s está prestes a expirar. Por favor entre em contato com %s para revonar o seu contrato!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
+            'Uma atualização para o seu %s está disponível, porém existe um conflito com a versão do seu framework! Por favor em primeiro lugar atualize o seu framework!',
+        'Your system was successfully upgraded to %s.' => 'Seu sistema foi atualizado com sucesso para %s.',
+        'There was a problem during the upgrade to %s.' => 'Ocorreu um problema durante a atualização para %s.',
+        '%s was correctly reinstalled.' => '%s foi corretamente instalado.',
+        'There was a problem reinstalling %s.' => 'Houve um problema ao reinstalar %s.',
         'Your %s was successfully updated.' => 'Seu %s foi atualizado com sucesso.',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+        'There was a problem during the upgrade of %s.' => 'Houve um problema durante a atualização de %s.',
+        '%s was correctly uninstalled.' => '%s foi corretamente desinstalado.',
+        'There was a problem uninstalling %s.' => 'Houve um problema ao desinstalar %s.',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Ano Novo',
@@ -588,7 +589,7 @@ sub Data {
         'Internal Error: Could not open file.' => 'Erro interno: Não foi possível abrir o arquivo.',
         'Table Check' => 'Verificação das tabelas',
         'Internal Error: Could not read file.' => 'Erro Interno: Não foi possível ler o arquivo.',
-        'Tables found which are not present in the database.' => '',
+        'Tables found which are not present in the database.' => 'Foram encontradas tabelas não presentes na base de dados.',
         'Database Size' => 'Tamanho da Base de Dados',
         'Could not determine database size.' => 'Não foi possível determinar o tamanho da base de dados.',
         'Database Version' => 'Versão da base de dados',
@@ -599,6 +600,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => '',
         'Table Charset' => 'Chartset da Tabela',
         'There were tables found which do not have utf8 as charset.' => '',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Tamanho Máximo da Query',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'O parâmetro  \'max_allowed_packet\' deve ser maior que 20MB',
@@ -704,6 +707,8 @@ sub Data {
             'Você deve utilizar o FastCGI ou mod_perl para aumentar o desempenho. ',
         'mod_deflate Usage' => 'Uso do mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Por favor, instale mod_deflate para melhorar o desempenho da GUI.',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => 'Uso do mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Por favor, instale mod_headers para melhorar o desempenho da GUI',
         'Apache::Reload Usage' => 'Uso do Apache::Reload',
@@ -2044,6 +2049,7 @@ sub Data {
         'Remove this Condition' => 'Remover Esta Condição',
         'Type of Linking' => 'Tipo de Ligação',
         'Remove this Field' => 'Remover Este Campo',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => 'Adicionar Novo Campo',
         'Add New Condition' => 'Adicionar Nova Condição',
 
@@ -3563,7 +3569,7 @@ sub Data {
         'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
-        'Define the start day of the week for the date picker.' => 'Defina o dia de início da semana para o selecionador de data.',
+        'Define the start day of the week for the date picker.' => 'Define o dia de início da semana para o selecionador de data.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Define um item de cliente, que gera um ícone LinkedIn no final de um bloco de informação de cliente.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -4554,8 +4560,8 @@ sub Data {
         'Link queues to auto responses.' => 'Associar filas a respostas.',
         'Link roles to groups.' => 'Associar papéis a grupos.',
         'Link templates to queues.' => 'Associar modelos a filas.',
-        'Links 2 tickets with a "Normal" type link.' => '',
-        'Links 2 tickets with a "ParentChild" type link.' => '',
+        'Links 2 tickets with a "Normal" type link.' => 'Associa 2 chamados com um link do tipo "Normal".',
+        'Links 2 tickets with a "ParentChild" type link.' => 'Associa 2 chamados com um link do tipo "Pai-Filho".',
         'List of CSS files to always be loaded for the agent interface.' =>
             '',
         'List of CSS files to always be loaded for the customer interface.' =>
@@ -5426,7 +5432,7 @@ sub Data {
         'View performance benchmark results.' => 'Ver resultados da avaliação de desempenho.',
         'View system log messages.' => 'Ver mensagens de eventos do sistema.',
         'Wear this frontend skin' => 'Utilizar este tema de interface',
-        'Webservice path separator.' => '',
+        'Webservice path separator.' => 'Separador de caminho web service.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             'Quando chamados são mesclados, uma nota será adicionada automaticamente no chamado que não estará mais ativo. Aqui você pode definir a Artigo dessa nota ( Esse Artigo não pode ser alterada pelo Atendente ).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>

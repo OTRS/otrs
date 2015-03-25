@@ -606,6 +606,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Значение кодировки для сервера базы данных должно быть UNICODE или UTF8. ',
         'Table Charset' => 'Кодировка для таблицы',
         'There were tables found which do not have utf8 as charset.' => 'Найдены таблицы в кодировке, отличной от utf8.',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Максимальный размер запроса',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Значение параметра \'max_allowed_packet\' должно быть больше 20 МВ.',
@@ -711,6 +713,8 @@ sub Data {
             'Необходимо использовать FastCGI или mod_perl для повышения производительности.',
         'mod_deflate Usage' => 'Использование mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Установите mod_deflate для повышения скорости GUI.',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => 'Использование mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Установите mod_headers для повышения скорости GUI.',
         'Apache::Reload Usage' => 'Использование Apache::Reload',
@@ -2051,6 +2055,7 @@ sub Data {
         'Remove this Condition' => 'Удалить это Условие',
         'Type of Linking' => 'Тип связи',
         'Remove this Field' => 'Удалить это поле',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => 'Добавить новое поле',
         'Add New Condition' => 'Добавить новое Условие',
 
