@@ -1003,14 +1003,8 @@ sub _Mask {
         # create additional objects for process management
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
         my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
-        my $ProcessObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->new(
-            %Param,
-            ActivityObject         => $ActivityObject,
-            ActivityDialogObject   => $ActivityDialogObject,
-            TransitionObject       => $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition'),
-            TransitionActionObject => $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction'),
-        );
-        my $ProcessData = $ProcessObject->ProcessGet(
+        my $ProcessObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
+        my $ProcessData          = $ProcessObject->ProcessGet(
             ProcessEntityID => $Param{$ProcessEntityIDField},
         );
 
