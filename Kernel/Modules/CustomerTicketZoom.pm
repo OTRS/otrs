@@ -12,16 +12,6 @@ package Kernel::Modules::CustomerTicketZoom;
 use strict;
 use warnings;
 
-use Kernel::System::Web::UploadCache;
-use Kernel::System::State;
-use Kernel::System::User;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::ProcessManagement::Activity;
-use Kernel::System::ProcessManagement::ActivityDialog;
-use Kernel::System::ProcessManagement::Process;
-use Kernel::System::ProcessManagement::Transition;
-use Kernel::System::ProcessManagement::TransitionAction;
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -33,121 +23,35 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (
-        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
-        ConfigObject UserObject SessionObject
-        )
-        )
-    {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # get params
-    $Self->{ZoomExpand} = $Self->{ParamObject}->GetParam( Param => 'ZoomExpand' );
-    if ( !defined $Self->{ZoomExpand} ) {
-        $Self->{ZoomExpand} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpand') || '';
-    }
-
-    if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
-        my %UserPreferences = $Self->{UserObject}->GetPreferences(
-            UserID => $Self->{UserID},
-        );
-
-        if ( $UserPreferences{UserCustomerDoNotShowBrowserLinkMessage} ) {
-            $Self->{DoNotShowBrowserLinkMessage} = 1;
-        }
-        else {
-            $Self->{DoNotShowBrowserLinkMessage} = 0;
-        }
-    }
-
-    # needed objects
-    $Self->{AgentUserObject}    = Kernel::System::User->new(%Param);
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{UploadCacheObject}  = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-
-    # get form id
-    $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Self->{UploadCacheObject}->FormIDCreate();
-    }
-
-    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
-
-    # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter} = $Self->{Config}->{DynamicField};
-
-    $Self->{FollowUpDynamicFieldFilter} = $Self->{Config}->{FollowUpDynamicField};
-
-    # get the dynamic fields for ticket object
-    $Self->{FollowUpDynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => [ 'Ticket', 'Article' ],
-        FieldFilter => $Self->{FollowUpDynamicFieldFilter} || {},
-    );
-
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
-    my @CustomerDynamicFields;
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsCustomerInterfaceCapable',
-        );
-        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
-
-        push @CustomerDynamicFields, $DynamicFieldConfig;
-    }
-    $Self->{FollowUpDynamicField} = \@CustomerDynamicFields;
-
-    # create additional objects for process management
-    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::Activity->new(%Param);
-    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::ActivityDialog->new(%Param);
-
-    $Self->{TransitionObject}       = Kernel::System::ProcessManagement::Transition->new(%Param);
-    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::TransitionAction->new(%Param);
-
-    $Self->{ProcessObject} = Kernel::System::ProcessManagement::Process->new(
-        %Param,
-        ActivityObject         => $Self->{ActivityObject},
-        ActivityDialogObject   => $Self->{ActivityDialogObject},
-        TransitionObject       => $Self->{TransitionObject},
-        TransitionActionObject => $Self->{TransitionActionObject},
-    );
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # ticket id lookup
-    if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
-        $Self->{TicketID} = $Self->{TicketObject}->TicketIDLookup(
-            TicketNumber => $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ),
+    if ( !$Self->{TicketID} && $ParamObject->GetParam( Param => 'TicketNumber' ) ) {
+        $Self->{TicketID} = $TicketObject->TicketIDLookup(
+            TicketNumber => $ParamObject->GetParam( Param => 'TicketNumber' ),
             UserID       => $Self->{UserID},
         );
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-        $Output .= $Self->{LayoutObject}->CustomerError( Message => 'Need TicketID!' );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        $Output .= $LayoutObject->CustomerError( Message => 'Need TicketID!' );
+        $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->TicketCustomerPermission(
+    my $Access = $TicketObject->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
@@ -155,11 +59,11 @@ sub Run {
 
     # error screen, don't show ticket
     if ( !$Access ) {
-        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
+        return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
     }
 
     # get ticket data
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
         DynamicFields => 1,
     );
@@ -168,13 +72,13 @@ sub Run {
     my $StripPlainBodyAsAttachment = 1;
 
     # check if rich text is enabled, if not only stip ascii attachments
-    if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+    if ( !$LayoutObject->{BrowserRichText} ) {
         $StripPlainBodyAsAttachment = 2;
     }
 
     # get all articles of this ticket
-    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+    my @CustomerArticleTypes = $TicketObject->ArticleTypeList( Type => 'Customer' );
+    my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => $StripPlainBodyAsAttachment,
@@ -185,23 +89,36 @@ sub Run {
     # get params
     my %GetParam;
     for my $Key (qw(Subject Body StateID PriorityID)) {
-        $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
+        $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
     }
 
     # get Dynamic fields from ParamObject
     my %DynamicFieldValues;
 
+    my $ConfigObject               = $Kernel::OM->Get('Kernel::Config');
+    my $Config                     = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+    my $FollowUpDynamicFieldFilter = $Config->{FollowUpDynamicField};
+
+    # get the dynamic fields for ticket object
+    my $FollowUpDynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $FollowUpDynamicFieldFilter || {},
+    );
+
+    my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+    for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # extract the dynamic field value form the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } =
-            $Self->{BackendObject}->EditFieldValueGet(
+            $BackendObject->EditFieldValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
-            ParamObject        => $Self->{ParamObject},
-            LayoutObject       => $Self->{LayoutObject},
+            ParamObject        => $ParamObject,
+            LayoutObject       => $LayoutObject,
             );
     }
 
@@ -222,7 +139,7 @@ sub Run {
         if ( !$GetParam{TicketID} ) {
             $GetParam{TicketID} =
                 $Self->{TicketID} ||
-                $Self->{ParamObject}->GetParam( Param => 'TicketID' );
+                $ParamObject->GetParam( Param => 'TicketID' );
         }
 
         my $CustomerUser = $Self->{UserID};
@@ -243,17 +160,17 @@ sub Run {
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
-            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+            my $IsACLReducible = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsACLReducible',
             );
             next DYNAMICFIELD if !$IsACLReducible;
 
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $PossibleValues = $BackendObject->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
@@ -262,7 +179,7 @@ sub Run {
             @AclData{ keys %AclData } = keys %AclData;
 
             # set possible values filter from ACLs
-            my $ACL = $Self->{TicketObject}->TicketAcl(
+            my $ACL = $TicketObject->TicketAcl(
                 %GetParam,
                 Action         => $Self->{Action},
                 ReturnType     => 'Ticket',
@@ -271,13 +188,13 @@ sub Run {
                 CustomerUserID => $Self->{UserID},
             );
             if ($ACL) {
-                my %Filter = $Self->{TicketObject}->TicketAclData();
+                my %Filter = $TicketObject->TicketAclData();
 
                 # convert Filer key => key back to key => value using map
                 %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
             }
 
-            my $DataValues = $Self->{BackendObject}->BuildSelectionDataGet(
+            my $DataValues = $BackendObject->BuildSelectionDataGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 PossibleValues     => $PossibleValues,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
@@ -296,7 +213,7 @@ sub Run {
             );
         }
 
-        my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
+        my $JSON = $LayoutObject->BuildSelectionJSON(
             [
                 {
                     Name        => 'PriorityID',
@@ -315,8 +232,8 @@ sub Run {
                 @DynamicFieldAJAX,
             ],
         );
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -328,13 +245,13 @@ sub Run {
     # save, if browser link message was closed
     elsif ( $Self->{Subaction} eq 'BrowserLinkMessage' ) {
 
-        $Self->{UserObject}->SetPreferences(
+        $Kernel::OM->Get('Kernel::System::CustomerUser')->SetPreferences(
             UserID => $Self->{UserID},
             Key    => 'UserCustomerDoNotShowBrowserLinkMessage',
             Value  => 1,
         );
 
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => 1,
             Type        => 'inline',
@@ -346,39 +263,42 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Store' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck( Type => 'Customer' );
+        $LayoutObject->ChallengeTokenCheck( Type => 'Customer' );
 
-        my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
+        my $NextScreen = $Self->{NextScreen} || $Config->{NextScreenAfterFollowUp};
         my %Error;
 
         # get follow up option (possible or not)
-        my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+        my $QueueObject      = $Kernel::OM->Get('Kernel::System::Queue');
+        my $FollowUpPossible = $QueueObject->GetFollowUpOption(
             QueueID => $Ticket{QueueID},
         );
 
         # get lock option (should be the ticket locked - if closed - after the follow up)
-        my $Lock = $Self->{QueueObject}->GetFollowUpLockOption(
+        my $Lock = $QueueObject->GetFollowUpLockOption(
             QueueID => $Ticket{QueueID},
         );
 
+        my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
         # get ticket state details
-        my %State = $Self->{StateObject}->StateGet(
+        my %State = $StateObject->StateGet(
             ID => $Ticket{StateID},
         );
         if ( $FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i ) {
-            my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-            $Output .= $Self->{LayoutObject}->CustomerWarning(
+            my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+            $Output .= $LayoutObject->CustomerWarning(
                 Message => 'Can\'t reopen ticket, not possible in this queue!',
                 Comment => 'Create a new ticket!',
             );
-            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            $Output .= $LayoutObject->CustomerFooter();
             return $Output;
         }
 
         # rewrap body if no rich text is used
-        if ( $GetParam{Body} && !$Self->{LayoutObject}->{BrowserRichText} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->WrapPlainText(
-                MaxCharacters => $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote'),
+        if ( $GetParam{Body} && !$LayoutObject->{BrowserRichText} ) {
+            $GetParam{Body} = $LayoutObject->WrapPlainText(
+                MaxCharacters => $ConfigObject->Get('Ticket::Frontend::TextAreaNote'),
                 PlainText     => $GetParam{Body},
             );
         }
@@ -390,30 +310,40 @@ sub Run {
         my @AttachmentIDs = map {
             my ($ID) = $_ =~ m{ \A AttachmentDelete (\d+) \z }xms;
             $ID ? $ID : ();
-        } $Self->{ParamObject}->GetParamNames();
+        } $ParamObject->GetParamNames();
+
+        # get form id
+        my $FormID = $ParamObject->GetParam( Param => 'FormID' );
+
+        my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+        # create form id
+        if ( !$FormID ) {
+            $FormID = $UploadCacheObject->FormIDCreate();
+        }
 
         COUNT:
         for my $Count ( reverse sort @AttachmentIDs ) {
-            my $Delete = $Self->{ParamObject}->GetParam( Param => "AttachmentDelete$Count" );
+            my $Delete = $ParamObject->GetParam( Param => "AttachmentDelete$Count" );
             next COUNT if !$Delete;
             $GetParam{FollowUpVisible} = 'Visible';
             $Error{AttachmentDelete}   = 1;
-            $Self->{UploadCacheObject}->FormIDRemoveFile(
-                FormID => $Self->{FormID},
+            $UploadCacheObject->FormIDRemoveFile(
+                FormID => $FormID,
                 FileID => $Count,
             );
             $IsUpload = 1;
         }
 
         # attachment upload
-        if ( $Self->{ParamObject}->GetParam( Param => 'AttachmentUpload' ) ) {
+        if ( $ParamObject->GetParam( Param => 'AttachmentUpload' ) ) {
             $GetParam{FollowUpVisible} = 'Visible';
             $Error{AttachmentUpload}   = 1;
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            my %UploadStuff = $ParamObject->GetUploadAll(
                 Param => "file_upload",
             );
-            $Self->{UploadCacheObject}->FormIDAddFile(
-                FormID      => $Self->{FormID},
+            $UploadCacheObject->FormIDAddFile(
+                FormID      => $FormID,
                 Disposition => 'attachment',
                 %UploadStuff,
             );
@@ -432,12 +362,12 @@ sub Run {
 
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $PossibleValuesFilter;
 
-            my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+            my $IsACLReducible = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsACLReducible',
             );
@@ -445,7 +375,7 @@ sub Run {
             if ($IsACLReducible) {
 
                 # get PossibleValues
-                my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+                my $PossibleValues = $BackendObject->PossibleValuesGet(
                     DynamicFieldConfig => $DynamicFieldConfig,
                 );
 
@@ -457,7 +387,7 @@ sub Run {
                     @AclData{ keys %AclData } = keys %AclData;
 
                     # set possible values filter from ACLs
-                    my $ACL = $Self->{TicketObject}->TicketAcl(
+                    my $ACL = $TicketObject->TicketAcl(
                         %GetParam,
                         Action         => $Self->{Action},
                         TicketID       => $Self->{TicketID},
@@ -467,7 +397,7 @@ sub Run {
                         CustomerUserID => $Self->{UserID},
                     );
                     if ($ACL) {
-                        my %Filter = $Self->{TicketObject}->TicketAclData();
+                        my %Filter = $TicketObject->TicketAclData();
 
                         # convert Filer key => key back to key => value using map
                         %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
@@ -481,23 +411,23 @@ sub Run {
             # do not validate on attachment upload
             if ( !$IsUpload ) {
 
-                $ValidationResult = $Self->{BackendObject}->EditFieldValueValidate(
+                $ValidationResult = $BackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    ParamObject          => $Self->{ParamObject},
+                    ParamObject          => $ParamObject,
                     Mandatory =>
-                        $Self->{Config}->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
+                        $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} }
                         == 2,
                 );
 
                 if ( !IsHashRefWithData($ValidationResult) ) {
-                    my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-                    $Output .= $Self->{LayoutObject}->CustomerError(
+                    my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+                    $Output .= $LayoutObject->CustomerError(
                         Message =>
                             "Could not perform validation on field $DynamicFieldConfig->{Label}!",
                         Comment => 'Please contact your administrator',
                     );
-                    $Output .= $Self->{LayoutObject}->CustomerFooter();
+                    $Output .= $LayoutObject->CustomerFooter();
                     return $Output;
                 }
 
@@ -512,15 +442,15 @@ sub Run {
 
             # get field html
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-                $Self->{BackendObject}->EditFieldRender(
+                $BackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory =>
-                    $Self->{Config}->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                    $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 ServerError  => $ValidationResult->{ServerError}  || '',
                 ErrorMessage => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject => $Self->{LayoutObject},
-                ParamObject  => $Self->{ParamObject},
+                LayoutObject => $LayoutObject,
+                ParamObject  => $ParamObject,
                 AJAXUpdate   => 1,
                 UpdatableFields => $Self->_GetFieldsToUpdate(),
                 );
@@ -530,8 +460,8 @@ sub Run {
         if (%Error) {
 
             # generate output
-            my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
-            $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
+            my $Output = $LayoutObject->CustomerHeader( Value => $Ticket{TicketNumber} );
+            $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $Self->_Mask(
                 TicketID   => $Self->{TicketID},
                 ArticleBox => \@ArticleBox,
@@ -542,14 +472,14 @@ sub Run {
                 %GetParam,
                 DynamicFieldHTML => \%DynamicFieldHTML,
             );
-            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            $Output .= $LayoutObject->CustomerFooter();
             return $Output;
         }
 
         # unlock ticket if agent is on vacation or invalid
         my $LockAction;
         if ( $Ticket{OwnerID} ) {
-            my %User = $Self->{AgentUserObject}->GetUserData(
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
                 UserID => $Ticket{OwnerID},
             );
             if ( %User && ( $User{OutOfOfficeMessage} || $User{ValidID} ne '1' ) ) {
@@ -569,29 +499,29 @@ sub Run {
         }
 
         if ($LockAction) {
-            $Self->{TicketObject}->TicketLockSet(
+            $TicketObject->TicketLockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => $LockAction,
-                UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                UserID   => $ConfigObject->Get('CustomerPanelUserID'),
             );
         }
 
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
 
         my $MimeType = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $MimeType = 'text/html';
 
             # verify html document
-            $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
+            $GetParam{Body} = $LayoutObject->RichTextDocumentComplete(
                 String => $GetParam{Body},
             );
         }
 
         # set state
-        my $NextState = $Self->{Config}->{StateDefault} || 'open';
-        if ( $GetParam{StateID} && $Self->{Config}->{State} ) {
-            my %NextStateData = $Self->{StateObject}->StateGet( ID => $GetParam{StateID} );
+        my $NextState = $Config->{StateDefault} || 'open';
+        if ( $GetParam{StateID} && $Config->{State} ) {
+            my %NextStateData = $StateObject->StateGet( ID => $GetParam{StateID} );
             $NextState = $NextStateData{Name};
         }
 
@@ -599,65 +529,65 @@ sub Run {
         # customer set another state
         # or the ticket is not new
         if ( $Ticket{StateType} !~ /^new/ || $GetParam{StateID} ) {
-            $Self->{TicketObject}->StateSet(
+            $TicketObject->StateSet(
                 TicketID => $Self->{TicketID},
                 State    => $NextState,
-                UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                UserID   => $ConfigObject->Get('CustomerPanelUserID'),
             );
 
             # set unlock on close state
             if ( $NextState =~ /^close/i ) {
-                $Self->{TicketObject}->TicketLockSet(
+                $TicketObject->TicketLockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'unlock',
-                    UserID   => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                    UserID   => $ConfigObject->Get('CustomerPanelUserID'),
                 );
             }
         }
 
         # set priority
-        if ( $Self->{Config}->{Priority} && $GetParam{PriorityID} ) {
-            $Self->{TicketObject}->TicketPrioritySet(
+        if ( $Config->{Priority} && $GetParam{PriorityID} ) {
+            $TicketObject->TicketPrioritySet(
                 TicketID   => $Self->{TicketID},
                 PriorityID => $GetParam{PriorityID},
-                UserID     => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                UserID     => $ConfigObject->Get('CustomerPanelUserID'),
             );
         }
 
-        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        my $ArticleID = $TicketObject->ArticleCreate(
             TicketID    => $Self->{TicketID},
-            ArticleType => $Self->{Config}->{ArticleType},
-            SenderType  => $Self->{Config}->{SenderType},
+            ArticleType => $Config->{ArticleType},
+            SenderType  => $Config->{SenderType},
             From        => $From,
             Subject     => $GetParam{Subject},
             Body        => $GetParam{Body},
             MimeType    => $MimeType,
-            Charset     => $Self->{LayoutObject}->{UserCharset},
-            UserID      => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            Charset     => $LayoutObject->{UserCharset},
+            UserID      => $ConfigObject->Get('CustomerPanelUserID'),
             OrigHeader  => {
                 From    => $From,
                 To      => 'System',
                 Subject => $GetParam{Subject},
-                Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
+                Body    => $LayoutObject->RichText2Ascii( String => $GetParam{Body} ),
             },
-            HistoryType      => $Self->{Config}->{HistoryType},
-            HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
+            HistoryType      => $Config->{HistoryType},
+            HistoryComment   => $Config->{HistoryComment} || '%%',
             AutoResponseType => 'auto follow up',
         );
         if ( !$ArticleID ) {
-            my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-            $Output .= $Self->{LayoutObject}->CustomerError();
-            $Output .= $Self->{LayoutObject}->CustomerFooter();
+            my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+            $Output .= $LayoutObject->CustomerError();
+            $Output .= $LayoutObject->CustomerFooter();
             return $Output;
         }
 
         # get pre loaded attachment
-        my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
-            FormID => $Self->{FormID}
+        my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
+            FormID => $FormID
         );
 
         # get submit attachment
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        my %UploadStuff = $ParamObject->GetUploadAll(
             Param => 'file_upload',
         );
         if (%UploadStuff) {
@@ -675,12 +605,12 @@ sub Run {
                 && ( $Attachment->{Disposition} eq 'inline' )
                 )
             {
-                my $ContentIDHTMLQuote = $Self->{LayoutObject}->Ascii2Html(
+                my $ContentIDHTMLQuote = $LayoutObject->Ascii2Html(
                     Text => $ContentID,
                 );
 
                 # workaround for link encode of rich text editor, see bug#5053
-                my $ContentIDLinkEncode = $Self->{LayoutObject}->LinkEncode($ContentID);
+                my $ContentIDLinkEncode = $LayoutObject->LinkEncode($ContentID);
                 $GetParam{Body} =~ s/(ContentID=)$ContentIDLinkEncode/$1$ContentID/g;
 
                 # ignore attachment if not linked in body
@@ -690,56 +620,56 @@ sub Run {
             }
 
             # write existing file to backend
-            $Self->{TicketObject}->ArticleWriteAttachment(
+            $TicketObject->ArticleWriteAttachment(
                 %{$Attachment},
                 ArticleID => $ArticleID,
-                UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                UserID    => $ConfigObject->Get('CustomerPanelUserID'),
             );
         }
 
         # set ticket dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Ticket';
 
             # set the value
-            my $Success = $Self->{BackendObject}->ValueSet(
+            my $Success = $BackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Self->{TicketID},
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                UserID             => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                UserID             => $ConfigObject->Get('CustomerPanelUserID'),
             );
         }
 
         # set article dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if $DynamicFieldConfig->{ObjectType} ne 'Article';
 
             # set the value
-            my $Success = $Self->{BackendObject}->ValueSet(
+            my $Success = $BackendObject->ValueSet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $ArticleID,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                UserID             => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+                UserID             => $ConfigObject->Get('CustomerPanelUserID'),
             );
         }
 
         # remove pre submited attachments
-        $Self->{UploadCacheObject}->FormIDRemove( FormID => $Self->{FormID} );
+        $UploadCacheObject->FormIDRemove( FormID => $FormID );
 
         # redirect to zoom view
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => "Action=$NextScreen;TicketID=$Self->{TicketID}",
         );
     }
 
     $Ticket{TmpCounter}      = 0;
-    $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
+    $Ticket{TicketTimeUnits} = $TicketObject->TicketAccountedTimeGet(
         TicketID => $Ticket{TicketID},
     );
 
@@ -751,12 +681,12 @@ sub Run {
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+    for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         my $PossibleValuesFilter;
 
-        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+        my $IsACLReducible = $BackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsACLReducible',
         );
@@ -764,7 +694,7 @@ sub Run {
         if ($IsACLReducible) {
 
             # get PossibleValues
-            my $PossibleValues = $Self->{BackendObject}->PossibleValuesGet(
+            my $PossibleValues = $BackendObject->PossibleValuesGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
             );
 
@@ -776,7 +706,7 @@ sub Run {
                 @AclData{ keys %AclData } = keys %AclData;
 
                 # set possible values filter from ACLs
-                my $ACL = $Self->{TicketObject}->TicketAcl(
+                my $ACL = $TicketObject->TicketAcl(
                     %GetParam,
                     Action         => $Self->{Action},
                     TicketID       => $Self->{TicketID},
@@ -786,7 +716,7 @@ sub Run {
                     CustomerUserID => $Self->{UserID},
                 );
                 if ($ACL) {
-                    my %Filter = $Self->{TicketObject}->TicketAclData();
+                    my %Filter = $TicketObject->TicketAclData();
 
                     # convert Filer key => key back to key => value using map
                     %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
@@ -797,13 +727,13 @@ sub Run {
 
         # get field html
         $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } =
-            $Self->{BackendObject}->EditFieldRender(
+            $BackendObject->EditFieldRender(
             DynamicFieldConfig   => $DynamicFieldConfig,
             PossibleValuesFilter => $PossibleValuesFilter,
             Mandatory =>
-                $Self->{Config}->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            LayoutObject    => $Self->{LayoutObject},
-            ParamObject     => $Self->{ParamObject},
+                $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+            LayoutObject    => $LayoutObject,
+            ParamObject     => $ParamObject,
             AJAXUpdate      => 1,
             UpdatableFields => $Self->_GetFieldsToUpdate(),
             Value           => $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
@@ -812,8 +742,8 @@ sub Run {
     }
 
     # generate output
-    my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
-    $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
+    my $Output = $LayoutObject->CustomerHeader( Value => $Ticket{TicketNumber} );
+    $Output .= $LayoutObject->CustomerNavigationBar();
 
     # show ticket
     if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
@@ -838,7 +768,7 @@ sub Run {
     }
 
     # add footer
-    $Output .= $Self->{LayoutObject}->CustomerFooter();
+    $Output .= $LayoutObject->CustomerFooter();
 
     # return output
     return $Output;
@@ -849,7 +779,7 @@ sub _GetNextStates {
 
     my %NextStates;
     if ( $Param{TicketID} ) {
-        %NextStates = $Self->{TicketObject}->TicketStateList(
+        %NextStates = $Kernel::OM->Get('Kernel::System::Ticket')->TicketStateList(
             %Param,
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
@@ -867,7 +797,7 @@ sub _GetPriorities {
     # get priority
     my %Priorities;
     if ( $Param{TicketID} ) {
-        %Priorities = $Self->{TicketObject}->TicketPriorityList(
+        %Priorities = $Kernel::OM->Get('Kernel::System::Ticket')->TicketPriorityList(
             %Param,
             Action         => $Self->{Action},
             CustomerUserID => $Self->{UserID},
@@ -879,25 +809,39 @@ sub _GetPriorities {
 sub _Mask {
     my ( $Self, %Param ) = @_;
 
-    $Param{FormID} = $Self->{FormID};
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # get form id
+    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
+
+    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+    # create form id
+    if ( !$FormID ) {
+        $FormID = $UploadCacheObject->FormIDCreate();
+    }
+
+    $Param{FormID} = $FormID;
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # show back link
     if ( $Self->{LastScreenOverview} ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Back',
             Data => \%Param,
         );
     }
 
     # build article stuff
-    my $SelectedArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' ) || '';
-    my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
+    my $SelectedArticleID = $ParamObject->GetParam( Param => 'ArticleID' ) || '';
+    my $BaseLink          = $LayoutObject->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
     # prepare errors!
     if ( $Param{Errors} ) {
         for my $KeyError ( sort keys %{ $Param{Errors} } ) {
-            $Param{$KeyError} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
+            $Param{$KeyError} = $LayoutObject->Ascii2Html( Text => $Param{Errors}->{$KeyError} );
         }
     }
 
@@ -937,20 +881,24 @@ sub _Mask {
         }
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # set display options
-    $Param{Hook} = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
+    $Param{Hook} = $ConfigObject->Get('Ticket::Hook') || 'Ticket#';
+
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # ticket priority flag
-    if ( $Self->{Config}->{AttributesView}->{Priority} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $Config->{AttributesView}->{Priority} ) {
+        $LayoutObject->Block(
             Name => 'PriorityFlag',
             Data => \%Param,
         );
     }
 
     # ticket type
-    if ( $Self->{ConfigObject}->Get('Ticket::Type') && $Self->{Config}->{AttributesView}->{Type} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $ConfigObject->Get('Ticket::Type') && $Config->{AttributesView}->{Type} ) {
+        $LayoutObject->Block(
             Name => 'Type',
             Data => \%Param,
         );
@@ -960,21 +908,21 @@ sub _Mask {
     if (
         $Param{Service}
         &&
-        $Self->{ConfigObject}->Get('Ticket::Service')
-        && $Self->{Config}->{AttributesView}->{Service}
+        $ConfigObject->Get('Ticket::Service')
+        && $Config->{AttributesView}->{Service}
         )
     {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Service',
             Data => \%Param,
         );
         if (
             $Param{SLA}
-            && $Self->{ConfigObject}->Get('Ticket::Service')
-            && $Self->{Config}->{AttributesView}->{SLA}
+            && $ConfigObject->Get('Ticket::Service')
+            && $Config->{AttributesView}->{SLA}
             )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'SLA',
                 Data => \%Param,
             );
@@ -982,35 +930,37 @@ sub _Mask {
     }
 
     # ticket state
-    if ( $Self->{Config}->{AttributesView}->{State} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $Config->{AttributesView}->{State} ) {
+        $LayoutObject->Block(
             Name => 'State',
             Data => \%Param,
         );
     }
 
     # ticket priority
-    if ( $Self->{Config}->{AttributesView}->{Priority} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $Config->{AttributesView}->{Priority} ) {
+        $LayoutObject->Block(
             Name => 'Priority',
             Data => \%Param,
         );
     }
 
     # ticket queue
-    if ( $Self->{Config}->{AttributesView}->{Queue} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $Config->{AttributesView}->{Queue} ) {
+        $LayoutObject->Block(
             Name => 'Queue',
             Data => \%Param,
         );
     }
 
+    my $AgentUserObject = $Kernel::OM->Get('Kernel::System::User');
+
     # ticket owner
-    if ( $Self->{Config}->{AttributesView}->{Owner} ) {
-        my $OwnerName = $Self->{AgentUserObject}->UserName(
+    if ( $Config->{AttributesView}->{Owner} ) {
+        my $OwnerName = $AgentUserObject->UserName(
             UserID => $Param{OwnerID},
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Owner',
             Data => { OwnerName => $OwnerName },
         );
@@ -1018,22 +968,24 @@ sub _Mask {
 
     # ticket responsible
     if (
-        $Self->{ConfigObject}->Get('Ticket::Responsible')
+        $ConfigObject->Get('Ticket::Responsible')
         &&
-        $Self->{Config}->{AttributesView}->{Responsible}
+        $Config->{AttributesView}->{Responsible}
         )
     {
-        my $ResponsibleName = $Self->{AgentUserObject}->UserName(
+        my $ResponsibleName = $AgentUserObject->UserName(
             UserID => $Param{ResponsibleID},
         );
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Responsible',
             Data => { ResponsibleName => $ResponsibleName },
         );
     }
 
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # check if ticket is normal or process ticket
-    my $IsProcessTicket = $Self->{TicketObject}->TicketCheckForProcessType(
+    my $IsProcessTicket = $TicketObject->TicketCheckForProcessType(
         'TicketID' => $Self->{TicketID}
     );
 
@@ -1042,23 +994,33 @@ sub _Mask {
 
         # get the DF where the ProcessEntityID is stored
         my $ProcessEntityIDField = 'DynamicField_'
-            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementProcessID");
+            . $ConfigObject->Get("Process::DynamicFieldProcessManagementProcessID");
 
         # get the DF where the AtivityEntityID is stored
         my $ActivityEntityIDField = 'DynamicField_'
-            . $Self->{ConfigObject}->Get("Process::DynamicFieldProcessManagementActivityID");
+            . $ConfigObject->Get("Process::DynamicFieldProcessManagementActivityID");
 
-        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+        # create additional objects for process management
+        my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity');
+        my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
+        my $ProcessObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process')->new(
+            %Param,
+            ActivityObject         => $ActivityObject,
+            ActivityDialogObject   => $ActivityDialogObject,
+            TransitionObject       => $Kernel::OM->Get('Kernel::System::ProcessManagement::Transition'),
+            TransitionActionObject => $Kernel::OM->Get('Kernel::System::ProcessManagement::TransitionAction'),
+        );
+        my $ProcessData = $ProcessObject->ProcessGet(
             ProcessEntityID => $Param{$ProcessEntityIDField},
         );
 
-        my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+        my $ActivityData = $ActivityObject->ActivityGet(
             Interface        => 'CustomerInterface',
             ActivityEntityID => $Param{$ActivityEntityIDField},
         );
 
         # output process information in the sidebar
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ProcessData',
             Data => {
                 Process  => $ProcessData->{Name}  || '',
@@ -1067,7 +1029,7 @@ sub _Mask {
         );
 
         # output the process widget the the main screen
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ProcessWidget',
             Data => {
                 WidgetTitle => $Param{WidgetTitle},
@@ -1100,7 +1062,7 @@ sub _Mask {
             ACTIVITYDIALOGPERMISSION:
             for my $Index ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                 my $CurrentActivityDialogEntityID = $NextActivityDialogs->{$Index};
-                my $CurrentActivityDialog         = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                my $CurrentActivityDialog         = $ActivityDialogObject->ActivityDialogGet(
                     ActivityDialogEntityID => $CurrentActivityDialogEntityID,
                     Interface              => 'CustomerInterface',
                 );
@@ -1115,7 +1077,7 @@ sub _Mask {
                     # performance-boost/cache
                     if ( !defined $PermissionRights{ $CurrentActivityDialog->{Permission} } ) {
                         $PermissionRights{ $CurrentActivityDialog->{Permission} }
-                            = $Self->{TicketObject}->TicketCustomerPermission(
+                            = $TicketObject->TicketCustomerPermission(
                             Type     => $CurrentActivityDialog->{Permission},
                             TicketID => $Param{TicketID},
                             UserID   => $Self->{UserID},
@@ -1134,7 +1096,7 @@ sub _Mask {
             $NextActivityDialogs = \%PermissionActivityDialogList;
 
             # get ACL restrictions
-            my $ACL = $Self->{TicketObject}->TicketAcl(
+            my $ACL = $TicketObject->TicketAcl(
                 Data           => \%PermissionActivityDialogList,
                 TicketID       => $Param{TicketID},
                 Action         => $Self->{Action},
@@ -1144,19 +1106,19 @@ sub _Mask {
             );
 
             if ($ACL) {
-                %{$NextActivityDialogs} = $Self->{TicketObject}->TicketAclData()
+                %{$NextActivityDialogs} = $TicketObject->TicketAclData()
             }
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NextActivities',
             );
 
             for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
-                my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
+                my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     Interface              => 'CustomerInterface',
                 );
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ActivityDialog',
                     Data => {
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1168,7 +1130,7 @@ sub _Mask {
             }
 
             if ( !IsHashRefWithData($NextActivityDialogs) ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'NoActivityDialog',
                     Data => {},
                 );
@@ -1176,11 +1138,42 @@ sub _Mask {
         }
     }
 
+    # get dynamic field config for frontend module
+    my $DynamicFieldFilter         = $Config->{DynamicField};
+    my $FollowUpDynamicFieldFilter = $Config->{FollowUpDynamicField};
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
     # get the dynamic fields for ticket object
-    my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $FollowUpDynamicField = $DynamicFieldObject->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $FollowUpDynamicFieldFilter || {},
+    );
+
+    my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @CustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @CustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $FollowUpDynamicField = \@CustomerDynamicFields;
+
+    # get the dynamic fields for ticket object
+    my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
         Valid       => 1,
         ObjectType  => ['Ticket'],
-        FieldFilter => $Self->{DynamicFieldFilter} || {},
+        FieldFilter => $DynamicFieldFilter || {},
     );
 
     # cycle trough the activated Dynamic Fields for ticket object
@@ -1189,13 +1182,13 @@ sub _Mask {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # skip the dynamic field if is not designed for customer interface
-        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+        my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsCustomerInterfaceCapable',
         );
         next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
 
-        my $Value = $Self->{BackendObject}->ValueGet(
+        my $Value = $BackendObject->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Param{TicketID},
         );
@@ -1204,16 +1197,16 @@ sub _Mask {
         next DYNAMICFIELD if $Value eq "";
 
         # get print string for this dynamic field
-        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+        my $ValueStrg = $BackendObject->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Value,
             ValueMaxChars      => 25,
-            LayoutObject       => $Self->{LayoutObject},
+            LayoutObject       => $LayoutObject,
         );
 
         my $Label = $DynamicFieldConfig->{Label};
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'TicketDynamicField',
             Data => {
                 Label => $Label,
@@ -1223,7 +1216,7 @@ sub _Mask {
         );
 
         # example of dynamic fields order customization
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name},
             Data => {
                 Label => $Label,
@@ -1234,20 +1227,26 @@ sub _Mask {
     }
 
     # print option
-    if ( $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketPrint} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $ConfigObject->Get('CustomerFrontend::Module')->{CustomerTicketPrint} ) {
+        $LayoutObject->Block(
             Name => 'Print',
             Data => \%Param,
         );
     }
 
+    # get params
+    my $ZoomExpand = $ParamObject->GetParam( Param => 'ZoomExpand' );
+    if ( !defined $ZoomExpand ) {
+        $ZoomExpand = $ConfigObject->Get('Ticket::Frontend::ZoomExpand') || '';
+    }
+
     # Expand option
-    my $ExpandOption = ( $Self->{ZoomExpand} ? 'One' : 'All' );
-    my $ExpandText = ( $Self->{ZoomExpand} ? 'Show one article' : 'Show all articles' );
-    $Self->{LayoutObject}->Block(
+    my $ExpandOption = ( $ZoomExpand ? 'One' : 'All' );
+    my $ExpandText = ( $ZoomExpand ? 'Show one article' : 'Show all articles' );
+    $LayoutObject->Block(
         Name => 'Expand',
         Data => {
-            ZoomExpand   => !$Self->{ZoomExpand},
+            ZoomExpand   => !$ZoomExpand,
             ExpandOption => $ExpandOption,
             ExpandText   => $ExpandText,
             %Param,
@@ -1260,18 +1259,18 @@ sub _Mask {
         my %Article = %$ArticleTmp;
 
         # check if article should be expanded (visible)
-        if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
+        if ( $SelectedArticleID eq $Article{ArticleID} || $ZoomExpand ) {
             $Article{Class} = 'Visible';
             $ShownArticles++;
         }
 
         # do some html quoting
-        $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+        $Article{Age} = $LayoutObject->CustomerAge(
             Age   => $Article{AgeTimeUnix},
             Space => ' ',
         );
 
-        $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+        $Article{Subject} = $TicketObject->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
             Subject      => $Article{Subject} || '',
             Size         => 150,
@@ -1279,20 +1278,20 @@ sub _Mask {
 
         $LastSenderType = $Article{SenderType};
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Article',
             Data => \%Article,
         );
 
         # show the correct title: "expand article..." or the article's subject
-        if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
-            $Self->{LayoutObject}->Block(
+        if ( $SelectedArticleID eq $Article{ArticleID} || $ZoomExpand ) {
+            $LayoutObject->Block(
                 Name => 'ArticleExpanded',
                 Data => \%Article,
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ArticleContracted',
                 Data => \%Article,
             );
@@ -1302,7 +1301,7 @@ sub _Mask {
         RECIPIENT:
         for my $Key (qw(From To Cc)) {
             next RECIPIENT if !$Article{$Key};
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ArticleRow',
                 Data => {
                     Key      => $Key,
@@ -1313,10 +1312,10 @@ sub _Mask {
         }
 
         # get the dynamic fields for article object
-        my $DynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
             Valid       => 1,
             ObjectType  => ['Article'],
-            FieldFilter => $Self->{DynamicFieldFilter} || {},
+            FieldFilter => $DynamicFieldFilter || {},
         );
 
         # cycle trough the activated Dynamic Fields for ticket object
@@ -1325,13 +1324,13 @@ sub _Mask {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # skip the dynamic field if is not desinged for customer interface
-            my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
+            my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsCustomerInterfaceCapable',
             );
             next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
 
-            my $Value = $Self->{BackendObject}->ValueGet(
+            my $Value = $BackendObject->ValueGet(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 ObjectID           => $Article{ArticleID},
             );
@@ -1340,16 +1339,16 @@ sub _Mask {
             next DYNAMICFIELD if $Value eq "";
 
             # get print string for this dynamic field
-            my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+            my $ValueStrg = $BackendObject->DisplayValueRender(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Value              => $Value,
                 ValueMaxChars      => 160,
-                LayoutObject       => $Self->{LayoutObject},
+                LayoutObject       => $LayoutObject,
             );
 
             my $Label = $DynamicFieldConfig->{Label};
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ArticleDynamicField',
                 Data => {
                     Label => $Label,
@@ -1359,7 +1358,7 @@ sub _Mask {
             );
 
             # example of dynamic fields order customization
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
                 Data => {
                     Label => $Label,
@@ -1371,7 +1370,7 @@ sub _Mask {
 
         if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'BodyChat',
                 Data => {
                     ChatMessages => $Kernel::OM->Get('Kernel::System::JSON')->Decode(
@@ -1383,36 +1382,49 @@ sub _Mask {
         else {
 
             # check if just a only html email
-            if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
+            if ( my $MimeTypeText = $LayoutObject->CheckMimeType( %Param, %Article ) ) {
                 $Param{BodyNote} = $MimeTypeText;
                 $Param{Body}     = '';
             }
             else {
 
                 # html quoting
-                $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                    NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                $Article{Body} = $LayoutObject->Ascii2Html(
+                    NewLine        => $ConfigObject->Get('DefaultViewNewLine'),
                     Text           => $Article{Body},
-                    VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                    VMax           => $ConfigObject->Get('DefaultViewLines') || 5000,
                     HTMLResultMode => 1,
                     LinkFeature    => 1,
                 );
             }
 
             # security="restricted" may break SSO - disable this feature if requested
-            if ( $Self->{ConfigObject}->Get('DisableMSIFrameSecurityRestricted') ) {
+            if ( $ConfigObject->Get('DisableMSIFrameSecurityRestricted') ) {
                 $Param{MSSecurityRestricted} = '';
             }
             else {
                 $Param{MSSecurityRestricted} = 'security="restricted"';
             }
 
+            if ( !defined $Self->{DoNotShowBrowserLinkMessage} ) {
+                my %UserPreferences = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+                    UserID => $Self->{UserID},
+                );
+
+                if ( $UserPreferences{UserCustomerDoNotShowBrowserLinkMessage} ) {
+                    $Self->{DoNotShowBrowserLinkMessage} = 1;
+                }
+                else {
+                    $Self->{DoNotShowBrowserLinkMessage} = 0;
+                }
+            }
+
             # in case show plain article body (if no html body as attachment exists of if rich
             # text is not enabled)
-            my $RichText = $Self->{LayoutObject}->{BrowserRichText};
+            my $RichText = $LayoutObject->{BrowserRichText};
             if ( $RichText && $Article{AttachmentIDOfHTMLBody} ) {
-                if ( $SelectedArticleID eq $Article{ArticleID} || $Self->{ZoomExpand} ) {
-                    $Self->{LayoutObject}->Block(
+                if ( $SelectedArticleID eq $Article{ArticleID} || $ZoomExpand ) {
+                    $LayoutObject->Block(
                         Name => 'BodyHTMLLoad',
                         Data => {
                             %Param,
@@ -1422,7 +1434,7 @@ sub _Mask {
 
                     # show message about links in iframes, if user didn't close it already
                     if ( !$Self->{DoNotShowBrowserLinkMessage} ) {
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'BrowserLinkMessage',
                         );
                     }
@@ -1431,12 +1443,12 @@ sub _Mask {
                     my $SessionInformation;
 
                     # Append session information to URL if needed
-                    if ( !$Self->{LayoutObject}->{SessionIDCookie} ) {
-                        $SessionInformation = $Self->{LayoutObject}->{SessionName} . '='
-                            . $Self->{LayoutObject}->{SessionID};
+                    if ( !$LayoutObject->{SessionIDCookie} ) {
+                        $SessionInformation = $LayoutObject->{SessionName} . '='
+                            . $LayoutObject->{SessionID};
                     }
 
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'BodyHTMLPlaceholder',
                         Data => {
                             %Param,
@@ -1447,14 +1459,14 @@ sub _Mask {
 
                     # show message about links in iframes, if user didn't close it already
                     if ( !$Self->{DoNotShowBrowserLinkMessage} ) {
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'BrowserLinkMessage',
                         );
                     }
                 }
             }
             else {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'BodyPlain',
                     Data => {
                         %Param,
@@ -1468,7 +1480,7 @@ sub _Mask {
         if ( $Article{Atms} && %{ $Article{Atms} } ) {
 
             # download type
-            my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+            my $Type = $ConfigObject->Get('AttachmentDownloadType') || 'attachment';
 
             # if attachment will be forced to download, don't open a new download window!
             my $Target = '';
@@ -1476,7 +1488,7 @@ sub _Mask {
                 $Target = 'target="attachment" ';
             }
             my %AtmIndex = %{ $Article{Atms} };
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ArticleAttachment',
                 Data => {
                     Key => 'Attachment',
@@ -1484,17 +1496,17 @@ sub _Mask {
             );
             for my $FileID ( sort keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$FileID} };
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ArticleAttachmentRow',
                     Data => \%File,
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ArticleAttachmentRowLink',
                     Data => {
                         %File,
                         Action => 'Download',
-                        Link   => $Self->{LayoutObject}->{Baselink} .
+                        Link   => $LayoutObject->{Baselink} .
                             "Action=CustomerTicketAttachment;ArticleID=$Article{ArticleID};FileID=$FileID",
                         Image  => 'disk-s.png',
                         Target => $Target,
@@ -1506,7 +1518,7 @@ sub _Mask {
 
     # if there are no viewable articles show NoArticles message
     if ( !@ArticleBox ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoArticles',
         );
     }
@@ -1541,8 +1553,8 @@ sub _Mask {
         if ( $Param{ShowHTMLeMail} ) {
 
             # generate output
-            return $Self->{LayoutObject}->Attachment(
-                Filename => $Self->{ConfigObject}->Get('Ticket::Hook')
+            return $LayoutObject->Attachment(
+                Filename => $ConfigObject->Get('Ticket::Hook')
                     . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
                 Type        => 'inline',
                 ContentType => "$Article{MimeType}; charset=$Article{Charset}",
@@ -1560,14 +1572,14 @@ sub _Mask {
     }
 
     # check follow up permissions
-    my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption(
+    my $FollowUpPossible = $Kernel::OM->Get('Kernel::System::Queue')->GetFollowUpOption(
         QueueID => $Article{QueueID},
     );
-    my %State = $Self->{StateObject}->StateGet(
+    my %State = $Kernel::OM->Get('Kernel::System::State')->StateGet(
         ID => $Article{StateID},
     );
     if (
-        $Self->{TicketObject}->TicketCustomerPermission(
+        $TicketObject->TicketCustomerPermission(
             Type     => 'update',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -1594,26 +1606,26 @@ sub _Mask {
         if ( !$Param{Subject} ) {
             $Param{Subject} = "Re: " . ( $Param{Title} // '' );
         }
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'FollowUp',
             Data => \%Param,
         );
 
         # add rich text editor
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
 
             # use height/width defined for this screen
-            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
+            $Param{RichTextHeight} = $Config->{RichTextHeight} || 0;
+            $Param{RichTextWidth}  = $Config->{RichTextWidth}  || 0;
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'RichText',
                 Data => \%Param,
             );
         }
 
         # build next states string
-        if ( $Self->{Config}->{State} ) {
+        if ( $Config->{State} ) {
             my $NextStates = $Self->_GetNextStates(
                 %Param,
                 TicketID => $Self->{TicketID},
@@ -1623,21 +1635,21 @@ sub _Mask {
                 $StateSelected{SelectedID} = $Param{StateID};
             }
             else {
-                $StateSelected{SelectedValue} = $Self->{Config}->{StateDefault};
+                $StateSelected{SelectedValue} = $Config->{StateDefault};
             }
-            $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+            $Param{NextStatesStrg} = $LayoutObject->BuildSelection(
                 Data => $NextStates,
                 Name => 'StateID',
                 %StateSelected,
             );
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'FollowUpState',
                 Data => \%Param,
             );
         }
 
         # get priority
-        if ( $Self->{Config}->{Priority} ) {
+        if ( $Config->{Priority} ) {
             my $Priorities = $Self->_GetPriorities(
                 %Param,
                 TicketID => $Self->{TicketID},
@@ -1647,15 +1659,15 @@ sub _Mask {
                 $PrioritySelected{SelectedID} = $Param{PriorityID};
             }
             else {
-                $PrioritySelected{SelectedValue} = $Self->{Config}->{PriorityDefault}
+                $PrioritySelected{SelectedValue} = $Config->{PriorityDefault}
                     || '3 normal';
             }
-            $Param{PriorityStrg} = $Self->{LayoutObject}->BuildSelection(
+            $Param{PriorityStrg} = $LayoutObject->BuildSelection(
                 Data => $Priorities,
                 Name => 'PriorityID',
                 %PrioritySelected,
             );
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'FollowUpPriority',
                 Data => \%Param,
             );
@@ -1664,7 +1676,7 @@ sub _Mask {
         # Dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             # skip fields that HTML could not be retrieved
@@ -1675,7 +1687,7 @@ sub _Mask {
             # get the html strings form $Param
             my $DynamicFieldHTML = $Param{DynamicFieldHTML}->{ $DynamicFieldConfig->{Name} };
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'FollowUpDynamicField',
                 Data => {
                     Name  => $DynamicFieldConfig->{Name},
@@ -1685,7 +1697,7 @@ sub _Mask {
             );
 
             # example of dynamic fields order customization
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'FollowUpDynamicField_' . $DynamicFieldConfig->{Name},
                 Data => {
                     Name  => $DynamicFieldConfig->{Name},
@@ -1697,22 +1709,22 @@ sub _Mask {
 
         # show attachments
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
-            FormID => $Self->{FormID},
+        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
+            FormID => $FormID,
         );
 
         ATTACHMENT:
         for my $Attachment (@Attachments) {
             if (
                 $Attachment->{ContentID}
-                && $Self->{LayoutObject}->{BrowserRichText}
+                && $LayoutObject->{BrowserRichText}
                 && ( $Attachment->{ContentType} =~ /image/i )
                 && ( $Attachment->{Disposition} eq 'inline' )
                 )
             {
                 next ATTACHMENT;
             }
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'FollowUpAttachment',
                 Data => $Attachment,
             );
@@ -1720,7 +1732,7 @@ sub _Mask {
     }
 
     # select the output template
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'CustomerTicketZoom',
         Data         => {
             %Article,
@@ -1739,12 +1751,22 @@ sub _GetFieldsToUpdate {
         @UpdatableFields = qw( ServiceID SLAID PriorityID StateID );
     }
 
+    my $Config                     = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+    my $FollowUpDynamicFieldFilter = $Config->{FollowUpDynamicField};
+
+    # get the dynamic fields for ticket object
+    my $FollowUpDynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => [ 'Ticket', 'Article' ],
+        FieldFilter => $FollowUpDynamicFieldFilter || {},
+    );
+
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{FollowUpDynamicField} } ) {
+    for my $DynamicFieldConfig ( @{$FollowUpDynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
-        my $IsACLReducible = $Self->{BackendObject}->HasBehavior(
+        my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
             DynamicFieldConfig => $DynamicFieldConfig,
             Behavior           => 'IsACLReducible',
         );
