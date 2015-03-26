@@ -176,6 +176,31 @@ sub Run {
         );
     }
 
+    # stop word check
+    elsif ( $Self->{Subaction} eq 'AJAXStopWordCheck' ) {
+
+        my $StopWordCheckResult = {
+            FoundStopWords => [],
+        };
+
+        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+            my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
+            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
+            my @FoundStopWords = keys %{$FoundStopWords};
+            $StopWordCheckResult->{FoundStopWords} = \@FoundStopWords;
+        }
+
+        my $Output = $Self->{LayoutObject}->JSONEncode(
+            Data => $StopWordCheckResult,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
+    }
+
     # get search string params (get submitted params)
     else {
         for my $Key (

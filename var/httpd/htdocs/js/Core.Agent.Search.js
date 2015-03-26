@@ -458,7 +458,8 @@ Core.Agent.Search = (function (TargetNS) {
                 'Subject': 1,
                 'Body': 1,
                 'Fulltext': 1,
-            };
+            },
+            StopWordCheckData;
 
         $('#SearchForm label').each(function () {
             var ElementName,

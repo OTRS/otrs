@@ -162,6 +162,12 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">
     Core.Customer.InitFocus();
+
+    Core.Config.AddConfig({
+        SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from your search as they cannot be searched for:") |JSON %]
+    });
+
+    Core.Customer.Search.Init();
 </script>
 [% END %]
 [% RenderBlockEnd("Search") %]
