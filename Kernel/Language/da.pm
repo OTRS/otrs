@@ -596,6 +596,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Indstillingen character_set_database_ skal være UNICODE eller UTF8.',
         'Table Charset' => 'Karakterset i tabeller',
         'There were tables found which do not have utf8 as charset.' => 'Der blev fundet tabeller, som ikke bruger utf8-karaktersættet.',
+        'InnoDB Log File Size' => '',
+        'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Maksimal størrelse på forespørgsler',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Indstillingen \'max_allowed_packet\' skal være højere end 20 MB.',
@@ -701,6 +703,8 @@ sub Data {
             '',
         'mod_deflate Usage' => '',
         'Please install mod_deflate to improve GUI speed.' => '',
+        'mod_filter Usage' => '',
+        'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => '',
         'Please install mod_headers to improve GUI speed.' => '',
         'Apache::Reload Usage' => '',
@@ -2041,6 +2045,7 @@ sub Data {
         'Remove this Condition' => '',
         'Type of Linking' => '',
         'Remove this Field' => 'Fjern dette felt',
+        'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => 'Tilføj et nyt felt',
         'Add New Condition' => '',
 

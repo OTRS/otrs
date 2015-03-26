@@ -119,27 +119,3 @@
     </div>
 [% RenderBlockEnd("BottomSubNavigation") %]
 </div>
-#[% RenderBlockEnd("Record") %]
-#                <dtl if ([% Env("Color") %] eq "") { [% Env("Color") %] = "searchpassive"; }>
-#                <tr valign="top">
-#                    <td class="[% Env("Color") %]">
-#                        <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %];ArticleID=[% Data.ArticleID | uri %];QueueID=[% Data.QueueID | uri %]">
-#                            [% Data.TicketNumber %]
-#                        </a>
-#                    </td>
-#                    <td class="[% Env("Color") %]">[% Data.Age | html %]</td>
-#                    <td class="[% Env("Color") %]">
-#                        <div title="[% Data.From | html %]">[% Data.From | truncate(30) | html %]</div>
-#                        <div title="[% Data.Subject | html %]">[% Data.Subject | truncate(30) | html %]</div>&nbsp;
-#                    </td>
-#                    <td class="[% Env("Color") %]">
-#                        <div title="[% Translate(Data.State) | html %]">[% Data.State | Translate | truncate(30) | html %]</div>
-#                    </td>
-#                    <td class="[% Env("Color") %]">
-#                        <div title="[% Data.CustomerID | html %]">[% Data.CustomerID | truncate(15) | html %]</div>
-#                        <div title="[% Data.CustomerName | html %]">[% Data.CustomerName | truncate(15) | html %]</div>
-#                    </td>
-#                </tr>
-#                <dtl if ([% Env("Color") %] eq "searchactive") { [% Env("Color") %] = ""; }>
-#                <dtl if ([% Env("Color") %] eq "searchpassive") { [% Env("Color") %] = "searchactive"; }>
-#[% RenderBlockEnd("Record") %]
