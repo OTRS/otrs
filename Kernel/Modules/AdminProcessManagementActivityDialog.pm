@@ -12,15 +12,9 @@ package Kernel::Modules::AdminProcessManagementActivityDialog;
 use strict;
 use warnings;
 
-use Kernel::System::JSON;
-use Kernel::System::DynamicField;
-use Kernel::System::ProcessManagement::DB::Process;
-use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Process;
-use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::ActivityDialog;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,27 +23,36 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (
-        qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)
-        )
-    {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
+    return $Self;
+}
 
-    # create additional objects
-    $Self->{JSONObject}           = Kernel::System::JSON->new( %{$Self} );
-    $Self->{DynamicFieldObject}   = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{ProcessObject}        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}         = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ProcessObject}        = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{ActivityObject}       = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
+
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ID' )       || '';
+    my $EntityID         = $ParamObject->GetParam( Param => 'EntityID' ) || '';
+
+    my %SessionData = $Kernel::OM->Get('Kernel::System::AuthSession')->GetSessionIDData(
+        SessionID => $Self->{SessionID},
+    );
+
+    # convert JSON string to array
+    $Self->{ScreensPath} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+        Data => $SessionData{ProcessManagementScreensPath}
+    );
+
+    # get needed objects
+    my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+    my $EntityObject         = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
+    my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+    my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # create available Fields list
-    $Self->{AvailableFields} = {
+    my $AvailableFieldsList = {
         Article     => 'Article',
         State       => 'StateID',
         Priority    => 'PriorityID',
@@ -62,22 +65,22 @@ sub new {
     };
 
     # add service and SLA fields, if option is activated in sysconfig.
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
-        $Self->{AvailableFields}->{Service} = 'ServiceID';
-        $Self->{AvailableFields}->{SLA}     = 'SLAID';
+    if ( $ConfigObject->Get('Ticket::Service') ) {
+        $AvailableFieldsList->{Service} = 'ServiceID';
+        $AvailableFieldsList->{SLA}     = 'SLAID';
     }
 
     # add ticket type field, if option is activated in sysconfig.
-    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
-        $Self->{AvailableFields}->{Type} = 'TypeID';
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        $AvailableFieldsList->{Type} = 'TypeID';
     }
 
     # add responsible field, if option is activated in sysconfig.
-    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
-        $Self->{AvailableFields}->{Responsible} = 'ResponsibleID';
+    if ( $ConfigObject->Get('Ticket::Responsible') ) {
+        $AvailableFieldsList->{Responsible} = 'ResponsibleID';
     }
 
-    my $DynamicFieldList = $Self->{DynamicFieldObject}->DynamicFieldList(
+    my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
         ObjectType => [ 'Ticket', 'Article' ],
         ResultType => 'HASH',
     );
@@ -91,28 +94,8 @@ sub new {
         next DYNAMICFIELD if $DynamicFieldName eq 'ProcessManagementProcessID';
         next DYNAMICFIELD if $DynamicFieldName eq 'ProcessManagementActivityID';
 
-        $Self->{AvailableFields}->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
+        $AvailableFieldsList->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
     }
-
-    return $Self;
-}
-
-sub Run {
-    my ( $Self, %Param ) = @_;
-
-    $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
-
-    my $ActivityDialogID = $Self->{ParamObject}->GetParam( Param => 'ID' )       || '';
-    my $EntityID         = $Self->{ParamObject}->GetParam( Param => 'EntityID' ) || '';
-
-    my %SessionData = $Self->{SessionObject}->GetSessionIDData(
-        SessionID => $Self->{SessionID},
-    );
-
-    # convert JSON string to array
-    $Self->{ScreensPath} = $Self->{JSONObject}->Decode(
-        Data => $SessionData{ProcessManagementScreensPath}
-    );
 
     # ------------------------------------------------------------ #
     # ActivityDialogNew
@@ -131,7 +114,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ActivityDialogNewAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get Activity Dialog data
         my $ActivityDialogData;
@@ -157,7 +140,7 @@ sub Run {
             FIELD:
             for my $FieldName ( @{ $GetParam->{Fields} } ) {
                 next FIELD if !$FieldName;
-                next FIELD if !$Self->{AvailableFields}->{$FieldName};
+                next FIELD if !$AvailableFieldsList->{$FieldName};
 
                 # set fields hash
                 $ActivityDialogData->{Config}->{Fields}->{$FieldName} = {};
@@ -208,7 +191,7 @@ sub Run {
 
         # check if permission exists
         if ( defined $GetParam->{Permission} && $GetParam->{Permission} ne '' ) {
-            my $PermissionList = $Self->{ConfigObject}->Get('System::Permission');
+            my $PermissionList = $ConfigObject->Get('System::Permission');
 
             my %PermissionLookup = map { $_ => 1 } @{$PermissionList};
 
@@ -238,20 +221,20 @@ sub Run {
         }
 
         # generate entity ID
-        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+        my $EntityID = $EntityObject->EntityIDGenerate(
             EntityType => 'ActivityDialog',
             UserID     => $Self->{UserID},
         );
 
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error generating a new EntityID for this ActivityDialog",
             );
         }
 
         # otherwise save configuration and return process screen
-        my $ActivityDialogID = $Self->{ActivityDialogObject}->ActivityDialogAdd(
+        my $ActivityDialogID = $ActivityDialogObject->ActivityDialogAdd(
             Name     => $ActivityDialogData->{Name},
             EntityID => $EntityID,
             Config   => $ActivityDialogData->{Config},
@@ -260,13 +243,13 @@ sub Run {
 
         # show error if can't create
         if ( !$ActivityDialogID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error creating the ActivityDialog",
             );
         }
 
         # set entity sync state
-        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+        my $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'ActivityDialog',
             EntityID   => $EntityID,
             SyncState  => 'not_sync',
@@ -275,7 +258,7 @@ sub Run {
 
         # show error if can't set
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error setting the entity sync status for ActivityDialog "
                     . "entity:$EntityID",
             );
@@ -284,14 +267,14 @@ sub Run {
         # remove this screen from session screen path
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
-        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+        my $Redirect = $ParamObject->GetParam( Param => 'PopupRedirect' ) || '';
 
         # get latest config data to send it back to main window
         my $ActivityDialogConfig = $Self->_GetActivityDialogConfig(
             EntityID => $EntityID,
         );
 
-        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $ActivityDialogConfig );
+        my $ConfigJSON = $LayoutObject->JSONEncode( Data => $ActivityDialogConfig );
 
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
@@ -302,7 +285,7 @@ sub Run {
                 Subaction => 'ActivityDialogEdit'               # always use edit screen
             );
 
-            my $RedirectField = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectField = $ParamObject->GetParam( Param => 'PopupRedirectID' ) || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -348,7 +331,7 @@ sub Run {
 
         # check for ActivityDialogID
         if ( !$ActivityDialogID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need ActivityDialogID!",
             );
         }
@@ -357,14 +340,14 @@ sub Run {
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
         # get Activity Dialog data
-        my $ActivityDialogData = $Self->{ActivityDialogObject}->ActivityDialogGet(
+        my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
             ID     => $ActivityDialogID,
             UserID => $Self->{UserID},
         );
 
         # check for valid Activity Dialog data
         if ( !IsHashRefWithData($ActivityDialogData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Could not get data for ActivityDialogID $ActivityDialogID",
             );
         }
@@ -383,7 +366,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ActivityDialogEditAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get Activity Dialog Data
         my $ActivityDialogData;
@@ -409,7 +392,7 @@ sub Run {
             FIELD:
             for my $FieldName ( @{ $GetParam->{Fields} } ) {
                 next FIELD if !$FieldName;
-                next FIELD if !$Self->{AvailableFields}->{$FieldName};
+                next FIELD if !$AvailableFieldsList->{$FieldName};
 
                 # set fields hash
                 $ActivityDialogData->{Config}->{Fields}->{$FieldName} = {};
@@ -469,7 +452,7 @@ sub Run {
         # check if permission exists
         if ( defined $GetParam->{Permission} && $GetParam->{Permission} ne '' ) {
 
-            my $PermissionList = $Self->{ConfigObject}->Get('System::Permission');
+            my $PermissionList = $ConfigObject->Get('System::Permission');
 
             my %PermissionLookup = map { $_ => 1 } @{$PermissionList};
 
@@ -499,7 +482,7 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        my $Success = $Self->{ActivityDialogObject}->ActivityDialogUpdate(
+        my $Success = $ActivityDialogObject->ActivityDialogUpdate(
             ID       => $ActivityDialogID,
             Name     => $ActivityDialogData->{Name},
             EntityID => $ActivityDialogData->{EntityID},
@@ -509,13 +492,13 @@ sub Run {
 
         # show error if can't update
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error updating the ActivityDialog",
             );
         }
 
         # set entity sync state
-        $Success = $Self->{EntityObject}->EntitySyncStateSet(
+        $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'ActivityDialog',
             EntityID   => $ActivityDialogData->{EntityID},
             SyncState  => 'not_sync',
@@ -524,7 +507,7 @@ sub Run {
 
         # show error if can't set
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error setting the entity sync status for ActivityDialog "
                     . "entity:$ActivityDialogData->{EntityID}",
             );
@@ -533,14 +516,14 @@ sub Run {
         # remove this screen from session screen path
         $Self->_PopSessionScreen( OnlyCurrent => 1 );
 
-        my $Redirect = $Self->{ParamObject}->GetParam( Param => 'PopupRedirect' ) || '';
+        my $Redirect = $ParamObject->GetParam( Param => 'PopupRedirect' ) || '';
 
         # get latest config data to send it back to main window
         my $ActivityDialogConfig = $Self->_GetActivityDialogConfig(
             EntityID => $ActivityDialogData->{EntityID},
         );
 
-        my $ConfigJSON = $Self->{LayoutObject}->JSONEncode( Data => $ActivityDialogConfig );
+        my $ConfigJSON = $LayoutObject->JSONEncode( Data => $ActivityDialogConfig );
 
         # check if needed to open another window or if popup should go back
         if ( $Redirect && $Redirect eq '1' ) {
@@ -551,7 +534,7 @@ sub Run {
                 Subaction => 'ActivityDialogEdit'               # always use edit screen
             );
 
-            my $RedirectField = $Self->{ParamObject}->GetParam( Param => 'PopupRedirectID' ) || '';
+            my $RedirectField = $ParamObject->GetParam( Param => 'PopupRedirectID' ) || '';
 
             # redirect to another popup window
             return $Self->_PopupResponse(
@@ -605,7 +588,7 @@ sub Run {
     # Error
     # ------------------------------------------------------------ #
     else {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => "This subaction is not valid",
         );
     }
@@ -615,7 +598,7 @@ sub _GetActivityDialogConfig {
     my ( $Self, %Param ) = @_;
 
     # Get new ActivityDialog Config as JSON
-    my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+    my $ProcessDump = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessDump(
         ResultType => 'HASH',
         UserID     => $Self->{UserID},
     );
@@ -633,11 +616,13 @@ sub _ShowEdit {
     # get Activity Dialog information
     my $ActivityDialogData = $Param{ActivityDialogData} || {};
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check if last screen action is main screen
     if ( $Self->{ScreensPath}->[-1]->{Action} eq 'AdminProcessManagement' ) {
 
         # show close popup link
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ClosePopup',
             Data => {},
         );
@@ -645,7 +630,7 @@ sub _ShowEdit {
     else {
 
         # show go back link
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'GoBack',
             Data => {
                 Action    => $Self->{ScreensPath}->[-1]->{Action}    || '',
@@ -656,8 +641,56 @@ sub _ShowEdit {
         );
     }
 
+    # create available Fields list
+    my $AvailableFieldsList = {
+        Article     => 'Article',
+        State       => 'StateID',
+        Priority    => 'PriorityID',
+        Lock        => 'LockID',
+        Queue       => 'QueueID',
+        CustomerID  => 'CustomerID',
+        Owner       => 'OwnerID',
+        PendingTime => 'PendingTime',
+        Title       => 'Title',
+    };
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # add service and SLA fields, if option is activated in sysconfig.
+    if ( $ConfigObject->Get('Ticket::Service') ) {
+        $AvailableFieldsList->{Service} = 'ServiceID';
+        $AvailableFieldsList->{SLA}     = 'SLAID';
+    }
+
+    # add ticket type field, if option is activated in sysconfig.
+    if ( $ConfigObject->Get('Ticket::Type') ) {
+        $AvailableFieldsList->{Type} = 'TypeID';
+    }
+
+    # add responsible field, if option is activated in sysconfig.
+    if ( $ConfigObject->Get('Ticket::Responsible') ) {
+        $AvailableFieldsList->{Responsible} = 'ResponsibleID';
+    }
+
+    my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+        ObjectType => [ 'Ticket', 'Article' ],
+        ResultType => 'HASH',
+    );
+
+    DYNAMICFIELD:
+    for my $DynamicFieldName ( values %{$DynamicFieldList} ) {
+
+        next DYNAMICFIELD if !$DynamicFieldName;
+
+        # do not show internal fields for process management
+        next DYNAMICFIELD if $DynamicFieldName eq 'ProcessManagementProcessID';
+        next DYNAMICFIELD if $DynamicFieldName eq 'ProcessManagementActivityID';
+
+        $AvailableFieldsList->{"DynamicField_$DynamicFieldName"} = $DynamicFieldName;
+    }
+
     # localize available fields
-    my %AvailableFields = %{ $Self->{AvailableFields} };
+    my %AvailableFields = %{$AvailableFieldsList};
 
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
@@ -682,7 +715,7 @@ sub _ShowEdit {
         # sort by translated field names
         my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
-            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Translate($Field);
+            my $Translation = $LayoutObject->{LanguageObject}->Translate($Field);
             $AvailableFieldsTranslated{$Field} = $Translation;
         }
 
@@ -692,7 +725,7 @@ sub _ShowEdit {
             keys %AvailableFieldsTranslated
             )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
                     Field               => $Field,
@@ -708,11 +741,11 @@ sub _ShowEdit {
 
             my $FieldConfig = $ActivityDialogData->{Config}->{Fields}->{$Field};
 
-            my $FieldConfigJSON = $Self->{JSONObject}->Encode(
+            my $FieldConfigJSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
                 Data => $FieldConfig,
             );
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'AssignedFieldRow',
                 Data => {
                     Field       => $Field,
@@ -728,7 +761,7 @@ sub _ShowEdit {
 
         if ( @{$AffectedActivities} ) {
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'EditWarning',
                 Data => {
                     ActivityList => join( ', ', @{$AffectedActivities} ),
@@ -743,7 +776,7 @@ sub _ShowEdit {
         # sort by translated field names
         my %AvailableFieldsTranslated;
         for my $Field ( sort keys %AvailableFields ) {
-            my $Translation = $Self->{LayoutObject}->{LanguageObject}->Translate($Field);
+            my $Translation = $LayoutObject->{LanguageObject}->Translate($Field);
             $AvailableFieldsTranslated{$Field} = $Translation;
         }
 
@@ -753,7 +786,7 @@ sub _ShowEdit {
             keys %AvailableFieldsTranslated
             )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'AvailableFieldRow',
                 Data => {
                     Field               => $Field,
@@ -783,7 +816,7 @@ sub _ShowEdit {
     }
 
     # create interface selection
-    $Param{InterfaceSelection} = $Self->{LayoutObject}->BuildSelection(
+    $Param{InterfaceSelection} = $LayoutObject->BuildSelection(
         Data => {
             AgentInterface    => 'Agent Interface',
             CustomerInterface => 'Customer Interface',
@@ -798,11 +831,11 @@ sub _ShowEdit {
     );
 
     # create permission selection
-    $Param{PermissionSelection} = $Self->{LayoutObject}->BuildSelection(
-        Data       => $Self->{ConfigObject}->Get('System::Permission') || ['rw'],
+    $Param{PermissionSelection} = $LayoutObject->BuildSelection(
+        Data       => $Kernel::OM->Get('Kernel::Config')->Get('System::Permission') || ['rw'],
         Name       => 'Permission',
         ID         => 'Permission',
-        SelectedID => $ActivityDialogData->{Config}->{Permission}      || '',
+        SelectedID => $ActivityDialogData->{Config}->{Permission}                   || '',
         Sort       => 'AlphanumericKey',
         Translation  => 1,
         PossibleNone => 1,
@@ -810,7 +843,7 @@ sub _ShowEdit {
     );
 
     # create "required lock" selection
-    $Param{RequiredLockSelection} = $Self->{LayoutObject}->BuildSelection(
+    $Param{RequiredLockSelection} = $LayoutObject->BuildSelection(
         Data => {
             0 => 'No',
             1 => 'Yes',
@@ -824,7 +857,7 @@ sub _ShowEdit {
     );
 
     # create Display selection
-    $Param{DisplaySelection} = $Self->{LayoutObject}->BuildSelection(
+    $Param{DisplaySelection} = $LayoutObject->BuildSelection(
         Data => {
             0 => 'Do not show Field',
             1 => 'Show Field',
@@ -837,7 +870,7 @@ sub _ShowEdit {
     );
 
     # create ArticleType selection
-    $Param{ArticleTypeSelection} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ArticleTypeSelection} = $LayoutObject->BuildSelection(
         Data => [
             'note-internal',
             'note-external',
@@ -860,11 +893,11 @@ sub _ShowEdit {
     $Param{SubmitAdviceText} = $Param{ActivityDialogData}->{Config}->{SubmitAdviceText};
     $Param{SubmitButtonText} = $Param{ActivityDialogData}->{Config}->{SubmitButtonText};
 
-    my $Output = $Self->{LayoutObject}->Header(
+    my $Output = $LayoutObject->Header(
         Value => $Param{Title},
         Type  => 'Small',
     );
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => "AdminProcessManagementActivityDialog",
         Data         => {
             %Param,
@@ -872,7 +905,7 @@ sub _ShowEdit {
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -881,6 +914,7 @@ sub _GetParams {
     my ( $Self, %Param ) = @_;
 
     my $GetParam;
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get parameters from web browser
     for my $ParamName (
@@ -888,13 +922,14 @@ sub _GetParams {
         SubmitButtonText )
         )
     {
-        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+        $GetParam->{$ParamName} = $ParamObject->GetParam( Param => $ParamName ) || '';
     }
 
-    my $Fields = $Self->{ParamObject}->GetParam( Param => 'Fields' ) || '';
+    my $Fields = $ParamObject->GetParam( Param => 'Fields' ) || '';
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     if ($Fields) {
-        $GetParam->{Fields} = $Self->{JSONObject}->Decode(
+        $GetParam->{Fields} = $JSONObject->Decode(
             Data => $Fields,
         );
     }
@@ -902,10 +937,10 @@ sub _GetParams {
         $GetParam->{Fields} = '';
     }
 
-    my $FieldDetails = $Self->{ParamObject}->GetParam( Param => 'FieldDetails' ) || '';
+    my $FieldDetails = $ParamObject->GetParam( Param => 'FieldDetails' ) || '';
 
     if ($FieldDetails) {
-        $GetParam->{FieldDetails} = $Self->{JSONObject}->Decode(
+        $GetParam->{FieldDetails} = $JSONObject->Decode(
             Data => $FieldDetails,
         );
     }
@@ -937,12 +972,12 @@ sub _PopSessionScreen {
     }
 
     # convert screens path to string (JSON)
-    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+    my $JSONScreensPath = my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
         Data => $Self->{ScreensPath},
     );
 
     # update session
-    $Self->{SessionObject}->UpdateSessionID(
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'ProcessManagementScreensPath',
         Value     => $JSONScreensPath,
@@ -963,12 +998,12 @@ sub _PushSessionScreen {
     };
 
     # convert screens path to string (JSON)
-    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+    my $JSONScreensPath = my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
         Data => $Self->{ScreensPath},
     );
 
     # update session
-    $Self->{SessionObject}->UpdateSessionID(
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'ProcessManagementScreensPath',
         Value     => $JSONScreensPath,
@@ -980,8 +1015,10 @@ sub _PushSessionScreen {
 sub _PopupResponse {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     if ( $Param{Redirect} && $Param{Redirect} eq 1 ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Redirect',
             Data => {
                 ConfigJSON => $Param{ConfigJSON},
@@ -990,7 +1027,7 @@ sub _PopupResponse {
         );
     }
     elsif ( $Param{ClosePopup} && $Param{ClosePopup} eq 1 ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ClosePopup',
             Data => {
                 ConfigJSON => $Param{ConfigJSON},
@@ -998,12 +1035,12 @@ sub _PopupResponse {
         );
     }
 
-    my $Output = $Self->{LayoutObject}->Header( Type => 'Small' );
-    $Output .= $Self->{LayoutObject}->Output(
+    my $Output = $LayoutObject->Header( Type => 'Small' );
+    $Output .= $LayoutObject->Output(
         TemplateFile => "AdminProcessManagementPopupResponse",
         Data         => {},
     );
-    $Output .= $Self->{LayoutObject}->Footer( Type => 'Small' );
+    $Output .= $LayoutObject->Footer( Type => 'Small' );
 
     return $Output;
 }
@@ -1012,7 +1049,7 @@ sub _CheckActivityDialogUsage {
     my ( $Self, %Param ) = @_;
 
     # get a list of parents with all the details
-    my $List = $Self->{ActivityObject}->ActivityListGet(
+    my $List = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityListGet(
         UserID => 1,
     );
 

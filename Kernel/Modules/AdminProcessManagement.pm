@@ -14,19 +14,9 @@ use strict;
 use warnings;
 use Data::Dumper;
 
-use Kernel::System::YAML;
-
-use Kernel::System::JSON;
-use Kernel::System::DynamicField;
-use Kernel::System::ProcessManagement::DB::Entity;
-use Kernel::System::ProcessManagement::DB::Activity;
-use Kernel::System::ProcessManagement::DB::ActivityDialog;
-use Kernel::System::ProcessManagement::DB::Process;
-use Kernel::System::ProcessManagement::DB::Process::State;
-use Kernel::System::ProcessManagement::DB::Transition;
-use Kernel::System::ProcessManagement::DB::TransitionAction;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,45 +25,23 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (
-        qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)
-        )
-    {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-
-    # create additional objects
-    $Self->{JSONObject}         = Kernel::System::JSON->new( %{$Self} );
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new( %{$Self} );
-    $Self->{YAMLObject}         = Kernel::System::YAML->new( %{$Self} );
-    $Self->{ProcessObject}      = Kernel::System::ProcessManagement::DB::Process->new( %{$Self} );
-    $Self->{EntityObject}       = Kernel::System::ProcessManagement::DB::Entity->new( %{$Self} );
-    $Self->{ActivityObject}     = Kernel::System::ProcessManagement::DB::Activity->new( %{$Self} );
-
-    $Self->{ActivityDialogObject} = Kernel::System::ProcessManagement::DB::ActivityDialog->new( %{$Self} );
-
-    $Self->{StateObject} = Kernel::System::ProcessManagement::DB::Process::State->new( %{$Self} );
-
-    $Self->{TransitionObject} = Kernel::System::ProcessManagement::DB::Transition->new( %{$Self} );
-
-    $Self->{TransitionActionObject} = Kernel::System::ProcessManagement::DB::TransitionAction->new( %{$Self} );
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    $Self->{Subaction} = $Self->{ParamObject}->GetParam( Param => 'Subaction' ) || '';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' )       || '';
-    my $EntityID  = $Self->{ParamObject}->GetParam( Param => 'EntityID' ) || '';
+    $Self->{Subaction} = $ParamObject->GetParam( Param => 'Subaction' ) || '';
+
+    my $ProcessID = $ParamObject->GetParam( Param => 'ID' )       || '';
+    my $EntityID  = $ParamObject->GetParam( Param => 'EntityID' ) || '';
+
+    my $EntityObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
 
     # get the list of updated or deleted entities
-    my $EntitySyncStateList = $Self->{EntityObject}->EntitySyncStateList(
+    my $EntitySyncStateList = $EntityObject->EntitySyncStateList(
         UserID => $Self->{UserID}
     );
 
@@ -90,23 +58,29 @@ sub Run {
         ];
     }
 
+    # get needed objects
+    my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+    my $StateObject   = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+
     # ------------------------------------------------------------ #
     # ProcessImport
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'ProcessImport' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
-        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+        my $FormID = $ParamObject->GetParam( Param => 'FormID' ) || '';
+        my %UploadStuff = $ParamObject->GetUploadAll(
             Param => 'FileUpload',
         );
 
-        my $OverwriteExistingEntities = $Self->{ParamObject}->GetParam( Param => 'OverwriteExistingEntities' );
+        my $OverwriteExistingEntities = $ParamObject->GetParam( Param => 'OverwriteExistingEntities' );
 
         # import the process YAML file
-        my %ProcessImport = $Self->{ProcessObject}->ProcessImport(
+        my %ProcessImport = $ProcessObject->ProcessImport(
             Content                   => $UploadStuff{Content},
             OverwriteExistingEntities => $OverwriteExistingEntities,
             UserID                    => $Self->{UserID},
@@ -115,7 +89,7 @@ sub Run {
         if ( !$ProcessImport{Success} ) {
 
             # show the error screen
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => $ProcessImport{Message},
                 Comment => $ProcessImport{Comment} || '',
             );
@@ -144,9 +118,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ProcessExport' ) {
 
         # check for ProcessID
-        my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ProcessID = $ParamObject->GetParam( Param => 'ID' ) || '';
         if ( !$ProcessID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need ProcessID!",
             );
         }
@@ -156,11 +130,11 @@ sub Run {
         );
 
         # convert the processdata hash to string
-        my $ProcessDataYAML = $Self->{YAMLObject}->Dump( Data => $ProcessData );
+        my $ProcessDataYAML = $Kernel::OM->Get('Kernel::System::YAML')->Dump( Data => $ProcessData );
 
         # send the result to the browser
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'text/html; charset=' . $LayoutObject->{Charset},
             Content     => $ProcessDataYAML,
             Type        => 'attachment',
             Filename    => 'Export_ProcessEntityID_' . $ProcessData->{Process}->{EntityID} . '.yml',
@@ -178,9 +152,9 @@ sub Run {
         $Data::Dumper::Indent = 1;
 
         # check for ProcessID
-        my $ProcessID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ProcessID = $ParamObject->GetParam( Param => 'ID' ) || '';
         if ( !$ProcessID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need ProcessID!",
             );
         }
@@ -195,7 +169,7 @@ sub Run {
             ID => $ProcessID
         );
 
-        my $Output = $Self->{LayoutObject}->Header(
+        my $Output = $LayoutObject->Header(
             Value => $Param{Title},
             Type  => 'Small',
         );
@@ -205,7 +179,7 @@ sub Run {
 
             for my $ActivityEntityID ( sort keys %{ $ProcessData->{Activities} } ) {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ActivityRow',
                     Data => {
                         %{ $ProcessData->{Activities}->{$ActivityEntityID} },
@@ -219,7 +193,7 @@ sub Run {
                 my $AssignedDialogs = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}->{ActivityDialog};
                 if ( $AssignedDialogs && %{$AssignedDialogs} ) {
 
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'AssignedDialogs',
                     );
 
@@ -228,7 +202,7 @@ sub Run {
                         my $AssignedDialogEntityID = $ProcessData->{Activities}->{$ActivityEntityID}->{Config}
                             ->{ActivityDialog}->{$AssignedDialog};
 
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'AssignedDialogsRow',
                             Data => {
                                 Name => $ProcessData->{ActivityDialogs}->{$AssignedDialogEntityID}
@@ -241,7 +215,7 @@ sub Run {
             }
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ActivityRowEmpty',
             );
         }
@@ -251,7 +225,7 @@ sub Run {
 
             for my $ActivityDialogEntityID ( sort keys %{ $ProcessData->{ActivityDialogs} } ) {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ActivityDialogRow',
                     Data => {
                         ShownIn => join(
@@ -279,7 +253,7 @@ sub Run {
                             $Value = $BooleanMapping->{$Value};
                         }
 
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'ElementAttribute',
                             Data => {
                                 Key   => $ElementAttribute,
@@ -294,13 +268,13 @@ sub Run {
                     ->{FieldOrder};
                 if ( $AssignedFields && @{$AssignedFields} ) {
 
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'AssignedFields',
                     );
 
                     for my $AssignedField ( @{$AssignedFields} ) {
 
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'AssignedFieldsRow',
                             Data => {
                                 Name => $AssignedField,
@@ -324,7 +298,7 @@ sub Run {
                             }
 
                             if ( $Values{$Key} ) {
-                                $Self->{LayoutObject}->Block(
+                                $LayoutObject->Block(
                                     Name => 'AssignedFieldsRowValue',
                                     Data => {
                                         Key   => $Key,
@@ -338,7 +312,7 @@ sub Run {
             }
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ActivityDialogRowEmpty',
             );
         }
@@ -351,7 +325,7 @@ sub Run {
                 # list config
                 my $Config = $ProcessData->{Transitions}->{$TransitionEntityID}->{Config};
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'TransitionRow',
                     Data => {
                         %{ $ProcessData->{Transitions}->{$TransitionEntityID} },
@@ -361,13 +335,13 @@ sub Run {
 
                 if ( $Config && %{$Config} ) {
 
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'Condition',
                     );
 
                     for my $Condition ( sort keys %{ $Config->{Condition} } ) {
 
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'ConditionRow',
                             Data => {
                                 Name => $Condition,
@@ -382,7 +356,7 @@ sub Run {
 
                                 if ( ref $Values{$Key} eq 'HASH' ) {
 
-                                    $Self->{LayoutObject}->Block(
+                                    $LayoutObject->Block(
                                         Name => 'ConditionRowSub',
                                         Data => {
                                             NameSub => $Key,
@@ -393,7 +367,7 @@ sub Run {
 
                                         if ( ref $Values{$Key}->{$SubKey} eq 'HASH' ) {
 
-                                            $Self->{LayoutObject}->Block(
+                                            $LayoutObject->Block(
                                                 Name => 'ConditionRowSubSub',
                                                 Data => {
                                                     NameSubSub => $SubKey,
@@ -405,7 +379,7 @@ sub Run {
                                                 )
                                             {
 
-                                                $Self->{LayoutObject}->Block(
+                                                $LayoutObject->Block(
                                                     Name => 'ConditionRowSubSubValue',
                                                     Data => {
                                                         Key => $SubSubKey,
@@ -417,7 +391,7 @@ sub Run {
                                         }
                                         else {
 
-                                            $Self->{LayoutObject}->Block(
+                                            $LayoutObject->Block(
                                                 Name => 'ConditionRowSubValue',
                                                 Data => {
                                                     Key   => $SubKey,
@@ -429,7 +403,7 @@ sub Run {
                                 }
                                 else {
 
-                                    $Self->{LayoutObject}->Block(
+                                    $LayoutObject->Block(
                                         Name => 'ConditionRowValue',
                                         Data => {
                                             Key   => $Key,
@@ -444,7 +418,7 @@ sub Run {
             }
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'TransitionRowEmpty',
             );
         }
@@ -454,7 +428,7 @@ sub Run {
 
             for my $TransitionActionEntityID ( sort keys %{ $ProcessData->{TransitionActions} } ) {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'TransitionActionRow',
                     Data => {
                         Module => $ProcessData->{TransitionActions}->{$TransitionActionEntityID}
@@ -468,7 +442,7 @@ sub Run {
                     ->{Config};
                 if ( $Config && %{$Config} ) {
 
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'Config',
                     );
 
@@ -477,7 +451,7 @@ sub Run {
 
                         next CONFIGITEM if !$ConfigItem;
 
-                        $Self->{LayoutObject}->Block(
+                        $LayoutObject->Block(
                             Name => 'ConfigRow',
                             Data => {
                                 Name  => $ConfigItem,
@@ -490,7 +464,7 @@ sub Run {
             }
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'TransitionActionRowEmpty',
             );
         }
@@ -501,7 +475,7 @@ sub Run {
         # 3. use default skin from configuration
 
         my $SkinSelectedHostBased;
-        my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+        my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
         if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
             REGEXP:
             for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -519,13 +493,13 @@ sub Run {
 
         my $SkinSelected = $Self->{'UserSkin'}
             || $SkinSelectedHostBased
-            || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+            || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin')
             || 'default';
 
         my %AgentLogo;
 
         # check if we need to display a custom logo for the selected skin
-        my $AgentLogoCustom = $Self->{ConfigObject}->Get('AgentLogoCustom');
+        my $AgentLogoCustom = $ConfigObject->Get('AgentLogoCustom');
         if (
             $SkinSelected
             && $AgentLogoCustom
@@ -537,8 +511,8 @@ sub Run {
         }
 
         # Otherwise show default header logo, if configured
-        elsif ( defined $Self->{ConfigObject}->Get('AgentLogo') ) {
-            %AgentLogo = %{ $Self->{ConfigObject}->Get('AgentLogo') };
+        elsif ( defined $ConfigObject->Get('AgentLogo') ) {
+            %AgentLogo = %{ $ConfigObject->Get('AgentLogo') };
         }
 
         # get logo
@@ -546,7 +520,7 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'Logo',
                 Data => {
-                    LogoURL => $Self->{ConfigObject}->Get('Frontend::WebPath') . $AgentLogo{URL},
+                    LogoURL => $ConfigObject->Get('Frontend::WebPath') . $AgentLogo{URL},
                 },
             );
         }
@@ -589,7 +563,7 @@ sub Run {
                     }
                 }
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'PathItem',
                     Data => {
                         ActivityStart     => $Activity,
@@ -603,7 +577,7 @@ sub Run {
             }
         }
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => "AdminProcessManagementProcessPrint",
             Data         => {
                 Name => $ProcessData->{Process}->{Name} . ' ('
@@ -617,7 +591,7 @@ sub Run {
             },
         );
 
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         # reset Indent
         $Data::Dumper::Indent = $Indent;
@@ -631,15 +605,15 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ProcessCopy' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get Process data
-        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+        my $ProcessData = $ProcessObject->ProcessGet(
             ID     => $ProcessID,
             UserID => $Self->{UserID},
         );
         if ( !$ProcessData ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Unknown Process $ProcessID!",
             );
         }
@@ -648,37 +622,37 @@ sub Run {
         my $ProcessName =
             $ProcessData->{Name}
             . ' ('
-            . $Self->{LayoutObject}->{LanguageObject}->Translate('Copy')
+            . $LayoutObject->{LanguageObject}->Translate('Copy')
             . ')';
 
         # generate entity ID
-        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+        my $EntityID = $EntityObject->EntityIDGenerate(
             EntityType => 'Process',
             UserID     => $Self->{UserID},
         );
 
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error generating a new EntityID for this Process",
             );
         }
 
         # check if Inactive state estity exists
-        my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+        my $StateList = $StateObject->StateList( UserID => $Self->{UserID} );
         my %StateLookup = reverse %{$StateList};
 
         my $StateEntityID = $StateLookup{'Inactive'};
 
         # show error if  StateEntityID for Inactive does not exist
         if ( !$EntityID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "The StateEntityID for for state Inactive does not exists",
             );
         }
 
         # otherwise save configuration and return to overview screen
-        my $ProcessID = $Self->{ProcessObject}->ProcessAdd(
+        my $ProcessID = $ProcessObject->ProcessAdd(
             Name          => $ProcessName,
             EntityID      => $EntityID,
             StateEntityID => $StateEntityID,
@@ -689,13 +663,13 @@ sub Run {
 
         # show error if can't create
         if ( !$ProcessID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error creating the Process",
             );
         }
 
         # set entitty sync state
-        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+        my $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
             EntityID   => $EntityID,
             SyncState  => 'not_sync',
@@ -704,14 +678,14 @@ sub Run {
 
         # show error if can't set
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error setting the entity sync status for Process "
                     . "entity:$EntityID",
             );
         }
 
         # return to overview
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -731,7 +705,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ProcessNewAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get process data
         my $ProcessData;
@@ -761,7 +735,7 @@ sub Run {
         }
 
         # check if state exists
-        my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+        my $StateList = $StateObject->StateList( UserID => $Self->{UserID} );
 
         if ( !$StateList->{ $GetParam->{StateEntityID} } )
         {
@@ -781,20 +755,20 @@ sub Run {
         }
 
         # generate entity ID
-        my $EntityID = $Self->{EntityObject}->EntityIDGenerate(
+        my $EntityID = $EntityObject->EntityIDGenerate(
             EntityType => 'Process',
             UserID     => $Self->{UserID},
         );
 
         # show error if can't generate a new EntityID
         if ( !$EntityID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error generating a new EntityID for this Process",
             );
         }
 
         # otherwise save configuration and return to overview screen
-        my $ProcessID = $Self->{ProcessObject}->ProcessAdd(
+        my $ProcessID = $ProcessObject->ProcessAdd(
             Name          => $ProcessData->{Name},
             EntityID      => $EntityID,
             StateEntityID => $ProcessData->{StateEntityID},
@@ -805,13 +779,13 @@ sub Run {
 
         # show error if can't create
         if ( !$ProcessID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error creating the Process",
             );
         }
 
         # set entitty sync state
-        my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+        my $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
             EntityID   => $EntityID,
             SyncState  => 'not_sync',
@@ -820,14 +794,14 @@ sub Run {
 
         # show error if can't set
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error setting the entity sync status for Process "
                     . "entity:$EntityID",
             );
         }
 
         # redirect to process edit screen
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP =>
                 "Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID"
         );
@@ -841,7 +815,7 @@ sub Run {
 
         # check for ProcessID
         if ( !$ProcessID ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Need ProcessID!",
             );
         }
@@ -856,25 +830,25 @@ sub Run {
         );
 
         # convert screens patch to string (JSON)
-        my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+        my $JSONScreensPath = $LayoutObject->JSONEncode(
             Data => \@ScreensPath,
         );
 
-        $Self->{SessionObject}->UpdateSessionID(
+        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'ProcessManagementScreensPath',
             Value     => $JSONScreensPath,
         );
 
         # get Process data
-        my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+        my $ProcessData = $ProcessObject->ProcessGet(
             ID     => $ProcessID,
             UserID => $Self->{UserID},
         );
 
         # check for valid Process data
         if ( !IsHashRefWithData($ProcessData) ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "Could not get data for ProcessID $ProcessID",
             );
         }
@@ -893,7 +867,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ProcessEditAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get webserice configuration
         my $ProcessData;
@@ -928,7 +902,7 @@ sub Run {
         }
 
         # check if state exists
-        my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+        my $StateList = $StateObject->StateList( UserID => $Self->{UserID} );
 
         if ( !$StateList->{ $GetParam->{StateEntityID} } )
         {
@@ -948,7 +922,7 @@ sub Run {
         }
 
         # otherwise save configuration and return to overview screen
-        my $Success = $Self->{ProcessObject}->ProcessUpdate(
+        my $Success = $ProcessObject->ProcessUpdate(
             ID            => $ProcessID,
             Name          => $ProcessData->{Name},
             EntityID      => $ProcessData->{EntityID},
@@ -960,13 +934,13 @@ sub Run {
 
         # show error if can't update
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error updating the Process",
             );
         }
 
         # set entitty sync state
-        $Success = $Self->{EntityObject}->EntitySyncStateSet(
+        $Success = $EntityObject->EntitySyncStateSet(
             EntityType => 'Process',
             EntityID   => $ProcessData->{EntityID},
             SyncState  => 'not_sync',
@@ -975,16 +949,16 @@ sub Run {
 
         # show error if can't set
         if ( !$Success ) {
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error setting the entity sync status for Process "
                     . "entity:$ProcessData->{EntityID}",
             );
         }
 
-        if ( $Self->{ParamObject}->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
+        if ( $ParamObject->GetParam( Param => 'ContinueAfterSave' ) eq '1' ) {
 
             # if the user would like to continue editing the process, just redirect to the edit screen
-            return $Self->{LayoutObject}->Redirect(
+            return $LayoutObject->Redirect(
                 OP =>
                     "Action=AdminProcessManagement;Subaction=ProcessEdit;ID=$ProcessID;EntityID=$ProcessData->{EntityID}"
             );
@@ -992,7 +966,7 @@ sub Run {
         else {
 
             # otherwise return to overview
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+            return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
         }
     }
 
@@ -1007,15 +981,15 @@ sub Run {
         my $CheckResult = $Self->_CheckProcessDelete( ID => $ProcessID );
 
         # build JSON output
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
+        my $JSON = $LayoutObject->JSONEncode(
             Data => {
                 %{$CheckResult},
             },
         );
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1028,7 +1002,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ProcessDelete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # check for ProcessID
         return if !$ProcessID;
@@ -1038,7 +1012,7 @@ sub Run {
         my $JSON;
         if ( $CheckResult->{Success} ) {
 
-            my $Success = $Self->{ProcessObject}->ProcessDelete(
+            my $Success = $ProcessObject->ProcessDelete(
                 ID     => $ProcessID,
                 UserID => $Self->{UserID},
             );
@@ -1053,7 +1027,7 @@ sub Run {
             else {
 
                 # set entitty sync state
-                my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+                my $Success = $EntityObject->EntitySyncStateSet(
                     EntityType => 'Process',
                     EntityID   => $CheckResult->{ProcessData}->{EntityID},
                     SyncState  => 'deleted',
@@ -1069,7 +1043,7 @@ sub Run {
             }
 
             # build JSON output
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     %DeleteResult,
                 },
@@ -1078,7 +1052,7 @@ sub Run {
         else {
 
             # build JSON output
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     %{$CheckResult},
                 },
@@ -1086,8 +1060,8 @@ sub Run {
         }
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1099,9 +1073,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ProcessSync' ) {
 
-        my $Location = $Self->{ConfigObject}->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
+        my $Location = $ConfigObject->Get('Home') . '/Kernel/Config/Files/ZZZProcessManagement.pm';
 
-        my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+        my $ProcessDump = $ProcessObject->ProcessDump(
             ResultType => 'FILE',
             Location   => $Location,
             UserID     => $Self->{UserID},
@@ -1109,17 +1083,17 @@ sub Run {
 
         if ($ProcessDump) {
 
-            my $Success = $Self->{EntityObject}->EntitySyncStatePurge(
+            my $Success = $EntityObject->EntitySyncStatePurge(
                 UserID => $Self->{UserID},
             );
 
             if ($Success) {
-                return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+                return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
             }
             else {
 
                 # show error if can't set state
-                return $Self->{LayoutObject}->ErrorScreen(
+                return $LayoutObject->ErrorScreen(
                     Message => "There was an error setting the entity sync status.",
                 );
             }
@@ -1127,7 +1101,7 @@ sub Run {
         else {
 
             # show error if can't synch
-            return $Self->{LayoutObject}->ErrorScreen(
+            return $LayoutObject->ErrorScreen(
                 Message => "There was an error synchronizing the processes.",
             );
         }
@@ -1140,7 +1114,7 @@ sub Run {
 
         my %GetParam;
         for my $Param (qw(EntityType EntityID)) {
-            $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+            $GetParam{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
         }
 
         # check needed information
@@ -1150,15 +1124,15 @@ sub Run {
         my $EntityCheck = $Self->_CheckEntityUsage(%GetParam);
 
         # build JSON output
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
+        my $JSON = $LayoutObject->JSONEncode(
             Data => {
                 %{$EntityCheck},
             },
         );
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1171,11 +1145,11 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'EntityDelete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my %GetParam;
         for my $Param (qw(EntityType EntityID ItemID)) {
-            $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+            $GetParam{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
         }
 
         # check needed information
@@ -1192,7 +1166,7 @@ sub Run {
 
         my $JSON;
         if ( !$EntityCheck->{Deleteable} ) {
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     Success => 0,
                     Message => "The $GetParam{EntityType}:$GetParam{EntityID} is still in use",
@@ -1203,13 +1177,13 @@ sub Run {
 
             # get entity
             my $Method = $GetParam{EntityType} . 'Get';
-            my $Entity = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
+            my $Entity = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                 ID     => $GetParam{ItemID},
                 UserID => $Self->{UserID},
             );
 
             if ( $Entity->{EntityID} ne $GetParam{EntityID} ) {
-                $JSON = $Self->{LayoutObject}->JSONEncode(
+                $JSON = $LayoutObject->JSONEncode(
                     Data => {
                         Success => 0,
                         Message => "The $GetParam{EntityType}:$GetParam{ItemID} has a different"
@@ -1221,10 +1195,11 @@ sub Run {
 
                 # delete entity
                 $Method = $GetParam{EntityType} . 'Delete';
-                my $Success = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
+                my $Success
+                    = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                     ID     => $GetParam{ItemID},
                     UserID => $Self->{UserID},
-                );
+                    );
 
                 my $Message;
                 if ( !$Success ) {
@@ -1234,7 +1209,7 @@ sub Run {
                 else {
 
                     # set entitty sync state
-                    my $Success = $Self->{EntityObject}->EntitySyncStateSet(
+                    my $Success = $EntityObject->EntitySyncStateSet(
                         EntityType => $GetParam{EntityType},
                         EntityID   => $Entity->{EntityID},
                         SyncState  => 'deleted',
@@ -1250,7 +1225,7 @@ sub Run {
                 }
 
                 # build JSON output
-                $JSON = $Self->{LayoutObject}->JSONEncode(
+                $JSON = $LayoutObject->JSONEncode(
                     Data => {
                         Success => $Success,
                         Message => $Message,
@@ -1260,8 +1235,8 @@ sub Run {
         }
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1275,7 +1250,7 @@ sub Run {
 
         my %GetParam;
         for my $Param (qw(EntityType EntityID ItemID)) {
-            $GetParam{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
+            $GetParam{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
         }
 
         # check needed information
@@ -1293,21 +1268,23 @@ sub Run {
 
         my $EntityData;
         if ( $GetParam{ItemID} && $GetParam{ItemID} ne '' ) {
-            $EntityData = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
+            $EntityData
+                = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                 ID     => $GetParam{ItemID},
                 UserID => $Self->{UserID},
-            );
+                );
         }
         else {
-            $EntityData = $Self->{ $GetParam{EntityType} . 'Object' }->$Method(
+            $EntityData
+                = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $GetParam{EntityType} )->$Method(
                 EntityID => $GetParam{EntityID},
                 UserID   => $Self->{UserID},
-            );
+                );
         }
 
         my $JSON;
         if ( !IsHashRefWithData($EntityData) ) {
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     Success => 0,
                     Message => "Could not get $GetParam{EntityType}",
@@ -1317,7 +1294,7 @@ sub Run {
         else {
 
             # build JSON output
-            $JSON = $Self->{LayoutObject}->JSONEncode(
+            $JSON = $LayoutObject->JSONEncode(
                 Data => {
                     Success    => 1,
                     EntityData => $EntityData,
@@ -1326,8 +1303,8 @@ sub Run {
         }
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1340,20 +1317,20 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdateSyncMessage' ) {
 
         # get the list of updated or deleted entities
-        my $EntitySyncStateList = $Self->{EntityObject}->EntitySyncStateList(
+        my $EntitySyncStateList = $EntityObject->EntitySyncStateList(
             UserID => $Self->{UserID}
         );
 
         # prevent errors by defining $Output as an empty string instead of undef
         my $Output = '';
         if ( IsArrayRefWithData($EntitySyncStateList) ) {
-            $Output = $Self->{LayoutObject}->Notify(
+            $Output = $LayoutObject->Notify(
                 Info => $SynchronizeMessage,
             );
         }
 
         # send HTML response
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => $Output,
             Type        => 'inline',
@@ -1372,7 +1349,8 @@ sub Run {
             my $ElementMethod = $Element . 'ListGet';
 
             # get a list of all elements with details
-            my $ElementList = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+            my $ElementList = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Element )
+                ->$ElementMethod( UserID => $Self->{UserID} );
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
@@ -1404,7 +1382,7 @@ sub Run {
                     }
 
                     # print each element in the accordion
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
@@ -1416,20 +1394,20 @@ sub Run {
             else {
 
                 # print no data found in the accordion
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $Element . 'NoDataRow',
                     Data => {},
                 );
             }
         }
 
-        my $Output = $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Output(
             TemplateFile => "AdminProcessManagementProcessAccordion",
             Data         => {},
         );
 
         # send HTML response
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => $Output,
             Type        => 'inline',
@@ -1447,7 +1425,7 @@ sub Run {
         my $Message = '';
         for my $Needed (qw(ProcessID ProcessEntityID)) {
 
-            $Param{$Needed} = $Self->{ParamObject}->GetParam( Param => $Needed ) || '';
+            $Param{$Needed} = $ParamObject->GetParam( Param => $Needed ) || '';
             if ( !$Param{$Needed} ) {
                 $Success = 0;
                 $Message = 'Need $Needed!';
@@ -1465,7 +1443,7 @@ sub Run {
         }
 
         # build JSON output
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
+        my $JSON = $LayoutObject->JSONEncode(
             Data => {
                 Success => $Success,
                 Message => $Message,
@@ -1473,8 +1451,8 @@ sub Run {
         );
 
         # send JSON response
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
             Type        => 'inline',
             NoCache     => 1,
@@ -1494,32 +1472,36 @@ sub Run {
 sub _ShowOverview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # show notifications if any
     if ( $Param{NotifyData} ) {
         for my $Notification ( @{ $Param{NotifyData} } ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+            $Output .= $LayoutObject->Notify(
                 %{$Notification},
             );
         }
     }
 
+    my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
+
     # get a process list
-    my $ProcessList = $Self->{ProcessObject}->ProcessList( UserID => $Self->{UserID} );
+    my $ProcessList = $ProcessObject->ProcessList( UserID => $Self->{UserID} );
 
     if ( IsHashRefWithData($ProcessList) ) {
 
         # get each process data
         for my $ProcessID ( sort keys %{$ProcessList} ) {
-            my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+            my $ProcessData = $ProcessObject->ProcessGet(
                 ID     => $ProcessID,
                 UserID => $Self->{UserID},
             );
 
             # print each process in overview table
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ProcessRow',
                 Data => {
                     %{$ProcessData},
@@ -1531,17 +1513,17 @@ sub _ShowOverview {
     else {
 
         # print no data found message
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ProcessNoDataRow',
             Data => {},
         );
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminProcessManagement',
         Data         => \%Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -1552,15 +1534,18 @@ sub _ShowEdit {
     # get process information
     my $ProcessData = $Param{ProcessData} || {};
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $StateObject  = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State');
+
     if ( defined $Param{Action} && $Param{Action} eq 'Edit' ) {
 
         # check if process is inactive and show delete action
-        my $State = $Self->{StateObject}->StateLookup(
+        my $State = $StateObject->StateLookup(
             EntityID => $ProcessData->{StateEntityID},
             UserID   => $Self->{UserID},
         );
         if ( $State eq 'Inactive' ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ProcessDeleteAction',
                 Data => {
                     %{$ProcessData},
@@ -1574,7 +1559,8 @@ sub _ShowEdit {
             my $ElementMethod = $Element . 'ListGet';
 
             # get a list of all elements with details
-            my $ElementList = $Self->{ $Element . 'Object' }->$ElementMethod( UserID => $Self->{UserID} );
+            my $ElementList = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Element )
+                ->$ElementMethod( UserID => $Self->{UserID} );
 
             # check there are elements to display
             if ( IsArrayRefWithData($ElementList) ) {
@@ -1606,7 +1592,7 @@ sub _ShowEdit {
                     }
 
                     # print each element in the accordion
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => $Element . 'Row',
                         Data => {
                             %{$ElementData},
@@ -1618,7 +1604,7 @@ sub _ShowEdit {
             else {
 
                 # print no data found in the accordion
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $Element . 'NoDataRow',
                     Data => {},
                 );
@@ -1627,7 +1613,7 @@ sub _ShowEdit {
     }
 
     # get a list of all states
-    my $StateList = $Self->{StateObject}->StateList( UserID => $Self->{UserID} );
+    my $StateList = $StateObject->StateList( UserID => $Self->{UserID} );
 
     # get the 'inactive' state for init
     my $InactiveStateID;
@@ -1643,7 +1629,7 @@ sub _ShowEdit {
     }
 
     # create estate selection
-    $Param{StateSelection} = $Self->{LayoutObject}->BuildSelection(
+    $Param{StateSelection} = $LayoutObject->BuildSelection(
         Data => $StateList || {},
         Name => 'StateEntityID',
         ID   => 'StateEntityID',
@@ -1654,44 +1640,44 @@ sub _ShowEdit {
         Class       => 'W50pc ' . $StateError,
     );
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
 
     # show notifications if any
     if ( $Param{NotifyData} ) {
         for my $Notification ( @{ $Param{NotifyData} } ) {
-            $Output .= $Self->{LayoutObject}->Notify(
+            $Output .= $LayoutObject->Notify(
                 %{$Notification},
             );
         }
     }
 
     # set db dump as config settings
-    my $ProcessDump = $Self->{ProcessObject}->ProcessDump(
+    my $ProcessDump = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessDump(
         ResultType => 'HASH',
         UserID     => $Self->{UserID},
     );
-    my $ProcessConfigJSON = $Self->{LayoutObject}->JSONEncode(
+    my $ProcessConfigJSON = $LayoutObject->JSONEncode(
         Data => $ProcessDump->{Process},
     );
-    my $ActivityConfigJSON = $Self->{LayoutObject}->JSONEncode(
+    my $ActivityConfigJSON = $LayoutObject->JSONEncode(
         Data => $ProcessDump->{Activity},
     );
-    my $ActivityDialogConfigJSON = $Self->{LayoutObject}->JSONEncode(
+    my $ActivityDialogConfigJSON = $LayoutObject->JSONEncode(
         Data => $ProcessDump->{ActivityDialog},
     );
-    my $TransitionConfigJSON = $Self->{LayoutObject}->JSONEncode(
+    my $TransitionConfigJSON = $LayoutObject->JSONEncode(
         Data => $ProcessDump->{Transition},
     );
-    my $TransitionActionConfigJSON = $Self->{LayoutObject}->JSONEncode(
+    my $TransitionActionConfigJSON = $LayoutObject->JSONEncode(
         Data => $ProcessDump->{TransitionAction},
     );
 
-    my $ProcessLayoutJSON = $Self->{LayoutObject}->JSONEncode(
+    my $ProcessLayoutJSON = $LayoutObject->JSONEncode(
         Data => $ProcessData->{Layout},
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ConfigSet',
         Data => {
             ProcessConfig          => $ProcessConfigJSON,
@@ -1703,7 +1689,7 @@ sub _ShowEdit {
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => "AdminProcessManagementProcess$Param{Action}",
         Data         => {
             %Param,
@@ -1712,7 +1698,7 @@ sub _ShowEdit {
         },
     );
 
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -1727,17 +1713,20 @@ sub _GetParams {
         qw( Name EntityID ProcessLayout Path StartActivity StartActivityDialog Description StateEntityID )
         )
     {
-        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || '';
+        $GetParam->{$ParamName}
+            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName ) || '';
     }
 
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
     if ( $GetParam->{ProcessLayout} ) {
-        $GetParam->{ProcessLayout} = $Self->{JSONObject}->Decode(
+        $GetParam->{ProcessLayout} = $JSONObject->Decode(
             Data => $GetParam->{ProcessLayout},
         );
     }
 
     if ( $GetParam->{Path} ) {
-        $GetParam->{Path} = $Self->{JSONObject}->Decode(
+        $GetParam->{Path} = $JSONObject->Decode(
             Data => $GetParam->{Path},
         );
     }
@@ -1749,7 +1738,7 @@ sub _CheckProcessDelete {
     my ( $Self, %Param ) = @_;
 
     # get Process data
-    my $ProcessData = $Self->{ProcessObject}->ProcessGet(
+    my $ProcessData = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessGet(
         ID     => $Param{ID},
         UserID => $Self->{UserID},
     );
@@ -1763,7 +1752,7 @@ sub _CheckProcessDelete {
     }
 
     # check that the Process is in Inactive state
-    my $State = $Self->{StateObject}->StateLookup(
+    my $State = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process::State')->StateLookup(
         EntityID => $ProcessData->{StateEntityID},
         UserID   => $Self->{UserID},
     );
@@ -1808,7 +1797,7 @@ sub _CheckEntityUsage {
     # not depend directly on a parent part, it is nested in the process path configuration
     if ( $Param{EntityType} eq 'TransitionAction' ) {
 
-        my $ProcessList = $Self->{ProcessObject}->ProcessListGet(
+        my $ProcessList = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessListGet(
             UserID => $Self->{UserID},
         );
 
@@ -1836,14 +1825,16 @@ sub _CheckEntityUsage {
                     ENTITY:
                     for my $EntityID (@TransitionActions) {
                         if ( $EntityID eq $Param{EntityID} ) {
-                            my $TransitionData = $Self->{TransitionObject}->TransitionGet(
+                            my $TransitionData
+                                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition')->TransitionGet(
                                 EntityID => $TransitionEntityID,
                                 UserID   => $Self->{UserID},
-                            );
-                            my $ActivityData = $Self->{ActivityObject}->ActivityGet(
+                                );
+                            my $ActivityData
+                                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityGet(
                                 EntityID => $ActivityEntityID,
                                 UserID   => $Self->{UserID},
-                            );
+                                );
 
                             push @Usage, "$Process->{Name} -> $ActivityData->{Name} -> $TransitionData->{Name}";
                             last ENTITY;
@@ -1862,7 +1853,7 @@ sub _CheckEntityUsage {
         my $Array  = $Config{ $Param{EntityType} }->{Array};
 
         # get a list of parents with all the details
-        my $List = $Self->{ $Parent . 'Object' }->$Method(
+        my $List = $Kernel::OM->Get( 'Kernel::System::ProcessManagement::DB::' . $Parent )->$Method(
             UserID => 1,
         );
 
@@ -1907,12 +1898,12 @@ sub _PushSessionScreen {
     };
 
     # convert screens path to string (JSON)
-    my $JSONScreensPath = $Self->{LayoutObject}->JSONEncode(
+    my $JSONScreensPath = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->JSONEncode(
         Data => $Self->{ScreensPath},
     );
 
     # update session
-    $Self->{SessionObject}->UpdateSessionID(
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'ProcessManagementScreensPath',
         Value     => $JSONScreensPath,
@@ -1933,12 +1924,12 @@ sub _GetProcessData {
     my %ProcessData;
 
     # get process data
-    my $Process = $Self->{ProcessObject}->ProcessGet(
+    my $Process = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessGet(
         ID     => $Param{ID},
         UserID => $Self->{UserID},
     );
     if ( !$Process ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen(
             Message => "Unknown Process $Param{ID}!",
         );
     }
@@ -1947,7 +1938,7 @@ sub _GetProcessData {
     # get all used activities
     for my $ActivityEntityID ( @{ $Process->{Activities} } ) {
 
-        my $Activity = $Self->{ActivityObject}->ActivityGet(
+        my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityGet(
             EntityID => $ActivityEntityID,
             UserID   => $Self->{UserID},
         );
@@ -1956,10 +1947,11 @@ sub _GetProcessData {
         # get all used activity dialogs
         for my $ActivityDialogEntityID ( @{ $Activity->{ActivityDialogs} } ) {
 
-            my $ActivityDialog = $Self->{ActivityDialogObject}->ActivityDialogGet(
+            my $ActivityDialog
+                = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogGet(
                 EntityID => $ActivityDialogEntityID,
                 UserID   => $Self->{UserID},
-            );
+                );
             $ProcessData{ActivityDialogs}->{$ActivityDialogEntityID} = $ActivityDialog;
         }
     }
@@ -1967,7 +1959,7 @@ sub _GetProcessData {
     # get all used transitions
     for my $TransitionEntityID ( @{ $Process->{Transitions} } ) {
 
-        my $Transition = $Self->{TransitionObject}->TransitionGet(
+        my $Transition = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition')->TransitionGet(
             EntityID => $TransitionEntityID,
             UserID   => $Self->{UserID},
         );
@@ -1977,10 +1969,11 @@ sub _GetProcessData {
     # get all used transition actions
     for my $TransitionActionEntityID ( @{ $Process->{TransitionActions} } ) {
 
-        my $TransitionAction = $Self->{TransitionActionObject}->TransitionActionGet(
+        my $TransitionAction
+            = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionGet(
             EntityID => $TransitionActionEntityID,
             UserID   => $Self->{UserID},
-        );
+            );
         $ProcessData{TransitionActions}->{$TransitionActionEntityID} = $TransitionAction;
     }
 
