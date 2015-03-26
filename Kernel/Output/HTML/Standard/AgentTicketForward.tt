@@ -361,12 +361,13 @@
                 </div>
                 <div class="Clear"></div>
 
+[% RenderBlockStart("ArticleType") %]
                 <label for="ArticleTypeID">[% Translate("Article type") | html %]:</label>
                 <div class="Field">
                     [% Data.ArticleTypesStrg %]
                 </div>
                 <div class="Clear"></div>
-
+[% RenderBlockEnd("ArticleType") %]
 [% RenderBlockStart("DynamicField") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %]">
                     [% Data.Label %]
