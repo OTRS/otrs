@@ -12,6 +12,8 @@ package Kernel::Modules::AdminPerformanceLog;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -19,38 +21,34 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # is performance log disabled?
-    if ( !$Self->{ConfigObject}->Get('PerformanceLog') ) {
-        $Self->{LayoutObject}->Block(
+    if ( !$ConfigObject->Get('PerformanceLog') ) {
+        $LayoutObject->Block(
             Name => 'Disabled',
             Data => { %Param, },
         );
 
         # create & return output
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminPerformanceLog',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Enabled',
         Data => { %Param, },
     );
@@ -59,15 +57,15 @@ sub Run {
     if ( $Self->{Subaction} eq 'Reset' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         if ( !$Self->_DatabaseReset() ) {
-            $Self->{LayoutObject}->FatalError();
+            $LayoutObject->FatalError();
         }
         else {
 
             # redirect
-            return $Self->{LayoutObject}->Redirect(
+            return $LayoutObject->Redirect(
                 OP => "Action=$Self->{Action}",
             );
         }
@@ -76,15 +74,16 @@ sub Run {
     # show detail view
     elsif ( $Self->{Subaction} eq 'View' ) {
 
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+        $LayoutObject->Block( Name => 'ActionList' );
+        $LayoutObject->Block( Name => 'ActionOverview' );
 
-        my %Action     = ();
-        my $MaxRequest = 0;
-        my $Slot       = 60;
-        my $MinuteSlot = $Self->{ParamObject}->GetParam( Param => 'Minute' );
-        my $Interface  = $Self->{ParamObject}->GetParam( Param => 'Interface' );
-        my $Module     = $Self->{ParamObject}->GetParam( Param => 'Module' );
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+        my %Action      = ();
+        my $MaxRequest  = 0;
+        my $Slot        = 60;
+        my $MinuteSlot  = $ParamObject->GetParam( Param => 'Minute' );
+        my $Interface   = $ParamObject->GetParam( Param => 'Interface' );
+        my $Module      = $ParamObject->GetParam( Param => 'Module' );
         if ( $MinuteSlot < 31 ) {
             $Slot = 1;
         }
@@ -98,10 +97,10 @@ sub Run {
             $Slot = 30;
         }
         my $Data = $Self->_DatabaseRead();
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'View',
             Data => {
-                Age => $Self->{LayoutObject}->CustomerAge(
+                Age => $LayoutObject->CustomerAge(
                     Age   => $MinuteSlot * 60,
                     Space => ' '
                 ),
@@ -172,6 +171,8 @@ sub Run {
         $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
 
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
             # set output class
             if ( $Action{$Minute} ) {
                 my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
@@ -179,28 +180,28 @@ sub Run {
                 my $I = 100 / $MaxRequest;
                 my $W = $Action{$Minute}->{Count} * $I || 1;
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ViewRow',
                     Data => {
                         %{ $Action{$Minute} },
                         Average => $Average,
-                        Date    => $Self->{TimeObject}->SystemTime2TimeStamp(
-                            SystemTime => $Self->{TimeObject}->SystemTime() - $Minute * 60,
+                        Date    => $TimeObject->SystemTime2TimeStamp(
+                            SystemTime => $TimeObject->SystemTime() - $Minute * 60,
                         ),
                         Width => $W . "%",
                     },
                 );
             }
             else {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ViewRow',
                     Data => {
                         Min     => 0,
                         Max     => 0,
                         Count   => $Action{$Minute}->{Count} || '0',
                         Average => 0,
-                        Date    => $Self->{TimeObject}->SystemTime2TimeStamp(
-                            SystemTime => $Self->{TimeObject}->SystemTime() - $Minute * 60,
+                        Date    => $TimeObject->SystemTime2TimeStamp(
+                            SystemTime => $TimeObject->SystemTime() - $Minute * 60,
                         ),
                         Width => '0%',
                     },
@@ -211,13 +212,13 @@ sub Run {
         }
 
         # create & return output
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminPerformanceLog',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -226,24 +227,24 @@ sub Run {
 
         # get avarage times
         my $Data = [];
-        if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
+        if ( $ConfigObject->Get('PerformanceLog') ) {
 
             # check file size
             if ( $Self->_DatabaseCheck() ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'Reset',
                     Data => {
                         Size => sprintf "%.1f MBytes",
                         ( $Self->_DatabaseCheck() / ( 1024 * 1024 ) ),
                     },
                 );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminPerformanceLog',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
             else {
@@ -251,7 +252,7 @@ sub Run {
             }
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
         );
 
@@ -318,11 +319,11 @@ sub Run {
                 }
             }
             if (%Sum) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewTable',
                     Data => {
                         Age =>
-                            $Self->{LayoutObject}->CustomerAge(
+                            $LayoutObject->CustomerAge(
                             Age   => $Minute * 60,
                             Space => ' '
                             ),
@@ -334,7 +335,7 @@ sub Run {
 
                     my $Average = $Sum{$Interface} / $Count{$Interface};
                     $Average =~ s/^(.*\.\d\d).+?$/$1/g;
-                    $Self->{LayoutObject}->Block(
+                    $LayoutObject->Block(
                         Name => 'OverviewInterface',
                         Data => {
                             Interface => $Interface,
@@ -352,7 +353,7 @@ sub Run {
                             my $Average = $Action{$Module}->{Sum}->{$Interface}
                                 / $Action{$Module}->{Count}->{$Interface};
                             $Average =~ s/^(.*\.\d\d).+?$/$1/g;
-                            $Self->{LayoutObject}->Block(
+                            $LayoutObject->Block(
                                 Name => 'OverviewRow',
                                 Data => {
                                     Interface => $Interface,
@@ -372,13 +373,13 @@ sub Run {
         }
 
         # create & return output
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminPerformanceLog',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }
@@ -386,11 +387,12 @@ sub Run {
 sub _DatabaseCheck {
     my ( $Self, %Param ) = @_;
 
-    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $File         = $ConfigObject->Get('PerformanceLog::File');
 
     # check file size
     my $FileSize = -s $File;
-    if ( $FileSize > ( 1024 * 1024 * $Self->{ConfigObject}->Get('PerformanceLog::FileMax') ) ) {
+    if ( $FileSize > ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
         return $FileSize;
     }
     else {
@@ -401,8 +403,8 @@ sub _DatabaseCheck {
 sub _DatabaseReset {
     my ( $Self, %Param ) = @_;
 
-    my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
-    if ( !$Self->{MainObject}->FileDelete( Location => $File ) ) {
+    my $File = $Kernel::OM->Get('Kernel::Config')->Get('PerformanceLog::File');
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->FileDelete( Location => $File ) ) {
         return;
     }
     else {
@@ -414,8 +416,8 @@ sub _DatabaseRead {
     my ( $Self, %Param ) = @_;
 
     my @Data     = ();
-    my $File     = $Self->{ConfigObject}->Get('PerformanceLog::File');
-    my $ArrayRef = $Self->{MainObject}->FileRead(
+    my $File     = $Kernel::OM->Get('Kernel::Config')->Get('PerformanceLog::File');
+    my $ArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $File,
         Mode     => 'utf8',     # optional - binmode|utf8
         Result   => 'ARRAY',    # optional - SCALAR|ARRAY
