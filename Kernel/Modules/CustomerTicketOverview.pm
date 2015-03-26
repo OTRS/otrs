@@ -13,10 +13,8 @@ package Kernel::Modules::CustomerTicketOverview;
 use strict;
 use warnings;
 
-use Kernel::System::State;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
-use Kernel::System::User;
+our $ObjectManagerDisabled = 1;
+
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -26,96 +24,45 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{AgentUserObject}    = Kernel::System::User->new(%Param);
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-
-    # all static variables
-    $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
-        || $Self->{LayoutObject}->FatalError(
-        Message => 'No Config entry "Ticket::ViewableSenderTypes"!'
-        );
-
-    $Self->{SmallViewColumnHeader}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
-
-    $Self->{Owner} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
-
-    $Self->{Queue} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
-
-    # get dynamic field config for frontend module
-    $Self->{DynamicFieldFilter}
-        = $Self->{ConfigObject}->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
-
-    # disable output of customer company tickets
-    $Self->{DisableCompanyTickets} = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
-
-    # get the dynamic fields for this screen
-    $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => ['Ticket'],
-        FieldFilter => $Self->{DynamicFieldFilter} || {},
-    );
-
-    # reduce the dynamic fields to only the ones that are desinged for customer interface
-    my @CustomerDynamicFields;
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $IsCustomerInterfaceCapable = $Self->{BackendObject}->HasBehavior(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Behavior           => 'IsCustomerInterfaceCapable',
-        );
-        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
-
-        push @CustomerDynamicFields, $DynamicFieldConfig;
-    }
-    $Self->{DynamicField} = \@CustomerDynamicFields;
-
-    # get params
-    $Self->{Filter}  = $Self->{ParamObject}->GetParam( Param => 'Filter' )  || 'Open';
-    $Self->{SortBy}  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
-    $Self->{OrderBy} = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
-    $Self->{StartHit} = int( $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1 );
-    $Self->{PageShown} = $Self->{UserShowTickets} || 1;
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # disable output of customer company tickets
+    my $DisableCompanyTickets = $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
+
     # check subaction
     if ( !$Self->{Subaction} ) {
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => 'Action=CustomerTicketOverview;Subaction=MyTickets',
         );
     }
-    elsif ( $Self->{Subaction} eq 'CompanyTickets' && $Self->{DisableCompanyTickets} ) {
-        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
+    elsif ( $Self->{Subaction} eq 'CompanyTickets' && $DisableCompanyTickets ) {
+        return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
     }
 
     # check needed CustomerID
     if ( !$Self->{UserCustomerID} ) {
-        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-        $Output .= $Self->{LayoutObject}->CustomerError( Message => 'Need CustomerID!!!' );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        $Output .= $LayoutObject->CustomerError( Message => 'Need CustomerID!!!' );
+        $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
 
-    $Self->{SessionObject}->UpdateSessionID(
+    $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'LastScreenOverview',
         Value     => $Self->{RequestedURL},
     );
+
+    my $SortBy         = $ParamObject->GetParam( Param => 'SortBy' )  || 'Age';
+    my $OrderByCurrent = $ParamObject->GetParam( Param => 'OrderBy' ) || 'Down';
 
     # filter definition
     my %Filters = (
@@ -125,8 +72,8 @@ sub Run {
                 Prio   => 1000,
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
-                    OrderBy              => $Self->{OrderBy},
-                    SortBy               => $Self->{SortBy},
+                    OrderBy              => $OrderByCurrent,
+                    SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
                     Permission           => 'ro',
                 },
@@ -137,8 +84,8 @@ sub Run {
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
                     StateType            => 'Open',
-                    OrderBy              => $Self->{OrderBy},
-                    SortBy               => $Self->{SortBy},
+                    OrderBy              => $OrderByCurrent,
+                    SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
                     Permission           => 'ro',
                 },
@@ -149,8 +96,8 @@ sub Run {
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
                     StateType            => 'Closed',
-                    OrderBy              => $Self->{OrderBy},
-                    SortBy               => $Self->{SortBy},
+                    OrderBy              => $OrderByCurrent,
+                    SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
                     Permission           => 'ro',
                 },
@@ -158,17 +105,19 @@ sub Run {
         },
     );
 
+    my $UserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+
     # add filter for customer company if not disabled
-    if ( !$Self->{DisableCompanyTickets} ) {
+    if ( !$DisableCompanyTickets ) {
         $Filters{CompanyTickets} = {
             All => {
                 Name   => 'All',
                 Prio   => 1000,
                 Search => {
                     CustomerIDRaw =>
-                        [ $Self->{UserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
-                    OrderBy        => $Self->{OrderBy},
-                    SortBy         => $Self->{SortBy},
+                        [ $UserObject->CustomerIDs( User => $Self->{UserLogin} ) ],
+                    OrderBy        => $OrderByCurrent,
+                    SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
                     Permission     => 'ro',
                 },
@@ -178,10 +127,10 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     CustomerIDRaw =>
-                        [ $Self->{UserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                        [ $UserObject->CustomerIDs( User => $Self->{UserLogin} ) ],
                     StateType      => 'Open',
-                    OrderBy        => $Self->{OrderBy},
-                    SortBy         => $Self->{SortBy},
+                    OrderBy        => $OrderByCurrent,
+                    SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
                     Permission     => 'ro',
                 },
@@ -191,10 +140,10 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     CustomerIDRaw =>
-                        [ $Self->{UserObject}->CustomerIDs( User => $Self->{UserLogin} ) ],
+                        [ $UserObject->CustomerIDs( User => $Self->{UserLogin} ) ],
                     StateType      => 'Closed',
-                    OrderBy        => $Self->{OrderBy},
-                    SortBy         => $Self->{SortBy},
+                    OrderBy        => $OrderByCurrent,
+                    SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
                     Permission     => 'ro',
                 },
@@ -202,21 +151,23 @@ sub Run {
         };
     }
 
+    my $FilterCurrent = $ParamObject->GetParam( Param => 'Filter' ) || 'Open';
+
     # check if filter is valid
-    if ( !$Filters{ $Self->{Subaction} }->{ $Self->{Filter} } ) {
-        my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
-        $Output .= $Self->{LayoutObject}->CustomerError(
-            Message => "Invalid Filter: $Self->{Filter}!",
+    if ( !$Filters{ $Self->{Subaction} }->{$FilterCurrent} ) {
+        my $Output = $LayoutObject->CustomerHeader( Title => 'Error' );
+        $Output .= $LayoutObject->CustomerError(
+            Message => "Invalid Filter: $FilterCurrent!",
         );
-        $Output .= $Self->{LayoutObject}->CustomerFooter();
+        $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
 
     # check if archive search is allowed, otherwise search for all tickets
     my %SearchInArchive;
     if (
-        $Self->{ConfigObject}->Get('Ticket::ArchiveSystem')
-        && !$Self->{ConfigObject}->Get('Ticket::CustomerArchiveSystem')
+        $ConfigObject->Get('Ticket::ArchiveSystem')
+        && !$ConfigObject->Get('Ticket::CustomerArchiveSystem')
         )
     {
         $SearchInArchive{ArchiveFlags} = [ 'y', 'n' ];
@@ -226,10 +177,12 @@ sub Run {
     my $Counter         = 0;
     my $AllTickets      = 0;
     my $AllTicketsTotal = 0;
+    my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
+
     for my $Filter ( sort keys %{ $Filters{ $Self->{Subaction} } } ) {
         $Counter++;
 
-        my $Count = $Self->{TicketObject}->TicketSearch(
+        my $Count = $TicketObject->TicketSearch(
             %{ $Filters{ $Self->{Subaction} }->{$Filter}->{Search} },
             %SearchInArchive,
             Result => 'COUNT',
@@ -237,7 +190,7 @@ sub Run {
 
         my $ClassLI = '';
         my $ClassA  = '';
-        if ( $Filter eq $Self->{Filter} ) {
+        if ( $Filter eq $FilterCurrent ) {
             $ClassA     = 'Selected';
             $AllTickets = $Count;
         }
@@ -257,15 +210,18 @@ sub Run {
         };
     }
 
+    my $StartHit = int( $ParamObject->GetParam( Param => 'StartHit' ) || 1 );
+    my $PageShown = $Self->{UserShowTickets} || 1;
+
     if ( !$AllTicketsTotal ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Empty',
         );
 
-        my $CustomTexts = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
+        my $CustomTexts = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText');
 
         if ( ref $CustomTexts eq 'HASH' ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'EmptyCustom',
                 Data => $CustomTexts,
             );
@@ -273,30 +229,30 @@ sub Run {
             # only show button, if frontend module for NewTicket is registered
             # and button text is configured
             if (
-                ref $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketMessage}
+                ref $ConfigObject->Get('CustomerFrontend::Module')->{CustomerTicketMessage}
                 eq 'HASH'
-                && defined $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText')
+                && defined $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverviewCustomEmptyText')
                 ->{Button}
                 )
             {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'EmptyCustomButton',
                     Data => $CustomTexts,
                 );
             }
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'EmptyDefault',
             );
 
             # only show button, if frontend module for NewTicket is registered
             if (
-                ref $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{CustomerTicketMessage}
+                ref $ConfigObject->Get('CustomerFrontend::Module')->{CustomerTicketMessage}
                 eq 'HASH'
                 )
             {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'EmptyDefaultButton',
                 );
             }
@@ -305,15 +261,15 @@ sub Run {
     else {
 
         # create & return output
-        my $Link = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
-            . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
-            . ';Filter=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
-            . ';Subaction=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Subaction} )
+        my $Link = 'SortBy=' . $LayoutObject->Ascii2Html( Text => $SortBy )
+            . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $OrderByCurrent )
+            . ';Filter=' . $LayoutObject->Ascii2Html( Text => $FilterCurrent )
+            . ';Subaction=' . $LayoutObject->Ascii2Html( Text => $Self->{Subaction} )
             . ';';
-        my %PageNav = $Self->{LayoutObject}->PageNavBar(
+        my %PageNav = $LayoutObject->PageNavBar(
             Limit     => 10000,
-            StartHit  => $Self->{StartHit},
-            PageShown => $Self->{PageShown},
+            StartHit  => $StartHit,
+            PageShown => $PageShown,
             AllHits   => $AllTickets,
             Action    => 'Action=CustomerTicketOverview',
             Link      => $Link,
@@ -321,7 +277,7 @@ sub Run {
         );
 
         my $OrderBy = 'Down';
-        if ( $Self->{OrderBy} eq 'Down' ) {
+        if ( $OrderByCurrent eq 'Down' ) {
             $OrderBy = 'Up';
         }
         my $Sort       = '';
@@ -339,22 +295,22 @@ sub Run {
             $Sort = 'SortDescending';
         }
 
-        if ( $Self->{SortBy} eq 'State' ) {
+        if ( $SortBy eq 'State' ) {
             $StateSort = $Sort;
         }
-        elsif ( $Self->{SortBy} eq 'Ticket' ) {
+        elsif ( $SortBy eq 'Ticket' ) {
             $TicketSort = $Sort;
         }
-        elsif ( $Self->{SortBy} eq 'Title' ) {
+        elsif ( $SortBy eq 'Title' ) {
             $TitleSort = $Sort;
         }
-        elsif ( $Self->{SortBy} eq 'Age' ) {
+        elsif ( $SortBy eq 'Age' ) {
             $AgeSort = $Sort;
         }
-        elsif ( $Self->{SortBy} eq 'Queue' ) {
+        elsif ( $SortBy eq 'Queue' ) {
             $QueueSort = $Sort;
         }
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Filled',
             Data => {
                 %Param,
@@ -364,30 +320,33 @@ sub Run {
                 TicketSort => $TicketSort,
                 TitleSort  => $TitleSort,
                 AgeSort    => $AgeSort,
-                Filter     => $Self->{Filter},
+                Filter     => $FilterCurrent,
             },
         );
 
-        if ( $Self->{Owner} ) {
-            $Self->{LayoutObject}->Block(
+        my $Owner = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
+        my $Queue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
+
+        if ($Owner) {
+            $LayoutObject->Block(
                 Name => 'OverviewNavBarPageOwner',
             );
         }
 
-        if ( $Self->{Queue} ) {
-            $Self->{LayoutObject}->Block(
+        if ($Queue) {
+            $LayoutObject->Block(
                 Name => 'OverviewNavBarPageQueue',
                 Data => {
                     OrderBy   => $OrderBy,
                     QueueSort => $QueueSort,
-                    Filter    => $Self->{Filter},
+                    Filter    => $FilterCurrent,
                 },
             );
         }
 
         # show header filter
         for my $Key ( sort keys %NavBarFilter ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'FilterHeader',
                 Data => {
                     %{ $NavBarFilter{$Key} },
@@ -396,8 +355,8 @@ sub Run {
         }
 
         # show footer filter - show only if more the one page is available
-        if ( $AllTickets > $Self->{PageShown} ) {
-            $Self->{LayoutObject}->Block(
+        if ( $AllTickets > $PageShown ) {
+            $LayoutObject->Block(
                 Name => 'FilterFooter',
                 Data => {
                     %Param,
@@ -406,8 +365,8 @@ sub Run {
             );
         }
         for my $Key ( sort keys %NavBarFilter ) {
-            if ( $AllTickets > $Self->{PageShown} ) {
-                $Self->{LayoutObject}->Block(
+            if ( $AllTickets > $PageShown ) {
+                $LayoutObject->Block(
                     Name => 'FilterFooterItem',
                     Data => {
                         %{ $NavBarFilter{$Key} },
@@ -416,16 +375,44 @@ sub Run {
             }
         }
 
+        # get the dynamic fields for this screen
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        # get dynamic field config for frontend module
+        my $DynamicFieldFilter = $ConfigObject->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
+        my $DynamicField       = $DynamicFieldObject->DynamicFieldListGet(
+            Valid       => 1,
+            ObjectType  => ['Ticket'],
+            FieldFilter => $DynamicFieldFilter || {},
+        );
+
+        # reduce the dynamic fields to only the ones that are desinged for customer interface
+        my @CustomerDynamicFields;
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+            my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                Behavior           => 'IsCustomerInterfaceCapable',
+            );
+            next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+            push @CustomerDynamicFields, $DynamicFieldConfig;
+        }
+        $DynamicField = \@CustomerDynamicFields;
+
         # Dynamic fields
         # cycle trough the activated Dynamic Fields for this screen
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
             my $Label = $DynamicFieldConfig->{Label};
 
             # get field sortable condition
-            my $IsSortable = $Self->{BackendObject}->HasBehavior(
+            my $IsSortable = $BackendObject->HasBehavior(
                 DynamicFieldConfig => $DynamicFieldConfig,
                 Behavior           => 'IsSortable',
             );
@@ -433,11 +420,11 @@ sub Run {
             if ($IsSortable) {
                 my $CSS = '';
                 if (
-                    $Self->{SortBy}
-                    && ( $Self->{SortBy} eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
+                    $SortBy
+                    && ( $SortBy eq ( 'DynamicField_' . $DynamicFieldConfig->{Name} ) )
                     )
                 {
-                    if ( $Self->{OrderBy} && ( $Self->{OrderBy} eq 'Up' ) ) {
+                    if ( $OrderByCurrent && ( $OrderByCurrent eq 'Up' ) ) {
                         $OrderBy = 'Down';
                         $CSS .= ' SortDescending';
                     }
@@ -447,7 +434,7 @@ sub Run {
                     }
                 }
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicField',
                     Data => {
                         %Param,
@@ -455,19 +442,19 @@ sub Run {
                     },
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicFieldSortable',
                     Data => {
                         %Param,
                         OrderBy          => $OrderBy,
                         Label            => $Label,
                         DynamicFieldName => $DynamicFieldConfig->{Name},
-                        Filter           => $Self->{Filter},
+                        Filter           => $FilterCurrent,
                     },
                 );
 
                 # example of dynamic fields order customization
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicField_' . $DynamicFieldConfig->{Name},
                     Data => {
                         %Param,
@@ -475,7 +462,7 @@ sub Run {
                     },
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicField_'
                         . $DynamicFieldConfig->{Name}
                         . '_Sortable',
@@ -484,20 +471,20 @@ sub Run {
                         OrderBy          => $OrderBy,
                         Label            => $Label,
                         DynamicFieldName => $DynamicFieldConfig->{Name},
-                        Filter           => $Self->{Filter},
+                        Filter           => $FilterCurrent,
                     },
                 );
             }
             else {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicField',
                     Data => {
                         %Param,
                     },
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicFieldNotSortable',
                     Data => {
                         %Param,
@@ -506,14 +493,14 @@ sub Run {
                 );
 
                 # example of dynamic fields order customization
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicField_' . $DynamicFieldConfig->{Name},
                     Data => {
                         %Param,
                     },
                 );
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OverviewNavBarPageDynamicField_'
                         . $DynamicFieldConfig->{Name}
                         . '_NotSortable',
@@ -525,8 +512,8 @@ sub Run {
             }
         }
 
-        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            %{ $Filters{ $Self->{Subaction} }->{ $Self->{Filter} }->{Search} },
+        my @ViewableTickets = $TicketObject->TicketSearch(
+            %{ $Filters{ $Self->{Subaction} }->{$FilterCurrent}->{Search} },
             %SearchInArchive,
             Result => 'ARRAY',
         );
@@ -536,8 +523,8 @@ sub Run {
         for my $TicketID (@ViewableTickets) {
             $Counter++;
             if (
-                $Counter >= $Self->{StartHit}
-                && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
+                $Counter >= $StartHit
+                && $Counter < ( $PageShown + $StartHit )
                 )
             {
                 $Self->ShowTicketStatus( TicketID => $TicketID );
@@ -550,20 +537,20 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    my $Output = $Self->{LayoutObject}->CustomerHeader(
+    my $Output = $LayoutObject->CustomerHeader(
         Title   => $Self->{Subaction},
         Refresh => $Refresh,
     );
 
     # build NavigationBar
-    $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->CustomerNavigationBar();
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerTicketOverview',
         Data         => \%Param,
     );
 
     # get page footer
-    $Output .= $Self->{LayoutObject}->CustomerFooter();
+    $Output .= $LayoutObject->CustomerFooter();
 
     # return page
     return $Output;
@@ -573,13 +560,15 @@ sub Run {
 sub ShowTicketStatus {
     my ( $Self, %Param ) = @_;
 
-    my $TicketID = $Param{TicketID} || return;
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $TicketID     = $Param{TicketID} || return;
 
     # contains last article (non-internal)
     my %Article;
 
     # get whole article index
-    my @ArticleIDs = $Self->{TicketObject}->ArticleIndex( TicketID => $Param{TicketID} );
+    my @ArticleIDs = $TicketObject->ArticleIndex( TicketID => $Param{TicketID} );
 
     # get article data
     if (@ArticleIDs) {
@@ -587,7 +576,7 @@ sub ShowTicketStatus {
 
         ARTICLEID:
         for my $ArticleID ( reverse @ArticleIDs ) {
-            my %CurrentArticle = $Self->{TicketObject}->ArticleGet( ArticleID => $ArticleID );
+            my %CurrentArticle = $TicketObject->ArticleGet( ArticleID => $ArticleID );
 
             # check for non-internal and non-chat article
             next ARTICLEID if $CurrentArticle{ArticleType} =~ m{internal|chat}smx;
@@ -615,18 +604,20 @@ sub ShowTicketStatus {
     }
 
     # get ticket info
-    my %Ticket = $Self->{TicketObject}->TicketGet(
+    my %Ticket = $TicketObject->TicketGet(
         TicketID      => $TicketID,
         DynamicFields => 0,
     );
 
     my $Subject;
+    my $ConfigObject          = $Kernel::OM->Get('Kernel::Config');
+    my $SmallViewColumnHeader = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{ColumnHeader};
 
     # check if last customer subject or ticket title should be shown
-    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+    if ( $SmallViewColumnHeader eq 'LastCustomerSubject' ) {
         $Subject = $Article{Subject} || '';
     }
-    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+    elsif ( $SmallViewColumnHeader eq 'TicketTitle' ) {
         $Subject = $Ticket{Title};
     }
 
@@ -634,16 +625,16 @@ sub ShowTicketStatus {
     if ($NoArticle) {
         $Article{State}        = $Ticket{State};
         $Article{TicketNumber} = $Ticket{TicketNumber};
-        $Article{CustomerAge}  = $Self->{LayoutObject}->CustomerAge(
+        $Article{CustomerAge}  = $LayoutObject->CustomerAge(
             Age   => $Ticket{Age},
             Space => ' '
         ) || 0;
-        $Article{Body} = $Self->{LayoutObject}->{LanguageObject}->Translate('This item has no articles yet.');
+        $Article{Body} = $LayoutObject->{LanguageObject}->Translate('This item has no articles yet.');
     }
 
     # otherwise return article information
     else {
-        $Article{CustomerAge} = $Self->{LayoutObject}->CustomerAge(
+        $Article{CustomerAge} = $LayoutObject->CustomerAge(
             Age   => $Article{Age},
             Space => ' '
         ) || 0;
@@ -651,7 +642,7 @@ sub ShowTicketStatus {
 
     # customer info (customer name)
     if ( $Article{CustomerUserID} ) {
-        $Param{CustomerName} = $Self->{UserObject}->CustomerName(
+        $Param{CustomerName} = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerName(
             UserLogin => $Article{CustomerUserID},
         );
         $Param{CustomerName} = '(' . $Param{CustomerName} . ')' if ( $Param{CustomerName} );
@@ -663,13 +654,13 @@ sub ShowTicketStatus {
     }
 
     # condense down the subject
-    $Subject = $Self->{TicketObject}->TicketSubjectClean(
+    $Subject = $TicketObject->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
         Subject      => $Subject,
     );
 
     # add block
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Record',
         Data => {
             %Article,
@@ -679,17 +670,20 @@ sub ShowTicketStatus {
         },
     );
 
-    if ( $Self->{Owner} ) {
-        my $OwnerName = $Self->{AgentUserObject}->UserName( UserID => $Ticket{OwnerID} );
-        $Self->{LayoutObject}->Block(
+    my $Owner = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Owner};
+    my $Queue = $ConfigObject->Get('Ticket::Frontend::CustomerTicketOverview')->{Queue};
+
+    if ($Owner) {
+        my $OwnerName = $Kernel::OM->Get('Kernel::System::User')->UserName( UserID => $Ticket{OwnerID} );
+        $LayoutObject->Block(
             Name => 'RecordOwner',
             Data => {
                 OwnerName => $OwnerName,
             },
         );
     }
-    if ( $Self->{Queue} ) {
-        $Self->{LayoutObject}->Block(
+    if ($Queue) {
+        $LayoutObject->Block(
             Name => 'RecordQueue',
             Data => {
                 %Ticket,
@@ -697,26 +691,54 @@ sub ShowTicketStatus {
         );
     }
 
+    # get the dynamic fields for this screen
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # get dynamic field config for frontend module
+    my $DynamicFieldFilter = $ConfigObject->Get("Ticket::Frontend::CustomerTicketOverview")->{DynamicField};
+    my $DynamicField       = $DynamicFieldObject->DynamicFieldListGet(
+        Valid       => 1,
+        ObjectType  => ['Ticket'],
+        FieldFilter => $DynamicFieldFilter || {},
+    );
+
+    # reduce the dynamic fields to only the ones that are desinged for customer interface
+    my @CustomerDynamicFields;
+    DYNAMICFIELD:
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        my $IsCustomerInterfaceCapable = $BackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsCustomerInterfaceCapable',
+        );
+        next DYNAMICFIELD if !$IsCustomerInterfaceCapable;
+
+        push @CustomerDynamicFields, $DynamicFieldConfig;
+    }
+    $DynamicField = \@CustomerDynamicFields;
+
     # Dynamic fields
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         # get field value
-        my $Value = $Self->{BackendObject}->ValueGet(
+        my $Value = $BackendObject->ValueGet(
             DynamicFieldConfig => $DynamicFieldConfig,
             ObjectID           => $Ticket{TicketID},
         );
 
-        my $ValueStrg = $Self->{BackendObject}->DisplayValueRender(
+        my $ValueStrg = $BackendObject->DisplayValueRender(
             DynamicFieldConfig => $DynamicFieldConfig,
             Value              => $Value,
             ValueMaxChars      => 20,
-            LayoutObject       => $Self->{LayoutObject},
+            LayoutObject       => $LayoutObject,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'RecordDynamicField',
             Data => {
                 Value => $ValueStrg->{Value},
@@ -725,7 +747,7 @@ sub ShowTicketStatus {
         );
 
         if ( $ValueStrg->{Link} ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'RecordDynamicFieldLink',
                 Data => {
                     Value                       => $ValueStrg->{Value},
@@ -736,7 +758,7 @@ sub ShowTicketStatus {
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'RecordDynamicFieldPlain',
                 Data => {
                     Value => $ValueStrg->{Value},
@@ -746,7 +768,7 @@ sub ShowTicketStatus {
         }
 
         # example of dynamic fields order customization
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name},
             Data => {
                 Value => $ValueStrg->{Value},
@@ -755,7 +777,7 @@ sub ShowTicketStatus {
         );
 
         if ( $ValueStrg->{Link} ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name} . 'Link',
                 Data => {
                     Value                       => $ValueStrg->{Value},
@@ -766,7 +788,7 @@ sub ShowTicketStatus {
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'RecordDynamicField' . $DynamicFieldConfig->{Name} . 'Plain',
                 Data => {
                     Value => $ValueStrg->{Value},
