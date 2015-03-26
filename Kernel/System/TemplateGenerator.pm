@@ -581,6 +581,14 @@ sub AutoResponse {
         }
     }
 
+    # get recipient
+    my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+        UserID => $Ticket{CustomerUserID},
+    );
+
+    # get user language
+    my $Language = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';
+
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $AutoResponse{ContentType} =~ /text\/plain/i ) {
         $AutoResponse{ContentType} = 'text/html';
@@ -608,6 +616,7 @@ sub AutoResponse {
         },
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
+        Language => $Language,
     );
     $AutoResponse{Subject} = $Self->_Replace(
         RichText => 0,
@@ -619,6 +628,7 @@ sub AutoResponse {
         },
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
+        Language => $Language,
     );
 
     $AutoResponse{Subject} = $TicketObject->TicketSubjectBuild(
