@@ -1172,13 +1172,7 @@ sub Run {
             FoundStopWords => [],
         };
 
-        my $SearchIndexModule = $Self->{ConfigObject}->Get('Ticket::SearchIndexModule');
-        my $WarnOnStopWordUsage = $Self->{ConfigObject}->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
-        if (
-            $SearchIndexModule ne 'Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB'
-            && $WarnOnStopWordUsage
-            )
-        {
+        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
             my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
             my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
             my @FoundStopWords = keys %{$FoundStopWords};
