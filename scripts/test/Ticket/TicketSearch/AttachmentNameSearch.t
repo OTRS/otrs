@@ -19,7 +19,6 @@ use Kernel::System::VariableCheck qw(:all);
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 my $UserID = 1;
 
@@ -35,6 +34,8 @@ $ConfigObject->Set(
     Key   => 'Ticket::StorageModule',
     Value => 'Kernel::System::Ticket::ArticleStorageDB',
 );
+
+my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 # ticket id container
 my @TicketIDs;
@@ -135,6 +136,11 @@ for my $TicketID (@TicketIDs) {
             NoAgentNotify  => 1,
         );
 
+        $Self->True(
+            $ArticleID,
+            'Article created',
+        );
+
         next ARTICLE if $ArticleCounter == 1;
 
         # add attachment only to second article
@@ -153,6 +159,11 @@ for my $TicketID (@TicketIDs) {
             ContentType => 'txt',
             ArticleID   => $ArticleID,
             UserID      => 1,
+        );
+
+        $Self->True(
+            $ArticleWriteAttachment,
+            'Attachment created',
         );
     }
     $TicketCounter++;
@@ -176,6 +187,11 @@ my $ArticleID = $TicketObject->ArticleCreate(
     NoAgentNotify  => 1,
 );
 
+$Self->True(
+    $ArticleID,
+    'Article created',
+);
+
 # add attachment only to second article
 my $Location = $ConfigObject->Get('Home') . '/scripts/test/sample/StdAttachment/StdAttachment-Test1.txt';
 
@@ -191,6 +207,11 @@ my $ArticleWriteAttachment = $TicketObject->ArticleWriteAttachment(
     ContentType => 'txt',
     ArticleID   => $ArticleID,
     UserID      => 1,
+);
+
+$Self->True(
+    $ArticleWriteAttachment,
+    'Attachment created',
 );
 
 # actual tests
@@ -310,6 +331,8 @@ for my $Test (@Tests) {
     # attachment name is not considering for searches using ArticleSotrageFS
     for my $StorageBackend (qw(ArticleStorageDB ArticleStorageFS)) {
 
+        # For the search it is enough to change the config, the TicketObject does not
+        #   have to be recreated to use the different base class
         $ConfigObject->Set(
             Key   => 'Ticket::StorageModule',
             Value => "Kernel::System::Ticket::$StorageBackend",
@@ -346,9 +369,13 @@ for my $Test (@Tests) {
     }
 }
 
+$ConfigObject->Set(
+    Key   => 'Ticket::StorageModule',
+    Value => "Kernel::System::Ticket::ArticleStorageDB",
+);
+
 for my $TicketID (@TicketIDs) {
 
-    # delete the ticket Three
     my $TicketDelete = $TicketObject->TicketDelete(
         TicketID => $TicketID,
         UserID   => 1,
