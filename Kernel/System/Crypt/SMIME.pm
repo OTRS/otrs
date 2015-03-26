@@ -51,7 +51,7 @@ sub new {
     $Self->_Init();
 
     # check working ENV
-    return if $Self->Check();
+    return 0 if $Self->Check();
 
     return $Self;
 }
