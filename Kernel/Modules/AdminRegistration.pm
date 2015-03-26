@@ -12,12 +12,6 @@ package Kernel::Modules::AdminRegistration;
 use strict;
 use warnings;
 
-use Kernel::System::Environment;
-use Kernel::System::Registration;
-use Kernel::System::SystemData;
-use Kernel::System::OTRSBusiness;
-use Kernel::System::PID;
-
 our $ObjectManagerDisabled = 1;
 
 sub new {
@@ -27,30 +21,18 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject LayoutObject ConfigObject LogObject SessionObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{EnvironmentObject}  = Kernel::System::Environment->new(%Param);
-    $Self->{RegistrationObject} = Kernel::System::Registration->new(%Param);
-    $Self->{SystemDataObject}   = Kernel::System::SystemData->new(%Param);
-    $Self->{OTRSBusinessObject} = Kernel::System::OTRSBusiness->new(%Param);
-    $Self->{PIDObject}          = Kernel::System::PID->new(%Param);
-
-    $Self->{RegistrationState} = $Self->{SystemDataObject}->SystemDataGet(
-        Key => 'Registration::State',
-    ) || '';
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
+        Key => 'Registration::State',
+    ) || '';
+
     # if system is not yet registered, subaction should be 'register'
-    if ( $Self->{RegistrationState} ne 'registered' ) {
+    if ( $RegistrationState ne 'registered' ) {
 
         $Self->{Subaction} ||= 'OTRSIDValidate';
 
@@ -60,33 +42,38 @@ sub Run {
         }
     }
 
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RegistrationObject = $Kernel::OM->Get('Kernel::System::Registration');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+
     # ------------------------------------------------------------ #
     # Scheduler not running screen
     # ------------------------------------------------------------ #
     if (
         $Self->{Subaction} ne 'OTRSIDValidate'
-        && $Self->{RegistrationState} ne 'registered'
+        && $RegistrationState ne 'registered'
         && !$Self->_SchedulerRunning()
         )
     {
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => \%Param,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'SchedulerNotRunning',
         );
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -97,22 +84,22 @@ sub Run {
 
     elsif ( $Self->{Subaction} eq 'CheckOTRSID' ) {
 
-        my $OTRSID   = $Self->{ParamObject}->GetParam( Param => 'OTRSID' )   || '';
-        my $Password = $Self->{ParamObject}->GetParam( Param => 'Password' ) || '';
+        my $OTRSID   = $ParamObject->GetParam( Param => 'OTRSID' )   || '';
+        my $Password = $ParamObject->GetParam( Param => 'Password' ) || '';
 
-        my %Response = $Self->{RegistrationObject}->TokenGet(
+        my %Response = $RegistrationObject->TokenGet(
             OTRSID   => $OTRSID,
             Password => $Password,
         );
 
         # redirect to next page on success
         if ( $Response{Token} ) {
-            my $NextAction = $Self->{RegistrationState} ne 'registered' ? 'Register' : 'Deregister';
-            return $Self->{LayoutObject}->Redirect(
+            my $NextAction = $RegistrationState ne 'registered' ? 'Register' : 'Deregister';
+            return $LayoutObject->Redirect(
                 OP => "Action=AdminRegistration;Subaction=$NextAction;Token="
-                    . $Self->{LayoutObject}->LinkEncode( $Response{Token} )
+                    . $LayoutObject->LinkEncode( $Response{Token} )
                     . ';OTRSID='
-                    . $Self->{LayoutObject}->LinkEncode($OTRSID),
+                    . $LayoutObject->LinkEncode($OTRSID),
             );
         }
 
@@ -123,42 +110,42 @@ sub Run {
             Token   => $Response{Token}  || '',
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
+        my $Output = $LayoutObject->Header();
         $Output .= $Response{Reason}
-            ? $Self->{LayoutObject}->Notify(
+            ? $LayoutObject->Notify(
             Priority => 'Error',
             Info     => $Response{Reason},
             )
             : '';
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Block(
+        $Output .= $LayoutObject->NavigationBar();
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => \%Param,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OTRSIDValidation',
             Data => \%Param,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'OTRSIDValidationForm',
             Data => \%Param,
         );
 
-        my $Block = $Self->{RegistrationState} ne 'registered'
+        my $Block = $RegistrationState ne 'registered'
             ? 'OTRSIDRegistration'
             : 'OTRSIDDeregistration';
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => $Block,
         );
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -168,18 +155,20 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'OTRSIDValidate' ) {
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Block(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => \%Param,
         );
 
-        my $EntitlementStatus = 'forbidden';
-        if ( $Self->{RegistrationState} eq 'registered' ) {
+        my $EntitlementStatus  = 'forbidden';
+        my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
+
+        if ( $RegistrationState eq 'registered' ) {
 
             # Only call cloud service for a registered system
-            $EntitlementStatus = $Self->{OTRSBusinessObject}->OTRSBusinessEntitlementStatus(
+            $EntitlementStatus = $OTRSBusinessObject->OTRSBusinessEntitlementStatus(
                 CallCloudService => 1,
             );
         }
@@ -187,51 +176,51 @@ sub Run {
         # users should not be able to de-register their system if they either have
         # OTRS Business Solution installed or are entitled to use it (by having a valid contract).
         if (
-            $Self->{RegistrationState} eq 'registered'
-            && ( $Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled() || $EntitlementStatus ne 'forbidden' )
+            $RegistrationState eq 'registered'
+            && ( $OTRSBusinessObject->OTRSBusinessIsInstalled() || $EntitlementStatus ne 'forbidden' )
             )
         {
 
-            $Self->{LayoutObject}->Block( Name => 'ActionList' );
-            $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+            $LayoutObject->Block( Name => 'ActionList' );
+            $LayoutObject->Block( Name => 'ActionOverview' );
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OTRSIDDeregistrationNotPossible',
             );
         }
         else {
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OTRSIDValidation',
                 Data => \%Param,
             );
 
             # check if the scheduler is not running
-            if ( $Self->{RegistrationState} ne 'registered' && !$Self->_SchedulerRunning() ) {
+            if ( $RegistrationState ne 'registered' && !$Self->_SchedulerRunning() ) {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OTRSIDValidationSchedulerNotRunning',
                 );
             }
             else {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'OTRSIDValidationForm',
                     Data => \%Param,
                 );
             }
 
-            my $Block = $Self->{RegistrationState} ne 'registered' ? 'OTRSIDRegistration' : 'OTRSIDDeregistration';
-            $Self->{LayoutObject}->Block(
+            my $Block = $RegistrationState ne 'registered' ? 'OTRSIDRegistration' : 'OTRSIDDeregistration';
+            $LayoutObject->Block(
                 Name => $Block,
             );
         }
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -242,17 +231,17 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Register' ) {
 
         my %GetParam;
-        $GetParam{Token}  = $Self->{ParamObject}->GetParam( Param => 'Token' );
-        $GetParam{OTRSID} = $Self->{ParamObject}->GetParam( Param => 'OTRSID' );
+        $GetParam{Token}  = $ParamObject->GetParam( Param => 'Token' );
+        $GetParam{OTRSID} = $ParamObject->GetParam( Param => 'OTRSID' );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Block(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => \%Param,
         );
 
-        $Param{SystemTypeOption} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SystemTypeOption} = $LayoutObject->BuildSelection(
             Data          => [qw( Production Test Training Development )],
             PossibleNone  => 1,
             Name          => 'Type',
@@ -260,14 +249,15 @@ sub Run {
             Class         => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
         );
 
-        my %OSInfo = $Self->{EnvironmentObject}->OSInfoGet();
-        my %DBInfo = $Self->{EnvironmentObject}->DBInfoGet();
+        my $EnvironmentObject = $Kernel::OM->Get('Kernel::System::Environment');
+        my %OSInfo            = $EnvironmentObject->OSInfoGet();
+        my %DBInfo            = $EnvironmentObject->DBInfoGet();
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Registration',
             Data => {
-                FQDN        => $Self->{ConfigObject}->Get('FQDN'),
-                OTRSVersion => $Self->{ConfigObject}->Get('Version'),
+                FQDN        => $ConfigObject->Get('FQDN'),
+                OTRSVersion => $ConfigObject->Get('Version'),
                 PerlVersion => sprintf( "%vd", $^V ),
                 %Param,
                 %GetParam,
@@ -276,11 +266,11 @@ sub Run {
             },
         );
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -291,25 +281,25 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Deregister' ) {
 
         my %GetParam;
-        $GetParam{Token}  = $Self->{ParamObject}->GetParam( Param => 'Token' );
-        $GetParam{OTRSID} = $Self->{ParamObject}->GetParam( Param => 'OTRSID' );
+        $GetParam{Token}  = $ParamObject->GetParam( Param => 'Token' );
+        $GetParam{OTRSID} = $ParamObject->GetParam( Param => 'OTRSID' );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Block(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => \%Param,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Deregistration',
             Data => \%GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -320,11 +310,11 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my ( %GetParam, %Errors );
         for my $Parameter (qw(SupportDataSending Type Description OTRSID Token)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
         # check needed data
@@ -337,7 +327,7 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-            $Self->{RegistrationObject}->Register(
+            $RegistrationObject->Register(
                 Token              => $GetParam{Token},
                 OTRSID             => $GetParam{OTRSID},
                 SupportDataSending => $GetParam{SupportDataSending} || 'No',
@@ -345,15 +335,15 @@ sub Run {
                 Description        => $GetParam{Description},
             );
 
-            return $Self->{LayoutObject}->Redirect(
+            return $LayoutObject->Redirect(
                 OP => 'Action=AdminRegistration',
             );
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
 
         $Self->_Edit(
             Action => 'Add',
@@ -361,11 +351,11 @@ sub Run {
             %GetParam,
         );
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -375,18 +365,18 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Edit' ) {
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Self->{LayoutObject}->Block(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => \%Param,
         );
 
-        my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
+        my %RegistrationData = $RegistrationObject->RegistrationDataGet();
 
         $Param{Description} //= $RegistrationData{Description};
 
-        $Param{SystemTypeOption} = $Self->{LayoutObject}->BuildSelection(
+        $Param{SystemTypeOption} = $LayoutObject->BuildSelection(
             Data          => [qw( Production Test Training Development )],
             PossibleNone  => 1,
             Name          => 'Type',
@@ -405,21 +395,21 @@ sub Run {
             $Param{SupportDataSendingChecked} = 'checked="checked"';
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Edit',
             Data => {
-                FQDN        => $Self->{ConfigObject}->Get('FQDN'),
-                OTRSVersion => $Self->{ConfigObject}->Get('Version'),
+                FQDN        => $ConfigObject->Get('FQDN'),
+                OTRSVersion => $ConfigObject->Get('Version'),
                 PerlVersion => sprintf( "%vd", $^V ),
                 %Param,
             },
         );
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -430,13 +420,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'EditAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $RegistrationType   = $Self->{ParamObject}->GetParam( Param => 'Type' );
-        my $Description        = $Self->{ParamObject}->GetParam( Param => 'Description' );
-        my $SupportDataSending = $Self->{ParamObject}->GetParam( Param => 'SupportDataSending' ) || 'No';
+        my $RegistrationType   = $ParamObject->GetParam( Param => 'Type' );
+        my $Description        = $ParamObject->GetParam( Param => 'Description' );
+        my $SupportDataSending = $ParamObject->GetParam( Param => 'SupportDataSending' ) || 'No';
 
-        my %Result = $Self->{RegistrationObject}->RegistrationUpdateSend(
+        my %Result = $RegistrationObject->RegistrationUpdateSend(
             Type               => $RegistrationType,
             Description        => $Description,
             SupportDataSending => $SupportDataSending,
@@ -452,7 +442,7 @@ sub Run {
 
         }
 
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => 'Action=AdminRegistration',
         );
     }
@@ -463,14 +453,14 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'DeregisterAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        $Self->{RegistrationObject}->Deregister(
-            OTRSID => $Self->{ParamObject}->GetParam( Param => 'OTRSID' ),
-            Token  => $Self->{ParamObject}->GetParam( Param => 'Token' ),
+        $RegistrationObject->Deregister(
+            OTRSID => $ParamObject->GetParam( Param => 'OTRSID' ),
+            Token  => $ParamObject->GetParam( Param => 'Token' ),
         );
 
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => 'Action=Admin',
         );
     }
@@ -486,19 +476,19 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
+        my %RegistrationData = $RegistrationObject->RegistrationDataGet();
 
         $Self->_Overview(
             %RegistrationData,
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
 
         return $Output;
     }
@@ -507,20 +497,22 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderNew' );
+        $LayoutObject->Block( Name => 'HeaderNew' );
     }
 
     return 1;
@@ -529,17 +521,19 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionUpdate' );
-    $Self->{LayoutObject}->Block( Name => 'ActionSentDataOverview' );
-    $Self->{LayoutObject}->Block( Name => 'ActionDeregister' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionUpdate' );
+    $LayoutObject->Block( Name => 'ActionSentDataOverview' );
+    $LayoutObject->Block( Name => 'ActionDeregister' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewRegistered',
         Data => \%Param,
     );
@@ -550,25 +544,31 @@ sub _Overview {
 sub _SentDataOverview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Self->{LayoutObject}->Block(
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
-    my %RegistrationData = $Self->{RegistrationObject}->RegistrationDataGet();
+    my %RegistrationData = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationDataGet();
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'SentDataOverview',
     );
 
-    if ( $Self->{RegistrationState} ne 'registered' ) {
-        $Self->{LayoutObject}->Block( Name => 'SentDataOverviewNoData' );
+    my $RegistrationState = $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGet(
+        Key => 'Registration::State',
+    ) || '';
+
+    if ( $RegistrationState ne 'registered' ) {
+        $LayoutObject->Block( Name => 'SentDataOverviewNoData' );
     }
     else {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -590,7 +590,7 @@ sub _SentDataOverview {
             $SupportDataDump = $Kernel::OM->Get('Kernel::System::Main')->Dump( $SupportData{Result} );
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'SentDataOverviewData',
             Data => {
                 RegistrationUpdate => $RegistrationUpdateDataDump,
@@ -599,11 +599,11 @@ sub _SentDataOverview {
         );
     }
 
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminRegistration',
         Data         => \%Param,
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     return $Output;
 }
@@ -612,11 +612,11 @@ sub _SchedulerRunning {
     my ( $Self, %Param ) = @_;
 
     # try to get scheduler PID
-    my %PID = $Self->{PIDObject}->PIDGet(
+    my %PID = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
         Name => 'otrs.Scheduler',
     );
 
-    my $PIDUpdateTime = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 600;
+    my $PIDUpdateTime = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 600;
 
     # check if scheduler process is registered in the DB and if the update was not too long ago
     if ( !%PID || ( time() - $PID{Changed} > 4 * $PIDUpdateTime ) ) {
