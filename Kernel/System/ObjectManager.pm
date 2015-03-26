@@ -138,6 +138,11 @@ sub new {
         $Self->{Param}->{$Parameter} = $Param{$Parameter};
     }
 
+    # Kernel::System::Encode->new() initializes the environment, so we need to
+    #   already create an instance here to make sure it is always done and done
+    #   at the beginning of things.
+    $Self->Get('Kernel::System::Encode');
+
     return $Self;
 }
 

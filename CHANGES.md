@@ -14,6 +14,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.8 2015-??-??
+ - 2015-03-26 Fixed bug#[10995](http://bugs.otrs.org/show_bug.cgi?id=10995) - Characters not correctly managed by OTRS scripts..
 
 #4.0.7 2015-03-31
  - 2015-03-25 Updated translations, thanks to all translators.
