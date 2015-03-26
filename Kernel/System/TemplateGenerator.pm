@@ -912,7 +912,9 @@ sub NotificationCustomer {
         %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
     }
 
-    my %User;
+    my %User = $Kernel::OM->Get('Kernel::System::CustomerUser')->GetPreferences(
+        UserID => $Ticket{CustomerUserID},
+    );
 
     # get user language
     my $Language = $User{UserLanguage} || $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage') || 'en';

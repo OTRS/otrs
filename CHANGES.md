@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-03-26 Fixed bug#[11118](http://bugs.otrs.org/show_bug.cgi?id=11118) - function NotificationCustomer always get DefaultLanguage to send notification.
 
 #4.0.7 2015-03-31
  - 2015-03-25 Updated translations, thanks to all translators.
