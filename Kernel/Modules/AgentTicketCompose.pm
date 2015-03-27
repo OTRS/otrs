@@ -1273,8 +1273,18 @@ sub Run {
             # check if customer is in recipient list
             if ( $Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i ) {
 
+                if ( $Data{SenderType} = 'agent' && $DataArticleType !~ m{external} ) {
+                    if ( $Data{To} ) {
+                        $Data{To} .= ', ' . $Customer{UserEmail};
+                    }
+                    else {
+                        $Data{To} = $Customer{UserEmail};
+                    }
+                }
+
                 # replace To with customers database address
-                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress') ) {
+                elsif ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeReplaceSenderAddress') ) {
+
                     $Output .= $Self->{LayoutObject}->Notify(
                         Data => $Self->{LayoutObject}->{LanguageObject}->Translate(
                             'Address %s replaced with registered customer address.',
