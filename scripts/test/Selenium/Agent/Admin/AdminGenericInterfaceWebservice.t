@@ -123,6 +123,18 @@ $Selenium->RunTest(
             $Selenium->find_element( "#DeleteButton",  'css' )->click();
             $Selenium->find_element( "#DialogButton2", 'css' )->click();
 
+            # wait until delete dialog has closed an action performed
+            ACTIVESLEEP:
+            for my $Second ( 1 .. 20 ) {
+
+                # Test dialog buttons are present
+                if ( !$Selenium->execute_script("return \$('#DialogButton2').length") ) {
+                    last ACTIVESLEEP;
+                }
+                print "Waiting to delete web service $Second second(s)...\n\n";
+                sleep 1;
+            }
+
             my $Success;
             eval {
                 $Success = $Selenium->find_element( $Webservice, 'link_text' )->is_displayed();
@@ -134,7 +146,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

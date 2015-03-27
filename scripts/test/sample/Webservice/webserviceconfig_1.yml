@@ -3,6 +3,7 @@ Debugger:
   DebugThreshold: debug
   TestMode: 1
 Description: Connector to send and receive date from Nagios.
+FrameworkVersion: 3.1.x CVS
 Name: Nagios
 Provider:
   Operation:
@@ -23,6 +24,7 @@ Provider:
         Outbound:
           1: 2
           2: 5
+      Type: Test::Test
   Transport:
     Config:
       Encoding: ''
@@ -40,6 +42,7 @@ Requester:
         Outbound:
           1: 2
           2: 5
+      Type: Test::Test
     Invoker2:
       Mapping:
         Inbound:
