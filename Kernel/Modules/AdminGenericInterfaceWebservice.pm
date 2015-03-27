@@ -502,7 +502,11 @@ sub Run {
         }
 
         # check if imported configuration has current framework version otherwise update it
-        if ( $ImportedConfig->{FrameworkVersion} ne $Kernel::OM->Get('Kernel::Config')->Get('Version') ) {
+        if (
+            !$ImportedConfig->{FrameworkVersion}
+            || $ImportedConfig->{FrameworkVersion} ne $Kernel::OM->Get('Kernel::Config')->Get('Version')
+            )
+        {
             $ImportedConfig = $Self->_UpdateConfiguration( Configuration => $ImportedConfig );
         }
 
