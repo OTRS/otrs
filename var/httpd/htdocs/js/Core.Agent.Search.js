@@ -495,7 +495,27 @@ Core.Agent.Search = (function (TargetNS) {
             return;
         }
 
-        StopWordCheckData = {
+        AJAXStopWordCheck(
+            SearchStrings,
+            function (FoundStopWords) {
+                alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + FoundStopWords);
+            },
+            Callback
+        );
+    }
+
+    /**
+     * @function
+     * @private
+     * @param {Array} Search strings to check for stop words.
+     * @param {Function} Callback function to execute if stop words were found.
+     * @param {Function} Callback function to execute if no stop words were found.
+     * @return nothing
+     * @description Checks if the given search strings contain stop words.
+     */
+
+    function AJAXStopWordCheck(SearchStrings, CallbackStopWordsFound, CallbackNoStopWordsFound) {
+        var StopWordCheckData = {
             Action: 'AgentTicketSearch',
             Subaction: 'AJAXStopWordCheck',
             SearchStrings: SearchStrings
@@ -506,14 +526,46 @@ Core.Agent.Search = (function (TargetNS) {
             StopWordCheckData,
             function (Result) {
                 if ( Result.FoundStopWords.length ) {
-                    alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + Result.FoundStopWords);
+                    CallbackStopWordsFound(Result.FoundStopWords);
                 }
                 else {
-                    Callback();
+                    CallbackNoStopWordsFound();
                 }
             }
         );
     }
+
+    /**
+     * @function
+     * @return nothing
+     * @description Inits toolbar fulltext search.
+     */
+
+    TargetNS.InitToolbarFulltextSearch = function () {
+
+        // register return key
+        $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+            if ((Event.charCode || Event.keyCode) === 13) {
+                var SearchString = $('#Fulltext').val();
+
+                if (!SearchString.length) {
+                    return true;
+                }
+
+                AJAXStopWordCheck(
+                    [ SearchString ],
+                    function (FoundStopWords) {
+                        alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + FoundStopWords);
+                    },
+                    function () {
+                        $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').submit();
+                    }
+                );
+
+                return false;
+            }
+        });
+    };
 
     return TargetNS;
 }(Core.Agent.Search || {}));

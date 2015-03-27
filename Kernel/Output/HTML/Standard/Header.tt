@@ -169,9 +169,37 @@ if ($('#ToolBar li.ChatRequests').length) {
 
     }, 60000);
 }
+
 //]]></script>
 [% END %]
 [% END %]
+
+[% IF Config("Frontend::ToolBarModule").item("10-Ticket::TicketSearchFulltext") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+if ($('#ToolBar li.Extended.SearchFulltext').length) {
+
+    //Core.Agent.Search.AJAXStopWordCheck([], function(){}, function (){});
+    Core.Agent.Search.InitToolbarFulltextSearch();
+
+/*
+    // register submit of fulltext search
+    $('#Submit').bind('click', function () {
+
+        CheckSearchStringsForStopWords( function () {
+            $('form[name="compose"]:first').submit();
+        });
+
+       return false;
+    });
+*/
+}
+
+//]]></script>
+[% END %]
+[% END %]
+
 [% RenderBlockEnd("ToolBar") %]
 
 [% RenderBlockStart("DebugRTLButton") %]
