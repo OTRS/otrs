@@ -116,8 +116,8 @@
                                     <a href="#" title=[% Translate("Show or hide the content") | JSON %]><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                                 </div>
                                 <h3 class="Title">[% Translate("Mapping for Key ") | html %] [% Data.KeyMapNew | html %]</h3>
-                                <div class="AdditionalInformation SpacingTopMini">
-                                    <button type="button" id="RemoveKeyMapping[% Data.KeyIndex | html %]" class="Remove" value="Remove key mapping">[% Translate("Remove key mapping") | html %]</button>
+                                <div class="AdditionalInformation">
+                                    <a href="" id="RemoveKeyMapping[% Data.KeyIndex | html %]" class="RemoveButton KeyMapRemove" value="Remove key mapping"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove key mapping") | html %]</span></a>
                                 </div>
                             </div>
                             <div class="Content">
@@ -190,7 +190,7 @@
                                             <div id="ValueMapNew[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]ServerError" class="TooltipErrorMessage">
                                                 <p>[% Translate("This field is required.") | html %]</p>
                                             </div>
-                                            <button type="button" id="RemoveValueMapping[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="Remove ValueRemove" value="Remove value mapping">[% Translate("Remove value mapping") | html %]</button>
+                                            <a href="" id="RemoveValueMapping[% Data.KeyIndex | html %]_[% Data.ValueIndex | html %]" class="RemoveButton ValueRemove" value="Remove value mapping"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value mapping") | html %]</span></a>
                                         </div>
 [% RenderBlockEnd("ValueTemplateRow") %]
                                     </div>
@@ -200,7 +200,7 @@
                                         <label for="AddValueMapping[% Data.KeyIndex | html %]" class="AddValueMapping">[% Translate("New value map") | html %]:</label>
                                         <div class="Field">
                                             <div class="NewValueMap">
-                                                <button type="button" id="AddValueMapping[% Data.KeyIndex | html %]" class="Add ValueAdd" value="Add Value mapping">[% Translate("Add value mapping") | html %]</button>
+                                                <a href="" id="AddValueMapping[% Data.KeyIndex | html %]" class="AddButton ValueAdd" value="Add Value mapping"><i class="fa fa-plus-square-o"></i><span class="InvisibleText">[% Translate("Add value mapping") | html %]</span></a>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -239,16 +239,15 @@
                             <div id="ValueMapNewServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
-                            <button type="button" id="RemoveValueMapping" class="Remove ValueRemove" value="Spacing Remove value mapping">[% Translate("Remove value mapping") | html %]</button>
+                            <a href="#" id="RemoveValueMapping" class="RemoveButton ValueRemove" value="Spacing Remove value mapping"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value mapping") | html %]</span></a>
                         </div>
 [% RenderBlockEnd("ValueTemplate") %]
 
                     </div>
                     <fieldset class="TableLike">
                         <div class="Field Spacing">
-                            <button class="Primary" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
-
-                            <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            <button class="CallForAction" type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[

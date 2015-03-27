@@ -56,9 +56,8 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
             $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
         });
 
-
         // register remove key action
-        $('.AdditionalInformation .Remove').bind('click', function () {
+        $('.AdditionalInformation .KeyMapRemove').bind('click', function () {
             TargetNS.ShowDeleteDialog( $(this).attr('id') );
             return false;
         });
@@ -78,7 +77,6 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         //            $(this).parent().remove();
             return false;
         });
-
     };
 
     /**
@@ -103,14 +101,14 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         $Clone.find('.Title').html('Mapping for Key');
 
         // copy values and change ids and names
-        $Clone.find(':input').each(function(){
+        $Clone.find(':input,[href]').each(function(){
             var ID = $(this).attr('id');
             $(this).attr('id', ID + KeyCounter);
             $(this).attr('name', ID + KeyCounter);
             $(this).addClass('Validate_Required');
 
             // add event handler to Add button
-            if( $(this).hasClass('Add') ) {
+            if( $(this).hasClass('ValueAdd') ) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
@@ -119,7 +117,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
                 });
             }
 
-            if( $(this).hasClass('Remove') ) {
+            if( $(this).hasClass('KeyMapRemove') ) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
@@ -196,14 +194,14 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         $Clone.removeClass('Hidden ValueTemplate');
 
         // copy values and change ids and names
-        $Clone.find(':input').each(function(){
+        $Clone.find(':input,[href]').each(function(){
             var ID = $(this).attr('id');
             $(this).attr('id', ID + Suffix);
             $(this).attr('name', ID + Suffix);
             $(this).addClass('Validate_Required');
 
             // add event handler to remove button
-            if( $(this).hasClass('Remove') ) {
+            if( $(this).hasClass('ValueRemove') ) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
@@ -302,7 +300,6 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
            ]
         );
     };
-
 
     return TargetNS;
 }(Core.Agent.Admin.GenericInterfaceMapping || {}));
