@@ -1,4 +1,5 @@
 #3.3.13 ????-??-??
+ - 2015-03-30 Fixed bug#[9449](http://bugs.otrs.org/show_bug.cgi?id=9449) - Generic Agent ticket actions can't be unselect.
  - 2015-03-27 Fixed bug#[11201](http://bugs.otrs.org/show_bug.cgi?id=11201) - GI: Use of uninitialized value in string ne at AdminGenericInterfaceWebservice.pm.
  - 2015-03-26 Fixed bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
  - 2015-03-26 Fixed bug#[10978](http://bugs.otrs.org/show_bug.cgi?id=10978) - AgentTicketCompose: Deactivate ArticleTypes isn't possible.
