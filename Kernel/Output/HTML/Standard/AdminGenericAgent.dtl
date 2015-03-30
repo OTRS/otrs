@@ -256,7 +256,8 @@ Core.Agent.Admin.GenericAgent.Init({
         DuplicateEventMsg: '$JSText{"This event is already attached to the job, Please use a different one."}',
         DeleteEventMsg: '$JSText{"Delete this Event Trigger"}',
         DeleteMsg: '$JSText{"Delete"}',
-        CancelMsg: '$JSText{"Cancel"}'
+        CancelMsg: '$JSText{"Cancel"}',
+        RemoveSelection: '$JSText{"Remove selection"}'
     }
 });
 //]]></script>

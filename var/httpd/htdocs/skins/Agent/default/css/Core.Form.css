@@ -176,6 +176,13 @@ a.ViewAttachment {
     background: url(../img/icons/monitor.png) no-repeat center;
 }
 
+.AddButton,
+.RemoveButton {
+    color: #000;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
 /**
  * @note    Push-lookalike for active state
  */
@@ -203,6 +210,24 @@ button.Reset:active {
 
 .RTL .GetAllAJAX {
     margin: 0 3px 0 0;
+}
+
+
+/**
+ * @subsection    GenericAgent ClearSelect
+ */
+
+.GenericAgentClearSelect {
+    width: 16px;
+    height: 16px;
+    margin-left: 3px;
+    color: #333;
+}
+
+.GenericAgentClearSelect span {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
 }
 
 /**
