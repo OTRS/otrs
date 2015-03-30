@@ -870,6 +870,15 @@ Core.Agent.Admin.GenericAgent.Init({
                 </div>
             </div>
         </form>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+Core.Agent.Admin.GenericAgent.InitEditing();
+
+//]]></script>
+[% END %]
+
 [% RenderBlockEnd("Edit") %]
 
 [% RenderBlockStart("Result") %]

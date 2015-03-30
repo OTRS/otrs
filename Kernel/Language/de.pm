@@ -1370,6 +1370,8 @@ sub Data {
         'Edit job' => 'Job bearbeiten',
         'Run job' => 'Job ausführen',
         'Affected Tickets' => 'Betroffene Tickets',
+        'Please remove the following words from the ticket selection as they cannot used: %s'
+            => 'Bitten entfernen Sie die folgenden Wörter aus der Ticket-Selektion, da diese nicht verwendet werden können: %s',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger für Webservice',

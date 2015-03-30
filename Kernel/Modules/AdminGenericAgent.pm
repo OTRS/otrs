@@ -324,6 +324,47 @@ sub Run {
 
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header( Title => 'Edit' );
+
+        # Show warning if ticket selection contains stop words within ticket search.
+        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+            my %RelevantStopWordFields = (
+                'From'    => 1,
+                'To'      => 1,
+                'Cc'      => 1,
+                'Subject' => 1,
+                'Body'    => 1,
+            );
+            my @StopWordSearchStrings;
+
+            STOPWORDFIELD:
+            for my $StopWordField ( sort keys %RelevantStopWordFields ) {
+                if (
+                    !defined $JobDataReference->{$StopWordField}
+                    || !length $JobDataReference->{$StopWordField}
+                    )
+                {
+                    next STOPWORDFIELD;
+                }
+
+                push @StopWordSearchStrings, $JobDataReference->{$StopWordField};
+            }
+
+            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+                SearchStrings => \@StopWordSearchStrings
+            );
+            my @FoundStopWords = keys %{$FoundStopWords};
+
+            if (@FoundStopWords) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        'Please remove the following words from the ticket selection as they cannot used: %s',
+                        join( ', ', @FoundStopWords ),
+                    ),
+                    Priority => 'Notice',
+                );
+            }
+        }
+
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -347,6 +388,33 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         }
+    }
+
+    # ---------------------------------------------------------- #
+    # check for stop words in ticket selection settings
+    # ---------------------------------------------------------- #
+    if ( $Self->{Subaction} eq 'AJAXStopWordCheck' ) {
+
+        my $StopWordCheckResult = {
+            FoundStopWords => [],
+        };
+
+        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+            my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
+            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
+            my @FoundStopWords = keys %{$FoundStopWords};
+            $StopWordCheckResult->{FoundStopWords} = \@FoundStopWords;
+        }
+
+        my $Output = $Self->{LayoutObject}->JSONEncode(
+            Data => $StopWordCheckResult,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
     }
 
     # ---------------------------------------------------------- #
