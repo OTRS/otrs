@@ -124,7 +124,7 @@ Core.Agent.Stats = (function (TargetNS) {
         }
 
         StopWordCheckData = {
-            Action: 'AgentStats',
+            Action: 'AgentTicketSearch',
             Subaction: 'AJAXStopWordCheck',
             SearchStrings: SearchStrings
         };

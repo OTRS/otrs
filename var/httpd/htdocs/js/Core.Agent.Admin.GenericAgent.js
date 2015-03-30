@@ -219,7 +219,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         }
 
         StopWordCheckData = {
-            Action: 'AdminGenericAgent',
+            Action: 'AgentTicketSearch',
             Subaction: 'AJAXStopWordCheck',
             SearchStrings: SearchStrings
         };
