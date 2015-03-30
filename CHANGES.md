@@ -14,6 +14,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.8 2015-??-??
+ - 2015-03-30 Fixed bug#[9449](http://bugs.otrs.org/show_bug.cgi?id=9449) - Generic Agent ticket actions can't be unselect.
  - 2015-03-28 Fixed bug#[11204](http://bugs.otrs.org/show_bug.cgi?id=11204) - SOAP WSDL file does not pass validation tests.
  - 2015-03-27 Fixed bug#[11202](http://bugs.otrs.org/show_bug.cgi?id=11202) - Dashboard errors on only admin group user.
  - 2015-03-27 Fixed bug#[11201](http://bugs.otrs.org/show_bug.cgi?id=11201) - GI: Use of uninitialized value in string ne at AdminGenericInterfaceWebservice.pm.
