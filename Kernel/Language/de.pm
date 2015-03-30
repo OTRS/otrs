@@ -1370,7 +1370,7 @@ sub Data {
         'Edit job' => 'Job bearbeiten',
         'Run job' => 'Job ausführen',
         'Affected Tickets' => 'Betroffene Tickets',
-        'Please remove the following words from the ticket selection as they cannot used: %s'
+        'Please remove the following words from the ticket selection as they cannot be used: %s'
             => 'Bitten entfernen Sie die folgenden Wörter aus der Ticket-Selektion, da diese nicht verwendet werden können: %s',
 
         # Template: AdminGenericInterfaceDebugger
@@ -2760,7 +2760,7 @@ sub Data {
         'Graphsize' => 'Grafikgröße',
         'Cache' => 'Cache',
         'Exchange Axis' => 'Achsen vertauschen',
-        'Please remove the following words from the restrictions as they cannot used: %s'
+        'Please remove the following words from the restrictions as they cannot be used: %s'
             => 'Bitten entfernen Sie die folgenden Wörter aus den Beschränkungen, da diese nicht verwendet werden können: %s',
 
         # Template: AgentStatsViewSettings

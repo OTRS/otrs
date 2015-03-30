@@ -357,7 +357,7 @@ sub Run {
             if (@FoundStopWords) {
                 $Output .= $Self->{LayoutObject}->Notify(
                     Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                        'Please remove the following words from the ticket selection as they cannot used: %s',
+                        'Please remove the following words from the ticket selection as they cannot be used: %s',
                         join( ', ', @FoundStopWords ),
                     ),
                     Priority => 'Notice',
