@@ -2758,6 +2758,8 @@ sub Data {
         'Graphsize' => 'Grafikgröße',
         'Cache' => 'Cache',
         'Exchange Axis' => 'Achsen vertauschen',
+        'Please remove the following words from the restrictions as they cannot used: %s'
+            => 'Bitten entfernen Sie die folgenden Wörter aus den Beschränkungen, da diese nicht verwendet werden können: %s',
 
         # Template: AgentStatsViewSettings
         'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
@@ -3131,7 +3133,7 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             'Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu suchen.',
         'Please remove the following words from your search as they cannot be searched for:' =>
-            'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, weil diese nicht für die Suche verwendet werden können:',
+            'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da diese nicht für die Suche verwendet werden können:',
         'Please check the fields marked as red for valid inputs.' => 'Bitte prüfen Sie die rot markierten Felder auf gültige Eingaben.',
         'Please perform a spell check on the the text first.' => 'Bitte führen Sie zuerst eine Rechtschreibprüfung aus.',
         'Slide the navigation bar' => 'Verschieben Sie die Navigationsleiste',

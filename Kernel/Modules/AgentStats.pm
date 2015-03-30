@@ -30,7 +30,7 @@ sub new {
     for my $NeededData (
         qw(
         GroupObject   ParamObject  DBObject   ModuleReg  LayoutObject
-        LogObject     ConfigObject UserObject MainObject TimeObject
+        LogObject     ConfigObject UserObject MainObject TimeObject TicketObject
         SessionObject UserID       Subaction  AccessRo   SessionID
         EncodeObject
         )
@@ -677,6 +677,56 @@ sub Run {
                 Priority => 'Error',
             );
         }
+
+        # Show warning if restrictions contain stop words within ticket search.
+        if (
+            $Stat->{UseAsRestriction}
+            && ref $Stat->{UseAsRestriction} eq 'ARRAY'
+            && $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive()
+            )
+        {
+            my %RelevantStopWordFields = (
+                'From'    => 1,
+                'To'      => 1,
+                'Cc'      => 1,
+                'Subject' => 1,
+                'Body'    => 1,
+            );
+            my @StopWordSearchStrings;
+
+            RESTRICTION:
+            for my $Restriction ( @{ $Stat->{UseAsRestriction} } ) {
+                if (
+                    !$Restriction->{Name}
+                    || !$RelevantStopWordFields{ $Restriction->{Name} }
+                    || !$Restriction->{SelectedValues}
+                    || ref $Restriction->{SelectedValues} ne 'ARRAY'
+                    )
+                {
+                    next RESTRICTION;
+                }
+
+                for my $StopWordString ( @{ $Restriction->{SelectedValues} } ) {
+                    push @StopWordSearchStrings, $StopWordString;
+                }
+            }
+
+            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+                SearchStrings => \@StopWordSearchStrings
+            );
+            my @FoundStopWords = keys %{$FoundStopWords};
+
+            if (@FoundStopWords) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
+                        'Please remove the following words from the restrictions as they cannot used: %s',
+                        join( ', ', @FoundStopWords ),
+                    ),
+                    Priority => 'Notice',
+                );
+            }
+        }
+
         $Output .= $Self->_Notify(
             StatData => $Stat,
             Section  => 'All'
@@ -2478,6 +2528,30 @@ sub Run {
                 Type        => 'attachment',             # not inline because of bug# 2757
             );
         }
+    }
+    elsif ( $Self->{Subaction} eq 'AJAXStopWordCheck' ) {
+
+        my $StopWordCheckResult = {
+            FoundStopWords => [],
+        };
+
+        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+            my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
+            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
+            my @FoundStopWords = keys %{$FoundStopWords};
+            $StopWordCheckResult->{FoundStopWords} = \@FoundStopWords;
+        }
+
+        my $Output = $Self->{LayoutObject}->JSONEncode(
+            Data => $StopWordCheckResult,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
+
     }
 
     # ---------------------------------------------------------- #
