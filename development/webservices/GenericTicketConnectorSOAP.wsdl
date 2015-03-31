@@ -848,9 +848,9 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                 minOccurs="1">
             </xsd:element>
             <xsd:element
-                name="DynamicField_X"
-                type="xsd:string"
-                minOccurs="0">
+                name="DynamicField"
+                type="tns:OTRS_DynamicField"
+                minOccurs="0" maxOccurs="unbounded">
             </xsd:element>
             <xsd:element
                 name="EscalationDestinationDate"
@@ -1280,9 +1280,9 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
                 minOccurs="1">
             </xsd:element>
             <xsd:element
-                name="DynamicField_X"
+                name="DynamicField"
                 type="xsd:string"
-                minOccurs="0">
+                minOccurs="0" maxOccurs="unbounded">
             </xsd:element>
             <xsd:element
                 name="EscalationDestinationDate"

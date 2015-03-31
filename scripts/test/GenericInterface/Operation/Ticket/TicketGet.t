@@ -296,6 +296,35 @@ for my $Key ( sort keys %TicketEntryOne ) {
     }
 }
 
+my $FormatDynamicFields = sub {
+    my %Param = @_;
+
+    my %TicketRaw = %{ $Param{Ticket} };
+    my %Ticket;
+    my @DynamicFields;
+
+    ATTRIBUTE:
+    for my $Attribute ( sort keys %TicketRaw ) {
+
+        if ( $Attribute =~ m{\A DynamicField_(.*) \z}msx ) {
+            push @DynamicFields, {
+                Name  => $1,
+                Value => $TicketRaw{$Attribute},
+            };
+            next ATTRIBUTE;
+        }
+
+        $Ticket{$Attribute} = $TicketRaw{$Attribute};
+    }
+
+    # add dynamic fields array into 'DynamicField' hash key if any
+    if (@DynamicFields) {
+        $Ticket{DynamicField} = \@DynamicFields;
+    }
+
+    return %Ticket;
+};
+
 # get the Ticket entry
 # with dynamic fields
 my %TicketEntryOneDF = $TicketObject->TicketGet(
@@ -317,6 +346,10 @@ for my $Key ( sort keys %TicketEntryOneDF ) {
         delete $TicketEntryOneDF{$Key};
     }
 }
+
+%TicketEntryOneDF = $FormatDynamicFields->(
+    Ticket => \%TicketEntryOneDF,
+);
 
 # add ticket id
 push @TicketIDs, $TicketID1;
@@ -423,6 +456,10 @@ for my $Key ( sort keys %TicketEntryTwoDF ) {
         delete $TicketEntryTwoDF{$Key};
     }
 }
+
+%TicketEntryTwoDF = $FormatDynamicFields->(
+    Ticket => \%TicketEntryTwoDF,
+);
 
 # add ticket id
 push @TicketIDs, $TicketID2;
@@ -651,7 +688,7 @@ my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webse
 $Self->Is(
     'Kernel::System::GenericInterface::Webservice',
     ref $WebserviceObject,
-    "Create webservice object",
+    "Create web service object",
 );
 
 my $WebserviceID = $WebserviceObject->WebserviceAdd(
@@ -671,7 +708,7 @@ my $WebserviceID = $WebserviceObject->WebserviceAdd(
 );
 $Self->True(
     $WebserviceID,
-    "Added Webservice",
+    "Added Web Service",
 );
 
 # get remote host with some precautions for certain unit test systems
@@ -688,7 +725,7 @@ if ( !$Host && gethostbyname('localhost') ) {
     $Host = 'localhost';
 }
 
-# use hard-coded localhost IP address
+# use hard-coded local-host IP address
 if ( !$Host ) {
     $Host = '127.0.0.1';
 }
@@ -762,7 +799,7 @@ my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
 );
 $Self->True(
     $WebserviceUpdate,
-    "Updated Webservice $WebserviceID - $WebserviceName",
+    "Updated Web Service $WebserviceID - $WebserviceName",
 );
 
 # Get SessionID
@@ -788,7 +825,7 @@ my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
 
 my @Tests = (
     {
-        Name                    => 'Test 1',
+        Name                    => 'Empty Request',
         SuccessRequest          => 1,
         RequestData             => {},
         ExpectedReturnLocalData => {
@@ -812,7 +849,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 2',
+        Name           => 'Wrong TicketID',
         SuccessRequest => 1,
         RequestData    => {
             TicketID => 'NotTicketID',
@@ -840,7 +877,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 3',
+        Name           => 'Test Ticket 1',
         SuccessRequest => '1',
         RequestData    => {
             TicketID => $TicketID1,
@@ -848,25 +885,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => {
-                    %TicketEntryOne,
-                },
+                Ticket => \%TicketEntryOne,
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryOne,
-                    },
-                ],
+                Ticket => [ \%TicketEntryOne, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 4',
+        Name           => 'Test Ticket 2',
         SuccessRequest => '1',
         RequestData    => {
             TicketID => $TicketID2,
@@ -874,25 +905,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => {
-                    %TicketEntryTwo,
-                },
+                Ticket => \%TicketEntryTwo,
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryTwo,
-                    },
-                ],
+                Ticket => [ \%TicketEntryTwo, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 5',
+        Name           => 'Test Ticket 3',
         SuccessRequest => '1',
         RequestData    => {
             TicketID => $TicketID3,
@@ -900,25 +925,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => {
-                    %TicketEntryThree,
-                },
+                Ticket => \%TicketEntryThree,
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryThree,
-                    },
-                ],
+                Ticket => [ \%TicketEntryThree, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 6',
+        Name           => 'Test Ticket 4',
         SuccessRequest => '1',
         RequestData    => {
             TicketID => $TicketID4,
@@ -926,25 +945,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => {
-                    %TicketEntryFour,
-                },
+                Ticket => \%TicketEntryFour,
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryFour,
-                    },
-                ],
+                Ticket => [ \%TicketEntryFour, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 7',
+        Name           => 'Test Ticket 1 With DF',
         SuccessRequest => '1',
         RequestData    => {
             TicketID      => $TicketID1,
@@ -953,25 +966,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => {
-                    %TicketEntryOneDF,
-                },
+                Ticket => \%TicketEntryOneDF,
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryOneDF,
-                    },
-                ],
+                Ticket => [ \%TicketEntryOneDF, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 8',
+        Name           => 'Test Ticket 2 With DF',
         SuccessRequest => '1',
         RequestData    => {
             TicketID      => $TicketID2,
@@ -980,25 +987,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => {
-                    %TicketEntryTwoDF,
-                },
+                Ticket => \%TicketEntryTwoDF,
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryTwoDF,
-                    },
-                ],
+                Ticket => [ \%TicketEntryTwoDF, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 9',
+        Name           => 'Test Ticket 1 + 2 With DF',
         SuccessRequest => '1',
         RequestData    => {
             TicketID      => "$TicketID1, $TicketID2",
@@ -1007,33 +1008,19 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryOneDF,
-                    },
-                    {
-                        %TicketEntryTwoDF,
-                    },
-                ],
+                Ticket => [ \%TicketEntryOneDF, \%TicketEntryTwoDF, ],
             },
         },
         ExpectedReturnLocalData => {
             Success => 1,
             Data    => {
-                Ticket => [
-                    {
-                        %TicketEntryOneDF,
-                    },
-                    {
-                        %TicketEntryTwoDF,
-                    },
-                ],
+                Ticket => [ \%TicketEntryOneDF, \%TicketEntryTwoDF, ],
             },
         },
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 10',
+        Name           => 'Test Ticket 4 With All Articles',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
@@ -1053,8 +1040,10 @@ my @Tests = (
             Data    => {
                 Ticket => [
                     {
-                        %TicketEntryFour,
-                        Article => \@ArticleWithoutAttachments,
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleWithoutAttachments,
+                            )
                     },
                 ],
             },
@@ -1062,7 +1051,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 11',
+        Name           => 'Test Ticket 4 With All Articles and Attachments',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
@@ -1083,8 +1072,10 @@ my @Tests = (
             Data    => {
                 Ticket => [
                     {
-                        %TicketEntryFour,
-                        Article => \@ArticleBox,
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBox,
+                            )
                     },
                 ],
             },
@@ -1092,7 +1083,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 11 (With sessionID)',
+        Name           => 'Test Ticket 4 With All Articles and Attachments (With sessionID)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
@@ -1116,8 +1107,10 @@ my @Tests = (
             Data    => {
                 Ticket => [
                     {
-                        %TicketEntryFour,
-                        Article => \@ArticleBox,
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBox,
+                            )
                     },
                 ],
             },
@@ -1125,7 +1118,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 11 (No Permission)',
+        Name           => 'Test Ticket 4 With All Articles and Attachments (No Permission)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
@@ -1159,7 +1152,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 11 (Customer)',
+        Name           => 'Test Ticket 4 With All Articles and Attachments (Customer)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
@@ -1184,8 +1177,10 @@ my @Tests = (
             Data    => {
                 Ticket => [
                     {
-                        %TicketEntryFour,
-                        Article => \@ArticleBox,
+                        (
+                            %TicketEntryFour,
+                            Article => \@ArticleBox,
+                            )
                     },
                 ],
             },
@@ -1193,7 +1188,7 @@ my @Tests = (
         Operation => 'TicketGet',
     },
     {
-        Name           => 'Test 11 (Customer No Permission)',
+        Name           => 'Test Ticket 4 With All Articles and Attachments (Customer No Permission)',
         SuccessRequest => '1',
         RequestData    => {
             TicketID    => $TicketID4,
@@ -1326,6 +1321,13 @@ for my $Test (@Tests) {
                     if ( $SkipFields{$Key} ) {
                         delete $Item->{$Key};
                     }
+                    if ( $Key eq 'DynamicField' ) {
+                        for my $DF ( @{ $Item->{$Key} } ) {
+                            if ( !$DF->{Value} ) {
+                                $DF->{Value} = '';
+                            }
+                        }
+                    }
                 }
 
                 # Articles
@@ -1365,6 +1367,13 @@ for my $Test (@Tests) {
                         if ( $SkipFields{$Key} ) {
                             delete $Item->{$Key};
                         }
+                        if ( $Key eq 'DynamicField' ) {
+                            for my $DF ( @{ $Item->{$Key} } ) {
+                                if ( !$DF->{Value} ) {
+                                    $DF->{Value} = '';
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1375,6 +1384,13 @@ for my $Test (@Tests) {
                     }
                     if ( $SkipFields{$Key} ) {
                         delete $RequesterResult->{Data}->{Ticket}->{$Key};
+                    }
+                    if ( $Key eq 'DynamicField' ) {
+                        for my $DF ( @{ $RequesterResult->{Data}->{Ticket}->{$Key} } ) {
+                            if ( !$DF->{Value} ) {
+                                $DF->{Value} = '';
+                            }
+                        }
                     }
                 }
 
@@ -1410,7 +1426,7 @@ for my $Test (@Tests) {
     $Self->IsDeeply(
         $RequesterResult,
         $Test->{ExpectedReturnRemoteData},
-        "$Test->{Name} - Requester success status (needs configured and running webserver)",
+        "$Test->{Name} - Requester success status (needs configured and running web server)",
     );
 
     if ( $Test->{ExpectedReturnLocalData} ) {
@@ -1439,7 +1455,7 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
 );
 $Self->True(
     $WebserviceDelete,
-    "Deleted Webservice $WebserviceID",
+    "Deleted Web Service $WebserviceID",
 );
 
 for my $TicketID (@TicketIDs) {
