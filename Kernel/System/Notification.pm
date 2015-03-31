@@ -128,8 +128,8 @@ sub NotificationGet {
         );
 
         # convert subject
-        $Data[3] = $Self->{EncodeObject}->Convert(
-            Text  => $Data[3],
+        $Data[4] = $Self->{EncodeObject}->Convert(
+            Text  => $Data[4],
             From  => $Data[2],
             To    => 'utf-8',
             Force => 1,
