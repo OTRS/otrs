@@ -14,7 +14,7 @@ use warnings;
 
 use URI::Escape qw();
 
-use Kernel::System::Spelling;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,13 +23,6 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(TicketObject ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
@@ -37,17 +30,19 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get params
-    my $SpellLanguage = $Self->{ParamObject}->GetParam( Param => 'SpellLanguage' )
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $SpellLanguage = $ParamObject->GetParam( Param => 'SpellLanguage' )
         || $Self->{UserSpellDict}
-        || $Self->{ConfigObject}->Get('SpellCheckerDictDefault');
+        || $Kernel::OM->Get('Kernel::Config')->Get('SpellCheckerDictDefault');
 
     # inline spell checker of rich text
     my $JSData = '';
-    my @Text = $Self->{ParamObject}->GetArray( Param => 'textinputs[]' );
+    my @Text = $ParamObject->GetArray( Param => 'textinputs[]' );
 
-    my $TextAll = '';
+    my $TextAll      = '';
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     for ( my $i = 0; $i <= $#Text; $i++ ) {
-        my $Line = $Self->{LayoutObject}->JSONEncode(
+        my $Line = $LayoutObject->JSONEncode(
             Data     => $Text[$i],
             NoQuotes => 1,
         );
@@ -62,8 +57,8 @@ sub Run {
     }
 
     # do spell check
-    my $SpellingObject = Kernel::System::Spelling->new( %{$Self} );
-    $TextAll = $Self->{LayoutObject}->RichText2Ascii(
+    my $SpellingObject = $Kernel::OM->Get('Kernel::System::Spelling');
+    $TextAll = $LayoutObject->RichText2Ascii(
         String => $TextAll,
     );
 
@@ -75,19 +70,19 @@ sub Run {
 
     # check error
     if ( $SpellingObject->Error() ) {
-        return $Self->{LayoutObject}->ErrorScreen();
+        return $LayoutObject->ErrorScreen();
     }
 
     $JSData .= "words[0] = [];\n";
     $JSData .= "suggs[0] = [];\n";
     my $Count = 0;
     for ( sort { $a <=> $b } keys %SpellCheck ) {
-        my $Word = $Self->{LayoutObject}->Ascii2Html(
+        my $Word = $LayoutObject->Ascii2Html(
             Text => $SpellCheck{$_}->{Word},
             Type => 'JSText',
         );
 
-        my $JS = $Self->{LayoutObject}->JSONEncode(
+        my $JS = $LayoutObject->JSONEncode(
             Data => $SpellCheck{$_}->{Replace} || [],
         );
 
@@ -97,19 +92,19 @@ sub Run {
         $Count++;
     }
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'SpellCheckerInline',
         Data => {
             JSData => $JSData,
         },
     );
 
-    my $Output = $Self->{LayoutObject}->Output(
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'SpellingInline',
         Data         => \%Param,
     );
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'text/html; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'text/html; charset=' . $LayoutObject->{Charset},
         Content     => $Output,
         Type        => 'inline',
         NoCache     => 1,

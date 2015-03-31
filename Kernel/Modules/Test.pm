@@ -12,6 +12,8 @@ package Kernel::Modules::Test;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -25,18 +27,20 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get test page header
-    my $Output = $Self->{LayoutObject}->Header( Title => 'OTRS Test Page' );
+    my $Output = $LayoutObject->Header( Title => 'OTRS Test Page' );
 
     # example blocks
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Row',
         Data => {
             Text    => 'Some Text for the first line',
             Counter => 1,
         },
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Row',
         Data => {
             Text    => 'Some Text for the next line',
@@ -46,7 +50,7 @@ sub Run {
     for ( 1 .. 2 ) {
 
         # fist block
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'System',
             Data => {
                 Type    => 'System',
@@ -55,7 +59,7 @@ sub Run {
         );
 
         # sub block of System
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'User',
             Data => {
                 Type    => 'User',
@@ -64,7 +68,7 @@ sub Run {
         );
 
         # sub blocks of User
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'UserID',
             Data => {
                 Type    => 'UserID',
@@ -74,7 +78,7 @@ sub Run {
 
         # just if $_ > 1
         if ( $_ > 1 ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'UserID',
                 Data => {
                     Type    => 'UserID',
@@ -85,7 +89,7 @@ sub Run {
 
         # add this block 3 times
         for ( 4 .. 6 ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'UserIDA',
                 Data => {
                     Type    => 'UserIDA',
@@ -96,7 +100,7 @@ sub Run {
     }
 
     # add the times block at least
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Times',
         Data => {
             Type    => 'Times',
@@ -105,13 +109,13 @@ sub Run {
     );
 
     # get test page
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'Test',
         Data         => \%Param
     );
 
     # get test page footer
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
 
     # return test page
     return $Output;

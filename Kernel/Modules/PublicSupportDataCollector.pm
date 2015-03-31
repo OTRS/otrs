@@ -12,10 +12,9 @@ package Kernel::Modules::PublicSupportDataCollector;
 use strict;
 use warnings;
 
-use HTTP::Response;
+our $ObjectManagerDisabled = 1;
 
-use Kernel::System::SystemData;
-use Kernel::System::SupportDataCollector;
+use HTTP::Response;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,16 +23,6 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject LayoutObject LogObject ConfigObject MainObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{SystemDataObject}           = Kernel::System::SystemData->new( %{$Self} );
-    $Self->{SupportDataCollectorObject} = Kernel::System::SupportDataCollector->new( %{$Self} );
-
     return $Self;
 }
 
@@ -41,12 +30,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # The request must be authenticated with the correct ChallengeToken
-    my $ChallengeToken = $Self->{ParamObject}->GetParam( Param => 'ChallengeToken' );
-    my $StoredChallengeToken
-        = $Self->{SystemDataObject}->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' );
+    my $SystemDataObject     = $Kernel::OM->Get('Kernel::System::SystemData');
+    my $ChallengeToken       = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'ChallengeToken' );
+    my $StoredChallengeToken = $SystemDataObject->SystemDataGet( Key => 'SupportDataCollector::ChallengeToken' );
 
     # Immediately discard the token (only useable once).
-    $Self->{SystemDataObject}->SystemDataDelete(
+    $SystemDataObject->SystemDataDelete(
         Key    => 'SupportDataCollector::ChallengeToken',
         UserID => 1,
     );
@@ -60,16 +49,17 @@ sub Run {
         );
     }
     else {
-        %Result = $Self->{SupportDataCollectorObject}->Collect();
+        %Result = $Kernel::OM->Get('Kernel::System::SupportDataCollector')->Collect();
     }
 
-    my $JSON = $Self->{LayoutObject}->JSONEncode(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $JSON         = $LayoutObject->JSONEncode(
         Data => \%Result,
     );
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON || '',
         Type        => 'inline',
         NoCache     => 1,

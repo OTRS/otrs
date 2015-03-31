@@ -12,7 +12,7 @@ package Kernel::Modules::PictureUpload;
 use strict;
 use warnings;
 
-use Kernel::System::Web::UploadCache;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,56 +21,51 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Charset = $Self->{LayoutObject}->{UserCharset};
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $Charset      = $LayoutObject->{UserCharset};
 
     # get params
-    my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' );
-    my $CKEditorFuncNum = $Self->{ParamObject}->GetParam( Param => 'CKEditorFuncNum' ) || 0;
+    my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $FormID          = $ParamObject->GetParam( Param => 'FormID' );
+    my $CKEditorFuncNum = $ParamObject->GetParam( Param => 'CKEditorFuncNum' ) || 0;
 
     # return if no form id exists
     if ( !$FormID ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ErrorNoFormID',
             Data => {
                 CKEditorFuncNum => $CKEditorFuncNum,
             },
         );
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html; charset=' . $Charset,
-            Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+            Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
             Type        => 'inline',
             NoCache     => 1,
         );
     }
 
+    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
     # deliver file form for display inline content
-    my $ContentID = $Self->{ParamObject}->GetParam( Param => 'ContentID' );
+    my $ContentID = $ParamObject->GetParam( Param => 'ContentID' );
     if ($ContentID) {
 
         # return image inline
-        my @AttachmentData = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
+        my @AttachmentData = $UploadCacheObject->FormIDGetAllFilesData(
             FormID => $FormID,
         );
         ATTACHMENT:
         for my $Attachment (@AttachmentData) {
             next ATTACHMENT if !$Attachment->{ContentID};
             next ATTACHMENT if $Attachment->{ContentID} ne $ContentID;
-            return $Self->{LayoutObject}->Attachment(
+            return $LayoutObject->Attachment(
                 Type => 'inline',
                 %{$Attachment},
             );
@@ -78,21 +73,21 @@ sub Run {
     }
 
     # get uploaded file
-    my %File = $Self->{ParamObject}->GetUploadAll(
+    my %File = $ParamObject->GetUploadAll(
         Param => 'upload',
     );
 
     # return error if no file is there
     if ( !%File ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ErrorNoFileFound',
             Data => {
                 CKEditorFuncNum => $CKEditorFuncNum,
             },
         );
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html; charset=' . $Charset,
-            Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+            Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
             Type        => 'inline',
             NoCache     => 1,
         );
@@ -100,22 +95,22 @@ sub Run {
 
     # return error if file is not possible to show inline
     if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ErrorNoImageFile',
             Data => {
                 CKEditorFuncNum => $CKEditorFuncNum,
             },
         );
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html; charset=' . $Charset,
-            Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+            Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
             Type        => 'inline',
             NoCache     => 1,
         );
     }
 
     # check if name already exists
-    my @AttachmentMeta = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+    my @AttachmentMeta = $UploadCacheObject->FormIDGetAllFilesMeta(
         FormID => $FormID,
     );
     my $FilenameTmp    = $File{Filename};
@@ -141,7 +136,7 @@ sub Run {
     }
 
     # add uploaded file to upload cache
-    $Self->{UploadCacheObject}->FormIDAddFile(
+    $UploadCacheObject->FormIDAddFile(
         FormID      => $FormID,
         Filename    => $FilenameTmp,
         Content     => $File{Content},
@@ -151,7 +146,7 @@ sub Run {
 
     # get new content id
     my $ContentIDNew = '';
-    @AttachmentMeta = $Self->{UploadCacheObject}->FormIDGetAllFilesMeta(
+    @AttachmentMeta = $UploadCacheObject->FormIDGetAllFilesMeta(
         FormID => $FormID
     );
     ATTACHMENT:
@@ -166,19 +161,19 @@ sub Run {
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
         $Session = ';' . $Self->{SessionName} . '=' . $Self->{SessionID};
     }
-    my $URL = $Self->{LayoutObject}->{Baselink}
+    my $URL = $LayoutObject->{Baselink}
         . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Success',
         Data => {
             CKEditorFuncNum => $CKEditorFuncNum,
             URL             => $URL,
         },
     );
-    return $Self->{LayoutObject}->Attachment(
+    return $LayoutObject->Attachment(
         ContentType => 'text/html; charset=' . $Charset,
-        Content     => $Self->{LayoutObject}->Output( TemplateFile => 'PictureUpload' ),
+        Content     => $LayoutObject->Output( TemplateFile => 'PictureUpload' ),
         Type        => 'inline',
         NoCache     => 1,
     );

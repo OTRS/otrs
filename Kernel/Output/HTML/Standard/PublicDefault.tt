@@ -6,7 +6,11 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-Welcome! This is the default public interface of OTRS!<br/>
-There was no action parameter given.<br/>
-You could install a custom public module (via the package manager), for example the FAQ module,
-which has a public interface.
+<div id="MainBox" class="Login">
+    <div class="Content">
+        <h2>[% Translate("Welcome") | html %]</h2>
+        <p>
+            This is the default public interface of OTRS! There was no action parameter given. <br />You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface.
+        </p>
+    </div>
+</div>
