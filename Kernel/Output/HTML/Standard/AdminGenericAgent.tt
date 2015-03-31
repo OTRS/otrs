@@ -261,7 +261,8 @@ Core.Agent.Admin.GenericAgent.Init({
         DuplicateEventMsg: [% Translate("This event is already attached to the job, Please use a different one.") | JSON %],
         DeleteEventMsg: [% Translate("Delete this Event Trigger") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],
-        CancelMsg: [% Translate("Cancel") | JSON %]
+        CancelMsg: [% Translate("Cancel") | JSON %],
+        RemoveSelection: [% Translate("Remove selection") | JSON %]
     }
 });
 //]]></script>

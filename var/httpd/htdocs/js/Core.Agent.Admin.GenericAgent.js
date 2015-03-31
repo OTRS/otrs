@@ -29,6 +29,70 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
     var DialogData = [];
 
     /**
+     * @private
+     * @name AddSelectClearButton
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @function
+     * @description
+     *      Adds a button next to every select field to clear the selection.
+     *      Only select fields with size > 1 are selected (no dropdowns).
+     */
+    function AddSelectClearButton() {
+        var $SelectFields = $('select');
+
+        // Loop over all select fields available on the page
+        $SelectFields.each(function () {
+            var Size = parseInt($(this).attr('size'), 10),
+                $SelectField = $(this),
+                SelectID = this.id,
+                ButtonHTML = '<a href="#" title="' + TargetNS.Localization.RemoveSelection + '" class="GenericAgentClearSelect" data-select="' + SelectID + '"><span>' + TargetNS.Localization.RemoveSelection + '</span><i class="fa fa-undo"></i></a>';
+
+
+            // Only handle select fields with a size > 1, leave all single-dropdown fields untouched
+            if (isNaN(Size) || Size <= 1) {
+                return;
+            }
+
+            // If select field has a tree selection icon already,
+            // // we want to insert the new code after that element
+            if ($SelectField.next('a.ShowTreeSelection').length) {
+                $SelectField = $SelectField.next('a.ShowTreeSelection');
+            }
+
+            // insert button HTML
+            $SelectField.after(ButtonHTML);
+        });
+
+        // Bind click event on newly inserted button
+        // The name of the corresponding select field is saved in a data attribute
+        $('.GenericAgentClearSelect').on('click.ClearSelect', function () {
+            var SelectID = $(this).data('select'),
+                $SelectField = $('#' + SelectID);
+
+            if (!$SelectField.length) {
+                return;
+            }
+
+            // Clear field value
+            $SelectField.val('');
+            $(this).blur();
+
+            return false;
+        });
+    }
+
+    /**
+     * @name Localization
+     * @memberof Core.Agent.Admin.GenericAgentEvent
+     * @member {Array}
+     * @description
+     *     The localization array for translation strings.
+     */
+    TargetNS.Localization = undefined;
+
+    /**
+     * @name Init
+     * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
      * @param {Object} Params, initialization and internationalization parameters.
      * @return nothing
@@ -53,6 +117,8 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         $('#EventType').bind('change', function (){
             TargetNS.ToogleEventSelect($(this).val());
         });
+
+        AddSelectClearButton();
     };
 
     TargetNS.ToogleEventSelect = function (SelectedEventType) {
