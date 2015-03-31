@@ -12,10 +12,7 @@ package Kernel::Modules::AdminTemplate;
 use strict;
 use warnings;
 
-use Kernel::System::StandardTemplate;
-use Kernel::System::StdAttachment;
-use Kernel::System::Valid;
-use Kernel::System::HTMLUtils;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,52 +21,46 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for my $Needed (qw(ParamObject DBObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
-    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
-    $Self->{StdAttachmentObject}    = Kernel::System::StdAttachment->new(%Param);
-    $Self->{ValidObject}            = Kernel::System::Valid->new(%Param);
-    $Self->{HTMLUtilsObject}        = Kernel::System::HTMLUtils->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject            = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+    my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
+
     # ------------------------------------------------------------ #
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-        my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+        my $ID = $ParamObject->GetParam( Param => 'ID' ) || '';
+        my %Data = $StandardTemplateObject->StandardTemplateGet(
             ID => $ID,
         );
 
         my @SelectedAttachment;
-        my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+        my %SelectedAttachmentData = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
             StandardTemplateID => $ID,
         );
         for my $Key ( sort keys %SelectedAttachmentData ) {
             push @SelectedAttachment, $Key;
         }
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Change',
             %Data,
             SelectedAttachments => \@SelectedAttachment,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -79,22 +70,22 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        my @NewIDs = $ParamObject->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
         for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
-        $GetParam{'Template'} = $Self->{ParamObject}->GetParam(
+        $GetParam{'Template'} = $ParamObject->GetParam(
             Param => 'Template',
             Raw   => 1
         ) || '';
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $GetParam{ContentType} = 'text/html';
         }
 
@@ -106,7 +97,7 @@ sub Run {
         }
 
         # check if a standard template exist with this name
-        my $NameExists = $Self->{StandardTemplateObject}->NameExistsCheck(
+        my $NameExists = $StandardTemplateObject->NameExistsCheck(
             Name => $GetParam{Name},
             ID   => $GetParam{ID}
         );
@@ -121,13 +112,13 @@ sub Run {
 
             # update group
             if (
-                $Self->{StandardTemplateObject}->StandardTemplateUpdate(
+                $StandardTemplateObject->StandardTemplateUpdate(
                     %GetParam,
                     UserID => $Self->{UserID},
                 )
                 )
             {
-                my %AttachmentsAll = $Self->{StdAttachmentObject}->StdAttachmentList();
+                my %AttachmentsAll = $StdAttachmentObject->StdAttachmentList();
 
                 # create hash with selected queues
                 my %AttachmentsSelected = map { $_ => 1 } @NewIDs;
@@ -137,7 +128,7 @@ sub Run {
                     my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
                     # set attachment to standard template relation
-                    my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                    my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd(
                         AttachmentID       => $AttachmentID,
                         StandardTemplateID => $GetParam{ID},
                         Active             => $Active,
@@ -146,33 +137,33 @@ sub Run {
                 }
 
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Template updated!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Template updated!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminTemplate',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action              => 'Change',
             Errors              => \%Errors,
             SelectedAttachments => \@NewIDs,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -181,18 +172,18 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam;
-        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $GetParam{Name} = $ParamObject->GetParam( Param => 'Name' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Self->_Edit(
             Action => 'Add',
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -202,23 +193,23 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        my @NewIDs = $ParamObject->GetArray( Param => 'IDs' );
         my ( %GetParam, %Errors );
 
         for my $Parameter (qw(ID Name Comment ValidID TemplateType)) {
-            $GetParam{$Parameter} = $Self->{ParamObject}->GetParam( Param => $Parameter ) || '';
+            $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
         }
 
-        $GetParam{'Template'} = $Self->{ParamObject}->GetParam(
+        $GetParam{'Template'} = $ParamObject->GetParam(
             Param => 'Template',
             Raw   => 1
         ) || '';
 
         # get composed content type
         $GetParam{ContentType} = 'text/plain';
-        if ( $Self->{LayoutObject}->{BrowserRichText} ) {
+        if ( $LayoutObject->{BrowserRichText} ) {
             $GetParam{ContentType} = 'text/html';
         }
 
@@ -230,7 +221,7 @@ sub Run {
         }
 
         # check if a standard template exists with this name
-        my $NameExists = $Self->{StandardTemplateObject}->NameExistsCheck( Name => $GetParam{Name} );
+        my $NameExists = $StandardTemplateObject->NameExistsCheck( Name => $GetParam{Name} );
         if ($NameExists) {
             $Errors{NameExists} = 1;
             $Errors{'NameInvalid'} = 'ServerError';
@@ -240,13 +231,13 @@ sub Run {
         if ( !%Errors ) {
 
             # add template
-            my $StandardTemplateID = $Self->{StandardTemplateObject}->StandardTemplateAdd(
+            my $StandardTemplateID = $StandardTemplateObject->StandardTemplateAdd(
                 %GetParam,
                 UserID => $Self->{UserID},
             );
             if ($StandardTemplateID) {
 
-                my %AttachmentsAll = $Self->{StdAttachmentObject}->StdAttachmentList();
+                my %AttachmentsAll = $StdAttachmentObject->StdAttachmentList();
 
                 # create hash with selected queues
                 my %AttachmentsSelected = map { $_ => 1 } @NewIDs;
@@ -256,7 +247,7 @@ sub Run {
                     my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
                     # set attachment to standard template relation
-                    my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+                    my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd(
                         AttachmentID       => $AttachmentID,
                         StandardTemplateID => $StandardTemplateID,
                         Active             => $Active,
@@ -265,33 +256,33 @@ sub Run {
                 }
 
                 $Self->_Overview();
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Notify( Info => 'Template added!' );
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Notify( Info => 'Template added!' );
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AdminTemplate',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
 
         # something has gone wrong
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Notify( Priority => 'Error' );
         $Self->_Edit(
             Action              => 'Add',
             Errors              => \%Errors,
             SelectedAttachments => \@NewIDs,
             %GetParam,
         );
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -301,18 +292,18 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Delete' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
 
-        my $Delete = $Self->{StandardTemplateObject}->StandardTemplateDelete(
+        my $Delete = $StandardTemplateObject->StandardTemplateDelete(
             ID => $ID,
         );
         if ( !$Delete ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------
@@ -320,13 +311,13 @@ sub Run {
     # ------------------------------------------------------------
     else {
         $Self->_Overview();
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminTemplate',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 }
@@ -334,36 +325,38 @@ sub Run {
 sub _Edit {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
 
     # get valid list
-    my %ValidList        = $Self->{ValidObject}->ValidList();
+    my %ValidList        = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
     my %ValidListReverse = reverse %ValidList;
 
-    $Param{ValidOption} = $Self->{LayoutObject}->BuildSelection(
+    $Param{ValidOption} = $LayoutObject->BuildSelection(
         Data       => \%ValidList,
         Name       => 'ValidID',
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
 
-    my $TemplateTypeList = $Self->{ConfigObject}->Get('StandardTemplate::Types');
+    my $TemplateTypeList = $Kernel::OM->Get('Kernel::Config')->Get('StandardTemplate::Types');
 
-    $Param{TemplateTypeString} = $Self->{LayoutObject}->BuildSelection(
+    $Param{TemplateTypeString} = $LayoutObject->BuildSelection(
         Data       => $TemplateTypeList,
         Name       => 'TemplateType',
         SelectedID => $Param{TemplateType},
         Class      => 'Validate_Required ' . ( $Param{Errors}->{'TemplateTypeInvalid'} || '' ),
     );
 
-    my %AttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
-    $Param{AttachmentOption} = $Self->{LayoutObject}->BuildSelection(
+    my %AttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentList( Valid => 1 );
+    $Param{AttachmentOption} = $LayoutObject->BuildSelection(
         Data         => \%AttachmentData,
         Name         => 'IDs',
         Multiple     => 1,
@@ -373,7 +366,7 @@ sub _Edit {
         SelectedID   => $Param{SelectedAttachments},
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewUpdate',
         Data => {
             %Param,
@@ -383,30 +376,32 @@ sub _Edit {
 
     # shows header
     if ( $Param{Action} eq 'Change' ) {
-        $Self->{LayoutObject}->Block( Name => 'HeaderEdit' );
+        $LayoutObject->Block( Name => 'HeaderEdit' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'HeaderAdd' );
+        $LayoutObject->Block( Name => 'HeaderAdd' );
     }
 
     # show appropriate messages for ServerError
     if ( defined $Param{Errors}->{NameExists} && $Param{Errors}->{NameExists} == 1 ) {
-        $Self->{LayoutObject}->Block( Name => 'ExistNameServerError' );
+        $LayoutObject->Block( Name => 'ExistNameServerError' );
     }
     else {
-        $Self->{LayoutObject}->Block( Name => 'NameServerError' );
+        $LayoutObject->Block( Name => 'NameServerError' );
     }
 
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
     # add rich text editor
-    if ( $Self->{LayoutObject}->{BrowserRichText} ) {
-        $Self->{LayoutObject}->Block(
+    if ( $LayoutObject->{BrowserRichText} ) {
+        $LayoutObject->Block(
             Name => 'RichText',
             Data => \%Param,
         );
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Template} = $Self->{HTMLUtilsObject}->ToHTML(
+            $Param{Template} = $HTMLUtilsObject->ToHTML(
                 String => $Param{Template},
             );
         }
@@ -415,7 +410,7 @@ sub _Edit {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Template} = $Self->{HTMLUtilsObject}->ToAscii(
+            $Param{Template} = $HTMLUtilsObject->ToAscii(
                 String => $Param{Template},
             );
         }
@@ -426,20 +421,24 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => \%Param,
     );
 
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionAdd' );
-    $Self->{LayoutObject}->Block( Name => 'Filter' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionAdd' );
+    $LayoutObject->Block( Name => 'Filter' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'OverviewResult',
         Data => \%Param,
     );
-    my %List = $Self->{StandardTemplateObject}->StandardTemplateList(
+
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+    my %List                   = $StandardTemplateObject->StandardTemplateList(
         UserID => 1,
         Valid  => 0,
     );
@@ -449,26 +448,27 @@ sub _Overview {
 
         my %ListGet;
         for my $ID ( sort keys %List ) {
-            %{ $ListGet{$ID} } = $Self->{StandardTemplateObject}->StandardTemplateGet(
+            %{ $ListGet{$ID} } = $StandardTemplateObject->StandardTemplateGet(
                 ID => $ID,
             );
             $ListGet{$ID}->{SortName} = $ListGet{$ID}->{TemplateType} . $ListGet{$ID}->{Name};
         }
 
         # get valid list
-        my %ValidList = $Self->{ValidObject}->ValidList();
+        my %ValidList = $Kernel::OM->Get('Kernel::System::Valid')->ValidList();
         for my $ID ( sort { $ListGet{$a}->{SortName} cmp $ListGet{$b}->{SortName} } keys %ListGet )
         {
 
             my %Data = %{ $ListGet{$ID} };
             my @SelectedAttachment;
-            my %SelectedAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+            my %SelectedAttachmentData
+                = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentStandardTemplateMemberList(
                 StandardTemplateID => $ID,
-            );
+                );
             for my $Key ( sort keys %SelectedAttachmentData ) {
                 push @SelectedAttachment, $Key;
             }
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
                     Valid => $ValidList{ $Data{ValidID} },
@@ -481,7 +481,7 @@ sub _Overview {
 
     # otherwise it displays a no data found message
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoDataFoundMsg',
             Data => {},
         );

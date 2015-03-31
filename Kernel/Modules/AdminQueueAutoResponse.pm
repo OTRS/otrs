@@ -13,9 +13,7 @@ package Kernel::Modules::AdminQueueAutoResponse;
 use strict;
 use warnings;
 
-use Kernel::System::AutoResponse;
-use Kernel::System::Queue;
-use Kernel::System::Valid;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,47 +22,41 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # create extra needed objects
-    $Self->{ValidObject}        = Kernel::System::Valid->new(%Param);
-    $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new(%Param);
-    $Self->{QueueObject}        = Kernel::System::Queue->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-    $Param{ID} = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
-    $Param{ID} = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
-    $Param{Action} = $Self->{ParamObject}->GetParam( Param => 'Action' )
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $DBObject    = $Kernel::OM->Get('Kernel::System::DB');
+    my $Output      = '';
+    $Param{ID} = $ParamObject->GetParam( Param => 'ID' ) || '';
+    $Param{ID} = $DBObject->Quote( $Param{ID}, 'Integer' ) if ( $Param{ID} );
+    $Param{Action} = $ParamObject->GetParam( Param => 'Action' )
         || 'AdminQueueAutoResponse';
 
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
+    my $AutoResponseObject = $Kernel::OM->Get('Kernel::System::AutoResponse');
+
     if ( $Self->{Subaction} eq 'Change' ) {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
         # get Type Auto Responses data
-        my %TypeResponsesData = $Self->{AutoResponseObject}->AutoResponseTypeList();
+        my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
 
         # get queue data
-        my %QueueData = $Self->{QueueObject}->QueueGet(
+        my %QueueData = $QueueObject->QueueGet(
             ID => $Param{ID},
         );
 
-        $Self->{LayoutObject}->Block( Name => 'Overview' );
-        $Self->{LayoutObject}->Block( Name => 'ActionList' );
-        $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
+        $LayoutObject->Block( Name => 'Overview' );
+        $LayoutObject->Block( Name => 'ActionList' );
+        $LayoutObject->Block( Name => 'ActionOverview' );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Selection',
             Data => {
                 Queue => $QueueData{Name},
@@ -74,19 +66,19 @@ sub Run {
             },
         );
         for my $TypeID ( sort keys %TypeResponsesData ) {
-            my %Data = $Self->{DBObject}->GetTableData(
+            my %Data = $DBObject->GetTableData(
                 Table => 'auto_response ar, auto_response_type art',
                 What  => 'ar.id, ar.name',
                 Where => " art.id = $TypeID AND ar.type_id = art.id "
-                    . "AND ar.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+                    . "AND ar.valid_id IN ( ${\(join ', ', $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet())} )",
             );
-            my ( $SelectedID, $Name ) = $Self->{DBObject}->GetTableData(
+            my ( $SelectedID, $Name ) = $DBObject->GetTableData(
                 Table => 'auto_response ar, auto_response_type art, queue_auto_response qar',
                 What  => 'ar.id, ar.name',
                 Where => " art.id = $TypeID AND ar.type_id = art.id AND qar.queue_id = $Param{ID} "
                     . "AND qar.auto_response_id = ar.id",
             );
-            $Param{DataStrg} = $Self->{LayoutObject}->BuildSelection(
+            $Param{DataStrg} = $LayoutObject->BuildSelection(
                 Name         => "IDs_$TypeID",
                 SelectedID   => $SelectedID || '',
                 Data         => \%Data,
@@ -94,7 +86,7 @@ sub Run {
                 PossibleNone => 1,
                 Class        => 'W50pc',
             );
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ChangeItemList',
                 Data => {
                     Type   => $TypeResponsesData{$TypeID},
@@ -103,59 +95,59 @@ sub Run {
                 },
             );
         }
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminQueueAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
     }
 
     # queues to queue_auto_responses
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         my @NewIDs = ();
 
         # get Type Auto Responses data
-        my %TypeResponsesData = $Self->{AutoResponseObject}->AutoResponseTypeList();
+        my %TypeResponsesData = $AutoResponseObject->AutoResponseTypeList();
 
         # Set Autoresponses IDs for this queue.
         for my $TypeID ( sort keys %TypeResponsesData ) {
-            push( @NewIDs, $Self->{ParamObject}->GetParam( Param => "IDs_$TypeID" ) );
+            push( @NewIDs, $ParamObject->GetParam( Param => "IDs_$TypeID" ) );
         }
 
-        $Self->{AutoResponseObject}->AutoResponseQueue(
+        $AutoResponseObject->AutoResponseQueue(
             QueueID         => $Param{ID},
             AutoResponseIDs => \@NewIDs,
             UserID          => $Self->{UserID},
         );
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # else ! print form
     else {
-        $Output .= $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
 
         # get queue data
-        my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
+        my %QueueData = $QueueObject->QueueList( Valid => 1 );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Overview',
             Data => { %QueueData, %Param, }
         );
 
-        $Self->{LayoutObject}->Block( Name => 'FilterQueues' );
-        $Self->{LayoutObject}->Block( Name => 'FilterAutoResponses' );
-        $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+        $LayoutObject->Block( Name => 'FilterQueues' );
+        $LayoutObject->Block( Name => 'FilterAutoResponses' );
+        $LayoutObject->Block( Name => 'OverviewResult' );
 
         # if there are any queues, they are shown
         if (%QueueData) {
             for ( sort { $QueueData{$a} cmp $QueueData{$b} } keys %QueueData ) {
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'Item',
                     Data => {
                         Queue   => $QueueData{$_},
@@ -169,7 +161,7 @@ sub Run {
 
         # otherwise a no data found msg is displayed
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoQueuesFoundMsg',
                 Data => {},
             );
@@ -183,9 +175,9 @@ sub Run {
             . " AND ar.valid_id = valid.id AND valid.name = 'valid'"
             . " ORDER BY ar.name ASC"
             ;
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        $DBObject->Prepare( SQL => $SQL );
 
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             my %AutoResponseData;
             $AutoResponseData{Name} = $Row[0];
             $AutoResponseData{Type} = $Row[1];
@@ -196,7 +188,7 @@ sub Run {
         # if there are any auto responses, they are shown
         if (@ResponseData) {
             for my $ResponseDataItem (@ResponseData) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ItemList',
                     Data => $ResponseDataItem,
                 );
@@ -205,17 +197,17 @@ sub Run {
 
         # otherwise a no data found msg is displayed
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoAutoResponsesFoundMsg',
                 Data => {},
             );
         }
 
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminQueueAutoResponse',
             Data         => \%Param,
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
     }
     return $Output;
 }

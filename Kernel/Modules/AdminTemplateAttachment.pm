@@ -12,8 +12,7 @@ package Kernel::Modules::AdminTemplateAttachment;
 use strict;
 use warnings;
 
-use Kernel::System::StdAttachment;
-use Kernel::System::StandardTemplate;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,22 +21,16 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # lib object
-    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
-    $Self->{StdAttachmentObject}    = Kernel::System::StdAttachment->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $ParamObject            = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
+    my $StdAttachmentObject    = $Kernel::OM->Get('Kernel::System::StdAttachment');
 
     # ------------------------------------------------------------ #
     # template <-> attachment 1:n
@@ -45,20 +38,20 @@ sub Run {
     if ( $Self->{Subaction} eq 'Template' ) {
 
         # get template data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateGet(
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my %StandardTemplateData = $StandardTemplateObject->StandardTemplateGet(
             ID => $ID,
         );
 
         # get attachment data
-        my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
+        my %StdAttachmentData = $StdAttachmentObject->StdAttachmentList( Valid => 1 );
 
-        my %Member = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+        my %Member = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
             StandardTemplateID => $ID,
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%StdAttachmentData,
@@ -66,7 +59,7 @@ sub Run {
             Name     => $StandardTemplateData{TemplateType} . ' - ' . $StandardTemplateData{Name},
             Type     => 'Template',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -76,32 +69,32 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Attachment' ) {
 
         # get group data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my %StdAttachmentData = $StdAttachmentObject->StdAttachmentGet( ID => $ID );
 
         # get user list
-        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+        my %StandardTemplateData = $StandardTemplateObject->StandardTemplateList(
             Valid => 1,
         );
 
         if (%StandardTemplateData) {
             for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
-                my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                my %Data = $StandardTemplateObject->StandardTemplateGet(
                     ID => $StandardTemplateID
                 );
                 $StandardTemplateData{$StandardTemplateID}
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{TemplateType} )
+                    = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
                     . ' - '
                     . $Data{Name};
             }
         }
 
-        my %Member = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberList(
+        my %Member = $StdAttachmentObject->StdAttachmentStandardTemplateMemberList(
             AttachmentID => $ID,
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%StandardTemplateData,
@@ -109,7 +102,7 @@ sub Run {
             Name     => $StdAttachmentData{Name},
             Type     => 'Attachment',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -119,13 +112,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAttachment' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get new templates
-        my @TemplatesSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @TemplatesAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @TemplatesSelected = $ParamObject->GetArray( Param => 'ItemsSelected' );
+        my @TemplatesAll      = $ParamObject->GetArray( Param => 'ItemsAll' );
 
-        my $AttachmentID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $AttachmentID = $ParamObject->GetParam( Param => 'ID' );
 
         # create hash with selected templates
         my %TemplatesSelected = map { $_ => 1 } @TemplatesSelected;
@@ -135,7 +128,7 @@ sub Run {
             my $Active = $TemplatesSelected{$TemplateID} ? 1 : 0;
 
             # set attachment to standard template relation
-            my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+            my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd(
                 AttachmentID       => $AttachmentID,
                 StandardTemplateID => $TemplateID,
                 Active             => $Active,
@@ -143,7 +136,7 @@ sub Run {
             );
         }
 
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -152,13 +145,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeTemplate' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get new attachments
-        my @AttachmentsSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @AttachmentsAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @AttachmentsSelected = $ParamObject->GetArray( Param => 'ItemsSelected' );
+        my @AttachmentsAll      = $ParamObject->GetArray( Param => 'ItemsAll' );
 
-        my $TemplateID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $TemplateID = $ParamObject->GetParam( Param => 'ID' );
 
         # create hash with selected queues
         my %AttachmentsSelected = map { $_ => 1 } @AttachmentsSelected;
@@ -168,7 +161,7 @@ sub Run {
             my $Active = $AttachmentsSelected{$AttachmentID} ? 1 : 0;
 
             # set attachment to standard template relation
-            my $Success = $Self->{StdAttachmentObject}->StdAttachmentStandardTemplateMemberAdd(
+            my $Success = $StdAttachmentObject->StdAttachmentStandardTemplateMemberAdd(
                 AttachmentID       => $AttachmentID,
                 StandardTemplateID => $TemplateID,
                 Active             => $Active,
@@ -176,16 +169,16 @@ sub Run {
             );
         }
 
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
     $Output .= $Self->_Overview();
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
@@ -201,12 +194,13 @@ sub _Change {
         Attachment => 'Attachment',
     );
 
-    $Self->{LayoutObject}->Block( Name => 'Overview' );
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
-    $Self->{LayoutObject}->Block( Name => 'Filter' );
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    $LayoutObject->Block( Name => 'Overview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'Filter' );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Change',
         Data => {
             %Param,
@@ -217,9 +211,9 @@ sub _Change {
         },
     );
 
-    $Self->{LayoutObject}->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
+    $LayoutObject->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ChangeHeader',
         Data => {
             %Param,
@@ -231,7 +225,7 @@ sub _Change {
 
         my $Selected = $Param{Selected}->{$ID} ? ' checked="checked"' : '';
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
@@ -244,7 +238,7 @@ sub _Change {
         );
     }
 
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AdminTemplateAttachment',
         Data         => \%Param,
     );
@@ -253,30 +247,34 @@ sub _Change {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => {},
     );
 
-    $Self->{LayoutObject}->Block( Name => 'Filters' );
+    $LayoutObject->Block( Name => 'Filters' );
 
     # no actions in action list
-    #    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+    #    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'OverviewResult' );
+
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
     # get StandardTemplate data
-    my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+    my %StandardTemplateData = $StandardTemplateObject->StandardTemplateList(
         Valid => 1,
     );
 
     # if there are any templates, they are shown
     if (%StandardTemplateData) {
         for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
-            my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+            my %Data = $StandardTemplateObject->StandardTemplateGet(
                 ID => $StandardTemplateID
             );
             $StandardTemplateData{$StandardTemplateID}
-                = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{TemplateType} )
+                = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
                 . ' - '
                 . $Data{Name};
         }
@@ -286,7 +284,7 @@ sub _Overview {
             keys %StandardTemplateData
             )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'List1n',
                 Data => {
                     Name      => $StandardTemplateData{$StandardTemplateID},
@@ -299,14 +297,14 @@ sub _Overview {
 
     # otherwise a no data message is displayed
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoTemplatesFoundMsg',
             Data => {},
         );
     }
 
     # get queue data
-    my %StdAttachmentData = $Self->{StdAttachmentObject}->StdAttachmentList( Valid => 1 );
+    my %StdAttachmentData = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentList( Valid => 1 );
 
     # if there are any attachments, they are shown
     if (%StdAttachmentData) {
@@ -315,7 +313,7 @@ sub _Overview {
             keys %StdAttachmentData
             )
         {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'Listn1',
                 Data => {
                     Name      => $StdAttachmentData{$StdAttachmentID},
@@ -328,14 +326,14 @@ sub _Overview {
 
     # otherwise a no data message is displayed
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoAttachmentsFoundMsg',
             Data => {},
         );
     }
 
     # return output
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AdminTemplateAttachment',
         Data         => \%Param,
     );

@@ -12,8 +12,7 @@ package Kernel::Modules::AdminQueueTemplates;
 use strict;
 use warnings;
 
-use Kernel::System::Queue;
-use Kernel::System::StandardTemplate;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,21 +21,16 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(ParamObject DBObject QueueObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{QueueObject}            = Kernel::System::Queue->new(%Param);
-    $Self->{StandardTemplateObject} = Kernel::System::StandardTemplate->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $ParamObject            = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $QueueObject            = $Kernel::OM->Get('Kernel::System::Queue');
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
     # ------------------------------------------------------------ #
     # template <-> queues 1:n
@@ -44,23 +38,23 @@ sub Run {
     if ( $Self->{Subaction} eq 'Template' ) {
 
         # get template data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateGet( ID => $ID );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my %StandardTemplateData = $StandardTemplateObject->StandardTemplateGet( ID => $ID );
 
         # get queues
-        my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
+        my %QueueData = $QueueObject->QueueList( Valid => 1 );
 
         # get assigned queues
-        my %Member = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        my %Member = $QueueObject->QueueStandardTemplateMemberList(
             StandardTemplateID => $ID,
         );
 
-        my $StandardTemplateType = $Self->{LayoutObject}->{LanguageObject}->Translate(
+        my $StandardTemplateType = $LayoutObject->{LanguageObject}->Translate(
             $StandardTemplateData{TemplateType},
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%QueueData,
@@ -68,7 +62,7 @@ sub Run {
             Name     => $StandardTemplateType . ' - ' . $StandardTemplateData{Name},
             Type     => 'Template',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -78,33 +72,33 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Queue' ) {
 
         # get queue data
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
-        my %QueueData = $Self->{QueueObject}->QueueGet( ID => $ID );
+        my $ID = $ParamObject->GetParam( Param => 'ID' );
+        my %QueueData = $QueueObject->QueueGet( ID => $ID );
 
         # get templates
-        my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+        my %StandardTemplateData = $StandardTemplateObject->StandardTemplateList(
             Valid => 1,
         );
 
         if (%StandardTemplateData) {
             for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
-                my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+                my %Data = $StandardTemplateObject->StandardTemplateGet(
                     ID => $StandardTemplateID
                 );
                 $StandardTemplateData{$StandardTemplateID}
-                    = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{TemplateType} )
+                    = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
                     . ' - '
                     . $Data{Name};
             }
         }
 
         # get assigned templates
-        my %Member = $Self->{QueueObject}->QueueStandardTemplateMemberList(
+        my %Member = $QueueObject->QueueStandardTemplateMemberList(
             QueueID => $ID,
         );
 
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+        my $Output = $LayoutObject->Header();
+        $Output .= $LayoutObject->NavigationBar();
         $Output .= $Self->_Change(
             Selected => \%Member,
             Data     => \%StandardTemplateData,
@@ -112,7 +106,7 @@ sub Run {
             Name     => $QueueData{Name},
             Type     => 'Queue',
         );
-        $Output .= $Self->{LayoutObject}->Footer();
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
@@ -122,13 +116,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeQueue' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get new templates
-        my @TemplatesSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @TemplatesAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @TemplatesSelected = $ParamObject->GetArray( Param => 'ItemsSelected' );
+        my @TemplatesAll      = $ParamObject->GetArray( Param => 'ItemsAll' );
 
-        my $QueueID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $QueueID = $ParamObject->GetParam( Param => 'ID' );
 
         # create hash with selected templates
         my %TemplatesSelected = map { $_ => 1 } @TemplatesSelected;
@@ -138,7 +132,7 @@ sub Run {
             my $Active = $TemplatesSelected{$TemplateID} ? 1 : 0;
 
             # set customer user service member
-            $Self->{QueueObject}->QueueStandardTemplateMemberAdd(
+            $QueueObject->QueueStandardTemplateMemberAdd(
                 QueueID            => $QueueID,
                 StandardTemplateID => $TemplateID,
                 Active             => $Active,
@@ -153,13 +147,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeTemplate' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # get new queues
-        my @QueuesSelected = $Self->{ParamObject}->GetArray( Param => 'ItemsSelected' );
-        my @QueuesAll      = $Self->{ParamObject}->GetArray( Param => 'ItemsAll' );
+        my @QueuesSelected = $ParamObject->GetArray( Param => 'ItemsSelected' );
+        my @QueuesAll      = $ParamObject->GetArray( Param => 'ItemsAll' );
 
-        my $TemplateID = $Self->{ParamObject}->GetParam( Param => 'ID' );
+        my $TemplateID = $ParamObject->GetParam( Param => 'ID' );
 
         # create hash with selected queues
         my %QueuesSelected = map { $_ => 1 } @QueuesSelected;
@@ -169,7 +163,7 @@ sub Run {
             my $Active = $QueuesSelected{$QueueID} ? 1 : 0;
 
             # set customer user service member
-            $Self->{QueueObject}->QueueStandardTemplateMemberAdd(
+            $QueueObject->QueueStandardTemplateMemberAdd(
                 QueueID            => $QueueID,
                 StandardTemplateID => $TemplateID,
                 Active             => $Active,
@@ -177,16 +171,16 @@ sub Run {
             );
         }
 
-        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+        return $LayoutObject->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
     # overview
     # ------------------------------------------------------------ #
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
     $Output .= $Self->_Overview();
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
@@ -202,19 +196,19 @@ sub _Change {
         Queue    => 'Queue',
     );
 
-    my $MyType = $VisibleType{$Type};
-
-    $Self->{LayoutObject}->Block( Name => 'Overview' );
-    $Self->{LayoutObject}->Block( Name => 'ActionList' );
-    $Self->{LayoutObject}->Block( Name => 'ActionOverview' );
-    $Self->{LayoutObject}->Block( Name => 'Filter' );
+    my $MyType       = $VisibleType{$Type};
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    $LayoutObject->Block( Name => 'Overview' );
+    $LayoutObject->Block( Name => 'ActionList' );
+    $LayoutObject->Block( Name => 'ActionOverview' );
+    $LayoutObject->Block( Name => 'Filter' );
 
     #fixed link
     my $QueueTag;
 
     $QueueTag = $Type eq 'Queue' ? 'Queue' : '';
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Change',
         Data => {
             %Param,
@@ -227,9 +221,9 @@ sub _Change {
         },
     );
 
-    $Self->{LayoutObject}->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
+    $LayoutObject->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ChangeHeader',
         Data => {
             %Param,
@@ -247,7 +241,7 @@ sub _Change {
 
         $QueueTag = $Type ne 'Queue' ? 'Queue' : '';
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ChangeRow',
             Data => {
                 %Param,
@@ -263,7 +257,7 @@ sub _Change {
         );
     }
 
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AdminQueueTemplates',
         Data         => \%Param,
         VisibleType  => $MyType,
@@ -273,30 +267,34 @@ sub _Change {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LayoutObject}->Block(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    $LayoutObject->Block(
         Name => 'Overview',
         Data => {},
     );
 
     # no actions in action list
-    #    $Self->{LayoutObject}->Block(Name=>'ActionList');
-    $Self->{LayoutObject}->Block( Name => 'FilterTemplate' );
-    $Self->{LayoutObject}->Block( Name => 'FilterQueue' );
-    $Self->{LayoutObject}->Block( Name => 'OverviewResult' );
+    #    $LayoutObject->Block(Name=>'ActionList');
+    $LayoutObject->Block( Name => 'FilterTemplate' );
+    $LayoutObject->Block( Name => 'FilterQueue' );
+    $LayoutObject->Block( Name => 'OverviewResult' );
+
+    my $StandardTemplateObject = $Kernel::OM->Get('Kernel::System::StandardTemplate');
 
     # get std template list
-    my %StandardTemplateData = $Self->{StandardTemplateObject}->StandardTemplateList(
+    my %StandardTemplateData = $StandardTemplateObject->StandardTemplateList(
         Valid => 1,
     );
 
     # if there are results to show
     if (%StandardTemplateData) {
         for my $StandardTemplateID ( sort keys %StandardTemplateData ) {
-            my %Data = $Self->{StandardTemplateObject}->StandardTemplateGet(
+            my %Data = $StandardTemplateObject->StandardTemplateGet(
                 ID => $StandardTemplateID,
             );
             $StandardTemplateData{$StandardTemplateID}
-                = $Self->{LayoutObject}->{LanguageObject}->Translate( $Data{TemplateType} )
+                = $LayoutObject->{LanguageObject}->Translate( $Data{TemplateType} )
                 . ' - '
                 . $Data{Name};
         }
@@ -307,7 +305,7 @@ sub _Overview {
         {
 
             # set output class
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'List1n',
                 Data => {
                     Name      => $StandardTemplateData{$StandardTemplateID},
@@ -320,21 +318,21 @@ sub _Overview {
 
     # otherwise it displays a no data found message
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoTemplatesFoundMsg',
             Data => {},
         );
     }
 
     # get queue data
-    my %QueueData = $Self->{QueueObject}->QueueList( Valid => 1 );
+    my %QueueData = $Kernel::OM->Get('Kernel::System::Queue')->QueueList( Valid => 1 );
 
     # if there are results to show
     if (%QueueData) {
         for my $QueueID ( sort { uc( $QueueData{$a} ) cmp uc( $QueueData{$b} ) } keys %QueueData ) {
 
             # set output class
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'Listn1',
                 Data => {
                     Name      => $QueueData{$QueueID},
@@ -347,14 +345,14 @@ sub _Overview {
 
     # otherwise it displays a no data found message
     else {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'NoQueuesFoundMsg',
             Data => {},
         );
     }
 
     # return output
-    return $Self->{LayoutObject}->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'AdminQueueTemplates',
         Data         => \%Param,
     );
