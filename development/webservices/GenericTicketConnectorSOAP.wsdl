@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="GTCSOAP" targetNamespace="http://www.otrs.org/TicketConnector/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.otrs.org/TicketConnector/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions name="GenericTicketConnectorSOAP" targetNamespace="http://www.otrs.org/TicketConnector/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.otrs.org/TicketConnector/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
     <wsdl:documentation>
 The Generic Ticket Connector web service for SOAP protocol
 
