@@ -7,18 +7,18 @@
       <param name="UserLogin" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
       <param name="Password" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
       <param name="SessionID" type="xs:string" required="false" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <resource path="{TicketID}" id="">
+      <resource path="{TicketID}" id="TicketID">
         <doc xml:lang="en" title=""/>
         <param name="TicketID" type="xs:string" required="false" default="" style="template" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-        <method name="GET" id="GET - TicketGet">
-          <doc xml:lang="en" title="GET - TicketGet"/>
+        <method name="GET" id="GET_TicketGet">
+          <doc xml:lang="en" title="GET_TicketGet"/>
           <request/>
           <response status="200">
             <representation mediaType="application/json; charset=UTF-8" element="ns:Response" xmlns:ns="http://localhost/otrs/nph-genericinterface.pl/Webservice/GenericTicketConnectorREST/Ticket/1"/>
           </response>
         </method>
-        <method name="PATCH" id="PATCH - TicketUpdate">
-          <doc xml:lang="en" title="PATCH - TicketUpdate">TicketUpdate parameters must be specified in request body in JSON format</doc>
+        <method name="PATCH" id="PATCH_TicketUpdate">
+          <doc xml:lang="en" title="PATCH_TicketUpdate">TicketUpdate parameters must be specified in request body in JSON format</doc>
           <request>
             <representation mediaType="application/json"/>
           </request>
@@ -33,15 +33,15 @@
           </response>
         </method>
       </resource>
-      <method name="GET" id="GET - TicketSearch">
-        <doc xml:lang="en" title="GET - TicketSearch"/>
+      <method name="GET" id="GET_TicketSearch">
+        <doc xml:lang="en" title="GET_TicketSearch"/>
         <request/>
         <response status="200">
           <representation mediaType="application/json; charset=UTF-8"/>
         </response>
       </method>
-      <method name="POST" id="POST - TicketCreate">
-        <doc xml:lang="en" title="POST - TicketCreate">TicketCreate parameters must be specified in request body in JSON format</doc>
+      <method name="POST" id="POST_TicketCreate">
+        <doc xml:lang="en" title="POST_TicketCreate">TicketCreate parameters must be specified in request body in JSON format</doc>
         <request>
           <representation mediaType="application/json"/>
         </request>
@@ -57,8 +57,8 @@
       <doc xml:lang="en" title="Session"/>
       <param name="UserLogin" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
       <param name="Password" type="xs:string" required="true" default="" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-      <method name="POST" id="POST - SessionCreate">
-        <doc xml:lang="en" title="POST - SessionCreate"/>
+      <method name="POST" id="POST_SessionCreate">
+        <doc xml:lang="en" title="POST_SessionCreate"/>
         <request>
           <representation mediaType="application/json"/>
         </request>
