@@ -182,6 +182,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'ContentLargeTicketQueueOverviewQueueName',
             Data => {
+                QueueID   => $QueueToID{$Queue},
                 QueueName => $Queue,
                 }
         );
