@@ -310,9 +310,20 @@ sub _ArticleIndexStringToWord {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Config   = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
-    my @Filters  = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
-    my $StopWord = $Self->_StopWordPrepare();
+    my $Config      = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
+    my %StopWordRaw = %{ $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {} };
+    my @Filters     = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+
+    my %StopWord;
+    WORD:
+    for my $Word ( sort keys %StopWordRaw ) {
+
+        next WORD if !$Word;
+
+        $Word = lc $Word;
+
+        $StopWord{$Word} = 1;
+    }
 
     # get words
     my $LengthMin = $Param{WordLengthMin} || $Config->{WordLengthMin} || 3;
@@ -332,7 +343,7 @@ sub _ArticleIndexStringToWord {
         # convert to lowercase to avoid LOWER()/LCASE() in the DB query
         $Word = lc $Word;
 
-        next WORD if $StopWord->{$Word};
+        next WORD if $StopWord{$Word};
 
         # only index words/strings within length boundaries
         my $Length = length $Word;
@@ -344,24 +355,6 @@ sub _ArticleIndexStringToWord {
     }
 
     return \@ListOfWords;
-}
-
-sub _StopWordPrepare {
-    my ( $Self, %Param ) = @_;
-
-    my %StopWordRaw = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {} };
-    my %StopWord;
-    WORD:
-    for my $Word ( sort keys %StopWordRaw ) {
-
-        next WORD if !$Word;
-
-        $Word = lc $Word;
-
-        $StopWord{$Word} = 1;
-    }
-
-    return \%StopWord;
 }
 
 1;
