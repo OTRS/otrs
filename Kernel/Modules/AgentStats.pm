@@ -711,8 +711,8 @@ sub Run {
             );
             if ( @{$FoundStopWords} ) {
                 my $Info = $Self->{LayoutObject}->{LanguageObject}->Translate(
-                    'Please remove the following words from the ticket restrictions (check fields '
-                        . 'From, To, Cc, Subject and Text) as they cannot be used:'
+                    'Please remove the following words from the fields From, To, Cc, Subject and '
+                        . 'Text in ticket restrictions as they cannot be used:'
                 );
                 $Info .= join ', ', @{$FoundStopWords};
 

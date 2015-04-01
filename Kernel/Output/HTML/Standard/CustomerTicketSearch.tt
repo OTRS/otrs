@@ -164,7 +164,7 @@
     Core.Customer.InitFocus();
 
     Core.Config.AddConfig({
-        SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from your search as they cannot be searched for:") |JSON %]
+        SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from fields From, To, Cc, Subject and Text as they cannot be searched for:") |JSON %]
     });
 
     Core.Customer.Search.Init();

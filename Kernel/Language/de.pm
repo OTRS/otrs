@@ -1370,8 +1370,8 @@ sub Data {
         'Edit job' => 'Job bearbeiten',
         'Run job' => 'Job ausführen',
         'Affected Tickets' => 'Betroffene Tickets',
-        'Please remove the following words from the ticket selection (check fields From, To, Cc, Subject and Text) as they cannot be used:'
-            => 'Bitten entfernen Sie die folgenden Wörter aus der Ticket-Selektion (prüfen Sie die Felder Von, An, Cc, Betreff und Text), da diese nicht verwendet werden können:',
+        'Please remove the following words from the fields From, To, Cc, Subject and Text in ticket selection as they cannot be used:'
+            => 'Bitten entfernen Sie die folgenden Wörter aus den Feldern Von, An, Cc, Betreff und Text der Ticket-Selektion, da diese nicht verwendet werden können:',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger für Webservice',
@@ -2693,8 +2693,8 @@ sub Data {
         'Relative Period' => 'Relativer Zeitraum',
         'The last' => 'Die letzten',
         'Finish' => 'Abschließen',
-        'Please remove the following words from the ticket restrictions (check fields From, To, Cc, Subject and Text) as they cannot be used:'
-            => 'Bitte entfernen Sie die folgenden Wörter aus den Ticket-Beschränkungen (prüfen Sie die Felder Von, An, Cc, Betreff und Text), da diese nicht verwendet werden können:' ,
+        'Please remove the following words from the fields From, To, Cc, Subject and Text in ticket restrictions as they cannot be used:'
+            => 'Bitte entfernen Sie die folgenden Wörter aus den Feldern Von, An, Cc, Betreff und Text der Ticket-Beschränkungen, da diese nicht verwendet werden können:' ,
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Rechtevergabe',
@@ -3083,6 +3083,8 @@ sub Data {
         'Template Name' => 'Name der Vorlage',
         'Pick a profile name' => 'Profilnamen auswählen',
         'Output to' => 'Ausgabe nach',
+        'Please remove the following words from fields From, To, Cc, Subject and Text as they cannot be searched for:' =>
+            'Bitte entfernen Sie die folgenden Wörter aus den Feldern Von, An, Cc, Betreff und Text, da diese nicht für die Suche verwendet werden können:',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'von',
