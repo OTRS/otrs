@@ -134,7 +134,7 @@ Core.Agent.Stats = (function (TargetNS) {
             StopWordCheckData,
             function (Result) {
                 if ( Result.FoundStopWords.length ) {
-                    alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + Result.FoundStopWords);
+                    alert(Core.Config.Get('StatsSearchStringsContainStopWordsMsg') + ' ' + Result.FoundStopWords);
                 }
                 else {
                     Callback();

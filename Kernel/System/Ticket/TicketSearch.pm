@@ -2186,7 +2186,7 @@ Find stop words within given search string.
         SearchStrings => [ '(this AND is) OR test', ],
     );
 
-    Returns Hashref with found stop words.
+    Returns Arrayref with found stop words.
 
 =cut
 
@@ -2240,9 +2240,9 @@ sub SearchStringStopWordsFind {
         $StopWord{$Word} = 1;
     }
 
-    my %StopWordsFound = map { $_ => 1 } grep { $StopWord{$_} } keys %Words;
+    my @StopWordsFound = grep { $StopWord{$_} } keys %Words;
 
-    return \%StopWordsFound;
+    return \@StopWordsFound;
 }
 
 =item SearchStringStopWordsUsageWarningActive()

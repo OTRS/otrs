@@ -295,7 +295,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             StopWordCheckData,
             function (Result) {
                 if ( Result.FoundStopWords.length ) {
-                    alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + Result.FoundStopWords);
+                    alert(Core.Config.Get('GenericAgentSearchStringsContainStopWordsMsg') + ' ' + Result.FoundStopWords);
                 }
                 else {
                     Callback();

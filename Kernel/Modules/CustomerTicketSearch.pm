@@ -185,9 +185,8 @@ sub Run {
 
         if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
             my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
-            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
-            my @FoundStopWords = keys %{$FoundStopWords};
-            $StopWordCheckResult->{FoundStopWords} = \@FoundStopWords;
+            $StopWordCheckResult->{FoundStopWords}
+                = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
         }
 
         my $Output = $Self->{LayoutObject}->JSONEncode(

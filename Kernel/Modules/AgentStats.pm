@@ -696,15 +696,10 @@ sub Run {
 
             RESTRICTION:
             for my $Restriction ( @{ $Stat->{UseAsRestriction} } ) {
-                if (
-                    !$Restriction->{Name}
-                    || !$RelevantStopWordFields{ $Restriction->{Name} }
-                    || !$Restriction->{SelectedValues}
-                    || ref $Restriction->{SelectedValues} ne 'ARRAY'
-                    )
-                {
-                    next RESTRICTION;
-                }
+                next RESTRICTION if !$Restriction->{Name};
+                next RESTRICTION if !$RelevantStopWordFields{ $Restriction->{Name} };
+                next RESTRICTION if !$Restriction->{SelectedValues};
+                next RESTRICTION if ref $Restriction->{SelectedValues} ne 'ARRAY';
 
                 for my $StopWordString ( @{ $Restriction->{SelectedValues} } ) {
                     push @StopWordSearchStrings, $StopWordString;
@@ -714,14 +709,15 @@ sub Run {
             my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
                 SearchStrings => \@StopWordSearchStrings
             );
-            my @FoundStopWords = keys %{$FoundStopWords};
+            if ( @{$FoundStopWords} ) {
+                my $Info = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    'Please remove the following words from the ticket restrictions (check fields '
+                        . 'From, To, Cc, Subject and Text) as they cannot be used:'
+                );
+                $Info .= join ', ', @{$FoundStopWords};
 
-            if (@FoundStopWords) {
                 $Output .= $Self->{LayoutObject}->Notify(
-                    Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                        'Please remove the following words from the restrictions as they cannot be used: %s',
-                        join( ', ', @FoundStopWords ),
-                    ),
+                    Info     => $Info,
                     Priority => 'Notice',
                 );
             }

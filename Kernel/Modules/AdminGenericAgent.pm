@@ -338,13 +338,8 @@ sub Run {
 
             STOPWORDFIELD:
             for my $StopWordField ( sort keys %RelevantStopWordFields ) {
-                if (
-                    !defined $JobDataReference->{$StopWordField}
-                    || !length $JobDataReference->{$StopWordField}
-                    )
-                {
-                    next STOPWORDFIELD;
-                }
+                next STOPWORDFIELD if !defined $JobDataReference->{$StopWordField};
+                next STOPWORDFIELD if !length $JobDataReference->{$StopWordField};
 
                 push @StopWordSearchStrings, $JobDataReference->{$StopWordField};
             }
@@ -352,14 +347,15 @@ sub Run {
             my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
                 SearchStrings => \@StopWordSearchStrings
             );
-            my @FoundStopWords = keys %{$FoundStopWords};
+            if ( @{$FoundStopWords} ) {
+                my $Info = $Self->{LayoutObject}->{LanguageObject}->Translate(
+                    'Please remove the following words from the ticket selection (check fields '
+                        . 'From, To, Cc, Subject and Text) as they cannot be used:',
+                );
+                $Info .= join ', ', @{$FoundStopWords};
 
-            if (@FoundStopWords) {
                 $Output .= $Self->{LayoutObject}->Notify(
-                    Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                        'Please remove the following words from the ticket selection as they cannot be used: %s',
-                        join( ', ', @FoundStopWords ),
-                    ),
+                    Info     => $Info,
                     Priority => 'Notice',
                 );
             }
