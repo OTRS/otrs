@@ -69,6 +69,15 @@ $Selenium->RunTest(
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#Subject",                     'css' )->submit();
 
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('table.Overview').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         # get needed data
         my @User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
             User => $TestUserLogin,
