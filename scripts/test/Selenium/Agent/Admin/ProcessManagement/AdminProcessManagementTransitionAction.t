@@ -65,6 +65,15 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#Name').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         # check AdminProcessManagementTransitionAction screen
         for my $ID (
             qw(Name Module ConfigKey[1] ConfigValue[1] ConfigAdd Submit)
@@ -129,6 +138,15 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#Name').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         # check stored value
         $Self->Is(
             $Selenium->find_element( "#Name", 'css' )->get_value(),
@@ -181,6 +199,15 @@ $Selenium->RunTest(
             ->click();
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#Name').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
 
         # check edited values
         $Self->Is(
