@@ -573,6 +573,7 @@ thead .headerSortDown a {
 .TicketList table {
     border-collapse: separate;
     position: relative;
+    overflow: hidden;
 }
 
 .TicketList td {
@@ -654,7 +655,7 @@ thead .headerSortDown a {
     margin: 3px 0px 0px 2px;
     background-color: #eee;
     position: relative;
-    z-index: 99;    
+    z-index: 99;
 }
 
 select.ColumnFilter {
