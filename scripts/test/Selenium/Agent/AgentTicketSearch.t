@@ -89,6 +89,15 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#SearchProfile').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         # check ticket search page
         for my $ID (
             qw(SearchProfile SearchProfileNew Attribute ResultForm SearchFormSubmit)
@@ -104,6 +113,15 @@ $Selenium->RunTest(
         $Selenium->find_element( "TicketNumber", 'name' )->send_keys( $Ticket{TicketNumber} );
         $Selenium->find_element( "TicketNumber", 'name' )->submit();
 
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('div.MainBox').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         # check for expected result
         $Self->True(
             index( $Selenium->get_page_source(), $TitleRandom ) > -1,
@@ -112,6 +130,16 @@ $Selenium->RunTest(
 
         # input wrong search parameters, result should be 'No ticket data found'
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
+
+        # Wait until form has loaded, if neccessary
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( $Selenium->execute_script("return \$('#SearchProfile').length") ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
+
         $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh");
         $Selenium->find_element( "Fulltext", 'name' )->submit();
 
