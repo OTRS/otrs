@@ -29,7 +29,7 @@ sub Run {
 
     my $File = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'File' ) || '';
     $File =~ s/^\///g;
-    my $AccessControlRexExp = $Kernel::OM->Get('Kernel::System::Config')->Get('Package::RepositoryAccessRegExp');
+    my $AccessControlRexExp = $Kernel::OM->Get('Kernel::Config')->Get('Package::RepositoryAccessRegExp');
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$AccessControlRexExp ) {
