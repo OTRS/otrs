@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-04-07 Fixed display bug in IE when showing ticket list tables with only one entry (Ticket#2015031842001505).
  - 2015-04-02 Fixed bug#[11161](http://bugs.otrs.org/show_bug.cgi?id=11161) - ticket_history table is always joined in TicketSearch.
  - 2015-04-01 Fixed bug#[11214](http://bugs.otrs.org/show_bug.cgi?id=11214) - Ticket Zoom JS breaks on French language.
  - 2015-03-31 Fixed bug#[11211](http://bugs.otrs.org/show_bug.cgi?id=11211) - REST WADL file does not pass validation tests.
