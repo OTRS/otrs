@@ -30,7 +30,7 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     0,
@@ -38,7 +38,7 @@ $Self->Is(
 );
 
 # same again (should fail because already exists)
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,
@@ -46,7 +46,7 @@ $Self->Is(
 );
 
 # invalid parent
-$ExitCode = $CommandObject->Execute('--name', $RandomName2, '--parent-name', $RandomName2);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName2, '--parent-name', $RandomName2 );
 $Self->Is(
     $ExitCode,
     1,
@@ -54,7 +54,7 @@ $Self->Is(
 );
 
 # valid parent
-$ExitCode = $CommandObject->Execute('--name', $RandomName2, '--parent-name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName2, '--parent-name', $RandomName );
 $Self->Is(
     $ExitCode,
     0,

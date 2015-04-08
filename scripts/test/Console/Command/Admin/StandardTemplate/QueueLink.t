@@ -27,7 +27,7 @@ $Self->Is(
 );
 
 # provide only one option
-$ExitCode = $CommandObject->Execute('--template-name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--template-name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,
@@ -35,7 +35,7 @@ $Self->Is(
 );
 
 # provide invalid template name
-$ExitCode = $CommandObject->Execute('--template-name', $RandomName, '--queue-name', 'Junk');
+$ExitCode = $CommandObject->Execute( '--template-name', $RandomName, '--queue-name', 'Junk' );
 $Self->Is(
     $ExitCode,
     1,
@@ -43,7 +43,7 @@ $Self->Is(
 );
 
 # provide invalid queue name
-$ExitCode = $CommandObject->Execute('--template-name', 'test answer', '--queue-name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--template-name', 'test answer', '--queue-name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,
@@ -51,7 +51,7 @@ $Self->Is(
 );
 
 # provide valid options
-$ExitCode = $CommandObject->Execute('--template-name', 'test answer', '--queue-name', 'Junk');
+$ExitCode = $CommandObject->Execute( '--template-name', 'test answer', '--queue-name', 'Junk' );
 $Self->Is(
     $ExitCode,
     0,

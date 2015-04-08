@@ -2736,6 +2736,7 @@ sub _RenderQueue {
     my $Queues = $Self->_GetQueues(
         %{ $Param{GetParam} },
     );
+
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -4161,7 +4162,7 @@ sub _LookupValue {
     }
 
     my $Value;
-    my $Object->{$ObjectName}  = $Kernel::OM->Get('Kernel::System::'.$FieldWithoutID);
+    my $Object->{$ObjectName} = $Kernel::OM->Get( 'Kernel::System::' . $FieldWithoutID );
 
     # check if the backend module has the needed *Lookup sub
     if (

@@ -41,10 +41,11 @@ sub Run {
     # add ticket type
     if (
         !$Kernel::OM->Get('Kernel::System::Type')->TypeAdd(
-            UserID   => 1,
-            ValidID  => 1,
-            Name     => $Self->GetOption('name'),
-        ))
+            UserID  => 1,
+            ValidID => 1,
+            Name    => $Self->GetOption('name'),
+        )
+        )
     {
         $Self->PrintError("Can't add ticket type.");
         return $Self->ExitCodeError();

@@ -62,7 +62,7 @@ sub Run {
         $Records += $Row[0];
     }
 
-    if (!$Records) {
+    if ( !$Records ) {
         $Self->Print("<green>Queue index is already clean.</green>\n");
         return $Self->ExitCodeOk();
     }

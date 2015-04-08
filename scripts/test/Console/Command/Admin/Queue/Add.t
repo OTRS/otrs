@@ -29,7 +29,7 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--name', $RandomName, '--group', 'admin');
+$ExitCode = $CommandObject->Execute( '--name', $RandomName, '--group', 'admin' );
 $Self->Is(
     $ExitCode,
     0,
@@ -38,7 +38,8 @@ $Self->Is(
 
 # provide illegal system-address-name
 my $RandomName2 = $HelperObject->GetRandomID();
-$ExitCode       = $CommandObject->Execute('--name', $RandomName2, '--group', 'admin', '--system-address-name', $RandomName2);
+$ExitCode
+    = $CommandObject->Execute( '--name', $RandomName2, '--group', 'admin', '--system-address-name', $RandomName2 );
 $Self->Is(
     $ExitCode,
     1,

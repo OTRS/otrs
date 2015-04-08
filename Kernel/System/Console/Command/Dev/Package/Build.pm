@@ -31,23 +31,24 @@ sub Configure {
         ValueRegex  => qr/^\d{1,4}[.]\d{1,4}[.]\d{1,4}$/smx,
     );
     $Self->AddOption(
-        Name        => 'module-directory',
-        Description => "Specify the directory containing the module sources (otherwise the OTRS home directory will be used).",
-        Required    => 0,
-        HasValue    => 1,
+        Name => 'module-directory',
+        Description =>
+            "Specify the directory containing the module sources (otherwise the OTRS home directory will be used).",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/.*/smx,
+    );
+    $Self->AddArgument(
+        Name        => 'source-path',
+        Description => "Specify the path to an OTRS package source (sopm) file that should be built.",
+        Required    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddArgument(
-        Name => 'source-path',
-        Description => "Specify the path to an OTRS package source (sopm) file that should be built.",
-        Required   => 1,
-        ValueRegex => qr/.*/smx,
-    );
-    $Self->AddArgument(
-        Name => 'target-directory',
+        Name        => 'target-directory',
         Description => "Specify the directory where the generated package should be placed.",
-        Required   => 1,
-        ValueRegex => qr/.*/smx,
+        Required    => 1,
+        ValueRegex  => qr/.*/smx,
     );
 
     return;
@@ -57,12 +58,12 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my $SourcePath = $Self->GetArgument('source-path');
-    if (!-r $SourcePath) {
+    if ( !-r $SourcePath ) {
         die "File $SourcePath does not exist / cannot be read.\n";
     }
 
     my $TargetDirectory = $Self->GetArgument('target-directory');
-    if (!-d $TargetDirectory) {
+    if ( !-d $TargetDirectory ) {
         die "Directory $TargetDirectory does not exist.\n";
     }
 
@@ -78,10 +79,10 @@ sub Run {
     my $SourcePath = $Self->GetArgument('source-path');
     my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $SourcePath,
-        Mode     => 'utf8',      # optional - binmode|utf8
-        Result   => 'SCALAR',    # optional - SCALAR|ARRAY
+        Mode     => 'utf8',        # optional - binmode|utf8
+        Result   => 'SCALAR',      # optional - SCALAR|ARRAY
     );
-    if (!$ContentRef || ref $ContentRef ne 'SCALAR') {
+    if ( !$ContentRef || ref $ContentRef ne 'SCALAR' ) {
         $Self->PrintError("File $SourcePath is empty / could not be read.");
         return $Self->ExitCodeError();
     }
@@ -112,18 +113,18 @@ sub Run {
 
     my $Filename = $Structure{Name}->{Content} . '-' . $Structure{Version}->{Content} . '.opm';
     my $Content  = $Kernel::OM->Get('Kernel::System::Package')->PackageBuild(%Structure);
-    if (!$Content) {
+    if ( !$Content ) {
         $Self->PrintError("Package build failed.\n");
         return $Self->ExitCodeError();
     }
-    my $File     = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+    my $File = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location   => $Self->GetArgument('target-directory') . '/' . $Filename,
         Content    => \$Content,
-        Mode       => 'utf8',                       # binmode|utf8
-        Type       => 'Local',                      # optional - Local|Attachment|MD5
-        Permission => '644',                        # unix file permissions
+        Mode       => 'utf8',                                                     # binmode|utf8
+        Type       => 'Local',                                                    # optional - Local|Attachment|MD5
+        Permission => '644',                                                      # unix file permissions
     );
-    if (!$File) {
+    if ( !$File ) {
         $Self->PrintError("File $File could not be written.\n");
         return $Self->ExitCodeError();
     }

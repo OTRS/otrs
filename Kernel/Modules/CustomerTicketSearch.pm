@@ -70,7 +70,7 @@ sub Run {
     }
     $DynamicField = \@CustomerDynamicFields;
 
-    my $Profile        = $ParamObject->GetParam( Param => 'Profile' )        || '';
+    my $Profile = $ParamObject->GetParam( Param => 'Profile' ) || '';
 
     # check request
     if ( $ParamObject->GetParam( Param => 'SearchTemplate' ) && $Profile ) {
@@ -449,7 +449,7 @@ sub Run {
         # disable output of customer company tickets
         my $DisableCompanyTickets = $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess');
 
-        if ( $DisableCompanyTickets ) {
+        if ($DisableCompanyTickets) {
             $GetParam{CustomerUserLogin} = $Self->{UserID};
         }
 
@@ -1077,8 +1077,8 @@ sub Run {
 
             # get appropriate object
             my $LookupObject;
-            if ($IDMap{$Key}->{Name}) {
-                $LookupObject = $Kernel::OM->Get('Kernel::System::'.$Object);
+            if ( $IDMap{$Key}->{Name} ) {
+                $LookupObject = $Kernel::OM->Get( 'Kernel::System::' . $Object );
             }
 
             if ( ref $GetParam{$Key} eq 'ARRAY' ) {
@@ -1087,7 +1087,7 @@ sub Run {
                     if ($Value) {
                         $Value .= '+';
                     }
-                    if ( $LookupObject ) {
+                    if ($LookupObject) {
                         $Item = $LookupObject->$Method( $MethodKey => $Item );
                         if ($Translation) {
                             $Item = $LayoutObject->{LanguageObject}->Translate($Item);
@@ -1098,7 +1098,7 @@ sub Run {
             }
             else {
                 my $Item = $GetParam{$Key};
-                if ( $LookupObject ) {
+                if ($LookupObject) {
                     $Item = $LookupObject->$Method( $MethodKey => $Item );
                     if ($Translation) {
                         $Item = $LayoutObject->{LanguageObject}->Translate($Item);
@@ -1171,9 +1171,9 @@ sub Run {
             );
         }
 
-        my $Link = 'Profile=' . $LayoutObject->LinkEncode( $Profile ) . ';';
-        $Link .= 'SortBy=' . $LayoutObject->LinkEncode( $SortBy ) . ';';
-        $Link .= 'Order=' . $LayoutObject->LinkEncode( $CurrentOrder ) . ';';
+        my $Link = 'Profile=' . $LayoutObject->LinkEncode($Profile) . ';';
+        $Link .= 'SortBy=' . $LayoutObject->LinkEncode($SortBy) . ';';
+        $Link .= 'Order=' . $LayoutObject->LinkEncode($CurrentOrder) . ';';
         $Link .= 'TakeLastSearch=1;';
 
         # build search navigation bar
@@ -1259,7 +1259,7 @@ sub Run {
                 UserLogin => $Self->{UserLogin},
             );
             %GetParam = ();
-            $Profile = '';
+            $Profile  = '';
         }
 
         # create HTML strings for all dynamic fields

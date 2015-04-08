@@ -23,7 +23,7 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # the cache to read from file system
 my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 $CacheObject->Configure(
-    CacheInMemory  => 0,
+    CacheInMemory => 0,
 );
 
 my $ObjectType = $HelperObject->GetRandomID();
@@ -51,8 +51,8 @@ $Self->Is(
 
 # check if entry is gone
 my $CacheGet = $CacheObject->Get(
-    Type  => $ObjectType,
-    Key   => $ObjectKey,
+    Type => $ObjectType,
+    Key  => $ObjectKey,
 );
 
 $Self->Is(
@@ -87,8 +87,8 @@ $Self->Is(
 
 # entry should be still there
 $CacheGet = $CacheObject->Get(
-    Type  => $ObjectType,
-    Key   => $ObjectKey,
+    Type => $ObjectType,
+    Key  => $ObjectKey,
 );
 
 $Self->Is(
@@ -123,7 +123,7 @@ $Self->Is(
 );
 
 # delete only expired cache files
-$ExitCode = $CommandObject->Execute('--type', $ObjectType);
+$ExitCode = $CommandObject->Execute( '--type', $ObjectType );
 $Self->Is(
     $ExitCode,
     0,
@@ -132,8 +132,8 @@ $Self->Is(
 
 # 1st entry should be deleted
 $CacheGet = $CacheObject->Get(
-    Type  => $ObjectType,
-    Key   => $ObjectKey,
+    Type => $ObjectType,
+    Key  => $ObjectKey,
 );
 $Self->Is(
     $CacheGet,
@@ -143,8 +143,8 @@ $Self->Is(
 
 # 2nd entry should be still there
 $CacheGet = $CacheObject->Get(
-    Type  => $ObjectType . '_2',
-    Key   => $ObjectKey,
+    Type => $ObjectType . '_2',
+    Key  => $ObjectKey,
 );
 $Self->Is(
     $CacheGet,

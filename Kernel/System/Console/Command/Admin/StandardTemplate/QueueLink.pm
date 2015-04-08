@@ -46,15 +46,16 @@ sub PreRun {
 
     # check template
     $Self->{TemplateName} = $Self->GetOption('template-name');
-    $Self->{TemplateID}   = $Kernel::OM->Get('Kernel::System::StandardTemplate')->StandardTemplateLookup( StandardTemplate => $Self->{TemplateName} );
-    if (!$Self->{TemplateID}) {
+    $Self->{TemplateID}   = $Kernel::OM->Get('Kernel::System::StandardTemplate')
+        ->StandardTemplateLookup( StandardTemplate => $Self->{TemplateName} );
+    if ( !$Self->{TemplateID} ) {
         die "Standard template '$Self->{TemplateName}' does not exist.\n";
     }
 
     # check queue
     $Self->{QueueName} = $Self->GetOption('queue-name');
-    $Self->{QueueID}   = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $Self->{QueueName} );
-    if (!$Self->{QueueID}) {
+    $Self->{QueueID} = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( Queue => $Self->{QueueName} );
+    if ( !$Self->{QueueID} ) {
         die "Queue '$Self->{QueueName}' does not exist.\n";
     }
 
@@ -72,7 +73,8 @@ sub Run {
             QueueID            => $Self->{QueueID},
             Active             => 1,
             UserID             => 1,
-        ))
+        )
+        )
     {
         $Self->PrintError("Can't link template to queue.");
         return $Self->ExitCodeError();

@@ -64,7 +64,7 @@ sub Run {
     my $CommandName;
 
     # Catch bash completion calls
-    if ($ENV{COMP_LINE}) {
+    if ( $ENV{COMP_LINE} ) {
         $CommandName = 'Kernel::System::Console::Command::Internal::BashCompletion';
         return $Kernel::OM->Get($CommandName)->Execute(@CommandlineArguments);
     }
@@ -80,6 +80,7 @@ sub Run {
     $CommandName = 'Kernel::System::Console::Command::' . $CommandlineArguments[0];
 
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require( $CommandName, Silent => 1 ) ) {
+
         # Regular case: everything was ok, execute command.
         # Remove first parameter (command itself) to not confuse further parsing
         shift @CommandlineArguments;
@@ -90,7 +91,7 @@ sub Run {
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::List');
     $CommandObject->PrintError("Could not find $CommandName.\n\n");
     $CommandObject->Execute();
-    return 127; # EXIT_CODE_COMMAND_NOT_FOUND, see http://www.tldp.org/LDP/abs/html/exitcodes.html
+    return 127;    # EXIT_CODE_COMMAND_NOT_FOUND, see http://www.tldp.org/LDP/abs/html/exitcodes.html
 }
 
 1;

@@ -74,7 +74,7 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     # check if all groups exist
-    my @Groups    = @{ $Self->GetOption('group') // [] };
+    my @Groups = @{ $Self->GetOption('group') // [] };
     my %GroupList = reverse $Kernel::OM->Get('Kernel::System::Group')->GroupList();
 
     GROUP:
@@ -95,17 +95,17 @@ sub Run {
 
     # add user
     my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserAdd(
-        UserLogin      => $Self->GetOption('user-name'),
-        UserFirstname  => $Self->GetOption('first-name'),
-        UserLastname   => $Self->GetOption('last-name'),
-        UserPw         => $Self->GetOption('password'),
-        UserEmail      => $Self->GetOption('email-address'),
-        ChangeUserID   => 1,
-        UserID         => 1,
-        ValidID        => 1,
+        UserLogin     => $Self->GetOption('user-name'),
+        UserFirstname => $Self->GetOption('first-name'),
+        UserLastname  => $Self->GetOption('last-name'),
+        UserPw        => $Self->GetOption('password'),
+        UserEmail     => $Self->GetOption('email-address'),
+        ChangeUserID  => 1,
+        UserID        => 1,
+        ValidID       => 1,
     );
 
-    if (!$UserID) {
+    if ( !$UserID ) {
         $Self->PrintError("Can't add user.");
         return $Self->ExitCodeError();
     }
@@ -119,10 +119,10 @@ sub Run {
             UserID     => 1,
         );
         if ($Success) {
-            $Self->Print("<green>User added to group '" . $Self->{Groups}->{$GroupID} . "'</green>\n");
+            $Self->Print( "<green>User added to group '" . $Self->{Groups}->{$GroupID} . "'</green>\n" );
         }
         else {
-            $Self->PrintError("Failed to add user to group '" . $Self->{Groups}->{$GroupID} . "'.");
+            $Self->PrintError( "Failed to add user to group '" . $Self->{Groups}->{$GroupID} . "'." );
         }
     }
 

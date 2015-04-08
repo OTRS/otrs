@@ -37,12 +37,13 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
-        Name        => 'permission',
-        Description => 'Permissions (ro|move_into|create|owner|priority|rw) the role should have for the group which it is going to be linked to.',
-        Required    => 1,
-        HasValue    => 1,
-        Multiple    => 1,
-        ValueRegex  => qr/(ro|move_into|create|owner|priority|rw)/smx,
+        Name => 'permission',
+        Description =>
+            'Permissions (ro|move_into|create|owner|priority|rw) the role should have for the group which it is going to be linked to.',
+        Required   => 1,
+        HasValue   => 1,
+        Multiple   => 1,
+        ValueRegex => qr/(ro|move_into|create|owner|priority|rw)/smx,
     );
 
     return;

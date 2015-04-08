@@ -504,10 +504,10 @@ sub Run {
             $SkinSelected
             && $AgentLogoCustom
             && IsHashRefWithData($AgentLogoCustom)
-            && $AgentLogoCustom->{ $SkinSelected }
+            && $AgentLogoCustom->{$SkinSelected}
             )
         {
-            %AgentLogo = %{ $AgentLogoCustom->{ $SkinSelected } };
+            %AgentLogo = %{ $AgentLogoCustom->{$SkinSelected} };
         }
 
         # Otherwise show default header logo, if configured

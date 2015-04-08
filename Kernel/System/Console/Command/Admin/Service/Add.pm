@@ -57,13 +57,13 @@ sub PreRun {
         UserID => 1,
     );
     my %Reverse = reverse %ServiceList;
-    if ( $Reverse{$Self->{Name} } ) {
+    if ( $Reverse{ $Self->{Name} } ) {
         die "Service '$Self->{Name}' already exists!\n";
     }
 
     # check if parent exists (if given)
     $Self->{ParentName} = $Self->GetOption('parent-name');
-    if ($Self->{ParentName}) {
+    if ( $Self->{ParentName} ) {
         $Self->{ParentID} = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
             Name   => $Self->{ParentName},
             UserID => 1,
@@ -89,7 +89,8 @@ sub Run {
             Name     => $Self->{Name},
             Comment  => $Self->GetOption('comment'),
             ParentID => $Self->{ParentID},
-        ))
+        )
+        )
     {
         $Self->PrintError("Can't add service.");
         return $Self->ExitCodeError();

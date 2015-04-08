@@ -37,7 +37,8 @@ $Self->Is(
 );
 
 # provide minimum options (invalid group)
-$ExitCode = $CommandObject->Execute( '--user-name', 'root@localhost', '--group-name', $RandomName, '--permission', 'ro' );
+$ExitCode
+    = $CommandObject->Execute( '--user-name', 'root@localhost', '--group-name', $RandomName, '--permission', 'ro' );
 $Self->Is(
     $ExitCode,
     1,
@@ -45,7 +46,8 @@ $Self->Is(
 );
 
 # provide minimum options (invalid permission)
-$ExitCode = $CommandObject->Execute( '--user-name', 'root@localhost', '--group-name', $RandomName, '--permission', 'xx' );
+$ExitCode
+    = $CommandObject->Execute( '--user-name', 'root@localhost', '--group-name', $RandomName, '--permission', 'xx' );
 $Self->Is(
     $ExitCode,
     1,

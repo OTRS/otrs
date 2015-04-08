@@ -62,7 +62,7 @@ sub Run {
 
     my @Languages;
     my $LanguageOption = $Self->GetOption('language');
-    my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # check params
     if ( !$LanguageOption ) {
@@ -176,7 +176,9 @@ sub HandleLanguage {
         );
     }
     else {
-        $Self->Print("Processing language <yellow>$Language</yellow> template files, writing output to <yellow>$TargetFile</yellow>\n");
+        $Self->Print(
+            "Processing language <yellow>$Language</yellow> template files, writing output to <yellow>$TargetFile</yellow>\n"
+        );
     }
 
     # Language file, which only contains the OTRS core translations

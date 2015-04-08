@@ -65,7 +65,7 @@ sub Run {
 
     my $TicketNumber = scalar @TicketIDs;
     my $Count        = 1;
-    my $MicroSleep = $Self->GetOption('micro-sleep');
+    my $MicroSleep   = $Self->GetOption('micro-sleep');
 
     TICKETID:
     for my $TicketID (@TicketIDs) {
@@ -80,12 +80,14 @@ sub Run {
         # output state
         if ( $Count % 2000 == 0 ) {
             my $Percent = int( $Count / ( $TicketNumber / 100 ) );
-            $Self->Print("<yellow>$Count</yellow> of <yellow>$#TicketIDs</yellow> processed (<yellow>$Percent %</yellow> done).\n");
+            $Self->Print(
+                "<yellow>$Count</yellow> of <yellow>$#TicketIDs</yellow> processed (<yellow>$Percent %</yellow> done).\n"
+            );
         }
 
         $Count++;
 
-        Time::HiRes::usleep( $MicroSleep ) if $MicroSleep;
+        Time::HiRes::usleep($MicroSleep) if $MicroSleep;
     }
 
     $Self->Print("<green>Done ($TicketNumber tickets restored).</green>\n");

@@ -46,13 +46,13 @@ sub Run {
 
     # get all tickets
     my @TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
-        Result => 'ARRAY',
+        Result     => 'ARRAY',
         Limit      => 100_000_000,
         UserID     => 1,
         Permission => 'ro',
     );
 
-    my $Count = 0;
+    my $Count      = 0;
     my $MicroSleep = $Self->GetOption('micro-sleep');
 
     TICKETID:
@@ -67,10 +67,12 @@ sub Run {
 
         if ( $Count % 2000 == 0 ) {
             my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
-            $Self->Print("<yellow>$Count</yellow> of <yellow>$#TicketIDs</yellow> processed (<yellow>$Percent %</yellow> done).\n");
+            $Self->Print(
+                "<yellow>$Count</yellow> of <yellow>$#TicketIDs</yellow> processed (<yellow>$Percent %</yellow> done).\n"
+            );
         }
 
-        Time::HiRes::usleep( $MicroSleep ) if $MicroSleep;
+        Time::HiRes::usleep($MicroSleep) if $MicroSleep;
     }
 
     $Self->Print("<green>Done.</green>\n");

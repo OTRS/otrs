@@ -32,7 +32,11 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--user-name', $RandomName, '--first-name', 'Test', '--last-name', 'Test', '--email-address', $RandomName . '@test.test', '--customer-id', 'Test');
+$ExitCode = $CommandObject->Execute(
+    '--user-name',   $RandomName, '--first-name',    'Test',
+    '--last-name',   'Test',      '--email-address', $RandomName . '@test.test',
+    '--customer-id', 'Test'
+);
 $Self->Is(
     $ExitCode,
     0,
@@ -40,7 +44,11 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--user-name', $RandomName, '--first-name', 'Test', '--last-name', 'Test', '--email-address', $RandomName . '@test.test', '--customer-id', 'Test');
+$ExitCode = $CommandObject->Execute(
+    '--user-name',   $RandomName, '--first-name',    'Test',
+    '--last-name',   'Test',      '--email-address', $RandomName . '@test.test',
+    '--customer-id', 'Test'
+);
 $Self->Is(
     $ExitCode,
     1,

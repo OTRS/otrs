@@ -31,10 +31,10 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddArgument(
-        Name => 'source-path',
+        Name        => 'source-path',
         Description => "Specify the path to an OTRS package (opm) file that should be exported.",
-        Required   => 1,
-        ValueRegex => qr/.*/smx,
+        Required    => 1,
+        ValueRegex  => qr/.*/smx,
     );
 
     return;
@@ -44,12 +44,12 @@ sub PreRun {
     my ( $Self, %Param ) = @_;
 
     my $SourcePath = $Self->GetArgument('source-path');
-    if ($SourcePath && !-r $SourcePath) {
+    if ( $SourcePath && !-r $SourcePath ) {
         die "File $SourcePath does not exist / can not be read.\n";
     }
 
     my $TargetDirectory = $Self->GetOption('target-directory');
-    if ($TargetDirectory && !-d $TargetDirectory) {
+    if ( $TargetDirectory && !-d $TargetDirectory ) {
         die "Directory $TargetDirectory does not exist.\n";
     }
 
@@ -66,10 +66,10 @@ sub Run {
     my $FileString;
     my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $SourcePath,
-        Mode     => 'utf8',      # optional - binmode|utf8
-        Result   => 'SCALAR',    # optional - SCALAR|ARRAY
+        Mode     => 'utf8',        # optional - binmode|utf8
+        Result   => 'SCALAR',      # optional - SCALAR|ARRAY
     );
-    if (!$ContentRef || ref $ContentRef ne 'SCALAR') {
+    if ( !$ContentRef || ref $ContentRef ne 'SCALAR' ) {
         $Self->PrintError("File $SourcePath is empty / could not be read.");
         return $Self->ExitCodeError();
     }
@@ -90,7 +90,7 @@ sub Run {
     }
 
     my $TargetDirectory = $Self->GetOption('target-directory');
-    my $Success = $Kernel::OM->Get('Kernel::System::Package')->PackageExport(
+    my $Success         = $Kernel::OM->Get('Kernel::System::Package')->PackageExport(
         String => $FileString,
         Home   => $TargetDirectory,
     );

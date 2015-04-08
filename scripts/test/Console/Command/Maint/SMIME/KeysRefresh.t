@@ -242,7 +242,7 @@ my @Tests = (
     },
     {
         Name      => 'Correct Call short detail level (need to use force)',
-        Options   => [ '--force' ],
+        Options   => ['--force'],
         ConfigSet => [
             {
                 Key   => 'SMIME::Bin',
@@ -261,7 +261,7 @@ my @Tests = (
     },
     {
         Name      => 'Correct Call long detail level (no need to use force)',
-        Options   => [ '--verbose' ],
+        Options   => ['--verbose'],
         ConfigSet => [
             {
                 Key   => 'SMIME',

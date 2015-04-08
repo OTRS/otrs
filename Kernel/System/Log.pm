@@ -98,7 +98,7 @@ sub new {
     $Self->{IPCKey}  = '444423' . $SystemID;
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
-    $Self->{MinimumLevel}    = lc $ConfigObject->Get('MinimumLogLevel') || 'debug';
+    $Self->{MinimumLevel} = lc $ConfigObject->Get('MinimumLogLevel') || 'debug';
     $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
 
     # init session data mem
@@ -154,8 +154,8 @@ sub Log {
 
     return 1 if $PriorityNum < $Self->{MinimumLevelNum};
 
-    my $Message = $Param{MSG}      || $Param{Message} || '???';
-    my $Caller  = $Param{Caller}   || 0;
+    my $Message = $Param{MSG} || $Param{Message} || '???';
+    my $Caller = $Param{Caller} || 0;
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( $Caller + 0 );

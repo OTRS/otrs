@@ -15,13 +15,12 @@ use vars (qw($Self));
 
 use File::stat();
 
-
 my $ZZZAAuto = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZAAuto.pm';
-my $Before = File::stat::stat($ZZZAAuto);
+my $Before   = File::stat::stat($ZZZAAuto);
 sleep 2;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild');
-my $ExitCode = $CommandObject->Execute();
+my $ExitCode      = $CommandObject->Execute();
 
 my $After = File::stat::stat($ZZZAAuto);
 

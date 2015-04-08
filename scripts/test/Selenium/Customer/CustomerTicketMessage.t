@@ -97,7 +97,7 @@ $Selenium->RunTest(
             CustomerUserID => $TestUserLogin,
         );
         my $TicketNumber = (%TicketIDs)[1];
-        my $TicketID = (%TicketIDs)[0];
+        my $TicketID     = (%TicketIDs)[0];
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
@@ -105,7 +105,7 @@ $Selenium->RunTest(
         );
 
         # clean up test data from the DB
-        my $Success  = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );

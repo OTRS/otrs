@@ -17,9 +17,9 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Too
 
 my ( $Result, $ExitCode );
 
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 my $TableCreateXML = "$Home/scripts/test/Console/Command/Dev/Tools/Database/XMLExecute/TableCreate.xml";
-my $TableDropXML = "$Home/scripts/test/Console/Command/Dev/Tools/Database/XMLExecute/TableDrop.xml";
+my $TableDropXML   = "$Home/scripts/test/Console/Command/Dev/Tools/Database/XMLExecute/TableDrop.xml";
 
 # try to execute command without any options
 $ExitCode = $CommandObject->Execute();
@@ -43,7 +43,7 @@ $Self->True(
     $Success,
     "SELECT after table create",
 );
-while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {}
+while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) { }
 
 $ExitCode = $CommandObject->Execute($TableDropXML);
 $Self->Is(

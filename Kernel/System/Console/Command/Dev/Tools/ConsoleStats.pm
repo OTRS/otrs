@@ -28,17 +28,16 @@ sub Configure {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-
     my @Commands = $Self->ListAllCommands();
     my %OptionsCount;
     my %ArgumentsCount;
     for my $Command (@Commands) {
         my $CommandObject = $Kernel::OM->Get($Command);
-        for my $Option (@{$CommandObject->{_Options} // []}) {
-            $OptionsCount{$Option->{Name}}++;
+        for my $Option ( @{ $CommandObject->{_Options} // [] } ) {
+            $OptionsCount{ $Option->{Name} }++;
         }
-        for my $Argument (@{$CommandObject->{_Arguments} // []}) {
-            $ArgumentsCount{$Argument->{Name}}++;
+        for my $Argument ( @{ $CommandObject->{_Arguments} // [] } ) {
+            $ArgumentsCount{ $Argument->{Name} }++;
         }
     }
     my $OptionsSort = sub {
@@ -60,7 +59,6 @@ sub Run {
     for my $ArgumentName ( sort $ArgumentsSort keys %ArgumentsCount ) {
         $Self->Print("  $ArgumentName: <yellow>$ArgumentsCount{$ArgumentName}</yellow>\n");
     }
-
 
     return $Self->ExitCodeOk();
 }

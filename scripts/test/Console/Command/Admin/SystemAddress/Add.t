@@ -29,7 +29,7 @@ $Self->Is(
 );
 
 # missing options
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,
@@ -37,7 +37,8 @@ $Self->Is(
 );
 
 # invalid queue
-$ExitCode = $CommandObject->Execute('--name', $RandomName, '--email-address', $RandomName, '--queue-name', $RandomName);
+$ExitCode
+    = $CommandObject->Execute( '--name', $RandomName, '--email-address', $RandomName, '--queue-name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,
@@ -45,7 +46,7 @@ $Self->Is(
 );
 
 # valid options
-$ExitCode = $CommandObject->Execute('--name', $RandomName, '--email-address', $RandomName, '--queue-name', 'Junk');
+$ExitCode = $CommandObject->Execute( '--name', $RandomName, '--email-address', $RandomName, '--queue-name', 'Junk' );
 $Self->Is(
     $ExitCode,
     0,
@@ -53,7 +54,7 @@ $Self->Is(
 );
 
 # valid options (same again, should already exist)
-$ExitCode = $CommandObject->Execute('--name', $RandomName, '--email-address', $RandomName, '--queue-name', 'Junk');
+$ExitCode = $CommandObject->Execute( '--name', $RandomName, '--email-address', $RandomName, '--queue-name', 'Junk' );
 $Self->Is(
     $ExitCode,
     1,

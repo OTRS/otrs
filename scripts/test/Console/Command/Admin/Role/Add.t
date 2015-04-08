@@ -29,7 +29,7 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     0,
@@ -37,7 +37,7 @@ $Self->Is(
 );
 
 # provide name which already exists
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,

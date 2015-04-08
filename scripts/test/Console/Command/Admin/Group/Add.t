@@ -27,7 +27,7 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     0,
@@ -35,7 +35,7 @@ $Self->Is(
 );
 
 # try to add the same group again
-$ExitCode = $CommandObject->Execute('--name', $RandomName);
+$ExitCode = $CommandObject->Execute( '--name', $RandomName );
 $Self->Is(
     $ExitCode,
     1,

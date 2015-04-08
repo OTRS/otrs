@@ -31,7 +31,7 @@ sub Run {
 
     $Self->Print("<yellow>Rebuilding the default configuration...</yellow>\n");
 
-    if ($Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
+    if ( $Kernel::OM->Get('Kernel::System::SysConfig')->WriteDefault() ) {
         $Self->Print("<green>Done.</green>\n");
         return $Self->ExitCodeOk();
     }

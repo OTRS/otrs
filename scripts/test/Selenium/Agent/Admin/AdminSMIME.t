@@ -103,8 +103,7 @@ $Selenium->RunTest(
                 index( $Selenium->get_page_source(), "Type=$TestSMIME;Filename=" ) > -1,
                 "Test $TestSMIME SMIME found on table"
             );
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")
-                ->click();
+            $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
         }
 
         # delete needed test directories

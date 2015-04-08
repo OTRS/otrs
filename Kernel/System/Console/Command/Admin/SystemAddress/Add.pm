@@ -63,7 +63,7 @@ sub PreRun {
     $Self->{QueueID}   = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup(
         Queue => $Self->{QueueName},
     );
-    if (!$Self->{QueueID}) {
+    if ( !$Self->{QueueID} ) {
         die "Queue $Self->{QueueName} does not exist.\n";
     }
 
@@ -93,7 +93,8 @@ sub Run {
             Realname => $Self->GetOption('name'),
             QueueID  => $Self->{QueueID},
             Name     => $Self->{EmailAddress},
-        ))
+        )
+        )
     {
         $Self->PrintError("Can't add system address.");
         return $Self->ExitCodeError();

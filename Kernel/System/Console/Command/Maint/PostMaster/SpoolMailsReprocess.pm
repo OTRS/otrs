@@ -42,8 +42,8 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $SpoolDir       = "$Home/var/spool";
+    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $SpoolDir = "$Home/var/spool";
 
     $Self->Print("<yellow>Processing mails in $SpoolDir...</yellow>\n");
 
@@ -80,7 +80,7 @@ sub Run {
         }
     }
 
-    if (!$Success) {
+    if ( !$Success ) {
         $Self->PrintError("There were problems importing the spool mails.");
         return $Self->ExitCodeError();
     }

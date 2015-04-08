@@ -26,7 +26,7 @@ $Self->Is(
 );
 
 # invalid stats number format
-$ExitCode = $CommandObject->Execute( '--number', 'XX');
+$ExitCode = $CommandObject->Execute( '--number', 'XX' );
 $Self->Is(
     $ExitCode,
     1,

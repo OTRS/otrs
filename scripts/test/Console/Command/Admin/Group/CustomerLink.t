@@ -34,7 +34,8 @@ $Self->Is(
 );
 
 # provide minimum options (invalid customer)
-$ExitCode = $CommandObject->Execute( '--customer-user-login', $RandomName, '--group-name', $RandomName, '--permission', 'ro' );
+$ExitCode = $CommandObject->Execute( '--customer-user-login', $RandomName, '--group-name', $RandomName, '--permission',
+    'ro' );
 $Self->Is(
     $ExitCode,
     1,
@@ -53,7 +54,8 @@ my $CustomerUserLogin = $Kernel::OM->Get('Kernel::System::CustomerUser')->Custom
 );
 
 # provide minimum options (invalid group)
-$ExitCode = $CommandObject->Execute( '--customer-user-login', $CustomerUserLogin, '--group-name', $RandomName, '--permission', 'ro' );
+$ExitCode = $CommandObject->Execute( '--customer-user-login', $CustomerUserLogin, '--group-name', $RandomName,
+    '--permission', 'ro' );
 $Self->Is(
     $ExitCode,
     1,
@@ -61,7 +63,9 @@ $Self->Is(
 );
 
 # provide minimum options (invalid permission)
-$ExitCode = $CommandObject->Execute( '--customer-user-login', $CustomerUserLogin, '--group-name', 'users', '--permission', 'xx' );
+$ExitCode
+    = $CommandObject->Execute( '--customer-user-login', $CustomerUserLogin, '--group-name', 'users', '--permission',
+    'xx' );
 $Self->Is(
     $ExitCode,
     1,
@@ -69,7 +73,9 @@ $Self->Is(
 );
 
 # provide minimum options (okay)
-$ExitCode = $CommandObject->Execute( '--customer-user-login', $CustomerUserLogin, '--group-name', 'users', '--permission', 'ro' );
+$ExitCode
+    = $CommandObject->Execute( '--customer-user-login', $CustomerUserLogin, '--group-name', 'users', '--permission',
+    'ro' );
 $Self->Is(
     $ExitCode,
     0,

@@ -61,7 +61,8 @@ sub Run {
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     if ( !$SMIMEObject ) {
-        my $Output .= $LayoutObject->FatalError( Message => "S/MIME environment is not working. Please check log for more info!" );
+        my $Output .= $LayoutObject->FatalError(
+            Message => "S/MIME environment is not working. Please check log for more info!" );
         return $Output;
     }
 
@@ -106,7 +107,7 @@ sub Run {
                 # check if there are customers that have assigned the certificate in their
                 # preferences
                 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-                my %UserList = $CustomerUserObject->SearchPreferences(
+                my %UserList           = $CustomerUserObject->SearchPreferences(
                     Key   => 'SMIMEFilename',
                     Value => $Filename,
                 );

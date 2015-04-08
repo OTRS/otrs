@@ -90,7 +90,7 @@ for my $Directory ( sort @DirectoriesToSearch ) {
 
             # skip crypt object if it is not configured
             next OPERATION if $1 eq 'Kernel::System::Crypt::SMIME' && $SkipCryptSMIME;
-            next OPERATION if $1 eq 'Kernel::System::Crypt::PGP' && $SkipCryptPGP;
+            next OPERATION if $1 eq 'Kernel::System::Crypt::PGP'   && $SkipCryptPGP;
 
             # load object
             my $Object = $Kernel::OM->Get("$1");

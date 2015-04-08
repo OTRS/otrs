@@ -100,12 +100,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "← Change search options", 'link_text' )->click();
 
         # input more search filters, result should be 'No data found'
-        $Selenium->find_element( "#TicketNumber", 'css' )->send_keys( "123456789012345" );
+        $Selenium->find_element( "#TicketNumber",                  'css' )->send_keys("123456789012345");
         $Selenium->find_element( "#StateIDs option[value='1']",    'css' )->click();
         $Selenium->find_element( "#StateIDs option[value='4']",    'css' )->click();
-        $Selenium->find_element( "#PriorityIDs option[value='2']",    'css' )->click();
-        $Selenium->find_element( "#PriorityIDs option[value='3']",    'css' )->click();
-        $Selenium->find_element( "#TicketNumber", 'css' )->submit();
+        $Selenium->find_element( "#PriorityIDs option[value='2']", 'css' )->click();
+        $Selenium->find_element( "#PriorityIDs option[value='3']", 'css' )->click();
+        $Selenium->find_element( "#TicketNumber",                  'css' )->submit();
 
         # check for expected result
         $Self->True(

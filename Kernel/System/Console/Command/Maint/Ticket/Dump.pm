@@ -47,12 +47,12 @@ sub Run {
         DynamicFields => 0,
     );
 
-    if (!%Ticket) {
+    if ( !%Ticket ) {
         $Self->PrintError("Could not find ticket.");
         return $Self->ExitCodeError();
     }
 
-    $Self->Print("<green>" . ('=' x 69 ) . "</green>\n");
+    $Self->Print( "<green>" . ( '=' x 69 ) . "</green>\n" );
 
     KEY:
     for my $Key (qw(TicketNumber TicketID Title Created Queue State Priority Lock CustomerID CustomerUserID))
@@ -64,14 +64,14 @@ sub Run {
         $Self->Print("<yellow>$Key:</yellow> $Ticket{$Key}\n");
     }
 
-    $Self->Print("<green>" . ('-' x 69 ) . "</green>\n");
+    $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
 
     # get article index
     my @Index = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleIndex(
         TicketID => $Self->GetArgument('ticket-id'),
     );
 
-    my $Counter = 1;
+    my $Counter      = 1;
     my $ArticleLimit = $Self->GetOption('article-limit');
     ARTICLEID:
     for my $ArticleID (@Index) {
@@ -100,7 +100,7 @@ sub Run {
 
         $Self->Print("<yellow>Body:</yellow>\n");
         $Self->Print("$Article{Body}\n");
-        $Self->Print("<green>" . ('-' x 69 ) . "</green>\n");
+        $Self->Print( "<green>" . ( '-' x 69 ) . "</green>\n" );
     }
     continue {
         $Counter++;

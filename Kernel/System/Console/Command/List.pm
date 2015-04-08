@@ -95,7 +95,7 @@ sub ListAllCommands {
 
     COMMAND_FILE:
     for my $CommandFile (@CommandFiles) {
-        next COMMAND_FILE if ($CommandFile =~ m{/Internal/}xms);
+        next COMMAND_FILE if ( $CommandFile =~ m{/Internal/}xms );
         $CommandFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
         $CommandFile =~ s{/+}{::}xmsg;
         push @Commands, $CommandFile;

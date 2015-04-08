@@ -33,12 +33,14 @@ $Selenium->RunTest(
             Key   => 'Frontend::RichText',
             Value => 0
         );
+
         # do not check Type
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
             Key   => 'Ticket::Type',
             Value => 0
         );
+
         # do not check Service
         $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
             Valid => 1,
@@ -96,7 +98,8 @@ $Selenium->RunTest(
 
         # check All filter on CustomerTicketOverview screen
         $Selenium->find_element(
-            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]")->click();
+            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
+        )->click();
 
         $Self->True(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
@@ -106,12 +109,14 @@ $Selenium->RunTest(
         # check Close filter on CustomerTicketOverview screen
         # there is only one created ticket, and it should not be on screen with Close filter
         $Selenium->find_element(
-            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=Close' )]")->click();
+            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=Close' )]"
+        )->click();
 
         my $Success;
         eval {
             $Success = $Selenium->find_element(
-                "//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]")
+                "//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"
+                )
         };
         $Self->False(
             $Success,

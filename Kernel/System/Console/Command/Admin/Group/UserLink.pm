@@ -38,11 +38,12 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
-        Name        => 'permission',
-        Description => 'Permissions (ro|move_into|create|owner|priority|rw) the given user should have for the group he is going to be linked to.',
-        Required    => 1,
-        HasValue    => 1,
-        ValueRegex  => qr/(ro|move_into|create|owner|priority|rw)/smx,
+        Name => 'permission',
+        Description =>
+            'Permissions (ro|move_into|create|owner|priority|rw) the given user should have for the group he is going to be linked to.',
+        Required   => 1,
+        HasValue   => 1,
+        ValueRegex => qr/(ro|move_into|create|owner|priority|rw)/smx,
     );
 
     return;
@@ -76,16 +77,16 @@ sub Run {
 
     my %Permissions;
     for my $Permission (qw(ro move_into create owner priority rw)) {
-        $Permissions{$Permission} = ($Self->GetOption('permission') eq $Permission) ? 1 : 0
+        $Permissions{$Permission} = ( $Self->GetOption('permission') eq $Permission ) ? 1 : 0
     }
 
     # add user 2 group
     if (
         !$Kernel::OM->Get('Kernel::System::Group')->PermissionGroupUserAdd(
-            UID    => $Self->{UserID},
-            GID    => $Self->{GroupID},
-            Active => 1,
-            UserID => 1,
+            UID        => $Self->{UserID},
+            GID        => $Self->{GroupID},
+            Active     => 1,
+            UserID     => 1,
             Permission => {
                 %Permissions,
             },

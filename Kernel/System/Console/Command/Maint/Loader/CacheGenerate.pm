@@ -42,7 +42,7 @@ sub Run {
         Value => 1,
     );
     my @FrontendModules = $Kernel::OM->Get('Kernel::System::Loader')->CacheGenerate();
-    if (!@FrontendModules) {
+    if ( !@FrontendModules ) {
         $Self->PrintError("Loader cache files could not be generated.");
         return $Self->ExitCodeError();
     }

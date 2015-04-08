@@ -32,7 +32,8 @@ $Self->Is(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--user-name', $RandomName, '--first-name', 'Test', '--last-name', 'Test', '--email-address', $RandomName . '@test.test');
+$ExitCode = $CommandObject->Execute( '--user-name', $RandomName, '--first-name', 'Test', '--last-name', 'Test',
+    '--email-address', $RandomName . '@test.test' );
 $Self->Is(
     $ExitCode,
     0,
@@ -45,7 +46,8 @@ my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
 );
 
 # provide minimum options
-$ExitCode = $CommandObject->Execute('--user-name', $RandomName, '--first-name', 'Test', '--last-name', 'Test', '--email-address', $RandomName . '@test.test');
+$ExitCode = $CommandObject->Execute( '--user-name', $RandomName, '--first-name', 'Test', '--last-name', 'Test',
+    '--email-address', $RandomName . '@test.test' );
 $Self->Is(
     $ExitCode,
     1,

@@ -173,7 +173,7 @@ sub Send {
     # get sign options for inline
     if ( $Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Inline' ) {
 
-        my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::' . $Param{Sign}->{Type});
+        my $CryptObject = $Kernel::OM->Get( 'Kernel::System::Crypt::' . $Param{Sign}->{Type} );
 
         return if !$CryptObject;
 
@@ -462,7 +462,7 @@ sub Send {
     # get sign options for detached
     if ( $Param{Sign} && $Param{Sign}->{SubType} && $Param{Sign}->{SubType} eq 'Detached' ) {
 
-        my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::' . $Param{Sign}->{Type});
+        my $CryptObject = $Kernel::OM->Get( 'Kernel::System::Crypt::' . $Param{Sign}->{Type} );
 
         if ( !$CryptObject ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
