@@ -379,6 +379,12 @@ sub Execute {
             }
     );
 
+    # Don't allow to run these scripts as root.
+    if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
+        $Self->PrintError("You cannot run otrs.Console.pl as root. Please use the otrs user instead.");
+        return $Self->ExitCodeError();
+    }
+
     # Disable in-memory cache to avoid problems with long running scripts.
     $Kernel::OM->Get('Kernel::System::Cache')->Configure(
         CacheInMemory => 0,
