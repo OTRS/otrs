@@ -120,6 +120,7 @@ my @Tests = (
             },
         ],
     },
+
     # Bug 10856 - TicketHistoryGet() dynamic field values
     {
         CreateData => [
@@ -148,6 +149,7 @@ my @Tests = (
             },
         ],
     },
+
     # Bug 10856 - TicketHistoryGet() dynamic field values
     {
         CreateData => [

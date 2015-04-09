@@ -1036,7 +1036,7 @@ if ($('#Article_[% Data.ArticleID %]').length) {
     Core.Agent.TicketZoom.Init({ ArticleTableHeight: parseInt('[% Env("UserTicketZoomArticleTableHeight") %]', 10)});
     Core.Config.Set('Ticket::Frontend::HTMLArticleHeightDefault', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightDefault") %]" || 0, 10));
     Core.Config.Set('Ticket::Frontend::HTMLArticleHeightMax', parseInt("[% Config("Ticket::Frontend::HTMLArticleHeightMax") %]" || 0, 10));
-    Core.Config.Set('Language.AttachmentViewMessage', '[% Translate('Article could not be opened! Perhaps it is on another article page?') %]');
+    Core.Config.Set('Language.AttachmentViewMessage', [% Translate('Article could not be opened! Perhaps it is on another article page?') | JSON %]);
 
     $('a.CreateChatRequest').bind('click', function() {
         var UserID = $(this).data('user-id'),
