@@ -408,10 +408,6 @@ sub Execute {
         return $Self->ExitCodeError();
     }
 
-    # We want to die(), not exit(), to make sure that PostRun() can still run
-    #   if a user presses ^C.
-    local $SIG{INT} = sub { die; };
-
     eval { $Self->PreRun(); };
     if ($@) {
         $Self->PrintError($@);
@@ -420,7 +416,14 @@ sub Execute {
 
     # Make sure we get a proper exit code to return to the shell.
     my $ExitCode;
-    eval { $ExitCode = $Self->Run(); };
+    eval {
+        # Make sure that PostRun() works even if a user presses ^C.
+        local $SIG{INT} = sub {
+            $Self->PostRun();
+            exit $Self->ExitCodeError();
+        };
+        $ExitCode = $Self->Run();
+    };
     if ($@) {
         $Self->PrintError($@);
         $ExitCode = $Self->ExitCodeError();
