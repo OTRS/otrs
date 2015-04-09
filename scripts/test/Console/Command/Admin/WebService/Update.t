@@ -64,7 +64,7 @@ my @Tests = (
         Name    => 'Non existing webservice-id',
         Options => [
             '--webservice-id', $RandomName,
-            '--source-path',   "$Home/development/webservices/GenericTicketConnectorSOAP.yml"
+            '--source-path',   "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.yml"
         ],
         ExitCode => 1,
     },
@@ -77,14 +77,14 @@ my @Tests = (
         Name    => 'Non YAML source-path',
         Options => [
             '--webservice-id', $WebServiceID,
-            '--source-path',   "$Home/development/webservices/GenericTicketConnectorSOAP.wsdl"
+            '--source-path',   "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.wsdl"
         ],
         ExitCode => 1,
     },
     {
         Name    => 'Non web service YAML source-path',
         Options => [
-            '--webservice-id', $WebServiceID, '--source-path', "$Home/development/samples/process/BookOrdering.yml"
+            '--webservice-id', $WebServiceID, '--source-path', "$Home/scripts/test/Console/Command/Admin/WebService/BookOrdering.yml"
         ],
         ExitCode => 1,
     },
@@ -92,7 +92,7 @@ my @Tests = (
         Name    => 'Correct YAML source-path',
         Options => [
             '--webservice-id', $WebServiceID,
-            '--source-path',   "$Home/development/webservices/GenericTicketConnectorSOAP.yml"
+            '--source-path',   "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.yml"
         ],
         ExitCode => 0,
     },

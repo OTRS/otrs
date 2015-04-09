@@ -1,0 +1,42 @@
+---
+Debugger:
+  DebugThreshold: debug
+  TestMode: 0
+Description: Ticket Connector SOAP Sample
+FrameworkVersion: 4.x git
+Provider:
+  Operation:
+    SessionCreate:
+      Description: Creates a Session
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Session::SessionCreate
+    TicketCreate:
+      Description: Creates a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketCreate
+    TicketUpdate:
+      Description: Updates a Ticket
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketUpdate
+    TicketGet:
+      Description: Retrieve Ticket data
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketGet
+    TicketSearch:
+      Description: Search for Tickets
+      MappingInbound: {}
+      MappingOutbound: {}
+      Type: Ticket::TicketSearch
+  Transport:
+    Config:
+      MaxLength: 100000000
+      NameSpace: http://www.otrs.org/TicketConnector/
+    Type: HTTP::SOAP
+RemoteSystem: ''
+Requester:
+  Transport:
+    Type: ''

@@ -49,28 +49,28 @@ my @Tests = (
     {
         Name    => 'Non YAML source-path',
         Options => [
-            '--name', $RandomName, '--source-path', "$Home/development/webservices/GenericTicketConnectorSOAP.wsdl"
+            '--name', $RandomName, '--source-path', "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.wsdl"
         ],
         ExitCode => 1,
     },
     {
         Name    => 'Non web service YAML source-path',
         Options => [
-            '--name', $RandomName, '--source-path', "$Home/development/samples/process/BookOrdering.yml"
+            '--name', $RandomName, '--source-path', "$Home/scripts/test/Console/Command/Admin/WebService/BookOrdering.yml"
         ],
         ExitCode => 1,
     },
     {
         Name    => 'Correct YAML source-path',
         Options => [
-            '--name', $RandomName, '--source-path', "$Home/development/webservices/GenericTicketConnectorSOAP.yml"
+            '--name', $RandomName, '--source-path', "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.yml"
         ],
         ExitCode => 0,
     },
     {
         Name    => 'Duplicate name',
         Options => [
-            '--name', $RandomName, '--source-path', "$Home/development/webservices/GenericTicketConnectorSOAP.yml"
+            '--name', $RandomName, '--source-path', "$Home/scripts/test/Console/Command/Admin/WebService/GenericTicketConnectorSOAP.yml"
         ],
         ExitCode => 1,
     },
