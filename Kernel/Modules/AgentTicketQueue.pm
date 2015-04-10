@@ -26,9 +26,6 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
 
-    # get JSON object
-    $Self->{JSONObject} = $Kernel::OM->Get('Kernel::System::JSON');
-
     return $Self;
 }
 
@@ -88,7 +85,8 @@ sub Run {
         UserID => $Self->{UserID},
     );
     my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
-    my $StoredFilters    = $Self->{JSONObject}->Decode(
+    my $JSONObject       = $Kernel::OM->Get('Kernel::System::JSON');
+    my $StoredFilters    = $JSONObject->Decode(
         Data => $Preferences{$StoredFiltersKey},
     );
 
@@ -360,7 +358,7 @@ sub Run {
         $UserObject->SetPreferences(
             UserID => $Self->{UserID},
             Key    => $StoredFiltersKey,
-            Value  => $Self->{JSONObject}->Encode( Data => $StoredFilters ),
+            Value  => $JSONObject->Encode( Data => $StoredFilters ),
         );
     }
 
