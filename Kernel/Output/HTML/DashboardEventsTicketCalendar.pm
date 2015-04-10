@@ -307,6 +307,7 @@ sub Run {
         TemplateFile => 'DashboardEventsTicketCalendar',
         Data         => {
             %{ $Self->{Config} },
+            FirstDay => $Kernel::OM->Get('Kernel::Config')->Get('CalendarWeekDayStart') || 0,
         },
     );
 
