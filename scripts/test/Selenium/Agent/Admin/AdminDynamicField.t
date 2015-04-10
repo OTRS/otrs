@@ -149,6 +149,8 @@ JAVASCRIPT
                     'Check for opened confirm text',
                 );
 
+                sleep 1;    # allow some time for field deletion
+
                 $Selenium->refresh();
                 my $Success;
                 eval {
