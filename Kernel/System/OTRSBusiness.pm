@@ -739,6 +739,7 @@ sub OTRSBusinessUninstall {
     # Package not found -> return failure
     return if !$Package;
 
+    # TODO: the following code is now Deprecated and should be removed in further versions of OTRS
     # get a list of all dynamic fields for ticket and article
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $DynamicFieldList   = $DynamicFieldObject->DynamicFieldListGet(
@@ -785,6 +786,8 @@ sub OTRSBusinessUninstall {
             );
         }
     }
+
+    # TODO: end Deprecated
 
     my $PackageString = $Kernel::OM->Get('Kernel::System::Package')->RepositoryGet(
         Name    => $Package->{Name}->{Content},
