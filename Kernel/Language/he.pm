@@ -864,6 +864,7 @@ sub Data {
         'Create new Email Ticket' => 'צור פניה חדשה בדוא"ל',
         'Phone-Ticket' => 'פניה בטלפון',
         'Search Tickets' => 'חפש פניה',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'ערוך משתמשי לקוח',
         'Edit Customer' => 'ערוך לקוח',
@@ -1294,6 +1295,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'אירוע זה כבר משויך למשימה. אנא בחרו אחד אחר.',
         'Delete this Event Trigger' => 'מחק את טריגר האירוע',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(למשל 10*5144 או 105658*)',
         '(e. g. 234321)' => '(למשל 234321)',

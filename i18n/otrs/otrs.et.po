@@ -1,11 +1,12 @@
 # 
 # Translators:
 # Lauri Jesmin <lauri.jesmin@gmail.com>, 2014
+# Uve Lokk <uvelokk@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/projects/p/OTRS/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -628,7 +629,7 @@ msgstr "vahel"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "enne/pärast"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -804,7 +805,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr ""
+msgstr "Palun võta ühendust halduriga"
 
 #. Template: AAABase
 msgid ""
@@ -855,7 +856,7 @@ msgstr "Valmis"
 
 #. Template: AAABase
 msgid "Install OTRS"
-msgstr ""
+msgstr "Paigalda OTRS"
 
 #. Template: AAABase
 msgid "Intro"
@@ -1020,11 +1021,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Attachment added!"
-msgstr ""
+msgstr "Manus lisatud!"
 
 #. Template: AAABase
 msgid "Attachment updated!"
-msgstr ""
+msgstr "Manus uuendatud!"
 
 #. Template: AAABase
 msgid "Response added!"
@@ -2195,7 +2196,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
-msgstr ""
+msgstr "kuupäevavorming"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
@@ -2211,7 +2212,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Disk Usage"
-msgstr ""
+msgstr "kettakasutus"
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located is almost full."
@@ -2223,7 +2224,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "ketta partitsioonde kasutus"
 
 #. Template: AAASupportDataCollector
 msgid "Distribution"
@@ -2235,7 +2236,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Kernel Version"
-msgstr ""
+msgstr "kerneli versioon"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine kernel version."
@@ -2243,7 +2244,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "System Load"
-msgstr ""
+msgstr "süsteemi koormus"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2253,7 +2254,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Perl Modules"
-msgstr ""
+msgstr "Perli moodulid"
 
 #. Template: AAASupportDataCollector
 msgid "Not all required Perl modules are correctly installed."
@@ -2261,7 +2262,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Perl Version"
-msgstr ""
+msgstr "Perli versioon"
 
 #. Template: AAASupportDataCollector
 msgid "Free Swap Space (%)"
@@ -2934,19 +2935,19 @@ msgstr "sulgub ise ebaedukalt"
 
 #. Template: AAATicket
 msgid "email-external"
-msgstr "sisemine ekiri"
-
-#. Template: AAATicket
-msgid "email-internal"
 msgstr "avalik ekiri"
 
 #. Template: AAATicket
+msgid "email-internal"
+msgstr "sisemine ekiri"
+
+#. Template: AAATicket
 msgid "note-external"
-msgstr "sisemine märkus"
+msgstr "avalik märkus"
 
 #. Template: AAATicket
 msgid "note-internal"
-msgstr "avalik märkus"
+msgstr "sisemine märkus"
 
 #. Template: AAATicket
 msgid "note-report"
@@ -3123,6 +3124,10 @@ msgstr "Telefonist"
 #. Template: AAATicket
 msgid "Search Tickets"
 msgstr "Otsi intsidente"
+
+#. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -4582,6 +4587,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
 msgstr ""
 
 #. Template: AdminGenericAgent
@@ -8190,11 +8199,11 @@ msgstr "Sessioonihaldus"
 
 #. Template: AdminSession
 msgid "All sessions"
-msgstr ""
+msgstr "Kõik seansid"
 
 #. Template: AdminSession
 msgid "Agent sessions"
-msgstr ""
+msgstr "Töötaja seansid"
 
 #. Template: AdminSession
 msgid "Customer sessions"
@@ -8210,7 +8219,7 @@ msgstr ""
 
 #. Template: AdminSession
 msgid "Kill all sessions"
-msgstr "Hävita kõik sessioonid"
+msgstr "Hävita kõik seansid"
 
 #. Template: AdminSession
 msgid "Kill this session"
@@ -8218,7 +8227,7 @@ msgstr ""
 
 #. Template: AdminSession
 msgid "Session"
-msgstr "Sessioon"
+msgstr "Seanss"
 
 #. Template: AdminSession
 msgid "Kill"
@@ -8438,11 +8447,11 @@ msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "Invalid month"
-msgstr ""
+msgstr "Vigane kuu"
 
 #. Template: AdminSysConfigEdit
 msgid "Invalid day"
-msgstr ""
+msgstr "Vigane päev"
 
 #. Template: AdminSysConfigEdit
 msgid "Show more"
@@ -8544,19 +8553,19 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
-msgstr ""
+msgstr "Halda seansse"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr ""
+msgstr "Kõik seansid"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
-msgstr ""
+msgstr "Töötaja seansid"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "Kliendi seansid"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
@@ -8614,7 +8623,7 @@ msgstr "Teie e-posti aadress on"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Templates <-> Attachments Relations"
-msgstr ""
+msgstr "Halda mallide <-> manuste seoseid"
 
 #. Template: AdminTemplateAttachment
 msgid "Filter for Attachments"
@@ -9759,7 +9768,7 @@ msgstr "Kliendi kasutajanimi"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Manuse nimi"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
@@ -14333,7 +14342,7 @@ msgstr "Edastatud \"%s\"."
 
 #. SysConfig
 msgid "Frontend language"
-msgstr ""
+msgstr "kasutatav keel"
 
 #. SysConfig
 msgid ""

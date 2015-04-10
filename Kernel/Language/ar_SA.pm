@@ -861,6 +861,7 @@ sub Data {
         'Create new Email Ticket' => 'أنشيء بطاقة بريد جديدة',
         'Phone-Ticket' => 'بطاقة-هاتف',
         'Search Tickets' => 'أبحث في البطاقات',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'تعديل معلومات العملاء',
         'Edit Customer' => '',
@@ -1291,6 +1292,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '',
         '(e. g. 234321)' => '',

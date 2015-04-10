@@ -865,6 +865,7 @@ sub Data {
         'Create new Email Ticket' => 'Vytvořit nový Email Tiket',
         'Phone-Ticket' => 'Telefonní Tiket',
         'Search Tickets' => 'Vyhledávání Tiketů',
+        'Customer Realname' => '',
         'Customer History' => 'Historie zákazníka',
         'Edit Customer Users' => 'Editace uživatelů zákazníka',
         'Edit Customer' => 'Upravit zákazníka',
@@ -1295,6 +1296,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(např. 10*5155 or 105658*)',
         '(e. g. 234321)' => '(např. 234321)',

@@ -759,7 +759,7 @@ sub Data {
         'Owner Update' => 'Ažuriranje vlasnika',
         'Responsible' => 'Odgovoran',
         'Responsible Update' => 'Ažuriranje odgovornog',
-        'Sender' => 'Pošiljaoc',
+        'Sender' => 'Pošiljatelj',
         'Article' => 'Članak',
         'Ticket' => 'karticu',
         'Createtime' => 'Vrijme kreiranja',
@@ -863,6 +863,7 @@ sub Data {
         'Create new Email Ticket' => 'Kreiraj novu karticu E-pošte',
         'Phone-Ticket' => 'Telefonska kartica',
         'Search Tickets' => 'Traženje kartice',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Uredi korisnike',
         'Edit Customer' => 'Uredi korisnika',
@@ -1034,9 +1035,9 @@ sub Data {
         'Edit ACL information' => '',
         'Stop after match' => 'Zaustavi poslije pogotka',
         'Edit ACL structure' => '',
-        'Save' => 'Sačuvaj',
+        'Save' => 'Spremi',
         'or' => 'ili',
-        'Save and finish' => '',
+        'Save and finish' => 'Spremi i završi',
         'Do you really want to delete this ACL?' => '',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
@@ -1068,7 +1069,7 @@ sub Data {
         'You can use the following tags' => 'Možete koristiti sljedeće oznake',
         'To get the first 20 character of the subject.' => 'Da vidite prvih 20 slova predmeta',
         'To get the first 5 lines of the email.' => 'Da vidite prvih 5 redaka poruke',
-        'To get the realname of the sender (if given).' => 'Da vidite ime pošiljaoca (ako je dostupno)',
+        'To get the realname of the sender (if given).' => 'Da vidite ime pošiljatelja (ako je dostupno)',
         'To get the article attribute' => 'Da vidite atribute članka',
         ' e. g.' => 'npr.',
         'Options of the current customer user data' => 'Opcije podataka o trenutnom korisniku',
@@ -1293,6 +1294,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => 'npr. 10*5144 ili 105658*',
         '(e. g. 234321)' => 'npr. 234321',
@@ -1365,7 +1367,7 @@ sub Data {
         'Execute Custom Module' => 'Pokreni izvršavanje posebnog modula',
         'Param %s key' => 'Ključ parametra %s',
         'Param %s value' => 'Vrijednost parametra %s',
-        'Save Changes' => 'Sačuvaj promjene',
+        'Save Changes' => 'Spremi promjene',
         'Results' => 'Rezultati',
         '%s Tickets affected! What do you want to do?' => '%s zahvaćenih kartica. Šta želite da uradite?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
@@ -1424,7 +1426,7 @@ sub Data {
             '',
         'Synchronous event triggers would be processed directly during the web request.' =>
             '',
-        'Save and continue' => '',
+        'Save and continue' => 'Spremi i nastavi',
         'Delete this Invoker' => '',
 
         # Template: AdminGenericInterfaceMappingSimple
@@ -1989,7 +1991,7 @@ sub Data {
         'Extend the height of the Canvas' => '',
         'Remove the Activity from this Process' => '',
         'Edit this Activity' => '',
-        'Save settings' => '',
+        'Save settings' => 'Spremi postavke',
         'Save Activities, Activity Dialogs and Transitions' => '',
         'Do you really want to delete this Process?' => '',
         'Do you really want to delete this Activity?' => '',
@@ -2809,7 +2811,7 @@ sub Data {
         'Need a valid email address or don\'t use a local email address.' =>
             'Ispravna adresa E-pošte je neophodna, ali ne koristite lokalnu adresu!',
         'Next ticket state' => 'Naredni status kartice',
-        'Inform sender' => 'Obavijesti pošiljaoca',
+        'Inform sender' => 'Obavijesti pošiljatelja',
         'Send mail' => 'Pošalji E-poštu!',
 
         # Template: AgentTicketBulk
@@ -2919,7 +2921,7 @@ sub Data {
         'Create Template' => 'Napravi predložak',
         'Create New' => 'Napravi novi',
         'Profile link' => '',
-        'Save changes in template' => 'Sačuvaj promjene u predlošku',
+        'Save changes in template' => 'Spremi promjene u predlošku',
         'Filters in use' => '',
         'Additional filters' => '',
         'Add another attribute' => 'Dodaj još jedan atribut',
@@ -2953,10 +2955,10 @@ sub Data {
         'Article filter' => 'Filtar za članke',
         'Article Type' => 'Tip članka',
         'Sender Type' => '',
-        'Save filter settings as default' => 'Sačuvaj postavke filtra kao zadane',
+        'Save filter settings as default' => 'Spremi postavke filtra kao zadane',
         'Event Type Filter' => '',
         'Event Type' => '',
-        'Save as default' => '',
+        'Save as default' => 'Spremi kao zadano',
         'Archive' => '',
         'This ticket is archived.' => '',
         'Locked' => 'Zaključano',
@@ -3077,8 +3079,8 @@ sub Data {
         'Only tickets created between' => 'Samo kartice otvoreni između',
         'Ticket archive system' => '',
         'Save search as template?' => '',
-        'Save as Template?' => 'Sačuvati kao predložak?',
-        'Save as Template' => '',
+        'Save as Template?' => 'Spremi kao predložak?',
+        'Save as Template' => 'Spremi kao predložak',
         'Template Name' => 'Naziv predloška',
         'Pick a profile name' => '',
         'Output to' => 'Izlaz na',
@@ -3191,7 +3193,7 @@ sub Data {
         'Result of database check' => 'Rezultat provjere baze podataka',
         'Database check successful.' => 'Uspješna provjera baze podataka.',
         'Database User' => '',
-        'New' => 'Nov',
+        'New' => 'Novi',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             'Novi korisnik baze sa ograničenim pravima bit će  kreiran za ovaj OTRS sustav',
         'Repeat Password' => '',
@@ -4791,7 +4793,7 @@ sub Data {
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
-            'Zamjenjuje originalnog pošiljaoca adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja zaposlenika.',
+            'Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja zaposlenika.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
             'Potrebne dozvole za promenu korisnika kartice u interfejsu zaposlenog.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
@@ -4876,7 +4878,7 @@ sub Data {
             '',
         'Service update notification' => '',
         'Service view' => '',
-        'Set sender email addresses for this system.' => 'Sistemska adresa pošiljaoca.',
+        'Set sender email addresses for this system.' => 'Sistemska adresa pošiljatelja.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
         'Set the maximum height (in pixels) of inline HTML articles in AgentTicketZoom.' =>

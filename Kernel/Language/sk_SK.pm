@@ -859,6 +859,7 @@ sub Data {
         'Create new Email Ticket' => 'Vytvor novú e-mailovú požiadavku',
         'Phone-Ticket' => 'Telefonická požiadavka',
         'Search Tickets' => 'Hľadaj požiadavky',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Uprav zákazníckeho užívateľa.',
         'Edit Customer' => '',
@@ -1289,6 +1290,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '',
         '(e. g. 234321)' => '',

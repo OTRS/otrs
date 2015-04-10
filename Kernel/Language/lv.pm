@@ -858,6 +858,7 @@ sub Data {
         'Create new Email Ticket' => 'Izveidot jaunu problēmas pieteikumu ar e-pastu',
         'Phone-Ticket' => 'Telefonisks pieteikums',
         'Search Tickets' => 'Meklēt pieteikumos',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Labot klientu datus',
         'Edit Customer' => '',
@@ -1288,6 +1289,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => 'piem. 10*5144 vai 105658*',
         '(e. g. 234321)' => 'piem. 234321',

@@ -865,6 +865,7 @@ sub Data {
         'Create new Email Ticket' => 'Crea nuevo ticket por correo',
         'Phone-Ticket' => 'Ticket telefónico',
         'Search Tickets' => 'Buscar tickets',
+        'Customer Realname' => 'Nombre Real del Cliente',
         'Customer History' => 'Historial del Cliente',
         'Edit Customer Users' => 'Editar Usuario Cliente',
         'Edit Customer' => 'Editar Cliente',
@@ -1295,7 +1296,8 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Este evento ya está ligado al trabajo, seleccione uno diferente.',
         'Delete this Event Trigger' => 'Borrar este disparador de eventos',
-        'Select Tickets' => '',
+        'Remove selection' => '',
+        'Select Tickets' => 'Seleccionar Ticket',
         '(e. g. 10*5155 or 105658*)' => '(ej: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ej: 234321)',
         'Customer login' => 'Usuario del cliente',
@@ -3401,7 +3403,7 @@ sub Data {
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
             '',
         'Archive state changed: "%s"' => 'Cambiado el estado del archivo: «%s»',
-        'ArticleTree' => '',
+        'ArticleTree' => 'Árbol de Artículos',
         'Attachments <-> Templates' => '',
         'Auto Responses <-> Queues' => '',
         'AutoFollowUp sent to "%s".' => 'Seguimiento automático enviado a «%s».',

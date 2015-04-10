@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:44+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -3125,6 +3126,10 @@ msgid "Search Tickets"
 msgstr "Buscar tickets"
 
 #. Template: AAATicket
+msgid "Customer Realname"
+msgstr "Nombre Real del Cliente"
+
+#. Template: AAATicket
 msgid "Customer History"
 msgstr "Historial del Cliente"
 
@@ -4583,6 +4588,10 @@ msgstr "Este evento ya está ligado al trabajo, seleccione uno diferente."
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Borrar este disparador de eventos"
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -11162,7 +11171,7 @@ msgstr "Cambiado el estado del archivo: «%s»"
 
 #. SysConfig
 msgid "ArticleTree"
-msgstr ""
+msgstr "Árbol de Artículos"
 
 #. SysConfig
 msgid "Attachments <-> Templates"

@@ -863,6 +863,7 @@ sub Data {
         'Create new Email Ticket' => 'Kreiraj nov zahtevek E-pošte',
         'Phone-Ticket' => 'Telefonska kartica',
         'Search Tickets' => 'Iskanje zahtevkov',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Uredi uporabnike',
         'Edit Customer' => 'Uredi uporabnika',
@@ -1293,6 +1294,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => 'npr. 10*5144 ili 105658*',
         '(e. g. 234321)' => 'npr. 234321',

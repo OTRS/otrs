@@ -861,6 +861,7 @@ sub Data {
         'Create new Email Ticket' => 'नया ईमेल टिकट बनाएँ।',
         'Phone-Ticket' => 'फोन टिकट',
         'Search Tickets' => 'टिकटें खोजें',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'ग्राहक प्रयोक्ता संपादित करें',
         'Edit Customer' => 'ग्राहक संपादित करें',
@@ -1291,6 +1292,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(उदा: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(उदा: 234321)',

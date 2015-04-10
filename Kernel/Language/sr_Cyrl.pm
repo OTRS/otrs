@@ -859,6 +859,7 @@ sub Data {
         'Create new Email Ticket' => 'Креира нови Имејл тикет',
         'Phone-Ticket' => 'Телефонски тикет',
         'Search Tickets' => 'Тражење тикета',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Уреди клијента корисника',
         'Edit Customer' => 'Уреди корисника',
@@ -1289,6 +1290,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Овај догађај је приложен послу. Молимо користите неки други.',
         'Delete this Event Trigger' => 'Obriši ovaj okidač događaja',
+        'Remove selection' => '',
         'Select Tickets' => 'Изабери тикете',
         '(e. g. 10*5155 or 105658*)' => 'нпр. 10*5144 или 105658*',
         '(e. g. 234321)' => 'нпр. 234321',

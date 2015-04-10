@@ -3051,6 +3051,10 @@ msgid "Search Tickets"
 msgstr ""
 
 #. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
+
+#. Template: AAATicket
 msgid "Customer History"
 msgstr ""
 
@@ -4436,6 +4440,10 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
+msgstr ""
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
 msgstr ""
 
 #. Template: AdminGenericAgent
