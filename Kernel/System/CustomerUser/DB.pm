@@ -398,7 +398,7 @@ sub CustomerIDList {
         return @{$Result} if ref $Result eq 'ARRAY';
     }
 
-    my $SQL .= "
+    my $SQL = "
         SELECT DISTINCT($Self->{CustomerID})
         FROM $Self->{CustomerTable}
         WHERE 1 = 1 ";
