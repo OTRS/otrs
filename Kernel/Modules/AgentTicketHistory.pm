@@ -23,31 +23,31 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for my $Needed (qw(DBObject TicketObject LayoutObject LogObject UserObject ConfigObject)) {
-        if ( !$Self->{$Needed} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Needed!" );
-        }
-    }
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check needed stuff
     if ( !$Self->{TicketID} ) {
 
         # error page
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => 'Can\'t show history, no TicketID is given!',
             Comment => 'Please contact the admin.',
         );
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # check permissions
     if (
-        !$Self->{TicketObject}->TicketPermission(
+        !$TicketObject->TicketPermission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
@@ -56,13 +56,13 @@ sub Run {
     {
 
         # error screen, don't show ticket
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
     # get ACL restrictions
     my %PossibleActions = ( 1 => $Self->{Action} );
 
-    my $ACL = $Self->{TicketObject}->TicketAcl(
+    my $ACL = $TicketObject->TicketAcl(
         Data          => \%PossibleActions,
         Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
@@ -70,7 +70,7 @@ sub Run {
         ReturnSubType => '-',
         UserID        => $Self->{UserID},
     );
-    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    my %AclAction = $TicketObject->TicketAclActionData();
 
     # check if ACL restrictions exist
     if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
@@ -79,20 +79,20 @@ sub Run {
 
         # show error screen if ACL prohibits this action
         if ( !$AclActionLookup{ $Self->{Action} } ) {
-            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
     }
 
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $TicketObject->TicketGet( TicketID => $Self->{TicketID} );
 
-    my @Lines = $Self->{TicketObject}->HistoryGet(
+    my @Lines = $TicketObject->HistoryGet(
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID},
     );
-    my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
+    my $Tn = $TicketObject->TicketNumberLookup( TicketID => $Self->{TicketID} );
 
     # get shown user info
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::HistoryOrder') eq 'reverse' ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::HistoryOrder') eq 'reverse' ) {
         @Lines = reverse(@Lines);
     }
 
@@ -112,7 +112,7 @@ sub Run {
         if ( $Data->{Name} && $Data->{Name} =~ m/^%%/x ) {
             $Data->{Name} =~ s/^%%//xg;
             my @Values = split( /%%/x, $Data->{Name} );
-            $Data->{Name} = $Self->{LayoutObject}->{LanguageObject}->Translate(
+            $Data->{Name} = $LayoutObject->{LanguageObject}->Translate(
                 $HistoryTypes{ $Data->{HistoryType} },
                 @Values,
             );
@@ -121,19 +121,19 @@ sub Run {
             $Data->{Name} =~ s/\%s//xg;
         }
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Row',
             Data => $Data,
         );
 
         if ( $Data->{ArticleID} ne "0" ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ShowLinkZoom',
                 Data => $Data,
             );
         }
         else {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'NoLinkZoom',
             );
 
@@ -141,11 +141,11 @@ sub Run {
     }
 
     # build page
-    my $Output = $Self->{LayoutObject}->Header(
+    my $Output = $LayoutObject->Header(
         Value => $Tn,
         Type  => 'Small',
     );
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentTicketHistory',
         Data         => {
             TicketNumber => $Tn,
@@ -153,7 +153,7 @@ sub Run {
             Title        => $Ticket{Title},
         },
     );
-    $Output .= $Self->{LayoutObject}->Footer(
+    $Output .= $LayoutObject->Footer(
         Type => 'Small',
     );
 
