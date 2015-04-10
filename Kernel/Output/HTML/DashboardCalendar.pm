@@ -127,6 +127,10 @@ sub Run {
             my $TimeStamp;
             my $TimeTill;
             if ( $Type eq 'Escalation' ) {
+
+                next TICKETID if !$Ticket{EscalationTime};
+                next TICKETID if !$Ticket{EscalationDestinationDate};
+
                 $TimeTill  = $Ticket{EscalationTime};
                 $TimeStamp = $Ticket{EscalationDestinationDate};
             }
