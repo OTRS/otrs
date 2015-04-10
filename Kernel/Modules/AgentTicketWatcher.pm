@@ -11,6 +11,9 @@ package Kernel::Modules::AgentTicketWatcher;
 
 use strict;
 use warnings;
+
+our $ObjectManagerDisabled = 1;
+
 use Kernel::System::VariableCheck qw(:all);
 
 sub new {
@@ -20,24 +23,21 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # ------------------------------------------------------------ #
     # check if feature is active
     # ------------------------------------------------------------ #
-    if ( !$Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+    if ( !$ConfigObject->Get('Ticket::Watcher') ) {
+        return $LayoutObject->ErrorScreen(
             Message => 'Feature is not active',
         );
     }
@@ -46,14 +46,14 @@ sub Run {
     # check access
     # ------------------------------------------------------------ #
     my @Groups;
-    if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
-        @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
+    if ( $ConfigObject->Get('Ticket::WatcherGroup') ) {
+        @Groups = @{ $ConfigObject->Get('Ticket::WatcherGroup') };
     }
     my $Access = 1;
     if (@Groups) {
         $Access = 0;
         for my $Group (@Groups) {
-            if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+            if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                 $Access = 1;
             }
         }
@@ -65,7 +65,10 @@ sub Run {
     # get ACL restrictions
     my %PossibleActions = ( 1 => $Self->{Action} );
 
-    my $ACL = $Self->{TicketObject}->TicketAcl(
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    my $ACL = $TicketObject->TicketAcl(
         Data          => \%PossibleActions,
         Action        => $Self->{Action},
         TicketID      => $Self->{TicketID},
@@ -73,7 +76,7 @@ sub Run {
         ReturnSubType => '-',
         UserID        => $Self->{UserID},
     );
-    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+    my %AclAction = $TicketObject->TicketAclActionData();
 
     # check if ACL restrictions exist
     if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
@@ -82,7 +85,7 @@ sub Run {
 
         # show error screen if ACL prohibits this action
         if ( !$AclActionLookup{ $Self->{Action} } ) {
-            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
     }
 
@@ -92,32 +95,32 @@ sub Run {
     if ( $Self->{Subaction} eq 'Subscribe' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # Checks if the user has permissions to see the ticket.
         #   This is needed because watching grants ro permissions (depending on configuration).
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
         );
         if ( !$Access ) {
-            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+            return $LayoutObject->NoPermission( WithHeader => 'yes' );
         }
 
         # set subscribe
-        my $Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
+        my $Subscribe = $TicketObject->TicketWatchSubscribe(
             TicketID    => $Self->{TicketID},
             WatchUserID => $Self->{UserID},
             UserID      => $Self->{UserID},
         );
 
         if ( !$Subscribe ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
         # redirect
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
         );
     }
@@ -128,23 +131,23 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Unsubscribe' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
         # We don't need a permission check here as we will remove
         #   permissions by unsubscribing.
-        my $Unsubscribe = $Self->{TicketObject}->TicketWatchUnsubscribe(
+        my $Unsubscribe = $TicketObject->TicketWatchUnsubscribe(
             TicketID    => $Self->{TicketID},
             WatchUserID => $Self->{UserID},
             UserID      => $Self->{UserID},
         );
 
         if ( !$Unsubscribe ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
         # redirect
         # checks if the user has permissions to see the ticket
-        my $Access = $Self->{TicketObject}->TicketPermission(
+        my $Access = $TicketObject->TicketPermission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID},
@@ -152,16 +155,16 @@ sub Run {
         if ( !$Access ) {
 
             # generate output
-            return $Self->{LayoutObject}->Redirect(
+            return $LayoutObject->Redirect(
                 OP => $Self->{LastScreenOverview} || 'Action=AgentDashboard',
             );
         }
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => "Action=AgentTicketZoom;TicketID=$Self->{TicketID}",
         );
     }
 
-    $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid subaction' );
+    $LayoutObject->ErrorScreen( Message => 'Invalid subaction' );
 }
 
 1;

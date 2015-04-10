@@ -17,6 +17,10 @@ use Kernel::System::DynamicField;
 use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
 
+our @ObjectDependencies = (
+    'Kernel::System::JSON',
+);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -46,7 +50,7 @@ sub new {
     # set stored filters if present
     my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
     if ( $Preferences{$StoredFiltersKey} ) {
-        my $StoredFilters = $Self->{JSONObject}->Decode(
+        my $StoredFilters = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
             Data => $Preferences{$StoredFiltersKey},
         );
         $Self->{StoredFilters} = $StoredFilters;
