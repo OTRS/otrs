@@ -172,7 +172,9 @@ sub Run {
 
         # check if plain article exists
         if ( !$Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} ) ) {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Plain article not found for article $Self->{ArticleID}!",
+            );
         }
 
         # get article data
