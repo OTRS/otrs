@@ -173,7 +173,7 @@ $Selenium->RunTest(
         # delete test PostMasterFilter with delete button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")->click();
 
-        }
+    }
 
 );
 

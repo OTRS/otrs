@@ -142,7 +142,9 @@ $Selenium->RunTest(
         };
 
         if ( $Success > -1 ) {
-            $Kernel::OM->Get('Kernel::System::Console::BaseCommand')->Print("<yellow>WARNING:Selenium Test prematurely Completed. Please configure Core::Sendmail to send email from system!</yellow>\n");
+            $Kernel::OM->Get('Kernel::System::Console::BaseCommand')->Print(
+                "<yellow>WARNING:Selenium Test prematurely Completed. Please configure Core::Sendmail to send email from system!</yellow>\n"
+            );
         }
         else {
 
@@ -191,7 +193,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
-        }
+    }
 );
 
 1;

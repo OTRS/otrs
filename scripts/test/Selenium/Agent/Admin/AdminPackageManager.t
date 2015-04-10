@@ -102,7 +102,7 @@ $Selenium->RunTest(
             'Test package is uninstalled',
         );
 
-        }
+    }
 );
 
 1;

@@ -183,7 +183,7 @@ $Selenium->RunTest(
             Type => 'Group',
         );
 
-        }
+    }
 
 );
 

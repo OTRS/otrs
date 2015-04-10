@@ -71,7 +71,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Action=AdminPerformanceLog' )]")->click();
         }
 
-        }
+    }
 
 );
 

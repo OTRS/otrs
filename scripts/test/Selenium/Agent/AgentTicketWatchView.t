@@ -113,7 +113,8 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketWatchView");
 
         my $Element = $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\' )]");
+            "//a[contains(\@href, \'Action=AgentTicketWatchView;SortBy=Age;OrderBy=Up;View=;Filter=All\' )]"
+        );
         $Element->is_enabled();
         $Element->is_displayed();
         $Element->click();
@@ -179,7 +180,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

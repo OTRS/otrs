@@ -142,7 +142,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#UserFirstname",             'css' )->submit();
 
-        }
+    }
 
 );
 

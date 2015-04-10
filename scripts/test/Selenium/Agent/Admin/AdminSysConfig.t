@@ -121,7 +121,7 @@ $Selenium->RunTest(
                 ->click();
         }
 
-        }
+    }
 
 );
 

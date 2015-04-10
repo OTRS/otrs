@@ -170,7 +170,7 @@ $Selenium->RunTest(
             Type => 'Salutation'
         );
 
-        }
+    }
 
 );
 

@@ -117,7 +117,7 @@ $Selenium->RunTest(
             "$RandomID admin notification was sent",
         );
 
-        }
+    }
 
 );
 

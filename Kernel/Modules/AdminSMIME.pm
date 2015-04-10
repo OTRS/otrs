@@ -62,7 +62,8 @@ sub Run {
 
     if ( !$SMIMEObject ) {
         my $Output .= $LayoutObject->FatalError(
-            Message => "S/MIME environment is not working. Please check log for more info!" );
+            Message => "S/MIME environment is not working. Please check log for more info!"
+        );
         return $Output;
     }
 

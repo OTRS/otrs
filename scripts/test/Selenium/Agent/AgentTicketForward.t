@@ -91,6 +91,7 @@ $Selenium->RunTest(
         my $TicketSubject      = "Selenium Ticket";
         my $TicketBody         = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
+
         # wait a bit for the autocomplete to populate
         sleep(2);
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
@@ -202,7 +203,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
-        }
+    }
 );
 
 1;

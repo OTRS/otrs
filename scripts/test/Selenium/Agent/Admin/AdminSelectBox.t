@@ -86,7 +86,7 @@ $Selenium->RunTest(
             3,
             "Result table body rows found",
         );
-        }
+    }
 );
 
 1;

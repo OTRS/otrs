@@ -171,7 +171,7 @@ $Selenium->RunTest(
             Type => 'Signature'
         );
 
-        }
+    }
 
 );
 

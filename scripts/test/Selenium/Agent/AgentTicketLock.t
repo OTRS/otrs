@@ -130,7 +130,8 @@ $Selenium->RunTest(
 
         # unlock ticket
         $Selenium->find_element(
-            "//a[contains(\@href, \'Action=AgentTicketLock;Subaction=Unlock;TicketID=$TicketID;' )]")->click();
+            "//a[contains(\@href, \'Action=AgentTicketLock;Subaction=Unlock;TicketID=$TicketID;' )]"
+        )->click();
 
         # go to history view to verifty results
         $Selenium->find_element("//*[text()='History']")->click();
@@ -172,7 +173,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
-        }
+    }
 );
 
 1;

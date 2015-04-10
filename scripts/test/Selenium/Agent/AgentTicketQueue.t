@@ -171,8 +171,6 @@ $Selenium->RunTest(
                     "//a[contains(\@href, \'Action=AgentTicketQueue;Filter=Unlocked;View=$View;QueueID=$Test->{QueueID};SortBy=Age;OrderBy=Up;View=Small;\' )]"
                 )->click();
 
-
-
                 # verify that all expected tickets are present
                 for my $TicketID (@TicketIDs) {
 
@@ -250,7 +248,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

@@ -84,7 +84,8 @@ my @Tests = (
     {
         Name    => 'Non web service YAML source-path',
         Options => [
-            '--webservice-id', $WebServiceID, '--source-path', "$Home/scripts/test/Console/Command/Admin/WebService/BookOrdering.yml"
+            '--webservice-id', $WebServiceID, '--source-path',
+            "$Home/scripts/test/Console/Command/Admin/WebService/BookOrdering.yml"
         ],
         ExitCode => 1,
     },

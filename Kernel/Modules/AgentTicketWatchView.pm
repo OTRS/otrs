@@ -69,7 +69,7 @@ sub Run {
         UserID => $Self->{UserID},
     );
 
-    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+    my $JSONObject       = $Kernel::OM->Get('Kernel::System::JSON');
     my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
     my $StoredFilters    = $JSONObject->Decode(
         Data => $Preferences{$StoredFiltersKey},

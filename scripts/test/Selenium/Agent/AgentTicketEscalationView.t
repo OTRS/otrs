@@ -177,7 +177,9 @@ $Selenium->RunTest(
             for my $View (qw(Small Medium Preview)) {
 
                 # switch to view with correct sorting
-                $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down;Filter=$Filter;View=$View");
+                $Selenium->get(
+                    "${ScriptAlias}index.pl?Action=AgentTicketEscalationView;SortBy=TicketNumber;OrderBy=Down;Filter=$Filter;View=$View"
+                );
 
                 # check screen output
                 $Selenium->find_element( "table",             'css' );
@@ -265,7 +267,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

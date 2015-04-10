@@ -266,7 +266,7 @@ for my $Test (@Tests) {
 
 # test searching for article flags
 
-my @SearchTestFlagsSet = qw( f1 f2 f3 );
+my @SearchTestFlagsSet    = qw( f1 f2 f3 );
 my @SearchTestFlagsNotSet = qw( f4 f5 );
 
 for my $Flag (@SearchTestFlagsSet) {
@@ -285,32 +285,32 @@ for my $Flag (@SearchTestFlagsSet) {
 
 my @FlagSearchTests = (
     {
-        Search  => {
+        Search => {
             ArticleFlag => {
-                f1      => 42,
-                f2      => 42,
+                f1 => 42,
+                f2 => 42,
             },
         },
-        Expected    => 1,
-        Name        => "Can find ticket when searching for two article flags",
+        Expected => 1,
+        Name     => "Can find ticket when searching for two article flags",
     },
     {
-        Search  => {
+        Search => {
             ArticleFlag => {
-                f1      => 42,
-                f2      => 1,
+                f1 => 42,
+                f2 => 1,
             },
         },
-        Expected    => 0,
-        Name        => "Wrong flag value leads to no match",
+        Expected => 0,
+        Name     => "Wrong flag value leads to no match",
     },
 );
 
 for my $Test (@FlagSearchTests) {
     my $Found = $TicketObject->TicketSearch(
-        TicketID    => $TicketID,
-        Result      => 'COUNT',
-        UserID      => 1,
+        TicketID => $TicketID,
+        Result   => 'COUNT',
+        UserID   => 1,
         %{ $Test->{Search} },
     );
 

@@ -209,7 +209,7 @@ $Selenium->RunTest(
             "Deleted - $SysMainComment",
         );
 
-        }
+    }
 
 );
 

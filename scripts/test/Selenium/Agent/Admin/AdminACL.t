@@ -225,7 +225,7 @@ JAVASCRIPT
             "Deleted $RandomID ACL",
         );
 
-        }
+    }
 );
 
 1;

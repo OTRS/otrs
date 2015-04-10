@@ -285,7 +285,7 @@ $Selenium->RunTest(
         $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
-        }
+    }
 );
 
 1;
