@@ -310,7 +310,7 @@ sub Preferences {
         @ColumnsAvailable = grep { $Self->{Config}->{DefaultColumns}->{$_} }
             keys %{ $Self->{Config}->{DefaultColumns} };
         @ColumnsEnabled = grep { $Self->{Config}->{DefaultColumns}->{$_} eq '2' }
-            keys %{ $Self->{Config}->{DefaultColumns} };
+            sort { $Self->_DefaultColumnSort() } keys %{ $Self->{Config}->{DefaultColumns} };
     }
 
     # check if the user has filter preferences for this widget
