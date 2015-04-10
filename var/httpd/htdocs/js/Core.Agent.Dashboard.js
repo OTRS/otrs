@@ -342,6 +342,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
             allDayText: Params.AllDayText,
             axisFormat: 'H(:mm)', // uppercase H for 24-hour clock
             editable: false,
+            firstDay: Params.FirstDay,
             monthNames: Params.MonthNames,
             monthNamesShort: Params.MonthNamesShort,
             dayNames: Params.DayNames,
