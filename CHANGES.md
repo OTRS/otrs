@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-04-10 Added searching for article flags, thanks to Moritz Lenz.
  - 2015-04-09 Added no match message for administration screens that use filters, thanks to S7.
  - 2015-04-01 Added link from dashboard queue overview to AgentTicketQueue for better usability, thanks to Norihiro Tanaka.
  - 2015-03-31 Fixed bug#[11200](http://bugs.otrs.org/show_bug.cgi?id=11200) - Wrong realization of  Dynamic Fields in SOAP Response.

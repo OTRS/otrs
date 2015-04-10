@@ -132,6 +132,9 @@ To find tickets in your system.
             SmallerThanEquals => '2002-02-02 02:02:02',
         }
 
+        # User ID for searching tickets by ticket flags (defaults to UserID)
+        TicketFlagUserID => 1,
+
         # search for ticket flags
         TicketFlag => {
             Seen => 1,
@@ -141,6 +144,15 @@ To find tickets in your system.
         # one given:
         NotTicketFlag => {
             Seen => 1,
+        },
+
+        # User ID for searching tickets by article flags (defaults to UserID)
+        ArticleFlagUserID => 1,
+
+
+        # search for tickets by the presence of flags on articles
+        ArticleFlag => {
+            Important => 1,
         },
 
         # article stuff (optional)
@@ -524,6 +536,17 @@ sub TicketSearch {
         my $Index = 1;
         for my $Key ( sort keys %{ $Param{TicketFlag} } ) {
             $SQLFrom .= "INNER JOIN ticket_flag tf$Index ON st.id = tf$Index.ticket_id ";
+            $Index++;
+        }
+    }
+
+    # add article and article_flag tables
+    if ( $Param{ArticleFlag} ) {
+        my $Index = 1;
+        for my $Key ( sort keys %{ $Param{ArticleFlag} } ) {
+            $SQLFrom .= "INNER JOIN article ataf$Index ON st.id = ataf$Index.ticket_id ";
+            $SQLFrom .=
+                "INNER JOIN article_flag taf$Index ON ataf$Index.id = taf$Index.article_id ";
             $Index++;
         }
     }
@@ -1077,6 +1100,25 @@ sub TicketSearch {
             $SQLExt .= " AND tf$Index.ticket_value = '" . $DBObject->Quote($Value) . "'";
             $SQLExt .= " AND tf$Index.create_by = "
                 . $DBObject->Quote( $TicketFlagUserID, 'Integer' );
+
+            $Index++;
+        }
+    }
+
+    # add article flag extension
+    if ( $Param{ArticleFlag} ) {
+        my $ArticleFlagUserID = $Param{ArticleFlagUserID} || $Param{UserID};
+        return if !defined $ArticleFlagUserID;
+
+        my $Index = 1;
+        for my $Key ( sort keys %{ $Param{ArticleFlag} } ) {
+            my $Value = $Param{ArticleFlag}->{$Key};
+            return if !defined $Value;
+
+            $SQLExt .= " AND taf$Index.article_key = '" . $DBObject->Quote($Key) . "'";
+            $SQLExt .= " AND taf$Index.article_value = '" . $DBObject->Quote($Value) . "'";
+            $SQLExt .= " AND taf$Index.create_by = "
+                . $DBObject->Quote( $ArticleFlagUserID, 'Integer' );
 
             $Index++;
         }
