@@ -81,6 +81,9 @@
                     <ul class="Tablelike" id="Groups">
                         <li class="Header">[% Translate("Groups") | html %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoDataFoundMsg") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("Listn1") %]
                         <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("Listn1") %]
@@ -97,34 +100,62 @@
     Core.UI.Table.InitTableFilter($('#FilterGroups'), $('#Groups'));
 //]]></script>
 [% END %]
-
+[% RenderBlockEnd("Overview") %]
 [% RenderBlockStart("Change") %]
+            <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+                <h1>[% Translate("Manage Agent-Group Relations") | html %]</h1>
+                <div class="SidebarColumn">
+                    <div class="WidgetSimple">
+                        <div class="Header">
+                            <h2>[% Translate("Actions") | html %]</h2>
+                        </div>
+                        <div class="Content">
+                            <ul class="ActionList">
+                                <li>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="WidgetSimple">
+                        <div class="Header">
+                            <h2>
+                                <label for="Filter">[% Translate("Filter") | html %]</label>
+                            </h2>
+                        </div>
+                        <div class="Content">
+                            <input type="text" id="Filter" class="FilterBox" placeholder="[% Translate("Just start typing to filter...") | html %]" name="Filter" value="" title="[% Translate("Filter") | html %]" />
+                        </div>
+                    </div>
+                </div>
 
-            <div class="Header">
-                <h2>
+                <div class="ContentColumn">
+                    <div class="WidgetSimple">
+                        <div class="Header">
+                            <h2>
 [% RenderBlockStart("ChangeHeaderGroup") %]
                     [% Translate("Change Group Relations for Agent") | html %]
 [% RenderBlockEnd("ChangeHeaderGroup") %]
 [% RenderBlockStart("ChangeHeaderAgent") %]
                     [% Translate("Change Agent Relations for Group") | html %]
 [% RenderBlockEnd("ChangeHeaderAgent") %]
-                    <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
-                </h2>
-            </div>
-            <div class="Content ">
-                <form action="[% Env("CGIHandle") %]" method="post" name="matrix">
-                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-                    <input type="hidden" name="Subaction" value="Change[% Data.Type | html %]"/>
-                    <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
-                    <table class="DataTable VariableWidth" id="UserGroups">
-                        <thead>
-                            <tr>
-                                <th>[% Translate(Data.VisibleNeType) | html %]</th>
+                                <a href="[% Env("Baselink") %]Action=[% Data.ActionHome | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a>
+                            </h2>
+                        </div>
+                        <div class="Content ">
+                            <form action="[% Env("CGIHandle") %]" method="post" name="matrix">
+                                <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                                <input type="hidden" name="Subaction" value="Change[% Data.Type | html %]"/>
+                                <input type="hidden" name="ID" value="[% Data.ID | html %]"/>
+                                <table class="DataTable VariableWidth" id="UserGroups">
+                                    <thead>
+                                        <tr>
+                                            <th>[% Translate(Data.VisibleNeType) | html %]</th>
 [% RenderBlockStart("ChangeHeader") %]
-                                <th class="[% Data.Mark | html %]">
-                                    <input type="checkbox" name="[% Data.Type | html %]" id="SelectAll[% Data.Type | html %]" title="[% Translate("Toggle %s permission for all", Data.Type) | html %]" value="" />
+                                            <th class="[% Data.Mark | html %]">
+                                                <input type="checkbox" name="[% Data.Type | html %]" id="SelectAll[% Data.Type | html %]" title="[% Translate("Toggle %s permission for all", Data.Type) | html %]" value="" />
                                     [% Translate(Data.Type) | html %]
-                                </th>
+                                            </th>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     Core.Form.InitSelectAllCheckboxes($('table td input[type="checkbox"][name=[% Data.Type | html %]]'), $('#SelectAll[% Data.Type | html %]'));
@@ -134,79 +165,89 @@
 //]]></script>
 [% END %]
 [% RenderBlockEnd("ChangeHeader") %]
-                            </tr>
-                        </thead>
-                        <tbody>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+[% RenderBlockStart("NoDataFoundMsgList") %]
+                                        <tr>
+                                            <td colspan="[% Data.ColSpan | html %]">
+                                    [% Translate("No data found.") | html %]
+                                            </td>
+                                        </tr>
+[% RenderBlockEnd("NoDataFoundMsgList") %]
 [% RenderBlockStart("ChangeRow") %]
-                            <tr>
-                                <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
+                                        <tr>
+                                            <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
 [% RenderBlockStart("ChangeRowItem") %]
-                                <td class="[% Data.Mark | html %]">
-                                    <input type="checkbox" name="[% Data.Type | html %]" title="[% Translate("Toggle %s permission for %s", Data.Type, Data.Name) | html %]" value="[% Data.ID | html %]" [% Data.Selected %]/>
-                                </td>
+                                            <td class="[% Data.Mark | html %]">
+                                                <input type="checkbox" name="[% Data.Type | html %]" title="[% Translate("Toggle %s permission for %s", Data.Type, Data.Name) | html %]" value="[% Data.ID | html %]" [% Data.Selected %]/>
+                                            </td>
 [% RenderBlockEnd("ChangeRowItem") %]
-                            </tr>
+                                        </tr>
 [% RenderBlockEnd("ChangeRow") %]
-                        </tbody>
-                    </table>
-                    <div class="Field SpacingTop">
-                        <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
+                                        <tr class="FilterMessage Hidden">
+                                            <td colspan="8">[% Translate("No matches found.") | html %]</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="Field SpacingTop">
+                                    <button class="Primary CallForAction" type="submit" value="[% Translate("Submit") | html %]"><span>[% Translate("Submit") | html %]</span></button>
                         [% Translate("or") | html %]
-                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
-                    </div>
-                    <div class="Clear"></div>
-                </form>
-            </div>
+                                    <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
+                                </div>
+                                <div class="Clear"></div>
+                            </form>
+                        </div>
 [% RenderBlockEnd("Change") %]
 
-        </div>
+                    </div>
 
 [% RenderBlockStart("ChangeReference") %]
-        <div class="WidgetSimple SpacingTop">
-            <div class="Header">
-                <h2>[% Translate("Reference") | html %]</h2>
-            </div>
-            <div class="Content">
+                    <div class="WidgetSimple SpacingTop">
+                        <div class="Header">
+                            <h2>[% Translate("Reference") | html %]</h2>
+                        </div>
+                        <div class="Content">
 
-                <dl>
-                    <dt>[% Translate("ro") | html %]</dt>
-                    <dd>
+                            <dl>
+                                <dt>[% Translate("ro") | html %]</dt>
+                                <dd>
                         [% Translate("Read only access to the ticket in this group/queue.") | html %]
-                    </dd>
+                                </dd>
 
-                    <dt>[% Translate("move_into") | html %]</dt>
-                    <dd>
+                                <dt>[% Translate("move_into") | html %]</dt>
+                                <dd>
                         [% Translate("Permissions to move tickets into this group/queue.") | html %]
-                    </dd>
+                                </dd>
 
-                    <dt>[% Translate("create") | html %]</dt>
-                    <dd>
+                                <dt>[% Translate("create") | html %]</dt>
+                                <dd>
                         [% Translate("Permissions to create tickets in this group/queue.") | html %]
-                    </dd>
+                                </dd>
 
-                    <dt>[% Translate("note") | html %]</dt>
-                    <dd>
+                                <dt>[% Translate("note") | html %]</dt>
+                                <dd>
                         [% Translate("Permissions to add notes to tickets in this group/queue.") | html %]
-                    </dd>
+                                </dd>
 
-                    <dt>[% Translate("owner") | html %]</dt>
-                    <dd>
+                                <dt>[% Translate("owner") | html %]</dt>
+                                <dd>
                         [% Translate("Permissions to change the owner of tickets in this group/queue.") | html %]
-                    </dd>
+                                </dd>
 
-                    <dt>[% Translate("priority") | html %]</dt>
-                    <dd>
+                                <dt>[% Translate("priority") | html %]</dt>
+                                <dd>
                         [% Translate("Permissions to change the ticket priority in this group/queue.") | html %]
-                    </dd>
+                                </dd>
 
-                    <dt>[% Translate("rw") | html %]</dt>
-                    <dd>
+                                <dt>[% Translate("rw") | html %]</dt>
+                                <dd>
                         [% Translate("Full read and write access to the tickets in this group/queue.") | html %]
-                    </dd>
-                </dl>
+                                </dd>
+                            </dl>
 
-            </div>
-        </div>
+                        </div>
+                    </div>
 
 [% RenderBlockEnd("ChangeReference") %]
 
@@ -216,7 +257,6 @@
 //]]></script>
 [% END %]
 
-    </div>
-    <div class="Clear"></div>
-</div>
-[% RenderBlockEnd("Overview") %]
+                </div>
+                <div class="Clear"></div>
+            </div>

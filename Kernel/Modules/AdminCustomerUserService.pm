@@ -387,6 +387,8 @@ sub _Change {
 
     $LayoutObject->Block( Name => "AllocateItemHeader$VisibleType{$NeType}" );
 
+    my $ColSpan = 2;
+
     if ( $NeType eq 'CustomerUser' ) {
 
         # output count block
@@ -396,10 +398,8 @@ sub _Change {
                 Data => { ItemCount => 0 },
             );
 
-            my $ColSpan = 2;
-
             $LayoutObject->Block(
-                Name => 'NoDataFoundMsg',
+                Name => 'NoDataFoundMsgList',
                 Data => {
                     ColSpan => $ColSpan,
                 },
@@ -427,6 +427,15 @@ sub _Change {
         # add suffix for correct sorting
         for my $DataKey ( sort keys %Data ) {
             $Data{$DataKey} .= '::';
+        }
+
+        if ( !%ServiceData ) {
+            $LayoutObject->Block(
+                Name => 'NoDataFoundMsgList',
+                Data => {
+                    ColSpan => $ColSpan,
+                },
+            );
         }
 
     }
@@ -512,7 +521,7 @@ sub _Overview {
         );
 
         $LayoutObject->Block(
-            Name => 'NoDataFoundMsgList',
+            Name => 'NoDataFoundMsg',
         );
     }
     elsif ( @CustomerUserKeyList > $SearchLimit ) {
@@ -552,20 +561,31 @@ sub _Overview {
         $ServiceDataSort{$ServiceDataKey} .= '::';
     }
 
-    for my $ID (
-        sort { uc( $ServiceDataSort{$a} ) cmp uc( $ServiceDataSort{$b} ) }
-        keys %ServiceDataSort
-        )
-    {
+    # get service data
+    if (%ServiceDataSort) {
+        for my $ID (
+            sort { uc( $ServiceDataSort{$a} ) cmp uc( $ServiceDataSort{$b} ) }
+            keys %ServiceDataSort
+            )
+        {
 
-        # output service row block
+            # output service row block
+            $LayoutObject->Block(
+                Name => 'ResultServiceRow',
+                Data => {
+                    %Param,
+                    ID   => $ID,
+                    Name => $ServiceData{$ID},
+                },
+            );
+        }
+    }
+
+    # otherwise a no data message is displayed
+    else {
         $LayoutObject->Block(
-            Name => 'ResultServiceRow',
-            Data => {
-                %Param,
-                ID   => $ID,
-                Name => $ServiceData{$ID},
-            },
+            Name => 'NoServiceFoundMsg',
+            Data => {},
         );
     }
 

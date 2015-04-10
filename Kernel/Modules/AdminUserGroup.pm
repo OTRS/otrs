@@ -238,9 +238,6 @@ sub _Change {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     $LayoutObject->Block(
-        Name => 'Overview',
-    );
-    $LayoutObject->Block(
         Name => 'ActionList',
     );
     $LayoutObject->Block(
@@ -263,6 +260,18 @@ sub _Change {
     $LayoutObject->Block(
         Name => "ChangeHeader$VisibleType{$NeType}",
     );
+
+    # check if there are groups
+    if ( $NeType eq 'Group' ) {
+        if ( !%Data ) {
+            $LayoutObject->Block(
+                Name => 'NoDataFoundMsgList',
+                Data => {
+                    ColSpan => 8,
+                },
+            );
+        }
+    }
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -378,16 +387,25 @@ sub _Overview {
     my %GroupData = $Kernel::OM->Get('Kernel::System::Group')->GroupList(
         Valid => 1,
     );
-    for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
 
-        # set output class
+    if (%GroupData) {
+        for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
+
+            # set output class
+            $LayoutObject->Block(
+                Name => 'Listn1',
+                Data => {
+                    Name      => $GroupData{$GroupID},
+                    Subaction => 'Group',
+                    ID        => $GroupID,
+                },
+            );
+        }
+    }
+    else {
         $LayoutObject->Block(
-            Name => 'Listn1',
-            Data => {
-                Name      => $GroupData{$GroupID},
-                Subaction => 'Group',
-                ID        => $GroupID,
-            },
+            Name => 'NoDataFoundMsg',
+            Data => {},
         );
     }
 

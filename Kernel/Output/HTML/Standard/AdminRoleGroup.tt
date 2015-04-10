@@ -39,9 +39,9 @@
                     <ul class="Tablelike" id="Roles">
                         <li class="Header">[% Translate("Roles") | html %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
-[% RenderBlockStart("NoDataFoundMsg") %]
+[% RenderBlockStart("NoDataFoundMsgRole") %]
                         <li>[% Translate("No data found.") | html %]</li>
-[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockEnd("NoDataFoundMsgRole") %]
 [% RenderBlockStart("List1n") %]
                         <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("List1n") %]
@@ -51,6 +51,9 @@
                     <ul class="Tablelike" id="Groups">
                         <li class="Header">[% Translate("Groups") | html %]</li>
                         <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoDataFoundMsgGroup") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoDataFoundMsgGroup") %]
 [% RenderBlockStart("Listn1") %]
                         <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("Listn1") %]
@@ -152,6 +155,13 @@
                             </tr>
                         </thead>
                         <tbody>
+[% RenderBlockStart("NoDataFoundMsgList") %]
+                            <tr>
+                                <td colspan="[% Data.ColSpan | html %]">
+                                    [% Translate("No data found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("NoDataFoundMsgList") %]
 [% RenderBlockStart("ChangeRow") %]
                             <tr>
                                 <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
@@ -162,6 +172,9 @@
 [% RenderBlockEnd("ChangeRowItem") %]
                             </tr>
 [% RenderBlockEnd("ChangeRow") %]
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="8">[% Translate("No matches found.") | html %]</td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">

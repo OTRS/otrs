@@ -408,6 +408,16 @@ sub _Change {
         );
     }
 
+    # check if there are groups/customers
+    if ( !%Data ) {
+        $LayoutObject->Block(
+            Name => 'NoDataFoundMsgList',
+            Data => {
+                ColSpan => 3,
+            },
+        );
+    }
+
     if ( $NeType eq 'CustomerUser' ) {
 
         # output count block
@@ -416,15 +426,6 @@ sub _Change {
                 Name => 'ChangeItemCountLimit',
                 Data => {
                     ItemCount => 0,
-                },
-            );
-
-            my $ColSpan = "3";
-
-            $LayoutObject->Block(
-                Name => 'NoDataFoundMsg',
-                Data => {
-                    ColSpan => $ColSpan,
                 },
             );
 
@@ -555,7 +556,7 @@ sub _Overview {
             },
         );
         $LayoutObject->Block(
-            Name => 'NoDataFoundMsgList',
+            Name => 'NoDataFoundMsgCustomer',
         );
     }
     elsif ( @CustomerUserKeyList > $SearchLimit ) {
@@ -595,23 +596,31 @@ sub _Overview {
 
     my @CustomerAlwaysGroups = @{ $ConfigObject->Get('CustomerGroupAlwaysGroups') };
 
-    GROUP:
-    for my $ID (
-        sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) }
-        keys %GroupData
-        )
-    {
-        next GROUP if ( grep /\Q$GroupData{$ID}\E/, @CustomerAlwaysGroups );
+    if (%GroupData) {
+        GROUP:
+        for my $ID (
+            sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) }
+            keys %GroupData
+            )
+        {
+            next GROUP if ( grep /\Q$GroupData{$ID}\E/, @CustomerAlwaysGroups );
 
-        # output gorup block
+            # output gorup block
+            $LayoutObject->Block(
+                Name => 'Listn1',
+                Data => {
+                    %Param,
+                    ID        => $ID,
+                    Name      => $GroupData{$ID},
+                    Subaction => 'Group',
+                },
+            );
+        }
+    }
+    else {
         $LayoutObject->Block(
-            Name => 'Listn1',
-            Data => {
-                %Param,
-                ID        => $ID,
-                Name      => $GroupData{$ID},
-                Subaction => 'Group',
-            },
+            Name => 'NoDataFoundMsgGroup',
+            Data => {},
         );
     }
 

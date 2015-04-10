@@ -215,6 +215,16 @@ sub _Change {
 
     $LayoutObject->Block( Name => "ChangeHeader$NeType" );
 
+    # check if there are groups/roles
+    if ( !%Data ) {
+        $LayoutObject->Block(
+            Name => 'NoDataFoundMsgList',
+            Data => {
+                ColSpan => 8,
+            },
+        );
+    }
+
     TYPE:
     for my $Type ( @{ $ConfigObject->Get('System::Permission') } ) {
         next TYPE if !$Type;
@@ -297,23 +307,32 @@ sub _Overview {
     }
     else {
         $LayoutObject->Block(
-            Name => 'NoDataFoundMsg',
+            Name => 'NoDataFoundMsgRole',
             Data => {},
         );
     }
 
     # get group data
     my %GroupData = $GroupObject->GroupList( Valid => 1 );
-    for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
 
-        # set output class
+    if (%GroupData) {
+        for my $GroupID ( sort { uc( $GroupData{$a} ) cmp uc( $GroupData{$b} ) } keys %GroupData ) {
+
+            # set output class
+            $LayoutObject->Block(
+                Name => 'Listn1',
+                Data => {
+                    Name      => $GroupData{$GroupID},
+                    Subaction => 'Group',
+                    ID        => $GroupID,
+                },
+            );
+        }
+    }
+    else {
         $LayoutObject->Block(
-            Name => 'Listn1',
-            Data => {
-                Name      => $GroupData{$GroupID},
-                Subaction => 'Group',
-                ID        => $GroupID,
-            },
+            Name => 'NoDataFoundMsgGroup',
+            Data => {},
         );
     }
 

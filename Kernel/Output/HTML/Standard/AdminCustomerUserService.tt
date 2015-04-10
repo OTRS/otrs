@@ -84,6 +84,7 @@
             <div class="Content LayoutGrid ColumnsWithSpacing">
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Customers">
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
                         <li class="Header">[% Translate("Customers") | html %]
 [% RenderBlockStart("ResultCustomerUserCount") %]
                             ([% Data.CustomerUserCount | html %])
@@ -95,19 +96,22 @@
 [% RenderBlockStart("ResultUserRow") %]
                         <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AllocateCustomerUser;CustomerUserLogin=[% Data.ID | uri %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %];ServiceSearch=[% Data.ServiceSearch | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("ResultUserRow") %]
-[% RenderBlockStart("NoDataFoundMsgList") %]
+[% RenderBlockStart("NoDataFoundMsg") %]
                         <li>[% Translate("No data found.") | html %]</li>
-[% RenderBlockEnd("NoDataFoundMsgList") %]
+[% RenderBlockEnd("NoDataFoundMsg") %]
                     </ul>
                 </div>
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Service">
                         <li class="Header">[% Translate("Services") | html %]
                         </li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoServiceFoundMsg") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoServiceFoundMsg") %]
 [% RenderBlockStart("ResultServiceRow") %]
                         <li class="OneRow"><a title="[% Data.Name | html %]" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=AllocateService;ServiceID=[% Data.ID | uri %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("ResultServiceRow") %]
-                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
                     </ul>
                 </div>
             </div>
@@ -157,13 +161,13 @@ $('input[type="checkbox"][name=ItemsSelected]').bind('click', function () {
                             </tr>
                         </thead>
                         <tbody>
-[% RenderBlockStart("NoDataFoundMsg") %]
+[% RenderBlockStart("NoDataFoundMsgList") %]
                             <tr>
                                 <td colspan="[% Data.ColSpan | html %]">
                                     [% Translate("No data found.") | html %]
                                 </td>
                             </tr>
-[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockEnd("NoDataFoundMsgList") %]
 [% RenderBlockStart("AllocateItemRow") %]
                             <tr>
                                 <td><a href="[% Env("Baselink") %]Action=[% Data.ActionNeHome | uri %];Subaction=[% Data.SubactionRow | uri %];[% Data.IDRowStrg | uri %]=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>

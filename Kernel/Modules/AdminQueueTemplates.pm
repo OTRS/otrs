@@ -223,6 +223,16 @@ sub _Change {
 
     $LayoutObject->Block( Name => "ChangeHeader$VisibleType{$NeType}" );
 
+    # check if there are queue/template
+    if ( !%Data ) {
+        $LayoutObject->Block(
+            Name => 'NoDataFoundMsgList',
+            Data => {
+                ColSpan => 2,
+            },
+        );
+    }
+
     $LayoutObject->Block(
         Name => 'ChangeHeader',
         Data => {

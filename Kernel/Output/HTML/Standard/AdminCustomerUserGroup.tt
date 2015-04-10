@@ -141,21 +141,25 @@
                             (<span class='Error'>[% Data.CustomerUserCount | html %]</span>)
 [% RenderBlockEnd("ResultCustomerUserCountLimit") %]
                         </li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoDataFoundMsgCustomer") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoDataFoundMsgCustomer") %]
 [% RenderBlockStart("List1n") %]
                         <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("List1n") %]
-[% RenderBlockStart("NoDataFoundMsgList") %]
-                        <li>[% Translate("No data found.") | html %]</li>
-[% RenderBlockEnd("NoDataFoundMsgList") %]
                     </ul>
                 </div>
                 <div class="Size1of2">
                     <ul class="Tablelike" id="Group">
                         <li class="Header">[% Translate("Groups") | html %]</li>
+                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
+[% RenderBlockStart("NoDataFoundMsgGroup") %]
+                        <li>[% Translate("No data found.") | html %]</li>
+[% RenderBlockEnd("NoDataFoundMsgGroup") %]
 [% RenderBlockStart("Listn1") %]
                         <li><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=[% Data.Subaction | uri %];ID=[% Data.ID | uri %];CustomerUserSearch=[% Data.CustomerUserSearch | uri %]" class="AsBlock">[% Data.Name | html %]</a></li>
 [% RenderBlockEnd("Listn1") %]
-                        <li class="FilterMessage Hidden">[% Translate("No matches found.") | html %]</li>
                     </ul>
                 </div>
                 <div class="Clear"></div>
@@ -208,13 +212,13 @@
                             </tr>
                         </thead>
                         <tbody>
-[% RenderBlockStart("NoDataFoundMsg") %]
+[% RenderBlockStart("NoDataFoundMsgList") %]
                             <tr>
                                 <td colspan="[% Data.ColSpan | html %]">
                                     [% Translate("No data found.") | html %]
                                 </td>
                             </tr>
-[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockEnd("NoDataFoundMsgList") %]
 [% RenderBlockStart("ChangeRow") %]
                             <tr>
                                 <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>

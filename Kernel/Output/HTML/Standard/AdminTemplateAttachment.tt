@@ -156,6 +156,13 @@ Core.UI.Table.InitTableFilter($('#Filter'), $('#TemplateAttachment'));
                             </tr>
                         </thead>
                         <tbody>
+[% RenderBlockStart("NoDataFoundMsgList") %]
+                            <tr>
+                                <td colspan="[% Data.ColSpan | html %]">
+                                    [% Translate("No data found.") | html %]
+                                </td>
+                            </tr>
+[% RenderBlockEnd("NoDataFoundMsgList") %]
 [% RenderBlockStart("ChangeRow") %]
                             <tr>
                                 <td><a href="[% Env("Baselink") %]Action=Admin[% Data.NeType | uri %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
@@ -165,6 +172,9 @@ Core.UI.Table.InitTableFilter($('#Filter'), $('#TemplateAttachment'));
                                 </td>
                             </tr>
 [% RenderBlockEnd("ChangeRow") %]
+                            <tr class="FilterMessage Hidden">
+                                <td colspan="2">[% Translate("No matches found.") | html %]</td>
+                            </tr>
                         </tbody>
                     </table>
                     <div class="Field SpacingTop">

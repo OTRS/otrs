@@ -221,6 +221,18 @@ sub _Change {
         },
     );
 
+    # check if there are roles
+    if ( $NeType eq 'Role' ) {
+        if ( !%Data ) {
+            $LayoutObject->Block(
+                Name => 'NoDataFoundMsgList',
+                Data => {
+                    ColSpan => 2,
+                },
+            );
+        }
+    }
+
     for my $ID ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
