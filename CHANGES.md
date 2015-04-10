@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-04-09 Fixed bug#[11156](http://bugs.otrs.org/show_bug.cgi?id=11156) - No translated headers in Excel output in AgentTicketSearch.
  - 2015-04-09 Fixed bug#[11219](http://bugs.otrs.org/show_bug.cgi?id=11219) - Uninitialized warning in Kernel::Output::HTML::DashboardCalendar.
  - 2015-04-09 Fixed bug#[11232](http://bugs.otrs.org/show_bug.cgi?id=11232) - OTRS does not recognize language "vi" as it only provides "vi_VI".
  - 2015-04-07 Fixed display bug in IE when showing ticket list tables with only one entry (Ticket#2015031842001505).
