@@ -215,7 +215,7 @@ sub Output {
             my $RealEnd = $4;
             if ( lc $Target =~ /^(http:|https:|#|ftp:)/ ||
                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /(\?|&)\Q$Self->{SessionName}\E=/) {
+                $Target =~ /(\?|&|;)\Q$Self->{SessionName}\E=/) {
                 $AHref.$Target.$End.$RealEnd;
             }
             else {
