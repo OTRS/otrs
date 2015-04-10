@@ -862,6 +862,7 @@ sub Data {
         'Create new Email Ticket' => 'Luo uusi sähköpostitiketti',
         'Phone-Ticket' => 'Puhelin',
         'Search Tickets' => 'Etsi tikettejä',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Muokkaa asiakaskäyttäjää',
         'Edit Customer' => 'Muokkaa asiakasta',
@@ -1292,6 +1293,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(esim. 10*5155 tai 105658*)',
         '(e. g. 234321)' => '(esim. 234321)',

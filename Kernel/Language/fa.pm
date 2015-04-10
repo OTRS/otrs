@@ -865,6 +865,7 @@ sub Data {
         'Create new Email Ticket' => 'ایجاد درخواست با ایمیل',
         'Phone-Ticket' => 'درخواست تلفنی',
         'Search Tickets' => 'جستجو در درخواست‌ها',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'ویرایش مشترکین',
         'Edit Customer' => 'ویرایش مشترک',
@@ -1295,6 +1296,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(مثال: ۱۰*۵۱۵۵ یا ۱۰۵۶۵۸*)',
         '(e. g. 234321)' => '(مثال: ۲۳۴۳۲۱)',

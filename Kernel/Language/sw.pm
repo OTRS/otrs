@@ -864,6 +864,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Create new Email Ticket' => 'Tengeneza tiketi ya barua pepe mpya',
         'Phone-Ticket' => 'Simu-Tiketi',
         'Search Tickets' => 'Tafuta tiketi',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Badili watuamiaji wa mteja',
         'Edit Customer' => 'Badili mteja',
@@ -1294,6 +1295,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'This event is already attached to the job, Please use a different one.' =>
             'Tukio hili tayari limeweambatanishwa na kazi, tafadhali tumia lingine.',
         'Delete this Event Trigger' => 'Futa kichochezi cha tukio hili',
+        'Remove selection' => '',
         'Select Tickets' => 'Chagua tiketi',
         '(e. g. 10*5155 or 105658*)' => '(Mfano 10*5155 au 105658)',
         '(e. g. 234321)' => '(Mfano 234321)',

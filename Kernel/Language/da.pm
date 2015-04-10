@@ -861,6 +861,7 @@ sub Data {
         'Create new Email Ticket' => 'Opret ny mail-sag',
         'Phone-Ticket' => 'Ny Sag',
         'Search Tickets' => 'Søg sager',
+        'Customer Realname' => '',
         'Customer History' => 'Kunde-historik',
         'Edit Customer Users' => 'Rediger kundebrugere',
         'Edit Customer' => 'Rediger kunde',
@@ -1291,6 +1292,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(f.eks. 10*5155 eller 105658*)',
         '(e. g. 234321)' => '(f.eks. 234321)',

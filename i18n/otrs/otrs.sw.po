@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/projects/p/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
@@ -3129,6 +3129,10 @@ msgid "Search Tickets"
 msgstr "Tafuta tiketi"
 
 #. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
+
+#. Template: AAATicket
 msgid "Customer History"
 msgstr ""
 
@@ -4587,6 +4591,10 @@ msgstr "Tukio hili tayari limeweambatanishwa na kazi, tafadhali tumia lingine."
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Futa kichochezi cha tukio hili"
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"

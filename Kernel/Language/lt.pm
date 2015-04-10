@@ -860,6 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Sukurti naują el. pašto triktį',
         'Phone-Ticket' => 'Triktis telefonu',
         'Search Tickets' => 'Ieškoti trikčių',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Redaguoti kliento naudotojus',
         'Edit Customer' => 'Redaguoti klientą',
@@ -1290,6 +1291,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => 'pvz. 10*5144 arba 105658*',
         '(e. g. 234321)' => 'pvz. 234321',

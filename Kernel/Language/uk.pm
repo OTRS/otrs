@@ -860,6 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Створити нову заявку',
         'Phone-Ticket' => 'Заявка з телефонний дзвінок',
         'Search Tickets' => 'Пошук заявок',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Редагувати клієнтів',
         'Edit Customer' => 'Редагувати Клієнта',
@@ -1290,6 +1291,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(наприклад, 10*5155 або 105658*)',
         '(e. g. 234321)' => '(наприклад, 234321)',

@@ -595,8 +595,8 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Einstellung character_set_database muss UNICODE oder UTF8 sein.',
         'Table Charset' => 'Zeichensatz der Tabellen',
         'There were tables found which do not have utf8 as charset.' => 'Es wurden Tabellen gefunden, die nicht utf8 als Zeichensatz eingestellt haben.',
-        'InnoDB Log File Size' => '',
-        'The setting innodb_log_file_size must be at least 256 MB.' => '',
+        'InnoDB Log File Size' => 'InnoDB Log Datei Größe',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'Die Einstellung innodb_log_file_size muss mindestens 256 MB betragen.',
         'Maximum Query Size' => 'Maximale Anfragegröße',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'Die Einstellung max_allowed_packet muss größer als 20 MB sein.',
@@ -702,8 +702,8 @@ sub Data {
             'Sie sollten FastCGI oder mod_perl verwenden, um die Geschwindigkeit zu steigern.',
         'mod_deflate Usage' => 'Verwendung mod_deflate',
         'Please install mod_deflate to improve GUI speed.' => 'Bitte installieren Sie mod_deflate, um die Geschwindigkeit zu steigern.',
-        'mod_filter Usage' => '',
-        'Please install mod_filter if mod_deflate is used.' => '',
+        'mod_filter Usage' => 'Verwendung mod_filter',
+        'Please install mod_filter if mod_deflate is used.' => 'Bitte installieren Sie mod_filter falls mod_deflate verwendet wird.',
         'mod_headers Usage' => 'Verwendung mod_headers',
         'Please install mod_headers to improve GUI speed.' => 'Bitte installieren Sie mod_headers, um die Geschwindigkeit zu steigern.',
         'Apache::Reload Usage' => 'Verwendung Apache::Reload',
@@ -860,6 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
         'Phone-Ticket' => 'Telefon-Ticket',
         'Search Tickets' => 'Ticket-Suche',
+        'Customer Realname' => '',
         'Customer History' => 'Kundenhistorie',
         'Edit Customer Users' => 'Kundenbenutzer bearbeiten',
         'Edit Customer' => 'Kunde bearbeiten',
@@ -1290,6 +1291,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Dieses Event ist dem Job bereits zugeordnet. Bitte wählen Sie ein anderes aus.',
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
+        'Remove selection' => '',
         'Select Tickets' => 'Tickets selektieren',
         '(e. g. 10*5155 or 105658*)' => 'z .B. 10*5144 oder 105658*',
         '(e. g. 234321)' => 'z. B. 234321',
@@ -2044,7 +2046,7 @@ sub Data {
         'Remove this Condition' => 'Bedingung entfernen',
         'Type of Linking' => 'Typ der Verknüpfung',
         'Remove this Field' => 'Feld entfernen',
-        'And can\'t be repeated on the same condition.' => '',
+        'And can\'t be repeated on the same condition.' => 'Und können nicht innerhalb der selben Abfrage verwendet werden.',
         'Add a new Field' => 'Neues Feld hinzufügen',
         'Add New Condition' => 'Neue Bedingung hinzufügen',
 
@@ -4043,7 +4045,7 @@ sub Data {
             '',
         'Defines the number of header fields in frontend modules for add and update postmaster filters. It can be up to 99 fields.' =>
             '',
-        'Defines the parameters for the customer preferences table.' => '',
+        'Defines the parameters for the customer preferences table.' => 'Definiert die Parameter der Tabelle mit den Kunden-Einstellungen.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin.' =>
@@ -4057,7 +4059,7 @@ sub Data {
         'Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Definiert das Passwort um die SOAP Schnittstelle anzusteuern (bin/cgi-bin/rpc.pl)',
         'Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.' =>
-            '',
+            'Definiert den Pfad und die TTF Datei für die Handhabung von fett und kursiv gedruckter nichtproportionaler Schrift in PDF Dokumenten.',
         'Defines the path and TTF-File to handle bold italic proportional font in PDF documents.' =>
             '',
         'Defines the path and TTF-File to handle bold monospaced font in PDF documents.' =>

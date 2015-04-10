@@ -862,6 +862,7 @@ sub Data {
         'Create new Email Ticket' => '創建郵件工單',
         'Phone-Ticket' => '電話工單',
         'Search Tickets' => '搜索工單',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => '編輯用戶帳戶',
         'Edit Customer' => '編輯用戶單位',
@@ -1292,6 +1293,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '刪除這個事件觸發器',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '  例如: 10*5144 或者 105658*',
         '(e. g. 234321)' => '例如: 234321',

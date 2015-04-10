@@ -864,6 +864,7 @@ sub Data {
         'Create new Email Ticket' => '新規メールチケット作成',
         'Phone-Ticket' => '電話チケット',
         'Search Tickets' => 'チケット検索',
+        'Customer Realname' => '',
         'Customer History' => '顧客履歴',
         'Edit Customer Users' => '顧客ユーザー編集',
         'Edit Customer' => '顧客を編集',
@@ -1294,6 +1295,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => 'このイベントトリガーを削除',
+        'Remove selection' => '',
         'Select Tickets' => 'チケットを選択',
         '(e. g. 10*5155 or 105658*)' => '(例 10*5144 または 105658*)',
         '(e. g. 234321)' => '(例 234321)',
