@@ -147,10 +147,11 @@ sub new {
                     last LANGUAGE;
                 }
             }
-            if (!$Self->{UserLanguage}) {
+            if ( !$Self->{UserLanguage} ) {
                 for my $Language ( reverse sort keys %Data ) {
+
                     # If Browser requests 'vi', also offer 'vi_VI' even though we don't have 'vi'
-                    if ( $Language =~ m/^$BrowserLang/smxi) {
+                    if ( $Language =~ m/^$BrowserLang/smxi ) {
                         $Self->{UserLanguage} = $Language;
                         last LANGUAGE;
                     }
