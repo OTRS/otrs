@@ -19,6 +19,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.8 2015-??-??
+ - 2015-04-10 Fixed bug#[11237](http://bugs.otrs.org/show_bug.cgi?id=11237) - SpellChecker logs an error if text is empty or '0'.
  - 2015-04-10 Fixed issue with double SessionID parameter in some links.
  - 2015-04-10 Fixed bug#[11167](http://bugs.otrs.org/show_bug.cgi?id=11167) - DashboardEventsTicketCalendar week starting day should be configurable.
  - 2015-04-10 Fixed bug#[11185](http://bugs.otrs.org/show_bug.cgi?id=11185) - Mismatch between shown columns order and default columns order and in DashboardTicketGeneric.
