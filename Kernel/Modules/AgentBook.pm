@@ -58,12 +58,12 @@ sub Run {
         );
         if ( $CustomerUserData{UserEmail} ) {
             $List{ $CustomerUserData{UserEmail} } = {
-                Email => $CustomerUserList{$_},
+                Email       => $CustomerUserList{$_},
                 CustomerKey => $_
             };
         }
     }
-    
+
     # build customer search autocomplete field
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
@@ -79,10 +79,10 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'Row',
                 Data => {
-                Email => $List{$_}->{Email},
-                Count => $Count,
-                CustomerDataJSON =>
-                    $Self->{JSONObject}->Encode( Data => { $List{$_}->{Email} => $List{$_}->{CustomerKey} } ),
+                    Email => $List{$_}->{Email},
+                    Count => $Count,
+                    CustomerDataJSON =>
+                        $Self->{JSONObject}->Encode( Data => { $List{$_}->{Email} => $List{$_}->{CustomerKey} } ),
                 },
             );
             $Count++;

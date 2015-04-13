@@ -101,17 +101,17 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 .replace(/&lt;/g, '<')
                 .replace(/&gt;/g, '>');
             $Element.val( NewValue );
-            
+
             Length= $Element.val().length;
             $Element.focus();
             $Element[0].setSelectionRange(Length, Length);
-            
+
             // set customer data for customer user information (AgentTicketEmail) in the compose screen
             if ( $Link.attr('rel') === 'ToCustomer' && Core.Config.Get('CustomerInfoSet') ){
-                
+
                 NewData = $('#CustomerData').val();
                 NewDataItem = Core.Data.Get($Link.closest('a'), 'customerdatajson');
-                
+
                 if(NewData){
                     NewData = Core.JSON.Parse(NewData);
                     $.each(NewDataItem, function(CustomerMail, CustomerKey) {
@@ -123,7 +123,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 {
                     $('#CustomerData').val(Core.JSON.Stringify(NewDataItem));
                 }
-          }        
+          }
     }
 
     /**
@@ -242,7 +242,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                     $.each(CustomerData, function(CustomerMail, CustomerKey) {
                         $To.val(CustomerMail);
                         parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer',CustomerMail , CustomerKey );
-                    
+
                     });
                 }
                 else{
