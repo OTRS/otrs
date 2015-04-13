@@ -169,6 +169,7 @@
 [% Translate("Phone-Ticket") | html %]
 [% Translate("Search Tickets") | html %]
 [% Translate("Customer") | html %]
+[% Translate("Customer Realname") | html %]
 [% Translate("Customer History") | html %]
 [% Translate("Edit Customer Users") | html %]
 [% Translate("Edit Customer") | html %]

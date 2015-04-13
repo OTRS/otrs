@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/OTRS/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -478,7 +478,7 @@ msgstr "khách hàng"
 
 #. Template: AAABase
 msgid "agent"
-msgstr "nhân viên"
+msgstr "điều hành viên"
 
 #. Template: AAABase
 msgid "system"
@@ -833,7 +833,7 @@ msgstr "Tính năng không hoạt động!"
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr "Đại lý được cập nhật!"
+msgstr "Điều hành viên được cập nhật!"
 
 #. Template: AAABase
 msgid "Database Selection"
@@ -946,7 +946,7 @@ msgstr "Treo tới khi"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr "Không sử dụng superuser tài khoản để làm việc với OTRS.Tạo Đại lý mới và làm việc với các tài khoản này để thay thế. "
+msgstr "Không sử dụng tài khoản cấp cao để làm việc với OTRS.Tạo Điều hành viên mới và làm việc với các tài khoản này để thay thế. "
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
@@ -1106,7 +1106,7 @@ msgstr "Khách hàng trực tuyến: %s"
 
 #. Template: AAABase
 msgid "Online Agent: %s"
-msgstr "Nhân viên đang online: %s"
+msgstr "điều hành viên đang online: %s"
 
 #. Template: AAABase
 msgid "Calendar"
@@ -1918,11 +1918,11 @@ msgstr "mở rộng"
 
 #. Template: AAAStats
 msgid "Agent/Owner"
-msgstr "Nhân viên/Phụ trách"
+msgstr "điều hành viên/Phụ trách"
 
 #. Template: AAAStats
 msgid "Created by Agent/Owner"
-msgstr "Được tạo bởi nhân viên/người phụ trách"
+msgstr "Được tạo bởi điều hành viên/người phụ trách"
 
 #. Template: AAAStats
 msgid "Created Priority"
@@ -2022,7 +2022,7 @@ msgstr "Số của bài viết"
 
 #. Template: AAAStats
 msgid "Accounted time by Agent"
-msgstr "Hạch toán thời gian của người đại lý"
+msgstr "Hạch toán thời gian của điều hành viên"
 
 #. Template: AAAStats
 msgid "Ticket/Article Accounted Time"
@@ -3127,6 +3127,10 @@ msgid "Search Tickets"
 msgstr "Tìm kiếm thẻ"
 
 #. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
+
+#. Template: AAATicket
 msgid "Customer History"
 msgstr ""
 
@@ -3342,15 +3346,15 @@ msgstr "Phương hướng"
 
 #. Template: AAATicket
 msgid "Agent (All with write permissions)"
-msgstr "Đại lý (Tất cả ghi với quyền truy)"
+msgstr "Điều hành viên (Tất cả với quyền ghi)"
 
 #. Template: AAATicket
 msgid "Agent (Owner)"
-msgstr "Đại lý (chủ sở hữu)"
+msgstr "Điều hành viên (phụ trách)"
 
 #. Template: AAATicket
 msgid "Agent (Responsible)"
-msgstr "Đại lý (có trách nhiệm)"
+msgstr "Điều hành viên (có trách nhiệm)"
 
 #. Template: AAATicket
 msgid "New ticket notification"
@@ -4420,7 +4424,7 @@ msgstr "Thông báo quản trị"
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
-msgstr "Với mô-đun này, các quản trị viên có thể gửi tin nhắn cho các thành viên đại lý, nhóm hoặc vai trò."
+msgstr "Với mô-đun này, các quản trị viên có thể gửi tin nhắn cho các điều hành viên, nhóm hoặc vai trò."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -4520,7 +4524,7 @@ msgstr "Lịch trình ngày chuẩn"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr "Hiện nay đại diện chung công việc này sẽ không chạy tự động."
+msgstr "Hiện nay tác vụ hệ thống này sẽ không chạy tự động."
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4587,6 +4591,10 @@ msgid "Delete this Event Trigger"
 msgstr "Xóa Kích hoạt sự kiện này"
 
 #. Template: AdminGenericAgent
+msgid "Remove selection"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Select Tickets"
 msgstr "Chọn Vé"
 
@@ -4612,7 +4620,7 @@ msgstr "Toàn văn tìm kiếm trong bài viết (ví dụ: \"Mar *\" hoặc \"B
 
 #. Template: AdminGenericAgent
 msgid "Agent"
-msgstr "Nhân viên"
+msgstr "điều hành viên"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
@@ -5888,7 +5896,7 @@ msgstr ""
 
 #. Template: AdminNotification
 msgid "Notifications are sent to an agent or a customer."
-msgstr "Các thông báo đã được gửi tới 1 nhân viên hoặc khách hàng."
+msgstr "Các thông báo đã được gửi tới điều hành viên hoặc khách hàng."
 
 #. Template: AdminNotification
 msgid "Notification"
@@ -9049,7 +9057,7 @@ msgstr "Bạn có thể tạo các giới hạn cho thống kê tại đây."
 msgid ""
 "If you remove the hook in the \"Fixed\" checkbox, the agent generating the "
 "stat can change the attributes of the corresponding element."
-msgstr "Nếu bạn bỏ đánh dấu trong ô \"Đã sửa\", nhân viên phụ trách sinh thống kê có thể thay đổi các thuộc tính của thành tố liên quan."
+msgstr "Nếu bạn bỏ đánh dấu trong ô \"Đã sửa\", điều hành viên phụ trách thống kê có thể thay đổi các thuộc tính của thành tố liên quan."
 
 #. Template: AgentStatsEditRestrictions
 msgid "Fixed"
@@ -9389,7 +9397,7 @@ msgstr "Loại lưu ý"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform Agent"
-msgstr "Nhân viên thông báo"
+msgstr "Thông báo điều hành"
 
 #. Template: AgentTicketActionCommon
 msgid "Optional"
@@ -9397,7 +9405,7 @@ msgstr "Tùy chọn"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved Agents"
-msgstr "Thông báo các nhân viên liên quan"
+msgstr "Thông báo tới các điều hành viên liên quan"
 
 #. Template: AgentTicketActionCommon
 msgid ""

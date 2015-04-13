@@ -868,6 +868,7 @@ sub Data {
         'Create new Email Ticket' => 'Crea una nuova richiesta via email',
         'Phone-Ticket' => 'Richiesta-Telefonica',
         'Search Tickets' => 'Ricerca Richieste',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Modifica Utenti Clienti',
         'Edit Customer' => 'Modifica cliente',
@@ -1298,6 +1299,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Questo evento è già collegato al job, specificarne uno diverso',
         'Delete this Event Trigger' => 'Cancella questo Event Trigger',
+        'Remove selection' => '',
         'Select Tickets' => 'Seleziona Ticket',
         '(e. g. 10*5155 or 105658*)' => '(per esempio \'10*5155\' o \'105658*\')',
         '(e. g. 234321)' => '(per esempio \'234321\')',

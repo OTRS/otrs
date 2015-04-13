@@ -860,6 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Yeni E-Posta-Bilet oluştur',
         'Phone-Ticket' => 'Telefon-Bilet',
         'Search Tickets' => 'Biletleri Ara',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Müşteri Kullanıcıları Belirle',
         'Edit Customer' => 'Müşteri Düzenle',
@@ -1290,6 +1291,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(örneğin 105155 veya 105658*)',
         '(e. g. 234321)' => '(örneğin 234321)',

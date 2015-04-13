@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -3126,6 +3126,10 @@ msgid "Search Tickets"
 msgstr "Тражење тикета"
 
 #. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
+
+#. Template: AAATicket
 msgid "Customer History"
 msgstr ""
 
@@ -4584,6 +4588,10 @@ msgstr "Овај догађај је приложен послу. Молимо �
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Obriši ovaj okidač događaja"
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"

@@ -11,7 +11,7 @@
 # Marc A. Bonsels, 2014
 # Martin Gruner <martin.gruner@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
-# mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
+# mathiasbraeunling <mathias.braeunling@otrs.com>, 2014-2015
 # nilsleideck <nils.leideck@leidex.net>, 2015
 # Patrick Pfeifer <pp@kraemer-automotive.com>, 2014
 # ru_otrs <robert.ullrich@otrs.com>, 2014-2015
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2143,11 +2143,11 @@ msgstr "Es wurden Tabellen gefunden, die nicht utf8 als Zeichensatz eingestellt 
 
 #. Template: AAASupportDataCollector
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "InnoDB Log Datei Größe"
 
 #. Template: AAASupportDataCollector
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "Die Einstellung innodb_log_file_size muss mindestens 256 MB betragen."
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
@@ -2528,11 +2528,11 @@ msgstr "Bitte installieren Sie mod_deflate, um die Geschwindigkeit zu steigern."
 
 #. Template: AAASupportDataCollector
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "Verwendung mod_filter"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "Bitte installieren Sie mod_filter falls mod_deflate verwendet wird."
 
 #. Template: AAASupportDataCollector
 msgid "mod_headers Usage"
@@ -3138,6 +3138,10 @@ msgstr "Telefon-Ticket"
 #. Template: AAATicket
 msgid "Search Tickets"
 msgstr "Ticket-Suche"
+
+#. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -4598,6 +4602,10 @@ msgstr "Dieses Event ist dem Job bereits zugeordnet. Bitte wählen Sie ein ander
 #. Template: AdminGenericAgent
 msgid "Delete this Event Trigger"
 msgstr "Diesen Event-Trigger löschen"
+
+#. Template: AdminGenericAgent
+msgid "Remove selection"
+msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -7124,7 +7132,7 @@ msgstr "Feld entfernen"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "Und können nicht innerhalb der selben Abfrage verwendet werden."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
@@ -13284,7 +13292,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
-msgstr ""
+msgstr "Definiert die Parameter der Tabelle mit den Kunden-Einstellungen."
 
 #. SysConfig
 msgid ""
@@ -13341,7 +13349,7 @@ msgstr "Definiert das Passwort um die SOAP Schnittstelle anzusteuern (bin/cgi-bi
 msgid ""
 "Defines the path and TTF-File to handle bold italic monospaced font in PDF "
 "documents."
-msgstr ""
+msgstr "Definiert den Pfad und die TTF Datei für die Handhabung von fett und kursiv gedruckter nichtproportionaler Schrift in PDF Dokumenten."
 
 #. SysConfig
 msgid ""

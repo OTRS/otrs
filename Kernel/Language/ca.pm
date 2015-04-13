@@ -860,6 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Crea nou tiquet de correu',
         'Phone-Ticket' => 'Tiquet-Telefònic',
         'Search Tickets' => 'Cercar tiquets',
+        'Customer Realname' => '',
         'Customer History' => '',
         'Edit Customer Users' => 'Editar els usuaris del client',
         'Edit Customer' => 'Editar client',
@@ -1290,6 +1291,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => 'Esborrar aquest gallet d\'esdeveniment',
+        'Remove selection' => '',
         'Select Tickets' => '',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',

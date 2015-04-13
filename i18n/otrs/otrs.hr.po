@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-03-25 21:00+0000\n"
+"PO-Revision-Date: 2015-04-10 03:43+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/OTRS/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -2720,7 +2720,7 @@ msgstr "Ažuriranje odgovornog"
 
 #. Template: AAATicket
 msgid "Sender"
-msgstr "Pošiljaoc"
+msgstr "Pošiljatelj"
 
 #. Template: AAATicket
 msgid "Article"
@@ -3125,6 +3125,10 @@ msgstr "Telefonska kartica"
 #. Template: AAATicket
 msgid "Search Tickets"
 msgstr "Traženje kartice"
+
+#. Template: AAATicket
+msgid "Customer Realname"
+msgstr ""
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -3752,7 +3756,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Save"
-msgstr "Sačuvaj"
+msgstr "Spremi"
 
 #. Template: AdminACLEdit
 msgid "or"
@@ -3760,7 +3764,7 @@ msgstr "ili"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Spremi i završi"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
@@ -3860,7 +3864,7 @@ msgstr "Da vidite prvih 5 redaka poruke"
 
 #. Template: AdminAutoResponse
 msgid "To get the realname of the sender (if given)."
-msgstr "Da vidite ime pošiljaoca (ako je dostupno)"
+msgstr "Da vidite ime pošiljatelja (ako je dostupno)"
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -4587,6 +4591,10 @@ msgid "Delete this Event Trigger"
 msgstr ""
 
 #. Template: AdminGenericAgent
+msgid "Remove selection"
+msgstr ""
+
+#. Template: AdminGenericAgent
 msgid "Select Tickets"
 msgstr ""
 
@@ -4872,7 +4880,7 @@ msgstr "Vrijednost parametra %s"
 
 #. Template: AdminGenericAgent
 msgid "Save Changes"
-msgstr "Sačuvaj promjene"
+msgstr "Spremi promjene"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -5071,7 +5079,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
-msgstr ""
+msgstr "Spremi i nastavi"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
@@ -6928,7 +6936,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save settings"
-msgstr ""
+msgstr "Spremi postavke"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
@@ -9431,7 +9439,7 @@ msgstr "Naredni status kartice"
 
 #. Template: AgentTicketBounce
 msgid "Inform sender"
-msgstr "Obavijesti pošiljaoca"
+msgstr "Obavijesti pošiljatelja"
 
 #. Template: AgentTicketBounce
 msgid "Send mail"
@@ -9723,7 +9731,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Save changes in template"
-msgstr "Sačuvaj promjene u predlošku"
+msgstr "Spremi promjene u predlošku"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
@@ -9849,7 +9857,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Save filter settings as default"
-msgstr "Sačuvaj postavke filtra kao zadane"
+msgstr "Spremi postavke filtra kao zadane"
 
 #. Template: AgentTicketZoom
 msgid "Event Type Filter"
@@ -9861,7 +9869,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Spremi kao zadano"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
@@ -10225,11 +10233,11 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
-msgstr "Sačuvati kao predložak?"
+msgstr "Spremi kao predložak?"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template"
-msgstr ""
+msgstr "Spremi kao predložak"
 
 #. Template: CustomerTicketSearch
 msgid "Template Name"
@@ -10572,7 +10580,7 @@ msgstr ""
 
 #. Template: InstallerDBmssql
 msgid "New"
-msgstr "Nov"
+msgstr "Novi"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -15769,7 +15777,7 @@ msgstr ""
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
-msgstr "Zamjenjuje originalnog pošiljaoca adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja zaposlenika."
+msgstr "Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja zaposlenika."
 
 #. SysConfig
 msgid ""
@@ -16054,7 +16062,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
-msgstr "Sistemska adresa pošiljaoca."
+msgstr "Sistemska adresa pošiljatelja."
 
 #. SysConfig
 msgid ""
