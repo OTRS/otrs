@@ -1,5 +1,5 @@
 #4.0.8 2015-??-??
- - 2015-03-20 Addition to fix of bug#[10712](http://bugs.otrs.org/show_bug.cgi?id=10712) - Incorrect utf8 in ZZZAuto.pm (via SysConfig) also for hash keys.
+ - 2015-04-13 Addition to fix of bug#[10712](http://bugs.otrs.org/show_bug.cgi?id=10712) - Incorrect utf8 in ZZZAuto.pm (via SysConfig) also for hash keys.
  - 2015-04-13 Fixed bug#[10961](http://bugs.otrs.org/show_bug.cgi?id=10961) - Adding email recipients via addressbook does not update customer information.
  - 2015-04-10 Fixed bug#[11237](http://bugs.otrs.org/show_bug.cgi?id=11237) - SpellChecker logs an error if text is empty or '0'.
  - 2015-04-10 Fixed issue with double SessionID parameter in some links.
