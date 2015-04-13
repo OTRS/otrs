@@ -21,7 +21,7 @@
             <table id="SearchResult" class="DataTable SpacingTop">
                 <thead>
                     <tr>
-                        <th>[% Translate("Name") | html %]</th>
+                        <th>[% Translate("Email") | html %]</th>
                         <th>[% Translate("To") | html %]</th>
                         <th>[% Translate("Cc") | html %]</th>
                         <th>[% Translate("Bcc") | html %]</th>
@@ -30,8 +30,8 @@
                 <tbody>
 [% RenderBlockStart("Row") %]
                     <tr id="Row[% Data.Count | html %]">
-                        <td>[% Data.Name | html %]</td>
-                        <td><a href="" rel="ToCustomer" title="[% Translate("Add email address %s to the To field", Data.Email) | html %]">[% Translate("To") | html %]</a></td>
+                        <td>[% Data.Email | html %]</td>
+                        <td><a href="" data-customerdatajson="[% Data.CustomerDataJSON | html %]" rel="ToCustomer" title="[% Translate("Add email address %s to the To field", Data.Email) | html %]">[% Translate("To") | html %]</a></td>
                         <td><a href="" rel="CcCustomer" title="[% Translate("Add email address %s to the Cc field", Data.Email) | html %]">[% Translate("Cc") | html %]</a></td>
                         <td><a href="" rel="BccCustomer" title="[% Translate("Add email address %s to the Bcc field", Data.Email) | html %]">[% Translate("Bcc") | html %]</a></td>
                     </tr>
@@ -48,17 +48,18 @@
             <fieldset class="TableLike FixedLabel SpacingTop">
                 <label for="To">[% Translate("To") | html %]:</label>
                 <div class="Field">
-                    <input type="text" name="ToCustomer" id="ToCustomer" value="[% Data.ToCustomer | html %]" class="W75pc CustomerAutoComplete" />
+                    <input type="hidden" name="CustomerData" id="CustomerData" value="[% Data.CustomerData | html %]" />
+                    <input type="text" name="ToCustomer" id="ToCustomer" value="[% Data.ToCustomer | html %]" class="W75pc" />
                 </div>
                 <div class="Clear"></div>
                 <label for="Cc">[% Translate("Cc") | html %]:</label>
                 <div class="Field">
-                    <input type="text" name="CcCustomer" id="CcCustomer" value="[% Data.CcCustomer | html %]" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="CcCustomer" id="CcCustomer" value="[% Data.CcCustomer | html %]" class="W75pc" />
                 </div>
                 <div class="Clear"></div>
                 <label for="Bcc">[% Translate("Bcc") | html %]:</label>
                 <div class="Field">
-                    <input type="text" name="BccCustomer" id="BccCustomer" value="[% Data.BccCustomer | html %]" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="BccCustomer" id="BccCustomer" value="[% Data.BccCustomer | html %]" class="W75pc" />
                 </div>
             </fieldset>
         </form>
