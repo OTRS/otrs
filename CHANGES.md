@@ -1,4 +1,5 @@
 #3.3.13 ????-??-??
+ - 2015-04-13 Fixed bug#[10961](http://bugs.otrs.org/show_bug.cgi?id=10961) - Adding email recipients via addressbook does not update customer information.
  - 2015-03-30 Fixed bug#[11207](http://bugs.otrs.org/show_bug.cgi?id=11207) - Wrong column encoding in Kernel::System::Notification::NotificationGet().
  - 2015-03-30 Fixed bug#[9449](http://bugs.otrs.org/show_bug.cgi?id=9449) - Generic Agent ticket actions can't be unselect.
  - 2015-03-27 Fixed bug#[11201](http://bugs.otrs.org/show_bug.cgi?id=11201) - GI: Use of uninitialized value in string ne at AdminGenericInterfaceWebservice.pm.

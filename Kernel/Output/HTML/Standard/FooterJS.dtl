@@ -35,6 +35,7 @@ Core.App.Ready(function () {
         CheckEmailAddresses: parseInt('$Config{"CheckEmailAddresses"}', 10),
         AnimationEnabled: parseInt('$Config{"Frontend::AnimationEnabled"}', 10),
         OpenMainMenuOnHover: parseInt('$Config{"OpenMainMenuOnHover"}', 10),
+        CustomerInfoSet: parseInt('$Config{"Ticket::Frontend::CustomerInfoCompose"}', 10),
 <!-- dtl:block:AutoCompleteConfig -->
         Autocomplete: $Data{"AutocompleteConfig"},
 <!-- dtl:block:AutoCompleteConfig -->

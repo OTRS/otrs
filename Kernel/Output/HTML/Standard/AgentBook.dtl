@@ -21,7 +21,7 @@ $Include{"AgentCustomerSearch"}
             <table id="SearchResult" class="DataTable SpacingTop">
                 <thead>
                     <tr>
-                        <th>$Text{"Name"}</th>
+                        <th>$Text{"Email"}</th>
                         <th>$Text{"To"}</th>
                         <th>$Text{"Cc"}</th>
                         <th>$Text{"Bcc"}</th>
@@ -30,8 +30,8 @@ $Include{"AgentCustomerSearch"}
                 <tbody>
 <!-- dtl:block:Row -->
                     <tr id="Row$QData{"Count"}">
-                        <td>$QData{"Name"}</td>
-                        <td><a href="" rel="ToCustomer" title="$Text{"Add email address %s to the To field", "$QData{"Email"}"}">$Text{"To"}</a></td>
+                        <td>$QData{"Email"}</td>
+                        <td><a href="" data-customerdatajson="$QData{"CustomerDataJSON"}" rel="ToCustomer" title="$Text{"Add email address %s to the To field", "$QData{"Email"}"}">$Text{"To"}</a></td>   
                         <td><a href="" rel="CcCustomer" title="$Text{"Add email address %s to the Cc field", "$QData{"Email"}"}">$Text{"Cc"}</a></td>
                         <td><a href="" rel="BccCustomer" title="$Text{"Add email address %s to the Bcc field", "$QData{"Email"}"}">$Text{"Bcc"}</a></td>
                     </tr>
@@ -48,17 +48,18 @@ $Include{"AgentCustomerSearch"}
             <fieldset class="TableLike FixedLabel SpacingTop">
                 <label for="To">$Text{"To"}:</label>
                 <div class="Field">
-                    <input type="text" name="ToCustomer" id="ToCustomer" value="$QData{"ToCustomer"}" class="W75pc CustomerAutoComplete" />
+                    <input type="hidden" name="CustomerData" id="CustomerData" value="$QData{"CustomerData"}" />
+                    <input type="text" name="ToCustomer" id="ToCustomer" value="$QData{"ToCustomer"}" class="W75pc" />     
                 </div>
                 <div class="Clear"></div>
                 <label for="Cc">$Text{"Cc"}:</label>
                 <div class="Field">
-                    <input type="text" name="CcCustomer" id="CcCustomer" value="$QData{"CcCustomer"}" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="CcCustomer" id="CcCustomer" value="$QData{"CcCustomer"}" class="W75pc" />
                 </div>
                 <div class="Clear"></div>
                 <label for="Bcc">$Text{"Bcc"}:</label>
                 <div class="Field">
-                    <input type="text" name="BccCustomer" id="BccCustomer" value="$QData{"BccCustomer"}" class="W75pc CustomerAutoComplete" />
+                    <input type="text" name="BccCustomer" id="BccCustomer" value="$QData{"BccCustomer"}" class="W75pc" />
                 </div>
             </fieldset>
         </form>
