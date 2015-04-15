@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-04-14 Fixed bug#[11226](http://bugs.otrs.org/show_bug.cgi?id=11226) - Tags in transition actions work only if there is only a tag in the field.
  - 2015-04-13 Addition to fix of bug#[10712](http://bugs.otrs.org/show_bug.cgi?id=10712) - Incorrect utf8 in ZZZAuto.pm (via SysConfig) also for hash keys.
  - 2015-04-13 Fixed bug#[10961](http://bugs.otrs.org/show_bug.cgi?id=10961) - Adding email recipients via addressbook does not update customer information.
  - 2015-04-10 Fixed bug#[11237](http://bugs.otrs.org/show_bug.cgi?id=11237) - SpellChecker logs an error if text is empty or '0'.
