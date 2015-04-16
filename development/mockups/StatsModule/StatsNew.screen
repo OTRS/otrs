@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="841" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="841"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="275" width="271" height="65" measuredWidth="271" measuredHeight="65"/>
+  <widgets xsi:type="model:Panel" id="6" x="301" y="275" width="693" height="278" measuredWidth="693" measuredHeight="278"/>
+  <widgets xsi:type="model:Button" id="8" x="32" y="292" width="241" height="33" text="Back To The Overview" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="23" x="112" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57" background="#fff2cc"/>
+  <widgets xsi:type="model:Panel" id="24" x="276" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Panel" id="25" x="440" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Panel" id="26" x="604" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Panel" id="27" x="768" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Label" id="28" x="168" y="209" text="Step 1" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="29" x="336" y="209" text="Step 2" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="30" x="504" y="209" text="Step 3" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="31" x="672" y="209" text="Step 4" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="32" x="832" y="209" text="Step 5" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="33" x="360" y="352" width="164" height="89" measuredWidth="164" measuredHeight="89"/>
+  <widgets xsi:type="model:Label" id="34" x="586" y="293" text="Statistic Type" measuredWidth="128" measuredHeight="31">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="35" x="574" y="352" width="164" height="89" measuredWidth="164" measuredHeight="89"/>
+  <widgets xsi:type="model:Panel" id="36" x="792" y="352" width="164" height="89" measuredWidth="164" measuredHeight="89"/>
+  <widgets xsi:type="model:Label" id="37" x="396" y="368" text="Dynamic Matrix" measuredWidth="92" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="38" x="614" y="368" text="Dynamic List" measuredWidth="77" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="39" x="858" y="368" text="Static" measuredWidth="38" measuredHeight="23" textAlignment="Center">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Text" id="40" x="390" y="397" width="109" height="25" text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." measuredWidth="109" measuredHeight="25" foreground="#999999">
+    <font size="11px"/>
+  </widgets>
+  <widgets xsi:type="model:Text" id="41" x="604" y="397" width="109" height="25" text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." measuredWidth="109" measuredHeight="25" foreground="#999999">
+    <font size="11px"/>
+  </widgets>
+  <widgets xsi:type="model:Text" id="42" x="824" y="397" width="109" height="25" text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." measuredWidth="109" measuredHeight="25" foreground="#999999">
+    <font size="11px"/>
+  </widgets>
+  <widgets xsi:type="model:Tooltip" id="44" x="477" y="430" text="Clickable Buttons" measuredWidth="108" measuredHeight="40" background="#ffff00" position="topLeft">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>

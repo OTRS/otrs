@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="713" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="713"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="275" width="271" height="65" measuredWidth="271" measuredHeight="65"/>
+  <widgets xsi:type="model:Panel" id="6" x="301" y="275" width="693" height="430" measuredWidth="693" measuredHeight="430"/>
+  <widgets xsi:type="model:Button" id="8" x="32" y="292" width="241" height="33" text="Back To The Overview" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="23" x="112" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57" background="#fff2cc"/>
+  <widgets xsi:type="model:Panel" id="24" x="276" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57" background="#fff2cc"/>
+  <widgets xsi:type="model:Panel" id="25" x="440" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Panel" id="26" x="604" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Panel" id="27" x="768" y="192" width="165" height="57" measuredWidth="165" measuredHeight="57"/>
+  <widgets xsi:type="model:Label" id="28" x="168" y="209" text="Step 1" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="29" x="336" y="209" text="Step 2" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="30" x="504" y="209" text="Step 3" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="31" x="672" y="209" text="Step 4" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="32" x="832" y="209" text="Step 5" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="34" x="545" y="292" text="New Matrix Statistic" measuredWidth="189" measuredHeight="31">
+    <font size="20px"/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="46" x="438" y="342" width="416" height="240" measuredWidth="416" measuredHeight="240"/>
+  <widgets xsi:type="model:Chart" id="45" x="454" y="365" width="386" measuredWidth="386" measuredHeight="200" chartType="column"/>
+  <widgets xsi:type="model:Button" id="47" x="340" y="449" text="Edit Y Axis" measuredWidth="79" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="48" x="612" y="605" text="Edit X Axis" measuredWidth="79" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="49" x="861" y="452" text="Edit Restrictions" measuredWidth="110" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="51" x="221" y="120" width="612" height="529" measuredWidth="612" measuredHeight="529"/>
+  <widgets xsi:type="model:HLine" id="53" x="221" y="184" width="612" measuredWidth="612" measuredHeight="6"/>
+  <widgets xsi:type="model:Combo" id="52" x="464" y="146" width="161" text="State" measuredWidth="161" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="54" x="398" y="219" measuredWidth="6" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="55" x="311" y="146" text="Add new Y axis attribute" measuredWidth="140" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:List" id="57" x="464" y="203" width="250" text="Closed successful&#xA;|Closed unsuccessful&#xA;|open&#xA;pending reminder" measuredWidth="250" measuredHeight="88">
+    <font/>
+    <items x="0" y="2" width="250" height="21" text="Closed successful"/>
+    <items x="0" y="23" width="250" height="21" text="|Closed unsuccessful"/>
+    <items x="0" y="44" width="250" height="21" text="|open"/>
+    <items x="0" y="65" width="250" height="21" text="pending reminder"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="58" x="406" y="203" text="State" measuredWidth="35" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Checkbox" id="59" x="464" y="294" text="Fixed?" measuredWidth="58" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="60" x="464" y="605" text="Save and close" measuredWidth="104" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="61" x="221" y="582" width="609" measuredWidth="609" measuredHeight="6"/>
+  <widgets xsi:type="model:Tooltip" id="62" x="713" y="605" text="Overlay which allows for multiple&#xA;attributes to be added" measuredWidth="220" measuredHeight="59" background="#ffff00" position="topLeft">
+    <font size="14px"/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="63" x="221" y="333" width="612" measuredWidth="612" measuredHeight="6" foreground="#cccccc"/>
+  <widgets xsi:type="model:List" id="64" x="464" y="352" width="250" text="|Junk&#xA;Postmaster&#xA;Raw" measuredWidth="250" measuredHeight="67">
+    <font/>
+    <items x="0" y="2" width="250" height="21" text="|Junk"/>
+    <items x="0" y="23" width="250" height="21" text="Postmaster"/>
+    <items x="0" y="44" width="250" height="21" text="Raw"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="65" x="406" y="352" text="Queue" measuredWidth="42" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Checkbox" id="66" x="464" y="425" text="Fixed?" measuredWidth="58" measuredHeight="23" selected="true">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:HLine" id="67" x="221" y="457" width="612" measuredWidth="612" measuredHeight="6" foreground="#cccccc"/>
+  <widgets xsi:type="model:List" id="68" x="464" y="476" width="250" text="1 very high&#xA;2 high&#xA;|3 normal" measuredWidth="250" measuredHeight="67">
+    <font/>
+    <items x="0" y="2" width="250" height="21" text="1 very high"/>
+    <items x="0" y="23" width="250" height="21" text="2 high"/>
+    <items x="0" y="44" width="250" height="21" text="|3 normal"/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="69" x="406" y="476" text="Priority" measuredWidth="45" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Checkbox" id="70" x="464" y="549" text="Fixed?" measuredWidth="58" measuredHeight="23" selected="true">
+    <font/>
+  </widgets>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
