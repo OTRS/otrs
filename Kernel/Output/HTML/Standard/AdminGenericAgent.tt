@@ -322,46 +322,61 @@ Core.Agent.Admin.GenericAgent.Init({
 [% RenderBlockEnd("TicketType") %]
                         <label for="From">[% Translate("From") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="From" id="From" class="W30pc" value="[% Data.From | html %]"/>
+                            <input type="text" name="From" id="From" class="W30pc [% Data.FromInvalid | html %]" value="[% Data.From | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="FromServerError" class="TooltipErrorMessage">
+                                <p>[% Data.FromInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="To">[% Translate("To") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="To" id="To" class="W33pc" value="[% Data.To | html %]"/>
+                            <input type="text" name="To" id="To" class="W33pc [% Data.ToInvalid | html %]" value="[% Data.To | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="ToServerError" class="TooltipErrorMessage">
+                                <p>[% Data.ToInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Cc">[% Translate("Cc") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Cc" id="Cc" class="W33pc" value="[% Data.Cc | html %]"/>
+                            <input type="text" name="Cc" id="Cc" class="W33pc [% Data.CcInvalid | html %]" value="[% Data.Cc | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="CcServerError" class="TooltipErrorMessage">
+                                <p>[% Data.CcInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Subject">[% Translate("Subject") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" class="W33pc" value="[% Data.Subject | html %]"/>
+                            <input type="text" name="Subject" id="Subject" class="W33pc [% Data.SubjectInvalid | html %]" value="[% Data.Subject | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="SubjectServerError" class="TooltipErrorMessage">
+                                <p>[% Data.SubjectInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 
                         <label for="Body">[% Translate("Text") | html %]:</label>
                         <div class="Field">
-                            <input type="text" name="Body" id="Body" class="W33pc" value="[% Data.Body | html %]"/>
+                            <input type="text" name="Body" id="Body" class="W33pc [% Data.BodyInvalid | html %]" value="[% Data.Body | html %]"/>
                             <p class="FieldExplanation">
                                 [% Translate("Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\").") | html %]
                             </p>
+                            <div id="BodyServerError" class="TooltipErrorMessage">
+                                <p>[% Data.BodyInvalidTooltip | html %]</p>
+                            </div>
                         </div>
                         <div class="Clear"></div>
 [% RenderBlockStart("TicketService") %]
@@ -871,15 +886,6 @@ Core.Agent.Admin.GenericAgent.Init({
                 </div>
             </div>
         </form>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-Core.Agent.Admin.GenericAgent.InitEditing();
-
-//]]></script>
-[% END %]
-
 [% RenderBlockEnd("Edit") %]
 
 [% RenderBlockStart("Result") %]

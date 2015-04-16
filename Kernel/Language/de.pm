@@ -1372,8 +1372,8 @@ sub Data {
         'Edit job' => 'Job bearbeiten',
         'Run job' => 'Job ausführen',
         'Affected Tickets' => 'Betroffene Tickets',
-        'Please remove the following words from the fields From, To, Cc, Subject and Text in ticket selection as they cannot be used:'
-            => 'Bitten entfernen Sie die folgenden Wörter aus den Feldern Von, An, Cc, Betreff und Text der Ticket-Selektion, da diese nicht verwendet werden können:',
+        'Please remove the following words because they cannot be used for the ticket selection:'
+            => 'Bitten entfernen Sie die folgenden Wörter, da diese nicht für die Ticket-Selektion verwendet werden können:',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger für Webservice',

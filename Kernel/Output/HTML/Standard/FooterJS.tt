@@ -54,7 +54,6 @@ Core.App.Ready(function () {
         LoadingMsg: [% Translate("Loading...") | JSON %],
         EmptySearchMsg: [% Translate("Please enter at least one search value or * to find anything.") | JSON %],
         SearchMsg: [% Translate("Search") | JSON %],
-
         SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from your search as they cannot be searched for:") |JSON %],
         FieldTitleFulltext: [% Translate("Fulltext") | JSON %],
         FieldTitleFrom: [% Translate("From") | JSON %],
@@ -62,10 +61,6 @@ Core.App.Ready(function () {
         FieldTitleCc: [% Translate("Cc") | JSON %],
         FieldTitleSubject: [% Translate("Subject") | JSON %],
         FieldTitleBody: [% Translate("Body") | JSON %],
-
-        StatsSearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from the fields From, To, Cc, Subject and Text in ticket restrictions as they cannot be used:") |JSON %],
-        GenericAgentSearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from the fields From, To, Cc, Subject and Text in ticket selection as they cannot be used:") |JSON %],
-
         ValidationErrorMsg: [% Translate("Please check the fields marked as red for valid inputs.") | JSON %],
         SpellCheckNeededMsg: [% Translate("Please perform a spell check on the the text first.") | JSON %],
         DeleteMsg: [% Translate("Delete") | JSON %],

@@ -262,6 +262,16 @@ sub Run {
             $Errors{ProfileInvalid} = 'ServerError';
         }
 
+        # Check if ticket selection contains stop words
+        my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+            From    => $GetParam{From},
+            To      => $GetParam{To},
+            Cc      => $GetParam{Cc},
+            Subject => $GetParam{Subject},
+            Body    => $GetParam{Body},
+        );
+        %Errors = ( %Errors, %StopWordsServerErrors );
+
         # if no errors occurred
         if ( !%Errors ) {
 
@@ -302,6 +312,7 @@ sub Run {
             %GetParam,
             %DynamicFieldValues,
             %Errors,
+            StopWordsAlreadyChecked => 1,
         );
 
         # generate search mask
@@ -324,42 +335,6 @@ sub Run {
 
         # generate search mask
         my $Output = $Self->{LayoutObject}->Header( Title => 'Edit' );
-
-        # Show warning if ticket selection contains stop words within ticket search.
-        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
-            my %RelevantStopWordFields = (
-                'From'    => 1,
-                'To'      => 1,
-                'Cc'      => 1,
-                'Subject' => 1,
-                'Body'    => 1,
-            );
-            my @StopWordSearchStrings;
-
-            STOPWORDFIELD:
-            for my $StopWordField ( sort keys %RelevantStopWordFields ) {
-                next STOPWORDFIELD if !defined $JobDataReference->{$StopWordField};
-                next STOPWORDFIELD if !length $JobDataReference->{$StopWordField};
-
-                push @StopWordSearchStrings, $JobDataReference->{$StopWordField};
-            }
-
-            my $FoundStopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
-                SearchStrings => \@StopWordSearchStrings
-            );
-            if ( @{$FoundStopWords} ) {
-                my $Info = $Self->{LayoutObject}->{LanguageObject}->Translate(
-                    'Please remove the following words from the fields From, To, Cc, Subject and '
-                        . 'Text in ticket selection as they cannot be used:'
-                );
-                $Info .= join ', ', @{$FoundStopWords};
-
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Info     => $Info,
-                    Priority => 'Notice',
-                );
-            }
-        }
 
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
@@ -738,6 +713,18 @@ sub _MaskUpdate {
         SelectedID => $JobData{NewLockID},
     );
 
+    # Show server errors if ticket selection contains stop words
+    my %StopWordsServerErrors;
+    if ( !$Param{StopWordsAlreadyChecked} ) {
+        %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+            From    => $JobData{From},
+            To      => $JobData{To},
+            Cc      => $JobData{Cc},
+            Subject => $JobData{Subject},
+            Body    => $JobData{Body},
+        );
+    }
+
     # REMARK: we changed the wording "Send no notifications" to
     # "Send agent/customer notifications on changes" in frontend.
     # But the backend code is still the same (compatiblity).
@@ -759,8 +746,9 @@ sub _MaskUpdate {
     $Self->{LayoutObject}->Block(
         Name => 'Edit',
         Data => {
-            %Param,
             %JobData,
+            %Param,
+            %StopWordsServerErrors,
         },
     );
 
@@ -1310,6 +1298,49 @@ sub _MaskRun {
     # build footer
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
+}
+
+sub _StopWordsServerErrorsGet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !%Param ) {
+        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+    }
+
+    my %StopWordsServerErrors;
+    return %StopWordsServerErrors if !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive();
+
+    my %SearchStrings;
+
+    FIELD:
+    for my $Field ( sort keys %Param ) {
+        next FIELD if !defined $Param{$Field};
+        next FIELD if !length $Param{$Field};
+
+        $SearchStrings{$Field} = $Param{$Field};
+    }
+
+    if (%SearchStrings) {
+
+        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+            SearchStrings => \%SearchStrings
+        );
+
+        FIELD:
+        for my $Field ( sort keys %{$StopWords} ) {
+            next FIELD if !defined $StopWords->{$Field};
+            next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
+            next FIELD if !@{ $StopWords->{$Field} };
+
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+                ->Translate('Please remove the following words because they cannot be used for the ticket selection:')
+                . ' '
+                . join( ',', sort @{ $StopWords->{$Field} } );
+        }
+    }
+
+    return %StopWordsServerErrors;
 }
 
 1;
