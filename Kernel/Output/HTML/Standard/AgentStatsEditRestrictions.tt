@@ -110,13 +110,16 @@
                         <div class="Clear"></div>
 [% RenderBlockEnd("SelectField") %]
 [% RenderBlockStart("InputField") %]
-                        <label>
+                        <label for="[% Data.Element | html %]">
                             <input type="checkbox" name="Select[% Data.Element %]" value="1" [% Data.Checked %]/>
                             [% Translate(Data.Name) | html %]:
                         </label>
                         <div class="Field">
                             <div>
-                                <input type="text" name="[% Data.Element | html %]" value="[% Data.SelectedValue | html %]" class="W50pc"/>
+                                <input type="text" name="[% Data.Element | html %]" id="[% Data.Element| html %]" value="[% Data.SelectedValue | html %]" class="W50pc [% Data.Invalid | html %]"/>
+                                <div id="[% Data.Element| html %]ServerError" class="TooltipErrorMessage">
+                                    <p>[% Data.InvalidTooltip | html %]</p>
+                                </div>
                             </div>
                             <div>
                                 <input type="checkbox" name="Fixed[% Data.Element | html %]" id="Fixed[% Data.Element | html %]" value="1" [% Data.Fixed %] />
@@ -195,11 +198,3 @@
         </div>
     </div>
 </div>
-
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-
-Core.Agent.Stats.InitRestrictionEditing();
-
-//]]></script>
-[% END %]

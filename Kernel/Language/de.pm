@@ -2695,8 +2695,10 @@ sub Data {
         'Relative Period' => 'Relativer Zeitraum',
         'The last' => 'Die letzten',
         'Finish' => 'Abschließen',
-        'Please remove the following words from the fields From, To, Cc, Subject and Text in ticket restrictions as they cannot be used:'
-            => 'Bitte entfernen Sie die folgenden Wörter aus den Feldern Von, An, Cc, Betreff und Text der Ticket-Beschränkungen, da diese nicht verwendet werden können:' ,
+        'Please check restrictions of this stat for errors.'
+            => 'Bitte prüfen Sie die Beschränkungen dieser Statistik auf Fehler.',
+        'Please remove the following words because they cannot be used for the ticket restrictions:'
+            => 'Bitten entfernen Sie die folgenden Wörter, da diese nicht für die Ticket-Beschränkungen verwendet werden können:',
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Rechtevergabe',
