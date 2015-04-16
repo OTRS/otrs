@@ -52,6 +52,25 @@ sub Configure {
         HasValue    => 0,
     );
 
+    my $Name = $Self->Name();
+
+    $Self->AdditionalHelp(<<"EOF");
+
+<yellow>Translating OTRS</yellow>
+
+Make sure that you have a clean system with a current configuration. No modules may be installed or linked into the system!
+
+    <green>otrs.Console.pl $Name --language ...</green>
+
+Since OTRS 4 public translations are managed in transifex. Use the <yellow>--generate-pot</yellow> switch to update the .pot files and the <yellow>--generate-po</yellow> switch to update both .pot and .po files (usually not needed).
+
+<yellow>Translating Extension Modules</yellow>
+
+Make sure that you have a clean system with a current configuration. The module that needs to be translated has to be installed or linked into the system, but only this one!
+
+    <green>otrs.Console.pl $Name --language ... --module-directory ...</green>
+EOF
+
     return;
 }
 
