@@ -27,15 +27,28 @@ $Selenium->RunTest(
         # get helper object
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 0,
-                }
+                RestoreSystemConfiguration => 1,
+            },
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-        # set fixed time (monday)
-        $Helper->FixedTimeSet(
-            $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime( String => '2015-04-08 12:00:00' ),
+        # Use a calendar with the same business hours for every day so that the UT runs correctly
+        #   on every day of the week.
+        my %Week;
+        my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
+        for my $Day (@Days) {
+            $Week{$Day} = [ 8 .. 20 ];
+        }
+        $Kernel::OM->Get('Kernel::Config')->Set(
+            Key   => 'TimeWorkingHours',
+            Value => \%Week,
         );
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'TimeWorkingHours',
+            Value => \%Week,
+        );
+
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
