@@ -174,7 +174,7 @@ sub LoadDefaults {
         'hr' => 'Hrvatski',
         'hu' => 'Magyar',
         'it' => 'Italiano',
-        'ja' => 'Japanese (&#x65e5;&#x672c;&#x8a9e)',
+        'ja' => 'Japanese (&#x65e5;&#x672c;&#x8a9e;)',
         'lt' => 'Lietuvių kalba',
         'lv' => 'Latvijas',
         'ms' => 'Malay',
