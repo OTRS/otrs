@@ -40,6 +40,7 @@ Core.App.Ready(function () {
         AnimationEnabled: parseInt('[% Config("Frontend::AnimationEnabled") %]', 10),
         MenuDragDropEnabled: parseInt('[% Config("Frontend::MenuDragDropEnabled") %]', 10),
         OpenMainMenuOnHover: parseInt('[% Config("OpenMainMenuOnHover") %]', 10),
+        CustomerInfoSet: parseInt('[% Config("Ticket::Frontend::CustomerInfoCompose") %]', 10),
 [% RenderBlockStart("AutoCompleteConfig") %]
         Autocomplete: [% Data.AutocompleteConfig %],
 [% RenderBlockEnd("AutoCompleteConfig") %]

@@ -268,6 +268,17 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name   => 'Correct Ticket->Queue + Ticket->QueueID Dropdown',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                $DFName1 => '<OTRS_TICKET_Queue> <OTRS_TICKET_QueueID>',
+            },
+        },
+        Success => 1,
+    },
+    {
         Name   => 'Correct Ticket->NotExisting Dropdown',
         Config => {
             UserID => $UserID,
@@ -352,6 +363,18 @@ for my $Test (@Tests) {
             )
         {
             $ExpectedValue = $Ticket{$1} // '';
+            $Self->IsNot(
+                $Test->{Config}->{Config}->{$Attribute},
+                $OrigTest->{Config}->{Config}->{$Attribute},
+                "$ModuleName - Test:'$Test->{Name}' | Attribute: DynamicField_$Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
+            );
+        }
+        elsif (
+            $OrigTest->{Config}->{Config}->{$Attribute}
+            =~ m{\A<OTRS_TICKET_([A-Za-z0-9_]+)> [ ] <OTRS_TICKET_([A-Za-z0-9_]+)>\z}msx
+            )
+        {
+            $ExpectedValue = ( $Ticket{$1} // '' ) . ' ' . ( $Ticket{$2} // '' );
             $Self->IsNot(
                 $Test->{Config}->{Config}->{$Attribute},
                 $OrigTest->{Config}->{Config}->{$Attribute},
