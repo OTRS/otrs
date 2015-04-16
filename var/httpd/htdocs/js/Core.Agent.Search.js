@@ -449,7 +449,7 @@ Core.Agent.Search = (function (TargetNS) {
      *              If stop words are not present, the given callback will be executed.
      */
     function CheckSearchStringsForStopWords(Callback) {
-        var SearchStrings = [],
+        var SearchStrings = {},
             SearchStringsFound = 0,
             RelevantElementNames = {
                 'From': 1,
@@ -482,7 +482,7 @@ Core.Agent.Search = (function (TargetNS) {
 
                 if ($Element.length) {
                     if ( $Element.val() && $Element.val() !== '' ) {
-                        SearchStrings.push($Element.val());
+                        SearchStrings[ElementName] = $Element.val();
                         SearchStringsFound = 1;
                     }
                 }
@@ -498,7 +498,7 @@ Core.Agent.Search = (function (TargetNS) {
         AJAXStopWordCheck(
             SearchStrings,
             function (FoundStopWords) {
-                alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + FoundStopWords);
+                alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + "\n" + FoundStopWords);
             },
             Callback
         );
@@ -516,17 +516,37 @@ Core.Agent.Search = (function (TargetNS) {
 
     function AJAXStopWordCheck(SearchStrings, CallbackStopWordsFound, CallbackNoStopWordsFound) {
         var StopWordCheckData = {
-            Action: 'AgentTicketSearch',
-            Subaction: 'AJAXStopWordCheck',
-            SearchStrings: SearchStrings
+            Action:        'AgentTicketSearch',
+            Subaction:     'AJAXStopWordCheck',
+            SearchStrings: SearchStrings,
         };
 
         Core.AJAX.FunctionCall(
             Core.Config.Get('CGIHandle'),
             StopWordCheckData,
             function (Result) {
-                if ( Result.FoundStopWords.length ) {
-                    CallbackStopWordsFound(Result.FoundStopWords);
+                var FoundStopWords = '';
+
+                $.each( Result.FoundStopWords , function (Key, StopWords) {
+                    var TranslatedKey = Core.Config.Get('FieldTitle' + Key);
+
+                    if ( !StopWords.length ) {
+                        return;
+                    }
+
+                    if (!TranslatedKey) {
+                        TranslatedKey = Key;
+                    }
+
+                    FoundStopWords +=
+                        TranslatedKey
+                        + ': '
+                        + StopWords.join(', ')
+                        + "\n";
+                });
+
+                if (FoundStopWords.length) {
+                     CallbackStopWordsFound(FoundStopWords);
                 }
                 else {
                     CallbackNoStopWordsFound();
@@ -553,9 +573,9 @@ Core.Agent.Search = (function (TargetNS) {
                 }
 
                 AJAXStopWordCheck(
-                    [ SearchString ],
+                    { Fulltext: SearchString },
                     function (FoundStopWords) {
-                        alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + ' ' + FoundStopWords);
+                        alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + "\n" + FoundStopWords);
                     },
                     function () {
                         $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').submit();

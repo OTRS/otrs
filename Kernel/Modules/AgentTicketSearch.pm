@@ -1173,9 +1173,16 @@ sub Run {
         };
 
         if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
-            my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
+            my @ParamNames = $Self->{ParamObject}->GetParamNames();
+            my %SearchStrings;
+            SEARCHSTRINGPARAMNAME:
+            for my $SearchStringParamName ( sort @ParamNames ) {
+                next SEARCHSTRINGPARAMNAME if $SearchStringParamName !~ m{\ASearchStrings\[(.*)\]\z}sm;
+                $SearchStrings{$1} = $Self->{ParamObject}->GetParam( Param => $SearchStringParamName );
+            }
+
             $StopWordCheckResult->{FoundStopWords}
-                = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
+                = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \%SearchStrings );
         }
 
         my $Output = $Self->{LayoutObject}->JSONEncode(

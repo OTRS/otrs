@@ -2183,10 +2183,13 @@ sub TicketSearch {
 Find stop words within given search string.
 
     my $StopWords = $TicketObject->SearchStringStopWordsFind(
-        SearchStrings => [ '(this AND is) OR test', ],
+        SearchStrings => {
+            'Fulltext' => '(this AND is) OR test',
+            'From'     => 'myself',
+        },
     );
 
-    Returns Arrayref with found stop words.
+    Returns Hashref with found stop words.
 
 =cut
 
@@ -2204,45 +2207,41 @@ sub SearchStringStopWordsFind {
         }
     }
 
-    my %Words;
-
-    for my $SearchString ( @{ $Param{SearchStrings} } ) {
-        my %Result = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
-            'Key'      => '.',             # resulting SQL is irrelevant
-            'Value'    => $SearchString,
-            'BindMode' => 1,
-        );
-
-        if (
-            %Result
-            && ref $Result{Values} eq 'ARRAY'
-            && @{ $Result{Values} }
-            )
-        {
-            for my $Value ( @{ $Result{Values} } ) {
-                my @Words = split '\s+', $$Value;
-                for my $Word (@Words) {
-                    $Words{ lc $Word } = 1;
-                }
-            }
-        }
-    }
-
+    # create lower case stop words
     my %StopWordRaw = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {} };
     my %StopWord;
     WORD:
     for my $Word ( sort keys %StopWordRaw ) {
 
         next WORD if !$Word;
-
         $Word = lc $Word;
-
         $StopWord{$Word} = 1;
     }
 
-    my @StopWordsFound = grep { $StopWord{$_} } keys %Words;
+    my %StopWordsFound;
+    SEARCHSTRING:
+    for my $Key ( sort keys %{ $Param{SearchStrings} } ) {
+        my $SearchString = $Param{SearchStrings}->{$Key};
+        my %Result       = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
+            'Key'      => '.',             # resulting SQL is irrelevant
+            'Value'    => $SearchString,
+            'BindMode' => 1,
+        );
 
-    return \@StopWordsFound;
+        next SEARCHSTRING if !%Result || ref $Result{Values} ne 'ARRAY' || !@{ $Result{Values} };
+
+        my %Words;
+        for my $Value ( @{ $Result{Values} } ) {
+            my @Words = split '\s+', $$Value;
+            for my $Word (@Words) {
+                $Words{ lc $Word } = 1;
+            }
+        }
+
+        @{ $StopWordsFound{$Key} } = grep { $StopWord{$_} } sort keys %Words;
+    }
+
+    return \%StopWordsFound;
 }
 
 =item SearchStringStopWordsUsageWarningActive()
