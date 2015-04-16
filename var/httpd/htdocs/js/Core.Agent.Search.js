@@ -20,6 +20,8 @@ Core.Agent = Core.Agent || {};
  */
 Core.Agent.Search = (function (TargetNS) {
 
+    var AJAXStopWordCheckRunning = false;
+
     /**
      * @function
      * @return nothing
@@ -521,6 +523,12 @@ Core.Agent.Search = (function (TargetNS) {
             SearchStrings: SearchStrings,
         };
 
+        // Prevent multiple stop word checks
+        if (AJAXStopWordCheckRunning) {
+            return;
+        }
+        AJAXStopWordCheckRunning = true;
+
         Core.AJAX.FunctionCall(
             Core.Config.Get('CGIHandle'),
             StopWordCheckData,
@@ -544,6 +552,8 @@ Core.Agent.Search = (function (TargetNS) {
                         + StopWords.join(', ')
                         + "\n";
                 });
+
+                AJAXStopWordCheckRunning = false;
 
                 if (FoundStopWords.length) {
                      CallbackStopWordsFound(FoundStopWords);
