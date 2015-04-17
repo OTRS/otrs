@@ -602,10 +602,9 @@ sub _GetParams {
         Comment LoginMessage ShowLoginMessage NotifyMessage ValidID )
         )
     {
-        my $EmptyValue = ( $ParamName eq 'ShowLoginMessage' ? 0 : undef );
-        $GetParam->{$ParamName}
-            = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName ) || $EmptyValue;
+        $GetParam->{$ParamName} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $ParamName );
     }
+    $Param{ShowLoginMessage} ||= 0;
 
     ITEM:
     for my $Item (qw(StartDate StopDate)) {
