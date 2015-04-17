@@ -29,6 +29,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    local $Kernel::System::DB::UseSlaveDB = 1;
+
     my $Output;
 
     # get needed objects
@@ -442,30 +444,7 @@ sub Run {
             }
         }
 
-        my $TicketObjectSearch = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # if we need to do a fulltext search on an external mirror database
-        if ( $ConfigObject->Get('Core::MirrorDB::DSN') ) {
-            my $ExtraDatabaseObject = $Kernel::OM->ObjectParamAdd(
-                'Kernel::System::DB' => {
-                    DatabaseDSN  => $ConfigObject->Get('Core::MirrorDB::DSN'),
-                    DatabaseUser => $ConfigObject->Get('Core::MirrorDB::User'),
-                    DatabasePw   => $ConfigObject->Get('Core::MirrorDB::Password'),
-                    }
-            );
-            $ExtraDatabaseObject = $Kernel::OM->Get('Kernel::System::DB');
-            if ( !$ExtraDatabaseObject ) {
-                $LayoutObject->FatalError();
-            }
-            $TicketObjectSearch = $Kernel::OM->ObjectParamAdd(
-                'Kernel::System::Ticket' => {
-                    %Param,
-                    DBObject => $ExtraDatabaseObject,
-                    }
-            );
-            $TicketObjectSearch = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        }
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Special behaviour for the fulltext search toolbar module:
         # - Check full text string to see if contents is a ticket number.
@@ -481,7 +460,7 @@ sub Run {
             && $GetParam{ResultForm} ne 'Print'
             )
         {
-            my $TicketID = $TicketObjectSearch->TicketIDLookup(
+            my $TicketID = $TicketObject->TicketIDLookup(
                 TicketNumber => $GetParam{Fulltext},
                 UserID       => $Self->{UserID},
             );
@@ -568,7 +547,7 @@ sub Run {
         }
 
         # perform ticket search
-        my @ViewableTicketIDs = $TicketObjectSearch->TicketSearch(
+        my @ViewableTicketIDs = $TicketObject->TicketSearch(
             Result              => 'ARRAY',
             SortBy              => $Self->{SortBy},
             OrderBy             => $Self->{OrderBy},
@@ -620,7 +599,7 @@ sub Run {
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $TicketObjectSearch->ArticleFirstArticle(
+                my %Data = $TicketObject->ArticleFirstArticle(
                     TicketID      => $TicketID,
                     Extended      => 1,
                     DynamicFields => 1,
@@ -629,7 +608,7 @@ sub Run {
                 if ( !%Data ) {
 
                     # get ticket data instead
-                    %Data = $TicketObjectSearch->TicketGet(
+                    %Data = $TicketObject->TicketGet(
                         TicketID      => $TicketID,
                         DynamicFields => 1,
                     );
@@ -653,7 +632,7 @@ sub Run {
 
                 # get whole article (if configured!)
                 if ( $Config->{SearchArticleCSVTree} ) {
-                    my @Article = $TicketObjectSearch->ArticleGet(
+                    my @Article = $TicketObject->ArticleGet(
                         TicketID      => $TicketID,
                         DynamicFields => 0,
                     );
@@ -693,7 +672,7 @@ sub Run {
                     %Data,
                     %UserInfo,
                     AccountedTime =>
-                        $TicketObjectSearch->TicketAccountedTimeGet( TicketID => $TicketID ),
+                        $TicketObject->TicketAccountedTimeGet( TicketID => $TicketID ),
                 );
 
                 my @Data;
@@ -807,7 +786,7 @@ sub Run {
             for my $TicketID (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $TicketObjectSearch->ArticleFirstArticle(
+                my %Data = $TicketObject->ArticleFirstArticle(
                     TicketID      => $TicketID,
                     DynamicFields => 1,
                 );
@@ -815,7 +794,7 @@ sub Run {
                 if ( !%Data ) {
 
                     # get ticket data instead
-                    %Data = $TicketObjectSearch->TicketGet(
+                    %Data = $TicketObject->TicketGet(
                         TicketID      => $TicketID,
                         DynamicFields => 1,
                     );
