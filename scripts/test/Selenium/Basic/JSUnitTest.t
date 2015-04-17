@@ -30,7 +30,7 @@ $Selenium->RunTest(
         my $WebPath = $ConfigObject->Get('Frontend::WebPath');
 
         # Allow a longer page load here because of JS execution
-        $Selenium->set_timeout('page load', 10_000);
+        $Selenium->set_timeout('page load', 30_000);
 
         $Selenium->get("${WebPath}js/test/JSUnitTest.html");
 
