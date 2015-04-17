@@ -46,23 +46,38 @@
                 <h2>[% Translate("Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")") | html %]</h2>
                 <div>
                     <label for="From">[% Translate("From") | html %]</label>
-                    <input title="[% Translate("Sender") | html %]" type="text" id="From" name="From" value="[% Data.From | html %]" size="20" />
+                    <input title="[% Translate("Sender") | html %]" type="text" id="From" name="From" value="[% Data.From | html %]" size="20" class="[% Data.FromInvalid | html %]" />
+                    <div id="FromServerError" class="TooltipErrorMessage">
+                        <p>[% Data.FromInvalidTooltip | html %]</p>
+                    </div>
                 </div>
                 <div>
                     <label for="To">[% Translate("To") | html %]</label>
-                    <input title="[% Translate("Recipient") | html %]" type="text" id="To" name="To" value="[% Data.To | html %]" size="20" />
+                    <input title="[% Translate("Recipient") | html %]" type="text" id="To" name="To" value="[% Data.To | html %]" size="20" class="[% Data.ToInvalid | html %]" />
+                    <div id="ToServerError" class="TooltipErrorMessage">
+                        <p>[% Data.ToInvalidTooltip | html %]</p>
+                    </div>
                 </div>
                 <div>
                     <label for="Cc">[% Translate("Cc") | html %]</label>
-                    <input title="[% Translate("Carbon Copy") | html %]" type="text" id="Cc" name="Cc" value="[% Data.Cc | html %]" size="20" />
+                    <input title="[% Translate("Carbon Copy") | html %]" type="text" id="Cc" name="Cc" value="[% Data.Cc | html %]" size="20" class="[% Data.CcInvalid | html %]" />
+                    <div id="CcServerError" class="TooltipErrorMessage">
+                        <p>[% Data.CcInvalidTooltip | html %]</p>
+                    </div>
                 </div>
                 <div>
                     <label for="Subject">[% Translate("Subject") | html %]</label>
-                    <input title="[% Translate("Subject") | html %]" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" size="20" />
+                    <input title="[% Translate("Subject") | html %]" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" size="20" class="[% Data.SubjectInvalid | html %]" />
+                    <div id="SubjectServerError" class="TooltipErrorMessage">
+                        <p>[% Data.SubjectInvalidTooltip | html %]</p>
+                    </div>
                 </div>
                 <div>
                     <label for="Body">[% Translate("Text") | html %]</label>
-                    <input title="[% Translate("Text") | html %]" type="text" id="Body" name="Body" value="[% Data.Body | html %]" size="20" />
+                    <input title="[% Translate("Text") | html %]" type="text" id="Body" name="Body" value="[% Data.Body | html %]" size="20" class="[% Data.BodyInvalid | html %]" />
+                    <div id="BodyServerError" class="TooltipErrorMessage">
+                        <p>[% Data.BodyInvalidTooltip | html %]</p>
+                    </div>
                 </div>
 [% RenderBlockStart("DynamicField") %]
                 <div>
@@ -162,12 +177,6 @@
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">
     Core.Customer.InitFocus();
-
-    Core.Config.AddConfig({
-        SearchStringsContainStopWordsMsg: [% Translate("Please remove the following words from fields From, To, Cc, Subject and Text as they cannot be searched for:") |JSON %]
-    });
-
-    Core.Customer.Search.Init();
 </script>
 [% END %]
 [% RenderBlockEnd("Search") %]

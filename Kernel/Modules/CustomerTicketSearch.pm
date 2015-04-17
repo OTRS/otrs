@@ -176,30 +176,6 @@ sub Run {
         );
     }
 
-    # stop word check
-    elsif ( $Self->{Subaction} eq 'AJAXStopWordCheck' ) {
-
-        my $StopWordCheckResult = {
-            FoundStopWords => [],
-        };
-
-        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
-            my @SearchStrings = $Self->{ParamObject}->GetArray( Param => 'SearchStrings[]' );
-            $StopWordCheckResult->{FoundStopWords}
-                = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \@SearchStrings );
-        }
-
-        my $Output = $Self->{LayoutObject}->JSONEncode(
-            Data => $StopWordCheckResult,
-        );
-        return $Self->{LayoutObject}->Attachment(
-            NoCache     => 1,
-            ContentType => 'text/html',
-            Content     => $Output,
-            Type        => 'inline'
-        );
-    }
-
     # get search string params (get submitted params)
     else {
         for my $Key (
@@ -312,8 +288,28 @@ sub Run {
         );
     }
 
+    # check for server errors
+    my %ServerErrors;
+    if (
+        $Self->{Subaction} eq 'Search'
+        && !$Self->{EraseTemplate}
+        )
+    {
+
+        # check for stop word errors
+        my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+            From    => $GetParam{From},
+            To      => $GetParam{To},
+            Cc      => $GetParam{Cc},
+            Subject => $GetParam{Subject},
+            Body    => $GetParam{Body},
+        );
+
+        %ServerErrors = ( %ServerErrors, %StopWordsServerErrors );
+    }
+
     # show result page
-    if ( $Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate} ) {
+    if ( !%ServerErrors && $Self->{Subaction} eq 'Search' && !$Self->{EraseTemplate} ) {
 
         # fill up profile name (e.g. with last-search)
         if ( !$Self->{Profile} || !$Self->{SaveProfile} ) {
@@ -1366,7 +1362,8 @@ sub Run {
             %GetParam,
             Profile          => $Self->{Profile},
             Area             => 'Customer',
-            DynamicFieldHTML => \%DynamicFieldHTML
+            DynamicFieldHTML => \%DynamicFieldHTML,
+            %ServerErrors,
         );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
@@ -1654,6 +1651,49 @@ sub MaskForm {
         TemplateFile => 'CustomerTicketSearch',
         Data         => \%Param,
     );
+}
+
+sub _StopWordsServerErrorsGet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !%Param ) {
+        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+    }
+
+    my %StopWordsServerErrors;
+    return %StopWordsServerErrors if !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive();
+
+    my %SearchStrings;
+
+    FIELD:
+    for my $Field ( sort keys %Param ) {
+        next FIELD if !defined $Param{$Field};
+        next FIELD if !length $Param{$Field};
+
+        $SearchStrings{$Field} = $Param{$Field};
+    }
+
+    if (%SearchStrings) {
+
+        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+            SearchStrings => \%SearchStrings
+        );
+
+        FIELD:
+        for my $Field ( sort keys %{$StopWords} ) {
+            next FIELD if !defined $StopWords->{$Field};
+            next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
+            next FIELD if !@{ $StopWords->{$Field} };
+
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+                ->Translate('Please remove the following words because they cannot be used for the search:')
+                . ' '
+                . join( ',', sort @{ $StopWords->{$Field} } );
+        }
+    }
+
+    return %StopWordsServerErrors;
 }
 
 1;

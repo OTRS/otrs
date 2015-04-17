@@ -9337,9 +9337,6 @@
                     <AccessKey>s</AccessKey>
                     <Prio>300</Prio>
                 </NavBar>
-                <Loader>
-                    <JavaScript>Core.Customer.Search.js</JavaScript>
-                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

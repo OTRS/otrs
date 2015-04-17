@@ -3087,8 +3087,8 @@ sub Data {
         'Template Name' => 'Name der Vorlage',
         'Pick a profile name' => 'Profilnamen auswählen',
         'Output to' => 'Ausgabe nach',
-        'Please remove the following words from fields From, To, Cc, Subject and Text as they cannot be searched for:' =>
-            'Bitte entfernen Sie die folgenden Wörter aus den Feldern Von, An, Cc, Betreff und Text, da diese nicht für die Suche verwendet werden können:',
+        'Please remove the following words because they cannot be used for the search:' =>
+            'Bitte entfernen Sie die folgenden Wörter, da diese nicht für die Suche verwendet werden können:',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'von',
