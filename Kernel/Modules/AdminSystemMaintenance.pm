@@ -603,9 +603,9 @@ sub _GetParams {
         Comment LoginMessage ShowLoginMessage NotifyMessage ValidID )
         )
     {
-        my $EmptyValue = ( $ParamName eq 'ShowLoginMessage' ? 0 : undef );
-        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName ) || $EmptyValue;
+        $GetParam->{$ParamName} = $Self->{ParamObject}->GetParam( Param => $ParamName );
     }
+    $Param{ShowLoginMessage} ||= 0;
 
     ITEM:
     for my $Item (qw(StartDate StopDate)) {
