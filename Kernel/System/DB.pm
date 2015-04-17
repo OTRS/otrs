@@ -25,6 +25,8 @@ our @ObjectDependencies = (
     'Kernel::System::Time',
 );
 
+our $UseSlaveDB = 0;
+
 =head1 NAME
 
 Kernel::System::DB - global database interface
@@ -206,6 +208,10 @@ sub Connect {
         $Self->{dbh}->{pg_enable_utf8} = 1;
     }
 
+    if ( $Self->{SlaveDBObject} ) {
+        $Self->{SlaveDBObject}->Connect();
+    }
+
     return $Self->{dbh};
 }
 
@@ -232,6 +238,10 @@ sub Disconnect {
     # do disconnect
     if ( $Self->{dbh} ) {
         $Self->{dbh}->disconnect();
+    }
+
+    if ( $Self->{SlaveDBObject} ) {
+        $Self->{SlaveDBObject}->Disconnect();
     }
 
     return 1;
@@ -441,6 +451,37 @@ sub Do {
     return 1;
 }
 
+sub _InitSlaveDB {
+    my ( $Self, %Param ) = @_;
+
+    # Run only once!
+    return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
+
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $MasterDSN     = $ConfigObject->Get('DatabaseDSN');
+    my $SlaveDSN      = $ConfigObject->Get('Core::MirrorDB::DSN');
+    my $SlaveUser     = $ConfigObject->Get('Core::MirrorDB::User');
+    my $SlavePassword = $ConfigObject->Get('Core::MirrorDB::Password');
+
+    # If a slave is configured and it is not already used in the current object
+    #   and we are actually in the master connection object: then create a slave.
+    if (
+           $SlaveDSN
+        && $SlaveUser
+        && $SlavePassword
+        && $SlaveDSN ne $Self->{DSN}
+        && $MasterDSN eq $Self->{DSN}
+        )
+    {
+        $Self->{SlaveDBObject} = Kernel::System::DB->new(
+            DatabaseDSN  => $SlaveDSN,
+            DatabaseUser => $SlaveUser,
+            DatabasePw   => $SlavePassword,
+        );
+    }
+    return $Self->{SlaveDBObject};
+}
+
 =item Prepare()
 
 to prepare a SELECT statement
@@ -493,6 +534,15 @@ sub Prepare {
         );
         return;
     }
+
+    $Self->{_PreparedOnSlaveDB} = 0;
+
+    # Route SELECT statements to the DB slave if requested and a slave is configured.
+    if ( $UseSlaveDB && uc( substr( $SQL, 0, 6 ) ) eq 'SELECT' && $Self->_InitSlaveDB() ) {
+        $Self->{_PreparedOnSlaveDB} = 1;
+        return $Self->{SlaveDBObject}->Prepare(%Param);
+    }
+
     if ( defined $Param{Encode} ) {
         $Self->{Encode} = $Param{Encode};
     }
@@ -611,6 +661,10 @@ to process the results of a SELECT statement
 
 sub FetchrowArray {
     my $Self = shift;
+
+    if ( $UseSlaveDB && $Self->{_PreparedOnSlaveDB} && $Self->_InitSlaveDB() ) {
+        return $Self->{SlaveDBObject}->FetchrowArray();
+    }
 
     # work with cursors if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
