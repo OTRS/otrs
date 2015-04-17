@@ -33,11 +33,11 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Use a calendar with the same business hours for every day so that the UT runs correctly
-        #   on every day of the week.
+        #   on every day of the week and outside usual business hours.
         my %Week;
         my @Days = qw(Sun Mon Tue Wed Thu Fri Sat);
         for my $Day (@Days) {
-            $Week{$Day} = [ 8 .. 20 ];
+            $Week{$Day} = [ 0 .. 23 ];
         }
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'TimeWorkingHours',
@@ -87,28 +87,28 @@ $Selenium->RunTest(
             {
                 Name         => 'Today',
                 Queue        => "Queue" . $Helper->GetRandomID(),
-                SolutionTime => 60,
+                SolutionTime => 1 * 60,
             },
 
-            # create queue that will escalate tickets in 12 working hours
+            # create queue that will escalate tickets in 24 working hours
             {
                 Name         => 'Tomorrow',
                 Queue        => "Queue" . $Helper->GetRandomID(),
-                SolutionTime => 720,
+                SolutionTime => 24 * 60,
             },
 
             # create queue that will escalate tickets in 1 working week
             {
                 Name         => 'NextWeek',
                 Queue        => "Queue" . $Helper->GetRandomID(),
-                SolutionTime => 3600,
+                SolutionTime => 7 * 24 * 60,
             },
 
             # create queue that will escalate tickets in 2 working weeks
             {
                 Name         => 'AfterNextWeek',
                 Queue        => "Queue" . $Helper->GetRandomID(),
-                SolutionTime => 7200,
+                SolutionTime => 14 * 24 * 60,
             },
         );
 
