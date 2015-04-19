@@ -299,11 +299,6 @@ for my $Test (@Tests) {
         Params => {},
         Result => 'aÃ¤Ã¶Ã¼ÃŸâ‚¬z',
     },
-    {
-        String => 'aäöüßz',
-        Params => {},
-        Result => undef,
-    },
 );
 
 for my $Test (@Tests) {
