@@ -31,7 +31,7 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # get params
-    for my $Recipient (qw(ToCustomer CcCustomer BccCustomer)) {
+    for my $Recipient (qw(ToCustomer CcCustomer BccCustomer CustomerData)) {
         $Param{$Recipient} = $ParamObject->GetParam( Param => $Recipient );
     }
 
@@ -53,7 +53,10 @@ sub Run {
             User => $CustomerUser,
         );
         if ( $CustomerUserData{UserEmail} ) {
-            $List{ $CustomerUserData{UserEmail} } = $CustomerUserList{$CustomerUser};
+            $List{ $CustomerUserData{UserEmail} } = {
+                Email       => $CustomerUserList{$CustomerUser},
+                CustomerKey => $CustomerUser,
+            };
         }
     }
 
@@ -71,13 +74,15 @@ sub Run {
         );
 
         my $Count = 1;
-        for ( reverse sort { $List{$b} cmp $List{$a} } keys %List ) {
+        for ( reverse sort { $List{$b}->{Email} cmp $List{$a}->{Email} } keys %List ) {
             $LayoutObject->Block(
                 Name => 'Row',
                 Data => {
-                    Name  => $List{$_},
-                    Email => $_,
+                    Email => $List{$_}->{Email},
                     Count => $Count,
+                    CustomerDataJSON =>
+                        $Kernel::OM->Get('Kernel::System::JSON')
+                        ->Encode( Data => { $List{$_}->{Email} => $List{$_}->{CustomerKey} } ),
                 },
             );
             $Count++;
