@@ -9,7 +9,7 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 
 Core.Form = (function (Namespace) {
     Namespace.RunUnitTests = function(){

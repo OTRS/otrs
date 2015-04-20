@@ -9,7 +9,7 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 Core.UI = Core.UI || {};
 
 Core.UI.Accessibility = (function (Namespace) {

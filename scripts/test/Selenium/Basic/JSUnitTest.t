@@ -29,51 +29,49 @@ $Selenium->RunTest(
 
         my $WebPath = $ConfigObject->Get('Frontend::WebPath');
 
-        # Allow a longer page load here because of JS execution
-        $Selenium->set_timeout('page load', 30_000);
+        my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/httpd/htdocs/js/test',
+            Filter    => "*.html",
+        );
 
-        $Selenium->get("${WebPath}js/test/JSUnitTest.html");
+        for my $File (@Files) {
 
-        # wait for the javascript tests (including AJAX) to complete
-        ACTIVESLEEP:
-        for ( 1 .. 20 ) {
+            # Remove path
+            $File =~ s{.*/}{}smx;
 
-            if ( eval { $Selenium->find_element( "p.result span.failed", 'css' ); } ) {
-                last ACTIVESLEEP;
+            $Selenium->get("${WebPath}js/test/$File");
+
+            # wait for the javascript tests (including AJAX) to complete
+            ACTIVESLEEP:
+            for ( 1 .. 20 ) {
+
+                if ( eval { $Selenium->find_element( "p.result span.failed", 'css' ); } ) {
+                    last ACTIVESLEEP;
+                }
+
+                sleep(1);
             }
 
-            sleep(1);
-        }
+            $Selenium->find_element( "p.result span.failed", 'css' );
+            $Selenium->find_element( "p.result span.passed", 'css' );
+            $Selenium->find_element( "p.result span.total",  'css' );
 
-        $Selenium->find_element( "p.result span.failed", 'css' );
-        $Selenium->find_element( "p.result span.passed", 'css' );
-        $Selenium->find_element( "p.result span.total",  'css' );
-
-        my ( $Passed, $Failed, $Total );
-        $Passed = $Selenium->execute_script(
-            "return \$('p.result span.passed').text()"
-        );
-        $Failed = $Selenium->execute_script(
-            "return \$('p.result span.failed').text()"
-        );
-        $Total = $Selenium->execute_script(
-            "return \$('p.result span.total').text()"
-        );
-
-        $Self->True( $Passed, 'Found passed tests' );
-        $Self->Is( $Passed, $Total, 'Total number of tests' );
-        $Self->False( $Failed, 'Failed tests' );
-
-        for my $Test ( 1 .. $Passed ) {
-            $Self->True( 1, 'Successful JavaScript unit test found' );
-        }
-
-        for my $Test ( 1 .. $Failed ) {
-            $Self->True(
-                0,
-                'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
+            my ( $Passed, $Failed, $Total );
+            $Passed = $Selenium->execute_script(
+                "return \$('p.result span.passed').text()"
             );
+            $Failed = $Selenium->execute_script(
+                "return \$('p.result span.failed').text()"
+            );
+            $Total = $Selenium->execute_script(
+                "return \$('p.result span.total').text()"
+            );
+
+            $Self->True( $Passed, "$File - found passed tests" );
+            $Self->Is( $Passed, $Total, "$File - total number of tests" );
+            $Self->False( $Failed, "$File - failed tests" );
         }
+
     }
 );
 

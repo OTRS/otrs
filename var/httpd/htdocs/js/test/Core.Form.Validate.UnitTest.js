@@ -9,7 +9,7 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 Core.Form = Core.Form || {};
 
 Core.Form.Validate = (function (Namespace) {

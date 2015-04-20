@@ -9,7 +9,7 @@
 
 "use strict";
 
-var OTRS = OTRS || {};
+var Core = Core || {};
 Core.Debug = Core.Debug || {};
 
 Core.Debug = (function (Namespace) {

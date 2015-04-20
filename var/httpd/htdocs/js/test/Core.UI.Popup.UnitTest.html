@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="../thirdparty/qunit-1.18.0/qunit.css" type="text/css"/>
+
+    <title>OTRS &ndash; JavaScript UnitTest Results</title>
+</head>
+<body>
+    <h1 id="qunit-header">OTRS &ndash; JavaScript UnitTest Results</h1>
+    <h2 id="qunit-banner"></h2>
+    <h2 id="qunit-userAgent"></h2>
+    <ol id="qunit-tests"></ol>
+
+
+    <!-- UnitTest code goes here -->
+    <script type="text/javascript" src="../thirdparty/qunit-1.18.0/qunit.js"></script>
+    <!--
+        Now always load library first and then the UnitTest file for it.
+        The UnitTest file is responsible for runnint the tests.
+    -->
+    <script type="text/javascript" src="../thirdparty/jquery-1.11.1/jquery.js"></script>
+    <!--<script type="text/javascript" src="../thirdparty/jquery-migrate-1.2.1/jquery-migrate.js"></script>-->
+
+
+    <script type="text/javascript" src="../Core.Exception.js"></script>
+    <script type="text/javascript" src="../Core.Debug.js"></script>
+    <script type="text/javascript" src="../Core.Data.js"></script>
+    <script type="text/javascript" src="../Core.Config.js"></script>
+    <script type="text/javascript" src="../Core.UI.Popup.js"></script>
+    <script type="text/javascript" src="Core.UI.Popup.UnitTest.js"></script>
+    <script type="text/javascript">
+        Core.UI.Popup.RunUnitTests();
+    </script>
+
+</body>
+</html>
