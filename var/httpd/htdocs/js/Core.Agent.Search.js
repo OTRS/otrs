@@ -463,6 +463,11 @@ Core.Agent.Search = (function (TargetNS) {
             },
             StopWordCheckData;
 
+        if (!Core.Config.Get('CheckSearchStringsForStopWords')) {
+            Callback();
+            return;
+        }
+
         $('#SearchForm label').each(function () {
             var ElementName,
                 $Element,
@@ -578,7 +583,7 @@ Core.Agent.Search = (function (TargetNS) {
             if ((Event.charCode || Event.keyCode) === 13) {
                 var SearchString = $('#Fulltext').val();
 
-                if (!SearchString.length) {
+                if (!SearchString.length || !Core.Config.Get('CheckSearchStringsForStopWords')) {
                     return true;
                 }
 
