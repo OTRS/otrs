@@ -737,8 +737,6 @@ sub Run {
 sub _Element {
     my ( $Self, %Param ) = @_;
 
-    local $Kernel::System::DB::UseSlaveDB = 1;
-
     my $Name                  = $Param{Name};
     my $Configs               = $Param{Configs};
     my $Backends              = $Param{Backends};
@@ -787,6 +785,9 @@ sub _Element {
     # get module preferences
     my @Preferences = $Object->Preferences();
     return @Preferences if $Param{PreferencesOnly};
+
+    # Perform the actual data fetching and computation on the slave db, if configured
+    local $Kernel::System::DB::UseSlaveDB = 1;
 
     if ( $Param{FilterContentOnly} ) {
         my $FilterContent = $Object->FilterContent(

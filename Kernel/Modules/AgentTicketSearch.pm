@@ -79,8 +79,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    local $Kernel::System::DB::UseSlaveDB = 1;
-
     my $Output;
 
     # get config data
@@ -567,20 +565,26 @@ sub Run {
             }
         }
 
-        # perform ticket search
-        my @ViewableTicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result              => 'ARRAY',
-            SortBy              => $Self->{SortBy},
-            OrderBy             => $Self->{OrderBy},
-            Limit               => $Self->{SearchLimit},
-            UserID              => $Self->{UserID},
-            ConditionInline     => $Self->{Config}->{ExtendedSearchCondition},
-            ContentSearchPrefix => '*',
-            ContentSearchSuffix => '*',
-            FullTextIndex       => 1,
-            %GetParam,
-            %DynamicFieldSearchParameters,
-        );
+        my @ViewableTicketIDs;
+
+        {
+            local $Kernel::System::DB::UseSlaveDB = 1;
+
+            # perform ticket search
+            @ViewableTicketIDs = $Self->{TicketObject}->TicketSearch(
+                Result              => 'ARRAY',
+                SortBy              => $Self->{SortBy},
+                OrderBy             => $Self->{OrderBy},
+                Limit               => $Self->{SearchLimit},
+                UserID              => $Self->{UserID},
+                ConditionInline     => $Self->{Config}->{ExtendedSearchCondition},
+                ContentSearchPrefix => '*',
+                ContentSearchSuffix => '*',
+                FullTextIndex       => 1,
+                %GetParam,
+                %DynamicFieldSearchParameters,
+            );
+        }
 
         # CSV and Excel output
         if (

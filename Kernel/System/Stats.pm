@@ -2006,14 +2006,15 @@ sub StatsRun {
         return;
     }
 
-    local $Kernel::System::DB::UseSlaveDB = 1;
-
     # TODO: remove this code for OTRS5, it is kept here for backards compatibility only
     $Self->{DBSlaveObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
     my %GetParam = %{ $Param{GetParam} };
     my @Result;
+
+    # Perform calculations on the slave DB, if configured.
+    local $Kernel::System::DB::UseSlaveDB = 1;
 
     # get data if it is a static stats
     if ( $Stat->{StatType} eq 'static' ) {
