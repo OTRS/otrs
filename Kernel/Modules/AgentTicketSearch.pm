@@ -29,8 +29,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    local $Kernel::System::DB::UseSlaveDB = 1;
-
     my $Output;
 
     # get needed objects
@@ -546,20 +544,26 @@ sub Run {
             }
         }
 
-        # perform ticket search
-        my @ViewableTicketIDs = $TicketObject->TicketSearch(
-            Result              => 'ARRAY',
-            SortBy              => $Self->{SortBy},
-            OrderBy             => $Self->{OrderBy},
-            Limit               => $Self->{SearchLimit},
-            UserID              => $Self->{UserID},
-            ConditionInline     => $Config->{ExtendedSearchCondition},
-            ContentSearchPrefix => '*',
-            ContentSearchSuffix => '*',
-            FullTextIndex       => 1,
-            %GetParam,
-            %DynamicFieldSearchParameters,
-        );
+        my @ViewableTicketIDs;
+
+        {
+            local $Kernel::System::DB::UseSlaveDB = 1;
+
+            # perform ticket search
+            @ViewableTicketIDs = $TicketObject->TicketSearch(
+                Result              => 'ARRAY',
+                SortBy              => $Self->{SortBy},
+                OrderBy             => $Self->{OrderBy},
+                Limit               => $Self->{SearchLimit},
+                UserID              => $Self->{UserID},
+                ConditionInline     => $Config->{ExtendedSearchCondition},
+                ContentSearchPrefix => '*',
+                ContentSearchSuffix => '*',
+                FullTextIndex       => 1,
+                %GetParam,
+                %DynamicFieldSearchParameters,
+            );
+        }
 
         # get needed objects
         my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');

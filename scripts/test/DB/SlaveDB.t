@@ -58,7 +58,7 @@ for my $SlaveActive (0, 1) {
         my @ValidIDs;
         my $TestPrefix = "SlaveActive $SlaveActive UseSlaveDB 0: ";
         $DBObject->Prepare(
-            SQL => 'SELECT id FROM valid',
+            SQL => "\nSELECT id\nFROM valid", # simulate indentation
         );
         while (my @Row = $DBObject->FetchrowArray()) {
             push @ValidIDs, $Row[0];
@@ -89,7 +89,7 @@ for my $SlaveActive (0, 1) {
         my $TestPrefix = "SlaveActive $SlaveActive UseSlaveDB 1: ";
 
         $DBObject->Prepare(
-            SQL => 'SELECT id FROM valid',
+            SQL => "\nSELECT id\nFROM valid", # simulate indentation
         );
         while (my @Row = $DBObject->FetchrowArray()) {
             push @ValidIDs, $Row[0];
