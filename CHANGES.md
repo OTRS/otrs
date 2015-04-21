@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-04-21 Activated customer company support for the default customer user configuration.
  - 2015-04-17 Fixed bug#[11244](http://bugs.otrs.org/show_bug.cgi?id=11244) - Slave database not used in OTRS 4.
  - 2015-04-16 Fixed bug#[11123](http://bugs.otrs.org/show_bug.cgi?id=11123) - DynamicFieldText RegEx message problem on create and edit.
  - 2015-04-14 Fixed bug#[11226](http://bugs.otrs.org/show_bug.cgi?id=11226) - Tags in transition actions work only if there is only a tag in the field.
