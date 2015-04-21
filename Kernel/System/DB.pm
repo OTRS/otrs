@@ -466,7 +466,7 @@ sub _InitSlaveDB {
     # If a slave is configured and it is not already used in the current object
     #   and we are actually in the master connection object: then create a slave.
     if (
-           $SlaveDSN
+        $SlaveDSN
         && $SlaveUser
         && $SlavePassword
         && $SlaveDSN ne $Self->{DSN}
@@ -538,10 +538,12 @@ sub Prepare {
     $Self->{_PreparedOnSlaveDB} = 0;
 
     # Route SELECT statements to the DB slave if requested and a slave is configured.
-    if ( $UseSlaveDB
-        && $Self->_InitSlaveDB() # this is very cheap after the first call (cached)
+    if (
+        $UseSlaveDB
+        && $Self->_InitSlaveDB()    # this is very cheap after the first call (cached)
         && $SQL =~ m{\A\s*SELECT}xms
-    ) {
+        )
+    {
         $Self->{_PreparedOnSlaveDB} = 1;
         return $Self->{SlaveDBObject}->Prepare(%Param);
     }
