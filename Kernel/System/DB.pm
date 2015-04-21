@@ -14,6 +14,7 @@ use strict;
 use warnings;
 
 use DBI;
+use List::Util();
 
 use Kernel::System::VariableCheck qw(:all);
 
@@ -83,6 +84,8 @@ sub new {
     $Self->{DSN}  = $Param{DatabaseDSN}  || $ConfigObject->Get('DatabaseDSN');
     $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('DatabaseUser');
     $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('DatabasePw');
+
+    $Self->{IsSlaveDB} = $Param{IsSlaveDB};
 
     $Self->{SlowLog} = $Param{'Database::SlowLog'}
         || $ConfigObject->Get('Database::SlowLog');
@@ -459,27 +462,55 @@ sub _InitSlaveDB {
 
     my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $MasterDSN     = $ConfigObject->Get('DatabaseDSN');
-    my $SlaveDSN      = $ConfigObject->Get('Core::MirrorDB::DSN');
-    my $SlaveUser     = $ConfigObject->Get('Core::MirrorDB::User');
-    my $SlavePassword = $ConfigObject->Get('Core::MirrorDB::Password');
 
-    # If a slave is configured and it is not already used in the current object
-    #   and we are actually in the master connection object: then create a slave.
-    if (
-           $SlaveDSN
-        && $SlaveUser
-        && $SlavePassword
-        && $SlaveDSN ne $Self->{DSN}
-        && $MasterDSN eq $Self->{DSN}
-        )
-    {
-        $Self->{SlaveDBObject} = Kernel::System::DB->new(
-            DatabaseDSN  => $SlaveDSN,
-            DatabaseUser => $SlaveUser,
-            DatabasePw   => $SlavePassword,
-        );
+    # Don't create slave if we are already in a slave, or if we are not in the master,
+    #   such as in an external customer user database handle.
+    if ($Self->{IsSlaveDB} || $MasterDSN ne $Self->{DSN}) {
+        return $Self->{SlaveDBObject};
     }
-    return $Self->{SlaveDBObject};
+
+    my %SlaveConfiguration = (
+        %{ $ConfigObject->Get('Core::MirrorDB::AdditionalMirrors') // {} },
+        0 => {
+            DSN => $ConfigObject->Get('Core::MirrorDB::DSN'),
+            User => $ConfigObject->Get('Core::MirrorDB::User'),
+            Password => $ConfigObject->Get('Core::MirrorDB::Password'),
+        }
+    );
+
+
+    return $Self->{SlaveDBObject} if !%SlaveConfiguration;
+
+    SLAVE_INDEX:
+    for my $SlaveIndex (List::Util::shuffle(keys %SlaveConfiguration)) {
+
+        my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {}};
+        next SLAVE_INDEX if !%CurrentSlave;
+
+        # If a slave is configured and it is not already used in the current object
+        #   and we are actually in the master connection object: then create a slave.
+        if (
+               $CurrentSlave{DSN}
+            && $CurrentSlave{User}
+            && $CurrentSlave{Password}
+            )
+        {
+            my $SlaveDBObject = Kernel::System::DB->new(
+                DatabaseDSN  => $CurrentSlave{DSN},
+                DatabaseUser => $CurrentSlave{User},
+                DatabasePw   => $CurrentSlave{Password},
+                AutoConnectNo => 1,
+                IsSlaveDB    => 1,
+            );
+            if ($SlaveDBObject->Connect()) {
+                $Self->{SlaveDBObject} = $SlaveDBObject;
+                return $Self->{SlaveDBObject};
+            }
+        }
+    }
+
+    # No connect was possible.
+    return;
 }
 
 =item Prepare()
@@ -539,6 +570,7 @@ sub Prepare {
 
     # Route SELECT statements to the DB slave if requested and a slave is configured.
     if ( $UseSlaveDB
+        && !$Self->{IsSlaveDB}
         && $Self->_InitSlaveDB() # this is very cheap after the first call (cached)
         && $SQL =~ m{\A\s*SELECT}xms
     ) {
@@ -665,7 +697,7 @@ to process the results of a SELECT statement
 sub FetchrowArray {
     my $Self = shift;
 
-    if ( $UseSlaveDB && $Self->{_PreparedOnSlaveDB} && $Self->_InitSlaveDB() ) {
+    if ( $Self->{_PreparedOnSlaveDB} ) {
         return $Self->{SlaveDBObject}->FetchrowArray();
     }
 

@@ -5828,7 +5828,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.</Description>
+        <Description Translatable="1">OTRS can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
         <Setting>
@@ -5836,7 +5836,7 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::User" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, the user to authenticate to this database can be specified.</Description>
+        <Description Translatable="1">Specify the username to authenticate for the first mirror database.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
         <Setting>
@@ -5844,11 +5844,71 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::Password" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">If you want to use a mirror database for agent ticket fulltext search or to generate stats, the password to authenticate to this database can be specified.</Description>
+        <Description Translatable="1">Specify the password to authenticate for the first mirror database.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::MirrorDB</SubGroup>
         <Setting>
             <String Regex="" Type="Password">some_password</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::AdditionalMirrors###1" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="User">some_user</Item>
+                <Item Key="Password">some_password</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::AdditionalMirrors###2" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="User">some_user</Item>
+                <Item Key="Password">some_password</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::AdditionalMirrors###3" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="User">some_user</Item>
+                <Item Key="Password">some_password</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::AdditionalMirrors###4" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="User">some_user</Item>
+                <Item Key="Password">some_password</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Core::MirrorDB::AdditionalMirrors###5" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Configure any additional readonly mirror databases that you want to use.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
+                <Item Key="User">some_user</Item>
+                <Item Key="Password">some_password</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LanguageDebug" Required="0" Valid="0">

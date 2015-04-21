@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-04-21 Added support for multiple mirror databases (failsafe).
  - 2015-04-16 Added possibility to use list of TicketIDs (array reference) as a parameter for TicketSearch().
  - 2015-04-13 Addition to fix of bug#[10712](http://bugs.otrs.org/show_bug.cgi?id=10712) - Incorrect utf8 in ZZZAuto.pm (via SysConfig) also for hash keys.
  - 2015-04-10 Support customer company data in ticket small overviews, thanks to Renée Bäcker.

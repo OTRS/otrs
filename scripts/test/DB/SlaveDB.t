@@ -14,92 +14,133 @@ use utf8;
 use vars (qw($Self));
 
 # This test checks the slave handling features in DB.pm
-# Only if a slave DB is configured it is possible to read with two prepared statements at the
-#   same time.
 
-SLAVEACTIVE:
-for my $SlaveActive (0, 1) {
+my $MasterDSN = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
+my $MasterUser = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
+my $MasterPassword = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 
-    $Kernel::OM->ObjectsDiscard();
-
-    if ($SlaveActive) {
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::DSN',
-            # add space character so that DSN strings seem to be different, otherwise slave is not used
-            Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN') . ' ',
-        );
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::User',
-            Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser'),
-        );
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::Password',
-            Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw'),
-        );
-    }
-    else {
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::DSN',
-            Value => undef,
-        );
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::User',
-            Value => undef,
-        );
-        $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::Password',
-            Value => undef,
-        );
-    }
-
+my @Tests = (
     {
-        # Regular fetch from master
-        my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-        my @ValidIDs;
-        my $TestPrefix = "SlaveActive $SlaveActive UseSlaveDB 0: ";
-        $DBObject->Prepare(
-            SQL => "\nSELECT id\nFROM valid", # simulate indentation
-        );
-        while (my @Row = $DBObject->FetchrowArray()) {
-            push @ValidIDs, $Row[0];
-        }
-        $Self->True(
-            scalar @ValidIDs,
-            "$TestPrefix valid ids were found",
-        );
-        $Self->True(
-            $DBObject->{Cursor},
-            "$TestPrefix statement handle active on master",
-        );
-        $Self->False(
-            $DBObject->{SlaveDBObject},
-            "$TestPrefix SlaveDB not connected",
-        );
-
-        $Kernel::OM->ObjectsDiscard(
-            Objects => ['Kernel::System::DB'],
-        );
-    }
-
+        Name => "No slave configured",
+        Config => {
+            'Core::MirrorDB::DSN' => undef,
+            'Core::MirrorDB::User' => undef,
+            'Core::MirrorDB::Password' => undef,
+            'Core::MirrorDB::AdditionalMirrors' => undef,
+        },
+        SlaveDBAvailable => 0,
+        TestIterations => 1,
+    },
     {
-        local $Kernel::System::DB::UseSlaveDB = 1;
+        Name => "First slave configured",
+        Config => {
+            'Core::MirrorDB::DSN' => $MasterDSN,
+            'Core::MirrorDB::User' => $MasterUser,
+            'Core::MirrorDB::Password' => $MasterPassword,
+            'Core::MirrorDB::AdditionalMirrors' => undef,
+        },
+        SlaveDBAvailable => 1,
+        TestIterations => 1,
+    },
+    {
+        Name => "First slave configured as invalid",
+        Config => {
+            'Core::MirrorDB::DSN' => $MasterDSN,
+            'Core::MirrorDB::User' => 'wrong_user',
+            'Core::MirrorDB::Password' => 'wrong_password',
+            'Core::MirrorDB::AdditionalMirrors' => undef,
+        },
+        SlaveDBAvailable => 0,
+        TestIterations => 1,
+    },
+    {
+        Name => "Additional slave configured",
+        Config => {
+            'Core::MirrorDB::DSN' => undef,
+            'Core::MirrorDB::User' => undef,
+            'Core::MirrorDB::Password' => undef,
+            'Core::MirrorDB::AdditionalMirrors' => {
+                1 => {
+                    DSN => $MasterDSN,
+                    User => $MasterUser,
+                    Password => $MasterPassword,
+                },
+            },
+        },
+        SlaveDBAvailable => 1,
+        TestIterations => 1,
+    },
+    {
+        Name => "Additional slave configured as invalid",
+        Config => {
+            'Core::MirrorDB::DSN' => undef,
+            'Core::MirrorDB::User' => undef,
+            'Core::MirrorDB::Password' => undef,
+            'Core::MirrorDB::AdditionalMirrors' => {
+                1 => {
+                    DSN => $MasterDSN,
+                    User => 'wrong_user',
+                    Password => 'wrong_password',
+                },
+            },
+        },
+        SlaveDBAvailable => 0,
+        TestIterations => 1,
+    },
+    {
+        Name => "Full config with valid first slave and invalid additional",
+        Config => {
+            'Core::MirrorDB::DSN' => $MasterDSN,
+            'Core::MirrorDB::User' => $MasterUser,
+            'Core::MirrorDB::Password' => $MasterPassword,
+            'Core::MirrorDB::AdditionalMirrors' => {
+                1 => {
+                    DSN => $MasterDSN,
+                    User => 'wrong_user',
+                    Password => 'wrong_password',
+                },
+                2 => {
+                    DSN => $MasterDSN,
+                    User => $MasterUser,
+                    Password => $MasterPassword,
+                },
+            },
+        },
+        SlaveDBAvailable => 1,
+        # Use many iterations so that also the invalid mirrir will be tried first at some point, probably.
+        TestIterations => 10,
+    },
+);
 
-        my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-        my @ValidIDs = ();
-        my $TestPrefix = "SlaveActive $SlaveActive UseSlaveDB 1: ";
+TEST:
+for my $Test (@Tests) {
 
-        $DBObject->Prepare(
-            SQL => "\nSELECT id\nFROM valid", # simulate indentation
-        );
-        while (my @Row = $DBObject->FetchrowArray()) {
-            push @ValidIDs, $Row[0];
+    for my $TestIteration (1 .. $Test->{TestIterations}) {
+
+        $Kernel::OM->ObjectsDiscard();
+
+        for my $ConfigKey (sort keys %{ $Test->{Config} } ) {
+            $Kernel::OM->Get('Kernel::Config')->Set(
+                Key => $ConfigKey,
+                Value => $Test->{Config}->{$ConfigKey},
+            );
         }
-        $Self->True(
-            scalar @ValidIDs,
-            "$TestPrefix valid ids were found",
-        );
 
-        if (!$SlaveActive) {
+        {
+            # Regular fetch from master
+            my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+            my @ValidIDs;
+            my $TestPrefix = "$Test->{Name} - $TestIteration - UseSlaveDB 0: ";
+            $DBObject->Prepare(
+                SQL => "\nSELECT id\nFROM valid", # simulate indentation
+            );
+            while (my @Row = $DBObject->FetchrowArray()) {
+                push @ValidIDs, $Row[0];
+            }
+            $Self->True(
+                scalar @ValidIDs,
+                "$TestPrefix valid ids were found",
+            );
             $Self->True(
                 $DBObject->{Cursor},
                 "$TestPrefix statement handle active on master",
@@ -108,51 +149,85 @@ for my $SlaveActive (0, 1) {
                 $DBObject->{SlaveDBObject},
                 "$TestPrefix SlaveDB not connected",
             );
-            next SLAVEACTIVE;
+
+            $Kernel::OM->ObjectsDiscard(
+                Objects => ['Kernel::System::DB'],
+            );
         }
 
-        $Self->False(
-            $DBObject->{Cursor},
-            "$TestPrefix statement handle inactive on master",
-        );
-        $Self->True(
-            $DBObject->{SlaveDBObject}->{Cursor},
-            "$TestPrefix statement handle active on slave",
-        );
+        {
+            local $Kernel::System::DB::UseSlaveDB = 1;
 
-        $Self->True(
-            $DBObject->{dbh}->ping(),
-            "$TestPrefix master object is connected",
-        );
+            my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+            my @ValidIDs = ();
+            my $TestPrefix = "$Test->{Name} - $TestIteration - UseSlaveDB 1: ";
 
-        $Self->True(
-            $DBObject->{SlaveDBObject}->{dbh}->ping(),
-            "$TestPrefix slave object is connected",
-        );
+            $DBObject->Prepare(
+                SQL => "\nSELECT id\nFROM valid", # simulate indentation
+            );
+            while (my @Row = $DBObject->FetchrowArray()) {
+                push @ValidIDs, $Row[0];
+            }
+            $Self->True(
+                scalar @ValidIDs,
+                "$TestPrefix valid ids were found",
+            );
 
-        $DBObject->Disconnect();
+            if (!$Test->{SlaveDBAvailable}) {
+                $Self->True(
+                    $DBObject->{Cursor},
+                    "$TestPrefix statement handle active on master",
+                );
+                $Self->False(
+                    $DBObject->{SlaveDBObject},
+                    "$TestPrefix SlaveDB not connected",
+                );
+                next TEST;
+            }
 
-        $Self->False(
-            $DBObject->{dbh}->ping(),
-            "$TestPrefix master object is disconnected",
-        );
+            $Self->False(
+                $DBObject->{Cursor},
+                "$TestPrefix statement handle inactive on master",
+            );
+            $Self->True(
+                $DBObject->{SlaveDBObject}->{Cursor},
+                "$TestPrefix statement handle active on slave",
+            );
 
-        $Self->False(
-            $DBObject->{SlaveDBObject}->{dbh}->ping(),
-            "$TestPrefix slave object is disconnected",
-        );
+            $Self->True(
+                $DBObject->{dbh}->ping(),
+                "$TestPrefix master object is connected",
+            );
 
-        $DBObject->Connect();
+            $Self->True(
+                $DBObject->{SlaveDBObject}->{dbh}->ping(),
+                "$TestPrefix slave object is connected",
+            );
 
-        $Self->True(
-            $DBObject->{dbh}->ping(),
-            "$TestPrefix master object is reconnected",
-        );
+            $DBObject->Disconnect();
 
-        $Self->True(
-            $DBObject->{SlaveDBObject}->{dbh}->ping(),
-            "$TestPrefix slave object is reconnected",
-        );
+            $Self->False(
+                $DBObject->{dbh}->ping(),
+                "$TestPrefix master object is disconnected",
+            );
+
+            $Self->False(
+                $DBObject->{SlaveDBObject}->{dbh}->ping(),
+                "$TestPrefix slave object is disconnected",
+            );
+
+            $DBObject->Connect();
+
+            $Self->True(
+                $DBObject->{dbh}->ping(),
+                "$TestPrefix master object is reconnected",
+            );
+
+            $Self->True(
+                $DBObject->{SlaveDBObject}->{dbh}->ping(),
+                "$TestPrefix slave object is reconnected",
+            );
+        }
     }
 }
 
