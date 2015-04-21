@@ -88,7 +88,7 @@ sub Data {
         'Warning' => 'Cảnh báo',
         'Module' => 'Mô đun',
         'Modulefile' => 'File mô đun',
-        'Subfunction' => 'Chức năng dưới',
+        'Subfunction' => 'Chức năng con',
         'Line' => 'Dòng',
         'Setting' => 'Thiết lập',
         'Settings' => 'Các thiết lập',
@@ -97,7 +97,7 @@ sub Data {
         'valid' => 'hợp lệ',
         'Valid' => 'Hợp lệ',
         'invalid' => 'không hợp lệ',
-        'Invalid' => '',
+        'Invalid' => 'Không hợp lệ',
         '* invalid' => '* không hợp lệ',
         'invalid-temporarily' => 'tạm thời không hợp lệ',
         ' 2 minutes' => '2 phút',
@@ -137,7 +137,7 @@ sub Data {
         'Language' => 'Ngôn ngữ',
         'Languages' => 'Các ngôn ngữ',
         'Password' => 'Mật khẩu',
-        'Preferences' => 'Những sở thích',
+        'Preferences' => 'Tuỳ chọn',
         'Salutation' => 'Lời chào',
         'Salutations' => 'Những lời chào',
         'Signature' => 'Chữ ký',
@@ -2848,6 +2848,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3045,6 +3052,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => '',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3144,6 +3152,7 @@ sub Data {
         'JavaScript not available' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Welcome to %s' => '',
         'Web site' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -3267,6 +3276,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Trang test OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Bộ đếm',
 
         # Template: Warning

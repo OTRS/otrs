@@ -2854,6 +2854,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3051,6 +3058,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'ویرایش تنظیمات شخصی',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3150,6 +3158,7 @@ sub Data {
         'JavaScript not available' => 'جاوا اسکریپت در دسترس نیست',
         'Database Settings' => 'تنظیمات پایگاه داده',
         'General Specifications and Mail Settings' => 'مشخصات عمومی و تنظیمات ایمیل',
+        'Welcome to %s' => '',
         'Web site' => 'وب سایت',
         'Mail check successful.' => 'کنترل تنظیمات ایمیل موفقیت‌آمیز بود.',
         'Error in the mail settings. Please correct and try again.' => 'خطا در تنظیمات ایمیل. لطفا تصحیح نموده و مجددا تلاش نمایید.',
@@ -3273,6 +3282,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'صفحه آزمایش سیستم',
+        'Welcome %s %s' => '',
         'Counter' => 'شمارنده',
 
         # Template: Warning

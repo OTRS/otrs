@@ -2853,6 +2853,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3050,6 +3057,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Uredite osobne postavke',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3149,6 +3157,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nije dostupan.',
         'Database Settings' => 'Postavke baze podataka',
         'General Specifications and Mail Settings' => 'Opće specifikacije i postavke E-pošte',
+        'Welcome to %s' => '',
         'Web site' => 'Web stranica',
         'Mail check successful.' => 'Uspješna provjera postavki E-pošte.',
         'Error in the mail settings. Please correct and try again.' => 'Greška u postavkama E-pošte. Molimo ispravite i pokušajte ponovo.',
@@ -3272,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS test stranica',
+        'Welcome %s %s' => '',
         'Counter' => 'Brojač',
 
         # Template: Warning
@@ -4699,11 +4709,11 @@ sub Data {
         'Overview Escalated Tickets' => 'Pregled eskaliralih kartice',
         'Overview Refresh Time' => '',
         'Overview of all open Tickets.' => 'pregled svih otvorenih kartice.',
-        'PGP Key Management' => '',
+        'PGP Key Management' => 'Upravljanje PGP ključevima',
         'PGP Key Upload' => 'Slanje "PGP" ključa',
         'Package event module file a scheduler task for update registration.' =>
             '',
-        'Parameters for .' => '',
+        'Parameters for .' => 'Parametri za',
         'Parameters for the CreateNextMask object in the preference view of the agent interface.' =>
             '',
         'Parameters for the CustomQueue object in the preference view of the agent interface.' =>

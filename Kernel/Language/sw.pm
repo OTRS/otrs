@@ -2853,6 +2853,13 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Barua pepe zilizofungwa nje.',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Tuma mbele: %s - %s',
 
@@ -3050,6 +3057,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Incoming Chat Requests' => 'Maombi ya mazungumzo yanayoingia',
         'You have unanswered chat requests' => 'Unamaombi ya mazungumzo ambayo hayajajibiwa',
         'Edit personal preferences' => 'Hariri mapendeleo binafsi',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Gawanya nukuu',
@@ -3149,6 +3157,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'JavaScript not available' => 'JavaScript haipatikani',
         'Database Settings' => 'Mipangilio ya hifadhi data',
         'General Specifications and Mail Settings' => 'Ubainishi wa jumla na mipangilio ya barua pepe',
+        'Welcome to %s' => '',
         'Web site' => 'Tovuti',
         'Mail check successful.' => 'Barua pepe imeangaliwa kwa mafanikio',
         'Error in the mail settings. Please correct and try again.' => 'Kosa katika mipangilio ya barua pepe. Tafadhali rekebisha na jaribu tena.',
@@ -3272,6 +3281,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: Test
         'OTRS Test Page' => 'Ukurasa wa majaribio wa OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Kiesabuji',
 
         # Template: Warning

@@ -2851,6 +2851,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3048,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => '編輯個人設置',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3147,6 +3155,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript沒有啟用',
         'Database Settings' => '數據庫設置',
         'General Specifications and Mail Settings' => '一般設定和郵件配置',
+        'Welcome to %s' => '',
         'Web site' => '網址',
         'Mail check successful.' => '郵件配置檢查完成',
         'Error in the mail settings. Please correct and try again.' => '郵件設置錯誤, 請重新修正.',
@@ -3270,6 +3279,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS測試頁',
+        'Welcome %s %s' => '',
         'Counter' => '計數器',
 
         # Template: Warning

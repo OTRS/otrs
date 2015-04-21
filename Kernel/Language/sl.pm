@@ -2853,6 +2853,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3050,6 +3057,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Uredite osebne podatke',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3149,6 +3157,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript ni dostopen.',
         'Database Settings' => 'Database nastavitve',
         'General Specifications and Mail Settings' => 'Splošne tehnične zahteve in nastavitve za e-pošto',
+        'Welcome to %s' => '',
         'Web site' => 'Web stran',
         'Mail check successful.' => 'Pregled E-pošte uspešen.',
         'Error in the mail settings. Please correct and try again.' => 'Napaka v poštnih nastavitvah. Prosimo, poskusite znova.',
@@ -3272,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS testna stran',
+        'Welcome %s %s' => '',
         'Counter' => 'Števec',
 
         # Template: Warning

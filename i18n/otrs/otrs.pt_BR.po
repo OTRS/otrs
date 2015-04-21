@@ -1,5 +1,6 @@
 # 
 # Translators:
+# eder.brito <ederbritoo@gmail.com>, 2015
 # José Junior <joserribeiro26@gmail.com>, 2014
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014-2015
@@ -9,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-04-21 12:04+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2148,7 +2149,7 @@ msgstr "O parâmetro  'max_allowed_packet' deve ser maior que 20MB"
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Tamanho do Cache de Consulta"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2497,7 +2498,7 @@ msgstr "Não foi possível determinar a versão do servidor WEB."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "Módulos Apache Carregados"
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -5117,27 +5118,27 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "Novo mapa de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Adicionar mapeamento de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Mapeamento por Chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Remover mapeamento de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Chave mapeada"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Chave de mapa"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
@@ -5189,29 +5190,29 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
-msgstr ""
+msgstr "Criar nova operação"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr ""
+msgstr "Alterar operação %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "Você realmente deseja excluir esta operação?"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Detalhes da Operação"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The name is typically used to call up this web service operation from a "
 "remote system."
-msgstr ""
+msgstr "O nome é normalmente usado para chamar esta operação de web service a partir de um sistema remoto."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "Por favor, forneça um único nome para este web service."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -5245,7 +5246,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
-msgstr ""
+msgstr "Excluir esta Operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
@@ -5302,7 +5303,7 @@ msgstr ""
 msgid ""
 "This configuration defines if incoming connections should get closed or kept"
 " alive."
-msgstr ""
+msgstr "Esta configuração define se conexões de entrada devem ficar fechadas ou permanecerem abertas."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
@@ -5310,11 +5311,11 @@ msgstr "Servidor"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "URL do host remoto para requisições REST."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "ex: https://www.otrs.com:10745/api/v1.0 (sem fuga da barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -9555,6 +9556,26 @@ msgstr "Obter todos"
 msgid "E-Mail Outbound"
 msgstr "E-mail de Saída"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Encaminhar chamado: %s - %s"
@@ -10153,6 +10174,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Editar preferências pessoais"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "Marca de citação"
@@ -10431,6 +10456,10 @@ msgstr "Configurações de Banco de Dados"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Especificações Gerais e Configurações de E-mail"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10780,6 +10809,10 @@ msgstr "Impresso por"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Página de Teste do Gerenciador de Chamados"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"

@@ -2849,6 +2849,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3046,6 +3053,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Redaguoti asmeninius nustatymus',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3145,6 +3153,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript neįjungtas.',
         'Database Settings' => 'Duomenų bazės nustatymai',
         'General Specifications and Mail Settings' => 'Bendrieji reikalavimai ir Pašto nustatymai',
+        'Welcome to %s' => '',
         'Web site' => 'Interneto puslapis',
         'Mail check successful.' => 'El. pašto patikrinimas sėkmingas.',
         'Error in the mail settings. Please correct and try again.' => 'Klaida pašto nustatymuose. Prašome ištaisyti klaidas ir bandyti iš naujo.',
@@ -3268,6 +3277,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Bandomasis puslapis',
+        'Welcome %s %s' => '',
         'Counter' => 'Skaitliukas',
 
         # Template: Warning

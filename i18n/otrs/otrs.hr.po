@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-04-21 12:04+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/OTRS/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9553,6 +9553,26 @@ msgstr "Dohvati sve"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr ""
@@ -10151,6 +10171,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Uredite osobne postavke"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10429,6 +10453,10 @@ msgstr "Postavke baze podataka"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Opće specifikacije i postavke E-pošte"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10778,6 +10806,10 @@ msgstr "otisnuo"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS test stranica"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -15423,7 +15455,7 @@ msgstr "pregled svih otvorenih kartice."
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "Upravljanje PGP ključevima"
 
 #. SysConfig
 msgid "PGP Key Upload"
@@ -15435,7 +15467,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Parameters for ."
-msgstr ""
+msgstr "Parametri za"
 
 #. SysConfig
 msgid ""

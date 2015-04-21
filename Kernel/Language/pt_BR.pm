@@ -605,7 +605,7 @@ sub Data {
         'Maximum Query Size' => 'Tamanho Máximo da Query',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'O parâmetro  \'max_allowed_packet\' deve ser maior que 20MB',
-        'Query Cache Size' => '',
+        'Query Cache Size' => 'Tamanho do Cache de Consulta',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
             '',
         'Default Storage Engine' => 'Mecanismo de Armazenamento Padrão',
@@ -701,7 +701,7 @@ sub Data {
         'Environment Variables' => 'Variáveis de ambiente',
         'Webserver Version' => 'Versão do Servidor WEB',
         'Could not determine webserver version.' => 'Não foi possível determinar a versão do servidor WEB.',
-        'Loaded Apache Modules' => '',
+        'Loaded Apache Modules' => 'Módulos Apache Carregados',
         'CGI Accelerator Usage' => 'Uso do CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Você deve utilizar o FastCGI ou mod_perl para aumentar o desempenho. ',
@@ -1439,12 +1439,12 @@ sub Data {
         'This rule will apply for all keys with no mapping rule.' => '',
         'Default rule for unmapped values' => '',
         'This rule will apply for all values with no mapping rule.' => '',
-        'New key map' => '',
-        'Add key mapping' => '',
-        'Mapping for Key ' => '',
-        'Remove key mapping' => '',
-        'Key mapping' => '',
-        'Map key' => '',
+        'New key map' => 'Novo mapa de chave',
+        'Add key mapping' => 'Adicionar mapeamento de chave',
+        'Mapping for Key ' => 'Mapeamento por Chave',
+        'Remove key mapping' => 'Remover mapeamento de chave',
+        'Key mapping' => 'Chave mapeada',
+        'Map key' => 'Chave de mapa',
         'matching the' => '',
         'to new key' => '',
         'Value mapping' => '',
@@ -1459,13 +1459,13 @@ sub Data {
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => '',
         'Change Operation %s of Web Service %s' => '',
-        'Add new operation' => '',
-        'Change operation %s' => '',
-        'Do you really want to delete this operation?' => '',
-        'Operation Details' => '',
+        'Add new operation' => 'Criar nova operação',
+        'Change operation %s' => 'Alterar operação %s',
+        'Do you really want to delete this operation?' => 'Você realmente deseja excluir esta operação?',
+        'Operation Details' => 'Detalhes da Operação',
         'The name is typically used to call up this web service operation from a remote system.' =>
-            '',
-        'Please provide a unique name for this web service.' => '',
+            'O nome é normalmente usado para chamar esta operação de web service a partir de um sistema remoto.',
+        'Please provide a unique name for this web service.' => 'Por favor, forneça um único nome para este web service.',
         'Mapping for incoming request data' => '',
         'The request data will be processed by this mapping, to transform it to the kind of data OTRS expects.' =>
             '',
@@ -1475,7 +1475,7 @@ sub Data {
         'Mapping for outgoing response data' => '',
         'The response data will be processed by this mapping, to transform it to the kind of data the remote system expects.' =>
             '',
-        'Delete this Operation' => '',
+        'Delete this Operation' => 'Excluir esta Operação',
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => '',
@@ -1493,11 +1493,11 @@ sub Data {
             '',
         'Send Keep-Alive' => '',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
-            '',
+            'Esta configuração define se conexões de entrada devem ficar fechadas ou permanecerem abertas.',
         'Host' => 'Servidor',
-        'Remote host URL for the REST requests.' => '',
+        'Remote host URL for the REST requests.' => 'URL do host remoto para requisições REST.',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'ex: https://www.otrs.com:10745/api/v1.0 (sem fuga da barra invertida)',
         'Controller mapping for Invoker' => '',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '',
@@ -2854,6 +2854,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'E-mail de Saída',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Encaminhar chamado: %s - %s',
 
@@ -3051,6 +3058,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Editar preferências pessoais',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Marca de citação',
@@ -3150,6 +3158,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript não habilitado ou não é suportado.',
         'Database Settings' => 'Configurações de Banco de Dados',
         'General Specifications and Mail Settings' => 'Especificações Gerais e Configurações de E-mail',
+        'Welcome to %s' => '',
         'Web site' => 'Website',
         'Mail check successful.' => 'Êxito na verificação de e-mail.',
         'Error in the mail settings. Please correct and try again.' => 'Erro nas configurações de e-mail. Por favor, corrija e tente novamente.',
@@ -3273,6 +3282,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Página de Teste do Gerenciador de Chamados',
+        'Welcome %s %s' => '',
         'Counter' => 'Contador',
 
         # Template: Warning

@@ -2855,6 +2855,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '发邮件',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3052,6 +3059,7 @@ sub Data {
         'Incoming Chat Requests' => '进入的会话请求',
         'You have unanswered chat requests' => '你有未响应的对话请求',
         'Edit personal preferences' => '编辑个人设置',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3151,6 +3159,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript没有启用',
         'Database Settings' => '数据库设置',
         'General Specifications and Mail Settings' => '一般设定和邮件配置',
+        'Welcome to %s' => '',
         'Web site' => '网址',
         'Mail check successful.' => '邮件配置检查完成',
         'Error in the mail settings. Please correct and try again.' => '邮件设置错误, 请重新修正.',
@@ -3274,6 +3283,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS测试页',
+        'Welcome %s %s' => '',
         'Counter' => '计数器',
 
         # Template: Warning

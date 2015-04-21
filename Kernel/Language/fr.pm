@@ -654,7 +654,7 @@ sub Data {
         'Ticket History Entries' => '',
         'Articles' => 'Articles',
         'Attachments (DB, Without HTML)' => '',
-        'Customers With At Least One Ticket' => '',
+        'Customers With At Least One Ticket' => 'Clients avec au moins un ticket',
         'Queues' => 'Files',
         'Agents' => 'Opérateurs',
         'Roles' => 'Rôles',
@@ -806,7 +806,7 @@ sub Data {
         'Forwarded message from' => 'Message transféré par',
         'End forwarded message' => 'Fin du message tranféré',
         'Bounce Article to a different mail address' => '',
-        'Reply to note' => '',
+        'Reply to note' => 'Répondre à une note',
         'new' => 'nouveau',
         'open' => 'ouvert',
         'Open' => 'Ouverts',
@@ -869,7 +869,7 @@ sub Data {
         'Phone-Ticket' => 'Ticket Téléphone',
         'Search Tickets' => 'Recherche de tickets',
         'Customer Realname' => '',
-        'Customer History' => '',
+        'Customer History' => 'Historique Client',
         'Edit Customer Users' => 'Editer clients',
         'Edit Customer' => 'Editer client',
         'Bulk Action' => 'Action groupée',
@@ -932,7 +932,7 @@ sub Data {
         'Send new ticket notifications' => 'Envoyer les notifications en cas de nouveau ticket',
         'Ticket follow up notification' => 'Notification de suivi de ticket',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            '',
+            'M\'envoyer une notification si un client envoi un suivi et que je suis le propriétaire du ticket ou que le ticket est déverrouillé et est dans une de mes files',
         'Send ticket follow up notifications' => 'Envoyer des notifications de suivi de ticket',
         'Ticket lock timeout notification' => 'Prévenir du dépassement du délai d\'un verrou',
         'Send me a notification if a ticket is unlocked by the system.' =>
@@ -996,14 +996,14 @@ sub Data {
         'Sat' => 'Sam',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Gestion ACL',
+        'Filter for ACLs' => 'Filtres pour ACLs',
         'Filter' => 'Filtre',
-        'ACL Name' => '',
+        'ACL Name' => 'Nom ACL',
         'Actions' => 'Actions',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Créer une ACL',
+        'Deploy ACLs' => 'Déployer ACLs',
+        'Export ACLs' => 'Exporter ACLs',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
@@ -1018,15 +1018,15 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'Nom ACL',
         'Validity' => 'Validité',
         'Copy' => 'Copier',
         'No data found.' => 'Aucune donnée trouvée',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Modifier ACL',
         'Go to overview' => 'Aller à la vue d\'ensemble',
-        'Delete ACL' => '',
+        'Delete ACL' => 'Effacer ACL',
         'Delete Invalid ACL' => '',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
@@ -1042,12 +1042,12 @@ sub Data {
         'Edit ACL structure' => '',
         'Save' => 'Sauver',
         'or' => 'ou',
-        'Save and finish' => '',
+        'Save and finish' => 'Enregistrer et terminer',
         'Do you really want to delete this ACL?' => '',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
             '',
         'An item with this name is already present.' => '',
-        'Add all' => '',
+        'Add all' => 'Tout ajouter',
         'There was an error reading the ACL data.' => '',
 
         # Template: AdminACLNew
@@ -1671,7 +1671,7 @@ sub Data {
         'Queue Settings' => 'Configuration des Files',
         'Ticket Settings' => 'Configuration des Tickets',
         'System Administration' => 'Administration Système',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'Manuel Admin en ligne',
 
         # Template: AdminNotification
         'Notification Management' => 'Gestion des notifications',
@@ -2110,7 +2110,7 @@ sub Data {
         # Template: AdminQueueTemplates
         'Manage Template-Queue Relations' => '',
         'Filter for Templates' => '',
-        'Templates' => '',
+        'Templates' => 'Modèles',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
 
@@ -2510,22 +2510,22 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'Gérer les modèles',
+        'Add template' => 'Ajouter un modèle',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
-        'Don\'t forget to add new templates to queues.' => '',
-        'Add Template' => '',
-        'Edit Template' => '',
-        'A standard template with this name already exists!' => '',
-        'Template' => '',
+            'Un modèle est un texte par défaut qui aide vos opérateurs à écrire plus rapidement des tickets, réponses ou renvois.',
+        'Don\'t forget to add new templates to queues.' => 'N\'oubliez pas d\'ajouter les nouveaux modèles à une file',
+        'Add Template' => 'Ajouter un modèle',
+        'Edit Template' => 'Modifier un modèle',
+        'A standard template with this name already exists!' => 'Un modèle standard avec ce nom existe déjà',
+        'Template' => 'Modèle',
         'Create type templates only supports this smart tags' => '',
-        'Example template' => '',
+        'Example template' => 'Exemple de modèle',
         'The current ticket state is' => 'L\'état actuel du ticket est',
         'Your email address is' => 'Votre e-mail est',
 
         # Template: AdminTemplateAttachment
-        'Manage Templates <-> Attachments Relations' => '',
+        'Manage Templates <-> Attachments Relations' => 'Gérer la relation Modèles <-> Pièces jointes',
         'Filter for Attachments' => '',
         'Change Template Relations for Attachment' => '',
         'Change Attachment Relations for Template' => '',
@@ -2630,7 +2630,7 @@ sub Data {
         'My watched tickets' => 'Mes tickets suivis',
         'My responsibilities' => 'Mes responsabilités',
         'Tickets in My Queues' => 'Tickets dans mes Files',
-        'Tickets in My Services' => '',
+        'Tickets in My Services' => 'Tickets dans mes Services',
         'Service Time' => 'Temps pour le service',
         'Remove active filters for this widget.' => 'Supprimer les filtres actifs pour ce widget',
 
@@ -2795,12 +2795,12 @@ sub Data {
         'Please set a new owner!' => 'Merci de renseigner un propriétaire',
         'Previous Owner' => 'Propriétaire Précédent',
         'Next state' => 'État suivant',
-        'For all pending* states.' => '',
-        'Add Article' => '',
+        'For all pending* states.' => 'Pour tous les états en attente*',
+        'Add Article' => 'Ajout article',
         'Create an Article' => '',
         'Spell check' => 'Vérifier orthographe',
-        'Text Template' => '',
-        'Setting a template will overwrite any text or attachment.' => '',
+        'Text Template' => 'Modèle de texte',
+        'Setting a template will overwrite any text or attachment.' => 'Choisir un modèle va effacer tout le texte ou les pièces jointes',
         'Note type' => 'Type de note',
         'Inform Agent' => 'Informer l\'opérateur',
         'Optional' => 'Optionnel',
@@ -2846,7 +2846,7 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Créer un Nouveau Ticket par E-mail',
-        'Example Template' => '',
+        'Example Template' => 'Exemple de modèle',
         'From queue' => 'De la file',
         'To customer user' => 'Vers le client',
         'Please include at least one customer user for the ticket.' => '',
@@ -2856,6 +2856,13 @@ sub Data {
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Mail sortant',
+
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Tranférer le ticket: %s - %s',
@@ -3054,6 +3061,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Editer les préférences',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3153,6 +3161,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript non disponible',
         'Database Settings' => 'Réglages de Base de Données',
         'General Specifications and Mail Settings' => 'Spécifications Générales et Réglages de Messagerie',
+        'Welcome to %s' => '',
         'Web site' => 'Site web',
         'Mail check successful.' => 'Contrôle de mail effectué avec succès.',
         'Error in the mail settings. Please correct and try again.' => 'Erreur dans la configuration de la messagerie. Merci de corriger et de ré-essayer.',
@@ -3276,6 +3285,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Page de test d\'OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Compteur',
 
         # Template: Warning
@@ -3481,7 +3491,7 @@ sub Data {
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Configure Processes.' => '',
-        'Configure and manage ACLs.' => '',
+        'Configure and manage ACLs.' => 'Configurer et gérer les ACLs',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -3502,7 +3512,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Créer et gérer les contrats de niveau de support (SLAs).',
         'Create and manage agents.' => 'Créer et gérer les opérateurs.',
         'Create and manage attachments.' => 'Créer et gérer les pièces jointes.',
-        'Create and manage customer users.' => '',
+        'Create and manage customer users.' => 'Créer et gérer les utilisateurs clients',
         'Create and manage customers.' => 'Créer et gérer les clients.',
         'Create and manage dynamic fields.' => 'Créer et gérer les champs dynamiques.',
         'Create and manage event based notifications.' => 'Créer et gérer les notifications évenementielles.',
@@ -3513,7 +3523,7 @@ sub Data {
         'Create and manage salutations.' => 'Créer et gérer les en-têtes.',
         'Create and manage services.' => 'Créer et gérer les services.',
         'Create and manage signatures.' => 'Créer et gérer les signatures.',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'Créer et gérer les modèles',
         'Create and manage ticket priorities.' => 'Créer et gérer les priorités de ticket.',
         'Create and manage ticket states.' => 'Créer et gérer les états de ticket.',
         'Create and manage ticket types.' => 'Créer et gérer les types de ticket.',
@@ -3524,7 +3534,7 @@ sub Data {
         'Custom RSS Feed' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
-        'Customer Administration' => '',
+        'Customer Administration' => 'Administration des Clients',
         'Customer User <-> Groups' => 'Utilisateur client <-> Groupes',
         'Customer User <-> Services' => 'Utilisateur client <-> Services',
         'Customer User Administration' => 'Administration des utilisateurs clients',
@@ -4559,12 +4569,12 @@ sub Data {
         'Left' => '',
         'Link agents to groups.' => 'Lier les opérateurs aux groupes',
         'Link agents to roles.' => 'Lier les opérateurs aux rôles',
-        'Link attachments to templates.' => '',
+        'Link attachments to templates.' => 'Lier les pièces jointes aux modèles',
         'Link customer user to groups.' => '',
         'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Lier les files aux réponses automatiques',
         'Link roles to groups.' => 'Lier les rôles aux groupes',
-        'Link templates to queues.' => '',
+        'Link templates to queues.' => 'Lier les modèles aux files',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4606,7 +4616,7 @@ sub Data {
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gérer les comptes POP3 ou IMAP où aller chercher les e-mails.',
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le chiffrement des e-mails.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
-        'Manage notifications that are sent to agents.' => '',
+        'Manage notifications that are sent to agents.' => 'Gérer les notifications envoyées aux opérateurs',
         'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
@@ -4662,9 +4672,9 @@ sub Data {
             '',
         'Module to use database filter storage.' => '',
         'Multiselect' => '',
-        'My Queues and My Services' => '',
-        'My Queues or My Services' => '',
-        'My Services' => '',
+        'My Queues and My Services' => 'Mes Files et Mes Services',
+        'My Queues or My Services' => 'Mes Files ou Mes Services',
+        'My Services' => 'Mes Services',
         'My Tickets' => 'Mes Tickets',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
@@ -4695,8 +4705,8 @@ sub Data {
             '',
         'Old: "%s" New: "%s"' => 'État Avant: "%s" Après: "%s"',
         'Online' => '',
-        'Open tickets (customer user)' => '',
-        'Open tickets (customer)' => '',
+        'Open tickets (customer user)' => 'Ouvrir les tickets (utilisateur client)',
+        'Open tickets (customer)' => 'Ouvrir les tickets (client)',
         'Out Of Office' => '',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
@@ -4866,10 +4876,10 @@ sub Data {
             '',
         'Send me a notification if there is a new ticket in my queues/services.' =>
             '',
-        'Send new ticket notifications if subscribed to' => '',
+        'Send new ticket notifications if subscribed to' => 'Envoyer une notification de nouveau ticket si abonné à ',
         'Send notifications to users.' => 'Envoyer des notifications aux clients',
         'Send service update notifications' => '',
-        'Send ticket follow up notifications if subscribed to' => '',
+        'Send ticket follow up notifications if subscribed to' => 'Envoyer une notification de suivi de ticket si abonné à ',
         'Sender type for new tickets from the customer inteface.' => '',
         'Sends agent follow-up notification only to the owner, if a ticket is unlocked (the default is to send the notification to all agents).' =>
             '',

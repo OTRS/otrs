@@ -45,12 +45,12 @@ sub Data {
         'Done' => 'Tehtud',
         'Cancel' => 'Katkesta',
         'Reset' => 'Reset',
-        'more than ... ago' => '',
+        'more than ... ago' => 'enam kui ... tagasi',
         'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
+        'within the last ...' => 'viimase ... jooksul',
+        'within the next ...' => 'järgmise ... jooksul',
         'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created more than ... ago' => 'Loodud enam kui ... tagasi',
         'Today' => 'Täna',
         'Tomorrow' => 'Homme',
         'Next week' => 'Järgmine nädal',
@@ -128,7 +128,7 @@ sub Data {
         'Normal' => 'Tavaline',
         'Parent' => 'Ülem',
         'Child' => 'Alam',
-        'Hit' => 'Hit',
+        'Hit' => 'Tabamus',
         'Hits' => 'Hits',
         'Text' => 'Tekst',
         'Standard' => '',
@@ -2849,6 +2849,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3046,6 +3053,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Muuda isiklikke eelistusi',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3145,6 +3153,7 @@ sub Data {
         'JavaScript not available' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Welcome to %s' => '',
         'Web site' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -3268,6 +3277,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS testileht',
+        'Welcome %s %s' => '',
         'Counter' => 'Loendur',
 
         # Template: Warning

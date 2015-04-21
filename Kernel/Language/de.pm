@@ -716,7 +716,7 @@ sub Data {
 
         # Template: AAATicket
         'Status View' => 'Ansicht nach Status',
-        'Service View' => 'Service-Ansicht',
+        'Service View' => 'Ansicht nach Services',
         'Bulk' => 'Sammelaktion',
         'Lock' => 'Sperren',
         'Unlock' => 'Freigeben',
@@ -860,7 +860,7 @@ sub Data {
         'Create new Email Ticket' => 'Ein neues E-Mail-Ticket erstellen',
         'Phone-Ticket' => 'Telefon-Ticket',
         'Search Tickets' => 'Ticket-Suche',
-        'Customer Realname' => '',
+        'Customer Realname' => 'Kundenrealname',
         'Customer History' => 'Kundenhistorie',
         'Edit Customer Users' => 'Kundenbenutzer bearbeiten',
         'Edit Customer' => 'Kunde bearbeiten',
@@ -1017,7 +1017,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'ACL %s bearbeiten',
-        'Go to overview' => 'Zurück zur Übersicht',
+        'Go to overview' => 'Zur Übersicht',
         'Delete ACL' => 'ACL löschen',
         'Delete Invalid ACL' => 'Ungültige ACL löschen',
         'Match settings' => 'Filterbedingungen',
@@ -1291,7 +1291,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Dieses Event ist dem Job bereits zugeordnet. Bitte wählen Sie ein anderes aus.',
         'Delete this Event Trigger' => 'Diesen Event-Trigger löschen',
-        'Remove selection' => '',
+        'Remove selection' => 'Auswahl entfernen',
         'Select Tickets' => 'Tickets selektieren',
         '(e. g. 10*5155 or 105658*)' => 'z .B. 10*5144 oder 105658*',
         '(e. g. 234321)' => 'z. B. 234321',
@@ -2397,7 +2397,7 @@ sub Data {
         'Kill this session' => 'Diese Sitzung löschen',
         'Session' => 'Session',
         'Kill' => 'Löschen',
-        'Detail View for SessionID' => 'Detailansicht für SessionID',
+        'Detail View for SessionID' => 'Detailansicht der Sitzungskennung',
 
         # Template: AdminSignature
         'Signature Management' => 'Signatur-Verwaltung',
@@ -2849,6 +2849,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Ausgehende E-Mail',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Ticket weiterleiten:  %s - %s',
 
@@ -2973,7 +2980,7 @@ sub Data {
         'Reset Filter' => 'Filter zurücksetzen',
         'Show one article' => 'Einen Beitrag anzeigen',
         'Show all articles' => 'Alle Beiträge anzeigen',
-        'Show Ticket Timeline View' => 'Zeige Ticket-Verlauf-Ansicht',
+        'Show Ticket Timeline View' => 'Ticket-Verlauf-Ansicht anzeigen',
         'Unread articles' => 'Ungelesene Beiträge',
         'No.' => 'Nr.',
         'Important' => 'Wichtig',
@@ -3046,6 +3053,7 @@ sub Data {
         'Incoming Chat Requests' => 'Eingehende Chatanfragen',
         'You have unanswered chat requests' => 'Sie haben unbeantwortete Chatanfragen',
         'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Zitat aufteilen',
@@ -3145,6 +3153,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
         'Database Settings' => 'Datenbankeinstellungen',
         'General Specifications and Mail Settings' => 'Allgemeine Einstellungen und E-Mail-Einstellungen',
+        'Welcome to %s' => '',
         'Web site' => 'Website',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
@@ -3268,6 +3277,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Testseite',
+        'Welcome %s %s' => '',
         'Counter' => 'Zähler',
 
         # Template: Warning
@@ -4211,7 +4221,7 @@ sub Data {
         'Dynamic Fields Drop-down Backend GUI' => 'Dynamic Fields-Oberfläche für Auswahlboxen',
         'Dynamic Fields GUI' => 'Dynamic Fields-Oberfläche',
         'Dynamic Fields Multiselect Backend GUI' => 'Dynamic Fields-Oberfläche für Mehrfachauswahlboxen',
-        'Dynamic Fields Overview Limit' => 'Dynamic Fields Übersicht-Begrenzung',
+        'Dynamic Fields Overview Limit' => 'Übersichtsbegrenzung der dynamischen Felder',
         'Dynamic Fields Text Backend GUI' => 'Dynamic Fields-Oberfläche für Textfelder',
         'Dynamic Fields used to export the search result in CSV format.' =>
             '',
@@ -4383,7 +4393,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => '',
         'Frontend theme' => 'Oberflächen-Schema',
         'Fulltext index regex filters to remove parts of the text.' => '',
-        'Fulltext search' => '',
+        'Fulltext search' => 'Volltextsuche',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'GenericAgent',
@@ -4548,7 +4558,7 @@ sub Data {
             'Es ist möglich, verschiedene Themes zu konfigurieren, zum Beispiel um zwischen verschiedenen Agenten und Kunden auf Basis der jeweiligen Domain zu unterscheiden. Sie können durch Nutzung von regulären Ausdrücken mithilfe von Schlüssel-/Wert-Paaren auf Domains prüfen. Der Inhalt von "Schlüssel" sollte die Prüfung auf die Domain beinhalten, der Inhalt von "Wert" den Namen des zu selektierenden Themes für diese Domain. Bitte beachten Sie die Einträge mit Beispielen für korrekte reguläre Ausdrücke.',
         'Lastname, Firstname' => 'Nachname, Vorname',
         'Lastname, Firstname (UserLogin)' => 'Nachname, Vorname (BenutzerLogin)',
-        'Left' => '',
+        'Left' => 'Links',
         'Link agents to groups.' => 'Agenten zu Gruppen zuordnen.',
         'Link agents to roles.' => 'Agenten zu Rollen zuordnen.',
         'Link attachments to templates.' => 'Anhänge zu Vorlagen zuordnen.',
@@ -4581,7 +4591,7 @@ sub Data {
         'List of all ticket events to be displayed in the GUI.' => 'Liste aller Ticket-Ereignisse, welche in der grafischen Benutzeroberfläche angezeigt werden sollen.',
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             'Liste der Standardvorlagen, welche neuen Queues nach Erstellung automatisch zugeordnet werden.',
-        'List view' => '',
+        'List view' => 'Listenansicht',
         'Locked ticket.' => 'Ticket gesperrt.',
         'Log file for the ticket counter.' => 'Log-Datei für den Ticket-Counter.',
         'Loop-Protection! No auto-response sent to "%s".' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
@@ -4664,7 +4674,7 @@ sub Data {
             '',
         'NameX' => 'NameX',
         'New Ticket [%s] created (Q=%s;P=%s;S=%s).' => 'Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s).',
-        'New Window' => '',
+        'New Window' => 'Neues Fenster',
         'New email ticket' => 'Neues E-Mail-Ticket',
         'New owner is "%s" (ID=%s).' => 'Neuer Besitzer ist "%s" (ID=%s).',
         'New phone ticket' => 'Neues Telefon-Ticket',
@@ -4675,7 +4685,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No Notification' => 'Keine Benachrichtigung',
-        'None' => '',
+        'None' => 'Keine',
         'Notification sent to "%s".' => 'Benachrichtigung versandt an "%s".',
         'Notifications (Event)' => 'Benachrichtigungen (Ereignis)',
         'Number of displayed tickets' => 'Anzahl der angezeigten Tickets',
@@ -4686,13 +4696,13 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Anzahl der anzuzeigenen Tickets pro Seite in einem Suchergebnis in der Kundenoberfläche.',
         'Old: "%s" New: "%s"' => 'Alt: "%s" Neu: "%s"',
-        'Online' => '',
+        'Online' => 'Online',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
         'Out Of Office' => 'Derzeit nicht im Büro',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
-        'Overview Escalated Tickets' => 'Übersicht eskalierte Tickets',
+        'Overview Escalated Tickets' => 'Übersicht über eskalierte Tickets',
         'Overview Refresh Time' => 'Aktualisierungszeiten der Übersichten',
         'Overview of all open Tickets.' => 'Übersicht über alle offenen Tickets.',
         'PGP Key Management' => 'PGP-Schlüssel-Verwaltung',
@@ -4827,7 +4837,7 @@ sub Data {
             '',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
-        'Right' => '',
+        'Right' => 'Rechts',
         'Roles <-> Groups' => 'Rollen <-> Gruppen',
         'Running Process Tickets' => 'Aktive Prozesstickets',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -5251,8 +5261,8 @@ sub Data {
         'Skin' => 'Skin',
         'SolutionDiffInMin' => 'Lösungszeitdifferenz in Minuten',
         'SolutionInMin' => 'Lösungszeit in Minuten',
-        'Some description!' => '',
-        'Some picture description!' => '',
+        'Some description!' => 'Eine Beschreibung!',
+        'Some picture description!' => 'Eine Bildbeschreibung!',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the queue view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the QueueID for the key and 0 or 1 for value.' =>
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
@@ -5267,8 +5277,8 @@ sub Data {
             '',
         'Specifies the background color of the chart.' => 'Legt die Hintergrundfarbe der Tabelle fest.',
         'Specifies the background color of the picture.' => 'Legt die Hintergrundfarbe des Bildes fest.',
-        'Specifies the border color of the chart.' => '',
-        'Specifies the border color of the legend.' => '',
+        'Specifies the border color of the chart.' => 'Legt die Rahmenfarbe der Tabelle fest.',
+        'Specifies the border color of the legend.' => 'Legt die Rahmenfarbe der Legende fest.',
         'Specifies the bottom margin of the chart.' => '',
         'Specifies the default article type for the ticket compose screen in the agent interface if the article type cannot be automatically detected.' =>
             '',
@@ -5278,7 +5288,7 @@ sub Data {
             '',
         'Specifies the directory to store the data in, if "FS" was selected for TicketStorageModule.' =>
             '',
-        'Specifies the directory where SSL certificates are stored.' => '',
+        'Specifies the directory where SSL certificates are stored.' => 'Legt das Verzeichnis, wo SSL-Zertifikate gespeichert sind, fest.',
         'Specifies the directory where private SSL certificates are stored.' =>
             '',
         'Specifies the email address that should be used by the application when sending notifications. The email address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agent::Move.' =>
@@ -5397,7 +5407,7 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             'Schaltet die Anzeige der OTRS FeatureAddon-Liste in der Paket-Verwaltung um.',
         'Toolbar Item for a shortcut.' => 'Werkzeugleisteneintrag für den Schnellzugriff.',
-        'Tree view' => '',
+        'Tree view' => 'Baumansicht',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
         'Turns on drag and drop for the main navigation.' => '',
@@ -5426,10 +5436,10 @@ sub Data {
         'Uses richtext for viewing and editing notification events.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
-        'View performance benchmark results.' => 'Ergebnisse der Performance-Messung anzeigen.',
-        'View system log messages.' => 'System-Protokolleinträge anzeigen.',
+        'View performance benchmark results.' => 'Ergebnisse der Leistungsmessung ansehen.',
+        'View system log messages.' => 'Systemprotokollnachrichten ansehen.',
         'Wear this frontend skin' => 'Diesen Skin verwenden',
-        'Webservice path separator.' => '',
+        'Webservice path separator.' => 'Webdienstpfad-Trennzeichen.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
@@ -5437,7 +5447,7 @@ sub Data {
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             '',
         'Write a new, outgoing mail' => 'Schreiben Sie eine neue, ausgehende E-Mail',
-        'Yes, but hide archived tickets' => '',
+        'Yes, but hide archived tickets' => 'Ja, aber archivierte Tickets verstecken',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Auswahl der bevorzugten Queues. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Queues versendet.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
