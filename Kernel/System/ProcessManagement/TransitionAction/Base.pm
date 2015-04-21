@@ -85,14 +85,12 @@ sub _ReplaceTicketAttributes {
         while (
             $Param{Config}->{$Attribute}
             && $Param{Config}->{$Attribute} =~ m{<OTRS_TICKET_([A-Za-z0-9_]+)>}msxi
+            && $Count++ < 1000
             )
         {
             my $TicketAttribute = $1;
             $Param{Config}->{$Attribute}
                 =~ s{<OTRS_TICKET_$TicketAttribute>}{$Param{Ticket}->{$TicketAttribute} // ''}ige;
-
-            last REPLACEMENT if $Count >= 1000;
-            $Count++;
         }
     }
 
