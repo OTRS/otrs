@@ -24,9 +24,9 @@ use warnings;
 
 use File::Basename;
 use FindBin qw($RealBin);
-use lib dirname($RealBin);
-use lib dirname($RealBin) . '/Kernel/cpan-lib';
-use lib dirname($RealBin) . '/Custom';
+use lib "$RealBin/../..";
+use lib "$RealBin/../../Kernel/cpan-lib";
+use lib "$RealBin/../../Custom";
 
 use Net::LDAP;
 use Kernel::System::ObjectManager;
