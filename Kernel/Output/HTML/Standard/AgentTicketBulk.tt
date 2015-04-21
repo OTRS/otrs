@@ -220,6 +220,16 @@
                         </div>
                     </div>
                     <div class="Clear"></div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#MergeTo').bind('blur', function() {
+    if ($(this).val()) {
+        $('#OptionMergeTo').prop('checked', true);
+    }
+});
+//]]></script>
+[% END %]
+
 
                     <label for="LinkTogether">[% Translate("Link together") | html %]:</label>
                     <div class="Field">

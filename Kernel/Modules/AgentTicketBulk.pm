@@ -322,6 +322,43 @@ sub Run {
     my $Counter       = 1;
     $Param{TicketsWereLocked} = 0;
 
+    # if the tickets are to merged, precompute the ticket to merge to.
+    # (it's the same for all tickets, so do it only once):
+    my $MainTicketID;
+
+    if ( ( $Self->{Subaction} eq 'Do' ) && ( !%Error ) ) {
+
+        # merge to
+        if ( $GetParam{'MergeToSelection'} eq 'OptionMergeTo' && $GetParam{'MergeTo'} ) {
+            $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
+                TicketNumber => $GetParam{'MergeTo'},
+            );
+        }
+
+        # merge to oldest
+        elsif ( $GetParam{'MergeToSelection'} eq 'OptionMergeToOldest' ) {
+
+            # find oldest
+            my $TicketIDOldest;
+            my $TicketIDOldestID;
+            for my $TicketIDCheck (@TicketIDs) {
+                my %Ticket = $Self->{TicketObject}->TicketGet(
+                    TicketID      => $TicketIDCheck,
+                    DynamicFields => 0,
+                );
+                if ( !defined $TicketIDOldest ) {
+                    $TicketIDOldest   = $Ticket{CreateTimeUnix};
+                    $TicketIDOldestID = $TicketIDCheck;
+                }
+                if ( $TicketIDOldest > $Ticket{CreateTimeUnix} ) {
+                    $TicketIDOldest   = $Ticket{CreateTimeUnix};
+                    $TicketIDOldestID = $TicketIDCheck;
+                }
+            }
+            $MainTicketID = $TicketIDOldestID;
+        }
+    }
+
     TICKET_ID:
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -651,49 +688,13 @@ sub Run {
                 }
             }
 
-            # merge to
-            if ( $GetParam{'MergeToSelection'} eq 'OptionMergeTo' && $GetParam{'MergeTo'} ) {
-                my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
-                    TicketNumber => $GetParam{'MergeTo'},
+            # merge
+            if ( $MainTicketID && $MainTicketID ne $TicketID ) {
+                $Self->{TicketObject}->TicketMerge(
+                    MainTicketID  => $MainTicketID,
+                    MergeTicketID => $TicketID,
+                    UserID        => $Self->{UserID},
                 );
-                if ( $MainTicketID ne $TicketID ) {
-                    $Self->{TicketObject}->TicketMerge(
-                        MainTicketID  => $MainTicketID,
-                        MergeTicketID => $TicketID,
-                        UserID        => $Self->{UserID},
-                    );
-                }
-            }
-
-            # merge to oldest
-            if ( $GetParam{'MergeToSelection'} eq 'OptionMergeToOldest' ) {
-
-                # find oldest
-                my $TicketIDOldest;
-                my $TicketIDOldestID;
-                for my $TicketIDCheck (@TicketIDs) {
-                    my %Ticket = $Self->{TicketObject}->TicketGet(
-                        TicketID      => $TicketIDCheck,
-                        DynamicFields => 0,
-                    );
-                    if ( !defined $TicketIDOldest ) {
-                        $TicketIDOldest   = $Ticket{CreateTimeUnix};
-                        $TicketIDOldestID = $TicketIDCheck;
-                    }
-                    if ( $TicketIDOldest > $Ticket{CreateTimeUnix} ) {
-                        $TicketIDOldest   = $Ticket{CreateTimeUnix};
-                        $TicketIDOldestID = $TicketIDCheck;
-                    }
-                }
-
-                # merge
-                if ( $TicketIDOldestID ne $TicketID ) {
-                    $Self->{TicketObject}->TicketMerge(
-                        MainTicketID  => $TicketIDOldestID,
-                        MergeTicketID => $TicketID,
-                        UserID        => $Self->{UserID},
-                    );
-                }
             }
 
             # link all tickets to a parent
