@@ -460,49 +460,48 @@ sub _InitSlaveDB {
     # Run only once!
     return $Self->{SlaveDBObject} if $Self->{_InitSlaveDB}++;
 
-    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
-    my $MasterDSN     = $ConfigObject->Get('DatabaseDSN');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $MasterDSN    = $ConfigObject->Get('DatabaseDSN');
 
     # Don't create slave if we are already in a slave, or if we are not in the master,
     #   such as in an external customer user database handle.
-    if ($Self->{IsSlaveDB} || $MasterDSN ne $Self->{DSN}) {
+    if ( $Self->{IsSlaveDB} || $MasterDSN ne $Self->{DSN} ) {
         return $Self->{SlaveDBObject};
     }
 
     my %SlaveConfiguration = (
         %{ $ConfigObject->Get('Core::MirrorDB::AdditionalMirrors') // {} },
         0 => {
-            DSN => $ConfigObject->Get('Core::MirrorDB::DSN'),
-            User => $ConfigObject->Get('Core::MirrorDB::User'),
+            DSN      => $ConfigObject->Get('Core::MirrorDB::DSN'),
+            User     => $ConfigObject->Get('Core::MirrorDB::User'),
             Password => $ConfigObject->Get('Core::MirrorDB::Password'),
-        }
+            }
     );
-
 
     return $Self->{SlaveDBObject} if !%SlaveConfiguration;
 
     SLAVE_INDEX:
-    for my $SlaveIndex (List::Util::shuffle(keys %SlaveConfiguration)) {
+    for my $SlaveIndex ( List::Util::shuffle( keys %SlaveConfiguration ) ) {
 
-        my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {}};
+        my %CurrentSlave = %{ $SlaveConfiguration{$SlaveIndex} // {} };
         next SLAVE_INDEX if !%CurrentSlave;
 
         # If a slave is configured and it is not already used in the current object
         #   and we are actually in the master connection object: then create a slave.
         if (
-               $CurrentSlave{DSN}
+            $CurrentSlave{DSN}
             && $CurrentSlave{User}
             && $CurrentSlave{Password}
             )
         {
             my $SlaveDBObject = Kernel::System::DB->new(
-                DatabaseDSN  => $CurrentSlave{DSN},
-                DatabaseUser => $CurrentSlave{User},
-                DatabasePw   => $CurrentSlave{Password},
+                DatabaseDSN   => $CurrentSlave{DSN},
+                DatabaseUser  => $CurrentSlave{User},
+                DatabasePw    => $CurrentSlave{Password},
                 AutoConnectNo => 1,
-                IsSlaveDB    => 1,
+                IsSlaveDB     => 1,
             );
-            if ($SlaveDBObject->Connect()) {
+            if ( $SlaveDBObject->Connect() ) {
                 $Self->{SlaveDBObject} = $SlaveDBObject;
                 return $Self->{SlaveDBObject};
             }
@@ -569,11 +568,13 @@ sub Prepare {
     $Self->{_PreparedOnSlaveDB} = 0;
 
     # Route SELECT statements to the DB slave if requested and a slave is configured.
-    if ( $UseSlaveDB
+    if (
+        $UseSlaveDB
         && !$Self->{IsSlaveDB}
-        && $Self->_InitSlaveDB() # this is very cheap after the first call (cached)
+        && $Self->_InitSlaveDB()    # this is very cheap after the first call (cached)
         && $SQL =~ m{\A\s*SELECT}xms
-    ) {
+        )
+    {
         $Self->{_PreparedOnSlaveDB} = 1;
         return $Self->{SlaveDBObject}->Prepare(%Param);
     }
