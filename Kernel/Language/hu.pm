@@ -2854,6 +2854,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Kimenő e-mail',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Jegy továbbítása: %s - %s',
 
@@ -3051,6 +3058,7 @@ sub Data {
         'Incoming Chat Requests' => 'Bejövő csevegés kérések',
         'You have unanswered chat requests' => 'Megválaszolatlan csevegés kérései vannak',
         'Edit personal preferences' => 'Személyes beállítások szerkesztése',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Idézet felosztása',
@@ -3150,6 +3158,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nem érhető el',
         'Database Settings' => 'Adatbázis-beállítások',
         'General Specifications and Mail Settings' => 'Általános specifikációk és levelezési beállítások',
+        'Welcome to %s' => '',
         'Web site' => 'Weboldal',
         'Mail check successful.' => 'Levélellenőrzés sikeres.',
         'Error in the mail settings. Please correct and try again.' => 'Hiba van a levélbeállításokban. Javítsa és próbálja újra.',
@@ -3273,6 +3282,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS tesztoldal',
+        'Welcome %s %s' => '',
         'Counter' => 'Számláló',
 
         # Template: Warning

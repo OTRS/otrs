@@ -9094,6 +9094,26 @@ msgstr ""
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr ""
@@ -9682,6 +9702,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr ""
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -9956,6 +9980,10 @@ msgstr ""
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
+msgstr ""
+
+#. Template: Installer
+msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
@@ -10296,6 +10324,10 @@ msgstr ""
 
 #. Template: Test
 msgid "OTRS Test Page"
+msgstr ""
+
+#. Template: Test
+msgid "Welcome %s %s"
 msgstr ""
 
 #. Template: Test

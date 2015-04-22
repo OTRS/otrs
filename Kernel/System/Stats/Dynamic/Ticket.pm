@@ -39,8 +39,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{DBSlaveObject} = $Param{DBSlaveObject} || $Kernel::OM->Get('Kernel::System::DB');
-
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -77,6 +75,7 @@ sub GetObjectAttributes {
     my $StateObject    = $Kernel::OM->Get('Kernel::System::State');
     my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
     my $LockObject     = $Kernel::OM->Get('Kernel::System::Lock');
+    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
 
     my $ValidAgent = 0;
     if (
@@ -470,13 +469,13 @@ sub GetObjectAttributes {
 
         # Get CustomerID
         # (This way also can be the solution for the CustomerUserID)
-        $Self->{DBSlaveObject}->Prepare(
+        $DBObject->Prepare(
             SQL => "SELECT DISTINCT customer_id FROM ticket",
         );
 
         # fetch the result
         my %CustomerID;
-        while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             if ( $Row[0] ) {
                 $CustomerID{ $Row[0] } = $Row[0];
             }
@@ -661,6 +660,7 @@ sub GetStatElement {
 
     # get dynamic field backend object
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $DBObject                  = $Kernel::OM->Get('Kernel::System::DB');
 
     # escape search attributes for ticket search
     my %AttributesToEscape = (
@@ -720,14 +720,13 @@ sub GetStatElement {
             if ( ref $Param{$ParameterName} ) {
                 if ( ref $Param{$ParameterName} eq 'ARRAY' ) {
                     $Param{$ParameterName} = [
-                        map { $Self->{DBSlaveObject}->QueryStringEscape( QueryString => $_ ) }
+                        map { $DBObject->QueryStringEscape( QueryString => $_ ) }
                             @{ $Param{$ParameterName} }
                     ];
                 }
             }
             else {
-                $Param{$ParameterName}
-                    = $Self->{DBSlaveObject}->QueryStringEscape( QueryString => $Param{$ParameterName} );
+                $Param{$ParameterName} = $DBObject->QueryStringEscape( QueryString => $Param{$ParameterName} );
             }
         }
     }

@@ -38,8 +38,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{DBSlaveObject} = $Param{DBSlaveObject} || $Kernel::OM->Get('Kernel::System::DB');
-
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -507,17 +505,19 @@ sub GetObjectAttributes {
         push @ObjectAttributes, @ObjectAttributeAdd;
     }
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     if ( $ConfigObject->Get('Stats::CustomerIDAsMultiSelect') ) {
 
         # Get CustomerID
         # (This way also can be the solution for the CustomerUserID)
-        $Self->{DBSlaveObject}->Prepare(
+        $DBObject->Prepare(
             SQL => "SELECT DISTINCT customer_id FROM ticket",
         );
 
         # fetch the result
         my %CustomerID;
-        while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             if ( $Row[0] ) {
                 $CustomerID{ $Row[0] } = $Row[0];
             }
@@ -934,6 +934,8 @@ sub _ReportingValues {
     my $SearchAttributes = $Param{SearchAttributes};
     my @Where;
 
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     #
     # escape search attributes for ticket search
     #
@@ -978,13 +980,13 @@ sub _ReportingValues {
         if ( ref $TicketSearch{$Attribute} ) {
             if ( ref $TicketSearch{$Attribute} eq 'ARRAY' ) {
                 $TicketSearch{$Attribute} = [
-                    map { $Self->{DBSlaveObject}->QueryStringEscape( QueryString => $_ ) }
+                    map { $DBObject->QueryStringEscape( QueryString => $_ ) }
                         @{ $TicketSearch{$Attribute} }
                 ];
             }
         }
         else {
-            $TicketSearch{$Attribute} = $Self->{DBSlaveObject}->QueryStringEscape(
+            $TicketSearch{$Attribute} = $DBObject->QueryStringEscape(
                 QueryString => $TicketSearch{$Attribute}
             );
         }
@@ -1077,7 +1079,7 @@ sub _ReportingValues {
         }
 
         # get db type
-        my $DBType = $Self->{DBSlaveObject}->{'DB::Type'};
+        my $DBType = $DBObject->{'DB::Type'};
 
         # here comes a workaround for ORA-01795: maximum number of expressions in a list is 1000
         # for oracle we make sure, that we don 't get more than 1000 ticket ids in a list
@@ -1155,7 +1157,7 @@ sub _ReportingValues {
     }
 
     if ( $SearchAttributes->{AccountedByAgent} ) {
-        my @AccountedByAgent = map { $Self->{DBSlaveObject}->Quote( $_, 'Integer' ) }
+        my @AccountedByAgent = map { $DBObject->Quote( $_, 'Integer' ) }
             @{ $SearchAttributes->{AccountedByAgent} };
         my $String = join ', ', @AccountedByAgent;
         push @Where, "create_by IN ( $String )";
@@ -1166,8 +1168,8 @@ sub _ReportingValues {
         && $SearchAttributes->{ArticleAccountedTimeNewerDate}
         )
     {
-        my $Start = $Self->{DBSlaveObject}->Quote( $SearchAttributes->{ArticleAccountedTimeNewerDate} );
-        my $Stop  = $Self->{DBSlaveObject}->Quote( $SearchAttributes->{ArticleAccountedTimeOlderDate} );
+        my $Start = $DBObject->Quote( $SearchAttributes->{ArticleAccountedTimeNewerDate} );
+        my $Stop  = $DBObject->Quote( $SearchAttributes->{ArticleAccountedTimeOlderDate} );
         push @Where, "create_time >= '$Start' AND create_time <= '$Stop'";
     }
     my $WhereString = '';
@@ -1182,11 +1184,11 @@ sub _ReportingValues {
     if ( $SelectedKindsOfReporting{TotalTime} ) {
 
         # db query
-        $Self->{DBSlaveObject}->Prepare(
+        $DBObject->Prepare(
             SQL => "SELECT SUM(time_unit) FROM time_accounting $WhereString"
         );
 
-        while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             $Reporting{TotalTime} = $Row[0] ? int( $Row[0] * 100 ) / 100 : 0;
         }
     }
@@ -1205,14 +1207,14 @@ sub _ReportingValues {
     }
 
     # db query
-    $Self->{DBSlaveObject}->Prepare(
+    $DBObject->Prepare(
         SQL => "SELECT ticket_id, article_id, time_unit FROM time_accounting $WhereString"
     );
 
     my %TicketID;
     my %ArticleID;
     my $Time = 0;
-    while ( my @Row = $Self->{DBSlaveObject}->FetchrowArray() ) {
+    while ( my @Row = $DBObject->FetchrowArray() ) {
         $TicketID{ $Row[0] }  += $Row[2];
         $ArticleID{ $Row[1] } += $Row[2];
         $Time                 += $Row[2];

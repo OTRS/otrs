@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-04-21 12:04+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -6178,7 +6178,7 @@ msgstr "Хронологический вид при подробном прос
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField ContactWithData"
-msgstr ""
+msgstr "Динамическое поле ContactWithData"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "DynamicField Database"
@@ -7120,7 +7120,7 @@ msgstr "Удалить это поле"
 
 #. Template: AdminProcessManagementTransition
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "Оператор AND/И не может повторно использоваться в одном и том же условии."
 
 #. Template: AdminProcessManagementTransition
 msgid "Add a new Field"
@@ -9554,6 +9554,26 @@ msgstr "Получить всех"
 msgid "E-Mail Outbound"
 msgstr "Перенаправить почтовое сообщение"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Переслать заявку: %s - %s"
@@ -10152,6 +10172,10 @@ msgstr "Есть неотвеченные вопросы чата"
 msgid "Edit personal preferences"
 msgstr "Редактировать персональные настройки"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10430,6 +10454,10 @@ msgstr "Настройки базы данных"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Общие указания и настройки почты"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10779,6 +10807,10 @@ msgstr "Напечатал:"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Тестовая страница OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13204,7 +13236,7 @@ msgstr "Задает список следующих доступных сост
 msgid ""
 "Defines the next possible states after sending a message in the email "
 "outbound screen of the agent interface."
-msgstr ""
+msgstr "Задает список следующих доступных состояний после отправки сообщения на экране регистрации исходящего почтового сообщения в интерфейсе агента."
 
 #. SysConfig
 msgid ""
@@ -13422,7 +13454,7 @@ msgid ""
 "Defines the receipent target of the phone ticket and the sender of the email"
 " ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
-msgstr ""
+msgstr "Задает Получателя телефонной заявки и Отправителя почтовой заявки (\"Queue\" показывает все очереди, \"System address\" отображает все системные адреса) в интерфейсе агента."
 
 #. SysConfig
 msgid ""
@@ -13533,13 +13565,13 @@ msgstr "Задает идентификатор системы. Каждый н�
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g."
 " 'AsPopup PopupType_TicketAction'."
-msgstr ""
+msgstr "Задает целевой атрибут в ссылке на внешнюю базу клиентов. Например, 'AsPopup PopupType_TicketAction'."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g."
 " 'target=\"cdb\"'."
-msgstr ""
+msgstr "Задает целевой атрибут в ссылке на внешнюю базу клиентов. Например, 'target=\"cdb\"'."
 
 #. SysConfig
 msgid ""
@@ -13585,7 +13617,7 @@ msgid ""
 "Defines the used character for plaintext email quotes in the ticket compose "
 "screen of the agent interface. If this is empty or inactive, original emails"
 " will not be quoted but appended to the response."
-msgstr ""
+msgstr "Задает символ для выделения цитируемых почтовых сообщений на экране создания сообщения в интерфейсе агента. Если не задан или оставлено пустым, исходное сообщение не будет выделено, но будет добавлено к ответу."
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
@@ -14403,35 +14435,35 @@ msgstr "Планировщик задач"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
-msgstr ""
+msgstr "GenericInterface Debugger GUI"
 
 #. SysConfig
 msgid "GenericInterface Invoker GUI"
-msgstr ""
+msgstr "GenericInterface Invoker GUI"
 
 #. SysConfig
 msgid "GenericInterface Operation GUI"
-msgstr ""
+msgstr "GenericInterface Operation GUI"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPREST GUI"
-msgstr ""
+msgstr "GenericInterface TransportHTTPREST GUI"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPSOAP GUI"
-msgstr ""
+msgstr "GenericInterface TransportHTTPSOAP GUI"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr ""
+msgstr "GenericInterface Web Service GUI"
 
 #. SysConfig
 msgid "GenericInterface Webservice History GUI"
-msgstr ""
+msgstr "GenericInterface Webservice History GUI"
 
 #. SysConfig
 msgid "GenericInterface Webservice Mapping GUI"
-msgstr ""
+msgstr "GenericInterface Webservice Mapping GUI"
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
@@ -14543,7 +14575,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Если \"HTTPBasicAuth\" было выбрано для Customer::AuthModule, вы можете задать удаление части имени пользователя ( т.е. для домена типа example_domain\\user получится user)."
 
 #. SysConfig
 msgid ""
@@ -14662,7 +14694,7 @@ msgstr "Если \"SysLog\" было выбрано для LogModule, парам
 msgid ""
 "If \"SysLog\" was selected for LogModule, a special log sock can be "
 "specified (on solaris you may need to use 'stream')."
-msgstr ""
+msgstr "Если \"SysLog\" было выбрано для LogModule, специальный log sock может быть задан (для Solaris может потребоваться использовать  'stream')."
 
 #. SysConfig
 msgid ""
@@ -14728,13 +14760,13 @@ msgstr "Если сообщение/заметка добавлена агент
 msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
-msgstr ""
+msgstr "Если включено, адрес электронной почты пользователя  для разрешения регистрации может не соответствовать ни одному из регулярных выражений."
 
 #. SysConfig
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
-msgstr ""
+msgstr "Если включено, адрес электронной почты пользователя  для разрешения регистрации должен соответствовать хотя бы одному из регулярных выражений."
 
 #. SysConfig
 msgid ""
@@ -14794,7 +14826,7 @@ msgstr "Если включено, номер версии OTRS будет уд�
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
-msgstr ""
+msgstr "Если включено, клиент может производить поиск заявок во всех Сервисах (в зависимости от того, какие Сервисы назначены клиенту)."
 
 #. SysConfig
 msgid ""
@@ -15077,7 +15109,7 @@ msgid ""
 "Makes the session management use html cookies. If html cookies are disabled "
 "or if the client browser disabled html cookies, then the system will work as"
 " usual and append the session id to the links."
-msgstr ""
+msgstr "Позволяет использовать html cookies для управления сеансами. Если html cookies выключены, или в браузере клиента выключено использование html cookies, в этом случае система работает как обычно и добавляет session id к ссылке."
 
 #. SysConfig
 msgid "Manage OTRS Group services."
@@ -15195,7 +15227,7 @@ msgid ""
 "Module to check if arrived emails should be marked as email-internal "
 "(because of original forwarded internal email). ArticleType and SenderType "
 "define the values for the arrived email/article."
-msgstr ""
+msgstr "Модуль для проверки, должно ли  поступившее почтовое сообщение помечено как email-internal (т.к. исходное переслано как internal email). ArticleType и SenderType задают значения для поступивших email/сообщений."
 
 #. SysConfig
 msgid "Module to check the agent responsible of a ticket."

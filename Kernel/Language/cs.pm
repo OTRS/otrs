@@ -601,7 +601,7 @@ sub Data {
         'Setting character_set_database needs to be UNICODE or UTF8.' => 'Nastavení character_set_database musi být UNICODE nebo UTF8.',
         'Table Charset' => '',
         'There were tables found which do not have utf8 as charset.' => 'Jsou zde tabulky, které nemají nastavenou kódovou stránku UTF8.',
-        'InnoDB Log File Size' => '',
+        'InnoDB Log File Size' => 'Velikost InnoDB logu',
         'The setting innodb_log_file_size must be at least 256 MB.' => '',
         'Maximum Query Size' => 'Maximální velikost SQL dotazu',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
@@ -662,7 +662,7 @@ sub Data {
         'Invalid Dynamic Fields' => '',
         'Invalid Dynamic Field Values' => '',
         'GenericInterface Webservices' => '',
-        'Processes' => '',
+        'Processes' => 'Procesy',
         'Months Between First And Last Ticket' => '',
         'Tickets Per Month (avg)' => 'Tiketů za měsíc ( prům.)',
         'Default SOAP Username and Password' => '',
@@ -880,7 +880,7 @@ sub Data {
         'Overview of all open Tickets' => 'Přehled všech otevřených tiketů',
         'Locked Tickets' => 'Uzamčené tikety',
         'My Locked Tickets' => 'Moje zamčené tikety',
-        'My Watched Tickets' => '',
+        'My Watched Tickets' => 'Mé sledované tikety',
         'My Responsible Tickets' => '',
         'Watched Tickets' => 'Zobrazené tikety',
         'Watched' => 'Zobrazené',
@@ -922,7 +922,7 @@ sub Data {
         'Reply All' => 'Odpovědět všem',
         'Direction' => '',
         'Agent (All with write permissions)' => '',
-        'Agent (Owner)' => '',
+        'Agent (Owner)' => 'Agent (Vlastník)',
         'Agent (Responsible)' => '',
         'New ticket notification' => 'Oznámení o novém Tiketu',
         'Send me a notification if there is a new ticket in "My Queues".' =>
@@ -977,7 +977,7 @@ sub Data {
         'All open tickets, these tickets have already been worked on, but need a response' =>
             '',
         'All new tickets, these tickets have not been worked on yet' => '',
-        'All escalated tickets' => '',
+        'All escalated tickets' => 'Všechny eskalované tikety',
         'All tickets with a reminder set where the reminder date has been reached' =>
             '',
         'Archived tickets' => 'Archivované tikety',
@@ -2855,6 +2855,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Odchozí e-mail',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Přeposlat tiket: %s - %s',
 
@@ -3052,6 +3059,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Nastavení účtu',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3151,6 +3159,7 @@ sub Data {
         'JavaScript not available' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Welcome to %s' => '',
         'Web site' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
@@ -3274,6 +3283,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Testovací OTRS stránka',
+        'Welcome %s %s' => '',
         'Counter' => 'Počítadlo',
 
         # Template: Warning

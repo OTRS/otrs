@@ -1,13 +1,14 @@
 # 
 # Translators:
 # David Krotil <david.krotil@krotilovi.cz>, 2015
+# Jan Řežab <honza@rezab.eu>, 2015
 # Tomas Reznicek <tomas.reznicek@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-04-21 12:04+0000\n"
+"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2129,7 +2130,7 @@ msgstr "Jsou zde tabulky, které nemají nastavenou kódovou stránku UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "Velikost InnoDB logu"
 
 #. Template: AAASupportDataCollector
 msgid "The setting innodb_log_file_size must be at least 256 MB."
@@ -2354,7 +2355,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Processes"
-msgstr ""
+msgstr "Procesy"
 
 #. Template: AAASupportDataCollector
 msgid "Months Between First And Last Ticket"
@@ -3183,7 +3184,7 @@ msgstr "Moje zamčené tikety"
 
 #. Template: AAATicket
 msgid "My Watched Tickets"
-msgstr ""
+msgstr "Mé sledované tikety"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
@@ -3349,7 +3350,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Agent (Owner)"
-msgstr ""
+msgstr "Agent (Vlastník)"
 
 #. Template: AAATicket
 msgid "Agent (Responsible)"
@@ -3547,7 +3548,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "All escalated tickets"
-msgstr ""
+msgstr "Všechny eskalované tikety"
 
 #. Template: AAATicket
 msgid ""
@@ -9552,6 +9553,26 @@ msgstr ""
 msgid "E-Mail Outbound"
 msgstr "Odchozí e-mail"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Přeposlat tiket: %s - %s"
@@ -10150,6 +10171,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Nastavení účtu"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10427,6 +10452,10 @@ msgstr ""
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
+msgstr ""
+
+#. Template: Installer
+msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
@@ -10777,6 +10806,10 @@ msgstr "tisknuto"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Testovací OTRS stránka"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"

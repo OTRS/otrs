@@ -2851,6 +2851,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Lähetä tiketti eteenpäin: %s - %s',
 
@@ -3048,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Muokkaa henkilökohtaisia asetuksia',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3147,6 +3155,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript ei toiminnassa',
         'Database Settings' => 'Tietokanta-asetukset',
         'General Specifications and Mail Settings' => 'Yleiset määritykset ja sähköpostiasetukset',
+        'Welcome to %s' => '',
         'Web site' => 'Kotisivu',
         'Mail check successful.' => 'Sähköpostin tarkastus onnistunut.',
         'Error in the mail settings. Please correct and try again.' => 'Virhe sähköpostiasetuksissa. Tarkista asetukset ja kokeile uudestaan.',
@@ -3270,6 +3279,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS - Testisivu',
+        'Welcome %s %s' => '',
         'Counter' => 'Laskuri',
 
         # Template: Warning

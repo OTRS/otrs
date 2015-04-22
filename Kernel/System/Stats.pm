@@ -22,6 +22,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
     'Kernel::System::Cache',
+    'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::Group',
     'Kernel::System::Log',
@@ -2005,29 +2006,15 @@ sub StatsRun {
         return;
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # use the mirror db if configured
-    if ( $ConfigObject->Get('Core::MirrorDB::DSN') ) {
-        my $ExtraDatabaseObject = Kernel::System::DB->new(
-            DatabaseDSN  => $ConfigObject->Get('Core::MirrorDB::DSN'),
-            DatabaseUser => $ConfigObject->Get('Core::MirrorDB::User'),
-            DatabasePw   => $ConfigObject->Get('Core::MirrorDB::Password'),
-        );
-        if ( !$ExtraDatabaseObject ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'There is no MirroDB!',
-            );
-            return;
-        }
-        $Self->{DBSlaveObject} = $ExtraDatabaseObject;
-    }
+    # TODO: remove this code for OTRS5, it is kept here for backards compatibility only
+    $Self->{DBSlaveObject} = $Kernel::OM->Get('Kernel::System::DB');
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
     my %GetParam = %{ $Param{GetParam} };
     my @Result;
+
+    # Perform calculations on the slave DB, if configured.
+    local $Kernel::System::DB::UseSlaveDB = 1;
 
     # get data if it is a static stats
     if ( $Stat->{StatType} eq 'static' ) {

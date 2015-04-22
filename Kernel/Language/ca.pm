@@ -2849,6 +2849,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Reexpedir tiquet: %s - %s',
 
@@ -3046,6 +3053,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Editar les preferències personals',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3145,6 +3153,7 @@ sub Data {
         'JavaScript not available' => 'Javascript no està disponible',
         'Database Settings' => 'Configuració de la base de dades',
         'General Specifications and Mail Settings' => 'Especificacions generals i de correu',
+        'Welcome to %s' => '',
         'Web site' => 'Web',
         'Mail check successful.' => 'Comprovació de correu finalitzada amb èxit.',
         'Error in the mail settings. Please correct and try again.' => 'Error en la configuració de correu. Per favor, corregeixi i torni a intentar-ho.',
@@ -3268,6 +3277,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Pàgina de prova de OTRS ',
+        'Welcome %s %s' => '',
         'Counter' => 'Comptador',
 
         # Template: Warning
