@@ -533,6 +533,7 @@ Core.Agent.Search = (function (TargetNS) {
             return;
         }
         AJAXStopWordCheckRunning = true;
+        Core.Form.DisableForm($('#SearchForm'));
 
         Core.AJAX.FunctionCall(
             Core.Config.Get('CGIHandle'),
@@ -559,6 +560,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 AJAXStopWordCheckRunning = false;
+                Core.Form.EnableForm($('#SearchForm'));
 
                 if (FoundStopWords.length) {
                      CallbackStopWordsFound(FoundStopWords);
