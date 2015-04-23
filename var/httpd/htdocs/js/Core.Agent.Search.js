@@ -459,7 +459,7 @@ Core.Agent.Search = (function (TargetNS) {
                 'Cc': 1,
                 'Subject': 1,
                 'Body': 1,
-                'Fulltext': 1,
+                'Fulltext': 1
             },
             StopWordCheckData;
 
@@ -525,7 +525,7 @@ Core.Agent.Search = (function (TargetNS) {
         var StopWordCheckData = {
             Action:        'AgentTicketSearch',
             Subaction:     'AJAXStopWordCheck',
-            SearchStrings: SearchStrings,
+            SearchStrings: SearchStrings
         };
 
         // Prevent multiple stop word checks
