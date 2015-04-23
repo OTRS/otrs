@@ -1661,7 +1661,9 @@ sub _StopWordsServerErrorsGet {
     }
 
     my %StopWordsServerErrors;
-    return %StopWordsServerErrors if !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive();
+    if ( !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+        return %StopWordsServerErrors;
+    }
 
     my %SearchStrings;
 
