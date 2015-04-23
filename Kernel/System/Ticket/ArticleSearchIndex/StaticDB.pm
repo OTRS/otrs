@@ -318,18 +318,45 @@ sub _ArticleIndexStringToWord {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Config      = $ConfigObject->Get('Ticket::SearchIndex::Attribute');
-    my %StopWordRaw = %{ $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {} };
     my @Filters     = @{ $ConfigObject->Get('Ticket::SearchIndex::Filters') || [] };
+    my $StopWordRaw = $ConfigObject->Get('Ticket::SearchIndex::StopWords') || {};
+
+    # error handling
+    if ( !$StopWordRaw || ref $StopWordRaw ne 'HASH' ) {
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid config option Ticket::SearchIndex::StopWords! "
+                . "Please reset the search index options to reactivate the factory defaults.",
+        );
+
+        return;
+    }
 
     my %StopWord;
-    WORD:
-    for my $Word ( sort keys %StopWordRaw ) {
+    LANGUAGE:
+    for my $Language ( sort keys %{$StopWordRaw} ) {
 
-        next WORD if !$Word;
+        if ( !$Language || !$StopWordRaw->{$Language} || ref $StopWordRaw->{$Language} ne 'ARRAY' ) {
 
-        $Word = lc $Word;
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid config option Ticket::SearchIndex::StopWords###$Language! "
+                    . "Please reset this option to reactivate the factory defaults.",
+            );
 
-        $StopWord{$Word} = 1;
+            next LANGUAGE;
+        }
+
+        WORD:
+        for my $Word ( @{ $StopWordRaw->{$Language} } ) {
+
+            next WORD if !$Word;
+
+            $Word = lc $Word;
+
+            $StopWord{$Word} = 1;
+        }
     }
 
     # get words
