@@ -117,6 +117,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
         sleep 1;
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
+        sleep 1;
         $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
