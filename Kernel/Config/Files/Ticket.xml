@@ -487,6 +487,17 @@
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::SearchIndex::WarnOnStopWordUsage" Required="1" Valid="1">
+        <Description Translatable="1">Display a warning and prevent search when using stop words within fulltext search.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::FulltextSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Basic fulltext index settings. Execute "bin/otrs.Console.pl Maint::Ticket::FulltextIndexRebuild" in order to generate a new index.</Description>
         <Group>Ticket</Group>

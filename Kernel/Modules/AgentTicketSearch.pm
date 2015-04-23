@@ -1142,6 +1142,35 @@ sub Run {
             Type        => 'inline'
         );
     }
+    elsif ( $Self->{Subaction} eq 'AJAXStopWordCheck' ) {
+
+        my $StopWordCheckResult = {
+            FoundStopWords => [],
+        };
+
+        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+            my @ParamNames = $Self->{ParamObject}->GetParamNames();
+            my %SearchStrings;
+            SEARCHSTRINGPARAMNAME:
+            for my $SearchStringParamName ( sort @ParamNames ) {
+                next SEARCHSTRINGPARAMNAME if $SearchStringParamName !~ m{\ASearchStrings\[(.*)\]\z}sm;
+                $SearchStrings{$1} = $Self->{ParamObject}->GetParam( Param => $SearchStringParamName );
+            }
+
+            $StopWordCheckResult->{FoundStopWords}
+                = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \%SearchStrings );
+        }
+
+        my $Output = $Self->{LayoutObject}->JSONEncode(
+            Data => $StopWordCheckResult,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            NoCache     => 1,
+            ContentType => 'text/html',
+            Content     => $Output,
+            Type        => 'inline'
+        );
+    }
     elsif ( $Self->{Subaction} eq 'AJAX' ) {
         my $Profile = $ParamObject->GetParam( Param => 'Profile' ) || '';
         my $EmptySearch = $ParamObject->GetParam( Param => 'EmptySearch' );

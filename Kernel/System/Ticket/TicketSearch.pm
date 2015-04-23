@@ -319,6 +319,7 @@ sub TicketSearch {
     if ( !$Param{ContentSearch} ) {
         $Param{ContentSearch} = 'AND';
     }
+
     my %SortOptions = (
         Owner                  => 'st.user_id',
         Responsible            => 'st.responsible_user_id',
@@ -2226,6 +2227,97 @@ sub TicketSearch {
         }
         return @TicketIDs;
     }
+}
+
+=item SearchStringStopWordsFind()
+
+Find stop words within given search string.
+
+    my $StopWords = $TicketObject->SearchStringStopWordsFind(
+        SearchStrings => {
+            'Fulltext' => '(this AND is) OR test',
+            'From'     => 'myself',
+        },
+    );
+
+    Returns Hashref with found stop words.
+
+=cut
+
+sub SearchStringStopWordsFind {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Key (qw(SearchStrings)) {
+        if ( !$Param{$Key} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Key!",
+            );
+            return;
+        }
+    }
+
+    # create lower case stop words
+    my %StopWordRaw = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {} };
+    my %StopWord;
+    WORD:
+    for my $Word ( sort keys %StopWordRaw ) {
+
+        next WORD if !$Word;
+        $Word = lc $Word;
+        $StopWord{$Word} = 1;
+    }
+
+    my %StopWordsFound;
+    SEARCHSTRING:
+    for my $Key ( sort keys %{ $Param{SearchStrings} } ) {
+        my $SearchString = $Param{SearchStrings}->{$Key};
+        my %Result       = $Kernel::OM->Get('Kernel::System::DB')->QueryCondition(
+            'Key'      => '.',             # resulting SQL is irrelevant
+            'Value'    => $SearchString,
+            'BindMode' => 1,
+        );
+
+        next SEARCHSTRING if !%Result || ref $Result{Values} ne 'ARRAY' || !@{ $Result{Values} };
+
+        my %Words;
+        for my $Value ( @{ $Result{Values} } ) {
+            my @Words = split '\s+', $$Value;
+            for my $Word (@Words) {
+                $Words{ lc $Word } = 1;
+            }
+        }
+
+        @{ $StopWordsFound{$Key} } = grep { $StopWord{$_} } sort keys %Words;
+    }
+
+    return \%StopWordsFound;
+}
+
+=item SearchStringStopWordsUsageWarningActive()
+
+Checks if warnings for stop words in search strings are active or not.
+
+    my $WarningActive = $TicketObject->SearchStringStopWordsUsageWarningActive();
+
+=cut
+
+sub SearchStringStopWordsUsageWarningActive {
+    my ( $Self, %Param ) = @_;
+
+    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+    my $SearchIndexModule   = $ConfigObject->Get('Ticket::SearchIndexModule');
+    my $WarnOnStopWordUsage = $ConfigObject->Get('Ticket::SearchIndex::WarnOnStopWordUsage') || 0;
+    if (
+        $SearchIndexModule eq 'Kernel::System::Ticket::ArticleSearchIndex::StaticDB'
+        && $WarnOnStopWordUsage
+        )
+    {
+        return 1;
+    }
+
+    return 0;
 }
 
 =begin Internal:

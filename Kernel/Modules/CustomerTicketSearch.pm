@@ -231,8 +231,28 @@ sub Run {
     my $SelectTemplate = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
     my $EraseTemplate  = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
 
+    # check for server errors
+    my %ServerErrors;
+    if (
+        $Self->{Subaction} eq 'Search'
+        && !$Self->{EraseTemplate}
+        )
+    {
+
+        # check for stop word errors
+        my %StopWordsServerErrors = $Self->_StopWordsServerErrorsGet(
+            From    => $GetParam{From},
+            To      => $GetParam{To},
+            Cc      => $GetParam{Cc},
+            Subject => $GetParam{Subject},
+            Body    => $GetParam{Body},
+        );
+
+        %ServerErrors = ( %ServerErrors, %StopWordsServerErrors );
+    }
+
     # show result page
-    if ( $Self->{Subaction} eq 'Search' && !$EraseTemplate ) {
+    if ( !%ServerErrors && $Self->{Subaction} eq 'Search' && !$EraseTemplate ) {
 
         # fill up profile name (e.g. with last-search)
         if ( !$Profile || !$SaveProfile ) {
@@ -1357,7 +1377,8 @@ sub Run {
             %GetParam,
             Profile          => $Profile,
             Area             => 'Customer',
-            DynamicFieldHTML => \%DynamicFieldHTML
+            DynamicFieldHTML => \%DynamicFieldHTML,
+            %ServerErrors,
         );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
@@ -1685,6 +1706,51 @@ sub MaskForm {
         TemplateFile => 'CustomerTicketSearch',
         Data         => \%Param,
     );
+}
+
+sub _StopWordsServerErrorsGet {
+    my ( $Self, %Param ) = @_;
+
+    if ( !%Param ) {
+        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+    }
+
+    my %StopWordsServerErrors;
+    if ( !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+        return %StopWordsServerErrors;
+    }
+
+    my %SearchStrings;
+
+    FIELD:
+    for my $Field ( sort keys %Param ) {
+        next FIELD if !defined $Param{$Field};
+        next FIELD if !length $Param{$Field};
+
+        $SearchStrings{$Field} = $Param{$Field};
+    }
+
+    if (%SearchStrings) {
+
+        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+            SearchStrings => \%SearchStrings
+        );
+
+        FIELD:
+        for my $Field ( sort keys %{$StopWords} ) {
+            next FIELD if !defined $StopWords->{$Field};
+            next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
+            next FIELD if !@{ $StopWords->{$Field} };
+
+            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+                ->Translate('Please remove the following words because they cannot be used for the search:')
+                . ' '
+                . join( ',', sort @{ $StopWords->{$Field} } );
+        }
+    }
+
+    return %StopWordsServerErrors;
 }
 
 1;

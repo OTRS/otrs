@@ -169,9 +169,23 @@ if ($('#ToolBar li.ChatRequests').length) {
 
     }, 60000);
 }
+
 //]]></script>
 [% END %]
 [% END %]
+
+[% IF Config("Frontend::ToolBarModule").item("10-Ticket::TicketSearchFulltext") %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+
+if ($('#ToolBar li.Extended.SearchFulltext').length) {
+    Core.Agent.Search.InitToolbarFulltextSearch();
+}
+
+//]]></script>
+[% END %]
+[% END %]
+
 [% RenderBlockEnd("ToolBar") %]
 
 [% RenderBlockStart("DebugRTLButton") %]
