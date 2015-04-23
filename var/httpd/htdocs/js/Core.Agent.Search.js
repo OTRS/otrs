@@ -461,10 +461,11 @@ Core.Agent.Search = (function (TargetNS) {
     };
 
     /**
-     * @function
      * @private
-     * @param {Function} Callback function to execute, if no stop words were found.
-     * @return nothing
+     * @name CheckSearchStringsForStopWords
+     * @memberof Core.Agent.Search
+     * @function
+     * @param {Function} Callback - function to execute, if no stop words were found.
      * @description Checks if specific values of the search form contain stop words.
      *              If stop words are present, a warning will be displayed.
      *              If stop words are not present, the given callback will be executed.
@@ -478,7 +479,7 @@ Core.Agent.Search = (function (TargetNS) {
                 'Cc': 1,
                 'Subject': 1,
                 'Body': 1,
-                'Fulltext': 1,
+                'Fulltext': 1
             },
             StopWordCheckData;
 
@@ -544,7 +545,7 @@ Core.Agent.Search = (function (TargetNS) {
         var StopWordCheckData = {
             Action:        'AgentTicketSearch',
             Subaction:     'AJAXStopWordCheck',
-            SearchStrings: SearchStrings,
+            SearchStrings: SearchStrings
         };
 
         // Prevent multiple stop word checks
