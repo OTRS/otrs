@@ -32,20 +32,6 @@ $Selenium->RunTest(
             RestoreSystemConfiguration => 0,
         );
 
-        my $CheckAlertJS = <<"JAVASCRIPT";
-(function () {
-    var lastAlert = undefined;
-    window.alert = function (message) {
-        lastAlert = message;
-    };
-    window.getLastAlert = function () {
-        var result = lastAlert;
-        lastAlert = undefined;
-        return result;
-    };
-}());
-JAVASCRIPT
-
         # defined user language for testing if message is being translated correctly
         my $Language = "de";
 
@@ -149,7 +135,6 @@ JAVASCRIPT
         );
 
         # now we should not be able to add the same element again, an alert box should appear
-        $Selenium->execute_script($CheckAlertJS);
         $Selenium->find_element( ".ItemAddLevel1 option[value='Properties']", 'css' )->click();
 
         my $LanguageObject = Kernel::Language->new(
@@ -157,12 +142,11 @@ JAVASCRIPT
         );
 
         $Self->Is(
-            $Selenium->execute_script(
-                "return window.getLastAlert()"
-            ),
+            $Selenium->get_alert_text(),
             $LanguageObject->Get('An item with this name is already present.'),
             'Check for opened alert text',
         );
+        $Selenium->accept_alert();
 
         # now lets add the CustomerUser element on level 2
         $Selenium->find_element( "#ACLMatch .ItemAdd option[value='CustomerUser']", 'css' )->click();
