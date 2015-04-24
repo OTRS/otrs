@@ -13,7 +13,7 @@ package Kernel::Modules::AgentTicketAttachment;
 use strict;
 use warnings;
 
-use Kernel::System::FileTemp;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,90 +22,94 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject EncodeObject ConfigObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # get ArticleID
-    $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
-    $Self->{FileID}    = $Self->{ParamObject}->GetParam( Param => 'FileID' );
-    $Self->{Viewer}    = $Self->{ParamObject}->GetParam( Param => 'Viewer' ) || 0;
-    $Self->{LoadExternalImages} = $Self->{ParamObject}->GetParam(
-        Param => 'LoadExternalImages'
-    ) || 0;
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # get ArticleID
+    my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
+    my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
+
+    # get needed objects
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
+
     # check params
-    if ( !$Self->{FileID} || !$Self->{ArticleID} ) {
-        $Self->{LogObject}->Log(
+    if ( !$FileID || !$ArticleID ) {
+        $LogObject->Log(
             Message  => 'FileID and ArticleID are needed!',
             Priority => 'error',
         );
-        return $Self->{LayoutObject}->ErrorScreen();
+        return $LayoutObject->ErrorScreen();
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # check permissions
-    my %Article = $Self->{TicketObject}->ArticleGet(
-        ArticleID     => $Self->{ArticleID},
+    my %Article = $TicketObject->ArticleGet(
+        ArticleID     => $ArticleID,
         DynamicFields => 0,
         UserID        => $Self->{UserID},
     );
     if ( !$Article{TicketID} ) {
-        $Self->{LogObject}->Log(
-            Message  => "No TicketID for ArticleID ($Self->{ArticleID})!",
+        $LogObject->Log(
+            Message  => "No TicketID for ArticleID ($ArticleID)!",
             Priority => 'error',
         );
-        return $Self->{LayoutObject}->ErrorScreen();
+        return $LayoutObject->ErrorScreen();
     }
 
     # check permissions
-    my $Access = $Self->{TicketObject}->TicketPermission(
+    my $Access = $TicketObject->TicketPermission(
         Type     => 'ro',
         TicketID => $Article{TicketID},
         UserID   => $Self->{UserID}
     );
     if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
     # get a attachment
-    my %Data = $Self->{TicketObject}->ArticleAttachment(
-        ArticleID => $Self->{ArticleID},
-        FileID    => $Self->{FileID},
+    my %Data = $TicketObject->ArticleAttachment(
+        ArticleID => $ArticleID,
+        FileID    => $FileID,
         UserID    => $Self->{UserID},
     );
     if ( !%Data ) {
-        $Self->{LogObject}->Log(
-            Message  => "No such attacment ($Self->{FileID})! May be an attack!!!",
+        $LogObject->Log(
+            Message  => "No such attacment ($FileID)! May be an attack!!!",
             Priority => 'error',
         );
-        return $Self->{LayoutObject}->ErrorScreen();
+        return $LayoutObject->ErrorScreen();
     }
+
+    my $Viewers = $ParamObject->GetParam( Param => 'Viewer' ) || 0;
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # find viewer for ContentType
     my $Viewer = '';
-    if ( $Self->{Viewer} && $Self->{ConfigObject}->Get('MIME-Viewer') ) {
-        for ( sort keys %{ $Self->{ConfigObject}->Get('MIME-Viewer') } ) {
+    if ( $Viewers && $ConfigObject->Get('MIME-Viewer') ) {
+        for ( sort keys %{ $ConfigObject->Get('MIME-Viewer') } ) {
             if ( $Data{ContentType} =~ /^$_/i ) {
-                $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
-                $Viewer =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{ConfigObject}->{$1}/g;
+                $Viewer = $ConfigObject->Get('MIME-Viewer')->{$_};
+                $Viewer =~ s/\<OTRS_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
             }
         }
     }
 
     # show with viewer
-    if ( $Self->{Viewer} && $Viewer ) {
+    if ( $Viewers && $Viewer ) {
 
         # write tmp file
-        my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
+        my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
         if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic
             print $ViewerDataFH $Data{Content};
@@ -114,11 +118,11 @@ sub Run {
         else {
 
             # log error
-            $Self->{LogObject}->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Cant write $Filename: $!",
             );
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $LayoutObject->ErrorScreen();
         }
 
         # use viewer
@@ -130,13 +134,13 @@ sub Run {
             close $ViewerFH;
         }
         else {
-            return $Self->{LayoutObject}->FatalError(
+            return $LayoutObject->FatalError(
                 Message => "Can't open: $Viewer $Filename: $!",
             );
         }
 
         # return new page
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             %Data,
             ContentType => 'text/html',
             Content     => $Content,
@@ -148,41 +152,45 @@ sub Run {
     if ( $Self->{Subaction} eq 'HTMLView' ) {
 
         # set download type to inline
-        $Self->{ConfigObject}->Set(
+        $ConfigObject->Set(
             Key   => 'AttachmentDownloadType',
             Value => 'inline'
         );
 
         # just return for non-html attachment (e. g. images)
         if ( $Data{ContentType} !~ /text\/html/i ) {
-            return $Self->{LayoutObject}->Attachment(%Data);
+            return $LayoutObject->Attachment(%Data);
         }
 
         # set filename for inline viewing
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
+        my $LoadExternalImages = $ParamObject->GetParam(
+            Param => 'LoadExternalImages'
+        ) || 0;
+
         # safety check only on customer article
-        if ( !$Self->{LoadExternalImages} && $Article{SenderType} ne 'customer' ) {
-            $Self->{LoadExternalImages} = 1;
+        if ( !$LoadExternalImages && $Article{SenderType} ne 'customer' ) {
+            $LoadExternalImages = 1;
         }
 
         # generate base url
         my $URL = 'Action=AgentTicketAttachment;Subaction=HTMLView'
-            . ";ArticleID=$Self->{ArticleID};FileID=";
+            . ";ArticleID=$ArticleID;FileID=";
 
         # replace links to inline images in html content
-        my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
-            ArticleID => $Self->{ArticleID},
+        my %AtmBox = $TicketObject->ArticleAttachmentIndex(
+            ArticleID => $ArticleID,
             UserID    => $Self->{UserID},
         );
 
         # reformat rich text document to have correct charset and links to
         # inline documents
-        %Data = $Self->{LayoutObject}->RichTextDocumentServe(
+        %Data = $LayoutObject->RichTextDocumentServe(
             Data               => \%Data,
             URL                => $URL,
             Attachments        => \%AtmBox,
-            LoadExternalImages => $Self->{LoadExternalImages},
+            LoadExternalImages => $LoadExternalImages,
         );
 
         # if there is unexpectedly pgp decrypted content in the html email (OE),
@@ -198,10 +206,10 @@ sub Run {
         {
 
             # html quoting
-            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+            $Article{Body} = $LayoutObject->Ascii2Html(
+                NewLine        => $ConfigObject->Get('DefaultViewNewLine'),
                 Text           => $Article{Body},
-                VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
+                VMax           => $ConfigObject->Get('DefaultViewLines') || 5000,
                 HTMLResultMode => 1,
                 LinkFeature    => 1,
             );
@@ -211,11 +219,11 @@ sub Run {
         }
 
         # return html attachment
-        return $Self->{LayoutObject}->Attachment(%Data);
+        return $LayoutObject->Attachment(%Data);
     }
 
     # download it AttachmentDownloadType is configured
-    return $Self->{LayoutObject}->Attachment(%Data);
+    return $LayoutObject->Attachment(%Data);
 }
 
 1;
