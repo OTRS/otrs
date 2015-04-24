@@ -429,7 +429,6 @@ sub Run {
 
         # do some actions on tickets
         if ( ( $Self->{Subaction} eq 'Do' ) && ( !%Error ) ) {
-
             # challenge token check for write action
             $Self->{LayoutObject}->ChallengeTokenCheck();
 
@@ -750,8 +749,12 @@ sub Run {
 
     # redirect
     if ($ActionFlag) {
+        my $DestURL = defined $MainTicketID
+            ? "Action=AgentTicketZoom;TicketID=$MainTicketID"
+            : ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' );
+
         return $Self->{LayoutObject}->PopupClose(
-            URL => ( $Self->{LastScreenOverview} || 'Action=AgentDashboard' ),
+            URL => $DestURL,
         );
     }
 
