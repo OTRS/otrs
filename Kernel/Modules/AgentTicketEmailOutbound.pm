@@ -699,10 +699,6 @@ sub Form {
         BodyClass => 'Popup',
     );
 
-    # build references string
-    my $References = defined $Data{References} ? $Data{References} . ' ' : '';
-    $References .= defined $Data{MessageID} ? $Data{MessageID} : '';
-
     $Output .= $Self->_Mask(
         TicketNumber => $Ticket{TicketNumber},
         TicketID     => $Self->{TicketID},
@@ -724,8 +720,10 @@ sub Form {
         Attachments         => \@Attachments,
         %Data,
         %GetParam,
-        InReplyTo        => $Data{MessageID},
-        References       => $References,
+        # We start a new communication here, so don't send any references.
+        #   This might lead to information disclosure (domain names; see bug#11246).
+        InReplyTo        => '',
+        References       => '',
         DynamicFieldHTML => \%DynamicFieldHTML,
     );
     $Output .= $Self->{LayoutObject}->Footer(
