@@ -182,7 +182,7 @@ sub Run {
                 for my $Item ( sort keys %Preferences ) {
 
                     my $Module = $Preferences{$Item}->{Module}
-                        || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+                        || 'Kernel::Output::HTML::QueuePreferences::Generic';
 
                     # load module
                     if ( !$MainObject->Require($Module) ) {
@@ -367,7 +367,7 @@ sub Run {
                 for my $Item ( sort keys %Preferences ) {
 
                     my $Module = $Preferences{$Item}->{Module}
-                        || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+                        || 'Kernel::Output::HTML::QueuePreferences::Generic';
 
                     # load module
                     if ( !$MainObject->Require($Module) ) {
@@ -718,7 +718,7 @@ sub _Edit {
     for my $Item ( sort keys %Preferences ) {
 
         my $Module = $Preferences{$Item}->{Module}
-            || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+            || 'Kernel::Output::HTML::QueuePreferences::Generic';
 
         # load module
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {

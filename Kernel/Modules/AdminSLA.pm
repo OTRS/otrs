@@ -126,7 +126,7 @@ sub Run {
                 }
                 for my $Item ( sort keys %Preferences ) {
                     my $Module = $Preferences{$Item}->{Module}
-                        || 'Kernel::Output::HTML::SLAPreferencesGeneric';
+                        || 'Kernel::Output::HTML::SLAPreferences::Generic';
 
                     # load module
                     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
@@ -446,7 +446,7 @@ sub _MaskNew {
     }
     for my $Item ( sort keys %Preferences ) {
         my $Module = $Preferences{$Item}->{Module}
-            || 'Kernel::Output::HTML::SLAPreferencesGeneric';
+            || 'Kernel::Output::HTML::SLAPreferences::Generic';
 
         # load module
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {

@@ -7470,7 +7470,7 @@
         <SubGroup>Frontend::Queue::Preferences</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::QueuePreferencesGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::QueuePreferences::Generic</Item>
                 <Item Key="Label" Translatable="1">Comment2</Item>
                 <Item Key="Desc" Translatable="1">Define the queue comment 2.</Item>
                 <Item Key="Block">TextArea</Item>
@@ -7486,7 +7486,7 @@
         <SubGroup>Frontend::Service::Preferences</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ServicePreferencesGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::ServicePreferences::Generic</Item>
                 <Item Key="Label" Translatable="1">Comment2</Item>
                 <Item Key="Desc" Translatable="1">Define the service comment 2.</Item>
                 <Item Key="Block">TextArea</Item>
@@ -7502,7 +7502,7 @@
         <SubGroup>Frontend::SLA::Preferences</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::SLAPreferencesGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::SLAPreferences::Generic</Item>
                 <Item Key="Label" Translatable="1">Comment2</Item>
                 <Item Key="Desc" Translatable="1">Define the sla comment 2.</Item>
                 <Item Key="Block">TextArea</Item>

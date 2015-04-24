@@ -114,7 +114,7 @@ sub Run {
                 }
                 for my $Item ( sort keys %Preferences ) {
                     my $Module = $Preferences{$Item}->{Module}
-                        || 'Kernel::Output::HTML::ServicePreferencesGeneric';
+                        || 'Kernel::Output::HTML::ServicePreferences::Generic';
 
                     # load module
                     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
@@ -334,7 +334,7 @@ sub _MaskNew {
     }
     for my $Item ( sort keys %Preferences ) {
         my $Module = $Preferences{$Item}->{Module}
-            || 'Kernel::Output::HTML::ServicePreferencesGeneric';
+            || 'Kernel::Output::HTML::ServicePreferences::Generic';
 
         # load module
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
