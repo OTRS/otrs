@@ -1127,7 +1127,13 @@ sub TicketSearch {
             next VALUE if !$Value;
 
             # replace wild card search
-            $Value =~ s/\*/%/gi;
+            if (
+                $Key ne 'CustomerIDRaw'
+                && $Key ne 'CustomerUserLoginRaw'
+                )
+            {
+                $Value =~ s/\*/%/gi;
+            }
 
             # check search attribute, we do not need to search for *
             next VALUE if $Value =~ /^\%{1,3}$/;

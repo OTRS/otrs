@@ -160,14 +160,104 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
         "CustomerUserGet() - uc() - $UserID",
     );
 
-    # search
+    # search by CustomerID
     my %List = $CustomerUserObject->CustomerSearch(
         CustomerID => $UserRand . '-Customer-Update-Id',
         ValidID    => 1,
     );
     $Self->True(
         $List{$UserID},
-        "CustomerSearch() - CustomerID - $UserID",
+        "CustomerSearch() - CustomerID=\'$UserRand-Customer-Update-Id\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => $UserRand . '-Customer-Update-Id',
+        ValidID       => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer-Update-Id\' - $UserID is found",
+    );
+
+    # search by CustomerID with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => '*',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'*\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => '*',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'*\' - $UserID is not found",
+    );
+
+    # search by CustomerID with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => $UserRand . '-Customer*',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'$UserRand-Customer*\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw with asterisk
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => $UserRand . '-Customer*',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer*\' - $UserID is not found",
+    );
+
+    # search by CustomerID with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => '%',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'%\' - $UserID is  found",
+    );
+
+    # search by CustomerIDRaw with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => '%',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'%\' - $UserID is not found",
+    );
+
+    # search by CustomerID with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerID => $UserRand . '-Customer%',
+        ValidID    => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - CustomerID=\'$UserRand-Customer%\' - $UserID is found",
+    );
+
+    # search by CustomerIDRaw with %
+    %List = $CustomerUserObject->CustomerSearch(
+        CustomerIDRaw => $UserRand . '-Customer%',
+        ValidID       => 1,
+    );
+    $Self->False(
+        $List{$UserID},
+        "CustomerSearch() - CustomerIDRaw=\'$UserRand-Customer%\' - $UserID is not found",
     );
 
     # START CaseSensitive
@@ -476,6 +566,15 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
     $Self->True(
         $List{$UserID},
         "CustomerSearch() - Search uc('*\$User') - $UserID",
+    );
+
+    %List = $CustomerUserObject->CustomerSearch(
+        Search  => uc("*$UserID*"),
+        ValidID => 1,
+    );
+    $Self->True(
+        $List{$UserID},
+        "CustomerSearch() - Search uc('*\$User*') - $UserID",
     );
 
     %List = $CustomerUserObject->CustomerSearch(

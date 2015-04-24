@@ -142,7 +142,7 @@ sub Run {
 
         # check CustomerID presence for all subactions that need it
         if ( $Self->{Subaction} ne 'UpdatePosition' ) {
-            if ( !$Self->{CustomerID} || $Self->{CustomerID} =~ /[*|%]/i ) {
+            if ( !$Self->{CustomerID} ) {
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->NavigationBar();
                 $Output .= $Self->{LayoutObject}->Output(
