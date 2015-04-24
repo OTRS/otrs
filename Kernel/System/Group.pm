@@ -201,8 +201,13 @@ sub GroupAdd {
     );
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => $Self->{CacheType},
+    );
+    $CacheObject->CleanUp(
+        Type => 'CustomerGroup',
     );
 
     return $GroupID;
@@ -305,8 +310,13 @@ sub GroupUpdate {
     );
 
     # reset cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    $CacheObject->CleanUp(
         Type => $Self->{CacheType},
+    );
+    $CacheObject->CleanUp(
+        Type => 'CustomerGroup',
     );
 
     return 1;
