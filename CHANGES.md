@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-04-24 Added possibility to create a ticket without article in transition action "TicketCreate".
  - 2015-04-21 Improved performance of ticket merging in bulk action, thanks to Moritz Lenz.
  - 2015-04-21 Added support for multiple mirror databases (failsafe).
  - 2015-04-16 Added possibility to use list of TicketIDs (array reference) as a parameter for TicketSearch().

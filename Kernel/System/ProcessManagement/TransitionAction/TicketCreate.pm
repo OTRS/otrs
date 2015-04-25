@@ -94,7 +94,7 @@ sub new {
             PendingTime     => '2011-12-23 23:05:00', # optional (for pending states)
             PendingTimeDiff => 123 ,                  # optional (for pending states)
 
-            # article required:
+            # article required: (if one of them is not present, article will not be created without any error message)
             ArticleType      => 'note-internal',                        # note-external|phone|fax|sms|...
                                                                         #   excluding any email type
             SenderType       => 'agent',                                # agent|system|customer
@@ -290,40 +290,60 @@ sub Run {
         }
     }
 
-    # check ArticleType
-    if ( $ArticleParam{ArticleType} =~ m{\A email }msxi ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $CommonMessage
-                . "ArticleType $Param{Config}->{ArticleType} is not supported",
-        );
-        return;
+    # check if article can be created
+    my $ArticleCreate = 1;
+    for my $Needed (qw(ArticleType SenderType ContentType Subject Body HistoryType HistoryComment)) {
+        if ( !$ArticleParam{$Needed} ) {
+            $ArticleCreate = 0;
+        }
     }
 
-    # create article for the new ticket
-    my $ArticleID = $TicketObject->ArticleCreate(
-        %ArticleParam,
-        TicketID => $TicketID,
-        UserID   => $Param{UserID},
-    );
-    if ( !$ArticleID ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => $CommonMessage
-                . "Couldn't create Article on Ticket: $TicketID from Ticket: "
-                . $Param{Ticket}->{TicketID} . '!',
-        );
-        return;
-    }
+    my $ArticleID;
 
-    # set time units
-    if ( $Param{Config}->{TimeUnit} ) {
-        $TicketObject->TicketAccountTime(
-            TicketID  => $TicketID,
-            ArticleID => $ArticleID,
-            TimeUnit  => $Param{Config}->{TimeUnit},
-            UserID    => $Param{UserID},
-        );
+    if ($ArticleCreate) {
+
+        my $ValidArticleType = 1;
+
+        # check ArticleType
+        if ( $ArticleParam{ArticleType} =~ m{\A email }msxi ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $CommonMessage
+                    . "ArticleType $Param{Config}->{ArticleType} is not supported",
+            );
+            $ValidArticleType = 0;
+        }
+
+        if ($ValidArticleType) {
+
+            # create article for the new ticket
+            $ArticleID = $TicketObject->ArticleCreate(
+                %ArticleParam,
+                TicketID => $TicketID,
+                UserID   => $Param{UserID},
+            );
+
+            if ( !$ArticleID ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => $CommonMessage
+                        . "Couldn't create Article on Ticket: $TicketID from Ticket: "
+                        . $Param{Ticket}->{TicketID} . '!',
+                );
+            }
+            else {
+
+                # set time units
+                if ( $Param{Config}->{TimeUnit} ) {
+                    $TicketObject->TicketAccountTime(
+                        TicketID  => $TicketID,
+                        ArticleID => $ArticleID,
+                        TimeUnit  => $Param{Config}->{TimeUnit},
+                        UserID    => $Param{UserID},
+                    );
+                }
+            }
+        }
     }
 
     # set dynamic fields for ticket and article
@@ -354,6 +374,10 @@ sub Run {
 
         my $ObjectID = $TicketID;
         if ( $DynamicFieldConfig->{ObjectType} ne 'Ticket' ) {
+
+            # skip article dynamic fields if Article was not created
+            next DYNAMICFIELD if !$ArticleCreate || !$ArticleID;
+
             $ObjectID = $ArticleID;
         }
 

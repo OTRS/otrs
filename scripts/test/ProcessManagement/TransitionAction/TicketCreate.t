@@ -37,6 +37,17 @@ my $TestUserID    = $UserObject->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
+# use Test email backend
+my $Success = $Kernel::OM->Get('Kernel::Config')->Set(
+    Key   => 'SendmailModule',
+    Value => 'Kernel::System::Email::Test',
+);
+
+$Self->True(
+    $Success,
+    "Set Email Test backend with true",
+);
+
 # ----------------------------------------
 # Create a test ticket
 # ----------------------------------------
@@ -499,6 +510,28 @@ my @Tests = (
         Success => 1,
     },
     {
+        Name   => 'Correct Ticket->OwnerID No Article',
+        Config => {
+            UserID => $UserID,
+            Ticket => \%Ticket,
+            Config => {
+                Title         => 'ProcessManagement::TransitionAction::TicketCreate::5::' . $RandomID,
+                CustomerID    => '123465',
+                CustomerUser  => 'customer@example.com',
+                OwnerID       => '<OTRS_TICKET_OwnerID>',
+                TypeID        => 1,
+                ResponsibleID => 1,
+                PendingTime   => '2014-12-23 23:05:00',
+
+                "DynamicField_Field1$RandomID" => 'Ticket',
+                "DynamicField_Field2$RandomID" => 'Article',
+                LinkAs                         => 'Child',
+            },
+        },
+        Success => 1,
+        Article => 0,
+    },
+    {
         Name   => 'Correct Ticket->NotExistent',
         Config => {
             UserID => $UserID,
@@ -608,6 +641,8 @@ for my $Test (@Tests) {
         TransitionActionEntityID => 'TA1',
     );
 
+    $Test->{Article} //= 1;
+
     if ( $Test->{Success} ) {
 
         $Self->True(
@@ -637,11 +672,13 @@ for my $Test (@Tests) {
             my @ArticleIDs = $TicketObject->ArticleIndex(
                 TicketID => $NewTicketID,
             );
-            %Article = $TicketObject->ArticleGet(
-                ArticleID     => $ArticleIDs[-1],
-                DynamicFields => 1,
-                UserID        => 1,
-            );
+            if ( $Test->{Article} ) {
+                %Article = $TicketObject->ArticleGet(
+                    ArticleID     => $ArticleIDs[-1],
+                    DynamicFields => 1,
+                    UserID        => 1,
+                );
+            }
         }
 
         ATTRIBUTE:
@@ -657,11 +694,13 @@ for my $Test (@Tests) {
                 $ArticleAttribute = 'CustomerUserID';
             }
 
-            $Self->True(
-                defined $Article{$ArticleAttribute},
-                "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
-                    . " $Article{ArticleID} exists with True",
-            );
+            if ( $Test->{Article} ) {
+                $Self->True(
+                    defined $Article{$ArticleAttribute},
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
+                        . " $Article{ArticleID} exists with True",
+                );
+            }
 
             my $ExpectedValue = $Test->{Config}->{Config}->{$Attribute};
             if (
@@ -691,12 +730,14 @@ for my $Test (@Tests) {
                 $ExpectedValue .= ', Admin OTRS <root@localhost>'
             }
 
-            $Self->Is(
-                $Article{$ArticleAttribute},
-                $ExpectedValue,
-                "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
-                    . " $Article{ArticleID} match expected value",
-            );
+            if ( $Test->{Article} ) {
+                $Self->Is(
+                    $Article{$ArticleAttribute},
+                    $ExpectedValue,
+                    "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute for ArticleID:"
+                        . " $Article{ArticleID} match expected value",
+                );
+            }
         }
 
         if ( $OrigTest->{Config}->{Config}->{UserID} ) {
@@ -751,7 +792,7 @@ for my $Test (@Tests) {
                 "$ModuleName - Test:'$Test->{Name}' | Link with original ticket should be $Test->{Config}->{Config}->{LinkAs}",
             );
         }
-        if ( $Test->{Config}->{Config}->{TimeUnit} ) {
+        if ( $Test->{Config}->{Config}->{TimeUnit} && $Test->{Article} ) {
             my $AccountedTime = $TicketObject->ArticleAccountedTimeGet(
                 ArticleID => $Article{ArticleID},
             );
@@ -806,6 +847,21 @@ for my $TicketID (@AddedTickets) {
         "TicketDelete() - $TicketID",
     );
 }
+
+# test email backed
+my $TestEmailObject = $Kernel::OM->Get('Kernel::System::Email::Test');
+
+$Success = $TestEmailObject->CleanUp();
+$Self->True(
+    $Success,
+    'Test email backend final cleanup',
+);
+
+$Self->IsDeeply(
+    $TestEmailObject->EmailsGet(),
+    [],
+    'Test email backend empty after final cleanup',
+);
 
 # ----------------------------------------
 
