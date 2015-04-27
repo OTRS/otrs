@@ -1,5 +1,5 @@
 # --
-# Kernel/Output/HTML/ToolBarTicketSearchProfile.pm
+# Kernel/Output/HTML/ToolBar/TicketSearchProfile.pm
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,12 +7,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ToolBarTicketSearchProfile;
+package Kernel::Output::HTML::ToolBar::TicketSearchProfile;
 
 use strict;
 use warnings;
 
-use Kernel::System::SearchProfile;
+our @ObjectDependencies = (
+    'Kernel::System::User',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::SearchProfile'
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -21,12 +25,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject LayoutObject UserID UserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -35,22 +35,25 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # get user data
-    my %User = $Self->{UserObject}->GetUserData(
+    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
         UserID => $Self->{UserID},
     );
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # create search profiles string
-    my $ProfilesStrg = $Self->{LayoutObject}->BuildSelection(
+    my $ProfilesStrg = $LayoutObject->BuildSelection(
         Data => {
             '', '-',
-            $Self->{SearchProfileObject}->SearchProfileList(
+            $Kernel::OM->Get('Kernel::System::SearchProfile')->SearchProfileList(
                 Base      => 'TicketSearch',
                 UserLogin => $User{UserLogin},
             ),
         },
         Name       => 'Profile',
         ID         => 'ToolBarSearchProfile',
-        Title      => $Self->{LayoutObject}->{LanguageObject}->Translate('Search template'),
+        Title      => $LayoutObject->{LanguageObject}->Translate('Search template'),
         SelectedID => '',
         Max        => $Param{Config}->{MaxWidth},
     );

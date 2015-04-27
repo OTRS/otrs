@@ -1,5 +1,5 @@
 # --
-# Kernel/Output/HTML/ToolBarTicketService.pm
+# Kernel/Output/HTML/ToolBar/TicketService.pm
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,15 +7,21 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ToolBarTicketService;
+package Kernel::Output::HTML::ToolBar::TicketService;
 
 use strict;
 use warnings;
 
-use Kernel::System::State;
-use Kernel::System::Lock;
-use Kernel::System::Queue;
-use Kernel::System::Service;
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::Config',
+    'Kernel::System::Lock',
+    'Kernel::System::State',
+    'Kernel::System::Queue',
+    'Kernel::System::Service',
+    'Kernel::System::Ticket',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -24,19 +30,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (
-        qw(ConfigObject LogObject DBObject UserObject TicketObject LayoutObject UserID)
-        )
-    {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
-
-    # create needed objects
-    $Self->{StateObject}   = Kernel::System::State->new(%Param);
-    $Self->{LockObject}    = Kernel::System::Lock->new(%Param);
-    $Self->{QueueObject}   = Kernel::System::Queue->new(%Param);
-    $Self->{ServiceObject} = Kernel::System::Service->new(%Param);
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -46,7 +41,7 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Config} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Config!',
         );
@@ -54,19 +49,19 @@ sub Run {
     }
 
     # do nothing if Ticket Service feature is not enabled
-    return if !$Self->{ConfigObject}->Get('Ticket::Service');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service');
 
     # viewable locks
-    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
+    my @ViewableLockIDs = $Kernel::OM->Get('Kernel::System::Lock')->LockViewableLock( Type => 'ID' );
 
     # viewable states
-    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+    my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
         Type   => 'Viewable',
         Result => 'ID',
     );
 
     # get all queues the agent is allowed to see
-    my %ViewableQueues = $Self->{QueueObject}->GetAllQueues(
+    my %ViewableQueues = $Kernel::OM->Get('Kernel::System::Queue')->GetAllQueues(
         UserID => $Self->{UserID},
         Type   => 'ro',
     );
@@ -74,13 +69,13 @@ sub Run {
 
     # get the custom services
     # set the service ids to an array of non existing service ids (0)
-    my @MyServiceIDs = $Self->{ServiceObject}->GetAllCustomServices( UserID => $Self->{UserID} );
+    my @MyServiceIDs = $Kernel::OM->Get('Kernel::System::Service')->GetAllCustomServices( UserID => $Self->{UserID} );
     if ( !defined $MyServiceIDs[0] ) {
         @MyServiceIDs = (0);
     }
 
     # get number of tickets in MyServices (which are not locked)
-    my $Count = $Self->{TicketObject}->TicketSearch(
+    my $Count = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
         Result     => 'COUNT',
         QueueIDs   => \@ViewableQueueIDs,
         ServiceIDs => \@MyServiceIDs,
@@ -93,7 +88,7 @@ sub Run {
     my $Class = $Param{Config}->{CssClass};
     my $Icon  = $Param{Config}->{Icon};
 
-    my $URL = $Self->{LayoutObject}->{Baselink};
+    my $URL = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink};
     my %Return;
     my $Priority = $Param{Config}->{Priority};
     if ($Count) {

@@ -62,7 +62,7 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # escalated tickets
-    my $Count = $Self->{TicketObject}->TicketSearch(
+    my $Count = $TicketObject->TicketSearch(
         TicketEscalationTimeOlderMinutes => 1,
         CustomerIDRaw                    => $CustomerIDRaw,
         Result                           => 'COUNT',
@@ -74,7 +74,7 @@ sub Run {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusEscalatedTickets',
         Data => {
             %Param,
@@ -83,7 +83,7 @@ sub Run {
     );
 
     # open tickets
-    $Count = $Self->{TicketObject}->TicketSearch(
+    $Count = $TicketObject->TicketSearch(
         StateType     => 'Open',
         CustomerIDRaw => $CustomerIDRaw,
         Result        => 'COUNT',
@@ -92,7 +92,7 @@ sub Run {
         CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusOpenTickets',
         Data => {
             %Param,
@@ -101,7 +101,7 @@ sub Run {
     );
 
     # closed tickets
-    $Count = $Self->{TicketObject}->TicketSearch(
+    $Count = $TicketObject->TicketSearch(
         StateType     => 'Closed',
         CustomerIDRaw => $CustomerIDRaw,
         Result        => 'COUNT',
@@ -110,7 +110,7 @@ sub Run {
         CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusClosedTickets',
         Data => {
             %Param,
@@ -119,7 +119,7 @@ sub Run {
     );
 
     # all tickets
-    $Count = $Self->{TicketObject}->TicketSearch(
+    $Count = $TicketObject->TicketSearch(
         CustomerIDRaw => $CustomerIDRaw,
         Result        => 'COUNT',
         Permission    => $Self->{Config}->{Permission},
@@ -127,7 +127,7 @@ sub Run {
         CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
     );
 
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'ContentSmallCustomerIDStatusAllTickets',
         Data => {
             %Param,
@@ -137,7 +137,7 @@ sub Run {
 
     # archived tickets
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
-        $Count = $Self->{TicketObject}->TicketSearch(
+        $Count = $TicketObject->TicketSearch(
             CustomerIDRaw => $CustomerIDRaw,
             ArchiveFlags  => ['y'],
             Result        => 'COUNT',
@@ -146,7 +146,7 @@ sub Run {
             CacheTTL      => $Self->{Config}->{CacheTTLLocal} * 60,
         );
 
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSmallCustomerIDStatusArchivedTickets',
             Data => {
                 %Param,
@@ -155,7 +155,7 @@ sub Run {
         );
     }
 
-    my $Content = $Self->{LayoutObject}->Output(
+    my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardCustomerIDStatus',
         Data         => {
             %{ $Self->{Config} },

@@ -5557,7 +5557,7 @@
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Link</Item>
                 <Item Key="Name" Translatable="1">Queue view</Item>
                 <Item Key="Link">Action=AgentTicketQueue</Item>
                 <Item Key="Action">AgentTicketQueue</Item>
@@ -5574,7 +5574,7 @@
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Link</Item>
                 <Item Key="Name" Translatable="1">Status view</Item>
                 <Item Key="Link">Action=AgentTicketStatusView</Item>
                 <Item Key="Action">AgentTicketStatusView</Item>
@@ -5591,7 +5591,7 @@
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Link</Item>
                 <Item Key="Name" Translatable="1">Escalation view</Item>
                 <Item Key="Link">Action=AgentTicketEscalationView</Item>
                 <Item Key="Action">AgentTicketEscalationView</Item>
@@ -5608,7 +5608,7 @@
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Link</Item>
                 <Item Key="Name" Translatable="1">New phone ticket</Item>
                 <Item Key="Link">Action=AgentTicketPhone</Item>
                 <Item Key="Action">AgentTicketPhone</Item>
@@ -5625,7 +5625,7 @@
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Link</Item>
                 <Item Key="Name" Translatable="1">New email ticket</Item>
                 <Item Key="Link">Action=AgentTicketEmail</Item>
                 <Item Key="Action">AgentTicketEmail</Item>
@@ -5642,7 +5642,7 @@
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Link</Item>
                 <Item Key="Name" Translatable="1">New process ticket</Item>
                 <Item Key="Link">Action=AgentTicketProcess</Item>
                 <Item Key="Action">AgentTicketProcess</Item>
@@ -5653,13 +5653,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###6-Ticket::TicketResponsible" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###7-Ticket::TicketResponsible" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of tickets an agent is responsible for.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketResponsible</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::TicketResponsible</Item>
                 <Item Key="CssClass">Responsible</Item>
                 <Item Key="CssClassNew">Responsible New</Item>
                 <Item Key="CssClassReached">Responsible Reached</Item>
@@ -5673,13 +5673,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###7-Ticket::TicketWatcher" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###8-Ticket::TicketWatcher" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of watched tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketWatcher</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::TicketWatcher</Item>
                 <Item Key="CssClass">Watcher</Item>
                 <Item Key="CssClassNew">Watcher New</Item>
                 <Item Key="CssClassReached">Watcher Reached</Item>
@@ -5693,13 +5693,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###8-Ticket::TicketLocked" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::ToolBarModule###9-Ticket::TicketLocked" Required="0" Valid="1">
         <Description Translatable="1">Agent interface notification module to see the number of locked tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketLocked</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::TicketLocked</Item>
                 <Item Key="CssClass">Locked</Item>
                 <Item Key="CssClassNew">Locked New</Item>
                 <Item Key="CssClassReached">Locked Reached</Item>
@@ -5716,26 +5716,26 @@
     <!-- TODO: check if the counter is really needed, otherwise the module can be removed and use
     the standard link module
     -->
-    <ConfigItem Name="Frontend::ToolBarModule###8-Ticket::AgentTicketService" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###10-Ticket::AgentTicketService" Required="0" Valid="0">
         <Description Translatable="1">Agent interface notification module to see the number of tickets in My Services.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketService</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::TicketService</Item>
                 <Item Key="CssClass">ServiceView</Item>
                 <Item Key="Icon">fa fa-wrench</Item>
                 <Item Key="Priority">1030035</Item>
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###9-Ticket::TicketSearchProfile" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###11-Ticket::TicketSearchProfile" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access search profiles via nav bar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarTicketSearchProfile</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::TicketSearchProfile</Item>
                 <Item Key="Description" Translatable="1">Search template</Item>
                 <Item Key="Name" Translatable="1">Search template</Item>
                 <Item Key="Block">ToolBarSearchProfile</Item>
@@ -5744,13 +5744,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###10-Ticket::TicketSearchFulltext" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###12-Ticket::TicketSearchFulltext" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access fulltext search via nav bar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">Fulltext search</Item>
                 <Item Key="Name" Translatable="1">Fulltext search</Item>
                 <Item Key="Block">ToolBarSearchFulltext</Item>
@@ -5760,13 +5760,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###11-CICSearchCustomerID" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###13-CICSearchCustomerID" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access CIC search via nav bar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">CustomerID search</Item>
                 <Item Key="Name" Translatable="1">CustomerID search</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerID</Item>
@@ -5776,13 +5776,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::ToolBarModule###11-CICSearchCustomerUser" Required="0" Valid="0">
+    <ConfigItem Name="Frontend::ToolBarModule###14-CICSearchCustomerUser" Required="0" Valid="0">
         <Description Translatable="1">Agent interface module to access CIC search via nav bar.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ToolBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ToolBarGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::ToolBar::Generic</Item>
                 <Item Key="Description" Translatable="1">Customer user search</Item>
                 <Item Key="Name" Translatable="1">Customer user search</Item>
                 <Item Key="Block">ToolBarCICSearchCustomerUser</Item>

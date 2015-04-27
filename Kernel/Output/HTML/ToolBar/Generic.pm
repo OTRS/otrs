@@ -1,5 +1,5 @@
 # --
-# Kernel/Output/HTML/ToolBarGeneric.pm
+# Kernel/Output/HTML/ToolBar/Generic.pm
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,7 +7,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ToolBarGeneric;
+package Kernel::Output::HTML::ToolBar::Generic;
 
 use strict;
 use warnings;
@@ -18,11 +18,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject LayoutObject UserID UserObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }

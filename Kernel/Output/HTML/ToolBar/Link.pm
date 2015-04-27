@@ -1,5 +1,5 @@
 # --
-# Kernel/Output/HTML/ToolBarLink.pm
+# Kernel/Output/HTML/ToolBar/Link.pm
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -7,10 +7,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ToolBarLink;
+package Kernel::Output::HTML::ToolBar::Link;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -19,10 +25,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject TicketObject LayoutObject UserID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
     return $Self;
 }
 
@@ -32,7 +34,7 @@ sub Run {
     # check needed stuff
     for (qw(Config)) {
         if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $_!"
             );
@@ -43,12 +45,15 @@ sub Run {
     # check if frontend module is used
     my $Action = $Param{Config}->{Action};
     if ($Action) {
-        return if !$Self->{ConfigObject}->Get('Frontend::Module')->{$Action};
+        return if !$Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{$Action};
     }
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # get item definition
-    my $Text      = $Self->{LayoutObject}->{LanguageObject}->Translate( $Param{Config}->{Name} );
-    my $URL       = $Self->{LayoutObject}->{Baselink} . $Param{Config}->{Link};
+    my $Text      = $LayoutObject->{LanguageObject}->Translate( $Param{Config}->{Name} );
+    my $URL       = $LayoutObject->{Baselink} . $Param{Config}->{Link};
     my $Priority  = $Param{Config}->{Priority};
     my $AccessKey = $Param{Config}->{AccessKey};
     my $CssClass  = $Param{Config}->{CssClass};

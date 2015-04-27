@@ -1282,8 +1282,7 @@ sub Header {
                 # load and run module
                 next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
                 my $Object = $Jobs{$Job}->{Module}->new(
-                    %{$Self},
-                    LayoutObject => $Self,
+                    %{$Self}, # UserID etc.
                 );
                 next MODULE if !$Object;
                 %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );
