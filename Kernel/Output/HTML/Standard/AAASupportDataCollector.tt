@@ -212,6 +212,10 @@
 # Webserver/Apache/LoadedModules.pm
 [% Translate("Loaded Apache Modules") | html %]
 
+# Webserver/Apache/MPMModel.pm
+[% Translate("MPM model") | html %]
+[% Translate("OTRS requires apache to be run with the 'prefork' MPM model.") | html %]
+
 # Webserver/Apache/Performance.pm
 [% Translate("CGI Accelerator Usage") | html %]
 [% Translate("You should use FastCGI or mod_perl to increase your performance.") | html %]
