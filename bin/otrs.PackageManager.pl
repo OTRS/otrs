@@ -74,6 +74,7 @@ if ( $Opts{h} ) {
         "      [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     print " user (local):\n";
     print "   otrs.PackageManager.pl -a list\n";
+    print "   otrs.PackageManager.pl -a listinstalledfiles\n";
     print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
     print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
     print "   otrs.PackageManager.pl -a reinstall -p Package\n";
@@ -556,6 +557,27 @@ elsif ( $Opts{a} eq 'list' ) {
         print "| Description: $Data{Description}\n";
     }
     print "+----------------------------------------------------------------------------+\n";
+    exit;
+}
+elsif ( $Opts{a} eq 'listinstalledfiles' ) {
+    my @Packages = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList();
+
+    PACKAGE:
+    for my $Package (@Packages) {
+
+        # Just show if PackageIsVisible flag is enabled.
+        if (
+            defined $Package->{PackageIsVisible}
+            && !$Package->{PackageIsVisible}->{Content}
+            )
+        {
+            next PACKAGE;
+        }
+
+        for my $File ( @{ $Package->{Filelist} } ) {
+            print "  $Package->{Name}->{Content}: $File->{Location}\n";
+        }
+    }
     exit;
 }
 elsif ( $Opts{a} eq 'list-repository' ) {
