@@ -481,6 +481,36 @@ my @NeededModules = (
         Comment  => 'Required for statistics.',
     },
     {
+        Module    => 'XML::Simple',
+        Required  => 0,
+        Comment   => 'Required for Generic Interface XSLT mapping module.',
+        InstTypes => {
+            aptget => 'libxml-simple-perl',
+            ppm    => 'XML-Simple',
+            zypper => 'perl-XML-Simple',
+        },
+    },
+    {
+        Module    => 'XML::LibXML',
+        Required  => 0,
+        Comment   => 'Required for Generic Interface XSLT mapping module.',
+        InstTypes => {
+            aptget => 'libxml-libxml-perl',
+            ppm    => 'XML-LibXML',
+            zypper => 'perl-XML-LibXML',
+        },
+    },
+    {
+        Module    => 'XML::LibXSLT',
+        Required  => 0,
+        Comment   => 'Required for Generic Interface XSLT mapping module.',
+        InstTypes => {
+            aptget => 'libxml-libxslt-perl',
+            ppm    => 'XML-LibXSLT',
+            zypper => 'perl-XML-LibXSLT',
+        },
+    },
+    {
         Module    => 'XML::Parser',
         Required  => 0,
         Comment   => 'Recommended for faster xml handling.',

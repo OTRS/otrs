@@ -1452,6 +1452,12 @@ sub Data {
         'Do you really want to delete this key mapping?' => 'Wollen Sie dieses Schlüssel-Mapping wirklich löschen?',
         'Delete this Key Mapping' => 'Schlüssel-Mapping löschen',
 
+        # Template: AdminGenericInterfaceMappingXSLT
+        'GenericInterface Mapping XSLT for Web Service %s' => 'GenericInterface XSLT mapping für Webservice %s',
+        'Mapping XML' => 'XML mapping',
+        'Insert XSLT stylesheet.' => 'Fügen Sie ein XSLT-Stylesheet ein.',
+        'The entered data is not a valid XSLT stylesheet.' => 'Die eingegebenen Daten sind kein gültiges XSLT-Stylesheet.',
+
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => 'Neue Operation zu Webservice %s hinzufügen',
         'Change Operation %s of Web Service %s' => 'Operation %s von Webservice %s ändern',
