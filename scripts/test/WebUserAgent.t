@@ -145,20 +145,20 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - Credentials ' . $TestNumber++,
-        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
         Timeout     => '100',
         Proxy       => $Proxy,
         Success     => '1',
         Credentials => {
             User     => 'guest',
             Password => 'guest',
-            Realm    => 'test',
-            Location => 'jigsaw.w3.org:80',
+            Realm    => 'OTRS UnitTest',
+            Location => 'makalu.otrs.com:443',
         },
     },
     {
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
-        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
         Timeout     => '100',
         Proxy       => $Proxy,
         Success     => '0',
@@ -166,7 +166,7 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
-        URL         => "http://jigsaw.w3.org/HTTP/Basic",
+        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
         Timeout     => '100',
         Proxy       => $Proxy,
         Credentials => {
