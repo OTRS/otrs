@@ -24,6 +24,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.8 2015-??-??
+ - 2015-04-28 Fixed bug#[11262](http://bugs.otrs.org/show_bug.cgi?id=11262) - AJAX calls keep session alive.
  - 2015-04-27 Added new support data check for prefork MPM.
  - 2015-04-24 Fixed bug#[11246](http://bugs.otrs.org/show_bug.cgi?id=11246) - Information Disclosure on "Outbound E-Mail".
  - 2015-04-24 Fixed bug#[10534](http://bugs.otrs.org/show_bug.cgi?id=10534) - Wildcard hacking the customer information center.
