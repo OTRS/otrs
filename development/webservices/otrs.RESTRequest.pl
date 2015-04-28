@@ -32,9 +32,6 @@ use lib dirname($RealBin);
 use JSON;
 use REST::Client;
 
-# ---
-# Variables to be defined
-
 # This is the HOST for the web service the format is:
 # <HTTP_TYPE>:://<OTRS_FQDN>/nph-genericinterface.pl
 my $Host = 'http://localhost/otrs/nph-genericinterface.pl';
@@ -45,70 +42,200 @@ my $RestClient = REST::Client->new(
     }
 );
 
-# This is the Controller and Request the format is:
+# These are the Controllers and Providers the format is:
 # /Webservice/<WEB_SERVICE_NAME>/<RESOURCE>/<REQUEST_VALUE>
 # or
 # /WebserviceID/<WEB_SERVICE_ID>/<RESOURCE>/<REQUEST_VALUE>
+#
+# See the documentation on how to setup Providers.
+#
 # This example will retrieve the Ticket with the TicketID = 1 (<REQUEST_VALUE>)
-my $ControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket/1';
+my $GetControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket/1';
 
-my $Params = {
-    UserLogin     => "some user login",       # to be filled with valid agent login
-    Password      => "some user password",    # to be filled with valid agent password
-    DynamicFields => 1,                       # optional, if set to 1,
-                                              # ticket dynamic fields included in response
-    AllArticles   => 1,                       # optional, if set to 1,
-                                              # all ticket articles are included in response
-                                              # more options to be found in
-                                              # /Kernel/GenericInterface/Operation/Ticket/TicketGet.pm's
-                                              # Run() subroutine documentation.
+# This example is the base URL for Ticket Create
+my $CreateControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket';
+
+# This example will update the Ticket with the TicketID = 1 (<REQUEST_VALUE>)
+my $UpdateControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket/1';
+
+# This is the base URL for Ticket Search
+my $SearchControllerAndRequest = '/Webservice/GenericTicketConnectorREST/Ticket';
+
+# ---
+# TicketGet Example
+# See the documentation of OTRSGenericInterfaceREST on how to setup
+#   - webservice
+#   - transport
+#   - operations
+# ---
+my $GetParams = {
+    UserLogin => "some agent user login",       # to be filled with valid agent login
+    Password  => "some agent user password",    # to be filled with valid agent password
 };
 
-my @RequestParam;
+# Build GetParams as part of the URL for REST-GET requests
+my $QueryParams = $RestClient->buildQuery( %{$GetParams} );
+$GetControllerAndRequest .= $QueryParams;
 
-# As sample web service configuration for TicketGet uses HTTP method GET all other parameters needs
-# to be sent as URI query parameters
+$RestClient->GET($GetControllerAndRequest);
 
-# ----
-# For GET method
-my $QueryParams = $RestClient->buildQuery( %{$Params} );
+my $GetResponseCode = $RestClient->responseCode();
 
-$ControllerAndRequest .= $QueryParams;
+if ( $GetResponseCode ne '200' ) {
+    print "Get request failed, response code was: $GetResponseCode\n";
+}
+else {
 
-# The @RequestParam array on position 0 holds controller and request
-@RequestParam = ($ControllerAndRequest);
+    # If the request was answered correctly, we receive a JSON string here.
+    my $ResponseContent = $RestClient->responseContent();
 
-$RestClient->GET(@RequestParam);
+    my $Data = decode_json $ResponseContent;
 
-# ----
+    # Just to print out the returned Data structure:
+    use Data::Dumper;
+    print "Get response was:\n";
+    print Dumper($Data);
 
-# # ----
-# # For POST method
-# my $JSONParams = encode_json $Params;
-
-# # The @RequestParam array on position 0 holds controller and request
-# # on position 1 it holds the JSON data string that gets posted
-# @RequestParam = (
-#   $ControllerAndRequest,
-#   $JSONParams
-# );
-
-# $RestClient->POST(@RequestParam);
-# # ----
-
-# If the host isn't reachable, wrong configured or couldn't serve the requested page:
-my $ResponseCode = $RestClient->responseCode();
-if ( $ResponseCode ne '200' ) {
-    print "Request failed, response code was: $ResponseCode\n";
-    exit;
 }
 
-# If the request was answered correctly, we receive a JSON string here.
-my $ResponseContent = $RestClient->responseContent();
+# ---
 
-my $Data = decode_json $ResponseContent;
+# ---
+# TicketSearch Example
+# See the documentation of OTRSGenericInterfaceREST on how to setup
+#   - webservice
+#   - transport
+#   - operations
+# ---
+my $SearchParams = {
+    UserLogin => "some agent user login",       # to be filled with valid agent login
+    Password  => "some agent user password",    # to be filled with valid agent password
+    Queues    => ['Raw'],
+};
 
-# Just to print out the returned Data structure:
-use Data::Dumper;
-print "Response was:\n";
-print Dumper($Data);
+# Build SearchParams as part of the URL for REST-GET requests
+$QueryParams = $RestClient->buildQuery( %{$SearchParams} );
+$SearchControllerAndRequest .= $QueryParams;
+
+$RestClient->GET($SearchControllerAndRequest);
+
+# If the host isn't reachable, wrong configured or couldn't serve the requested page:
+my $SearchResponseCode = $RestClient->responseCode();
+
+if ( $SearchResponseCode ne '200' ) {
+    print "Search request failed, response code was: $SearchResponseCode\n";
+}
+else {
+
+    # If the request was answered correctly, we receive a JSON string here.
+    my $ResponseContent = $RestClient->responseContent();
+
+    my $Data = decode_json $ResponseContent;
+
+    # Just to print out the returned Data structure:
+    use Data::Dumper;
+    print "Search Response was:\n";
+    print Dumper($Data);
+
+}
+
+# ---
+
+# ---
+# TicketCreate Example
+# See the documentation of OTRSGenericInterfaceREST on how to setup
+# - webservice
+# - transport
+# - operations
+# ---
+my $CreateOrUpdateParams = {
+    UserLogin => "some agent user login",       # to be filled with valid agent login
+    Password  => "some agent user password",    # to be filled with valid agent password
+    Ticket    => {
+        Title        => 'some ticket title',
+        Queue        => 'Raw',
+        Lock         => 'unlock',
+        Type         => 'Unclassified',
+        State        => 'new',
+        Priority     => '3 normal',
+        Owner        => 'some agent user login',
+        CustomerUser => 'customer-1',
+    },
+    Article => {
+        Subject     => 'some subject',
+        Body        => 'some body',
+        ContentType => 'text/plain; charset=ISO-8859-15',
+    },
+};
+
+my $CreateJSONParams = encode_json $CreateOrUpdateParams;
+
+my @CreateRequestParam = (
+    $CreateControllerAndRequest,
+    $CreateJSONParams
+);
+
+# We have to use REST-POST requests in order to send UserLogin and Password correctly
+# though other REST methods would fit better.
+$RestClient->POST(@CreateRequestParam);
+
+# If the host isn't reachable, wrong configured or couldn't serve the requested page:
+my $CreateResponseCode = $RestClient->responseCode();
+
+if ( $CreateResponseCode ne '200' ) {
+    print "Create request failed, response code was: $CreateResponseCode\n";
+}
+else {
+
+    # If the request was answered correctly, we receive a JSON string here.
+    my $ResponseContent = $RestClient->responseContent();
+
+    my $Data = decode_json $ResponseContent;
+
+    # Just to print out the returned Data structure:
+    use Data::Dumper;
+    print "Create Response was:\n";
+    print Dumper($Data);
+
+}
+
+# ---
+
+# ---
+# TicketUpdate Example
+# See the documentation of OTRSGenericInterfaceREST on how to setup
+#   - webservice
+#   - transport
+#   - operations
+# ---
+my $UpdateJSONParams = encode_json $CreateOrUpdateParams;
+
+my @UpdateRequestParam = (
+    $UpdateControllerAndRequest,
+    $UpdateJSONParams
+);
+
+# We have to use REST-PATCH requests in order to send UserLogin and Password correctly
+# though other REST methods would fit better.
+$RestClient->PATCH(@UpdateRequestParam);
+
+# If the host isn't reachable, wrong configured or couldn't serve the requested page:
+my $UpdateResponseCode = $RestClient->responseCode();
+if ( $UpdateResponseCode ne '200' ) {
+    print "Update request failed, response code was: $UpdateResponseCode\n";
+}
+else {
+
+    # If the request was answered correctly, we receive a JSON string here.
+    my $ResponseContent = $RestClient->responseContent();
+
+    my $Data = decode_json $ResponseContent;
+
+    # Just to print out the returned Data structure:
+    use Data::Dumper;
+    print "Update response was:\n";
+    print Dumper($Data);
+
+}
+
+# ---
