@@ -5,14 +5,10 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-#
-#  Note:
-#    -->> Don't edit this file! Copy your needed settings into
-#     Kernel/Config.pm. Kernel/Config.pm will not be updated. <<--
-#
-#   -->> All changes of this file will be lost after an update! <<--
-#
-# --
+
+# Default configuration for OTRS. All changes to this file will be lost after an
+#   update, please use AdminSysConfig to configure your system.
+
 ## nofilter(TidyAll::Plugin::OTRS::Perl::LayoutObject)
 
 package Kernel::Config::Defaults;
