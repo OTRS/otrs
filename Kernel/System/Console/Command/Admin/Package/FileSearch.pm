@@ -43,7 +43,7 @@ sub Run {
     PACKAGE:
     for my $Package ( $Kernel::OM->Get('Kernel::System::Package')->RepositoryList() ) {
 
-        # just shown in list if PackageIsVisible flag is enable
+        # Just show if PackageIsVisible flag is enabled.
         if (
             defined $Package->{PackageIsVisible}
             && !$Package->{PackageIsVisible}->{Content}
