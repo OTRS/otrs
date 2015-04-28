@@ -1,0 +1,96 @@
+# --
+# AdminGenericInterfaceMappingXSLT.tt - provides HTML form for AdminGenericInterfaceMappingXSLT
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceMappingXSLT">
+    <h1>[% Translate("GenericInterface Mapping XSLT for Web Service %s", Data.WebserviceName) | html %]</h1>
+    <div class="GenericInterfaceWebserviceConfigPath">
+        <h3>
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice">[% Translate("Web Services") | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=AdminGenericInterfaceWebservice;Subaction=Change;WebserviceID=[% Data.WebserviceID | uri %]">[% Data.WebserviceName | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Data.ActionType | html %] [% Data.Action | html %]</a>
+
+            [% Config("GenericInterface::Webservice::Path::Separator") %]
+            [% Translate(Data.MappingDirection) | html %]
+        </h3>
+    </div>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]" class="CallForAction Fullsize Center">
+                            <span><i class="fa fa-caret-left"></i> [% Translate("Go back to") | html %] [% Data.LowerCaseActionType | html %]</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="ContentColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Mapping XML") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]Action"/>
+                    <input type="hidden" name="WebserviceID" value="[% Data.WebserviceID | html %]" id="WebserviceID"/>
+                    <input type="hidden" name="CommunicationType" value="[% Data.CommunicationType | html %]" />
+                    <input type="hidden" name="Operation" value="[% Data.Operation | html %]" />
+                    <input type="hidden" name="Invoker" value="[% Data.Invoker | html %]" />
+                    <input type="hidden" name="Direction" value="[% Data.Direction | html %]"/>
+                    <fieldset class="TableLike SpacingTop">
+                        <label for="Template">[% Translate("Template") | html %]:</label>
+                        <div class="Field">
+                            <textarea id="Template" name="Template" rows="20" cols="80" class="Validate_Required [% Data.TemplateError | html %]">[% Data.Template | html %]</textarea>
+                            <div id="TemplateServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("The entered data is not a valid XSLT stylesheet.") | html %]</p>
+                            </div>
+                            <p class="FieldExplanation">[% Translate("Insert XSLT stylesheet.") | html %]</p>
+                        </div>
+                        <div class="Clear Spacing"></div>
+                    </fieldset>
+                    <fieldset class="TableLike">
+                        <div class="Field Spacing">
+                            <button class="Primary" type="submit" value="[% Translate("Save") | html %]">[% Translate("Save") | html %]</button>
+
+                            <button type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]">[% Translate("Save and finish") | html %]</button>
+                            <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#SaveAndFinishButton').bind('click', function(){
+    $('#ReturnToAction').val(1);
+});
+//]]></script>
+[% END %]
+
+                            [% Translate("or") | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Data.ActionFrontendModule | uri %];Subaction=Change;[% Data.ActionType | uri %]=[% Data.Action | uri %];WebserviceID=[% Data.WebserviceID | uri %]">[% Translate("Cancel") | html %]</a>
+                        </div>
+
+                    </fieldset>
+                    <div class="Clear"></div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
