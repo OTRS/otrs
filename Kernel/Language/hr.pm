@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/hr.pm - provides Croatian language Latin translation
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2011 Damir Dzeko <damir punkt dzeko masterspace inet.hr>
 # --

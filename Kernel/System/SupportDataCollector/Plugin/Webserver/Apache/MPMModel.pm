@@ -1,5 +1,4 @@
 # --
-# Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm - system data collector plugin
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -32,19 +31,19 @@ sub Run {
 
     my $MPMModel;
     my %KnownModels = (
-        'worker.c' => 1,
+        'worker.c'  => 1,
         'prefork.c' => 1,
-        'event.c' => 1,
+        'event.c'   => 1,
     );
 
     MODULE:
     for ( my $Module = Apache2::Module::top_module(); $Module; $Module = $Module->next() ) {
-        if ( $KnownModels{$Module->name()} ) {
+        if ( $KnownModels{ $Module->name() } ) {
             $MPMModel = $Module->name();
         }
     }
 
-    if ($MPMModel eq 'prefork.c') {
+    if ( $MPMModel eq 'prefork.c' ) {
         $Self->AddResultOk(
             Identifier => 'MPMModel',
             Label      => 'MPM model',

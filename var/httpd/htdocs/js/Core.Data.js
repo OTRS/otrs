@@ -1,5 +1,4 @@
 // --
-// Core.Data.js - provides functions for setting and getting data (objects) to DOM elements
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

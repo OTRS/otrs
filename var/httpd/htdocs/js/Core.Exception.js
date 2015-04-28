@@ -1,5 +1,4 @@
 // --
-// Core.Exception.js - provides the exception object and handling functions
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

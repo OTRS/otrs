@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/nl.pm - provides nl language translation
 # Copyright (C) 2002-2003 Fred van Dijk <fvandijk at marklin.nl>
 # Copyright (C) 2003 A-NeT Internet Services bv Hans Bakker <h.bakker at a-net.nl>
 # Copyright (C) 2004 Martijn Lohmeijer <martijn.lohmeijer 'at' sogeti.nl>

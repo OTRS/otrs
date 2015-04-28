@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/el.pm - provides el language translation
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --

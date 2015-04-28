@@ -1,5 +1,4 @@
 # --
-# AgentTicketEscalationView.t - frontend tests for AgentTicketEscalationView
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -48,7 +47,6 @@ $Selenium->RunTest(
             Key   => 'TimeWorkingHours',
             Value => \%Week,
         );
-
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(

@@ -1,5 +1,4 @@
 # --
-# TicketService.t - frontend tests for TicketService
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -155,7 +154,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Service'
         );
-        }
+    }
 );
 
 1;

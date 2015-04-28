@@ -1,6 +1,4 @@
 # --
-# Kernel/System/Ticket/Acl/CloseParentAfterClosedChilds.pm - acl module
-# - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,5 +1,4 @@
 # --
-# Kernel/Modules/AgentTicketEmailOutbound.pm - to send a new outbound message
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -720,6 +719,7 @@ sub Form {
         Attachments         => \@Attachments,
         %Data,
         %GetParam,
+
         # We start a new communication here, so don't send any references.
         #   This might lead to information disclosure (domain names; see bug#11246).
         InReplyTo        => '',

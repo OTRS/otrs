@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

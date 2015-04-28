@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/fr_CA.pm - provides French language translation
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>

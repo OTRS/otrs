@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/bg.pm - provides Bulgarian language translation
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --

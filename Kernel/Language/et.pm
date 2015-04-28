@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/et.pm - provides Estonian language translation
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2012 Margus Värton <margusvarton@gmail.com>
 # --

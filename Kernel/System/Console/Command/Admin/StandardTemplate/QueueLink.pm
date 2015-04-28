@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Console/Command/Admin/StandardTemplate/QueueLink.pm - console command
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

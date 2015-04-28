@@ -1,5 +1,4 @@
 // --
-// Core.Agent.Admin.ProcessManagement.js - provides the special module functions for the Process Management.
 // Copyright (C) 2001-2013 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

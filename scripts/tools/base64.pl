@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 # --
-# scripts/tools/base64.pl - mime base 64 encode/decode
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

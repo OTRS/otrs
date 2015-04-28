@@ -1,5 +1,4 @@
 // --
-// Core.Agent.TicketAction.js - provides functions for all ticket action popups
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

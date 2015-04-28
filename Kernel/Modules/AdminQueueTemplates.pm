@@ -1,5 +1,4 @@
 # --
-# Kernel/Modules/AdminQueueTemplates.pm - to manage queue <-> templates assignments
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 # --
-# scripts/tools/md5sum.pl - generage md5sums of files
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 # --
-# bin/fcgi-bin/index.pl - the global FastCGI handle file (incl. auth) for OTRS
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

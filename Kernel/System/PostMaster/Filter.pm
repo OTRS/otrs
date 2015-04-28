@@ -1,5 +1,4 @@
 # --
-# Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

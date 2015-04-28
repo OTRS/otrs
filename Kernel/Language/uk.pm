@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/uk.pm - provides ru language translation
 # Copyright (C) 2010 ÐÐµÐ»ÑÑÐºÐ¸Ð¹ ÐÑÑÐµÐ¼
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

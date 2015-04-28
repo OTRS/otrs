@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Type.pm - All ticket type related functions
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

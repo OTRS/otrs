@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Ticket/ColumnFilter.pm - all column filter functions
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

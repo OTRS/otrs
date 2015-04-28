@@ -1,5 +1,4 @@
 // --
-// Core.Agent.Admin.DynamicFieldText.js - provides the special module functions for the Text Dynamic Fields.
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

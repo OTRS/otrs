@@ -1,5 +1,4 @@
 # --
-# Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -410,6 +409,7 @@ sub Run {
 
         # do some actions on tickets
         if ( ( $Self->{Subaction} eq 'Do' ) && ( !%Error ) ) {
+
             # challenge token check for write action
             $LayoutObject->ChallengeTokenCheck();
 

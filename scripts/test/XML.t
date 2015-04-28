@@ -1,5 +1,4 @@
 # --
-# XML.t - XML tests
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

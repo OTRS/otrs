@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/he.pm - provides Hebrew language translation
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2014 Amir Elion <amir.elion@gmail.com>
 # --

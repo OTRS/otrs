@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Console/Command/Dev/Code/Generate/ConsoleCommand.pm - command skeleton generator
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

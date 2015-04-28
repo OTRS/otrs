@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/sr_Cyrl.pm - provides Serbian language Cyrillic translation
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Milorad Jovanovic <j.milorad at gmail.com>
 # --

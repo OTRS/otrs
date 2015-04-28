@@ -1,5 +1,4 @@
 # --
-# Kernel/System/ObjectManager.pm - central object and dependency manager
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

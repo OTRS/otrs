@@ -1,5 +1,4 @@
 # --
-# Kernel/System/ProcessManagement/TransitionAction/TicketQueueSet.pm - A Module to move a Ticket from to a new queue
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

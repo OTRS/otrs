@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Console/Command/Admin/Package/ListInstalledFiles.pm - console command
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -35,7 +34,6 @@ sub Run {
 
     my @Packages = $Kernel::OM->Get('Kernel::System::Package')->RepositoryList();
 
-
     PACKAGE:
     for my $Package (@Packages) {
 
@@ -49,7 +47,7 @@ sub Run {
         }
 
         for my $File ( @{ $Package->{Filelist} } ) {
-            $Self->Print( "  $Package->{Name}->{Content}: $File->{Location}\n");
+            $Self->Print("  $Package->{Name}->{Content}: $File->{Location}\n");
         }
     }
 

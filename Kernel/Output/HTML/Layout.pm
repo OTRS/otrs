@@ -1,5 +1,4 @@
 # --
-# Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -1282,7 +1281,7 @@ sub Header {
                 # load and run module
                 next MODULE if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
                 my $Object = $Jobs{$Job}->{Module}->new(
-                    %{$Self}, # UserID etc.
+                    %{$Self},    # UserID etc.
                 );
                 next MODULE if !$Object;
                 %Modules = ( $Object->Run( %Param, Config => $Jobs{$Job} ), %Modules );

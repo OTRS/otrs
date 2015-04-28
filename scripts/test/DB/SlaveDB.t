@@ -1,5 +1,4 @@
 # --
-# SlaveDB.t - database version
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -15,98 +14,99 @@ use vars (qw($Self));
 
 # This test checks the slave handling features in DB.pm
 
-my $MasterDSN = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
-my $MasterUser = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
+my $MasterDSN      = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN');
+my $MasterUser     = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
 my $MasterPassword = $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 
 my @Tests = (
     {
-        Name => "No slave configured",
+        Name   => "No slave configured",
         Config => {
-            'Core::MirrorDB::DSN' => undef,
-            'Core::MirrorDB::User' => undef,
-            'Core::MirrorDB::Password' => undef,
+            'Core::MirrorDB::DSN'               => undef,
+            'Core::MirrorDB::User'              => undef,
+            'Core::MirrorDB::Password'          => undef,
             'Core::MirrorDB::AdditionalMirrors' => undef,
         },
         SlaveDBAvailable => 0,
-        TestIterations => 1,
+        TestIterations   => 1,
     },
     {
-        Name => "First slave configured",
+        Name   => "First slave configured",
         Config => {
-            'Core::MirrorDB::DSN' => $MasterDSN,
-            'Core::MirrorDB::User' => $MasterUser,
-            'Core::MirrorDB::Password' => $MasterPassword,
+            'Core::MirrorDB::DSN'               => $MasterDSN,
+            'Core::MirrorDB::User'              => $MasterUser,
+            'Core::MirrorDB::Password'          => $MasterPassword,
             'Core::MirrorDB::AdditionalMirrors' => undef,
         },
         SlaveDBAvailable => 1,
-        TestIterations => 1,
+        TestIterations   => 1,
     },
     {
-        Name => "First slave configured as invalid",
+        Name   => "First slave configured as invalid",
         Config => {
-            'Core::MirrorDB::DSN' => $MasterDSN,
-            'Core::MirrorDB::User' => 'wrong_user',
-            'Core::MirrorDB::Password' => 'wrong_password',
+            'Core::MirrorDB::DSN'               => $MasterDSN,
+            'Core::MirrorDB::User'              => 'wrong_user',
+            'Core::MirrorDB::Password'          => 'wrong_password',
             'Core::MirrorDB::AdditionalMirrors' => undef,
         },
         SlaveDBAvailable => 0,
-        TestIterations => 1,
+        TestIterations   => 1,
     },
     {
-        Name => "Additional slave configured",
+        Name   => "Additional slave configured",
         Config => {
-            'Core::MirrorDB::DSN' => undef,
-            'Core::MirrorDB::User' => undef,
-            'Core::MirrorDB::Password' => undef,
+            'Core::MirrorDB::DSN'               => undef,
+            'Core::MirrorDB::User'              => undef,
+            'Core::MirrorDB::Password'          => undef,
             'Core::MirrorDB::AdditionalMirrors' => {
                 1 => {
-                    DSN => $MasterDSN,
-                    User => $MasterUser,
+                    DSN      => $MasterDSN,
+                    User     => $MasterUser,
                     Password => $MasterPassword,
                 },
             },
         },
         SlaveDBAvailable => 1,
-        TestIterations => 1,
+        TestIterations   => 1,
     },
     {
-        Name => "Additional slave configured as invalid",
+        Name   => "Additional slave configured as invalid",
         Config => {
-            'Core::MirrorDB::DSN' => undef,
-            'Core::MirrorDB::User' => undef,
-            'Core::MirrorDB::Password' => undef,
+            'Core::MirrorDB::DSN'               => undef,
+            'Core::MirrorDB::User'              => undef,
+            'Core::MirrorDB::Password'          => undef,
             'Core::MirrorDB::AdditionalMirrors' => {
                 1 => {
-                    DSN => $MasterDSN,
-                    User => 'wrong_user',
+                    DSN      => $MasterDSN,
+                    User     => 'wrong_user',
                     Password => 'wrong_password',
                 },
             },
         },
         SlaveDBAvailable => 0,
-        TestIterations => 1,
+        TestIterations   => 1,
     },
     {
-        Name => "Full config with valid first slave and invalid additional",
+        Name   => "Full config with valid first slave and invalid additional",
         Config => {
-            'Core::MirrorDB::DSN' => $MasterDSN,
-            'Core::MirrorDB::User' => $MasterUser,
-            'Core::MirrorDB::Password' => $MasterPassword,
+            'Core::MirrorDB::DSN'               => $MasterDSN,
+            'Core::MirrorDB::User'              => $MasterUser,
+            'Core::MirrorDB::Password'          => $MasterPassword,
             'Core::MirrorDB::AdditionalMirrors' => {
                 1 => {
-                    DSN => $MasterDSN,
-                    User => 'wrong_user',
+                    DSN      => $MasterDSN,
+                    User     => 'wrong_user',
                     Password => 'wrong_password',
                 },
                 2 => {
-                    DSN => $MasterDSN,
-                    User => $MasterUser,
+                    DSN      => $MasterDSN,
+                    User     => $MasterUser,
                     Password => $MasterPassword,
                 },
             },
         },
         SlaveDBAvailable => 1,
+
         # Use many iterations so that also the invalid mirrir will be tried first at some point, probably.
         TestIterations => 10,
     },
@@ -115,26 +115,26 @@ my @Tests = (
 TEST:
 for my $Test (@Tests) {
 
-    for my $TestIteration (1 .. $Test->{TestIterations}) {
+    for my $TestIteration ( 1 .. $Test->{TestIterations} ) {
 
         $Kernel::OM->ObjectsDiscard();
 
-        for my $ConfigKey (sort keys %{ $Test->{Config} } ) {
+        for my $ConfigKey ( sort keys %{ $Test->{Config} } ) {
             $Kernel::OM->Get('Kernel::Config')->Set(
-                Key => $ConfigKey,
+                Key   => $ConfigKey,
                 Value => $Test->{Config}->{$ConfigKey},
             );
         }
 
         {
             # Regular fetch from master
-            my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+            my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
             my @ValidIDs;
             my $TestPrefix = "$Test->{Name} - $TestIteration - UseSlaveDB 0: ";
             $DBObject->Prepare(
-                SQL => "\nSELECT id\nFROM valid", # simulate indentation
+                SQL => "\nSELECT id\nFROM valid",    # simulate indentation
             );
-            while (my @Row = $DBObject->FetchrowArray()) {
+            while ( my @Row = $DBObject->FetchrowArray() ) {
                 push @ValidIDs, $Row[0];
             }
             $Self->True(
@@ -158,14 +158,14 @@ for my $Test (@Tests) {
         {
             local $Kernel::System::DB::UseSlaveDB = 1;
 
-            my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-            my @ValidIDs = ();
+            my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+            my @ValidIDs   = ();
             my $TestPrefix = "$Test->{Name} - $TestIteration - UseSlaveDB 1: ";
 
             $DBObject->Prepare(
-                SQL => "\nSELECT id\nFROM valid", # simulate indentation
+                SQL => "\nSELECT id\nFROM valid",    # simulate indentation
             );
-            while (my @Row = $DBObject->FetchrowArray()) {
+            while ( my @Row = $DBObject->FetchrowArray() ) {
                 push @ValidIDs, $Row[0];
             }
             $Self->True(
@@ -173,7 +173,7 @@ for my $Test (@Tests) {
                 "$TestPrefix valid ids were found",
             );
 
-            if (!$Test->{SlaveDBAvailable}) {
+            if ( !$Test->{SlaveDBAvailable} ) {
                 $Self->True(
                     $DBObject->{Cursor},
                     "$TestPrefix statement handle active on master",

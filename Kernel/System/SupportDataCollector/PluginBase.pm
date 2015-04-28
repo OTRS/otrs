@@ -1,5 +1,4 @@
 # --
-# Kernel/System/SupportDataCollector/PluginBase.pm - system data collector plugin base class
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

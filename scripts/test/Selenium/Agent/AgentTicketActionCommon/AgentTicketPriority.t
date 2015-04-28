@@ -1,5 +1,4 @@
 # --
-# AgentTicketPriority.t - frontend tests for AgentTicketPriority
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -150,7 +149,7 @@ $Selenium->RunTest(
             Type => 'Ticket',
         );
 
-        }
+    }
 );
 
 1;

@@ -1,5 +1,4 @@
 # --
-# Kernel/Output/HTML/NavBarAgentTicketProcess.pm - to show or hide AgentTicketProcess menu item
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

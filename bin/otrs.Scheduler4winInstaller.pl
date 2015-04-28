@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 # --
-# otrs.Scheduler4winInstaller.pl - helps to install OTRS Scheduler on Microsoft Windows OS
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

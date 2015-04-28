@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/lv.pm - provides Latvian language translation
 # Copyright (C) 2009 Ivars Strazdins <ivars.strazdins at gmail.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

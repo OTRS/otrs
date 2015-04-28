@@ -1,5 +1,4 @@
 # --
-# TicketQueue.t - frontend tests for TicketQueue
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -77,7 +76,7 @@ $Selenium->RunTest(
             index( $Selenium->get_current_url(), $ExpectedURL ) > -1,
             "ToolBar AgentTicketQueue shortcut - success",
         );
-        }
+    }
 );
 
 1;

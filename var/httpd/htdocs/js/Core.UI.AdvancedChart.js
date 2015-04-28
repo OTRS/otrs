@@ -1,5 +1,4 @@
 // --
-// Core.UI.AdvancedChart.js - provides the advanced Chart functions
 // Copyright (C) 2001-2014 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

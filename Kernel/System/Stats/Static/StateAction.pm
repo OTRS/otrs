@@ -1,5 +1,4 @@
 # --
-# Kernel/System/Stats/Static/StateAction.pm - static stat for ticket history
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/it.pm - provides it language translation
 # Copyright (C) 2003,2008 Remo Catelotti <Remo.Catelotti at eutelia.it>
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005,2009 Giordano Bianchi <giordano.bianchi at gmail.com>

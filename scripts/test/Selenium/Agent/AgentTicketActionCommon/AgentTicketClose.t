@@ -1,5 +1,4 @@
 # --
-# AgentTicketClose.t - frontend tests for AgentTicketClose
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -117,7 +116,7 @@ $Selenium->RunTest(
 
         # return back to zoom view and click on history and switch to its view
         $Selenium->switch_to_window( $Handles->[0] );
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID"); # open again
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");    # open again
         $Selenium->find_element("//*[text()='History']")->click();
 
         $Handles = $Selenium->get_window_handles();
@@ -145,7 +144,7 @@ $Selenium->RunTest(
             Type => 'Ticket',
         );
 
-        }
+    }
 );
 
 1;

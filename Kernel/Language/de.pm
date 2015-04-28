@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/de.pm - provides German language translation
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
 # --

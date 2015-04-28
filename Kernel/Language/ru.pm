@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>

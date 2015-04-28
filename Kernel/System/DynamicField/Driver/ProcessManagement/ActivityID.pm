@@ -1,5 +1,4 @@
 # --
-# Kernel/System/DynamicField/Driver/ProcessManagement/ActivityID.pm - Delegate for DynamicField ActivityID Driver
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

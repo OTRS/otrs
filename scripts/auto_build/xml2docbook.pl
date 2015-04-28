@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 # --
-# xml2docbook.pl - script that generates docbook xml out of the SysConfig parameters of OTRS for inclusion in the admin manual
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

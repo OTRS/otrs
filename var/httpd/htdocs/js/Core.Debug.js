@@ -1,5 +1,4 @@
 // --
-// Core.Debug.js - provides debugging functions
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

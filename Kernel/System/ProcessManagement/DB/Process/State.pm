@@ -1,5 +1,4 @@
 # --
-# Kernel/System/ProcessManagement/Process/State.pm - Process Management DB State backend
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

@@ -1,5 +1,4 @@
 // --
-// Core.UI.ActionRow.js - provides all functions for the Action row
 // Copyright (C) 2001-2012 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

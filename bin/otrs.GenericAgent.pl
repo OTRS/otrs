@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 # --
-# bin/otrs.GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This program is free software; you can redistribute it and/or modify

@@ -1,5 +1,4 @@
 # --
-# AdminCustomerUser.t - frontend tests for AdminCustomerUser
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -56,35 +55,33 @@ $Selenium->RunTest(
 
         # Also create a CustomerCompany so that it can be selected in the dropdown
         $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
-            CustomerID              => $RandomID,
-            CustomerCompanyName     => $RandomID,
-            CustomerCompanyStreet   => $RandomID,
-            CustomerCompanyZIP      => $RandomID,
-            CustomerCompanyCity     => $RandomID,
-            CustomerCompanyCountry  => 'Germany',
-            CustomerCompanyURL      => 'http://www.otrs.com',
-            CustomerCompanyComment  => $RandomID,
-            ValidID                 => 1,
-            UserID                  => 1,
+            CustomerID             => $RandomID,
+            CustomerCompanyName    => $RandomID,
+            CustomerCompanyStreet  => $RandomID,
+            CustomerCompanyZIP     => $RandomID,
+            CustomerCompanyCity    => $RandomID,
+            CustomerCompanyCountry => 'Germany',
+            CustomerCompanyURL     => 'http://www.otrs.com',
+            CustomerCompanyComment => $RandomID,
+            ValidID                => 1,
+            UserID                 => 1,
         ) || die "Could not create test CustomerCompany";
-
 
         my $RandomID2 = $Helper->GetRandomID();
 
         # Also create a CustomerCompany so that it can be selected in the dropdown
         $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
-            CustomerID              => $RandomID2,
-            CustomerCompanyName     => $RandomID2,
-            CustomerCompanyStreet   => $RandomID2,
-            CustomerCompanyZIP      => $RandomID2,
-            CustomerCompanyCity     => $RandomID2,
-            CustomerCompanyCountry  => 'Germany',
-            CustomerCompanyURL      => 'http://www.otrs.com',
-            CustomerCompanyComment  => $RandomID2,
-            ValidID                 => 1,
-            UserID                  => 1,
+            CustomerID             => $RandomID2,
+            CustomerCompanyName    => $RandomID2,
+            CustomerCompanyStreet  => $RandomID2,
+            CustomerCompanyZIP     => $RandomID2,
+            CustomerCompanyCity    => $RandomID2,
+            CustomerCompanyCountry => 'Germany',
+            CustomerCompanyURL     => 'http://www.otrs.com',
+            CustomerCompanyComment => $RandomID2,
+            ValidID                => 1,
+            UserID                 => 1,
         ) || die "Could not create test CustomerCompany";
-
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
@@ -122,12 +119,12 @@ $Selenium->RunTest(
         );
 
         # create a real test customer user
-        $Selenium->find_element( "#UserFirstname",  'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserLastname",   'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserLogin",      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserEmail",      'css' )->send_keys( $RandomID . "\@localhost.com" );
+        $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . "\@localhost.com" );
         $Selenium->find_element( "#UserCustomerID option[value='$RandomID']", 'css' )->click();
-        $Selenium->find_element( "#UserFirstname",  'css' )->submit();
+        $Selenium->find_element( "#UserFirstname",                            'css' )->submit();
 
         # check overview page
         $Self->True(
@@ -142,8 +139,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLogin",           'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserEmail",           'css' )->send_keys( $RandomID2 . "\@localhost.com" );
         $Selenium->find_element( "#UserCustomerID option[value='$RandomID2']", 'css' )->click();
+
         #$Selenium->find_element( "#UserCustomerID",      'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#UserFirstname",       'css' )->submit();
+        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         # check for another customer user
         $Self->True(
@@ -199,7 +197,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname",             'css' )->submit();
 
         # delete created test customer user
-        for my $ID ($RandomID, $RandomID2) {
+        for my $ID ( $RandomID, $RandomID2 ) {
             my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE customer_id = ?",
                 Bind => [ \$ID ],

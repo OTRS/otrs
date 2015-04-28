@@ -1,5 +1,4 @@
 # --
-# Kernel/Language/hi.pm - provides Hindi language translation
 # Copyright (C) 2011 O.P.S <sales at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <Chetan_Nagaonkar at OptForOPS.com>
 # Copyright (C) 2011 Chetan Nagaonkar <ChetanNagaonkar at yahoo.com>

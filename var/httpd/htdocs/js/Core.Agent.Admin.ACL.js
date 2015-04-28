@@ -1,5 +1,4 @@
 // --
-// Core.Agent.Admin.ACL.js - provides the special module functions for the ACL administration interface
 // Copyright (C) 2003-2013 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see

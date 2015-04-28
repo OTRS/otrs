@@ -1,5 +1,4 @@
 // --
-// Core.Agent.Stats.js - provides the special module functions for AgentStats
 // Copyright (C) 2001-2011 OTRS AG, http://otrs.org/
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
