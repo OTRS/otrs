@@ -832,13 +832,13 @@ sub ArticleAttachment {
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
 
-    # read cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key            => 'ArticleAttachment',
-        CacheInBackend => $Self->{ASFSCacheInBackend},
-    );
-    return %{$Cache} if $Cache;
+#    # read cache
+#    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+#        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+#        Key            => 'ArticleAttachment',
+#        CacheInBackend => $Self->{ASFSCacheInBackend},
+#    );
+#    return %{$Cache} if $Cache;
 # print STDERR "ArticleAttachment $Param{ArticleID}\n";
     # get attachment index
     my %Index = $Self->ArticleAttachmentIndex(
