@@ -26,9 +26,9 @@ my %Seen;
 my $DuplicateFound;
 
 LOOP:
-for my $I (1 .. 1_000_000) {
+for my $I ( 1 .. 1_000_000 ) {
     my $RandomID = $HelperObject->GetRandomID();
-    if ($Seen{$RandomID}++) {
+    if ( $Seen{$RandomID}++ ) {
         $Self->True(
             0,
             "GetRandomID iteration $I returned a duplicate RandomID $RandomID",

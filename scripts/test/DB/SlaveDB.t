@@ -18,49 +18,50 @@ use vars (qw($Self));
 #   same time.
 
 SLAVEACTIVE:
-for my $SlaveActive (0, 1) {
+for my $SlaveActive ( 0, 1 ) {
 
     $Kernel::OM->ObjectsDiscard();
 
     if ($SlaveActive) {
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key => 'Core::MirrorDB::DSN',
+
             # add space character so that DSN strings seem to be different, otherwise slave is not used
             Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabaseDSN') . ' ',
         );
         $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::User',
+            Key   => 'Core::MirrorDB::User',
             Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser'),
         );
         $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::Password',
+            Key   => 'Core::MirrorDB::Password',
             Value => $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw'),
         );
     }
     else {
         $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::DSN',
+            Key   => 'Core::MirrorDB::DSN',
             Value => undef,
         );
         $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::User',
+            Key   => 'Core::MirrorDB::User',
             Value => undef,
         );
         $Kernel::OM->Get('Kernel::Config')->Set(
-            Key => 'Core::MirrorDB::Password',
+            Key   => 'Core::MirrorDB::Password',
             Value => undef,
         );
     }
 
     {
         # Regular fetch from master
-        my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         my @ValidIDs;
         my $TestPrefix = "SlaveActive $SlaveActive UseSlaveDB 0: ";
         $DBObject->Prepare(
-            SQL => "\nSELECT id\nFROM valid", # simulate indentation
+            SQL => "\nSELECT id\nFROM valid",    # simulate indentation
         );
-        while (my @Row = $DBObject->FetchrowArray()) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             push @ValidIDs, $Row[0];
         }
         $Self->True(
@@ -84,14 +85,14 @@ for my $SlaveActive (0, 1) {
     {
         local $Kernel::System::DB::UseSlaveDB = 1;
 
-        my $DBObject  = $Kernel::OM->Get('Kernel::System::DB');
-        my @ValidIDs = ();
+        my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+        my @ValidIDs   = ();
         my $TestPrefix = "SlaveActive $SlaveActive UseSlaveDB 1: ";
 
         $DBObject->Prepare(
-            SQL => "\nSELECT id\nFROM valid", # simulate indentation
+            SQL => "\nSELECT id\nFROM valid",    # simulate indentation
         );
-        while (my @Row = $DBObject->FetchrowArray()) {
+        while ( my @Row = $DBObject->FetchrowArray() ) {
             push @ValidIDs, $Row[0];
         }
         $Self->True(
@@ -99,7 +100,7 @@ for my $SlaveActive (0, 1) {
             "$TestPrefix valid ids were found",
         );
 
-        if (!$SlaveActive) {
+        if ( !$SlaveActive ) {
             $Self->True(
                 $DBObject->{Cursor},
                 "$TestPrefix statement handle active on master",

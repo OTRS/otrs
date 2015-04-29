@@ -720,6 +720,7 @@ sub Form {
         Attachments         => \@Attachments,
         %Data,
         %GetParam,
+
         # We start a new communication here, so don't send any references.
         #   This might lead to information disclosure (domain names; see bug#11246).
         InReplyTo        => '',
