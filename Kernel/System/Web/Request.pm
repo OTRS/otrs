@@ -343,7 +343,7 @@ checks if the current request was sent by AJAX
 sub IsAJAXRequest {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Query}->http('X-Requested-With') eq 'XMLHttpRequest' ? 1 : 0;
+    return ( $Self->{Query}->http('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
 }
 
 1;
