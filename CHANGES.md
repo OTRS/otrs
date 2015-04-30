@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-04-30 Fixed bug#[11102](http://bugs.otrs.org/show_bug.cgi?id=11102) - Refresh bug on process client interface using ie8
  - 2015-04-28 Added new package manager command to list all installed package files.
  - 2015-04-28 Fixed bug#[11262](http://bugs.otrs.org/show_bug.cgi?id=11262) - AJAX calls keep session alive.
  - 2015-04-27 Added new support data check for prefork MPM.
