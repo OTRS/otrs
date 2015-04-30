@@ -6,10 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::PreferencesLanguage;
+package Kernel::Output::HTML::Preferences::Generic;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Web::Request',
+    'Kernel::Config',
+    'Kernel::System::AuthSession',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,9 +24,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (qw(UserID UserObject ConfigItem)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     return $Self;
@@ -30,19 +35,19 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my @Params;
+    my $GetParam
+        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
+    if ( !defined $GetParam ) {
+        $GetParam = defined( $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} } )
+            ? $Param{UserData}->{ $Self->{ConfigItem}->{PrefKey} }
+            : $Self->{ConfigItem}->{DataSelected};
+    }
     push(
         @Params,
         {
             %Param,
             Name       => $Self->{ConfigItem}->{PrefKey},
-            Data       => $Self->{ConfigObject}->Get('DefaultUsedLanguages'),
-            HTMLQuote  => 0,
-            SelectedID => $Self->{ParamObject}->GetParam( Param => 'UserLanguage' )
-                || $Param{UserData}->{UserLanguage}
-                || $Self->{LayoutObject}->{UserLanguage}
-                || $Self->{ConfigObject}->Get('DefaultLanguage'),
-            Block => 'Option',
-            Max   => 100,
+            SelectedID => $GetParam,
         },
     );
     return @Params;
@@ -56,17 +61,17 @@ sub Run {
         for (@Array) {
 
             # pref update db
-            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
                     Value  => $_,
                 );
             }
-
-            # update SessionID
             if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
-                $Self->{SessionObject}->UpdateSessionID(
+
+                # update SessionID
+                $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,
                     Value     => $_,

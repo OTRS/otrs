@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::PreferencesCustomQueue;
+package Kernel::Output::HTML::Preferences::CustomQueue;
 
 use strict;
 use warnings;
@@ -27,8 +27,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    for (qw(UserID ConfigItem)) {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(UserID ConfigItem)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     return $Self;
@@ -53,8 +53,12 @@ sub Param {
             Type   => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
-    if ( $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' ) ) {
-        @CustomQueueIDs = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => 'QueueID' );
+
+    # get param object
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    if ( $ParamObject->GetArray( Param => 'QueueID' ) ) {
+        @CustomQueueIDs = $ParamObject->GetArray( Param => 'QueueID' );
     }
     elsif ( $Param{UserData}->{UserID} && !defined $CustomQueueIDs[0] ) {
         @CustomQueueIDs = $QueueObject->GetAllCustomQueues(
@@ -84,8 +88,11 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get DB object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
     # delete old custom queues
-    $Kernel::OM->Get('Kernel::System::DB')->Do(
+    $DBObject->Do(
         SQL  => 'DELETE FROM personal_queues WHERE user_id = ?',
         Bind => [ \$Param{UserData}->{UserID} ],
     );
@@ -108,7 +115,7 @@ sub Run {
             # check permissions
             if ( $GroupMember{ $Queue{GroupID} } ) {
 
-                $Self->{DBObject}->Do(
+                $DBObject->Do(
                     SQL => "
                         INSERT INTO personal_queues (queue_id, user_id)
                         VALUES (?, ?)",

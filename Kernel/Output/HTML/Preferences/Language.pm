@@ -6,10 +6,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::PreferencesSkin;
+package Kernel::Output::HTML::Preferences::Language;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Web::Request',
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::AuthSession',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,12 +25,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (qw(UserID UserObject ConfigItem)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     return $Self;
@@ -31,22 +34,9 @@ sub new {
 
 sub Param {
     my ( $Self, %Param ) = @_;
-    my $PossibleSkins = $Self->{ConfigObject}->Get('Loader::Agent::Skin') || {};
-    my $Home = $Self->{ConfigObject}->Get('Home');
-    my %ActiveSkins;
 
-    # prepare the list of active skins
-    for my $PossibleSkin ( values %{$PossibleSkins} ) {
-        if (
-            $Self->{LayoutObject}->SkinValidate(
-                Skin     => $PossibleSkin->{InternalName},
-                SkinType => 'Agent'
-            )
-            )
-        {
-            $ActiveSkins{ $PossibleSkin->{InternalName} } = $PossibleSkin->{VisibleName};
-        }
-    }
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my @Params;
     push(
@@ -54,11 +44,12 @@ sub Param {
         {
             %Param,
             Name       => $Self->{ConfigItem}->{PrefKey},
-            Data       => \%ActiveSkins,
+            Data       => $ConfigObject->Get('DefaultUsedLanguages'),
             HTMLQuote  => 0,
-            SelectedID => $Self->{ParamObject}->GetParam( Param => 'UserSkin' )
-                || $Param{UserData}->{UserSkin}
-                || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin'),
+            SelectedID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserLanguage' )
+                || $Param{UserData}->{UserLanguage}
+                || $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage}
+                || $ConfigObject->Get('DefaultLanguage'),
             Block => 'Option',
             Max   => 100,
         },
@@ -71,23 +62,23 @@ sub Run {
 
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
-        for my $Value (@Array) {
+        for (@Array) {
 
             # pref update db
-            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
-                    Value  => $Value,
+                    Value  => $_,
                 );
             }
 
             # update SessionID
             if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
-                $Self->{SessionObject}->UpdateSessionID(
+                $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,
-                    Value     => $Value,
+                    Value     => $_,
                 );
             }
         }

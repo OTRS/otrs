@@ -6,13 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::PreferencesPGP;
+package Kernel::Output::HTML::Preferences::PGP;
 
 use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Crypt::PGP',
+    'Kernel::System::Web::Request',
+    'Kernel::System::Log',
 );
 
 sub new {
@@ -22,12 +25,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem MainObject EncodeObject)
-        )
-    {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw( UserID UserObject ConfigItem )) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     return $Self;
@@ -36,7 +35,7 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{ConfigObject}->Get('PGP');
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('PGP');
 
     my @Params = ();
     push(
@@ -54,7 +53,7 @@ sub Param {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+    my %UploadStuff = $Kernel::OM->Get('Kernel::System::Web::Request')->GetUploadAll(
         Param => 'UserPGPKey',
     );
     return 1 if !$UploadStuff{Content};
@@ -64,7 +63,7 @@ sub Run {
 
     my $Message = $PGPObject->KeyAdd( Key => $UploadStuff{Content} );
     if ( !$Message ) {
-        $Self->{Error} = $Self->{LogObject}->GetLogEntry(
+        $Self->{Error} = $Kernel::OM->Get('Kernel::System::Log')->GetLogEntry(
             Type => 'Error',
             What => 'Message',
         );
@@ -116,9 +115,12 @@ sub Download {
         UserID => $Param{UserData}->{UserID},
     );
 
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check if PGPKeyID is there
     if ( !$Preferences{PGPKeyID} ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'Error',
             Message  => 'Need KeyID to get pgp public key of ' . $Param{UserData}->{UserID},
         );
@@ -132,7 +134,7 @@ sub Download {
 
     # return content of key
     if ( !$Preferences{PGPKeyContent} ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'Error',
             Message  => 'Couldn\'t get ASCII exported pubKey for KeyID ' . $Preferences{'PGPKeyID'},
         );

@@ -6,10 +6,18 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::PreferencesTicketWatcher;
+package Kernel::Output::HTML::Preferences::TicketWatcher;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Web::Request',
+    'Kernel::Config',
+    'Kernel::System::User',
+    'Kernel::System::AuthSession',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,9 +26,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
-        die "Got no $_!" if !$Self->{$_};
+    for my $Needed (qw( UserID  ConfigItem)) {
+        die "Got no $Needed!" if !$Self->{$Needed};
     }
 
     return $Self;
@@ -29,13 +36,16 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if feature is active
-    return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
+    return if !$ConfigObject->Get('Ticket::Watcher');
 
     # check access
     my @Groups;
-    if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
-        @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
+    if ( $ConfigObject->Get('Ticket::WatcherGroup') ) {
+        @Groups = @{ $ConfigObject->Get('Ticket::WatcherGroup') };
     }
     my $Access = 0;
     if ( !@Groups ) {
@@ -44,8 +54,12 @@ sub Param {
     else {
         GROUP:
         for my $Group (@Groups) {
-            next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
-            if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+
+            # get layout object
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+            next GROUP if !$LayoutObject->{"UserIsGroup[$Group]"};
+            if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                 $Access = 1;
                 last GROUP;
             }
@@ -78,8 +92,8 @@ sub Run {
         for (@Array) {
 
             # pref update db
-            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-                $Self->{UserObject}->SetPreferences(
+            if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
+                $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
                     Value  => $_,
@@ -88,7 +102,7 @@ sub Run {
 
             # update SessionID
             if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
-                $Self->{SessionObject}->UpdateSessionID(
+                $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,
                     Value     => $_,

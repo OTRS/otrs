@@ -6,10 +6,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::PreferencesTheme;
+package Kernel::Output::HTML::Preferences::Skin;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Web::Request',
+    'Kernel::Config',
+    'Kernel::System::AuthSession',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,12 +25,8 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (qw(UserID UserObject ConfigItem)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     return $Self;
@@ -32,26 +35,25 @@ sub new {
 sub Param {
     my ( $Self, %Param ) = @_;
 
-    my $PossibleThemesRef = $Self->{ConfigObject}->Get('Frontend::Themes')
-        || {};
-    my %PossibleThemes = %{$PossibleThemesRef};
-    my $Home           = $Self->{ConfigObject}->Get('Home');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my %ActiveThemes;
+    my $PossibleSkins = $ConfigObject->Get('Loader::Agent::Skin') || {};
+    my $Home = $ConfigObject->Get('Home');
+    my %ActiveSkins;
 
-    # prepare the list of active themes
-    for my $PossibleTheme ( sort keys %PossibleThemes ) {
-        if ( $PossibleThemes{$PossibleTheme} == 1 )
-        {    # only add a theme if it is set to 1 in sysconfig
-            my $ThemeDir = $Home . "/Kernel/Output/HTML/" . $PossibleTheme;
-            if ( -d $ThemeDir ) {    # .. and if the theme dir exists
-                $ActiveThemes{$PossibleTheme} = $PossibleTheme;
-            }
+    # prepare the list of active skins
+    for my $PossibleSkin ( values %{$PossibleSkins} ) {
+        if (
+            $Kernel::OM->Get('Kernel::Output::HTML::Layout')->SkinValidate(
+                Skin     => $PossibleSkin->{InternalName},
+                SkinType => 'Agent'
+            )
+            )
+        {
+            $ActiveSkins{ $PossibleSkin->{InternalName} } = $PossibleSkin->{VisibleName};
         }
     }
-
-    # only show the theme preference if there are two or more themes to choose from
-    return if scalar keys %ActiveThemes < 2;
 
     my @Params;
     push(
@@ -59,11 +61,11 @@ sub Param {
         {
             %Param,
             Name       => $Self->{ConfigItem}->{PrefKey},
-            Data       => \%ActiveThemes,
+            Data       => \%ActiveSkins,
             HTMLQuote  => 0,
-            SelectedID => $Self->{ParamObject}->GetParam( Param => 'UserTheme' )
-                || $Param{UserData}->{UserTheme}
-                || $Self->{ConfigObject}->Get('DefaultTheme'),
+            SelectedID => $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'UserSkin' )
+                || $Param{UserData}->{UserSkin}
+                || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin'),
             Block => 'Option',
             Max   => 100,
         },
@@ -76,23 +78,23 @@ sub Run {
 
     for my $Key ( sort keys %{ $Param{GetParam} } ) {
         my @Array = @{ $Param{GetParam}->{$Key} };
-        for (@Array) {
+        for my $Value (@Array) {
 
             # pref update db
-            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            if ( !$Kernel::OM->Get('Kernel::Config')->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
-                    Value  => $_,
+                    Value  => $Value,
                 );
             }
 
             # update SessionID
             if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
-                $Self->{SessionObject}->UpdateSessionID(
+                $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,
-                    Value     => $_,
+                    Value     => $Value,
                 );
             }
         }

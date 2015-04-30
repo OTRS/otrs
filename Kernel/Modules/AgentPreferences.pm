@@ -250,7 +250,7 @@ sub AgentPreferencesForm {
             next PRIO if !$Preference{Active};
 
             # load module
-            my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::Preferences::Generic';
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
                 return $LayoutObject->FatalError();
             }
