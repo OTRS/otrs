@@ -12,12 +12,7 @@ package Kernel::Modules::AgentDashboardCommon;
 use strict;
 use warnings;
 
-use Kernel::System::Cache;
-use Kernel::System::CustomerCompany;
-use Kernel::System::DynamicField;
-use Kernel::System::DynamicField::Backend;
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::Stats;
 
 our $ObjectManagerDisabled = 1;
 
@@ -27,21 +22,6 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject EncodeObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{CacheObject}           = $Kernel::OM->Get('Kernel::System::Cache');
-    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
-
-    # create extra needed objects
-    $Self->{DynamicFieldObject} = Kernel::System::DynamicField->new(%Param);
-    $Self->{BackendObject}      = Kernel::System::DynamicField::Backend->new(%Param);
-    $Self->{StatsObject}        = Kernel::System::Stats->new(%Param);
 
     return $Self;
 }
@@ -59,10 +39,14 @@ sub Run {
         $UserSettingsKey   = 'UserCustomerInformationCenter';
     }
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # load backends
-    my $Config = $Self->{ConfigObject}->Get($BackendConfigKey);
+    my $Config = $ConfigObject->Get($BackendConfigKey);
     if ( !$Config ) {
-        return $Self->{LayoutObject}->ErrorScreen(
+        return $LayoutObject->ErrorScreen(
             Message => 'No such config for ' . $BackendConfigKey,
         );
     }
@@ -71,8 +55,8 @@ sub Run {
     my $IsIE8;
 
     if (
-        $Self->{LayoutObject}->{Browser} eq 'MSIE'
-        && $Self->{LayoutObject}->{BrowserMajorVersion} <= 8
+        $LayoutObject->{Browser} eq 'MSIE'
+        && $LayoutObject->{BrowserMajorVersion} <= 8
         )
     {
         $IsIE8 = 1;
@@ -81,7 +65,15 @@ sub Run {
     # Get all configured statistics from the system that should be shown as a dashboard widget
     #   and register them dynamically in the configuration. This does not work in IE8.
     if ( $Self->{Action} eq 'AgentDashboard' && !$IsIE8 ) {
-        my $StatsHash = $Self->{StatsObject}->StatsListGet();
+
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::Stats' => {
+                UserID => $Self->{UserID},
+                }
+        );
+
+        my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
+        my $StatsHash   = $StatsObject->StatsListGet();
 
         if ( IsHashRefWithData($StatsHash) ) {
             STATID:
@@ -95,17 +87,17 @@ sub Run {
                 my @StatsPermissionGroupNames;
                 for my $GroupID ( @{ $StatsHash->{$StatID}->{Permission} } ) {
                     push @StatsPermissionGroupNames,
-                        $Self->{GroupObject}->GroupLookup( GroupID => $GroupID );
+                        $Kernel::OM->Get('Kernel::System::Group')->GroupLookup( GroupID => $GroupID );
                 }
                 my $StatsPermissionGroups = join( ';', @StatsPermissionGroupNames );
 
                 # replace all line breaks with spaces (otherwise Translate() will not work correctly)
                 $StatsHash->{$StatID}->{Description} =~ s{\r?\n|\r}{ }msxg;
 
-                my $Description = $Self->{LayoutObject}->{LanguageObject}->Get( $StatsHash->{$StatID}->{Description} );
+                my $Description = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Description} );
 
-                my $Title = $Self->{LayoutObject}->{LanguageObject}->Get( $StatsHash->{$StatID}->{Title} );
-                $Title = $Self->{LayoutObject}->{LanguageObject}->Translate('Statistic') . ': '
+                my $Title = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Title} );
+                $Title = $LayoutObject->{LanguageObject}->Translate('Statistic') . ': '
                     . $Title;
 
                 $Config->{ ( $StatID + 1000 ) . '-Stats' } = {
@@ -124,16 +116,19 @@ sub Run {
     # Hack: remove JS files for d3 if IE8 is used, because it would break.
     if ($IsIE8) {
         my @ModuleJS = @{
-            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}
+            $ConfigObject->Get('Frontend::Module')->{AgentDashboard}->{Loader}
                 ->{JavaScript} || []
         };
         @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
-        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript} = \@ModuleJS;
+        $ConfigObject->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript} = \@ModuleJS;
     }
+
+    # get needed objects
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     if ( $Self->{Action} eq 'AgentCustomerInformationCenter' ) {
 
-        $Self->{CustomerID} = $Self->{ParamObject}->GetParam( Param => 'CustomerID' );
+        $Self->{CustomerID} = $ParamObject->GetParam( Param => 'CustomerID' );
 
         # check CustomerID presence for all subactions that need it
         if ( $Self->{Subaction} ne 'UpdatePosition' ) {
@@ -144,31 +139,36 @@ sub Run {
                     TemplateFile => 'AgentCustomerInformationCenterBlank',
                     Data         => \%Param,
                 );
-                $Output .= $Self->{LayoutObject}->Footer();
+                $Output .= $LayoutObject->Footer();
                 return $Output;
             }
         }
     }
 
+    # get needed objects
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $SessionObject      = $Kernel::OM->Get('Kernel::System::AuthSession');
+    my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
+
     # update/close item
     if ( $Self->{Subaction} eq 'UpdateRemove' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        my $Name = $ParamObject->GetParam( Param => 'Name' );
         my $Key = $UserSettingsKey . $Name;
 
         # update ssession
-        $Self->{SessionObject}->UpdateSessionID(
+        $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Key,
             Value     => 0,
         );
 
         # update preferences
-        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-            $Self->{UserObject}->SetPreferences(
+        if ( !$ConfigObject->Get('DemoSystem') ) {
+            $UserObject->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $Key,
                 Value  => 0,
@@ -177,10 +177,10 @@ sub Run {
 
         my $URL = "Action=$Self->{Action}";
         if ( $Self->{CustomerID} ) {
-            $URL .= ";CustomerID=" . $Self->{LayoutObject}->LinkEncode( $Self->{CustomerID} );
+            $URL .= ";CustomerID=" . $LayoutObject->LinkEncode( $Self->{CustomerID} );
         }
 
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => $URL,
         );
     }
@@ -189,9 +189,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdatePreferences' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        my $Name = $ParamObject->GetParam( Param => 'Name' );
 
         # get preferences settings
         my @PreferencesOnly = $Self->_Element(
@@ -200,7 +200,7 @@ sub Run {
             PreferencesOnly => 1,
         );
         if ( !@PreferencesOnly ) {
-            $Self->{LayoutObject}->FatalError(
+            $LayoutObject->FatalError(
                 Message => "No preferences for $Name!",
             );
         }
@@ -209,21 +209,21 @@ sub Run {
         for my $Param (@PreferencesOnly) {
 
             # get params
-            my $Value = $Self->{ParamObject}->GetParam( Param => $Param->{Name} );
+            my $Value = $ParamObject->GetParam( Param => $Param->{Name} );
 
             # update runtime vars
-            $Self->{LayoutObject}->{ $Param->{Name} } = $Value;
+            $LayoutObject->{ $Param->{Name} } = $Value;
 
             # update ssession
-            $Self->{SessionObject}->UpdateSessionID(
+            $SessionObject->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Param->{Name},
                 Value     => $Value,
             );
 
             # update preferences
-            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-                $Self->{UserObject}->SetPreferences(
+            if ( !$ConfigObject->Get('DemoSystem') ) {
+                $UserObject->SetPreferences(
                     UserID => $Self->{UserID},
                     Key    => $Param->{Name},
                     Value  => $Value,
@@ -238,11 +238,11 @@ sub Run {
             AJAX    => 1
         );
         if ( !%ElementReload ) {
-            $Self->{LayoutObject}->FatalError(
+            $LayoutObject->FatalError(
                 Message => "Can't get element data of $Name!",
             );
         }
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => ${ $ElementReload{Content} },
             Type        => 'inline',
@@ -254,9 +254,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdateSettings' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
+        my @Backends = $ParamObject->GetArray( Param => 'Backend' );
         for my $Name ( sort keys %{$Config} ) {
             my $Active = 0;
             BACKEND:
@@ -268,15 +268,15 @@ sub Run {
             my $Key = $UserSettingsKey . $Name;
 
             # update ssession
-            $Self->{SessionObject}->UpdateSessionID(
+            $SessionObject->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Key,
                 Value     => $Active,
             );
 
             # update preferences
-            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-                $Self->{UserObject}->SetPreferences(
+            if ( !$ConfigObject->Get('DemoSystem') ) {
+                $UserObject->SetPreferences(
                     UserID => $Self->{UserID},
                     Key    => $Key,
                     Value  => $Active,
@@ -286,10 +286,10 @@ sub Run {
 
         my $URL = "Action=$Self->{Action}";
         if ( $Self->{CustomerID} ) {
-            $URL .= ";CustomerID=" . $Self->{LayoutObject}->LinkEncode( $Self->{CustomerID} );
+            $URL .= ";CustomerID=" . $LayoutObject->LinkEncode( $Self->{CustomerID} );
         }
 
-        return $Self->{LayoutObject}->Redirect(
+        return $LayoutObject->Redirect(
             OP => $URL,
         );
     }
@@ -298,9 +298,9 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdatePosition' ) {
 
         # challenge token check for write action
-        $Self->{LayoutObject}->ChallengeTokenCheck();
+        $LayoutObject->ChallengeTokenCheck();
 
-        my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
+        my @Backends = $ParamObject->GetArray( Param => 'Backend' );
 
         # get new order
         my $Key  = $UserSettingsKey . 'Position';
@@ -311,15 +311,15 @@ sub Run {
         }
 
         # update ssession
-        $Self->{SessionObject}->UpdateSessionID(
+        $SessionObject->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => $Key,
             Value     => $Data,
         );
 
         # update preferences
-        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-            $Self->{UserObject}->SetPreferences(
+        if ( !$ConfigObject->Get('DemoSystem') ) {
+            $UserObject->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $Key,
                 Value  => $Data,
@@ -327,9 +327,9 @@ sub Run {
         }
 
         # send successful response
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html',
-            Charset     => $Self->{LayoutObject}->{UserCharset},
+            Charset     => $LayoutObject->{UserCharset},
             Content     => '1',
         );
     }
@@ -337,7 +337,7 @@ sub Run {
     # deliver element
     elsif ( $Self->{Subaction} eq 'Element' ) {
 
-        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        my $Name = $ParamObject->GetParam( Param => 'Name' );
 
         # get the column filters from the web request
         my %ColumnFilter;
@@ -349,7 +349,7 @@ sub Run {
             qw(Owner Responsible State Queue Priority Type Lock Service SLA CustomerID CustomerUserID)
             )
         {
-            my $FilterValue = $Self->{ParamObject}->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
+            my $FilterValue = $ParamObject->GetParam( Param => 'ColumnFilter' . $ColumnName . $Name )
                 || '';
             next COLUMNNAME if $FilterValue eq '';
 
@@ -368,17 +368,17 @@ sub Run {
         }
 
         # get all dynamic fields
-        $Self->{DynamicField} = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+        my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
             Valid      => 1,
             ObjectType => ['Ticket'],
         );
 
         DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{ $Self->{DynamicField} } ) {
+        for my $DynamicFieldConfig ( @{$DynamicField} ) {
             next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
             next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
 
-            my $FilterValue = $Self->{ParamObject}->GetParam(
+            my $FilterValue = $ParamObject->GetParam(
                 Param => 'ColumnFilterDynamicField_' . $DynamicFieldConfig->{Name} . $Name
             );
 
@@ -392,8 +392,8 @@ sub Run {
             $GetColumnFilterSelect{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $FilterValue;
         }
 
-        my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
-        my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+        my $SortBy  = $ParamObject->GetParam( Param => 'SortBy' );
+        my $OrderBy = $ParamObject->GetParam( Param => 'OrderBy' );
 
         my %Element = $Self->_Element(
             Name                  => $Name,
@@ -407,13 +407,13 @@ sub Run {
         );
 
         if ( !%Element ) {
-            $Self->{LayoutObject}->FatalError(
+            $LayoutObject->FatalError(
                 Message => "Can't get element data of $Name!",
             );
         }
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             ContentType => 'text/html',
-            Charset     => $Self->{LayoutObject}->{UserCharset},
+            Charset     => $LayoutObject->{UserCharset},
             Content     => ${ $Element{Content} },
             Type        => 'inline',
             NoCache     => 1,
@@ -423,7 +423,7 @@ sub Run {
     # deliver element
     elsif ( $Self->{Subaction} eq 'AJAXFilterUpdate' ) {
 
-        my $ElementChanged = $Self->{ParamObject}->GetParam( Param => 'ElementChanged' );
+        my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' );
         my ($Name)         = $ElementChanged =~ m{ ( \d{4} - .*? ) \z }gxms;
         my $Column         = $ElementChanged;
         $Column =~ s{ \A ColumnFilter }{}gxms;
@@ -438,13 +438,13 @@ sub Run {
         );
 
         if ( !$FilterContent ) {
-            $Self->{LayoutObject}->FatalError(
+            $LayoutObject->FatalError(
                 Message => "Can't get filter content data of $Name!",
             );
         }
 
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $FilterContent,
             Type        => 'inline',
             NoCache     => 1,
@@ -453,7 +453,7 @@ sub Run {
     }
 
     # store last queue screen
-    $Self->{SessionObject}->UpdateSessionID(
+    $SessionObject->UpdateSessionID(
         SessionID => $Self->{SessionID},
         Key       => 'LastScreenOverview',
         Value     => $Self->{RequestedURL},
@@ -468,7 +468,7 @@ sub Run {
         # H1 title
         $ContentBlockData{CustomerIDTitle} = $Self->{CustomerID};
 
-        my %CustomerCompanyData = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+        my %CustomerCompanyData = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyGet(
             CustomerID => $Self->{CustomerID},
         );
 
@@ -478,7 +478,7 @@ sub Run {
     }
 
     # show dashboard
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Content',
         Data => \%ContentBlockData,
     );
@@ -559,7 +559,7 @@ sub Run {
         $NameForm =~ s{-}{}g;
 
         # rendering
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => $Element{Config}->{Block},
             Data => {
                 %{ $Element{Config} },
@@ -572,7 +572,7 @@ sub Run {
 
         # show settings link if preferences are available
         if ( $Element{Preferences} && @{ $Element{Preferences} } ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => $Element{Config}->{Block} . 'Preferences',
                 Data => {
                     %{ $Element{Config} },
@@ -588,7 +588,7 @@ sub Run {
                 # so there is no need to call any block here
                 next PARAM if !$Param->{Block};
 
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $Element{Config}->{Block} . 'PreferencesItem',
                     Data => {
                         %{ $Element{Config} },
@@ -597,14 +597,14 @@ sub Run {
                     },
                 );
                 if ( $Param->{Block} eq 'Option' ) {
-                    $Param->{Option} = $Self->{LayoutObject}->BuildSelection(
+                    $Param->{Option} = $LayoutObject->BuildSelection(
                         Data        => $Param->{Data},
                         Name        => $Param->{Name},
                         SelectedID  => $Param->{SelectedID},
                         Translation => $Param->{Translation},
                     );
                 }
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => $Element{Config}->{Block} . 'PreferencesItem' . $Param->{Block},
                     Data => {
                         %{ $Element{Config} },
@@ -620,7 +620,7 @@ sub Run {
 
         # more link
         if ( $Element{Config}->{Link} ) {
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => $Element{Config}->{Block} . 'More',
                 Data => {
                     %{ $Element{Config} },
@@ -630,13 +630,13 @@ sub Run {
     }
 
     # build main menu
-    my $MainMenuConfig = $Self->{ConfigObject}->Get($MainMenuConfigKey);
+    my $MainMenuConfig = $ConfigObject->Get($MainMenuConfigKey);
     if ( IsHashRefWithData($MainMenuConfig) ) {
-        $Self->{LayoutObject}->Block( Name => 'MainMenu' );
+        $LayoutObject->Block( Name => 'MainMenu' );
 
         for my $MainMenuItem ( sort keys %{$MainMenuConfig} ) {
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'MainMenuItem',
                 Data => {
                     %{ $MainMenuConfig->{$MainMenuItem} },
@@ -647,7 +647,7 @@ sub Run {
     }
 
     # add translations for the allocation lists for regular columns
-    my $Columns = $Self->{Config}->{DefaultColumns} || $Self->{ConfigObject}->Get('DefaultOverviewColumns') || {};
+    my $Columns = $Self->{Config}->{DefaultColumns} || $ConfigObject->Get('DefaultOverviewColumns') || {};
     if ( $Columns && IsHashRefWithData($Columns) ) {
 
         COLUMN:
@@ -673,21 +673,21 @@ sub Run {
                 $TranslatedWord = 'Pending till';
             }
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ColumnTranslation',
                 Data => {
                     ColumnName      => $Column,
                     TranslateString => $TranslatedWord,
                 },
             );
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ColumnTranslationSeparator',
             );
         }
     }
 
     # add translations for the allocation lists for dynamic field columns
-    my $ColumnsDynamicField = $Self->{DynamicFieldObject}->DynamicFieldListGet(
+    my $ColumnsDynamicField = $DynamicFieldObject->DynamicFieldListGet(
         Valid      => 0,
         ObjectType => ['Ticket'],
     );
@@ -703,7 +703,7 @@ sub Run {
 
             $Counter++;
 
-            $Self->{LayoutObject}->Block(
+            $LayoutObject->Block(
                 Name => 'ColumnTranslation',
                 Data => {
                     ColumnName      => 'DynamicField_' . $DynamicField->{Name},
@@ -712,20 +712,20 @@ sub Run {
             );
 
             if ( $Counter < scalar @{$ColumnsDynamicField} ) {
-                $Self->{LayoutObject}->Block(
+                $LayoutObject->Block(
                     Name => 'ColumnTranslationSeparator',
                 );
             }
         }
     }
 
-    my $Output = $Self->{LayoutObject}->Header();
-    $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output(
+    my $Output = $LayoutObject->Header();
+    $Output .= $LayoutObject->NavigationBar();
+    $Output .= $LayoutObject->Output(
         TemplateFile => $Self->{Action},
         Data         => \%Param
     );
-    $Output .= $Self->{LayoutObject}->Footer();
+    $Output .= $LayoutObject->Footer();
     return $Output;
 }
 
@@ -756,13 +756,14 @@ sub _Element {
         return if !$PermissionOK;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # load backends
     my $Module = $Configs->{$Name}->{Module};
-    return if !$Self->{MainObject}->Require($Module);
+    return if !$Kernel::OM->Get('Kernel::System::Main')->Require($Module);
     my $Object = $Module->new(
         %{$Self},
-        DBObject              => $Self->{SlaveDBObject},
-        TicketObject          => $Self->{SlaveTicketObject},
         Config                => $Configs->{$Name},
         Name                  => $Name,
         CustomerID            => $Self->{CustomerID} || '',
@@ -776,6 +777,9 @@ sub _Element {
 
     # get module config
     my %Config = $Object->Config();
+
+    # Perform the actual data fetching and computation on the slave db, if configured
+    local $Kernel::System::DB::UseSlaveDB = 1;
 
     # get module preferences
     my @Preferences = $Object->Preferences();
@@ -794,13 +798,15 @@ sub _Element {
         return $FilterContent;
     }
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # add backend to settings selection
     if ($Backends) {
         my $Checked = '';
         if ( $Backends->{$Name} ) {
             $Checked = 'checked="checked"';
         }
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'ContentSettings',
             Data => {
                 %Config,
@@ -814,10 +820,12 @@ sub _Element {
     # check backends cache (html page cache)
     my $Content;
     my $CacheKey = $Config{CacheKey};
+    $Self->{CacheObject} = $Kernel::OM->Get('Kernel::System::Cache');
+
     if ( !$CacheKey ) {
         $CacheKey = $Name . '-'
             . ( $Self->{CustomerID} || '' ) . '-'
-            . $Self->{LayoutObject}->{UserLanguage};
+            . $LayoutObject->{UserLanguage};
     }
     if ( $Config{CacheTTL} ) {
         $Content = $Self->{CacheObject}->Get(

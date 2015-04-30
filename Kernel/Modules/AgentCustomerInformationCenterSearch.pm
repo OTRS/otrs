@@ -12,9 +12,9 @@ package Kernel::Modules::AgentCustomerInformationCenterSearch;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerUser;
-use Kernel::System::CustomerCompany;
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,34 +23,29 @@ sub new {
     my $Self = {%Param};
     bless( $Self, $Type );
 
-    # check needed objects
-    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject EncodeObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    $Self->{CustomerUserObject}    = Kernel::System::CustomerUser->new(%Param);
-    $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('AutoComplete::Agent###CustomerSearch');
+    # get needed objects
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
+    my $AutoCompleteConfig = $ConfigObject->Get('AutoComplete::Agent###CustomerSearch');
     my $MaxResults = $AutoCompleteConfig->{MaxResultsDisplayed} || 20;
 
     if ( $Self->{Subaction} eq 'SearchCustomerID' ) {
 
-        my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDList(
-            SearchTerm => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+        my @CustomerIDs = $CustomerUserObject->CustomerIDList(
+            SearchTerm => $ParamObject->GetParam( Param => 'Term' ) || '',
         );
 
-        my %CustomerCompanyList = $Self->{CustomerCompanyObject}->CustomerCompanyList(
-            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+        my %CustomerCompanyList = $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyList(
+            Search => $ParamObject->GetParam( Param => 'Term' ) || '',
         );
 
         # add CustomerIDs for which no CustomerCompany are registered
@@ -80,12 +75,12 @@ sub Run {
             last CUSTOMERID if scalar @Result >= $MaxResults;
         }
 
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
+        my $JSON = $LayoutObject->JSONEncode(
             Data => \@Result,
         );
 
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON || '',
             Type        => 'inline',
             NoCache     => 1,
@@ -93,8 +88,8 @@ sub Run {
     }
     elsif ( $Self->{Subaction} eq 'SearchCustomerUser' ) {
 
-        my %CustomerList = $Self->{CustomerUserObject}->CustomerSearch(
-            Search => $Self->{ParamObject}->GetParam( Param => 'Term' ) || '',
+        my %CustomerList = $CustomerUserObject->CustomerSearch(
+            Search => $ParamObject->GetParam( Param => 'Term' ) || '',
         );
 
         my @Result;
@@ -103,7 +98,7 @@ sub Run {
 
         CUSTOMERLOGIN:
         for my $CustomerLogin ( sort keys %CustomerList ) {
-            my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
                 User => $CustomerLogin,
             );
             push @Result,
@@ -115,26 +110,26 @@ sub Run {
             last CUSTOMERLOGIN if $Count++ >= $MaxResults;
         }
 
-        my $JSON = $Self->{LayoutObject}->JSONEncode(
+        my $JSON = $LayoutObject->JSONEncode(
             Data => \@Result,
         );
 
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON || '',
             Type        => 'inline',
             NoCache     => 1,
         );
     }
 
-    my $Output .= $Self->{LayoutObject}->Output(
+    my $Output .= $LayoutObject->Output(
         TemplateFile => 'AgentCustomerInformationCenterSearch',
         Data         => \%Param,
     );
-    return $Self->{LayoutObject}->Attachment(
+    return $LayoutObject->Attachment(
         NoCache     => 1,
         ContentType => 'text/html',
-        Charset     => $Self->{LayoutObject}->{UserCharset},
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $Output || '',
         Type        => 'inline',
     );

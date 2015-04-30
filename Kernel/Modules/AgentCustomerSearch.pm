@@ -12,7 +12,7 @@ package Kernel::Modules::AgentCustomerSearch;
 use strict;
 use warnings;
 
-use Kernel::System::CustomerUser;
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -20,19 +20,6 @@ sub new {
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    # check all needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject ConfigObject LogObject)) {
-        if ( !$Self->{$_} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
-        }
-    }
-
-    # create needed objects
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-
-    # get config
-    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -42,25 +29,35 @@ sub Run {
 
     my $JSON = '';
 
+    # get needed objects
+    my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $EncodeObject       = $Kernel::OM->Get('Kernel::System::Encode');
+    my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
+
+    # get config for frontend
+    $Self->{Config} = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
     # search customers
     if ( !$Self->{Subaction} ) {
 
         # get needed params
-        my $Search = $Self->{ParamObject}->GetParam( Param => 'Term' ) || '';
-        my $MaxResults = int( $Self->{ParamObject}->GetParam( Param => 'MaxResults' ) || 20 );
+        my $Search = $ParamObject->GetParam( Param => 'Term' ) || '';
+        my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
 
         # workaround, all auto completion requests get posted by utf8 anyway
         # convert any to 8bit string if application is not running in utf8
-        if ( !$Self->{EncodeObject}->EncodeInternalUsed() ) {
-            $Search = $Self->{EncodeObject}->Convert(
+        if ( !$EncodeObject->EncodeInternalUsed() ) {
+            $Search = $EncodeObject->Convert(
                 Text => $Search,
                 From => 'utf-8',
-                To   => $Self->{LayoutObject}->{UserCharset},
+                To   => $LayoutObject->{UserCharset},
             );
         }
 
         # get customer list
-        my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+        my %CustomerUserList = $CustomerUserObject->CustomerSearch(
             Search => $Search,
         );
 
@@ -90,7 +87,7 @@ sub Run {
         }
 
         # build JSON output
-        $JSON = $Self->{LayoutObject}->JSONEncode(
+        $JSON = $LayoutObject->JSONEncode(
             Data => \@Data,
         );
     }
@@ -99,13 +96,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'CustomerInfo' ) {
 
         # get params
-        my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
+        my $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerUserID' ) || '';
 
         my $CustomerID              = '';
         my $CustomerTableHTMLString = '';
 
         # get customer data
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+        my %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             User => $CustomerUserID,
         );
 
@@ -115,16 +112,16 @@ sub Run {
         }
 
         # build html for customer info table
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
+        if ( $ConfigObject->Get('Ticket::Frontend::CustomerInfoCompose') ) {
 
-            $CustomerTableHTMLString = $Self->{LayoutObject}->AgentCustomerViewTable(
+            $CustomerTableHTMLString = $LayoutObject->AgentCustomerViewTable(
                 Data => {%CustomerData},
-                Max  => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
+                Max  => $ConfigObject->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
             );
         }
 
         # build JSON output
-        $JSON = $Self->{LayoutObject}->JSONEncode(
+        $JSON = $LayoutObject->JSONEncode(
             Data => {
                 CustomerID              => $CustomerID,
                 CustomerTableHTMLString => $CustomerTableHTMLString,
@@ -136,13 +133,13 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'CustomerTickets' ) {
 
         # get params
-        my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
-        my $CustomerID     = $Self->{ParamObject}->GetParam( Param => 'CustomerID' )     || '';
+        my $CustomerUserID = $ParamObject->GetParam( Param => 'CustomerUserID' ) || '';
+        my $CustomerID     = $ParamObject->GetParam( Param => 'CustomerID' )     || '';
 
         # get secondary customer ids
         my @CustomerIDs;
         if ($CustomerUserID) {
-            @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
+            @CustomerIDs = $CustomerUserObject->CustomerIDs(
                 User => $CustomerUserID,
             );
         }
@@ -152,13 +149,13 @@ sub Run {
             push @CustomerIDs, $CustomerID;
         }
 
-        my $View    = $Self->{ParamObject}->GetParam( Param => 'View' )    || '';
-        my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
-        my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
+        my $View    = $ParamObject->GetParam( Param => 'View' )    || '';
+        my $SortBy  = $ParamObject->GetParam( Param => 'SortBy' )  || 'Age';
+        my $OrderBy = $ParamObject->GetParam( Param => 'OrderBy' ) || 'Down';
 
         my @ViewableTickets;
         if (@CustomerIDs) {
-            @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            @ViewableTickets = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
                 Result        => 'ARRAY',
                 Limit         => 250,
                 SortBy        => [$SortBy],
@@ -170,25 +167,25 @@ sub Run {
         }
 
         my $LinkSort = 'Subaction=' . $Self->{Subaction}
-            . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
-            . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-            . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
+            . ';View=' . $LayoutObject->Ascii2Html( Text => $View )
+            . ';CustomerUserID=' . $LayoutObject->Ascii2Html( Text => $CustomerUserID )
+            . ';CustomerID=' . $LayoutObject->Ascii2Html( Text => $CustomerID )
             . '&';
         my $LinkPage = 'Subaction=' . $Self->{Subaction}
-            . ';View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
-            . ';SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
-            . ';OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
-            . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-            . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
+            . ';View=' . $LayoutObject->Ascii2Html( Text => $View )
+            . ';SortBy=' . $LayoutObject->Ascii2Html( Text => $SortBy )
+            . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $OrderBy )
+            . ';CustomerUserID=' . $LayoutObject->Ascii2Html( Text => $CustomerUserID )
+            . ';CustomerID=' . $LayoutObject->Ascii2Html( Text => $CustomerID )
             . '&';
         my $LinkFilter = 'Subaction=' . $Self->{Subaction}
-            . ';CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-            . ';CustomerID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID )
+            . ';CustomerUserID=' . $LayoutObject->Ascii2Html( Text => $CustomerUserID )
+            . ';CustomerID=' . $LayoutObject->Ascii2Html( Text => $CustomerID )
             . '&';
 
         my $CustomerTicketsHTMLString = '';
         if (@ViewableTickets) {
-            $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
+            $CustomerTicketsHTMLString .= $LayoutObject->TicketListShow(
                 TicketIDs  => \@ViewableTickets,
                 Total      => scalar @ViewableTickets,
                 Env        => $Self,
@@ -206,7 +203,7 @@ sub Run {
         }
 
         # build JSON output
-        $JSON = $Self->{LayoutObject}->JSONEncode(
+        $JSON = $LayoutObject->JSONEncode(
             Data => {
                 CustomerTicketsHTMLString => $CustomerTicketsHTMLString,
             },
@@ -214,8 +211,8 @@ sub Run {
     }
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'application/json; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $JSON || '',
         Type        => 'inline',
         NoCache     => 1,

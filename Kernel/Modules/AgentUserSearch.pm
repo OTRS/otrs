@@ -11,25 +11,14 @@ package Kernel::Modules::AgentUserSearch;
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {%Param};
     bless( $Self, $Type );
-
-    # check all needed objects
-    for my $Object (
-        qw(ParamObject DBObject LayoutObject ConfigObject LogObject UserObject GroupObject)
-        )
-    {
-        if ( !$Self->{$Object} ) {
-            $Self->{LayoutObject}->FatalError( Message => "Got no $Object!" );
-        }
-    }
-
-    # get config for frontend
-    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -39,13 +28,20 @@ sub Run {
 
     my $JSON = '';
 
+    # get needed objects
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    # get config for frontend
+    $Self->{Config} = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
+
     # search users
     if ( !$Self->{Subaction} ) {
 
         # get needed params
-        my $Search = $Self->{ParamObject}->GetParam( Param => 'Term' )   || '';
-        my $Groups = $Self->{ParamObject}->GetParam( Param => 'Groups' ) || '';
-        my $MaxResults = int( $Self->{ParamObject}->GetParam( Param => 'MaxResults' ) || 20 );
+        my $Search = $ParamObject->GetParam( Param => 'Term' )   || '';
+        my $Groups = $ParamObject->GetParam( Param => 'Groups' ) || '';
+        my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
 
         # get all members of the groups
         my %GroupUsers;
@@ -58,14 +54,17 @@ sub Run {
                 # allow trailing comma
                 next GROUPNAME if !$GroupName;
 
-                my $GroupID = $Self->{GroupObject}->GroupLookup(
+                # get group object
+                my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+                my $GroupID = $GroupObject->GroupLookup(
                     Group => $GroupName,
                 );
 
                 next GROUPNAME if !$GroupID;
 
                 # get users in group
-                my %Users = $Self->{GroupObject}->PermissionGroupGet(
+                my %Users = $GroupObject->PermissionGroupGet(
                     GroupID => $GroupID,
                     Type    => 'ro',
                 );
@@ -75,18 +74,24 @@ sub Run {
             }
         }
 
+        # get encode object
+        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
+
         # workaround, all auto completion requests get posted by utf8 anyway
         # convert any to 8bit string if application is not running in utf8
-        if ( !$Self->{EncodeObject}->EncodeInternalUsed() ) {
-            $Search = $Self->{EncodeObject}->Convert(
+        if ( !$EncodeObject->EncodeInternalUsed() ) {
+            $Search = $EncodeObject->Convert(
                 Text => $Search,
                 From => 'utf-8',
-                To   => $Self->{LayoutObject}->{UserCharset},
+                To   => $LayoutObject->{UserCharset},
             );
         }
 
+        # get user object
+        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+
         # get user list
-        my %UserList = $Self->{UserObject}->UserSearch(
+        my %UserList = $UserObject->UserSearch(
             Search => $Search,
             Valid  => 1,
         );
@@ -108,7 +113,7 @@ sub Run {
             # The values in %UserList are in the form: 'mm Max Mustermann'.
             # So assemble a neater string for display.
             # (Actually UserSearch() contains code for formating, but that is usually not called.)
-            my %User = $Self->{UserObject}->GetUserData(
+            my %User = $UserObject->GetUserData(
                 UserID => $UserID,
                 Valid  => $Param{Valid},
             );
@@ -128,14 +133,14 @@ sub Run {
         }
 
         # build JSON output
-        $JSON = $Self->{LayoutObject}->JSONEncode(
+        $JSON = $LayoutObject->JSONEncode(
             Data => \@Data,
         );
     }
 
     # send JSON response
-    return $Self->{LayoutObject}->Attachment(
-        ContentType => 'text/plain; charset=' . $Self->{LayoutObject}->{Charset},
+    return $LayoutObject->Attachment(
+        ContentType => 'text/plain; charset=' . $LayoutObject->{Charset},
         Content     => $JSON || '',
         Type        => 'inline',
         NoCache     => 1,
