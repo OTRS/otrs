@@ -55,7 +55,17 @@ sub ArticleStorageInit {
         die "Can't create $Path: $Error, try: \$OTRS_HOME/bin/otrs.SetPermissions.pl!";
     }
 
-    $Self->{ASFSCacheInBackend} = 1;
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+#    # get activated cache backend configuration
+#    my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
+#
+#    return 1 if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
+#    return 1 if !$ConfigObject->Get('Cache::ArticleStorageCache');
+
+    $Self->{ArticleStorageCache}    = 1;
+    $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
     return 1;
 }
@@ -68,7 +78,7 @@ sub ArticleDelete {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -150,9 +160,12 @@ sub ArticleDelete {
     );
 
     # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-        Type => 'ArticleStorageFS_' . $Param{ArticleID},
-    );
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+        );
+    }
 
     return 1;
 }
@@ -165,12 +178,12 @@ sub ArticleDeletePlain {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
-# print STDERR "ArticleDeletePlain $Param{ArticleID}\n";
+
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $File = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt";
@@ -185,10 +198,13 @@ sub ArticleDeletePlain {
     }
 
     # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key  => 'ArticlePlain',
-    );
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key  => 'ArticlePlain',
+        );
+    }
 
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
@@ -210,12 +226,12 @@ sub ArticleDeleteAttachment {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
-# print STDERR "ArticleDeleteAttachment $Param{ArticleID}\n";
+
     # delete from fs
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my $Path = "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}";
@@ -243,14 +259,12 @@ sub ArticleDeleteAttachment {
     }
 
     # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key  => 'ArticleAttachment',
-    );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key  => 'ArticleAttachmentIndexRaw',
-    );
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+        );
+    }
 
     # return if only delete in my backend
     return 1 if $Param{OnlyMyBackend};
@@ -272,12 +286,12 @@ sub ArticleWritePlain {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
-# print STDERR "ArticleWritePlain $Param{ArticleID}\n";
+
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
@@ -303,13 +317,17 @@ sub ArticleWritePlain {
     );
 
     # set cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-        TTL            => 60 * 60 * 24,
-        Key            => 'ArticlePlain',
-        Value          => $Param{Email},
-        CacheInBackend => $Self->{ASFSCacheInBackend},
-    );
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticlePlain',
+            Value          => $Param{Email},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+    }
 
     return if !$Success;
     return 1;
@@ -323,12 +341,12 @@ sub ArticleWriteAttachment {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
     }
-# print STDERR "ArticleWriteAttachment $Param{ArticleID}\n";
+
     # prepare/filter ArticleID
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
@@ -451,17 +469,16 @@ sub ArticleWriteAttachment {
         Content    => \$Param{Content},
         Permission => 660,
     );
+
     return if !$SuccessContent;
 
     # delete cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key  => 'ArticleAttachment',
-    );
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key  => 'ArticleAttachmentIndexRaw',
-    );
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ArticleStorageFS_' . $Param{ArticleID},
+        );
+    }
 
     return 1;
 }
@@ -473,7 +490,7 @@ sub ArticlePlain {
     if ( !$Param{ArticleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ArticleID!'
+            Message  => 'Need ArticleID!',
         );
         return;
     }
@@ -482,14 +499,22 @@ sub ArticlePlain {
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # read cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key            => 'ArticlePlain',
-        CacheInBackend => $Self->{ASFSCacheInBackend},
-    );
-    return $Cache if $Cache;
-# print STDERR "ArticlePlain $Param{ArticleID}\n";
+    if ( $Self->{ArticleStorageCache} ) {
+
+        my $Cache = $CacheObject->Get(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key            => 'ArticlePlain',
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+
+        return $Cache if $Cache;
+    }
+
     # get content path
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
 
@@ -506,13 +531,15 @@ sub ArticlePlain {
         return if !$Data;
 
         # set cache
-        if ($Data) {
-            $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        if ( $Self->{ArticleStorageCache} ) {
+
+            $CacheObject->Set(
                 Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-                TTL            => 60 * 60 * 24,
+                TTL            => $Self->{ArticleStorageCacheTTL},
                 Key            => 'ArticlePlain',
                 Value          => ${$Data},
-                CacheInBackend => $Self->{ASFSCacheInBackend},
+                CacheInMemory  => 0,
+                CacheInBackend => 1,
             );
         }
 
@@ -549,13 +576,15 @@ sub ArticlePlain {
     }
 
     # set cache
-    if ($Data) {
-        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-            TTL            => 60 * 60 * 24,
+            TTL            => $Self->{ArticleStorageCacheTTL},
             Key            => 'ArticlePlain',
             Value          => $Data,
-            CacheInBackend => $Self->{ASFSCacheInBackend},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
         );
     }
 
@@ -569,7 +598,7 @@ sub ArticleAttachmentIndexRaw {
     if ( !$Self->{ArticleContentPath} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ArticleContentPath!'
+            Message  => 'Need ArticleContentPath!',
         );
         return;
     }
@@ -578,19 +607,27 @@ sub ArticleAttachmentIndexRaw {
     if ( !$Param{ArticleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ArticleID!'
+            Message  => 'Need ArticleID!',
         );
         return;
     }
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # read cache
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-        Key            => 'ArticleAttachmentIndexRaw',
-        CacheInBackend => $Self->{ASFSCacheInBackend},
-    );
-    return %{$Cache} if $Cache;
-# print STDERR "ArticleAttachmentIndexRaw $Param{ArticleID}\n";
+    if ( $Self->{ArticleStorageCache} ) {
+
+        my $Cache = $CacheObject->Get(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key            => 'ArticleAttachmentIndexRaw',
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+
+        return %{$Cache} if $Cache;
+    }
+
     my $ContentPath = $Self->ArticleGetContentPath( ArticleID => $Param{ArticleID} );
     my %Index;
     my $Counter = 0;
@@ -718,17 +755,18 @@ sub ArticleAttachmentIndexRaw {
     }
 
     # set cache
-    if (%Index) {
-        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-            TTL            => 60 * 60 * 24,
+            TTL            => $Self->{ArticleStorageCacheTTL},
             Key            => 'ArticleAttachmentIndexRaw',
             Value          => \%Index,
-            CacheInBackend => $Self->{ASFSCacheInBackend},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
         );
     }
 
-    # return if index exists
     return %Index if %Index;
 
     # return if we only need to check one backend
@@ -777,7 +815,7 @@ sub ArticleAttachmentIndexRaw {
 
             # converted article body should be inline
             elsif ( $Row[0] =~ m{file-[12]} ) {
-                $Disposition = 'inline'
+                $Disposition = 'inline';
             }
 
             # all others including attachments with content id that are not images
@@ -801,13 +839,15 @@ sub ArticleAttachmentIndexRaw {
     }
 
     # set cache
-    if (%Index) {
-        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-            TTL            => 60 * 60 * 24,
+            TTL            => $Self->{ArticleStorageCacheTTL},
             Key            => 'ArticleAttachmentIndexRaw',
             Value          => \%Index,
-            CacheInBackend => $Self->{ASFSCacheInBackend},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
         );
     }
 
@@ -822,7 +862,7 @@ sub ArticleAttachment {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
@@ -832,14 +872,22 @@ sub ArticleAttachment {
     $Param{ArticleID} = quotemeta( $Param{ArticleID} );
     $Param{ArticleID} =~ s/\0//g;
 
-#    # read cache
-#    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
-#        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-#        Key            => 'ArticleAttachment',
-#        CacheInBackend => $Self->{ASFSCacheInBackend},
-#    );
-#    return %{$Cache} if $Cache;
-# print STDERR "ArticleAttachment $Param{ArticleID}\n";
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # read cache
+    if ( $Self->{ArticleStorageCache} ) {
+
+        my $Cache = $CacheObject->Get(
+            Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+            Key            => 'ArticleAttachment' . $Param{FileID},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
+        );
+
+        return %{$Cache} if $Cache;
+    }
+
     # get attachment index
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
@@ -969,13 +1017,15 @@ sub ArticleAttachment {
                 chomp $Data{ContentType};
 
                 # set cache
-                if (%Data) {
-                    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                if ( $Self->{ArticleStorageCache} ) {
+
+                    $CacheObject->Set(
                         Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-                        TTL            => 60 * 60 * 24,
-                        Key            => 'ArticleAttachment',
+                        TTL            => $Self->{ArticleStorageCacheTTL},
+                        Key            => 'ArticleAttachment' . $Param{FileID},
                         Value          => \%Data,
-                        CacheInBackend => $Self->{ASFSCacheInBackend},
+                        CacheInMemory  => 0,
+                        CacheInBackend => 1,
                     );
                 }
 
@@ -1063,13 +1113,15 @@ sub ArticleAttachment {
     }
 
     # set cache
-    if (%Data) {
-        $Kernel::OM->Get('Kernel::System::Cache')->Set(
+    if ( $Self->{ArticleStorageCache} ) {
+
+        $CacheObject->Set(
             Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-            TTL            => 60 * 60 * 24,
-            Key            => 'ArticleAttachment',
+            TTL            => $Self->{ArticleStorageCacheTTL},
+            Key            => 'ArticleAttachment' . $Param{FileID},
             Value          => \%Data,
-            CacheInBackend => $Self->{ASFSCacheInBackend},
+            CacheInMemory  => 0,
+            CacheInBackend => 1,
         );
     }
 
@@ -1084,7 +1136,7 @@ sub _ArticleDeleteDirectory {
         if ( !$Param{$_} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $_!",
             );
             return;
         }
