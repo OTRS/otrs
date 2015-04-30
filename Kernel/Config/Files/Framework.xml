@@ -6884,7 +6884,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>SystemMaintenance</SubGroup>
         <Setting>
-            <String Regex="">System is on a scheduled maintenance period. We spect to be online promptly.</String>
+            <String Regex="">System is on a scheduled maintenance period. We expect to be online promptly.</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemMaintenance::IsActiveDefaultLoginErrorMessage" Required="0" Valid="1">
