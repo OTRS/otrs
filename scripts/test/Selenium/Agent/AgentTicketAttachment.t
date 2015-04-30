@@ -19,8 +19,7 @@ $Kernel::OM->ObjectParamAdd(
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-# get needed objects
-my $TicketObject    = $Kernel::OM->Get('Kernel::System::Ticket');
+# get sysconfig object
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 $Selenium->RunTest(
@@ -115,30 +114,31 @@ $Selenium->RunTest(
         # wait until attachment is upoading
         ACTIVESLEEP:
         for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('form').length") ) {
+            if ( index( $Selenium->get_page_source(), $AttachmentName ) > -1 ) {
                 last ACTIVESLEEP;
             }
             sleep 1;
         }
 
         $Selenium->find_element( "#Subject", 'css' )->submit();
-        sleep 0.1;
-
-        # wait until ticket is created
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('form').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        sleep 1;
 
         # search for new created ticket on AgentTicketZoom screen
         my ($TicketID, $TicketNumber) = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
             Result         => 'HASH',
             Limit          => 1,
             CustomerUserID => $TestCustomer,
+            UserID         => $TestUserID,
         );
+
+        # wait until ticket is created
+        ACTIVESLEEP:
+        for my $Second ( 1 .. 20 ) {
+            if ( index( $Selenium->get_page_source(), $TicketNumber ) > -1 ) {
+                last ACTIVESLEEP;
+            }
+            sleep 1;
+        }
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
@@ -153,6 +153,8 @@ $Selenium->RunTest(
             $Selenium->find_element("//*[text()=\"$AttachmentName\"]"),
             "$AttachmentName is found on page",
         );
+
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # get article id
         my @ArticleIDs = $TicketObject->ArticleIndex(
@@ -170,7 +172,7 @@ $Selenium->RunTest(
         );
 
         # delete created test ticket
-        my $Success = $Kernel::OM->Get('Kernel::System::Ticket')->TicketDelete(
+        my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );
@@ -192,8 +194,9 @@ $Selenium->RunTest(
         );
 
         # make sure the cache is correct.
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
+        for my $Cache (qw( Ticket CustomerUser )) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
+        }
 
     }
 );
