@@ -110,16 +110,19 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#FileUpload",                  'css' )->send_keys($Location);
+        sleep 0.1;
 
         # wait until attachment is upoading
         ACTIVESLEEP:
         for my $Second ( 1 .. 20 ) {
-            if ( index( $Selenium->get_page_source(), 'Subject' ) > -1, ) {
+            if ( $Selenium->execute_script("return \$('form').length") ) {
                 last ACTIVESLEEP;
             }
             sleep 1;
         }
+
         $Selenium->find_element( "#Subject", 'css' )->submit();
+        sleep 0.1;
 
         # wait until ticket is created
         ACTIVESLEEP:
@@ -131,13 +134,11 @@ $Selenium->RunTest(
         }
 
         # search for new created ticket on AgentTicketZoom screen
-        my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+        my ($TicketID, $TicketNumber) = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
             Result         => 'HASH',
             Limit          => 1,
             CustomerUserID => $TestCustomer,
         );
-        my $TicketNumber = (%TicketIDs)[1];
-        my $TicketID     = (%TicketIDs)[0];
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
@@ -155,7 +156,7 @@ $Selenium->RunTest(
 
         # get article id
         my @ArticleIDs = $TicketObject->ArticleIndex(
-            TicketID => (%TicketIDs)[0],
+            TicketID => $TicketID,
         );
 
         # check ticket attachment
