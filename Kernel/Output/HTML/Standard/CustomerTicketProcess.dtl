@@ -74,7 +74,7 @@
                 else if ($ElementToUpdate && isJQueryObject($ElementToUpdate) && $ElementToUpdate.length) {
                     $ElementToUpdate.get(0).innerHTML = Response;
                     $ElementToUpdate.find('script').each(function() {
-                        JavaScriptString += $(this).text();
+                        JavaScriptString += $(this).html();
                         $(this).remove();
                     });
                     $ElementToUpdate.fadeIn();
