@@ -103,8 +103,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . '@localhost.com' );
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
+
         #edit real test agent values
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser");
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser;Search=$RandomID");
         $Selenium->find_element( $RandomID, 'link_text' )->click();
 
         my $EditRandomID = $Helper->GetRandomID();
@@ -115,6 +116,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
         #check new agent values
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser;Search=$RandomID");
         $Selenium->find_element( $RandomID, 'link_text' )->click();
         $Self->Is(
             $Selenium->find_element( '#UserFirstname', 'css' )->get_value(),
