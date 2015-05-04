@@ -1299,7 +1299,7 @@ sub set_window_size {
     }
     my $res = { 'command' => 'setWindowSize', 'window_handle' => $window };
     my $params = { 'height' => $height, 'width' => $width };
-    my $ret = $self->_execute_command($res, $params);
+    my $ret = $self->_execute_command($res, $params) // '';
     if ($ret =~ m/204/g) {
         return 1;
     }
