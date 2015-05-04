@@ -66,7 +66,7 @@ $Selenium->RunTest(
 
         # change test customer user time zone preference to +6 hours
         $Selenium->find_element( "#UserTimeZone option[value='+6']", 'css' )->click();
-        $Selenium->find_element(".//*/div/div[4]/form/fieldset/button")->click();
+        $Selenium->execute_script("\$('#UserTimeZone').parents('form').submit();");
 
         # check for update preference message on screen
         my $UpdateMessage = "Preferences updated successfully!";
