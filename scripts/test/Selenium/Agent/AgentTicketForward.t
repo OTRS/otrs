@@ -91,13 +91,15 @@ $Selenium->RunTest(
         my $TicketBody         = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
 
-        # wait a bit for the autocomplete to populate
-        sleep(2);
+        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#Subject",                     'css' )->submit();
+
+        $Selenium->WaitFor( JavaScript => 'return $("form").length' );
 
         # get ticket object
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -133,7 +135,9 @@ $Selenium->RunTest(
 
         # input fields and send forward
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
-        sleep(2);
+
+        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->find_element( "#ComposeStateID option[value='4']", 'css' )->click();
 
