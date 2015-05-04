@@ -75,7 +75,7 @@ $Selenium->RunTest(
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/Crypt/PGPPrivateKey-1.asc";
         $Selenium->find_element( "#UserPGPKey", 'css' )->send_keys($Location);
-        $Selenium->find_element(".//*/div/div[5]/form/fieldset/button")->click();
+        $Selenium->execute_script("\$('#UserPGPKey').parents('form').submit();");
 
         # check for update PGP preference key on screen
         $Self->True(
