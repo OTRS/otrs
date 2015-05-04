@@ -1924,7 +1924,7 @@ sub _Mask {
     );
 
     # Widget Dynamic Fields
-    if ($DynamicField) {
+    if ( IsArrayRefWithData($DynamicField) ) {
         $LayoutObject->Block(
             Name => 'WidgetDynamicFields',
         );
@@ -1933,7 +1933,7 @@ sub _Mask {
     # Dynamic fields
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ($DynamicField) {
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
 
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
@@ -2607,7 +2607,7 @@ sub _GetFieldsToUpdate {
 
     # cycle through the activated Dynamic Fields for this screen
     DYNAMICFIELD:
-    for my $DynamicFieldConfig ($DynamicField) {
+    for my $DynamicFieldConfig ( @{$DynamicField} ) {
         next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
 
         my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
