@@ -26,7 +26,14 @@ $Selenium->RunTest(
     sub {
 
         my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 0,
+            RestoreSystemConfiguration => 1,
+        );
+
+        # enable SMIME in config
+        $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'SMIME',
+            Value => 1
         );
 
         my $TestUserLogin = $Helper->TestUserCreate(
