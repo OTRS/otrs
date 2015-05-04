@@ -268,6 +268,35 @@ sub Login {
     return 1;
 }
 
+=item WaitFor()
+
+wait with increasing sleep intervals until the given condition is true or the wait time is over.
+
+    $SeleniumObject->WaitFor(
+        JavaScript => 'return $(".someclass").length',   # Javascript code that checks condition
+        Time       => 20,                                # optional, wait time in seconds (default 20)
+    );
+
+=cut
+
+sub WaitFor {
+    my ( $Self, %Param ) = @_;
+
+    $Param{Time} //= 20;
+    my $WaitedSeconds = 0;
+    my $Interval      = 0.1;
+
+    while ( $WaitedSeconds < $Param{Time} ) {
+        if ( $Self->execute_script( $Param{JavaScript} ) ) {
+            return;
+        }
+        sleep $Interval;
+        $WaitedSeconds += $Interval;
+        $Interval += 0.1;
+    }
+    return;
+}
+
 =item HandleError()
 
 use this method to handle any Selenium exceptions.
