@@ -935,6 +935,10 @@ sub _Edit {
                 Class      => $Param{RequiredClass} . ' ' . $Param{Errors}->{ $Entry->[0] . 'Invalid' },
             );
         }
+        elsif ( $Param{Action} eq 'Add' && $Entry->[0] =~ /^UserCustomerID$/i ) {
+            # Use CustomerID param if called from CIC.
+            $Param{Value} = $Param{ $Entry->[0] } || $Param{CustomerID} || '';
+        }
         else {
             $Param{Value} = $Param{ $Entry->[0] } || '';
         }
