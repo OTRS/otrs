@@ -122,7 +122,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Can\'t merge ticket with itself!' ) > -1,
             "Successfully can't merge ticket with itself",
         );
-        $Selenium->execute_script("window.close();");
+        $Selenium->close();
 
         $Selenium->switch_to_window( $Handles->[0] );
         # click on merge
