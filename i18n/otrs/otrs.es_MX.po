@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/OTRS/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -2498,6 +2498,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -7921,7 +7929,7 @@ msgstr "De esta forma Ud. puede editar directamente la certificación y claves p
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de archivos."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8021,7 +8029,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Aquí puede introducir SQL para ejecutarse directamente en la base de datos de la aplicación."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8172,7 +8180,7 @@ msgstr "La dirección de correo electrónico de este usuario es inválida, esta 
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Emisor"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -9454,7 +9462,7 @@ msgstr "Acción múltiple con Tickets"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Enviar correo"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9554,6 +9562,26 @@ msgstr "Obtener todos"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
 msgstr ""
 
 #. Template: AgentTicketForward
@@ -10154,6 +10182,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Modificar preferencias presonales"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10402,6 +10434,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10432,6 +10470,10 @@ msgstr "Configuraciones de la Base de Datos"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Especificaciones Generales y Configuraciones de Correo"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10781,6 +10823,10 @@ msgstr "impreso por"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Página de Prueba de OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13793,6 +13839,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -14545,7 +14597,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Si \"HTTPBasicAuth\" se eligió como Customer::AuthModule, puede especificarse la eliminación de algunas partes de los nombres de usuario (por ejemplo: para los dominios que usan nombres de usuario como dominio_de_ejemplo\\nombre_usuario)."
 
 #. SysConfig
 msgid ""

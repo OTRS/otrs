@@ -1,15 +1,19 @@
 # 
 # Translators:
+# Alexandre Costa <alexandrecostacps@gmail.com>, 2015
+# Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
+# eder.brito <ederbritoo@gmail.com>, 2015
 # José Junior <joserribeiro26@gmail.com>, 2014
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014-2015
 # MBaeta <matheus.baeta@otrs.com>, 2014
 # Murilo Moreira de Oliveira <murilo.moreira@gmail.com>, 2014-2015
+# Ronaldo Richieri <ronaldo@complemento.net.br>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -2108,11 +2112,11 @@ msgstr "Não foi possível determinar a versão da base de dados."
 
 #. Template: AAASupportDataCollector
 msgid "Client Connection Charset"
-msgstr ""
+msgstr "Charset do Cliente de Conexão"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Parâmetro character_set_client deve ser utf8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
@@ -2120,7 +2124,7 @@ msgstr "Charset do Banco de dados"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Parâmetro character_set_database precisa ser UNICODE ou UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
@@ -2128,15 +2132,15 @@ msgstr "Chartset da Tabela"
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
-msgstr ""
+msgstr "Tabelas encontradas que não possuem charset utf8."
 
 #. Template: AAASupportDataCollector
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "Tamanho de arquivo de log InooDB"
 
 #. Template: AAASupportDataCollector
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "O parâmetro innodb_log_file_size deve ser ao menos 256 MB."
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
@@ -2148,13 +2152,13 @@ msgstr "O parâmetro  'max_allowed_packet' deve ser maior que 20MB"
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Tamanho do Cache de Consulta"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
-msgstr ""
+msgstr "A configuração 'query_cache_size' deve ser usada (maior que 10 MB mas não mais que 512 MB)."
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
@@ -2175,7 +2179,7 @@ msgstr "Parâmetro NLS_LANG"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
-msgstr ""
+msgstr "NLS_LANG deve ser definido para AL32UTF8 (e.x. GERMAN_GERMANY.AL32UTF8)."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
@@ -2183,19 +2187,19 @@ msgstr "Parâmetro NLS_DATE_FORMAT "
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
-msgstr ""
+msgstr "NLS_DATE_FORMAT deve ser definido para 'YYYY-MM-DD HH24:MI:SS'."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "NLS_DATE_FORMAT Configurando SQL Check"
 
 #. Template: AAASupportDataCollector
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "A configuração client_encoding precisa ser UNICODE ou UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "A configuração server_encoding precisa ser UNICODE ou UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
@@ -2203,7 +2207,7 @@ msgstr "Formato da data"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
-msgstr ""
+msgstr "A configuração DateStyle precisa ser ISO."
 
 #. Template: AAASupportDataCollector
 msgid "PostgreSQL 8.x or higher is required."
@@ -2247,7 +2251,7 @@ msgstr "Não foi possível determinar a versão do kernel."
 
 #. Template: AAASupportDataCollector
 msgid "System Load"
-msgstr ""
+msgstr "Carga do sistema"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2497,6 +2501,14 @@ msgstr "Não foi possível determinar a versão do servidor WEB."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr "Módulos Apache Carregados"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -4536,7 +4548,7 @@ msgstr "Para habilitar a execução automática, selecione pelo menos um valor d
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
-msgstr "Execução baseada em tempo (chamado simples)"
+msgstr "Execução baseada em Evento (chamado simples)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
@@ -5027,7 +5039,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr ""
+msgstr "Backend do Invocador"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -5117,27 +5129,27 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "Novo mapa de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Adicionar mapeamento de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Mapeamento por Chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "Remover mapeamento de chave"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Chave mapeada"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "Chave de mapa"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
@@ -5189,29 +5201,29 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
-msgstr ""
+msgstr "Criar nova operação"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr ""
+msgstr "Alterar operação %s"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "Você realmente deseja excluir esta operação?"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "Detalhes da Operação"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The name is typically used to call up this web service operation from a "
 "remote system."
-msgstr ""
+msgstr "O nome é normalmente usado para chamar esta operação de web service a partir de um sistema remoto."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "Por favor, forneça um único nome para este web service."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
@@ -5245,7 +5257,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
-msgstr ""
+msgstr "Excluir esta Operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
@@ -5302,7 +5314,7 @@ msgstr ""
 msgid ""
 "This configuration defines if incoming connections should get closed or kept"
 " alive."
-msgstr ""
+msgstr "Esta configuração define se conexões de entrada devem ficar fechadas ou permanecerem abertas."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
@@ -5310,11 +5322,11 @@ msgstr "Servidor"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
-msgstr ""
+msgstr "URL do host remoto para requisições REST."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "ex: https://www.otrs.com:10745/api/v1.0 (sem fuga da barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -6171,7 +6183,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Bate-papo"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -7368,7 +7380,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "Instruções"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
@@ -7424,7 +7436,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
-msgstr ""
+msgstr "Este é apenas o começo!"
 
 #. Template: AdminRegistration
 msgid "We will inform you about our new services and offerings soon."
@@ -8020,7 +8032,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Aqui você pode entrar consultas SQL para enviá-las diretamente ao banco de dados do aplicativo."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -9555,6 +9567,26 @@ msgstr "Obter todos"
 msgid "E-Mail Outbound"
 msgstr "E-mail de Saída"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Encaminhar chamado: %s - %s"
@@ -10153,6 +10185,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Editar preferências pessoais"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "Marca de citação"
@@ -10401,6 +10437,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Por favor, insira algum valor para a pesquisa ou * para pesquisar tudo."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Por favor, verifique os campos marcados em vermelho para entradas válidas."
 
@@ -10431,6 +10473,10 @@ msgstr "Configurações de Banco de Dados"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Especificações Gerais e Configurações de E-mail"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10780,6 +10826,10 @@ msgstr "Impresso por"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Página de Teste do Gerenciador de Chamados"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13789,6 +13839,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

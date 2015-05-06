@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/OTRS/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -2496,6 +2496,14 @@ msgstr "Kunne ikke bestemme webtjenerversjon."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -6170,7 +6178,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Chat"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -7381,7 +7389,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
-msgstr ""
+msgstr "OTRS-ID"
 
 #. Template: AdminRegistration
 msgid ""
@@ -8019,7 +8027,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Her kan du skrive SQL for å sende kommandoer rett til OTRS sin database"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -9554,6 +9562,26 @@ msgstr "Hent alle"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Videresend sak: %s - %s"
@@ -10152,6 +10180,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Endre personlige innstillinger"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10400,6 +10432,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Vennligst oppgi minst en søkeverdi eller * for å finne noe."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10430,6 +10468,10 @@ msgstr "Databaseinnstillinger"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Generelle spesifikasjoner og e-post-innstillinger"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10779,6 +10821,10 @@ msgstr "skrevet ut av"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS Test-side"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13791,6 +13837,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -14543,7 +14595,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Hvis \"HTTPBasicAuth\" er valgt som Customer::AuthModule kan du velge å ta vekk deler av brukernavnet (f.eks. gjøre \"domene\\bruker\" om til \"bruker\")."
 
 #. SysConfig
 msgid ""

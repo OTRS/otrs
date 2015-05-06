@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/OTRS/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -4001,7 +4009,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr ""
+msgstr "Huomautus"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
@@ -7810,7 +7818,7 @@ msgstr "Oikeus lisätä tikettejä tähän ryhmään/jonoon."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "Huomautus"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8015,7 +8023,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Suorita SQL-kyselyitä ohjelmiston tietokannassa."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Lähettäjä"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8413,7 +8421,7 @@ msgstr "Valikko"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Linkki"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9550,6 +9558,26 @@ msgstr "Näytä kaikki"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Lähetä tiketti eteenpäin: %s - %s"
@@ -10148,6 +10176,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Muokkaa henkilökohtaisia asetuksia"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10396,6 +10428,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Lisää ainakin yksi hakuehto tai *, jotta löydät jotain."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10426,6 +10464,10 @@ msgstr "Tietokanta-asetukset"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Yleiset määritykset ja sähköpostiasetukset"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10775,6 +10817,10 @@ msgstr "tulostaja: "
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS - Testisivu"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13784,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig
@@ -17821,7 +17873,7 @@ msgstr ""
 msgid ""
 "Your queue selection of your favorite queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Suosikkijonojen valinta. Saat sähköpostiilmoituksen näihin jonoihin saapuneista tiketeistä, jos niin asetettu."
 
 #. SysConfig
 msgid ""

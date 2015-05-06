@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/OTRS/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -2297,7 +2297,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Tickets"
-msgstr ""
+msgstr "Tickets"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket History Entries"
@@ -2333,7 +2333,7 @@ msgstr "Grupos"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Fields"
-msgstr ""
+msgstr "Campos Dinâmicos"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Field Values"
@@ -2493,6 +2493,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -4846,7 +4854,7 @@ msgstr "Enviar notificações de alterações a agente/cliente "
 
 #. Template: AdminGenericAgent
 msgid "CMD"
-msgstr ""
+msgstr "Este comando será executado. ARG[0] será o número do ticket e ARG[1] o seu ID."
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -5343,7 +5351,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "Autenticação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
@@ -6378,7 +6386,7 @@ msgstr "AutoIncrementar"
 
 #. Template: AdminPackageManager
 msgid "SQL"
-msgstr ""
+msgstr "Limite"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -7079,7 +7087,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Configuration"
-msgstr ""
+msgstr "Configuração"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
@@ -7916,7 +7924,7 @@ msgstr "Aqui pode editar directamente os certificados e chaves privadas presente
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "Aqui pode editar directamente os certificados e chaves privadas presentes no sistema de ficheiros."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8016,7 +8024,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Pode introduzir comandos SQL para executar diretamente na base de dados"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8167,7 +8175,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Remetente"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8410,11 +8418,11 @@ msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "NavBar"
-msgstr ""
+msgstr "Tecla de acesso"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Ligar"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -8887,7 +8895,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr ""
+msgstr "Os meus tickets bloqueados"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
@@ -8895,15 +8903,15 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My responsibilities"
-msgstr ""
+msgstr "Minhas responsabilidades"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr ""
+msgstr "TIckets nas minhas Filas"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Tickets nos meus Serviços"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -9449,7 +9457,7 @@ msgstr "Ação em bloco sobre tickets"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Enviar mensagem de email !"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9549,6 +9557,26 @@ msgstr "Obter todos"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
 msgstr ""
 
 #. Template: AgentTicketForward
@@ -9943,7 +9971,7 @@ msgstr "Artigos por ler"
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "Não"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10148,6 +10176,10 @@ msgstr ""
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
 msgstr "Preferências pessoais"
+
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -10397,6 +10429,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10427,6 +10465,10 @@ msgstr "Definições de base de dados"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Especificações comuns e definições de email"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10776,6 +10818,10 @@ msgstr "impresso por"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Página de Teste do OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -11647,7 +11693,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Date / Time"
-msgstr ""
+msgstr "Data / Hora"
 
 #. SysConfig
 msgid ""
@@ -13788,6 +13834,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -15387,7 +15439,7 @@ msgstr "Antigo: \"%s\" Novo: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -17467,7 +17519,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Textarea"
-msgstr ""
+msgstr "AreadeTexto"
 
 #. SysConfig
 msgid ""
@@ -17822,7 +17874,7 @@ msgstr ""
 msgid ""
 "Your queue selection of your favorite queues. You also get notified about "
 "those queues via email if enabled."
-msgstr ""
+msgstr "Seleção das filas favoritas. Será notificado acerca destas filas via email se o serviço estiver Ativo."
 
 #. SysConfig
 msgid ""

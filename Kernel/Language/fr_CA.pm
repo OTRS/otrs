@@ -413,6 +413,7 @@ sub Data {
         'Redo' => 'Refaire',
         'Scheduler process is registered but might not be running.' => 'Le processus d\'ordonnancement est autorisé, mais n\'est peut-être pas en fonction.',
         'Scheduler is not running.' => 'L\'ordonnanceur n\'est pas en fonction.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -702,6 +703,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Vous devez utiliser « FastCGI » ou « mod_perl » afin d\'améliorer la performance du système.',
@@ -2264,6 +2268,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permission de déplacer une demande de cette file ou ce groupe.',
         'create' => 'Créer',
         'Permissions to create tickets in this group/queue.' => 'Permission de créer une demande dans cette file ou ce groupe.',
+        'note' => 'Note',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permission d\'ajouter des notes aux demandes de cette file ou ce groupe. ',
+        'owner' => 'Propriétaire',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permission de changer le propriétaire des demandes de cette file ou ce groupe. ',
         'priority' => 'Priorité ',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permission de changer la priorité des demandes de cette file ou ce groupe.',
@@ -2330,7 +2339,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Entrez les requêtes SQL afin de les envoyer directement dans la base de données d\'application.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Votre requête SQL comporte une erreur de syntaxe. Veuillez la corriger.',
@@ -2377,7 +2386,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Émetteur',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2499,7 +2508,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2551,11 +2560,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestion des relations agent-groupe',
         'Change Group Relations for Agent' => 'Changer les relations de groupe pour l\'agent : ',
         'Change Agent Relations for Group' => 'Changer les relations avec les agents pour le groupe : ',
-        'note' => 'Note',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permission d\'ajouter des notes aux demandes de cette file ou ce groupe. ',
-        'owner' => 'Propriétaire',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permission de changer le propriétaire des demandes de cette file ou ce groupe. ',
 
         # Template: AgentBook
         'Address Book' => 'Carnet d\'adresses',
@@ -2854,6 +2858,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Transférer la demande no : %s - %s',
 
@@ -3051,6 +3062,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Éditer les préférences',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3137,6 +3149,8 @@ sub Data {
             'Une fenêtre contextuelle de cet écran est déjà ouverte. Désirez-vous la fermer et télécharger celle-ci à la place?',
         'Please enter at least one search value or * to find anything.' =>
             'Veuillez entrer au moins un critère de recherche ou une « * » pour trouver quoi que ce soit.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3150,6 +3164,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript non disponible',
         'Database Settings' => 'Réglages de la base de données',
         'General Specifications and Mail Settings' => 'Caractéristiques générales et réglages de courriel',
+        'Welcome to %s' => '',
         'Web site' => 'Site Web',
         'Mail check successful.' => 'Contrôle de courriel effectué avec succès.',
         'Error in the mail settings. Please correct and try again.' => 'Erreur dans la configuration courriel. Veuillez corriger la configuration et réessayer.',
@@ -3273,6 +3288,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Page de test de OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Compteur',
 
         # Template: Warning
@@ -4207,6 +4223,8 @@ sub Data {
             'Désactive la notification de rappel à l\'agent responsable de la demande (Ticket::Responsible doit être activé).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Affiche le temps alloué à un article dans la synthèse de la demande.',
@@ -4843,8 +4861,8 @@ sub Data {
             'Exécute le système en mode « Démo ». Si vous sélectionnez « Oui », les agents pourront modifier leurs préférences comme la langue et le thème en passant par l\'interface Web de l\'agent. Ces changements ne seront admissibles que pour la présente session. Il ne sera pas possible pour les agents de modifier leurs mots de passe.',
         'S/MIME Certificate Upload' => 'Téléchargement du certificat S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'Sauvegarde les pièces jointes des articles. Le mode « DB » enregistre toutes les données de la base de données (ce mode n\'est pas recommandé pour l\'enregistrement de pièces jointes lourdes). Le mode « FS » enregistre les données du système de fichier ce qui est plus rapide mais oblige le serveur Web à fonctionner sous l\'utilisateur OTRS. Vous pouvez changer de module allègrement, sans perte de données, même sur un système qui est déjà en fonction.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Recherche d\'un client',
         'Search User' => '',

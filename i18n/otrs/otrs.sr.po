@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -2494,6 +2494,14 @@ msgstr "Не може да препозна веб сервер верзију."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -6168,7 +6176,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Ћаскање"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -8017,7 +8025,7 @@ msgstr "Овде можете унети SQL команде и послати и
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Овде можете унети SQL команде и послати их директно апликационој бази података."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -9552,6 +9560,26 @@ msgstr "Узми све"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Проследи тикет: %s - %s"
@@ -10150,6 +10178,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Уреди личне поставке"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10398,6 +10430,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Молимо унесите барем једну вредност претраге или * да би сте нешто пронашли."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Молимо проверите поља означена црвеним за важеће уносе."
 
@@ -10428,6 +10466,10 @@ msgstr "Подешавање базе података"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Опште спецификације и подешавање поште"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10777,6 +10819,10 @@ msgstr "штампао"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS тест страна"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13787,6 +13833,12 @@ msgid ""
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
 msgstr "Онемогућује веб инсталационом програму (http://yourhost.example.com/otrs/installer.pl) да заштити систем од недозвољеног преузимања. Ако подесите на \"Не\", систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационе скрипте. Уколико није активно, такође се онемогућују GenericAgent, PackageManager и SQL Box."
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."

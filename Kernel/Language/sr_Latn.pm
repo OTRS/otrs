@@ -406,6 +406,7 @@ sub Data {
         'Redo' => 'Ponovi',
         'Scheduler process is registered but might not be running.' => 'Planer proces je registrovan, ali možda nije pokrenut.',
         'Scheduler is not running.' => 'Planer ne radi.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Ne možete da kontaktirate server za registraciju. Molimo pokušajte ponovo kasnije.',
         'No content received from registration server. Please try again later.' =>
             'Sadržaj nije primljen od servera za registraciju. Molimo pokušajte ponovo kasnije.',
@@ -695,6 +696,9 @@ sub Data {
         'Webserver Version' => 'Webserver verzija',
         'Could not determine webserver version.' => 'Ne može da prepozna webserver verziju.',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Upotreba CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Za povećanje performansi treba da koristite FastCGI ili mod_perl.',
@@ -1758,7 +1762,7 @@ sub Data {
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
+        'Chat' => 'Ćaskanje',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2257,6 +2261,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Dozvola da se tiket premesti u ovu grupu/red.',
         'create' => 'kreiranje',
         'Permissions to create tickets in this group/queue.' => 'Dozvola da se tiket kreira u ovoj grupi/redu.',
+        'note' => 'napomena',
+        'Permissions to add notes to tickets in this group/queue.' => 'Dozvole za dodavanje napomena na tikete u ovoj grupi/redu.',
+        'owner' => 'vlasnik',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Dozvole za promenu vlasnika tiketa u ovoj grupi/redu.',
         'priority' => 'prioritet',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Dozvola da se menja prioritet tiketa u ovoj grupi/redu.',
@@ -2370,7 +2379,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Pošiljaoc',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2492,7 +2501,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Upravljanje šablonima',
@@ -2544,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Upravljanje vezama Operater-Grupa',
         'Change Group Relations for Agent' => 'Promeni veze sa grupom za operatera',
         'Change Agent Relations for Group' => 'Promeni veze sa operaterom za grupu',
-        'note' => 'napomena',
-        'Permissions to add notes to tickets in this group/queue.' => 'Dozvole za dodavanje napomena na tikete u ovoj grupi/redu.',
-        'owner' => 'vlasnik',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Dozvole za promenu vlasnika tiketa u ovoj grupi/redu.',
 
         # Template: AgentBook
         'Address Book' => 'Adresar',
@@ -2847,6 +2851,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Prosledi tiket: %s - %s',
 
@@ -3044,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Uredi lične postavke',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3130,6 +3142,8 @@ sub Data {
             'Prikaz ovog ekrana je već otvoren. Želite li da ga zatvorite i učitate ovaj umesto njega?',
         'Please enter at least one search value or * to find anything.' =>
             'Molimo unesite barem jednu vrednost pretrage ili * da bi ste nešto pronašli.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Molimo proverite polja označena crvenim za važeće unose.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3143,6 +3157,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nije dostupan.',
         'Database Settings' => 'Podešavanje baze podataka',
         'General Specifications and Mail Settings' => 'Opšte specifikacije i podešavanje pošte',
+        'Welcome to %s' => '',
         'Web site' => 'Web sajt',
         'Mail check successful.' => 'Uspešna provera email podešavanja.',
         'Error in the mail settings. Please correct and try again.' => 'Greška u podešavanju email-a. Molimo ispravite i pokušajte ponovo.',
@@ -3266,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS test strana',
+        'Welcome %s %s' => '',
         'Counter' => 'Brojač',
 
         # Template: Warning
@@ -4200,6 +4216,8 @@ sub Data {
             'Онемогућује слање обавештења подсетника одговорном оператеру тикета (Ticket::Responsible мора бити активиран).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Onemogućuje veb instalacionom programu (http://yourhost.example.com/otrs/installer.pl) da zaštiti sistem od nedozvoljenog preuzimanja. Ako podesite na "Ne", sistem može biti ponovo instaliran i trenutna osnovna konfiguracija će biti korišćena da unapred popuni pitanja unutar instalacione skripte. Ukoliko nije aktivno, takođe se onemogućuju GenericAgent, PackageManager i SQL Box.',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => 'Prikaži podešavanja da bi ste zamenili podrazumevana za tikete procesa.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Prikazuje obračunato vreme za jedan članak u prikazu uvećanog tiketa.',
@@ -4836,7 +4854,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Slanje S/MIME sertifikata',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Traži korisnika',

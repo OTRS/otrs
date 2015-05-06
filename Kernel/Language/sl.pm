@@ -70,7 +70,7 @@ sub Data {
         'minutes' => 'minute',
         'minute(s)' => 'minuta/e',
         'Minutes' => 'Minute',
-        'm' => '',
+        'm' => 'd',
         'month' => 'mesec',
         'months' => 'meseci',
         'month(s)' => 'mesec/i',
@@ -410,6 +410,7 @@ sub Data {
         'Redo' => 'Uveljavi',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => 'Urnik se ne izvaja.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -699,6 +700,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2261,6 +2265,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Dovoljenje, da se premaknete zahtevek v to skupino/čakalno vrsto.',
         'create' => 'ustvarjanje',
         'Permissions to create tickets in this group/queue.' => 'Dovoljenje za ustvarjanje zahtevka v tej skupini/čakalni vrsti.',
+        'note' => 'opomba',
+        'Permissions to add notes to tickets in this group/queue.' => 'Dovolenje za dodajanje opomb na zahtevke v tej skupini/vrsti.',
+        'owner' => 'Lastnik',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Dovolenje za spremembo lastnika zahtevka v tej skupini/vrsti.',
         'priority' => 'prioritete',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Dovoljenje, da se spremeni prioriteta zahtevka v tej skupini/vrsti.',
@@ -2327,7 +2336,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Tukaj lahko vnesete SQL poizvedbe, da jih lahko neposredno pošljete za uporabo na bazi podatkov.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Obstaja napaka v sintaksi vaše SQL poizvedbe. Prosim preverite.',
@@ -2374,7 +2383,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Pošiljatelj',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2496,7 +2505,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2548,11 +2557,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Upravljanje s povezavami operater <-> skupina',
         'Change Group Relations for Agent' => 'Spremeni povezave z skupinami za zaposlene',
         'Change Agent Relations for Group' => 'Spremeni povezave z zaposlenimi za skupino',
-        'note' => 'opomba',
-        'Permissions to add notes to tickets in this group/queue.' => 'Dovolenje za dodajanje opomb na zahtevke v tej skupini/vrsti.',
-        'owner' => 'Lastnik',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Dovolenje za spremembo lastnika zahtevka v tej skupini/vrsti.',
 
         # Template: AgentBook
         'Address Book' => 'Imenik',
@@ -2851,6 +2855,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3048,6 +3059,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Uredite osebne podatke',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3134,6 +3146,8 @@ sub Data {
             'Popup tega zaslona je že odprt. Ali ga želite zapreti in odpreti tega namesto njega?',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3147,6 +3161,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript ni dostopen.',
         'Database Settings' => 'Database nastavitve',
         'General Specifications and Mail Settings' => 'Splošne tehnične zahteve in nastavitve za e-pošto',
+        'Welcome to %s' => '',
         'Web site' => 'Web stran',
         'Mail check successful.' => 'Pregled E-pošte uspešen.',
         'Error in the mail settings. Please correct and try again.' => 'Napaka v poštnih nastavitvah. Prosimo, poskusite znova.',
@@ -3270,6 +3285,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS testna stran',
+        'Welcome %s %s' => '',
         'Counter' => 'Števec',
 
         # Template: Warning
@@ -4204,6 +4220,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4840,7 +4858,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Pošiljanje "S/MIME" certifikata',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Iskanje kupca',

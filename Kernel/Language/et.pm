@@ -44,12 +44,12 @@ sub Data {
         'Done' => 'Tehtud',
         'Cancel' => 'Katkesta',
         'Reset' => 'Reset',
-        'more than ... ago' => '',
+        'more than ... ago' => 'enam kui ... tagasi',
         'in more than ...' => '',
-        'within the last ...' => '',
-        'within the next ...' => '',
+        'within the last ...' => 'viimase ... jooksul',
+        'within the next ...' => 'järgmise ... jooksul',
         'Created within the last' => '',
-        'Created more than ... ago' => '',
+        'Created more than ... ago' => 'Loodud enam kui ... tagasi',
         'Today' => 'Täna',
         'Tomorrow' => 'Homme',
         'Next week' => 'Järgmine nädal',
@@ -127,7 +127,7 @@ sub Data {
         'Normal' => 'Tavaline',
         'Parent' => 'Ülem',
         'Child' => 'Alam',
-        'Hit' => 'Hit',
+        'Hit' => 'Tabamus',
         'Hits' => 'Hits',
         'Text' => 'Tekst',
         'Standard' => '',
@@ -406,6 +406,7 @@ sub Data {
         'Redo' => '',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -695,6 +696,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2257,6 +2261,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Õigus liigutada intsidente siia rühma/järjekorda.',
         'create' => 'tekita',
         'Permissions to create tickets in this group/queue.' => 'Õigus tekitada sellesse rühma/järjekorda intsidente.',
+        'note' => 'Märkus',
+        'Permissions to add notes to tickets in this group/queue.' => '',
+        'owner' => 'omanik',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            '',
         'priority' => 'prioriteet',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Õigus muuta selle grupi/järjekorra intsidentide prioriteete.',
@@ -2370,7 +2379,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Saatja',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2444,7 +2453,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NavBarName',
         'NavBar' => 'NavBar',
-        'LinkOption' => '',
+        'LinkOption' => 'Viide',
         'Block' => 'Block',
         'AccessKey' => 'AccessKey',
         'Add NavBar entry' => '',
@@ -2544,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => '',
         'Change Group Relations for Agent' => '',
         'Change Agent Relations for Group' => '',
-        'note' => '',
-        'Permissions to add notes to tickets in this group/queue.' => '',
-        'owner' => 'omanik',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            '',
 
         # Template: AgentBook
         'Address Book' => 'Aadressiraamat',
@@ -2847,6 +2851,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3044,12 +3055,13 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Muuda isiklikke eelistusi',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Tere tulemast!',
@@ -3065,7 +3077,7 @@ sub Data {
         'e. g. 10*5155 or 105658*' => '',
         'Customer ID' => '',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
-        'Carbon Copy' => '',
+        'Carbon Copy' => 'Koopia',
         'e. g. m*file or myfi*' => '',
         'Types' => 'Tüübid',
         'Time restrictions' => '',
@@ -3078,10 +3090,10 @@ sub Data {
         'Save as Template' => '',
         'Template Name' => '',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'Tulemuste formaat',
 
         # Template: CustomerTicketSearchResultShort
-        'of' => '',
+        'of' => 'ei',
         'Search Results for' => '',
         'Remove this Search Term.' => '',
 
@@ -3100,10 +3112,10 @@ sub Data {
         'Friday' => '',
         'Saturday' => '',
         'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
+        'Mo' => 't',
+        'Tu' => 'Mär',
+        'We' => 'Sisse',
+        'Th' => 'to',
         'Fr' => '',
         'Sa' => '',
         'Event Information' => '',
@@ -3130,6 +3142,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3143,13 +3157,14 @@ sub Data {
         'JavaScript not available' => '',
         'Database Settings' => '',
         'General Specifications and Mail Settings' => '',
+        'Welcome to %s' => '',
         'Web site' => '',
         'Mail check successful.' => '',
         'Error in the mail settings. Please correct and try again.' => '',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Tüüp',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3162,13 +3177,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Tüüp',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Kasutaja',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Parool',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -3266,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS testileht',
+        'Welcome %s %s' => '',
         'Counter' => 'Loendur',
 
         # Template: Warning
@@ -4200,6 +4216,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4836,7 +4854,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'S/MIME sertifikaadi üleslaadimine',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Otsi klienti',

@@ -1439,6 +1439,10 @@ msgid "Scheduler is not running."
 msgstr ""
 
 #. Template: AAABase
+msgid "All sessions have been killed, except for your own."
+msgstr ""
+
+#. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
 msgstr ""
 
@@ -2424,6 +2428,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -7447,10 +7459,6 @@ msgid "Manage Agent-Role Relations"
 msgstr ""
 
 #. Template: AdminRoleUser
-msgid "Add agent"
-msgstr ""
-
-#. Template: AdminRoleUser
 msgid "Filter for Agents"
 msgstr ""
 
@@ -8239,6 +8247,10 @@ msgid "A type with this name already exists!"
 msgstr ""
 
 #. Template: AdminUser
+msgid "Add agent"
+msgstr ""
+
+#. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
 msgstr ""
 
@@ -8903,10 +8915,6 @@ msgid "Previous Owner"
 msgstr ""
 
 #. Template: AgentTicketActionCommon
-msgid "New Responsible"
-msgstr ""
-
-#. Template: AgentTicketActionCommon
 msgid "Next state"
 msgstr ""
 
@@ -9092,6 +9100,26 @@ msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
 msgstr ""
 
 #. Template: AgentTicketForward
@@ -9682,6 +9710,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr ""
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -9927,6 +9959,10 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid "Please remove the following words from your search as they cannot be searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -9956,6 +9992,10 @@ msgstr ""
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
+msgstr ""
+
+#. Template: Installer
+msgid "Welcome to %s"
 msgstr ""
 
 #. Template: Installer
@@ -10296,6 +10336,10 @@ msgstr ""
 
 #. Template: Test
 msgid "OTRS Test Page"
+msgstr ""
+
+#. Template: Test
+msgid "Welcome %s %s"
 msgstr ""
 
 #. Template: Test
@@ -11008,10 +11052,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Customers <-> Groups"
-msgstr ""
-
-#. SysConfig
-msgid "Customizable stop words for fulltext index. These words will be removed from the search index."
 msgstr ""
 
 #. SysConfig
@@ -12483,6 +12523,10 @@ msgid "Disables the web installer (http://yourhost.example.com/otrs/installer.pl
 msgstr ""
 
 #. SysConfig
+msgid "Display a warning and prevent search when using stop words within fulltext search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -12915,10 +12959,6 @@ msgid "Forwarded to \"%s\"."
 msgstr ""
 
 #. SysConfig
-msgid "French stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
 msgid "Frontend language"
 msgstr ""
 
@@ -13012,10 +13052,6 @@ msgstr ""
 
 #. SysConfig
 msgid "GenericInterface module registration for the transport layer."
-msgstr ""
-
-#. SysConfig
-msgid "German stop words for fulltext index. These words will be removed from the search index."
 msgstr ""
 
 #. SysConfig
@@ -13312,10 +13348,6 @@ msgstr ""
 
 #. SysConfig
 msgid "It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in \"Key\" should match the domain, and the value in \"Content\" should be a valid theme on your system. Please see the example entries for the proper form of the regex."
-msgstr ""
-
-#. SysConfig
-msgid "Italian stop words for fulltext index. These words will be removed from the search index."
 msgstr ""
 
 #. SysConfig
@@ -15027,10 +15059,6 @@ msgid "Spam Assassin example setup. Moves marked mails to spam queue."
 msgstr ""
 
 #. SysConfig
-msgid "Spanish stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
 msgid "Specifies if an agent should receive email notification of his own actions."
 msgstr ""
 
@@ -15184,6 +15212,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Status view"
+msgstr ""
+
+#. SysConfig
+msgid "Stop words for fulltext index. These words will be removed."
 msgstr ""
 
 #. SysConfig

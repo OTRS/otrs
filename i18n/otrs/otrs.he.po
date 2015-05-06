@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/OTRS/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -4851,7 +4859,7 @@ msgstr "CMD"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr ""
+msgstr "מחק פניות"
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -6151,7 +6159,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
-msgstr ""
+msgstr "שדרג"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6291,7 +6299,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr ""
+msgstr "גרסה"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
@@ -7182,7 +7190,7 @@ msgstr "תור משנה של"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
-msgstr ""
+msgstr "0 = אין שחרור נעילה"
 
 #. Template: AdminQueue
 msgid "0 = no unlock"
@@ -8003,7 +8011,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr ""
+msgstr "SQL"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "שולח"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8233,7 +8241,7 @@ msgstr ""
 
 #. Template: AdminSession
 msgid "Detail View for SessionID"
-msgstr ""
+msgstr "פרטים"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -9550,6 +9558,26 @@ msgstr "קבל הכל"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "העבר פניה:  %s - %s"
@@ -10148,6 +10176,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "עריכת העדפות אישיות"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10396,6 +10428,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10428,6 +10466,10 @@ msgid "General Specifications and Mail Settings"
 msgstr ""
 
 #. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
 msgid "Web site"
 msgstr "אתר"
 
@@ -10445,7 +10487,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "סוג"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10775,6 +10817,10 @@ msgstr "הודפס על ידי"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "עמוד בדיקה OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13784,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

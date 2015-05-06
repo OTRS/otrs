@@ -3,14 +3,15 @@
 # andre1217 <andre.pache@otrs.com>, 2014
 # andre1217 <andre.pache@otrs.com>, 2014
 # Egareg JAOUEN <egareg.jaouen@elitt.com>, 2015
+# Matthieu HUTIN, 2015
 # osallou <olivier.sallou@irisa.fr>, 2014
 # osallou <olivier.sallou@irisa.fr>, 2014
-# Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014
+# Raphaël Doursenaud <rdoursenaud@gpcsolutions.fr>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -2318,7 +2319,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Customers With At Least One Ticket"
-msgstr ""
+msgstr "Clients avec au moins un ticket"
 
 #. Template: AAASupportDataCollector
 msgid "Queues"
@@ -2498,6 +2499,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -2887,7 +2896,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Répondre à une note"
 
 #. Template: AAATicket
 msgid "new"
@@ -3135,7 +3144,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Historique Client"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
@@ -3379,7 +3388,7 @@ msgstr "Notification de suivi de ticket"
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my subscribed queues."
-msgstr ""
+msgstr "M'envoyer une notification si un client envoi un suivi et que je suis le propriétaire du ticket ou que le ticket est déverrouillé et est dans une de mes files"
 
 #. Template: AAATicket
 msgid "Send ticket follow up notifications"
@@ -3600,11 +3609,11 @@ msgstr "Sam"
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "Gestion ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "Filtres pour ACLs"
 
 #. Template: AdminACL
 msgid "Filter"
@@ -3612,7 +3621,7 @@ msgstr "Filtre"
 
 #. Template: AdminACL
 msgid "ACL Name"
-msgstr ""
+msgstr "Nom ACL"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -3620,15 +3629,15 @@ msgstr "Actions"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "Créer une ACL"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "Déployer ACLs"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "Exporter ACLs"
 
 #. Template: AdminACL
 msgid "Configuration import"
@@ -3682,7 +3691,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "Nom ACL"
 
 #. Template: AdminACL
 msgid "Validity"
@@ -3698,7 +3707,7 @@ msgstr "Aucune donnée trouvée"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Modifier ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -3706,7 +3715,7 @@ msgstr "Aller à la vue d'ensemble"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "Effacer ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
@@ -3767,7 +3776,7 @@ msgstr "ou"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "Enregistrer et terminer"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
@@ -3785,7 +3794,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Add all"
-msgstr ""
+msgstr "Tout ajouter"
 
 #. Template: AdminACLEdit
 msgid "There was an error reading the ACL data."
@@ -5883,7 +5892,7 @@ msgstr "Administration Système"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Manuel Admin en ligne"
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -7303,7 +7312,7 @@ msgstr ""
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
-msgstr ""
+msgstr "Modèles"
 
 #. Template: AdminQueueTemplates
 msgid "Change Queue Relations for Template"
@@ -8021,7 +8030,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Ici vous pouvez entrez du SQL pour l'envoyer directement à la base de donnée"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8172,7 +8181,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "émetteur"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8577,37 +8586,37 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
-msgstr ""
+msgstr "Gérer les modèles"
 
 #. Template: AdminTemplate
 msgid "Add template"
-msgstr ""
+msgstr "Ajouter un modèle"
 
 #. Template: AdminTemplate
 msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
-msgstr ""
+msgstr "Un modèle est un texte par défaut qui aide vos opérateurs à écrire plus rapidement des tickets, réponses ou renvois."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr ""
+msgstr "N'oubliez pas d'ajouter les nouveaux modèles à une file"
 
 #. Template: AdminTemplate
 msgid "Add Template"
-msgstr ""
+msgstr "Ajouter un modèle"
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
+msgstr "Modifier un modèle"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Un modèle standard avec ce nom existe déjà"
 
 #. Template: AdminTemplate
 msgid "Template"
-msgstr ""
+msgstr "Modèle"
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
@@ -8615,7 +8624,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Example template"
-msgstr ""
+msgstr "Exemple de modèle"
 
 #. Template: AdminTemplate
 msgid "The current ticket state is"
@@ -8627,7 +8636,7 @@ msgstr "Votre e-mail est"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Templates <-> Attachments Relations"
-msgstr ""
+msgstr "Gérer la relation Modèles <-> Pièces jointes"
 
 #. Template: AdminTemplateAttachment
 msgid "Filter for Attachments"
@@ -8908,7 +8917,7 @@ msgstr "Tickets dans mes Files"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Tickets dans mes Services"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -9372,11 +9381,11 @@ msgstr "État suivant"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "Pour tous les états en attente*"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Ajout article"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
@@ -9388,11 +9397,11 @@ msgstr "Vérifier orthographe"
 
 #. Template: AgentTicketActionCommon
 msgid "Text Template"
-msgstr ""
+msgstr "Modèle de texte"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "Choisir un modèle va effacer tout le texte ou les pièces jointes"
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
@@ -9526,7 +9535,7 @@ msgstr "Créer un Nouveau Ticket par E-mail"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "Exemple de modèle"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
@@ -9555,6 +9564,26 @@ msgstr "Tout prendre"
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
 msgstr "Mail sortant"
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -10154,6 +10183,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Editer les préférences"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr "Déconnexion %s %s"
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10402,6 +10435,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "merci d'entrer au moins une valeur de recherche ou * pour trouver quoi que ce soit."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Veuillez vérifier la validité des données pour les champs marqués en rouge. "
 
@@ -10432,6 +10471,10 @@ msgstr "Réglages de Base de Données"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Spécifications Générales et Réglages de Messagerie"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10781,6 +10824,10 @@ msgstr "Imprimé par :"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Page de test d'OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -11436,7 +11483,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure and manage ACLs."
-msgstr ""
+msgstr "Configurer et gérer les ACLs"
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -11504,7 +11551,7 @@ msgstr "Créer et gérer les pièces jointes."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr ""
+msgstr "Créer et gérer les utilisateurs clients"
 
 #. SysConfig
 msgid "Create and manage customers."
@@ -11548,7 +11595,7 @@ msgstr "Créer et gérer les signatures."
 
 #. SysConfig
 msgid "Create and manage templates."
-msgstr ""
+msgstr "Créer et gérer les modèles"
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
@@ -11590,7 +11637,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer Administration"
-msgstr ""
+msgstr "Administration des Clients"
 
 #. SysConfig
 msgid "Customer User <-> Groups"
@@ -13793,6 +13840,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -14945,7 +14998,7 @@ msgstr "Lier les opérateurs aux rôles"
 
 #. SysConfig
 msgid "Link attachments to templates."
-msgstr ""
+msgstr "Lier les pièces jointes aux modèles"
 
 #. SysConfig
 msgid "Link customer user to groups."
@@ -14965,7 +15018,7 @@ msgstr "Lier les rôles aux groupes"
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr ""
+msgstr "Lier les modèles aux files"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
@@ -15103,7 +15156,7 @@ msgstr "Gérer les sessions existantes."
 
 #. SysConfig
 msgid "Manage notifications that are sent to agents."
-msgstr ""
+msgstr "Gérer les notifications envoyées aux opérateurs"
 
 #. SysConfig
 msgid "Manage system registration."
@@ -15278,15 +15331,15 @@ msgstr ""
 
 #. SysConfig
 msgid "My Queues and My Services"
-msgstr ""
+msgstr "Mes Files et Mes Services"
 
 #. SysConfig
 msgid "My Queues or My Services"
-msgstr ""
+msgstr "Mes Files ou Mes Services"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Mes Services"
 
 #. SysConfig
 msgid "My Tickets"
@@ -15396,11 +15449,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "Ouvrir les tickets (utilisateur client)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "Ouvrir les tickets (client)"
 
 #. SysConfig
 msgid "Out Of Office"
@@ -16007,7 +16060,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Send new ticket notifications if subscribed to"
-msgstr ""
+msgstr "Envoyer une notification de nouveau ticket si abonné à "
 
 #. SysConfig
 msgid "Send notifications to users."
@@ -16019,7 +16072,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Send ticket follow up notifications if subscribed to"
-msgstr ""
+msgstr "Envoyer une notification de suivi de ticket si abonné à "
 
 #. SysConfig
 msgid "Sender type for new tickets from the customer inteface."

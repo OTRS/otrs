@@ -406,6 +406,7 @@ sub Data {
         'Redo' => 'Tornar a fer',
         'Scheduler process is registered but might not be running.' => 'El planificador de processos s\'ha registrat però no pot estar en funcionament.',
         'Scheduler is not running.' => 'El planificador no està funcionant.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -695,6 +696,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2257,6 +2261,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permís per a moure tiquets a aquest grup/cua',
         'create' => 'crear',
         'Permissions to create tickets in this group/queue.' => 'Permís per a crear tiquets en aquest grup/cua',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permisos per afegir notes als tiquets d\'aquest grup/cua.',
+        'owner' => 'propietari',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permisos per canviar el propietari dels tiquets en aquest grup/cua.',
         'priority' => 'prioritat',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permís per a canviar la prioritat del tiquet en aquest grup/cua',
@@ -2323,7 +2332,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Aquí pot introduir SQL per enviar-ho directament a la base de dades d\'aplicació.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'La sintaxi de la consulta *SQL conté un error. Per favor revisi-la.',
@@ -2370,7 +2379,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Remitent',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2492,7 +2501,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2544,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestionar relacions Agent-Grup',
         'Change Group Relations for Agent' => 'Canviar les relacions de grup per a l\'agent',
         'Change Agent Relations for Group' => 'Canviar les relacions de agent per al grup',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permisos per afegir notes als tiquets d\'aquest grup/cua.',
-        'owner' => 'propietari',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permisos per canviar el propietari dels tiquets en aquest grup/cua.',
 
         # Template: AgentBook
         'Address Book' => 'Llibreta d\'Adreces',
@@ -2811,7 +2815,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Acció múltiple amb Tiquets',
-        'Send Email' => '',
+        'Send Email' => 'Enviar correu!',
         'Merge to' => 'Fusionar amb',
         'Invalid ticket identifier!' => 'Identificador de tiquet no vàlid!',
         'Merge to oldest' => 'Combinar amb el més antic',
@@ -2846,6 +2850,13 @@ sub Data {
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
+
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Reexpedir tiquet: %s - %s',
@@ -3044,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Editar les preferències personals',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3130,6 +3142,8 @@ sub Data {
             'Una finestra d\'aquesta pantalla ja està oberta. Vol tancar-la i carregar aquesta?',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3143,6 +3157,7 @@ sub Data {
         'JavaScript not available' => 'Javascript no està disponible',
         'Database Settings' => 'Configuració de la base de dades',
         'General Specifications and Mail Settings' => 'Especificacions generals i de correu',
+        'Welcome to %s' => '',
         'Web site' => 'Web',
         'Mail check successful.' => 'Comprovació de correu finalitzada amb èxit.',
         'Error in the mail settings. Please correct and try again.' => 'Error en la configuració de correu. Per favor, corregeixi i torni a intentar-ho.',
@@ -3266,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Pàgina de prova de OTRS ',
+        'Welcome %s %s' => '',
         'Counter' => 'Comptador',
 
         # Template: Warning
@@ -4200,6 +4216,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4836,7 +4854,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Recerques del client',

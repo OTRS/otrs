@@ -411,6 +411,7 @@ sub Data {
         'Redo' => 'از نو',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -700,6 +701,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2262,6 +2266,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'مجوز انتقال درخواست به این گروه/لیست.',
         'create' => 'ساختن',
         'Permissions to create tickets in this group/queue.' => 'مجوز ایجاد درخواست در این گروه/لیست.',
+        'note' => 'یادداشت',
+        'Permissions to add notes to tickets in this group/queue.' => 'دسترسی‌ها برای افزودن یادداشت به درخواست‌ها در این گروه/صف درخواست',
+        'owner' => 'صاحب',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'دسترسی‌ها برای تغییر صاحب درخواست‌ها در این گروه/صف درخواست',
         'priority' => 'الویت',
         'Permissions to change the ticket priority in this group/queue.' =>
             'مجوز تغییر اولویت درخواست در این گروه/لیست.',
@@ -2328,7 +2337,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'در اینجا می‌توانید کوئری SQL وارد نمایید تا آن را به صورت مستقیم به پایگاه داده برنامه بفرستید.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'گرامر نوشتاری کوئری SQL شما دارای اشتباه می‌باشد. لطفا آن را کنترل نمایید.',
@@ -2375,7 +2384,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'فرستنده',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2497,7 +2506,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2549,11 +2558,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'مدیریت روابط کارشناس-گروه',
         'Change Group Relations for Agent' => 'تغییر روابط گروه برای کارشناس',
         'Change Agent Relations for Group' => 'تغییر روابط کارشناس برای گروه',
-        'note' => 'یادداشت',
-        'Permissions to add notes to tickets in this group/queue.' => 'دسترسی‌ها برای افزودن یادداشت به درخواست‌ها در این گروه/صف درخواست',
-        'owner' => 'صاحب',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'دسترسی‌ها برای تغییر صاحب درخواست‌ها در این گروه/صف درخواست',
 
         # Template: AgentBook
         'Address Book' => 'دفترچه  آدرس و تماس‌ها',
@@ -2816,7 +2820,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'عملیات کلی روی درخواست',
-        'Send Email' => '',
+        'Send Email' => 'ارسال ایمیل!',
         'Merge to' => 'ادغام با',
         'Invalid ticket identifier!' => 'شناسه درخواست نامعتبر',
         'Merge to oldest' => 'ترکیب با قدیمی‌ترین',
@@ -2851,6 +2855,13 @@ sub Data {
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
+
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
@@ -2978,7 +2989,7 @@ sub Data {
         'Show all articles' => 'نمایش تمام مطالب',
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'مطالب خوانده نشده',
-        'No.' => '',
+        'No.' => 'خیر',
         'Important' => '',
         'Unread Article!' => 'مطلب خوانده نشده!',
         'Incoming message' => 'پیغام وارده',
@@ -3049,6 +3060,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'ویرایش تنظیمات شخصی',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3135,6 +3147,8 @@ sub Data {
             'popup ای از این صفحه هم اکنون باز است. آیا می‌خواهید این را بسته و آن را به جایش بارگذاری نمایید؟',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3148,6 +3162,7 @@ sub Data {
         'JavaScript not available' => 'جاوا اسکریپت در دسترس نیست',
         'Database Settings' => 'تنظیمات پایگاه داده',
         'General Specifications and Mail Settings' => 'مشخصات عمومی و تنظیمات ایمیل',
+        'Welcome to %s' => '',
         'Web site' => 'وب سایت',
         'Mail check successful.' => 'کنترل تنظیمات ایمیل موفقیت‌آمیز بود.',
         'Error in the mail settings. Please correct and try again.' => 'خطا در تنظیمات ایمیل. لطفا تصحیح نموده و مجددا تلاش نمایید.',
@@ -3271,6 +3286,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'صفحه آزمایش سیستم',
+        'Welcome %s %s' => '',
         'Counter' => 'شمارنده',
 
         # Template: Warning
@@ -4205,6 +4221,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4841,7 +4859,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'جستجوی مشترک',

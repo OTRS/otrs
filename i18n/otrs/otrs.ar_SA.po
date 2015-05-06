@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Arabic (Saudi Arabia) (http://www.transifex.com/projects/p/OTRS/language/ar_SA/)\n"
 "MIME-Version: 1.0\n"
@@ -1416,7 +1416,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Header"
-msgstr ""
+msgstr "النوع"
 
 #. Template: AAABase
 msgid "Indent"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -2625,7 +2633,7 @@ msgstr "أولوية"
 
 #. Template: AAATicket
 msgid "Priorities"
-msgstr ""
+msgstr "أولوية"
 
 #. Template: AAATicket
 msgid "Priority Update"
@@ -2673,7 +2681,7 @@ msgstr "الحالة"
 
 #. Template: AAATicket
 msgid "States"
-msgstr ""
+msgstr "الحالة"
 
 #. Template: AAATicket
 msgid "Status"
@@ -2681,7 +2689,7 @@ msgstr "الحالة"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr ""
+msgstr "الحالة"
 
 #. Template: AAATicket
 msgid "Ticket Type"
@@ -4001,7 +4009,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr ""
+msgstr "ملاحظة"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
@@ -4851,7 +4859,7 @@ msgstr ""
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr ""
+msgstr "حذف بطاقات"
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -6151,7 +6159,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
-msgstr ""
+msgstr "تطوير"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6291,7 +6299,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr ""
+msgstr "النسخة"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
@@ -6345,7 +6353,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Date"
-msgstr ""
+msgstr "بيانات"
 
 #. Template: AdminPackageManager
 msgid "List of Files"
@@ -7810,7 +7818,7 @@ msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "ملاحظة"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "المرسل"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8257,7 +8265,7 @@ msgstr ""
 
 #. Template: AdminState
 msgid "State Management"
-msgstr ""
+msgstr "الحالة"
 
 #. Template: AdminState
 msgid "Add state"
@@ -8413,7 +8421,7 @@ msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "رابط"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9448,7 +9456,7 @@ msgstr "التنفيذ الجماعي للبطاقة"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "إرسال البريد"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9548,6 +9556,26 @@ msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
 msgstr ""
 
 #. Template: AgentTicketForward
@@ -9676,7 +9704,7 @@ msgstr ""
 
 #. Template: AgentTicketPlain
 msgid "Plain"
-msgstr ""
+msgstr "عادي"
 
 #. Template: AgentTicketPlain
 msgid "Download this email"
@@ -9942,7 +9970,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "لا"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10012,7 +10040,7 @@ msgstr ""
 
 #. Template: CustomerError
 msgid "Traceback"
-msgstr ""
+msgstr "طباعة"
 
 #. Template: CustomerFooter
 msgid "Powered by"
@@ -10094,7 +10122,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
@@ -10146,6 +10174,10 @@ msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
+msgstr ""
+
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
 msgstr ""
 
 #. Template: CustomerRichTextEditor
@@ -10246,7 +10278,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr ""
+msgstr "نموذج النتيجة"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
@@ -10314,15 +10346,15 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr ""
+msgstr "مارس"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr ""
+msgstr "تفعيل"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr ""
+msgstr "إلى"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
@@ -10396,6 +10428,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10428,6 +10466,10 @@ msgid "General Specifications and Mail Settings"
 msgstr ""
 
 #. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
 msgid "Web site"
 msgstr ""
 
@@ -10445,7 +10487,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "النوع"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10497,7 +10539,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "النوع"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10513,7 +10555,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "مستخدم"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10521,7 +10563,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "كلمة المرور"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -10775,6 +10817,10 @@ msgstr "طبع بواسطة"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "صفحة التجربة ل OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13784,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

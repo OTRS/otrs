@@ -408,6 +408,7 @@ sub Data {
         'Redo' => '重做',
         'Scheduler process is registered but might not be running.' => '調度程序已註冊，但可能沒有運行。',
         'Scheduler is not running.' => '調度程序沒有運行。',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -697,6 +698,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -979,13 +983,13 @@ sub Data {
         'Ticket Information' => '工單信息',
 
         # Template: AAAWeekDay
-        'Sun' => '',
-        'Mon' => '',
-        'Tue' => '',
+        'Sun' => '日',
+        'Mon' => '一',
+        'Tue' => '三月',
         'Wed' => '',
-        'Thu' => '',
-        'Fri' => '',
-        'Sat' => '',
+        'Thu' => '收件人',
+        'Fri' => '五',
+        'Sat' => '六',
 
         # Template: AdminACL
         'ACL Management' => 'ACL管理',
@@ -1033,7 +1037,7 @@ sub Data {
         'Stop after match' => '匹配後停止',
         'Edit ACL structure' => '編輯ACL結構',
         'Save' => '保存',
-        'or' => '',
+        'or' => '在',
         'Save and finish' => '保存並完成',
         'Do you really want to delete this ACL?' => '您確定要刪除這個ACL嗎？',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
@@ -2259,6 +2263,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => '對於組/隊列中的工單具有 \'轉移隊列\' 的權限',
         'create' => '',
         'Permissions to create tickets in this group/queue.' => '對於組/隊列具有 \'創建工單\' 的權限',
+        'note' => '備註',
+        'Permissions to add notes to tickets in this group/queue.' => '對於組/隊列具有 \'添加備註\' 的權限',
+        'owner' => '',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            '對於組/隊列具有 \'所有者\' 的權限',
         'priority' => '',
         'Permissions to change the ticket priority in this group/queue.' =>
             '對於組/隊列中的工單具有 \'更改優先級\' 的權限',
@@ -2325,7 +2334,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            '這裡您可以輸入並運行數據庫SQL的命令。',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL查詢的語法有一個錯誤，請核對。',
@@ -2372,7 +2381,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => '發件人',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2494,7 +2503,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '模板管理',
@@ -2546,11 +2555,6 @@ sub Data {
         'Manage Agent-Group Relations' => '定義服務人員的組權限',
         'Change Group Relations for Agent' => '選擇此服務人員具備的組權限',
         'Change Agent Relations for Group' => '為此組選擇服務人員的權限',
-        'note' => '',
-        'Permissions to add notes to tickets in this group/queue.' => '對於組/隊列具有 \'添加備註\' 的權限',
-        'owner' => '',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            '對於組/隊列具有 \'所有者\' 的權限',
 
         # Template: AgentBook
         'Address Book' => '地址簿',
@@ -2849,6 +2853,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -3046,6 +3057,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => '編輯個人設置',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3132,6 +3144,8 @@ sub Data {
             '一個彈出窗口已經打開，是否繼續關閉？',
         'Please enter at least one search value or * to find anything.' =>
             '請至少輸入一個搜索條件或 *。',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3145,6 +3159,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript沒有啟用',
         'Database Settings' => '數據庫設置',
         'General Specifications and Mail Settings' => '一般設定和郵件配置',
+        'Welcome to %s' => '',
         'Web site' => '網址',
         'Mail check successful.' => '郵件配置檢查完成',
         'Error in the mail settings. Please correct and try again.' => '郵件設置錯誤, 請重新修正.',
@@ -3268,6 +3283,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS測試頁',
+        'Welcome %s %s' => '',
         'Counter' => '計數器',
 
         # Template: Warning
@@ -4202,6 +4218,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4838,7 +4856,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '上傳的S/MIME証書',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => '搜索用戶',

@@ -406,6 +406,7 @@ sub Data {
         'Redo' => 'Tekrar',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => 'Zamanlama çalışmıyor',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -695,6 +696,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1109,7 +1113,7 @@ sub Data {
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
-        'Notice' => '',
+        'Notice' => 'Not',
         'This feature is disabled!' => 'Bu özellik kapalı!',
         'Just use this feature if you want to define group permissions for customers.' =>
             '',
@@ -1253,7 +1257,7 @@ sub Data {
         'Send' => 'Gönder',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '',
+        'Generic Agent' => 'Genel Aracı',
         'Add job' => '',
         'Last run' => 'Son çalıştırma',
         'Run Now!' => 'Şimdi Çalıştır!',
@@ -2257,6 +2261,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Biletleri bu gruba/kuyruğa taşıma izni.',
         'create' => 'yarat',
         'Permissions to create tickets in this group/queue.' => 'Bu grupta/kuyrukta bilet oluşturma izni.',
+        'note' => 'not',
+        'Permissions to add notes to tickets in this group/queue.' => 'Bu grup/kuyruğa not eklemek için izinler.',
+        'owner' => 'sahip',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Bu grup/kuyrukta bilet sahibini değiştirmek için izinler. ',
         'priority' => 'öncelik',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Bu grupta/kuyrukta bilet önceliğini değiştirme izni.',
@@ -2319,7 +2328,7 @@ sub Data {
             '',
 
         # Template: AdminSelectBox
-        'SQL Box' => '',
+        'SQL Box' => 'SQL',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
@@ -2370,7 +2379,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Gönderen',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2492,7 +2501,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2544,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Aracı-Grup ilişkilerini yönet',
         'Change Group Relations for Agent' => 'Aracı için grup ilişkisini değiştir',
         'Change Agent Relations for Group' => 'Grup için aracı ilişkisini değiştir',
-        'note' => 'not',
-        'Permissions to add notes to tickets in this group/queue.' => 'Bu grup/kuyruğa not eklemek için izinler.',
-        'owner' => 'sahip',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Bu grup/kuyrukta bilet sahibini değiştirmek için izinler. ',
 
         # Template: AgentBook
         'Address Book' => 'Adres Defteri',
@@ -2847,6 +2851,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
 
@@ -2973,7 +2984,7 @@ sub Data {
         'Show all articles' => 'Tüm makaleleri göster',
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'Okunmamış makaleler',
-        'No.' => '',
+        'No.' => 'Hayır',
         'Important' => 'Önemli',
         'Unread Article!' => 'Okunmamış Makale!',
         'Incoming message' => 'Gelen Mesaj',
@@ -3002,7 +3013,7 @@ sub Data {
         'Traceback' => 'Geri iz',
 
         # Template: CustomerFooter
-        'Powered by' => '',
+        'Powered by' => 'Oturum aç',
 
         # Template: CustomerFooterJS
         'One or more errors occurred!' => '',
@@ -3044,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Kişisel tercihleri görüntüle',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3130,6 +3142,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3143,13 +3157,14 @@ sub Data {
         'JavaScript not available' => 'JavaScript kullanılamıyor',
         'Database Settings' => 'Veritabanı ayarları',
         'General Specifications and Mail Settings' => 'Genel Özellikler ve Posta Ayarları',
+        'Welcome to %s' => '',
         'Web site' => 'Web sitesi',
         'Mail check successful.' => 'E-posta kontrolü başarılı.',
         'Error in the mail settings. Please correct and try again.' => 'Posta ayarları hatalı. Lütfen düzeltip tekrar deneyin.',
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Tip',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3162,13 +3177,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Tip',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Kullanıcı',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Parola',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -3266,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Test Sayfası',
+        'Welcome %s %s' => '',
         'Counter' => 'Sayaç',
 
         # Template: Warning
@@ -4200,6 +4216,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4836,7 +4854,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Kullanıcı Ara',

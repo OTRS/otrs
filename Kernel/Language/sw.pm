@@ -410,6 +410,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Redo' => 'Rudia',
         'Scheduler process is registered but might not be running.' => 'Mchakato wa kipanga ratiba umesajiliwa lakini unaweza usifanye kazi. ',
         'Scheduler is not running.' => 'Kipanga ratiba hakifanyi kazi.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Huwezi kuwasiliana na seva ya usajili. Tafadhali jaribu tena baadae.',
         'No content received from registration server. Please try again later.' =>
             'Hakuna maudhui yaliyopokelewa kutoka kwenye seva ya usajili. Tafadhali jaribu tena baadae.',
@@ -699,6 +700,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Webserver Version' => 'Toleo la tovuti',
         'Could not determine webserver version.' => 'Haikuweza kutambua toleo la seva ya tovuti.',
         'Loaded Apache Modules' => 'Moduli za Apache zilizopakiwa',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Matumizi ya kichocheo cha CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Tumia FastCGI au mod_perl kuongeza uwezo wako.',
@@ -2261,6 +2265,11 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Permissions to move tickets into this group/queue.' => 'Ruhusa za kuhamisha tiketi katika kikundi/foleni.',
         'create' => 'Tengeneza',
         'Permissions to create tickets in this group/queue.' => 'Ruhusa ya kutengeneza tiketi katika kikundi/foleni.',
+        'note' => 'Kidokezo',
+        'Permissions to add notes to tickets in this group/queue.' => 'Ruhusa za kuongeza vidokezo kwenye tiketi katika kikundi/foleni.',
+        'owner' => 'Mmiliki',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Ruhusa za kubadili mmiliki wa tiketi katika kikundi hiki/foleni.',
         'priority' => 'Kipaumbele',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Ruhusa za kubadilisha kipaumbele cha tiketi katika kikundi/foleni.',
@@ -2496,7 +2505,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'All Sessions' => 'Vipindi vyote',
         'Agent Sessions' => 'Vipindi vya wakala',
         'Customer Sessions' => 'Vipindi vya mteja',
-        'Kill all Sessions, exept current' => 'Ua kvipindi vyote, isipokuwa vya sasa',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Simamia vielezo',
@@ -2548,11 +2557,6 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Manage Agent-Group Relations' => 'Simamia mahusiano ya Wakala-Kikundi',
         'Change Group Relations for Agent' => 'Badili mahusiano ya kikundi kwa wakala',
         'Change Agent Relations for Group' => 'Badili mahusiano ya wakala kwa kikundi',
-        'note' => 'Kidokezo',
-        'Permissions to add notes to tickets in this group/queue.' => 'Ruhusa za kuongeza vidokezo kwenye tiketi katika kikundi/foleni.',
-        'owner' => 'Mmiliki',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Ruhusa za kubadili mmiliki wa tiketi katika kikundi hiki/foleni.',
 
         # Template: AgentBook
         'Address Book' => 'Kitabu cha anuani',
@@ -2851,6 +2855,13 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => 'Barua pepe zilizofungwa nje.',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Tuma mbele: %s - %s',
 
@@ -3048,6 +3059,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Incoming Chat Requests' => 'Maombi ya mazungumzo yanayoingia',
         'You have unanswered chat requests' => 'Unamaombi ya mazungumzo ambayo hayajajibiwa',
         'Edit personal preferences' => 'Hariri mapendeleo binafsi',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Gawanya nukuu',
@@ -3134,6 +3146,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Kiibukizi katika skrini hii tayari imefunguliwa. Je unataka kufunga na kupakia hii hapa badala yake?',
         'Please enter at least one search value or * to find anything.' =>
             'Tafadhali ingiza japo moja ya thamani ilitafutwa au * kutafuta yoyote.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Tafadhali angalia uga zote ziliizowekwa alama nyekundu kwa ajili ya maingizo batili.',
         'Please perform a spell check on the the text first.' => 'Tafadhali fanya uangalizi maneno katika makala kwanza.',
         'Slide the navigation bar' => 'Telezesha mwambaa wa uabiri',
@@ -3147,6 +3161,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'JavaScript not available' => 'JavaScript haipatikani',
         'Database Settings' => 'Mipangilio ya hifadhi data',
         'General Specifications and Mail Settings' => 'Ubainishi wa jumla na mipangilio ya barua pepe',
+        'Welcome to %s' => '',
         'Web site' => 'Tovuti',
         'Mail check successful.' => 'Barua pepe imeangaliwa kwa mafanikio',
         'Error in the mail settings. Please correct and try again.' => 'Kosa katika mipangilio ya barua pepe. Tafadhali rekebisha na jaribu tena.',
@@ -3270,6 +3285,7 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
 
         # Template: Test
         'OTRS Test Page' => 'Ukurasa wa majaribio wa OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Kiesabuji',
 
         # Template: Warning
@@ -4207,6 +4223,8 @@ Mfano:
             'Inalemaza utumaji wa taarifa za kikumbushaji kwa wakala anayehusika wa tiketi (Tiketi:: Uhusika unahitaji kuamilishwa).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Inalemaza kisanishi cha wavuti (http://yourhost.example.com/otrs/installer.pl), kuzuia mfumo kuvamiwa. Kama imewekwa kuwa "hapana", mfumo unaweza kusanidiwa upya na usanidi wa sasa wa msingi utatumika kujaza maswali katika hati ya usakinishi. Kama haijaamilishwa, pia inalemaza Wakala wa Jumla, Kisimamizi cha Kifurushi na kikasha cha SQL.',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => 'Inaonyesha mipangilio ya inayobadilisha michaguo msingi kw aajili ya mchakato wa tiketi.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Inaonyesha muda ulihesabiwa kwa ajili ya makala ya mandhari ya ukuzaji wa tiketi.',
@@ -4691,7 +4709,7 @@ Mfano:
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Namba ta tiketi zitakazoonyeshwa katika kila ukurasa wa matokeo ya utafutaji katika kiolesura cha mteja.',
         'Old: "%s" New: "%s"' => 'Ya zamani: "%s" Mpya: "%s"',
-        'Online' => '',
+        'Online' => 'Mtandaoni',
         'Open tickets (customer user)' => 'Fungua tiketi (Mtumiaji wa mteja)',
         'Open tickets (customer)' => 'Fungua tiketi (Mteja)',
         'Out Of Office' => 'Nje ya ofisi',
@@ -4832,7 +4850,7 @@ Mfano:
             'Inarudisha tiketi kwenye hifadhi (kama tukio tu ni hali ya kubadilika, kutoka kufungwa kwenda hali yoyote iliyopo iliyo wazi).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Inaacha huduma zote katika orodha hata kama ni vipengele vidogo vya vipengele batili. ',
-        'Right' => '',
+        'Right' => 'Haki',
         'Roles <-> Groups' => 'Majukumu <-> Makundi',
         'Running Process Tickets' => 'Endeshaji wa tiketi za mchakato.',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -4844,8 +4862,8 @@ Mfano:
  ',
         'S/MIME Certificate Upload' => 'Upakizi wa cheti cha S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'HIfadhi viambatanishi vya makala. "DB" inahifadhi data zote kwenye hifadhi data (haishauriwi kuhifadhi viambatanishi vikubwa). "FS" inahifadhi data katiak mfumo wa faili; hii ipo haraka lakiniseva ya wavuti ifanye kazi chini ya mtumiaji wa OTRS. Unaweza kubadilisha kati ya moduli hata katika mfumo ambao tayari upo katika uzalishaji bila ya upotevu wa data.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => 'Panga ratiba ya muda wa matengenezo.',
         'Search Customer' => 'Tafuta mteja',
         'Search User' => 'Tafuta mtumiaji',

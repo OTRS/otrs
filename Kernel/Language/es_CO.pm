@@ -406,6 +406,7 @@ sub Data {
         'Redo' => 'Rehacer',
         'Scheduler process is registered but might not be running.' => 'El proceso del planificador se encuentra registrado, pero podría no estar corriendo.',
         'Scheduler is not running.' => 'El planificador no esta corriendo.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -695,6 +696,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2293,7 +2297,7 @@ sub Data {
         'See also' => 'Vea también',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de archivos.',
-        'Hash' => '',
+        'Hash' => 'De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de archivos.',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'Eliminar este certificado',
@@ -2328,7 +2332,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Aqu√≠ puede introducir SQL para ejecutarse directamente en la base de datos de la aplicaci√≥n.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'La sintaxis de su consulta SQL tiene un error. Por favor, verifíquela.',
@@ -2375,7 +2379,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Emisor',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2497,7 +2501,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2549,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestionar Relaciones Agente-Grupo',
         'Change Group Relations for Agent' => 'Modificar Relaciones de Grupo para los Agentes',
         'Change Agent Relations for Group' => 'Modificar Relaciones de Agente para los Grupos',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para a√±adir notas a los tickets de este/a grupo/fila',
-        'owner' => 'propietario',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permisos para modificar el propietario de los tickets en este/a grupo/fila.',
 
         # Template: AgentBook
         'Address Book' => 'Libreta de Direcciones',
@@ -2816,7 +2815,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Acción múltiple con Tickets',
-        'Send Email' => '',
+        'Send Email' => 'Enviar correo',
         'Merge to' => 'Fusionar con',
         'Invalid ticket identifier!' => '¡Identificador de ticket inválido!',
         'Merge to oldest' => 'Combinar con el mas viejo',
@@ -2851,6 +2850,13 @@ sub Data {
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
+
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
@@ -3049,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Modificar preferencias presonales',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3135,6 +3142,8 @@ sub Data {
             'Ya hay una pop-up abierta de esta pantalla. ¿Desea cerrarla y cargar esta en su lugar?',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3148,6 +3157,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript no disponible',
         'Database Settings' => 'Configuraciones de la Base de Datos',
         'General Specifications and Mail Settings' => 'Especificaciones Generales y Configuraciones de Correo',
+        'Welcome to %s' => '',
         'Web site' => 'Sitio web',
         'Mail check successful.' => 'Verificación satisfactoria de correo',
         'Error in the mail settings. Please correct and try again.' => 'Error en las configuraciones de lcorreo. Por favor, corríjalas y vuelva a intentarlo.',
@@ -3271,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Página de Prueba de OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Contador',
 
         # Template: Warning
@@ -4205,6 +4216,8 @@ sub Data {
             'Deshabilita el envío de notificaciones de recordatorio al agente responsable de un ticket (Ticket::Responsible tiene que estar activo).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Despliega la contabilidad de tiempo para un artículo, en la vista detallada del ticket.',
@@ -4841,8 +4854,8 @@ sub Data {
             'Ejecuta el sistema en modo "Demo". Si se selecciona "Sí", los agentes pueden modificar preferencias, como elegir el idioma y el tema, a través de la interfaz del agente. Estos cambios sólo serán válidos en la sesión actual. No se les permitirá a los agentes que cambien su contraseña.',
         'S/MIME Certificate Upload' => 'Cargar Certificado S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'Guarda los archivos adjuntos de los art√≠culos. "DB" almacena todos en la base de datos (no se recomienda para guardar archivos adjuntos grandes), mientras que "FS" usa el sistema de archivos, lo cual es m√°s r√°pido, pero el servidor web tiene que ser ejecutado con el usuario OTRS. Es posible cambiar entre los m√≥dulos sin perder informaci√≥n, inclusive en un sistema en producci√≥n.',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Búsqueda de cliente',
         'Search User' => '',

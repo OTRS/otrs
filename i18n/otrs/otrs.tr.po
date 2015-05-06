@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/OTRS/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -4001,7 +4009,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr ""
+msgstr "Not"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
@@ -4461,7 +4469,7 @@ msgstr "Gönder"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr ""
+msgstr "Genel Aracı"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -8003,7 +8011,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr ""
+msgstr "SQL"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Gönderen"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -9550,6 +9558,26 @@ msgstr "Hepsini getir"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr ""
@@ -9942,7 +9970,7 @@ msgstr "Okunmamış makaleler"
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "Hayır"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10016,7 +10044,7 @@ msgstr "Geri iz"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr ""
+msgstr "Oturum aç"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
@@ -10147,6 +10175,10 @@ msgstr ""
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
 msgstr "Kişisel tercihleri görüntüle"
+
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -10396,6 +10428,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10428,6 +10466,10 @@ msgid "General Specifications and Mail Settings"
 msgstr "Genel Özellikler ve Posta Ayarları"
 
 #. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
 msgid "Web site"
 msgstr "Web sitesi"
 
@@ -10445,7 +10487,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Tip"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10497,7 +10539,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Tip"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10513,7 +10555,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Kullanıcı"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10521,7 +10563,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Parola"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -10775,6 +10817,10 @@ msgstr "yazdıran"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS Test Sayfası"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13784,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

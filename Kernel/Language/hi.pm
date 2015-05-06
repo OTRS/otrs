@@ -408,6 +408,7 @@ sub Data {
         'Redo' => 'फिर से करना',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -697,6 +698,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2259,6 +2263,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'इस समूह/श्रेणी में टिकट स्थानांतरित करने के लिए अनुमतियाँ।',
         'create' => 'बनाने के लिए',
         'Permissions to create tickets in this group/queue.' => 'इस समूह/श्रेणी में टिकट बनाने के लिए करने के लिए अनुमतियाँ।',
+        'note' => 'टिप्पणी',
+        'Permissions to add notes to tickets in this group/queue.' => 'इस समूह/श्रेणी मॆ टिकटों को टिप्पणी जोड़ने के लिए अनुमतियाँ।',
+        'owner' => 'स्वामी',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'इस समूह/श्रेणी मॆ टिकटों के स्वामी बदलने के लिए अनुमतियाँ।',
         'priority' => 'प्राथमिकता',
         'Permissions to change the ticket priority in this group/queue.' =>
             'इस समूह/श्रेणी में टिकट की प्राथमिकता बदलने के लिए अनुमतियाँ।',
@@ -2290,7 +2299,7 @@ sub Data {
         'See also' => 'यह भी देखें',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'इस तरह आप सीधे प्रमाणीकरण और फाइल प्रणाली में निजी कुंजी संपादित कर सकते हैं।',
-        'Hash' => '',
+        'Hash' => 'इस तरह आप सीधे प्रमाणीकरण और फाइल प्रणाली में निजी कुंजी संपादित कर सकते हैं।',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'इस प्रमाणपत्र को हटाएँ',
@@ -2325,7 +2334,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'SQL को सीधे अनुप्रयोग डेटाबेस को भेजने के लिए यहाँ दर्ज कर सकते हैं।',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'आपकी SQL क्वेरी के वाक्यविन्यास मॆ गलती हैं। उसकी जाँच करें।',
@@ -2372,7 +2381,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'प्रेषक',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2494,7 +2503,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2546,11 +2555,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'प्रतिनिधि-समूह संबंधों का प्रबंधन करें',
         'Change Group Relations for Agent' => 'प्रतिनिधि के लिए समूह संबंधों को बदलॆ',
         'Change Agent Relations for Group' => 'समूह के लिए प्रतिनिधि संबंधों को बदलॆ',
-        'note' => 'टिप्पणी',
-        'Permissions to add notes to tickets in this group/queue.' => 'इस समूह/श्रेणी मॆ टिकटों को टिप्पणी जोड़ने के लिए अनुमतियाँ।',
-        'owner' => 'स्वामी',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'इस समूह/श्रेणी मॆ टिकटों के स्वामी बदलने के लिए अनुमतियाँ।',
 
         # Template: AgentBook
         'Address Book' => 'पता पुस्तिका',
@@ -2813,7 +2817,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'टिकट थोक कार्रवाई',
-        'Send Email' => '',
+        'Send Email' => 'मेल भेजें',
         'Merge to' => 'मे मिलाएं',
         'Invalid ticket identifier!' => 'अवैध टिकट पहचानकर्ता',
         'Merge to oldest' => 'पुराने मे मिलाएं',
@@ -2848,6 +2852,13 @@ sub Data {
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
+
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
@@ -3046,6 +3057,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'व्यक्तिगत वरीयताएँ संपादित करें',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3132,6 +3144,8 @@ sub Data {
             'इस स्क्रीन का एक पॉपअप पहले से ही खुला है। क्या आप उसे बंद करके उसकी बजाय इसे लोड करना चाहते हैं?',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3145,6 +3159,7 @@ sub Data {
         'JavaScript not available' => 'जावास्क्रिप्ट उपलब्ध नहीं है।',
         'Database Settings' => 'आंकड़ाकोष व्यवस्थाऐं',
         'General Specifications and Mail Settings' => 'सामान्य निर्दिष्टीकरण और मेल व्यवस्थाऐं',
+        'Welcome to %s' => '',
         'Web site' => 'वेबसाइट',
         'Mail check successful.' => 'मेल की जाँच सफल रही।',
         'Error in the mail settings. Please correct and try again.' => 'मेल व्यवस्थाऐं करने में त्रुटि हैं। सही करें तथा पुनः प्रयास करें।',
@@ -3268,6 +3283,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS परीक्षण पृष्ठ',
+        'Welcome %s %s' => '',
         'Counter' => 'पटल',
 
         # Template: Warning
@@ -4202,6 +4218,8 @@ sub Data {
             'एक टिकट के जिम्मेदार प्रतिनिधि को अनुस्मारक सूचनाएं भेजना निष्क्रिय करता है (टिकट:जिम्मेदार सक्रिय करने की जरूरत है)।',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'टिकट ज़ूम दृश्य में एक अनुच्छेद के समय का हिसाब प्रदर्शित करता है।',
@@ -4838,8 +4856,8 @@ sub Data {
             '"प्रदर्शन" मोड में प्रणाली चलाता है। यदि "हाँ" पर निर्धारित है,प्रतिनिधि वरीयताओं को बदल सकते हैं,इस तरह की भाषा के चयन के रूप में और थीम प्रतिनिधि वेब अंतरफलक के द्वारा। ये परिवर्तन केवल वर्तमान सत्र के लिए मान्य हैं। प्रतिनिधियो को अपना कूटशब्द बदलना संभव नहीं होगा।',
         'S/MIME Certificate Upload' => 'S/MIME प्रमाण पत्र अपलोड करें।',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
-            'अनुच्छेदो के संलग्नक सुरक्षित करता है। "DB" आंकड़ाकोष में सभी आंकड़ों को संग्रहीत करता है(बड़े संलग्नक संग्रहीत करने के लिए अनुशंसित नहीं)। "FS" फाइल प्रणाली पर संग्रहीत करता है;यह तेज है, लेकिन वेबसर्वर OTRS उपयोगकर्ता के अधीन चलाना चाहिए। आप मॉड्यूल बदल सकते यहां तक कि कोई प्रणाली पहले से ही उत्पादन में है बिना आंकड़ो को हानि पहुँचायें।',
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
+            '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'ग्राहक खोजें',
         'Search User' => '',

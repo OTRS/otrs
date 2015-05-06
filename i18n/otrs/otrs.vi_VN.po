@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Vietnamese (Viet Nam) (http://www.transifex.com/projects/p/OTRS/language/vi_VN/)\n"
 "MIME-Version: 1.0\n"
@@ -246,7 +246,7 @@ msgstr "File mô đun"
 
 #. Template: AAABase
 msgid "Subfunction"
-msgstr "Chức năng dưới"
+msgstr "Chức năng con"
 
 #. Template: AAABase
 msgid "Line"
@@ -282,7 +282,7 @@ msgstr "không hợp lệ"
 
 #. Template: AAABase
 msgid "Invalid"
-msgstr ""
+msgstr "Không hợp lệ"
 
 #. Template: AAABase
 msgid "* invalid"
@@ -442,7 +442,7 @@ msgstr "Mật khẩu"
 
 #. Template: AAABase
 msgid "Preferences"
-msgstr "Những sở thích"
+msgstr "Tuỳ chọn"
 
 #. Template: AAABase
 msgid "Salutation"
@@ -2498,6 +2498,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -2676,7 +2684,7 @@ msgstr "Trạng thái"
 
 #. Template: AAATicket
 msgid "States"
-msgstr ""
+msgstr "Trạng thái"
 
 #. Template: AAATicket
 msgid "Status"
@@ -2684,7 +2692,7 @@ msgstr "Trạng thái"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr ""
+msgstr "Trạng thái"
 
 #. Template: AAATicket
 msgid "Ticket Type"
@@ -4464,7 +4472,7 @@ msgstr "Gửi"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr ""
+msgstr "Nhân viên phụ trách chung"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -7813,7 +7821,7 @@ msgstr "Các quyền để tạo thẻ trong nhóm/hàng đợi này."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "Lưu ý"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8006,7 +8014,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr ""
+msgstr "SQL"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -8169,7 +8177,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Người gửi"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8416,7 +8424,7 @@ msgstr "Thanh điều hướng"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Liên kết"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9451,7 +9459,7 @@ msgstr "Lệnh lô trên thẻ"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Gửi mail!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9551,6 +9559,26 @@ msgstr ""
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
 msgstr ""
 
 #. Template: AgentTicketForward
@@ -9945,7 +9973,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "Không"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10097,7 +10125,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr ""
+msgstr "Đăng nhập"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
@@ -10151,13 +10179,17 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr ""
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr ""
+msgstr "SLA"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
@@ -10197,7 +10229,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
-msgstr ""
+msgstr "Cc"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
@@ -10249,7 +10281,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr ""
+msgstr "Kết quả từ"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
@@ -10313,19 +10345,19 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Mo"
-msgstr ""
+msgstr "giờ"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr ""
+msgstr "Tháng 3"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr ""
+msgstr "mở"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr ""
+msgstr "đến"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
@@ -10399,6 +10431,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10431,6 +10469,10 @@ msgid "General Specifications and Mail Settings"
 msgstr ""
 
 #. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
 msgid "Web site"
 msgstr ""
 
@@ -10448,7 +10490,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Loại"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10500,7 +10542,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Loại"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10516,7 +10558,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Người dùng"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10524,7 +10566,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Mật khẩu"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -10778,6 +10820,10 @@ msgstr "được in bởi"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Trang test OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13787,6 +13833,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

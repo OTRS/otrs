@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Estonian (http://www.transifex.com/projects/p/OTRS/language/et/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Reset"
 
 #. Template: AAABase
 msgid "more than ... ago"
-msgstr ""
+msgstr "enam kui ... tagasi"
 
 #. Template: AAABase
 msgid "in more than ..."
@@ -77,11 +77,11 @@ msgstr ""
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr ""
+msgstr "viimase ... jooksul"
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr ""
+msgstr "järgmise ... jooksul"
 
 #. Template: AAABase
 msgid "Created within the last"
@@ -89,7 +89,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Created more than ... ago"
-msgstr ""
+msgstr "Loodud enam kui ... tagasi"
 
 #. Template: AAABase
 msgid "Today"
@@ -401,7 +401,7 @@ msgstr "Alam"
 
 #. Template: AAABase
 msgid "Hit"
-msgstr "Hit"
+msgstr "Tabamus"
 
 #. Template: AAABase
 msgid "Hits"
@@ -2494,6 +2494,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -7812,7 +7820,7 @@ msgstr "Õigus tekitada sellesse rühma/järjekorda intsidente."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "Märkus"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8168,7 +8176,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Saatja"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8415,7 +8423,7 @@ msgstr "NavBar"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Viide"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9552,6 +9560,26 @@ msgstr ""
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr ""
@@ -10150,13 +10178,17 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Muuda isiklikke eelistusi"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr ""
+msgstr "SLA"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
@@ -10196,7 +10228,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
-msgstr ""
+msgstr "Koopia"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
@@ -10248,11 +10280,11 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr ""
+msgstr "Tulemuste formaat"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr ""
+msgstr "ei"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
@@ -10312,19 +10344,19 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Mo"
-msgstr ""
+msgstr "t"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr ""
+msgstr "Mär"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr ""
+msgstr "Sisse"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr ""
+msgstr "to"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
@@ -10398,6 +10430,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10430,6 +10468,10 @@ msgid "General Specifications and Mail Settings"
 msgstr ""
 
 #. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
+
+#. Template: Installer
 msgid "Web site"
 msgstr ""
 
@@ -10447,7 +10489,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Tüüp"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10499,7 +10541,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Tüüp"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10515,7 +10557,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Kasutaja"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10523,7 +10565,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Parool"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -10777,6 +10819,10 @@ msgstr "trükkija"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS testileht"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13786,6 +13832,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

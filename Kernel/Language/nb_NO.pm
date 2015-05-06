@@ -415,6 +415,7 @@ sub Data {
         'Redo' => 'Omgjør',
         'Scheduler process is registered but might not be running.' => 'Oppgaveplanlegger prosessen er registrert men kjører kanskje ikke.',
         'Scheduler is not running.' => 'Oppgaveplanleggeren kjører ikke.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Kan ikke kontakte registreringsserver. Prøv igjen senere.',
         'No content received from registration server. Please try again later.' =>
             'Fikk ikke noe innhold fra registreringsserver. Prøv igjen senere.',
@@ -704,6 +705,9 @@ sub Data {
         'Webserver Version' => 'Webtjener versjon',
         'Could not determine webserver version.' => 'Kunne ikke bestemme webtjenerversjon.',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'CGI Accelerator status',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Du bør benytte FastCGI eller mod_perl for å forbedre ytelsen.',
@@ -1767,7 +1771,7 @@ sub Data {
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
+        'Chat' => 'Chat',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2132,7 +2136,7 @@ sub Data {
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
-        'OTRS-ID Login' => '',
+        'OTRS-ID Login' => 'OTRS-ID',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
         'Read more' => 'Les mer',
@@ -2266,6 +2270,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Rettighet til å flytte saker i denne gruppen/køen.',
         'create' => 'opprett',
         'Permissions to create tickets in this group/queue.' => 'Rettighet til å opprette saker i denne gruppen/køen.',
+        'note' => 'notis',
+        'Permissions to add notes to tickets in this group/queue.' => 'Rettigheter for å svare på saker i denne gruppen/køen',
+        'owner' => 'Eier',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Rettigheter til å endre eier av saker i denne gruppen/køen',
         'priority' => 'prioritet',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Rettighet til å endre prioritet i denne gruppen/køen.',
@@ -2332,7 +2341,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Her kan du skrive SQL for å sende kommandoer rett til OTRS sin database',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL-spørringen har en syntaks-feil. Vennligst sjekk den.',
@@ -2501,7 +2510,7 @@ sub Data {
         'All Sessions' => 'Alle sesjoner',
         'Agent Sessions' => 'Saksbehandler-sesjoner',
         'Customer Sessions' => 'Kunde-sesjoner',
-        'Kill all Sessions, exept current' => 'Terminer alle sesjoner, untatt gjeldende',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Mal-administrasjon',
@@ -2553,11 +2562,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Koplinger mellom Saksbehandler og Gruppe',
         'Change Group Relations for Agent' => 'Endre gruppekoplinger for saksbehandler',
         'Change Agent Relations for Group' => 'Endre saksbehandlerkoplinger for gruppe',
-        'note' => 'notis',
-        'Permissions to add notes to tickets in this group/queue.' => 'Rettigheter for å svare på saker i denne gruppen/køen',
-        'owner' => 'Eier',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Rettigheter til å endre eier av saker i denne gruppen/køen',
 
         # Template: AgentBook
         'Address Book' => 'Adressebok',
@@ -2856,6 +2860,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Videresend sak: %s - %s',
 
@@ -3053,6 +3064,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Endre personlige innstillinger',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3139,6 +3151,8 @@ sub Data {
             'En sprettoppvindu med denne skjermen er allerede åpen. Vil du stenge vinduet og laste det inn her i stedet?',
         'Please enter at least one search value or * to find anything.' =>
             'Vennligst oppgi minst en søkeverdi eller * for å finne noe.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3152,6 +3166,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript er ikke tilgjengelig',
         'Database Settings' => 'Databaseinnstillinger',
         'General Specifications and Mail Settings' => 'Generelle spesifikasjoner og e-post-innstillinger',
+        'Welcome to %s' => '',
         'Web site' => 'Websted',
         'Mail check successful.' => 'E-postsjekk fullført',
         'Error in the mail settings. Please correct and try again.' => 'Feil i e-postoppsettet. Korriger og prøv igjen.',
@@ -3275,6 +3290,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Test-side',
+        'Welcome %s %s' => '',
         'Counter' => 'Teller',
 
         # Template: Warning
@@ -4209,6 +4225,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4845,7 +4863,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Opplasting av S/MIME-sertifikat',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Kunde-søk',

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
@@ -2502,6 +2502,14 @@ msgstr "Nem sikerült meghatározni a webkiszolgáló verzióját."
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Betöltött Apache modulok"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -9559,6 +9567,26 @@ msgstr "Összes lekérése"
 msgid "E-Mail Outbound"
 msgstr "Kimenő e-mail"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Jegy továbbítása: %s - %s"
@@ -10157,6 +10185,10 @@ msgstr "Megválaszolatlan csevegés kérései vannak"
 msgid "Edit personal preferences"
 msgstr "Személyes beállítások szerkesztése"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr "Idézet felosztása"
@@ -10405,6 +10437,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Adjon meg legalább egy keresési értéket, vagy * karaktert, ha bármire rá szeretne keresni."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Ellenőrizze a pirosan megjelölt mezőket a helyes bevitelekért."
 
@@ -10435,6 +10473,10 @@ msgstr "Adatbázis-beállítások"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Általános specifikációk és levelezési beállítások"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10784,6 +10826,10 @@ msgstr "nyomtatta"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS tesztoldal"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13794,6 +13840,12 @@ msgid ""
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
 msgstr "Letiltja a webes telepítőt (http://yourhost.example.com/otrs/installer.pl), hogy megakadályozza a rendszer feltörését. Ha „Nem” értékre állítja, a rendszer újratelepíthető, és a jelenlegi alap konfiguráció lesz felhasználva a telepítő parancsfájlon belüli kérdések előre kitöltéséhez. Ha nem aktív, akkor letiltja az általános ügyintézőt, a csomagkezelőt és az SQL dobozt is."
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."

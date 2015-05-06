@@ -215,9 +215,9 @@ sub Data {
         'Large' => 'Grande',
         'Date picker' => 'Selector de fecha',
         'Show Tree Selection' => 'Mostrar selección en árbol',
-        'The field content is too long!' => '',
-        'Maximum size is %s characters.' => '',
-        'This field is required or' => '',
+        'The field content is too long!' => 'El contenido del campo es demasiado largo',
+        'Maximum size is %s characters.' => 'La cantidad máxima de caracteres es %s',
+        'This field is required or' => 'Este campo es obligatorio o',
         'New message' => 'Mensaje nuevo',
         'New message!' => '¡Mensaje nuevo!',
         'Please answer this ticket(s) to get back to the normal queue view!' =>
@@ -239,7 +239,7 @@ sub Data {
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             'Autenticación exitosa, pero no se encontró ningún registro del cliente en el backend cliente. Por favor, contactar con su administrador',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            '',
+            'La cuenta de correo ya existe. Por favor inicie sesión o restablezca su contraseña\'',
         'Logout' => 'Cerrar la sesión',
         'Logout successful. Thank you for using %s!' => 'Sesión cerrada con éxito. ¡Gracias por utilizar %s!',
         'Feature not active!' => '¡Característica no activa!',
@@ -262,7 +262,7 @@ sub Data {
         'Database already contains data - it should be empty!' => 'La base de datos ya contiene datos. Debería estar vacía.',
         'Login is needed!' => '¡Se requiere inicio de sesión!',
         'It is currently not possible to login due to a scheduled system maintenance.' =>
-            '',
+            'No es posible iniciar sesión debido a un mantenimiento del sistema programado',
         'Password is needed!' => '¡Se requiere una contraseña!',
         'Take this Customer' => 'Utilizar este cliente',
         'Take this User' => 'Utilizar este usuario',
@@ -418,20 +418,20 @@ sub Data {
         'Problems processing server result. Please try again later.' => 'Problemas al procesar el resultado del servidor. Por favor, inténtelo de nuevo más tarde.',
         'Username and password do not match. Please try again.' => 'El usuario y la contraseña no coinciden. Por favor, inténtelo de nuevo.',
         'The selected process is invalid!' => '¡El proceso seleccionado no es válido!',
-        'Upgrade to %s now!' => '',
-        '%s Go to the upgrade center %s' => '',
+        'Upgrade to %s now!' => 'Actualizar a %s ahora!',
+        '%s Go to the upgrade center %s' => '%s Vaya al centro de actualizaciones %s',
         'The license for your %s is about to expire. Please make contact with %s to renew your contract!' =>
-            '',
+            'La licencia de su %s esta por expirar. Por favor contactese con %s para renovar su contrato!',
         'An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!' =>
-            '',
-        'Your system was successfully upgraded to %s.' => '',
-        'There was a problem during the upgrade to %s.' => '',
-        '%s was correctly reinstalled.' => '',
-        'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
-        'There was a problem during the upgrade of %s.' => '',
-        '%s was correctly uninstalled.' => '',
-        'There was a problem uninstalling %s.' => '',
+            'Una actualización de su %s esta disponible, pero existe un conflicto con la versión del framework! Por favor actualice su framework primero!',
+        'Your system was successfully upgraded to %s.' => 'Su sistema su actualizado satisfactoriamente a %s',
+        'There was a problem during the upgrade to %s.' => 'Hubo un problema durante la actualización a %s',
+        '%s was correctly reinstalled.' => '%s fue correctamente instalado',
+        'There was a problem reinstalling %s.' => 'Hubo un problema reinstalando %s',
+        'Your %s was successfully updated.' => 'Su %s fue actualizado satisfactoriamente',
+        'There was a problem during the upgrade of %s.' => 'Hubo un problema durante la actualización de %s',
+        '%s was correctly uninstalled.' => '%s fue correctamente desinstalado',
+        'There was a problem uninstalling %s.' => 'Hubo un problema desinstalando %s',
 
         # Template: AAACalendar
         'New Year\'s Day' => 'Año nuevo',
@@ -506,7 +506,7 @@ sub Data {
         'Stat' => 'Estadísticas',
         'Sum' => 'Suma',
         'No (not supported)' => 'No (no soportado)',
-        'Days' => '',
+        'Days' => 'Días',
         'Please fill out the required fields!' => '¡Por favor, proporcione los campos requeridos!',
         'Please select a file!' => '¡Por favor, seleccione un archivo!',
         'Please select an object!' => '¡Por favor, seleccione un objeto!',
@@ -577,15 +577,15 @@ sub Data {
         'Ticket Close Time' => 'Hora de finalización del ticket',
 
         # Template: AAASupportDataCollector
-        'Unknown' => '',
+        'Unknown' => 'desconocido',
         'Information' => 'Información',
         'OK' => 'Aceptar',
         'Problem' => 'Problema',
         'Webserver' => 'Servidor Web',
         'Operating System' => 'Sistema Operativo',
-        'OTRS' => '',
+        'OTRS' => 'OTRS',
         'Table Presence' => 'Presecia De Tablas',
-        'Internal Error: Could not open file.' => '',
+        'Internal Error: Could not open file.' => 'Error Interno: No se pude abrir el archivo',
         'Table Check' => 'Comprobación De Tablas',
         'Internal Error: Could not read file.' => 'Error Interno: No se pudo leer el archivo',
         'Tables found which are not present in the database.' => 'Tablas encontradas que no se encuentran presentes en la base de datos',
@@ -626,25 +626,25 @@ sub Data {
         'Disk Usage' => 'Uso del Disco',
         'The partition where OTRS is located is almost full.' => 'La partición donde se localiza OTRS está casi lleno.',
         'The partition where OTRS is located has no disk space problems.' =>
-            '',
-        'Disk Partitions Usage' => '',
+            'La partición donde se localiza OTRS no tiene problemas de espacio de disco.',
+        'Disk Partitions Usage' => 'Uso de la Partición del Disco',
         'Distribution' => 'Distribución',
-        'Could not determine distribution.' => '',
-        'Kernel Version' => 'Versión Del Kernel',
-        'Could not determine kernel version.' => '',
-        'System Load' => '',
+        'Could not determine distribution.' => 'No se pudo determinar la distribución.',
+        'Kernel Version' => 'Versión del Kernel',
+        'Could not determine kernel version.' => 'No se pudo determinar la versión del kernel.',
+        'System Load' => 'Carga del Sistema',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
-            '',
+            'La carga del sistema debe ser como máximo el número de CPUs que el sistema tiene (ejm. una carga de 8 o menos en un sistema con 8 CPUs esta OK).',
         'Perl Modules' => 'Módulos De Perl',
-        'Not all required Perl modules are correctly installed.' => '',
+        'Not all required Perl modules are correctly installed.' => 'No todos los modulos Perl requeridos están instalados correctamente.',
         'Perl Version' => 'Versión de Perl',
-        'Free Swap Space (%)' => '',
-        'No Swap Enabled.' => '',
-        'Used Swap Space (MB)' => '',
-        'There should be more than 60% free swap space.' => '',
-        'There should be no more than 200 MB swap space used.' => '',
+        'Free Swap Space (%)' => 'Espacio de Intercambio Libre (%)',
+        'No Swap Enabled.' => 'Espacio de Intercambio No Habilitado',
+        'Used Swap Space (MB)' => 'Espacio de Intercambio Usado (MB)',
+        'There should be more than 60% free swap space.' => 'Debe haber mas del 60% de espacio de intercambio libre.',
+        'There should be no more than 200 MB swap space used.' => 'Debe haber no mas de 200 MB de espacio de intercambio usado.',
         'Config Settings' => 'Configuraciones del sistema',
-        'Could not determine value.' => '',
+        'Could not determine value.' => 'No se pudo determinar el valor.',
         'Database Records' => 'Registros de la Base de Datos',
         'Tickets' => 'Tickets',
         'Ticket History Entries' => 'Entradas Del Historial De Ticket',
@@ -665,7 +665,7 @@ sub Data {
         'Tickets Per Month (avg)' => 'Tickets Al Mes (promedio)',
         'Default SOAP Username and Password' => 'Nombre de Usuario y Contraseña Por Defecto Para SOAP',
         'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.' =>
-            '',
+            'Riesgo de Seguridad: Esta usando la configuración por defecto para SOAP::User y SOAP::Password. Por favor cambiela.',
         'Default Admin Password' => 'Contraseña Por Defecto Para Admin',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
             'Riesgo de seguridad: la cuenta del agente root@ ocalhost todavía tiene la contraseña predeterminada. Favor de cambiarlo o invalidar la cuenta.',
@@ -693,14 +693,17 @@ sub Data {
             'Usted tiene más de 50,000 artículos y debería usar el backend StaticDB. Ver el manual admin (Optimización del Rendimiento) para más información.',
         'Orphaned Records In ticket_lock_index Table' => 'Registros Huérfanos En La Tabla ticket_lock_index',
         'Table ticket_lock_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
-        'Orphaned Records In ticket_index Table' => '',
+            'La tabla ticket_lock_index contiene registros huerfanos. Por favor ejecute otrs/bin/otrs.CleanTicketIndex.pl para limpiar el índice StaticDB.',
+        'Orphaned Records In ticket_index Table' => 'Registros Huerfanos en la Tabla ticket_index',
         'Table ticket_index contains orphaned records. Please run otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index.' =>
-            '',
+            'La tabla ticket_index contiene registros huerfanos. Por favor ejecute otrs/bin/otrs.CleanTicketIndex.pl para limpiar el índice StaticDB.',
         'Environment Variables' => 'Variables de entorno',
         'Webserver Version' => 'Versión del Servidor Web',
         'Could not determine webserver version.' => 'No se pudo determinar la versión del servidor web.',
         'Loaded Apache Modules' => 'Módulos Apache Cargados',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Uso Del Acelerador de CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Usted debe usar FastCGI o mod_perl para aumentar el rendimiento.',
@@ -806,7 +809,7 @@ sub Data {
         'new' => 'nuevo',
         'open' => 'abierto',
         'Open' => 'Abierto',
-        'Open tickets' => '',
+        'Open tickets' => 'Tickets Abiertos',
         'closed' => 'cerrado',
         'Closed' => 'Cerrado',
         'Closed tickets' => 'Tickets cerrados',
@@ -1242,7 +1245,7 @@ sub Data {
         'RegEx' => 'RegEx',
         'Invalid RegEx' => 'Inválido RegEx',
         'Error Message' => 'Mensaje de error',
-        'Add RegEx' => '',
+        'Add RegEx' => 'Añadir RegEx',
 
         # Template: AdminEmail
         'Admin Notification' => 'Notificación del administrador',
@@ -1823,7 +1826,7 @@ sub Data {
         'Required' => 'Obligatorio',
         'PrimaryKey' => 'ClavePrimaria',
         'AutoIncrement' => 'AutoIncrementar',
-        'SQL' => '',
+        'SQL' => 'Límite',
         'File differences for file %s' => '',
 
         # Template: AdminPerformanceLog
@@ -2263,6 +2266,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permiso para mover tickets a este grupo/cola',
         'create' => 'crear',
         'Permissions to create tickets in this group/queue.' => 'Permiso para crear tickets en este grupo/cola',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para añadir notas a los tickets de este grupo/cola.',
+        'owner' => 'propietario',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permisos para cambiar el propietario de los tickets de este grupo/cola.',
         'priority' => 'prioridad',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permiso para cambiar la prioridad del ticket en este grupo/cola',
@@ -2294,7 +2302,7 @@ sub Data {
         'See also' => 'Vea también',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de ficheros.',
-        'Hash' => '',
+        'Hash' => 'De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de ficheros.',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '',
@@ -2376,7 +2384,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Remitente',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2450,7 +2458,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NombreBarraNavegación',
         'NavBar' => 'BarraNavegación',
-        'LinkOption' => '',
+        'LinkOption' => 'Enlazar',
         'Block' => 'Bloqueo',
         'AccessKey' => 'TeclaAcceso',
         'Add NavBar entry' => '',
@@ -2498,7 +2506,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2550,11 +2558,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gestionar las relaciones agente-grupo',
         'Change Group Relations for Agent' => 'Cambiar las relaciones de grupo del agente',
         'Change Agent Relations for Group' => 'Cambiar las relaciones de agente del grupo',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permisos para añadir notas a los tickets de este grupo/cola.',
-        'owner' => 'propietario',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permisos para cambiar el propietario de los tickets de este grupo/cola.',
 
         # Template: AgentBook
         'Address Book' => 'Libreta de direcciones',
@@ -2853,6 +2856,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Reenviar el ticket: %s - %s',
 
@@ -3050,6 +3060,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Editar las preferencias personales',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3136,6 +3147,8 @@ sub Data {
             'Ya está abierta una ventana emergente de esta pantalla. ¿Desea cerrarla y cargar ésta en su lugar?',
         'Please enter at least one search value or * to find anything.' =>
             'Introduzca al menos un valor de búsqueda, o * para buscar todo.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Compruebe que los campos marcados en rojo tienen datos válidos.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3149,6 +3162,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript no disponible',
         'Database Settings' => 'Ajustes de la base de datos',
         'General Specifications and Mail Settings' => 'Indicaciones generales y ajustes del correo',
+        'Welcome to %s' => '',
         'Web site' => 'Sitio web',
         'Mail check successful.' => 'Se ha verificado el correo con éxito.',
         'Error in the mail settings. Please correct and try again.' => 'Error en los ajustes del correo. Corríjalos e inténtelo de nuevo.',
@@ -3272,6 +3286,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Página de prueba de OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Contador',
 
         # Template: Warning
@@ -4206,6 +4221,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4842,7 +4859,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Búsqueda de un cliente',

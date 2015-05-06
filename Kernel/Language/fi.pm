@@ -408,6 +408,7 @@ sub Data {
         'Redo' => 'Tee uudelleen',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -697,6 +698,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1111,7 +1115,7 @@ sub Data {
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
-        'Notice' => '',
+        'Notice' => 'Huomautus',
         'This feature is disabled!' => 'Tämä ominaisuus on poissa käytöstä!',
         'Just use this feature if you want to define group permissions for customers.' =>
             '',
@@ -2259,6 +2263,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Oikeudet siirtää tikettejä tähän ryhmään/jonoon.',
         'create' => 'lisäys',
         'Permissions to create tickets in this group/queue.' => 'Oikeus lisätä tikettejä tähän ryhmään/jonoon.',
+        'note' => 'Huomautus',
+        'Permissions to add notes to tickets in this group/queue.' => '',
+        'owner' => 'omistaja',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            '',
         'priority' => 'prioriteetti',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Oikeus muuttaa tiketin prioriteettia tässä ryhmässä/jonossa.',
@@ -2325,7 +2334,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Suorita SQL-kyselyitä ohjelmiston tietokannassa.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'SQL-kyselyn syntaksi on virheellinen. Tarkista kysely.',
@@ -2372,7 +2381,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Lähettäjä',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2446,7 +2455,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'ValikonNimi',
         'NavBar' => 'Valikko',
-        'LinkOption' => '',
+        'LinkOption' => 'Linkki',
         'Block' => 'Estä',
         'AccessKey' => 'PääsyAvain',
         'Add NavBar entry' => '',
@@ -2494,7 +2503,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2546,11 +2555,6 @@ sub Data {
         'Manage Agent-Group Relations' => '',
         'Change Group Relations for Agent' => '',
         'Change Agent Relations for Group' => '',
-        'note' => '',
-        'Permissions to add notes to tickets in this group/queue.' => '',
-        'owner' => 'omistaja',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            '',
 
         # Template: AgentBook
         'Address Book' => 'Osoitekirja',
@@ -2849,6 +2853,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Lähetä tiketti eteenpäin: %s - %s',
 
@@ -3046,6 +3057,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Muokkaa henkilökohtaisia asetuksia',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3132,6 +3144,8 @@ sub Data {
             'Popupikkuna on jo avattu. Haluatko varmasti sulkea sen ja avata tämän tilalle?',
         'Please enter at least one search value or * to find anything.' =>
             'Lisää ainakin yksi hakuehto tai *, jotta löydät jotain.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3145,6 +3159,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript ei toiminnassa',
         'Database Settings' => 'Tietokanta-asetukset',
         'General Specifications and Mail Settings' => 'Yleiset määritykset ja sähköpostiasetukset',
+        'Welcome to %s' => '',
         'Web site' => 'Kotisivu',
         'Mail check successful.' => 'Sähköpostin tarkastus onnistunut.',
         'Error in the mail settings. Please correct and try again.' => 'Virhe sähköpostiasetuksissa. Tarkista asetukset ja kokeile uudestaan.',
@@ -3268,6 +3283,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS - Testisivu',
+        'Welcome %s %s' => '',
         'Counter' => 'Laskuri',
 
         # Template: Warning
@@ -4202,6 +4218,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4838,7 +4856,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Etsi Asiakas',
@@ -5439,7 +5457,7 @@ sub Data {
         'Write a new, outgoing mail' => '',
         'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Suosikkijonojen valinta. Saat sähköpostiilmoituksen näihin jonoihin saapuneista tiketeistä, jos niin asetettu.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
             '',
 

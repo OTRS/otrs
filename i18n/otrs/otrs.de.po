@@ -1,6 +1,6 @@
-#
+# 
 # Translators:
-# Ettore Atalan <atalanttore@googlemail.com>, 2014
+# Ettore Atalan <atalanttore@googlemail.com>, 2014-2015
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # jb_otrs <jens.bothe@otrs.com>, 2014
 # Marc A. Bonsels, 2014
@@ -9,7 +9,7 @@
 # Marc A. Bonsels, 2014-2015
 # Marc A. Bonsels, 2015
 # Marc A. Bonsels, 2014
-# Martin Gruner <martin.gruner@otrs.com>, 2014
+# Martin Gruner <martin.gruner@otrs.com>, 2014-2015
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014
 # mathiasbraeunling <mathias.braeunling@otrs.com>, 2014-2015
 # nilsleideck <nils.leideck@leidex.net>, 2015
@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -2511,6 +2511,14 @@ msgid "Loaded Apache Modules"
 msgstr "Geladene Apache-Module"
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr "Verwendung CGI-Beschleuniger"
 
@@ -2573,7 +2581,7 @@ msgstr "Ansicht nach Status"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr "Service-Ansicht"
+msgstr "Ansicht nach Services"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -3141,7 +3149,7 @@ msgstr "Ticket-Suche"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Kundenrealname"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -3712,7 +3720,7 @@ msgstr "ACL %s bearbeiten"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
-msgstr "Zurück zur Übersicht"
+msgstr "Zur Übersicht"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
@@ -4605,7 +4613,7 @@ msgstr "Diesen Event-Trigger löschen"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Auswahl entfernen"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -8249,7 +8257,7 @@ msgstr "Löschen"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID"
-msgstr "Detailansicht für SessionID"
+msgstr "Detailansicht der Sitzungskennung"
 
 #. Template: AdminSignature
 msgid "Signature Management"
@@ -8679,7 +8687,7 @@ msgstr "Typ bearbeiten"
 msgid "A type with this name already exists!"
 msgstr "Ein Typ mit diesem Namen existiert bereits!"
 
-#. Template: AdminRoleUser
+#. Template: AdminUser
 msgid "Add agent"
 msgstr "Agent hinzufügen"
 
@@ -9566,6 +9574,26 @@ msgstr "Alles holen"
 msgid "E-Mail Outbound"
 msgstr "Ausgehende E-Mail"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr "Ticket %s: erste Reaktionszeit ist abgelaufen (%s/%s)!"
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr "Ticket %s: erste Reaktionszeit wird ablaufen in %s/%s!"
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr "Ticket %s: Aktualisierungszeit wird ablaufen in %s/%s!"
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr "Ticket %s: Lösungszeit ist abgelaufen (%s/%s)!"
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr "Ticket %s: Lösungszeit wird ablaufen in %s/%s!"
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Ticket weiterleiten:  %s - %s"
@@ -9950,7 +9978,7 @@ msgstr "Alle Beiträge anzeigen"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr "Zeige Ticket-Verlauf-Ansicht"
+msgstr "Ticket-Verlauf-Ansicht anzeigen"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -10163,6 +10191,10 @@ msgstr "Sie haben unbeantwortete Chatanfragen"
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
 msgstr "Persönliche Einstellungen vornehmen"
+
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr "%s %s abmelden"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -10412,6 +10444,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu suchen."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Bitte prüfen Sie die rot markierten Felder auf gültige Eingaben."
 
@@ -10442,6 +10480,10 @@ msgstr "Datenbankeinstellungen"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Allgemeine Einstellungen und E-Mail-Einstellungen"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr "Willkommen bei %s"
 
 #. Template: Installer
 msgid "Web site"
@@ -10791,6 +10833,10 @@ msgstr "gedruckt von"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS Testseite"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr "%s %s willkommen"
 
 #. Template: Test
 msgid "Counter"
@@ -13803,6 +13849,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -13836,7 +13888,7 @@ msgstr "Dynamic Fields-Oberfläche für Mehrfachauswahlboxen"
 
 #. SysConfig
 msgid "Dynamic Fields Overview Limit"
-msgstr "Dynamic Fields Übersicht-Begrenzung"
+msgstr "Übersichtsbegrenzung der dynamischen Felder"
 
 #. SysConfig
 msgid "Dynamic Fields Text Backend GUI"
@@ -14198,7 +14250,7 @@ msgstr "Ansicht nach Eskalationen"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "Eskalationszeit"
 
 #. SysConfig
 msgid ""
@@ -14304,7 +14356,7 @@ msgstr "Eingehende E-Mails filtern."
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Erste Queue"
 
 #. SysConfig
 msgid "FirstLock"
@@ -14400,7 +14452,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "Volltextsuche"
 
 #. SysConfig
 msgid ""
@@ -14943,7 +14995,7 @@ msgstr "Nachname, Vorname (BenutzerLogin)"
 
 #. SysConfig
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -15048,7 +15100,7 @@ msgstr "Liste der Standardvorlagen, welche neuen Queues nach Erstellung automati
 
 #. SysConfig
 msgid "List view"
-msgstr ""
+msgstr "Listenansicht"
 
 #. SysConfig
 msgid "Locked ticket."
@@ -15324,7 +15376,7 @@ msgstr "Neues Ticket [%s] erstellt (Q=%s;P=%s;S=%s)."
 
 #. SysConfig
 msgid "New Window"
-msgstr ""
+msgstr "Neues Fenster"
 
 #. SysConfig
 msgid "New email ticket"
@@ -15364,7 +15416,7 @@ msgstr "Keine Benachrichtigung"
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -15402,7 +15454,7 @@ msgstr "Alt: \"%s\" Neu: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15424,7 +15476,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Escalated Tickets"
-msgstr "Übersicht eskalierte Tickets"
+msgstr "Übersicht über eskalierte Tickets"
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -15898,7 +15950,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #. SysConfig
 msgid "Roles <-> Groups"
@@ -16107,7 +16159,7 @@ msgstr ""
 msgid ""
 "Sets if note must be filled in by the agent. Can be overwritten by "
 "Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Setzt ob eine Notiz vom Agenten ausgefüllt werden muss. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."
@@ -17211,11 +17263,11 @@ msgstr "Lösungszeit in Minuten"
 
 #. SysConfig
 msgid "Some description!"
-msgstr ""
+msgstr "Eine Beschreibung!"
 
 #. SysConfig
 msgid "Some picture description!"
-msgstr ""
+msgstr "Eine Bildbeschreibung!"
 
 #. SysConfig
 msgid ""
@@ -17265,11 +17317,11 @@ msgstr "Legt die Hintergrundfarbe des Bildes fest."
 
 #. SysConfig
 msgid "Specifies the border color of the chart."
-msgstr ""
+msgstr "Legt die Rahmenfarbe der Tabelle fest."
 
 #. SysConfig
 msgid "Specifies the border color of the legend."
-msgstr ""
+msgstr "Legt die Rahmenfarbe der Legende fest."
 
 #. SysConfig
 msgid "Specifies the bottom margin of the chart."
@@ -17297,7 +17349,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Specifies the directory where SSL certificates are stored."
-msgstr ""
+msgstr "Legt das Verzeichnis, wo SSL-Zertifikate gespeichert sind, fest."
 
 #. SysConfig
 msgid "Specifies the directory where private SSL certificates are stored."
@@ -17691,7 +17743,7 @@ msgstr "Werkzeugleisteneintrag für den Schnellzugriff."
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Baumansicht"
 
 #. SysConfig
 msgid ""
@@ -17790,11 +17842,11 @@ msgstr ""
 
 #. SysConfig
 msgid "View performance benchmark results."
-msgstr "Ergebnisse der Performance-Messung anzeigen."
+msgstr "Ergebnisse der Leistungsmessung ansehen."
 
 #. SysConfig
 msgid "View system log messages."
-msgstr "System-Protokolleinträge anzeigen."
+msgstr "Systemprotokollnachrichten ansehen."
 
 #. SysConfig
 msgid "Wear this frontend skin"
@@ -17802,7 +17854,7 @@ msgstr "Diesen Skin verwenden"
 
 #. SysConfig
 msgid "Webservice path separator."
-msgstr ""
+msgstr "Webdienstpfad-Trennzeichen."
 
 #. SysConfig
 msgid ""
@@ -17831,7 +17883,7 @@ msgstr "Schreiben Sie eine neue, ausgehende E-Mail"
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Ja, aber archivierte Tickets verstecken"
 
 #. SysConfig
 msgid ""
@@ -17844,27 +17896,3 @@ msgid ""
 "Your service selection of your favorite services. You also get notified "
 "about those services via email if enabled."
 msgstr "Auswahl der bevorzugten Services. Es werden E-Mail-Benachrichtigungen über diese ausgewählten Services versendet. "
-
-#. Template: AgentTicketActionCommon
-msgid "New Responsible"
-msgstr ""
-
-#. SysConfig
-msgid "Customizable stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
-msgid "French stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
-msgid "German stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
-msgid "Italian stop words for fulltext index. These words will be removed from the search index."
-msgstr ""
-
-#. SysConfig
-msgid "Spanish stop words for fulltext index. These words will be removed from the search index."
-msgstr ""

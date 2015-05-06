@@ -406,6 +406,7 @@ sub Data {
         'Redo' => 'Понови',
         'Scheduler process is registered but might not be running.' => 'Планер процес је регистрован, али можда није покренут.',
         'Scheduler is not running.' => 'Планер не ради.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Не можете да контактирате сервер за регистрацију. Молимо покушајте поново касније.',
         'No content received from registration server. Please try again later.' =>
             'Садржај није примљен од сервера за регистрацију. Молимо покушајте поново касније.',
@@ -695,6 +696,9 @@ sub Data {
         'Webserver Version' => 'Веб сервер верзија',
         'Could not determine webserver version.' => 'Не може да препозна веб сервер верзију.',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Употреба CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'За повећање перформанси треба да користите FastCGI или mod_perl.',
@@ -1758,7 +1762,7 @@ sub Data {
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
+        'Chat' => 'Ћаскање',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2257,6 +2261,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Дозвола да се тикет премести у ову групу/ред.',
         'create' => 'kreiranje',
         'Permissions to create tickets in this group/queue.' => 'Дозвола да се тикет креира у ову групу/ред.',
+        'note' => 'напомена',
+        'Permissions to add notes to tickets in this group/queue.' => 'Дозволе за додавање напомена на тикете у овој групи/реду.',
+        'owner' => 'власник',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Дозволе за промену власника тикета у овој групи/реду.',
         'priority' => 'приоритет',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Дозвола да се мења приоритет тикета у овој групи/реду.',
@@ -2323,7 +2332,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             'Овде можете унети SQL команде и послати их директно апликационој бази података. Није могуће мењати садржај табела, дозвољен је једино \'select\' упит.',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Овде можете унети SQL команде и послати их директно апликационој бази података.',
         'Only select queries are allowed.' => 'Дозвољени су само упити за селекцију',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Постоји грешка у синтакси вашег SQL упита. Молимо проверите.',
@@ -2492,7 +2501,7 @@ sub Data {
         'All Sessions' => 'Све сесије',
         'Agent Sessions' => 'Сесије оператера',
         'Customer Sessions' => 'Сесије корисника',
-        'Kill all Sessions, exept current' => 'Угаси све сесије осим актуелне',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Управљање шаблонима',
@@ -2544,11 +2553,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Управљање везама Оператер-Група',
         'Change Group Relations for Agent' => 'Промени везе са групом за оператера',
         'Change Agent Relations for Group' => 'Промени везе са оператером за групу',
-        'note' => 'напомена',
-        'Permissions to add notes to tickets in this group/queue.' => 'Дозволе за додавање напомена на тикете у овој групи/реду.',
-        'owner' => 'власник',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Дозволе за промену власника тикета у овој групи/реду.',
 
         # Template: AgentBook
         'Address Book' => 'Адресар',
@@ -2847,6 +2851,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Проследи тикет: %s - %s',
 
@@ -3044,6 +3055,7 @@ sub Data {
         'Incoming Chat Requests' => 'Долазни захтеви за ћаскање',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Уреди личне поставке',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3130,6 +3142,8 @@ sub Data {
             'Приказ овог екрана је већ отворен. Желите ли да га затворите и учитате овај уместо њега?',
         'Please enter at least one search value or * to find anything.' =>
             'Молимо унесите барем једну вредност претраге или * да би сте нешто пронашли.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Молимо проверите поља означена црвеним за важеће уносе.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3143,6 +3157,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nije dostupan.',
         'Database Settings' => 'Подешавање базе података',
         'General Specifications and Mail Settings' => 'Опште спецификације и подешавање поште',
+        'Welcome to %s' => '',
         'Web site' => 'Веб сајт',
         'Mail check successful.' => 'Успешна провера имејл подешавања.',
         'Error in the mail settings. Please correct and try again.' => 'Грешка у подешавању имејла. Молимо исправите и покушајте поново.',
@@ -3266,6 +3281,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS тест страна',
+        'Welcome %s %s' => '',
         'Counter' => 'Бројач',
 
         # Template: Warning
@@ -4200,6 +4216,8 @@ sub Data {
             'Онемогућује слање обавештења подсетника одговорном оператеру тикета (Ticket::Responsible мора бити активиран).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Онемогућује веб инсталационом програму (http://yourhost.example.com/otrs/installer.pl) да заштити систем од недозвољеног преузимања. Ако подесите на "Не", систем може бити поново инсталиран и тренутна основна конфигурација ће бити коришћена да унапред попуни питања унутар инсталационе скрипте. Уколико није активно, такође се онемогућују GenericAgent, PackageManager и SQL Box.',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => 'Прикажи подешавања да би сте заменили подразумевана за тикете процеса.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Приказује обрачунато време за један чланак у приказу увећаног тикета.',
@@ -4836,7 +4854,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Слање S/MIME сертификата',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => 'Планирање периода одржавања.',
         'Search Customer' => 'Тражи корисника',

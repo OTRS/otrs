@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/OTRS/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -2061,7 +2061,7 @@ msgstr "问题"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver"
-msgstr ""
+msgstr "网站服务器"
 
 #. Template: AAASupportDataCollector
 msgid "Operating System"
@@ -2498,6 +2498,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -8021,7 +8029,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "这里你可以输入并运行数据库SQL的命令。"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -9556,6 +9564,26 @@ msgstr "获取全部"
 msgid "E-Mail Outbound"
 msgstr "发邮件"
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr ""
@@ -10154,6 +10182,10 @@ msgstr "你有未响应的对话请求"
 msgid "Edit personal preferences"
 msgstr "编辑个人设置"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10402,6 +10434,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "请至少输入一个搜索条件或 *。"
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10432,6 +10470,10 @@ msgstr "数据库设置"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "一般设定和邮件配置"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10781,6 +10823,10 @@ msgstr "打印"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS测试页"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13790,6 +13836,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

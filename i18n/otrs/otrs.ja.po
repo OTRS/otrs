@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Hisatoshi Onishi <hisatoshi.onishi@gmail.com>, 2015
 # Kentaro Hori <kentaro0919@gmail.com>, 2014-2015
 # Kozo Sakurai <sakurai@io-architect.com>, 2014
 # Makoto Miida, 2014
@@ -9,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
@@ -2132,11 +2133,11 @@ msgstr "utf8 に設定されていない tableが見つかりました"
 
 #. Template: AAASupportDataCollector
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "InnoDBログのファイルサイズ"
 
 #. Template: AAASupportDataCollector
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "innodb_log_file_size 設定は最低でも256MBにする必要があります。"
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
@@ -2500,6 +2501,14 @@ msgid "Loaded Apache Modules"
 msgstr "ロードされたApacheモジュール"
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr "CGIアクセラレータの有無"
 
@@ -2517,11 +2526,11 @@ msgstr "GUIのパフォーマンス向上のためmod_deflateをインストー�
 
 #. Template: AAASupportDataCollector
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "mod_filter の有無"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "moddeflateを利用する場合は、mod_filterをインストールしてください。"
 
 #. Template: AAASupportDataCollector
 msgid "mod_headers Usage"
@@ -3130,7 +3139,7 @@ msgstr "チケット検索"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "顧客ユーザの氏名"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -3776,7 +3785,7 @@ msgstr "このACLを本当に削除しますか？"
 msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
-msgstr ""
+msgstr "このアイテムは、配下にサブアイテムを保有しています。このアイテムをサブアイテムと共に削除してもよろしいですか？"
 
 #. Template: AdminACLEdit
 msgid "An item with this name is already present."
@@ -4506,7 +4515,7 @@ msgstr "このウィジェットを切り替え"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution (multiple tickets)"
-msgstr ""
+msgstr "自動実行(複数チケット)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
@@ -4594,7 +4603,7 @@ msgstr "このイベントトリガーを削除"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "選択項目を削除"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -4958,11 +4967,11 @@ msgstr "タイプでフィルタ"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter from"
-msgstr ""
+msgstr "送信元でフィルタ"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter to"
-msgstr ""
+msgstr "送信先でフィルタ"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by remote IP"
@@ -4974,7 +4983,7 @@ msgstr "自動更新"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request Details"
-msgstr ""
+msgstr "要求の詳細"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "An error occurred during communication."
@@ -4990,7 +4999,7 @@ msgstr "デバッグログを削除"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add new Invoker to Web Service %s"
-msgstr ""
+msgstr "呼び出し元をWebサービス %s に追加"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Change Invoker %s of Web Service %s"
@@ -5041,7 +5050,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
-msgstr ""
+msgstr "設定"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
@@ -5061,7 +5070,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
-msgstr ""
+msgstr "非同期"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -5081,7 +5090,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Save and continue"
-msgstr ""
+msgstr "保存して継続"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Delete this Invoker"
@@ -5093,7 +5102,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Go back to"
-msgstr ""
+msgstr "に戻る"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -5189,19 +5198,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new operation"
-msgstr ""
+msgstr "新しいオペレーションを追加"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Change operation %s"
-msgstr ""
+msgstr "オペレーション%sを変更"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "このオペレーションを本当に削除しますか？"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "オペレーションの詳細"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
@@ -5245,7 +5254,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Delete this Operation"
-msgstr ""
+msgstr "このオペレーションを削除"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "GenericInterface Transport HTTP::REST for Web Service %s"
@@ -5253,11 +5262,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
-msgstr ""
+msgstr "ネットワーク・トランスポート"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
-msgstr ""
+msgstr "項目"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
@@ -5314,7 +5323,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "例… https://www.otrs.com:10745/api/v1.0 (バックスラッシュを除く)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -5339,7 +5348,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "デフォルトコマンド"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
@@ -5347,7 +5356,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "認証"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The authentication mechanism to access the remote system."
@@ -5355,7 +5364,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "A \"-\" value means no authentication."
-msgstr ""
+msgstr "\"-\"は認証なしを意味します。"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -5375,7 +5384,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate File"
-msgstr ""
+msgstr "証明書ファイル"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL certificate file."
@@ -5383,7 +5392,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.crt"
-msgstr ""
+msgstr "例… /opt/otrs/var/certificates/REST/ssl.crt"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certificate Password File"
@@ -5395,7 +5404,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/ssl.key"
-msgstr ""
+msgstr "例… /opt/otrs/var/certificates/REST/ssl.key"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) File"
@@ -5409,7 +5418,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otrs/var/certificates/REST/CA/ca.file"
-msgstr ""
+msgstr "例… /opt/otrs/var/certificates/REST/CA/ca.file"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "GenericInterface Transport HTTP::SOAP for Web Service %s"
@@ -5425,7 +5434,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://local.otrs.com:8000/Webservice/Example"
-msgstr ""
+msgstr "例… http://local.otrs.com:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
@@ -5439,7 +5448,7 @@ msgstr ""
 msgid ""
 "e.g urn:otrs-com:soap:functions or "
 "http://www.otrs.com/GenericInterface/actions"
-msgstr ""
+msgstr "例… urn:otrs-com:soap:functions or http://www.otrs.com/GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -5457,7 +5466,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "例… utf-8, latin1, iso-8859-1, cp1250, Etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction"
@@ -5490,7 +5499,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/certificate.p12"
-msgstr ""
+msgstr "例… /opt/otrs/var/certificates/SOAP/certificate.p12"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The password to open the SSL certificate."
@@ -5504,7 +5513,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
-msgstr ""
+msgstr "例… /opt/otrs/var/certificates/SOAP/CA/ca.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Certification Authority (CA) Directory"
@@ -5518,19 +5527,19 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "例… /opt/otrs/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy Server"
-msgstr ""
+msgstr "プロキシサーバ"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "URI of a proxy server to be used (if needed)."
-msgstr ""
+msgstr "プロキシサーバのURI (任意)"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. http://proxy_hostname:8080"
-msgstr ""
+msgstr "例… http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Proxy User"
@@ -5554,27 +5563,27 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add web service"
-msgstr ""
+msgstr "ウェブサービスの追加"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone web service"
-msgstr ""
+msgstr "ウェブサービスの複製"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr ""
+msgstr "名前は一意である必要があります。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
-msgstr ""
+msgstr "複製"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export web service"
-msgstr ""
+msgstr "ウェブサービスのエクスポート"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr ""
+msgstr "ウェブサービスのインポート"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
@@ -5594,11 +5603,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr ""
+msgstr "ウェブサービスの削除"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr ""
+msgstr "本当にこのWebサービスを削除しますか？"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5614,7 +5623,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Web Service List"
-msgstr ""
+msgstr "ウェブサービス一覧"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
@@ -5654,7 +5663,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
-msgstr ""
+msgstr "コントローラー"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
@@ -5666,7 +5675,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr ""
+msgstr "このアクションを削除"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -5676,11 +5685,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete webservice"
-msgstr ""
+msgstr "Webサービスを削除"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete operation"
-msgstr ""
+msgstr "オペレーションを削除"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete invoker"
@@ -5688,11 +5697,11 @@ msgstr "呼び出し元を削除"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone webservice"
-msgstr ""
+msgstr "Webサービスを複製"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import webservice"
-msgstr ""
+msgstr "Webサービスをインポート"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "GenericInterface Configuration History for Web Service %s"
@@ -5700,7 +5709,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr ""
+msgstr "Webサービスに戻る"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
@@ -5710,7 +5719,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
-msgstr ""
+msgstr "設定履歴一覧"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
@@ -5718,19 +5727,19 @@ msgstr "バージョン"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr ""
+msgstr "作成日時"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
-msgstr ""
+msgstr "詳細を表示するには、1つのバージョンのみを選択します。"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr ""
+msgstr "サービス設定のエクスポート"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr ""
+msgstr "サービス設定の復元"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
@@ -5739,11 +5748,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
+msgstr "現在のWebサービス設定は上書きされます。"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
-msgstr ""
+msgstr "復元"
 
 #. Template: AdminGroup
 msgid ""
@@ -5840,7 +5849,7 @@ msgstr "例: mail.example.com"
 
 #. Template: AdminMailAccount
 msgid "IMAP Folder"
-msgstr ""
+msgstr "IMAPフォルダー"
 
 #. Template: AdminMailAccount
 msgid ""
@@ -6016,11 +6025,11 @@ msgstr "本文から最初の5行を取得 (最新の顧客記事)"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
-msgstr ""
+msgstr "%s を管理"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Downgrade to OTRS Free"
-msgstr ""
+msgstr "フリー版OTRSへのダウングレード"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6046,11 +6055,11 @@ msgstr ""
 msgid ""
 "Your %s is not correctly installed. Please reinstall it with the button "
 "below."
-msgstr ""
+msgstr "%s は正しくインストールされていません。下のボタンを押して再インストールしてください。"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "%s の再インストール"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6065,7 +6074,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Update %s"
-msgstr ""
+msgstr "%s のアップデート"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
@@ -6128,7 +6137,7 @@ msgstr ""
 msgid ""
 "Connection to cloud.otrs.com via HTTPS couldn't be established. Please make "
 "sure that your OTRS can connect to cloud.otrs.com via port 443."
-msgstr ""
+msgstr "cloud.otrs.comへのHTTPSでの接続の確立ができませんでした。\nOTRSが443ポートを用いてcloud.otrs.comに接続できることを確認して下さい。"
 
 #. Template: AdminOTRSBusinessNotInstalled
 msgid "With your existing contract you can only use a small part of the %s."
@@ -6142,11 +6151,11 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
-msgstr ""
+msgstr "ダウングレードを中止して戻る"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
-msgstr ""
+msgstr "OTRSパッケージマネージャーへ"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6171,7 +6180,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "チャット"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -6195,7 +6204,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
-msgstr ""
+msgstr "%s スキン"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -6247,7 +6256,7 @@ msgstr "PGP鍵を追加"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr ""
+msgstr "PGPキー"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
@@ -6504,7 +6513,7 @@ msgstr "PostMasterフィルタを削除"
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
-msgstr ""
+msgstr "名前は必須項目です。"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
@@ -6528,7 +6537,7 @@ msgstr "値を検索"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
-msgstr ""
+msgstr "このフィールドは有効な正規表現またはリテラル値で入力する必要があります。"
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
@@ -6544,7 +6553,7 @@ msgstr "値を設定"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
-msgstr ""
+msgstr "このフィールドはリテラル値で入力する必要があります。"
 
 #. Template: AdminPriority
 msgid "Priority Management"
@@ -6715,11 +6724,11 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
-msgstr ""
+msgstr "説明（概略）"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (long)"
-msgstr ""
+msgstr "説明（詳細）"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected permission does not exist."
@@ -6793,7 +6802,7 @@ msgstr "この遷移を編集"
 
 #. Template: AdminProcessManagementPath
 msgid "Transition Actions"
-msgstr ""
+msgstr "推移アクション"
 
 #. Template: AdminProcessManagementPath
 msgid ""
@@ -7151,7 +7160,7 @@ msgstr "遷移動作モジュール"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Config Parameters"
-msgstr ""
+msgstr "パラメータの設定"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Remove this Parameter"
@@ -7346,7 +7355,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Unique ID"
-msgstr ""
+msgstr "ユニークID"
 
 #. Template: AdminRegistration
 msgid "Last communication with registration server"
@@ -7382,7 +7391,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
-msgstr ""
+msgstr "OTRS-ID"
 
 #. Template: AdminRegistration
 msgid ""
@@ -7392,7 +7401,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Read more"
-msgstr ""
+msgstr "続きを読む"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTRS-ID to register your system."
@@ -7402,7 +7411,7 @@ msgstr ""
 msgid ""
 "Your OTRS-ID is the email address you used to sign up on the OTRS.com "
 "webpage."
-msgstr ""
+msgstr "OTRS-IDはOTRS.comのウェブページでサインアップに用いたE-Mailアドレスです。"
 
 #. Template: AdminRegistration
 msgid "Data Protection"
@@ -7432,15 +7441,15 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Can I use OTRS without being registered?"
-msgstr ""
+msgstr "登録せずにOTRSを利用できますか？"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
-msgstr ""
+msgstr "システムへの登録は任意です。"
 
 #. Template: AdminRegistration
 msgid "You can download and use OTRS without being registered."
-msgstr ""
+msgstr "OTRSは、登録することなくダウンロード・利用することができます。"
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
@@ -7503,7 +7512,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "portal"
-msgstr ""
+msgstr "ポータル"
 
 #. Template: AdminRegistration
 msgid "and file a request."
@@ -7645,7 +7654,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID"
-msgstr ""
+msgstr "OTRS-ID"
 
 #. Template: AdminRegistration
 msgid "You don't have an OTRS-ID yet?"
@@ -7675,7 +7684,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "FQDN"
-msgstr ""
+msgstr "FQDN"
 
 #. Template: AdminRegistration
 msgid "Optional description of this system."
@@ -7697,7 +7706,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register"
-msgstr ""
+msgstr "登録"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
@@ -8156,7 +8165,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "Eメールで送信"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
@@ -8171,7 +8180,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "送信者"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8875,7 +8884,7 @@ msgstr ""
 
 #. Template: AgentDashboardStats
 msgid "Expanded"
-msgstr ""
+msgstr "展開"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
@@ -8883,11 +8892,11 @@ msgstr ""
 
 #. Template: AgentDashboardStats
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Template: AgentDashboardStats
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8923,7 +8932,7 @@ msgstr "合計"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "オフィスにいません"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
@@ -8997,19 +9006,19 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Starting Scheduler"
-msgstr ""
+msgstr "スケジューラーの起動"
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
-msgstr ""
+msgstr "%s (”.dist\"拡張子なし)が存在することをご確認ください。"
 
 #. Template: AgentSchedulerInfo
 msgid "Check that cron deamon is running in the system"
-msgstr ""
+msgstr "cronデーモンが起動していることをご確認ください。"
 
 #. Template: AgentSchedulerInfo
 msgid "Confirm that OTRS cron jobs are running, execute %s start"
-msgstr ""
+msgstr "%s startを実行して、OTRSのcronジョブが起動することを確認して下さい。"
 
 #. Template: AgentSpelling
 msgid "Spell Checker"
@@ -9148,7 +9157,7 @@ msgstr ""
 
 #. Template: AgentStatsEditSpecification
 msgid "Please note"
-msgstr ""
+msgstr "注意"
 
 #. Template: AgentStatsEditSpecification
 msgid ""
@@ -9164,7 +9173,7 @@ msgstr ""
 
 #. Template: AgentStatsEditSpecification
 msgid "IE8 doesn't support statistics dashboard widgets."
-msgstr ""
+msgstr "IE8は統計ダッシュボード・ウィジェットをサポートしていません。"
 
 #. Template: AgentStatsEditSpecification
 msgid "If set to invalid end users can not generate the stat."
@@ -9453,7 +9462,7 @@ msgstr "チケット一括処理"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Eメールの送信"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9554,6 +9563,26 @@ msgstr "全てを取得"
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
 msgstr "メール送信"
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -9701,7 +9730,7 @@ msgstr "連結対象"
 
 #. Template: AgentTicketPrint
 msgid "by"
-msgstr ""
+msgstr "いいえ"
 
 #. Template: AgentTicketProcess
 msgid "Create New Process Ticket"
@@ -9867,7 +9896,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "イベントタイプ"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
@@ -9997,7 +10026,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
-msgstr ""
+msgstr "このメッセージを閉じる"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
@@ -10021,7 +10050,7 @@ msgstr "トレースバック"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr ""
+msgstr "Powered by"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
@@ -10043,7 +10072,7 @@ msgstr "現在選択可能な要素はありません。"
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Internet Explorerの互換モードを無効にして下さい。"
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -10153,6 +10182,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "個人設定の編集"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10175,7 +10208,7 @@ msgstr "チケット作成"
 
 #. Template: CustomerTicketPrint
 msgid "Ticket Print"
-msgstr ""
+msgstr "チケット印刷"
 
 #. Template: CustomerTicketPrint
 msgid "Ticket Dynamic Fields"
@@ -10203,7 +10236,7 @@ msgstr "Cc"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
-msgstr ""
+msgstr "例… m*file、myfi*"
 
 #. Template: CustomerTicketSearch
 msgid "Types"
@@ -10231,7 +10264,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Save search as template?"
-msgstr ""
+msgstr "検索条件をテンプレートとして保存する"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
@@ -10267,11 +10300,11 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
-msgstr ""
+msgstr "記事を展開"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
-msgstr ""
+msgstr "次のステップ"
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
@@ -10279,7 +10312,7 @@ msgstr "返信"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "All-day"
-msgstr ""
+msgstr "終日"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
@@ -10401,6 +10434,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10431,6 +10470,10 @@ msgstr "データベース設定"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "共通仕様とメール設定"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10546,7 +10589,7 @@ msgstr "この手順を飛ばす"
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
-msgstr ""
+msgstr "データベース　設定成功"
 
 #. Template: InstallerDBStart
 msgid "Install Type"
@@ -10554,15 +10597,15 @@ msgstr "インストールタイプ"
 
 #. Template: InstallerDBStart
 msgid "Create a new database for OTRS"
-msgstr ""
+msgstr "新規にOTRSデータベースを作成する"
 
 #. Template: InstallerDBStart
 msgid "Use an existing database for OTRS"
-msgstr ""
+msgstr "既存のOTRSデータベースを使用する"
 
 #. Template: InstallerDBmssql
 msgid "Database name"
-msgstr ""
+msgstr "データベース名"
 
 #. Template: InstallerDBmssql
 msgid "Check database settings"
@@ -10578,7 +10621,7 @@ msgstr "データベースチェックに成功しました。"
 
 #. Template: InstallerDBmssql
 msgid "Database User"
-msgstr ""
+msgstr "データベース・ユーザー"
 
 #. Template: InstallerDBmssql
 msgid "New"
@@ -10592,7 +10635,7 @@ msgstr "このOTRSシステム用に限られた権限の新規データベー�
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
-msgstr ""
+msgstr "パスワードを再度入力"
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
@@ -10600,7 +10643,7 @@ msgstr ""
 
 #. Template: InstallerDBmysql
 msgid "Passwords do not match"
-msgstr ""
+msgstr "パスワードが一致しません"
 
 #. Template: InstallerDBoracle
 msgid "SID"
@@ -10767,7 +10810,7 @@ msgstr ""
 
 #. Template: PictureUpload
 msgid "No file found!"
-msgstr ""
+msgstr "ファイルがありません！"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
@@ -10780,6 +10823,10 @@ msgstr "printed by"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "OTRS テストページ"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -11295,7 +11342,7 @@ msgstr "パスワード変更"
 
 #. SysConfig
 msgid "Change queue!"
-msgstr ""
+msgstr "キュー変更！"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
@@ -11325,7 +11372,7 @@ msgstr "全員に対して、チケット所有者の変更を行います（ASP
 
 #. SysConfig
 msgid "Checkbox"
-msgstr ""
+msgstr "チェックボックス"
 
 #. SysConfig
 msgid ""
@@ -11335,11 +11382,11 @@ msgstr "チケット番号ディテクションの中のシステムIDを、フ�
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "完了チケット(顧客ユーザー)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
-msgstr ""
+msgstr "完了チケット(顧客)"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -11651,7 +11698,7 @@ msgstr "検索結果をCSVフォーマットでエクスポートするために
 
 #. SysConfig
 msgid "Date / Time"
-msgstr ""
+msgstr "日時"
 
 #. SysConfig
 msgid ""
@@ -12168,7 +12215,7 @@ msgstr "グラフによって描かれる線の太さを定義します。"
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
-msgstr ""
+msgstr "カレンダの幅をパーセントで定義します。デフォルトは95%です。"
 
 #. SysConfig
 msgid "Defines the colors for the graphs."
@@ -13792,6 +13839,12 @@ msgid ""
 msgstr "ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジ\nャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本\n設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケー>ジ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パス\nワードの盗難を防ぐためです）。"
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -13801,7 +13854,7 @@ msgstr "チケットズームビューで、項目に関してアカウントさ
 
 #. SysConfig
 msgid "Dropdown"
-msgstr ""
+msgstr "ドロップダウン"
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -14229,7 +14282,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "イベント・チケット・カレンダー"
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -14544,7 +14597,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
 
 #. SysConfig
 msgid ""
@@ -15273,7 +15326,7 @@ msgstr "データベース・フィルタ・ストレージを使用するモジ
 
 #. SysConfig
 msgid "Multiselect"
-msgstr ""
+msgstr "Multiselect"
 
 #. SysConfig
 msgid "My Queues and My Services"
@@ -15391,7 +15444,7 @@ msgstr "Old: \"%s\" New: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "オンライン"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15887,7 +15940,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Right"
-msgstr ""
+msgstr "権限"
 
 #. SysConfig
 msgid "Roles <-> Groups"
@@ -17004,7 +17057,7 @@ msgstr "担当者インタフェースのステータスビューで、全ての
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the zoom view."
-msgstr "ズーム・ビューで、チケットの全項目を表示します（拡大される）"
+msgstr "ズーム・ビューで、チケットの全項目を表示します（展開される）"
 
 #. SysConfig
 msgid ""
@@ -17471,7 +17524,7 @@ msgstr "テンプレート <-> キュー"
 
 #. SysConfig
 msgid "Textarea"
-msgstr ""
+msgstr "Textarea"
 
 #. SysConfig
 msgid ""
@@ -17668,7 +17721,7 @@ msgstr "保留中のステートを設定した場合、実際の時間に加え
 
 #. SysConfig
 msgid "Title updated: Old: \"%s\", New: \"%s\""
-msgstr ""
+msgstr "タイトルを更新しました: Old…\"%s\"、New…\"%s\""
 
 #. SysConfig
 msgid "Toggles display of OTRS FeatureAddons list in PackageManager."
@@ -17742,7 +17795,7 @@ msgstr "Updated: %s"
 
 #. SysConfig
 msgid "Updated: %s=%s;%s=%s;%s=%s;"
-msgstr ""
+msgstr "更新しました: %s=%s;%s=%s;%s=%s;"
 
 #. SysConfig
 msgid ""

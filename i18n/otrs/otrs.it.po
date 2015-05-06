@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:43+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/OTRS/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -2495,6 +2495,14 @@ msgstr "Impossibile ricavare la versione del Webserver"
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -5304,7 +5312,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
-msgstr ""
+msgstr "Fidato"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
@@ -6380,7 +6388,7 @@ msgstr "AutoIncremento"
 
 #. Template: AdminPackageManager
 msgid "SQL"
-msgstr ""
+msgstr "Limite"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -7918,7 +7926,7 @@ msgstr "Puoi modificare il certificato e la chiave privata direttamente sul file
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "Puoi modificare il certificato e la chiave privata direttamente sul filesystem."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8018,7 +8026,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Qui è possibile inserire SQL per inviarlo direttamente al database."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8169,7 +8177,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Mittente"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -9553,6 +9561,26 @@ msgstr "Prendi tutto"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Inoltra ticket: %s - %s"
@@ -9945,7 +9973,7 @@ msgstr "Articoli non letti"
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "No"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10151,13 +10179,17 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Modifica impostazioni personali"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr ""
+msgstr "SLA"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
@@ -10399,6 +10431,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Inserire almeno un termine o * per cercare tutto."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10429,6 +10467,10 @@ msgstr "Impostazion Database"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Specifiche generiche ed impostazioni email"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10780,6 +10822,10 @@ msgid "OTRS Test Page"
 msgstr "Pagina di test OTRS"
 
 #. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
+
+#. Template: Test
 msgid "Counter"
 msgstr "Contatore"
 
@@ -11014,37 +11060,37 @@ msgstr ""
 msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permette di aggiungere note nella schermata di chiusura del ticket nell'interfaccia dell'agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket free text screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permette di aggiungere note nella schermata a testo libero del ticket nell'interfaccia dell'agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be"
 " overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permette di aggiungere note nella schermata del ticket nell'interfaccia dell'agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permette di aggiungere note nella schermata proprietario del ticket nella schermata ingrandita nell'interfaccia agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket pending screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permette di aggiungere note ad un ticket in attesa nella schermata ingrandita dell'interfaccia agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Permette di aggiungere note nella sezione priorità di un ticket nella schermata ingrandita dell'interfaccia agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
@@ -12070,7 +12116,7 @@ msgid ""
 "activated, a note must be entered for all ticket actions (no matter if the "
 "note itself is configured as active or is originally mandatory for the "
 "individual ticket action screen)."
-msgstr ""
+msgstr "Definisce se la contabilizzazione tempo è obbligatoria nell'interfaccia agente. Se attivato, una nota deve essere inserita per tutte le azioni del ticket (non importa se la nota stessa è configurata come attiva o è originariamente obbligatoria per le schermate di azione individuali del ticket)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
@@ -13787,6 +13833,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

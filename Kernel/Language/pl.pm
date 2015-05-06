@@ -409,6 +409,7 @@ sub Data {
         'Redo' => 'Ponów',
         'Scheduler process is registered but might not be running.' => 'Proces harmonogramu zadań jest zarejestrowany ale prawdopodobnie nie jest uruchomiony.',
         'Scheduler is not running.' => 'Harmonogram zadań nie jest uruchomiony.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Nie można połaczyć sie z serwerem rejestracji. Porszę spróbuj ponownie.',
         'No content received from registration server. Please try again later.' =>
             'Z serwera rejestracji nie otrzymano żadnych danych. Proszę później spróbuj ponownie.',
@@ -698,6 +699,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2260,6 +2264,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Uprawnienia do przesuwania zgłoszeń do tej grupy/kolejki',
         'create' => 'utwórz',
         'Permissions to create tickets in this group/queue.' => 'Uprawnienia do tworzenia zgłoszeń w tej grupie/kolejce',
+        'note' => 'uwaga',
+        'Permissions to add notes to tickets in this group/queue.' => 'Uprawnienia do dodawania uwag do zgłoszeń w tej grupie/kolejce.',
+        'owner' => 'właściciel',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Uprawnienia do zmiany właściciela zgłoszeńw tej grupie/kolejce.',
         'priority' => 'priorytet',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Uprawnienia do zmiany priorytetu zgłoszenia w tej grupie/kolejce',
@@ -2326,7 +2335,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Wpisz zapytanie SQL, które zostanie wysłane bezpośrednio do bazy danych.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Składnia twojego zapytania SQL jest niepoprawna. Sprawdź ją.',
@@ -2373,7 +2382,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Nadawca',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2495,7 +2504,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Zarządzanie szablonami',
@@ -2547,11 +2556,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Zarządzaj relacjami agent-grupa',
         'Change Group Relations for Agent' => 'Zmień relacje grup do agenta',
         'Change Agent Relations for Group' => 'Zmień relacje agentów do grupy',
-        'note' => 'uwaga',
-        'Permissions to add notes to tickets in this group/queue.' => 'Uprawnienia do dodawania uwag do zgłoszeń w tej grupie/kolejce.',
-        'owner' => 'właściciel',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Uprawnienia do zmiany właściciela zgłoszeńw tej grupie/kolejce.',
 
         # Template: AgentBook
         'Address Book' => 'Książka adresowa',
@@ -2850,6 +2854,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Prześlij dalej zgłoszenie: %s - %s',
 
@@ -3047,6 +3058,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3133,6 +3145,8 @@ sub Data {
             'Okno popup tej strony jest wciąż otwarte. Czy chcesz je zamknąć i załadować zamiast niego to okno?',
         'Please enter at least one search value or * to find anything.' =>
             'Wprowadź przynajmniej jedną wyszukiwaną wartość lub * aby znaleźć cokolwiek.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Proszę sprawdź poprawnośc danych w polach oznaczonych jako czerowne.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3146,6 +3160,7 @@ sub Data {
         'JavaScript not available' => 'JavaSript nie jest dostępny',
         'Database Settings' => 'Ustawienia bazy danych',
         'General Specifications and Mail Settings' => 'Ustawienia ogólne i poczty e-mail',
+        'Welcome to %s' => '',
         'Web site' => 'Strona WWW',
         'Mail check successful.' => 'Sprawdzanie poczty e-mail zakończone pomyślnie.',
         'Error in the mail settings. Please correct and try again.' => 'Błąd w ustawieniach poczty. Popraw i spróbuj ponownie.',
@@ -3269,6 +3284,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Strona testowa',
+        'Welcome %s %s' => '',
         'Counter' => 'Licznik',
 
         # Template: Warning
@@ -4203,6 +4219,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => 'Wyświetl ustawienia nadpisujące domyślne dla złoszeń procesowych.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Wyświetla zliczony czas artykułu w widoku przybliżonym zgłoszenia.',
@@ -4839,7 +4857,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => 'Wgrywanie certyfikatu S/MIME',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Szukaj klienta',

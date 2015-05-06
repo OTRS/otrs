@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-10 03:44+0000\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
 "Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -2495,6 +2495,14 @@ msgstr "No se pudo determinar la versión del servidor web."
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Módulos Apache Cargados"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -6379,7 +6387,7 @@ msgstr "AutoIncrementar"
 
 #. Template: AdminPackageManager
 msgid "SQL"
-msgstr ""
+msgstr "Límite"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -7917,7 +7925,7 @@ msgstr "De esta forma Ud. puede editar directamente la certificación y claves p
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de ficheros."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8168,7 +8176,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Remitente"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8415,7 +8423,7 @@ msgstr "BarraNavegación"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Enlazar"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9552,6 +9560,26 @@ msgstr "Obtener todo"
 msgid "E-Mail Outbound"
 msgstr ""
 
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: first response time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: update time will be over in %s/%s!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time is over (%s/%s)!"
+msgstr ""
+
+#. Template: AgentTicketEscalation
+msgid "Ticket %s: solution time will be over in %s/%s!"
+msgstr ""
+
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
 msgstr "Reenviar el ticket: %s - %s"
@@ -10150,6 +10178,10 @@ msgstr ""
 msgid "Edit personal preferences"
 msgstr "Editar las preferencias personales"
 
+#. Template: CustomerNavigationBar
+msgid "Logout %s %s"
+msgstr ""
+
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
 msgstr ""
@@ -10398,6 +10430,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Introduzca al menos un valor de búsqueda, o * para buscar todo."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Compruebe que los campos marcados en rojo tienen datos válidos."
 
@@ -10428,6 +10466,10 @@ msgstr "Ajustes de la base de datos"
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
 msgstr "Indicaciones generales y ajustes del correo"
+
+#. Template: Installer
+msgid "Welcome to %s"
+msgstr ""
 
 #. Template: Installer
 msgid "Web site"
@@ -10777,6 +10819,10 @@ msgstr "impreso por"
 #. Template: Test
 msgid "OTRS Test Page"
 msgstr "Página de prueba de OTRS"
+
+#. Template: Test
+msgid "Welcome %s %s"
+msgstr ""
 
 #. Template: Test
 msgid "Counter"
@@ -13786,6 +13832,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

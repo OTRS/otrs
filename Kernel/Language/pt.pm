@@ -407,6 +407,7 @@ sub Data {
         'Redo' => 'Refazer',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => '',
         'No content received from registration server. Please try again later.' =>
             '',
@@ -641,7 +642,7 @@ sub Data {
         'Config Settings' => '',
         'Could not determine value.' => '',
         'Database Records' => '',
-        'Tickets' => '',
+        'Tickets' => 'Tickets',
         'Ticket History Entries' => '',
         'Articles' => '',
         'Attachments (DB, Without HTML)' => '',
@@ -650,7 +651,7 @@ sub Data {
         'Agents' => 'Agentes',
         'Roles' => 'Papeis',
         'Groups' => 'Grupos',
-        'Dynamic Fields' => '',
+        'Dynamic Fields' => 'Campos Dinâmicos',
         'Dynamic Field Values' => '',
         'Invalid Dynamic Fields' => '',
         'Invalid Dynamic Field Values' => '',
@@ -696,6 +697,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1354,7 +1358,7 @@ sub Data {
         'Time units' => 'UnAntiguidades de tempo',
         'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Enviar notificações de alterações a agente/cliente ',
-        'CMD' => '',
+        'CMD' => 'Este comando será executado. ARG[0] será o número do ticket e ARG[1] o seu ID.',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             'Este comando será executado. ARG[0] será o número do ticket e ARG[1] o seu ID.',
         'Delete tickets' => 'Remover tickets',
@@ -1500,7 +1504,7 @@ sub Data {
             '',
         'Default command' => '',
         'The default HTTP command to use for the requests.' => '',
-        'Authentication' => '',
+        'Authentication' => 'Autenticação',
         'The authentication mechanism to access the remote system.' => '',
         'A "-" value means no authentication.' => '',
         'The user name to be used to access the remote system.' => '',
@@ -1818,7 +1822,7 @@ sub Data {
         'Required' => 'Obrigatório',
         'PrimaryKey' => 'ChavePrincipal',
         'AutoIncrement' => 'AutoIncrementar',
-        'SQL' => '',
+        'SQL' => 'Limite',
         'File differences for file %s' => 'Diferenças entre ficheiros para %s',
 
         # Template: AdminPerformanceLog
@@ -2033,7 +2037,7 @@ sub Data {
         'Condition' => '',
         'Transitions are not being used in this process.' => '',
         'Module name' => '',
-        'Configuration' => '',
+        'Configuration' => 'Configuração',
         'Transition actions are not being used in this process.' => '',
 
         # Template: AdminProcessManagementTransition
@@ -2258,6 +2262,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Permissões para mover tickets para este grupo/queue',
         'create' => 'criar',
         'Permissions to create tickets in this group/queue.' => 'Permissões para criar tickets neste grupo/queue',
+        'note' => 'nota',
+        'Permissions to add notes to tickets in this group/queue.' => 'Permissões para adicionar notas a tickets neste grupo/fila',
+        'owner' => 'proprietário',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Permissões para alterar o proprietário do ticket neste grupo/fila',
         'priority' => 'Prioridade',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Permissões para modificar a Prioridade do ticket neste grupo/queue',
@@ -2289,7 +2298,7 @@ sub Data {
         'See also' => 'Ver também',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Aqui pode editar directamente os certificados e chaves privadas presentes no sistema de ficheiros.',
-        'Hash' => '',
+        'Hash' => 'Aqui pode editar directamente os certificados e chaves privadas presentes no sistema de ficheiros.',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'Apagar este certificado',
@@ -2324,7 +2333,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Pode introduzir comandos SQL para executar diretamente na base de dados',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'O comando SQL contém erros. Corija por favor',
@@ -2371,7 +2380,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Remetente',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2444,8 +2453,8 @@ sub Data {
         'File to load for this frontend module' => 'Ficheiro a carregar para o módulo de frontend',
         'New Loader File' => 'Novo ficheiro de inicialização',
         'NavBarName' => '',
-        'NavBar' => '',
-        'LinkOption' => '',
+        'NavBar' => 'Tecla de acesso',
+        'LinkOption' => 'Ligar',
         'Block' => 'Bloquear',
         'AccessKey' => 'Tecla de acesso',
         'Add NavBar entry' => 'Adicionar entrada a NavBar',
@@ -2493,7 +2502,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => '',
@@ -2545,11 +2554,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Gerir relações Agente-grupo',
         'Change Group Relations for Agent' => 'Gerir relações de grupo com o agente',
         'Change Agent Relations for Group' => 'Gerir relações de agente com o grupo',
-        'note' => 'nota',
-        'Permissions to add notes to tickets in this group/queue.' => 'Permissões para adicionar notas a tickets neste grupo/fila',
-        'owner' => 'proprietário',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Permissões para alterar o proprietário do ticket neste grupo/fila',
 
         # Template: AgentBook
         'Address Book' => 'Lista de Endereços',
@@ -2617,11 +2621,11 @@ sub Data {
         'PDF' => '',
 
         # Template: AgentDashboardTicketGeneric
-        'My locked tickets' => '',
+        'My locked tickets' => 'Os meus tickets bloqueados',
         'My watched tickets' => '',
-        'My responsibilities' => '',
-        'Tickets in My Queues' => '',
-        'Tickets in My Services' => '',
+        'My responsibilities' => 'Minhas responsabilidades',
+        'Tickets in My Queues' => 'TIckets nas minhas Filas',
+        'Tickets in My Services' => 'Tickets nos meus Serviços',
         'Service Time' => 'Tempo de serviço',
         'Remove active filters for this widget.' => '',
 
@@ -2812,7 +2816,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Ação em bloco sobre tickets',
-        'Send Email' => '',
+        'Send Email' => 'Enviar mensagem de email !',
         'Merge to' => 'Ligar a',
         'Invalid ticket identifier!' => 'Identificador de ticket inválido',
         'Merge to oldest' => 'Fundir com o mais antigo',
@@ -2847,6 +2851,13 @@ sub Data {
 
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
+
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => '',
@@ -2974,7 +2985,7 @@ sub Data {
         'Show all articles' => 'Mostrar todos os artigos',
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'Artigos por ler',
-        'No.' => '',
+        'No.' => 'Não',
         'Important' => '',
         'Unread Article!' => 'Artigo não lido!',
         'Incoming message' => 'Mensagem de entrada',
@@ -3045,6 +3056,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Preferências pessoais',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3131,6 +3143,8 @@ sub Data {
             'Já existe uma janela popup aberta. Deseja fecha-la e abrir uma nova ?',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3144,6 +3158,7 @@ sub Data {
         'JavaScript not available' => 'Javascript não disponível',
         'Database Settings' => 'Definições de base de dados',
         'General Specifications and Mail Settings' => 'Especificações comuns e definições de email',
+        'Welcome to %s' => '',
         'Web site' => 'Site',
         'Mail check successful.' => 'Verificação de email com sucesso',
         'Error in the mail settings. Please correct and try again.' => 'Erro nas definições de email. Corrija e tente novamente',
@@ -3267,6 +3282,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Página de Teste do OTRS',
+        'Welcome %s %s' => '',
         'Counter' => 'Contador',
 
         # Template: Warning
@@ -3531,7 +3547,7 @@ sub Data {
         'CustomerName' => '',
         'Customers <-> Groups' => '',
         'Data used to export the search result in CSV format.' => '',
-        'Date / Time' => '',
+        'Date / Time' => 'Data / Hora',
         'Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".' =>
             '',
         'Default ACL values for ticket actions.' => '',
@@ -4201,6 +4217,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4685,7 +4703,7 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Old: "%s" New: "%s"' => 'Antigo: "%s" Novo: "%s"',
-        'Online' => '',
+        'Online' => 'Online',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
         'Out Of Office' => '',
@@ -4837,7 +4855,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Procurar Cliente',
@@ -5330,7 +5348,7 @@ sub Data {
         'System Maintenance' => '',
         'System Request (%s).' => 'Pedido de sistema',
         'Templates <-> Queues' => '',
-        'Textarea' => '',
+        'Textarea' => 'AreadeTexto',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>
@@ -5438,7 +5456,7 @@ sub Data {
         'Write a new, outgoing mail' => '',
         'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Seleção das filas favoritas. Será notificado acerca destas filas via email se o serviço estiver Ativo.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
             '',
 

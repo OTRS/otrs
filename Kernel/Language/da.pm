@@ -407,6 +407,7 @@ sub Data {
         'Redo' => 'Gendan',
         'Scheduler process is registered but might not be running.' => 'Scheduler-processen er registreret, men kører måske ikke.',
         'Scheduler is not running.' => 'Scheduleren kører ikke.',
+        'All sessions have been killed, except for your own.' => '',
         'Can\'t contact registration server. Please try again later.' => 'Kan ikke kontakte registrations-serveren. Prøv venligst igen senere.',
         'No content received from registration server. Please try again later.' =>
             'Modtog ikke noget fra registrations-serveren. Prøv venligst igen senere.',
@@ -696,6 +697,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2258,6 +2262,11 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Tilladelser til at flytte sager ind i denne gruppe/kø.',
         'create' => 'opret',
         'Permissions to create tickets in this group/queue.' => 'Tilladelser til at oprette sager i denne gruppe/kø.',
+        'note' => 'note',
+        'Permissions to add notes to tickets in this group/queue.' => 'Rettigheder til at tilføje noter til sager i denne gruppe/kø.',
+        'owner' => 'ejer',
+        'Permissions to change the owner of tickets in this group/queue.' =>
+            'Rettigheder til at ændre ejer på sager i denne gruppe/kø',
         'priority' => 'prioritering',
         'Permissions to change the ticket priority in this group/queue.' =>
             'Tilladelser til at ændre sagprioriteringen i denne gruppe/kø.',
@@ -2324,7 +2333,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Her kan du indtaste SQL og sende de direkte til applikations-databasen.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Din SQL-syntax indeholder fejl. Tjek den venligst.',
@@ -2493,7 +2502,7 @@ sub Data {
         'All Sessions' => '',
         'Agent Sessions' => '',
         'Customer Sessions' => '',
-        'Kill all Sessions, exept current' => '',
+        'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
         'Manage Templates' => 'Administrer skabeloner',
@@ -2545,11 +2554,6 @@ sub Data {
         'Manage Agent-Group Relations' => 'Administrer Agent/Gruppe-relationer',
         'Change Group Relations for Agent' => 'Skift gruppe-relationer for agent',
         'Change Agent Relations for Group' => 'Skift agent-relationer for gruppe',
-        'note' => 'note',
-        'Permissions to add notes to tickets in this group/queue.' => 'Rettigheder til at tilføje noter til sager i denne gruppe/kø.',
-        'owner' => 'ejer',
-        'Permissions to change the owner of tickets in this group/queue.' =>
-            'Rettigheder til at ændre ejer på sager i denne gruppe/kø',
 
         # Template: AgentBook
         'Address Book' => 'Adressebog',
@@ -2848,6 +2852,13 @@ sub Data {
         # Template: AgentTicketEmailOutbound
         'E-Mail Outbound' => '',
 
+        # Template: AgentTicketEscalation
+        'Ticket %s: first response time is over (%s/%s)!' => '',
+        'Ticket %s: first response time will be over in %s/%s!' => '',
+        'Ticket %s: update time will be over in %s/%s!' => '',
+        'Ticket %s: solution time is over (%s/%s)!' => '',
+        'Ticket %s: solution time will be over in %s/%s!' => '',
+
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Videresend sag: %s - %s',
 
@@ -3045,6 +3056,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Rediger dine personlige indstillinger',
+        'Logout %s %s' => '',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3131,6 +3143,8 @@ sub Data {
             'Et pop-up vindue med dette billede er allerede åbent. Vil du lukke det og åbne denne i stedet?',
         'Please enter at least one search value or * to find anything.' =>
             'Angiv venligst mindst ét søgeord eller * for at finde alt.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Tjek de røde felter og udfyld dem med gyldigt indhold.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3144,6 +3158,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript ikke tilgængeligt',
         'Database Settings' => 'Database-indstillinger',
         'General Specifications and Mail Settings' => 'Generelle specifikationer og mail-indstillinger',
+        'Welcome to %s' => '',
         'Web site' => 'Webside',
         'Mail check successful.' => 'Mail er tjekket ok.',
         'Error in the mail settings. Please correct and try again.' => 'Fejl i mail-indstillingerne. Ret dem venligst og prøv igen.',
@@ -3267,6 +3282,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS prøveside',
+        'Welcome %s %s' => '',
         'Counter' => 'Tæller',
 
         # Template: Warning
@@ -4201,6 +4217,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             '',
@@ -4837,7 +4855,7 @@ sub Data {
             '',
         'S/MIME Certificate Upload' => '',
         'Sample command output' => '',
-        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data.' =>
+        'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
         'Schedule a maintenance period.' => '',
         'Search Customer' => 'Søg kunde',
