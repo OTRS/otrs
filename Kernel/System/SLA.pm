@@ -184,7 +184,7 @@ sub SLAGet {
         if ( !$Param{$Argument} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Argument!"
+                Message  => "Need $Argument!",
             );
             return;
         }
@@ -338,7 +338,7 @@ sub SLALookup {
         );
 
         # fetch the result
-        my $Name;
+        my $Name = '';
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $Name = $Row[0];
         }
@@ -377,7 +377,7 @@ sub SLALookup {
         );
 
         # fetch the result
-        my $SLAID;
+        my $SLAID = '';
         while ( my @Row = $DBObject->FetchrowArray() ) {
             $SLAID = $Row[0];
         }

@@ -697,6 +697,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2067,7 +2070,7 @@ sub Data {
         'Edit Queue' => 'Redaguoti eilę',
         'A queue with this name already exists!' => '',
         'Sub-queue of' => 'Poeilis',
-        'Unlock timeout' => '',
+        'Unlock timeout' => 'neatrakinti',
         '0 = no unlock' => 'neatrakinti',
         'Only business hours are counted.' => 'Skaičiuojamos tik darbo valandos.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
@@ -2295,7 +2298,7 @@ sub Data {
         'See also' => 'Taip pat žiūrėkite',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Šiuo būdu galite tiesiogiai redaguoti sertifikatus ir privačius raktus sistemoje.',
-        'Hash' => '',
+        'Hash' => 'Šiuo būdu galite tiesiogiai redaguoti sertifikatus ir privačius raktus sistemoje.',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => 'Ištrinti šį sertifikatą',
@@ -2330,7 +2333,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Čia galite įvesti ir tiesiogiai programos duomenų bazei nusiųsti SQL užklausas.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'Jūsų SQL užklausoje yra klaida. Prašome ją ištaisyti.',
@@ -2377,7 +2380,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Siuntėjas',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2451,7 +2454,7 @@ sub Data {
         'New Loader File' => 'Naujas užkrovos failas',
         'NavBarName' => '',
         'NavBar' => '',
-        'LinkOption' => '',
+        'LinkOption' => 'Susieti',
         'Block' => 'Blokuoti',
         'AccessKey' => '',
         'Add NavBar entry' => 'Pridėti NavBar įrašą',
@@ -2813,7 +2816,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Masinis veiksmas su triktimis',
-        'Send Email' => '',
+        'Send Email' => 'Siųsti paštą!',
         'Merge to' => 'Sujungti su',
         'Invalid ticket identifier!' => 'Negaliojantis trikties identifikatorius!',
         'Merge to oldest' => 'Prijungti prie seniausio',
@@ -3008,7 +3011,7 @@ sub Data {
         'First message' => '',
 
         # Template: CustomerError
-        'Traceback' => '',
+        'Traceback' => 'Spausdinti',
 
         # Template: CustomerFooter
         'Powered by' => 'Powered by',
@@ -3139,6 +3142,8 @@ sub Data {
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Šio ekrano iššokantis langas jau yra atvertas. Ar norite jį uždaryti ir vietoj jo užkrauti šį?',
         'Please enter at least one search value or * to find anything.' =>
+            '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
             '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
@@ -4211,6 +4216,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
@@ -5449,7 +5456,7 @@ sub Data {
         'Write a new, outgoing mail' => '',
         'Yes, but hide archived tickets' => '',
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
-            '',
+            'Jūsų mėgstamiausių eilių rinkinys. Taip pat būsite informuoti apie šias eiles jei įjungsite (įgalinsite) tokią funkciją.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
             '',
 

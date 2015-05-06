@@ -396,7 +396,7 @@ sub Data {
         'Align Center' => '',
         'Align Right' => '',
         'Justify' => '',
-        'Header' => '',
+        'Header' => 'النوع',
         'Indent' => '',
         'Outdent' => '',
         'Create an Unordered List' => '',
@@ -699,6 +699,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -735,7 +738,7 @@ sub Data {
         'Move' => 'نقل',
         'Queue' => 'قائمة البطاقات',
         'Priority' => 'أولوية',
-        'Priorities' => '',
+        'Priorities' => 'أولوية',
         'Priority Update' => '',
         'Priority added!' => '',
         'Priority updated!' => '',
@@ -747,9 +750,9 @@ sub Data {
         'Service' => '',
         'Services' => '',
         'State' => 'الحالة',
-        'States' => '',
+        'States' => 'الحالة',
         'Status' => 'الحالة',
-        'Statuses' => '',
+        'Statuses' => 'الحالة',
         'Ticket Type' => '',
         'Ticket Types' => '',
         'Compose' => 'إرسال',
@@ -1113,7 +1116,7 @@ sub Data {
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
-        'Notice' => '',
+        'Notice' => 'ملاحظة',
         'This feature is disabled!' => '',
         'Just use this feature if you want to define group permissions for customers.' =>
             '',
@@ -1359,7 +1362,7 @@ sub Data {
         'Send agent/customer notifications on changes' => '',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
-            '',
+            'حذف بطاقات',
         'Delete tickets' => 'حذف بطاقات',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             '',
@@ -1757,7 +1760,7 @@ sub Data {
         'Go to OTRS Package Manager' => '',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
-        'Vendor' => '',
+        'Vendor' => 'تطوير',
         'Please uninstall the packages first using the package manager and try again.' =>
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
@@ -1799,7 +1802,7 @@ sub Data {
         'Install' => 'تخزين',
         'Install Package' => '',
         'Update repository information' => '',
-        'Online Repository' => '',
+        'Online Repository' => 'النسخة',
         'Module documentation' => '',
         'Upgrade' => 'تطوير',
         'Local Repository' => '',
@@ -1813,7 +1816,7 @@ sub Data {
         'Rebuild package' => '',
         'Metadata' => '',
         'Change Log' => '',
-        'Date' => '',
+        'Date' => 'بيانات',
         'List of Files' => '',
         'Permission' => '',
         'Download' => 'تنزيل',
@@ -2261,7 +2264,7 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => '',
         'create' => '',
         'Permissions to create tickets in this group/queue.' => '',
-        'note' => '',
+        'note' => 'ملاحظة',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => '',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2379,7 +2382,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'المرسل',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2409,7 +2412,7 @@ sub Data {
         'Example signature' => '',
 
         # Template: AdminState
-        'State Management' => '',
+        'State Management' => 'الحالة',
         'Add state' => '',
         'Please also update the states in SysConfig where needed.' => '',
         'Add State' => '',
@@ -2453,7 +2456,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => '',
         'NavBar' => '',
-        'LinkOption' => '',
+        'LinkOption' => 'رابط',
         'Block' => '',
         'AccessKey' => '',
         'Add NavBar entry' => '',
@@ -2815,7 +2818,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'التنفيذ الجماعي للبطاقة',
-        'Send Email' => '',
+        'Send Email' => 'إرسال البريد',
         'Merge to' => 'دمج إلى',
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => '',
@@ -2906,7 +2909,7 @@ sub Data {
 
         # Template: AgentTicketPlain
         'Email Text Plain View' => '',
-        'Plain' => '',
+        'Plain' => 'عادي',
         'Download this email' => '',
 
         # Template: AgentTicketPrint
@@ -2984,7 +2987,7 @@ sub Data {
         'Show all articles' => '',
         'Show Ticket Timeline View' => '',
         'Unread articles' => '',
-        'No.' => '',
+        'No.' => 'لا',
         'Important' => '',
         'Unread Article!' => '',
         'Incoming message' => '',
@@ -3010,7 +3013,7 @@ sub Data {
         'First message' => '',
 
         # Template: CustomerError
-        'Traceback' => '',
+        'Traceback' => 'طباعة',
 
         # Template: CustomerFooter
         'Powered by' => 'أنتج بواسطة',
@@ -3039,7 +3042,7 @@ sub Data {
         'Your user name' => '',
         'Your password' => '',
         'Forgot password?' => '',
-        'Log In' => '',
+        'Log In' => 'تسجيل الدخول',
         'Not yet registered?' => '',
         'Request new password' => 'طلب كلمة مرور جديدة',
         'Your User Name' => '',
@@ -3090,7 +3093,7 @@ sub Data {
         'Save as Template' => '',
         'Template Name' => '',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'نموذج النتيجة',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'من',
@@ -3113,9 +3116,9 @@ sub Data {
         'Saturday' => '',
         'Su' => '',
         'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
+        'Tu' => 'مارس',
+        'We' => 'تفعيل',
+        'Th' => 'إلى',
         'Fr' => '',
         'Sa' => '',
         'Event Information' => '',
@@ -3142,6 +3145,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3162,7 +3167,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'النوع',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3175,13 +3180,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'النوع',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'مستخدم',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'كلمة المرور',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -4213,6 +4218,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

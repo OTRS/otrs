@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Hungarian (http://www.transifex.com/projects/p/OTRS/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2502,6 +2502,14 @@ msgstr "Nem sikerült meghatározni a webkiszolgáló verzióját."
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Betöltött Apache modulok"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -10429,6 +10437,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Adjon meg legalább egy keresési értéket, vagy * karaktert, ha bármire rá szeretne keresni."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Ellenőrizze a pirosan megjelölt mezőket a helyes bevitelekért."
 
@@ -13826,6 +13840,12 @@ msgid ""
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
 msgstr "Letiltja a webes telepítőt (http://yourhost.example.com/otrs/installer.pl), hogy megakadályozza a rendszer feltörését. Ha „Nem” értékre állítja, a rendszer újratelepíthető, és a jelenlegi alap konfiguráció lesz felhasználva a telepítő parancsfájlon belüli kérdések előre kitöltéséhez. Ha nem aktív, akkor letiltja az általános ügyintézőt, a csomagkezelőt és az SQL dobozt is."
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."

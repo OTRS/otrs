@@ -705,6 +705,9 @@ sub Data {
         'Webserver Version' => 'Versione Webserver',
         'Could not determine webserver version.' => 'Impossibile ricavare la versione del Webserver',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Utilizzo dell\'Accleratore CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1497,7 +1500,7 @@ sub Data {
         'Send Keep-Alive' => '',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             '',
-        'Host' => '',
+        'Host' => 'Fidato',
         'Remote host URL for the REST requests.' => '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
             '',
@@ -1827,7 +1830,7 @@ sub Data {
         'Required' => 'Richiesto',
         'PrimaryKey' => 'Chiave primaria',
         'AutoIncrement' => 'AutoIncremento',
-        'SQL' => '',
+        'SQL' => 'Limite',
         'File differences for file %s' => 'Differenze per il file %s',
 
         # Template: AdminPerformanceLog
@@ -2303,7 +2306,7 @@ sub Data {
         'See also' => 'Vedi anche',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
-        'Hash' => '',
+        'Hash' => 'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
         'Handle related certificates' => 'Gestisci i certificati collegati',
         'Read certificate' => 'leggi il certificato',
         'Delete this certificate' => 'Elimina questo certificato',
@@ -2338,7 +2341,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Qui è possibile inserire SQL per inviarlo direttamente al database.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'La sintassi della query SQL è sbagliata.',
@@ -2385,7 +2388,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Mittente',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2990,7 +2993,7 @@ sub Data {
         'Show all articles' => 'Mostra tutti gli articoli',
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'Articoli non letti',
-        'No.' => '',
+        'No.' => 'No',
         'Important' => '',
         'Unread Article!' => 'Articolo non letto!',
         'Incoming message' => 'Messaggio ricevuto',
@@ -3067,7 +3070,7 @@ sub Data {
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Benvenuto!',
@@ -3148,6 +3151,8 @@ sub Data {
             'Un popup di questa schermata è già aperto. Si desidera chiuderlo ed aprire questo invece?',
         'Please enter at least one search value or * to find anything.' =>
             'Inserire almeno un termine o * per cercare tutto.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3362,17 +3367,17 @@ sub Data {
         'Agents <-> Roles' => 'Agenti <-> Ruoli',
         'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permette di aggiungere note nella schermata di chiusura del ticket nell\'interfaccia dell\'agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permette di aggiungere note nella schermata a testo libero del ticket nell\'interfaccia dell\'agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permette di aggiungere note nella schermata del ticket nell\'interfaccia dell\'agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permette di aggiungere note nella schermata proprietario del ticket nella schermata ingrandita nell\'interfaccia agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permette di aggiungere note ad un ticket in attesa nella schermata ingrandita dell\'interfaccia agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Permette di aggiungere note nella sezione priorità di un ticket nella schermata ingrandita dell\'interfaccia agente. Può essere sovrascritto da Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
@@ -3672,7 +3677,7 @@ sub Data {
         'Defines if the list for filters should be retrieve just from current tickets in system. Just for clarification, Customers list will always came from system\'s tickets.' =>
             '',
         'Defines if time accounting is mandatory in the agent interface. If activated, a note must be entered for all ticket actions (no matter if the note itself is configured as active or is originally mandatory for the individual ticket action screen).' =>
-            '',
+            'Definisce se la contabilizzazione tempo è obbligatoria nell\'interfaccia agente. Se attivato, una nota deve essere inserita per tutte le azioni del ticket (non importa se la nota stessa è configurata come attiva o è originariamente obbligatoria per le schermate di azione individuali del ticket).',
         'Defines if time accounting must be set to all tickets in bulk action.' =>
             'Definisce se la rendicontazione del tempo è necessaria per le azioni multiple',
         'Defines queues that\'s tickets are used for displaying as calendar events.' =>
@@ -4219,6 +4224,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

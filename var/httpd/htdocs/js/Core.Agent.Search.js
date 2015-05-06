@@ -206,6 +206,133 @@ Core.Agent.Search = (function (TargetNS) {
 
     /**
      * @function
+     * @private
+     * @param {Array} Search strings to check for stop words.
+     * @param {Function} Callback function to execute if stop words were found.
+     * @param {Function} Callback function to execute if no stop words were found.
+     * @return nothing
+     * @description Checks if the given search strings contain stop words.
+     */
+
+    function AJAXStopWordCheck(SearchStrings, CallbackStopWordsFound, CallbackNoStopWordsFound) {
+        var StopWordCheckData = {
+            Action:        'AgentTicketSearch',
+            Subaction:     'AJAXStopWordCheck',
+            SearchStrings: SearchStrings
+        };
+
+        // Prevent multiple stop word checks
+        if (AJAXStopWordCheckRunning) {
+            return;
+        }
+        AJAXStopWordCheckRunning = true;
+        Core.Form.DisableForm($('#SearchForm'));
+
+        Core.AJAX.FunctionCall(
+            Core.Config.Get('CGIHandle'),
+            StopWordCheckData,
+            function (Result) {
+                var FoundStopWords = '';
+
+                $.each( Result.FoundStopWords , function (Key, StopWords) {
+                    var TranslatedKey = Core.Config.Get('FieldTitle' + Key);
+
+                    if ( !StopWords.length ) {
+                        return;
+                    }
+
+                    if (!TranslatedKey) {
+                        TranslatedKey = Key;
+                    }
+
+                    FoundStopWords += TranslatedKey + ': ' + StopWords.join(', ') + "\n";
+                });
+
+                AJAXStopWordCheckRunning = false;
+                Core.Form.EnableForm($('#SearchForm'));
+
+                if (FoundStopWords.length) {
+                     CallbackStopWordsFound(FoundStopWords);
+                }
+                else {
+                    CallbackNoStopWordsFound();
+                }
+            }
+        );
+    }
+
+    /**
+     * @function
+     * @private
+     * @param {Function} Callback function to execute, if no stop words were found.
+     * @return nothing
+     * @description Checks if specific values of the search form contain stop words.
+     *              If stop words are present, a warning will be displayed.
+     *              If stop words are not present, the given callback will be executed.
+     */
+    function CheckSearchStringsForStopWords(Callback) {
+        var SearchStrings = {},
+            SearchStringsFound = 0,
+            RelevantElementNames = {
+                'From': 1,
+                'To': 1,
+                'Cc': 1,
+                'Subject': 1,
+                'Body': 1,
+                'Fulltext': 1
+            },
+            StopWordCheckData;
+
+        if (!Core.Config.Get('CheckSearchStringsForStopWords')) {
+            Callback();
+            return;
+        }
+
+        $('#SearchForm label').each(function () {
+            var ElementName,
+                $Element,
+                $LabelElement = $(this),
+                $FieldElement = $LabelElement.next('.Field');
+
+            // those with ID's are used for searching
+            if ( $(this).attr('id') ) {
+
+                // substring "Label" (e.g. first five characters ) from the
+                // label id, use the remaining name as name string for accessing
+                // the form input's value
+                ElementName = $(this).attr('id').substring(5);
+                if ( !RelevantElementNames[ElementName] ) {
+                    return;
+                }
+
+                $Element = $('#SearchForm input[name='+ElementName+']');
+
+                if ($Element.length) {
+                    if ( $Element.val() && $Element.val() !== '' ) {
+                        SearchStrings[ElementName] = $Element.val();
+                        SearchStringsFound = 1;
+                    }
+                }
+            }
+        });
+
+        // Check if stop words are present.
+        if (!SearchStringsFound) {
+            Callback();
+            return;
+        }
+
+        AJAXStopWordCheck(
+            SearchStrings,
+            function (FoundStopWords) {
+                alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + "\n" + FoundStopWords);
+            },
+            Callback
+        );
+    }
+
+    /**
+     * @function
      * @param {String} Action which is used in framework right now.
      * @param {String} Used profile name.
      * @return nothing
@@ -440,137 +567,6 @@ Core.Agent.Search = (function (TargetNS) {
             }, 'html'
         );
     };
-
-    /**
-     * @function
-     * @private
-     * @param {Function} Callback function to execute, if no stop words were found.
-     * @return nothing
-     * @description Checks if specific values of the search form contain stop words.
-     *              If stop words are present, a warning will be displayed.
-     *              If stop words are not present, the given callback will be executed.
-     */
-    function CheckSearchStringsForStopWords(Callback) {
-        var SearchStrings = {},
-            SearchStringsFound = 0,
-            RelevantElementNames = {
-                'From': 1,
-                'To': 1,
-                'Cc': 1,
-                'Subject': 1,
-                'Body': 1,
-                'Fulltext': 1
-            },
-            StopWordCheckData;
-
-        if (!Core.Config.Get('CheckSearchStringsForStopWords')) {
-            Callback();
-            return;
-        }
-
-        $('#SearchForm label').each(function () {
-            var ElementName,
-                $Element,
-                $LabelElement = $(this),
-                $FieldElement = $LabelElement.next('.Field');
-
-            // those with ID's are used for searching
-            if ( $(this).attr('id') ) {
-
-                // substring "Label" (e.g. first five characters ) from the
-                // label id, use the remaining name as name string for accessing
-                // the form input's value
-                ElementName = $(this).attr('id').substring(5);
-                if ( !RelevantElementNames[ElementName] ) {
-                    return;
-                }
-
-                $Element = $('#SearchForm input[name='+ElementName+']');
-
-                if ($Element.length) {
-                    if ( $Element.val() && $Element.val() !== '' ) {
-                        SearchStrings[ElementName] = $Element.val();
-                        SearchStringsFound = 1;
-                    }
-                }
-            }
-        });
-
-        // Check if stop words are present.
-        if (!SearchStringsFound) {
-            Callback();
-            return;
-        }
-
-        AJAXStopWordCheck(
-            SearchStrings,
-            function (FoundStopWords) {
-                alert(Core.Config.Get('SearchStringsContainStopWordsMsg') + "\n" + FoundStopWords);
-            },
-            Callback
-        );
-    }
-
-    /**
-     * @function
-     * @private
-     * @param {Array} Search strings to check for stop words.
-     * @param {Function} Callback function to execute if stop words were found.
-     * @param {Function} Callback function to execute if no stop words were found.
-     * @return nothing
-     * @description Checks if the given search strings contain stop words.
-     */
-
-    function AJAXStopWordCheck(SearchStrings, CallbackStopWordsFound, CallbackNoStopWordsFound) {
-        var StopWordCheckData = {
-            Action:        'AgentTicketSearch',
-            Subaction:     'AJAXStopWordCheck',
-            SearchStrings: SearchStrings
-        };
-
-        // Prevent multiple stop word checks
-        if (AJAXStopWordCheckRunning) {
-            return;
-        }
-        AJAXStopWordCheckRunning = true;
-        Core.Form.DisableForm($('#SearchForm'));
-
-        Core.AJAX.FunctionCall(
-            Core.Config.Get('CGIHandle'),
-            StopWordCheckData,
-            function (Result) {
-                var FoundStopWords = '';
-
-                $.each( Result.FoundStopWords , function (Key, StopWords) {
-                    var TranslatedKey = Core.Config.Get('FieldTitle' + Key);
-
-                    if ( !StopWords.length ) {
-                        return;
-                    }
-
-                    if (!TranslatedKey) {
-                        TranslatedKey = Key;
-                    }
-
-                    FoundStopWords +=
-                        TranslatedKey
-                        + ': '
-                        + StopWords.join(', ')
-                        + "\n";
-                });
-
-                AJAXStopWordCheckRunning = false;
-                Core.Form.EnableForm($('#SearchForm'));
-
-                if (FoundStopWords.length) {
-                     CallbackStopWordsFound(FoundStopWords);
-                }
-                else {
-                    CallbackNoStopWordsFound();
-                }
-            }
-        );
-    }
 
     /**
      * @function

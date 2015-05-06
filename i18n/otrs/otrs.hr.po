@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/OTRS/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -370,7 +370,7 @@ msgstr "Stvori vezu"
 
 #. Template: AAABase
 msgid "Unlink"
-msgstr "Raskini vezu"
+msgstr "Prekini vezu"
 
 #. Template: AAABase
 msgid "Linked"
@@ -406,7 +406,7 @@ msgstr "Pogodak"
 
 #. Template: AAABase
 msgid "Hits"
-msgstr "Pogodci"
+msgstr "Pogotci"
 
 #. Template: AAABase
 msgid "Text"
@@ -414,7 +414,7 @@ msgstr "Tekst"
 
 #. Template: AAABase
 msgid "Standard"
-msgstr "Normalan"
+msgstr "Uobičajen"
 
 #. Template: AAABase
 msgid "Lite"
@@ -446,19 +446,19 @@ msgstr "Postavke"
 
 #. Template: AAABase
 msgid "Salutation"
-msgstr "Zaglavlje/pozdrav"
+msgstr "Pozdrav"
 
 #. Template: AAABase
 msgid "Salutations"
-msgstr "Zaglavlja/pozdravi"
+msgstr "Pozdravi"
 
 #. Template: AAABase
 msgid "Signature"
-msgstr "Podnožje/potpis"
+msgstr "Potpis"
 
 #. Template: AAABase
 msgid "Signatures"
-msgstr "Podnožja/potpisi"
+msgstr "Potpisi"
 
 #. Template: AAABase
 msgid "Customer"
@@ -730,19 +730,19 @@ msgstr "Izbor datuma"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Prikaži stablo"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "Sadržaj polja je predugačak!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "Najviše je moguće %s znakova."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Polje je obavezno ili "
 
 #. Template: AAABase
 msgid "New message"
@@ -817,7 +817,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Ova mail adresa već postoji. Molimo prijavite se ili obnovite svoju lozinku."
 
 #. Template: AAABase
 msgid "Logout"
@@ -837,7 +837,7 @@ msgstr "Ažuriran zaposlenik"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Izbor baze podataka"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -962,11 +962,11 @@ msgstr "Unos nije pronađen!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
-msgstr ""
+msgstr "Sesija nije uspjela. Molimo prijavite se ponovo."
 
 #. Template: AAABase
 msgid "Session has timed out. Please log in again."
-msgstr "Vrijeme sjednice je isteklo. Molimo prijavite se ponovno."
+msgstr "Vrijeme sesije je isteklo. Molimo prijavite se ponovno."
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
@@ -1018,55 +1018,55 @@ msgstr "Dodana uloga!"
 
 #. Template: AAABase
 msgid "Role updated!"
-msgstr "Ažurirana uloga"
+msgstr "Ažurirana uloga!"
 
 #. Template: AAABase
 msgid "Attachment added!"
-msgstr "Dodan prilog"
+msgstr "Dodan prilog!"
 
 #. Template: AAABase
 msgid "Attachment updated!"
-msgstr "Ažuriran prilog"
+msgstr "Ažuriran prilog!"
 
 #. Template: AAABase
 msgid "Response added!"
-msgstr "Dodan odgovor"
+msgstr "Dodan odgovor!"
 
 #. Template: AAABase
 msgid "Response updated!"
-msgstr "Ažurirana odgovor"
+msgstr "Ažuriran odgovor!"
 
 #. Template: AAABase
 msgid "Group updated!"
-msgstr "Ažurirana grupa"
+msgstr "Ažurirana grupa!"
 
 #. Template: AAABase
 msgid "Queue added!"
-msgstr "Dodan rep"
+msgstr "Dodan red!"
 
 #. Template: AAABase
 msgid "Queue updated!"
-msgstr "Ažuriran rep"
+msgstr "Ažuriran red!"
 
 #. Template: AAABase
 msgid "State added!"
-msgstr "Dodan status"
+msgstr " "
 
 #. Template: AAABase
 msgid "State updated!"
-msgstr "Ažuriran status"
+msgstr "Ažurirano stanje!"
 
 #. Template: AAABase
 msgid "Type added!"
-msgstr "Dodan tip"
+msgstr "Dodan tip!"
 
 #. Template: AAABase
 msgid "Type updated!"
-msgstr "Ažuriran tip"
+msgstr "Ažuriran tip!"
 
 #. Template: AAABase
 msgid "Customer updated!"
-msgstr "Ažuriran korisnik"
+msgstr "Ažuriran korisnik!"
 
 #. Template: AAABase
 msgid "Customer company added!"
@@ -1228,7 +1228,7 @@ msgstr "Sigurnosna napomena: Trebalo bi omogućiti %s, jer je aplikacija već po
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
-msgstr "Nije moguće raščlaniti indeks spremišta!"
+msgstr "Nije moguće raščlaniti indeks dokumenta!"
 
 #. Template: AAABase
 msgid ""
@@ -1310,7 +1310,7 @@ msgstr "Događaji"
 
 #. Template: AAABase
 msgid "Invalid Token!"
-msgstr "Neispravna oznaka!"
+msgstr "Neispravan Token!"
 
 #. Template: AAABase
 msgid "more"
@@ -1431,11 +1431,11 @@ msgstr "Izvlačenje"
 
 #. Template: AAABase
 msgid "Create an Unordered List"
-msgstr "Napravi nesređenu listu"
+msgstr "Napravi nesortiranu listu"
 
 #. Template: AAABase
 msgid "Create an Ordered List"
-msgstr "Napravi sređenu listu"
+msgstr "Napravi sortiranu listu"
 
 #. Template: AAABase
 msgid "HTML Link"
@@ -1746,7 +1746,7 @@ msgstr "Lozinka ne može biti ažurirana. Minimalna dužina lozinke je %s znakov
 msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "characters!"
-msgstr "Lozinka ne može biti ažurirana. Mora sadržavati bar 2 velika i 2 mala slova."
+msgstr "Lozinka ne može biti ažurirana. Mora sadržavati bar 2 mala i 2 velika slova."
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 1 digit!"
@@ -1779,7 +1779,7 @@ msgstr "Statistika"
 
 #. Template: AAAStats
 msgid "Sum"
-msgstr "Suma"
+msgstr "Zbroj"
 
 #. Template: AAAStats
 msgid "No (not supported)"
@@ -1833,7 +1833,7 @@ msgstr "Izabrano vrijeme kraja je prije vremena početka!"
 
 #. Template: AAAStats
 msgid "You have to select one or more attributes from the select field!"
-msgstr "Morate da izaberati jedan ili više atributa iz odabranog polja!"
+msgstr "Morate izabrati jedan ili više atributa iz odabranog polja!"
 
 #. Template: AAAStats
 msgid "The selected Date isn't valid!"
@@ -1870,7 +1870,7 @@ msgstr "Izabrani vremenski period je duži od dozvoljenog!"
 
 #. Template: AAAStats
 msgid "Common Specification"
-msgstr "Opće informacije"
+msgstr "Opće značajke"
 
 #. Template: AAAStats
 msgid "X-axis"
@@ -1954,7 +1954,7 @@ msgstr "Atributi za tiskanje"
 
 #. Template: AAAStats
 msgid "Sort sequence"
-msgstr "Redosled sortiranja"
+msgstr "Redoslijed sortiranja"
 
 #. Template: AAAStats
 msgid "Order by"
@@ -1966,7 +1966,7 @@ msgstr "Ograničenje"
 
 #. Template: AAAStats
 msgid "Ticketlist"
-msgstr "Lista kartice"
+msgstr "Lista kartica"
 
 #. Template: AAAStats
 msgid "ascending"
@@ -1990,15 +1990,15 @@ msgstr "Ukupno vrijeme"
 
 #. Template: AAAStats
 msgid "Ticket Average"
-msgstr "Prosječno vreme po kartici"
+msgstr "Prosječno po kartici"
 
 #. Template: AAAStats
 msgid "Ticket Min Time"
-msgstr "Minimalno vreme kartice"
+msgstr "Minimalno vrijeme kartice"
 
 #. Template: AAAStats
 msgid "Ticket Max Time"
-msgstr "Maksimalno vreme kartice"
+msgstr "Maksimalno vrijeme kartice"
 
 #. Template: AAAStats
 msgid "Number of Tickets"
@@ -2006,15 +2006,15 @@ msgstr "Broj kartice"
 
 #. Template: AAAStats
 msgid "Article Average"
-msgstr "Prosječno vrijeme po članku"
+msgstr "Prosječno po članku"
 
 #. Template: AAAStats
 msgid "Article Min Time"
-msgstr "Minimalno vrijeme članka"
+msgstr "Minimalno vrijeme po članku"
 
 #. Template: AAAStats
 msgid "Article Max Time"
-msgstr "Maksimalno vrijeme članka"
+msgstr "Maksimalno vrijeme po članku"
 
 #. Template: AAAStats
 msgid "Number of Articles"
@@ -2042,7 +2042,7 @@ msgstr "Vrijeme zatvaranja kartice"
 
 #. Template: AAASupportDataCollector
 msgid "Unknown"
-msgstr ""
+msgstr "Nepoznato"
 
 #. Template: AAASupportDataCollector
 msgid "Information"
@@ -2050,7 +2050,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "OK"
-msgstr ""
+msgstr "U redu"
 
 #. Template: AAASupportDataCollector
 msgid "Problem"
@@ -2062,7 +2062,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Operating System"
-msgstr ""
+msgstr "Operacijski sustav"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS"
@@ -2070,7 +2070,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Table Presence"
-msgstr ""
+msgstr "Tablica prisutnosti"
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not open file."
@@ -2090,7 +2090,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Database Size"
-msgstr ""
+msgstr "Veličina baze podataka"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database size."
@@ -2319,7 +2319,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Queues"
-msgstr "Repovi"
+msgstr "Redovi"
 
 #. Template: AAASupportDataCollector
 msgid "Agents"
@@ -2423,7 +2423,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "SystemID"
-msgstr "Sustavski ID"
+msgstr " "
 
 #. Template: AAASupportDataCollector
 msgid "Your SystemID setting is invalid, it should only contain digits."
@@ -2498,6 +2498,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -2564,15 +2572,15 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Bulk"
-msgstr "Masovno"
+msgstr " "
 
 #. Template: AAATicket
 msgid "Lock"
-msgstr "Zaključaj"
+msgstr "Zaključano"
 
 #. Template: AAATicket
 msgid "Unlock"
-msgstr "Otključaj"
+msgstr "Otključano"
 
 #. Template: AAATicket
 msgid "History"
@@ -2580,7 +2588,7 @@ msgstr "Dnevnik"
 
 #. Template: AAATicket
 msgid "Zoom"
-msgstr "Sadžaj"
+msgstr " "
 
 #. Template: AAATicket
 msgid "Age"
@@ -2620,7 +2628,7 @@ msgstr "Premjesti"
 
 #. Template: AAATicket
 msgid "Queue"
-msgstr "Rep"
+msgstr "Red"
 
 #. Template: AAATicket
 msgid "Priority"
@@ -2728,7 +2736,7 @@ msgstr "Članak"
 
 #. Template: AAATicket
 msgid "Ticket"
-msgstr "karticu"
+msgstr "kartica"
 
 #. Template: AAATicket
 msgid "Createtime"
@@ -2856,7 +2864,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "QueueView"
-msgstr "Pregled repa"
+msgstr "Pregled reda"
 
 #. Template: AAATicket
 msgid "Ticket Escalation View"
@@ -2936,23 +2944,23 @@ msgstr "čekanje na automatsko zatvaranje-"
 
 #. Template: AAATicket
 msgid "email-external"
-msgstr "E-pošta-eksterna"
+msgstr "E-pošta - vanjska"
 
 #. Template: AAATicket
 msgid "email-internal"
-msgstr "E-pošta-interna"
+msgstr "E-pošta - interna"
 
 #. Template: AAATicket
 msgid "note-external"
-msgstr "Napomena-eksterna"
+msgstr "napomena-vanjska"
 
 #. Template: AAATicket
 msgid "note-internal"
-msgstr "Napomena-interna"
+msgstr "napomena-interna"
 
 #. Template: AAATicket
 msgid "note-report"
-msgstr "Napomena-izvještaj"
+msgstr "napomena-izvještaj"
 
 #. Template: AAATicket
 msgid "phone"
@@ -2964,7 +2972,7 @@ msgstr "SMS"
 
 #. Template: AAATicket
 msgid "webrequest"
-msgstr "Web zahtjev"
+msgstr "web zahtjev"
 
 #. Template: AAATicket
 msgid "lock"
@@ -3036,7 +3044,7 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Create"
-msgstr "Otvori"
+msgstr "Napravi"
 
 #. Template: AAATicket
 msgid "Answer"
@@ -3048,7 +3056,7 @@ msgstr "Telefonski poziv"
 
 #. Template: AAATicket
 msgid "Ticket \"%s\" created!"
-msgstr "kartica \"%s\" kreirana!"
+msgstr "Kartica \"%s\" kreirana!"
 
 #. Template: AAATicket
 msgid "Ticket Number"
@@ -3056,7 +3064,7 @@ msgstr "Broj kartice"
 
 #. Template: AAATicket
 msgid "Ticket Object"
-msgstr "objekt kartice"
+msgstr "Objekt kartice"
 
 #. Template: AAATicket
 msgid "No such Ticket Number \"%s\"! Can't link it!"
@@ -3064,27 +3072,27 @@ msgstr "Ne postoji kartica s brojem \"%s\"! Ne može se povezati!"
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
-msgstr ""
+msgstr "Nemate prava pisanja u ovaj tiket."
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
+msgstr "Nažalost, morate biti vlasnik tiketa za ovu aktivnost."
 
 #. Template: AAATicket
 msgid "Please change the owner first."
-msgstr ""
+msgstr "Molimo prvo promijenite vlasnika."
 
 #. Template: AAATicket
 msgid "Ticket selected."
-msgstr ""
+msgstr "Tiket izabran."
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
-msgstr ""
+msgstr "Tiket je zaključao drugi zaposlenik."
 
 #. Template: AAATicket
 msgid "Ticket locked."
-msgstr ""
+msgstr "Tiket zaključan."
 
 #. Template: AAATicket
 msgid "Don't show closed Tickets"
@@ -3100,11 +3108,11 @@ msgstr "Novi članak"
 
 #. Template: AAATicket
 msgid "Unread article(s) available"
-msgstr "raspoloživi nepročitani članci"
+msgstr "Raspoloživi nepročitani članci"
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
-msgstr "Ukloni sa liste praćenih kartica"
+msgstr "Ukloni sa liste pregledanih kartica"
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
@@ -3124,7 +3132,7 @@ msgstr "Telefonska kartica"
 
 #. Template: AAATicket
 msgid "Search Tickets"
-msgstr "Traženje kartice"
+msgstr "Pretraživanje kartica"
 
 #. Template: AAATicket
 msgid "Customer Realname"
@@ -3176,7 +3184,7 @@ msgstr "Pregled svih otvorenih kartica"
 
 #. Template: AAATicket
 msgid "Locked Tickets"
-msgstr "Zaključane/blokirane kartice"
+msgstr "Zaključane kartice"
 
 #. Template: AAATicket
 msgid "My Locked Tickets"
@@ -3184,7 +3192,7 @@ msgstr "Moje zaključane kartice"
 
 #. Template: AAATicket
 msgid "My Watched Tickets"
-msgstr "Moje promatrane kartice"
+msgstr "Moje pregledane kartice"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
@@ -3192,19 +3200,19 @@ msgstr "Kartice za koje sam odgovoran"
 
 #. Template: AAATicket
 msgid "Watched Tickets"
-msgstr "Promatrane kartice"
+msgstr "Pregledane kartice"
 
 #. Template: AAATicket
 msgid "Watched"
-msgstr "Promatrano"
+msgstr "Pregledano"
 
 #. Template: AAATicket
 msgid "Watch"
-msgstr "Promatraj"
+msgstr "Pregledaj"
 
 #. Template: AAATicket
 msgid "Unwatch"
-msgstr "Prekini promatranje"
+msgstr " "
 
 #. Template: AAATicket
 msgid "Lock it to work on it"
@@ -8018,7 +8026,7 @@ msgstr "Ovde možete unijeti SQL naredbe i poslati ih izravno aplikacijskoj bazi
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Ovde možete unijeti SQL naredbe i poslati ih izravno aplikacijskoj bazi podataka."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8169,7 +8177,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Pošiljatelj"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -9451,7 +9459,7 @@ msgstr "Grupne akcije na karticama"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Pošalji E-poštu!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -10420,6 +10428,12 @@ msgstr "Prikaz ovog ekrana je već otvoren. Želite li zatvoriti i učitati ovaj
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
+msgstr ""
+
+#. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
 msgstr ""
 
 #. Template: FooterJS
@@ -13819,6 +13833,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

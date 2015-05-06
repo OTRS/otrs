@@ -699,6 +699,9 @@ sub Data {
         'Webserver Version' => 'Webbserver, version',
         'Could not determine webserver version.' => 'Kunde inte avgöra webbserverns version.',
         'Loaded Apache Modules' => 'Laddade Apache-moduler',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1257,7 +1260,7 @@ sub Data {
         'Send' => 'Skicka',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '',
+        'Generic Agent' => 'GenerellAgent',
         'Add job' => 'Lägg till jobb',
         'Last run' => 'Senaste körning',
         'Run Now!' => 'Kör Nu!',
@@ -2261,7 +2264,7 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Rätt att flytta ärenden i denna grupp/Kö.',
         'create' => 'Skapa',
         'Permissions to create tickets in this group/queue.' => 'Rätt att skapa ärenden i denna grupp/Kö.',
-        'note' => '',
+        'note' => 'Notering',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'Ägare',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2453,7 +2456,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NavigationsRadNamn',
         'NavBar' => 'NavigationsRad',
-        'LinkOption' => '',
+        'LinkOption' => 'Länk',
         'Block' => 'Blockera',
         'AccessKey' => 'ÅtkomstTangent',
         'Add NavBar entry' => '',
@@ -2984,7 +2987,7 @@ sub Data {
         'Show all articles' => 'Visa alla artiklar',
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'Olästa artiklar',
-        'No.' => '',
+        'No.' => 'Nej',
         'Important' => 'Viktigt',
         'Unread Article!' => 'Oläst artikel!',
         'Incoming message' => 'Inkommande meddelande',
@@ -3061,7 +3064,7 @@ sub Data {
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Välkommen!',
@@ -3142,6 +3145,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3162,7 +3167,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Typ',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3175,13 +3180,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Typ',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Användare',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Lösenord',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -4213,6 +4218,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

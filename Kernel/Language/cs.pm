@@ -703,6 +703,9 @@ sub Data {
         'Webserver Version' => 'Verze webového serveru',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => 'Aktivní Apache moduly',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Použijte FastCGI nebo mod_perl pro zvýšení výkonu',
@@ -1261,7 +1264,7 @@ sub Data {
         'Send' => 'Odeslat',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '',
+        'Generic Agent' => 'Obecný Prostředek',
         'Add job' => '',
         'Last run' => 'Naposledy Spuštěno',
         'Run Now!' => 'Spustit Teď',
@@ -1361,7 +1364,7 @@ sub Data {
         'Time units' => 'Jednotky času',
         'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
-        'CMD' => '',
+        'CMD' => 'Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             'Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu',
         'Delete tickets' => 'Vymazat Tikety',
@@ -1825,7 +1828,7 @@ sub Data {
         'Required' => 'Vyžadováno',
         'PrimaryKey' => 'Primární Klíč',
         'AutoIncrement' => 'Automatický Přírůstek',
-        'SQL' => '',
+        'SQL' => 'Limit',
         'File differences for file %s' => '',
 
         # Template: AdminPerformanceLog
@@ -2383,7 +2386,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Odesílatel',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2457,7 +2460,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'Jméno Navigační Lišty',
         'NavBar' => 'Navigační Lišta',
-        'LinkOption' => '',
+        'LinkOption' => 'Spárovat',
         'Block' => 'Brzdová Destička',
         'AccessKey' => 'Přístupový Klíč',
         'Add NavBar entry' => '',
@@ -2646,7 +2649,7 @@ sub Data {
         'Undo & close window' => 'Krok zpět & zavřít okno',
 
         # Template: AgentInfo
-        'Info' => '',
+        'Info' => 'Informace',
         'To accept some news, a license or some changes.' => '',
 
         # Template: AgentLinkObject
@@ -2988,7 +2991,7 @@ sub Data {
         'Show all articles' => 'Zobrazit všechny zprávy',
         'Show Ticket Timeline View' => '',
         'Unread articles' => '',
-        'No.' => '',
+        'No.' => 'Ne',
         'Important' => '',
         'Unread Article!' => '',
         'Incoming message' => 'Příchozí zpráva',
@@ -3065,7 +3068,7 @@ sub Data {
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Vítejte!',
@@ -3146,6 +3149,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3166,7 +3171,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Typ',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3179,13 +3184,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Typ',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Uživatel',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Heslo',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -4217,6 +4222,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

@@ -702,6 +702,9 @@ sub Data {
         'Webserver Version' => 'Versión del Servidor Web',
         'Could not determine webserver version.' => 'No se pudo determinar la versión del servidor web.',
         'Loaded Apache Modules' => 'Módulos Apache Cargados',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Uso Del Acelerador de CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Usted debe usar FastCGI o mod_perl para aumentar el rendimiento.',
@@ -1824,7 +1827,7 @@ sub Data {
         'Required' => 'Obligatorio',
         'PrimaryKey' => 'ClavePrimaria',
         'AutoIncrement' => 'AutoIncrementar',
-        'SQL' => '',
+        'SQL' => 'Límite',
         'File differences for file %s' => '',
 
         # Template: AdminPerformanceLog
@@ -2300,7 +2303,7 @@ sub Data {
         'See also' => 'Vea también',
         'In this way you can directly edit the certification and private keys in file system.' =>
             'De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de ficheros.',
-        'Hash' => '',
+        'Hash' => 'De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de ficheros.',
         'Handle related certificates' => '',
         'Read certificate' => '',
         'Delete this certificate' => '',
@@ -2382,7 +2385,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Remitente',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2456,7 +2459,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NombreBarraNavegación',
         'NavBar' => 'BarraNavegación',
-        'LinkOption' => '',
+        'LinkOption' => 'Enlazar',
         'Block' => 'Bloqueo',
         'AccessKey' => 'TeclaAcceso',
         'Add NavBar entry' => '',
@@ -3145,6 +3148,8 @@ sub Data {
             'Ya está abierta una ventana emergente de esta pantalla. ¿Desea cerrarla y cargar ésta en su lugar?',
         'Please enter at least one search value or * to find anything.' =>
             'Introduzca al menos un valor de búsqueda, o * para buscar todo.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Compruebe que los campos marcados en rojo tienen datos válidos.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -4216,6 +4221,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

@@ -701,6 +701,9 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
         'Webserver Version' => 'Toleo la tovuti',
         'Could not determine webserver version.' => 'Haikuweza kutambua toleo la seva ya tovuti.',
         'Loaded Apache Modules' => 'Moduli za Apache zilizopakiwa',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Matumizi ya kichocheo cha CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Tumia FastCGI au mod_perl kuongeza uwezo wako.',
@@ -3144,6 +3147,8 @@ Matatizo<br>&nbsp;-utendaji wa matatizo<br><br> tafadhali kumbuka kwamba mambo y
             'Kiibukizi katika skrini hii tayari imefunguliwa. Je unataka kufunga na kupakia hii hapa badala yake?',
         'Please enter at least one search value or * to find anything.' =>
             'Tafadhali ingiza japo moja ya thamani ilitafutwa au * kutafuta yoyote.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Tafadhali angalia uga zote ziliizowekwa alama nyekundu kwa ajili ya maingizo batili.',
         'Please perform a spell check on the the text first.' => 'Tafadhali fanya uangalizi maneno katika makala kwanza.',
         'Slide the navigation bar' => 'Telezesha mwambaa wa uabiri',
@@ -4219,6 +4224,8 @@ Mfano:
             'Inalemaza utumaji wa taarifa za kikumbushaji kwa wakala anayehusika wa tiketi (Tiketi:: Uhusika unahitaji kuamilishwa).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Inalemaza kisanishi cha wavuti (http://yourhost.example.com/otrs/installer.pl), kuzuia mfumo kuvamiwa. Kama imewekwa kuwa "hapana", mfumo unaweza kusanidiwa upya na usanidi wa sasa wa msingi utatumika kujaza maswali katika hati ya usakinishi. Kama haijaamilishwa, pia inalemaza Wakala wa Jumla, Kisimamizi cha Kifurushi na kikasha cha SQL.',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => 'Inaonyesha mipangilio ya inayobadilisha michaguo msingi kw aajili ya mchakato wa tiketi.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Inaonyesha muda ulihesabiwa kwa ajili ya makala ya mandhari ya ukuzaji wa tiketi.',
@@ -4703,7 +4710,7 @@ Mfano:
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Namba ta tiketi zitakazoonyeshwa katika kila ukurasa wa matokeo ya utafutaji katika kiolesura cha mteja.',
         'Old: "%s" New: "%s"' => 'Ya zamani: "%s" Mpya: "%s"',
-        'Online' => '',
+        'Online' => 'Mtandaoni',
         'Open tickets (customer user)' => 'Fungua tiketi (Mtumiaji wa mteja)',
         'Open tickets (customer)' => 'Fungua tiketi (Mteja)',
         'Out Of Office' => 'Nje ya ofisi',
@@ -4844,7 +4851,7 @@ Mfano:
             'Inarudisha tiketi kwenye hifadhi (kama tukio tu ni hali ya kubadilika, kutoka kufungwa kwenda hali yoyote iliyopo iliyo wazi).',
         'Retains all services in listings even if they are children of invalid elements.' =>
             'Inaacha huduma zote katika orodha hata kama ni vipengele vidogo vya vipengele batili. ',
-        'Right' => '',
+        'Right' => 'Haki',
         'Roles <-> Groups' => 'Majukumu <-> Makundi',
         'Running Process Tickets' => 'Endeshaji wa tiketi za mchakato.',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>

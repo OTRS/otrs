@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/OTRS/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -3566,15 +3574,15 @@ msgstr "工單信息"
 
 #. Template: AAAWeekDay
 msgid "Sun"
-msgstr ""
+msgstr "日"
 
 #. Template: AAAWeekDay
 msgid "Mon"
-msgstr ""
+msgstr "一"
 
 #. Template: AAAWeekDay
 msgid "Tue"
-msgstr ""
+msgstr "三月"
 
 #. Template: AAAWeekDay
 msgid "Wed"
@@ -3582,15 +3590,15 @@ msgstr ""
 
 #. Template: AAAWeekDay
 msgid "Thu"
-msgstr ""
+msgstr "收件人"
 
 #. Template: AAAWeekDay
 msgid "Fri"
-msgstr ""
+msgstr "五"
 
 #. Template: AAAWeekDay
 msgid "Sat"
-msgstr ""
+msgstr "六"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -3757,7 +3765,7 @@ msgstr "保存"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr ""
+msgstr "在"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
@@ -7810,7 +7818,7 @@ msgstr "對於組/隊列具有 '創建工單' 的權限"
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "備註"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8015,7 +8023,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "這裡您可以輸入並運行數據庫SQL的命令。"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "發件人"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -10418,6 +10426,12 @@ msgstr "一個彈出窗口已經打開，是否繼續關閉？"
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
 msgstr "請至少輸入一個搜索條件或 *。"
+
+#. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -13816,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

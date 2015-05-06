@@ -702,6 +702,9 @@ sub Data {
         'Webserver Version' => 'Webkiszolgáló verzió',
         'Could not determine webserver version.' => 'Nem sikerült meghatározni a webkiszolgáló verzióját.',
         'Loaded Apache Modules' => 'Betöltött Apache modulok',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'CGI gyorsító használat',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'A FastCGI vagy a mod_perl használatára lenne szüksége a teljesítmény növeléséhez.',
@@ -3145,6 +3148,8 @@ sub Data {
             'A képernyő felugró ablaka már meg van nyitva. Szeretné bezárni, és helyette ezt betölteni?',
         'Please enter at least one search value or * to find anything.' =>
             'Adjon meg legalább egy keresési értéket, vagy * karaktert, ha bármire rá szeretne keresni.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Ellenőrizze a pirosan megjelölt mezőket a helyes bevitelekért.',
         'Please perform a spell check on the the text first.' => 'Először hajtson végre helyesírás-ellenőrzést a szövegen.',
         'Slide the navigation bar' => 'Csúsztassa a navigációs sávot',
@@ -4217,6 +4222,8 @@ sub Data {
             'Letiltja az emlékeztető értesítések küldését egy jegy felelős ügyintézőjének (a Ticket::Responsible aktiválása szükséges).',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Letiltja a webes telepítőt (http://yourhost.example.com/otrs/installer.pl), hogy megakadályozza a rendszer feltörését. Ha „Nem” értékre állítja, a rendszer újratelepíthető, és a jelenlegi alap konfiguráció lesz felhasználva a telepítő parancsfájlon belüli kérdések előre kitöltéséhez. Ha nem aktív, akkor letiltja az általános ügyintézőt, a csomagkezelőt és az SQL dobozt is.',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => 'Beállítások megjelenítése az alapértékek felülbírálásához a jegyek feldolgozásánál.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Megjeleníti az elszámolt időt egy bejegyzésnél a jegy nagyítás nézeten.',

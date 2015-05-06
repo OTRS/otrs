@@ -696,6 +696,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -732,21 +735,21 @@ sub Data {
         'Move' => 'Pārvietot',
         'Queue' => 'Rinda',
         'Priority' => 'Prioritāte',
-        'Priorities' => '',
+        'Priorities' => 'Prioritāte',
         'Priority Update' => 'Prioritāte mainīta',
         'Priority added!' => '',
         'Priority updated!' => '',
         'Signature added!' => '',
         'Signature updated!' => '',
         'SLA' => 'Servisa līmeņa līgums',
-        'Service Level Agreement' => '',
-        'Service Level Agreements' => '',
+        'Service Level Agreement' => 'Servisa līmeņa līgums',
+        'Service Level Agreements' => 'Servisa līmeņa līgums',
         'Service' => 'Servisi',
         'Services' => '',
         'State' => 'Statuss',
-        'States' => '',
+        'States' => 'Statuss',
         'Status' => 'Statuss',
-        'Statuses' => '',
+        'Statuses' => 'Statuss',
         'Ticket Type' => '',
         'Ticket Types' => '',
         'Compose' => 'Izveidot',
@@ -1110,7 +1113,7 @@ sub Data {
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
-        'Notice' => '',
+        'Notice' => 'Piezīme(s)',
         'This feature is disabled!' => 'Šī iespēja ir atiestatīta!',
         'Just use this feature if you want to define group permissions for customers.' =>
             '',
@@ -1254,7 +1257,7 @@ sub Data {
         'Send' => 'Nosūtīt',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '',
+        'Generic Agent' => 'Vispārīgais uzdevums',
         'Add job' => '',
         'Last run' => 'Pēdējo reizi izpildīts',
         'Run Now!' => 'Izpildīt tagad!',
@@ -2258,7 +2261,7 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Tiesības ievietot pieteikumus šajā grupā/rindā.',
         'create' => 'izveidot',
         'Permissions to create tickets in this group/queue.' => 'Tiesības izveidot pieteikumus šajā grupā/rindā.',
-        'note' => '',
+        'note' => 'Piezīme(s)',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'īpašnieks',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2376,7 +2379,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Nosūtītājs',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2450,7 +2453,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'Vadības paneļa nosaukums',
         'NavBar' => 'Vadības panelis',
-        'LinkOption' => '',
+        'LinkOption' => 'Saite',
         'Block' => 'Bloks',
         'AccessKey' => 'Pieejas atslēga',
         'Add NavBar entry' => '',
@@ -2812,7 +2815,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Labot vairākus pieteikumus',
-        'Send Email' => '',
+        'Send Email' => 'Nosūtīt ziņojumu!',
         'Merge to' => 'Apvienot ar',
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => 'Apvienot ar vecāko',
@@ -2981,7 +2984,7 @@ sub Data {
         'Show all articles' => '',
         'Show Ticket Timeline View' => '',
         'Unread articles' => '',
-        'No.' => '',
+        'No.' => 'Nē',
         'Important' => '',
         'Unread Article!' => '',
         'Incoming message' => '',
@@ -3036,7 +3039,7 @@ sub Data {
         'Your user name' => '',
         'Your password' => '',
         'Forgot password?' => '',
-        'Log In' => '',
+        'Log In' => 'Pieteikties',
         'Not yet registered?' => '',
         'Request new password' => 'Pieprasīt jaunu paroli',
         'Your User Name' => '',
@@ -3058,7 +3061,7 @@ sub Data {
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'Servisa līmeņa līgums',
 
         # Template: CustomerTicketOverview
         'Welcome!' => '',
@@ -3074,7 +3077,7 @@ sub Data {
         'e. g. 10*5155 or 105658*' => '',
         'Customer ID' => '',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
-        'Carbon Copy' => '',
+        'Carbon Copy' => 'Kopija',
         'e. g. m*file or myfi*' => '',
         'Types' => '',
         'Time restrictions' => '',
@@ -3087,7 +3090,7 @@ sub Data {
         'Save as Template' => '',
         'Template Name' => '',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'Rezultātu forma',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'no',
@@ -3110,9 +3113,9 @@ sub Data {
         'Saturday' => '',
         'Su' => '',
         'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
+        'Tu' => 'Mar',
+        'We' => 'ieslēgts',
+        'Th' => 'līdz',
         'Fr' => '',
         'Sa' => '',
         'Event Information' => '',
@@ -3139,6 +3142,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3159,7 +3164,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Tips',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3172,13 +3177,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Tips',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Lietotājs',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Parole',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -4210,6 +4215,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

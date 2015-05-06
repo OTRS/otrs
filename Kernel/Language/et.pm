@@ -697,6 +697,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2259,7 +2262,7 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Õigus liigutada intsidente siia rühma/järjekorda.',
         'create' => 'tekita',
         'Permissions to create tickets in this group/queue.' => 'Õigus tekitada sellesse rühma/järjekorda intsidente.',
-        'note' => '',
+        'note' => 'Märkus',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'omanik',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2377,7 +2380,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Saatja',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2451,7 +2454,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => 'NavBarName',
         'NavBar' => 'NavBar',
-        'LinkOption' => '',
+        'LinkOption' => 'Viide',
         'Block' => 'Block',
         'AccessKey' => 'AccessKey',
         'Add NavBar entry' => '',
@@ -3059,7 +3062,7 @@ sub Data {
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Tere tulemast!',
@@ -3075,7 +3078,7 @@ sub Data {
         'e. g. 10*5155 or 105658*' => '',
         'Customer ID' => '',
         'Fulltext search in tickets (e. g. "John*n" or "Will*")' => '',
-        'Carbon Copy' => '',
+        'Carbon Copy' => 'Koopia',
         'e. g. m*file or myfi*' => '',
         'Types' => 'Tüübid',
         'Time restrictions' => '',
@@ -3088,10 +3091,10 @@ sub Data {
         'Save as Template' => '',
         'Template Name' => '',
         'Pick a profile name' => '',
-        'Output to' => '',
+        'Output to' => 'Tulemuste formaat',
 
         # Template: CustomerTicketSearchResultShort
-        'of' => '',
+        'of' => 'ei',
         'Search Results for' => '',
         'Remove this Search Term.' => '',
 
@@ -3110,10 +3113,10 @@ sub Data {
         'Friday' => '',
         'Saturday' => '',
         'Su' => '',
-        'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
+        'Mo' => 't',
+        'Tu' => 'Mär',
+        'We' => 'Sisse',
+        'Th' => 'to',
         'Fr' => '',
         'Sa' => '',
         'Event Information' => '',
@@ -3140,6 +3143,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3160,7 +3165,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Tüüp',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3173,13 +3178,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Tüüp',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Kasutaja',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Parool',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -4211,6 +4216,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
