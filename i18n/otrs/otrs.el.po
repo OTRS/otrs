@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/OTRS/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2497,6 +2497,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -4003,7 +4011,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr ""
+msgstr "Σημείωση"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
@@ -4463,7 +4471,7 @@ msgstr "Αποστολή"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr ""
+msgstr "Αυτόματες Διαδικασίες"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -5303,7 +5311,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Host"
-msgstr ""
+msgstr "Εμπιστος"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remote host URL for the REST requests."
@@ -7812,7 +7820,7 @@ msgstr "Δικαιώματα για δημιουργία δελτίων σε α�
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "Σημείωση"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -7917,7 +7925,7 @@ msgstr "Με αυτόν τον τρόπο μπορείτε κατευθείαν 
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "Με αυτόν τον τρόπο μπορείτε κατευθείαν να\nεπεξεργαστείτε τα πιστοποιητικά και ιδιωτικά κλειδιά στο αρχείο συστήματος."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8005,7 +8013,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr ""
+msgstr "SQL"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -8168,7 +8176,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Αποστολέας"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8415,7 +8423,7 @@ msgstr ""
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Σύνδεσμος"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -8936,7 +8944,7 @@ msgstr ""
 
 #. Template: AgentInfo
 msgid "Info"
-msgstr ""
+msgstr "Πληροφορία"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
@@ -9450,7 +9458,7 @@ msgstr "Μαζικές ενέργειες δελτίου"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Αποστολή μηνύματος!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -10034,11 +10042,11 @@ msgstr ""
 
 #. Template: CustomerError
 msgid "Traceback"
-msgstr ""
+msgstr "Εκτύπωση"
 
 #. Template: CustomerFooter
 msgid "Powered by"
-msgstr ""
+msgstr "Σύνδεση"
 
 #. Template: CustomerFooterJS
 msgid "One or more errors occurred!"
@@ -10116,7 +10124,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr ""
+msgstr "Σύνδεση"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
@@ -10220,7 +10228,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
-msgstr ""
+msgstr "Κοινοποίηση"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
@@ -10272,7 +10280,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr ""
+msgstr "Αποτελέσματα"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
@@ -10336,19 +10344,19 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Mo"
-msgstr ""
+msgstr "Ω"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr ""
+msgstr "Μαρ"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr ""
+msgstr "ενεργοποίηση"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr ""
+msgstr "πρός"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
@@ -10422,6 +10430,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10475,7 +10489,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Τυπος"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10527,7 +10541,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Τυπος"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10543,7 +10557,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Χρήστης"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10551,7 +10565,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Κωδικός"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -13818,6 +13832,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

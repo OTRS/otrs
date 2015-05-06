@@ -702,6 +702,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -1362,7 +1365,7 @@ sub Data {
         'Send agent/customer notifications on changes' => 'שלח לסוכן/לקוח התראות על שינויים',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
-            '',
+            'מחק פניות',
         'Delete tickets' => 'מחק פניות',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             '',
@@ -1760,7 +1763,7 @@ sub Data {
         'Go to OTRS Package Manager' => '',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
-        'Vendor' => '',
+        'Vendor' => 'שדרג',
         'Please uninstall the packages first using the package manager and try again.' =>
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
@@ -1802,7 +1805,7 @@ sub Data {
         'Install' => 'התקנה',
         'Install Package' => 'התקן חבילה',
         'Update repository information' => '',
-        'Online Repository' => '',
+        'Online Repository' => 'גרסה',
         'Module documentation' => 'תיעוד מודולה',
         'Upgrade' => 'שדרג',
         'Local Repository' => '',
@@ -2072,7 +2075,7 @@ sub Data {
         'Edit Queue' => 'ערוך תור',
         'A queue with this name already exists!' => '',
         'Sub-queue of' => 'תור משנה של',
-        'Unlock timeout' => '',
+        'Unlock timeout' => '0 = אין שחרור נעילה',
         '0 = no unlock' => '0 = אין שחרור נעילה',
         'Only business hours are counted.' => '',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
@@ -2331,7 +2334,7 @@ sub Data {
             '',
 
         # Template: AdminSelectBox
-        'SQL Box' => '',
+        'SQL Box' => 'SQL',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
@@ -2382,7 +2385,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'שולח',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2402,7 +2405,7 @@ sub Data {
         'Kill this session' => '',
         'Session' => 'Session',
         'Kill' => '',
-        'Detail View for SessionID' => '',
+        'Detail View for SessionID' => 'פרטים',
 
         # Template: AdminSignature
         'Signature Management' => 'ניהול חתימות',
@@ -3145,6 +3148,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3165,7 +3170,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'סוג',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -4216,6 +4221,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

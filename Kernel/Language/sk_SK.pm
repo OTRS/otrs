@@ -394,7 +394,7 @@ sub Data {
         'Align Center' => '',
         'Align Right' => '',
         'Justify' => '',
-        'Header' => '',
+        'Header' => 'Typ',
         'Indent' => '',
         'Outdent' => '',
         'Create an Unordered List' => '',
@@ -460,8 +460,8 @@ sub Data {
         'February' => '',
         'March' => '',
         'April' => '',
-        'May_long' => '',
-        'June' => '',
+        'May_long' => 'máj',
+        'June' => 'jún',
         'July' => '',
         'August' => '',
         'September' => '',
@@ -642,7 +642,7 @@ sub Data {
         'Config Settings' => '',
         'Could not determine value.' => '',
         'Database Records' => '',
-        'Tickets' => '',
+        'Tickets' => 'Požiadavka',
         'Ticket History Entries' => '',
         'Articles' => '',
         'Attachments (DB, Without HTML)' => '',
@@ -697,6 +697,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -733,7 +736,7 @@ sub Data {
         'Move' => 'Presunúť',
         'Queue' => 'Fronta',
         'Priority' => 'Priorita',
-        'Priorities' => '',
+        'Priorities' => 'Priorita',
         'Priority Update' => '',
         'Priority added!' => '',
         'Priority updated!' => '',
@@ -1111,7 +1114,7 @@ sub Data {
 
         # Template: AdminCustomerUserGroup
         'Manage Customer-Group Relations' => '',
-        'Notice' => '',
+        'Notice' => 'Poznámka',
         'This feature is disabled!' => '',
         'Just use this feature if you want to define group permissions for customers.' =>
             '',
@@ -1811,7 +1814,7 @@ sub Data {
         'Rebuild package' => '',
         'Metadata' => '',
         'Change Log' => '',
-        'Date' => '',
+        'Date' => 'údaje',
         'List of Files' => '',
         'Permission' => 'Povolenie',
         'Download' => '',
@@ -2259,7 +2262,7 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => '',
         'create' => '',
         'Permissions to create tickets in this group/queue.' => '',
-        'note' => '',
+        'note' => 'Poznámka',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => '',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2326,7 +2329,7 @@ sub Data {
             '',
 
         # Template: AdminSelectBox
-        'SQL Box' => '',
+        'SQL Box' => 'Limit',
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
@@ -2377,7 +2380,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Odosielateľ',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2451,7 +2454,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => '',
         'NavBar' => 'AccessKey',
-        'LinkOption' => '',
+        'LinkOption' => 'Prepojenie',
         'Block' => '',
         'AccessKey' => '',
         'Add NavBar entry' => '',
@@ -2911,7 +2914,7 @@ sub Data {
         'Ticket-Info' => 'info o požiadavkách',
         'Accounted time' => 'Escalation in',
         'Linked-Object' => '',
-        'by' => '',
+        'by' => 'žiadny',
 
         # Template: AgentTicketProcess
         'Create New Process Ticket' => '',
@@ -2982,7 +2985,7 @@ sub Data {
         'Show all articles' => '',
         'Show Ticket Timeline View' => '',
         'Unread articles' => '',
-        'No.' => '',
+        'No.' => 'Nie',
         'Important' => '',
         'Unread Article!' => '',
         'Incoming message' => '',
@@ -3037,7 +3040,7 @@ sub Data {
         'Your user name' => '',
         'Your password' => '',
         'Forgot password?' => '',
-        'Log In' => '',
+        'Log In' => 'Lost your password?',
         'Not yet registered?' => '',
         'Request new password' => '',
         'Your User Name' => '',
@@ -3091,7 +3094,7 @@ sub Data {
         'Output to' => '',
 
         # Template: CustomerTicketSearchResultShort
-        'of' => '',
+        'of' => 'žiadny',
         'Search Results for' => '',
         'Remove this Search Term.' => '',
 
@@ -3111,9 +3114,9 @@ sub Data {
         'Saturday' => '',
         'Su' => '',
         'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
+        'Tu' => 'mar',
+        'We' => 'zapnúť',
+        'Th' => 'Príjemca',
         'Fr' => '',
         'Sa' => '',
         'Event Information' => '',
@@ -3140,6 +3143,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3160,7 +3165,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Typ',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3173,13 +3178,13 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Typ',
         'Select inbound mail type.' => '',
         'Inbound mail host' => '',
         'Inbound mail host.' => '',
-        'Inbound mail user' => '',
+        'Inbound mail user' => 'Užívateľ',
         'User for inbound mail.' => '',
-        'Inbound mail password' => '',
+        'Inbound mail password' => 'Heslo',
         'Password for inbound mail.' => '',
         'Result of mail configuration check' => '',
         'Check mail configuration' => '',
@@ -3199,7 +3204,7 @@ sub Data {
         'Result of database check' => '',
         'Database check successful.' => '',
         'Database User' => '',
-        'New' => '',
+        'New' => 'nov',
         'A new database user with limited permissions will be created for this OTRS system.' =>
             '',
         'Repeat Password' => '',
@@ -4211,6 +4216,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

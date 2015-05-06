@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/OTRS/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -2625,7 +2633,7 @@ msgstr "Prioritāte"
 
 #. Template: AAATicket
 msgid "Priorities"
-msgstr ""
+msgstr "Prioritāte"
 
 #. Template: AAATicket
 msgid "Priority Update"
@@ -2653,11 +2661,11 @@ msgstr "Servisa līmeņa līgums"
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
-msgstr ""
+msgstr "Servisa līmeņa līgums"
 
 #. Template: AAATicket
 msgid "Service Level Agreements"
-msgstr ""
+msgstr "Servisa līmeņa līgums"
 
 #. Template: AAATicket
 msgid "Service"
@@ -2673,7 +2681,7 @@ msgstr "Statuss"
 
 #. Template: AAATicket
 msgid "States"
-msgstr ""
+msgstr "Statuss"
 
 #. Template: AAATicket
 msgid "Status"
@@ -2681,7 +2689,7 @@ msgstr "Statuss"
 
 #. Template: AAATicket
 msgid "Statuses"
-msgstr ""
+msgstr "Statuss"
 
 #. Template: AAATicket
 msgid "Ticket Type"
@@ -4001,7 +4009,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr ""
+msgstr "Piezīme(s)"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
@@ -4461,7 +4469,7 @@ msgstr "Nosūtīt"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr ""
+msgstr "Vispārīgais uzdevums"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -7810,7 +7818,7 @@ msgstr "Tiesības izveidot pieteikumus šajā grupā/rindā."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "Piezīme(s)"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Nosūtītājs"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8413,7 +8421,7 @@ msgstr "Vadības panelis"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Saite"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9448,7 +9456,7 @@ msgstr "Labot vairākus pieteikumus"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Nosūtīt ziņojumu!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -9962,7 +9970,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "Nē"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10114,7 +10122,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr ""
+msgstr "Pieteikties"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
@@ -10178,7 +10186,7 @@ msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr ""
+msgstr "Servisa līmeņa līgums"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
@@ -10218,7 +10226,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
-msgstr ""
+msgstr "Kopija"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. m*file or myfi*"
@@ -10270,7 +10278,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr ""
+msgstr "Rezultātu forma"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
@@ -10338,15 +10346,15 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr ""
+msgstr "Mar"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr ""
+msgstr "ieslēgts"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr ""
+msgstr "līdz"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
@@ -10420,6 +10428,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10473,7 +10487,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Tips"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10525,7 +10539,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Tips"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10541,7 +10555,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Lietotājs"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10549,7 +10563,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Parole"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -13816,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

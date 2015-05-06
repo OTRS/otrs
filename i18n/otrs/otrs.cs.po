@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Czech (http://www.transifex.com/projects/p/OTRS/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2110,7 +2110,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Nastavení character_set_client musi být UNICODE nebo UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
@@ -2496,6 +2496,14 @@ msgstr ""
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Aktivní Apache moduly"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -4464,7 +4472,7 @@ msgstr "Odeslat"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr ""
+msgstr "Obecný Prostředek"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -4848,7 +4856,7 @@ msgstr "Odeslat upozornění Řešiteli/Zákazníkovi při změně"
 
 #. Template: AdminGenericAgent
 msgid "CMD"
-msgstr ""
+msgstr "Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -6380,7 +6388,7 @@ msgstr "Automatický Přírůstek"
 
 #. Template: AdminPackageManager
 msgid "SQL"
-msgstr ""
+msgstr "Limit"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -8169,7 +8177,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Odesílatel"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8416,7 +8424,7 @@ msgstr "Navigační Lišta"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Spárovat"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -8937,7 +8945,7 @@ msgstr "Krok zpět & zavřít okno"
 
 #. Template: AgentInfo
 msgid "Info"
-msgstr ""
+msgstr "Informace"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
@@ -9965,7 +9973,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "Ne"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10181,7 +10189,7 @@ msgstr ""
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr ""
+msgstr "SLA"
 
 #. Template: CustomerTicketOverview
 msgid "Welcome!"
@@ -10423,6 +10431,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10476,7 +10490,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Typ"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10528,7 +10542,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Typ"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10544,7 +10558,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Uživatel"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10552,7 +10566,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Heslo"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -13819,6 +13833,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

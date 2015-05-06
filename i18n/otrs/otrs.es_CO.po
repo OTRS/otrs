@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (Colombia) (http://www.transifex.com/projects/p/OTRS/language/es_CO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2493,6 +2493,14 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
 msgstr ""
 
 #. Template: AAASupportDataCollector
@@ -7916,7 +7924,7 @@ msgstr "De esta forma Ud. puede editar directamente la certificación y claves p
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de archivos."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8016,7 +8024,7 @@ msgstr ""
 #. Template: AdminSelectBox
 msgid ""
 "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "Aqu√≠ puede introducir SQL para ejecutarse directamente en la base de datos de la aplicaci√≥n."
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
@@ -8167,7 +8175,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Emisor"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -9449,7 +9457,7 @@ msgstr "Acción múltiple con Tickets"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr ""
+msgstr "Enviar correo"
 
 #. Template: AgentTicketBulk
 msgid "Merge to"
@@ -10418,6 +10426,12 @@ msgstr "Ya hay una pop-up abierta de esta pantalla. ¿Desea cerrarla y cargar es
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
+msgstr ""
+
+#. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
 msgstr ""
 
 #. Template: FooterJS
@@ -13817,6 +13831,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

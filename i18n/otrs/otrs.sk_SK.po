@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/OTRS/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1416,7 +1416,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Header"
-msgstr ""
+msgstr "Typ"
 
 #. Template: AAABase
 msgid "Indent"
@@ -1648,11 +1648,11 @@ msgstr ""
 
 #. Template: AAAMonth
 msgid "May_long"
-msgstr ""
+msgstr "máj"
 
 #. Template: AAAMonth
 msgid "June"
-msgstr ""
+msgstr "jún"
 
 #. Template: AAAMonth
 msgid "July"
@@ -2296,7 +2296,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Tickets"
-msgstr ""
+msgstr "Požiadavka"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket History Entries"
@@ -2495,6 +2495,14 @@ msgid "Loaded Apache Modules"
 msgstr ""
 
 #. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
+
+#. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
 msgstr ""
 
@@ -2625,7 +2633,7 @@ msgstr "Priorita"
 
 #. Template: AAATicket
 msgid "Priorities"
-msgstr ""
+msgstr "Priorita"
 
 #. Template: AAATicket
 msgid "Priority Update"
@@ -4001,7 +4009,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Notice"
-msgstr ""
+msgstr "Poznámka"
 
 #. Template: AdminCustomerUserGroup
 msgid "This feature is disabled!"
@@ -6345,7 +6353,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "Date"
-msgstr ""
+msgstr "údaje"
 
 #. Template: AdminPackageManager
 msgid "List of Files"
@@ -7810,7 +7818,7 @@ msgstr ""
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr ""
+msgstr "Poznámka"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
@@ -8003,7 +8011,7 @@ msgstr ""
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr ""
+msgstr "Limit"
 
 #. Template: AdminSelectBox
 msgid ""
@@ -8166,7 +8174,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Odosielateľ"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8413,7 +8421,7 @@ msgstr "AccessKey"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Prepojenie"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -9716,7 +9724,7 @@ msgstr ""
 
 #. Template: AgentTicketPrint
 msgid "by"
-msgstr ""
+msgstr "žiadny"
 
 #. Template: AgentTicketProcess
 msgid "Create New Process Ticket"
@@ -9962,7 +9970,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr ""
+msgstr "Nie"
 
 #. Template: AgentTicketZoom
 msgid "Important"
@@ -10114,7 +10122,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Log In"
-msgstr ""
+msgstr "Lost your password?"
 
 #. Template: CustomerLogin
 msgid "Not yet registered?"
@@ -10274,7 +10282,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
-msgstr ""
+msgstr "žiadny"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
@@ -10338,15 +10346,15 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Tu"
-msgstr ""
+msgstr "mar"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "We"
-msgstr ""
+msgstr "zapnúť"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Th"
-msgstr ""
+msgstr "Príjemca"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Fr"
@@ -10420,6 +10428,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr ""
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
 
@@ -10473,7 +10487,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr ""
+msgstr "Typ"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
@@ -10525,7 +10539,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr ""
+msgstr "Typ"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
@@ -10541,7 +10555,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr ""
+msgstr "Užívateľ"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
@@ -10549,7 +10563,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr ""
+msgstr "Heslo"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
@@ -10605,7 +10619,7 @@ msgstr ""
 
 #. Template: InstallerDBmssql
 msgid "New"
-msgstr ""
+msgstr "nov"
 
 #. Template: InstallerDBmssql
 msgid ""
@@ -13816,6 +13830,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

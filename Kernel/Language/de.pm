@@ -697,6 +697,9 @@ sub Data {
         'Webserver Version' => 'Webserver-Version',
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
         'Loaded Apache Modules' => 'Geladene Apache-Module',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Verwendung CGI-Beschleuniger',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Sie sollten FastCGI oder mod_perl verwenden, um die Geschwindigkeit zu steigern.',
@@ -1372,8 +1375,6 @@ sub Data {
         'Edit job' => 'Job bearbeiten',
         'Run job' => 'Job ausführen',
         'Affected Tickets' => 'Betroffene Tickets',
-        'Please remove the following words because they cannot be used for the ticket selection:'
-            => 'Bitten entfernen Sie die folgenden Wörter, da diese nicht für die Ticket-Selektion verwendet werden können:',
 
         # Template: AdminGenericInterfaceDebugger
         'GenericInterface Debugger for Web Service %s' => 'GenericInterface Debugger für Webservice',
@@ -2695,10 +2696,6 @@ sub Data {
         'Relative Period' => 'Relativer Zeitraum',
         'The last' => 'Die letzten',
         'Finish' => 'Abschließen',
-        'Please check restrictions of this stat for errors.'
-            => 'Bitte prüfen Sie die Beschränkungen dieser Statistik auf Fehler.',
-        'Please remove the following words because they cannot be used for the ticket restrictions:'
-            => 'Bitten entfernen Sie die folgenden Wörter, da diese nicht für die Ticket-Beschränkungen verwendet werden können:',
 
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Rechtevergabe',
@@ -2856,11 +2853,11 @@ sub Data {
         'E-Mail Outbound' => 'Ausgehende E-Mail',
 
         # Template: AgentTicketEscalation
-        'Ticket %s: first response time is over (%s/%s)!' => '',
-        'Ticket %s: first response time will be over in %s/%s!' => '',
-        'Ticket %s: update time will be over in %s/%s!' => '',
-        'Ticket %s: solution time is over (%s/%s)!' => '',
-        'Ticket %s: solution time will be over in %s/%s!' => '',
+        'Ticket %s: first response time is over (%s/%s)!' => 'Ticket %s: erste Reaktionszeit ist abgelaufen (%s/%s)!',
+        'Ticket %s: first response time will be over in %s/%s!' => 'Ticket %s: erste Reaktionszeit wird ablaufen in %s/%s!',
+        'Ticket %s: update time will be over in %s/%s!' => 'Ticket %s: Aktualisierungszeit wird ablaufen in %s/%s!',
+        'Ticket %s: solution time is over (%s/%s)!' => 'Ticket %s: Lösungszeit ist abgelaufen (%s/%s)!',
+        'Ticket %s: solution time will be over in %s/%s!' => 'Ticket %s: Lösungszeit wird ablaufen in %s/%s!',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Ticket weiterleiten:  %s - %s',
@@ -3059,7 +3056,7 @@ sub Data {
         'Incoming Chat Requests' => 'Eingehende Chatanfragen',
         'You have unanswered chat requests' => 'Sie haben unbeantwortete Chatanfragen',
         'Edit personal preferences' => 'Persönliche Einstellungen vornehmen',
-        'Logout %s %s' => '',
+        'Logout %s %s' => '%s %s abmelden',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Zitat aufteilen',
@@ -3095,8 +3092,6 @@ sub Data {
         'Template Name' => 'Name der Vorlage',
         'Pick a profile name' => 'Profilnamen auswählen',
         'Output to' => 'Ausgabe nach',
-        'Please remove the following words because they cannot be used for the search:' =>
-            'Bitte entfernen Sie die folgenden Wörter, da diese nicht für die Suche verwendet werden können:',
 
         # Template: CustomerTicketSearchResultShort
         'of' => 'von',
@@ -3163,7 +3158,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nicht aktiviert oder nicht unterstützt.',
         'Database Settings' => 'Datenbankeinstellungen',
         'General Specifications and Mail Settings' => 'Allgemeine Einstellungen und E-Mail-Einstellungen',
-        'Welcome to %s' => '',
+        'Welcome to %s' => 'Willkommen bei %s',
         'Web site' => 'Website',
         'Mail check successful.' => 'Konfigurationsprüfung erfolgreich.',
         'Error in the mail settings. Please correct and try again.' => 'Fehler in der Mail-Konfiguration. Bitte korrigieren und nochmals probieren.',
@@ -3287,7 +3282,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS Testseite',
-        'Welcome %s %s' => '',
+        'Welcome %s %s' => '%s %s willkommen',
         'Counter' => 'Zähler',
 
         # Template: Warning
@@ -4222,6 +4217,8 @@ sub Data {
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Zeigt die bisher benötigte Zeit für einen Artikel in der TicketZoomView an.',
@@ -4339,7 +4336,7 @@ sub Data {
         'Escalation update time forewarned' => 'Eskalation "Aktualisierungszeit" vorgewarnt',
         'Escalation update time in effect' => 'Eskalation "Aktualisierungszeit" aktiv',
         'Escalation view' => 'Ansicht nach Eskalationen',
-        'EscalationTime' => '',
+        'EscalationTime' => 'Eskalationszeit',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
             'Eventmodul-Registierung. Für höhere Performancen können Sie ein Trigger-Event definieren (z.B. Event => TicketCreate).',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate). This is only possible if all Ticket dynamic fields need the same event.' =>
@@ -4375,7 +4372,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Eingehende E-Mails filtern.',
-        'First Queue' => '',
+        'First Queue' => 'Erste Queue',
         'FirstLock' => 'Erstsperrzeit',
         'FirstResponse' => 'Erstantwortzeit',
         'FirstResponseDiffInMin' => 'Erstantwortzeitdifferenz in Minuten',
@@ -4905,7 +4902,7 @@ sub Data {
         'Sets if SLA must be selected by the agent.' => '',
         'Sets if SLA must be selected by the customer.' => '',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'Setzt ob eine Notiz vom Agenten ausgefüllt werden muss. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Sets if service must be selected by the agent.' => '',
         'Sets if service must be selected by the customer.' => '',
         'Sets if ticket owner must be selected by the agent.' => '',

@@ -594,34 +594,34 @@ sub Data {
         'Could not determine database size.' => 'Não foi possível determinar o tamanho da base de dados.',
         'Database Version' => 'Versão da base de dados',
         'Could not determine database version.' => 'Não foi possível determinar a versão da base de dados.',
-        'Client Connection Charset' => '',
-        'Setting character_set_client needs to be utf8.' => '',
+        'Client Connection Charset' => 'Charset do Cliente de Conexão',
+        'Setting character_set_client needs to be utf8.' => 'Parâmetro character_set_client deve ser utf8.',
         'Server Database Charset' => 'Charset do Banco de dados',
-        'Setting character_set_database needs to be UNICODE or UTF8.' => '',
+        'Setting character_set_database needs to be UNICODE or UTF8.' => 'Parâmetro character_set_database precisa ser UNICODE ou UTF8.',
         'Table Charset' => 'Chartset da Tabela',
-        'There were tables found which do not have utf8 as charset.' => '',
-        'InnoDB Log File Size' => '',
-        'The setting innodb_log_file_size must be at least 256 MB.' => '',
+        'There were tables found which do not have utf8 as charset.' => 'Tabelas encontradas que não possuem charset utf8.',
+        'InnoDB Log File Size' => 'Tamanho de arquivo de log InooDB',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'O parâmetro innodb_log_file_size deve ser ao menos 256 MB.',
         'Maximum Query Size' => 'Tamanho Máximo da Query',
         'The setting \'max_allowed_packet\' must be higher than 20 MB.' =>
             'O parâmetro  \'max_allowed_packet\' deve ser maior que 20MB',
         'Query Cache Size' => 'Tamanho do Cache de Consulta',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
-            '',
+            'A configuração \'query_cache_size\' deve ser usada (maior que 10 MB mas não mais que 512 MB).',
         'Default Storage Engine' => 'Mecanismo de Armazenamento Padrão',
         'Tables with a different storage engine than the default engine were found.' =>
             'Tabelas com um mecanismo de armazenamento diferente do mecanismo padrão foram encontrados.',
         'MySQL 5.x or higher is required.' => 'MySQL 5.x ou superior é requerido.',
         'NLS_LANG Setting' => 'Parâmetro NLS_LANG',
         'NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
-            '',
+            'NLS_LANG deve ser definido para AL32UTF8 (e.x. GERMAN_GERMANY.AL32UTF8).',
         'NLS_DATE_FORMAT Setting' => 'Parâmetro NLS_DATE_FORMAT ',
-        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
-        'NLS_DATE_FORMAT Setting SQL Check' => '',
-        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
-        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'NLS_DATE_FORMAT deve ser definido para \'YYYY-MM-DD HH24:MI:SS\'.',
+        'NLS_DATE_FORMAT Setting SQL Check' => 'NLS_DATE_FORMAT Configurando SQL Check',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => 'A configuração client_encoding precisa ser UNICODE ou UTF8.',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => 'A configuração server_encoding precisa ser UNICODE ou UTF8.',
         'Date Format' => 'Formato da data',
-        'Setting DateStyle needs to be ISO.' => '',
+        'Setting DateStyle needs to be ISO.' => 'A configuração DateStyle precisa ser ISO.',
         'PostgreSQL 8.x or higher is required.' => 'PostgreSQL 8.x ou superior é requerido',
         'OTRS Disk Partition' => 'Partição OTRS',
         'Disk Usage' => 'Utilização em disco',
@@ -633,7 +633,7 @@ sub Data {
         'Could not determine distribution.' => 'Não foi possível determinar a distribuição.',
         'Kernel Version' => 'Versão do Kernel',
         'Could not determine kernel version.' => 'Não foi possível determinar a versão do kernel.',
-        'System Load' => '',
+        'System Load' => 'Carga do sistema',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
             '',
         'Perl Modules' => 'Módulos Perl',
@@ -702,6 +702,9 @@ sub Data {
         'Webserver Version' => 'Versão do Servidor WEB',
         'Could not determine webserver version.' => 'Não foi possível determinar a versão do servidor WEB.',
         'Loaded Apache Modules' => 'Módulos Apache Carregados',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'Uso do CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Você deve utilizar o FastCGI ou mod_perl para aumentar o desempenho. ',
@@ -1279,7 +1282,7 @@ sub Data {
             'Atualmente, essa tarefa do atendente genérico não será executado automaticamente.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Para habilitar a execução automática, selecione pelo menos um valor de minutos, horas e dias!',
-        'Event based execution (single ticket)' => 'Execução baseada em tempo (chamado simples)',
+        'Event based execution (single ticket)' => 'Execução baseada em Evento (chamado simples)',
         'Event Triggers' => 'Disparadores de evento',
         'List of all configured events' => 'Lista de todos os eventos configurados',
         'Delete this event' => 'Excluir este evento',
@@ -1412,7 +1415,7 @@ sub Data {
         'The name is typically used to call up an operation of a remote web service.' =>
             '',
         'Please provide a unique name for this web service invoker.' => '',
-        'Invoker backend' => '',
+        'Invoker backend' => 'Backend do Invocador',
         'This OTRS invoker backend module will be called to prepare the data to be sent to the remote system, and to process its response data.' =>
             '',
         'Mapping for outgoing request data' => '',
@@ -1765,7 +1768,7 @@ sub Data {
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
             '',
-        'Chat' => '',
+        'Chat' => 'Bate-papo',
         'Timeline view in ticket zoom' => '',
         'DynamicField ContactWithData' => '',
         'DynamicField Database' => '',
@@ -2126,7 +2129,7 @@ sub Data {
         'System registration not possible' => '',
         'Please note that you can\'t register your system if your scheduler is not running correctly!' =>
             '',
-        'Instructions' => '',
+        'Instructions' => 'Instruções',
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
@@ -2143,7 +2146,7 @@ sub Data {
         'You will receive updates about relevant security releases.' => '',
         'With your system registration we can improve our services for you, because we have all relevant information available.' =>
             '',
-        'This is only the beginning!' => '',
+        'This is only the beginning!' => 'Este é apenas o começo!',
         'We will inform you about our new services and offerings soon.' =>
             '',
         'Can I use OTRS without being registered?' => 'Eu posso utilizar o OTRS sem registrar ?',
@@ -2335,7 +2338,7 @@ sub Data {
         'Here you can enter SQL to send it directly to the application database. It is not possible to change the content of the tables, only select queries are allowed.' =>
             '',
         'Here you can enter SQL to send it directly to the application database.' =>
-            '',
+            'Aqui você pode entrar consultas SQL para enviá-las diretamente ao banco de dados do aplicativo.',
         'Only select queries are allowed.' => '',
         'The syntax of your SQL query has a mistake. Please check it.' =>
             'A sintaxe da sua consulta SQL está incorreta. Por favor, verifique.',
@@ -3145,6 +3148,8 @@ sub Data {
             'Um popup desta janela já está aberto. Você quer fechá-lo e carregar este no lugar?',
         'Please enter at least one search value or * to find anything.' =>
             'Por favor, insira algum valor para a pesquisa ou * para pesquisar tudo.',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => 'Por favor, verifique os campos marcados em vermelho para entradas válidas.',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -4216,6 +4221,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

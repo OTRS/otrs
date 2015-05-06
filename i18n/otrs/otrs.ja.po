@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/OTRS/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2499,6 +2499,14 @@ msgstr "WEBサーバのバージョンを決定できません。"
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "ロードされたApacheモジュール"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -5254,7 +5262,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network transport"
-msgstr ""
+msgstr "ネットワーク・トランスポート"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
@@ -6794,7 +6802,7 @@ msgstr "この遷移を編集"
 
 #. Template: AdminProcessManagementPath
 msgid "Transition Actions"
-msgstr ""
+msgstr "推移アクション"
 
 #. Template: AdminProcessManagementPath
 msgid ""
@@ -7383,7 +7391,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTRS-ID Login"
-msgstr ""
+msgstr "OTRS-ID"
 
 #. Template: AdminRegistration
 msgid ""
@@ -8172,7 +8180,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "送信者"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -9722,7 +9730,7 @@ msgstr "連結対象"
 
 #. Template: AgentTicketPrint
 msgid "by"
-msgstr ""
+msgstr "いいえ"
 
 #. Template: AgentTicketProcess
 msgid "Create New Process Ticket"
@@ -10423,6 +10431,12 @@ msgstr "既にポップアップウィンドウを開いています。開いて
 
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
+msgstr ""
+
+#. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
 msgstr ""
 
 #. Template: FooterJS
@@ -12201,7 +12215,7 @@ msgstr "グラフによって描かれる線の太さを定義します。"
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
-msgstr ""
+msgstr "カレンダの幅をパーセントで定義します。デフォルトは95%です。"
 
 #. SysConfig
 msgid "Defines the colors for the graphs."
@@ -13825,6 +13839,12 @@ msgid ""
 msgstr "ウェブ・インストーラーを無効にし(http://yourhost.example.com/otrs/installer.pl)、システムがハイジ\nャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本\n設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケー>ジ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パス\nワードの盗難を防ぐためです）。"
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -13834,7 +13854,7 @@ msgstr "チケットズームビューで、項目に関してアカウントさ
 
 #. SysConfig
 msgid "Dropdown"
-msgstr ""
+msgstr "ドロップダウン"
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
@@ -14262,7 +14282,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "イベント・チケット・カレンダー"
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -14577,7 +14597,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Customer::AuthModuleに関して\"HTTPBasicAuth\"が選択されていた場合、ユーザ名の始まりの部分を削除することができます（例：ドメインにおいて、example_domain\\userをuserに変える）。"
 
 #. SysConfig
 msgid ""
@@ -15306,7 +15326,7 @@ msgstr "データベース・フィルタ・ストレージを使用するモジ
 
 #. SysConfig
 msgid "Multiselect"
-msgstr ""
+msgstr "Multiselect"
 
 #. SysConfig
 msgid "My Queues and My Services"
@@ -15424,7 +15444,7 @@ msgstr "Old: \"%s\" New: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "オンライン"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15920,7 +15940,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Right"
-msgstr ""
+msgstr "権限"
 
 #. SysConfig
 msgid "Roles <-> Groups"
@@ -17504,7 +17524,7 @@ msgstr "テンプレート <-> キュー"
 
 #. SysConfig
 msgid "Textarea"
-msgstr ""
+msgstr "Textarea"
 
 #. SysConfig
 msgid ""

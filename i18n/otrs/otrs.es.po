@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2495,6 +2495,14 @@ msgstr "No se pudo determinar la versión del servidor web."
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Módulos Apache Cargados"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -6379,7 +6387,7 @@ msgstr "AutoIncrementar"
 
 #. Template: AdminPackageManager
 msgid "SQL"
-msgstr ""
+msgstr "Límite"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
@@ -7917,7 +7925,7 @@ msgstr "De esta forma Ud. puede editar directamente la certificación y claves p
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "De esta forma Ud. puede editar directamente la certificación y claves privadas en el sistema de ficheros."
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
@@ -8168,7 +8176,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr ""
+msgstr "Remitente"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8415,7 +8423,7 @@ msgstr "BarraNavegación"
 
 #. Template: AdminSysConfigEdit
 msgid "LinkOption"
-msgstr ""
+msgstr "Enlazar"
 
 #. Template: AdminSysConfigEdit
 msgid "Block"
@@ -10420,6 +10428,12 @@ msgstr "Ya está abierta una ventana emergente de esta pantalla. ¿Desea cerrarl
 #. Template: FooterJS
 msgid "Please enter at least one search value or * to find anything."
 msgstr "Introduzca al menos un valor de búsqueda, o * para buscar todo."
+
+#. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -13818,6 +13832,12 @@ msgid ""
 "be reinstalled and the current basic configuration will be used to pre-"
 "populate the questions within the installer script. If not active, it also "
 "disables the GenericAgent, PackageManager and SQL Box."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
 msgstr ""
 
 #. SysConfig

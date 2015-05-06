@@ -701,6 +701,9 @@ sub Data {
         'Webserver Version' => 'Webサイトバージョン',
         'Could not determine webserver version.' => 'WEBサーバのバージョンを決定できません。',
         'Loaded Apache Modules' => 'ロードされたApacheモジュール',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => 'CGIアクセラレータの有無',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'パフォーマンス向上のためFastCGIまたはmod_perlの使用を推奨します。',
@@ -1478,7 +1481,7 @@ sub Data {
 
         # Template: AdminGenericInterfaceTransportHTTPREST
         'GenericInterface Transport HTTP::REST for Web Service %s' => '',
-        'Network transport' => '',
+        'Network transport' => 'ネットワーク・トランスポート',
         'Properties' => '項目',
         'Route mapping for Operation' => '',
         'Define the route that should get mapped to this operation. Variables marked by a \':\' will get mapped to the entered name and passed along with the others to the mapping. (e.g. /Ticket/:TicketID).' =>
@@ -1950,7 +1953,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         # Template: AdminProcessManagementPath
         'Path' => 'パス',
         'Edit this transition' => 'この遷移を編集',
-        'Transition Actions' => '',
+        'Transition Actions' => '推移アクション',
         'You can assign Transition Actions to this Transition by dragging the elements with the mouse from the left list to the right list.' =>
             '',
         'Filter available Transition Actions' => '利用可能な遷移動作をフィルタ',
@@ -2130,7 +2133,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'System deregistration not possible' => '',
         'Please note that you can\'t deregister your system if you\'re using the %s or having a valid service contract.' =>
             '',
-        'OTRS-ID Login' => '',
+        'OTRS-ID Login' => 'OTRS-ID',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
         'Read more' => '続きを読む',
@@ -2382,7 +2385,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => '送信者',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2916,7 +2919,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Ticket-Info' => 'チケット情報',
         'Accounted time' => '作業時間',
         'Linked-Object' => '連結対象',
-        'by' => '',
+        'by' => 'いいえ',
 
         # Template: AgentTicketProcess
         'Create New Process Ticket' => '新しいプロセスチケットを作成',
@@ -3144,6 +3147,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             '既にポップアップウィンドウを開いています。開いているウィンドウを閉じて新しく開きますか？',
         'Please enter at least one search value or * to find anything.' =>
+            '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
             '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
@@ -3698,7 +3703,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '新しくリクエストされたパスワードに関するトークンと共に、顧客に送信される通知メールの本文テキストとを定義します（本リンクが使用された後に、新しいパスワードが送信されます）。',
         'Defines the body text for rejected emails.' => 'リジェクトされたEメールの本文を定義します。',
         'Defines the boldness of the line drawed by the graph.' => 'グラフによって描かれる線の太さを定義します。',
-        'Defines the calendar width in percent. Default is 95%.' => '',
+        'Defines the calendar width in percent. Default is 95%.' => 'カレンダの幅をパーセントで定義します。デフォルトは95%です。',
         'Defines the colors for the graphs.' => 'グラフの色を定義します。',
         'Defines the column to store the keys for the preferences table.' =>
             'プレファレンス・テーブルのためのキーを格納するコラムを定義してください。',
@@ -4220,10 +4225,12 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
 ャックされるのを防ぎます。もし、“No”に設定されている場合は、システムは再インストールすることができ、現在の基本
 設定がインストーラー・スクリプト内の質問に事前投入されます。もしアクティブでなれけば、Generic Agent、パッケー>ジ・マネジャー、SQLボックスも無効にします（これは、DROP DATABASEなどの破壊的クエリーの使用を避け、ユーザ・パス
 ワードの盗難を防ぐためです）。',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
+            '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'チケットズームビューで、項目に関してアカウントされた時間を表示します。',
-        'Dropdown' => '',
+        'Dropdown' => 'ドロップダウン',
         'Dynamic Fields Checkbox Backend GUI' => '',
         'Dynamic Fields Date Time Backend GUI' => '',
         'Dynamic Fields Drop-down Backend GUI' => '',
@@ -4352,7 +4359,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             '',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
-        'Events Ticket Calendar' => '',
+        'Events Ticket Calendar' => 'イベント・チケット・カレンダー',
         'Execute SQL statements.' => 'SQL文の実行',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '件名にチケット番号を持たないメールに関して、In-Reply-Toまたはレファレンスヘッダーにおけるフォローアップのチェックを行います。',
@@ -4672,7 +4679,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).' =>
             '通知とエスカレーションを表示するためのモジュールです(ShownMax: 最大、表示されたエスカレーション、EscalationInMinutes: エスカレートされるチケットを表示、CacheTime: 計算されたエスカレーションのキャッシュ秒数)。',
         'Module to use database filter storage.' => 'データベース・フィルタ・ストレージを使用するモジュールです。',
-        'Multiselect' => '',
+        'Multiselect' => 'Multiselect',
         'My Queues and My Services' => '担当キューと担当サービス',
         'My Queues or My Services' => '担当キューまたは担当サービス',
         'My Services' => '担当サービス',
@@ -4705,7 +4712,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '顧客インタフェースの検索結果の各ページで表示される、チケット数です。',
         'Old: "%s" New: "%s"' => 'Old: "%s" New: "%s"',
-        'Online' => '',
+        'Online' => 'オンライン',
         'Open tickets (customer user)' => 'オープンチケット(顧客ユーザー)',
         'Open tickets (customer)' => 'オープンチケット(顧客)',
         'Out Of Office' => 'オフィスにいません',
@@ -4846,7 +4853,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
             'チケットをアーカイブから救出します（ただし、イベントが状態変更の場合であり、クローズの状態から利用可能ななんらかのオープンの状態に変更された場合とします）。',
         'Retains all services in listings even if they are children of invalid elements.' =>
             '',
-        'Right' => '',
+        'Right' => '権限',
         'Roles <-> Groups' => 'ロール <-> グループ',
         'Running Process Tickets' => '',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
@@ -5350,7 +5357,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'System Maintenance' => 'システムメンテナンス',
         'System Request (%s).' => 'System Request (%s).',
         'Templates <-> Queues' => 'テンプレート <-> キュー',
-        'Textarea' => '',
+        'Textarea' => 'Textarea',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '"bin/PostMasterMailAccount.pl"が、特定された数のメッセージの後に、POP3/POP3S/IMAP/IMAPSホストに接続します。',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>

@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:12+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2509,6 +2509,14 @@ msgstr "Konnte Webserver-Version nicht ermitteln."
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Geladene Apache-Module"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -9568,23 +9576,23 @@ msgstr "Ausgehende E-Mail"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr ""
+msgstr "Ticket %s: erste Reaktionszeit ist abgelaufen (%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "Ticket %s: erste Reaktionszeit wird ablaufen in %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "Ticket %s: Aktualisierungszeit wird ablaufen in %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
-msgstr ""
+msgstr "Ticket %s: Lösungszeit ist abgelaufen (%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "Ticket %s: Lösungszeit wird ablaufen in %s/%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -10186,7 +10194,7 @@ msgstr "Persönliche Einstellungen vornehmen"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "%s %s abmelden"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -10436,6 +10444,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu suchen."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Bitte prüfen Sie die rot markierten Felder auf gültige Eingaben."
 
@@ -10469,7 +10483,7 @@ msgstr "Allgemeine Einstellungen und E-Mail-Einstellungen"
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Willkommen bei %s"
 
 #. Template: Installer
 msgid "Web site"
@@ -10822,7 +10836,7 @@ msgstr "OTRS Testseite"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "%s %s willkommen"
 
 #. Template: Test
 msgid "Counter"
@@ -13835,6 +13849,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
 
@@ -14230,7 +14250,7 @@ msgstr "Ansicht nach Eskalationen"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "Eskalationszeit"
 
 #. SysConfig
 msgid ""
@@ -14336,7 +14356,7 @@ msgstr "Eingehende E-Mails filtern."
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Erste Queue"
 
 #. SysConfig
 msgid "FirstLock"
@@ -16139,7 +16159,7 @@ msgstr ""
 msgid ""
 "Sets if note must be filled in by the agent. Can be overwritten by "
 "Ticket::Frontend::NeedAccountedTime."
-msgstr ""
+msgstr "Setzt ob eine Notiz vom Agenten ausgefüllt werden muss. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."

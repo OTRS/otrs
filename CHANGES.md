@@ -1,4 +1,5 @@
 #4.0.8 2015-??-??
+ - 2015-05-06 Updated translations, thanks to all translators.
  - 2015-05-04 Fixed preselecting CustomerID when creating a new customer user from CIC, thanks to Elias Probst.
  - 2015-04-30 Fixed bug#[11102](http://bugs.otrs.org/show_bug.cgi?id=11102) - Refresh bug on process client interface using ie8
  - 2015-04-28 Added new package manager command to list all installed package files.

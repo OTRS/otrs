@@ -697,6 +697,9 @@ sub Data {
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
         'Loaded Apache Modules' => '',
+        'MPM model' => '',
+        'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
+            '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             '',
@@ -2259,7 +2262,7 @@ sub Data {
         'Permissions to move tickets into this group/queue.' => 'Права на переміщення заявок у цю групу/черга',
         'create' => 'створення',
         'Permissions to create tickets in this group/queue.' => 'Права на створення заявок у цій групі/черги',
-        'note' => '',
+        'note' => 'Замітка',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'власник',
         'Permissions to change the owner of tickets in this group/queue.' =>
@@ -2377,7 +2380,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => '',
+        'Sending' => 'Відправник',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2451,7 +2454,7 @@ sub Data {
         'New Loader File' => '',
         'NavBarName' => '',
         'NavBar' => '',
-        'LinkOption' => '',
+        'LinkOption' => 'Посиланя',
         'Block' => 'Розділ',
         'AccessKey' => '',
         'Add NavBar entry' => '',
@@ -2813,7 +2816,7 @@ sub Data {
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Масова дія',
-        'Send Email' => '',
+        'Send Email' => 'Оправити лист!',
         'Merge to' => 'Об\'єднати с',
         'Invalid ticket identifier!' => '',
         'Merge to oldest' => 'Об\'єднати із самим старим',
@@ -2911,7 +2914,7 @@ sub Data {
         'Ticket-Info' => 'Інформація про заявку',
         'Accounted time' => 'Витрачене на заявку час',
         'Linked-Object' => 'Зв\'язаний об\'єкт',
-        'by' => '',
+        'by' => 'ні',
 
         # Template: AgentTicketProcess
         'Create New Process Ticket' => '',
@@ -3059,7 +3062,7 @@ sub Data {
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => '',
+        'Service level agreement' => 'Рівень обслуговування',
 
         # Template: CustomerTicketOverview
         'Welcome!' => '',
@@ -3111,9 +3114,9 @@ sub Data {
         'Saturday' => '',
         'Su' => '',
         'Mo' => '',
-        'Tu' => '',
-        'We' => '',
-        'Th' => '',
+        'Tu' => 'Бер.',
+        'We' => 'ввімкнено',
+        'Th' => 'по',
         'Fr' => '',
         'Sa' => '',
         'Event Information' => '',
@@ -3140,6 +3143,8 @@ sub Data {
             '',
         'Please enter at least one search value or * to find anything.' =>
             '',
+        'Please remove the following words from your search as they cannot be searched for:' =>
+            '',
         'Please check the fields marked as red for valid inputs.' => '',
         'Please perform a spell check on the the text first.' => '',
         'Slide the navigation bar' => '',
@@ -3160,7 +3165,7 @@ sub Data {
 
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => '',
-        'Outbound mail type' => '',
+        'Outbound mail type' => 'Тип',
         'Select outbound mail type.' => '',
         'Outbound mail port' => '',
         'Select outbound mail port.' => '',
@@ -3173,7 +3178,7 @@ sub Data {
         'SMTP auth password' => '',
         'Password for SMTP auth.' => '',
         'Configure Inbound Mail' => '',
-        'Inbound mail type' => '',
+        'Inbound mail type' => 'Тип',
         'Select inbound mail type.' => '',
         'Inbound mail host' => 'Поштовий сервер для вхідної пошти',
         'Inbound mail host.' => '',
@@ -4211,6 +4216,8 @@ sub Data {
         'Disables sending reminder notifications to the responsible agent of a ticket (Ticket::Responsible needs to be activated).' =>
             '',
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
+            '',
+        'Display a warning and prevent search when using stop words within fulltext search.' =>
             '',
         'Display settings to override defaults for Process Tickets.' => '',
         'Displays the accounted time for an article in the ticket zoom view.' =>

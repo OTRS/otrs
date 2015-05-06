@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-04-21 12:04+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>\n"
+"PO-Revision-Date: 2015-05-06 17:28+0000\n"
+"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
 "Language-Team: Swahili (http://www.transifex.com/projects/p/OTRS/language/sw/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2498,6 +2498,14 @@ msgstr "Haikuweza kutambua toleo la seva ya tovuti."
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
 msgstr "Moduli za Apache zilizopakiwa"
+
+#. Template: AAASupportDataCollector
+msgid "MPM model"
+msgstr ""
+
+#. Template: AAASupportDataCollector
+msgid "OTRS requires apache to be run with the 'prefork' MPM model."
+msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -10425,6 +10433,12 @@ msgid "Please enter at least one search value or * to find anything."
 msgstr "Tafadhali ingiza japo moja ya thamani ilitafutwa au * kutafuta yoyote."
 
 #. Template: FooterJS
+msgid ""
+"Please remove the following words from your search as they cannot be "
+"searched for:"
+msgstr ""
+
+#. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
 msgstr "Tafadhali angalia uga zote ziliizowekwa alama nyekundu kwa ajili ya maingizo batili."
 
@@ -13824,6 +13838,12 @@ msgid ""
 msgstr "Inalemaza kisanishi cha wavuti (http://yourhost.example.com/otrs/installer.pl), kuzuia mfumo kuvamiwa. Kama imewekwa kuwa \"hapana\", mfumo unaweza kusanidiwa upya na usanidi wa sasa wa msingi utatumika kujaza maswali katika hati ya usakinishi. Kama haijaamilishwa, pia inalemaza Wakala wa Jumla, Kisimamizi cha Kifurushi na kikasha cha SQL."
 
 #. SysConfig
+msgid ""
+"Display a warning and prevent search when using stop words within fulltext "
+"search."
+msgstr ""
+
+#. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr "Inaonyesha mipangilio ya inayobadilisha michaguo msingi kw aajili ya mchakato wa tiketi."
 
@@ -14576,7 +14596,7 @@ msgid ""
 "If \"HTTPBasicAuth\" was selected for Customer::AuthModule, you can specify "
 "to strip leading parts of user names (e. g. for domains like "
 "example_domain\\user to user)."
-msgstr ""
+msgstr "Kama \"Uhifadhi wa msingi wa HTTP\" inachaguliwa kwa ajili ya Mteja::Moduli ya uhalalishaji, unaweza kubainisha kwenye sehemu zilizo wazi za majina ya watumiaji (mfano kwa vikoa kwa example_domain\\user kwa mtumiaji)."
 
 #. SysConfig
 msgid ""
@@ -15423,7 +15443,7 @@ msgstr "Ya zamani: \"%s\" Mpya: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "Mtandaoni"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15919,7 +15939,7 @@ msgstr "Inaacha huduma zote katika orodha hata kama ni vipengele vidogo vya vipe
 
 #. SysConfig
 msgid "Right"
-msgstr ""
+msgstr "Haki"
 
 #. SysConfig
 msgid "Roles <-> Groups"
