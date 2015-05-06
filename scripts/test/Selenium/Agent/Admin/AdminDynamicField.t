@@ -98,9 +98,8 @@ $Selenium->RunTest(
                     "#ValidID stored value",
                 );
 
-                $Selenium->go_back();
-
                 # delete DynamicFields, check button for deleting Dynamic Field
+                $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
                 my $DynamicFieldID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
                     Name => $RandomID
                 )->{ID};
@@ -142,7 +141,7 @@ $Selenium->RunTest(
             # Make sure the cache is correct.
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
         }
-    }
+        }
 );
 
 1;

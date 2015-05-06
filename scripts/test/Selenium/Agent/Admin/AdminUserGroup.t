@@ -112,7 +112,8 @@ $Selenium->RunTest(
             "rw permission for group $RandomID is disabled",
         );
 
-        $Selenium->go_back();
+        # go back to AdminUserGroup screen
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUserGroup");
 
         # edit test agent permission for test group
         my $TestGroupID = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
@@ -176,7 +177,7 @@ $Selenium->RunTest(
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
-    }
+        }
 
 );
 

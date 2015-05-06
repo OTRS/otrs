@@ -122,7 +122,9 @@ $Selenium->RunTest(
             0,
             "priority permission for group $GroupRandomID is disabled",
         );
-        $Selenium->go_back();
+
+        # go back to AdminRoleGroup screen
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminRoleGroup");
 
         # edit role relations for test group
         $Selenium->find_element( $GroupRandomID, 'link_text' )->click();
@@ -207,7 +209,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Role' );
 
-    }
+        }
 );
 
 1;

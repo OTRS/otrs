@@ -159,12 +159,13 @@ $Selenium->RunTest(
             "#SetValue1 updated value",
         );
 
-        $Selenium->go_back();
+        # go back to AdminPostMasterFilter screen
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminPostMasterFilter");
 
         # delete test PostMasterFilter with delete button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")->click();
 
-    }
+        }
 
 );
 
