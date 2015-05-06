@@ -2114,7 +2114,7 @@ sub _Mask {
             my $InvolvedAgentSize = $ConfigObject->Get('Ticket::Frontend::InvolvedAgentMaxSize') || 3;
             $Param{InvolvedAgentStrg} = $LayoutObject->BuildSelection(
                 Data       => \@InvolvedAgents,
-                SelectedID => @InvolvedUserID,
+                SelectedID => \@InvolvedUserID,
                 Name       => 'InvolvedUserID',
                 Multiple   => 1,
                 Size       => $InvolvedAgentSize,
@@ -2144,7 +2144,7 @@ sub _Mask {
                 || 3;
             $Param{OptionStrg} = $LayoutObject->BuildSelection(
                 Data       => \%ShownUsers,
-                SelectedID => @InformUserID,
+                SelectedID => \@InformUserID,
                 Name       => 'InformUserID',
                 Multiple   => 1,
                 Size       => $InformAgentSize,
