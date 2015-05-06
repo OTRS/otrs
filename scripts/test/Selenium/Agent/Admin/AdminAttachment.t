@@ -99,7 +99,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$ID' )]")->click();
 
         }
-        }
+    }
 );
 
 1;

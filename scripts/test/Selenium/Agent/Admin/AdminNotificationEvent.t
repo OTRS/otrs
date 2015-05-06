@@ -179,7 +179,7 @@ $Selenium->RunTest(
         # delete test SLA with delete button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->click();
 
-        }
+    }
 
 );
 
