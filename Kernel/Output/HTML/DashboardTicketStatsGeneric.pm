@@ -55,7 +55,7 @@ sub Run {
     my $Key      = $LayoutObject->{UserLanguage} . '-' . $Self->{Name};
     my $CacheKey = 'TicketStats' . '-' . $Self->{UserID} . '-' . $Key;
 
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'Dashboard',
         Key  => $CacheKey,
     );
@@ -217,7 +217,7 @@ sub Run {
     );
 
     if ( $Self->{Config}->{CacheTTLLocal} ) {
-        $Self->{CacheObject}->Set(
+        $Kernel::OM->Get('Kernel::System::Cache')->Set(
             Type  => 'Dashboard',
             Key   => $CacheKey,
             Value => \%Data,
