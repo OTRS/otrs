@@ -14,22 +14,14 @@ use vars (qw($Self));
 
 use Selenium::Remote::WDKeys;
 
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::UnitTest::Selenium;
-
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose => 1,
-);
+my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 0,
-        );
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # defined user language for testing if message is being translated correctly
         my $Language = "de";

@@ -17,23 +17,11 @@ our $ObjectManagerDisabled = 1;
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 0,
-                }
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestUserLogin = $Helper->TestUserCreate(

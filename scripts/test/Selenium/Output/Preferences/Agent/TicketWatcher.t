@@ -13,22 +13,11 @@ use utf8;
 use vars (qw($Self));
 
 # get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 0,
-                }
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # enable ticket watcher feature
@@ -63,7 +52,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Agent preference ticket watch notification - updated'
         );
-        }
+    }
 );
 
 1;

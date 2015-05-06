@@ -13,22 +13,11 @@ use utf8;
 use vars (qw($Self));
 
 # get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 0,
-                }
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create test user and login
@@ -101,7 +90,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Service',
         );
-        }
+    }
 );
 
 1;

@@ -10,17 +10,8 @@ use warnings;
 use utf8;
 use vars (qw($Self));
 
-# get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
-
+# get selenium objects
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
-
-# get sysconfig object
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 $Selenium->RunTest(
     sub {
@@ -28,7 +19,7 @@ $Selenium->RunTest(
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::UnitTest::Helper' => {
                 RestoreSystemConfiguration => 1,
-                }
+            },
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -124,7 +115,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # search for new created ticket on AgentTicketZoom screen
-        my ($TicketID, $TicketNumber) = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
+        my ( $TicketID, $TicketNumber ) = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
             Result         => 'HASH',
             Limit          => 1,
             CustomerUserID => $TestCustomer,

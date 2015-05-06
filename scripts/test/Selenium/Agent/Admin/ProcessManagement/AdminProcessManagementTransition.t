@@ -12,19 +12,13 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::UnitTest::Selenium;
-
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose => 1,
-);
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 0,
-        );
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],

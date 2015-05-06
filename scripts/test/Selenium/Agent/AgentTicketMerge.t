@@ -13,22 +13,11 @@ use utf8;
 use vars (qw($Self));
 
 # get selenium object
-$Kernel::OM->ObjectParamAdd(
-    'Kernel::System::UnitTest::Selenium' => {
-        Verbose => 1,
-        }
-);
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        # get helper object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::UnitTest::Helper' => {
-                RestoreSystemConfiguration => 0,
-                }
-        );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get sysconfig object
@@ -125,6 +114,7 @@ $Selenium->RunTest(
         $Selenium->close();
 
         $Selenium->switch_to_window( $Handles->[0] );
+
         # click on merge
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketMerge;TicketID=$TicketIDs[0]' )]")->click();
 

@@ -11,17 +11,11 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
-
 use Time::HiRes qw(sleep);
-
-use Kernel::System::UnitTest::Selenium;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose => 1,
-);
+my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {

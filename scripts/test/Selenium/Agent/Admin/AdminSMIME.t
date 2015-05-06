@@ -13,23 +13,21 @@ use utf8;
 use vars (qw($Self));
 use File::Path qw(mkpath rmtree);
 
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::UnitTest::Selenium;
-
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose => 1,
-);
+my $Selenium        = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
-        my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 1,
+        # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
         );
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],

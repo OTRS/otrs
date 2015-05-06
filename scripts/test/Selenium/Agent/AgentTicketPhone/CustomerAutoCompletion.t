@@ -11,11 +11,7 @@ use warnings;
 use utf8;
 
 use vars (qw($Self));
-
 use Time::HiRes qw(sleep);
-
-use Kernel::System::UnitTest::Helper;
-use Kernel::System::UnitTest::Selenium;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -26,9 +22,8 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $Selenium = Kernel::System::UnitTest::Selenium->new(
-    Verbose => 1,
-);
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 # This test checks if the customer auto completion works correctly.
 # Special case: it must also work when called up directly via GET-Parameter.
@@ -37,9 +32,13 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new(
 $Selenium->RunTest(
     sub {
 
-        my $Helper = Kernel::System::UnitTest::Helper->new(
-            RestoreSystemConfiguration => 1,
+        # get helper object
+        $Kernel::OM->ObjectParamAdd(
+            'Kernel::System::UnitTest::Helper' => {
+                RestoreSystemConfiguration => 1,
+            },
         );
+        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['users'],
