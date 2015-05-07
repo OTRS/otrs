@@ -47,13 +47,13 @@ $Selenium->RunTest(
                 Name   => 'Ticket Overview',
                 ID     => 'UserRefreshTime',
                 Value  => '5',
-                Update => "\$('#UserRefreshTime').parents('form').submit();",
+                Update => "//button[\@id='UserRefreshTimeUpdate'][\@type='submit']",
             },
             {
                 Name   => 'Number of displayed tickets',
                 ID     => 'UserShowTickets',
                 Value  => '30',
-                Update => "\$('#UserShowTickets').parents('form').submit();",
+                Update => "//button[\@id='UserShowTicketsUpdate'][\@type='submit']",
             },
         );
 
@@ -63,7 +63,7 @@ $Selenium->RunTest(
         for my $Test (@Tests) {
 
             $Selenium->find_element( "#$Test->{ID} option[value='$Test->{Value}']", 'css' )->click();
-            $Selenium->execute_script("$Test->{Update}");
+            $Selenium->find_element($Test->{Update})->click();
 
             $Self->True(
                 index( $Selenium->get_page_source(), $UpdateMessage ) > -1,

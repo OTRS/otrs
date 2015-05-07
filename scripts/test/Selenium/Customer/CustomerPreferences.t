@@ -64,10 +64,10 @@ $Selenium->RunTest(
 
         # edit checked stored values
         $Selenium->find_element( "#UserRefreshTime option[value='2']", 'css' )->click();
-        $Selenium->execute_script("\$('#UserRefreshTime').parents('form').submit();");
+        $Selenium->find_element("//button[\@id='UserRefreshTimeUpdate'][\@type='submit']")->click();
 
         $Selenium->find_element( "#UserShowTickets option[value='20']", 'css' )->click();
-        $Selenium->execute_script("\$('#UserShowTickets').parents('form').submit();");
+        $Selenium->find_element("//button[\@id='UserShowTicketsUpdate'][\@type='submit']")->click();
 
         # check edited values
         $Self->Is(
@@ -88,7 +88,7 @@ $Selenium->RunTest(
         {
             # change CustomerPreference language
             $Selenium->find_element( "#UserLanguage option[value='$Language']", 'css' )->click();
-            $Selenium->execute_script("\$('#UserLanguage').parents('form').submit();");
+            $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->click();
 
             # check edited language value
             $Self->Is(

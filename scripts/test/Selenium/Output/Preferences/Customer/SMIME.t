@@ -78,7 +78,7 @@ $Selenium->RunTest(
         my $Location = $ConfigObject->Get('Home')
             . "/scripts/test/sample/SMIME/SMIMECertificate-1.asc";
         $Selenium->find_element( "#UserSMIMEKey", 'css' )->send_keys($Location);
-        $Selenium->execute_script("\$('#UserSMIMEKey').parents('form').submit();");
+        $Selenium->find_element("//button[\@id='UserSMIMEKeyUpdate'][\@type='submit']")->click();
 
         # check for update SMIME certificate preference on screen
         $Self->True(

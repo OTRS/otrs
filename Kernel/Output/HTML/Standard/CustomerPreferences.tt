@@ -58,7 +58,7 @@
                     </div>
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Block") %]
-                    <button type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                    <button type="submit" id="[% Data.PrefKey | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
                 </fieldset>
             </form>
         </div>
