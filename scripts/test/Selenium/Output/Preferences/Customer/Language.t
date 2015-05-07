@@ -37,7 +37,7 @@ $Selenium->RunTest(
 
         # change test user language preference to Deutsch
         $Selenium->find_element( "#UserLanguage option[value='de']", 'css' )->click();
-        $Selenium->find_element("//button[\@id='UserLanguageUpdate'][\@type='submit']")->click();
+        $Selenium->find_element( "#UserLanguage option[value='de']", 'css' )->submit();
 
         # check for update preference message on screen
         my $UpdateMessage = "Benutzereinstellungen erfolgreich aktualisiert!";
