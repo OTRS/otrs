@@ -1295,6 +1295,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Ticket Filter' => 'टिकट निस्पादक',
         '(e. g. 10*5155 or 105658*)' => '(उदा: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(उदा: 234321)',
@@ -5098,6 +5099,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'टूलबार वस्तु किसी शॉर्टकट के लिए।',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'GUI में इस्तेमाल एनिमेशन प्रारंभ करते हैं। यदि आपको इन एनिमेशन के साथ समस्या है(उदाहरण के लिए प्रदर्शन के मुद्दों),यहां आप उन्हें बंद कर सकते हैं।',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>

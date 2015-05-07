@@ -1296,6 +1296,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             '',
         'Delete this Event Trigger' => '',
+        'Remove selection' => '',
         'Ticket Filter' => 'チケットフィルタ',
         '(e. g. 10*5155 or 105658*)' => '(例 10*5144 または 105658*)',
         '(e. g. 234321)' => '(例 234321)',
@@ -5105,6 +5106,8 @@ SystemAddressに関して"<Realname> <<Email>>"は受信者の名前およびE�
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => 'ショートカットのためのツールバー・アイテムです。',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             'GUIで使用されるアニメーションをONにします。もし、これらのアニメーションに問題がある場合（パフォーマンス問題など）、ここでOFFにできます。',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>

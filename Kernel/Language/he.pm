@@ -1298,6 +1298,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'אירוע זה כבר משויך למשימה. אנא בחרו אחד אחר.',
         'Delete this Event Trigger' => 'מחק את טריגר האירוע',
+        'Remove selection' => '',
         'Ticket Filter' => 'מסנן פניות',
         '(e. g. 10*5155 or 105658*)' => '(למשל 10*5144 או 105658*)',
         '(e. g. 234321)' => '(למשל 234321)',
@@ -5101,6 +5102,8 @@ sub Data {
         'Toggles display of OTRS FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut.' => '',
+        'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
+            '',
         'Turns on the animations used in the GUI. If you have problems with these animations (e.g. performance issues), you can turn them off here.' =>
             '',
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
