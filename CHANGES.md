@@ -1,4 +1,6 @@
-#3.3.13 ????-??-??
+#3.3.14 ????-??-??
+
+#3.3.13 2015-05-12
  - 2015-05-05 Updated translation files.
  - 2015-04-30 Fixed bug#[11102](http://bugs.otrs.org/show_bug.cgi?id=11102) - Refresh bug on process client interface using ie8
  - 2015-04-13 Fixed bug#[10961](http://bugs.otrs.org/show_bug.cgi?id=10961) - Adding email recipients via addressbook does not update customer information.
