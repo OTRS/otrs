@@ -4584,6 +4584,60 @@ sub _BuildSelectionDataRefCreate {
     # if ArrayHashRef was given
     elsif ( ref $DataLocal eq 'ARRAY' && ref $DataLocal->[0] eq 'HASH' ) {
 
+        # get missing parents and mark them for disable later
+        if ( $OptionRef->{Sort} eq 'TreeView' ) {
+
+            # build a list of element longnames
+            my @NewDataLocal;
+
+            my %List;
+            for my $ValueHash ( @{$DataLocal} ) {
+                $List{ $ValueHash->{Value} } = 1;
+            }
+
+            # get each data value hash
+            for my $ValueHash ( @{$DataLocal} ) {
+
+                my $Parents = '';
+
+                # try to split its parents (e.g. Queue or Service) GrandParent::Parent::Son
+                my @Elements = split /::/, $ValueHash->{Value};
+
+                # get each element in the hierarchy
+                for my $Element (@Elements) {
+
+                    # add its own parents for the complete name
+                    my $ElementLongName = $Parents . $Element;
+
+                    # check if element exists in the original data or if it is already marked
+                    if ( !$List{$ElementLongName} && !$DisabledElements{$ElementLongName} ) {
+
+                        # mark element as disabled
+                        $DisabledElements{$ElementLongName} = 1;
+
+                        # push the missing element to the data local array
+                        push @NewDataLocal, {
+                            Key      => $ElementLongName . '_Disabled',
+                            Value    => $ElementLongName,
+                            Disabled => 1,
+                        };
+
+                    }
+                    $Parents .= $Element . '::';
+                }
+
+                # push the element to the data local array
+                push @NewDataLocal, {
+                    Key      => $ValueHash->{Key},
+                    Value    => $ValueHash->{Value},
+                    Disabled => $ValueHash->{Disabled} ? 1 : 0,
+                };
+            }
+
+            # override the data local with the new one
+            @{$DataLocal} = @NewDataLocal;
+        }
+
         # create DataRef
         for my $Row ( @{$DataLocal} ) {
             if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {

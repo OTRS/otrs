@@ -1792,10 +1792,17 @@ sub _ColumnFilterJSON {
     $Label = $LayoutObject->{LanguageObject}->Translate($Label);
 
     # set fixed values
-    my $Data = {
-        DeleteFilter => uc $Label,
-        '-'          => '-',
-    };
+    my $Data = [
+        {
+            Key   => 'DeleteFilter',
+            Value => uc $Label,
+        },
+        {
+            Key      => '-',
+            Value    => '-',
+            Disabled => 1,
+        },
+    ];
 
     if ( $Param{ColumnValues} && ref $Param{ColumnValues} eq 'HASH' ) {
 
@@ -1803,7 +1810,10 @@ sub _ColumnFilterJSON {
 
         # set possible values
         for my $ValueKey ( sort { lc $Values{$a} cmp lc $Values{$b} } keys %Values ) {
-            $Data->{$ValueKey} = $Values{$ValueKey};
+            push @{$Data}, {
+                Key   => $ValueKey,
+                Value => $Values{$ValueKey}
+            };
         }
     }
 
@@ -1823,15 +1833,14 @@ sub _ColumnFilterJSON {
     my $JSON = $LayoutObject->BuildSelectionJSON(
         [
             {
-                Name           => 'ColumnFilter' . $Param{ColumnName} . $Param{DashboardName},
-                Data           => $Data,
-                Class          => 'ColumnFilter',
-                Sort           => 'AlphanumericKey',
-                TreeView       => 1,
-                SelectedID     => $Param{SelectedValue},
-                Translation    => $TranslationOption,
-                AutoComplete   => 'off',
-                DisabledBranch => '-',
+                Name         => 'ColumnFilter' . $Param{ColumnName} . $Param{DashboardName},
+                Data         => $Data,
+                Class        => 'ColumnFilter',
+                Sort         => 'AlphanumericKey',
+                TreeView     => 1,
+                SelectedID   => $Param{SelectedValue},
+                Translation  => $TranslationOption,
+                AutoComplete => 'off',
             },
         ],
     );

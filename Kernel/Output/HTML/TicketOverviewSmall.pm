@@ -1857,10 +1857,17 @@ sub _ColumnFilterJSON {
     $Label = $Self->{LayoutObject}->{LanguageObject}->Translate($Label);
 
     # set fixed values
-    my $Data = {
-        DeleteFilter => uc $Label,
-        '-'          => '-',
-    };
+    my $Data = [
+        {
+            Key   => 'DeleteFilter',
+            Value => uc $Label,
+        },
+        {
+            Key      => '-',
+            Value    => '-',
+            Disabled => 1,
+        },
+    ];
 
     if ( $Param{ColumnValues} && ref $Param{ColumnValues} eq 'HASH' ) {
 
@@ -1868,7 +1875,10 @@ sub _ColumnFilterJSON {
 
         # set possible values
         for my $ValueKey ( sort { lc $Values{$a} cmp lc $Values{$b} } keys %Values ) {
-            $Data->{$ValueKey} = $Values{$ValueKey};
+            push @{$Data}, {
+                Key   => $ValueKey,
+                Value => $Values{$ValueKey}
+            };
         }
     }
 
