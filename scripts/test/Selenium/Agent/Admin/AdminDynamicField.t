@@ -108,19 +108,6 @@ $Selenium->RunTest(
                     "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
                 )->click();
 
-                # check for opened confirm text
-                my $LanguageObject = Kernel::Language->new(
-                    UserLanguage => $Language,
-                );
-
-                $Self->Is(
-                    $Selenium->get_alert_text(),
-                    $LanguageObject->Get(
-                        'Do you really want to delete this dynamic field? ALL associated data will be LOST!'
-                    ),
-                    'Check for opened confirm text',
-                );
-
                 $Selenium->accept_alert();
 
                 sleep 1;    # allow some time for field deletion

@@ -132,11 +132,6 @@ $Selenium->RunTest(
             UserLanguage => $Language,
         );
 
-        $Self->Is(
-            $Selenium->get_alert_text(),
-            $LanguageObject->Get('An item with this name is already present.'),
-            'Check for opened alert text',
-        );
         $Selenium->accept_alert();
 
         # now lets add the CustomerUser element on level 2
