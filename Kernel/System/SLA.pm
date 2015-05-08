@@ -606,7 +606,7 @@ sub SLAUpdate {
     delete $Self->{ 'Cache::SLALookup::Name::' . $Param{Name} };
     delete $Self->{ 'Cache::SLALookup::ID::' . $Param{SLAID} };
 
-    # update service
+    # update sla
     return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE sla SET name = ?, calendar_name = ?, '
             . 'first_response_time = ?, first_response_notify = ?, '
