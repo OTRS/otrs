@@ -225,17 +225,24 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         var $Element = $('#ArticleTable td.No input.ArticleID[value=' + ArticleID +']'),
             ArticleURL;
 
-        if (!$Element.length) {
-            if (typeof WindowObject === 'undefined') {
-                WindowObject = window;
-            }
-            WindowObject.alert(Core.Config.Get('Language.AttachmentViewMessage'));
-
-            return;
+        // Check if we are in timeline view
+        // in this case we can jump directly to the article
+        if ($('.ArticleView .Chronical').hasClass('Active')) {
+            window.location.hash = '#ArticleID_' + ArticleID;
         }
+        else {
+            if (!$Element.length) {
+                if (typeof WindowObject === 'undefined') {
+                    WindowObject = window;
+                }
+                WindowObject.alert(Core.Config.Get('Language.AttachmentViewMessage'));
 
-        ArticleURL = $Element.siblings('.ArticleInfo').val();
-        LoadArticle(ArticleURL, ArticleID);
+                return;
+            }
+
+            ArticleURL = $Element.siblings('.ArticleInfo').val();
+            LoadArticle(ArticleURL, ArticleID);
+        }
     };
 
     /**
