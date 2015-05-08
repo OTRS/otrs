@@ -104,11 +104,36 @@ $Selenium->RunTest(
                     Name => $RandomID
                 )->{ID};
 
+                my $CheckConfirmJS = <<"JAVASCRIPT";
+(function () {
+    var lastConfirm = undefined;
+    window.confirm = function (message) {
+        lastConfirm = message;
+        return true;
+    };
+    window.getLastConfirm = function () {
+        var result = lastConfirm;
+        lastConfirm = undefined;
+        return result;
+    };
+}());
+JAVASCRIPT
+
+                $Selenium->execute_script($CheckConfirmJS);
+
                 $Selenium->find_element(
                     "//a[contains(\@data-query-string, \'Subaction=DynamicFieldDelete;ID=$DynamicFieldID' )]"
                 )->click();
 
-                $Selenium->accept_alert();
+                my $LanguageObject = Kernel::Language->new(
+                    UserLanguage => $Language,
+                );
+
+                $Self->Is(
+                    $Selenium->execute_script("return window.getLastConfirm()"),
+                    $LanguageObject->Get('Do you really want to delete this dynamic field? ALL associated data will be LOST!'),
+                    'Check for opened confirm text',
+                );
 
                 sleep 1;    # allow some time for field deletion
 
