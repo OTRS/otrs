@@ -112,7 +112,7 @@ Kernel/System/DynamicFieldDatabase.pm
 Kernel/System/Ticket/Event/StoreHistoricalData.pm
 Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/ToolBar/*Chat*
-Kernel/Output/HTML/TicketMenuAttachmentView.pm
+Kernel/Output/HTML/Ticket/MenuAttachmentView.pm
 Kernel/Output/HTML/OutputFilterPreContactWithData.pm
 Kernel/Output/HTML/OutputFilterPreSLASelectionDialog.pm
 Kernel/Output/HTML/Standard/AAAOTRSBusiness.tt
