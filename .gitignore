@@ -92,6 +92,7 @@ bin/ModuleCode.pl
 bin/DatabaseInstall.pl
 
 # OTRSBusiness
+CHANGES-OTRSBusiness.md
 OTRSBusiness.sopm
 doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
