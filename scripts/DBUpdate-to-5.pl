@@ -220,6 +220,8 @@ sub _MigrateConfigs {
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $Setting         = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::ToolBarModule');
 
+    print "\n--- Toolbar modules...";
+
     TOOLBARMODULE:
     for my $ToolbarModule ( sort keys %{$Setting} ) {
 
@@ -239,6 +241,9 @@ sub _MigrateConfigs {
             Value => $Setting->{$ToolbarModule},
         );
     }
+
+    print "...done.\n";
+    print "--- Ticket menu modules...";
 
     # Ticket Menu Modules
     $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::MenuModule');
@@ -263,6 +268,9 @@ sub _MigrateConfigs {
         );
     }
 
+    print "...done.\n";
+    print "--- Preferences group modules...";
+
     # Preferences groups
     $Setting = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups');
 
@@ -285,6 +293,9 @@ sub _MigrateConfigs {
             Value => $Setting->{$PreferenceModule},
         );
     }
+
+    print "...done.\n";
+    print "--- SLA/Service/Queue preference modules...";
 
     # SLA, Service and Queue preferences
     for my $Type (qw(SLA Service Queue)) {
@@ -312,6 +323,34 @@ sub _MigrateConfigs {
             );
         }
     }
+
+    print "...done.\n";
+    print "--- Article pre view modules...";
+
+    # Article pre view modules
+    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ArticlePreViewModule');
+
+    ARTICLEMODULE:
+    for my $ArticlePreViewModule ( sort keys %{$Setting} ) {
+
+        # update module location
+        my $Module = $Setting->{$ArticlePreViewModule}->{'Module'};
+        if ($Module !~ m{Kernel::Output::HTML::Article(\w+)}) {
+            next ARTICLEMODULE;
+        }
+
+        $Module =~ s{Kernel::Output::HTML::Article(\w+)}{Kernel::Output::HTML::Article::$1}xmsg;
+        $Setting->{$ArticlePreViewModule}->{'Module'} = $Module;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::ArticlePreViewModule###' . $ArticlePreViewModule,
+            Value => $Setting->{$ArticlePreViewModule},
+        );
+    }
+
+    print "...done\n";
 
     return 1;
 }
