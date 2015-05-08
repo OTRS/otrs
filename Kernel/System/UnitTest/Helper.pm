@@ -98,7 +98,7 @@ sub GetRandomID {
 
     LOOP:
     for ( 1 .. 1_000 ) {
-        my $RandomID = 'test' . int( rand(1_000_000_000) );
+        my $RandomID = 'test' . time() . int( rand(1_000_000_000) );
         if ( !$SeenRandomIDs{$RandomID}++ ) {
             return $RandomID;
         }
