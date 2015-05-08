@@ -256,7 +256,7 @@
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketMenuProcess</Item>
+                <Item Key="Module">Kernel::Output::HTML::Ticket::MenuProcess</Item>
                 <Item Key="Name">Process Enroll</Item>
                 <Item Key="Description" Translatable="1">Enroll this ticket into a process</Item>
                 <Item Key="Action">AgentTicketProcess</Item>
