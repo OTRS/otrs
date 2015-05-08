@@ -6,10 +6,18 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketMenuMove;
+package Kernel::Output::HTML::Ticket::MenuMove;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::Config',
+    'Kernel::System::Ticket',
+    'Kernel::System::Group',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +26,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID GroupObject TicketObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -29,26 +35,35 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => 'Need Ticket!'
         );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if frontend module registered, if not, do not show action
     if ( $Param{Config}->{Action} ) {
-        my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
+        my $Module = $ConfigObject->Get('Frontend::Module')->{ $Param{Config}->{Action} };
         return if !$Module;
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # check permission
-    my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}");
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Param{Config}->{Action}");
     if ($Config) {
         if ( $Config->{Permission} ) {
-            my $AccessOk = $Self->{TicketObject}->Permission(
+            my $AccessOk = $TicketObject->Permission(
                 Type     => $Config->{Permission},
                 TicketID => $Param{Ticket}->{TicketID},
                 UserID   => $Self->{UserID},
@@ -70,14 +85,14 @@ sub Run {
             my ( $Permission, $Name ) = split /:/, $Item;
 
             if ( !$Permission || !$Name ) {
-                $Self->{LogObject}->Log(
+                $LogObject->Log(
                     Priority => 'error',
                     Message  => "Invalid config for Key Group: '$Item'! "
                         . "Need something like '\$Permission:\$Group;'",
                 );
             }
 
-            my %Groups = $Self->{GroupObject}->PermissionUserGet(
+            my %Groups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
                 UserID => $Self->{UserID},
                 Type   => $Permission,
             );
@@ -102,19 +117,22 @@ sub Run {
 
     $Param{Link} = 'Action=AgentTicketMove;TicketID=[% Data.TicketID | uri %];';
 
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
+    if ( $ConfigObject->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
         $Param{Target} = '';
         $Param{Block}  = 'DocumentMenuItemMoveForm';
 
+        # get layout object
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
         # get move queues
-        my %MoveQueues = $Self->{TicketObject}->MoveList(
+        my %MoveQueues = $TicketObject->MoveList(
             TicketID => $Param{Ticket}->{TicketID},
             UserID   => $Self->{UserID},
-            Action   => $Self->{LayoutObject}->{Action},
+            Action   => $LayoutObject->{Action},
             Type     => 'move_into',
         );
-        $MoveQueues{0} = '- ' . $Self->{LayoutObject}->{LanguageObject}->Translate('Move') . ' -';
-        $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
+        $MoveQueues{0} = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
+        $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
             Name => 'DestQueueID',
             Data => \%MoveQueues,
         );

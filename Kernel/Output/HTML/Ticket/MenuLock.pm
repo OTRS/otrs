@@ -6,10 +6,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketMenuLock;
+package Kernel::Output::HTML::Ticket::MenuLock;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::Config',
+    'Kernel::System::Ticket',
+    'Kernel::System::Group',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +25,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID GroupObject TicketObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -29,9 +34,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => 'Need Ticket!'
         );
@@ -40,12 +48,15 @@ sub Run {
 
     # check if frontend module registered, if not, do not show action
     if ( $Param{Config}->{Action} ) {
-        my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
+        my $Module = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{ $Param{Config}->{Action} };
         return if !$Module;
     }
 
+    # get ticket object
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
     # check lock permission
-    my $AccessOk = $Self->{TicketObject}->TicketPermission(
+    my $AccessOk = $TicketObject->TicketPermission(
         Type     => 'lock',
         TicketID => $Param{Ticket}->{TicketID},
         UserID   => $Self->{UserID},
@@ -54,8 +65,8 @@ sub Run {
     return if !$AccessOk;
 
     # check permission
-    if ( $Self->{TicketObject}->TicketLockGet( TicketID => $Param{Ticket}->{TicketID} ) ) {
-        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+    if ( $TicketObject->TicketLockGet( TicketID => $Param{Ticket}->{TicketID} ) ) {
+        my $AccessOk = $TicketObject->OwnerCheck(
             TicketID => $Param{Ticket}->{TicketID},
             OwnerID  => $Self->{UserID},
         );
@@ -74,14 +85,14 @@ sub Run {
             my ( $Permission, $Name ) = split /:/, $Item;
 
             if ( !$Permission || !$Name ) {
-                $Self->{LogObject}->Log(
+                $LogObject->Log(
                     Priority => 'error',
                     Message  => "Invalid config for Key Group: '$Item'! "
                         . "Need something like '\$Permission:\$Group;'",
                 );
             }
 
-            my %Groups = $Self->{GroupObject}->PermissionUserGet(
+            my %Groups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
                 UserID => $Self->{UserID},
                 Type   => $Permission,
             );

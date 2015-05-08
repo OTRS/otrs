@@ -6,10 +6,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketMenuTicketWatcher;
+package Kernel::Output::HTML::Ticket::MenuTicketWatcher;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::Config',
+    'Kernel::System::Ticket',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +25,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -31,19 +36,22 @@ sub Run {
 
     # check needed stuff
     if ( !$Param{Ticket} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Ticket!'
         );
         return;
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if feature is active
-    return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
+    return if !$ConfigObject->Get('Ticket::Watcher');
 
     # check if frontend module registered, if not, do not show action
     if ( $Param{Config}->{Action} ) {
-        my $Module = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Param{Config}->{Action} };
+        my $Module = $ConfigObject->Get('Frontend::Module')->{ $Param{Config}->{Action} };
         return if !$Module;
     }
 
@@ -53,8 +61,8 @@ sub Run {
 
     # check access
     my @Groups;
-    if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
-        @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
+    if ( $ConfigObject->Get('Ticket::WatcherGroup') ) {
+        @Groups = @{ $ConfigObject->Get('Ticket::WatcherGroup') };
     }
 
     my $Access = 1;
@@ -62,8 +70,12 @@ sub Run {
         $Access = 0;
         GROUP:
         for my $Group (@Groups) {
-            next GROUP if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
-            if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+
+            # get layout object
+            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+            next GROUP if !$LayoutObject->{"UserIsGroup[$Group]"};
+            if ( $LayoutObject->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                 $Access = 1;
                 last GROUP;
             }
@@ -72,7 +84,7 @@ sub Run {
     return if !$Access;
 
     # check if ticket get's watched right now
-    my %Watch = $Self->{TicketObject}->TicketWatchGet(
+    my %Watch = $Kernel::OM->Get('Kernel::System::Ticket')->TicketWatchGet(
         TicketID => $Param{Ticket}->{TicketID},
     );
 
