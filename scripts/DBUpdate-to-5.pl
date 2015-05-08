@@ -84,7 +84,7 @@ Please run it as the 'otrs' user or with the help of su:
         },
         {
             Message => 'Migrate toolbar configurations to the new module locations',
-            Command => \&_MigrateToolbarConfigs,
+            Command => \&_MigrateConfigs,
         },
         {
             Message => 'Clean up the cache',
@@ -206,16 +206,17 @@ sub _CheckFrameworkVersion {
     return 1;
 }
 
-=item _MigrateToolbarConfigs()
+=item _MigrateConfigs()
 
 Change toolbar configurations to match the new module location.
 
-    _MigrateToolbarConfigs();
+    _MigrateConfigs();
 
 =cut
 
-sub _MigrateToolbarConfigs {
+sub _MigrateConfigs {
 
+    # Toolbar Modules
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
     my $Setting         = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::ToolBarModule');
 
@@ -224,6 +225,10 @@ sub _MigrateToolbarConfigs {
 
         # update module location
         my $Module = $Setting->{$ToolbarModule}->{'Module'};
+        if ($Module !~ m{Kernel::Output::HTML::ToolBar(\w+)}) {
+            next TOOLBARMODULE;
+        }
+
         $Module =~ s{Kernel::Output::HTML::ToolBar(\w+)}{Kernel::Output::HTML::ToolBar::$1}xmsg;
         $Setting->{$ToolbarModule}->{'Module'} = $Module;
 
@@ -233,6 +238,79 @@ sub _MigrateToolbarConfigs {
             Key   => 'Frontend::ToolBarModule###' . $ToolbarModule,
             Value => $Setting->{$ToolbarModule},
         );
+    }
+
+    # Ticket Menu Modules
+    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::MenuModule');
+
+    MENUMODULE:
+    for my $MenuModule ( sort keys %{$Setting} ) {
+
+        # update module location
+        my $Module = $Setting->{$MenuModule}->{'Module'};
+        if ($Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)}) {
+            next MENUMODULE;
+        }
+
+        $Module =~ s{Kernel::Output::HTML::TicketMenu(\w+)}{Kernel::Output::HTML::Ticket::Menu$1}xmsg;
+        $Setting->{$MenuModule}->{'Module'} = $Module;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::MenuModule###' . $MenuModule,
+            Value => $Setting->{$MenuModule},
+        );
+    }
+
+    # Preferences groups
+    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups');
+
+    PREFERENCEMODULE:
+    for my $PreferenceModule ( sort keys %{$Setting} ) {
+
+        # update module location
+        my $Module = $Setting->{$PreferenceModule}->{'Module'};
+        if ($Module !~ m{Kernel::Output::HTML::Preferences(\w+)}) {
+            next PREFERENCEMODULE;
+        }
+
+        $Module =~ s{Kernel::Output::HTML::Preferences(\w+)}{Kernel::Output::HTML::Preferences::$1}xmsg;
+        $Setting->{$PreferenceModule}->{'Module'} = $Module;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'PreferencesGroups###' . $PreferenceModule,
+            Value => $Setting->{$PreferenceModule},
+        );
+    }
+
+    # SLA, Service and Queue preferences
+    for my $Type (qw(SLA Service Queue)) {
+
+        $Setting = $Kernel::OM->Get('Kernel::Config')->Get($Type . 'Preferences');
+
+        MODULE:
+        for my $PreferenceModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$PreferenceModule}->{'Module'};
+            my $Regex  = 'Kernel::Output::HTML::' . $Type . 'Preferences(\w+)';
+            if ($Module !~ m{$Regex}) {
+                next MODULE;
+            }
+
+            $Module =~ s{$Regex}{Kernel::Output::HTML::${Type}Preferences::$1}xmsg;
+            $Setting->{$PreferenceModule}->{'Module'} = $Module;
+
+            # set new setting,
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type . 'Preferences###' . $PreferenceModule,
+                Value => $Setting->{$PreferenceModule},
+            );
+        }
     }
 
     return 1;

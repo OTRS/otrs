@@ -111,6 +111,7 @@ Kernel/System/DynamicField/Driver/Database.pm
 Kernel/System/DynamicFieldDatabase.pm
 Kernel/System/Ticket/Event/StoreHistoricalData.pm
 Kernel/Output/HTML/*Chat*
+Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/TicketMenuAttachmentView.pm
 Kernel/Output/HTML/OutputFilterPreContactWithData.pm
 Kernel/Output/HTML/OutputFilterPreSLASelectionDialog.pm
