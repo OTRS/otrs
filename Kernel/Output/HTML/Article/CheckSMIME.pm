@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ArticleCheckSMIME;
+package Kernel::Output::HTML::Article::CheckSMIME;
 
 use strict;
 use warnings;
@@ -16,11 +16,7 @@ use Kernel::System::EmailParser;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Crypt::SMIME',
-    'Kernel::Output::HTML::Layout',
-    'Kernel::System::DB',
-    'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::Main',
     'Kernel::System::Ticket',
 );
 
@@ -31,23 +27,15 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    $Self->{ConfigObject} = $Param{ConfigObject} || $Kernel::OM->Get('Kernel::Config');
-    $Self->{LogObject}    = $Param{LogObject}    || $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{EncodeObject} = $Param{EncodeObject} || $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{MainObject}   = $Param{MainObject}   || $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{DBObject}     = $Param{DBObject}     || $Kernel::OM->Get('Kernel::System::DB');
-    $Self->{TicketObject} = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
-    $Self->{LayoutObject} = $Param{LayoutObject} || $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    for (qw(UserID ArticleID)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
+    # get needed params
+    for my $Needed (qw(UserID ArticleID)) {
+        if ( $Param{$Needed} ) {
+            $Self->{$Needed} = $Param{$Needed};
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
         }
     }
@@ -61,14 +49,20 @@ sub Check {
     my %SignCheck;
     my @Return;
 
+    # get config object
+    my $ConfigObject = $Param{ConfigObject} || $Kernel::OM->Get('Kernel::Config');
+
     # check if smime is enabled
-    return if !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('SMIME');
 
     # check if article is an email
     return if $Param{Article}->{ArticleType} !~ /email/i;
 
-    my $StoreDecryptedData = $Self->{ConfigObject}->Get('SMIME::StoreDecryptedData');
-    my $SMIMEObject        = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    my $StoreDecryptedData = $ConfigObject->Get('SMIME::StoreDecryptedData');
+
+    # get needed objects
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    my $TicketObject = $Param{TicketObject} || $Kernel::OM->Get('Kernel::System::Ticket');
 
     # check inline smime
     if ( $Param{Article}->{Body} =~ /^-----BEGIN PKCS7-----/ ) {
@@ -95,7 +89,7 @@ sub Check {
     else {
 
         # get email from fs
-        my $Message = $Self->{TicketObject}->ArticlePlain(
+        my $Message = $TicketObject->ArticlePlain(
             ArticleID => $Self->{ArticleID},
             UserID    => $Self->{UserID},
         );
@@ -107,7 +101,6 @@ sub Check {
         }
 
         my $ParserObject = Kernel::System::EmailParser->new(
-            %{$Self},
             Email => \@Email,
         );
 
@@ -245,7 +238,9 @@ sub Check {
                 }
 
                 # parse the decrypted email body
-                my $ParserObject = Kernel::System::EmailParser->new( %{$Self}, Email => $EmailContent );
+                my $ParserObject = Kernel::System::EmailParser->new(
+                    Email => $EmailContent
+                );
                 my $Body = $ParserObject->GetMessageBody();
 
                 # from RFC 3850
@@ -271,7 +266,6 @@ sub Check {
                 # get original sender from email
                 my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
                 my $ParserObjectOrig = Kernel::System::EmailParser->new(
-                    %{$Self},
                     Email => \@OrigEmail,
                 );
 
@@ -301,7 +295,7 @@ sub Check {
                 if ($StoreDecryptedData) {
 
                     # updated article body
-                    $Self->{TicketObject}->ArticleUpdate(
+                    $TicketObject->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
                         ArticleID => $Self->{ArticleID},
                         Key       => 'Body',
@@ -310,14 +304,14 @@ sub Check {
                     );
 
                     # delete crypted attachments
-                    $Self->{TicketObject}->ArticleDeleteAttachment(
+                    $TicketObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $Self->{TicketObject}->ArticleWriteAttachment(
+                        $TicketObject->ArticleWriteAttachment(
                             %{$Attachment},
                             ArticleID => $Self->{ArticleID},
                             UserID    => $Self->{UserID},
@@ -373,7 +367,6 @@ sub Check {
                     push( @Email, $_ . "\n" );
                 }
                 my $ParserObject = Kernel::System::EmailParser->new(
-                    %{$Self},
                     Email => \@Email,
                 );
                 my $Body = $ParserObject->GetMessageBody();
@@ -401,7 +394,6 @@ sub Check {
                 # get original sender from email
                 my @OrigEmail = map {"$_\n"} split( /\n/, $Message );
                 my $ParserObjectOrig = Kernel::System::EmailParser->new(
-                    %{$Self},
                     Email => \@OrigEmail,
                 );
 
@@ -431,7 +423,7 @@ sub Check {
                 if ($StoreDecryptedData) {
 
                     # updated article body
-                    $Self->{TicketObject}->ArticleUpdate(
+                    $TicketObject->ArticleUpdate(
                         TicketID  => $Param{Article}->{TicketID},
                         ArticleID => $Self->{ArticleID},
                         Key       => 'Body',
@@ -440,14 +432,14 @@ sub Check {
                     );
 
                     # delete crypted attachments
-                    $Self->{TicketObject}->ArticleDeleteAttachment(
+                    $TicketObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $Self->{UserID},
                     );
 
                     # write attachments to the storage
                     for my $Attachment ( $ParserObject->GetAttachments() ) {
-                        $Self->{TicketObject}->ArticleWriteAttachment(
+                        $TicketObject->ArticleWriteAttachment(
                             %{$Attachment},
                             ArticleID => $Self->{ArticleID},
                             UserID    => $Self->{UserID},

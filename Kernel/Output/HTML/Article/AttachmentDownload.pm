@@ -6,10 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ArticleAttachmentDownload;
+package Kernel::Output::HTML::Article::AttachmentDownload;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log',
+    'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +24,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ArticleID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
     return $Self;
 }
 
@@ -29,18 +31,18 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(File Article)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
+    for my $Needed (qw(File Article)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $_!"
+                Message  => "Need $Needed!"
             );
             return;
         }
     }
 
     # download type
-    my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
+    my $Type = $Kernel::OM->Get('Kernel::Config')->Get('AttachmentDownloadType') || 'attachment';
 
     # if attachment will be forced to download, don't open a new download window!
     my $Target = 'target="AttachmentWindow" ';
@@ -51,7 +53,7 @@ sub Run {
     return (
         %{ $Param{File} },
         Action => 'Download',
-        Link   => $Self->{LayoutObject}->{Baselink} .
+        Link   => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
             "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
         Image  => 'disk-s.png',
         Target => $Target,

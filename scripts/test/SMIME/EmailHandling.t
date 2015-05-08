@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Output::HTML::ArticleCheckSMIME;
+use Kernel::Output::HTML::Article::CheckSMIME;
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
@@ -483,7 +483,7 @@ for my $Test (@TestVariations) {
         ArticleID => $ArticleID,
     );
 
-    my $CheckObject = Kernel::Output::HTML::ArticleCheckSMIME->new(
+    my $CheckObject = Kernel::Output::HTML::Article::CheckSMIME->new(
         ArticleID => $ArticleID,
         UserID    => 1,
     );

@@ -5906,7 +5906,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleCheckPGP</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::CheckPGP</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5916,7 +5916,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleCheckSMIME</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::CheckSMIME</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5936,7 +5936,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModulePre</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleCheckSMIME</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::CheckSMIME</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5946,7 +5946,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleComposeSign</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::ComposeSign</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5956,7 +5956,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleComposeCrypt</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::ComposeCrypt</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5966,7 +5966,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleAttachmentModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleAttachmentDownload</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::AttachmentDownload</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -5976,7 +5976,7 @@
         <SubGroup>Frontend::Agent::Ticket::ArticleAttachmentModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::ArticleAttachmentHTMLViewer</Item>
+                <Item Key="Module">Kernel::Output::HTML::Article::AttachmentHTMLViewer</Item>
             </Hash>
         </Setting>
     </ConfigItem>

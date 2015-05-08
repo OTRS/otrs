@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ArticleComposeCrypt;
+package Kernel::Output::HTML::Article::ComposeCrypt;
 
 use strict;
 use warnings;
@@ -14,8 +14,10 @@ use warnings;
 use Mail::Address;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Crypt::SMIME',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub new {
@@ -25,22 +27,17 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject MainObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     return $Self;
 }
 
 sub Option {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     return ('CryptKeyID');
 }
@@ -48,8 +45,11 @@ sub Option {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     my %KeyList = $Self->Data(%Param);
 
@@ -73,15 +73,18 @@ sub Run {
         $Class .= ' ServerError';
     }
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # add crypt options
-    my $List = $Self->{LayoutObject}->BuildSelection(
+    my $List = $LayoutObject->BuildSelection(
         Data       => \%KeyList,
         Name       => 'CryptKeyID',
         SelectedID => $Param{CryptKeyID} || '',
         Class      => $Class,
         Max        => 150,
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Option',
         Data => {
             Name    => 'CryptKeyID',
@@ -96,8 +99,11 @@ sub Run {
 sub Data {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     # find recipient list
     my $Recipient = '';
@@ -145,7 +151,7 @@ sub Data {
                 }
 
                 # disable inline pgp if rich text is enabled
-                if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+                if ( !$Kernel::OM->Get('Kernel::Output::HTML::Layout')->{BrowserRichText} ) {
                     $KeyList{"PGP::Inline::$DataRef->{Key}"}
                         = "PGP-Inline: $Status $DataRef->{Key} $Expires $DataRef->{Identifier}";
                 }

@@ -6,17 +6,19 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::ArticleComposeSign;
+package Kernel::Output::HTML::Article::ComposeSign;
 
 use strict;
 use warnings;
 
 use Mail::Address;
-use Kernel::System::Queue;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::System::Crypt::PGP',
     'Kernel::System::Crypt::SMIME',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Queue',
 );
 
 sub new {
@@ -26,22 +28,17 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject MainObject EncodeObject)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     return $Self;
 }
 
 sub Option {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     return ('SignKeyID');
 }
@@ -49,8 +46,11 @@ sub Option {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     my %KeyList = $Self->Data(%Param);
 
@@ -63,17 +63,21 @@ sub Run {
 
         # get default signing key
         if ( $Param{QueueID} ) {
-            my $QueueObject = Kernel::System::Queue->new( %{$Self} );
+            my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
             my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
             $Param{SignKeyID} = $Queue{DefaultSignKey} || '';
         }
     }
-    my $List = $Self->{LayoutObject}->BuildSelection(
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $List = $LayoutObject->BuildSelection(
         Data       => \%KeyList,
         Name       => 'SignKeyID',
         SelectedID => $Param{SignKeyID},
     );
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'Option',
         Data => {
             Name  => 'SignKeyID',
@@ -87,8 +91,11 @@ sub Run {
 sub Data {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     # generate key list
     my %KeyList;
@@ -113,7 +120,7 @@ sub Data {
                 }
 
                 # disable inline pgp if rich text is enabled
-                if ( !$Self->{LayoutObject}->{BrowserRichText} ) {
+                if ( !$Kernel::OM->Get('Kernel::Output::HTML::Layout')->{BrowserRichText} ) {
                     $KeyList{"PGP::Inline::$DataRef->{Key}"}
                         = "PGP-Inline: $DataRef->{Key} $Expires $DataRef->{Identifier}";
                 }
@@ -157,14 +164,17 @@ sub ArticleOption {
 sub GetParamAJAX {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if pgp or smime is disabled
-    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+    return if !$ConfigObject->Get('PGP') && !$ConfigObject->Get('SMIME');
 
     my %Result;
 
     # get default signing key
     if ( $Param{QueueID} ) {
-        my $QueueObject = Kernel::System::Queue->new( %{$Self} );
+        my $QueueObject = $Kernel::OM->Get('Kernel::System::Queue');
         my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
         $Result{SignKeyID} = $Queue{DefaultSignKey} || '';
     }
