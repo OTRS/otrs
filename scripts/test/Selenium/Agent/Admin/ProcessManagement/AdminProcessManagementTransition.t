@@ -131,6 +131,8 @@ $Selenium->RunTest(
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
+        $Selenium->WaitFor(JavaScript => 'return $("form").length;');
+
         # check stored value
         $Self->Is(
             $Selenium->find_element( "#Name", 'css' )->get_value(),
