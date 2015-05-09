@@ -162,10 +162,8 @@ $Selenium->RunTest(
             $Selenium->switch_to_window( $Handles->[1] );
 
             # verify for expected action
-            my $HistoryText = "Forwarded to \"\"$TestCustomer $TestCustomer\" &lt;$TestCustomer\@localhost.com&gt;\".";
-
             $Self->True(
-                index( $Selenium->get_page_source(), $HistoryText ) > -1,
+                index( $Selenium->get_page_source(), "Forwarded to " ) > -1,
                 "Action Forward executed correctly",
             );
 
