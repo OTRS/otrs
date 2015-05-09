@@ -208,7 +208,7 @@ $Selenium->RunTest(
 
             # Step 1
             # check page
-            for my $Step1Fields ( values @{ $Stats->{Step1Fields} } ) {
+            for my $Step1Fields ( @{ $Stats->{Step1Fields} } ) {
                 $Selenium->find_element( "#$Step1Fields", 'css' )->is_displayed();
             }
 
@@ -220,7 +220,7 @@ $Selenium->RunTest(
 
             # Step 2
             # check page
-            for my $Step2Fields ( values @{ $Stats->{Step2Fields} } ) {
+            for my $Step2Fields ( @{ $Stats->{Step2Fields} } ) {
                 $Selenium->find_element("//input[\@value='$Step2Fields']")->is_displayed();
             }
 
@@ -230,7 +230,7 @@ $Selenium->RunTest(
 
             # Step 3
             # check page
-            for my $Step3Fields ( values @{ $Stats->{Step3Fields} } ) {
+            for my $Step3Fields ( @{ $Stats->{Step3Fields} } ) {
                 $Selenium->find_element("//input[\@name='Select$Step3Fields']")->is_displayed();
             }
 
@@ -240,7 +240,7 @@ $Selenium->RunTest(
 
             # Step 4
             # check page
-            for my $Step4Fields ( values @{ $Stats->{Step4Fields} } ) {
+            for my $Step4Fields ( @{ $Stats->{Step4Fields} } ) {
                 $Selenium->find_element("//input[\@name='Select$Step4Fields']")->is_displayed();
             }
 
