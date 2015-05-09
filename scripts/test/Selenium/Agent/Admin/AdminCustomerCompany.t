@@ -112,7 +112,8 @@ $Selenium->RunTest(
         );
 
         # check and edit new customer company
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        my $LinkText = substr($RandomID, 0, 17) . '...';
+        $Selenium->find_element( $LinkText, 'link_text' )->click();
 
         $Self->Is(
             $Selenium->find_element( '#CustomerID', 'css' )->get_value(),
