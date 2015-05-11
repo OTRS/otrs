@@ -254,7 +254,7 @@ my @TicketIDs;
 
 # create ticket 1
 my $TicketID1 = $TicketObject->TicketCreate(
-    Title        => 'Ticket One Title',
+    Title        => 'Ticket One Title ' . $RandomID,
     Queue        => 'Raw',
     Lock         => 'unlock',
     Priority     => '3 normal',
@@ -270,6 +270,16 @@ my $TicketID1 = $TicketObject->TicketCreate(
 $Self->True(
     $TicketID1,
     "TicketCreate() successful for Ticket One ID $TicketID1",
+);
+
+my $TicketNumber1 = $TicketObject->TicketNumberLookup(
+    TicketID => $TicketID1,
+);
+
+# sanity check
+$Self->True(
+    $TicketNumber1,
+    "TicketNumberLookup() successful for Ticket One ID $TicketID1",
 );
 
 # update escalation times directly in the DB
@@ -397,6 +407,16 @@ my $TicketID2 = $TicketObject->TicketCreate(
 $Self->True(
     $TicketID2,
     "TicketCreate() successful for Ticket Two ID $TicketID2",
+);
+
+my $TicketNumber2 = $TicketObject->TicketNumberLookup(
+    TicketID => $TicketID2,
+);
+
+# sanity check
+$Self->True(
+    $TicketNumber2,
+    "TicketNumberLookup() successful for Ticket One ID $TicketID2",
 );
 
 # set dynamic field values
@@ -857,15 +877,44 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            TicketNumber => 'NotARealTicketNumber',
+            TicketNumber => $TicketNumber1,
         },
         ExpectedReturnLocalData => {
-            Data    => {},
+            Data => {
+                TicketID => [$TicketID1],
+            },
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data    => undef,
+            Data => {
+                TicketID => $TicketID1,
+            },
             Success => 1
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            TicketNumber => [
+                $TicketNumber1,
+                $TicketNumber2,
+            ],
+            SortBy     => 'Ticket', # force order, because the Age (default) can be the same
+            OrderBy    => 'Down',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1,
         },
         Operation => 'TicketSearch',
     },
@@ -884,6 +933,31 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 TicketID => $TicketID2,
+            },
+            Success => 1,
+        },
+        Operation => 'TicketSearch',
+    },
+    {
+        Name           => "Test " . $TestCounter++,
+        SuccessRequest => 1,
+        RequestData    => {
+            Title => [
+                'Ticket One Title ' . $RandomID,
+                'Ticket Two Title ' . $RandomID,
+            ],
+            SortBy     => 'Ticket',              # force order, because the Age (default) can be the same
+            OrderBy    => 'Down',
+        },
+        ExpectedReturnLocalData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
+            },
+            Success => 1
+        },
+        ExpectedReturnRemoteData => {
+            Data => {
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
@@ -1084,16 +1158,18 @@ my @Tests = (
         RequestData    => {
             States => ['new'],
             Title  => '*' . $RandomID,
+            SortBy     => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy    => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
-                TicketID => [$TicketID2],
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1
         },
         ExpectedReturnRemoteData => {
             Data => {
-                TicketID => $TicketID2,
+                TicketID => [ $TicketID2, $TicketID1 ],
             },
             Success => 1,
         },
