@@ -923,7 +923,7 @@ sub SendEmail {
         }
         @AttachmentData = @NewAttachmentData;
 
-        # verify HTML document
+        # verify html document
         $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
             String => $GetParam{Body},
         );
@@ -938,21 +938,8 @@ sub SendEmail {
         }
         $To .= $GetParam{$Key}
     }
-
-    # if there is no ArticleTypeID, use the default value
-    my $ArticleTypeID = $GetParam{ArticleTypeID} // $Self->{TicketObject}->ArticleTypeLookup(
-        ArticleType => $Self->{Config}->{ArticleTypeDefault},
-    );
-
-    # error page
-    if ( !$ArticleTypeID ) {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Comment => 'Can not determine the ArticleType, Please contact the admin.',
-        );
-    }
-
     my $ArticleID = $Self->{TicketObject}->ArticleSend(
-        ArticleTypeID  => $ArticleTypeID,
+        ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},
         SenderType     => 'agent',
         TicketID       => $Self->{TicketID},
         HistoryType    => 'Forward',
@@ -1259,53 +1246,35 @@ sub _Mask {
         PossibleNone => 1,
         %State,
     );
-
-    #  get article type
-    my %ArticleTypeList;
-
-    if ( IsArrayRefWithData( $Self->{Config}->{ArticleTypes} ) ) {
-
-        my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
-        for my $ArticleType (@ArticleTypesPossible) {
-
-            my $ArticleTypeID = $Self->{TicketObject}->ArticleTypeLookup(
-                ArticleType => $ArticleType,
-            );
-
-            $ArticleTypeList{$ArticleTypeID} = $ArticleType;
-        }
-
-        my %Selected;
-        if ( $Self->{GetParam}->{ArticleTypeID} ) {
-            $Selected{SelectedID} = $Self->{GetParam}->{ArticleTypeID};
-        }
-        else {
-            $Selected{SelectedValue} = $Self->{Config}->{ArticleTypeDefault};
-        }
-
+    my %ArticleTypes;
+    my @ArticleTypesPossible = @{ $Self->{Config}->{ArticleTypes} };
+    for (@ArticleTypesPossible) {
+        $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $_ ) } = $_;
+    }
+    if ( $Self->{GetParam}->{ArticleTypeID} ) {
         $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data => \%ArticleTypeList,
-            Name => 'ArticleTypeID',
-            %Selected,
+            Data       => \%ArticleTypes,
+            Name       => 'ArticleTypeID',
+            SelectedID => $Self->{GetParam}->{ArticleTypeID},
         );
-
-        $Self->{LayoutObject}->Block(
-            Name => 'ArticleType',
-            Data => \%Param,
+    }
+    else {
+        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
+            Data          => \%ArticleTypes,
+            Name          => 'ArticleTypeID',
+            SelectedValue => $Self->{Config}->{ArticleTypeDefault},
         );
     }
 
-    # build customer search auto-complete field
+    # build customer search autocomplete field
     $Self->{LayoutObject}->Block(
         Name => 'CustomerSearchAutoComplete',
     );
 
     # prepare errors!
     if ( $Param{Errors} ) {
-        for my $Error ( sort keys %{ $Param{Errors} } ) {
-            $Param{$Error} = $Self->{LayoutObject}->Ascii2Html(
-                Text => $Param{Errors}->{$Error},
-            );
+        for ( sort keys %{ $Param{Errors} } ) {
+            $Param{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }
 

@@ -342,13 +342,13 @@ $Include{"RichTextEditor"}
                     <p class="FieldExplanation">$Text{"For all pending* states."}</p>
                 </div>
                 <div class="Clear"></div>
-<!-- dtl:block:ArticleType -->
+
                 <label for="ArticleTypeID">$Text{"Article type"}:</label>
                 <div class="Field">
                     $Data{"ArticleTypesStrg"}
                 </div>
                 <div class="Clear"></div>
-<!-- dtl:block:ArticleType -->
+
 <!-- dtl:block:DynamicField -->
                 <div class="Row Row_DynamicField_$QData{"Name"}">
                     $Data{"Label"}
