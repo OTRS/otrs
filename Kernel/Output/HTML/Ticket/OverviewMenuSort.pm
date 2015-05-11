@@ -6,14 +6,19 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::TicketOverviewMenuSort;
+package Kernel::Output::HTML::Ticket::OverviewMenuSort;
 
 use strict;
 use warnings;
 
-use Kernel::Language;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Log',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::Language',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -22,16 +27,10 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(Action UserID ConfigObject LogObject LayoutObject MainObject EncodeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    # get needed params
+    for my $Needed (qw(Action UserID)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
-
-    $Self->{LanguageObject} = $Self->{LayoutObject}->{LanguageObject}
-        || Kernel::Language->new(
-        %{$Self},
-        UserLanguage => $Self->{LayoutObject}->{UserLanguage},
-        );
 
     return $Self;
 }
@@ -39,20 +38,23 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $SortConfiguration = $Self->{ConfigObject}->Get('TicketOverviewMenuSort')->{SortAttributes}
+    my $SortConfiguration = $Kernel::OM->Get('Kernel::Config')->Get('TicketOverviewMenuSort')->{SortAttributes}
         || {
         Age   => 1,
         Title => 1,
         };
 
     if ( !IsHashRefWithData($SortConfiguration) ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Wrong configuration 'TicketOverviewMenuSort###SortAttributes' for ticket"
                 . " overview sort options.",
         );
         return;
     }
+
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     my @SortData;
     my $SelectedSortByOption;
@@ -68,8 +70,8 @@ sub Run {
         }
 
         my $TranslatedValue =
-            $Self->{LanguageObject}->Translate('Order by') . ' "' .
-            $Self->{LanguageObject}->Translate($CurrentSortByOption) . '"';
+            $LayoutObject->{LanguageObject}->Translate('Order by') . ' "' .
+            $LayoutObject->{LanguageObject}->Translate($CurrentSortByOption) . '"';
 
         for my $CurrentOrderBy (qw(Down Up)) {
 
@@ -84,7 +86,7 @@ sub Run {
             }
 
             my $OrderByTranslation = $CurrentOrderBy eq 'Down' ? 'ascending' : 'descending';
-            $OrderByTranslation = $Self->{LanguageObject}->Translate($OrderByTranslation);
+            $OrderByTranslation = $LayoutObject->{LanguageObject}->Translate($OrderByTranslation);
 
             push @SortData, {
                 Key      => "$CurrentSortByOption|$CurrentOrderBy",
@@ -98,10 +100,10 @@ sub Run {
     return if !@SortData;
 
     my %ReturnData;
-    $ReturnData{HTML} = $Self->{LayoutObject}->BuildSelection(
+    $ReturnData{HTML} = $LayoutObject->BuildSelection(
         Data  => \@SortData,
         Name  => 'SortBy',
-        Title => $Self->{LanguageObject}->Translate('Order by'),
+        Title => $LayoutObject->{LanguageObject}->Translate('Order by'),
     );
 
     return if !$ReturnData{HTML};
@@ -142,7 +144,7 @@ sub Run {
         }
     }
 
-    $Self->{LayoutObject}->AddJSOnDocumentComplete( Code => <<"JS" );
+    $LayoutObject->AddJSOnDocumentComplete( Code => <<"JS" );
 \$("#SortBy").change(function(){
     var Selection = \$(this).val().split('|');
     if ( Selection.length === 2 ) {

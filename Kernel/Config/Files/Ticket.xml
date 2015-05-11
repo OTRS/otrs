@@ -1335,7 +1335,7 @@
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketOverviewSmall</Item>
+                <Item Key="Module">Kernel::Output::HTML::Ticket::OverviewSmall</Item>
                 <Item Key="Name" Translatable="1">Small</Item>
                 <Item Key="NameShort">S</Item>
                 <Item Key="ModulePriority">100</Item>
@@ -1360,7 +1360,7 @@
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketOverviewMedium</Item>
+                <Item Key="Module">Kernel::Output::HTML::Ticket::OverviewMedium</Item>
                 <Item Key="Name" Translatable="1">Medium</Item>
                 <Item Key="NameShort">M</Item>
                 <Item Key="ModulePriority">200</Item>
@@ -1376,7 +1376,7 @@
         <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketOverviewPreview</Item>
+                <Item Key="Module">Kernel::Output::HTML::Ticket::OverviewPreview</Item>
                 <Item Key="Name" Translatable="1">Large</Item>
                 <Item Key="NameShort">L</Item>
                 <Item Key="ModulePriority">300</Item>
@@ -6301,7 +6301,7 @@
         <SubGroup>Frontend::Agent::Ticket::OverviewMenuModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketOverviewMenuSort</Item>
+                <Item Key="Module">Kernel::Output::HTML::Ticket::OverviewMenuSort</Item>
             </Hash>
         </Setting>
     </ConfigItem>
