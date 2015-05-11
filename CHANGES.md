@@ -36,7 +36,6 @@
  - 2015-03-27 Fixed bug#[11201](http://bugs.otrs.org/show_bug.cgi?id=11201) - GI: Use of uninitialized value in string ne at AdminGenericInterfaceWebservice.pm.
  - 2015-03-26 Fixed bug#[11199](http://bugs.otrs.org/show_bug.cgi?id=11199) - GI MappingSinple screen is not consistent.
  - 2015-03-26 Fixed bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
- - 2015-03-26 Fixed bug#[10978](http://bugs.otrs.org/show_bug.cgi?id=10978) - AgentTicketCompose: Deactivate ArticleTypes isn't possible.
  - 2015-03-26 Improved ServiceList() cache, tanks to Norihiro Tanaka.
  - 2015-03-26 Fixed bug#[11117](http://bugs.otrs.org/show_bug.cgi?id=11117) - AutoResponse messages not "comply" Customer Language.
  - 2015-03-26 Fixed bug#[10995](http://bugs.otrs.org/show_bug.cgi?id=10995) - Characters not correctly managed by OTRS scripts..
