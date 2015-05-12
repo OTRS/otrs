@@ -97,7 +97,6 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
             "Error message correctly displayed",
         );
-        sleep 20;
 
         # get test start time + 1 hour of system time
         my ( $SecStart, $MinStart, $HourStart, $DayStart, $MonthStart, $YearStart, ) = $TimeObject->SystemTime2Date(
