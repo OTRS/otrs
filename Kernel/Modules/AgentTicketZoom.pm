@@ -2615,13 +2615,15 @@ sub _ArticleItem {
         my $ArticleTime = $TicketObject->ArticleAccountedTimeGet(
             ArticleID => $Article{ArticleID}
         );
-        $LayoutObject->Block(
-            Name => 'ArticleAccountedTime',
-            Data => {
-                Key   => 'Time',
-                Value => $ArticleTime,
-            },
-        );
+        if ($ArticleTime) {
+            $LayoutObject->Block(
+                Name => 'ArticleAccountedTime',
+                Data => {
+                    Key   => 'Time',
+                    Value => $ArticleTime,
+                },
+            );
+        }
     }
 
     # get dynamic field config for frontend module
