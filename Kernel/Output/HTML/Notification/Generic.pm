@@ -6,10 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationGeneric;
+package Kernel::Output::HTML::Notification::Generic;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::Config',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -17,11 +23,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject TimeObject MainObject UserID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -50,12 +51,12 @@ sub Run {
     }
     elsif ( $Param{Config}->{File} ) {
 
-        $Param{Config}->{File} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+        $Param{Config}->{File} =~ s{<OTRS_CONFIG_(.+?)>}{$Kernel::OM->Get('Kernel::Config')->Get($1)}egx;
 
         return '' if !-e $Param{Config}->{File};
 
         # try to read the file
-        my $FileContent = $Self->{MainObject}->FileRead(
+        my $FileContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
             Location => $Param{Config}->{File},
             Mode     => 'utf8',
             Type     => 'Local',
@@ -78,7 +79,7 @@ sub Run {
 
     return '' if !$Arguments{Info};
 
-    return $Self->{LayoutObject}->Notify(%Arguments);
+    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Notify(%Arguments);
 }
 
 1;

@@ -6,15 +6,19 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationSchedulerCheck;
+package Kernel::Output::HTML::Notification::SchedulerCheck;
 
 use strict;
 use warnings;
 
-use Kernel::System::Group;
-use Kernel::System::PID;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our @ObjectDependencies = (
+    'Kernel::System::PID',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::Config',
+    'Kernel::System::Group',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,15 +27,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject MainObject EncodeObject TimeObject UserID))
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
-    # create additional objects
-    $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
-    $Self->{PIDObject}   = Kernel::System::PID->new( %{$Self} );
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -40,17 +37,20 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # try to get scheduler PID
-    my %PID = $Self->{PIDObject}->PIDGet(
+    my %PID = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
         Name => 'otrs.Scheduler',
     );
 
     my %NotificationDetails;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check if scheduler process is registered in the DB
     if (%PID) {
 
         # get the PID update time
-        my $PIDUpdateTime = $Self->{ConfigObject}->Get('Scheduler::PIDUpdateTime') || 600;
+        my $PIDUpdateTime = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 600;
 
         # get current time
         my $Time = time();
@@ -69,7 +69,7 @@ sub Run {
         if ( $DeltaTime >= 4 * $PIDUpdateTime ) {
             %NotificationDetails = (
                 Priority => 'Error',
-                Data     => $Self->{LayoutObject}->{LanguageObject}
+                Data     => $LayoutObject->{LanguageObject}
                     ->Translate("Scheduler process is registered but might not be running."),
             );
         }
@@ -79,7 +79,7 @@ sub Run {
             %NotificationDetails = (
                 Priority => 'Info',
                 Data =>
-                    $Self->{LayoutObject}->{LanguageObject}
+                    $LayoutObject->{LanguageObject}
                     ->Translate("Scheduler process is registered but might not be running."),
             );
         }
@@ -89,13 +89,13 @@ sub Run {
     else {
         %NotificationDetails = (
             Priority => 'Error',
-            Data     => $Self->{LayoutObject}->{LanguageObject}->Translate("Scheduler is not running."),
+            Data     => $LayoutObject->{LanguageObject}->Translate("Scheduler is not running."),
         );
     }
 
     # check if user needs to be notified
     # get current user groups
-    my %Groups = $Self->{GroupObject}->PermissionUserGet(
+    my %Groups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
         UserID => $Self->{UserID},
         Type   => 'move_into',
     );
@@ -106,7 +106,7 @@ sub Run {
     # check if the user is in the Admin group
     # if that is the case, extend the error with a link
     if ( $Groups{admin} ) {
-        $NotificationDetails{Link}      = $Self->{LayoutObject}->{Baselink} . 'Action=AdminScheduler';
+        $NotificationDetails{Link}      = $LayoutObject->{Baselink} . 'Action=AdminScheduler';
         $NotificationDetails{LinkClass} = 'SchedulerInfo';
     }
 
@@ -116,7 +116,7 @@ sub Run {
     }
 
     # show error notification
-    return $Self->{LayoutObject}->Notify(
+    return $LayoutObject->Notify(
         %NotificationDetails,
     );
 

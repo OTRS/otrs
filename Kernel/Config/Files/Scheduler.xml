@@ -58,7 +58,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationSchedulerCheck</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::SchedulerCheck</Item>
             </Hash>
         </Setting>
     </ConfigItem>

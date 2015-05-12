@@ -6,10 +6,14 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::HeaderMetaRefresh;
+package Kernel::Output::HTML::HeaderMeta::Refresh;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,11 +22,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject LayoutObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     return $Self;
 }
 
@@ -30,7 +29,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     if ( $Param{Refresh} ) {
-        $Self->{LayoutObject}->Block(
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Block(
             Name => 'MetaHttpEquivRefresh',
             Data => \%Param,
         );

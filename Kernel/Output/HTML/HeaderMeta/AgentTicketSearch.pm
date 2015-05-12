@@ -6,10 +6,15 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::HeaderMetaTicketSearch;
+package Kernel::Output::HTML::HeaderMeta::AgentTicketSearch;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout',
+    'Kernel::Config',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,45 +23,47 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject LayoutObject TimeObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     my $Session = '';
-    if ( !$Self->{LayoutObject}->{SessionIDCookie} ) {
-        $Session = ';' . $Self->{LayoutObject}->{SessionName} . '='
-            . $Self->{LayoutObject}->{SessionID};
+    if ( !$LayoutObject->{SessionIDCookie} ) {
+        $Session = ';' . $LayoutObject->{SessionName} . '='
+            . $LayoutObject->{SessionID};
     }
-    my $Title = $Self->{ConfigObject}->Get('ProductName');
-    $Title .= ' (' . $Self->{ConfigObject}->Get('Ticket::Hook') . ')';
-    $Self->{LayoutObject}->Block(
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Title = $ConfigObject->Get('ProductName');
+    $Title .= ' (' . $ConfigObject->Get('Ticket::Hook') . ')';
+    $LayoutObject->Block(
         Name => 'MetaLink',
         Data => {
             Rel   => 'search',
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
-            Href  => $Self->{LayoutObject}->{Baselink} . 'Action=' . $Param{Config}->{Action}
+            Href  => $LayoutObject->{Baselink} . 'Action=' . $Param{Config}->{Action}
                 . ';Subaction=OpenSearchDescriptionTicketNumber' . $Session,
         },
     );
 
-    my $Fulltext = $Self->{LayoutObject}->{LanguageObject}->Translate('Fulltext');
-    $Title = $Self->{ConfigObject}->Get('ProductName');
+    my $Fulltext = $LayoutObject->{LanguageObject}->Translate('Fulltext');
+    $Title = $ConfigObject->Get('ProductName');
     $Title .= ' (' . $Fulltext . ')';
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'MetaLink',
         Data => {
             Rel   => 'search',
             Type  => 'application/opensearchdescription+xml',
             Title => $Title,
-            Href  => $Self->{LayoutObject}->{Baselink} . 'Action=' . $Param{Config}->{Action}
+            Href  => $LayoutObject->{Baselink} . 'Action=' . $Param{Config}->{Action}
                 . ';Subaction=OpenSearchDescriptionFulltext' . $Session,
         },
     );

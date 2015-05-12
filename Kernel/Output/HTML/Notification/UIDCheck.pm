@@ -6,10 +6,14 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationUIDCheck;
+package Kernel::Output::HTML::Notification::UIDCheck;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Output::HTML::Layout'
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +22,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
+
     return $Self;
 }
 
@@ -31,12 +34,15 @@ sub Run {
     # return if it's not root@localhost
     return '' if $Self->{UserID} != 1;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # show error notfy, don't work with user id 1
-    return $Self->{LayoutObject}->Notify(
+    return $LayoutObject->Notify(
         Priority => 'Error',
-        Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AdminUser',
+        Link     => $LayoutObject->{Baselink} . 'Action=AdminUser',
         Data =>
-            $Self->{LayoutObject}->{LanguageObject}->Translate(
+            $LayoutObject->{LanguageObject}->Translate(
             "Don't use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead."
             ),
     );

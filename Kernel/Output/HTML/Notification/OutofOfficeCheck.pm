@@ -6,10 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationOutofOfficeCheck;
+package Kernel::Output::HTML::Notification::OutofOfficeCheck;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::System::User',
+    'Kernel::System::Time',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,37 +24,43 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject TimeObject UserObject UserID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
+    my %UserData = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{UserID} );
     return '' if ( !$UserData{OutOfOffice} );
 
-    my $Time = $Self->{TimeObject}->SystemTime();
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    my $Time = $TimeObject->SystemTime();
 
     my $Start
         = "$UserData{OutOfOfficeStartYear}-$UserData{OutOfOfficeStartMonth}-$UserData{OutOfOfficeStartDay} 00:00:00";
 
-    my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+    my $TimeStart = $TimeObject->TimeStamp2SystemTime(
         String => $Start,
     );
     my $End     = "$UserData{OutOfOfficeEndYear}-$UserData{OutOfOfficeEndMonth}-$UserData{OutOfOfficeEndDay} 23:59:59";
-    my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
+    my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
         String => $End,
     );
     if ( $TimeStart < $Time && $TimeEnd > $Time ) {
-        return $Self->{LayoutObject}->Notify(
+
+        # get layout object
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        return $LayoutObject->Notify(
             Priority => 'Notice',
-            Link     => $Self->{LayoutObject}->{Baselink} . 'Action=AgentPreferences',
+            Link     => $LayoutObject->{Baselink} . 'Action=AgentPreferences',
             Data =>
-                $Self->{LayoutObject}->{LanguageObject}
+                $LayoutObject->{LanguageObject}
                 ->Translate("You have Out of Office enabled, would you like to disable it?"),
         );
     }

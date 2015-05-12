@@ -615,20 +615,20 @@ sub LoadDefaults {
     $Self->{'Frontend::NotifyModule'} = {
         '100-OTRSBusiness' => {
             'Group' => 'admin',
-            'Module' => 'Kernel::Output::HTML::NotificationAgentOTRSBusiness'
+            'Module' => 'Kernel::Output::HTML::Notification::AgentOTRSBusiness'
         },
         '200-UID-Check' => {
-          'Module' => 'Kernel::Output::HTML::NotificationUIDCheck',
+          'Module' => 'Kernel::Output::HTML::Notification::UIDCheck',
         },
         '500-OutofOffice-Check' => {
-          'Module' => 'Kernel::Output::HTML::NotificationOutofOfficeCheck',
+          'Module' => 'Kernel::Output::HTML::Notification::OutofOfficeCheck',
         },
         '600-SystemMaintenance-Check' => {
-            'Module' => 'Kernel::Output::HTML::NotificationSystemMaintenanceCheck',
+            'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
 
         '800-Scheduler-Check' => {
-          'Module' => 'Kernel::Output::HTML::NotificationSchedulerCheck',
+          'Module' => 'Kernel::Output::HTML::Notification::SchedulerCheck',
         },
     };
 
@@ -1143,7 +1143,7 @@ You can log in via the following URL:
 
     # show online agents
 #    $Self->{'CustomerFrontend::NotifyModule'}->{'1-ShowAgentOnline'} = {
-#        Module      => 'Kernel::Output::HTML::NotificationAgentOnline',
+#        Module      => 'Kernel::Output::HTML::Notification::AgentOnline',
 #        ShowEmail   => 1,
 #        IdleMinutes => 60,
 #    };

@@ -5798,7 +5798,7 @@
         <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::HeaderMetaTicketSearch</Item>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMeta::AgentTicketSearch</Item>
                 <Item Key="Action">AgentTicketSearch</Item>
             </Hash>
         </Setting>
@@ -5809,7 +5809,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicketEscalation</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentTicketEscalation</Item>
                 <Item Key="ShownMax">25</Item>
                 <Item Key="EscalationInMinutes">120</Item>
                 <Item Key="CacheTime">40</Item>
@@ -8065,7 +8065,7 @@
         <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::CustomerHeaderMetaTicketSearch</Item>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMeta::CustomerTicketSearch</Item>
                 <Item Key="Action">CustomerTicketSearch</Item>
             </Hash>
         </Setting>

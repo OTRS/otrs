@@ -745,12 +745,12 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::HeaderMetaModule###100-Refresh" Required="1" Valid="1">
-        <Description Translatable="1">Defines the module to generate html refresh headers of html sites.</Description>
+        <Description Translatable="1">Defines the module to generate code for periodic page reloads.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::HeaderMetaRefresh</Item>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMeta::Refresh</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -760,7 +760,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentOTRSBusiness</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentOTRSBusiness</Item>
                 <Item Key="Group">admin</Item>
             </Hash>
         </Setting>
@@ -771,7 +771,7 @@
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOTRSBusiness</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOTRSBusiness</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -781,7 +781,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationUIDCheck</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::UIDCheck</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -791,7 +791,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentOnline</Item>
                 <Item Key="ShowEmail">1</Item>
                 <Item Key="IdleMinutes">60</Item>
             </Hash>
@@ -803,7 +803,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
                 <Item Key="IdleMinutes">60</Item>
             </Hash>
@@ -815,7 +815,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationOutofOfficeCheck</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::OutofOfficeCheck</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -825,7 +825,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationSystemMaintenanceCheck</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::SystemMaintenanceCheck</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -835,7 +835,7 @@
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::Generic</Item>
                 <Item Key="Priority">Warning</Item>
                 <Item Key="Text">The OTRS Website</Item>
                 <Item Key="File">&lt;OTRS_CONFIG_Home&gt;/var/notify.txt</Item>
@@ -3712,12 +3712,12 @@ You can log in via the following URL:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
-        <Description Translatable="1">Defines the module to generate html refresh headers of html sites, in the customer interface.</Description>
+        <Description Translatable="1">Defines the module to generate code for periodic page reloads.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::HeaderMetaRefresh</Item>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMeta::Refresh</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3727,7 +3727,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentOnline</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentOnline</Item>
                 <Item Key="ShowEmail">1</Item>
                 <Item Key="IdleMinutes">60</Item>
             </Hash>
@@ -3739,7 +3739,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::CustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
             </Hash>
         </Setting>
@@ -3750,7 +3750,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationCustomerSystemMaintenanceCheck</Item>
+                <Item Key="Module">Kernel::Output::HTML::Notification::CustomerSystemMaintenanceCheck</Item>
             </Hash>
         </Setting>
     </ConfigItem>

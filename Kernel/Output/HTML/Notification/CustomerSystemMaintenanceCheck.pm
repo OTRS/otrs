@@ -6,12 +6,17 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationCustomerSystemMaintenanceCheck;
+package Kernel::Output::HTML::Notification::CustomerSystemMaintenanceCheck;
 
 use strict;
 use warnings;
 
-use Kernel::System::SystemMaintenance;
+our @ObjectDependencies = (
+    'Kernel::System::SystemMaintenance',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::Config',
+    'Kernel::System::Time',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -20,13 +25,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject DBObject LayoutObject TimeObject UserObject UserID)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
-
-    # create additional objects
-    $Self->{SystemMaintenanceObject} = Kernel::System::SystemMaintenance->new( %{$Self} );
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -34,41 +34,45 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ActiveMaintenance = $Self->{SystemMaintenanceObject}->SystemMaintenanceIsActive();
+    # get needed objects
+    my $SystemMaintenanceObject = $Kernel::OM->Get('Kernel::System::SystemMaintenance');
+    my $LayoutObject            = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $ActiveMaintenance = $SystemMaintenanceObject->SystemMaintenanceIsActive();
 
     # check if system maintenance is active
     if ($ActiveMaintenance) {
 
-        my $SystemMaintenanceData = $Self->{SystemMaintenanceObject}->SystemMaintenanceGet(
+        my $SystemMaintenanceData = $SystemMaintenanceObject->SystemMaintenanceGet(
             ID     => $ActiveMaintenance,
             UserID => $Self->{UserID},
         );
 
         my $NotifyMessage =
             $SystemMaintenanceData->{NotifyMessage}
-            || $Self->{ConfigObject}->Get('SystemMaintenance::IsActiveDefaultNotification')
+            || $Kernel::OM->Get('Kernel::Config')->Get('SystemMaintenance::IsActiveDefaultNotification')
             || "System maintenance is active!";
 
-        return $Self->{LayoutObject}->Notify(
+        return $LayoutObject->Notify(
             Priority => 'Notice',
             Data =>
-                $Self->{LayoutObject}->{LanguageObject}->Translate(
+                $LayoutObject->{LanguageObject}->Translate(
                 $NotifyMessage,
                 ),
         );
     }
 
-    my $SystemMaintenanceIsComming = $Self->{SystemMaintenanceObject}->SystemMaintenanceIsComming();
+    my $SystemMaintenanceIsComming = $SystemMaintenanceObject->SystemMaintenanceIsComming();
 
     if ($SystemMaintenanceIsComming) {
 
-        my $MaintenanceTime = $Self->{TimeObject}->SystemTime2TimeStamp(
+        my $MaintenanceTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
             SystemTime => $SystemMaintenanceIsComming,
         );
-        return $Self->{LayoutObject}->Notify(
+        return $LayoutObject->Notify(
             Priority => 'Notice',
             Data =>
-                $Self->{LayoutObject}->{LanguageObject}->Translate(
+                $LayoutObject->{LanguageObject}->Translate(
                 "A system maintenance period will start at: "
                 )
                 . $MaintenanceTime,

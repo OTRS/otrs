@@ -6,12 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationAgentOnline;
+package Kernel::Output::HTML::Notification::CustomerOnline;
 
 use strict;
 use warnings;
 
-use Kernel::System::AuthSession;
+our @ObjectDependencies = (
+    'Kernel::System::AuthSession',
+    'Kernel::System::Time',
+    'Kernel::Output::HTML::Layout',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -20,30 +24,27 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject TimeObject UserID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
-    $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get session object
+    my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
+
     # get session info
     my %Online      = ();
-    my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
+    my @Sessions    = $SessionObject->GetAllSessionIDs();
     my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60 * 2;
     for (@Sessions) {
-        my %Data = $Self->{SessionObject}->GetSessionIDData(
+        my %Data = $SessionObject->GetSessionIDData(
             SessionID => $_,
         );
         if (
-            $Self->{UserID} ne $Data{UserID}
-            && $Data{UserType} eq 'User'
+            $Data{UserType} eq 'Customer'
             && $Data{UserLastRequest}
-            && $Data{UserLastRequest} + ( $IdleMinutes * 60 ) > $Self->{TimeObject}->SystemTime()
+            && $Data{UserLastRequest} + ( $IdleMinutes * 60 ) > $Kernel::OM->Get('Kernel::System::Time')->SystemTime()
             && $Data{UserFirstname}
             && $Data{UserLastname}
             )
@@ -61,9 +62,13 @@ sub Run {
         $Param{Message} .= "$Online{$_}";
     }
     if ( $Param{Message} ) {
-        return $Self->{LayoutObject}->Notify(
-            Info => $Self->{LayoutObject}->{LanguageObject}->Translate(
-                'Online Agent: %s',
+
+        # get layout object
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        return $LayoutObject->Notify(
+            Info => $LayoutObject->{LanguageObject}->Translate(
+                'Online Customer: %s',
                 $Param{Message},
             ),
         );

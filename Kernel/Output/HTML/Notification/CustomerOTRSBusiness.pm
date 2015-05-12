@@ -6,16 +6,15 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NotificationCustomerOTRSBusiness;
+package Kernel::Output::HTML::Notification::CustomerOTRSBusiness;
 
 use strict;
 use warnings;
 use utf8;
 
-use Kernel::System::ObjectManager;
-
 our @ObjectDependencies = (
     'Kernel::System::OTRSBusiness',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub new {
@@ -25,9 +24,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    $Self->{LayoutObject} = $Param{LayoutObject} || die "Got no LayoutObject!";
-
     return $Self;
 }
 
@@ -36,14 +32,15 @@ sub Run {
 
     my $Output = '';
 
-    $Self->{OTRSBusinessObject} = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
+    # get OTRS business object
+    my $OTRSBusinessObject = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
 
-    return '' if !$Self->{OTRSBusinessObject}->OTRSBusinessIsInstalled();
+    return '' if !$OTRSBusinessObject->OTRSBusinessIsInstalled();
 
     # ----------------------------------------
     # check entitlement status
     # ----------------------------------------
-    my $EntitlementStatus = $Self->{OTRSBusinessObject}->OTRSBusinessEntitlementStatus(
+    my $EntitlementStatus = $OTRSBusinessObject->OTRSBusinessEntitlementStatus(
         CallCloudService => 0,
     );
 
@@ -51,12 +48,15 @@ sub Run {
 
         my $OTRSBusinessLabel = '<b>OTRS Business Solution</b>™';
 
-        my $Text = $Self->{LayoutObject}->{LanguageObject}->Translate(
+        # get layout object
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        my $Text = $LayoutObject->{LanguageObject}->Translate(
             'This system uses the %s without a proper license! Please make contact with %s to renew or activate your contract!',
             $OTRSBusinessLabel,
             'sales@otrs.com',    # no mailto link as these are currently not displayed in the CI
         );
-        $Output .= $Self->{LayoutObject}->Notify(
+        $Output .= $LayoutObject->Notify(
             Data     => $Text,
             Priority => 'Error',
         );
