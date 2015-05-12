@@ -60,6 +60,9 @@ sub new {
     my ( $Class, $Context, @Params ) = @_;
 
     # Produce a weak reference to the LayoutObject and use that in the filters.
+    # We do this because there could be more than one LayoutObject in the process,
+    #   so we don't fetch it from the ObjectManager.
+    #
     # Don't use $Context in the filters as that creates a circular dependency.
     my $LayoutObject = $Context->{LayoutObject};
     Scalar::Util::weaken($LayoutObject);
