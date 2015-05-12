@@ -480,16 +480,6 @@ my @NeededModules = (
         Comment  => 'Required for statistics.',
     },
     {
-        Module    => 'XML::Simple',
-        Required  => 0,
-        Comment   => 'Required for Generic Interface XSLT mapping module.',
-        InstTypes => {
-            aptget => 'libxml-simple-perl',
-            ppm    => 'XML-Simple',
-            zypper => 'perl-XML-Simple',
-        },
-    },
-    {
         Module    => 'XML::LibXML',
         Required  => 0,
         Comment   => 'Required for Generic Interface XSLT mapping module.',

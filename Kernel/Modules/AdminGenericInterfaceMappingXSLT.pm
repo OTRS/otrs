@@ -51,9 +51,9 @@ sub Run {
     # get layout object
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # make sure required libraries (XML::Simple, XML::LibXML and XML::LibXSLT) are installed
+    # make sure required libraries (XML::LibXML and XML::LibXSLT) are installed
     LIBREQUIRED:
-    for my $LibRequired (qw(XML::Simple XML::LibXML XML::LibXSLT)) {
+    for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require(
             $LibRequired,
             Silent => 1,

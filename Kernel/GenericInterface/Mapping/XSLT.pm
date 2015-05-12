@@ -122,9 +122,9 @@ sub Map {
         };
     }
 
-    # load required libraries (XML::Simple, XML::LibXML and XML::LibXSLT)
+    # load required libraries (XML::LibXML and XML::LibXSLT)
     LIBREQUIRED:
-    for my $LibRequired (qw(XML::Simple XML::LibXML XML::LibXSLT)) {
+    for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require($LibRequired);
         next LIBREQUIRED if $LibFound;
 
@@ -157,7 +157,16 @@ sub Map {
         );
     }
 
+    # Note: XML::Simple was chosen over alternatives like XML::LibXML and XML::Dumper
+    # due to its simplicity and because we just require a straightforward conversion.
+    # Other modules provide more possibilities but don't allow directly exporting a complete
+    # and clean structure.
+    # Reference:
+    #  http://www.perlmonks.org/?node_id=490846
+    #  http://stackoverflow.com/questions/12182129/convert-string-to-hash-using-libxml-in-perl
+
     # convert data to xml structure
+    $Kernel::OM->Get('Kernel::System::Main')->Require('XML::Simple');
     my $XMLSimple = XML::Simple->new();
     my $XMLPre;
     eval {

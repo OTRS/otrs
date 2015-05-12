@@ -249,6 +249,13 @@ o Name:    CPAN  Excel::Writer::XLSX
            # It may be used, redistributed and/or modified under the same terms as Perl itself.
   Note:    # Copyright MM-MMXIIII, John McNamara.
 
+o Name:    CPAN XML::Simple
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1999-2004 Grant McLean <grantm@cpan.org>
+
+
 # --
 # JavaScript
 # --
