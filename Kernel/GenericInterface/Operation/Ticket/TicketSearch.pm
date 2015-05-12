@@ -356,7 +356,7 @@ sub _GetParams {
     my %GetParam;
 
     for my $Item (
-        qw(TicketNumber Title From To Cc Subject Body
+        qw(From To Cc Subject Body
         Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
         ArticleTimeSearchType SearchInArchive
         Fulltext ShownAttributes
@@ -377,7 +377,8 @@ sub _GetParams {
 
     # get array params
     for my $Item (
-        qw( StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
+        qw(TicketNumber Title
+        StateIDs StateTypeIDs QueueIDs PriorityIDs OwnerIDs
         CreatedUserIDs WatchUserIDs ResponsibleIDs
         TypeIDs ServiceIDs SLAIDs LockIDs Queues Types States
         Priorities Services SLAs Locks

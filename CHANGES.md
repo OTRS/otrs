@@ -1,4 +1,5 @@
 #3.3.14 ????-??-??
+ - 2015-05-11 Fixed bug#[11277](http://bugs.otrs.org/show_bug.cgi?id=11277) - Search for multiple ticket numbers with GenericInterface.
 
 #3.3.13 2015-05-12
  - 2015-05-05 Updated translation files.
