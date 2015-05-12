@@ -157,7 +157,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
                             <input type="hidden" name="Action" value="Login" />
                             <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
-                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                             <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                         </form>
                     </div>
@@ -180,7 +180,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login" class="Validate">
                             <input type="hidden" name="Action" value="Login" />
                             <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
-                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                             <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                             <fieldset class="TableLike">
                                 <label for="User" class="Mandatory">
@@ -238,7 +238,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                         <p class="Error Center Spacing"></p>
                         <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" class="Validate">
                             <input type="hidden" name="Action" value="LostPassword"/>
-                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                            <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
 
                             <fieldset class="TableLike">
                                 <label for="PasswordUser" class="Mandatory">

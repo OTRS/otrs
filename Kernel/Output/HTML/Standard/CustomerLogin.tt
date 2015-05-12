@@ -43,7 +43,7 @@
                 <form action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
                     <input type="hidden" name="Action" value="Login" />
                     <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
-                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                 </form>
             </div>
@@ -54,7 +54,7 @@
                 <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded" name="login">
                     <input type="hidden" name="Action" value="Login"/>
                     <input type="hidden" name="RequestedURL" value="[% Data.RequestedURL | html %]"/>
-                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                     <div>
                         <label for="User">[% Translate("User name") | html %]</label>
@@ -85,7 +85,7 @@
                 <h2>[% Translate("Request new password") | html %]</h2>
                 <form class="Floating" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerLostPassword" />
-                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]" />
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]" />
                     <div>
                         <label for="ResetUser">[% Translate("User name") | html %]</label>
                         <input title="[% Translate("Your User Name") | html %]" type="text" id="ResetUser" name="User" maxlength="150" />
@@ -105,7 +105,7 @@
                 <p>[% Translate("Please fill out this form to receive login credentials.") | html %]</p>
                 <form class="Floating Validate" action="[% Env("CGIHandle") %]" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
-                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") %]"/>
+                    <input type="hidden" name="Lang" value="[% Env("UserLanguage") | html %]"/>
                     <div>
                         <label for="Title">[% Translate("Title") | html %]</label>
                         <input title="[% Translate("How we should address you") | html %]" type="text" name="Title"  id="Title" maxlength="50" value="[% Data.UserTitle | html %]"/>
