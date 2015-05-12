@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-05-12 Removed support for pre output filters. This can cause bad performance problems and can be replaced by post output filters that render their own templates instead.
  - 2015-05-08 Changed format for all successful messages in customer login screen, thanks to S7.
  - 2015-04-24 Added possibility to create a ticket without article in transition action "TicketCreate".
  - 2015-04-21 Improved performance of ticket merging in bulk action, thanks to Moritz Lenz.

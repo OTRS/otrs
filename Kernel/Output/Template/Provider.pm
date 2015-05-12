@@ -71,57 +71,6 @@ sub OTRSInit {
 
     # caching can be disabled for debugging reasons
     $Self->{CachingEnabled} = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::TemplateCache') // 1;
-
-    #
-    # Pre-compute the list of not cacheable Templates. If a pre-output filter is
-    #   registered for a particular or for all templates, the template cannot be
-    #   cached any more.
-    #
-
-    # check Frontend::Output::FilterElementPre
-    $Self->{FilterElementPre} = {};
-
-    # Determine which templates we cannot cache because of pre filters.
-    #   We will need this information in other parts.
-    my %UncacheableTemplates;
-
-    my %FilterElementPre = %{ $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Output::FilterElementPre') // {} };
-
-    FILTER:
-    for my $Filter ( sort keys %FilterElementPre ) {
-
-        # extract filter config
-        my $FilterConfig = $FilterElementPre{$Filter};
-
-        next FILTER if !$FilterConfig || ref $FilterConfig ne 'HASH';
-
-        # extract template list
-        my %TemplateList = %{ $FilterConfig->{Templates} || {} };
-
-        if ( !%TemplateList || $TemplateList{ALL} ) {
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => <<EOF,
-$FilterConfig->{Module} will be ignored because it wants to operate on all templates or does not specify a template list.
-This would prohibit the templates from being cached and can therefore lead to serious performance issues.
-EOF
-            );
-
-            next FILTER;
-        }
-
-        @UncacheableTemplates{ keys %TemplateList } = values %TemplateList;
-
-        $Self->{FilterElementPre}->{$Filter} = $FilterElementPre{$Filter};
-    }
-
-    # map filtered template names to real tt names (except 'ALL' placeholder)
-    %UncacheableTemplates =
-        map { $_ eq 'ALL' ? 'ALL' : $_ . '.tt' => $UncacheableTemplates{$_} }
-        keys %UncacheableTemplates;
-
-    $Self->{UncacheableTemplates} = \%UncacheableTemplates;
 }
 
 =item _fetch()
@@ -133,9 +82,9 @@ Copied and slightly adapted from Template::Provider.
 
 A note about caching: we have three levels of caching.
 
-    1. For cacheable templates, we have an in-memory cache that stores the compiled Document objects (fastest).
-    2. For cacheable templates, we store the parsed data in the CacheObject to be re-used in another request.
-    3. For non-cacheable templates and string templates, we have an in-memory cache in the parsing method _compile().
+    1. we have an in-memory cache that stores the compiled Document objects (fastest).
+    2. we store the parsed data in the CacheObject to be re-used in another request.
+    3. for string templates, we have an in-memory cache in the parsing method _compile().
         It will return the already parsed object if it sees the same template content again.
 
 =cut
@@ -146,12 +95,10 @@ sub _fetch {
 
     $self->debug("_fetch($name)") if $self->{DEBUG};
 
-    my $TemplateIsCacheable = !$self->{UncacheableTemplates}->{ALL} && !$self->{UncacheableTemplates}->{$t_name};
-
     # Check in-memory template cache if we already had this template.
     $self->{_TemplateCache} //= {};
 
-    if ( $TemplateIsCacheable && $self->{_TemplateCache}->{$name} ) {
+    if ( $self->{_TemplateCache}->{$name} ) {
         return $self->{_TemplateCache}->{$name};
     }
 
@@ -161,7 +108,7 @@ sub _fetch {
     }
 
     # Check if the template exists, is cacheable and if a cached version exists.
-    if ( -e $name && $TemplateIsCacheable && $self->{CachingEnabled} ) {
+    if ( -e $name && $self->{CachingEnabled} ) {
 
         my $template_mtime = $self->_template_modified($name);
         my $CacheKey       = $self->_compiled_filename($name) . '::' . $template_mtime;
@@ -213,17 +160,13 @@ sub _fetch {
         return ( $template, $error );
     }
 
-    if ($TemplateIsCacheable) {
-
-        # Make sure template cache does not get too big
-        if ( keys %{ $self->{_TemplateCache} } > 1000 ) {
-            $self->{_TemplateCache} = {};
-        }
-
-        $self->{_TemplateCache}->{$name} = $template->{data};
+    # Make sure template cache does not get too big
+    if ( keys %{ $self->{_TemplateCache} } > 1000 ) {
+        $self->{_TemplateCache} = {};
     }
 
-    # If we cannot cache the template, just return it.
+    $self->{_TemplateCache}->{$name} = $template->{data};
+
     return $template->{data};
 
 }
@@ -299,21 +242,15 @@ sub _compile {
 
         # write the Perl code to the file $compfile, if defined
         if ($compfile) {
+            my $CacheKey = $compfile . '::' . $data->{time};
 
-            my $TemplateIsCacheable = !$self->{UncacheableTemplates}->{ALL}
-                && !$self->{UncacheableTemplates}->{ $data->{name} };
-
-            if ($TemplateIsCacheable) {
-                my $CacheKey = $compfile . '::' . $data->{time};
-
-                if ( $self->{CachingEnabled} ) {
-                    $Kernel::OM->Get('Kernel::System::Cache')->Set(
-                        Type  => $self->{CacheType},
-                        TTL   => 60 * 60 * 24,
-                        Key   => $CacheKey,
-                        Value => $parsedoc,
-                    );
-                }
+            if ( $self->{CachingEnabled} ) {
+                $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                    Type  => $self->{CacheType},
+                    TTL   => 60 * 60 * 24,
+                    Key   => $CacheKey,
+                    Value => $parsedoc,
+                );
             }
         }
 
@@ -357,7 +294,7 @@ sub store {
 
 this is our template pre processor.
 
-It handles pre output filters, some OTRS specific tags like [% InsertTemplate("TemplateName.tt") %]
+It handles some OTRS specific tags like [% InsertTemplate("TemplateName.tt") %]
 and also performs compile-time code injection (ChallengeToken element into forms).
 
 Besides that, it also makes sure the template is treated as UTF8.
@@ -397,45 +334,6 @@ sub _PreProcessTemplateContent {
             }esmxg;
 
     } until ( !$Replaced || ++$ReplaceCounter > 100 );
-
-    #
-    # pre putput filter handling
-    #
-    if ( $Self->{FilterElementPre} && ref $Self->{FilterElementPre} eq 'HASH' ) {
-
-        # extract filter list
-        my %FilterList = %{ $Self->{FilterElementPre} };
-
-        FILTER:
-        for my $Filter ( sort keys %FilterList ) {
-
-            my $FilterConfig = $FilterList{$Filter};
-            my %TemplateList = %{ $FilterConfig->{Templates} || {} };
-
-            # only operate on real files
-            next FILTER if !$Param{TemplateFile};
-
-            # check template list
-            next FILTER if !$TemplateList{$TemplateFileWithoutTT};
-
-            # check filter construction
-            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
-
-            # create new instance
-            my $Object = $FilterConfig->{Module}->new(
-                LayoutObject => $Self->{LayoutObject},
-            );
-
-            next FILTER if !$Object;
-
-            # run output filter
-            $Object->Run(
-                %{$FilterConfig},
-                Data         => \$Content,
-                TemplateFile => $TemplateFileWithoutTT || '',
-            );
-        }
-    }
 
     #
     # Remove DTL-style comments (lines starting with #)
