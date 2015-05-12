@@ -80,17 +80,24 @@ $Selenium->RunTest(
 
         # create error test SystemMaintenance scenarion
         # get test end time - 1 hour of current time
-        my ( $SecWrong, $MinSWrong, $HourWrong, $DayWrong, $MonthWrong, $YearWrong, ) = $TimeObject->SystemTime2Date(
+        my ( $SecWrong, $MinWrong, $HourWrong, $DayWrong, $MonthWrong, $YearWrong, ) = $TimeObject->SystemTime2Date(
             SystemTime => $TimeObject->SystemTime() - 60 * 60,
         );
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']", 'css' )->click();
+
+        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",        'css' )->click();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']",    'css' )->click();
+        $Selenium->find_element( "#StopDateYear option[value='$YearWrong']",                   'css' )->click();
+        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",      'css' )->click();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']",     'css' )->click();
+
         $Selenium->find_element( "#Comment",                                              'css' )->submit();
         $Self->True(
             index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
             "Error message correctly displayed",
         );
+        sleep 20;
 
         # get test start time + 1 hour of system time
         my ( $SecStart, $MinStart, $HourStart, $DayStart, $MonthStart, $YearStart, ) = $TimeObject->SystemTime2Date(
