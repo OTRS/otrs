@@ -3,7 +3,7 @@ What is OTRS?
 OTRS is an Open source Ticket Request System with many features to manage
 customer telephone calls and e-mails. It is distributed under the GNU
 AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
-Windows, FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
+FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and
 want to answer them with a team of agents? You're going to love OTRS!
 
 You can find a list of features in the
@@ -50,13 +50,11 @@ Perl
 Webserver
 - Webserver with CGI support (CGI is not recommended)
 - Apache2 + mod_perl2 or higher (recommended)
-- IIS6 or higher
 
 Databases
 - MySQL 5.0 or higher
 - PostgreSQL 8.4 or higher
 - Oracle 10g or higher
-- Microsoft SQL Server 2005 or higher
 
 Browsers
 - Use a modern web browser.
