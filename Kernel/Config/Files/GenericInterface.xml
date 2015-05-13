@@ -115,7 +115,6 @@
                 <Title Translatable="1">GenericInterface Debugger GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
-                    <CSS_IE7>Core.Agent.Admin.GenericInterface.IE7.css</CSS_IE7>
                     <JavaScript>Core.Agent.Admin.GenericInterfaceDebugger.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>
@@ -320,7 +319,6 @@
                 <Title Translatable="1">GenericInterface Webservice Mapping GUI</Title>
                 <Loader>
                     <CSS>Core.Agent.Admin.GenericInterface.css</CSS>
-                    <CSS_IE7>Core.Agent.Admin.GenericInterface.IE7.css</CSS_IE7>
                     <JavaScript>Core.Agent.Admin.GenericInterfaceMappingSimple.js</JavaScript>
                 </Loader>
             </FrontendModuleReg>

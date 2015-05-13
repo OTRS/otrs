@@ -6392,16 +6392,6 @@ via the Preferences button after logging in.
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Loader::Agent::CommonCSS::IE8###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE8-specific CSS files to always be loaded for the agent interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
-        <Setting>
-            <Array>
-                <Item>Core.OverviewSmall.IE8.css</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Loader::Agent::CommonJS###000-Framework" Required="1" Valid="1">
         <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
         <Group>Framework</Group>
@@ -6473,15 +6463,6 @@ via the Preferences button after logging in.
                 <Item>Core.TicketZoom.css</Item>
                 <Item>Core.Print.css</Item>
                 <Item>thirdparty/fontawesome/font-awesome.css</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Loader::Customer::CommonCSS::IE8###000-Framework" Required="1" Valid="1">
-        <Description Translatable="1">List of IE8-specific CSS files to always be loaded for the customer interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
-        <Setting>
-            <Array>
             </Array>
         </Setting>
     </ConfigItem>

@@ -398,7 +398,6 @@ sub Run {
                 );
                 my @LoaderFileTypes = (
                     'CSS',
-                    'CSS_IE8',
                     'JavaScript',
                 );
 
@@ -1361,7 +1360,6 @@ sub ListConfigItem {
         # Define array with keys for the Loader
         my %LoaderTypes = (
             'CSS'        => 1,
-            'CSS_IE8'    => 1,
             'JavaScript' => 1,
         );
 

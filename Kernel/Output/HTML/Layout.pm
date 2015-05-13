@@ -249,32 +249,6 @@ EOF
             )
         {
             $Self->{Browser} = 'MSIE';
-
-            # For IE 7 & 8, we break the header in a special way that makes
-            # things work. I don't really want to know.
-            if ( $1 =~ /(\d+)\.(\d+)/ ) {
-                $Self->{BrowserMajorVersion} = $1;
-                $Self->{BrowserMinorVersion} = $2;
-                if ( $1 == 7 && $2 == 0 || $1 == 8 && $2 == 0 ) {
-                    $Self->{BrowserBreakDispositionHeader} = 1;
-                }
-
-#
-# In IE up to version 9, there is a technical limitation for < 32
-#   CSS file links. Subsequent links will be ignored. Therefore
-#   the loader must be activated for delivering CSS to this browser.
-#   The loader will concatenate and minify the files, resulting in
-#   very few CSS file links.
-#   See also http://social.msdn.microsoft.com/Forums/en-US/iewebdevelopment/thread/ad1b6e88-bbfa-4cc4-9e95-3889b82a7c1d.
-#   See also http://blogs.msdn.com/b/ieinternals/archive/2011/05/14/internet-explorer-stylesheet-rule-selector-import-sheet-limit-maximum.aspx
-#
-                if ( $Self->{BrowserMajorVersion} <= 9 ) {
-                    $Self->{ConfigObject}->Set(
-                        Key   => 'Loader::Enabled::CSS',
-                        Value => 1,
-                    );
-                }
-            }
         }
 
         # safari
@@ -1216,11 +1190,7 @@ sub Header {
         }
     }
 
-    # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
-    if ( $Self->{BrowserBreakDispositionHeader} ) {
-        $File =~ s/attachment/bttachment/gi;
-    }
 
     # set file name for "save page as"
     $Param{ContentDisposition} = "filename=\"$File.html\"";
@@ -1486,11 +1456,7 @@ sub PrintHeader {
     # unless explicitly specified, we set the header width
     $Param{Width} ||= 640;
 
-    # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
-    if ( $Self->{BrowserBreakDispositionHeader} ) {
-        $File =~ s/attachment/bttachment/gi;
-    }
 
     # set file name for "save page as"
     $Param{ContentDisposition} = "filename=\"$File.html\"";
@@ -2301,39 +2267,10 @@ sub Attachment {
         $Output .= '; ';
     }
 
-    # clean filename to get no problems with some browsers
     if ( $Param{Filename} ) {
-
-        # detect if IE6 workaround is used (solution for IE problem with multi byte filename)
-        # to solve this kind of problems use the following in dtl for attachment downloads:
-        # <a href="[% Env("CGIHandle") %]/[% Data.Filename | uri %]?Action=...">xxx</a>
-        my $FilenameInHeader = 1;
-
-        # check if browser is broken
-        if ( $Self->{BrowserBreakDispositionHeader} && $ENV{REQUEST_URI} ) {
-
-            # check if IE 6 workaround is used
-            if ( $ENV{REQUEST_URI} =~ /\Q$Self->{CGIHandle}\E\/.+?\?Action=/ ) {
-                $FilenameInHeader = 0;
-            }
-        }
-
+        # IE 10+ supports this
         my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
-
-        # only deliver filename if needed
-        if ($FilenameInHeader) {
-
-            # Special handling for old IE (nonstandard).
-            if ( $Self->{Browser} eq 'MSIE' && $Self->{BrowserMajorVersion} <= 8 ) {
-                $Output .= " filename=\"$URLEncodedFilename\"";
-            }
-
-            # Use RFC5987 for modern browsers.
-            else {
-                $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
-            }
-        }
-
+        $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
     }
     $Output .= "\n";
 
@@ -3327,11 +3264,7 @@ sub CustomerHeader {
         }
     }
 
-    # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
-    if ( $Self->{BrowserBreakDispositionHeader} ) {
-        $File =~ s/attachment/bttachment/gi;
-    }
 
     # set file name for "save page as"
     $Param{ContentDisposition} = "filename=\"$File.html\"";

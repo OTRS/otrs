@@ -177,6 +177,12 @@ Core.Config = (function (TargetNS) {
         'Microsoft Internet Explorer 7': function () {
             return ($.browser.msie && $.browser.version === '7.0');
         },
+        'Microsoft Internet Explorer 8': function () {
+            return ($.browser.msie && $.browser.version === '8.0');
+        },
+        'Microsoft Internet Explorer 9': function () {
+            return ($.browser.msie && $.browser.version === '9.0');
+        },
         'Konqueror (without WebKit engine)': function () {
             return ($.browser.webkit && navigator.vendor === 'KDE');
         },
@@ -209,6 +215,12 @@ Core.Config = (function (TargetNS) {
         },
         'Microsoft Internet Explorer 7': function () {
             return ($.browser.msie && $.browser.version === '7.0');
+        },
+        'Microsoft Internet Explorer 8': function () {
+            return ($.browser.msie && $.browser.version === '8.0');
+        },
+        'Microsoft Internet Explorer 9': function () {
+            return ($.browser.msie && $.browser.version === '9.0');
         },
         'Konqueror (without WebKit engine)': function () {
             return ($.browser.webkit && navigator.vendor === 'KDE');

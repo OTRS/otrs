@@ -838,9 +838,6 @@ sub LoadDefaults {
         'thirdparty/fontawesome/font-awesome.css'
     ];
 
-    # Customer Common CSS for IE8
-    $Self->{'Loader::Customer::CommonCSS::IE8'}->{'000-Framework'} =  [];
-
     # Agent Common CSS
     $Self->{'Loader::Agent::CommonCSS'}->{'000-Framework'} =  [
         'Core.Reset.css',
@@ -861,11 +858,6 @@ sub LoadDefaults {
         'Core.Dialog.css',
         'Core.Print.css',
         'thirdparty/fontawesome/font-awesome.css',
-    ];
-
-    # Agent Common CSS for IE8
-    $Self->{'Loader::Agent::CommonCSS::IE8'}->{'000-Framework'} =  [
-      'Core.OverviewSmall.IE8.css'
     ];
 
     # --------------------------------------------------- #

@@ -51,20 +51,9 @@ sub Run {
         );
     }
 
-    # Disable stats widgets in IE8. This can be removed if IE8 support is removed someday.
-    my $IsIE8;
-
-    if (
-        $LayoutObject->{Browser} eq 'MSIE'
-        && $LayoutObject->{BrowserMajorVersion} <= 8
-        )
-    {
-        $IsIE8 = 1;
-    }
-
     # Get all configured statistics from the system that should be shown as a dashboard widget
-    #   and register them dynamically in the configuration. This does not work in IE8.
-    if ( $Self->{Action} eq 'AgentDashboard' && !$IsIE8 ) {
+    #   and register them dynamically in the configuration.
+    if ( $Self->{Action} eq 'AgentDashboard' ) {
 
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Stats' => {
@@ -111,16 +100,6 @@ sub Run {
                 };
             }
         }
-    }
-
-    # Hack: remove JS files for d3 if IE8 is used, because it would break.
-    if ($IsIE8) {
-        my @ModuleJS = @{
-            $ConfigObject->Get('Frontend::Module')->{AgentDashboard}->{Loader}
-                ->{JavaScript} || []
-        };
-        @ModuleJS = grep { $_ !~ m/d3js/ } @ModuleJS;
-        $ConfigObject->Get('Frontend::Module')->{AgentDashboard}->{Loader}->{JavaScript} = \@ModuleJS;
     }
 
     # get needed objects

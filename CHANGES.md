@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-05-13 Removed support for IE8 and IE9.
  - 2015-05-12 Only show article accounted time if there is a nonzero value, thanks to Paweł Bogusławski.
  - 2015-05-12 Removed support for pre output filters. This can cause bad performance problems and can be replaced by post output filters that render their own templates instead.
  - 2015-05-08 Changed format for all successful messages in customer login screen, thanks to S7.

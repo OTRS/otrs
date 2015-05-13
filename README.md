@@ -59,7 +59,7 @@ Databases
 Browsers
 - Use a modern web browser.
 - These browsers are not supported:
-  - Internet Explorer before version 8
+  - Internet Explorer before version 10
   - Firefox before version 10
   - Safari before version 5
 

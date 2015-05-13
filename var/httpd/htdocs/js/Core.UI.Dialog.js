@@ -381,12 +381,6 @@ Core.UI.Dialog = (function (TargetNS) {
         if ($Dialog.find('.Content .ContentFooter').length) {
             // change default Footer
             $Dialog.find('.Footer').addClass('ContentFooter');
-            // add special css for IE8
-            if ($.browser.msie && $.browser.version === 8) {
-                $InnerContent = $Dialog.find('.Content .InnerContent');
-                InnerContentWidth = $InnerContent.width() + parseInt($InnerContent.css('padding-left'), 10) + parseInt($InnerContent.css('padding-right'), 10);
-                $Dialog.find('.Content .ContentFooter').width(InnerContentWidth);
-            }
         }
 
         // Now add the selector for the original dialog template content to the dialog, if it exists

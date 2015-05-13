@@ -19,21 +19,9 @@
     <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
 [% RenderBlockEnd("CommonCSS") %]
 
-[% RenderBlockStart("CommonCSS_IE8") %]
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
-    <![endif]-->
-[% RenderBlockEnd("CommonCSS_IE8") %]
-
 [% RenderBlockStart("ModuleCSS") %]
     <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
 [% RenderBlockEnd("ModuleCSS") %]
-
-[% RenderBlockStart("ModuleCSS_IE8") %]
-<!--[if IE 7]>
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory | html %]/[% Data.Filename | html %]" />
-    <![endif]-->
-[% RenderBlockEnd("ModuleCSS_IE8") %]
 
     <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/ui-theme/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Customer/default/css/thirdparty/jstree-theme/default/style.css" />
@@ -75,22 +63,6 @@
             }
         }
     </style>
-
-<!--[if IE 8]>
-    <script type="text/javascript">
-        /* Fix initial font rendering on IE8 for FontAwesome */
-        (function() {
-            var head = document.getElementsByTagName('head')[0],
-                style = document.createElement('style');
-            style.type = 'text/css';
-            style.styleSheet.cssText = ':before,:after{content:none !important;}';
-            head.appendChild(style);
-            setTimeout(function(){
-                head.removeChild(style);
-            }, 0);
-        }());
-    </script>
-    <![endif]-->
 
     <title>[% Data.TitleArea | html %] [% Config("ProductName") %]</title>
 

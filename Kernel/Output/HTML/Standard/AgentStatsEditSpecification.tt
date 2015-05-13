@@ -222,8 +222,7 @@ if ($('[name=StatID]').val() === 'new') {
                                 <br/>
                                 [% Translate("Please note") | html %]:<br />
                                 - [% Translate("Enabling the dashboard widget will activate caching for this statistic in the dashboard.") | html %]<br />
-                                - [% Translate("Agents will not be able to change absolute time settings for statistics dashboard widgets.") | html %]<br />
-                                - [% Translate("IE8 doesn't support statistics dashboard widgets.") | html %]
+                                - [% Translate("Agents will not be able to change absolute time settings for statistics dashboard widgets.") | html %]
                             </p>
                         </div>
                         <div class="Clear"></div>

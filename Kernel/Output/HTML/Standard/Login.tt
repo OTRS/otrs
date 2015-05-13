@@ -20,12 +20,6 @@ X-OTRS-Login: [% Env("Baselink") %]
     <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]" />
 [% RenderBlockEnd("CommonCSS") %]
 
-[% RenderBlockStart("CommonCSS_IE8") %]
-<!--[if IE 8]>
-    <link rel="stylesheet" type="text/css" href="[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]" />
-    <![endif]-->
-[% RenderBlockEnd("CommonCSS_IE8") %]
-
     <link rel="stylesheet" href="[% Config("Frontend::WebPath") %]skins/Agent/default/css/thirdparty/ui-theme/jquery-ui.css" />
 
 [% RenderBlockStart("HeaderLogoCSS") %]
@@ -74,22 +68,6 @@ X-OTRS-Login: [% Env("Baselink") %]
             }
         }
     </style>
-
-<!--[if IE 8]>
-    <script type="text/javascript">
-        /* Fix initial font rendering on IE8 for FontAwesome */
-        (function() {
-            var head = document.getElementsByTagName('head')[0],
-                style = document.createElement('style');
-            style.type = 'text/css';
-            style.styleSheet.cssText = ':before,:after{content:none !important;}';
-            head.appendChild(style);
-            setTimeout(function(){
-                head.removeChild(style);
-            }, 0);
-        }());
-    </script>
-    <![endif]-->
 
     <title>[% Translate(Data.Title) | html %] - [% Config("ProductName") %]</title>
 
