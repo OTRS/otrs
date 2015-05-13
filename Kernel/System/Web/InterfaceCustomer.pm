@@ -137,6 +137,11 @@ sub Run {
             || $FrameworkParams->{$Key};
     }
 
+    # validate language
+    if ($Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms) {
+        delete $Param{Lang};
+    }
+
     my $BrowserHasCookie = 0;
 
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie

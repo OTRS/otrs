@@ -301,6 +301,7 @@ sub Run {
 
         # extract user data
         my $UserData = $OnlineData{$UserID};
+        my $AgentEnableChat = 0;
 
         # we also need to check if the receiving agent has chat permissions
         if ( $EnableChat && $Self->{Filter} eq 'Agent' && $Self->{UserID} != $UserData->{UserID} ) {
@@ -312,14 +313,14 @@ sub Run {
             );
 
             my %UserGroupsReverse = reverse %UserGroups;
-            $EnableChat = $UserGroupsReverse{$ChatReceivingAgentsGroup} ? 1 : 0;
+            $AgentEnableChat = $UserGroupsReverse{$ChatReceivingAgentsGroup} ? 1 : 0;
         }
 
         $LayoutObject->Block(
             Name => 'ContentSmallUserOnlineRow',
             Data => {
                 %{$UserData},
-                EnableChat => $EnableChat,
+                AgentEnableChat => $AgentEnableChat,
             },
         );
 
