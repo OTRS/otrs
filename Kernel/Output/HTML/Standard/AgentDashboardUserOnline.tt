@@ -57,7 +57,7 @@
                 [% ELSE %]
                     </span>
                 [% END %]
-                [% IF Data.EnableChat && Data.UserID != Env('UserID') %]
+                [% IF Data.AgentEnableChat && Data.UserID != Env('UserID') %]
                     <a href="#" title="[% Translate('Start chat') | html %]" type="button" class="DashboardUserOnlineChatStart" data-user-id="[% Data.UserID | html %]" data-user-type="[% Data.UserType.replace('Agent', 'User') | html %]" data-user-fullname="[% Data.UserFullname | html %]"><i class="fa fa-comments"></i></a>
                 [% END %]
                 </p>
