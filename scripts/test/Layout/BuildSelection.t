@@ -1377,6 +1377,254 @@ my @Tests = (
             ],
         },
     },
+    {
+        Name       => 'ArrayHashRef with delete filter and disabled possible none',
+        Definition => {
+            Data => [
+                {
+                    Key   => 'DeleteFilter',
+                    Value => 'DELETE',
+                },
+                {
+                    Key      => '-',
+                    Value    => '-',
+                    Disabled => 1,
+                },
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '2',
+                    Value    => 'Object1::AttributeA',
+                    Selected => 1,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '5',
+                    Value    => 'Object1::AttributeB',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="DeleteFilter">DELETE</option>
+  <option value="-" disabled="disabled">-</option>
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Objec[...]</option>
+  <option value="3">Objec[...]</option>
+  <option value="4">Objec[...]</option>
+  <option value="5">Objec[...]</option>
+  <option value="6">Objec[...]</option>
+  <option value="7">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    'DeleteFilter', 'DELETE',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '-', '-',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
+    {
+        Name       => 'ArrayHashRef with delete filter and active possible none',
+        Definition => {
+            Data => [
+                {
+                    Key   => 'DeleteFilter',
+                    Value => 'DELETE',
+                },
+                {
+                    Key      => '-',
+                    Value    => '-',
+                    Disabled => 0,
+                },
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '2',
+                    Value    => 'Object1::AttributeA',
+                    Selected => 1,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '5',
+                    Value    => 'Object1::AttributeB',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 0,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="DeleteFilter">DELETE</option>
+  <option value="-">-</option>
+  <option value="1">Object1</option>
+  <option value="2" selected="selected">Objec[...]</option>
+  <option value="3">Objec[...]</option>
+  <option value="4">Objec[...]</option>
+  <option value="5">Objec[...]</option>
+  <option value="6">Objec[...]</option>
+  <option value="7">Objec[...]</option>
+</select>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    'DeleteFilter', 'DELETE',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '-', '-',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '2', 'Objec[...]',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '3', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '4', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '5', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '6', 'Objec[...]',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', 'Objec[...]',
+                    $JSONFalse, $JSONFalse,
+                    $JSONFalse,
+                ],
+            ],
+        },
+    },
 );
 
 for my $Test (@Tests) {

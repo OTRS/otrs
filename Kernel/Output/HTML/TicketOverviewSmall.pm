@@ -1898,15 +1898,14 @@ sub _ColumnFilterJSON {
     my $JSON = $Self->{LayoutObject}->BuildSelectionJSON(
         [
             {
-                Name           => 'ColumnFilter' . $Param{ColumnName},
-                Data           => $Data,
-                Class          => 'ColumnFilter',
-                Sort           => 'AlphanumericKey',
-                TreeView       => 1,
-                SelectedID     => $Param{SelectedValue},
-                Translation    => $TranslationOption,
-                AutoComplete   => 'off',
-                DisabledBranch => '-',
+                Name         => 'ColumnFilter' . $Param{ColumnName},
+                Data         => $Data,
+                Class        => 'ColumnFilter',
+                Sort         => 'AlphanumericKey',
+                TreeView     => 1,
+                SelectedID   => $Param{SelectedValue},
+                Translation  => $TranslationOption,
+                AutoComplete => 'off',
             },
         ],
     );
