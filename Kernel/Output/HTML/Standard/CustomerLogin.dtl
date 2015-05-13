@@ -40,7 +40,7 @@ $Include{"CustomerHeader"}
                 <form class="Floating" action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded" name="login">
                     <input type="hidden" name="Action" value="Login"/>
                     <input type="hidden" name="RequestedURL" value="$QData{"RequestedURL"}"/>
-                    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+                    <input type="hidden" name="Lang" value="$QEnv{"UserLanguage"}"/>
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                     <div>
                         <label for="User">$Text{"User name"}</label>
@@ -70,7 +70,7 @@ $Include{"CustomerHeader"}
                 <h2>$Text{"Request new password"}</h2>
                 <form class="Floating" action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerLostPassword" />
-                    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}" />
+                    <input type="hidden" name="Lang" value="$QEnv{"UserLanguage"}" />
                     <div>
                         <label for="ResetUser">$Text{"User name"}</label>
                         <input title="$Text{"Your User Name"}" type="text" id="ResetUser" name="User" maxlength="150" />
@@ -90,7 +90,7 @@ $Include{"CustomerHeader"}
                 <p>$Text{"Please fill out this form to receive login credentials."}</p>
                 <form class="Floating Validate" action="$Env{"CGIHandle"}" method="post" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="Action" value="CustomerCreateAccount"/>
-                    <input type="hidden" name="Lang" value="$Env{"UserLanguage"}"/>
+                    <input type="hidden" name="Lang" value="$QEnv{"UserLanguage"}"/>
                     <div>
                         <label for="Title">$Text{"Title"}</label>
                         <input title="$Text{"How we should address you"}" type="text" name="Title"  id="Title" maxlength="50" value="$QData{"UserTitle"}"/>
