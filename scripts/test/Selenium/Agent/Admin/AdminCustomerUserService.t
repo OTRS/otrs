@@ -34,27 +34,26 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
-        # create test AdminCustomerUser
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUser");
+        # create test CustomerUser
+        my $CustomerUserName = "CustomerUser" . $Helper->GetRandomID();
+        my $CustomerUserID   = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
+            UserFirstname  => $CustomerUserName,
+            UserLastname   => $CustomerUserName,
+            UserCustomerID => $CustomerUserName,
+            UserLogin      => $CustomerUserName,
+            UserEmail      => $CustomerUserName . '@localhost.com',
+            ValidID        => 1,
+            UserID         => 1,
+        );
 
-        $Selenium->find_element( "button.CallForAction", 'css' )->click();
-        my $RandomID = $Helper->GetRandomID();
-
-        $Selenium->find_element( "#UserFirstname",  'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserLastname",   'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserLogin",      'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserEmail",      'css' )->send_keys( $RandomID . "\@localhost.com" );
-        $Selenium->find_element( "#UserCustomerID", 'css' )->send_keys($RandomID);
-        $Selenium->find_element( "#UserFirstname",  'css' )->submit();
-
-        # create test AdminService
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminService");
-
-        $Selenium->find_element("//a[contains(\@href, \'ServiceID=NEW' )]")->click();
-        my $RandomID2 = $Helper->GetRandomID();
-
-        $Selenium->find_element( "#Name", 'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        # create test Service
+        my $ServiceName = 'SomeService' . $Helper->GetRandomID();
+        my $ServiceID   = $Kernel::OM->Get('Kernel::System::Service')->ServiceAdd(
+            Name    => $ServiceName,
+            Comment => 'Some Comment',
+            ValidID => 1,
+            UserID  => 1,
+        );
 
         # check AdminCustomerUserService screen
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminCustomerUserService");
@@ -66,58 +65,48 @@ $Selenium->RunTest(
 
         # test search filter for CustomerUser
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
-        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#CustomerUserSearch", 'css' )->send_keys($CustomerUserName);
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->submit();
         $Self->True(
-            index( $Selenium->get_page_source(), $RandomID ) > -1,
-            "CustomerUser $RandomID found on page",
+            index( $Selenium->get_page_source(), $CustomerUserName ) > -1,
+            "CustomerUser $CustomerUserName found on page",
         );
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->clear();
         $Selenium->find_element( "#CustomerUserSearch", 'css' )->submit();
 
         # filter for service. It is autocomplete, submit is not necessary
-        $Selenium->find_element( "#FilterServices", 'css' )->send_keys($RandomID2);
-        sleep 1;
+        $Selenium->find_element( "#FilterServices", 'css' )->send_keys($ServiceName);
         $Self->True(
-            $Selenium->find_element( "$RandomID2", 'link_text' )->is_displayed(),
-            "$RandomID2 service found on page",
+            $Selenium->find_element( "$ServiceName", 'link_text' )->is_displayed(),
+            "$ServiceName service found on page",
         );
         $Selenium->find_element( "#FilterServices", 'css' )->clear();
-        sleep 1;
 
         # allocate test service to test customer user
-        $Selenium->find_element("//a[contains(\@href, \'CustomerUserLogin=$RandomID' )]")->click();
-
-        my $ServiceID = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
-            Name => $RandomID2,
-        );
+        $Selenium->find_element("//a[contains(\@href, \'CustomerUserLogin=$CustomerUserName' )]")->click();
         $Selenium->find_element("//input[\@value='$ServiceID']")->click();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
         # check test customer user allocation to test service
-        $Selenium->find_element( $RandomID2, 'link_text' )->click();
-
-        my $CustomerUserID = $Kernel::OM->Get('Kernel::System::Service')->ServiceLookup(
-            Name => $RandomID2,
-        );
+        $Selenium->find_element( $ServiceName, 'link_text' )->click();
 
         $Self->Is(
-            $Selenium->find_element("//input[\@value=\"$RandomID\"]")->is_selected(),
+            $Selenium->find_element("//input[\@value=\"$CustomerUserName\"]")->is_selected(),
             1,
-            "Service $RandomID2 is active for CustomerUser $RandomID",
+            "Service $ServiceName is active for CustomerUser $CustomerUserName",
         );
 
         # remove test customer user allocations from test service
-        $Selenium->find_element("//input[\@value=\"$RandomID\"]")->click();
+        $Selenium->find_element("//input[\@value=\"$CustomerUserName\"]")->click();
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
         # check if there is any test service allocation towards test customer user
-        $Selenium->find_element("//a[contains(\@href, \'CustomerUserLogin=$RandomID' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'CustomerUserLogin=$CustomerUserName' )]")->click();
 
         $Self->Is(
             $Selenium->find_element("//input[\@value='$ServiceID']")->is_selected(),
             0,
-            "Service $RandomID2 is not active for CustomerUser $RandomID",
+            "Service $ServiceName is not active for CustomerUser $CustomerUserName",
         );
 
         # delete created test customer user
@@ -127,7 +116,7 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Deleted ServiceCustomerUser - $ServiceID",
+                "Deleted ServiceCustomerUser - $ServiceName <=> $CustomerUserName",
             );
 
             $Success = $DBObject->Do(
@@ -136,30 +125,28 @@ $Selenium->RunTest(
             );
             $Self->True(
                 $Success,
-                "Deleted Service - $RandomID2",
+                "Deleted Service - $ServiceName",
             );
         }
 
-        if ($RandomID) {
-            $RandomID = $DBObject->Quote($RandomID);
+        if ($CustomerUserID) {
+            $CustomerUserName = $DBObject->Quote($CustomerUserName);
             my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE customer_id = ?",
-                Bind => [ \$RandomID ],
+                Bind => [ \$CustomerUserName ],
             );
             $Self->True(
                 $Success,
-                "Deleted CustomerUser - $RandomID",
+                "Deleted CustomerUser - $CustomerUserName",
             );
         }
 
-        # Make sure the cache is correct.
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-            Type => 'CustomerUser',
-        );
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-            Type => 'Service',
-        );
-
+        # make sure the cache is correct.
+        for my $Cache (qw( CustomerUser Service )) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
+        }
     }
 
 );
