@@ -113,8 +113,8 @@ Kernel/System/Ticket/Event/StoreHistoricalData.pm
 Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/Ticket/MenuAttachmentView.pm
-Kernel/Output/HTML/OutputFilterPreContactWithData.pm
-Kernel/Output/HTML/OutputFilterPreSLASelectionDialog.pm
+Kernel/Output/HTML/OutputFilterPostContactWithData.pm
+Kernel/Output/HTML/OutputFilterPostSLASelectionDialog.pm
 Kernel/Output/HTML/Standard/AAAOTRSBusiness.tt
 Kernel/Output/HTML/Standard/AgentChat.tt
 Kernel/Output/HTML/Standard/AgentChatAppend.tt
@@ -123,6 +123,7 @@ Kernel/Output/HTML/Standard/PublicChat.tt
 Kernel/Output/HTML/Standard/AgentTicketAttachmentView.tt
 Kernel/Output/HTML/Standard/*ContactWithData*
 Kernel/Output/HTML/Standard/*DynamicFieldDatabase*
+Kernel/Output/HTML/Standard/*SLASelectionDialog*
 scripts/test/Chat
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*

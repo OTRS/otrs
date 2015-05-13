@@ -339,6 +339,7 @@
             </div>
 # show customer info table
 [% RenderBlockStart("CustomerTable") %]
+<!-- CustomerTableStartHook -->
             <div class="WidgetSimple">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -350,8 +351,10 @@
                     [% Data.CustomerTable %]
                 </div>
             </div>
+<!-- CustomerTableEndHook -->
 [% RenderBlockEnd("CustomerTable") %]
 [% RenderBlockStart("LinkTableSimple") %]
+<!-- LinkTableSimpleStartHook -->
             <div class="WidgetSimple DontPrint">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -363,6 +366,7 @@
                     [% Data.LinkTableStrg %]
                 </div>
             </div>
+<!-- LinkTableSimpleEndHook -->
 [% RenderBlockEnd("LinkTableSimple") %]
         </div>
         <div class="ContentColumn">
