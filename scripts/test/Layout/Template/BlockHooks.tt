@@ -1,0 +1,20 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+[% RenderBlockStart('Block1') %]
+Content1
+[% RenderBlockStart('Block11') %]
+Content11
+[% RenderBlockEnd('Block11') %]
+[% RenderBlockEnd('Block1') %]
+
+[% RenderBlockStart('Block2') %]
+Content2
+[% RenderBlockStart('Block21') %]
+Content21
+[% RenderBlockEnd('Block21') %]
+[% RenderBlockEnd('Block2') %]
