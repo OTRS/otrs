@@ -236,6 +236,7 @@ sub Disconnect {
     # do disconnect
     if ( $Self->{dbh} ) {
         $Self->{dbh}->disconnect();
+        $Self->{dbh} = undef;
     }
 
     if ( $Self->{SlaveDBObject} ) {
@@ -1572,9 +1573,11 @@ sub QueryStringEscape {
 
 =item Ping()
 
-checks if the  database is reachable
+checks if the database is reachable
 
-    my $Success = $DBObject->Ping();
+    my $Success = $DBObject->Ping(
+        AutoConnect => 0,  # default 1
+    );
 
 =cut
 
@@ -1590,7 +1593,12 @@ sub Ping {
         );
     }
 
-    return if !$Self->Connect();
+    if ( !defined $Param{AutoConnect} || $Param{AutoConnect} ) {
+        return if !$Self->Connect();
+    }
+    else {
+        return if !$Self->{dbh};
+    };
 
     return $Self->{dbh}->ping();
 }

@@ -17,19 +17,58 @@ my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
 my @TestsMofifiers = (
     {
-        Name    => 'Normal',
-        Command => '',
-        Success => 1,
+        Name        => 'Autoconnect off - No connect after object creation',
+        Command     => '',
+        Success     => 0,
+        AutoConnect => 0,
     },
     {
-        Name    => 'Diconnected',
-        Command => 'Disconnect',
-        Success => 0,
+        Name        => 'Autoconnect off - Connected',
+        Command     => 'Connect',
+        Success     => 1,
+        AutoConnect => 0,
     },
     {
-        Name    => 'Connected back',
-        Command => 'Connect',
-        Success => 1,
+        Name        => 'Autoconnect off - Diconnected',
+        Command     => 'Disconnect',
+        Success     => 0,
+        AutoConnect => 0,
+    },
+    {
+        Name        => 'Autoconnect off - Connected again',
+        Command     => 'Connect',
+        Success     => 1,
+        AutoConnect => 0,
+    },
+    {
+        Name        => 'Autoconnect off - Diconnected again',
+        Command     => 'Disconnect',
+        Success     => 0,
+        AutoConnect => 0,
+    },
+    {
+        Name        => 'Autoconnect on - Ping should connect automatically',
+        Command     => '',
+        Success     => 1,
+        AutoConnect => 1,
+    },
+    {
+        Name        => 'Autoconnect on - Ping should connect again after disconnected',
+        Command     => 'Disconnect',
+        Success     => 1,
+        AutoConnect => 1,
+    },
+    {
+        Name        => 'Autoconnect on - Already connected',
+        Command     => 'Connect',
+        Success     => 1,
+        AutoConnect => 1,
+    },
+    {
+        Name        => 'Autoconnect on - Already connected',
+        Command     => 'Connect',
+        Success     => 1,
+        AutoConnect => 1,
     },
 );
 
@@ -40,7 +79,9 @@ for my $TestCase (@TestsMofifiers) {
         $DBObject->$Command();
     }
 
-    my $Success = $DBObject->Ping();
+    my $Success = $DBObject->Ping(
+        AutoConnect => $TestCase->{AutoConnect},
+    );
 
     if ( $TestCase->{Success} ) {
         $Self->True(
