@@ -10100,6 +10100,26 @@ Thanks for your help!
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0100-InSubject" Required="1" Valid="1">
+        <Description Translatable="1">Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::CheckFollowUpInSubject</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::CheckFollowUpModule###0200-InReferences" Required="1" Valid="1">
+        <Description Translatable="1">Executes follow up checks on In-Reply-To or References headers for mails that don't have a ticket number in the subject.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::CheckFollowUpInReferences</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="SendNoAutoResponseRegExp" Required="1" Valid="1">
         <Description Translatable="1">If this regex matches, no message will be send by the autoresponder.</Description>
         <Group>Ticket</Group>
