@@ -124,6 +124,13 @@ $Selenium->RunTest(
         );
         if ($SLARandomID) {
             my $Success = $DBObject->Do(
+                SQL => "DELETE FROM sla_preferences WHERE sla_id = $SLAID",
+            );
+            $Self->True(
+                $Success,
+                "SLAPreferencesDelete - $SLARandomID",
+            );
+            $Success = $DBObject->Do(
                 SQL => "DELETE FROM sla WHERE id = $SLAID",
             );
             $Self->True(

@@ -56,7 +56,7 @@ $Selenium->RunTest(
         );
         $Self->Is(
             $Selenium->find_element( '#UserSkin', 'css' )->get_value(),
-            "default",
+            $Kernel::OM->Get('Kernel::Config')->Get('Loader::Agent::DefaultSelectedSkin'),
             "#UserSkin stored value",
         );
         $Self->Is(

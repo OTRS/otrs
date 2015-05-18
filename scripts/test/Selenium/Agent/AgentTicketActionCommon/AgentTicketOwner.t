@@ -43,6 +43,17 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::AgentTicketOwner');
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::AgentTicketOwner',
+            Value => {
+                %$Config,
+                Note => 1,
+                NoteMandatory => 1,
+            },
+        );
+
         # create test users and login first
         my @TestUser;
         for my $User ( 1 .. 2 ) {
