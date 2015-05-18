@@ -111,11 +111,8 @@ sub Run {
 
     for my $DatabaseType (@DatabaseType) {
 
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::DB' => {
-                AutoConnectNo => 1,    # don't try with foreign drivers
-            },
-        );
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
+
         $Kernel::OM->Get('Kernel::Config')->Set(
             Key   => 'Database::Type',
             Value => $DatabaseType,

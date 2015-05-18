@@ -78,11 +78,6 @@ sub new {
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
-
-        # Don't autoconnect as this would cause internal server errors on failure.
-        'Kernel::System::DB' => {
-            AutoConnectNo => 1,
-        },
     );
 
     $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
@@ -173,12 +168,6 @@ sub Run {
 
     my $DBCanConnect = $Self->{DBObject}->Connect();
 
-    # Restore original behaviour of Kernel::System::DB for all objects created in future
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::DB' => {
-            AutoConnectNo => undef,
-        },
-    );
     if ( !$DBCanConnect || $Self->{ParamObject}->Error() ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
         if ( !$DBCanConnect ) {

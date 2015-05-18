@@ -59,7 +59,6 @@ Usually you do not use it directly, instead use:
                 LongTruncOk => 1,
                 LongReadLen => 100*1024,
             },
-            AutoConnectNo => 0, # 0|1 disable auto-connect to database in constructor
         },
     );
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -155,11 +154,6 @@ sub new {
         }
     }
 
-    # do database connect
-    if ( !$Param{AutoConnectNo} ) {
-        return if !$Self->Connect();
-    }
-
     return $Self;
 }
 
@@ -173,6 +167,8 @@ to connect to a database
 
 sub Connect {
     my $Self = shift;
+
+    return $Self->{dbh} if $Self->{dbh};
 
     # debug
     if ( $Self->{Debug} > 2 ) {
@@ -386,7 +382,7 @@ sub Do {
     if ( !$Param{SQL} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need SQL!'
+            Message  => 'Need SQL!',
         );
         return;
     }
@@ -439,6 +435,8 @@ sub Do {
             Message  => "DB.pm->Do ($Self->{DoCounter}) SQL: '$Param{SQL}'",
         );
     }
+
+    return if !$Self->Connect();
 
     # send sql to database
     if ( !$Self->{dbh}->do( $Param{SQL}, undef, @Array ) ) {
@@ -494,12 +492,12 @@ sub _InitSlaveDB {
             )
         {
             my $SlaveDBObject = Kernel::System::DB->new(
-                DatabaseDSN   => $CurrentSlave{DSN},
-                DatabaseUser  => $CurrentSlave{User},
-                DatabasePw    => $CurrentSlave{Password},
-                AutoConnectNo => 1,
-                IsSlaveDB     => 1,
+                DatabaseDSN  => $CurrentSlave{DSN},
+                DatabaseUser => $CurrentSlave{User},
+                DatabasePw   => $CurrentSlave{Password},
+                IsSlaveDB    => 1,
             );
+
             if ( $SlaveDBObject->Connect() ) {
                 $Self->{SlaveDBObject} = $SlaveDBObject;
                 return $Self->{SlaveDBObject};
@@ -507,7 +505,7 @@ sub _InitSlaveDB {
         }
     }
 
-    # No connect was possible.
+    # no connect was possible.
     return;
 }
 
@@ -559,7 +557,7 @@ sub Prepare {
     if ( !$Param{SQL} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need SQL!'
+            Message  => 'Need SQL!',
         );
         return;
     }
@@ -646,6 +644,8 @@ sub Prepare {
         }
     }
 
+    return if !$Self->Connect();
+
     # do
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -676,6 +676,7 @@ sub Prepare {
             );
         }
     }
+
     return 1;
 }
 
@@ -1589,12 +1590,9 @@ sub Ping {
         );
     }
 
-    # do disconnect
-    if ( $Self->{dbh} ) {
-        return $Self->{dbh}->ping();
-    }
+    return if !$Self->Connect();
 
-    return;
+    return $Self->{dbh}->ping();
 }
 
 =begin Internal:

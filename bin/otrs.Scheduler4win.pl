@@ -784,9 +784,6 @@ sub _WatchDog {
         'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.Scheduler-Watchdog',
         },
-        'Kernel::System::DB' => {
-            AutoConnectNo => 1,
-        },
     );
 
     my $ExitCode = 0;

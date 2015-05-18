@@ -69,11 +69,6 @@ sub new {
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
-
-        # Don't autoconnect as this would cause internal server errors before db is configured.
-        'Kernel::System::DB' => {
-            AutoConnectNo => 1,
-        },
     );
 
     $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');

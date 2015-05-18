@@ -84,9 +84,6 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
     'Kernel::System::Log' => {
         LogPrefix => 'OTRS-backup.pl',
     },
-    'Kernel::System::DB' => {
-        AutoConnectNo => 1,
-    },
 );
 
 my $DatabaseHost = $Kernel::OM->Get('Kernel::Config')->Get('DatabaseHost');

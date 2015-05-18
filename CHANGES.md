@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-05-18 Removed AutoConnectNo feature from DB.pm.
  - 2015-05-18 Added support for Gentoo/emerge in bin/otrs.CheckModules.pl, thanks to Elias Probst.
  - 2015-05-13 Removed support for IE8 and IE9.
  - 2015-05-12 Only show article accounted time if there is a nonzero value, thanks to Paweł Bogusławski.
