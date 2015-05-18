@@ -97,7 +97,8 @@ sub new {
     $Self->{IPCKey}  = '444423' . $SystemID;
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
-    $Self->{MinimumLevel} = lc $ConfigObject->Get('MinimumLogLevel') || 'debug';
+    $Self->{MinimumLevel} = $ConfigObject->Get('MinimumLogLevel') || 'debug';
+    $Self->{MinimumLevel} = lc $Self->{MinimumLevel};
     $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
 
     # init session data mem
