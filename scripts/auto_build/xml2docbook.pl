@@ -71,7 +71,7 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
     my %SubList = $SysConfigObject->ConfigSubGroupList( Name => $Group );
     print "<sect1 id=\"ConfigReference_$Group\"><title>$Group</title>\n";
     for my $SubGroup ( sort keys %SubList ) {
-        print "<sect2 id=\"ConfigReference_$Group:$SubGroup\"><title>$SubGroup</title>\n";
+        print "<sect2 id=\"ConfigReference_$Group:$SubGroup\" role=\"NotInToc\"><title>$SubGroup</title>\n";
         my @List = $SysConfigObject->ConfigSubGroupConfigItemList(
             Group    => $Group,
             SubGroup => $SubGroup
@@ -82,11 +82,11 @@ for my $Group ( sort { $a cmp $b } keys %List ) {
             $Link =~ s/###/_/g;
             $Link =~ s/\///g;
             print <<EOF;
-<sect3 id=\"ConfigReference_$Group:$SubGroup:$Link\" role="NotInToc"><title>$Name</title>
+<sect3 id="ConfigReference_$Group:$SubGroup:$Link" role="NotInToc"><title>$Name</title>
 <informaltable>
-    <tgroup cols=\"2\">
-        <colspec colwidth=\"1*\"/>
-        <colspec colwidth=\"3*\"/>
+    <tgroup cols="2">
+        <colspec colwidth="1*"/>
+        <colspec colwidth="3*"/>
         <tbody>
 EOF
 
