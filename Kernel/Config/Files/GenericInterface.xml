@@ -131,7 +131,7 @@
                 <Title Translatable="1">GenericInterface Web Service GUI</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Web Services</Name>
                     <Description Translatable="1">Create and manage web services.</Description>
                     <Block>System</Block>

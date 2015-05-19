@@ -21,7 +21,7 @@
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                 </Loader>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Process Management</Name>
                     <Description Translatable="1">Configure Processes.</Description>
                     <Block>System</Block>
@@ -123,7 +123,7 @@
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarAgentTicketProcess</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::AgentTicketProcess</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -298,7 +298,7 @@
         <SubGroup>Frontend::Customer::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarCustomerTicketProcess</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::CustomerTicketProcess</Item>
             </Hash>
         </Setting>
     </ConfigItem>

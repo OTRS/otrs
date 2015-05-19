@@ -4622,7 +4622,7 @@ via the Preferences button after logging in.
                     <Prio>10000</Prio>
                 </NavBar>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                 </NavBarModule>
                 <Loader>
                     <CSS>Core.Agent.Admin.css</CSS>
@@ -4655,7 +4655,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Agents</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Agents</Name>
                     <Description Translatable="1">Create and manage agents.</Description>
                     <Block>Agent</Block>
@@ -4675,7 +4675,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Groups</Name>
                     <Block>Agent</Block>
                     <Description Translatable="1">Create and manage groups.</Description>
@@ -4695,7 +4695,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Agents &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Agents &lt;-&gt; Groups</Name>
                     <Block>Agent</Block>
                     <Description Translatable="1">Link agents to groups.</Description>
@@ -4728,7 +4728,7 @@ via the Preferences button after logging in.
                     <Prio>9000</Prio>
                 </NavBar>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer User</Name>
                     <Block>Customer</Block>
                     <Description Translatable="1">Create and manage customer users.</Description>
@@ -4749,9 +4749,9 @@ via the Preferences button after logging in.
                 <GroupRo></GroupRo>
                 <Group>admin</Group>
                 <Group>users</Group>
-                <Description>Admin</Description>
+                <Description>Edit Customer Companies</Description>
                 <Title Translatable="1">Customer Companies</Title>
-                <NavBarName>Admin</NavBarName>
+                <NavBarName>Customers</NavBarName>
                 <NavBar>
                     <Name Translatable="1">Customer Administration</Name>
                     <Link>Action=AdminCustomerCompany;Nav=Agent</Link>
@@ -4764,7 +4764,7 @@ via the Preferences button after logging in.
                     <Prio>9100</Prio>
                 </NavBar>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customers</Name>
                     <Description Translatable="1">Create and manage customers.</Description>
                     <Block>Customer</Block>
@@ -4779,7 +4779,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarCustomerCompany</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::CustomerCompany</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -4794,7 +4794,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Customers &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer User &lt;-&gt; Groups</Name>
                     <Description Translatable="1">Link customer user to groups.</Description>
                     <Block>Customer</Block>
@@ -4814,7 +4814,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Customer User &lt;-&gt; Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Customer User &lt;-&gt; Services</Name>
                     <Description Translatable="1">Link customer user to services.</Description>
                     <Block>Customer</Block>
@@ -4834,7 +4834,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Roles</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Roles</Name>
                     <Description Translatable="1">Create and manage roles.</Description>
                     <Block>Agent</Block>
@@ -4854,7 +4854,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Agents &lt;-&gt; Roles</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Agents &lt;-&gt; Roles</Name>
                     <Description Translatable="1">Link agents to roles.</Description>
                     <Block>Agent</Block>
@@ -4874,7 +4874,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Roles &lt;-&gt; Groups</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Roles &lt;-&gt; Groups</Name>
                     <Description Translatable="1">Link roles to groups.</Description>
                     <Block>Agent</Block>
@@ -4894,7 +4894,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">S/MIME Management</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">S/MIME Certificates</Name>
                     <Description Translatable="1">Manage S/MIME certificates for email encryption.</Description>
                     <Block>Email</Block>
@@ -4914,7 +4914,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">PGP Key Management</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">PGP Keys</Name>
                     <Description Translatable="1">Manage PGP keys for email encryption.</Description>
                     <Block>Email</Block>
@@ -4934,7 +4934,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Mail Accounts</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">PostMaster Mail Accounts</Name>
                     <Description Translatable="1">Manage POP3 or IMAP accounts to fetch email from.</Description>
                     <Block>Email</Block>
@@ -4954,7 +4954,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">PostMaster Filters</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">PostMaster Filters</Name>
                     <Description Translatable="1">Filter incoming emails.</Description>
                     <Block>Email</Block>
@@ -4974,7 +4974,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Admin Notification</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Admin Notification</Name>
                     <Description Translatable="1">Send notifications to users.</Description>
                     <Block>System</Block>
@@ -4994,7 +4994,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Session Management</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Session Management</Name>
                     <Description Translatable="1">Manage existing sessions.</Description>
                     <Block>System</Block>
@@ -5014,7 +5014,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Performance Log</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Performance Log</Name>
                     <Description Translatable="1">View performance benchmark results.</Description>
                     <Block>System</Block>
@@ -5037,7 +5037,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">System Registration</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Registration</Name>
                     <Description Translatable="1">Manage system registration.</Description>
                     <Block>System</Block>
@@ -5060,7 +5060,7 @@ via the Preferences button after logging in.
                 <Title>OTRS Business Solution™</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name>OTRS Business Solution™</Name>
                     <Description Translatable="1">Deploy and manage OTRS Business Solution™.</Description>
                     <Block>System</Block>
@@ -5083,7 +5083,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Service Center</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Service Center</Name>
                     <Description Translatable="1">Manage OTRS Group services.</Description>
                     <Block>System</Block>
@@ -5106,7 +5106,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">System Log</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Log</Name>
                     <Description Translatable="1">View system log messages.</Description>
                     <Block>System</Block>
@@ -5126,7 +5126,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">SQL Box</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">SQL Box</Name>
                     <Description Translatable="1">Execute SQL statements.</Description>
                     <Block>System</Block>
@@ -5146,7 +5146,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">Package Manager</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Package Manager</Name>
                     <Description Translatable="1">Update and extend your system with software packages.</Description>
                     <Block>System</Block>
@@ -5166,7 +5166,7 @@ via the Preferences button after logging in.
                 <Title Translatable="1">System Maintenance</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">System Maintenance</Name>
                     <Description Translatable="1">Schedule a maintenance period.</Description>
                     <Block>System</Block>

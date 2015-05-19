@@ -8767,7 +8767,7 @@
                     <JavaScript>Core.Agent.Admin.ACL.js</JavaScript>
                 </Loader>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Access Control Lists (ACL)</Name>
                     <Description Translatable="1">Configure and manage ACLs.</Description>
                     <Block>Ticket</Block>
@@ -8787,7 +8787,7 @@
                 <Title Translatable="1">Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Queues</Name>
                     <Description Translatable="1">Create and manage queues.</Description>
                     <Block>Queue</Block>
@@ -8807,7 +8807,7 @@
                 <Title>Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Templates</Name>
                     <Description Translatable="1">Create and manage templates.</Description>
                     <Block>Queue</Block>
@@ -8827,7 +8827,7 @@
                 <Title Translatable="1">Templates &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Templates &lt;-&gt; Queues</Name>
                     <Description Translatable="1">Link templates to queues.</Description>
                     <Block>Queue</Block>
@@ -8847,7 +8847,7 @@
                 <Title Translatable="1">Auto Responses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Auto Responses</Name>
                     <Description Translatable="1">Create and manage responses that are automatically sent.</Description>
                     <Block>Queue</Block>
@@ -8867,7 +8867,7 @@
                 <Title>Auto Responses &lt;-&gt; Queues</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Auto Responses &lt;-&gt; Queues</Name>
                     <Description Translatable="1">Link queues to auto responses.</Description>
                     <Block>Queue</Block>
@@ -8887,7 +8887,7 @@
                 <Title Translatable="1">Attachments</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Attachments</Name>
                     <Description Translatable="1">Create and manage attachments.</Description>
                     <Block>Queue</Block>
@@ -8907,7 +8907,7 @@
                 <Title Translatable="1">Attachments &lt;-&gt; Templates</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Attachments &lt;-&gt; Templates</Name>
                     <Description Translatable="1">Link attachments to templates.</Description>
                     <Block>Queue</Block>
@@ -8927,7 +8927,7 @@
                 <Title Translatable="1">Salutations</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Salutations</Name>
                     <Description Translatable="1">Create and manage salutations.</Description>
                     <Block>Queue</Block>
@@ -8947,7 +8947,7 @@
                 <Title Translatable="1">Signatures</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Signatures</Name>
                     <Description Translatable="1">Create and manage signatures.</Description>
                     <Block>Queue</Block>
@@ -8967,7 +8967,7 @@
                 <Title Translatable="1">Email Addresses</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Email Addresses</Name>
                     <Description Translatable="1">Set sender email addresses for this system.</Description>
                     <Block>Email</Block>
@@ -8987,7 +8987,7 @@
                 <Title Translatable="1">Agent Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Agent Notifications</Name>
                     <Description Translatable="1">Manage notifications that are sent to agents.</Description>
                     <Block>Ticket</Block>
@@ -9007,7 +9007,7 @@
                 <Title Translatable="1">Notifications (Event)</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Notifications (Event)</Name>
                     <Description Translatable="1">Create and manage event based notifications.</Description>
                     <Block>Ticket</Block>
@@ -9027,7 +9027,7 @@
                 <Title Translatable="1">Services</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Services</Name>
                     <Description Translatable="1">Create and manage services.</Description>
                     <Block>Ticket</Block>
@@ -9047,7 +9047,7 @@
                 <Title Translatable="1">Service Level Agreements</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Service Level Agreements</Name>
                     <Description Translatable="1">Create and manage Service Level Agreements (SLAs).</Description>
                     <Block>Ticket</Block>
@@ -9067,7 +9067,7 @@
                 <Title Translatable="1">Types</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Types</Name>
                     <Description Translatable="1">Create and manage ticket types.</Description>
                     <Block>Ticket</Block>
@@ -9087,7 +9087,7 @@
                 <Title Translatable="1">States</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">States</Name>
                     <Description Translatable="1">Create and manage ticket states.</Description>
                     <Block>Ticket</Block>
@@ -9107,7 +9107,7 @@
                 <Title Translatable="1">Priorities</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Priorities</Name>
                     <Description Translatable="1">Create and manage ticket priorities.</Description>
                     <Block>Ticket</Block>
@@ -9127,7 +9127,7 @@
                 <Title Translatable="1">GenericAgent</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">GenericAgent</Name>
                     <Description Translatable="1">Manage tasks triggered by event or time based execution.</Description>
                     <Block>System</Block>
@@ -10271,7 +10271,7 @@ Thanks for your help!
                 <Title Translatable="1">Dynamic Fields GUI</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
                     <Name Translatable="1">Dynamic Fields</Name>
                     <Description Translatable="1">Create and manage dynamic fields.</Description>
                     <Block>Ticket</Block>
@@ -11503,7 +11503,7 @@ Thanks for your help!
         <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarAgentTicketService</Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::AgentTicketService</Item>
             </Hash>
         </Setting>
     </ConfigItem>

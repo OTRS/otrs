@@ -227,7 +227,7 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$ToolbarModule}->{'Module'};
-        if ($Module !~ m{Kernel::Output::HTML::ToolBar(\w+)}) {
+        if ( $Module !~ m{Kernel::Output::HTML::ToolBar(\w+)} ) {
             next TOOLBARMODULE;
         }
 
@@ -253,7 +253,7 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$MenuModule}->{'Module'};
-        if ($Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)}) {
+        if ( $Module !~ m{Kernel::Output::HTML::TicketMenu(\w+)} ) {
             next MENUMODULE;
         }
 
@@ -279,7 +279,7 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$PreferenceModule}->{'Module'};
-        if ($Module !~ m{Kernel::Output::HTML::Preferences(\w+)}) {
+        if ( $Module !~ m{Kernel::Output::HTML::Preferences(\w+)} ) {
             next PREFERENCEMODULE;
         }
 
@@ -300,7 +300,7 @@ sub _MigrateConfigs {
     # SLA, Service and Queue preferences
     for my $Type (qw(SLA Service Queue)) {
 
-        $Setting = $Kernel::OM->Get('Kernel::Config')->Get($Type . 'Preferences');
+        $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type . 'Preferences' );
 
         MODULE:
         for my $PreferenceModule ( sort keys %{$Setting} ) {
@@ -308,7 +308,7 @@ sub _MigrateConfigs {
             # update module location
             my $Module = $Setting->{$PreferenceModule}->{'Module'};
             my $Regex  = 'Kernel::Output::HTML::' . $Type . 'Preferences(\w+)';
-            if ($Module !~ m{$Regex}) {
+            if ( $Module !~ m{$Regex} ) {
                 next MODULE;
             }
 
@@ -335,7 +335,7 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$ArticlePreViewModule}->{'Module'};
-        if ($Module !~ m{Kernel::Output::HTML::Article(\w+)}) {
+        if ( $Module !~ m{Kernel::Output::HTML::Article(\w+)} ) {
             next ARTICLEMODULE;
         }
 
@@ -350,7 +350,71 @@ sub _MigrateConfigs {
         );
     }
 
-    print "...done\n";
+    print "...done.\n";
+    print "--- NavBar menu modules...";
+
+    # NavBar menu modules
+    my @Types = (
+        {
+            Path => 'Frontend::NavBarModule',
+        },
+        {
+            Path => 'CustomerFrontend::NavBarModule',
+        },
+    );
+
+    for my $Type (@Types) {
+
+        $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type->{Path} );
+
+        NAVBARMODULE:
+        for my $NavBarModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$NavBarModule}->{'Module'};
+
+            if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} ) {
+                next NAVBARMODULE;
+            }
+
+            $Module =~ s{Kernel::Output::HTML::NavBar(\w+)}{Kernel::Output::HTML::NavBar::$1}xmsg;
+            $Setting->{$NavBarModule}->{'Module'} = $Module;
+
+            # set new setting,
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type->{Path} . '###' . $NavBarModule,
+                Value => $Setting->{$NavBarModule},
+            );
+        }
+    }
+
+    print "...done.\n";
+    print "--- NavBar ModuleAdmin modules...";
+
+    # NavBar module admin
+    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module');
+
+    MODULEADMIN:
+    for my $ModuleAdmin ( sort keys %{$Setting} ) {
+
+        # update module location
+        my $Module = $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} // '';
+
+        if ( $Module !~ m{Kernel::Output::HTML::NavBar(\w+)} ) {
+            next MODULEADMIN;
+        }
+        $Setting->{$ModuleAdmin}->{NavBarModule}->{'Module'} = "Kernel::Output::HTML::NavBar::ModuleAdmin";
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Frontend::Module###' . $ModuleAdmin,
+            Value => $Setting->{$ModuleAdmin},
+        );
+    }
+
+    print "...done.\n";
 
     return 1;
 }

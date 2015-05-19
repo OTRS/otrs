@@ -1586,7 +1586,7 @@ via the Preferences button after logging in.
             }
         ],
         'NavBarModule' => {
-            'Module' => 'Kernel::Output::HTML::NavBarModuleAdmin'
+            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin'
         },
         'NavBarName' => 'Admin',
         'Title' => ''
@@ -1607,7 +1607,7 @@ via the Preferences button after logging in.
         'NavBarModule' => {
             'Block' => 'System',
             'Description' => 'View system log messages.',
-            'Module' => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
             'Name' => 'System Log',
             'Prio' => '600'
         },
@@ -1620,7 +1620,7 @@ via the Preferences button after logging in.
         Title        => 'SysConfig',
         NavBarName   => 'Admin',
         NavBarModule => {
-            Module      => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            Module      => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
             Name        => 'SysConfig',
             Description => 'Edit the system configuration settings.',
             Block       => 'System',
@@ -1643,7 +1643,7 @@ via the Preferences button after logging in.
         'NavBarModule' => {
             'Block' => 'System',
             'Description' => 'Update and extend your system with software packages.',
-            'Module' => 'Kernel::Output::HTML::NavBarModuleAdmin',
+            'Module' => 'Kernel::Output::HTML::NavBar::ModuleAdmin',
             'Name' => 'Package Manager',
             'Prio' => '1000'
         },

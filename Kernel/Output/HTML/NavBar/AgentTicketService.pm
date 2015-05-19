@@ -6,10 +6,14 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::NavBarAgentTicketService;
+package Kernel::Output::HTML::NavBar::AgentTicketService;
 
 use strict;
 use warnings;
+
+our @ObjectDependencies = (
+    'Kernel::Config',
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,31 +22,33 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for my $Needed (qw(ConfigObject LogObject DBObject TicketObject LayoutObject UserID)) {
-        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # check if frontend module is registered (otherwise return)
-    my $Config = $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketService};
+    my $Config = $ConfigObject->Get('Frontend::Module')->{AgentTicketService};
     return if !$Config;
 
     # check if ticket service feature is enabled, in such case there is nothing to do
-    return if $Self->{ConfigObject}->Get('Ticket::Service');
+    return if $ConfigObject->Get('Ticket::Service');
 
     # frontend module is enabled but not ticket service, then remove the menu entry
     my $NavBarName = $Config->{NavBarName};
-    my $Priotiry = sprintf( "%07d", $Config->{NavBar}->[0]->{Prio} );
+    my $Priority = sprintf( "%07d", $Config->{NavBar}->[0]->{Prio} );
 
     my %Return = %{ $Param{NavBar}->{Sub} };
 
     # remove AgentTicketService from the TicketMenu
-    delete $Return{$NavBarName}->{$Priotiry};
+    delete $Return{$NavBarName}->{$Priority};
 
     return ( Sub => \%Return );
 }
