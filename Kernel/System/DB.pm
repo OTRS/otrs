@@ -236,7 +236,7 @@ sub Disconnect {
     # do disconnect
     if ( $Self->{dbh} ) {
         $Self->{dbh}->disconnect();
-        $Self->{dbh} = undef;
+        delete $Self->{dbh};
     }
 
     if ( $Self->{SlaveDBObject} ) {

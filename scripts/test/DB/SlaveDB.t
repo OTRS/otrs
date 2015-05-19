@@ -194,38 +194,38 @@ for my $Test (@Tests) {
                 "$TestPrefix statement handle active on slave",
             );
 
-            $Self->True(
-                $DBObject->{dbh}->ping(),
-                "$TestPrefix master object is connected",
+            $Self->False(
+                scalar $DBObject->Ping( AutoConnect => 0 ),
+                "$TestPrefix master object is not connected automatically",
             );
 
             $Self->True(
-                $DBObject->{SlaveDBObject}->{dbh}->ping(),
+                scalar $DBObject->{SlaveDBObject}->Ping( AutoConnect => 0 ),
                 "$TestPrefix slave object is connected",
             );
 
             $DBObject->Disconnect();
 
             $Self->False(
-                $DBObject->{dbh}->ping(),
+                scalar $DBObject->Ping( AutoConnect => 0 ),
                 "$TestPrefix master object is disconnected",
             );
 
             $Self->False(
-                $DBObject->{SlaveDBObject}->{dbh}->ping(),
+                scalar $DBObject->{SlaveDBObject}->Ping( AutoConnect => 0 ),
                 "$TestPrefix slave object is disconnected",
             );
 
             $DBObject->Connect();
 
             $Self->True(
-                $DBObject->{dbh}->ping(),
+                scalar $DBObject->Ping( AutoConnect => 0 ),
                 "$TestPrefix master object is reconnected",
             );
 
             $Self->True(
-                $DBObject->{SlaveDBObject}->{dbh}->ping(),
-                "$TestPrefix slave object is reconnected",
+                scalar $DBObject->{SlaveDBObject}->Ping( AutoConnect => 0 ),
+                "$TestPrefix slave object is not reconnected automatically",
             );
         }
     }
