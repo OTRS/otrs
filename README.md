@@ -53,6 +53,7 @@ Webserver
 
 Databases
 - MySQL 5.0 or higher
+- MariaDB
 - PostgreSQL 8.4 or higher
 - Oracle 10g or higher
 
