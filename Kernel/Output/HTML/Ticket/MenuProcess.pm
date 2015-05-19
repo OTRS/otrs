@@ -140,7 +140,7 @@ sub Run {
     # use the nav bar module to check for process ACLs to prevent code duplication
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::NavBar::AgentTicketProcess' => {
-            %{$Self},
+            UserID => $Self->{UserID},
         },
     );
     my $NavBarModule = $Kernel::OM->Get('Kernel::Output::HTML::NavBar::AgentTicketProcess');

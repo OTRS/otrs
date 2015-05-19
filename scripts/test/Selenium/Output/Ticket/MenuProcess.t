@@ -48,6 +48,30 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
+        # get all processes
+        my $ProcessList = $ProcessObject->ProcessListGet(
+            UserID => $TestUserID,
+        );
+        my @DeactivatedProcesses;
+
+        # if there had been some active processes before testing,set them to inactive,
+        for my $Process ( @{$ProcessList} ) {
+            if ( $Process->{State} eq 'Active' ) {
+                $ProcessObject->ProcessUpdate(
+                    ID            => $Process->{ID},
+                    EntityID      => $Process->{EntityID},
+                    Name          => $Process->{Name},
+                    StateEntityID => 'S2',
+                    Layout        => $Process->{Layout},
+                    Config        => $Process->{Config},
+                    UserID        => $TestUserID,
+                );
+
+                # save process because of restoring on the end of test
+                push @DeactivatedProcesses, $Process;
+            }
+        }
+
         # import test selenium process
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
@@ -99,15 +123,7 @@ $Selenium->RunTest(
             "Ticket menu Process Enroll - found"
         );
 
-        # delete created test tickets
-        my $Success = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => $TestUserID,
-        );
-        $Self->True(
-            $Success,
-            "Delete ticket - $TicketID"
-        );
+        my $Success;
 
         # clean up activities
         for my $Item ( @{ $Process->{Activities} } ) {
@@ -199,10 +215,38 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
-        # make sure the cache is correct.
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-            Type => 'Ticket',
+        # go to test created ticket zoom
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        # check if process enroll is not available for test ticket
+        $Self->True(
+            index( $Selenium->get_page_source(), "Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=$TicketID" )
+                == -1,
+            "Ticket menu Process Enroll - not found"
         );
+
+        # delete created test tickets
+        $Success = $TicketObject->TicketDelete(
+            TicketID => $TicketID,
+            UserID   => $TestUserID,
+        );
+        $Self->True(
+            $Success,
+            "Delete ticket - $TicketID"
+        );
+
+        # restore state of process
+        for my $Process (@DeactivatedProcesses) {
+            $ProcessObject->ProcessUpdate(
+                ID            => $Process->{ID},
+                EntityID      => $Process->{EntityID},
+                Name          => $Process->{Name},
+                StateEntityID => 'S1',
+                Layout        => $Process->{Layout},
+                Config        => $Process->{Config},
+                UserID        => $TestUserID,
+            );
+        }
 
         # make sure the cache is correct.
         for my $Cache (

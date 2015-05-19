@@ -54,6 +54,30 @@ $Selenium->RunTest(
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
+        # get all processes
+        my $ProcessList = $ProcessObject->ProcessListGet(
+            UserID => $TestUserID,
+        );
+        my @DeactivatedProcesses;
+
+        # if there had been some active processes before testing,set them to inactive,
+        for my $Process ( @{$ProcessList} ) {
+            if ( $Process->{State} eq 'Active' ) {
+                $ProcessObject->ProcessUpdate(
+                    ID            => $Process->{ID},
+                    EntityID      => $Process->{EntityID},
+                    Name          => $Process->{Name},
+                    StateEntityID => 'S2',
+                    Layout        => $Process->{Layout},
+                    Config        => $Process->{Config},
+                    UserID        => $TestUserID,
+                );
+
+                # save process because of restoring on the end of test
+                push @DeactivatedProcesses, $Process;
+            }
+        }
+
         # import test selenium process
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
@@ -79,7 +103,7 @@ $Selenium->RunTest(
         );
 
         # check if NavBarAgentTicketProcess button is available when process is available
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentDashboard");
+        $Selenium->refresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "NavBar 'New process ticket' button available",
@@ -173,27 +197,17 @@ $Selenium->RunTest(
             "Process deleted - $Process->{Name},",
         );
 
-        # make sure the cache is correct.
-        for my $Cache (
-            qw (ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Transition ProcessManagement_TransitionAction )
-            )
-        {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => $Cache,
-            );
-        }
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentDashboard");
+        $Selenium->refresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is active when no process is available",
         );
 
-        # check if NavBarAgentTicketProcess button is available when NavBarAgentTicketProcess module is disabled and no process is available
+# check if NavBarAgentTicketProcess button is available when NavBarAgentTicketProcess module is disabled and no process is available
         my $SysConfigObject          = $Kernel::OM->Get('Kernel::System::SysConfig');
         my %NavBarAgentTicketProcess = $SysConfigObject->ConfigItemGet(
             Name => 'Frontend::NavBarModule###1-TicketProcesses',
@@ -208,6 +222,30 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active, but NavBarAgentTicketProcess is disabled",
         );
+
+        # restore state of process
+        for my $Process (@DeactivatedProcesses) {
+            $ProcessObject->ProcessUpdate(
+                ID            => $Process->{ID},
+                EntityID      => $Process->{EntityID},
+                Name          => $Process->{Name},
+                StateEntityID => 'S1',
+                Layout        => $Process->{Layout},
+                Config        => $Process->{Config},
+                UserID        => $TestUserID,
+            );
+        }
+
+        # make sure the cache is correct.
+        for my $Cache (
+            qw (ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Transition ProcessManagement_TransitionAction )
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
+        }
+
     }
 );
 
