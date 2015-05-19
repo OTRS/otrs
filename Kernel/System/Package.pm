@@ -14,6 +14,10 @@ use warnings;
 
 use MIME::Base64;
 use File::Copy;
+# Workaround for a bug when loading MIME::Parser in DESTROY.
+#   This is caused by the event listener SupportDataSend and causes and endless loop with warnings like
+#   'Warning: Use of "require" without parentheses is ambiguous'. Prevent this by preloading MIME::Parser.
+use MIME::Parser;
 
 use Kernel::System::Cache;
 use Kernel::System::JSON;
