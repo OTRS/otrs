@@ -32,16 +32,10 @@
 %dir /opt/otrs/Kernel/Language/
 /opt/otrs/Kernel/Language/*.pm
 
-/opt/otrs/Kernel/Modules*
-
-%dir /opt/otrs/Kernel/Output/
-%dir /opt/otrs/Kernel/Output/HTML/
-/opt/otrs/Kernel/Output/HTML/Standard/
-/opt/otrs/Kernel/Output/HTML/*.pm
-/opt/otrs/Kernel/Output/Template*
-
-/opt/otrs/Kernel/System*
 /opt/otrs/bin*
+/opt/otrs/Kernel/Modules*
+/opt/otrs/Kernel/Output*
+/opt/otrs/Kernel/System*
 /opt/otrs/scripts*
 /opt/otrs/i18n/otrs/*
 
