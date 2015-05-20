@@ -299,6 +299,7 @@ performs checks for the currently registered tasks.
 sub _SanityChecks {
     my ( $Self, %Param ) = @_;
 
+    $Self->_SanityCheckSupportDataCollectorAsynchronous();
     $Self->_SanityCheckSystemRegistration();
 
     return 1;
@@ -351,6 +352,63 @@ sub _SanityCheckSystemRegistration {
             );
         }
     }
+    return 1;
+}
+
+sub _SanityCheckSupportDataCollectorAsynchronous {
+    my ( $Self, %Param ) = @_;
+
+    # get all tasks
+    my $TaskManagerObject                        = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
+    my @TaskList                                 = $TaskManagerObject->TaskList();
+    my @SupportDataCollectorAsynchronousTaskList = grep { $_->{Type} eq 'SupportDataCollectorAsynchronous' } @TaskList;
+
+    # Is there exactly 1 task?
+    if ( scalar @SupportDataCollectorAsynchronousTaskList == 1 ) {
+        return 1;
+    }
+    elsif ( scalar @SupportDataCollectorAsynchronousTaskList == 0 ) {
+
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+        # generate a timestamp for the current hour
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
+            SystemTime => $TimeObject->SystemTime(),
+        );
+
+        my $SystemTime = $TimeObject->Date2SystemTime(
+            Year   => $Year,
+            Month  => $Month,
+            Day    => $Day,
+            Hour   => $Hour,
+            Minute => 0,
+            Second => 0,
+        );
+
+        my $DueTimeStamp = $TimeObject->SystemTime2TimeStamp(
+            SystemTime => $SystemTime,
+        );
+
+        # Ok, SupportDataCollectorAsynchronous task is missing. Create it.
+        $TaskManagerObject->TaskAdd(
+            Type    => 'SupportDataCollectorAsynchronous',
+            DueTime => $DueTimeStamp,
+            Data    => {
+                ReSchedule => 1,
+            },
+        );
+    }
+    else {
+        # Ok, there is more than one task. Remove the others.
+        shift @SupportDataCollectorAsynchronousTaskList;
+        for my $SupportDataCollectorAsynchronousTask (@SupportDataCollectorAsynchronousTaskList) {
+            $TaskManagerObject->TaskDelete(
+                ID => $SupportDataCollectorAsynchronousTask->{ID}
+            );
+        }
+    }
+
     return 1;
 }
 

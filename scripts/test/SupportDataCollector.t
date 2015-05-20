@@ -12,6 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
+use File::Basename;
 use Time::HiRes ();
 
 use Kernel::System::SupportDataCollector::PluginBase;
@@ -19,19 +20,72 @@ use Kernel::System::SupportDataCollector::PluginBase;
 # get needed objects
 my $HelperObject               = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $CacheObject                = $Kernel::OM->Get('Kernel::System::Cache');
+my $MainObject                 = $Kernel::OM->Get('Kernel::System::Main');
 my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
+
+# test the support data collect asynchronous function
+
+my $TimeStart = [ Time::HiRes::gettimeofday() ];
+
+my $Success = $SupportDataCollectorObject->CollectAsynchronous();
+
+$Self->Is(
+    $Success,
+    1,
+    "Asynchronous data collection status",
+);
+
+my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
+
+# Look for all plugins in the FS
+my @PluginFiles = $MainObject->DirectoryRead(
+    Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home')
+        . "/Kernel/System/SupportDataCollector/PluginAsynchronous",
+    Filter    => "*.pm",
+    Recursive => 1,
+);
+
+# Execute all Plugins
+for my $PluginFile (@PluginFiles) {
+
+    # Convert file name => package name
+    $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
+    $PluginFile =~ s{/+}{::}xmsg;
+
+    if ( !$MainObject->Require($PluginFile) ) {
+        return (
+            Success      => 0,
+            ErrorMessage => "Could not load $PluginFile!",
+        );
+    }
+    my $PluginObject = $PluginFile->new( %{$Self} );
+
+    my $AsynchronousData = $PluginObject->_GetAsynchronousData();
+
+    $Self->True(
+        defined $AsynchronousData,
+        "$PluginFile - asychronous data exists.",
+    );
+}
+
+$Self->True(
+    $TimeElapsed < 180,
+    "CollectAsynchronous() - Should take less than 120 seconds, it took $TimeElapsed"
+);
+
+# test the support data collect function
 
 $CacheObject->CleanUp(
     Type => 'SupportDataCollector',
 );
 
-my $TimeStart = [ Time::HiRes::gettimeofday() ];
+$TimeStart = [ Time::HiRes::gettimeofday() ];
 
 my %Result = $SupportDataCollectorObject->Collect(
     WebTimeout => 40,
 );
 
-my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
+$TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
 $Self->Is(
     $Result{Success},

@@ -518,6 +518,11 @@ sub Register {
                 Message  => "Registration - Can not add Support Data",
             );
         }
+        else {
+
+            # cleanup for the asynchronous plugins after a successful support data request
+            $Kernel::OM->Get('Kernel::System::SupportDataCollector')->CleanupAsynchronous();
+        }
     }
 
     return 1;
@@ -919,6 +924,11 @@ sub RegistrationUpdateSend {
                 Priority => 'error',
                 Message  => $Reason,
             );
+        }
+        else {
+
+            # cleanup for the asynchronous plugins after a successful support data request
+            $Kernel::OM->Get('Kernel::System::SupportDataCollector')->CleanupAsynchronous();
         }
     }
 

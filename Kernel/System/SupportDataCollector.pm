@@ -127,10 +127,20 @@ sub Collect {
         Recursive => 1,
     );
 
+    # Look for all asynchronous plugins in the FS
+    my @PluginAsynchronousFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
+
+    # merge the both plugins types together
+    my @PluginFilesAll = ( @PluginFiles, @PluginAsynchronousFiles );
+
     my @Result;
 
     # Execute all Plugins
-    for my $PluginFile (@PluginFiles) {
+    for my $PluginFile (@PluginFilesAll) {
 
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
@@ -156,6 +166,9 @@ sub Collect {
 
         push @Result, @{ $PluginResult{Result} // [] };
     }
+
+    # sort the results from the plugins by 'display path'
+    @Result = sort { $a->{DisplayPath} cmp $b->{DisplayPath} } @Result;
 
     my %ReturnData = (
         Success => 1,
@@ -298,6 +311,94 @@ sub CollectByWebRequest {
     );
 
     return %{$ResponseData};
+}
+
+=item CollectAsynchronous()
+
+collect asynchronous data (the asynchronous plugin decide at which place the data will be saved)
+
+    my $Success = $SupportDataCollectorObject->CollectAsynchronous();
+
+=cut
+
+sub CollectAsynchronous {
+    my ( $Self, %Param ) = @_;
+
+    # Look for all plugins in the FS
+    my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
+
+    # Execute all Plugins
+    for my $PluginFile (@PluginFiles) {
+
+        # Convert file name => package name
+        $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
+        $PluginFile =~ s{/+}{::}xmsg;
+
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
+            return (
+                Success      => 0,
+                ErrorMessage => "Could not load $PluginFile!",
+            );
+        }
+        my $PluginObject = $PluginFile->new( %{$Self} );
+
+        my $Success = $PluginObject->RunAsynchronous();
+
+        if ( !$Success ) {
+            return (
+                Success      => 0,
+                ErrorMessage => "Error during asynchrone execution of $PluginFile.",
+            );
+        }
+    }
+
+    return 1;
+}
+
+=item CleanupAsynchronous()
+
+cleanup asynchronous data (the asynchronous plugin decide for themselve)
+
+    my $Success = $SupportDataCollectorObject->CleanupAsynchronous();
+
+=cut
+
+sub CleanupAsynchronous {
+    my ( $Self, %Param ) = @_;
+
+    # Look for all plugins in the FS
+    my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
+        Filter    => "*.pm",
+        Recursive => 1,
+    );
+
+    # Execute all Plugins
+    PLUGINFILE:
+    for my $PluginFile (@PluginFiles) {
+
+        # Convert file name => package name
+        $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
+        $PluginFile =~ s{/+}{::}xmsg;
+
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($PluginFile) ) {
+            return (
+                Success      => 0,
+                ErrorMessage => "Could not load $PluginFile!",
+            );
+        }
+        my $PluginObject = $PluginFile->new( %{$Self} );
+
+        next PLUGINFILE if !$PluginFile->can('CleanupAsynchronous');
+
+        $PluginObject->CleanupAsynchronous();
+    }
+
+    return 1;
 }
 
 =back

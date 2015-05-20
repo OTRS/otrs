@@ -84,15 +84,28 @@
     width: 96%;
 }
 
-.AdminServiceCenter .CheckResults > li table td:first-child {
+.AdminServiceCenter .CheckResults > li table td.Status {
     width: 27px;
-    padding-right: 0px;
 }
+
+.AdminServiceCenter .CheckResults > li table.SupportDataTable {
+    margin: 0;
+    width: 100%;
+}
+
+.AdminServiceCenter .CheckResults > li .SupportDataTableScrollbar {
+    max-height: 400px;
+    overflow-y: auto;
+    display: block;
+    margin: 10px 0px 10px 28px;
+    width: 96%;
+}
+
 
 /**
  * @subsection  Flag
  */
- 
+
 .AdminServiceCenter .Flag {
     position: absolute;
     left: 0px;
