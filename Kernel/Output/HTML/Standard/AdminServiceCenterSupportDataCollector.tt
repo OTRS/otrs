@@ -293,6 +293,32 @@
                     <ul class="CheckResults">
 [% RenderBlockStart("SupportDataRow") %]
                         <li class="CheckResult[% Data.StatusName | html %]">
+[% RenderBlockStart("SupportDataEntryTable") %]
+                            <h3 class="Heading">
+                                <span title="[% Translate(Data.StatusName) | html %]" class="Flag Small [% Data.StatusName | html %]">
+                                    <span>[% Data.StatusName | html %]</span>
+                                </span>
+                                [% Translate(Data.Label) | html %]
+                            </h3>
+                            <div class="SupportDataTableScrollbar">
+                                <table class="DataTable SupportDataTable">
+                                    <thead>
+                                    [% FOR Label IN Data.Labels %]
+                                        <th>[% Translate(Label) %]</th>
+                                    [% END %]
+                                    </thead>
+                                    <tbody>
+                                    [% FOR Entry IN Data.Value %]
+                                        <tr>
+                                        [% FOR Identifier IN Data.Identifiers %]
+                                            <td>[% Entry.$Identifier %]</td>
+                                        [% END %]
+                                        </tr>
+                                    [% END %]
+                                    </tbody>
+                                </table>
+                            </div>
+[% RenderBlockEnd("SupportDataEntryTable") %]
 [% RenderBlockStart("SupportDataEntry") %]
                             <h3 class="Heading">
                                 <span title="[% Translate(Data.StatusName) | html %]" class="Flag Small [% Data.StatusName | html %]">
@@ -319,7 +345,7 @@
                                 <tbody>
 [% RenderBlockStart("SupportDataSubEntry") %]
                                     <tr>
-                                        <td>
+                                        <td class="Status">
                                             <span title="[% Translate(Data.StatusName) | html %]" class="Flag Small [% Data.StatusName | html %]">
                                                 <span>[% Data.StatusName | html %]</span>
                                             </span>

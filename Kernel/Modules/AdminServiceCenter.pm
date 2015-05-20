@@ -22,6 +22,8 @@ use Kernel::System::SupportDataCollector;
 use Kernel::System::SupportDataCollector::PluginBase;
 use Kernel::System::User;
 
+use Kernel::System::VariableCheck qw(:all);
+
 sub new {
     my ( $Type, %Param ) = @_;
 
@@ -123,7 +125,10 @@ sub _SupportDataCollectorView {
                 $Entry->{Status}
             };
 
-            my ( $Group, $SubGroup ) = split( m{/}, $Entry->{DisplayPath} // '' );
+            # get the display path, display type and additional information for the output
+            my ( $DisplayPath, $DisplayType, $DisplayAdditional ) = split( m{[\@\:]}, $Entry->{DisplayPath} // '' );
+
+            my ( $Group, $SubGroup ) = split( m{/}, $DisplayPath );
             if ( $Group ne $LastGroup ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataGroup',
@@ -152,7 +157,40 @@ sub _SupportDataCollectorView {
             }
             $LastSubGroup = $SubGroup // '';
 
-            if ( !$SubGroup ) {
+            if ( $DisplayType && $DisplayType eq 'Table' && IsArrayRefWithData( $Entry->{Value} ) ) {
+
+                # get the table columns
+                my @TableColumns = split( m{,}, $DisplayAdditional // '' );
+
+                my @Identifiers;
+                my @Labels;
+
+                COLUMN:
+                for my $Column (@TableColumns) {
+
+                    next COLUMN if !$Column;
+
+                    # get the identifier and label
+                    my ( $Identifier, $Label ) = split( m{\|}, $Column );
+
+                    # set the identifier as default label
+                    $Label ||= $Identifier;
+
+                    push @Identifiers, $Identifier;
+                    push @Labels, $Label;
+                }
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'SupportDataEntryTable',
+                    Data => {
+                        Identifiers => \@Identifiers,
+                        Labels      => \@Labels,
+                        %{$Entry},
+                    },
+                );
+            }
+            elsif ( !$SubGroup ) {
+
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataEntry',
                     Data => $Entry,

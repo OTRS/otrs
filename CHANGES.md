@@ -1,4 +1,5 @@
 #4.0.9 2015-??-??
+ - 2015-05-20 Extended the support data collector with an asynchronous mechanism with the possibility to collect data asynchronously (offline).
  - 2015-05-13 Fixed bug#[11290](http://bugs.otrs.org/show_bug.cgi?id=11290) - Lang parameter not correctly validated.
  - 2015-05-11 Fixed bug#[11277](http://bugs.otrs.org/show_bug.cgi?id=11277) - Search for multiple ticket numbers with GenericInterface.
 
