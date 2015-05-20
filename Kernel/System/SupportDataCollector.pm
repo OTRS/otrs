@@ -167,8 +167,8 @@ sub Collect {
         push @Result, @{ $PluginResult{Result} // [] };
     }
 
-    # sort the results from the plugins by 'display path'
-    @Result = sort { $a->{DisplayPath} cmp $b->{DisplayPath} } @Result;
+    # sort the results from the plugins by the short identifier
+    @Result = sort { $a->{ShortIdentifier} cmp $b->{ShortIdentifier} } @Result;
 
     my %ReturnData = (
         Success => 1,

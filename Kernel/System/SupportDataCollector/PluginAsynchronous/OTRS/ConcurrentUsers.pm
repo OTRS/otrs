@@ -25,13 +25,19 @@ our @ObjectDependencies = (
 );
 
 sub GetDisplayPath {
-    return 'OTRS/Max. Concurrent Users@Table:TimeStamp,UserSessionUnique|Unique agents,UserSession|Agent sessions,CustomerSessionUnique|Unique customers,CustomerSession|Customer sessions';
+    return 'OTRS@Table:TimeStamp,UserSessionUnique|Unique agents,UserSession|Agent sessions,CustomerSessionUnique|Unique customers,CustomerSession|Customer sessions';
 }
 
 sub Run {
     my $Self = shift;
 
     my $ConcurrentUsers = $Self->_GetAsynchronousData();
+
+    # the table details data
+    $Self->AddResultInformation(
+        Label      => 'Concurrent Users Details',
+        Value      => $ConcurrentUsers || [],
+    );
 
     # get the full display path
     my $DisplayPathFull = $Self->GetDisplayPath();
@@ -66,17 +72,12 @@ sub Run {
         }
 
         $Self->AddResultInformation(
-            Identifier => $Identifier,
-            Label      => "Max. $Label",
-            Value      => $MaxValue,
+            DisplayPath => 'OTRS/Concurrent Users',
+            Identifier  => $Identifier,
+            Label       => "Max. $Label",
+            Value       => $MaxValue,
         );
     }
-
-    # the table data
-    $Self->AddResultInformation(
-        Label      => 'Concurrent Users Details',
-        Value      => $ConcurrentUsers || [],
-    );
 
     return $Self->GetResults();
 }

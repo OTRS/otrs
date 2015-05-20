@@ -99,7 +99,7 @@ sub _SupportDataCollectorView {
         $LayoutObject->Block(
             Name => 'SupportData',
         );
-        my ( $LastGroup, $LastSubGroup ) = ( '', '' );
+        my ( $LastGroup, $LastSubGroup, $LastDisplayBlock ) = ( '', '', '' );
 
         for my $Entry ( @{ $SupportData{Result} || [] } ) {
 
@@ -121,7 +121,8 @@ sub _SupportDataCollectorView {
             }
             $LastGroup = $Group // '';
 
-            if ( !$SubGroup || $SubGroup ne $LastSubGroup ) {
+            if ( !$SubGroup || $SubGroup ne $LastSubGroup || $LastDisplayBlock eq 'SupportDataEntryTable' ) {
+
                 $LayoutObject->Block(
                     Name => 'SupportDataRow',
                     Data => $Entry,
@@ -129,6 +130,7 @@ sub _SupportDataCollectorView {
             }
 
             if ( $SubGroup && $SubGroup ne $LastSubGroup ) {
+
                 $LayoutObject->Block(
                     Name => 'SupportDataSubGroup',
                     Data => {
@@ -139,39 +141,52 @@ sub _SupportDataCollectorView {
             }
             $LastSubGroup = $SubGroup // '';
 
-            if ( $DisplayType && $DisplayType eq 'Table' && IsArrayRefWithData( $Entry->{Value} ) ) {
+            if ( $DisplayType && $DisplayType eq 'Table' && ref $Entry->{Value} eq 'ARRAY' ) {
 
-                # get the table columns
-                my @TableColumns = split( m{,}, $DisplayAdditional // '' );
-
-                my @Identifiers;
-                my @Labels;
-
-                COLUMN:
-                for my $Column (@TableColumns) {
-
-                    next COLUMN if !$Column;
-
-                    # get the identifier and label
-                    my ( $Identifier, $Label ) = split( m{\|}, $Column );
-
-                    # set the identifier as default label
-                    $Label ||= $Identifier;
-
-                    push @Identifiers, $Identifier;
-                    push @Labels, $Label;
-                }
+                $LastDisplayBlock = 'SupportDataEntryTable';
 
                 $LayoutObject->Block(
                     Name => 'SupportDataEntryTable',
-                    Data => {
-                        Identifiers => \@Identifiers,
-                        Labels      => \@Labels,
-                        %{$Entry},
-                    },
+                    Data => $Entry,
                 );
+
+                if ( IsArrayRefWithData( $Entry->{Value} ) ) {
+
+                    # get the table columns
+                    my @TableColumns = split( m{,}, $DisplayAdditional // '' );
+
+                    my @Identifiers;
+                    my @Labels;
+
+                    COLUMN:
+                    for my $Column (@TableColumns) {
+
+                        next COLUMN if !$Column;
+
+                        # get the identifier and label
+                        my ( $Identifier, $Label ) = split( m{\|}, $Column );
+
+                        # set the identifier as default label
+                        $Label ||= $Identifier;
+
+                        push @Identifiers, $Identifier;
+                        push @Labels, $Label;
+                    }
+
+                    $LayoutObject->Block(
+                        Name => 'SupportDataEntryTableDetails',
+                        Data => {
+                            Identifiers => \@Identifiers,
+                            Labels      => \@Labels,
+                            %{$Entry},
+                        },
+                    );
+                }
             }
             elsif ( !$SubGroup ) {
+
+                $LastDisplayBlock = 'SupportDataEntry';
+
                 $LayoutObject->Block(
                     Name => 'SupportDataEntry',
                     Data => $Entry,
@@ -192,6 +207,8 @@ sub _SupportDataCollectorView {
                 }
             }
             else {
+
+                $LastDisplayBlock = 'SupportDataSubEntry';
 
                 $LayoutObject->Block(
                     Name => 'SupportDataSubEntry',

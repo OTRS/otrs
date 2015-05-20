@@ -299,6 +299,7 @@
                                 </span>
                                 [% Translate(Data.Label) | html %]
                             </h3>
+[% RenderBlockStart("SupportDataEntryTableDetails") %]
                             <div class="SupportDataTableScrollbar">
                                 <table class="DataTable SupportDataTable">
                                     <thead>
@@ -317,6 +318,7 @@
                                     </tbody>
                                 </table>
                             </div>
+[% RenderBlockEnd("SupportDataEntryTableDetails") %]
 [% RenderBlockEnd("SupportDataEntryTable") %]
 [% RenderBlockStart("SupportDataEntry") %]
                             <h3 class="Heading">

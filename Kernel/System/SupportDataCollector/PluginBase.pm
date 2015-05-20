@@ -102,6 +102,9 @@ sub _AddResult {
         $Result{Identifier} = Scalar::Util::blessed($Self);
     }
 
+    $Result{ShortIdentifier} = $Result{Identifier};
+    $Result{ShortIdentifier} =~ s{Kernel::System::SupportDataCollector::Plugin(Asynchronous)?::}{}xmsg;
+
     $Result{DisplayPath} //= $Self->GetDisplayPath();
 
     $Self->{Results} //= [];
