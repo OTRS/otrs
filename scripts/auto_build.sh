@@ -174,7 +174,9 @@ function CreateRPM() {
 
 CreateRPM "SuSE 11.0" "suse-otrs-11.0.spec" "suse/11.0/"
 CreateRPM "SuSE 10.0" "suse-otrs-10.0.spec" "suse/10.0/"
-CreateRPM "Fedora"    "fedora-otrs-4.spec"  "fedora/4/"
+CreateRPM "Fedora 20" "fedora-otrs-20.spec" "fedora/20/"
+CreateRPM "Fedora 21" "fedora-otrs-21.spec" "fedora/21/"
+CreateRPM "Fedora 22" "fedora-otrs-22.spec" "fedora/22/"
 CreateRPM "RHEL6"     "rhel6-otrs.spec"     "rhel/6"
 CreateRPM "RHEL7"     "rhel7-otrs.spec"     "rhel/7"
 

@@ -5,18 +5,15 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-#
-# please send bugfixes or comments to bugs+rpm@otrs.org
-#
-# --
+
 Summary:      OTRS Help Desk.
 Name:         otrs
 Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     apache2 apache2-mod_perl perl perl-Archive-Zip perl-DBI perl-Digest-MD5 perl-GD perl-GDGraph perl-GDTextUtil perl-IO-Socket-SSL perl-ldap perl-libwww-perl perl-Net-DNS perl-Template-Toolkit perl-TimeDate procmail
-Autoreqprov:  on
+Requires:     perl cronie httpd mod_perl procmail perl(Archive::Zip) perl(Archive::Tar) perl(Crypt::Eksblowfish::Bcrypt) perl(Date::Format) perl(DBI) perl(Encode::HanExtra) perl(IO::Socket::SSL) perl(JSON::XS) perl(GD::Graph) perl(GD::Text) perl(LWP::UserAgent) perl(Mail::IMAPClient) perl(Net::DNS) perl(Net::LDAP) perl(Net::SSL) perl(PDF::API2) perl(Sys::Syslog) perl(Template) perl(Text::CSV) perl(Text::CSV_XS) perl(Time::Piece) perl(URI) perl(version) perl(XML::Parser) perl(XML::LibXML) perl(XML::LibXSLT) perl(YAML::XS)
+Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
 BuildArch:    noarch
@@ -24,8 +21,6 @@ BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
 <DESCRIPTION>
-
-SuSE series: ap
 
 %prep
 %setup
@@ -50,27 +45,26 @@ export DESTROOT="/opt/otrs/"
 mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
-# install init-Script and rc.config entry
-install -d -m 755 $RPM_BUILD_ROOT/etc/init.d
-install -d -m 755 $RPM_BUILD_ROOT/usr/sbin
+# install init-Script
+install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
 install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
-install -d -m 744 $RPM_BUILD_ROOT/var/adm/fillup-templates
-install -d -m 755 $RPM_BUILD_ROOT/etc/apache2/conf.d
+install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
 
-install -m 644 scripts/suse-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
+install -m 755 scripts/redhat-rcotrs $RPM_BUILD_ROOT/etc/rc.d/init.d/otrs
+install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
 
-install -m 755 scripts/suse-rcotrs $RPM_BUILD_ROOT/etc/init.d/otrs
-rm -f $RPM_BUILD_ROOT/sbin/otrs
-ln -s ../../etc/init.d/otrs $RPM_BUILD_ROOT/usr/sbin/rcotrs
+# copy apache2-httpd.include.conf to /etc/httpd/conf.d/zzz_otrs.conf
+install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
 
-install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/apache2/conf.d/otrs.conf
+# register apache
+#systemctl enable httpd.service
 
 # set permission
 export OTRSUSER=otrs
 useradd $OTRSUSER || :
-useradd wwwrun || :
-groupadd www || :
-$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=www
+useradd apache || :
+groupadd apache || :
+$RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=apache
 
 %pre
 # remember about the installed version
@@ -82,19 +76,14 @@ export OTRSUSER=otrs
 echo -n "Check OTRS user ... "
 if id $OTRSUSER >/dev/null 2>&1; then
     echo "$OTRSUSER exists."
-    # update groups
-    usermod -g www $OTRSUSER
     # update home dir
     usermod -d /opt/otrs $OTRSUSER
 else
-    useradd $OTRSUSER -d /opt/otrs/ -s /bin/false -g www -c 'OTRS System User' && echo "$OTRSUSER added."
+    useradd $OTRSUSER -d /opt/otrs/ -s /bin/false -g apache -c 'OTRS System User' && echo "$OTRSUSER added."
 fi
 
 
 %post
-# sysconfig
-%{fillup_and_insserv -s otrs START_OTRS}
-
 # if it's a major-update backup old version templates (maybe not compatible!)
 if test -e /tmp/otrs-old.tmp; then
     TOINSTALL=`echo %{version}| sed 's/..$//'`
@@ -120,23 +109,20 @@ HOST=`hostname -f`
 echo ""
 echo "Next steps: "
 echo ""
-echo "[SuSEconfig]"
-echo " Execute 'SuSEconfig' to configure the webserver."
-echo ""
-echo "[start database and Apache]"
-echo " Make sure your database is running and execute 'rcapache2 restart'."
+echo "[httpd services]"
+echo " Restart httpd 'systemctl restart httpd.service'"
 echo ""
 echo "[install the OTRS database]"
-echo " Use a webbrowser and open this link:"
+echo " Make sure your database server is running."
+echo " Use a web browser and open this link:"
 echo " http://$HOST/otrs/installer.pl"
 echo ""
 echo "[OTRS services]"
-echo " Start OTRS 'rcotrs start-force' (rcotrs {start|stop|status|restart|start-force|stop-force})."
+echo " Start OTRS 'service otrs start' (service otrs {start|stop|status|restart)."
 echo ""
 echo "((enjoy))"
 echo ""
 echo " Your OTRS Team"
-echo " http://otrs.org/"
 echo ""
 
 %clean
@@ -144,15 +130,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %config(noreplace) /etc/sysconfig/otrs
-%config /etc/apache2/conf.d/otrs.conf
-
-/etc/init.d/otrs
-/usr/sbin/rcotrs
-
+%config /etc/httpd/conf.d/zzz_otrs.conf
+/etc/rc.d/init.d/otrs
 <FILES>
 
 %changelog
-* Thu Oct 18 2006 - martin+rpm@otrs.org
-- added rename of old /opt/otrs/Kernel/Config/Files/(Ticket|TicketPostMaster|FAQ).pm files
-* Sun Mar 25 2006 - martin+rpm@otrs.org
-- added SUSE 10.0 support
+* Mon Dec 17 2012 - mb@otrs.com
+- Updated to use Fedora 17 & 18 packages.
+* Thu Mar 07 2007 - martin+rpm@otrs.org
+- spec for Fedora created
