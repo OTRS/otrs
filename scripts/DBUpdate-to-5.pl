@@ -269,6 +269,32 @@ sub _MigrateConfigs {
     }
 
     print "...done.\n";
+    print "--- Ticket overview modules...";
+
+    # Ticket Menu Modules
+    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::Overview');
+
+    OVERVIEWMODULE:
+    for my $OverviewModule ( sort keys %{$Setting} ) {
+
+        # update module location
+        my $Module = $Setting->{$OverviewModule}->{'Module'};
+        if ( $Module !~ m{Kernel::Output::HTML::TicketOverview(\w+)} ) {
+            next OVERVIEWMODULE;
+        }
+
+        $Module =~ s{Kernel::Output::HTML::TicketOverview(\w+)}{Kernel::Output::HTML::Ticket::Overview$1}xmsg;
+        $Setting->{$OverviewModule}->{'Module'} = $Module;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Ticket::Frontend::Overview###' . $OverviewModule,
+            Value => $Setting->{$OverviewModule},
+        );
+    }
+
+    print "...done.\n";
     print "--- Preferences group modules...";
 
     # Preferences groups
