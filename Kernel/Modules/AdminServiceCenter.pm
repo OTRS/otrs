@@ -117,7 +117,7 @@ sub _SupportDataCollectorView {
         $Self->{LayoutObject}->Block(
             Name => 'SupportData',
         );
-        my ( $LastGroup, $LastSubGroup, $LastDisplayBlock ) = ( '', '', '' );
+        my ( $LastGroup, $LastSubGroup ) = ( '', '' );
 
         for my $Entry ( @{ $SupportData{Result} || [] } ) {
 
@@ -139,7 +139,7 @@ sub _SupportDataCollectorView {
             }
             $LastGroup = $Group // '';
 
-            if ( !$SubGroup || $SubGroup ne $LastSubGroup || $LastDisplayBlock eq 'SupportDataEntryTable' ) {
+            if ( !$SubGroup || $SubGroup ne $LastSubGroup ) {
 
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataRow',
@@ -159,8 +159,6 @@ sub _SupportDataCollectorView {
             $LastSubGroup = $SubGroup // '';
 
             if ( $DisplayType && $DisplayType eq 'Table' && ref $Entry->{Value} eq 'ARRAY' ) {
-
-                $LastDisplayBlock = 'SupportDataEntryTable';
 
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataEntryTable',
@@ -202,8 +200,6 @@ sub _SupportDataCollectorView {
             }
             elsif ( !$SubGroup ) {
 
-                $LastDisplayBlock = 'SupportDataEntry';
-
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataEntry',
                     Data => $Entry,
@@ -224,8 +220,6 @@ sub _SupportDataCollectorView {
                 }
             }
             else {
-
-                $LastDisplayBlock = 'SupportDataSubEntry';
 
                 $Self->{LayoutObject}->Block(
                     Name => 'SupportDataSubEntry',
