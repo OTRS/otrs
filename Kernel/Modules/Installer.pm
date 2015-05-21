@@ -145,7 +145,6 @@ sub Run {
     }
 
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
     # print intro form
@@ -673,6 +672,7 @@ sub Run {
             return $Output;
         }
 
+        $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::DB' ]);
         # we need a database object to be able to parse the XML
         # connect to database using given credentials
         $Kernel::OM->ObjectParamAdd(
@@ -683,6 +683,7 @@ sub Run {
                 Type         => $DB{DBType},
             },
         );
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # create database tables and insert initial values
         my @SQLPost;
@@ -764,7 +765,7 @@ sub Run {
     # show system settings page, pre-install packages
     elsif ( $Self->{Subaction} eq 'System' ) {
 
-        if ( !$DBObject ) {
+        if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
             $LayoutObject->FatalError();
         }
 
@@ -850,7 +851,7 @@ sub Run {
     # do system settings action
     elsif ( $Self->{Subaction} eq 'ConfigureMail' ) {
 
-        if ( !$DBObject ) {
+        if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
             $LayoutObject->FatalError();
         }
 
