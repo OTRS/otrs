@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardCustomerIDStatus;
+package Kernel::Output::HTML::Dashboard::CustomerIDStatus;
 
 use strict;
 use warnings;

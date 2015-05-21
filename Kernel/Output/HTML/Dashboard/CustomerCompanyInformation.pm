@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardCustomerCompanyInformation;
+package Kernel::Output::HTML::Dashboard::CustomerCompanyInformation;
 
 use strict;
 use warnings;
@@ -65,7 +65,7 @@ sub Run {
 
     return if !%CustomerCompany;
 
-    # get layout object
+    # get needed objects
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ValidObject  = $Kernel::OM->Get('Kernel::System::Valid');
     my $CompanyIsValid;

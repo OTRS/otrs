@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardCalendar;
+package Kernel::Output::HTML::Dashboard::Calendar;
 
 use strict;
 use warnings;
@@ -143,9 +143,13 @@ sub Run {
                 {
                     next TICKETID;
                 }
-                my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
+
+                # get time object
+                my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+                my $DestDate = $TimeObject->SystemTime() + $Ticket{UntilTime};
                 $TimeTill  = $Ticket{UntilTime};
-                $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+                $TimeStamp = $TimeObject->SystemTime2TimeStamp(
                     SystemTime => $DestDate,
                 );
             }

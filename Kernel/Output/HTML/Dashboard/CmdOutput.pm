@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardCmdOutput;
+package Kernel::Output::HTML::Dashboard::CmdOutput;
 
 use strict;
 use warnings;
@@ -21,8 +21,8 @@ sub new {
     bless( $Self, $Type );
 
     # get needed parameters
-    for (qw(Config Name UserID)) {
-        die "Got no $_!" if ( !$Self->{$_} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     return $Self;

@@ -4479,7 +4479,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardCustomerCompanyInformation</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::CustomerCompanyInformation</Item>
                 <Item Key="Title" Translatable="1">Customer Information</Item>
                 <Item Key="Description" Translatable="1">Customer Information</Item>
                 <Item Key="Attributes"></Item>
@@ -6024,7 +6024,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardCmdOutput</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::CmdOutput</Item>
                 <Item Key="Title" Translatable="1">Sample command output</Item>
                 <Item Key="Description"></Item>
                 <Item Key="Block">ContentSmall</Item>
