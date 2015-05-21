@@ -30,7 +30,7 @@ my @Tests = (
                 },
             },
         },
-        Data        => {
+        Data => {
             Title => 'B&B 1'
         },
         Output => 'OutputFilters',
@@ -50,7 +50,7 @@ my @Tests = (
                 },
             },
         },
-        Data        => {
+        Data => {
             Title => 'B&B 2'
         },
         Output => 'OutputFilters',
@@ -70,7 +70,7 @@ my @Tests = (
                 },
             },
         },
-        Data        => {
+        Data => {
             Title => 'B&B 3'
         },
         Output => 'OutputFilters',
@@ -91,7 +91,7 @@ Test: B&B 3
                 },
             },
         },
-        Data        => {
+        Data => {
             Title => 'B&B 4'
         },
         Output => 'OutputFilters',
@@ -108,7 +108,7 @@ for my $Test (@Tests) {
         Type => 'TemplateProvider',
     );
 
-    for (0 .. 1) {
+    for ( 0 .. 1 ) {
 
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 

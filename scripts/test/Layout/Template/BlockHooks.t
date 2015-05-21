@@ -15,10 +15,10 @@ use File::Basename qw();
 
 my @Tests = (
     {
-        Name => 'Simple test, no hooks',
+        Name       => 'Simple test, no hooks',
         HookConfig => {},
-        Blocks => [ qw(Block1 Block11 Block1 Block2) ],
-        Result => <<EOF,
+        Blocks     => [qw(Block1 Block11 Block1 Block2)],
+        Result     => <<EOF,
 Content1
 Content11
 Content1
@@ -27,16 +27,16 @@ Content2
 EOF
     },
     {
-        Name => 'Simple test with hooks',
+        Name       => 'Simple test with hooks',
         HookConfig => {
             '100-test' => {
-                BlockHooks => [ 'Block1' ],
+                BlockHooks => ['Block1'],
             },
             '200-test' => {
-                BlockHooks => [ 'Block2' ],
+                BlockHooks => ['Block2'],
             },
         },
-        Blocks => [ qw(Block1 Block11 Block1 Block2) ],
+        Blocks => [qw(Block1 Block11 Block1 Block2)],
         Result => <<EOF,
 <!--HookStartBlock1-->
 Content1
@@ -52,16 +52,16 @@ Content2
 EOF
     },
     {
-        Name => 'Simple test with hooks in nested blocks',
+        Name       => 'Simple test with hooks in nested blocks',
         HookConfig => {
             '100-test' => {
                 BlockHooks => [ 'Block1', 'Block11' ],
             },
             '200-test' => {
-                BlockHooks => [ 'Block2' ],
+                BlockHooks => ['Block2'],
             },
         },
-        Blocks => [ qw(Block1 Block11 Block1 Block2) ],
+        Blocks => [qw(Block1 Block11 Block1 Block2)],
         Result => <<EOF,
 <!--HookStartBlock1-->
 Content1
@@ -80,12 +80,12 @@ EOF
     },
 );
 
-for my $Test ( @Tests ) {
+for my $Test (@Tests) {
 
     $Kernel::OM->ObjectsDiscard();
 
     $Kernel::OM->Get('Kernel::Config')->Set(
-        Key => 'Frontend::Template::GenerateBlockHooks',
+        Key   => 'Frontend::Template::GenerateBlockHooks',
         Value => $Test->{HookConfig},
     );
 
@@ -99,8 +99,7 @@ for my $Test ( @Tests ) {
     unshift @{$IncludePaths}, $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/test/Layout/Template';
     $LayoutObject->{TemplateProviderObject}->include_path($IncludePaths);
 
-
-    for my $Block ( @{$Test->{Blocks}} ) {
+    for my $Block ( @{ $Test->{Blocks} } ) {
         $LayoutObject->Block(
             Name => $Block,
         );

@@ -86,13 +86,13 @@ $Selenium->RunTest(
 
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SysMainComment);
 
-        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",        'css' )->click();
-        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']",    'css' )->click();
-        $Selenium->find_element( "#StopDateYear option[value='$YearWrong']",                   'css' )->click();
-        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",      'css' )->click();
-        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']",     'css' )->click();
+        $Selenium->find_element( "#StopDateDay option[value='" . int($DayWrong) . "']",     'css' )->click();
+        $Selenium->find_element( "#StopDateMonth option[value='" . int($MonthWrong) . "']", 'css' )->click();
+        $Selenium->find_element( "#StopDateYear option[value='$YearWrong']",                'css' )->click();
+        $Selenium->find_element( "#StopDateHour option[value='" . int($HourWrong) . "']",   'css' )->click();
+        $Selenium->find_element( "#StopDateMinute option[value='" . int($MinWrong) . "']",  'css' )->click();
 
-        $Selenium->find_element( "#Comment",                                              'css' )->submit();
+        $Selenium->find_element( "#Comment", 'css' )->submit();
         $Self->True(
             index( $Selenium->get_page_source(), "Start date shouldn\'t be defined after Stop date!" ) > -1,
             "Error message correctly displayed",

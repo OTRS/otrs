@@ -44,14 +44,14 @@ $Selenium->RunTest(
         # create test params
         my @Tests = (
             {
-                Name   => 'Ticket Overview',
-                ID     => 'UserRefreshTime',
-                Value  => '5',
+                Name  => 'Ticket Overview',
+                ID    => 'UserRefreshTime',
+                Value => '5',
             },
             {
-                Name   => 'Number of displayed tickets',
-                ID     => 'UserShowTickets',
-                Value  => '30',
+                Name  => 'Number of displayed tickets',
+                ID    => 'UserShowTickets',
+                Value => '30',
             },
         );
 

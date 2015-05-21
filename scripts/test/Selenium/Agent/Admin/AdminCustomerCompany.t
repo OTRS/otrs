@@ -112,7 +112,7 @@ $Selenium->RunTest(
         );
 
         # check and edit new customer company
-        my $LinkText = substr($RandomID, 0, 17) . '...';
+        my $LinkText = substr( $RandomID, 0, 17 ) . '...';
         $Selenium->find_element( $LinkText, 'link_text' )->click();
 
         $Self->Is(

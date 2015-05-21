@@ -134,7 +134,7 @@ $Selenium->RunTest(
         );
 
         # remove all filters
-        $Selenium->find_element("li.ContextSettings.RemoveFilters a", 'css')->click();
+        $Selenium->find_element( "li.ContextSettings.RemoveFilters a", 'css' )->click();
 
         # delete created test tickets
         my $Success;
