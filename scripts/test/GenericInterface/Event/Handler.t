@@ -381,7 +381,7 @@ for my $Test (@Tests) {
             print "Waiting for Scheduler to execute tasks, $Wait seconds\n";
             sleep 1;
 
-            my @List = $TaskManagerObject->TaskList();
+            my @List = TestTaskList();
 
             if ( scalar @List eq 0 ) {
                 $Self->True(
@@ -478,5 +478,15 @@ $Self->Is(
     $PreviousSchedulerStatus,
     "Scheduler has original state again.",
 );
+
+sub TestTaskList {
+
+    my %IgnoreTaskTypes = (
+        SupportDataCollectorAsynchronous => 1,
+        RegistrationUpdate               => 1,
+    );
+
+    return grep { !$IgnoreTaskTypes{ $_->{Type} } } $TaskManagerObject->TaskList();
+}
 
 1;
