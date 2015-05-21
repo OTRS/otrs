@@ -132,7 +132,8 @@ JAVASCRIPT
                 $Self->Is(
                     $Selenium->execute_script("return window.getLastConfirm()"),
                     $LanguageObject->Get(
-                        'Do you really want to delete this dynamic field? ALL associated data will be LOST!'),
+                        'Do you really want to delete this dynamic field? ALL associated data will be LOST!'
+                    ),
                     'Check for opened confirm text',
                 );
 
@@ -154,7 +155,7 @@ JAVASCRIPT
             # Make sure the cache is correct.
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
         }
-    }
+        }
 );
 
 1;

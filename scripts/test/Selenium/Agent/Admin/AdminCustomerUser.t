@@ -220,7 +220,7 @@ $Selenium->RunTest(
             Type => 'CustomerUser',
         );
 
-    }
+        }
 
 );
 

@@ -88,7 +88,7 @@ sub _InstallOTRSExtensions {
                 return if !exists $ParentBlock->{Children}->{$BlockName};
 
                 my $TemplateName = $stash->get('template')->{name} // '';
-                $TemplateName = substr($TemplateName, 0, -3); # remove .tt extension
+                $TemplateName = substr( $TemplateName, 0, -3 );    # remove .tt extension
                 my $GenerateBlockHook =
                     $Context->{LayoutObject}->{_BlockHookSubscriptions}->{$TemplateName}->{$BlockName};
 
@@ -110,7 +110,7 @@ sub _InstallOTRSExtensions {
 
             die $@ if $@;
             return $output;
-        }
+            }
     );
 
     #

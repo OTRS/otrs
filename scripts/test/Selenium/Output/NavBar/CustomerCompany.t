@@ -69,7 +69,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'AdminCustomerCompany;Nav=Agent' ) > -1,
             "NavBar 'Customer Administration' button IS available when frontend AdminCustomerCompany module is enable",
         );
-    }
+        }
 );
 
 1;

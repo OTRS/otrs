@@ -2268,6 +2268,7 @@ sub Attachment {
     }
 
     if ( $Param{Filename} ) {
+
         # IE 10+ supports this
         my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
         $Output .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";

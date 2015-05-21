@@ -173,7 +173,7 @@ $Selenium->RunTest(
             Type => 'State',
         );
 
-    }
+        }
 );
 
 1;

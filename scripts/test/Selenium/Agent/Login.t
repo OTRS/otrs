@@ -62,7 +62,7 @@ $Selenium->RunTest(
         $Element->is_displayed();
         $Element->is_enabled();
         $Element->send_keys($TestUserLogin);
-    }
+        }
 );
 
 1;

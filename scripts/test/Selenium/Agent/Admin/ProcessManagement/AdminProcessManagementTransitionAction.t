@@ -250,7 +250,7 @@ $Selenium->RunTest(
             Type => 'ProcessManagement_TransitionAction',
         );
 
-    }
+        }
 );
 
 1;

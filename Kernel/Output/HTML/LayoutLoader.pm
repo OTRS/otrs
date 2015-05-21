@@ -113,7 +113,7 @@ sub LoaderCreateAgentCSSCalls {
         );
     }
 
-     # now handle module specific CSS
+    # now handle module specific CSS
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 

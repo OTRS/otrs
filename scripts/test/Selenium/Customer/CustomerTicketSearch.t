@@ -127,7 +127,7 @@ $Selenium->RunTest(
             "Filter data is found - Priority: 2 low+3 normal",
         );
 
-    }
+        }
 );
 
 1;

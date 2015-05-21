@@ -70,7 +70,7 @@ $Selenium->RunTest(
             index( $Selenium->get_current_url(), $ExpectedURL ) > -1,
             "ToolBar AgentTicketPhone shortcut - success",
         );
-    }
+        }
 );
 
 1;

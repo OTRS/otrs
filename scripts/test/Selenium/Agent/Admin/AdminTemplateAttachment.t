@@ -159,7 +159,7 @@ $Selenium->RunTest(
             "StandardTemplateDelete() for Attachment -> Template tests | with True",
         );
 
-    }
+        }
 
 );
 

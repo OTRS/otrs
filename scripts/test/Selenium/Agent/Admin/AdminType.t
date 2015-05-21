@@ -136,7 +136,7 @@ $Selenium->RunTest(
             Type => 'Type',
         );
 
-    }
+        }
 );
 
 1;

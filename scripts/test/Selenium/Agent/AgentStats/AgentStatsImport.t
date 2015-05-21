@@ -184,7 +184,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $EditStatTitle ) == -1,
             "$EditStatTitle is deleted"
         );
-    }
+        }
 );
 
 1;

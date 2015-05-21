@@ -672,7 +672,8 @@ sub Run {
             return $Output;
         }
 
-        $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::System::DB' ]);
+        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::DB'] );
+
         # we need a database object to be able to parse the XML
         # connect to database using given credentials
         $Kernel::OM->ObjectParamAdd(

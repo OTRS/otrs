@@ -132,7 +132,7 @@ sub Run {
     }
 
     # validate language
-    if ($Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms) {
+    if ( $Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms ) {
         delete $Param{Lang};
     }
 
@@ -700,9 +700,9 @@ sub Run {
         );
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
-                Title   => 'Login',
-                Message => $Message,
-                User    => $User,
+                Title       => 'Login',
+                Message     => $Message,
+                User        => $User,
                 MessageType => 'Success',
             ),
         );
@@ -902,9 +902,9 @@ sub Run {
         # login screen
         $LayoutObject->Print(
             Output => \$LayoutObject->CustomerLogin(
-                Title   => 'Login',
-                Message => $AccountCreatedMessage,
-                User    => $GetParams{UserLogin},
+                Title       => 'Login',
+                Message     => $AccountCreatedMessage,
+                User        => $GetParams{UserLogin},
                 MessageType => 'Success',
             ),
         );

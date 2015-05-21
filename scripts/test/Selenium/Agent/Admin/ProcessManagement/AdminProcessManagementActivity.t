@@ -153,7 +153,7 @@ $Selenium->RunTest(
             Type => 'ProcessManagement_Activity',
         );
 
-    }
+        }
 );
 
 1;

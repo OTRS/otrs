@@ -113,7 +113,7 @@ $Selenium->RunTest(
                 ->click();
         }
 
-    }
+        }
 
 );
 

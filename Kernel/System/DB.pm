@@ -1604,7 +1604,7 @@ sub Ping {
     }
     else {
         return if !$Self->{dbh};
-    };
+    }
 
     return $Self->{dbh}->ping();
 }

@@ -168,7 +168,7 @@ sub _SupportDataCollectorView {
                         $Label ||= $Identifier;
 
                         push @Identifiers, $Identifier;
-                        push @Labels, $Label;
+                        push @Labels,      $Label;
                     }
 
                     $LayoutObject->Block(

@@ -147,7 +147,7 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-    }
+        }
 
 );
 

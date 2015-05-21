@@ -52,7 +52,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Agent preference ticket watch notification - updated'
         );
-    }
+        }
 );
 
 1;

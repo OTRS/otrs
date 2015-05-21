@@ -149,7 +149,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
             Type => 'Service'
         );
-    }
+        }
 );
 
 1;

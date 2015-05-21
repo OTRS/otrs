@@ -69,7 +69,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
             'Customer preference time zone - updated'
         );
-    }
+        }
 );
 
 1;

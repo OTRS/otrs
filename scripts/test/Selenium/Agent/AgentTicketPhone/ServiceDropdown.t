@@ -138,7 +138,7 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
-    }
+        }
 );
 
 1;

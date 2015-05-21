@@ -209,7 +209,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Role' );
 
-    }
+        }
 );
 
 1;

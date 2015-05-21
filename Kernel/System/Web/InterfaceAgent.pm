@@ -136,7 +136,7 @@ sub Run {
     }
 
     # validate language
-    if ($Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms) {
+    if ( $Param{Lang} && $Param{Lang} !~ m{\A[a-z]{2}(?:_[A-Z]{2})?\z}xms ) {
         delete $Param{Lang};
     }
 

@@ -452,7 +452,7 @@ sub CheckFollowUp {
         my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
         JOB:
         for my $Job ( sort keys %$Jobs ) {
-            my $Module = $Jobs->{ $Job };
+            my $Module = $Jobs->{$Job};
 
             return if !$MainObject->Require( $Jobs->{$Job}->{Module} );
 
@@ -467,8 +467,8 @@ sub CheckFollowUp {
                 );
                 next JOB;
             }
-            my $TicketID = $CheckObject->Run( %Param );
-            if ( $TicketID ) {
+            my $TicketID = $CheckObject->Run(%Param);
+            if ($TicketID) {
                 my %Ticket = $TicketObject->TicketGet(
                     TicketID      => $TicketID,
                     DynamicFields => 0,

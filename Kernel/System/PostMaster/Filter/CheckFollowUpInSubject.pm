@@ -32,7 +32,7 @@ sub Run {
     my $Subject = $Param{Subject} || '';
 
     my $Tn = $TicketObject->GetTNByString($Subject);
-    return if ! $Tn;
+    return if !$Tn;
 
     my $TicketID = $TicketObject->TicketCheckNumber( Tn => $Tn );
     return $TicketID;

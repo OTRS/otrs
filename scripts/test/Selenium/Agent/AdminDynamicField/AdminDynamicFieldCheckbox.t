@@ -136,7 +136,7 @@ $Selenium->RunTest(
         # delete cache
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
 
-    }
+        }
 
 );
 

@@ -31,13 +31,13 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if (! $Kernel::OM->Get('Kernel::Config')->Get('PostmasterFollowUpSearchInReferences') ) {
+    if ( !$Kernel::OM->Get('Kernel::Config')->Get('PostmasterFollowUpSearchInReferences') ) {
         return;
     }
 
     my @References = $Self->{ParserObject}->GetReferences();
 
-    return if ! @References;
+    return if !@References;
 
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -48,7 +48,7 @@ sub Run {
             MessageID => "<$Reference>",
         );
 
-        if ( $TicketID ) {
+        if ($TicketID) {
             return $TicketID;
         }
     }

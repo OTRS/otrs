@@ -64,7 +64,7 @@ $Selenium->RunTest(
             "Setting for toggle widgets found on page",
         );
 
-    }
+        }
 );
 
 1;

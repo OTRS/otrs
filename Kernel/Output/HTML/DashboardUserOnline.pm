@@ -299,7 +299,7 @@ sub Run {
         last USERID if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
 
         # extract user data
-        my $UserData = $OnlineData{$UserID};
+        my $UserData        = $OnlineData{$UserID};
         my $AgentEnableChat = 0;
 
         # we also need to check if the receiving agent has chat permissions

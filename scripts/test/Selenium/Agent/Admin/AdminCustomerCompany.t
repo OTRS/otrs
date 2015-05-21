@@ -169,7 +169,7 @@ $Selenium->RunTest(
             Type => 'CustomerCompany',
         );
 
-    }
+        }
 );
 
 1;

@@ -94,7 +94,7 @@ $Selenium->RunTest(
                 "Directory deleted - '$Directory'",
             );
         }
-    }
+        }
 );
 
 1;

@@ -167,7 +167,7 @@ $Selenium->RunTest(
             Type => 'Salutation'
         );
 
-    }
+        }
 
 );
 

@@ -65,7 +65,7 @@ $Selenium->RunTest(
             $Self->False( $Failed, "$File - failed tests" );
         }
 
-    }
+        }
 );
 
 1;

@@ -247,7 +247,7 @@ sub Login {
         $Element->submit();
 
         # Wait until form has loaded, if neccessary
-        $Self->WaitFor(JavaScript => "return \$('a#LogoutButton').length");
+        $Self->WaitFor( JavaScript => "return \$('a#LogoutButton').length" );
 
         # login succressful?
         $Element = $Self->find_element( 'a#LogoutButton', 'css' );
@@ -276,7 +276,7 @@ wait with increasing sleep intervals until the given condition is true or the wa
 sub WaitFor {
     my ( $Self, %Param ) = @_;
 
-    if (!$Param{JavaScript}) {
+    if ( !$Param{JavaScript} ) {
         die "Need JavaScript.";
     }
 
