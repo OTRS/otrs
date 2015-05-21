@@ -50,6 +50,16 @@ $Self->Is(
     "Kernel::System::Scheduler::TaskManager->new()",
 );
 
+my $TestTaskList = sub {
+
+    my %IgnoreTaskTypes = (
+        SupportDataCollectorAsynchronous => 1,
+        RegistrationUpdate               => 1,
+    );
+
+    return grep { !$IgnoreTaskTypes{ $_->{Type} } } $TaskManagerObject->TaskList();
+};
+
 # get task list
 my @TaskList = $TaskManagerObject->TaskList();
 
@@ -69,7 +79,7 @@ for my $Task (@TaskList) {
 }
 
 $Self->Is(
-    scalar TestTaskList(),
+    scalar $TestTaskList->(),
     0,
     "Initial task list is empty",
 );
@@ -227,7 +237,7 @@ for my $Test (@Tests) {
 }
 
 # list check
-my @List  = TestTaskList();
+my @List  = $TestTaskList->();
 my $Count = 0;
 for my $TaskIDFromList (@List) {
     $Self->Is(
@@ -435,7 +445,7 @@ for my $TaskID (@TaskIDs) {
 }
 
 $Self->Is(
-    scalar TestTaskList(),
+    scalar $TestTaskList->(),
     0,
     "TaskList() empty",
 );
@@ -443,16 +453,6 @@ $Self->Is(
 # start scheduler if it was already running before this test
 if ( $PreviousSchedulerStatus =~ /^running/i ) {
     `$Scheduler -a start`;
-}
-
-sub TestTaskList {
-
-    my %IgnoreTaskTypes = (
-        SupportDataCollectorAsynchronous => 1,
-        RegistrationUpdate               => 1,
-    );
-
-    return grep { !$IgnoreTaskTypes{ $_->{Type} } } $TaskManagerObject->TaskList();
 }
 
 1;
