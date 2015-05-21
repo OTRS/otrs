@@ -168,7 +168,13 @@ to connect to a database
 sub Connect {
     my $Self = shift;
 
-    return $Self->{dbh} if $Self->{dbh};
+    # check database handle
+    if ( $Self->{dbh} ) {
+
+        return $Self->{dbh} if $Self->{dbh}->ping();
+
+        delete $Self->{dbh};
+    }
 
     # debug
     if ( $Self->{Debug} > 2 ) {
