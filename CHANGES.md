@@ -1,4 +1,5 @@
 #4.0.9 2015-??-??
+ - 2015-05-21 Fixed bug#[11287](http://bugs.otrs.org/show_bug.cgi?id=11287) - Scheduler warning links to non-existent module.
  - 2015-05-21 Followup for bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
  - 2015-05-21 Followup for bug#[11199](http://bugs.otrs.org/show_bug.cgi?id=11199) - GI MappingSinple screen is not consistent.
  - 2015-05-20 Extended the support data collector with an asynchronous mechanism with the possibility to collect data asynchronously (offline).

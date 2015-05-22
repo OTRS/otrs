@@ -108,7 +108,7 @@ sub Run {
     # check if the user is in the Admin group
     # if that is the case, extend the error with a link
     if ( $Groups{admin} ) {
-        $NotificationDetails{Link}      = $Self->{LayoutObject}->{Baselink} . 'Action=AdminScheduler';
+        $NotificationDetails{Link}      = '#';
         $NotificationDetails{LinkClass} = 'SchedulerInfo';
     }
 
