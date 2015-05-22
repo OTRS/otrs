@@ -247,6 +247,7 @@
                     <fieldset class="TableLike">
                         <div class="Field Spacing">
                             <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
+                            [% Translate("or") | html %]
                             <button class="CallForAction" type="submit" id="SaveAndFinishButton" value="[% Translate("Save and finish") | html %]"><span>[% Translate("Save and finish") | html %]</span></button>
                             <input type="hidden" name="ReturnToAction" id="ReturnToAction" value="" />
 [% WRAPPER JSOnDocumentComplete %]
