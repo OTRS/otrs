@@ -1252,7 +1252,7 @@ sub Run {
             # check if customer is in recipient list
             if ( $Customer{UserEmail} && $Data{ToEmail} !~ /^\Q$Customer{UserEmail}\E$/i ) {
 
-                if ( $Data{SenderType} = 'agent' && $DataArticleType !~ m{external} ) {
+                if ( $Data{SenderType} eq 'agent' && $DataArticleType !~ m{external} ) {
                     if ( $Data{To} ) {
                         $Data{To} .= ', ' . $Customer{UserEmail};
                     }
