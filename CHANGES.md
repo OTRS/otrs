@@ -16,6 +16,7 @@
  - 2015-04-09 Added no match message for administration screens that use filters, thanks to S7.
  - 2015-04-01 Added link from dashboard queue overview to AgentTicketQueue for better usability, thanks to Norihiro Tanaka.
  - 2015-03-31 Fixed bug#[11200](http://bugs.otrs.org/show_bug.cgi?id=11200) - Wrong realization of  Dynamic Fields in SOAP Response.
+ - 2015-03-26 Fixed bug#[10978](http://bugs.otrs.org/show_bug.cgi?id=10978) - AgentTicketCompose: Deactivate ArticleTypes isn't possible.
  - 2015-03-24 Added new console interface for a massively improved user and developer experience on the commandline.
  - 2015-03-24 Removed Kernel::System::Crypt layer to use Kernel::System::Crypt::PGP and ::SMIME directly.
  - 2015-03-20 Let LWP::UserAgent handle https-proxy commands, thanks to Michiel Beijen.
@@ -73,7 +74,6 @@
  - 2015-03-27 Fixed bug#[11201](http://bugs.otrs.org/show_bug.cgi?id=11201) - GI: Use of uninitialized value in string ne at AdminGenericInterfaceWebservice.pm.
  - 2015-03-26 Fixed bug#[11199](http://bugs.otrs.org/show_bug.cgi?id=11199) - GI MappingSinple screen is not consistent.
  - 2015-03-26 Fixed bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
- - 2015-03-26 Fixed bug#[10978](http://bugs.otrs.org/show_bug.cgi?id=10978) - AgentTicketCompose: Deactivate ArticleTypes isn't possible.
  - 2015-03-26 Improved ServiceList() cache, tanks to Norihiro Tanaka.
  - 2015-03-26 Fixed bug#[11117](http://bugs.otrs.org/show_bug.cgi?id=11117) - AutoResponse messages not "comply" Customer Language.
  - 2015-03-26 Fixed bug#[10995](http://bugs.otrs.org/show_bug.cgi?id=10995) - Characters not correctly managed by OTRS scripts..
