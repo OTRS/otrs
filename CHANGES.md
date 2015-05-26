@@ -1,4 +1,7 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-05-26 Added new function Kernel::System::HTMLUtils::HTMLTruncate(), to trim HTML strings without loosing the tag structure.
+ - 2015-05-26 Added possibility to replace some removed tags in Kernel::System::HTMLUtils::Safety() with a custom string.
+ - 2015-05-26 Added possibility to remove image tags in Kernel::System::HTMLUtils::Safety().
  - 2015-05-18 Added storable wrapper /Kernel/System/Storable.pm.
  - 2015-05-18 Removed AutoConnectNo feature from DB.pm.
  - 2015-05-18 Added support for Gentoo/emerge in bin/otrs.CheckModules.pl, thanks to Elias Probst.

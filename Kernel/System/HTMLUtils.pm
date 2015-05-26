@@ -11,7 +11,10 @@ package Kernel::System::HTMLUtils;
 use strict;
 use warnings;
 
+use utf8;
+
 use MIME::Base64;
+use HTML::Truncate;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -892,14 +895,16 @@ To remove/strip active html tags/addons (javascript, applets, embeds and objects
 from html strings.
 
     my %Safe = $HTMLUtilsObject->Safety(
-        String       => $HTMLString,
-        NoApplet     => 1,
-        NoObject     => 1,
-        NoEmbed      => 1,
-        NoSVG        => 1,
-        NoIntSrcLoad => 0,
-        NoExtSrcLoad => 1,
-        NoJavaScript => 1,
+        String         => $HTMLString,
+        NoApplet       => 1,
+        NoObject       => 1,
+        NoEmbed        => 1,
+        NoSVG          => 1,
+        NoImg          => 1,
+        NoIntSrcLoad   => 0,
+        NoExtSrcLoad   => 1,
+        NoJavaScript   => 1,
+        ReplacementStr => '✂︎',          # optional, string to show instead of applet, object, embed, svg and img tags
     );
 
 also string ref is possible
@@ -910,6 +915,7 @@ also string ref is possible
         NoObject     => 1,
         NoEmbed      => 1,
         NoSVG        => 1,
+        NoImg        => 1,
         NoIntSrcLoad => 0,
         NoExtSrcLoad => 1,
         NoJavaScript => 1,
@@ -1025,12 +1031,14 @@ sub Safety {
         }
         {}sgxim;
 
+        my $ReplacementStr = $Param{ReplacementStr} // '';
+
         # remove <applet> tags
         if ( $Param{NoApplet} ) {
             $Replaced += ${$String} =~ s{
                 $TagStart applet.*? $TagEnd (.*?) $TagStart /applet \s* $TagEnd
             }
-            {}sgxim;
+            {$ReplacementStr}sgxim;
         }
 
         # remove <Object> tags
@@ -1038,7 +1046,7 @@ sub Safety {
             $Replaced += ${$String} =~ s{
                 $TagStart object.*? $TagEnd (.*?) $TagStart /object \s* $TagEnd
             }
-            {}sgxim;
+            {$ReplacementStr}sgxim;
         }
 
         # remove <svg> tags
@@ -1046,7 +1054,15 @@ sub Safety {
             $Replaced += ${$String} =~ s{
                 $TagStart svg.*? $TagEnd (.*?) $TagStart /svg \s* $TagEnd
             }
-            {}sgxim;
+            {$ReplacementStr}sgxim;
+        }
+
+        # remove <img> tags
+        if ( $Param{NoImg} ) {
+            $Replaced += ${$String} =~ s{
+                $TagStart img.*? (.*?) \s* $TagEnd
+            }
+            {$ReplacementStr}sgxim;
         }
 
         # remove <embed> tags
@@ -1054,7 +1070,7 @@ sub Safety {
             $Replaced += ${$String} =~ s{
                 $TagStart embed.*? $TagEnd
             }
-            {}sgxim;
+            {$ReplacementStr}sgxim;
         }
 
         # check each html tag
@@ -1196,6 +1212,90 @@ sub EmbeddedImagesExtract {
     }egxi;
 
     return 1;
+}
+
+=item HTMLTruncate()
+
+truncate an HTML string to certain amount of characters without loosing the HTML tags, the resulting
+string will contain the specified amount of text characters plus the HTML tags, and ellipsis string.
+
+special characters like &aacute; in HTML code are considered as just one character.
+
+    my $HTML = $HTMLUtilsObject->HTMLTruncate(
+        String   => $String,
+        Chars    => 123,
+        Ellipsis => '...',              # optional (defaults to HTML &#8230;) string to indicate
+                                        #    that the HTML was truncated until that point
+        UTF8Mode => 1,                  # optional 1 or 0 (defaults to 1)
+        OnSpace  => 0,                  # optional 1 or 0 (defaults to 0) if enabled, prevents to
+                                        #    truncate in a middle of a word, but in the space before
+    );
+
+returns
+
+    $HTML => 'some HTML code'           # or false in case of a failure
+
+=cut
+
+sub HTMLTruncate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed
+    for my $Needed (qw(String Chars)) {
+
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+            return;
+        }
+    }
+
+    # translate params for compatibility reasons with HTML::Truncate
+    my %CompatibilityParams = (
+        'utf8_mode' => $Param{UTF8Mode} // 0,
+        'on_space'  => $Param{OnSpace}  // 0,
+        'chars'     => $Param{Chars},
+        'repair'    => 1,
+    );
+
+    if ( defined $Param{Ellipsis} ) {
+        $CompatibilityParams{ellipsis} = $Param{Ellipsis};
+    }
+
+    # create new HTML truncate object (with the specified options)
+    my $HTMLTruncateObject;
+    eval {
+        $HTMLTruncateObject = HTML::Truncate->new(%CompatibilityParams);
+    };
+
+    if ( !$HTMLTruncateObject ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not create HTMLTruncateObject: $@",
+        );
+        return;
+    }
+
+    # sanitize the string
+    my %Safe = $Self->Safety(
+        String         => $Param{String},
+        NoApplet       => 1,
+        NoObject       => 1,
+        NoEmbed        => 1,
+        NoSVG          => 1,
+        NoImg          => 1,
+        NoIntSrcLoad   => 1,
+        NoExtSrcLoad   => 1,
+        NoJavaScript   => 1,
+        ReplacementStr => '✂︎',
+    );
+
+    # truncate the HTML input string
+    my $Result = $HTMLTruncateObject->truncate( $Safe{String} );
+
+    return $Result;
 }
 
 1;
