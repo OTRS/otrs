@@ -1449,9 +1449,6 @@ sub ObjectLookup {
         return;
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     if ( $Param{ObjectID} ) {
 
         # check cache
@@ -1461,6 +1458,9 @@ sub ObjectLookup {
             Key  => $CacheKey,
         );
         return $Cache if $Cache;
+
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
         return if !$DBObject->Prepare(
@@ -1507,7 +1507,8 @@ sub ObjectLookup {
         );
         return $Cache if $Cache;
 
-        # get check item object
+        # get needed object
+        my $DBObject        = $Kernel::OM->Get('Kernel::System::DB');
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
         # investigate the object id
@@ -1606,9 +1607,6 @@ sub TypeLookup {
         return;
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     if ( $Param{TypeID} ) {
 
         # check cache
@@ -1618,6 +1616,9 @@ sub TypeLookup {
             Key  => $CacheKey,
         );
         return $Cache if $Cache;
+
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
         return if !$DBObject->Prepare(
@@ -1668,6 +1669,9 @@ sub TypeLookup {
             Key  => $CacheKey,
         );
         return $Cache if $Cache;
+
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # investigate the type id
         my $TypeID;
@@ -1764,8 +1768,12 @@ sub TypeGet {
     }
 
     # check cache
-    return %{ $Self->{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} } }
-        if $Self->{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} };
+    my $CacheKey = 'TypeGet::TypeID::' . $Param{TypeID};
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
+    );
+    return %{$Cache} if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -1832,8 +1840,13 @@ sub TypeGet {
     # add pointed value
     $Type{Pointed} = $Type{SourceName} ne $Type{TargetName} ? 1 : 0;
 
-    # cache result
-    $Self->{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} } = \%Type;
+    # set cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Set(
+        Type  => $Self->{CacheType},
+        TTL   => $Self->{CacheTTL},
+        Key   => $CacheKey,
+        Value => \%Type,
+    );
 
     return %Type;
 }
@@ -2066,9 +2079,6 @@ sub StateLookup {
         return;
     }
 
-    # get database object
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
     if ( $Param{StateID} ) {
 
         # check cache
@@ -2078,6 +2088,9 @@ sub StateLookup {
             Key  => $CacheKey,
         );
         return $Cache if $Cache;
+
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
         return if !$DBObject->Prepare(
@@ -2123,6 +2136,9 @@ sub StateLookup {
             Key  => $CacheKey,
         );
         return $Cache if $Cache;
+
+        # get database object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # ask the database
         return if !$DBObject->Prepare(
