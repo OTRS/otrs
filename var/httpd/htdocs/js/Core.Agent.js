@@ -530,7 +530,6 @@ Core.Agent = (function (TargetNS) {
 
         InitNavigation();
         Core.Exception.Init();
-        Core.UI.Table.InitCSSPseudoClasses();
         Core.UI.InitWidgetActionToggle();
         Core.UI.InitMessageBoxClose();
         Core.Form.Validate.Init();

@@ -42,7 +42,7 @@
     right: 1px;
 }
 
-#Navigation > ul > li:hover ul, 
+#Navigation > ul > li:hover ul,
 #Navigation > ul > li a:focus + ul,
 #Navigation > ul > li ul.Expanded {
     display: block;
@@ -63,7 +63,7 @@
     border-right: 1px solid #bbb;
 }
 
-#Navigation > ul > li.Last {
+#Navigation > ul > li:last-child {
     border-right: 0px;
 }
 
@@ -102,14 +102,14 @@
     border-bottom: 1px solid #aaa;
 }
 
-#Navigation > ul > li > ul a:hover, 
-#Navigation > ul > li > ul a:focus, 
+#Navigation > ul > li > ul a:hover,
+#Navigation > ul > li > ul a:focus,
 #Navigation > ul > li > ul a.SubSelected {
     background-color: #ddd;
 }
 
 .RTL #Navigation li:first-child a,
-#Navigation .Last a {
+#Navigation li::last-child a {
     background-image: none;
 }
 
@@ -283,12 +283,12 @@
     text-shadow: none;
 }
 
-.ActionRow .Last a,
-.Filter .Last a {
+.ActionRow li:last-child a,
+.Filter li:last-child a {
     background: none;
 }
 
-.RTL .ActionRow .Last a {
+.RTL .ActionRow li:last-child a {
     padding-right: 3px;
     padding-left: 0;
 }

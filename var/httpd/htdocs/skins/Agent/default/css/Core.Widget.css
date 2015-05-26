@@ -45,10 +45,6 @@ ul.Tablelike li.OneRow .AsBlock {
     text-overflow: ellipsis;
 }
 
-ul.Tablelike li.Even {
-    background-color: #F5F5F5;
-}
-
 ul.Tablelike li:nth-child(even) {
     background-color: #F5F5F5;
 }
@@ -697,11 +693,11 @@ input.FilterBox {
     background: none;
 }
 
-#ProgressBar li:last-child, #ProgressBar li.Last {
+#ProgressBar li:last-child {
     border-right-width: 1px;
 }
 
-#ProgressBar li:last-child a, #ProgressBar li.Last a {
+#ProgressBar li:last-child a {
     border-right-width: 1px;
     padding-right: 14px;
 }

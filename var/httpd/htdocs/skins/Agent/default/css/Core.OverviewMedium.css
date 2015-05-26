@@ -85,10 +85,6 @@
     float: left;
 }
 
-.OverviewMedium li ul.InlineActions li.Even {
-    background-color: transparent;
-}
-
 .OverviewMedium li ul.InlineActions li:nth-child(even) {
     background-color: transparent;
 }
@@ -111,13 +107,8 @@
     border-left-color: #F6A72B !important;
 }
 
-.OverviewMedium li.Last,
 .OverviewMedium li:last-child {
     border-bottom: 1px solid #ddd;
-}
-
-.OverviewMedium li.Even {
-    background-color: #F5F5F5;
 }
 
 .OverviewMedium li:nth-child(even) {
@@ -206,11 +197,11 @@
     margin-right: 45px;
 }
 
-.OverviewMedium table.Infos tr.Last td {
+.OverviewMedium table.Infos tr:last-child td {
     padding: 0 0 0 10px;
 }
 
-.RTL .OverviewMedium table.Infos tr.Last td {
+.RTL .OverviewMedium table.Infos tr:last-child td {
     padding: 0 10px 0 0;
 }
 
@@ -232,7 +223,7 @@
     text-overflow: ellipsis;
 }
 
-.OverviewMedium table.Infos td.Last {
+.OverviewMedium table.Infos td:last-child {
     border-right: none;
 }
 
@@ -245,11 +236,11 @@
     padding: 0 10px 5px 10px;
 }
 
-.OverviewMedium table.Infos tr.Last td:first-child {
+.OverviewMedium table.Infos tr:last-child td:first-child {
     padding: 0;
 }
 
-.RTL .OverviewMedium table.Infos tr.Last td:first-child {
+.RTL .OverviewMedium table.Infos tr:last-child td:first-child {
     padding: 0 10px 5px 10px;
 }
 

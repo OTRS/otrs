@@ -300,7 +300,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
                     Core.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
-                    Core.UI.Table.InitCSSPseudoClasses();
                 });
                 return false;
             });

@@ -140,10 +140,6 @@ table.Overview {
     background-color: #FBFBFB;
 }
 
-.Overview tbody tr.Even td {
-    background-color: #F2F2F2;
-}
-
 .Overview tbody tr:nth-child(even) td {
     background-color: #F2F2F2;
 }

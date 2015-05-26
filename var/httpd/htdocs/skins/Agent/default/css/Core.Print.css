@@ -121,11 +121,11 @@ a {
     border: 1px solid #C9C9C9;
 }
 
-td.Last{
+td:last-child{
     border-right: 1px dotted #CCCCCC;
 }
 
-..Tab.Actions li a{
+.Tab.Actions li a{
     padding: 13px 8px 5px 8px;
 }
 

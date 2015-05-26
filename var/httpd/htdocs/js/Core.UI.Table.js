@@ -20,49 +20,6 @@ Core.UI = Core.UI || {};
  */
 Core.UI.Table = (function (TargetNS) {
     /**
-     * @name InitCSSPseudoClasses
-     * @memberof Core.UI.Table
-     * @function
-     * @param {jQueryObject} $Context - Context to operate in (e.g. a specific table).
-     *                                  If not provided, this function will work on all tables.
-     * @description
-     *      This function sets some default classes on table rows and cells because
-     *      CSS 2.1 does not contain the needed functionality yet.
-     *      Every second <tr> will get the class "Even", and every last <tr>, <th> and <td>
-     *      will receive the class "Last".
-     *      This function also applies the specific classes to list elements of the
-     *      type "tablelike".
-     */
-    TargetNS.InitCSSPseudoClasses = function ($Context) {
-        var SelectorCount = 0;
-        if (typeof $Context === 'undefined' || (isJQueryObject($Context) && $Context.length)) {
-            // comma-separated selectors have performance issues, so we add the different selectors after each other
-            $('tr.Even', $Context)
-                .add('tr.Last', $Context)
-                .add('th.Last', $Context)
-                .add('td.Last', $Context)
-                .add('li.Even', $Context)
-                .add('li.Last', $Context)
-                .removeClass('Even Last');
-
-            // nth-child selector has heavy performance problems on big tables or lists
-            // Because these CSS classes are only used on IE8, we skip these for big tables and lists
-            SelectorCount = $('tr', $Context).length + $('li:not(.Header)', $Context).length;
-            if (SelectorCount < 200) {
-                $('tr:nth-child(even)', $Context)
-                .add('li:not(.Header):nth-child(even)', $Context)
-                .addClass('Even');
-            }
-
-            // comma-seperated selectors have performance issues, so we add the different selectors after each other
-            $('tr:last-child', $Context).addClass('Last');
-            $('th:last-child', $Context).addClass('Last');
-            $('td:last-child', $Context).addClass('Last');
-            $('li:last-child', $Context).addClass('Last');
-        }
-    };
-
-    /**
      * @name InitTableFilter
      * @memberof Core.UI.Table
      * @function

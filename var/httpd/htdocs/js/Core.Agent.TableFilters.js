@@ -310,7 +310,6 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 var URL = Core.Config.Get('Baselink') + Core.AJAX.SerializeForm($Form);
                 Core.AJAX.ContentUpdate($('#' + ElementID), URL, function () {
                     Core.UI.ToggleTwoContainer($('#' + ElementID + '-setting'), $('#' + ElementID));
-                    Core.UI.Table.InitCSSPseudoClasses();
                 });
                 return false;
             });

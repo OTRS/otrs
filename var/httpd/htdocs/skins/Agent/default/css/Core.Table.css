@@ -29,8 +29,8 @@
     z-index: 10;
 }
 
-.DataTable tbody td.Last,
-.TableSmall tbody td.Last {
+.DataTable tbody td:last-child,
+.TableSmall tbody td:last-child {
     border-right: none;
 }
 
@@ -108,11 +108,11 @@ table tr.MasterAction {
     color: #4B4B4B !important;
 }
 
-.DataTable thead th.Last {
+.DataTable thead th:last-child {
     border-right: none;
 }
 
-.RTL .DataTable thead th.Last {
+.RTL .DataTable thead th:last-child {
     border-left: none;
 }
 
@@ -172,16 +172,8 @@ table tr.MasterAction {
     border-right-color: #fff;
 }
 
-.DataTable tbody td.Last {
-    border-right: none;
-}
-
 .DataTable tbody td:last-child {
     border-right: none;
-}
-
-.RTL .DataTable tbody td.Last {
-    border-left: none;
 }
 
 .RTL .DataTable tbody td:last-child {
@@ -200,16 +192,8 @@ table tr.MasterAction {
     background-color: #EEE;
 }
 
-.DataTable tr.Even td {
-    background-color: #F5F5F5;
-}
-
 .DataTable tr:nth-child(even) td {
     background-color: #F5F5F5;
-}
-
-.DataTable tr.Even td.Highlight {
-    background-color: #E5E5E5;
 }
 
 .DataTable tr:nth-child(even) td.Highlight {
@@ -429,19 +413,11 @@ thead .headerSortDown a {
     border-right: 1px solid transparent;
 }
 
-.TableSmall tbody tr td.Last {
-    border-right: 1px solid transparent;
-}
-
-.RTL .TableSmall tbody tr td.Last {
+.RTL .TableSmall tbody tr td:last-child {
     border-left: none;
 }
 
 .TableSmall tbody tr.Active td:last-child {
-    border-right: 1px solid #000;
-}
-
-.TableSmall tbody tr.Active td.Last {
     border-right: 1px solid #000;
 }
 
@@ -469,10 +445,6 @@ thead .headerSortDown a {
 .TableSmall tr:hover td a.DynamicFieldLink,
 .TableSmall tr.Active td a.DynamicFieldLink {
     color: #FFFFFF;
-}
-
-.TableSmall tr.Even td {
-    background-color: #F5F5F5;
 }
 
 .TableSmall tr:nth-child(even) {

@@ -141,10 +141,6 @@ ul.ContextFunctions li.ContextSettings .fa {
     padding: 5px 0px 5px 3px;
 }
 
-ul.ContextFunctions li.Last:hover > a {
-    background-position: 50px 50px;
-}
-
 ul.ContextFunctions li:last-child:hover > a {
     background-position: 50px 50px;
 }
@@ -262,9 +258,6 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li:last-child {
     background: none;
 }
-.Actions li.Last {
-    background: none;
-}
 
 .Actions li a,
 .Actions li span {
@@ -357,10 +350,6 @@ ul.ContextFunctions li:last-child:hover > a {
     background: none;
     text-decoration: underline;
     border-bottom: 0px;
-}
-
-.Tab.Actions li.Last {
-    background: none;
 }
 
 .Tab.Actions li:last-child {

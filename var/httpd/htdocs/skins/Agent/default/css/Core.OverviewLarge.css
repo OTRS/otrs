@@ -92,10 +92,6 @@
     margin-right: 0px;
 }
 
-.OverviewLarge > li ul.InlineActions li.Even {
-    background-color: transparent;
-}
-
 .OverviewLarge > li ul.InlineActions li:nth-child(even) {
     background-color: transparent;
 }
@@ -122,16 +118,8 @@
     border-left-color: #FCB24B !important;
 }
 
-.OverviewLarge > li.Last {
-    border-bottom: 1px solid #ddd;
-}
-
 .OverviewLarge > li:last-child {
     border-bottom: 1px solid #ddd;
-}
-
-.OverviewLarge > li.Even {
-    background-color: #F5F5F5;
 }
 
 .OverviewLarge > li:nth-child(even) {
@@ -240,7 +228,7 @@
     margin: 0 50px 0 10px;
 }
 
-.OverviewLarge .Infos table tr.Last td {
+.OverviewLarge .Infos table tr:last-child td {
     padding: 0 0 0 10px;
 }
 
@@ -266,7 +254,7 @@
 .OverviewLarge .Infos table td > div {
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;    
+    text-overflow: ellipsis;
 }
 
 .OverviewLarge .Infos table td:first-child {
@@ -274,7 +262,7 @@
     border-left: none;
 }
 
-.OverviewLarge .Infos table tr.Last td:first-child {
+.OverviewLarge .Infos table tr:last-child td:first-child {
     padding: 0;
 }
 

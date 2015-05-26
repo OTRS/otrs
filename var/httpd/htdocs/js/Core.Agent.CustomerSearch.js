@@ -140,11 +140,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             // Init accordion of overview article preview
             Core.UI.Accordion.Init($('.Preview > ul'), 'li h3 a', '.HiddenBlock');
 
-            // Init table functions
-            if ($('#TicketList table').length) {
-                Core.UI.Table.InitCSSPseudoClasses();
-            }
-
             if ( Core.Config.Get('Action') === 'AgentTicketCustomer' ) {
                 $('a.MasterActionLink').bind('click', function () {
                     window.opener.Core.UI.Popup.FirePopupEvent('URL', { URL: this.href });
