@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardTicketStatsGeneric;
+package Kernel::Output::HTML::Dashboard::TicketStatsGeneric;
 
 use strict;
 use warnings;
@@ -91,11 +91,14 @@ sub Run {
 
     for my $Key ( 0 .. 6 ) {
 
-        my $TimeNow = $Self->{TimeObject}->SystemTime();
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+        my $TimeNow = $TimeObject->SystemTime();
         if ($Key) {
             $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key );
         }
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
             SystemTime => $TimeNow,
         );
 

@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardUserOutOfOffice;
+package Kernel::Output::HTML::Dashboard::UserOutOfOffice;
 
 use strict;
 use warnings;
@@ -91,8 +91,11 @@ sub Run {
     # get config settings
     my $SortBy = $Self->{Config}->{SortBy} || 'UserFullname';
 
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
     # check cache
-    my $OutOfOffice = $Self->{CacheObject}->Get(
+    my $OutOfOffice = $CacheObject->Get(
         Type => 'Dashboard',
         Key  => $Self->{CacheKey},
     );
@@ -130,20 +133,23 @@ sub Run {
 
             next USERID if !%Data;
 
-            my $Time  = $Self->{TimeObject}->SystemTime();
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            my $Time  = $TimeObject->SystemTime();
             my $Start = sprintf(
                 "%04d-%02d-%02d 00:00:00",
                 $Data{OutOfOfficeStartYear}, $Data{OutOfOfficeStartMonth},
                 $Data{OutOfOfficeStartDay}
             );
-            my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $TimeStart = $TimeObject->TimeStamp2SystemTime(
                 String => $Start,
             );
             my $End = sprintf(
                 "%04d-%02d-%02d 23:59:59",
                 $Data{OutOfOfficeEndYear}, $Data{OutOfOfficeEndMonth}, $Data{OutOfOfficeEndDay}
             );
-            my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
                 String => $End,
             );
 
@@ -163,7 +169,7 @@ sub Run {
 
     # set cache
     if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Dashboard',
             Key   => $Self->{CacheKey},
             Value => $OutOfOffice,

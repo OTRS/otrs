@@ -5944,7 +5944,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardUserOutOfOffice</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOutOfOffice</Item>
                 <Item Key="Title" Translatable="1">Out Of Office</Item>
                 <Item Key="Description"></Item>
                 <Item Key="IdleMinutes">60</Item>
@@ -5963,7 +5963,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardUserOnline</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOnline</Item>
                 <Item Key="Title" Translatable="1">Online</Item>
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>

@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardUserOnline;
+package Kernel::Output::HTML::Dashboard::UserOnline;
 
 use strict;
 use warnings;
@@ -35,6 +35,9 @@ sub new {
         $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # remember filter
     if ( $Self->{Filter} ) {
 
@@ -46,7 +49,7 @@ sub new {
         );
 
         # update preferences
-        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+        if ( !$ConfigObject->Get('DemoSystem') ) {
             $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => $PreferencesKey,
@@ -71,7 +74,7 @@ sub new {
     # get configuration for the full name order for user names
     # and append it to the cache key to make sure, that the
     # correct data will be displayed every time
-    my $FirstnameLastNameOrder = $Self->{ConfigObject}->Get('FirstnameLastnameOrder') || 0;
+    my $FirstnameLastNameOrder = $ConfigObject->Get('FirstnameLastnameOrder') || 0;
     $Self->{CacheKey} .= '::' . $FirstnameLastNameOrder;
 
     return $Self;
@@ -120,11 +123,17 @@ sub Run {
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
     my $SortBy      = $Self->{Config}->{SortBy}      || 'UserFullname';
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
     # get current time-stamp
-    my $Time = $Self->{TimeObject}->SystemTime();
+    my $Time = $TimeObject->SystemTime();
+
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # check cache
-    my $Online = $Self->{CacheObject}->Get(
+    my $Online = $CacheObject->Get(
         Type => 'Dashboard',
         Key  => $Self->{CacheKey},
     );
@@ -203,7 +212,7 @@ sub Run {
 
     # set cache
     if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'Dashboard',
             Key   => $Self->{CacheKey},
             Value => $Online,
@@ -259,15 +268,18 @@ sub Run {
     my $Count      = 0;
     my $Limit      = $LayoutObject->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # Check if agent has permission to start chats with the listed users
     my $EnableChat               = 1;
-    my $ChatStartingAgentsGroup  = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
-    my $ChatReceivingAgentsGroup = $Self->{ConfigObject}->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
+    my $ChatStartingAgentsGroup  = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatStartingAgents');
+    my $ChatReceivingAgentsGroup = $ConfigObject->Get('ChatEngine::PermissionGroup::ChatReceivingAgents');
 
     if (
-        !$Self->{ConfigObject}->Get('ChatEngine::Active')
-        || !defined $Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"}
-        || $Self->{LayoutObject}->{"UserIsGroup[$ChatStartingAgentsGroup]"} ne 'Yes'
+        !$ConfigObject->Get('ChatEngine::Active')
+        || !defined $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"}
+        || $LayoutObject->{"UserIsGroup[$ChatStartingAgentsGroup]"} ne 'Yes'
         )
     {
         $EnableChat = 0;
@@ -275,7 +287,7 @@ sub Run {
     if (
         $EnableChat
         && $Self->{Filter} eq 'Agent'
-        && !$Self->{ConfigObject}->Get('ChatEngine::ChatDirection::AgentToAgent')
+        && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToAgent')
         )
     {
         $EnableChat = 0;
@@ -283,7 +295,7 @@ sub Run {
     if (
         $EnableChat
         && $Self->{Filter} eq 'Customer'
-        && !$Self->{ConfigObject}->Get('ChatEngine::ChatDirection::AgentToCustomer')
+        && !$ConfigObject->Get('ChatEngine::ChatDirection::AgentToCustomer')
         )
     {
         $EnableChat = 0;
@@ -305,7 +317,7 @@ sub Run {
         # we also need to check if the receiving agent has chat permissions
         if ( $EnableChat && $Self->{Filter} eq 'Agent' && $Self->{UserID} != $UserData->{UserID} ) {
 
-            my %UserGroups = $Self->{GroupObject}->PermissionUserGet(
+            my %UserGroups = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
                 UserID => $UserData->{UserID},
                 Type   => 'rw',
             );
@@ -336,7 +348,7 @@ sub Run {
             $UserData->{OutOfOfficeStartYear}, $UserData->{OutOfOfficeStartMonth},
             $UserData->{OutOfOfficeStartDay}
         );
-        my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
             String => $Start,
         );
         my $End = sprintf(
@@ -344,7 +356,7 @@ sub Run {
             $UserData->{OutOfOfficeEndYear}, $UserData->{OutOfOfficeEndMonth},
             $UserData->{OutOfOfficeEndDay}
         );
-        my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
+        my $TimeEnd = $TimeObject->TimeStamp2SystemTime(
             String => $End,
         );
 
