@@ -1,12 +1,13 @@
 # --
 # Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
 # --
+# --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardMOTD;
+package Kernel::Output::HTML::Dashboard::IFrame;
 
 use strict;
 use warnings;
@@ -48,10 +49,15 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # quote Title attribute, it will be used as name="" parameter of the iframe
+    my $Title = $Self->{Config}->{Title} || '';
+    $Title =~ s/\s/_/smx;
+
     my $Content = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
-        TemplateFile => 'Motd',
+        TemplateFile => 'AgentDashboardIFrame',
         Data         => {
             %{ $Self->{Config} },
+            Title => $Title,
         },
     );
 
