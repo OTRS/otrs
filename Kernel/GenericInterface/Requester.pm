@@ -20,6 +20,7 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Log',
+    'Kernel::Config',
 );
 
 =head1 NAME
