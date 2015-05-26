@@ -222,7 +222,7 @@ Core.Agent = (function (TargetNS) {
                     Helper: 'clone',
                     Axis: 'x',
                     Containment: $('#Navigation'),
-                    Update: function (event, ui) {
+                    Update: function () {
 
                         // collect navigation bar items
                         var Items = [];
@@ -258,7 +258,7 @@ Core.Agent = (function (TargetNS) {
          * Register event for global search
          *
          */
-        $('#GlobalSearchNav').bind('click', function (Event) {
+        $('#GlobalSearchNav').bind('click', function () {
             Core.Agent.Search.OpenSearchDialog();
             return false;
         });
@@ -362,9 +362,7 @@ Core.Agent = (function (TargetNS) {
      */
     TargetNS.ReorderNavigationItems = function(NavbarCustomOrderItems) {
 
-        var CurrentItems,
-            IDA,
-            IDB;
+        var CurrentItems;
 
         if (NavbarCustomOrderItems && Core.Config.Get('MenuDragDropEnabled') === 1) {
 
@@ -439,7 +437,6 @@ Core.Agent = (function (TargetNS) {
     TargetNS.ResizeNavigationBar = function (RealResizeEvent) {
 
         var NavigationBarWidth = 0,
-            Difference,
             NewContainerWidth;
 
         // set the original width (from css) of #NavigationContainer to have it available later

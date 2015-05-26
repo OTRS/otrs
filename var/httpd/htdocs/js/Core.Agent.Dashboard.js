@@ -207,10 +207,10 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 Tolerance: 'pointer',
                 Distance: 15,
                 Opacity: 0.6,
-                Update: function (event, ui) {
+                Update: function () {
                     var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;';
                     $('.CanDrag').each(
-                        function (i) {
+                        function () {
                             url = url + ';Backend=' + $(this).attr('id');
                         }
                     );
@@ -232,10 +232,10 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 Tolerance: 'pointer',
                 Distance: 15,
                 Opacity: 0.6,
-                Update: function (event, ui) {
+                Update: function () {
                     var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;';
                     $('.CanDrag').each(
-                        function (i) {
+                        function () {
                             url = url + ';Backend=' + $(this).attr('id');
                         }
                     );
@@ -326,12 +326,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
      *      Initializes the event ticket calendar.
      */
     TargetNS.EventsTicketCalendarInit = function (Params) {
-        var date = new Date(),
-        d = date.getDate(),
-        m = date.getMonth(),
-        y = date.getFullYear(),
-        jsEvent;
-
         $('#calendar').fullCalendar({
             header: {
                 left: 'month,agendaWeek,agendaDay',
@@ -347,8 +341,8 @@ Core.Agent.Dashboard = (function (TargetNS) {
             dayNames: Params.DayNames,
             dayNamesShort: Params.DayNamesShort,
             buttonText: Params.ButtonText,
-            eventMouseover: function(calEvent, jsEvent, view) {
-                var Layer, Styles, PosX, PosY, DocumentVisible, ContainerHeight,
+            eventMouseover: function(calEvent, jsEvent) {
+                var Layer, PosX, PosY, DocumentVisible, ContainerHeight,
                     LastYPosition, VisibleScrollPosition, WindowHeight;
 
                 // define PosX and PosY
@@ -396,7 +390,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 $('#events-layer').fadeIn("fast");
             },
-            eventMouseout: function(calEvent, jsEvent, view) {
+            eventMouseout: function() {
                 $('#events-layer').fadeOut("fast");
                 $('#events-layer').remove();
             },

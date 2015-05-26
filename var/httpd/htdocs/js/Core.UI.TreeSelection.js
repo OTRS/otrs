@@ -203,7 +203,6 @@ Core.UI.TreeSelection = (function (TargetNS) {
             StyleSheetURL,
             $SelectedNodesObj,
             SelectedNodes = [],
-            $CurrentTreeObj,
             $CurrentFocusedObj;
 
         if (!$SelectObj) {
@@ -296,7 +295,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             }
 
         })
-        .bind("deselect_node.jstree", function (event, data) {
+        .bind("deselect_node.jstree", function () {
 
             // if we are already in a dialog, we don't use the submit
             // button for the tree selection, so we need to apply the changes 'live'
@@ -316,7 +315,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 $SelectObj.val(SelectedNodes);
             }
         })
-        .bind("loaded.jstree", function (event, data) {
+        .bind("loaded.jstree", function () {
 
             if (SelectedID) {
                 if (typeof SelectedID === 'object') {
@@ -411,7 +410,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
      *      To bind click event no tree selection icons next to select boxes.
      */
     TargetNS.InitTreeSelection = function() {
-        $('.Field, fieldset').off('click.ShowTreeSelection').on('click.ShowTreeSelection', '.ShowTreeSelection', function (Event) {
+        $('.Field, fieldset').off('click.ShowTreeSelection').on('click.ShowTreeSelection', '.ShowTreeSelection', function () {
             Core.UI.TreeSelection.ShowTreeSelection($(this));
             return false;
         });
@@ -460,7 +459,6 @@ Core.UI.TreeSelection = (function (TargetNS) {
             Disabled,
             DisabledAttr,
             SelectData = [],
-            LastElement,
             NeededSpaces,
             Spaces,
             i;

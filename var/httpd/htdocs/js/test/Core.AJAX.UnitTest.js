@@ -209,8 +209,6 @@ Core.AJAX = (function (Namespace) {
                         try {
                             Test.ResultCheck();
                         }
-                        catch (Error) {
-                        }
                         finally {
                             $('#CORE_AJAX_ContentUpdateTest').remove();
                             start();

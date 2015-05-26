@@ -113,7 +113,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             Data,
             Level1Key, Level2Key, Level3Key, Level4Key,
             $ItemObjLevel1, $ItemObjLevel2, $ItemObjLevel3, $ItemObjLevel4,
-            $TempObjLevel1, $TempObjLevel2, $TempObjLevel3, $TempObjLevel4,
+            $TempObjLevel2, $TempObjLevel3, $TempObjLevel4,
             SelectHTML,
             Value,
             Class,
@@ -448,18 +448,16 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
      * @function
      * @returns {Object} ACL data structure.
      * @param {jQueryObject} $ItemObj
-     * @param {String} Type
      * @description
      *      Collects the ACL data.
      */
-    TargetNS.CollectACLData = function($ItemObj, Type) {
+    TargetNS.CollectACLData = function($ItemObj) {
 
         var Structure = {},
             $SubItemsObj,
             ItemNameLevel1,
             ItemNameLevel2,
-            ItemNameLevel3,
-            ItemNameLevel4;
+            ItemNameLevel3;
 
         $ItemObj.children('li.DataItem').each(function() {
 
@@ -638,7 +636,6 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                 Width = $Obj.width() + 3,
                 $SelectObj = $('#TemplateLevel3').find('select'),
                 $SelectObjClone = $SelectObj.clone(),
-                Regex,
                 RegexResult,
                 LastLevel = true;
 
@@ -814,7 +811,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             $('#Submit').click();
         });
 
-        $('#Submit, #SubmitAndContinue').bind('click', function(Event) {
+        $('#Submit, #SubmitAndContinue').bind('click', function() {
 
             // collect data from the input areas
             TargetNS.ConfigMatch  = TargetNS.CollectACLData($('#ACLMatch'));

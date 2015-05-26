@@ -23,16 +23,6 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
 
     /**
      * @private
-     * @name DialogData
-     * @memberof Core.Agent.Admin.GenericAgentEvent
-     * @member {Array}
-     * @description
-     *     This variable stores the parameters that are passed from the TT and contain all the data that the dialog needs.
-     */
-    var DialogData = [];
-
-    /**
-     * @private
      * @name AddSelectClearButton
      * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
@@ -110,7 +100,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             return false;
         });
 
-        $('#AddEvent').bind('click', function (Event){
+        $('#AddEvent').bind('click', function (){
             if ( $('#EventType').val() !== null ) {
                 TargetNS.AddEvent( $('#EventType').val() );
                 return false;
@@ -158,7 +148,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         }
 
         // check for duplicated entries
-        $('[class*=EventValue]').each(function(index) {
+        $('[class*=EventValue]').each(function() {
             if ( $(this).val() === EventName ) {
                 IsDuplicated = true;
             }
@@ -194,13 +184,10 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
      * @function
      * @param {EventObject} Event - Object of the clicked element.
      * @param {jQueryObject} Object
-     * @param {String} EventName
      * @description
      *      This function shows a confirmation dialog with 2 buttons.
      */
-    TargetNS.ShowDeleteEventDialog = function(Event, Object, EventName){
-        var LocalDialogData;
-
+    TargetNS.ShowDeleteEventDialog = function(Event, Object){
         Core.UI.Dialog.ShowContentDialog(
             $('#DeleteEventDialogContainer'),
             TargetNS.Localization.DeleteEventMsg,

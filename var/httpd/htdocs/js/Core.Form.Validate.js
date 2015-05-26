@@ -284,11 +284,11 @@ Core.Form.Validate = (function (TargetNS) {
         return ( Value.replace(/\n\r?/g, "\n\r").length <= $(Element).data('maxlength') );
     }, "");
 
-    $.validator.addMethod("Validate_DateYear", function (Value, Element) {
+    $.validator.addMethod("Validate_DateYear", function (Value) {
         return (parseInt(Value, 10) > 999 && parseInt(Value, 10) < 10000);
     }, "");
 
-    $.validator.addMethod("Validate_DateMonth", function (Value, Element) {
+    $.validator.addMethod("Validate_DateMonth", function (Value) {
         return (parseInt(Value, 10) > 0 && parseInt(Value, 10) < 13);
     }, "");
 
@@ -397,15 +397,15 @@ Core.Form.Validate = (function (TargetNS) {
         return DateValidator(Value, Element, { DateNotInFuture: true });
     }, "");
 
-    $.validator.addMethod("Validate_DateHour", function (Value, Element) {
+    $.validator.addMethod("Validate_DateHour", function (Value) {
         return (parseInt(Value, 10) >= 0 && parseInt(Value, 10) < 24);
     }, "");
 
-    $.validator.addMethod("Validate_DateMinute", function (Value, Element) {
+    $.validator.addMethod("Validate_DateMinute", function (Value) {
         return (parseInt(Value, 10) >= 0 && parseInt(Value, 10) < 60);
     }, "");
 
-    $.validator.addMethod("Validate_TimeUnits", function (Value, Element) {
+    $.validator.addMethod("Validate_TimeUnits", function (Value) {
         return (Value === "" || /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/.test(Value));
     }, "");
 
@@ -604,8 +604,7 @@ Core.Form.Validate = (function (TargetNS) {
      *      This function initializes the validation on all forms on the page which have a class named "Validate".
      */
     TargetNS.Init = function () {
-        var i = 0,
-            FormSelector,
+        var FormSelector,
             $ServerErrors,
             ServerErrorDialogCloseFunction;
 

@@ -66,8 +66,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.Init = function ($EditorArea) {
         var EditorID = '',
-            Editor,
-            Instance,
             UserLanguage;
 
         if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
@@ -89,7 +87,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             CKEDITOR.addCss(Core.Config.Get('RichText.EditingAreaCSS'));
 
             // Remove the validation error tooltip if content is added to the editor
-            Editor.editor.on('change', function(evt) {
+            Editor.editor.on('change', function() {
                 window.clearTimeout(TimeOutRTEOnChange);
                 TimeOutRTEOnChange = window.setTimeout(function () {
                     Core.Form.Validate.ValidateElement($(Editor.editor.element.$));
@@ -97,11 +95,11 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             });
 
             // if spell checker is used on paste new content should spell check again
-            Editor.editor.on('paste', function(evt) {
+            Editor.editor.on('paste', function() {
                 Core.Config.Set('TextIsSpellChecked', false);
             });
             // if spell checker is used on any key new content should spell check again
-            Editor.editor.on('key', function(evt) {
+            Editor.editor.on('key', function() {
                 Core.Config.Set('TextIsSpellChecked', false);
             });
         });
@@ -110,7 +108,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
         UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
 
-        Editor = CKEDITOR.replace(EditorID,
+        CKEDITOR.replace(EditorID,
         {
             customConfig: '', // avoid loading external config files
             defaultLanguage: UserLanguage,
@@ -260,8 +258,6 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      This function check if a rich text editor is enable in this moment.
      */
     TargetNS.IsEnabled = function ($EditorArea) {
-        var EditorID = '';
-
         if (typeof CKEDITOR === 'undefined') {
             return false;
         }

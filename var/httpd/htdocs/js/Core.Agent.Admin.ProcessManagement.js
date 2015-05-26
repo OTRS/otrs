@@ -30,7 +30,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      *      Initializes needed popup handler.
      */
     function InitProcessPopups() {
-        $('a.AsPopup').bind('click', function (Event) {
+        $('a.AsPopup').bind('click', function () {
             var Matches,
                 PopupType = 'Process';
 
@@ -47,7 +47,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        $('a.AsPopup_Redirect').bind('click', function (Event) {
+        $('a.AsPopup_Redirect').bind('click', function () {
             var $Form = $(this).closest('form');
 
             $('#PopupRedirect').val(1);
@@ -77,7 +77,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        $('a.GoBack').bind('click', function (Event) {
+        $('a.GoBack').bind('click', function () {
             // Remove onbeforeunload event (which is only needed if you close the popup via the window "X")
             $(window).unbind("beforeunload.PMPopup");
         });
@@ -220,12 +220,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      *      Initializes the event handler to delete entities.
      */
     function InitDeleteEntity() {
-        $('a.DeleteEntity').bind('click.DeleteEntity', function (Event) {
+        $('a.DeleteEntity').bind('click.DeleteEntity', function () {
             var EntityID = $(this).closest('li').data('entity'),
                 EntityName = $(this).closest('li').clone().children().remove().end().text(),
                 ItemID = $(this).closest('li').data('id'),
-                EntityType,
-                CheckResult = {};
+                EntityType;
 
             if (!EntityID.length) {
                 return false;
@@ -404,9 +403,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 ActivityMatch = false;
 
             // Loop over all assigned activities and check the position
-            $.each(Path, function (Key, Value) {
-                var Activity = Key,
-                    ActivityPosition = TargetNS.ProcessLayout[Key];
+            $.each(Path, function (Key) {
+                var ActivityPosition = TargetNS.ProcessLayout[Key];
                 if (
                         Position.left > parseInt(ActivityPosition.left, 10) &&
                         Position.left < parseInt(ActivityPosition.left, 10) + 110 &&
@@ -641,7 +639,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     UI.helper.css('z-index', 1000);
                 }
             },
-            stop: function (Event, UI) {
+            stop: function () {
                 var $Source = $(this),
                     SourceID = $Source.closest('ul').attr('id');
 
@@ -879,7 +877,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         });
 
         // Init submit function
-        $('#Submit').bind('click', function (Event) {
+        $('#Submit').bind('click', function () {
             var ProcessEntityID = $('#ProcessEntityID').val(),
                 StartActivity;
 
@@ -925,7 +923,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             return false;
         });
 
-        $('#ShowEntityIDs').bind('click', function(Event) {
+        $('#ShowEntityIDs').bind('click', function() {
             if ($(this).hasClass('Visible')) {
                 $(this).removeClass('Visible').text(Core.Agent.Admin.ProcessManagement.Localization.ShowEntityIDs);
                 $('em.EntityID').remove();
@@ -1073,8 +1071,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
         // Init Fields modal overlay
         $('.FieldDetailsOverlay').unbind('click').bind('click', function () {
-            var FieldID = $(this).data('entity'),
-                FieldConfig = $(this).closest('li').data('config'),
+            var FieldConfig = $(this).closest('li').data('config'),
                 $Element = $(this),
                 Fieldname = $.trim($(this).closest('li').data('id'));
 
@@ -1515,8 +1512,6 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // get all fields of the current condition
             $(this).find('fieldset.Fields').each(function() {
-
-                var FieldKey = $(this).find('label').attr('for').replace(/(ConditionFieldName\[\d+\]\[|\])/g, '');
                 Conditions[ConditionKey].Fields[$(this).find('input').first().val()] = {
                     Type  : $(this).find('select').val(),
                     Match : $(this).find('input').last().val()

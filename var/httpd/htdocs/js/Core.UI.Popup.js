@@ -219,8 +219,11 @@ Core.UI.Popup = (function (TargetNS) {
      *      This function set the type for a popup window.
      */
     TargetNS.RegisterPopupAtParentWindow = function (WindowObject) {
-        var TypeRegEx = /OTRSPopup_([^_]+)_.*/.exec(WindowObject.name),
-            Type = RegExp.$1;
+        var Type;
+
+        /OTRSPopup_([^_]+)_.*/.exec(WindowObject.name);
+        Type = RegExp.$1;
+
         if (typeof OpenPopups[Type] === 'undefined') {
             OpenPopups[Type] = WindowObject;
         }
@@ -249,7 +252,10 @@ Core.UI.Popup = (function (TargetNS) {
                 try {
                     window.opener.Core.UI.Popup.RegisterPopupAtParentWindow(window);
                 }
-                catch (Error) {}
+                catch (Event) {
+                    // no code here
+                    $.noop(Event);
+                }
             }
             Core.UI.Popup.InitRegisterPopupAtParentWindow();
         }, RegisterPopupTimeOut);

@@ -94,7 +94,10 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                             /*jslint evil: true */
                             eval(JavaScriptString);
                         }
-                        catch (ignore) {}
+                        catch (Event) {
+                            // do nothing here (code needed  to not have an empty block here)
+                            $.noop(Event);
+                        }
 
                         // Handle special server errors (Response = <div class="ServerError" data-message="Message"></div>)
                         // Check if first element has class 'ServerError'

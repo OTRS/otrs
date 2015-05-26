@@ -188,11 +188,10 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @name RemoveRTETooltip
      * @memberof Core.Form.ErrorTooltips
      * @function
-     * @param {Object} Event - The event object.
      * @description
      *      This function remove the tooltip from a rich text editor.
      */
-    function RemoveRTETooltip(Event) {
+    function RemoveRTETooltip() {
         TargetNS.HideTooltip();
     }
 

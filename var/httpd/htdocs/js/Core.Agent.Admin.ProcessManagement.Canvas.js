@@ -200,9 +200,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      */
     TargetNS.CreateActivity = function (EntityID, EntityName, ActivityID, PosX, PosY) {
 
-        var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
-            ProcessEntityID = $('#ProcessEntityID').val(),
-            EntityNameHeight,
+        var EntityNameHeight,
             $EntityBox;
 
         $('#Canvas')
@@ -269,8 +267,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      *      Create a dummy activity.
      */
     TargetNS.CreateActivityDummy = function (StartActivityID) {
-        var StartActivityPosition, DummyPosition, CanvasSize = {},
-            Activities = Core.Agent.Admin.ProcessManagement.ProcessData.Activity;
+        var StartActivityPosition, DummyPosition, CanvasSize = {};
 
         if ($('#Dummy').length) {
             $('#Dummy').remove();
@@ -306,11 +303,10 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      * @returns {Boolean} Returns false, if transition is not defined.
      * @param {Object} Connection
      * @param {String} StartActivity
-     * @param {String} EndActivity
      * @description
      *      Show tooltip of a transition.
      */
-    TargetNS.ShowTransitionTooltip = function (Connection, StartActivity, EndActivity) {
+    TargetNS.ShowTransitionTooltip = function (Connection, StartActivity) {
         var $Tooltip = $('#DiagramTooltip'),
             $Element = $(Connection.canvas),
             $TitleElement = $Element.clone(),
@@ -415,7 +411,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             position = {x: 0, y: 0},
             Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             ActivityDialogs,
-            ElementID = $Element.attr('id'),
             CanvasWidth,
             CanvasHeight,
             TooltipWidth,
@@ -503,7 +498,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      */
     TargetNS.ShowActivityDeleteButton = function ($Element) {
         var $delete = $('.DiagramDeleteLink').clone(),
-            position = { x: 0, y: 0},
             Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             ElementID = $Element.attr('id');
 
@@ -540,7 +534,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
      */
     TargetNS.ShowActivityEditButton = function ($Element) {
         var $edit = $('.DiagramEditLink').clone(),
-            position = { x: 0, y: 0},
             Activity = Core.Agent.Admin.ProcessManagement.ProcessData.Activity,
             ElementID = $Element.attr('id');
 
@@ -764,8 +757,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
             ProcessEntityID = $('#ProcessEntityID').val(),
-            Path = Config.Process[ProcessEntityID].Path,
-            StartActivity, EndActivity, OldActivity, Connection,
+            StartActivity, EndActivity, Connection,
             PopupPath;
 
         StartActivity = Elements[StartElement];
@@ -828,7 +820,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         });
 
-        Connection.bind('mouseenter', function (ActiveConnection) {
+        Connection.bind('mouseenter', function () {
             var Overlay = Connection.getOverlay('label');
 
             // add class to label
@@ -837,7 +829,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         });
 
-        Connection.bind('mouseleave', function (ActiveConnection) {
+        Connection.bind('mouseleave', function () {
             var Overlay = Connection.getOverlay('label');
 
             // remove hover class from label
@@ -884,7 +876,6 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             TransitionEntityID = Connection.component.getParameter('TransitionID'),
             StartActivityID = Connection.component.sourceId,
             PopupPath = Core.Config.Get('Config.PopupPathPath') + "ProcessEntityID=" + ProcessEntityID + ";TransitionEntityID=" + TransitionEntityID + ";StartActivityID=" + StartActivityID,
-            Transition,
             SessionData = Core.App.GetSessionInformation();
 
         if (TargetNS.DragTransitionAction) {
@@ -928,7 +919,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         Connection.component.setPaintStyle({ strokeStyle: "#FF9922", lineWidth: '2' });
 
         // show tooltip with assigned transition actions
-        TargetNS.ShowTransitionTooltip(Connection, StartActivity, EndActivity);
+        TargetNS.ShowTransitionTooltip(Connection, StartActivity);
 
         $(Connection.canvas).unbind('dblclick.Transition').bind('dblclick.Transition', function(Event) {
             if (EndActivity !== 'Dummy') {
@@ -1012,7 +1003,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         TargetNS.CreateStartEvent();
 
         // Draw all available Activities (Keys of the ProcessData-Path)
-        $.each(Config.Process[ProcessEntityID].Path, function (Key, Value) {
+        $.each(Config.Process[ProcessEntityID].Path, function (Key) {
             if (typeof Layout[Key] !== 'undefined') {
                 TargetNS.CreateActivity(Key, Config.Activity[Key].Name, Config.Activity[Key].ID, Layout[Key].left, Layout[Key].top);
             }
@@ -1147,13 +1138,14 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         // init label spacer
         CanvasLabelSpacer = new LabelSpacer();
+        CanvasLabelSpacer.reset();
 
         // init binding to connection changes
-        jsPlumb.bind('connection', function(Data, OriginalEvent) {
+        jsPlumb.bind('connection', function(Data) {
             var Config = Core.Agent.Admin.ProcessManagement.ProcessData,
                 ProcessEntityID = $('#ProcessEntityID').val(),
                 Path = Config.Process[ProcessEntityID].Path,
-                TransitionID, TransitionName;
+                TransitionID;
 
             // check if we need to register a new StartActivity
             if (Data.sourceId === 'StartEvent') {
@@ -1172,19 +1164,12 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
             // otherwise, an existing transition has been (re)connected
             else {
-                // get TransitionID and TransitionName
+                // get TransitionID
                 TransitionID = Data.connection.getParameter('TransitionID');
 
                 // Fallback: try to get the ID from the earlier saved variable, if it cannot be retrieved from the connection
                 if (typeof TransitionID === 'undefined') {
                     TransitionID = TargetNS.LatestConnectionTransitionID;
-                }
-
-                if (Config.Transition && Config.Transition[TransitionID]) {
-                    TransitionName = Config.Transition[TransitionID].Name;
-                }
-                else {
-                    TransitionName = 'NoName';
                 }
 
                 // set new Path

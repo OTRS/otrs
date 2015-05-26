@@ -117,8 +117,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
          *      This function replaces and shows customer ticket links.
          */
         function ReplaceCustomerTicketLinks() {
-            var ResizeTimeoutWindow;
-
             $('#CustomerTickets').find('.AriaRoleMain').removeAttr('role').removeClass('AriaRoleMain');
 
             // Replace overview mode links (S, M, L view), pagination links with AJAX
@@ -365,7 +363,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             Suffix;
 
         // check for duplicated entries
-        $('[class*=CustomerTicketText]').each(function(index) {
+        $('[class*=CustomerTicketText]').each(function() {
             if ( $(this).val() === CustomerValue ) {
                 IsDuplicated = true;
             }
@@ -484,8 +482,6 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
      */
     TargetNS.RemoveCustomerTicket = function (Object) {
         var TicketCustomerIDs = 0,
-        TicketCustomerIDsCounter = 0,
-        ObjectoToCheck,
         $Field = Object.closest('.Field'),
         $Form;
 
@@ -563,7 +559,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
     TargetNS.InitCustomerField = function () {
 
         // loop over the field with CustomerAutoComplete class
-        $('.CustomerAutoComplete').each(function(index) {
+        $('.CustomerAutoComplete').each(function() {
             var ObjectId = $(this).attr('id');
 
             $('#' + ObjectId).bind('change', function () {

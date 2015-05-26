@@ -160,7 +160,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             // Offset of scroller element (relative)
                 ScrollerOffset = $('div.Scroller').get(0).scrollTop;
 
-            $('#ArticleItems a.AsPopup').bind('click', function (Event) {
+            $('#ArticleItems a.AsPopup').bind('click', function () {
                 var Matches,
                     PopupType = 'TicketAction';
 
@@ -304,8 +304,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         var ZoomExpand = false,
             URLHash,
             $ArticleElement,
-            ResizeTimeoutScroller,
-            ResizeTimeoutWindow;
+            ResizeTimeoutScroller;
 
         // Check, if ZoomExpand is active or not
         // Only active on tickets with less than 400 articles (see bug#8424)
@@ -313,7 +312,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             ZoomExpand = !$('div.ArticleView a.OneArticle').hasClass('Active');
         }
 
-        Core.UI.Resizable.Init($('#ArticleTableBody'), Options.ArticleTableHeight, function (Event, UI, Height, Width) {
+        Core.UI.Resizable.Init($('#ArticleTableBody'), Options.ArticleTableHeight, function (Event, UI, Height) {
             // remember new height for next reload
             window.clearTimeout(ResizeTimeoutScroller);
             ResizeTimeoutScroller = window.setTimeout(function () {
@@ -323,7 +322,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
 
 
         $('.DataTable tbody td a.Attachment').bind('click', function (Event) {
-            var Position, HTML, $HTMLObject;
+            var Position;
             if ($(this).attr('rel') && $('#' + $(this).attr('rel')).length) {
                 Position = $(this).offset();
                 Core.UI.Dialog.ShowContentDialog($('#' + $(this).attr('rel'))[0].innerHTML, 'Attachments', Position.top - $(window).scrollTop(), parseInt(Position.left, 10) + 25);
@@ -372,7 +371,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // loading new articles
-        $('#ArticleTable tbody tr').bind('click', function (Event) {
+        $('#ArticleTable tbody tr').bind('click', function () {
             // Mode: show one article - load new article via ajax
             if (!ZoomExpand) {
                 // Add active state to new row
@@ -398,7 +397,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             TargetNS.CheckURLHash();
         }
 
-        $('a.AsPopup').bind('click', function (Event) {
+        $('a.AsPopup').bind('click', function () {
             var Matches,
                 PopupType = 'TicketAction';
 

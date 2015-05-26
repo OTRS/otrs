@@ -250,12 +250,10 @@ Core.Agent.TableFilters = (function (TargetNS) {
      * @name SetAllocationList
      * @memberof Core.Agent.TableFilters
      * @function
-     * @param {Object} Event
-     * @param {Object} UI - jQuery UI object
      * @description
      *      Initialize allocation list.
      */
-    TargetNS.SetAllocationList = function (Event, UI) {
+    TargetNS.SetAllocationList = function () {
         $('.AllocationListContainer').each(function() {
 
             var $ContainerObj = $(this),

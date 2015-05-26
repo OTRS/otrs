@@ -228,7 +228,10 @@ Core.UI = (function (TargetNS) {
             try {
                 $id.css('position', 'static');
             }
-            catch (e) {}
+            catch (Event) {
+                // no code here
+                $.noop(Event);
+            }
         }
     }
 

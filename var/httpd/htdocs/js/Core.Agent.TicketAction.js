@@ -170,19 +170,19 @@ Core.Agent.TicketAction = (function (TargetNS) {
     TargetNS.Init = function () {
 
         // Register event for spell checker dialog
-        $('#OptionSpellCheck').bind('click', function (Event) {
+        $('#OptionSpellCheck').bind('click', function () {
             OpenSpellChecker();
             return false;
         });
 
         // Register event for addressbook dialog
-        $('#OptionAddressBook').bind('click', function (Event) {
+        $('#OptionAddressBook').bind('click', function () {
             OpenAddressBook();
             return false;
         });
 
         // Register event for customer dialog
-        $('#OptionCustomer').bind('click', function (Event) {
+        $('#OptionCustomer').bind('click', function () {
             OpenCustomerDialog();
             return false;
         });
@@ -204,7 +204,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 });
             }
 
-            Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function(Form) {
+            Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function() {
                 if ( $('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked') ) {
                     Core.App.Publish('Event.Agent.TicketAction.NeedSpellCheck', [$('#RichText')]);
                     Core.UI.Dialog.ShowContentDialog('<p>' + Core.Config.Get('SpellCheckNeededMsg') + '</p>', '', '150px', 'Center', true, [
@@ -250,7 +250,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Subscribe to ToggleWidget event to handle special behaviour in ticket action screens
-        var WidgetToggleEvent = Core.App.Subscribe('Event.UI.ToggleWidget', function ($WidgetElement) {
+        Core.App.Subscribe('Event.UI.ToggleWidget', function ($WidgetElement) {
             if ($WidgetElement.attr('id') !== 'WidgetArticle') {
                 return;
             }
@@ -283,13 +283,13 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     TargetNS.InitAddressBook = function () {
         // Register event for copying mail address to input field
-        $('#SearchResult a').bind('click', function (Event) {
+        $('#SearchResult a').bind('click', function () {
             AddMailAddress($(this));
             return false;
         });
 
         // Register Apply button event
-        $('#Apply').bind('click', function (Event) {
+        $('#Apply').bind('click', function () {
             // Update ticket action popup fields
             var $To, $Cc, $Bcc, CustomerData;
 
@@ -345,7 +345,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Register Cancel button event
-        $('#Cancel').bind('click', function (Event) {
+        $('#Cancel').bind('click', function () {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));
@@ -361,14 +361,14 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     TargetNS.InitSpellCheck = function () {
         // Register onchange event for dropdown and input field to change the radiobutton
-        $('#SpellCheck select, #SpellCheck input[type="text"]').bind('change', function (Event) {
+        $('#SpellCheck select, #SpellCheck input[type="text"]').bind('change', function () {
             var $Row = $(this).closest('tr'),
                 RowCount = parseInt($Row.attr('id').replace(/Row/, ''), 10);
             $Row.find('input[type="radio"][id=ChangeWord' + RowCount + ']').prop('checked', true);
         });
 
         // Register Apply button event
-        $('#Apply').bind('click', function (Event) {
+        $('#Apply').bind('click', function () {
             // Update ticket action popup fields
             var FieldName = $('#Field').val(),
                 $Body = $('#' + FieldName, parent.document);
@@ -381,7 +381,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
         });
 
         // Register Cancel button event
-        $('#Cancel').bind('click', function (Event) {
+        $('#Cancel').bind('click', function () {
             // Because we are in an iframe, we need to call the parent frames javascript function
             // with a jQuery object which is in the parent frames context
             parent.Core.UI.Dialog.CloseDialog($('.Dialog', parent.document));

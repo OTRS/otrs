@@ -168,7 +168,7 @@ Core.AJAX = (function (TargetNS) {
         $('#FileUpload').parent().siblings('li').remove();
 
         // 2nd: add all files based on the metadata from Value
-        $(Value).each(function(index) {
+        $(Value).each(function() {
             FileID = this.FileID;
             ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="SpacingLeft">' + DeleteText + '</button>';
             InputStrg =  '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
@@ -200,12 +200,9 @@ Core.AJAX = (function (TargetNS) {
         if ( $Element.length) {
             var $ParentBody = $Element,
                 ParentBody = $ParentBody[0],
-                ParentBodyValue = $ParentBody.val(),
                 Range,
                 StartRange = 0,
-                EndRange = 0,
-                NewPosition = 0,
-                NewHTML;
+                NewPosition = 0;
 
             // add the text to the RichText editor
             if (parent.CKEDITOR && parent.CKEDITOR.instances.RichText) {
@@ -232,7 +229,6 @@ Core.AJAX = (function (TargetNS) {
                 // Get previously saved cursor position of textarea
                 if ($Element.parent().data('Cursor')) {
                     StartRange = parent.$Element.data('Cursor').StartRange;
-                    EndRange = parent.$Element.data('Cursor').EndRange;
                 }
 
                 // Add new text to textarea

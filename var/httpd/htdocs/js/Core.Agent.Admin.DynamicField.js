@@ -77,14 +77,14 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
         Core.Form.Validate.AddRule("Validate_Alphanumeric", {
             Validate_Alphanumeric: true
         });
-        Core.Form.Validate.AddMethod("Validate_Alphanumeric", function (Value, Element) {
+        Core.Form.Validate.AddMethod("Validate_Alphanumeric", function (Value) {
             return ( /^[a-zA-Z0-9]+$/.test(Value));
         }, "");
 
         Core.Form.Validate.AddRule("Validate_PositiveNegativeNumbers", {
             Validate_PositiveNegativeNumbers: true
         });
-        Core.Form.Validate.AddMethod("Validate_PositiveNegativeNumbers", function (Value, Element) {
+        Core.Form.Validate.AddMethod("Validate_PositiveNegativeNumbers", function (Value) {
             return ( /^-?[0-9]+$/.test(Value));
         }, "");
     };

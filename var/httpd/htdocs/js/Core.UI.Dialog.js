@@ -255,7 +255,7 @@ Core.UI.Dialog = (function (TargetNS) {
             return (Position + 'px');
         }
 
-        var $Dialog, $Content, $ButtonFooter, ContentScrollHeight, HTMLBackup, DialogCopy, DialogCopySelector, $InnerContent, InnerContentWidth = 0,
+        var $Dialog, $Content, $ButtonFooter, HTMLBackup, DialogCopy, DialogCopySelector,
             DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>';
 
         // Close all opened dialogs
@@ -421,7 +421,7 @@ Core.UI.Dialog = (function (TargetNS) {
         $Dialog.draggable({
             containment: 'body',
             handle: '.Header',
-            start: function(Event, UI) {
+            start: function() {
                 // Hide any possibly existing tooltips as they will not be moved
                 //  with this dialog.
                 if (Core.Form && Core.Form.ErrorTooltips) {
@@ -550,7 +550,7 @@ Core.UI.Dialog = (function (TargetNS) {
      *      Closes all dialogs specified.
      */
     TargetNS.CloseDialog = function (Object) {
-        var $Dialog, DialogCopy, DialogCopySelector, BackupHTML, Editor;
+        var $Dialog, DialogCopy, DialogCopySelector, BackupHTML;
         $Dialog = $(Object).closest('.Dialog:visible');
 
         // Get the original selector for the content template

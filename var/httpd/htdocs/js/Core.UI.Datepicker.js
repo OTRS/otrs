@@ -146,7 +146,6 @@ Core.UI.Datepicker = (function (TargetNS) {
         var $DatepickerElement,
             HasDateSelectBoxes = false,
             Options,
-            I,
             ErrorMessage;
 
         if (typeof LocalizationData === 'undefined') {
@@ -216,7 +215,7 @@ Core.UI.Datepicker = (function (TargetNS) {
                 Element.Day.val(LeadingZero(Day));
             }
         };
-        Options.beforeShow = function (Input, Instance) {
+        Options.beforeShow = function (Input) {
             $(Input).val('');
             return {
                 defaultDate: new Date(Element.Year.val(), Element.Month.val() - 1, Element.Day.val())

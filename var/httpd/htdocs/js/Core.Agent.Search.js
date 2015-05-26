@@ -297,8 +297,7 @@ Core.Agent.Search = (function (TargetNS) {
                 'Subject': 1,
                 'Body': 1,
                 'Fulltext': 1
-            },
-            StopWordCheckData;
+            };
 
         if (!Core.Config.Get('CheckSearchStringsForStopWords')) {
             Callback();
@@ -307,9 +306,7 @@ Core.Agent.Search = (function (TargetNS) {
 
         $('#SearchForm label').each(function () {
             var ElementName,
-                $Element,
-                $LabelElement = $(this),
-                $FieldElement = $LabelElement.next('.Field');
+                $Element;
 
             // those with ID's are used for searching
             if ( $(this).attr('id') ) {
@@ -418,7 +415,7 @@ Core.Agent.Search = (function (TargetNS) {
                     TargetNS.AdditionalAttributeSelectionRebuild();
 
                     // Register event for tree selection dialog
-                    $('.ShowTreeSelection').unbind('click').bind('click', function (Event) {
+                    $('.ShowTreeSelection').unbind('click').bind('click', function () {
                         Core.UI.TreeSelection.ShowTreeSelection($(this));
                         return false;
                     });
@@ -536,7 +533,7 @@ Core.Agent.Search = (function (TargetNS) {
                 });
 
                 // direct link to profile
-                $('#SearchProfileAsLink').bind('click', function (Event) {
+                $('#SearchProfileAsLink').bind('click', function () {
                     var Profile = $('#SearchProfile').val(),
                         Action = $('#SearchAction').val();
 

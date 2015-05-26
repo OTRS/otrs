@@ -42,7 +42,7 @@ Core.Form = (function (TargetNS) {
 
         // save action data to the given element
         if (!$Form.hasClass('AlreadyDisabled')) {
-            $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function (key, value) {
+            $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function () {
                 var ReadonlyValue = $(this).attr('readonly'),
                     TagnameValue  = $(this).prop('tagName'),
                     DisabledValue = $(this).attr('disabled');
@@ -89,7 +89,7 @@ Core.Form = (function (TargetNS) {
             .find('button')
             .removeAttr('disabled');
 
-        $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function (key, value) {
+        $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function () {
             var TagnameValue  = $(this).prop('tagName'),
                 ReadonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus'),
                 DisabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
@@ -161,7 +161,7 @@ Core.Form = (function (TargetNS) {
             }
 
             // Remove checkbox selection, if filter is used/changed
-            Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container, ColumnNumber) {
+            Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container) {
                 // Only continue, if the filter event is associated with the container we are working in
                 if (!$.contains($Container[0], $SelectAllCheckbox[0])) {
                     return false;

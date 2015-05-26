@@ -46,7 +46,7 @@ Core.Form = (function (Namespace) {
 
             equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled' );
 
-            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
+            $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
 
                 var readonlyValue = $(this).attr('readonly');
@@ -75,7 +75,7 @@ Core.Form = (function (Namespace) {
 
             equal($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled' );
 
-            $.each($('#TestForm').find("input, textarea, select, button"), function(key, value) {
+            $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
                 var readonlyValue = $(this).attr('readonly');
                 var tagnameValue  = $(this).prop('tagName');

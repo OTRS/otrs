@@ -97,7 +97,9 @@ Core.Debug = (function (TargetNS) {
         try {
             RequiredEval = eval('try{ typeof ' + Required + '} catch (E) {}');
         }
-        catch (Exception) {
+        catch (Event) {
+            // no code here
+            $.noop(Event);
         }
 
         if (RequiredEval === 'function' || RequiredEval === 'object') {
