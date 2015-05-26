@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardNews;
+package Kernel::Output::HTML::Dashboard::News;
 
 use strict;
 use warnings;
@@ -114,10 +114,14 @@ sub Run {
         my $Ago;
 
         if ($Time) {
-            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+
+            # get time object
+            my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+            my $SystemTime = $TimeObject->TimeStamp2SystemTime(
                 String => $Time,
             );
-            $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
+            $Ago = $TimeObject->SystemTime() - $SystemTime;
             $Ago = $LayoutObject->CustomerAge(
                 Age   => $Ago,
                 Space => ' ',

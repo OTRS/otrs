@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardProductNotify;
+package Kernel::Output::HTML::Dashboard::ProductNotify;
 
 use strict;
 use warnings;

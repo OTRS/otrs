@@ -215,7 +215,21 @@ JAVASCRIPT
             "Deleted $RandomID ACL",
         );
 
-        }
+        # go back to overview
+        $Selenium->find_element( '.CallForAction.Center.Fullsize.Back>span', 'css' )->click();
+
+        # wait to open overview page
+        $Selenium->WaitFor( JavaScript => 'return $("#Filter").length' );
+
+        # sync ACL information from database with the system configuration
+        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->click();
+
+        # make sure the cache is correct.
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+            Type => 'ACLEditor_ACL',
+        );
+
+    }
 );
 
 1;

@@ -5928,7 +5928,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardProductNotify</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::ProductNotify</Item>
                 <Item Key="Title" Translatable="1">Product News</Item>
                 <Item Key="Description" Translatable="1">News about OTRS releases!</Item>
                 <Item Key="Block">ContentLarge</Item>
@@ -5944,7 +5944,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardUserOutOfOffice</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOutOfOffice</Item>
                 <Item Key="Title" Translatable="1">Out Of Office</Item>
                 <Item Key="Description"></Item>
                 <Item Key="IdleMinutes">60</Item>
@@ -5963,7 +5963,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardUserOnline</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::UserOnline</Item>
                 <Item Key="Title" Translatable="1">Online</Item>
                 <Item Key="Description"></Item>
                 <Item Key="ShowEmail">0</Item>
@@ -5984,7 +5984,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardNews</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::News</Item>
                 <Item Key="Title" Translatable="1">OTRS News</Item>
                 <Item Key="Description"></Item>
                 <Item Key="Block">ContentSmall</Item>
@@ -6041,11 +6041,11 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardImage</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::Image</Item>
                 <Item Key="Title" Translatable="1">A picture</Item>
                 <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">http://www.otrs.com/uploads/pics/jointhecommunity_02.jpg</Item>
+                <Item Key="URL">http://www.otrs.com/wp-uploads//2013/10/OTRS_Logo-300x170.png</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Link">http://otrs.org/</Item>
@@ -6061,7 +6061,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardMOTD</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::MOTD</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
@@ -6075,7 +6075,7 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardIFrame</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::IFrame</Item>
                 <Item Key="Title" Translatable="1">A Website</Item>
                 <Item Key="Description" Translatable="1">Some description!</Item>
                 <Item Key="Block">ContentLarge</Item>
