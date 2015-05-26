@@ -466,6 +466,14 @@
             <String Regex="">webrequest</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="GenericInterface::Operation::ResponseLoggingMaxSize" Required="1" Valid="1">
+        <Description Translatable="1">Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.</Description>
+        <Group>GenericInterface</Group>
+        <SubGroup>GenericInterface::Operation::ResponseLoggingMaxSize</SubGroup>
+        <Setting>
+            <String Regex="">200</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="GenericInterface::Operation::TicketUpdate###HistoryType" Required="1" Valid="1">
         <Description Translatable="1">Defines the history type for this operation, which gets used for ticket history in the agent interface.</Description>
         <Group>GenericInterface</Group>

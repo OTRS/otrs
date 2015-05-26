@@ -279,6 +279,26 @@ sub Run {
 
     my $DataIn = $FunctionResult->{Data};
 
+    {
+        my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize') || 200;
+        $MaxSize = $MaxSize * 1024;
+        use bytes;
+
+        my $ByteSize = length($DataIn);
+        if ( $ByteSize < $MaxSize ) {
+            $DebuggerObject->Debug(
+                Summary => "Incoming data before mapping",
+                Data    => $DataIn,
+            );
+        }
+        else {
+            $DebuggerObject->Debug(
+                Summary => "Incoming data before mapping was too large for logging",
+                Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
+            );
+        }
+    }
+
     $DebuggerObject->Debug(
         Summary => "Incoming data before mapping",
         Data    => $DataIn,
