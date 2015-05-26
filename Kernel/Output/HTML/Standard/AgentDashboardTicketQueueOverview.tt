@@ -39,7 +39,7 @@
 [% RenderBlockStart("ContentLargeTicketQueueOverviewNone") %]
         <tr>
             <td colspan="[% Data.ColumnCount | html %]">
-                [% Translate("No data found.") | html %]
+                [% Translate("none") | html %]
             </td>
         </tr>
 [% RenderBlockEnd("ContentLargeTicketQueueOverviewNone") %]
