@@ -255,6 +255,25 @@ o Name:    CPAN XML::Simple
            # under the same terms as Perl itself.
   Note:    # Copyright 1999-2004 Grant McLean <grantm@cpan.org>
 
+o Name:    CPAN HTML::Truncate
+  Web:     n/a
+  License: # This program is free software; you can redistribute it or modify it or both
+           # under the same terms as Perl itself.
+  Note:    # Copyright (©) 2005-2009 Ashley Pond V.
+
+o Name:    CPAN HTML::TokeParser
+  Web:     n/a
+  License: # This library is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1998-2005 Gisle Aas.
+
+o Name:    CPAN HTML::Tagset
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1995-2000 Gisle Aas.
+           # Copyright 2000-2005 Sean M. Burke.
+           # Copyright 2005-2008 Andy Lester.
 
 # --
 # JavaScript
