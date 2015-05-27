@@ -700,12 +700,14 @@ sub RequesterPerformRequest {
         };
     }
 
+    my $SizeExeeded = 0;
     {
         my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize') || 200;
         $MaxSize = $MaxSize * 1024;
         use bytes;
 
         my $ByteSize = length($ResponseContent);
+
         if ( $ByteSize < $MaxSize ) {
             $Self->{DebuggerObject}->Debug(
                 Summary => 'JSON data received from remote system',
@@ -713,6 +715,7 @@ sub RequesterPerformRequest {
             );
         }
         else {
+            $SizeExeeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
                 Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
@@ -751,8 +754,9 @@ sub RequesterPerformRequest {
 
     # all OK - return result
     return {
-        Success => 1,
-        Data    => $Result || undef,
+        Success     => 1,
+        Data        => $Result || undef,
+        SizeExeeded => $SizeExeeded,
     };
 }
 
