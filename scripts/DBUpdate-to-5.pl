@@ -380,7 +380,7 @@ sub _MigrateConfigs {
     print "--- NavBar menu modules...";
 
     # NavBar menu modules
-    my @Types = (
+    my @NavBarTypes = (
         {
             Path => 'Frontend::NavBarModule',
         },
@@ -389,7 +389,7 @@ sub _MigrateConfigs {
         },
     );
 
-    for my $Type (@Types) {
+    for my $Type (@NavBarTypes) {
 
         $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type->{Path} );
 
@@ -441,6 +441,42 @@ sub _MigrateConfigs {
     }
 
     print "...done.\n";
+    print "--- Dashboard modules...";
+
+    # Dashboard modules
+    my @DashboardTypes = (
+        {
+            Path => 'DashboardBackend',
+        },
+        {
+            Path => 'AgentCustomerInformationCenter::Backend',
+        },
+    );
+
+    for my $Type (@DashboardTypes) {
+
+        $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type->{Path} );
+
+        DASHBOARDMODULE:
+        for my $DashboardModule ( sort keys %{$Setting} ) {
+
+            # update module location
+            my $Module = $Setting->{$DashboardModule}->{'Module'} // '';
+
+            if ( $Module !~ m{Kernel::Output::HTML::Dashboard(\w+)} ) {
+                next DASHBOARDMODULE;
+            }
+            $Module =~ s{Kernel::Output::HTML::Dashboard(\w+)}{Kernel::Output::HTML::Dashboard::$1}xmsg;
+            $Setting->{$DashboardModule}->{'Module'} = $Module;
+
+            # set new setting,
+            my $Success = $SysConfigObject->ConfigItemUpdate(
+                Valid => 1,
+                Key   => $Type->{Path} . '###' . $DashboardModule,
+                Value => $Setting->{$DashboardModule},
+            );
+        }
+    }
 
     return 1;
 }
