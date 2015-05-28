@@ -104,7 +104,7 @@ $Selenium->RunTest(
         );
 
         # create open and closed tickets
-        for my $TicketCreate ( sort keys \%TicketData ) {
+        for my $TicketCreate ( sort keys %TicketData ) {
             for my $TestTickets ( 1 .. 5 ) {
                 my $TicketNumber = $TicketObject->TicketCreateNumber();
                 my $TicketID     = $TicketObject->TicketCreate(
@@ -123,8 +123,8 @@ $Selenium->RunTest(
                     $TicketID,
                     "$TicketCreate - ticket TicketID $TicketID - created - TN $TicketNumber",
                 );
-                push $TicketData{$TicketCreate}->{TicketIDs},     $TicketID;
-                push $TicketData{$TicketCreate}->{TicketNumbers}, $TicketNumber;
+                push @{ $TicketData{$TicketCreate}->{TicketIDs} },     $TicketID;
+                push @{ $TicketData{$TicketCreate}->{TicketNumbers} }, $TicketNumber;
             }
             my $TicketCount = $TicketObject->TicketSearch(
                 Result     => 'Count',
@@ -140,7 +140,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketData{Open}->{TicketIDs}->[0]");
 
         # test CustomerUserGenericTicket module
-        for my $TestLinks ( sort keys \%TicketData ) {
+        for my $TestLinks ( sort keys %TicketData ) {
 
             # check for layout and ticket count
             my $ExpectedText = $TestLinks . " tickets (customer) ($TicketData{$TestLinks}->{TicketCount})";
@@ -172,7 +172,7 @@ $Selenium->RunTest(
         }
 
         # delete created test tickets
-        for my $TicketState ( sort keys \%TicketData ) {
+        for my $TicketState ( sort keys %TicketData ) {
             for my $TicketID ( @{ $TicketData{$TicketState}->{TicketIDs} } ) {
 
                 my $Success = $TicketObject->TicketDelete(
