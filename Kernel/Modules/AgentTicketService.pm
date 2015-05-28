@@ -161,7 +161,7 @@ sub Run {
     }
 
     # get service param
-    my $ServiceID = $Self->{ParamObject}->GetParam( Param => 'ServiceID' ) || 0;
+    my $ServiceID = $ParamObject->GetParam( Param => 'ServiceID' ) || 0;
 
     # if we have only one service, check if there
     # is a setting in Config.pm for sorting

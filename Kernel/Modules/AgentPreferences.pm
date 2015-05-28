@@ -101,6 +101,7 @@ sub Run {
 
             my $Object = $Module->new(
                 %{$Self},
+                UserObject => $UserObject,
                 ConfigItem => $Preferences{$Group},
                 Debug      => $Self->{Debug},
             );
@@ -256,6 +257,7 @@ sub AgentPreferencesForm {
             }
             my $Object = $Module->new(
                 %{$Self},
+                UserObject => $Kernel::OM->Get('Kernel::System::User'),
                 ConfigItem => \%Preference,
                 Debug      => $Self->{Debug},
             );

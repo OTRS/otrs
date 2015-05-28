@@ -1711,11 +1711,11 @@ sub _StopWordsServerErrorsGet {
     my ( $Self, %Param ) = @_;
 
     if ( !%Param ) {
-        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError( Message => "Got no values to check." );
     }
 
     my %StopWordsServerErrors;
-    if ( !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
         return %StopWordsServerErrors;
     }
 
@@ -1731,7 +1731,7 @@ sub _StopWordsServerErrorsGet {
 
     if (%SearchStrings) {
 
-        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+        my $StopWords = $Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsFind(
             SearchStrings => \%SearchStrings
         );
 

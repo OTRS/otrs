@@ -101,7 +101,7 @@ sub Run {
     # limit them by QueuePermissionGroup if needed
     my $LimitGroupID;
     if ($LimitGroup) {
-        $LimitGroupID = $Self->{GroupObject}->GroupLookup(
+        $LimitGroupID = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
             Group => $LimitGroup,
         );
     }

@@ -58,6 +58,7 @@ sub Run {
         }
         my $Object = $Module->new(
             %{$Self},
+            UserObject => $UserObject,
             ConfigItem => $Preferences{$Group},
             Debug      => $Self->{Debug},
         );
@@ -223,6 +224,7 @@ sub CustomerPreferencesForm {
             }
             my $Object = $Module->new(
                 %{$Self},
+                UserObject => $Kernel::OM->Get('Kernel::System::CustomerUser'),
                 ConfigItem => $Preferences{$Group},
                 Debug      => $Self->{Debug},
             );

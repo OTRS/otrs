@@ -14,10 +14,7 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
-    'Kernel::System::Encode',
-    'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::Web::Request',
 );
 
@@ -56,12 +53,9 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # create common framework objects 1/3
-    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
-            LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix') || 'Installer',
+            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
         },
         'Kernel::Output::HTML::Layout' => {
             InstallerOnly => 1,
@@ -70,12 +64,6 @@ sub new {
             WebRequest => $Param{WebRequest} || 0,
         },
     );
-
-    $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{ParamObject}  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    $Self->{TimeObject}   = $Kernel::OM->Get('Kernel::System::Time');
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -102,9 +90,11 @@ sub Run {
     # get common framework params
     my %Param;
 
-    $Param{Action}     = $Self->{ParamObject}->GetParam( Param => 'Action' )     || 'Installer';
-    $Param{Subaction}  = $Self->{ParamObject}->GetParam( Param => 'Subaction' )  || '';
-    $Param{NextScreen} = $Self->{ParamObject}->GetParam( Param => 'NextScreen' ) || '';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    $Param{Action}     = $ParamObject->GetParam( Param => 'Action' )     || 'Installer';
+    $Param{Subaction}  = $ParamObject->GetParam( Param => 'Subaction' )  || '';
+    $Param{NextScreen} = $ParamObject->GetParam( Param => 'NextScreen' ) || '';
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::Output::HTML::Layout' => {
@@ -112,25 +102,24 @@ sub Run {
         },
     );
 
-    $Self->{LayoutObject} = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # check secure mode
-    if ( $Self->{ConfigObject}->Get('SecureMode') ) {
-        print $Self->{LayoutObject}->Header();
-        print $Self->{LayoutObject}->Error(
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
+        print $LayoutObject->Header();
+        print $LayoutObject->Error(
             Message => 'SecureMode active!',
             Comment =>
                 'If you want to re-run the Installer, disable the SecureMode in the SysConfig',
         );
-        print $Self->{LayoutObject}->Footer();
+        print $LayoutObject->Footer();
     }
 
     # run modules if a version value exists
-    elsif ( $Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
+    elsif ( $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
 
         # proof of concept! - create $GenericObject
         my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
-            %{$Self},
             %Param,
         );
 
@@ -141,12 +130,12 @@ sub Run {
     else {
 
         # create new LayoutObject with '%Param'
-        print $Self->{LayoutObject}->Header();
-        print $Self->{LayoutObject}->Error(
+        print $LayoutObject->Header();
+        print $LayoutObject->Error(
             Message => "Action '$Param{Action}' not found!",
             Comment => 'Contact your admin!',
         );
-        print $Self->{LayoutObject}->Footer();
+        print $LayoutObject->Footer();
     }
 
 }

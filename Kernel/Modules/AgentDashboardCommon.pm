@@ -112,9 +112,9 @@ sub Run {
         # check CustomerID presence for all subactions that need it
         if ( $Self->{Subaction} ne 'UpdatePosition' ) {
             if ( !$Self->{CustomerID} ) {
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
+                my $Output = $LayoutObject->Header();
+                $Output .= $LayoutObject->NavigationBar();
+                $Output .= $LayoutObject->Output(
                     TemplateFile => 'AgentCustomerInformationCenterBlank',
                     Data         => \%Param,
                 );

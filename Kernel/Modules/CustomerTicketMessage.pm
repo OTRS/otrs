@@ -921,7 +921,7 @@ sub _GetTos {
         );
 
         # log loaded module
-        if ( $Self->{Debug} > 1 ) {
+        if ( $Self->{Debug} && $Self->{Debug} > 1 ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => "Module: $Module loaded!",
@@ -994,7 +994,7 @@ sub _MaskNew {
             );
 
             # log loaded module
-            if ( $Self->{Debug} > 1 ) {
+            if ( $Self->{Debug} && $Self->{Debug} > 1 ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => "Module: $Module loaded!",

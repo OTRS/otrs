@@ -14,12 +14,9 @@ use warnings;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
-    'Kernel::System::CustomerUser',
     'Kernel::System::DB',
-    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Time',
     'Kernel::System::Web::Request',
 );
 
@@ -64,27 +61,18 @@ sub new {
     # performance log
     $Self->{PerformanceLogStart} = time();
 
-    # create common framework objects 1/3
-    $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
-
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
-            LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
+            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
         },
         'Kernel::System::Web::Request' => {
             WebRequest => $Param{WebRequest} || 0,
         },
     );
 
-    $Self->{EncodeObject} = $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{LogObject}    = $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{MainObject}   = $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{ParamObject}  = $Kernel::OM->Get('Kernel::System::Web::Request');
-    $Self->{TimeObject}   = $Kernel::OM->Get('Kernel::System::Time');
-
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle started...',
         );
@@ -107,9 +95,12 @@ sub Run {
     # get common framework params
     my %Param;
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     # get session id
-    $Param{SessionName} = $Self->{ConfigObject}->Get('CustomerPanelSessionName') || 'CSID';
-    $Param{SessionID} = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
+    $Param{SessionName} = $ConfigObject->Get('CustomerPanelSessionName') || 'CSID';
+    $Param{SessionID} = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
     my $QueryString = $ENV{QUERY_STRING} || '';
@@ -123,7 +114,7 @@ sub Run {
         RequestedURL => $QueryString,
     };
     for my $Key ( sort keys %{$FrameworkParams} ) {
-        $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key )
+        $Param{$Key} = $ParamObject->GetParam( Param => $Key )
             || $FrameworkParams->{$Key};
     }
 
@@ -134,8 +125,8 @@ sub Run {
 
     # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
-    if ( $Self->{ConfigObject}->Get('SessionUseCookie') ) {
-        $Param{SessionIDCookie} = $Self->{ParamObject}->GetCookie( Key => $Param{SessionName} );
+    if ( $ConfigObject->Get('SessionUseCookie') ) {
+        $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
         if ( $Param{SessionIDCookie} ) {
             $Param{SessionID} = $Param{SessionIDCookie};
         }
@@ -147,9 +138,9 @@ sub Run {
     # because otherwise the action parameter is not passed and then
     # the loader can not load module specific JavaScript and CSS
     # For details see bug: http://bugs.otrs.org/show_bug.cgi?id=6471
-    my %CommonObjectParam = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonParam') };
+    my %CommonObjectParam = %{ $ConfigObject->Get('PublicFrontend::CommonParam') };
     for my $Key ( sort keys %CommonObjectParam ) {
-        $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
+        $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $CommonObjectParam{$Key};
     }
 
     # security check Action Param (replace non-word chars)
@@ -163,81 +154,74 @@ sub Run {
         },
     );
 
-    $Self->{DBObject} = $Kernel::OM->Get('Kernel::System::DB');
-    my $DBCanConnect = $Self->{DBObject}->Connect();
+    my $DBCanConnect = $Kernel::OM->Get('Kernel::System::DB')->Connect();
 
-    # create common framework objects 2/3
-    $Self->{LayoutObject} = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$DBCanConnect ) {
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
+        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
     }
-    if ( $Self->{ParamObject}->Error() ) {
-        $Self->{LayoutObject}->CustomerFatalError(
-            Message => $Self->{ParamObject}->Error(),
+    if ( $ParamObject->Error() ) {
+        $LayoutObject->CustomerFatalError(
+            Message => $ParamObject->Error(),
             Comment => 'Please contact your administrator'
         );
     }
 
-    # create common framework objects 3/3
-    $Self->{UserObject} = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
     # application and add-on application common objects
-    my %CommonObject = %{ $Self->{ConfigObject}->Get('PublicFrontend::CommonObject') };
+    my %CommonObject = %{ $ConfigObject->Get('PublicFrontend::CommonObject') };
     for my $Key ( sort keys %CommonObject ) {
         $Self->{$Key} //= $Kernel::OM->Get( $CommonObject{$Key} );
     }
 
     # run modules if a version value exists
-    if ( !$Self->{MainObject}->Require("Kernel::Modules::$Param{Action}") ) {
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
+        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
         return 1;
     }
 
     # module registry
-    my $ModuleReg = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Param{Action} };
+    my $ModuleReg = $ConfigObject->Get('PublicFrontend::Module')->{ $Param{Action} };
     if ( !$ModuleReg ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
                 "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
         );
-        $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your administrator' );
+        $LayoutObject->CustomerFatalError( Comment => 'Please contact your administrator' );
         return;
     }
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Kernel::Modules::' . $Param{Action} . '->new',
         );
     }
 
-    # proof of concept! - create $GenericObject
-    my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
+    my $FrontendObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
         UserID => 1,
-        %{$Self},
         %Param,
     );
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Kernel::Modules::' . $Param{Action} . '->run',
         );
     }
 
-    # ->Run $Action with $GenericObject
-    $Self->{LayoutObject}->Print( Output => \$GenericObject->Run() );
+    # ->Run $Action with $FrontendObject
+    $LayoutObject->Print( Output => \$FrontendObject->Run() );
 
     # log request time
-    if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
+    if ( $ConfigObject->Get('PerformanceLog') ) {
         if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
             $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
         }
-        my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
+        my $File = $ConfigObject->Get('PerformanceLog::File');
         ## no critic
         if ( open my $Out, '>>', $File ) {
             ## use critic
@@ -246,7 +230,7 @@ sub Run {
                 . ( time() - $Self->{PerformanceLogStart} )
                 . "::-::$QueryString\n";
             close $Out;
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
                 Message  => 'Response::Public: '
                     . ( time() - $Self->{PerformanceLogStart} )
@@ -254,7 +238,7 @@ sub Run {
             );
         }
         else {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't write $File: $!",
             );
@@ -269,7 +253,7 @@ sub DESTROY {
 
     # debug info
     if ( $Self->{Debug} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => 'Global handle stopped.',
         );
