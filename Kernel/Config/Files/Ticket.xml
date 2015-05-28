@@ -6581,7 +6581,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Reminder Tickets</Item>
                 <Item Key="Description" Translatable="1">All tickets with a reminder set where the reminder date has been reached</Item>
                 <Item Key="Attributes">TicketPendingTimeOlderMinutes=1;StateType=pending reminder;SortBy=PendingTime;OrderBy=Down;</Item>
@@ -6627,7 +6627,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Escalated Tickets</Item>
                 <Item Key="Description" Translatable="1">All escalated tickets</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
@@ -6673,7 +6673,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">New Tickets</Item>
                 <Item Key="Description" Translatable="1">All new tickets, these tickets have not been worked on yet</Item>
                 <Item Key="Attributes">StateType=new;</Item>
@@ -6719,7 +6719,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
                 <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
                 <Item Key="Attributes">StateType=open;</Item>
@@ -6801,7 +6801,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketQueueOverview</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketQueueOverview</Item>
                 <Item Key="Title" Translatable="1">Ticket Queue Overview</Item>
                 <Item Key="Description" Translatable="1">Provides a matrix overview of the tickets per state per queue.</Item>
                 <Item Key="Permission">rw</Item>
@@ -6937,7 +6937,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Reminder Tickets</Item>
                 <Item Key="Description" Translatable="1">All tickets with a reminder set where the reminder date has been reached</Item>
                 <Item Key="Attributes">TicketPendingTimeOlderMinutes=1;StateType=pending reminder;SortBy=PendingTime;OrderBy=Down;</Item>
@@ -6983,7 +6983,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Escalated Tickets</Item>
                 <Item Key="Description" Translatable="1">All escalated tickets</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;SortBy=EscalationTime;OrderBy=Down;</Item>
@@ -7029,7 +7029,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">New Tickets</Item>
                 <Item Key="Description" Translatable="1">All new tickets, these tickets have not been worked on yet</Item>
                 <Item Key="Attributes">StateType=new;</Item>
@@ -7075,7 +7075,7 @@
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::TicketGeneric</Item>
                 <Item Key="Title" Translatable="1">Open Tickets / Need to be answered</Item>
                 <Item Key="Description" Translatable="1">All open tickets, these tickets have already been worked on, but need a response</Item>
                 <Item Key="Attributes">StateType=open;</Item>

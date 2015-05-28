@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardRSS;
+package Kernel::Output::HTML::Dashboard::RSS;
 
 use strict;
 use warnings;

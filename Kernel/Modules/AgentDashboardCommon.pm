@@ -92,7 +92,7 @@ sub Run {
                 $Config->{ ( $StatID + 1000 ) . '-Stats' } = {
                     'Block'       => 'ContentLarge',
                     'Default'     => 0,
-                    'Module'      => 'Kernel::Output::HTML::DashboardStats',
+                    'Module'      => 'Kernel::Output::HTML::Dashboard::Stats',
                     'Title'       => $Title,
                     'StatID'      => $StatID,
                     'Description' => $Description,

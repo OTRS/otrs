@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardTicketGeneric;
+package Kernel::Output::HTML::Dashboard::TicketGeneric;
 
 use strict;
 use warnings;
@@ -23,8 +23,8 @@ sub new {
     bless( $Self, $Type );
 
     # get needed parameters
-    for my $Item (qw(Config Name UserID)) {
-        die "Got no $Item!" if ( !$Self->{$Item} );
+    for my $Needed (qw(Config Name UserID)) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     # get param object

@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::DashboardTicketQueueOverview;
+package Kernel::Output::HTML::Dashboard::TicketQueueOverview;
 
 use strict;
 use warnings;
@@ -21,8 +21,8 @@ sub new {
     bless( $Self, $Type );
 
     # get needed parameters
-    for my $Object (qw( Config Name UserID )) {
-        die "Got no $Object!" if ( !$Self->{$Object} );
+    for my $Needed (qw( Config Name UserID )) {
+        die "Got no $Needed!" if ( !$Self->{$Needed} );
     }
 
     $Self->{PrefKey}  = 'UserDashboardPref' . $Self->{Name} . '-Shown';
@@ -56,7 +56,10 @@ sub Run {
     my $LimitGroup = $Self->{Config}->{QueuePermissionGroup} || 0;
     my $CacheKey = 'User' . '-' . $Self->{UserID} . '-' . $LimitGroup;
 
-    my $Content = $Self->{CacheObject}->Get(
+    # get cache object
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    my $Content = $CacheObject->Get(
         Type => 'DashboardQueueOverview',
         Key  => $CacheKey,
     );
@@ -272,7 +275,7 @@ sub Run {
 
     # cache result
     if ( $Self->{Config}->{CacheTTLLocal} ) {
-        $Self->{CacheObject}->Set(
+        $CacheObject->Set(
             Type  => 'DashboardQueueOverview',
             Key   => $CacheKey,
             Value => $Content || '',
