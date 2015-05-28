@@ -912,7 +912,7 @@ sub _GetTos {
     # check own selection
     my %NewTos = ( '', '-' );
     my $Module = $Kernel::OM->Get('Kernel::Config')->Get('CustomerPanel::NewTicketQueueSelectionModule')
-        || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+        || 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric';
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
         my $Object = $Module->new(
             %{$Self},
@@ -985,7 +985,7 @@ sub _MaskNew {
         # check own selection
         my %NewTos = ( '', '-' );
         my $Module = $ConfigObject->Get('CustomerPanel::NewTicketQueueSelectionModule')
-            || 'Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric';
+            || 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric';
         if ( $Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
             my $Object = $Module->new(
                 %{$Self},

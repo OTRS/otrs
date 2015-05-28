@@ -83,7 +83,7 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_CheckFrameworkVersion,
         },
         {
-            Message => 'Migrate toolbar configurations to the new module locations',
+            Message => 'Migrate Output configurations to the new module locations',
             Command => \&_MigrateConfigs,
         },
         {
@@ -216,11 +216,14 @@ Change toolbar configurations to match the new module location.
 
 sub _MigrateConfigs {
 
-    # Toolbar Modules
+    # get needed objects
+    my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $Setting         = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::ToolBarModule');
 
     print "\n--- Toolbar modules...";
+
+    # Toolbar Modules
+    my $Setting = $ConfigObject->Get('Frontend::ToolBarModule');
 
     TOOLBARMODULE:
     for my $ToolbarModule ( sort keys %{$Setting} ) {
@@ -246,7 +249,7 @@ sub _MigrateConfigs {
     print "--- Ticket menu modules...";
 
     # Ticket Menu Modules
-    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::MenuModule');
+    $Setting = $ConfigObject->Get('Ticket::Frontend::MenuModule');
 
     MENUMODULE:
     for my $MenuModule ( sort keys %{$Setting} ) {
@@ -272,7 +275,7 @@ sub _MigrateConfigs {
     print "--- Ticket overview modules...";
 
     # Ticket Menu Modules
-    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::Overview');
+    $Setting = $ConfigObject->Get('Ticket::Frontend::Overview');
 
     OVERVIEWMODULE:
     for my $OverviewModule ( sort keys %{$Setting} ) {
@@ -298,7 +301,7 @@ sub _MigrateConfigs {
     print "--- Preferences group modules...";
 
     # Preferences groups
-    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('PreferencesGroups');
+    $Setting = $ConfigObject->Get('PreferencesGroups');
 
     PREFERENCEMODULE:
     for my $PreferenceModule ( sort keys %{$Setting} ) {
@@ -326,7 +329,7 @@ sub _MigrateConfigs {
     # SLA, Service and Queue preferences
     for my $Type (qw(SLA Service Queue)) {
 
-        $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type . 'Preferences' );
+        $Setting = $ConfigObject->Get( $Type . 'Preferences' );
 
         MODULE:
         for my $PreferenceModule ( sort keys %{$Setting} ) {
@@ -354,7 +357,7 @@ sub _MigrateConfigs {
     print "--- Article pre view modules...";
 
     # Article pre view modules
-    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::ArticlePreViewModule');
+    $Setting = $ConfigObject->Get('Ticket::Frontend::ArticlePreViewModule');
 
     ARTICLEMODULE:
     for my $ArticlePreViewModule ( sort keys %{$Setting} ) {
@@ -391,7 +394,7 @@ sub _MigrateConfigs {
 
     for my $Type (@NavBarTypes) {
 
-        $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type->{Path} );
+        $Setting = $ConfigObject->Get( $Type->{Path} );
 
         NAVBARMODULE:
         for my $NavBarModule ( sort keys %{$Setting} ) {
@@ -419,7 +422,7 @@ sub _MigrateConfigs {
     print "--- NavBar ModuleAdmin modules...";
 
     # NavBar module admin
-    $Setting = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module');
+    $Setting = $ConfigObject->Get('Frontend::Module');
 
     MODULEADMIN:
     for my $ModuleAdmin ( sort keys %{$Setting} ) {
@@ -477,6 +480,41 @@ sub _MigrateConfigs {
             );
         }
     }
+
+    print "...done.\n";
+    print "--- Customer user generic modules...";
+
+    # customer user generic module
+    $Setting = $ConfigObject->Get('Frontend::CustomerUser::Item');
+
+    CUSTOMERUSERGENERICMODULE:
+    for my $CustomerUserGenericModule ( sort keys %{$Setting} ) {
+
+        # update module location
+        my $Module = $Setting->{$CustomerUserGenericModule}->{'Module'} // '';
+
+        if ( $Module !~ m{Kernel::Output::HTML::CustomerUser(\w+)} ) {
+            next CUSTOMERUSERGENERICMODULE;
+        }
+        $Module =~ s{Kernel::Output::HTML::CustomerUser(\w+)}{Kernel::Output::HTML::CustomerUser::$1}xmsg;
+        $Setting->{$CustomerUserGenericModule}->{'Module'} = $Module;
+
+        # set new setting,
+        my $Success = $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Frontend::CustomerUser::Item###' . $CustomerUserGenericModule,
+            Value => $Setting->{$CustomerUserGenericModule},
+        );
+    }
+
+    # set new setting for CustomerNewTicketQueueSelectionGeneric
+    my $Success = $SysConfigObject->ConfigItemUpdate(
+        Valid => 2,
+        Key   => 'CustomerPanel::NewTicketQueueSelectionModule',
+        Value => 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric',
+    );
+
+    print "...done.\n";
 
     return 1;
 }

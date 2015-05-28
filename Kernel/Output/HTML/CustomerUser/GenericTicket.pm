@@ -6,10 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::CustomerUserGenericTicket;
+package Kernel::Output::HTML::CustomerUser::GenericTicket;
 
 use strict;
 use warnings;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,13 +20,8 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject TicketObject MainObject EncodeObject UserID)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
 
     return $Self;
 }
@@ -32,8 +29,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # don't show ticket search links in the print views
-    if ( $Self->{LayoutObject}->{Action} =~ m{Print$}smx ) {
+    if ( $LayoutObject->{Action} =~ m{Print$}smx ) {
         return;
     }
 
@@ -93,7 +93,7 @@ sub Run {
 
         # do lookups
         if ( $Lookup{$Key} ) {
-            next STRING if !$Self->{MainObject}->Require( $Lookup{$Key}->{Object} );
+            next STRING if !$Kernel::OM->Get('Kernel::System::Main')->Require( $Lookup{$Key}->{Object} );
             my $Object = $Lookup{$Key}->{Object}->new( %{$Self} );
             my $Method = $Lookup{$Key}->{Method};
             $Value = $Object->$Method( $Lookup{$Key}->{Input} => $Value );
@@ -129,27 +129,27 @@ sub Run {
 
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};
-    my $URL       = $Self->{LayoutObject}->{Baselink} . "Action=$Action;Subaction=$Subaction";
-    $URL .= ';CustomerID=' . $Self->{LayoutObject}->LinkEncode($CustomerIDRaw);
+    my $URL       = $LayoutObject->{Baselink} . "Action=$Action;Subaction=$Subaction";
+    $URL .= ';CustomerID=' . $LayoutObject->LinkEncode($CustomerIDRaw);
     for my $Key ( sort keys %TicketSearch ) {
         if ( ref $TicketSearch{$Key} eq 'ARRAY' ) {
             for my $Value ( @{ $TicketSearch{$Key} } ) {
-                $URL .= ';' . $Key . '=' . $Self->{LayoutObject}->LinkEncode($Value);
+                $URL .= ';' . $Key . '=' . $LayoutObject->LinkEncode($Value);
             }
         }
         else {
-            $URL .= ';' . $Key . '=' . $Self->{LayoutObject}->LinkEncode( $TicketSearch{$Key} );
+            $URL .= ';' . $Key . '=' . $LayoutObject->LinkEncode( $TicketSearch{$Key} );
         }
     }
 
     if ( defined $Param{Config}->{CustomerUserLogin} && $Param{Config}->{CustomerUserLogin} ) {
-        my $CustomerUserLoginEscaped = $Self->{DBObject}->QueryStringEscape(
+        my $CustomerUserLoginEscaped = $Kernel::OM->Get('Kernel::System::DB')->QueryStringEscape(
             QueryString => $Param{Data}->{UserLogin},
         );
 
         $TicketSearch{CustomerUserLogin} = $CustomerUserLoginEscaped;
         $URL .= ';CustomerUserLogin='
-            . $Self->{LayoutObject}->LinkEncode($CustomerUserLoginEscaped);
+            . $LayoutObject->LinkEncode($CustomerUserLoginEscaped);
     }
 
     my %TimeMap = (
@@ -245,7 +245,7 @@ sub Run {
         }
     }
 
-    my $Count = $Self->{TicketObject}->TicketSearch(
+    my $Count = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
 
         # result (required)
         %TicketSearch,
@@ -267,7 +267,7 @@ sub Run {
     }
 
     # generate block
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'CustomerItemRow',
         Data => {
             %{ $Param{Config} },

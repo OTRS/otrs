@@ -5822,7 +5822,7 @@
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
                 <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGenericTicket</Item>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUser::GenericTicket</Item>
                     <Item Key="Attributes">StateType=Open;</Item>
                     <Item Key="CustomerUserLogin">0</Item>
                     <Item Key="CSS">Core.Agent.CustomerUser.OpenTicket.css</Item>
@@ -5843,7 +5843,7 @@
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
                 <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGenericTicket</Item>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUser::GenericTicket</Item>
                     <Item Key="Attributes">StateType=Open;</Item>
                     <Item Key="CustomerUserLogin">1</Item>
                     <Item Key="CSS">Core.Agent.CustomerUser.OpenTicket.css</Item>
@@ -5864,7 +5864,7 @@
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
                 <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGenericTicket</Item>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUser::GenericTicket</Item>
                     <Item Key="Attributes">StateType=Closed;</Item>
                     <Item Key="CustomerUserLogin">0</Item>
                     <Item Key="CSS">Core.Agent.CustomerUser.OpenTicket.css</Item>
@@ -5885,7 +5885,7 @@
         <SubGroup>Frontend::Customer</SubGroup>
             <Setting>
                 <Hash>
-                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGenericTicket</Item>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUser::GenericTicket</Item>
                     <Item Key="Attributes">StateType=Closed;</Item>
                     <Item Key="CustomerUserLogin">1</Item>
                     <Item Key="CSS">Core.Agent.CustomerUser.OpenTicket.css</Item>
@@ -7726,7 +7726,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
         <Setting>
-            <String Regex="">Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric</String>
+            <String Regex="">Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###NextScreenAfterFollowUp" Required="1" Valid="1">

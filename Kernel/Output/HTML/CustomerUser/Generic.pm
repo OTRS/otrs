@@ -6,10 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::CustomerUserGeneric;
+package Kernel::Output::HTML::CustomerUser::Generic;
 
 use strict;
 use warnings;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -18,10 +20,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
+    # get UserID param
+    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
+
     return $Self;
 }
 
@@ -38,6 +39,9 @@ sub Run {
     # get all attributes
     @Params = split /;/, $Param{Config}->{Attributes};
 
+    # get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # build url
     my $URL = '';
     KEY:
@@ -46,14 +50,14 @@ sub Run {
         if ($URL) {
             $URL .= ', ';
         }
-        $URL .= $Self->{LayoutObject}->LinkEncode( $Param{Data}->{$Key} );
+        $URL .= $LayoutObject->LinkEncode( $Param{Data}->{$Key} );
     }
     $URL = $Param{Config}->{URL} . $URL;
 
     my $IconName = $Param{Config}->{IconName};
 
     # generate block
-    $Self->{LayoutObject}->Block(
+    $LayoutObject->Block(
         Name => 'CustomerItemRow',
         Data => {
             %{ $Param{Config} },

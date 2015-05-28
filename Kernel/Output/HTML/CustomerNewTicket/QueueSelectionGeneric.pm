@@ -6,10 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::CustomerNewTicketQueueSelectionGeneric;
+package Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric;
 
 use strict;
 use warnings;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -19,11 +21,8 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject QueueObject SystemAddress)
-        )
-    {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
+    for my $Needed (qw( UserID SystemAddress)) {
+        $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
     return $Self;
@@ -32,17 +31,22 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+
     # check if own selection is configured
     my %NewTos;
-    if ( $Self->{ConfigObject}->{CustomerPanelOwnSelection} ) {
-        for my $Queue ( sort keys %{ $Self->{ConfigObject}->{CustomerPanelOwnSelection} } ) {
-            my $Value = $Self->{ConfigObject}->{CustomerPanelOwnSelection}->{$Queue};
+    if ( $ConfigObject->{CustomerPanelOwnSelection} ) {
+        for my $Queue ( sort keys %{ $ConfigObject->{CustomerPanelOwnSelection} } ) {
+            my $Value = $ConfigObject->{CustomerPanelOwnSelection}->{$Queue};
             if ( $Queue =~ /^\d+$/ ) {
                 $NewTos{$Queue} = $Value;
             }
             else {
-                if ( $Self->{QueueObject}->QueueLookup( Queue => $Queue ) ) {
-                    $NewTos{ $Self->{QueueObject}->QueueLookup( Queue => $Queue ) } = $Value;
+                if ( $QueueObject->QueueLookup( Queue => $Queue ) ) {
+                    $NewTos{ $QueueObject->QueueLookup( Queue => $Queue ) } = $Value;
                 }
                 else {
                     $NewTos{$Queue} = $Value;
@@ -51,7 +55,7 @@ sub Run {
         }
 
         # check create permissions
-        my %Queues = $Self->{TicketObject}->MoveList(
+        my %Queues = $TicketObject->MoveList(
             %{ $Param{ACLParams} },
             CustomerUserID => $Param{Env}->{UserID},
             Type           => 'create',
@@ -67,8 +71,8 @@ sub Run {
 
         # SelectionType Queue or SystemAddress?
         my %Tos;
-        if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') eq 'Queue' ) {
-            %Tos = $Self->{TicketObject}->MoveList(
+        if ( $ConfigObject->Get('CustomerPanelSelectionType') eq 'Queue' ) {
+            %Tos = $TicketObject->MoveList(
                 %{ $Param{ACLParams} },
                 CustomerUserID => $Param{Env}->{UserID},
                 Type           => 'create',
@@ -76,13 +80,13 @@ sub Run {
             );
         }
         else {
-            my %Queues = $Self->{TicketObject}->MoveList(
+            my %Queues = $TicketObject->MoveList(
                 %{ $Param{ACLParams} },
                 CustomerUserID => $Param{Env}->{UserID},
                 Type           => 'create',
                 Action         => $Param{Env}->{Action},
             );
-            my %SystemTos = $Self->{DBObject}->GetTableData(
+            my %SystemTos = $Kernel::OM->Get('Kernel::System::DB')->GetTableData(
                 Table => 'system_address',
                 What  => 'queue_id, id',
                 Valid => 1,
@@ -98,12 +102,12 @@ sub Run {
 
         # build selection string
         for my $QueueID ( sort keys %NewTos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
-            my $String = $Self->{ConfigObject}->Get('CustomerPanelSelectionString')
+            my %QueueData = $QueueObject->QueueGet( ID => $QueueID );
+            my $String = $ConfigObject->Get('CustomerPanelSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
             $String =~ s/<Queue>/$QueueData{Name}/g;
             $String =~ s/<QueueComment>/$QueueData{Comment}/g;
-            if ( $Self->{ConfigObject}->Get('CustomerPanelSelectionType') ne 'Queue' ) {
+            if ( $ConfigObject->Get('CustomerPanelSelectionType') ne 'Queue' ) {
                 my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet( ID => $QueueData{SystemAddressID} );
                 $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
                 $String =~ s/<Email>/$SystemAddressData{Name}/g;

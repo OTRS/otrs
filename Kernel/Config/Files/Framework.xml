@@ -3776,7 +3776,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUser::Generic</Item>
                 <Item Key="Required">UserStreet;UserCity;</Item>
                 <Item Key="Attributes">UserStreet;UserCity;UserCountry;</Item>
                 <Item Key="CSS">Core.Agent.CustomerUser.GoogleMaps.css</Item>
@@ -3794,7 +3794,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUser::Generic</Item>
                 <Item Key="Required">UserFirstname;UserLastname;</Item>
                 <Item Key="Attributes">UserFirstname;UserLastname;</Item>
                 <Item Key="CSS">Core.Agent.CustomerUser.Google.css</Item>
@@ -3812,7 +3812,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUser::Generic</Item>
                 <Item Key="Required">UserFirstname;UserLastname;</Item>
                 <Item Key="Attributes">UserFirstname;UserLastname;</Item>
                 <Item Key="CSS">Core.Agent.CustomerUser.LinkedIn.css</Item>
@@ -3830,7 +3830,7 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                <Item Key="Module">Kernel::Output::HTML::CustomerUser::Generic</Item>
                 <Item Key="Required">UserFirstname;UserLastname;</Item>
                 <Item Key="Attributes">UserFirstname;UserLastname;</Item>
                 <Item Key="CSS">Core.Agent.CustomerUser.Xing.css</Item>
