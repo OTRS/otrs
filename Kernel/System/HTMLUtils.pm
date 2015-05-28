@@ -904,7 +904,7 @@ from html strings.
         NoIntSrcLoad   => 0,
         NoExtSrcLoad   => 1,
         NoJavaScript   => 1,
-        ReplacementStr => '✂︎',          # optional, string to show instead of applet, object, embed, svg and img tags
+        ReplacementStr => 'string',          # optional, string to show instead of applet, object, embed, svg and img tags
     );
 
 also string ref is possible
