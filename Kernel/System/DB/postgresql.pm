@@ -219,6 +219,9 @@ sub TableCreate {
         # auto increment
         if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
             $SQL = "    $Tag->{Name} serial";
+            if ( $Tag->{Type} =~ /^bigint$/i ) {
+                $SQL = "    $Tag->{Name} bigserial";
+            }
         }
 
         # normal data type
@@ -740,12 +743,6 @@ sub _TypeTranslation {
     }
 
     # performance option
-    elsif ( $Tag->{Type} =~ /^smallint$/i ) {
-        $Tag->{Type} = 'INTEGER';
-    }
-    elsif ( $Tag->{Type} =~ /^bigint$/i ) {
-        $Tag->{Type} = 'INTEGER';
-    }
     elsif ( $Tag->{Type} =~ /^longblob$/i ) {
         $Tag->{Type} = 'TEXT';
     }
