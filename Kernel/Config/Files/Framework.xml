@@ -2759,7 +2759,7 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::OutputFilter::TextURL</Item>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterTextURL</Item>
                 <Item Key="Templates">
                     <Hash>
                         <Item Key="AgentTicketZoom">1</Item>
@@ -6113,7 +6113,7 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::OutputFilter::TextAutoLink</Item>
+                <Item Key="Module">Kernel::Output::HTML::OutputFilterTextAutoLink</Item>
                 <Item Key="Templates">
                     <Hash>
                         <Item Key="AgentTicketZoom">1</Item>

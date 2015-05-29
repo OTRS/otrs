@@ -458,7 +458,7 @@ sub _MigrateConfigs {
 
     for my $Type (@DashboardTypes) {
 
-        $Setting = $ConfigObject->Get( $Type->{Path} );
+        $Setting = $Kernel::OM->Get('Kernel::Config')->Get( $Type->{Path} );
 
         DASHBOARDMODULE:
         for my $DashboardModule ( sort keys %{$Setting} ) {
@@ -513,32 +513,6 @@ sub _MigrateConfigs {
         Key   => 'CustomerPanel::NewTicketQueueSelectionModule',
         Value => 'Kernel::Output::HTML::CustomerNewTicket::QueueSelectionGeneric',
     );
-
-    print "...done.\n";
-    print "--- OutputFilter modules...";
-
-    # output filter module
-    $Setting = $ConfigObject->Get('Frontend::Output::FilterText');
-
-    OUTPUTFILTERMODULE:
-    for my $OutputFilterModule ( sort keys %{$Setting} ) {
-
-        # update module location
-        my $Module = $Setting->{$OutputFilterModule}->{'Module'} // '';
-
-        if ( $Module !~ m{Kernel::Output::HTML::OutputFilter(\w+)} ) {
-            next OUTPUTFILTERMODULE;
-        }
-        $Module =~ s{Kernel::Output::HTML::OutputFilter(\w+)}{Kernel::Output::HTML::OutputFilter::$1}xmsg;
-        $Setting->{$OutputFilterModule}->{'Module'} = $Module;
-
-        # set new setting,
-        my $Success = $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'Frontend::Output::FilterText###' . $OutputFilterModule,
-            Value => $Setting->{$OutputFilterModule},
-        );
-    }
 
     print "...done.\n";
 
