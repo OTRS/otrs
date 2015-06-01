@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-06-01 Added the possibility to extract translation strings directly from Perl code.
  - 2015-05-27 Fixed wrong column types in PostgreSQL.
  - 2015-05-26 Added new function Kernel::System::HTMLUtils::HTMLTruncate(), to trim HTML strings without loosing the tag structure.
  - 2015-05-26 Added possibility to replace some removed tags in Kernel::System::HTMLUtils::Safety() with a custom string.

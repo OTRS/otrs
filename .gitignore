@@ -80,7 +80,6 @@ perltidy.LOG.old
 bin/otrs.CodePolicy.pl
 TidyAll
 Kernel/cpan-lib/Locale/PO.pm
-Kernel/cpan-lib/Pod/Strip.pm
 scripts/install-git-hooks.pl
 scripts/uninstall-git-hooks.pl
 OTRSCodePolicy*
