@@ -223,6 +223,7 @@ sub Run {
 
                     my $Object = $Module->new(
                         %{$Self},
+                        UserObject => $UserObject,
                         ConfigItem => $Preferences{$Group},
                         Debug      => $Self->{Debug},
                     );
@@ -379,6 +380,7 @@ sub Run {
                         # TODO: Change this to Object Manager
                         my $Object = $Module->new(
                             %{$Self},
+                            UserObject => $UserObject,
                             ConfigItem => $Preferences{$Group},
                             Debug      => $Self->{Debug},
                         );
@@ -590,6 +592,7 @@ sub _Edit {
                 # TODO: This needs to be changed to Object Manager
                 my $Object = $Module->new(
                     %{$Self},
+                    UserObject => $Kernel::OM->Get('Kernel::System::User'),
                     ConfigItem => \%Preference,
                     Debug      => $Self->{Debug},
                 );
