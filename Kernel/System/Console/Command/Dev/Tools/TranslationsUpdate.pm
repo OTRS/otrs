@@ -298,7 +298,7 @@ sub HandleLanguage {
     # add translatable strings from Perl code
     my @PerlModuleList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $IsSubTranslation ? "$ModuleDirectory/Kernel" : "$Home/Kernel",
-        Filter => '*.pm',
+        Filter    => '*.pm',
         Recursive => 1,
     );
 
@@ -326,7 +326,7 @@ sub HandleLanguage {
         $PodStrip->replace_with_comments(1);
         my $Code;
         $PodStrip->output_string( \$Code );
-        $PodStrip->parse_string_document( $Content );
+        $PodStrip->parse_string_document($Content);
 
         # Purge all comments
         $Code =~ s{^ \s* # .*? \n}{\n}xmsg;
@@ -375,6 +375,72 @@ sub HandleLanguage {
                     my $Translation = $UsedWords{$Word} || '';
                     push @TranslationStrings, {
                         Location => "Perl Module: $File",
+                        Source => $Word,
+                        Translation => $Translation,
+                    };
+                    $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+                }
+            }
+            '';
+        }egx;
+    }
+
+    # add translatable strings from XB XML
+    my @DBXMLFiles = "$Home/scripts/database/otrs-initial_insert.xml";
+    if ($IsSubTranslation) {
+        @DBXMLFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => "$ModuleDirectory",
+            Filter    => '*.sopm',
+        );
+    }
+
+    FILE:
+    for my $File (@DBXMLFiles) {
+
+        my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $File,
+            Mode     => 'utf8',
+        );
+
+        if ( !ref $ContentRef ) {
+            die "Can't open $File: $!";
+        }
+
+        $File =~ s{^.*/(scripts/)}{$1}smx;
+
+        my $Content = ${$ContentRef};
+
+        # do translation
+        $Content =~ s{
+            <Data[^>]+Translatable="1"[^>]*>(.*?)</Data>
+        }
+        {
+            my $Word = $1 // '';
+
+            if ($Word && !exists $UsedWords{$Word}) {
+
+                # if we translate a module, we must handle also that possibly
+                # there is already a translation in the core files
+                if ($IsSubTranslation) {
+                    if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
+
+                        # lookup for existing translation in module language object
+                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
+                        my $Translation = $UsedWords{$Word} || '';
+                        push @TranslationStrings, {
+                            Location => "Database XML Definition: $File",
+                            Source => $Word,
+                            Translation => $Translation,
+                        };
+                        $Param{Stats}->{$Param{Language}}->{$Word} = $Translation;
+                    }
+                }
+                else {
+                    # lookup for existing translation in core language object
+                    $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
+                    my $Translation = $UsedWords{$Word} || '';
+                    push @TranslationStrings, {
+                        Location => "Database XML Definition: $File",
                         Source => $Word,
                         Translation => $Translation,
                     };

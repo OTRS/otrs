@@ -4,7 +4,7 @@
 <!-- framework -->
     <Insert Table="valid">
         <Data Key="id" Type="AutoIncrement">1</Data>
-        <Data Key="name" Type="Quote">valid</Data>
+        <Data Key="name" Type="Quote" Translatable="1">valid</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -12,7 +12,7 @@
     </Insert>
     <Insert Table="valid">
         <Data Key="id" Type="AutoIncrement">2</Data>
-        <Data Key="name" Type="Quote">invalid</Data>
+        <Data Key="name" Type="Quote" Translatable="1">invalid</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -20,7 +20,7 @@
     </Insert>
     <Insert Table="valid">
         <Data Key="id" Type="AutoIncrement">3</Data>
-        <Data Key="name" Type="Quote">invalid-temporarily</Data>
+        <Data Key="name" Type="Quote" Translatable="1">invalid-temporarily</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -43,7 +43,7 @@
     <Insert Table="groups">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">users</Data>
-        <Data Key="comments" Type="Quote">Group for default access.</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Group for default access.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -53,7 +53,7 @@
     <Insert Table="groups">
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">admin</Data>
-        <Data Key="comments" Type="Quote">Group of all administrators.</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Group of all administrators.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -63,7 +63,7 @@
     <Insert Table="groups">
         <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">stats</Data>
-        <Data Key="comments" Type="Quote">Group for statistics access.</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">Group for statistics access.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -140,8 +140,8 @@
 <!-- ticket -->
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">1</Data>
-        <Data Key="name" Type="Quote">new</Data>
-        <Data Key="comments" Type="Quote">All new state types (default: viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">new</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">All new state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -149,8 +149,8 @@
     </Insert>
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">2</Data>
-        <Data Key="name" Type="Quote">open</Data>
-        <Data Key="comments" Type="Quote">All open state types (default: viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">open</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">All open state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -158,8 +158,8 @@
     </Insert>
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">3</Data>
-        <Data Key="name" Type="Quote">closed</Data>
-        <Data Key="comments" Type="Quote">All closed state types (default: not viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">closed</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">All closed state types (default: not viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -167,8 +167,8 @@
     </Insert>
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">4</Data>
-        <Data Key="name" Type="Quote">pending reminder</Data>
-        <Data Key="comments" Type="Quote">All 'pending reminder' state types (default: viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">pending reminder</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">All 'pending reminder' state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -176,8 +176,8 @@
     </Insert>
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">5</Data>
-        <Data Key="name" Type="Quote">pending auto</Data>
-        <Data Key="comments" Type="Quote">All 'pending auto *' state types (default: viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">pending auto</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">All 'pending auto *' state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -185,8 +185,8 @@
     </Insert>
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">6</Data>
-        <Data Key="name" Type="Quote">removed</Data>
-        <Data Key="comments" Type="Quote">All 'removed' state types (default: not viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">removed</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">All 'removed' state types (default: not viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -194,8 +194,8 @@
     </Insert>
     <Insert Table="ticket_state_type">
         <Data Key="id" Type="AutoIncrement">7</Data>
-        <Data Key="name" Type="Quote">merged</Data>
-        <Data Key="comments" Type="Quote">State type for merged tickets (default: not viewable).</Data>
+        <Data Key="name" Type="Quote" Translatable="1">merged</Data>
+        <Data Key="comments" Type="Quote" Translatable="1">State type for merged tickets (default: not viewable).</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
