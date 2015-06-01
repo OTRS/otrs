@@ -4313,7 +4313,7 @@ sub _GetQueues {
 
         # get create permission queues
         my %UserGroups = $Kernel::OM->Get('Kernel::System::CustomerGroup')->GroupMemberList(
-            UserID => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            UserID => $ConfigObject->Get('CustomerPanelUserID'),
             Type   => 'create',
             Result => 'HASH',
         );
