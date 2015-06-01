@@ -6,10 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::OutputFilterTextAutoLink;
+package Kernel::Output::HTML::FilterText::AutoLink;
 
 use strict;
 use warnings;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -17,11 +19,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for (qw(ConfigObject MainObject LogObject LayoutObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -31,11 +28,11 @@ sub Pre {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Data!'
         );
-        $Self->{LayoutObject}->FatalDie();
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalDie();
     }
 
     return $Param{Data};
@@ -44,21 +41,27 @@ sub Pre {
 sub Post {
     my ( $Self, %Param ) = @_;
 
+    #  get layout object
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Data!'
         );
-        $Self->{LayoutObject}->FatalDie();
+        $LayoutObject->FatalDie();
     }
+
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # check whether auto article links should be used
     return $Param{Data}
-        if !$Self->{ConfigObject}->Get('Frontend::Output::OutputFilterTextAutoLink');
+        if !$ConfigObject->Get('Frontend::Output::OutputFilterTextAutoLink');
 
     # find words to replace
-    my %Config = %{ $Self->{ConfigObject}->Get("Frontend::Output::OutputFilterTextAutoLink") };
+    my %Config = %{ $ConfigObject->Get("Frontend::Output::OutputFilterTextAutoLink") };
 
     LINK:
     for my $Link ( values %Config ) {
@@ -101,23 +104,23 @@ sub Post {
                 # check URL configuration sanity
                 next DATA if !$URLRef->{URL} || !$URLRef->{Image} || !$URLRef->{Target};
 
-                my $KeywordQuote = $Self->{LayoutObject}->Ascii2Html( Text => $Keyword );
+                my $KeywordQuote = $LayoutObject->Ascii2Html( Text => $Keyword );
                 my $URL = $URLRef->{URL};
 
                 # replace the whole keyword
-                my $KeywordLinkEncode = $Self->{LayoutObject}->LinkEncode($Keyword);
+                my $KeywordLinkEncode = $LayoutObject->LinkEncode($Keyword);
                 $URL =~ s/<MATCH>/$KeywordLinkEncode/g;
 
                 # replace the keyword components
                 for ( sort keys %KW ) {
-                    $KeywordLinkEncode = $Self->{LayoutObject}->LinkEncode( $KW{$_} );
+                    $KeywordLinkEncode = $LayoutObject->LinkEncode( $KW{$_} );
                     $URL =~ s/<MATCH$_>/$KeywordLinkEncode/g;
                 }
 
                 # find out if it is an internal image or an external image
                 my $Image = $URLRef->{Image};
                 if ( $Image !~ m{^ http }smx ) {
-                    $Image = $Self->{LayoutObject}->{Images} . $URLRef->{Image};
+                    $Image = $LayoutObject->{Images} . $URLRef->{Image};
                 }
 
                 # create the url string

@@ -6,10 +6,12 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::OutputFilterTextURL;
+package Kernel::Output::HTML::FilterText::URL;
 
 use strict;
 use warnings;
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -17,11 +19,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # check needed objects
-    for (qw(DBObject ConfigObject LogObject TimeObject MainObject LayoutObject)) {
-        $Self->{$_} = $Param{$_} || die "Got no $_!";
-    }
 
     return $Self;
 }
@@ -31,11 +28,11 @@ sub Pre {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Data!'
         );
-        $Self->{LayoutObject}->FatalDie();
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalDie();
     }
 
     $Self->{LinkHash} = undef;
@@ -98,11 +95,11 @@ sub Post {
 
     # check needed stuff
     if ( !defined $Param{Data} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Data!'
         );
-        $Self->{LayoutObject}->FatalDie();
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalDie();
     }
 
     if ( $Self->{LinkHash} ) {
