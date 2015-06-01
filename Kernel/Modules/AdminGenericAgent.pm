@@ -1340,11 +1340,13 @@ sub _StopWordsServerErrorsGet {
     my ( $Self, %Param ) = @_;
 
     if ( !%Param ) {
-        $Self->{LayoutObject}->FatalError( Message => "Got no values to check." );
+        $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+            Message => "Got no values to check.",
+        );
     }
 
     my %StopWordsServerErrors;
-    if ( !$Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
         return %StopWordsServerErrors;
     }
 
@@ -1360,7 +1362,7 @@ sub _StopWordsServerErrorsGet {
 
     if (%SearchStrings) {
 
-        my $StopWords = $Self->{TicketObject}->SearchStringStopWordsFind(
+        my $StopWords = $Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsFind(
             SearchStrings => \%SearchStrings
         );
 
@@ -1370,8 +1372,9 @@ sub _StopWordsServerErrorsGet {
             next FIELD if ref $StopWords->{$Field} ne 'ARRAY';
             next FIELD if !@{ $StopWords->{$Field} };
 
-            $StopWordsServerErrors{ $Field . 'Invalid' }        = 'ServerError';
-            $StopWordsServerErrors{ $Field . 'InvalidTooltip' } = $Self->{LayoutObject}->{LanguageObject}
+            $StopWordsServerErrors{ $Field . 'Invalid' } = 'ServerError';
+            $StopWordsServerErrors{ $Field . 'InvalidTooltip' }
+                = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}
                 ->Translate('Please remove the following words because they cannot be used for the ticket selection:')
                 . ' '
                 . join( ',', sort @{ $StopWords->{$Field} } );

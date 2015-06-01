@@ -1147,23 +1147,25 @@ sub Run {
             FoundStopWords => [],
         };
 
-        if ( $Self->{TicketObject}->SearchStringStopWordsUsageWarningActive() ) {
-            my @ParamNames = $Self->{ParamObject}->GetParamNames();
+        if ( $Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
+            my @ParamNames = $ParamObject->GetParamNames();
             my %SearchStrings;
             SEARCHSTRINGPARAMNAME:
             for my $SearchStringParamName ( sort @ParamNames ) {
                 next SEARCHSTRINGPARAMNAME if $SearchStringParamName !~ m{\ASearchStrings\[(.*)\]\z}sm;
-                $SearchStrings{$1} = $Self->{ParamObject}->GetParam( Param => $SearchStringParamName );
+                $SearchStrings{$1} = $ParamObject->GetParam( Param => $SearchStringParamName );
             }
 
             $StopWordCheckResult->{FoundStopWords}
-                = $Self->{TicketObject}->SearchStringStopWordsFind( SearchStrings => \%SearchStrings );
+                = $Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsFind(
+                SearchStrings => \%SearchStrings,
+                );
         }
 
-        my $Output = $Self->{LayoutObject}->JSONEncode(
+        my $Output = $LayoutObject->JSONEncode(
             Data => $StopWordCheckResult,
         );
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
             Content     => $Output,
