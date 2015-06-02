@@ -440,7 +440,7 @@ sub _HandleJSList {
     }
 
     if ( $Param{DoMinify} && @FileList ) {
-        my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+        my $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
             List                 => \@FileList,
             Type                 => 'JavaScript',
             TargetDirectory      => "$Param{JSHome}/js-cache/",
