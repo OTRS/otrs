@@ -92,41 +92,42 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $Element.find('option').each(function() {
 
-            // get number of trailing spaces in service name to
+            // Get number of trailing spaces in service name to
             // distinguish the level (2 spaces = 1 level)
             var ElementID       = $(this).attr('value'),
                 ElementDisabled = $(this).is(':disabled'),
                 ElementName     = $(this).text(),
+                ElementSelected = $(this).is(':selected'),
                 ElementNameTrim = ElementName.replace(/(^[\xA0]+)/g, ''),
                 CurrentLevel    = (ElementName.length - ElementNameTrim.length) / 2,
                 ChildOf = 0,
                 ElementIndex = 0,
                 CurrentElement;
 
-            // skip entry if no ID (should only occur for the leading empty element, '-')
+            // Skip entry if no ID (should only occur for the leading empty element, '-')
             // also skip entries which only contain '------------' as visible text (e.g. in AgentLinkObject)
             if ( !ElementID || ElementID === "||-" || ( ElementDisabled && ElementName.match(/^-+$/) ) ) {
                 return true;
             }
 
-            // determine wether this element is a child of a preceding element
+            // Determine whether this element is a child of a preceding element
             // therefore, take the last element we have added to our elements
             // array and compare if to the current element
             if ( Elements.length && CurrentLevel > 0 ) {
 
-                // if the current level is bigger than the last known level,
+                // If the current level is bigger than the last known level,
                 // we're dealing with a child element of the last element
                 if ( CurrentLevel > Elements[Elements.length - 1].Level ) {
                     ChildOf = Elements[Elements.length - 1].ID;
                 }
 
-                // if both levels equal eachother, we have a sibling and can
+                // If both levels equal each other, we have a sibling and can
                 // re-use the parent (= the ChildOf value) of the last element
                 else if ( CurrentLevel === Elements[Elements.length - 1].Level ) {
                     ChildOf = Elements[Elements.length - 1].ChildOf;
                 }
 
-                // in other cases, we have an element of a lower level but not
+                // In other cases, we have an element of a lower level but not
                 // of the first level, so we walk through all yet saved elements
                 // (bottom up) and find the next element with a lower level
                 else {
@@ -143,17 +144,20 @@ Core.UI.TreeSelection = (function (TargetNS) {
             // Therefore, we assign a random ID to avoid conflicts.
             ElementID = (ElementID === '-') ? Math.floor((Math.random() * 100000) + 1) : ElementID;
 
-            // collect data of current service and add it to elements array
+            // Collect data of current service and add it to elements array
             CurrentElement = {
                 ID:       ElementID,
                 Name:     ElementNameTrim,
                 Level:    CurrentLevel,
                 ChildOf:  ChildOf,
                 children: [],
-                data:     ElementNameTrim,
-                attr: {
+                text:     ElementNameTrim,
+                state: {
+                    selected: ElementSelected
+                },
+                li_attr: {
                     'data-id': ElementID,
-                    'class' : (ElementDisabled) ? 'Disabled' : ''
+                    'class': (ElementDisabled) ? 'Disabled' : ''
                 }
             };
             Elements.push(CurrentElement);
@@ -172,7 +176,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             }
         });
 
-        // go through all levels and collect the elements and their children
+        // Go through all levels and collect the elements and their children
         for (Level = HighestLevel; Level >= 0; Level--) {
             Elements = CollectElements(Elements, Level);
         }
@@ -194,7 +198,6 @@ Core.UI.TreeSelection = (function (TargetNS) {
         var $TreeObj       = $('<div id="JSTree"><ul></ul></div>'),
             $SelectObj     = $TriggerObj.prevAll('select'),
             SelectSize     = $SelectObj.attr('size'),
-            SelectedID     = $SelectObj.val(),
             Multiple       = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
             ElementCount   = $SelectObj.find('option').length,
             DialogTitle    = $SelectObj.parent().prev('label').clone().children().remove().end().text(),
@@ -209,7 +212,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             return false;
         }
 
-        // determine if we are in a dialog
+        // Determine if we are in a dialog
         if ($SelectObj.closest('.Dialog').length) {
             InDialog = true;
         }
@@ -232,7 +235,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
         DialogTitle = DialogTitle.substr(0, DialogTitle.length - 1);
         DialogTitle = DialogTitle.replace(/^\*\s+/, '');
 
-        // check if there are elements to select from
+        // Check if there are elements to select from
         if (ElementCount === 1 && $SelectObj.find('option').text() === '-') {
             alert(Core.Config.Get('NoElementsToSelectFromMsg'));
             return false;
@@ -240,92 +243,79 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         Elements = BuildElementsArray($SelectObj);
 
-        // set StyleSheetURL in order to correctly load the CSS for treeview
+        // Set StyleSheetURL in order to correctly load the CSS for treeview
         StyleSheetURL = Core.Config.Get('WebPath') + 'skins/Agent/default/css/thirdparty/jstree-theme/default/style.css';
 
         $TreeObj.jstree({
-            "core": {
-                "animation" : 70
+            core: {
+                animation: 70,
+                data: Elements,
+                multiple: ((SelectSize && Multiple) || Multiple) ? true : false,
+                expand_selected_onload: true,
+                themes: {
+                    theme: 'default',
+                    icons: false,
+                    responsive: true,
+                    variant: 'small',
+                    url: StyleSheetURL
+                }
             },
-            "ui": {
-                "select_multiple_modifier" : ((SelectSize && Multiple) || Multiple) ? 'on' : 'ctrl',
-                "select_limit" : ((SelectSize && Multiple) || Multiple) ? -1 : 1
+            search: {
+                show_only_matches: true
             },
-            "search": {
-                "show_only_matches" : true
-            },
-            "json_data" : {
-                "data" : Elements
-            },
-            "themes" : {
-                "theme" : "default",
-                "icons" : false,
-                "url": StyleSheetURL
-            },
-            "plugins" : [ "themes", "json_data", "ui", "hotkeys", "search" ]
+            plugins: [ 'search' ]
         })
-        .bind("select_node.jstree", function (event, data) {
-            if (data.rslt.obj.hasClass('Disabled')) {
-                $TreeObj.jstree("deselect_node", data.rslt.obj);
+        .bind('select_node.jstree', function (node, selected, event) {
+            var $Node = $('#'+selected.node.id);
+            if ($Node.hasClass('Disabled') || !$Node.is(':visible')) {
+                $TreeObj.jstree('deselect_node', selected.node);
             }
-            $TreeObj.jstree("toggle_node", data.rslt.obj);
+            $TreeObj.jstree('toggle_node', selected.node);
 
-            // if we are already in a dialog, we don't use the submit
+            // If we are already in a dialog, we don't use the submit
             // button for the tree selection, so we need to apply the changes 'live'
             if (InDialog) {
 
-                // reset selected nodes list
+                // Reset selected nodes list
                 SelectedNodes = [];
 
-                // get selected nodes
-                $SelectedNodesObj = $TreeObj.jstree("get_selected");
+                // Get selected nodes
+                $SelectedNodesObj = $TreeObj.jstree('get_selected');
                 $SelectedNodesObj.each(function() {
-                    SelectedNodes.push($(this).attr('data-id'));
+                    SelectedNodes.push($Node.attr('data-id'));
                 });
 
-                // set selected nodes as selected in initial select box
+                // Set selected nodes as selected in initial select box
                 // (which is hidden but is still used for the action)
                 $SelectObj.val(SelectedNodes);
             }
 
-            // if the node has really been selected (not initially by the code, but by using keyboard or mouse)
+            // If the node has really been selected (not initially by the code, but by using keyboard or mouse)
             // we need to check if we can now select the submit button
-            if ((data.rslt.e && data.rslt.e.type !== undefined) && !InDialog && !Multiple) {
+            if ((event && event.type !== undefined) && !InDialog && !Multiple) {
                 $TreeObj.next('#SubmitTree').focus();
             }
 
         })
-        .bind("deselect_node.jstree", function () {
+        .bind('deselect_node.jstree', function (node, selected) {
+            var $Node = $('#'+selected.node.id);
 
-            // if we are already in a dialog, we don't use the submit
+            // If we are already in a dialog, we don't use the submit
             // button for the tree selection, so we need to apply the changes 'live'
             if (InDialog) {
 
-                // reset selected nodes list
+                // Reset selected nodes list
                 SelectedNodes = [];
 
-                // get selected nodes
+                // Get selected nodes
                 $SelectedNodesObj = $TreeObj.jstree("get_selected");
                 $SelectedNodesObj.each(function() {
-                    SelectedNodes.push($(this).attr('data-id'));
+                    SelectedNodes.push($Node.attr('data-id'));
                 });
 
-                // set selected nodes as selected in initial select box
+                // Set selected nodes as selected in initial select box
                 // (which is hidden but is still used for the action)
                 $SelectObj.val(SelectedNodes);
-            }
-        })
-        .bind("loaded.jstree", function () {
-
-            if (SelectedID) {
-                if (typeof SelectedID === 'object') {
-                    $.each(SelectedID, function(Index, Data) {
-                        $TreeObj.jstree("select_node", $TreeObj.find('li[data-id="' + Data + '"]'));
-                    });
-                }
-                else {
-                    $TreeObj.jstree("select_node", $TreeObj.find('li[data-id="' + SelectedID + '"]'));
-                }
             }
         });
 
@@ -349,14 +339,14 @@ Core.UI.TreeSelection = (function (TargetNS) {
             $TriggerObj.addClass('TreeSelectionVisible');
         }
 
-        // get the element which is currently being focused and set the focus to the search field
+        // Get the element which is currently being focused and set the focus to the search field
         $CurrentFocusedObj = document.activeElement;
         $('#TreeSearch').find('input').focus();
 
         $('#TreeSearch').find('input').bind('keyup', function() {
-            $TreeObj.jstree("search", $(this).val());
+            $TreeObj.jstree('search', $(this).val());
 
-            // make sure subtrees of matches nodes are expandable
+            // Make sure sub-trees of matched nodes are expanded
             $('.jstree-search')
                 .parent()
                 .removeClass('jstree-open')
@@ -368,33 +358,40 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $('#TreeSearch').find('span').bind('click', function() {
             $(this).prev('input').val('');
-            $TreeObj.jstree("clear_search");
+            $TreeObj.jstree('clear_search');
         });
 
         $('#TreeContainer').find('input#SubmitTree').bind('click', function() {
-            var $SelectedObj = $TreeObj.jstree("get_selected");
-            if (typeof $SelectedObj === 'object' && $SelectedObj.attr('data-id')) {
-                if ($SelectedObj.length > 1) {
+            var SelectedObj = $TreeObj.jstree('get_selected', true);
+            if (typeof SelectedObj === 'object' && SelectedObj[0]) {
+                if (SelectedObj.length > 1) {
 
-                    $SelectedObj.each(function() {
-                        SelectedNodes.push($(this).attr('data-id'));
+                    $(SelectedObj).each(function() {
+                        var $Node = $('#'+this.id);
+                        SelectedNodes.push($Node.attr('data-id'));
                     });
                     $SelectObj
                         .val(SelectedNodes)
                         .trigger('change');
                 }
                 else {
-                    if ($SelectedObj.attr('data-id') !== $SelectObj.val()) {
+                    var $Node = $('#'+SelectedObj[0].id);
+                    if ($Node.attr('data-id') !== $SelectObj.val()) {
                         $SelectObj
-                            .val($SelectedObj.attr('data-id'))
+                            .val($Node.attr('data-id'))
                             .trigger('change');
                     }
                 }
             }
+            else {
+                $SelectObj
+                    .val('')
+                    .trigger('change');
+            }
             Core.UI.Dialog.CloseDialog($('.Dialog'));
         });
 
-        // when the dialog is closed, give the last focused element the focus again
+        // When the dialog is closed, give the last focused element the focus again
         Core.App.Subscribe('Event.UI.Dialog.CloseDialog.Close', function(Dialog) {
             if ($(Dialog).find('#TreeContainer').length && !$(Dialog).find('#SearchForm').length) {
                 $CurrentFocusedObj.focus();

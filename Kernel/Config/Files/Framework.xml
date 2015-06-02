@@ -6404,8 +6404,7 @@ via the Preferences button after logging in.
                 <Item>thirdparty/jquery-validate-1.13.0/jquery.validate.js</Item>
                 <Item>thirdparty/stacktrace-0.6.2/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
-                <Item>thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js</Item>
-                <Item>thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js</Item>
+                <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
@@ -6478,8 +6477,7 @@ via the Preferences button after logging in.
                 <Item>thirdparty/jquery-ui-1.11.1/jquery-ui.js</Item>
                 <Item>thirdparty/stacktrace-0.6.2/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
-                <Item>thirdparty/jquery-jstree-v.pre1.0/jquery.jstree.js</Item>
-                <Item>thirdparty/jquery-jstree-v.pre1.0/_lib/jquery.hotkeys.js</Item>
+                <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Data.js</Item>
                 <Item>Core.Exception.js</Item>
