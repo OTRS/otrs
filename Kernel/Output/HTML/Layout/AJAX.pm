@@ -11,6 +11,8 @@ package Kernel::Output::HTML::Layout::AJAX;
 use strict;
 use warnings;
 
+use Kernel::System::JSON ();
+
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME

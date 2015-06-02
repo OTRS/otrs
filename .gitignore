@@ -115,8 +115,8 @@ Kernel/Output/HTML/NavBar/*Chat*
 Kernel/Output/HTML/CustomerUser/*Chat*
 Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/Ticket/MenuAttachmentView.pm
-Kernel/Output/HTML/OutputFilterPostContactWithData.pm
-Kernel/Output/HTML/OutputFilterPostSLASelectionDialog.pm
+Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
+Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
 Kernel/Output/HTML/Standard/AAAOTRSBusiness.tt
 Kernel/Output/HTML/Standard/AgentChat.tt
 Kernel/Output/HTML/Standard/AgentChatAppend.tt
