@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LayoutTemplate;
+package Kernel::Output::HTML::Layout::Template;
 
 use strict;
 use warnings;
@@ -18,6 +18,8 @@ use Template::Context;
 use Template::Plugins;
 
 use Kernel::Output::Template::Provider;
+
+our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
@@ -65,7 +67,7 @@ sub Output {
 
     # get and check param Data
     if ( ref $Param{Data} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref $Param{Data} . "'!",
         );
@@ -94,7 +96,7 @@ sub Output {
 
     # if we use the HTML5 input type 'email' jQuery Validate will always validate
     # we do not want that if CheckEmailAddresses is set to 'no' in SysConfig
-    $Self->{EnvRef}->{EmailFieldType} = $Self->{ConfigObject}->Get('CheckEmailAddresses') ? 'email' : 'text';
+    $Self->{EnvRef}->{EmailFieldType} = $Kernel::OM->Get('Kernel::Config')->Get('CheckEmailAddresses') ? 'email' : 'text';
 
     my @TemplateFolders = (
         "$Self->{CustomTemplateDir}",
@@ -119,7 +121,7 @@ sub Output {
         $TemplateString = $Param{Template};
     }
     else {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Template or TemplateFile Param!',
         );
@@ -136,7 +138,6 @@ sub Output {
             }
         );
         $Self->{TemplateProviderObject}->OTRSInit(
-            %{$Self},
             LayoutObject => $Self,
         );
 
@@ -169,7 +170,7 @@ sub Output {
         );
 
         if ( !$Success ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "$Template::ERROR;",
             );
@@ -192,7 +193,7 @@ sub Output {
         \$Output,
     );
     if ( !$Success ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Self->{TemplateObject}->error(),
         );
@@ -249,6 +250,8 @@ sub Output {
         # extract filter list
         my %FilterList = %{ $Self->{FilterElementPost} };
 
+        my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
         FILTER:
         for my $Filter ( sort keys %FilterList ) {
 
@@ -261,7 +264,7 @@ sub Output {
             next FILTER if !$Param{TemplateFile};
             next FILTER if !$TemplateList{ $Param{TemplateFile} };
 
-            next FILTER if !$Self->{MainObject}->Require( $FilterConfig->{Module} );
+            next FILTER if !$Kernel::OM->Get('Kernel::System::Main')->Require( $FilterConfig->{Module} );
 
             # create new instance
             my $Object = $FilterConfig->{Module}->new(
