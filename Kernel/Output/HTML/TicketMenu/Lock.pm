@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Ticket::MenuLock;
+package Kernel::Output::HTML::TicketMenu::Lock;
 
 use strict;
 use warnings;

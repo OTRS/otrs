@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Article::CheckPGP;
+package Kernel::Output::HTML::ArticleCheck::PGP;
 
 use strict;
 use warnings;

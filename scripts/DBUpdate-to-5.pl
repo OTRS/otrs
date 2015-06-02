@@ -260,7 +260,7 @@ sub _MigrateConfigs {
             next MENUMODULE;
         }
 
-        $Module =~ s{Kernel::Output::HTML::TicketMenu(\w+)}{Kernel::Output::HTML::Ticket::Menu$1}xmsg;
+        $Module =~ s{Kernel::Output::HTML::TicketMenu(\w+)}{Kernel::Output::HTML::TicketMenu::$1}xmsg;
         $Setting->{$MenuModule}->{'Module'} = $Module;
 
         # set new setting,
@@ -286,7 +286,7 @@ sub _MigrateConfigs {
             next OVERVIEWMODULE;
         }
 
-        $Module =~ s{Kernel::Output::HTML::TicketOverview(\w+)}{Kernel::Output::HTML::Ticket::Overview$1}xmsg;
+        $Module =~ s{Kernel::Output::HTML::TicketOverview(\w+)}{Kernel::Output::HTML::TicketOverview::$1}xmsg;
         $Setting->{$OverviewModule}->{'Module'} = $Module;
 
         # set new setting,
@@ -364,11 +364,11 @@ sub _MigrateConfigs {
 
         # update module location
         my $Module = $Setting->{$ArticlePreViewModule}->{'Module'};
-        if ( $Module !~ m{Kernel::Output::HTML::Article(\w+)} ) {
+        if ( $Module !~ m{Kernel::Output::HTML::ArticleCheck(\w+)} ) {
             next ARTICLEMODULE;
         }
 
-        $Module =~ s{Kernel::Output::HTML::Article(\w+)}{Kernel::Output::HTML::Article::$1}xmsg;
+        $Module =~ s{Kernel::Output::HTML::ArticleCheck(\w+)}{Kernel::Output::HTML::ArticleCheck::$1}xmsg;
         $Setting->{$ArticlePreViewModule}->{'Module'} = $Module;
 
         # set new setting,

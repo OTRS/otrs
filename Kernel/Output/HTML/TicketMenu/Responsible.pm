@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Ticket::MenuResponsible;
+package Kernel::Output::HTML::TicketMenu::Responsible;
 
 use strict;
 use warnings;

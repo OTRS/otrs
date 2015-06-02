@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Ticket::MenuGeneric;
+package Kernel::Output::HTML::TicketMenu::Move;
 
 use strict;
 use warnings;
@@ -16,6 +16,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Ticket',
     'Kernel::System::Group',
+    'Kernel::Output::HTML::Layout',
 );
 
 sub new {
@@ -62,25 +63,13 @@ sub Run {
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Param{Config}->{Action}");
     if ($Config) {
         if ( $Config->{Permission} ) {
-            my $AccessOk = $TicketObject->TicketPermission(
+            my $AccessOk = $TicketObject->Permission(
                 Type     => $Config->{Permission},
                 TicketID => $Param{Ticket}->{TicketID},
                 UserID   => $Self->{UserID},
                 LogNo    => 1,
             );
             return if !$AccessOk;
-        }
-        if ( $Config->{RequiredLock} ) {
-            if (
-                $TicketObject->TicketLockGet( TicketID => $Param{Ticket}->{TicketID} )
-                )
-            {
-                my $AccessOk = $TicketObject->OwnerCheck(
-                    TicketID => $Param{Ticket}->{TicketID},
-                    OwnerID  => $Self->{UserID},
-                );
-                return if !$AccessOk;
-            }
         }
     }
 
@@ -123,9 +112,33 @@ sub Run {
     }
 
     # check acl
-    if ( $Param{Config}->{Action} ) {
-        my %ACLLookup = reverse( %{ $Param{ACL} || {} } );
-        return if ( !$ACLLookup{ $Param{Config}->{Action} } );
+    my %ACLLookup = reverse( %{ $Param{ACL} || {} } );
+    return if ( !$ACLLookup{ $Param{Config}->{Action} } );
+
+    $Param{Link} = 'Action=AgentTicketMove;TicketID=[% Data.TicketID | uri %];';
+
+    if ( $ConfigObject->Get('Ticket::Frontend::MoveType') =~ /^form$/i ) {
+        $Param{Target} = '';
+        $Param{Block}  = 'DocumentMenuItemMoveForm';
+
+        # get layout object
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+        # get move queues
+        my %MoveQueues = $TicketObject->MoveList(
+            TicketID => $Param{Ticket}->{TicketID},
+            UserID   => $Self->{UserID},
+            Action   => $LayoutObject->{Action},
+            Type     => 'move_into',
+        );
+        $MoveQueues{0} = '- ' . $LayoutObject->{LanguageObject}->Translate('Move') . ' -';
+        $Param{MoveQueuesStrg} = $LayoutObject->AgentQueueListOption(
+            Name => 'DestQueueID',
+            Data => \%MoveQueues,
+        );
+    }
+    else {
+        $Param{PopupType} = 'TicketAction';
     }
 
     # return item

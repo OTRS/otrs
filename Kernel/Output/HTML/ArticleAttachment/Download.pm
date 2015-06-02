@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::Article::AttachmentHTMLViewer;
+package Kernel::Output::HTML::ArticleAttachment::Download;
 
 use strict;
 use warnings;
@@ -41,25 +41,23 @@ sub Run {
         }
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    # download type
+    my $Type = $Kernel::OM->Get('Kernel::Config')->Get('AttachmentDownloadType') || 'attachment';
 
-    # check if config exists
-    if ( $ConfigObject->Get('MIME-Viewer') ) {
-        for ( sort keys %{ $ConfigObject->Get('MIME-Viewer') } ) {
-            if ( $Param{File}->{ContentType} =~ /^$_/i ) {
-                return (
-                    %{ $Param{File} },
-                    Action => 'Viewer',
-                    Link   => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
-                        "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID};Viewer=1",
-                    Target => 'target="attachment"',
-                    Class  => 'ViewAttachment',
-                );
-            }
-        }
+    # if attachment will be forced to download, don't open a new download window!
+    my $Target = 'target="AttachmentWindow" ';
+    if ( $Type =~ /inline/i ) {
+        $Target = 'target="attachment" ';
     }
-    return ();
+
+    return (
+        %{ $Param{File} },
+        Action => 'Download',
+        Link   => $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{Baselink} .
+            "Action=AgentTicketAttachment;ArticleID=$Param{Article}->{ArticleID};FileID=$Param{File}->{FileID}",
+        Image  => 'disk-s.png',
+        Target => $Target,
+    );
 }
 
 1;
