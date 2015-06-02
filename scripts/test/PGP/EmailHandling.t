@@ -12,7 +12,7 @@ use utf8;
 
 use vars (qw($Self));
 
-use Kernel::Output::HTML::Article::CheckPGP;
+use Kernel::Output::HTML::ArticleCheck::PGP;
 use Kernel::System::PostMaster;
 
 use Kernel::System::VariableCheck qw(:all);
@@ -243,8 +243,8 @@ for my $Test (@Tests) {
             UserID        => 1,
         );
 
-        # use Article::CheckPGP to decript the article
-        my $CheckObject = Kernel::Output::HTML::Article::CheckPGP->new(
+        # use ArticleCheck::PGP to decript the article
+        my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
             ArticleID => $ArticleIDs[0],
             UserID    => 1,
         );
@@ -529,7 +529,7 @@ for my $Test (@TestVariations) {
         ArticleID => $ArticleID,
     );
 
-    my $CheckObject = Kernel::Output::HTML::Article::CheckPGP->new(
+    my $CheckObject = Kernel::Output::HTML::ArticleCheck::PGP->new(
         ArticleID => $ArticleID,
         UserID    => 1,
     );
