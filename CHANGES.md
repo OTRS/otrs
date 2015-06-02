@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-06-02 Updated jstree to version 3.1.1.
  - 2015-06-02 Ported all frontend modules to the ObjectManager.
  - 2015-06-01 Added the possibility to extract translation strings directly from Perl code.
  - 2015-05-27 Fixed wrong column types in PostgreSQL.
