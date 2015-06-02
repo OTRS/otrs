@@ -6,16 +6,18 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LayoutLinkObject;
+package Kernel::Output::HTML::Layout::LinkObject;
 
 use strict;
 use warnings;
 
 use Kernel::System::LinkObject;
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
-Kernel::Output::HTML::LayoutLinkObject - all LinkObject-related HTML functions
+Kernel::Output::HTML::Layout::LinkObject - all LinkObject-related HTML functions
 
 =head1 SYNOPSIS
 
@@ -42,7 +44,7 @@ sub LinkObjectTableCreate {
     # check needed stuff
     for my $Argument (qw(LinkListWithData ViewMode)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -80,10 +82,13 @@ create a complex output table
 sub LinkObjectTableCreateComplex {
     my ( $Self, %Param ) = @_;
 
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check needed stuff
     for my $Argument (qw(LinkListWithData ViewMode)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
+            $LogObject->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -93,7 +98,7 @@ sub LinkObjectTableCreateComplex {
 
     # check link list
     if ( ref $Param{LinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => 'LinkListWithData must be a hash referance!',
         );
@@ -399,20 +404,15 @@ sub LinkObjectTableCreateSimple {
 
     # check needed stuff
     if ( !$Param{LinkListWithData} || ref $Param{LinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need LinkListWithData!'
         );
         return;
     }
 
-    # load link core module
-    if ( !$Self->{LinkObject} ) {
-        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
-    }
-
     # get type list
-    my %TypeList = $Self->{LinkObject}->TypeList(
+    my %TypeList = $Kernel::OM->Get('Kernel::System::LinkObject')->TypeList(
         UserID => $Self->{UserID},
     );
 
@@ -526,20 +526,15 @@ sub LinkObjectSelectableObjectList {
 
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Object!'
         );
         return;
     }
 
-    # load link core module
-    if ( !$Self->{LinkObject} ) {
-        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
-    }
-
     # get possible objects list
-    my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
+    my %PossibleObjectsList = $Kernel::OM->Get('Kernel::System::LinkObject')->PossibleObjectsList(
         Object => $Param{Object},
         UserID => $Self->{UserID},
     );
@@ -607,7 +602,7 @@ sub LinkObjectSelectableObjectList {
     }
 
     # create new instance of the layout object
-    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # create target object string
     my $TargetObjectStrg = $LayoutObject->BuildSelection(
@@ -635,7 +630,7 @@ sub LinkObjectSearchOptionList {
 
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Object!'
         );
@@ -677,7 +672,7 @@ sub _LinkObjectContentStringCreate {
     # check needed stuff
     for my $Argument (qw(Object ContentData LayoutObject)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -686,9 +681,7 @@ sub _LinkObjectContentStringCreate {
     }
 
     # load link core module
-    if ( !$Self->{LinkObject} ) {
-        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
-    }
+    my $LinkObject = $Kernel::OM->Get('Kernel::System::LinkObject');
 
     # load backend
     my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
@@ -700,7 +693,7 @@ sub _LinkObjectContentStringCreate {
 
         my $ContentString = $BackendObject->ContentStringCreate(
             %Param,
-            LinkObject   => $Self->{LinkObject},
+            LinkObject   => $LinkObject,
             LayoutObject => $Param{LayoutObject},
         );
 
@@ -722,7 +715,7 @@ sub _LinkObjectContentStringCreate {
         $Blockname = 'Plain';
 
         # get type list
-        my %TypeList = $Self->{LinkObject}->TypeList(
+        my %TypeList = $LinkObject->TypeList(
             UserID => $Self->{UserID},
         );
 
@@ -765,7 +758,7 @@ sub _LinkObjectContentStringCreate {
         $Blockname = 'Plain';
 
         # get type list
-        my %TypeList = $Self->{LinkObject}->TypeList(
+        my %TypeList = $LinkObject->TypeList(
             UserID => $Self->{UserID},
         );
 
@@ -843,9 +836,12 @@ load a linkobject layout backend module
 sub _LoadLinkObjectLayoutBackend {
     my ( $Self, %Param ) = @_;
 
+    # get log object
+    my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => 'Need Object!',
         );
@@ -856,11 +852,11 @@ sub _LoadLinkObjectLayoutBackend {
     return $Self->{Cache}->{LoadLinkObjectLayoutBackend}->{ $Param{Object} }
         if $Self->{Cache}->{LoadLinkObjectLayoutBackend}->{ $Param{Object} };
 
-    my $GenericModule = "Kernel::Output::HTML::LinkObject$Param{Object}";
+    my $GenericModule = "Kernel::Output::HTML::LinkObject::$Param{Object}";
 
     # load the backend module
-    if ( !$Self->{MainObject}->Require($GenericModule) ) {
-        $Self->{LogObject}->Log(
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Can't load backend module $Param{Object}!"
         );
@@ -874,7 +870,7 @@ sub _LoadLinkObjectLayoutBackend {
     );
 
     if ( !$BackendObject ) {
-        $Self->{LogObject}->Log(
+        $LogObject->Log(
             Priority => 'error',
             Message  => "Can't create a new instance of backend module $Param{Object}!",
         );

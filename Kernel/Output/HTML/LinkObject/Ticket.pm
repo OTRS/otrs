@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LinkObjectTicket;
+package Kernel::Output::HTML::LinkObject::Ticket;
 
 use strict;
 use warnings;
@@ -15,24 +15,16 @@ use Kernel::Output::HTML::Layout;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::Language',
-    'Kernel::System::DB',
-    'Kernel::System::Encode',
-    'Kernel::System::Group',
     'Kernel::System::Log',
-    'Kernel::System::Main',
     'Kernel::System::Priority',
-    'Kernel::System::Queue',
     'Kernel::System::State',
-    'Kernel::System::Time',
     'Kernel::System::Type',
-    'Kernel::System::User',
     'Kernel::System::Web::Request',
 );
 
 =head1 NAME
 
-Kernel::Output::HTML::LinkObjectTicket - layout backend module
+Kernel::Output::HTML::LinkObject::Ticket - layout backend module
 
 =head1 SYNOPSIS
 
@@ -46,7 +38,7 @@ All layout functions of link object (ticket).
 
 create an object
 
-    $BackendObject = Kernel::Output::HTML::LinkObjectTicket->new(
+    $BackendObject = Kernel::Output::HTML::LinkObject::Ticket->new(
         UserLanguage => 'en',
         UserID       => 1,
     );
@@ -64,22 +56,6 @@ sub new {
     for my $Needed (qw(UserLanguage UserID)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
-
-    # get needed objects
-    $Self->{ConfigObject}   = $Kernel::OM->Get('Kernel::Config');
-    $Self->{LanguageObject} = $Kernel::OM->Get('Kernel::Language');
-    $Self->{LogObject}      = $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{MainObject}     = $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{DBObject}       = $Kernel::OM->Get('Kernel::System::DB');
-    $Self->{UserObject}     = $Kernel::OM->Get('Kernel::System::User');
-    $Self->{EncodeObject}   = $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{QueueObject}    = $Kernel::OM->Get('Kernel::System::Queue');
-    $Self->{GroupObject}    = $Kernel::OM->Get('Kernel::System::Group');
-    $Self->{TimeObject}     = $Kernel::OM->Get('Kernel::System::Time');
-    $Self->{StateObject}    = $Kernel::OM->Get('Kernel::System::State');
-    $Self->{PriorityObject} = $Kernel::OM->Get('Kernel::System::Priority');
-    $Self->{TypeObject}     = $Kernel::OM->Get('Kernel::System::Type');
-    $Self->{ParamObject}    = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # We need our own LayoutObject instance to avoid blockdata collisions
     #   with the main page.
@@ -166,7 +142,7 @@ sub TableCreateComplex {
 
     # check needed stuff
     if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need ObjectLinkListWithData!',
         );
@@ -246,7 +222,7 @@ sub TableCreateComplex {
     return if !@ItemList;
 
     # define the block data
-    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook');
     my %Block      = (
         Object    => $Self->{ObjectData}->{Object},
         Blockname => $Self->{ObjectData}->{Realname},
@@ -321,14 +297,14 @@ sub TableCreateSimple {
 
     # check needed stuff
     if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need ObjectLinkListWithData!'
         );
         return;
     }
 
-    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my $TicketHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook');
     my %LinkOutputData;
     for my $LinkType ( sort keys %{ $Param{ObjectLinkListWithData} } ) {
 
@@ -389,7 +365,7 @@ sub ContentStringCreate {
 
     # check needed stuff
     if ( !$Param{ContentData} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need ContentData!'
         );
@@ -468,7 +444,7 @@ Return
 sub SearchOptionList {
     my ( $Self, %Param ) = @_;
 
-    my $ParamHook = $Self->{ConfigObject}->Get('Ticket::Hook') || 'Ticket#';
+    my $ParamHook = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Hook') || 'Ticket#';
 
     # search option list
     my @SearchOptionList = (
@@ -499,7 +475,7 @@ sub SearchOptionList {
         },
     );
 
-    if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
         push @SearchOptionList,
             {
             Key  => 'TypeIDs',
@@ -521,7 +497,7 @@ sub SearchOptionList {
         if ( $Row->{Type} eq 'Text' ) {
 
             # get form data
-            $Row->{FormData} = $Self->{ParamObject}->GetParam( Param => $Row->{FormKey} );
+            $Row->{FormData} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Row->{FormKey} );
 
             # parse the input text block
             $Self->{LayoutObject}->Block(
@@ -544,22 +520,22 @@ sub SearchOptionList {
         if ( $Row->{Type} eq 'List' ) {
 
             # get form data
-            my @FormData = $Self->{ParamObject}->GetArray( Param => $Row->{FormKey} );
+            my @FormData = $Kernel::OM->Get('Kernel::System::Web::Request')->GetArray( Param => $Row->{FormKey} );
             $Row->{FormData} = \@FormData;
 
             my %ListData;
             if ( $Row->{Key} eq 'StateIDs' ) {
-                %ListData = $Self->{StateObject}->StateList(
+                %ListData = $Kernel::OM->Get('Kernel::System::State')->StateList(
                     UserID => $Self->{UserID},
                 );
             }
             elsif ( $Row->{Key} eq 'PriorityIDs' ) {
-                %ListData = $Self->{PriorityObject}->PriorityList(
+                %ListData = $Kernel::OM->Get('Kernel::System::Priority')->PriorityList(
                     UserID => $Self->{UserID},
                 );
             }
             elsif ( $Row->{Key} eq 'TypeIDs' ) {
-                %ListData = $Self->{TypeObject}->TypeList(
+                %ListData = $Kernel::OM->Get('Kernel::System::Type')->TypeList(
                     UserID => $Self->{UserID},
                 );
             }

@@ -11,8 +11,6 @@ package Kernel::Output::HTML::Layout::Loader;
 use strict;
 use warnings;
 
-use Kernel::System::Loader;
-
 our $ObjectManagerDisabled = 1;
 
 =head1 NAME

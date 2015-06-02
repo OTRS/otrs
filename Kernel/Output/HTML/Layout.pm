@@ -11,31 +11,23 @@ package Kernel::Output::HTML::Layout;
 use strict;
 use warnings;
 
-use Kernel::Language;
-use Kernel::System::HTMLUtils;
-use Kernel::System::JSON;
-use Kernel::System::Time;
-use Kernel::System::VariableCheck qw(:all);
-
 use Storable;
 use URI::Escape qw();
 
-## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectDependencies)
-# Chat may not be declared as external dependency and is only needed on demand
+use Kernel::System::Time;
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
     'Kernel::System::AuthSession',
-    'Kernel::System::DB',
+    'Kernel::System::Chat',
     'Kernel::System::Encode',
-    'Kernel::System::Group',
     'Kernel::System::HTMLUtils',
     'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SystemMaintenance',
-    'Kernel::System::Ticket',
     'Kernel::System::Time',
     'Kernel::System::User',
     'Kernel::System::Web::Request',
@@ -90,26 +82,6 @@ sub new {
     # set debug
     $Self->{Debug} = 0;
 
-    # get needed objects
-    $Self->{ConfigObject}    //= $Kernel::OM->Get('Kernel::Config');
-    $Self->{LogObject}       //= $Kernel::OM->Get('Kernel::System::Log');
-    $Self->{TimeObject}      //= $Kernel::OM->Get('Kernel::System::Time');
-    $Self->{MainObject}      //= $Kernel::OM->Get('Kernel::System::Main');
-    $Self->{EncodeObject}    //= $Kernel::OM->Get('Kernel::System::Encode');
-    $Self->{ParamObject}     //= $Kernel::OM->Get('Kernel::System::Web::Request');
-    $Self->{HTMLUtilsObject} //= $Kernel::OM->Get('Kernel::System::HTMLUtils');
-    $Self->{JSONObject}      //= $Kernel::OM->Get('Kernel::System::JSON');
-
-    # Some objects are not available if we are setting up the system (no DB connection)
-    if ( !$Param{InstallerOnly} ) {
-
-        $Self->{DBObject}      //= $Kernel::OM->Get('Kernel::System::DB');
-        $Self->{SessionObject} //= $Kernel::OM->Get('Kernel::System::AuthSession');
-        $Self->{TicketObject}  //= $Kernel::OM->Get('Kernel::System::Ticket');
-        $Self->{UserObject}    //= $Kernel::OM->Get('Kernel::System::User');
-        $Self->{GroupObject}   //= $Kernel::OM->Get('Kernel::System::Group');
-    }
-
     # reset block data
     delete $Self->{BlockData};
 
@@ -122,6 +94,9 @@ sub new {
     if ( !$Self->{UserTheme} ) {
         $Self->{UserTheme} = $ConfigObject->Get('DefaultTheme');
     }
+
+    # We'll keep one default TimeObject and one for the user's time zone (if needed)
+    $Self->{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
 
     if ( $ConfigObject->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
         $Self->{UserTimeObject} = Kernel::System::Time->new( %{$Self} );
@@ -402,27 +377,10 @@ EOF
     $Self->{CustomTemplateDir}         = $ConfigObject->Get('CustomTemplateDir') . '/HTML/' . $Theme;
     $Self->{CustomStandardTemplateDir} = $ConfigObject->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
 
-    # load sub layout files
+    # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    my $Dir = $ConfigObject->Get('TemplateDir') . '/HTML';
-    if ( -e $Dir ) {
-        my @Files = $MainObject->DirectoryRead(
-            Directory => $Dir,
-            Filter    => 'Layout*.pm',
-        );
-        for my $File (@Files) {
-            if ( $File !~ /Layout.pm$/ ) {
-                $File =~ s{\A.*\/(.+?).pm\z}{$1}xms;
-                my $ClassName = "Kernel::Output::HTML::$File";
-                if ( !$MainObject->RequireBaseClass($ClassName) ) {
-                    $Self->FatalError();
-                }
-            }
-        }
-    }
-
-    # load sub layout files from new directory
+    # load sub layout files
     my $NewDir = $ConfigObject->Get('TemplateDir') . '/HTML/Layout';
     if ( -e $NewDir ) {
         my @NewFiles = $MainObject->DirectoryRead(

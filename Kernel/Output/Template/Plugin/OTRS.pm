@@ -15,6 +15,8 @@ use base qw(Template::Plugin);
 
 use Scalar::Util;
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
 Kernel::Output::Template::Plugin::OTRS - Template Toolkit extension plugin
@@ -67,7 +69,7 @@ sub new {
     Scalar::Util::weaken($LayoutObject);
 
     my $ConfigFunction = sub {
-        return $LayoutObject->{ConfigObject}->Get(@_);
+        return $Kernel::OM->Get('Kernel::Config')->Get(@_);
     };
 
     my $EnvFunction = sub {
