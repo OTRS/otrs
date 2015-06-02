@@ -6,14 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LayoutDatepicker;
+package Kernel::Output::HTML::Layout::Datepicker;
 
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
-Kernel::Output::HTML::LayoutDatepicker - Datepicker data
+Kernel::Output::HTML::Layout::Datepicker - Datepicker data
 
 =head1 SYNOPSIS
 
@@ -36,13 +38,16 @@ Returns a hash of all vacation days defined in the system.
 sub DatepickerGetVacationDays {
     my ( $Self, %Param ) = @_;
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     # get the defined vacation days
-    my $TimeVacationDays        = $Self->{ConfigObject}->Get('TimeVacationDays');
-    my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
+    my $TimeVacationDays        = $ConfigObject->Get('TimeVacationDays');
+    my $TimeVacationDaysOneTime = $ConfigObject->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
-        if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeVacationDays        = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get(
+        if ( $ConfigObject->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
+            $TimeVacationDays        = $ConfigObject->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDaysOneTime = $ConfigObject->Get(
                 "TimeVacationDaysOneTime::Calendar" . $Param{Calendar}
             );
         }

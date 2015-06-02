@@ -6,16 +6,18 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LayoutLoader;
+package Kernel::Output::HTML::Layout::Loader;
 
 use strict;
 use warnings;
 
 use Kernel::System::Loader;
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
-Kernel::Output::HTML::LayoutLoader - CSS/JavaScript
+Kernel::Output::HTML::Layout::Loader - CSS/JavaScript
 
 =head1 SYNOPSIS
 
@@ -41,11 +43,12 @@ taking a list from the Loader::Agent::CommonCSS config item.
 sub LoaderCreateAgentCSSCalls {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get host based default skin configuration
     my $SkinSelectedHostBased;
-    my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
+    my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -68,23 +71,23 @@ sub LoaderCreateAgentCSSCalls {
 
     my $SkinSelected = $Self->{'UserSkin'}
         || $SkinSelectedHostBased
-        || $Self->{ConfigObject}->Get('Loader::Agent::DefaultSelectedSkin')
+        || $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin')
         || 'default';
 
     # save selected skin
     $Self->{SkinSelected} = $SkinSelected;
 
-    my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
+    my $SkinHome = $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins';
+    my $DoMinify = $ConfigObject->Get('Loader::Enabled::CSS');
 
-    my $ToolbarModuleSettings    = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
-    my $CustomerUserItemSettings = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Item');
+    my $ToolbarModuleSettings    = $ConfigObject->Get('Frontend::ToolBarModule');
+    my $CustomerUserItemSettings = $ConfigObject->Get('Frontend::CustomerUser::Item');
 
     {
         my @FileList;
 
         # get global css
-        my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonCSS');
+        my $CommonCSSList = $ConfigObject->Get('Loader::Agent::CommonCSS');
         for my $Key ( sort keys %{$CommonCSSList} ) {
             push @FileList, @{ $CommonCSSList->{$Key} };
         }
@@ -117,7 +120,7 @@ sub LoaderCreateAgentCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-    my $FrontendModuleRegistration = $Self->{ConfigObject}->Get('Frontend::Module')->{$LoaderAction}
+    my $FrontendModuleRegistration = $ConfigObject->Get('Frontend::Module')->{$LoaderAction}
         || {};
 
     {
@@ -153,25 +156,26 @@ taking a list from the Loader::Agent::CommonJS config item.
 sub LoaderCreateAgentJSCalls {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
-
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
 
-    my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::JS');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $JSHome   = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
+    my $DoMinify = $ConfigObject->Get('Loader::Enabled::JS');
 
     {
         my @FileList;
 
         # get global js
-        my $CommonJSList = $Self->{ConfigObject}->Get('Loader::Agent::CommonJS');
+        my $CommonJSList = $ConfigObject->Get('Loader::Agent::CommonJS');
         for my $Key ( sort keys %{$CommonJSList} ) {
             push @FileList, @{ $CommonJSList->{$Key} };
         }
 
         # get toolbar module js
-        my $ToolbarModuleSettings = $Self->{ConfigObject}->Get('Frontend::ToolBarModule');
+        my $ToolbarModuleSettings = $ConfigObject->Get('Frontend::ToolBarModule');
         for my $Key ( sort keys %{$ToolbarModuleSettings} ) {
             if ( $ToolbarModuleSettings->{$Key}->{JavaScript} ) {
                 push @FileList, $ToolbarModuleSettings->{$Key}->{JavaScript};
@@ -192,7 +196,7 @@ sub LoaderCreateAgentJSCalls {
         my $LoaderAction = $Self->{Action} || 'Login';
         $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList = $Self->{ConfigObject}->Get('Frontend::Module')->{$LoaderAction}->{Loader}
+        my $AppJSList = $ConfigObject->Get('Frontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript} || [];
 
         my @FileList = @{$AppJSList};
@@ -221,13 +225,14 @@ taking a list from the Loader::Customer::CommonCSS config item.
 sub LoaderCreateCustomerCSSCalls {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $SkinSelected = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin')
+    my $SkinSelected = $ConfigObject->Get('Loader::Customer::SelectedSkin')
         || 'default';
 
     # force a skin based on host name
-    my $DefaultSkinHostBased = $Self->{ConfigObject}->Get('Loader::Customer::SelectedSkin::HostBased');
+    my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Customer::SelectedSkin::HostBased');
     if ( $DefaultSkinHostBased && $ENV{HTTP_HOST} ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -243,11 +248,11 @@ sub LoaderCreateCustomerCSSCalls {
         }
     }
 
-    my $SkinHome = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/skins';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::CSS');
+    my $SkinHome = $ConfigObject->Get('Home') . '/var/httpd/htdocs/skins';
+    my $DoMinify = $ConfigObject->Get('Loader::Enabled::CSS');
 
     {
-        my $CommonCSSList = $Self->{ConfigObject}->Get('Loader::Customer::CommonCSS');
+        my $CommonCSSList = $ConfigObject->Get('Loader::Customer::CommonCSS');
 
         my @FileList;
 
@@ -269,8 +274,8 @@ sub LoaderCreateCustomerCSSCalls {
     my $LoaderAction = $Self->{Action} || 'Login';
     $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
 
-    my $FrontendModuleRegistration = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}
-        || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}
+    my $FrontendModuleRegistration = $ConfigObject->Get('CustomerFrontend::Module')->{$LoaderAction}
+        || $ConfigObject->Get('PublicFrontend::Module')->{$LoaderAction}
         || {};
 
     {
@@ -305,16 +310,17 @@ taking a list from the Loader::Customer::CommonJS config item.
 sub LoaderCreateCustomerJSCalls {
     my ( $Self, %Param ) = @_;
 
-    $Self->{LoaderObject} ||= Kernel::System::Loader->new( %{$Self} );
-
     #use Time::HiRes;
     #my $t0 = Time::HiRes::gettimeofday();
 
-    my $JSHome   = $Self->{ConfigObject}->Get('Home') . '/var/httpd/htdocs/js';
-    my $DoMinify = $Self->{ConfigObject}->Get('Loader::Enabled::JS');
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $JSHome   = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
+    my $DoMinify = $ConfigObject->Get('Loader::Enabled::JS');
 
     {
-        my $CommonJSList = $Self->{ConfigObject}->Get('Loader::Customer::CommonJS');
+        my $CommonJSList = $ConfigObject->Get('Loader::Customer::CommonJS');
 
         my @FileList;
 
@@ -336,9 +342,9 @@ sub LoaderCreateCustomerJSCalls {
         my $LoaderAction = $Self->{Action} || 'CustomerLogin';
         $LoaderAction = 'CustomerLogin' if ( $LoaderAction eq 'Logout' );
 
-        my $AppJSList = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
+        my $AppJSList = $ConfigObject->Get('CustomerFrontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript}
-            || $Self->{ConfigObject}->Get('PublicFrontend::Module')->{$LoaderAction}->{Loader}
+            || $ConfigObject->Get('PublicFrontend::Module')->{$LoaderAction}->{Loader}
             ->{JavaScript}
             || [];
 
@@ -392,7 +398,7 @@ sub _HandleCSSList {
         }
 
         if ( $Param{DoMinify} && @FileList ) {
-            my $MinifiedFile = $Self->{LoaderObject}->MinifyFiles(
+            my $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
                 List                 => \@FileList,
                 Type                 => 'CSS',
                 TargetDirectory      => "$Param{SkinHome}/$Param{SkinType}/$Skin/css-cache/",
@@ -468,7 +474,7 @@ sub SkinValidate {
 
     for my $Needed ( 'SkinType', 'Skin' ) {
         if ( !$Param{$Needed} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Message  => "Needed param: $Needed!",
                 Priority => 'error',
             );
@@ -480,9 +486,12 @@ sub SkinValidate {
         return $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} };
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     my $SkinType      = $Param{SkinType};
-    my $PossibleSkins = $Self->{ConfigObject}->Get("Loader::${SkinType}::Skin") || {};
-    my $Home          = $Self->{ConfigObject}->Get('Home');
+    my $PossibleSkins = $ConfigObject->Get("Loader::${SkinType}::Skin") || {};
+    my $Home          = $ConfigObject->Get('Home');
     my %ActiveSkins;
 
     # prepare the list of active skins

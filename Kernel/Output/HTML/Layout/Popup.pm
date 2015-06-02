@@ -6,14 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LayoutPopup;
+package Kernel::Output::HTML::Layout::Popup;
 
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
-Kernel::Output::HTML::LayoutPopup - CSS/JavaScript
+Kernel::Output::HTML::Layout::Popup - CSS/JavaScript
 
 =head1 SYNOPSIS
 
@@ -48,7 +50,7 @@ sub PopupClose {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{URL} && !$Param{Reload} ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need URL or Reload!'
         );

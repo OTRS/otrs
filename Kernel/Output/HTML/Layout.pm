@@ -418,6 +418,24 @@ EOF
         }
     }
 
+    # load sub layout files from new directory
+    my $NewDir = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/Layout';
+    if ( -e $NewDir ) {
+        my @NewFiles = $Self->{MainObject}->DirectoryRead(
+            Directory => $NewDir,
+            Filter    => '*.pm',
+        );
+        for my $NewFile (@NewFiles) {
+            if ( $NewFile !~ /Layout.pm$/ ) {
+                $NewFile =~ s{\A.*\/(.+?).pm\z}{$1}xms;
+                my $NewClassName = "Kernel::Output::HTML::Layout::$NewFile";
+                if ( !$Self->{MainObject}->RequireBaseClass($NewClassName) ) {
+                    $Self->FatalError();
+                }
+            }
+        }
+    }
+
     if ( $Self->{SessionID} && $Self->{UserChallengeToken} ) {
         $Self->{ChallengeTokenParam} = "ChallengeToken=$Self->{UserChallengeToken};";
     }

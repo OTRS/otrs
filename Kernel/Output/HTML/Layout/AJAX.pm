@@ -6,14 +6,16 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Output::HTML::LayoutAJAX;
+package Kernel::Output::HTML::Layout::AJAX;
 
 use strict;
 use warnings;
 
+our $ObjectManagerDisabled = 1;
+
 =head1 NAME
 
-Kernel::Output::HTML::LayoutAJAX - all AJAX-related HTML functions
+Kernel::Output::HTML::Layout::AJAX - all AJAX-related HTML functions
 
 =head1 SYNOPSIS
 
@@ -53,10 +55,13 @@ sub BuildSelectionJSON {
     for my $Data ( @{$Array} ) {
         my %Param = %{$Data};
 
+        # log object
+        my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
+
         # check needed stuff
         for (qw(Name)) {
             if ( !defined $Param{$_} ) {
-                $Self->{LogObject}->Log(
+                $LogObject->Log(
                     Priority => 'error',
                     Message  => "Need $_!"
                 );
@@ -66,7 +71,7 @@ sub BuildSelectionJSON {
 
         if ( !defined( $Param{Data} ) ) {
             if ( !$Param{PossibleNone} ) {
-                $Self->{LogObject}->Log(
+                $LogObject->Log(
                     Priority => 'error',
                     Message  => "Need Data!"
                 );
