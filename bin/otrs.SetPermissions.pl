@@ -217,7 +217,8 @@ sub SetFilePermissions {
         $TargetPermission = 0755;
     }
 
-    my $Stat = File::stat::stat($File);
+    # There seem to be cases when stat does not work on a dangling link, skip in this case.
+    my $Stat = File::stat::stat($File) || return;
     if ( ( $Stat->mode() & 07777 ) != $TargetPermission ) {
         if ( defined $DryRun ) {
             print sprintf(
