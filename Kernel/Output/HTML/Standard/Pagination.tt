@@ -18,7 +18,6 @@
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllBack %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
             $Container.removeClass('Loading');
         });
         return false;
@@ -27,7 +26,6 @@
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllNext %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
             $Container.removeClass('Loading');
         });
         return false;
@@ -48,7 +46,6 @@
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAll %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
             $Container.removeClass('Loading');
         });
         return false;
@@ -71,7 +68,6 @@
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllBack %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
             $Container.removeClass('Loading');
         });
         return false;
@@ -80,7 +76,6 @@
         var $Container = $(this).parents('.WidgetSimple');
         $Container.addClass('Loading');
         Core.AJAX.ContentUpdate($('#[% Data.AjaxReplace %]'), '[% Data.BaselinkAllNext %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#[% Data.AjaxReplace %]'));
             $Container.removeClass('Loading');
         });
         return false;

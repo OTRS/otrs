@@ -15,13 +15,11 @@
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard[% Data.Name | html %]Agent').unbind('click').bind('click', function(){
         Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Agent', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
         });
         return false;
     });
     $('#Dashboard[% Data.Name | html %]Customer').unbind('click').bind('click', function(){
         Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=Customer', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
         });
         return false;
     });
@@ -117,7 +115,6 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
 
         $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
             $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
         });
         clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));

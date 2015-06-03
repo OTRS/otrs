@@ -142,7 +142,6 @@ if (Core.Config.Get('RefreshSeconds_[% Data.NameHTML | html %]')) {
         var Filter = $('#Dashboard[% Data.Name | html %]-box').find('.Tab.Actions li.Selected a').attr('data-filter');
         $('#Dashboard[% Data.Name | html %]-box').addClass('Loading');
         Core.AJAX.ContentUpdate($('#Dashboard[% Data.Name | html %]'), '[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Element;Name=[% Data.Name | html %];Filter=' + Filter + ';CustomerID=[% Data.CustomerID | html %]', function () {
-            Core.UI.Table.InitCSSPseudoClasses($('#Dashboard[% Data.Name | html %]'));
             $('#Dashboard[% Data.Name | html %]-box').removeClass('Loading');
         });
         clearTimeout(Core.Config.Get('Timer_[% Data.NameHTML | html %]'));
