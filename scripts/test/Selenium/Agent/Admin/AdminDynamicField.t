@@ -12,6 +12,8 @@ use utf8;
 
 use vars (qw($Self));
 
+use Kernel::Language;
+
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
