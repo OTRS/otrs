@@ -6301,7 +6301,7 @@
         <SubGroup>Frontend::Agent::TicketOverview::MenuModule</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::TicketOverview::MenuSort</Item>
+                <Item Key="Module">Kernel::Output::HTML::TicketOverviewMenu::Sort</Item>
             </Hash>
         </Setting>
     </ConfigItem>
