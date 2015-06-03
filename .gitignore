@@ -110,7 +110,7 @@ Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/NavBar/*Chat*
 Kernel/Output/HTML/CustomerUser/*Chat*
 Kernel/Output/HTML/ToolBar/*Chat*
-Kernel/Output/HTML/Ticket/MenuAttachmentView.pm
+Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
 Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
 Kernel/Output/HTML/Standard/AAAOTRSBusiness.tt
