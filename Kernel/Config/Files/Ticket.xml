@@ -5983,7 +5983,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###000-Back" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to go back in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -5999,7 +5999,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###100-Lock" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to lock/unlock tickets in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Lock</Item>
@@ -6012,7 +6012,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###200-History" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to access the history of a ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6028,7 +6028,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###210-Print" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to print a ticket or an article in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6045,7 +6045,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###300-Priority" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to see the priority of a ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6061,7 +6061,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###310-FreeText" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to add a free text field in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6077,7 +6077,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###320-Link" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu that allows linking a ticket with another object in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6093,7 +6093,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###400-Owner" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to see the owner of a ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6109,7 +6109,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###410-Responsible" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to see the responsible agent of a ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Responsible</Item>
@@ -6125,7 +6125,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###420-Customer" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to see the customer who requested the ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6141,7 +6141,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###420-Note" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6157,7 +6157,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###425-Phone Call Outbound" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6173,7 +6173,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###426-Phone Call Inbound" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to add a note in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6189,7 +6189,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###427-Email Outbound" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to send an outbound email in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6205,7 +6205,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###430-Merge" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu that allows merging tickets in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6221,7 +6221,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###440-Pending" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to set a ticket as pending in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6237,7 +6237,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###448-Watch" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu for subscribing / unsubscribing from a ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::TicketWatcher</Item>
@@ -6250,7 +6250,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###450-Close" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to close a ticket in the ticket zoom view of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6266,7 +6266,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###460-Delete" Required="0" Valid="0">
         <Description Translatable="1">Shows a link in the menu to delete a ticket in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6282,7 +6282,7 @@
     <ConfigItem Name="Ticket::Frontend::MenuModule###470-Spam" Required="0" Valid="0">
         <Description Translatable="1">Shows a link to set a ticket as spam in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::Module</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6298,7 +6298,7 @@
     <ConfigItem Name="Ticket::Frontend::OverviewMenuModule###001-Sort" Required="0" Valid="1">
         <Description Translatable="1">Shows a select of ticket attributes to order the queue view ticket list. The possible selections can be configured via 'TicketOverviewMenuSort###SortAttributes'.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketOverview::MenuModule</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::OverviewMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketOverviewMenu::Sort</Item>
@@ -6308,7 +6308,7 @@
     <ConfigItem Name="TicketOverviewMenuSort###SortAttributes" Required="0" Valid="1">
         <Description Translatable="1">Defines from which ticket attributes the agent can select the result order.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketOverview::MenuModule</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::OverviewMenuModule</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Age">1</Item>
@@ -6319,7 +6319,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###100-Lock" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to lock / unlock a ticket in the ticket overviews of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Lock</Item>
@@ -6333,7 +6333,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###200-Zoom" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to zoom a ticket in the ticket overviews of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6349,7 +6349,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###210-History" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to see the history of a ticket in every ticket overview of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6365,7 +6365,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###300-Priority" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to set the priority of a ticket in every ticket overview of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6381,7 +6381,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###420-Note" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to add a note to a ticket in every ticket overview of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6397,7 +6397,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###440-Close" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to close a ticket in every ticket overview of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6413,7 +6413,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###445-Move" Required="0" Valid="1">
         <Description Translatable="1">Shows a link in the menu to move a ticket in every ticket overview of the agent interface.</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Move</Item>
@@ -6426,7 +6426,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###450-Delete" Required="0" Valid="0">
         <Description Translatable="1">Shows a link in the menu to delete a ticket in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
@@ -6442,7 +6442,7 @@
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###460-Spam" Required="0" Valid="0">
         <Description Translatable="1">Shows a link in the menu to set a ticket as spam in every ticket overview of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
         <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::TicketMenu::ModulePre</SubGroup>
+        <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::TicketMenu::Generic</Item>
