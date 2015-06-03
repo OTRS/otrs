@@ -18,6 +18,7 @@ my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # create and login test user
@@ -77,13 +78,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
         # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#SearchProfile').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        $Selenium->WaitFor( JavaScript => "return \$('#SearchProfile').length" );
 
         # check ticket search page
         for my $ID (
@@ -101,13 +96,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "TicketNumber", 'name' )->submit();
 
         # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('div.MainBox').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        $Selenium->WaitFor( JavaScript => "return \$('div.MainBox').length" );
 
         # check for expected result
         $Self->True(
@@ -119,13 +108,7 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketSearch");
 
         # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#SearchProfile').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        $Selenium->WaitFor( JavaScript => "return \$('#SearchProfile').length" );
 
         $Selenium->find_element( "Fulltext", 'name' )->send_keys("abcdfgh");
         $Selenium->find_element( "Fulltext", 'name' )->submit();
@@ -149,7 +132,7 @@ $Selenium->RunTest(
         # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
-        }
+    }
 );
 
 1;

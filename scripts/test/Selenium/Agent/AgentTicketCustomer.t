@@ -93,7 +93,8 @@ $Selenium->RunTest(
         my $TicketSubject = "Selenium Ticket";
         my $TicketBody    = "Selenium body test";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys( $TestCustomers[0] );
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
         $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
@@ -102,13 +103,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('form').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        $Selenium->WaitFor( JavaScript => 'return $("form").length' );
 
         # search for new created ticket on AgentTicketZoom screen
         my %TicketIDs = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
@@ -152,35 +147,29 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
         $Selenium->find_element( "#CustomerID",           'css' )->clear();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys( $TestCustomers[1] );
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
+
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
 
         # wait until customer data is loading
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            sleep 1;
-
-            # check if customer data is loaded
-            if ( $Selenium->execute_script("return \$('#CustomerAutoComplete').length") ) {
-                last ACTIVESLEEP;
-            }
-            print "Waiting to load customer user data  $Second  second(s)...\n\n";
-        }
+        $Selenium->WaitFor( JavaScript => 'return $("#CustomerAutoComplete").length' );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
+        $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->WaitFor( JavaScript => 'return $("div.MainBox").length' );
 
         # click on history link and switch window
         $Selenium->find_element("//*[text()='History']")->click();
-        sleep(2);
+
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
         # verify that action worked as expected
-        my $HistoryText = "Updated: CustomerID=$TestCustomers[1];CustomerUser=$TestCustomers[1];";
+        my $HistoryText = "CustomerID=$TestCustomers[1];CustomerUser=$TestCustomers[1]";
 
         $Self->True(
-            index( $Selenium->get_page_source(), $HistoryText ) > -1,
+            index( $Selenium->get_page_source(), 'CustomerUpdate' ) > -1,
             "Action AgentTicketCustomer executed correctly",
         );
 
@@ -215,7 +204,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
-        }
+    }
 );
 
 1;

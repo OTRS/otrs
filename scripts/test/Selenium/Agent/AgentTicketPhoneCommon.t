@@ -129,22 +129,21 @@ $Selenium->RunTest(
             }
 
             # add body text and submit
-            my $ActionText = $Action . " Selenium Test";
+            my $ActionText = $Action->{Name} . " Selenium Test";
             $Selenium->find_element( "#RichText",                      'css' )->send_keys($ActionText);
             $Selenium->find_element( "#NextStateID option[value='4']", 'css' )->click();
             $Selenium->find_element( "#submitRichText",                'css' )->click();
 
             # return back to AgentTicketZoom
             $Selenium->switch_to_window( $Handles->[0] );
-
-            sleep(2);
+            $Selenium->WaitFor( JavaScript => "return \$('div.MainBox').length" );
 
             # click on history link and switch window
             $Selenium->find_element("//*[text()='History']")->click();
             $Handles = $Selenium->get_window_handles();
             $Selenium->switch_to_window( $Handles->[1] );
 
-            sleep(2);
+            $Selenium->WaitFor( JavaScript => "return \$('table.DataTable').length" );
 
             # verify for expected action
             $Self->True(
@@ -184,7 +183,7 @@ $Selenium->RunTest(
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'CustomerUser' );
 
-        }
+    }
 );
 
 1;

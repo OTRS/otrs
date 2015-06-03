@@ -92,27 +92,20 @@ $Selenium->RunTest(
         my $Location           = $Kernel::OM->Get('Kernel::Config')->Get('Home')
             . "/scripts/test/sample/StdAttachment/$AttachmentName";
         $Selenium->find_element( "#FromCustomer", 'css' )->send_keys($TestCustomer);
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return $("p.Value").length' );
+
         $Selenium->find_element( "#Dest option[value='2||Raw']", 'css' )->click();
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#FileUpload",                  'css' )->send_keys($Location);
-        sleep 0.1;
-
-        # wait until attachment is upoading
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( index( $Selenium->get_page_source(), $AttachmentName ) > -1 ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
-
+        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length' );
         $Selenium->find_element( "#Subject", 'css' )->submit();
-        sleep 1;
+
+        # wait until ticket is created
+        $Selenium->WaitFor( JavaScript => "return \$('form').length" );
 
         # search for new created ticket on AgentTicketZoom screen
         my ( $TicketID, $TicketNumber ) = $Kernel::OM->Get('Kernel::System::Ticket')->TicketSearch(
@@ -121,15 +114,6 @@ $Selenium->RunTest(
             CustomerUserID => $TestCustomer,
             UserID         => $TestUserID,
         );
-
-        # wait until ticket is created
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( index( $Selenium->get_page_source(), $TicketNumber ) > -1 ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
 
         $Self->True(
             index( $Selenium->get_page_source(), $TicketNumber ) > -1,
@@ -189,7 +173,7 @@ $Selenium->RunTest(
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
 
-        }
+    }
 );
 
 1;
