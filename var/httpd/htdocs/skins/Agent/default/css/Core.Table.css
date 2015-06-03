@@ -447,7 +447,7 @@ thead .headerSortDown a {
     color: #FFFFFF;
 }
 
-.TableSmall tr:nth-child(even) {
+.TableSmall tr:nth-child(even) td {
     background-color: #F5F5F5;
 }
 
