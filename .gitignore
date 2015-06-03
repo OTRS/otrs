@@ -93,7 +93,6 @@ OTRSBusiness.sopm
 doc/*/OTRSBusiness.*
 i18n/OTRSBusiness
 var/packagesetup/OTRSBusiness.pm
-bin/otrs.CleanUpChats.pl
 Kernel/Config/Files/OTRSBusiness.xml
 Kernel/Language/*OTRSBusiness.pm
 Kernel/Modules/*Chat*
@@ -101,6 +100,7 @@ Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
 Kernel/Modules/AgentTicketAttachmentView.pm
 Kernel/System/*Chat*
+Kernel/System/Console/Command/Maint/Chat*
 Kernel/System/DynamicField/Driver/ContactWithData.pm
 Kernel/System/DynamicField/Driver/BaseDatabase.pm
 Kernel/System/DynamicField/Driver/Database.pm
@@ -123,6 +123,7 @@ Kernel/Output/HTML/Standard/*ContactWithData*
 Kernel/Output/HTML/Standard/*DynamicFieldDatabase*
 Kernel/Output/HTML/Standard/*SLASelectionDialog*
 scripts/test/Chat
+scripts/test/Console/Command/Maint/Chat*
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
 var/httpd/htdocs/js/*ChronicalView*
