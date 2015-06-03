@@ -26,6 +26,14 @@ sub Configure {
     my ( $Self, %Param ) = @_;
 
     $Self->Description('Generate a console command skeleton.');
+    $Self->AddOption(
+        Name => 'module-directory',
+        Description =>
+            "Specify the directory containing the module where the new command should be created (otherwise the OTRS home directory will be used).",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/.*/smx,
+    );
     $Self->AddArgument(
         Name        => 'name',
         Description => "Specify the name of the new command (e.g. 'Admin::Test::Command').",
@@ -34,11 +42,27 @@ sub Configure {
     );
 }
 
+sub PreRun {
+    my ( $Self, %Param ) = @_;
+
+    my $ModuleDirectory = $Self->GetOption('module-directory');
+    if ( $ModuleDirectory && !-d $ModuleDirectory ) {
+        die "Directory $ModuleDirectory does not exist.\n";
+    }
+
+    return;
+}
 sub Run {
     my ( $Self, %Param ) = @_;
 
     my $CommandName = $Self->GetArgument('name');
     my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+    my $TargetHome = $Home;
+    my $ModuleDirectory = $Self->GetOption('module-directory');
+    if ($ModuleDirectory) {
+        $TargetHome = $ModuleDirectory;
+    }
 
     # create perl module file
     my $CommandPathPM = $CommandName . ".pm";
@@ -62,7 +86,7 @@ sub Run {
         },
     );
 
-    my $TargetLocationPM  = "$Home/Kernel/System/Console/Command/$CommandPathPM";
+    my $TargetLocationPM  = "$TargetHome/Kernel/System/Console/Command/$CommandPathPM";
     my $TargetDirectoryPM = File::Basename::dirname($TargetLocationPM);
 
     if ( !-d $TargetDirectoryPM ) {
@@ -109,7 +133,7 @@ sub Run {
         },
     );
 
-    my $TargetLocationUT  = "$Home/scripts/test/Console/Command/$CommandPathUT";
+    my $TargetLocationUT  = "$TargetHome/scripts/test/Console/Command/$CommandPathUT";
     my $TargetDirectoryUT = File::Basename::dirname($TargetLocationUT);
 
     if ( !-d $TargetDirectoryUT ) {

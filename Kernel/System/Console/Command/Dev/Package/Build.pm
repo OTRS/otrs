@@ -66,6 +66,11 @@ sub PreRun {
         die "Directory $TargetDirectory does not exist.\n";
     }
 
+    my $ModuleDirectory = $Self->GetOption('module-directory');
+    if ( $ModuleDirectory && !-d $ModuleDirectory ) {
+        die "Directory $ModuleDirectory does not exist.\n";
+    }
+
     return;
 }
 
