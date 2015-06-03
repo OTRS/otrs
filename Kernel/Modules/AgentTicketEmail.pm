@@ -54,6 +54,26 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
+    # get form id
+    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
+
+    # get upload cache object
+    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+
+    # create form id
+    if ( !$FormID ) {
+        $FormID = $UploadCacheObject->FormIDCreate();
+    }
+
+    # get needed objects
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my $Debug = $Param{Debug} || 0;
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
+
     # get params
     my %GetParam;
     for my $Key (
@@ -314,26 +334,6 @@ sub Run {
             %GetParam,
         );
     }
-
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # get upload cache object
-    my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $UploadCacheObject->FormIDCreate();
-    }
-
-    # get needed object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $QueueObject  = $Kernel::OM->Get('Kernel::System::Queue');
-    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $Debug = $Param{Debug} || 0;
-    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
 

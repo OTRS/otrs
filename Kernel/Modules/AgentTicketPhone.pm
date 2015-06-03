@@ -138,6 +138,20 @@ sub Run {
     my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
     my $ConfigObject              = $Kernel::OM->Get('Kernel::Config');
+    my $CustomerUserObject        = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $UploadCacheObject         = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
+    my $TicketObject              = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $QueueObject               = $Kernel::OM->Get('Kernel::System::Queue');
+
+    # get form id
+    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
+
+    # create form id
+    if ( !$FormID ) {
+        $FormID = $UploadCacheObject->FormIDCreate();
+    }
+
+    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     # cycle trough the activated Dynamic Fields for this screen
     DYNAMICFIELD:
@@ -198,22 +212,6 @@ sub Run {
             );
         }
     }
-
-    # get needed objects
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $UploadCacheObject  = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
-    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $QueueObject        = $Kernel::OM->Get('Kernel::System::Queue');
-
-    # get form id
-    my $FormID = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$FormID ) {
-        $FormID = $UploadCacheObject->FormIDCreate();
-    }
-
-    my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
 
