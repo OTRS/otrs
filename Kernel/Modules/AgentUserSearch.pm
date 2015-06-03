@@ -77,16 +77,6 @@ sub Run {
         # get encode object
         my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-        # workaround, all auto completion requests get posted by utf8 anyway
-        # convert any to 8bit string if application is not running in utf8
-        if ( !$EncodeObject->EncodeInternalUsed() ) {
-            $Search = $EncodeObject->Convert(
-                Text => $Search,
-                From => 'utf-8',
-                To   => $LayoutObject->{UserCharset},
-            );
-        }
-
         # get user object
         my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 

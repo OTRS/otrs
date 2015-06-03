@@ -75,22 +75,11 @@ $Self->Is(
     'Some Comment',
     'AutoResponseGet() - Comment',
 );
-
-# check return charset based on system wide utf8 or not
-if ( $EncodeObject->EncodeInternalUsed() ) {
-    $Self->Is(
-        $AutoResponse{Charset} || '',
-        'utf-8',
-        'AutoResponseGet() - Charset',
-    );
-}
-else {
-    $Self->Is(
-        $AutoResponse{Charset} || '',
-        'iso-8859-1',
-        'AutoResponseGet() - Charset',
-    );
-}
+$Self->Is(
+    $AutoResponse{Charset} || '',
+    'utf-8',
+    'AutoResponseGet() - Charset',
+);
 $Self->Is(
     $AutoResponse{ContentType} || '',
     'text/plain',
@@ -160,22 +149,11 @@ $Self->Is(
     'Some Comment1',
     'AutoResponseGet() - Comment',
 );
-
-# check return charset based on system wide utf8 or not
-if ( $EncodeObject->EncodeInternalUsed() ) {
-    $Self->Is(
-        $AutoResponse{Charset} || '',
-        'utf-8',
-        'AutoResponseGet() - Charset',
-    );
-}
-else {
-    $Self->Is(
-        $AutoResponse{Charset} || '',
-        'utf8',
-        'AutoResponseGet() - Charset',
-    );
-}
+$Self->Is(
+    $AutoResponse{Charset} || '',
+    'utf-8',
+    'AutoResponseGet() - Charset',
+);
 $Self->Is(
     $AutoResponse{ContentType} || '',
     'text/html',
