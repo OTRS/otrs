@@ -13,11 +13,6 @@ use vars (qw($Self));
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
-# get needed objects
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-
 $Selenium->RunTest(
     sub {
         # get helper object
@@ -27,6 +22,9 @@ $Selenium->RunTest(
             },
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+        # get sysconfig object
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
         # do not check RichText
         $SysConfigObject->ConfigItemUpdate(
@@ -54,6 +52,7 @@ $Selenium->RunTest(
             Value => 'inline'
         );
 
+        # create test customer user and login
         my $TestUserLogin = $Helper->TestCustomerUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -63,6 +62,9 @@ $Selenium->RunTest(
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
+
+        # get customer user object
+        my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
         # get customer user ID
         my %CustomerUser = $CustomerUserObject->CustomerUserDataGet(
@@ -84,14 +86,18 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#Attachment",                  'css' )->send_keys($Location);
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => "return \$('.Attachment').length" );
         $Selenium->find_element( "#submitRichText", 'css' )->click();
 
         # obtain ticket number
         my @User = $CustomerUserObject->CustomerIDs(
             User => $TestUserLogin,
         );
-        my $UserID    = $User[0];
+        my $UserID = $User[0];
+
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
         my %TicketIDs = $TicketObject->TicketSearch(
             Result         => 'HASH',
             Limit          => 1,
@@ -135,7 +141,7 @@ $Selenium->RunTest(
         # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
-        }
+    }
 );
 
 1;

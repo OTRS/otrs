@@ -13,15 +13,16 @@ use utf8;
 use vars (qw($Self));
 use Kernel::Language;
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate() || die "Did not get test user";
 
         $Selenium->Login(
@@ -30,8 +31,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # navigate to AgentPReferences screen
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentPreferences");
 
         my @Languages = sort keys %{ $ConfigObject->Get('DefaultUsedLanguages') };
@@ -46,14 +50,6 @@ $Selenium->RunTest(
             $Element = $Selenium->find_child_element( $Element, "option[value='$Language']", 'css' );
             $Element->click();
             $Element->submit();
-
-            ACTIVESLEEP:
-            for my $Second ( 1 .. 20 ) {
-                if ( $Selenium->execute_script("return \$('.MainBox h1').length") ) {
-                    last ACTIVESLEEP;
-                }
-                sleep 1;
-            }
 
             # now check if the language was correctly applied in the interface
             my $LanguageObject = Kernel::Language->new(
@@ -75,7 +71,7 @@ $Selenium->RunTest(
                 "Success notification in $Language",
             );
         }
-        }
+    }
 );
 
 1;

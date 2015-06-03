@@ -97,7 +97,7 @@ $Selenium->RunTest(
         # input test user in search Customer user
         my $AutoCCSearch = "\"$TestCustomerLogin $TestCustomerLogin\" <$TestCustomerEmail>";
         $Selenium->find_element( "#ToolBarCICSearchCustomerUser", 'css' )->send_keys($TestCustomerLogin);
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => 'return $("li.ui-menu-item:visible").length' );
         $Selenium->find_element("//*[text()='$AutoCCSearch']")->click();
 
         # verify search
@@ -129,7 +129,7 @@ $Selenium->RunTest(
             "Deleted CustomerUser - $CustomerID",
         );
 
-        }
+    }
 );
 
 1;

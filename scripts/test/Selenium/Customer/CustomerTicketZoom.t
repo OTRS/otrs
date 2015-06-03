@@ -47,6 +47,7 @@ $Selenium->RunTest(
             Value => 0
         );
 
+        # create test customer user and login
         my $TestUserLogin = $Helper->TestCustomerUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -69,13 +70,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",                     'css' )->submit();
 
         # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('table.Overview').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        $Selenium->WaitFor( JavaScript => "return \$('table.Overview').length" );
 
         # get needed data
         my @User = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerIDs(
@@ -147,7 +142,7 @@ $Selenium->RunTest(
         # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
 
-        }
+    }
 );
 
 1;
