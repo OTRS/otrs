@@ -122,7 +122,7 @@ $Selenium->RunTest(
             "OutOfOffice message - found on screen"
         );
 
-    }
+        }
 );
 
 1;

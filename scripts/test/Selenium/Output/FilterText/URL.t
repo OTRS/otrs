@@ -114,7 +114,7 @@ $Selenium->RunTest(
             "TextURL link $BodyText on zoom view - not found",
         );
 
-    }
+        }
 );
 
 1;

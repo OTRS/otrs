@@ -142,7 +142,7 @@ $Selenium->RunTest(
         for my $Cache (qw(Queue SystemAddress)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
-    }
+        }
 );
 
 1;

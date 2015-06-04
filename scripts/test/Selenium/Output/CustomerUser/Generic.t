@@ -140,7 +140,7 @@ $Selenium->RunTest(
             $Success,
             "Deleted CustomerUser - $TestCustomerUser",
         );
-    }
+        }
 );
 
 1;

@@ -52,13 +52,14 @@ sub PreRun {
 
     return;
 }
+
 sub Run {
     my ( $Self, %Param ) = @_;
 
     my $CommandName = $Self->GetArgument('name');
     my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    my $TargetHome = $Home;
+    my $TargetHome      = $Home;
     my $ModuleDirectory = $Self->GetOption('module-directory');
     if ($ModuleDirectory) {
         $TargetHome = $ModuleDirectory;

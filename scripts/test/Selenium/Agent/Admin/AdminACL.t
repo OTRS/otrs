@@ -229,7 +229,7 @@ JAVASCRIPT
             Type => 'ACLEditor_ACL',
         );
 
-    }
+        }
 );
 
 1;

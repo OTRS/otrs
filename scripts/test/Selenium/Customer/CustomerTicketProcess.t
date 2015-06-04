@@ -157,7 +157,7 @@ $Selenium->RunTest(
         # create second scenarion for test customer ticket process
         $Selenium->get("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
         $Selenium->find_element( "#ProcessEntityID option[value='$ListReverse{$ProcessName}']", 'css' )->click();
-        $Selenium->WaitFor(JavaScript => 'return $("#Subject").length;');
+        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
         $Selenium->find_element( "#QueueID option[value='3']", 'css' )->click();
