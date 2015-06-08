@@ -80,10 +80,12 @@ sub Run {
         },
     );
 
+    my $ClosedText     = $LayoutObject->{LanguageObject}->Translate('Closed');
+    my $CreatedText    = $LayoutObject->{LanguageObject}->Translate('Created');
+    my $StateText      = $LayoutObject->{LanguageObject}->Translate('State');
     my @TicketsCreated = ();
     my @TicketsClosed  = ();
     my @TicketWeekdays = ();
-    my @TicketYAxis    = ();
     my $Max            = 0;
 
     # get ticket object
@@ -104,10 +106,7 @@ sub Run {
 
         unshift(
             @TicketWeekdays,
-            [
-                6 - $Key,
-                $LayoutObject->{LanguageObject}->Translate( $Axis{'7Day'}->{$WeekDay} )
-            ]
+            $LayoutObject->{LanguageObject}->Translate( $Axis{'7Day'}->{$WeekDay} )
         );
 
         my $CountCreated = $TicketObject->TicketSearch(
@@ -131,7 +130,7 @@ sub Run {
         if ( $CountCreated && $CountCreated > $Max ) {
             $Max = $CountCreated;
         }
-        push @TicketsCreated, [ 6 - $Key, $CountCreated ];
+        push @TicketsCreated, $CountCreated;
 
         my $CountClosed = $TicketObject->TicketSearch(
 
@@ -154,69 +153,29 @@ sub Run {
         if ( $CountClosed && $CountClosed > $Max ) {
             $Max = $CountClosed;
         }
-        push @TicketsClosed, [ 6 - $Key, $CountClosed ];
+        push @TicketsClosed, $CountClosed;
     }
 
-    # calculate the maximum height and the tick steps of y axis
-    if ( $Max <= 10 ) {
-        for ( my $i = 0; $i <= 10; $i += 2 ) {
-            push @TicketYAxis, $i
-        }
-    }
-    elsif ( $Max <= 20 ) {
-        for ( my $i = 0; $i <= 20; $i += 4 ) {
-            push @TicketYAxis, $i
-        }
-    }
-    elsif ( $Max <= 100 ) {
-        for ( my $i = 0; $i <= ( ( ( $Max - $Max % 10 ) / 10 ) + 1 ) * 10; $i += 10 ) {
-            push @TicketYAxis, $i
-        }
-    }
-    elsif ( $Max <= 1000 ) {
-        for ( my $i = 0; $i <= ( ( ( $Max - $Max % 100 ) / 100 ) + 1 ) * 100; $i += 100 ) {
-            push @TicketYAxis, $i
-        }
-    }
-    else {
-        for ( my $i = 0; $i <= ( ( ( $Max - $Max % 1000 ) / 1000 ) + 1 ) * 1000; $i += 1000 ) {
-            push @TicketYAxis, $i
-        }
-    }
-    my $ClosedText  = $LayoutObject->{LanguageObject}->Translate('Closed');
-    my $CreatedText = $LayoutObject->{LanguageObject}->Translate('Created');
+    unshift(
+        @TicketWeekdays,
+        $StateText
+    );
 
     my @ChartData = (
-        {
-            data  => \@TicketsClosed,
-            label => $ClosedText,
-            color => "#BF8A2F"
-        },
-        {
-            data  => \@TicketsCreated,
-            label => $CreatedText,
-            color => "#6F98DF"
-        }
+        $LayoutObject->{LanguageObject}->Translate('7 Day Stats'),
+        \@TicketWeekdays,
+        [ $CreatedText, reverse @TicketsCreated ],
+        [ $ClosedText, reverse @TicketsClosed ],
     );
 
     my $ChartDataJSON = $LayoutObject->JSONEncode(
         Data => \@ChartData,
     );
 
-    my $TicketWeekdaysJSON = $LayoutObject->JSONEncode(
-        Data => \@TicketWeekdays,
-    );
-
-    my $TicketYAxisJSON = $LayoutObject->JSONEncode(
-        Data => \@TicketYAxis,
-    );
-
     my %Data = (
         %{ $Self->{Config} },
         Key            => int rand 99999,
         ChartData      => $ChartDataJSON,
-        TicketWeekdays => $TicketWeekdaysJSON,
-        TicketYAxis    => $TicketYAxisJSON
     );
 
     if ( $Self->{Config}->{CacheTTLLocal} ) {

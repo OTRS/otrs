@@ -7,7 +7,12 @@
 # --
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
-    Core.UI.Chart.DrawLineChart('Chart[% Data.Key | html %]', [% Data.ChartData %], [% Data.TicketWeekdays %], [% Data.TicketYAxis %]);
+(function(){
+    var Timeout = 500;
+    window.setTimeout(function () {
+        Core.UI.AdvancedChart.Init("LineSimple", [% Data.ChartData %], 'svg.GraphWidget[% Data.Key | html %]');
+    }, Timeout);
+}());
 //]]></script>
 [% END %]
-<div id="Chart[% Data.Key | html %]" class="Chart"></div>
+<svg style="height: 250px;" class="GraphWidget[% Data.Key | html %]" id="GraphWidget[% Data.Key | html %]"></svg>

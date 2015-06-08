@@ -4382,15 +4382,12 @@ via the Preferences button after logging in.
                     <CSS>Core.AllocationList.css</CSS>
                     <CSS>thirdparty/fullcalendar-2.3.1/fullcalendar.css</CSS>
                     <CSS>thirdparty/d3js/nv.d3.css</CSS>
-                    <JavaScript>thirdparty/flot-0.8.3/excanvas.js</JavaScript>
-                    <JavaScript>thirdparty/flot-0.8.3/jquery.flot.js</JavaScript>
                     <JavaScript>thirdparty/momentjs-2.10.3/moment.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-2.3.1/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/models/OTRSmultiBarChart.js</JavaScript>
                     <JavaScript>thirdparty/d3js/models/OTRSstackedAreaChart.js</JavaScript>
-                    <JavaScript>Core.UI.Chart.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
@@ -4432,9 +4429,6 @@ via the Preferences button after logging in.
                 </NavBar>
                 <Loader>
                     <CSS>Core.AllocationList.css</CSS>
-                    <JavaScript>thirdparty/flot-0.8.3/excanvas.js</JavaScript>
-                    <JavaScript>thirdparty/flot-0.8.3/jquery.flot.js</JavaScript>
-                    <JavaScript>Core.UI.Chart.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.Dashboard.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
