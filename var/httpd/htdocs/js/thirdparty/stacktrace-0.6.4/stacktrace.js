@@ -26,8 +26,8 @@
      */
     function printStackTrace(options) {
         options = options || {guess: true};
-        var ex = options.e || null, guess = !!options.guess;
-        var p = new printStackTrace.implementation(), result = p.run(ex);
+        var ex = options.e || null, guess = !!options.guess, mode = options.mode || null;
+        var p = new printStackTrace.implementation(), result = p.run(ex, mode);
         return (guess) ? p.guessAnonymousFunctions(result) : result;
     }
 
@@ -64,6 +64,10 @@
          * @return {String} mode of operation for the exception
          */
         mode: function(e) {
+            if (typeof window !== 'undefined' && window.navigator.userAgent.indexOf('PhantomJS') > -1) {
+                return 'phantomjs';
+            }
+
             if (e['arguments'] && e.stack) {
                 return 'chrome';
             }
@@ -272,6 +276,24 @@
                 var match = lineRE.exec(lines[i]);
                 if (match) {
                     result.push(ANON + '()@' + match[2] + ':' + match[1] + ' -- ' + lines[i + 1].replace(/^\s+/, ''));
+                }
+            }
+
+            return result;
+        },
+
+        phantomjs: function(e) {
+            var ANON = '{anonymous}', lineRE = /(\S+) \((\S+)\)/i;
+            var lines = e.stack.split('\n'), result = [];
+
+            for (var i = 1, len = lines.length; i < len; i++) {
+                lines[i] = lines[i].replace(/^\s+at\s+/gm, '');
+                var match = lineRE.exec(lines[i]);
+                if (match) {
+                    result.push(match[1] + '()@' + match[2]);
+                }
+                else {
+                    result.push(ANON + '()@' + lines[i]);
                 }
             }
 

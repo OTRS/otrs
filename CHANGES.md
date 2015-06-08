@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-06-08 Updated jQuery to 2.1.4; jQuery UI to 1.11.4; FontAwesome to 4.3.0; FullCalendar to 2.3.1, StackTrace to 0.6.4.
  - 2015-06-02 Updated jstree to version 3.1.1.
  - 2015-06-02 Ported all frontend modules to the ObjectManager.
  - 2015-06-01 Added the possibility to extract translation strings directly from Perl code.
