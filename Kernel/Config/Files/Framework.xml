@@ -4380,11 +4380,12 @@ via the Preferences button after logging in.
                 <Loader>
                     <CSS>Core.Agent.Dashboard.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
-                    <CSS>thirdparty/fullcalendar-1.6.1/fullcalendar.css</CSS>
+                    <CSS>thirdparty/fullcalendar-2.3.1/fullcalendar.css</CSS>
                     <CSS>thirdparty/d3js/nv.d3.css</CSS>
                     <JavaScript>thirdparty/flot-0.8.3/excanvas.js</JavaScript>
                     <JavaScript>thirdparty/flot-0.8.3/jquery.flot.js</JavaScript>
-                    <JavaScript>thirdparty/fullcalendar-1.6.1/fullcalendar.min.js</JavaScript>
+                    <JavaScript>thirdparty/momentjs-2.10.3/moment.min.js</JavaScript>
+                    <JavaScript>thirdparty/fullcalendar-2.3.1/fullcalendar.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
                     <JavaScript>thirdparty/d3js/models/OTRSmultiBarChart.js</JavaScript>
@@ -6398,11 +6399,11 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/jquery-1.11.1/jquery.js</Item>
+                <Item>thirdparty/jquery-2.1.4/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-ui-1.11.1/jquery-ui.js</Item>
-                <Item>thirdparty/jquery-validate-1.13.0/jquery.validate.js</Item>
-                <Item>thirdparty/stacktrace-0.6.2/stacktrace.js</Item>
+                <Item>thirdparty/jquery-ui-1.11.4/jquery-ui.js</Item>
+                <Item>thirdparty/jquery-validate-1.13.1/jquery.validate.js</Item>
+                <Item>thirdparty/stacktrace-0.6.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
@@ -6471,11 +6472,11 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Array>
-                <Item>thirdparty/jquery-1.11.1/jquery.js</Item>
+                <Item>thirdparty/jquery-2.1.4/jquery.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-validate-1.13.0/jquery.validate.js</Item>
-                <Item>thirdparty/jquery-ui-1.11.1/jquery-ui.js</Item>
-                <Item>thirdparty/stacktrace-0.6.2/stacktrace.js</Item>
+                <Item>thirdparty/jquery-validate-1.13.1/jquery.validate.js</Item>
+                <Item>thirdparty/jquery-ui-1.11.4/jquery-ui.js</Item>
+                <Item>thirdparty/stacktrace-0.6.4/stacktrace.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.1.1/jquery.jstree.js</Item>
                 <Item>Core.Debug.js</Item>
