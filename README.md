@@ -89,7 +89,8 @@ Directories & Files
     |   |
     |   |---- /Output/        (all output generating modules)
     |   |      |---- /HTML/
-    |   |             |--- /Standard/*.tt (all tt files for Standard theme)
+    |   |             |---- /Templates/
+    |   |                    |--- /Standard/*.tt (all tt files for Standard theme)
     |   |
     |   |--- /GenericInterface (GenericInterface framework)
     |          |--- /Invoker/ (invoker backends)

@@ -97,7 +97,7 @@ $Self->True(
 
 # check all dtl files
 my $HomeDirectory = $ConfigObject->Get('Home');
-my $DTLDirectory  = $HomeDirectory . '/Kernel/Output/HTML/Standard/';
+my $DTLDirectory  = $HomeDirectory . '/Kernel/Output/HTML/Templates/Standard/';
 my $DIR;
 if ( !opendir $DIR, $DTLDirectory ) {
     print "Can not open Directory: $DTLDirectory";

@@ -101,7 +101,7 @@ if test -e /tmp/otrs-old.tmp; then
     OLDOTRS=`cat /tmp/otrs-old.tmp`
     if echo $OLDOTRS | grep -v "$TOINSTALL" > /dev/null; then
         echo "backup old (maybe not compatible) templates (of $OLDOTRS)"
-        for i in /opt/otrs/Kernel/Output/HTML/Standard/*.rpmnew;
+        for i in /opt/otrs/Kernel/Output/HTML/Templates/Standard/*.rpmnew;
             do BF=`echo $i|sed 's/.rpmnew$//'`; mv -v $BF $BF.backup_maybe_not_compat_to.$OLDOTRS; mv $i $BF;
         done
     fi

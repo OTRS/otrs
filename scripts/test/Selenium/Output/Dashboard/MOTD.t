@@ -57,7 +57,7 @@ $Selenium->RunTest(
         );
 
         # test if MOTD plugin shows correct message
-        my $DefaultMOTD = "This is the message of the day. You can edit this in Kernel/Output/HTML/Standard/Motd.tt.";
+        my $DefaultMOTD = "This is the message of the day. You can edit this in Kernel/Output/HTML/Templates/Standard/Motd.tt.";
         $Self->True(
             index( $Selenium->get_page_source(), $DefaultMOTD ) > -1,
             "MOTD dashboard plugin message - found",

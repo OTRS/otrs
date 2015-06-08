@@ -49,7 +49,7 @@ doc/en/Fred.xml
 doc/en/Fred.pdf
 Kernel/Output/HTML/FilterContent/Fred.pm
 Kernel/Output/HTML/Fred/*
-Kernel/Output/HTML/Standard/DevelFred*
+Kernel/Output/HTML/Templates/Standard/DevelFred*
 Kernel/Config/Files/AAAFred.pm
 Kernel/Config/Files/Fred.xml
 Kernel/Modules/DevelFred.pm
@@ -58,17 +58,6 @@ var/fred
 var/httpd/htdocs/js/*Fred*js
 var/httpd/htdocs/skins/Agent/default/css/*Fred*css
 var/httpd/htdocs/skins/Customer/default/css/*Fred*css
-
-# Support
-Support.sopm
-CHANGES-Support
-Kernel/Config/Files/Support.xml
-Kernel/Language/*_Support.pm
-Kernel/Modules/AdminSupport.pm
-Kernel/System/Support
-Kernel/System/Support.pm
-Kernel/Output/HTML/Standard/AdminSupport*
-var/httpd/htdocs/skins/Agent/default/css/Support.Default.css
 
 # OTRSCodePolicy
 .tidyall.d
@@ -113,15 +102,15 @@ Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/FilterElementPost/ContactWithData.pm
 Kernel/Output/HTML/FilterElementPost/SLASelectionDialog.pm
-Kernel/Output/HTML/Standard/AAAOTRSBusiness.tt
-Kernel/Output/HTML/Standard/AgentChat.tt
-Kernel/Output/HTML/Standard/AgentChatAppend.tt
-Kernel/Output/HTML/Standard/CustomerChat.tt
-Kernel/Output/HTML/Standard/PublicChat.tt
-Kernel/Output/HTML/Standard/AgentTicketAttachmentView.tt
-Kernel/Output/HTML/Standard/*ContactWithData*
-Kernel/Output/HTML/Standard/*DynamicFieldDatabase*
-Kernel/Output/HTML/Standard/*SLASelectionDialog*
+Kernel/Output/HTML/Templates/Standard/AAAOTRSBusiness.tt
+Kernel/Output/HTML/Templates/Standard/AgentChat.tt
+Kernel/Output/HTML/Templates/Standard/AgentChatAppend.tt
+Kernel/Output/HTML/Templates/Standard/CustomerChat.tt
+Kernel/Output/HTML/Templates/Standard/PublicChat.tt
+Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
+Kernel/Output/HTML/Templates/Standard/*ContactWithData*
+Kernel/Output/HTML/Templates/Standard/*DynamicFieldDatabase*
+Kernel/Output/HTML/Templates/Standard/*SLASelectionDialog*
 scripts/test/Chat
 scripts/test/Console/Command/Maint/Chat*
 var/cron/cleanupchats.dist

@@ -348,8 +348,8 @@ EOF
     }
 
     # locate template files
-    $Self->{TemplateDir}         = $ConfigObject->Get('TemplateDir') . '/HTML/' . $Theme;
-    $Self->{StandardTemplateDir} = $ConfigObject->Get('TemplateDir') . '/HTML/' . 'Standard';
+    $Self->{TemplateDir}         = $ConfigObject->Get('TemplateDir') . '/HTML/Templates/' . $Theme;
+    $Self->{StandardTemplateDir} = $ConfigObject->Get('TemplateDir') . '/HTML/Templates/' . 'Standard';
 
     # Check if 'Standard' fallback exists
     if ( !-e $Self->{StandardTemplateDir} ) {
@@ -374,8 +374,8 @@ EOF
         $Self->{TemplateDir} = $Self->{StandardTemplateDir};
     }
 
-    $Self->{CustomTemplateDir}         = $ConfigObject->Get('CustomTemplateDir') . '/HTML/' . $Theme;
-    $Self->{CustomStandardTemplateDir} = $ConfigObject->Get('CustomTemplateDir') . '/HTML/' . 'Standard';
+    $Self->{CustomTemplateDir}         = $ConfigObject->Get('CustomTemplateDir') . '/HTML/Templates/' . $Theme;
+    $Self->{CustomStandardTemplateDir} = $ConfigObject->Get('CustomTemplateDir') . '/HTML/Templates/' . 'Standard';
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');

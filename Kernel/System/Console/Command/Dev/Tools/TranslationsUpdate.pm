@@ -15,6 +15,8 @@ use base qw(Kernel::System::Console::BaseCommand);
 
 use Pod::Strip;
 
+use Kernel::Language;
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
@@ -223,8 +225,8 @@ sub HandleLanguage {
     # open .tt files and write new translation file
     my %UsedWords;
     my $Directory = $IsSubTranslation
-        ? "$ModuleDirectory/Kernel/Output/HTML/$DefaultTheme"
-        : "$Home/Kernel/Output/HTML/$DefaultTheme";
+        ? "$ModuleDirectory/Kernel/Output/HTML/Templates/$DefaultTheme"
+        : "$Home/Kernel/Output/HTML/Templates/$DefaultTheme";
 
     my @TemplateList = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => $Directory,

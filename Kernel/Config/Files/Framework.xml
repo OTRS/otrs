@@ -737,7 +737,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="InfoFile" Required="1" Valid="1" ConfigLevel="300">
-        <Description Translatable="1">File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.tt.</Description>
+        <Description Translatable="1">File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -3859,7 +3859,7 @@ You can log in via the following URL:
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanel::InfoFile" Required="0" Valid="0">
-        <Description Translatable="1">Defines the path of the shown info file, that is located under Kernel/Output/HTML/Standard/CustomerAccept.tt.</Description>
+        <Description Translatable="1">Defines the path of the shown info file, that is located under Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
