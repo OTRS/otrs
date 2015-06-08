@@ -101,7 +101,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Subject",                     'css' )->send_keys($TicketSubject);
         $Selenium->find_element( "#RichText",                    'css' )->send_keys($TicketBody);
         $Selenium->find_element( "#FileUpload",                  'css' )->send_keys($Location);
-        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length' );
+        $Selenium->WaitFor( JavaScript => 'return $("#AttachmentDeleteButton1").length' );
         $Selenium->find_element( "#Subject", 'css' )->submit();
 
         # wait until ticket is created
