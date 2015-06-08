@@ -4381,13 +4381,13 @@ via the Preferences button after logging in.
                     <CSS>Core.Agent.Dashboard.css</CSS>
                     <CSS>Core.AllocationList.css</CSS>
                     <CSS>thirdparty/fullcalendar-2.3.1/fullcalendar.css</CSS>
-                    <CSS>thirdparty/d3js/nv.d3.css</CSS>
+                    <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
                     <JavaScript>thirdparty/momentjs-2.10.3/moment.min.js</JavaScript>
                     <JavaScript>thirdparty/fullcalendar-2.3.1/fullcalendar.min.js</JavaScript>
-                    <JavaScript>thirdparty/d3js/d3.v3.min.js</JavaScript>
-                    <JavaScript>thirdparty/d3js/nv.d3.min.js</JavaScript>
-                    <JavaScript>thirdparty/d3js/models/OTRSmultiBarChart.js</JavaScript>
-                    <JavaScript>thirdparty/d3js/models/OTRSstackedAreaChart.js</JavaScript>
+                    <JavaScript>thirdparty/d3-3.5.5/d3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>

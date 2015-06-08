@@ -50,7 +50,7 @@ sub Run {
 
         # update session
         if ($Success) {
-            $Self->{SessionObject}->UpdateSessionID(
+            $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
                 SessionID => $Self->{SessionID},
                 Key       => $Key,
                 Value     => $Value,
