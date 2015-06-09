@@ -224,9 +224,23 @@ sub Run {
     # overview
     # ------------------------------------------------------------
     else {
-        $Self->_Overview();
+
         my $Output = $LayoutObject->Header();
         $Output .= $LayoutObject->NavigationBar();
+
+        # check if ticket type is enabled to use it here
+        if ( !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
+            $Output .= $LayoutObject->Notify(
+                Priority => 'Error',
+                Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Type" ),
+                Link =>
+                    $LayoutObject->{Baselink}
+                    . 'Action=AdminSysConfig;Subaction=Edit;SysConfigGroup=Ticket;SysConfigSubGroup=Core::Ticket#Ticket::Type',
+            );
+        }
+
+        $Self->_Overview();
+
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminType',
             Data         => \%Param,
