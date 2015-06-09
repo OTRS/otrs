@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:model="http://wireframesketcher.com/1.0/model.ecore">
+  <widgets xsi:type="model:Browser" id="1" x="8" y="8" width="1001" height="489" text="Browser&#xA;http://..." measuredWidth="1001" measuredHeight="489"/>
+  <widgets xsi:type="model:Rectangle" id="3" x="18" y="70" width="981" height="99" text="Header with Menu" measuredWidth="981" measuredHeight="99">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="5" x="18" y="182" width="271" height="65" measuredWidth="271" measuredHeight="65"/>
+  <widgets xsi:type="model:Button" id="8" x="32" y="199" width="241" height="33" text="Back To The Overview" measuredWidth="241" measuredHeight="33">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Panel" id="45" x="306" y="182" width="693" height="283" measuredWidth="693" measuredHeight="283"/>
+  <widgets xsi:type="model:HLine" id="46" x="306" y="211" width="692" measuredWidth="692" measuredHeight="6"/>
+  <widgets xsi:type="model:Label" id="47" x="334" y="189" text="Create New Statistic" measuredWidth="118" measuredHeight="23">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Icon" id="48" x="316" y="193" width="14" height="14" measuredWidth="14" measuredHeight="14" icon="filled-arrow-down (large)"/>
+  <widgets xsi:type="model:Combo" id="49" x="611" y="261" width="146" text="Valid" measuredWidth="146" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="50" x="493" y="261" width="112" text="Validity" measuredWidth="112" measuredHeight="23" textAlignment="Right">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Combo" id="51" x="611" y="294" width="146" text="Blubb" measuredWidth="146" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="52" x="493" y="294" width="112" text="Bla" measuredWidth="112" measuredHeight="23" textAlignment="Right">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:TextField" id="53" x="611" y="230" width="145" text="Text field" measuredWidth="145" measuredHeight="23">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:Label" id="54" x="493" y="230" width="112" text="Name" measuredWidth="112" measuredHeight="23" textAlignment="Right">
+    <font bold="false"/>
+  </widgets>
+  <widgets xsi:type="model:Button" id="55" x="611" y="416" text="Save" measuredWidth="48" measuredHeight="25">
+    <font/>
+  </widgets>
+  <widgets xsi:type="model:ScratchOut" id="56" x="611" y="336" measuredWidth="50" measuredHeight="50" annotation="true"/>
+  <hRuler/>
+  <vRuler/>
+  <font size="12px"/>
+</model:Screen>
