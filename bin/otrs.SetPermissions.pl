@@ -56,7 +56,7 @@ Usage: otrs.SetPermissions.pl
     [--dry-run]                     # only report, don't change
     [--help]
 
-Example: otrs.setPermissions.pl --web-group=www-data
+Example: otrs.SetPermissions.pl --web-group=www-data
 EOF
     return;
 }
