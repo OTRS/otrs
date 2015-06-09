@@ -6,8 +6,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -17,8 +17,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -28,8 +28,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -51,8 +51,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -336,8 +336,8 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -379,8 +379,8 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -390,8 +390,8 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -417,8 +417,8 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -428,8 +428,8 @@
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -450,8 +450,8 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -472,8 +472,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -491,8 +491,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -606,8 +606,8 @@
         <SubGroup>Core::Log</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -873,8 +873,8 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -884,8 +884,8 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -919,8 +919,8 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -930,8 +930,8 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -941,8 +941,8 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -952,8 +952,8 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1045,8 +1045,8 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1056,8 +1056,8 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1067,13 +1067,13 @@
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1238,13 +1238,13 @@
         <SubGroup>Core::Time::Calendar1</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1409,13 +1409,13 @@
         <SubGroup>Core::Time::Calendar2</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1580,13 +1580,13 @@
         <SubGroup>Core::Time::Calendar3</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1751,13 +1751,13 @@
         <SubGroup>Core::Time::Calendar4</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -1922,13 +1922,13 @@
         <SubGroup>Core::Time::Calendar5</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2093,13 +2093,13 @@
         <SubGroup>Core::Time::Calendar6</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2264,13 +2264,13 @@
         <SubGroup>Core::Time::Calendar7</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2435,13 +2435,13 @@
         <SubGroup>Core::Time::Calendar8</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2606,13 +2606,13 @@
         <SubGroup>Core::Time::Calendar9</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">Sunday</Item>
-                <Item Key="1">Monday</Item>
-                <Item Key="2">Tuesday</Item>
-                <Item Key="3">Wednesday</Item>
-                <Item Key="4">Thursday</Item>
-                <Item Key="5">Friday</Item>
-                <Item Key="6">Saturday</Item>
+                <Item Key="0" Translatable="1">Sunday</Item>
+                <Item Key="1" Translatable="1">Monday</Item>
+                <Item Key="2" Translatable="1">Tuesday</Item>
+                <Item Key="3" Translatable="1">Wednesday</Item>
+                <Item Key="4" Translatable="1">Thursday</Item>
+                <Item Key="5" Translatable="1">Friday</Item>
+                <Item Key="6" Translatable="1">Saturday</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2774,8 +2774,8 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2785,8 +2785,8 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2796,8 +2796,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2807,8 +2807,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2818,8 +2818,8 @@
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2869,8 +2869,8 @@
         <SubGroup>Core::SpellChecker</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2921,14 +2921,14 @@
             <String Regex="">http://proxy.sn.no:8001/</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="WebUserAgent::DisableSSLVerification" Required="0" Valid="0" ConfigLevel="200">
+    <ConfigItem Name="WebUserAgent::DisableSSLVerification" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!</Description>
         <Group>Framework</Group>
         <SubGroup>Core::WebUserAgent</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2938,8 +2938,8 @@
         <SubGroup>Core::Package</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2993,8 +2993,8 @@
         <SubGroup>Core::Package</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3057,8 +3057,8 @@
         <SubGroup>Core::SOAP</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3068,8 +3068,8 @@
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3191,8 +3191,8 @@
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3229,8 +3229,8 @@
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3261,8 +3261,8 @@
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3272,8 +3272,8 @@
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3315,8 +3315,8 @@
         <SubGroup>Crypt::SMIME</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3428,8 +3428,8 @@ You can log in via the following URL:
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3696,8 +3696,8 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3872,8 +3872,8 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3883,8 +3883,8 @@ You can log in via the following URL:
         <SubGroup>Frontend::Customer</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -4183,8 +4183,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="1">Yes</Item>
-                <Item Key="0">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -4210,8 +4210,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Customer::Auth</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="1">Yes</Item>
-                <Item Key="0">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5770,47 +5770,47 @@ via the Preferences button after logging in.
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Stats::ExchangeAxis" Required="0" Valid="0">
+    <ConfigItem Name="Stats::ExchangeAxis" Required="1" Valid="1">
         <Description Translatable="1">Allows agents to exchange the axis of a stat if they generate one.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Stats::UseAgentElementInStats" Required="0" Valid="0">
+    <ConfigItem Name="Stats::UseAgentElementInStats" Required="1" Valid="1">
         <Description Translatable="1">Allows agents to generate individual-related stats.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Stats::UseInvalidAgentInStats" Required="0" Valid="0">
+    <ConfigItem Name="Stats::UseInvalidAgentInStats" Required="1" Valid="1">
         <Description Translatable="1">Allows invalid agents to generate individual-related stats.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="1">
+    <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="1" Valid="1">
         <Description Translatable="1">Shows all the customer identifiers in a multi-select field (not useful if you have a lot of customer identifiers).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -5906,14 +5906,14 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LanguageDebug" Required="0" Valid="0">
+    <ConfigItem Name="LanguageDebug" Required="1" Valid="1">
         <Description Translatable="1">Debugs the translation set. If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating a new translation file. Otherwise, this option should remain set to "No".</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6096,8 +6096,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent::LinkObject</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6317,14 +6317,14 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Secure::DisableBanner" Required="0" Valid="0">
+    <ConfigItem Name="Secure::DisableBanner" Required="1" Valid="1">
         <Description Translatable="1">If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6344,8 +6344,8 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="1">Yes</Item>
-                <Item Key="0">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6355,8 +6355,8 @@ via the Preferences button after logging in.
         <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="1">Yes</Item>
-                <Item Key="0">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6512,8 +6512,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6643,8 +6643,8 @@ via the Preferences button after logging in.
         <SubGroup>Core::Time</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6654,8 +6654,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin::AdminCustomerUser</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="1">No</Item>
-                <Item Key="0">Yes</Item>
+                <Item Key="1" Translatable="1">No</Item>
+                <Item Key="0" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6665,8 +6665,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin::AdminCustomerCompany</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6676,8 +6676,8 @@ via the Preferences button after logging in.
         <SubGroup>Frontend::Admin::AdminSelectBox</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6742,8 +6742,8 @@ via the Preferences button after logging in.
         <SubGroup>Core::Cache</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6753,8 +6753,8 @@ via the Preferences button after logging in.
         <SubGroup>Core::Cache</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -6869,7 +6869,7 @@ via the Preferences button after logging in.
             <String Regex="">A maintenance period is running, get into the system is not possible for now.</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="0" Valid="0" ConfigLevel="100">
+    <ConfigItem Name="OTRSBusiness::ReleaseChannel" Required="1" Valid="1" ConfigLevel="100">
         <Description Translatable="1">Specify the channel to be used to fetch OTRS Business Solution™ updates. Warning: Development releases might not be complete, your system might experience unrecoverable errors and on extreme cases could become unresponsive!</Description>
         <Group>Framework</Group>
         <SubGroup>Core::OTRSBusiness</SubGroup>

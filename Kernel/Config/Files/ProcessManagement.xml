@@ -365,8 +365,8 @@
         <SubGroup>Core::Transition</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                    <Item Key="0">No</Item>
-                    <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -376,10 +376,10 @@
         <SubGroup>Core::Transition</SubGroup>
         <Setting>
             <Option SelectedID="debug">
-                    <Item Key="debug">Debug</Item>
-                    <Item Key="info">Info</Item>
-                    <Item Key="notice">Notice</Item>
-                    <Item Key="error">Error</Item>
+                <Item Key="debug">Debug</Item>
+                <Item Key="info">Info</Item>
+                <Item Key="notice">Notice</Item>
+                <Item Key="error">Error</Item>
             </Option>
         </Setting>
     </ConfigItem>

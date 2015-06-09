@@ -512,12 +512,12 @@
         <SubGroup>GenericInterface::Operation::TicketSearch</SubGroup>
         <Setting>
             <Option SelectedID="Age">
-                <Item Key="Age">Age</Item>
-                <Item Key="Ticket">Ticket</Item>
-                <Item Key="Subject">Subject</Item>
-                <Item Key="Queue">Queue</Item>
-                <Item Key="Priority">Priority</Item>
-                <Item Key="EscalationTime">EscalationTime</Item>
+                <Item Key="Age" Translatable="1">Age</Item>
+                <Item Key="Ticket" Translatable="1">Ticket</Item>
+                <Item Key="Subject" Translatable="1">Subject</Item>
+                <Item Key="Queue" Translatable="1">Queue</Item>
+                <Item Key="Priority" Translatable="1">Priority</Item>
+                <Item Key="EscalationTime" Translatable="1">EscalationTime</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -527,8 +527,8 @@
         <SubGroup>GenericInterface::Operation::TicketSearch</SubGroup>
         <Setting>
             <Option SelectedID="Down">
-                <Item Key="Down">Down</Item>
-                <Item Key="Up">Up</Item>
+                <Item Key="Down" Translatable="1">Down</Item>
+                <Item Key="Up" Translatable="1">Up</Item>
             </Option>
         </Setting>
     </ConfigItem>

@@ -2697,7 +2697,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -2708,14 +2708,14 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -2739,7 +2739,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket free text screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -3444,7 +3444,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the close ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -3455,7 +3455,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the close ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -3486,7 +3486,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketClose###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the close ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -3714,7 +3714,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket note screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -3725,7 +3725,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket note screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -3756,7 +3756,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketNote###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket note screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -3951,8 +3951,8 @@
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
         <Setting>
             <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -3983,7 +3983,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -3994,7 +3994,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -4025,7 +4025,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket owner screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -4250,7 +4250,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -4261,7 +4261,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -4292,7 +4292,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPending###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket pending screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -4519,7 +4519,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
@@ -4530,7 +4530,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
@@ -4788,7 +4788,7 @@
             <TextArea></TextArea>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InvolvedAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InvolvedAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the involved agents on this ticket, in the ticket responsible screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -4799,7 +4799,7 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InformAgent" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###InformAgent" Required="1" Valid="1">
         <Description Translatable="1">Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the ticket responsible screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -4830,7 +4830,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the ticket responsible screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -5038,7 +5038,7 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###Priority" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###Priority" Required="1" Valid="1">
         <Description Translatable="1">Shows the ticket priority options in the move ticket screen of the agent interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
@@ -7200,8 +7200,8 @@
                 <Item Key="Key" Translatable="1">Send ticket lock timeout notifications</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
+                        <Item Key="0" Translatable="1">No</Item>
+                        <Item Key="1" Translatable="1">Yes</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -7224,8 +7224,8 @@
                 <Item Key="Key" Translatable="1">Send ticket move notifications</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
+                        <Item Key="0" Translatable="1">No</Item>
+                        <Item Key="1" Translatable="1">Yes</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -7248,8 +7248,8 @@
                 <Item Key="Key" Translatable="1">Send service update notifications</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
+                        <Item Key="0" Translatable="1">No</Item>
+                        <Item Key="1" Translatable="1">Yes</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -7272,8 +7272,8 @@
                 <Item Key="Key" Translatable="1">Send ticket watch notifications</Item>
                 <Item Key="Data">
                     <Hash>
-                        <Item Key="0">No</Item>
-                        <Item Key="1">Yes</Item>
+                        <Item Key="0" Translatable="1">No</Item>
+                        <Item Key="1" Translatable="1">Yes</Item>
                     </Hash>
                 </Item>
                 <Item Key="DataSelected">0</Item>
@@ -9592,8 +9592,8 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Option SelectedID="0">
-                    <Item Key="0" Translatable="1">No</Item>
-                    <Item Key="1" Translatable="1">Yes</Item>
+                <Item Key="0" Translatable="1">No</Item>
+                <Item Key="1" Translatable="1">Yes</Item>
             </Option>
         </Setting>
     </ConfigItem>
@@ -9603,10 +9603,10 @@
         <SubGroup>Core::TicketACL</SubGroup>
         <Setting>
             <Option SelectedID="debug">
-                    <Item Key="debug">Debug</Item>
-                    <Item Key="info">Info</Item>
-                    <Item Key="notice">Notice</Item>
-                    <Item Key="error">Error</Item>
+                <Item Key="debug">Debug</Item>
+                <Item Key="info">Info</Item>
+                <Item Key="notice">Notice</Item>
+                <Item Key="error">Error</Item>
             </Option>
         </Setting>
     </ConfigItem>
