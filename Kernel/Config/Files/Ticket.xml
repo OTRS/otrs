@@ -293,6 +293,14 @@
             <String Regex="">&lt;OTRS_CONFIG_Home&gt;/var/article</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
+        <Description Translatable="1">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]+$">1440</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::EventModulePost###100-ArchiveRestore" Required="0" Valid="1">
         <Description Translatable="1">Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).</Description>
         <Group>Ticket</Group>
@@ -381,14 +389,6 @@
                 <Item Key="Module">Kernel::System::Ticket::Event::TicketEscalationIndex</Item>
                 <Item Key="Event">TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|TicketCreate|ArticleCreate</Item>
             </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="OTRSEscalationEvents::DecayTime" Required="0" Valid="1">
-        <Description Translatable="1">The duration in minutes after emitting an event, in which the new escalation notify and start events are suppressed.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]+$">1440</String>
         </Setting>
     </ConfigItem>
     <!-- 900-EscalationStopEvents must come after 900-EscalationIndex -->
