@@ -37,9 +37,9 @@ $Selenium->RunTest(
             Value => \%$Config,
         );
 
-        # reset TicketQueueOverview dashboard sysconfig so dashboard can be loaded
+        # Add at least one dashboard setting dashboard sysconfig so dashboard can be loaded
         $SysConfigObject->ConfigItemReset(
-            Name => 'DashboardBackend###0270-TicketQueueOverview',
+            Name => 'DashboardBackend###0400-UserOnline',
         );
 
         # create test user and login
@@ -69,22 +69,19 @@ $Selenium->RunTest(
         );
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
-        # export stat 'Overview about all tickets in the system' - StatID 7
-        my $ExportFile = $StatsObject->Export( StatID => 7 );
-        $Self->True(
-            $ExportFile->{Content},
-            'Successfully exported StatID - 7',
+        my $StatisticContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+            Location => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/test/Selenium/Output/Dashboard/Stats.xml',
         );
 
         # import the exported stat
-        my $TestStatID = $StatsObject->Import( Content => $ExportFile->{Content} );
+        my $TestStatID = $StatsObject->Import( Content => $$StatisticContent );
         $Self->True(
             $TestStatID,
-            'Successfully imported StatID - 7',
+            "Successfully imported StatID $TestStatID",
         );
 
         # update test stats name and show as dashboard widget
-        my $TestStatsName = "SeleniumStats" . int( rand(1000) );
+        my $TestStatsName = "SeleniumStats" . $Helper->GetRandomID();
         my $Update        = $StatsObject->StatsUpdate(
             StatID => $TestStatID,
             Hash   => {
@@ -112,25 +109,18 @@ $Selenium->RunTest(
         my $ExitCode      = $CommandObject->Execute();
         $Selenium->refresh();
 
-        # check dashboard test stats data
-        my $TestName = 'Statistic: ' . $TestStatsName;
-        $Self->True(
-            index( $Selenium->get_page_source(), $TestName ) > -1,
-            "Stats dashboard widget name found - $TestName",
+        $Selenium->WaitFor(JavaScript => 'return $(".nvd3-svg").length;');
+
+        $Self->Is(
+            $Selenium->execute_script('return $(".nv-legend-text:contains(Misc)").length'),
+            1,
+            "Legend entry for Misc queue found.",
         );
-        for my $Test (qw( Grouped Stacked Raw Postmaster Misc Junk )) {
 
-            # check for legend data in dashboard test stats
-            $Self->True(
-                index( $Selenium->get_page_source(), $Test ) > -1,
-                "Stats dashboard legend data found - $Test",
-            );
-        }
-
-        # delete test stats
+        # delete test stat
         $Self->True(
-            $StatsObject->StatsDelete( StatID => $TestStatID ),
-            "Delete StatID - $TestStatID",
+           $StatsObject->StatsDelete( StatID => $TestStatID ),
+           "Delete StatID - $TestStatID",
         );
 
         # make sure cache is correct
