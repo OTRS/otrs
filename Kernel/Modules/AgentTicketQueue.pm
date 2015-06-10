@@ -227,6 +227,9 @@ sub Run {
         @ViewableQueueIDs = ( $Self->{QueueID} );
     }
 
+    # get subqueue display setting
+    my $UseSubQueues = $ParamObject->GetParam( Param => 'UseSubQueues' ) // $Config->{UseSubQueues} || 0;
+
     my %Filters = (
         All => {
             Name   => 'All tickets',
@@ -235,8 +238,9 @@ sub Run {
                 StateIDs => \@ViewableStateIDs,
                 QueueIDs => \@ViewableQueueIDs,
                 %Sort,
-                Permission => $Permission,
-                UserID     => $Self->{UserID},
+                Permission   => $Permission,
+                UserID       => $Self->{UserID},
+                UseSubQueues => $UseSubQueues,
             },
         },
         Unlocked => {
@@ -247,8 +251,9 @@ sub Run {
                 StateIDs => \@ViewableStateIDs,
                 QueueIDs => \@ViewableQueueIDs,
                 %Sort,
-                Permission => $Permission,
-                UserID     => $Self->{UserID},
+                Permission   => $Permission,
+                UserID       => $Self->{UserID},
+                UseSubQueues => $UseSubQueues,
             },
         },
     );
@@ -395,6 +400,14 @@ sub Run {
             . '=' . $LayoutObject->Ascii2Html( Text => $GetColumnFilter{$ColumnName} )
     }
 
+    my $SubQueueLink = '';
+    if ( !$Config->{UseSubQueues} && $UseSubQueues ) {
+        $SubQueueLink = ';UseSubQueues=1';
+    }
+    elsif ( $Config->{UseSubQueues} && !$UseSubQueues ) {
+        $SubQueueLink = ';UseSubQueues=0';
+    }
+
     my $LinkPage = 'QueueID='
         . $LayoutObject->Ascii2Html( Text => $Self->{QueueID} )
         . ';Filter='
@@ -402,13 +415,16 @@ sub Run {
         . ';View=' . $LayoutObject->Ascii2Html( Text => $View )
         . ';SortBy=' . $LayoutObject->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $OrderBy )
+        . $SubQueueLink
         . $ColumnFilterLink
         . ';';
+
     my $LinkSort = 'QueueID='
         . $LayoutObject->Ascii2Html( Text => $Self->{QueueID} )
         . ';View=' . $LayoutObject->Ascii2Html( Text => $View )
         . ';Filter='
         . $LayoutObject->Ascii2Html( Text => $Filter )
+        . $SubQueueLink
         . $ColumnFilterLink
         . ';';
 
@@ -417,6 +433,7 @@ sub Run {
         . ';SortBy=' . $LayoutObject->Ascii2Html( Text => $SortBy )
         . ';OrderBy=' . $LayoutObject->Ascii2Html( Text => $OrderBy )
         . ';View=' . $LayoutObject->Ascii2Html( Text => $View )
+        . $SubQueueLink
         . ';';
 
     my $LastColumnFilter = $ParamObject->GetParam( Param => 'LastColumnFilter' ) || '';
@@ -428,9 +445,18 @@ sub Run {
     }
 
     my %NavBar = $Self->BuildQueueView(
-        QueueIDs => \@ViewableQueueIDs,
-        Filter   => $Filter
+        QueueIDs     => \@ViewableQueueIDs,
+        Filter       => $Filter,
+        UseSubQueues => $UseSubQueues,
     );
+
+    my $SubQueueIndicatorTitle = '';
+    if ( !$Config->{UseSubQueues} && $UseSubQueues ) {
+        $SubQueueIndicatorTitle = ' (' . $LayoutObject->{LanguageObject}->Translate('including subqueues') . ')';
+    }
+    elsif ( $Config->{UseSubQueues} && !$UseSubQueues ) {
+        $SubQueueIndicatorTitle = ' (' . $LayoutObject->{LanguageObject}->Translate('excluding subqueues') . ')';
+    }
 
     # show tickets
     $Output .= $LayoutObject->TicketListShow(
@@ -457,7 +483,7 @@ sub Run {
 
         Bulk       => 1,
         TitleName  => 'QueueView',
-        TitleValue => $NavBar{SelectedQueue},
+        TitleValue => $NavBar{SelectedQueue} . $SubQueueIndicatorTitle,
 
         Env        => $Self,
         LinkPage   => $LinkPage,
@@ -497,6 +523,7 @@ sub BuildQueueView {
         QueueID         => $Self->{QueueID},
         AllQueues       => \%AllQueues,
         ViewableTickets => $Self->{ViewableTickets},
+        UseSubQueues    => $Param{UseSubQueues},
     );
 }
 
@@ -594,13 +621,18 @@ sub _MaskQueueView {
         $Queue{MaxAge} = $Queue{MaxAge} / 60;
         $Queue{QueueID} = 0 if ( !$Queue{QueueID} );
 
-        my $View = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'View' ) || '';
+        my $View   = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'View' )   || '';
+        my $Filter = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Filter' ) || 'Unlocked';
 
         $QueueStrg
             .= "<li><a href=\"$LayoutObject->{Baselink}Action=AgentTicketQueue;QueueID=$Queue{QueueID}";
-        $QueueStrg .= ';View=' . $LayoutObject->Ascii2Html( Text => $View ) . '"';
-
-        $QueueStrg .= ' class="';
+        $QueueStrg .= ';View=' . $LayoutObject->Ascii2Html( Text => $View );
+        $QueueStrg .= ';Filter=' . $LayoutObject->Ascii2Html( Text => $Filter );
+        if ( $QueueID eq $Queue{QueueID} && $Config->{UseSubQueues} eq $Param{UseSubQueues} ) {
+            $QueueStrg .= ';UseSubQueues=';
+            $QueueStrg .= $Param{UseSubQueues} ? 0 : 1;
+        }
+        $QueueStrg .= '" class="';
 
         # should i highlight this queue
         # the oldest queue

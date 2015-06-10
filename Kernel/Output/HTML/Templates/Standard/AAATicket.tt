@@ -290,3 +290,5 @@
 [% Translate("Archived tickets") | html %]
 [% Translate("Unarchived tickets") | html %]
 [% Translate("Ticket Information") | html %]
+[% Translate("including subqueues") | html %]
+[% Translate("excluding subqueues") | html %]
