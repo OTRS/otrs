@@ -1032,6 +1032,49 @@ sub ConfigItemReset {
     return 1;
 }
 
+=item ConfigItemValidityUpdate()
+
+updates the validity of a configuration setting.
+
+    $SysConfigObject->ConfigItemValidityUpdate(
+        Name  => 'Ticket::NumberGenerator',
+        Valid => 1,                             # or 0
+    );
+
+=cut
+
+sub ConfigItemValidityUpdate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Name Valid)) {
+        if ( !defined $Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+    my %ConfigItemDefault = $Self->ConfigItemGet(
+        Name    => $Param{Name},
+        Default => 1,
+    );
+
+    return 1 if $Param{Valid} == $ConfigItemDefault{Valid};
+
+    my $A = $Self->_XML2Perl( Data => \%ConfigItemDefault );
+    my ($B);
+    eval "\$B = $A";
+
+    $Self->ConfigItemUpdate(
+        Key   => $Param{Name},
+        Value => $B,
+        Valid => $Param{Valid}
+    );
+    return 1;
+}
+
 =item ConfigGroupList()
 
 get the list of all available config groups.

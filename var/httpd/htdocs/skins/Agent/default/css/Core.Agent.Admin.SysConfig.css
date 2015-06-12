@@ -27,16 +27,27 @@
     border-bottom: none;
 }
 
+#AdminSysConfig fieldset.ReadOnly label:not(.Header),
+#AdminSysConfig fieldset.ReadOnly p:not(.Description) {
+    color: #777 !important;
+}
+
 #AdminSysConfig fieldset.Invalid,
 #AdminSysConfig fieldset.Invalid * {
     color: #777 !important;
 }
 
-#AdminSysConfig fieldset.Invalid button {
+#AdminSysConfig fieldset.ReadOnly a.DatepickerIcon {
+    display: none;
+}
+
+#AdminSysConfig fieldset.Invalid button,
+#AdminSysConfig fieldset.ReadOnly button {
     visibility: hidden;
 }
 
-#AdminSysConfig fieldset.Invalid button.ResetButton {
+#AdminSysConfig fieldset.Invalid button.ResetButton,
+#AdminSysConfig fieldset.ReadOnly button.ResetButton {
     visibility: visible;
 }
 

@@ -1914,7 +1914,7 @@ sub CustomerAge {
 
 =item BuildSelection()
 
-build a html option element based on given data
+build a HTML option element based on given data
 
     my $HTML = $LayoutObject->BuildSelection(
         Data            => $ArrayRef,             # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
@@ -2801,6 +2801,54 @@ sub TransformDateSelection {
     return %Param;
 }
 
+=item BuildDateSelection()
+
+build the HTML code to represent a date selection based on the given data.
+Depending on the SysConfig settings the controls to set the date could be multiple select or input fields
+
+    my $HTML = $LayoutObject->BuildDateSelection(
+        Prefix           => 'some prefix',      # optional, (needed to specify other parameters)
+        <Prefix>Year     => 2015,               # optional, defaults to current year, used to set the initial value
+        <Prefix>Month    => 6,                  # optional, defaults to current month, used to set the initial value
+        <Prefix>Day      => 9,                  # optional, defaults to current day, used to set the initial value
+        <Prefix>Hour     => 12,                 # optional, defaults to current hour, used to set the initial value
+        <Prefix>Minute   => 26,                 # optional, defaults to current minute, used to set the initial value
+        <Prefix>Second   => 59,                 # optional, defaults to current second, used to set the initial value
+        <Prefix>Optional => 1,                  # optional, default 0, when active a checkbox is included to specify
+                                                #   if the values should be saved or not
+        <Prefix>Used     => 1,                  # optional, default 0, used to set the initial state of the checkbox
+                                                #   mentioned above
+        <Prefix>Required => 1,                  # optional, default 0 (Deprecated)
+        <prefix>Class => 'some class',          # optional, specify an additional class to the HTML elements
+
+        Area     => 'some area',                # optional, default 'Agent' (Deprecated)
+        DiffTime => 123,                        # optional, default 0, used to set the initial time influencing the
+                                                #   current time (in seconds)
+        OverrideTimeZone        => 1,           # optional (1 or 0), when active the time is not translated to the user
+                                                #   time zone
+        YearPeriodFuture        => 3,           # optional, used to define the number of years in future to be display
+                                                #   in the year select
+        YearPeriodPast          => 2,           # optional, used to define the number of years in past to be display
+                                                #   in the year select
+        YearDiff                => 0,           # optional. used to define the number of years to be displayed
+                                                #   in the year select (alternatively to YearPeriodFuture and YearPeriodPast)
+        ValidateDateInFuture    => 1,           # optional (1 or 0), when active sets an special class to validate
+                                                #   that the date set in the controls to be in the future
+        ValidateDateNotInFuture => 1,           # optional (1 or 0), when active sets an special class to validate
+                                                #   that the date set in the controls not to be in the future
+
+        Calendar => 2,                          # optional, used to define the SysConfig calendar on which the Datepicker
+                                                #   will be based on to show the vacation days and the start week day
+        Format => 'DateImputFormat',            # optional, or 'DateInputFormatLong', used to define if only date or
+                                                #   date/time components should be shown (DateInputFormatLong shows date/time)
+        Validate => 1,                          # optional (1 or 0), defines if the date selection should be validated on
+                                                #   client side with JS
+        Disabled => 1,                          # optional (1 or 0), when active select and checkbox controls gets the
+                                                #   disabled attribute and input fields gets the read only attribute
+    );
+
+=cut
+
 sub BuildDateSelection {
     my ( $Self, %Param ) = @_;
 
@@ -2889,6 +2937,7 @@ sub BuildDateSelection {
             Translation => 0,
             Class       => $Validate ? 'Validate_DateYear' : '',
             Title       => $Self->{LanguageObject}->Translate('Year'),
+            Disabled    => $Param{Disabled},
         );
     }
     else {
@@ -2898,7 +2947,8 @@ sub BuildDateSelection {
             . "title=\""
             . $Self->{LanguageObject}->Translate('Year')
             . "\" value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\"/>";
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Year' } || $Y ) ) . "\" "
+            . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
     }
 
     # month
@@ -2911,6 +2961,7 @@ sub BuildDateSelection {
             Translation => 0,
             Class       => $Validate ? 'Validate_DateMonth' : '',
             Title       => $Self->{LanguageObject}->Translate('Month'),
+            Disabled    => $Param{Disabled},
         );
     }
     else {
@@ -2920,7 +2971,8 @@ sub BuildDateSelection {
             . "title=\""
             . $Self->{LanguageObject}->Translate('Month')
             . "\" value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\" "
+            . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
     }
 
     my $DateValidateClasses = '';
@@ -2951,6 +3003,7 @@ sub BuildDateSelection {
             Translation => 0,
             Class       => "$DateValidateClasses $Class",
             Title       => $Self->{LanguageObject}->Translate('Day'),
+            Disabled    => $Param{Disabled},
         );
     }
     else {
@@ -2960,7 +3013,9 @@ sub BuildDateSelection {
             . "title=\""
             . $Self->{LanguageObject}->Translate('Day')
             . "\" value=\""
-            . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\"/>";
+            . sprintf( "%02d", ( $Param{ $Prefix . 'Day' } || $D ) ) . "\" "
+            . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+
     }
     if ( $Format eq 'DateInputFormatLong' ) {
 
@@ -2976,6 +3031,7 @@ sub BuildDateSelection {
                 Translation => 0,
                 Class       => $Validate ? ( 'Validate_DateHour ' . $Class ) : $Class,
                 Title       => $Self->{LanguageObject}->Translate('Hours'),
+                Disabled    => $Param{Disabled},
             );
         }
         else {
@@ -2989,7 +3045,9 @@ sub BuildDateSelection {
                 "%02d",
                 ( defined( $Param{ $Prefix . 'Hour' } ) ? int( $Param{ $Prefix . 'Hour' } ) : $h )
                 )
-                . "\"/>";
+                . "\" "
+                . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
+
         }
 
         # minute
@@ -3004,6 +3062,7 @@ sub BuildDateSelection {
                 Translation => 0,
                 Class       => $Validate ? ( 'Validate_DateMinute ' . $Class ) : $Class,
                 Title       => $Self->{LanguageObject}->Translate('Minutes'),
+                Disabled    => $Param{Disabled},
             );
         }
         else {
@@ -3020,7 +3079,8 @@ sub BuildDateSelection {
                     ? int( $Param{ $Prefix . 'Minute' } )
                     : $m
                     )
-                ) . "\"/>";
+                ) . "\" "
+                . ( $Param{Disabled} ? 'readonly="readonly"' : '' ) . "/>";
         }
     }
 
@@ -3050,7 +3110,9 @@ sub BuildDateSelection {
             . " class=\"$Class\""
             . " title=\""
             . $Self->{LanguageObject}->Translate('Check to activate this date')
-            . "\" />&nbsp;";
+            . "\" "
+            . ( $Param{Disabled} ? 'disabled="disabled"' : '' )
+            . "/>&nbsp;";
     }
 
     # date format

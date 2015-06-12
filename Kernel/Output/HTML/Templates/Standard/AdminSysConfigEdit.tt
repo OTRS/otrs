@@ -55,7 +55,11 @@
                     <input type="hidden" name="[% Data.ItemKeyID | html %]-InsufficientConfigLevel" value="1"/>
                     <fieldset>
                         <h3>
-                            <label for="[% Data.ItemKeyID | html %]ItemActive">[% Data.ItemKey | html %]</label>
+                            <label for="[% Data.ItemKeyID | html %]ItemActive">[% Data.ItemKey | html %]
+[% IF Data.ReadOnly %]
+                                <i title="[% Translate("This setting is read only.") | html %]" class="fa fa-lock"><span class="InvisibleText">[% Translate("This setting is read only.") | html %]</span></i>
+[% END %]
+                            </label>
                         </h3>
                         <div class="Setting">
                             <div class="String">
@@ -72,7 +76,7 @@
 
 [% RenderBlockStart("ConfigElementSufficientConfigLevel") %]
                     <a name="[% Data.ItemKeyID | html %]"></a>
-                    <fieldset class="[% Data.Validstyle | html %]">
+                    <fieldset class="[% Data.Validstyle | html %] [% IF Data.ReadOnly %]ReadOnly[% END %]">
                         <h3>
                             <input type="checkbox" value="1" id="[% Data.ItemKeyID | html %]ItemActive" name="[% Data.ItemKey | html %]ItemActive" [% Data.Valid %] [% Data.Required %]/>
 [% RenderBlockStart("ConfigElementBlockReset") %]
@@ -80,14 +84,18 @@
                                 <i class="fa fa-undo"></i>
                             </button>
 [% RenderBlockEnd("ConfigElementBlockReset") %]
-                            <label for="[% Data.ItemKeyID | html %]ItemActive">[% Data.ItemKey | html %]</label>
+                            <label for="[% Data.ItemKeyID | html %]ItemActive" class="Header">[% Data.ItemKey | html %]
+[% IF Data.ReadOnly %]
+                                <i title="[% Translate("This setting is read only.") | html %]" class="fa fa-lock"><span class="InvisibleText">[% Translate("This setting is read only.") | html %]</span></i>
+[% END %]
+                            </label>
                         </h3>
                         <div class="Setting">
 
 
 [% RenderBlockStart("ConfigElementString") %]
                             <div class="String">
-                                <input type="[% Data.InputType | html %]" name="[% Data.ElementKey | html %]" value="[% Data.Content | html %]" title="[% Data.Content | html %]" />
+                                <input type="[% Data.InputType | html %]" name="[% Data.ElementKey | html %]" value="[% Data.Content | html %]" title="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                 <p class="DefaultValue">
                                     [% Translate("Default value") | html %]: [% Data.Default | html %]
                                 </p>
@@ -106,7 +114,7 @@
 
 [% RenderBlockStart("ConfigElementTextArea") %]
                             <div class="String">
-                                <textarea name="[% Data.ElementKey | html %]" rows="7" cols="50">[% Data.Content | html %]</textarea>
+                                <textarea name="[% Data.ElementKey | html %]" rows="7" cols="50" [% Data.ReadOnlyAttribute %]>[% Data.Content | html %]</textarea>
                             </div>
 [% RenderBlockEnd("ConfigElementTextArea") %]
 
@@ -128,8 +136,8 @@
                                 <div class="Clear"></div>
 [% RenderBlockStart("ConfigElementHashContent") %]
 <!-- simple text value -->
-                                <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" title="[% Data.Key | html %]"/>
-                                <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Data.Content | html %]"/>
+                                <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" title="[% Data.Key | html %]" [% Data.ReadOnlyAttribute %]/>
+                                <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                 <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteHashElement[% Data.Index %]" title="[% Translate("Remove this entry") | html %]" value="[% Translate("Remove this entry") | html %]">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -149,8 +157,8 @@
                                 <div class="Hash">
 [% RenderBlockEnd("ConfigElementSubHashStart") %]
 [% RenderBlockStart("ConfigElementSubHashContent") %]
-                                    <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" title="[% Data.Key | html %]"/>
-                                    <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Data.Content | html %]"/>
+                                    <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" title="[% Data.Key | html %]" [% Data.ReadOnlyAttribute %]/>
+                                    <input type="text" class="Content" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteSubHashElement[% Data.Index2 %]" title="[% Translate("Remove this entry") | html %]" value="[% Translate("Remove this entry") | html %]">
                                         <i class="fa fa-minus-square-o"></i>
                                         <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -167,7 +175,7 @@
                                 <div class="Array">
 [% RenderBlockEnd("ConfigElementSubArrayStart") %]
 [% RenderBlockStart("ConfigElementSubArrayContent") %]
-                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" />
+                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteSubArrayElement[% Data.Index2 %]" title="[% Translate("Remove entry") | html %]" value="[% Translate("Remove entry") | html %]">
                                         <i class="fa fa-minus-square-o"></i>
                                         <span class="InvisibleText">[% Translate("Remove entry") | html %]</span>
@@ -184,7 +192,7 @@
 
 [% RenderBlockStart("ConfigElementHashContent3") %]
 <!-- select box as hash value -->
-                                <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" size="20"/>
+                                <input type="text" class="Key" name="[% Data.ElementKey | html %]Key[]" value="[% Data.Key | html %]" size="20" [% Data.ReadOnlyAttribute %]/>
                                 [% Data.List %]
 [% RenderBlockEnd("ConfigElementHashContent3") %]
                                 <button class="AddButton" type="submit" name="[% Data.ElementKey | html %]#NewHashElement" title="[% Translate("Add new entry") | html %]" value="[% Translate("Add new entry") | html %]">
@@ -198,7 +206,7 @@
 [% RenderBlockStart("ConfigElementArray") %]
                             <div class="Array">
 [% RenderBlockStart("ConfigElementArrayContent") %]
-                                <input type="text" class="Entry" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" />
+                                <input type="text" class="Entry" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                 <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteArrayElement[% Data.Index %]" title="[% Translate("Delete this entry") | html %]" value="[% Translate("Delete this entry") | html %]">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Delete this entry") | html %]</span>
@@ -218,7 +226,7 @@
                                 <div class="Array">
 
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentGroup") %]
-                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]#Group[]" value="[% Data.Content | html %]" title="[% Translate("Group") | html %]"/>
+                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]#Group[]" value="[% Data.Content | html %]" title="[% Translate("Group") | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteGroupElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
                                         <i class="fa fa-minus-square-o"></i>
                                         <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -233,7 +241,7 @@
                                 <label class="KeyWithComplexValue">[% Translate("Group ro") | html %]:</label>
                                 <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentGroupRo") %]
-                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]#GroupRo[]" value="[% Data.Content | html %]" title="[% Translate("Readonly group") | html %]"/>
+                                    <input type="text" class="Entry" name="[% Data.ElementKey | html %]#GroupRo[]" value="[% Data.Content | html %]" title="[% Translate("Readonly group") | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteGroupRoElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
                                         <i class="fa fa-minus-square-o"></i>
                                         <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -248,7 +256,7 @@
                                 <label class="KeyWithComplexValue">[% Translate("Loader") | html %]:</label>
                                 <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentLoader") %]
-                                    <input type="text" class="W50pc Entry" name="[% Data.ElementKey | html %]#Loader[]" value="[% Data.Content | html %]" title="[% Translate("File to load for this frontend module") | html %]"/>
+                                    <input type="text" class="W50pc Entry" name="[% Data.ElementKey | html %]#Loader[]" value="[% Data.Content | html %]" title="[% Translate("File to load for this frontend module") | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <label class="InvisibleText" for="[% Data.ElementKeyID | html %]LoaderType[% Data.Index %]">[% Translate("Type") | html %]:</label>
                                     [% Data.LoaderType %]
                                     <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteLoaderElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
@@ -263,15 +271,15 @@
                                 </div>
 
                                 <label class="SingleKey" for="[% Data.ElementKeyID | html %]_Title">[% Translate("Title") | html %]:</label>
-                                <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_Title" name="[% Data.ElementKey | html %]#Title" value="[% Data.ContentTitle | html %]"/>
+                                <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_Title" name="[% Data.ElementKey | html %]#Title" value="[% Data.ContentTitle | html %]" [% Data.ReadOnlyAttribute %]/>
                                 <div class="Clear"></div>
 
                                 <label class="SingleKey" for="[% Data.ElementKeyID | html %]_Description">[% Translate("Description") | html %]:</label>
-                                <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_Description" name="[% Data.ElementKey | html %]#Description" value="[% Data.ContentDescription | html %]"/>
+                                <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_Description" name="[% Data.ElementKey | html %]#Description" value="[% Data.ContentDescription | html %]" [% Data.ReadOnlyAttribute %]/>
                                 <div class="Clear"></div>
 
                                 <label class="SingleKey" for="[% Data.ElementKeyID | html %]_NavBarName">[% Translate("NavBarName") | html %]:</label>
-                                <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_NavBarName" name="[% Data.ElementKey | html %]#NavBarName" value="[% Data.ContentNavBarName | html %]"/>
+                                <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_NavBarName" name="[% Data.ElementKey | html %]#NavBarName" value="[% Data.ContentNavBarName | html %]" [% Data.ReadOnlyAttribute %]/>
                                 <div class="Clear"></div>
 
                                 <label class="KeyWithComplexValue">[% Translate("NavBar") | html %]:</label>
@@ -282,7 +290,7 @@
                                         <label class="KeyWithComplexValue">[% Translate("Group") | html %]:</label>
                                         <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBarGroup") %]
-                                            <input type="text" class="Entry" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#Group[]" value="[% Data.Content | html %]"/>
+                                            <input type="text" class="Entry" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#Group[]" value="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                             <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#DeleteGroupElement[% Data.ArrayIndex %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
                                                 <i class="fa fa-minus-square-o"></i>
                                                 <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -298,7 +306,7 @@
                                         <label class="KeyWithComplexValue">[% Translate("Group ro") | html %]:</label>
                                         <div class="Array">
 [% RenderBlockStart("ConfigElementFrontendModuleRegContentNavBarGroupRo") %]
-                                            <input type="text" class="Entry" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#GroupRo[]" value="[% Data.Content | html %]"/>
+                                            <input type="text" class="Entry" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#GroupRo[]" value="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
                                             <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#NavBar[% Data.Index %]#DeleteGroupRoElement[% Data.ArrayIndex %]" value="[% Translate("Remove this entry") | html %]">
                                                 <i class="fa fa-minus-square-o"></i>
                                                 <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -313,39 +321,39 @@
                                         </div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description">[% Translate("Description") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description" name="[% Data.ElementKey | html %]#Description[]" value="[% Data.ContentDescription | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description" name="[% Data.ElementKey | html %]#Description[]" value="[% Data.ContentDescription | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Name">[% Translate("Name") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Name" name="[% Data.ElementKey | html %]#Name[]" value="[% Data.ContentName | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Name" name="[% Data.ElementKey | html %]#Name[]" value="[% Data.ContentName | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Link">[% Translate("Link") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Link" name="[% Data.ElementKey | html %]#Link[]" value="[% Data.ContentLink | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Link" name="[% Data.ElementKey | html %]#Link[]" value="[% Data.ContentLink | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_LinkOption">[% Translate("LinkOption") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_LinkOption" name="[% Data.ElementKey | html %]#LinkOption[]" value="[% Data.ContentLinkOption | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_LinkOption" name="[% Data.ElementKey | html %]#LinkOption[]" value="[% Data.ContentLinkOption | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Type">[% Translate("Type") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Type" name="[% Data.ElementKey | html %]#Type[]" value="[% Data.ContentType | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Type" name="[% Data.ElementKey | html %]#Type[]" value="[% Data.ContentType | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Prio">[% Translate("Priority") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Prio" name="[% Data.ElementKey | html %]#Prio[]" value="[% Data.ContentPrio | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Prio" name="[% Data.ElementKey | html %]#Prio[]" value="[% Data.ContentPrio | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Block">[% Translate("Block") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Block" name="[% Data.ElementKey | html %]#Block[]" value="[% Data.ContentBlock | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Block" name="[% Data.ElementKey | html %]#Block[]" value="[% Data.ContentBlock | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_NavBar">[% Translate("NavBar") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_NavBar" name="[% Data.ElementKey | html %]#NavBar[]" value="[% Data.ContentNavBar | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_NavBar" name="[% Data.ElementKey | html %]#NavBar[]" value="[% Data.ContentNavBar | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_AccessKey">[% Translate("AccessKey") | html %]:</label>
-                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_AccessKey" name="[% Data.ElementKey | html %]#AccessKey[]" value="[% Data.ContentAccessKey | html %]"/>
+                                        <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_AccessKey" name="[% Data.ElementKey | html %]#AccessKey[]" value="[% Data.ContentAccessKey | html %]" [% Data.ReadOnlyAttribute %]/>
                                         <div class="Clear"></div>
 
                                         <div>
@@ -369,23 +377,23 @@
                                 <label class="KeyWithComplexValue">NavBarModule:</label>
                                 <div class="NavBar">
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module">[% Translate("Module") | html %]:</label>
-                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module" name="[% Data.ElementKey | html %]#Module[]" value="[% Data.ContentModule | html %]"/>
+                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Module" name="[% Data.ElementKey | html %]#Module[]" value="[% Data.ContentModule | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <div class="Clear"></div>
 
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Name">[% Translate("Name") | html %]:</label>
-                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Name" name="[% Data.ElementKey | html %]#Name[]" value="[% Data.ContentName | html %]"/>
+                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Name" name="[% Data.ElementKey | html %]#Name[]" value="[% Data.ContentName | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <div class="Clear"></div>
 
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description">[% Translate("Description") | html %]:</label>
-                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description" name="[% Data.ElementKey | html %]#Description[]" value="[% Data.ContentDescription | html %]"/>
+                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Description" name="[% Data.ElementKey | html %]#Description[]" value="[% Data.ContentDescription | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <div class="Clear"></div>
 
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Block">[% Translate("Block") | html %]:</label>
-                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Block" name="[% Data.ElementKey | html %]#Block[]" value="[% Data.ContentBlock | html %]"/>
+                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Block" name="[% Data.ElementKey | html %]#Block[]" value="[% Data.ContentBlock | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <div class="Clear"></div>
 
                                     <label class="SingleKey" for="[% Data.ElementKeyID | html %]_[% Data.Index %]_Prio">[% Translate("Priority") | html %]:</label>
-                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Prio" name="[% Data.ElementKey | html %]#Prio[]" value="[% Data.ContentPrio | html %]"/>
+                                    <input class="SingleContent" type="text" id="[% Data.ElementKeyID | html %]_[% Data.Index %]_Prio" name="[% Data.ElementKey | html %]#Prio[]" value="[% Data.ContentPrio | html %]" [% Data.ReadOnlyAttribute %]/>
                                     <div class="Clear"></div>
                                 </div>
 [% RenderBlockEnd("ConfigElementFrontendModuleRegContentNavBarModule") %]
@@ -397,10 +405,10 @@
                             <label class="KeyWithComplexValue">[% Translate("Year") | html %] &ndash; [% Translate("Month") | html %] &ndash; [% Translate("Day") | html %] &ndash; [% Translate("Text") | html %]</label>
                             <div class="Array">
 [% RenderBlockStart("ConfigElementTimeVacationDaysOneTimeContent") %]
-                                <input type="text" name="[% Data.ElementKey | html %]year[]" value="[% Data.Year | html %]" title="[% Translate("Year") | html %]" maxlength="4" class="Year"/>
-                                <input type="text" name="[% Data.ElementKey | html %]month[]" value="[% Data.Month | html %]" title="[% Translate("Month") | html %]" maxlength="2" class="Month"/>
-                                <input type="text" name="[% Data.ElementKey | html %]day[]" value="[% Data.Day | html %]" title="[% Translate("Day") | html %]" maxlength="2" class="Day"/>
-                                <input type="text" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Translate("Text") | html %]" class="W20pc" />
+                                <input type="text" name="[% Data.ElementKey | html %]year[]" value="[% Data.Year | html %]" title="[% Translate("Year") | html %]" maxlength="4" class="Year" [% Data.ReadOnlyAttribute %]/>
+                                <input type="text" name="[% Data.ElementKey | html %]month[]" value="[% Data.Month | html %]" title="[% Translate("Month") | html %]" maxlength="2" class="Month"[% Data.ReadOnlyAttribute %]/>
+                                <input type="text" name="[% Data.ElementKey | html %]day[]" value="[% Data.Day | html %]" title="[% Translate("Day") | html %]" maxlength="2" class="Day"[% Data.ReadOnlyAttribute %]/>
+                                <input type="text" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Translate("Text") | html %]" class="W20pc" [% Data.ReadOnlyAttribute %]/>
                                 <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteTimeVacationDaysOneTimeElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -425,9 +433,9 @@
                             <label class="KeyWithComplexValue">[% Translate("Month") | html %] &ndash; [% Translate("Day") | html %] &ndash; [% Translate("Text") | html %]</label>
                             <div class="Array">
 [% RenderBlockStart("ConfigElementTimeVacationDaysContent") %]
-                                <input type="text" name="[% Data.ElementKey | html %]month[]" value="[% Data.Month | html %]" title="[% Translate("Month") | html %]" maxlength="2" class="Month"/>
-                                <input type="text" name="[% Data.ElementKey | html %]day[]" value="[% Data.Day | html %]" title="[% Translate("Day") | html %]" maxlength="2" class="Day"/>
-                                <input type="text" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Translate("Text") | html %]" class="W20pc" />
+                                <input type="text" name="[% Data.ElementKey | html %]month[]" value="[% Data.Month | html %]" title="[% Translate("Month") | html %]" maxlength="2" class="Month" [% Data.ReadOnlyAttribute %]/>
+                                <input type="text" name="[% Data.ElementKey | html %]day[]" value="[% Data.Day | html %]" title="[% Translate("Day") | html %]" maxlength="2" class="Day"[% Data.ReadOnlyAttribute %]/>
+                                <input type="text" name="[% Data.ElementKey | html %]Content[]" value="[% Data.Content | html %]" title="[% Translate("Text") | html %]" class="W20pc" [% Data.ReadOnlyAttribute %]/>
                                 <button class="RemoveButton" type="submit" name="[% Data.ElementKey | html %]#DeleteTimeVacationDaysElement[% Data.Index %]" value="[% Translate("Remove this entry") | html %]" title="[% Translate("Remove this entry") | html %]">
                                     <i class="fa fa-minus-square-o"></i>
                                     <span class="InvisibleText">[% Translate("Remove this entry") | html %]</span>
@@ -455,7 +463,7 @@
                                 <div class="FloatBox">
                                     <label for="[% Data.ElementKey | html %][% Data.Hour | html %]">[% Data.Hour %]</label>
                                     <br/>
-                                    <input type="checkbox" name="[% Data.ElementKey | html %][]" id="[% Data.ElementKey | html %][% Data.Hour | html %]" value="[% Data.Hour | html %]" [% Data.Active %]/>
+                                    <input type="checkbox" name="[% Data.ElementKey | html %][]" id="[% Data.ElementKey | html %][% Data.Hour | html %]" value="[% Data.Hour | html %]" [% Data.Active %] [% Data.DisabledAttribute %]/>
                                 </div>
 [% RenderBlockEnd("ConfigElementTimeWorkingHoursHours") %]
                                 <div class="Clear"></div>

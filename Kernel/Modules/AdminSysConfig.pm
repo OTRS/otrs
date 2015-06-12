@@ -154,6 +154,19 @@ sub Run {
                 $Active = 1;
             }
 
+            # if setting is read only, it can only be activated or deactivated, but content can not
+            # be change
+            if ( $ItemHash{ReadOnly} ) {
+                my $Update = $SysConfigObject->ConfigItemValidityUpdate(
+                    Name  => $_,
+                    Valid => $Active,
+                );
+                if ( !$Update ) {
+                    $LayoutObject->FatalError( Message => "Can't write ConfigItem!" );
+                }
+                next ITEM;
+            }
+
             # ConfigElement String
             if ( defined $ItemHash{Setting}->[1]->{String} ) {
 
@@ -751,6 +764,12 @@ sub Run {
                 $Validstyle = '';
             }
 
+            # Read only
+            my $ReadOnly;
+            if ( $ItemHash{ReadOnly} ) {
+                $ReadOnly = 1;
+            }
+
             my $Description = $ItemHash{Description}[1]{Content};
 
             # Generate an ID that is valid XHTML for use in id attribute
@@ -766,6 +785,7 @@ sub Run {
                     Description => $Description,
                     Valid       => $Valid,
                     Validstyle  => $Validstyle,
+                    ReadOnly    => $ReadOnly,
                     Required    => $Required,
                 },
             );
@@ -782,6 +802,7 @@ sub Run {
                         Description => $Description,
                         Valid       => $Valid,
                         Validstyle  => $Validstyle,
+                        ReadOnly    => $ReadOnly,
                         Required    => $Required,
                         ConfigLevel => $ItemHash{ConfigLevel},
                     },
@@ -798,6 +819,7 @@ sub Run {
                         Description => $Description,
                         Valid       => $Valid,
                         Validstyle  => $Validstyle,
+                        ReadOnly    => $ReadOnly,
                         Required    => $Required,
                     },
                 );
@@ -817,9 +839,9 @@ sub Run {
 
         $Data{SubGroup} = $SubGroup;
         $Data{Group}    = $Group;
-        my $Output .= $LayoutObject->Header( Value => "$Group -> $SubGroup" );
-        $Output    .= $LayoutObject->NavigationBar();
-        $Output    .= $LayoutObject->Output(
+        my $Output = $LayoutObject->Header( Value => "$Group -> $SubGroup" );
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminSysConfigEdit',
             Data         => \%Data,
         );
@@ -1020,9 +1042,9 @@ sub Run {
 
     }
 
-    my $Output .= $LayoutObject->Header( Value => $Group );
-    $Output    .= $LayoutObject->NavigationBar();
-    $Output    .= $LayoutObject->Output(
+    my $Output = $LayoutObject->Header( Value => $Group );
+    $Output .= $LayoutObject->NavigationBar();
+    $Output .= $LayoutObject->Output(
         TemplateFile => 'AdminSysConfig',
         Data         => {
             %Data,
@@ -1041,6 +1063,11 @@ sub ListConfigItem {
     my $Default      = '';
     my $Item         = $ItemHash{Setting}->[1];
 
+    my $ReadOnlyAttribute = '';
+    if ( $ItemHash{ReadOnly} ) {
+        $ReadOnlyAttribute = 'readonly="readonly"';
+    }
+
     # ConfigElement String
     if ( defined $Item->{String} ) {
 
@@ -1058,10 +1085,11 @@ sub ListConfigItem {
         $LayoutObject->Block(
             Name => 'ConfigElementString',
             Data => {
-                ElementKey => $ItemHash{Name},
-                Content    => $Item->{String}->[1]->{Content},
-                Default    => $Default,
-                InputType  => $InputType,
+                ElementKey        => $ItemHash{Name},
+                Content           => $Item->{String}->[1]->{Content},
+                Default           => $Default,
+                InputType         => $InputType,
+                ReadOnlyAttribute => $ReadOnlyAttribute,
             },
         );
 
@@ -1100,8 +1128,9 @@ sub ListConfigItem {
         $LayoutObject->Block(
             Name => 'ConfigElementTextArea',
             Data => {
-                ElementKey => $ItemHash{Name},
-                Content    => $Item->{TextArea}->[1]->{Content},
+                ElementKey        => $ItemHash{Name},
+                Content           => $Item->{TextArea}->[1]->{Content},
+                ReadOnlyAttribute => $ReadOnlyAttribute,
             },
         );
         return 1;
@@ -1124,6 +1153,7 @@ sub ListConfigItem {
             Data       => \%Hash,
             SelectedID => $Option->{SelectedID},
             Name       => $ItemHash{Name},
+            Disabled   => $ReadOnlyAttribute ? 1 : 0,
         );
         $LayoutObject->Block(
             Name => 'ConfigElementSelect',
@@ -1145,7 +1175,7 @@ sub ListConfigItem {
             },
         );
 
-        # Hashelements
+        # Hash elements
         my $Hash          = $Item->{Hash}->[1];
         my %SortContainer = ();
         for my $Index ( 1 .. $#{ $Hash->{Item} } ) {
@@ -1187,8 +1217,9 @@ sub ListConfigItem {
                                 $Hash->{Item}->[$Index]->{Hash}->[1]->{Item}->[$Index2]->{Key},
                             Content =>
                                 $Hash->{Item}->[$Index]->{Hash}->[1]->{Item}->[$Index2]->{Content},
-                            Index  => $Index,
-                            Index2 => $Index2,
+                            Index             => $Index,
+                            Index2            => $Index2,
+                            ReadOnlyAttribute => $ReadOnlyAttribute,
                         },
                     );
                 }
@@ -1236,8 +1267,9 @@ sub ListConfigItem {
                                 . $Hash->{Item}->[$Index]->{Key},
                             Content =>
                                 $Hash->{Item}->[$Index]->{Array}->[1]->{Item}->[$Index2]->{Content},
-                            Index  => $Index,
-                            Index2 => $Index2,
+                            Index             => $Index,
+                            Index2            => $Index2,
+                            ReadOnlyAttribute => $ReadOnlyAttribute,
                         },
                     );
                 }
@@ -1268,14 +1300,16 @@ sub ListConfigItem {
                     SelectedID => $Hash->{Item}->[$Index]->{Option}->[1]->{SelectedID},
                     Name       => $ItemHash{Name} . 'Content[]',
                     Class      => 'Content',
+                    Disabled   => $ReadOnlyAttribute ? 1 : 0,
                 );
                 $LayoutObject->Block(
                     Name => 'ConfigElementHashContent3',
                     Data => {
-                        ElementKey => $ItemHash{Name},
-                        Key        => $Hash->{Item}->[$Index]->{Key},
-                        List       => $PulldownMenu,
-                        Index      => $Index,
+                        ElementKey        => $ItemHash{Name},
+                        Key               => $Hash->{Item}->[$Index]->{Key},
+                        List              => $PulldownMenu,
+                        Index             => $Index,
+                        ReadOnlyAttribute => $ReadOnlyAttribute,
                     },
                 );
             }
@@ -1285,10 +1319,11 @@ sub ListConfigItem {
                 $LayoutObject->Block(
                     Name => 'ConfigElementHashContent',
                     Data => {
-                        ElementKey => $ItemHash{Name},
-                        Key        => $Hash->{Item}->[$Index]->{Key},
-                        Content    => $Hash->{Item}->[$Index]->{Content},
-                        Index      => $Index,
+                        ElementKey        => $ItemHash{Name},
+                        Key               => $Hash->{Item}->[$Index]->{Key},
+                        Content           => $Hash->{Item}->[$Index]->{Content},
+                        Index             => $Index,
+                        ReadOnlyAttribute => $ReadOnlyAttribute,
                     },
                 );
             }
@@ -1311,9 +1346,10 @@ sub ListConfigItem {
             $LayoutObject->Block(
                 Name => 'ConfigElementArrayContent',
                 Data => {
-                    ElementKey => $ItemHash{Name},
-                    Content    => $Array->{Item}->[$Index]->{Content},
-                    Index      => $Index,
+                    ElementKey        => $ItemHash{Name},
+                    Content           => $Array->{Item}->[$Index]->{Content},
+                    Index             => $Index,
+                    ReadOnlyAttribute => $ReadOnlyAttribute,
                 },
             );
         }
@@ -1336,6 +1372,7 @@ sub ListConfigItem {
         # Generate an ID that is valid XHTML for use in id attribute
         $Data{ElementKeyID} = $Data{ElementKey};
         $Data{ElementKeyID} =~ s{\#}{_}gsm;
+        $Data{ReadOnlyAttribute} = $ReadOnlyAttribute;
 
         $LayoutObject->Block(
             Name => 'ConfigElementFrontendModuleReg',
@@ -1349,9 +1386,10 @@ sub ListConfigItem {
                 $LayoutObject->Block(
                     Name => 'ConfigElementFrontendModuleRegContent' . $ArrayElement,
                     Data => {
-                        Index      => $Index,
-                        ElementKey => $ItemHash{Name},
-                        Content    => $FrontendModuleReg->{$ArrayElement}->[$Index]->{Content},
+                        Index             => $Index,
+                        ElementKey        => $ItemHash{Name},
+                        Content           => $FrontendModuleReg->{$ArrayElement}->[$Index]->{Content},
+                        ReadOnlyAttribute => $ReadOnlyAttribute,
                     },
                 );
             }
@@ -1384,7 +1422,9 @@ sub ListConfigItem {
                                     Name       => $Data{ElementKey} . 'LoaderType' . $Counter,
                                     ID         => $Data{ElementKeyID} . 'LoaderType' . $Counter,
                                     SelectedID => $Key,
+                                    Disabled   => $ReadOnlyAttribute ? 1 : 0,
                                 ),
+                                ReadOnlyAttribute => $ReadOnlyAttribute,
                             },
                         );
                         $Counter++;
@@ -1412,6 +1452,7 @@ sub ListConfigItem {
             # Generate an ID that is valid XHTML for use in id attribute
             $Data{ElementKeyID} = $Data{ElementKey};
             $Data{ElementKeyID} =~ s{\#}{_}gsm;
+            $Data{ReadOnlyAttribute} = $ReadOnlyAttribute;
 
             $Data{Index} = $Index;
             $LayoutObject->Block(
@@ -1431,6 +1472,7 @@ sub ListConfigItem {
                             Content =>
                                 $FrontendModuleReg->{NavBar}->[$Index]->{$ArrayElement}->[$Index2]
                                 ->{Content},
+                            ReadOnlyAttribute => $ReadOnlyAttribute,
                         },
                     );
                 }
@@ -1454,7 +1496,8 @@ sub ListConfigItem {
                 $Data{ElementKeyID} = $Data{ElementKey};
                 $Data{ElementKeyID} =~ s{\#}{_}gsm;
 
-                $Data{Index} = $Index;
+                $Data{Index}             = $Index;
+                $Data{ReadOnlyAttribute} = $ReadOnlyAttribute;
 
                 $LayoutObject->Block(
                     Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
@@ -1477,7 +1520,8 @@ sub ListConfigItem {
             $Data{ElementKeyID} = $Data{ElementKey};
             $Data{ElementKeyID} =~ s{\#}{_}gsm;
 
-            $Data{Index} = 0;
+            $Data{Index}             = 0;
+            $Data{ReadOnlyAttribute} = $ReadOnlyAttribute;
 
             $LayoutObject->Block(
                 Name => 'ConfigElementFrontendModuleRegContentNavBarModule',
@@ -1523,7 +1567,8 @@ sub ListConfigItem {
                     Day        => $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day},
                     Content =>
                         $Item->{TimeVacationDaysOneTime}[1]{Item}[$Index]{Content},
-                    Index => $Index,
+                    Index             => $Index,
+                    ReadOnlyAttribute => $ReadOnlyAttribute,
                 },
             );
             if (
@@ -1588,11 +1633,12 @@ sub ListConfigItem {
             $LayoutObject->Block(
                 Name => 'ConfigElementTimeVacationDaysContent',
                 Data => {
-                    ElementKey => $ItemHash{Name},
-                    Month      => $Item->{TimeVacationDays}[1]{Item}[$Index]{Month},
-                    Day        => $Item->{TimeVacationDays}[1]{Item}[$Index]{Day},
-                    Content    => $Item->{TimeVacationDays}[1]{Item}[$Index]{Content},
-                    Index      => $Index,
+                    ElementKey        => $ItemHash{Name},
+                    Month             => $Item->{TimeVacationDays}[1]{Item}[$Index]{Month},
+                    Day               => $Item->{TimeVacationDays}[1]{Item}[$Index]{Day},
+                    Content           => $Item->{TimeVacationDays}[1]{Item}[$Index]{Content},
+                    Index             => $Index,
+                    ReadOnlyAttribute => $ReadOnlyAttribute,
                 },
             );
             if (
@@ -1648,6 +1694,8 @@ sub ListConfigItem {
             $SortWeekdays{ $WeekdayLookup{ $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name} } } = $Index;
         }
 
+        my $DisabledAttribute = $ReadOnlyAttribute ? 'disabled="disabled"' : '';
+
         # get output sorted by day id
         for my $DayIndex ( 1 .. 7 ) {
             my $Index = $SortWeekdays{$DayIndex};
@@ -1676,8 +1724,9 @@ sub ListConfigItem {
                     Data => {
                         ElementKey => $ItemHash{Name}
                             . $Item->{TimeWorkingHours}[1]{Day}[$Index]{Name},
-                        Hour   => $Z,
-                        Active => $ArrayHours[$Z],
+                        Hour              => $Z,
+                        Active            => $ArrayHours[$Z],
+                        DisabledAttribute => $DisabledAttribute,
                     },
                 );
             }
@@ -1721,6 +1770,7 @@ sub ListConfigItem {
             Validate         => 1,
             YearPeriodPast   => 10,
             YearPeriodFuture => 5,
+            Disabled         => $ReadOnlyAttribute ? 1 : 0,
         );
 
         # output DateTime config element
