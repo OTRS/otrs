@@ -40,7 +40,7 @@ create an object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $LockObject = $Kernel::OM->Get('Kernel::System::Priority');
+    my $PriorityObject = $Kernel::OM->Get('Kernel::System::Priority');
 
 
 =cut

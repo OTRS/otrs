@@ -56,7 +56,7 @@ create a time object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Scheduler');
+    my $SchedulerObject = $Kernel::OM->Get('Kernel::System::Scheduler');
 
 
 =cut
