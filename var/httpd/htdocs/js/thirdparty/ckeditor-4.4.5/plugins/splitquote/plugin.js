@@ -5,7 +5,7 @@ CKEDITOR.plugins.add('splitquote', {
 
         editor.addCommand('splitQuote', {
             exec: function(editor) {
-                var helper, quote, text, range, cursorNode, cursorNodeLength, cursorNodeOffset;
+                var helper, quote, text, range, cursorNode, cursorNodeLength = 0, cursorNodeOffset, cursorNodeType;
 
                 // is the cursor position within a quote (otrs-style)?
                 quote = editor.elementPath().contains('div', false, true);
@@ -25,7 +25,12 @@ CKEDITOR.plugins.add('splitquote', {
                     // get current cursor position, container node, length and offset
                     range = editor.getSelection().getRanges()[0];
                     cursorNode = range.startContainer;
-                    cursorNodeLength = cursorNode.getLength();
+                    cursorNodeType = cursorNode.nodeType;
+
+                    if (cursorNodeType === 3 && typeof cursorNode.getLength !== undefined) {
+                        cursorNodeLength = cursorNode.getLength();
+                    }
+
                     cursorNodeOffset = range.startOffset;
 
                     // if cursor position is at the end of text node and next element is <br>
