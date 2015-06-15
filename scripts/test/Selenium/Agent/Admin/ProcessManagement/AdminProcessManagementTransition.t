@@ -110,8 +110,6 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # check for created test Transition using filter on AdminProcessManagement screen
-#        sleep 2;
-#        $Selenium->WaitFor( JavaScript => 'return $("ul#Transitions li:contains($TransitionRandom)").length' );
         $Selenium->WaitFor( JavaScript => "return \$('ul#Transitions li:contains($TransitionRandom)').length" );
         $Selenium->find_element( "Transitions",       'link_text' )->click();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);

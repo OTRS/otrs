@@ -95,9 +95,6 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # check for created test activity dialog using filter on AdminProcessManagement screen
- #       sleep 2;
-#        $Selenium->WaitFor( JavaScript => 'return $("#ActivityDialogFilter").length' );
-#        $Selenium->WaitFor( JavaScript => 'return $("ul#ActivityDialogs li:contains($ActivityDialogRandom)").length' );
         $Selenium->WaitFor( JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length" );
         $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandom);
