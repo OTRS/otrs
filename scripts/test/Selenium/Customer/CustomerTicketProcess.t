@@ -58,7 +58,7 @@ $Selenium->RunTest(
 
         # import test selenium scenario
         my $Location = $ConfigObject->Get('Home')
-            . "/development/samples/process/TestProcess.yml";
+            . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingEntities", 'css' )->click();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
@@ -103,7 +103,7 @@ $Selenium->RunTest(
 
         # create first scenarion for test customer ticket process
         $Selenium->find_element( "#ProcessEntityID option[value='$ListReverse{$ProcessName}']", 'css' )->click();
-        sleep 1;
+        $Selenium->WaitFor( JavaScript => "return \$('#Subject').length" );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
@@ -140,7 +140,7 @@ $Selenium->RunTest(
         # check for inputed values as final step in first scenario
         $Self->True(
             index( $Selenium->get_page_source(), 'closed successful' ) > -1,
-            "Ticket open state found on page",
+            "Ticket closed successful state found on page",
         );
         $Self->True(
             index( $Selenium->get_page_source(), '5 very high' ) > -1,
@@ -280,10 +280,20 @@ $Selenium->RunTest(
             User     => $TestUserLogin,
             Password => $TestUserLogin,
         );
-        $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+
+        # synchronize process after deleting test process
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+
+        # make sure cache is correct
+        for my $Cache (
+            qw(ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Process ProcessManagement_Transition ProcessManagement_TransitionAction )
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
+
+    }
 );
 
 1;

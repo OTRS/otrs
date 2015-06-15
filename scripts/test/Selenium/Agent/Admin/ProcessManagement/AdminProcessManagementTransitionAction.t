@@ -50,22 +50,20 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",        'css' )->submit();
 
         # click on Transition Actions dropdown and "Create New Transition Action"
+        $Selenium->WaitFor( JavaScript => 'return $("#ActivityFilter").length' );
         $Selenium->find_element( "Transition Actions", 'link_text' )->click();
+
+        # wait to toggle element
         sleep 1;
+
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionNew' )]")->click();
 
         # switch to pop up window
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#Name').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
 
         # check AdminProcessManagementTransitionAction screen
         for my $ID (
@@ -103,9 +101,14 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # check for created test TransitionAction using filter on AdminProcessManagement screen
-        $Selenium->find_element( "Transition Actions", 'link_text' )->click();
-        sleep 1;
+#        sleep 1;
+#        $Selenium->WaitFor( JavaScript => 'return $("#TransitionActionFilter").length' );
+#        $Selenium->WaitFor( JavaScript => 'return $("ul#TransitionActions li:contains($TransitionActionRandom)").length' );
+        $Selenium->WaitFor( JavaScript => "return \$('ul#TransitionActions li:contains($TransitionActionRandom)').length" );
+        $Selenium->find_element( "Transition Actions",      'link_text' )->click();
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandom);
+
+        # wait for filter to kick in
         sleep 1;
 
         $Self->True(
@@ -128,17 +131,12 @@ $Selenium->RunTest(
         # go to edit test TransitionAction screen
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
             ->click();
+
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#Name').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
 
         # check stored value
         $Self->Is(
@@ -177,9 +175,12 @@ $Selenium->RunTest(
 
         # check for edited test TransitionAction using filter on AdminProcessManagement screen
         my $TransitionActionRandomEdit = $TransitionActionRandom . "edit";
+        $Selenium->WaitFor( JavaScript => "return \$('#TransitionActionFilter').length" );
         $Selenium->find_element( "Transition Actions", 'link_text' )->click();
-        sleep 1;
+
         $Selenium->find_element( "#TransitionActionFilter", 'css' )->send_keys($TransitionActionRandomEdit);
+
+        # wait for filter to kick in
         sleep 1;
 
         $Self->True(
@@ -190,17 +191,12 @@ $Selenium->RunTest(
         # go to edit test TransitionAction screen again
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionActionEdit;ID=$TransitionActionID' )]")
             ->click();
+
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#Name').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
 
         # check edited values
         $Self->Is(
@@ -220,37 +216,48 @@ $Selenium->RunTest(
         );
 
         # return to main window
+        $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
 
         # get process id and return to overview afterwards
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # delete test TransitionAction
-        my $Success = $DBObject->Do(
-            SQL => "DELETE FROM pm_transition_action WHERE id = $TransitionActionID",
-        );
+        # delete test transition action
+        my $Success
+            = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction')->TransitionActionDelete(
+            ID     => $TransitionActionID,
+            UserID => $TestUserID,
+            );
+
         $Self->True(
             $Success,
-            "TransitionActionDelete - $TransitionActionRandomEdit",
+            "Transition action is deleted - $TransitionActionID",
         );
 
-        # delete process
-        my $Delete = $DBObject->Do(
-            SQL => "DELETE FROM pm_process WHERE id = $ProcessID",
+        # delete test process
+        $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessDelete(
+            ID     => $ProcessID,
+            UserID => $TestUserID,
         );
 
         $Self->True(
-            $Delete,
-            "Successfully deleted test process.",
+            $Success,
+            "Process is deleted - $ProcessID",
         );
 
-        # make sure the cache is correct
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-            Type => 'ProcessManagement_TransitionAction',
-        );
+        # synchronize process after deleting test process
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # make sure cache is correct
+        for my $Cache (
+            qw( ProcessManagement_Process ProcessManagement_TransitionAction )
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
+
+    }
 );
 
 1;

@@ -81,7 +81,7 @@ $Selenium->RunTest(
         # import test selenium process
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         my $Location = $ConfigObject->Get('Home')
-            . "/development/samples/process/TestProcess.yml";
+            . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingEntities", 'css' )->click();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
@@ -202,12 +202,14 @@ $Selenium->RunTest(
 
         # check if NavBarAgentTicketProcess button is not available when no process is available
         $Selenium->refresh();
+        sleep 1;
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is active when no process is available",
         );
 
-# check if NavBarAgentTicketProcess button is available when NavBarAgentTicketProcess module is disabled and no process is available
+        # check if NavBarAgentTicketProcess button is available
+        # when NavBarAgentTicketProcess module is disabled and no process is available
         my $SysConfigObject          = $Kernel::OM->Get('Kernel::System::SysConfig');
         my %NavBarAgentTicketProcess = $SysConfigObject->ConfigItemGet(
             Name => 'Frontend::NavBarModule###1-TicketProcesses',
@@ -218,6 +220,7 @@ $Selenium->RunTest(
             Value => \%NavBarAgentTicketProcess,
         );
         $Selenium->refresh();
+        sleep 1;
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active, but NavBarAgentTicketProcess is disabled",
@@ -236,6 +239,10 @@ $Selenium->RunTest(
             );
         }
 
+        # synchronize process after deleting test process
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+
         # make sure the cache is correct.
         for my $Cache (
             qw (ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Transition ProcessManagement_TransitionAction )
@@ -246,7 +253,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

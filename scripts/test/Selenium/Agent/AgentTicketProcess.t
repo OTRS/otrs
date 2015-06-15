@@ -75,7 +75,7 @@ $Selenium->RunTest(
 
         # import test selenium process scenario
         my $Location = $ConfigObject->Get('Home')
-            . "/development/samples/process/TestProcess.yml";
+            . "/scripts/test/sample/ProcessManagement/TestProcess.yml";
         $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
         $Selenium->find_element( "#OverwriteExistingEntities", 'css' )->click();
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->click();
@@ -107,14 +107,8 @@ $Selenium->RunTest(
         # create first scenario for test agent ticket process
         $Selenium->find_element( "#ProcessEntityID option[value='$ListReverse{$ProcessName}']", 'css' )->click();
 
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#Subject').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         my $SubjectRandom = 'Subject' . $Helper->GetRandomID();
         my $ContentRandom = 'Content' . $Helper->GetRandomID();
@@ -142,33 +136,23 @@ $Selenium->RunTest(
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#PriorityID').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         # for test scenario to complete, in next step we set ticket priority to 5 very high
         $Selenium->find_element( "#PriorityID option[value='5']", 'css' )->click();
         $Selenium->find_element( "#Subject",                      'css' )->submit();
+
+        # return to main window
         $Selenium->switch_to_window( $Handles->[0] );
 
-        # Wait until main window has been reloaded
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( index( $Selenium->get_page_source(), 'closed successful' ) > -1 ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until main window has been reloaded
+        sleep 1;
 
         # check for inputed values as final step in first scenario
         $Self->True(
             index( $Selenium->get_page_source(), 'closed successful' ) > -1,
-            "Ticket open state found on page",
+            "Ticket closed successful state found on page",
         );
         $Self->True(
             index( $Selenium->get_page_source(), '5 very high' ) > -1,
@@ -185,18 +169,15 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketProcess");
         $Selenium->find_element( "#ProcessEntityID option[value='$ListReverse{$ProcessName}']", 'css' )->click();
 
-        # Wait until form has loaded, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#QueueID').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait until form has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Subject").length;' );
 
         # in this scenarion we just set ticket queue to junk to finish test
         $Selenium->find_element( "#QueueID option[value='3']", 'css' )->click();
         $Selenium->find_element( "#Subject",                   'css' )->submit();
+
+        # wait until return to AgentTicketZoom, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#ArticleTree").length;' );
 
         # check if we are at the end of test process ticket
         $Self->True(
@@ -310,16 +291,20 @@ $Selenium->RunTest(
         );
 
         # synchronize process after deleting test process
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
-        );
-        $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # make sure the cache is correct.
+        for my $Cache (
+            qw (ProcessManagement_Activity ProcessManagement_ActivityDialog ProcessManagement_Transition ProcessManagement_TransitionAction )
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
         }
+
+    }
 );
 
 1;

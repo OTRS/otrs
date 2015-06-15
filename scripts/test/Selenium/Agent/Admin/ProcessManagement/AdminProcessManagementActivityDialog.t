@@ -50,8 +50,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Description", 'css' )->send_keys("Selenium Test Process");
         $Selenium->find_element( "#Name",        'css' )->submit();
 
-        # click on ActivityDialog dropdown and "Create New Activity Dialog"
+        # click on ActivityDialog dropdown, wait to load it and "Create New Activity Dialog"
+        $Selenium->WaitFor( JavaScript => 'return $("#ActivityFilter").length' );
         $Selenium->find_element( "Activity Dialogs", 'link_text' )->click();
+
+        # wait to toggle element
         sleep 1;
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ActivityDialogNew' )]")->click();
 
@@ -92,9 +95,14 @@ $Selenium->RunTest(
         $Selenium->switch_to_window( $Handles->[0] );
 
         # check for created test activity dialog using filter on AdminProcessManagement screen
-        $Selenium->find_element( "Activity Dialogs", 'link_text' )->click();
-        sleep 1;
+ #       sleep 2;
+#        $Selenium->WaitFor( JavaScript => 'return $("#ActivityDialogFilter").length' );
+#        $Selenium->WaitFor( JavaScript => 'return $("ul#ActivityDialogs li:contains($ActivityDialogRandom)").length' );
+        $Selenium->WaitFor( JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandom)').length" );
+        $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandom);
+
+        # wait for filter to kick in
         sleep 1;
 
         $Self->True(
@@ -155,10 +163,10 @@ $Selenium->RunTest(
         # check for edited test ActivityDialog using filter on AdminProcessManagement screen
         my $ActivityDialogRandomEdit = $ActivityDialogRandom . "edit";
         my $DescriptionShortEdit     = $DescriptionShort . " Edit";
-        $Selenium->find_element( "Activity Dialogs", 'link_text' )->click();
-        sleep 1;
+
+        $Selenium->WaitFor( JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length" );
+        $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandomEdit);
-        sleep 1;
 
         $Self->True(
             $Selenium->find_element("//*[text()=\"$ActivityDialogRandomEdit\"]")->is_displayed(),
@@ -194,37 +202,47 @@ $Selenium->RunTest(
         );
 
         # return to main window
+        $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
 
         # get process id and return to overview afterwards
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
 
-        # delete test ActivityDialog
-        my $Success = $DBObject->Do(
-            SQL => "DELETE FROM pm_activity_dialog WHERE id = $ActivityDialogID",
+        # delete test activity dialog
+        my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog')->ActivityDialogDelete(
+            ID     => $ActivityDialogID,
+            UserID => $TestUserID,
         );
+
         $Self->True(
             $Success,
-            "ActivityDialogDelete - $ActivityDialogRandomEdit",
+            "Activity dialog is deleted - $ActivityDialogID",
         );
 
-        # delete process
-        my $Delete = $DBObject->Do(
-            SQL => "DELETE FROM pm_process WHERE id = $ProcessID",
+        # delete test process
+        $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process')->ProcessDelete(
+            ID     => $ProcessID,
+            UserID => $TestUserID,
         );
 
         $Self->True(
-            $Delete,
-            "Successfully deleted test process.",
+            $Success,
+            "Process is deleted - $ProcessID",
         );
 
-        # make sure the cache is correct
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-            Type => 'ProcessManagement_ActivityDialog',
-        );
+        # synchronize process after deleting test process
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # make sure cache is correct
+        for my $Cache (
+            qw( ProcessManagement_ActivityDialog ProcessManagement_Process )
+            )
+        {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
+
+    }
 
 );
 
