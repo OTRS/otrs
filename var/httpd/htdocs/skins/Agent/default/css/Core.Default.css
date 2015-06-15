@@ -929,20 +929,20 @@ iframe.TextOption.Customer {
     font-weight: normal !important;
 }
 
-.ui-state-default, 
-.ui-widget-content .ui-state-default, 
+.ui-state-default,
+.ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
     background: #f2f2f2 !important;
 }
 
-.ui-state-hover, 
-.ui-widget-content .ui-state-hover, 
-.ui-widget-header .ui-state-hover, 
-.ui-state-focus, 
-.ui-widget-content .ui-state-focus, 
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
     background: #ddd !important;
-} 
+}
 
 /**
  * @subsection global CKEditor fixes/improvements
@@ -952,13 +952,13 @@ iframe.TextOption.Customer {
     width: 40px !important;
 }
 
-#cke_RichText, 
-.cke_toolbar > .cke_toolgroup, 
-.cke_toolbar .cke_combo_button, 
+#cke_RichText,
+.cke_toolbar > .cke_toolgroup,
+.cke_toolbar .cke_combo_button,
 .cke_inner .cke_contents,
 .cke_dialog_body,
-input.cke_dialog_ui_input_password, 
-input.cke_dialog_ui_input_text, 
+input.cke_dialog_ui_input_password,
+input.cke_dialog_ui_input_text,
 textarea.cke_dialog_ui_input_textarea {
     border-radius: 0px !important;
 }
@@ -967,8 +967,8 @@ textarea.cke_dialog_ui_input_textarea {
     background-color: #ccc;
 }
 
-input.cke_dialog_ui_input_password:focus, 
-input.cke_dialog_ui_input_text:focus, 
+input.cke_dialog_ui_input_password:focus,
+input.cke_dialog_ui_input_text:focus,
 textarea.cke_dialog_ui_input_textarea:focus {
     box-shadow: none !important;
     border-color: #f92 !important;

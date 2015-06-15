@@ -357,13 +357,6 @@ sub _Overview {
                 ID => $ID,
             );
 
-            if ( $ValidList{ $Data{ValidID} } eq 'valid' ) {
-                $Data{Invalid} = '';
-            }
-            else {
-                $Data{Invalid} = 'Invalid';
-            }
-
             $LayoutObject->Block(
                 Name => 'OverviewResultRow',
                 Data => {
