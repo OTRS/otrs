@@ -12,16 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create and log in test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,11 +32,10 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get test user ID
         my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
-
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
 
         # add test Queue
         my $QueueRandomID = "queue" . $Helper->GetRandomID();
@@ -51,6 +50,11 @@ $Selenium->RunTest(
             Comment         => 'Selenium Test Queue',
         );
 
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        # navigate to AdminSystemAddress screen
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminSystemAddress");
 
         # check overview AdminSystemAddress screen
@@ -92,13 +96,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                          'css' )->send_keys($SysAddComment);
         $Selenium->find_element( "#Name",                             'css' )->submit();
 
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('.MasterAction').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait for SystemAddress create
+        $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );
 
         # check for created test SystemAddress
         $Self->True(
@@ -140,13 +139,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#Name",                      'css' )->submit();
 
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('.MasterAction').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait for SystemAddress create
+        $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );
 
         # check edited test SystemAddress values
         $Selenium->find_element( $SysAddRandom, 'link_text' )->click();
@@ -165,6 +159,9 @@ $Selenium->RunTest(
             "",
             "#Comment updated value",
         );
+
+        # get DB object
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # since we no longer need them, delete test Queue and SystemAddress from the DB
         my $Success = $DBObject->Do(
@@ -190,7 +187,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 
 );
 

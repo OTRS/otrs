@@ -12,15 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -36,9 +37,11 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-        # go to AdminGenericInterfaceWebservice screen
+        # navigate to AdminGenericInterfaceWebservice screen
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminGenericInterfaceWebservice");
 
         # click 'Add web service' button
@@ -115,17 +118,9 @@ $Selenium->RunTest(
             $Selenium->find_element( "#DialogButton2", 'css' )->click();
 
             # wait until delete dialog has closed an action performed
-            ACTIVESLEEP:
-            for my $Second ( 1 .. 20 ) {
+            $Selenium->WaitFor( JavaScript => "return !\$('#DialogButton2').length" );
 
-                # Test dialog buttons are present
-                if ( !$Selenium->execute_script("return \$('#DialogButton2').length") ) {
-                    last ACTIVESLEEP;
-                }
-                print "Waiting to delete web service $Second second(s)...\n\n";
-                sleep 1;
-            }
-
+            # verify that webservice is no longer present
             my $Success;
             eval {
                 $Success = $Selenium->find_element( $Webservice, 'link_text' )->is_displayed();
@@ -137,7 +132,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 );
 
 1;

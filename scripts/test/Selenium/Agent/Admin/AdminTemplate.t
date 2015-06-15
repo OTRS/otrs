@@ -12,16 +12,16 @@ use utf8;
 
 use vars (qw($Self));
 
-# get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create and log in test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -32,8 +32,11 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+        # navigate to AdminTemplate screen
+        my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminTemplate");
 
         # chech overview screen
@@ -44,6 +47,7 @@ $Selenium->RunTest(
 
         # click 'Add template'
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->WaitFor( JavaScript => "return \$('#TemplateType').length" );
 
         for my $ID (
             qw(TemplateType Name IDs ValidID Comment)
@@ -81,7 +85,6 @@ $Selenium->RunTest(
 
         # test search filter
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
-        sleep 1;
 
         $Self->True(
             $Selenium->find_element( $TemplateRandomID, 'link_text' )->is_displayed(),
@@ -147,7 +150,7 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$TemplateID' )]")->click();
 
-        }
+    }
 );
 
 1;

@@ -14,10 +14,8 @@ use vars (qw($Self));
 
 use File::Path qw(mkpath rmtree);
 
-# get needed objects
-my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
-my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $Selenium        = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get selenium object
+my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -30,6 +28,7 @@ $Selenium->RunTest(
         );
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -40,12 +39,18 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
+        # get sysconfig object
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
         # enable PGP
         $SysConfigObject->ConfigItemUpdate(
             Valid => 1,
             Key   => 'PGP',
             Value => 1
         );
+
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # create test PGP path and set it in sysConfig
         my $PGPPath = $ConfigObject->Get('Home') . "/var/tmp/pgp";
@@ -57,8 +62,8 @@ $Selenium->RunTest(
             Value => "--homedir $PGPPath --batch --no-tty --yes",
         );
 
+        # navigate to AdminPGP screen
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminPGP");
 
         # add first test PGP key
@@ -70,13 +75,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location1);
         $Selenium->find_element("//button[\@type='submit']")->click();
 
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('tr.Last').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait for key to upload
+        $Selenium->WaitFor( JavaScript => "return \$('td.Center').length" );
 
         # add second test PGP key
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminPGP;Subaction=Add' )]")->click();
@@ -86,13 +86,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location2);
         $Selenium->find_element("//button[\@type='submit']")->click();
 
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('tr.Last').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
+        # wait for key to upload
+        $Selenium->WaitFor( JavaScript => "return \$('td.Center').length" );
 
         # check if test PGP keys show on AdminPGP screen
         my %PGPKey = (
@@ -173,7 +168,7 @@ $Selenium->RunTest(
             "Directory deleted - '$PGPPath'",
         );
 
-        }
+    }
 
 );
 
