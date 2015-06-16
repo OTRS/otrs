@@ -104,7 +104,7 @@
                         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("OverviewResultRow") %]
-                        <tr>
+                        <tr [% IF Data.ValidID != 1 %]class="Invalid"[% END %]>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;UserID=[% Data.UserID | uri %];Search=[% Data.Search | uri %]">[% Data.UserLogin | html %]</a>
                             </td>
