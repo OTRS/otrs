@@ -67,7 +67,7 @@
                         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("OverviewResultRow") %]
-                        <tr class="[% IF Data.ValidID != 1 %]Invalid[% END %]">
+                        <tr [% IF Data.ValidID != 1 %]class="Invalid"[% END %]>
                             <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
                             <td title="[% Translate("Download file") | html %]: [% Data.Filename | html %]">
                                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Download;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]">
