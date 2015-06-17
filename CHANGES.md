@@ -1,4 +1,6 @@
-#4.0.9 2015-??-??
+#4.0.10 2015-??-??
+
+#4.0.9 2015-06-23
  - 2015-06-17 Updated translations, thanks to all translators.
  - 2015-05-21 Fixed bug#[11287](http://bugs.otrs.org/show_bug.cgi?id=11287) - Scheduler warning links to non-existent module.
  - 2015-05-21 Followup for bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
