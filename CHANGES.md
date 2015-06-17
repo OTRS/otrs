@@ -44,7 +44,9 @@
  - 2015-01-07 Fixed ticket# 2015010142053495 - Unable to change password in customer interface.
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
-#4.0.9 2015-??-??
+#4.0.10 2015-??-??
+
+#4.0.9 2015-06-23
  - 2015-06-17 Updated translations, thanks to all translators.
  - 2015-05-21 Fixed bug#[11287](http://bugs.otrs.org/show_bug.cgi?id=11287) - Scheduler warning links to non-existent module.
  - 2015-05-21 Followup for bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
