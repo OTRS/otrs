@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-06-01 16:01+0000\n"
+"Last-Translator: ru_otrs <robert.ullrich@otrs.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/OTRS/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2512,11 +2512,11 @@ msgstr "Geladene Apache-Module"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
-msgstr ""
+msgstr "MPM-Modell"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRS benötigt das Apache 'prefork' MPM Modul"
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -3720,7 +3720,7 @@ msgstr "ACL %s bearbeiten"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
-msgstr "Zur Übersicht"
+msgstr "Zur Übersicht gehen"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
@@ -4211,7 +4211,7 @@ msgstr "Feld"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
-msgstr "Zurück zur Übersicht"
+msgstr "Zurück zur Übersicht gehen"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "General"
@@ -8805,7 +8805,7 @@ msgstr "Hinweis: Kunde ist ungültig!"
 
 #. Template: AgentDashboard
 msgid "Dashboard"
-msgstr "Übersicht"
+msgstr "Übersichtsseite"
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
@@ -10447,7 +10447,7 @@ msgstr "Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu 
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da nach ihnen nicht gesucht werden kann:"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -13268,7 +13268,7 @@ msgstr "Definiert die nächsten, auswählbaren Status, nachdem eine ausgehende E
 msgid ""
 "Defines the next possible states for customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "Definiert die nächsten möglichen Status für Tickets von Kunden in der Kunden-Oberfläche."
 
 #. SysConfig
 msgid ""
@@ -13738,7 +13738,7 @@ msgstr "Löscht die angefragte Session, wenn ein Timeout vorliegt."
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
-msgstr ""
+msgstr "Bereitstellung und Verwaltung der OTRS Business Solution ™."
 
 #. SysConfig
 msgid ""
@@ -14330,7 +14330,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Fetches packages via proxy. Overwrites \"WebUserAgent::Proxy\"."
-msgstr ""
+msgstr "Lädt Pakete über einen Proxy herunter. Überschreibt \"WebUserAgent::Proxy\"."
 
 #. SysConfig
 msgid ""
@@ -14400,7 +14400,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr ""
+msgstr "Tickets werden nach dem Verschieben in eine andere Queue entsperrt."
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -15986,7 +15986,7 @@ msgstr "S/MIME Zertifikat hochladen"
 
 #. SysConfig
 msgid "Sample command output"
-msgstr ""
+msgstr "Beispielhafte Kommando-Ausgabe"
 
 #. SysConfig
 msgid ""
@@ -16149,11 +16149,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the agent."
-msgstr ""
+msgstr "Gibt an, ob ein SLA durch einen Agenten ausgewählt sein muss."
 
 #. SysConfig
 msgid "Sets if SLA must be selected by the customer."
-msgstr ""
+msgstr "Gibt an, ob ein SLA durch einen Kundenbenutzer ausgewählt sein muss."
 
 #. SysConfig
 msgid ""
@@ -16163,15 +16163,15 @@ msgstr "Setzt ob eine Notiz vom Agenten ausgefüllt werden muss. Kann durch Tick
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."
-msgstr ""
+msgstr "Gibt an, ob ein Service durch einen Agenten ausgewählt sein muss."
 
 #. SysConfig
 msgid "Sets if service must be selected by the customer."
-msgstr ""
+msgstr "Gibt an, ob ein Service durch einen Kundenbenutzer ausgewählt sein muss."
 
 #. SysConfig
 msgid "Sets if ticket owner must be selected by the agent."
-msgstr ""
+msgstr "Gibt an, ob ein Ticket-Besitzer durch einen Agenten ausgewählt sein muss."
 
 #. SysConfig
 msgid ""
@@ -16208,12 +16208,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the default article type for new email tickets in the agent interface."
-msgstr ""
+msgstr "Setzt den Standard Ticket-Typ für Neue Email-Tickets in der Agenten-Oberfläche an."
 
 #. SysConfig
 msgid ""
 "Sets the default article type for new phone tickets in the agent interface."
-msgstr ""
+msgstr "Setzt den Standard Ticket-Typ für Neue Telefon-Tickets in der Agenten-Oberfläche an."
 
 #. SysConfig
 msgid ""
@@ -16586,7 +16586,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the size of the statistic graph."
-msgstr ""
+msgstr "Setzt die Größe des Statistikgraphen."
 
 #. SysConfig
 msgid "Sets the stats hook."

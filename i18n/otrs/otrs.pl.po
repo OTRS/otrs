@@ -1,13 +1,14 @@
 # 
 # Translators:
+# Jerzy Ruszczak <orcio6@o2.pl>, 2015
 # Thomas Szteliga <github@websafe.pl>, 2014
 # Wojciech Kuchta <klapi85@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-06-14 19:17+0000\n"
+"Last-Translator: Jerzy Ruszczak <orcio6@o2.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +58,7 @@ msgstr "koniec"
 
 #. Template: AAABase
 msgid "Done"
-msgstr "Zrobione"
+msgstr "Wykonane"
 
 #. Template: AAABase
 msgid "Cancel"
@@ -73,19 +74,19 @@ msgstr "wcześniej niż ..."
 
 #. Template: AAABase
 msgid "in more than ..."
-msgstr "później niź ..."
+msgstr "później niż ..."
 
 #. Template: AAABase
 msgid "within the last ..."
-msgstr "w ciągu ostatniego/ich ..."
+msgstr "w ciągu ostatniego(-ch) ..."
 
 #. Template: AAABase
 msgid "within the next ..."
-msgstr "w ciągu następneego/ych ..."
+msgstr "w ciągu następnego(-ych) ..."
 
 #. Template: AAABase
 msgid "Created within the last"
-msgstr "Utworzone w ciągu ostatniego/ich"
+msgstr "Utworzone w ciągu ostatniego(-ich)"
 
 #. Template: AAABase
 msgid "Created more than ... ago"
@@ -93,7 +94,7 @@ msgstr "Utworzone wcześniej niż ..."
 
 #. Template: AAABase
 msgid "Today"
-msgstr "Dziś"
+msgstr "Dzisiaj"
 
 #. Template: AAABase
 msgid "Tomorrow"
@@ -137,7 +138,7 @@ msgstr "Godziny"
 
 #. Template: AAABase
 msgid "h"
-msgstr "h"
+msgstr "godz."
 
 #. Template: AAABase
 msgid "minute"
@@ -145,19 +146,19 @@ msgstr "minuta"
 
 #. Template: AAABase
 msgid "minutes"
-msgstr "minut"
+msgstr "minut(-y)"
 
 #. Template: AAABase
 msgid "minute(s)"
-msgstr "minuta(minut)"
+msgstr "minut(-a/-y)"
 
 #. Template: AAABase
 msgid "Minutes"
-msgstr "Minuty"
+msgstr "Minut(-y)"
 
 #. Template: AAABase
 msgid "m"
-msgstr "m"
+msgstr "min"
 
 #. Template: AAABase
 msgid "month"
@@ -341,7 +342,7 @@ msgstr "-brak-"
 
 #. Template: AAABase
 msgid "none"
-msgstr "brak danych"
+msgstr "brak"
 
 #. Template: AAABase
 msgid "none!"
@@ -465,11 +466,11 @@ msgstr "Klient"
 
 #. Template: AAABase
 msgid "CustomerID"
-msgstr "ID klienta"
+msgstr "ID Klienta"
 
 #. Template: AAABase
 msgid "CustomerIDs"
-msgstr "Dodatkowe ID klienta"
+msgstr "ID Klientów"
 
 #. Template: AAABase
 msgid "customer"
@@ -501,11 +502,11 @@ msgstr "Firma"
 
 #. Template: AAABase
 msgid "go!"
-msgstr "Start!"
+msgstr "idź!"
 
 #. Template: AAABase
 msgid "go"
-msgstr "Start"
+msgstr "idź"
 
 #. Template: AAABase
 msgid "All"
@@ -549,7 +550,7 @@ msgstr "Akceptuj"
 
 #. Template: AAABase
 msgid "change!"
-msgstr "Zmień!"
+msgstr "zmień!"
 
 #. Template: AAABase
 msgid "Change"
@@ -653,7 +654,7 @@ msgstr "Pozycja"
 
 #. Template: AAABase
 msgid "Delete"
-msgstr "Kasuj"
+msgstr "Usuń"
 
 #. Template: AAABase
 msgid "Edit"
@@ -661,7 +662,7 @@ msgstr "Edytuj"
 
 #. Template: AAABase
 msgid "View"
-msgstr "Widok"
+msgstr "Zobacz"
 
 #. Template: AAABase
 msgid "Number"
@@ -753,7 +754,7 @@ msgstr "Nowa wiadomość!"
 
 #. Template: AAABase
 msgid "Please answer this ticket(s) to get back to the normal queue view!"
-msgstr "Proszę odpowiedz na to zgłoszenie, by powrocić do zwykłego widoku kolejki zgłoszeń!"
+msgstr "Proszę odpowiedz na to zgłoszenie, by powrócić do standardowego widoku kolejki zgłoszeń!"
 
 #. Template: AAABase
 msgid "You have %s new message(s)!"
@@ -765,7 +766,7 @@ msgstr "Masz %s przypomnień o zgłoszeniach!"
 
 #. Template: AAABase
 msgid "The recommended charset for your language is %s!"
-msgstr "Sugerowane kodowanie dla Twojego języka to %s!"
+msgstr "Zalecane kodowanie dla Twojego języka to %s!"
 
 #. Template: AAABase
 msgid "Change your password."
@@ -773,7 +774,7 @@ msgstr "Zmień hasło"
 
 #. Template: AAABase
 msgid "Please activate %s first!"
-msgstr "Najpierw aktywuj %s"
+msgstr "Proszę aktywuj %s w pierwszwej kolejności!"
 
 #. Template: AAABase
 msgid "No suggestions"
@@ -789,34 +790,34 @@ msgstr "Ignoruj"
 
 #. Template: AAABase
 msgid "replace with"
-msgstr "zamień z"
+msgstr "zamień na"
 
 #. Template: AAABase
 msgid "There is no account with that login name."
-msgstr "Nie istnieje konto z takim loginem."
+msgstr "Konto o takiej nazwie nie istnieje."
 
 #. Template: AAABase
 msgid "Login failed! Your user name or password was entered incorrectly."
-msgstr "Błąd logowania! Podana została zła nazwa użytkownika lub hasło."
+msgstr "Logowanie nieudane! Podano błędną nazwę użytkownika lub hasło."
 
 #. Template: AAABase
 msgid "There is no acount with that user name."
-msgstr "Nie ma konta z taką nazwą użytkownika."
+msgstr "Konto z taką nazwą użytkownika nie istnieje."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr "Prosimy, skontaktuj się ze swoim administratorem"
+msgstr "Proszę skontaktuj się z administratorem"
 
 #. Template: AAABase
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact your administrator."
-msgstr ""
+msgstr "Uwierzytelnianie powiodło się, ale na koncie Klienta nie znaleziono żadnego rekordu. Proszę skontaktować się z Administratorem."
 
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Wpisany adres e-mail już istnieje. Wystarczy się zalogować lub skorzystać z funkcji resetowania hasła."
 
 #. Template: AAABase
 msgid "Logout"
@@ -824,7 +825,7 @@ msgstr "Wyloguj"
 
 #. Template: AAABase
 msgid "Logout successful. Thank you for using %s!"
-msgstr "Wylogowanie zakończone! Dziękujemy za używanie %s!"
+msgstr "Wylogowanie udane. Dziękujemy za używanie %s!"
 
 #. Template: AAABase
 msgid "Feature not active!"
@@ -840,11 +841,11 @@ msgstr "Wybór bazy danych"
 
 #. Template: AAABase
 msgid "Create Database"
-msgstr "Stwórz bazę danych"
+msgstr "Utwórz bazę danych"
 
 #. Template: AAABase
 msgid "System Settings"
-msgstr "Ustawienia systemu"
+msgstr "Konfiguracja Systemu"
 
 #. Template: AAABase
 msgid "Mail Configuration"
@@ -880,38 +881,38 @@ msgstr "Baza danych usunięta."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr "Ustaw hasło dla administratora bazy danych."
+msgstr "Wprowadź hasło administratora bazy danych."
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr "Ustaw hasło dla użytkownika bazy danych."
+msgstr "Wprowadź hasło użytkownika bazy danych."
 
 #. Template: AAABase
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
-msgstr "Jeśli ustawileś hasło główne do swojej bazy danych to musi ono zostać tutaj podane. Jesli nie pozostaw to pole puste."
+msgstr "Jeśli ustawiłeś hasło główne do bazy danych to wprowadź je w tym polu. Jeśli nie to pozostaw pole puste ."
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr "Baza danych zawiera już dane - powinna być pusta."
+msgstr "Baza danych zawiera już dane - powinna być pusta!"
 
 #. Template: AAABase
 msgid "Login is needed!"
-msgstr "Wymagane zalogowanie!"
+msgstr "Nazwa użytkownika jest wymagana!"
 
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "W tej chwili logowanie nie jest możliwe w związku z planowaną przerwą techniczną."
 
 #. Template: AAABase
 msgid "Password is needed!"
-msgstr "Wymagane hasło!"
+msgstr "Hasło jest wymagane!"
 
 #. Template: AAABase
 msgid "Take this Customer"
-msgstr "Użyj tego klienta"
+msgstr "Użyj tego Klienta"
 
 #. Template: AAABase
 msgid "Take this User"
@@ -945,19 +946,19 @@ msgstr "Oczekuje do"
 msgid ""
 "Don't use the Superuser account to work with OTRS! Create new Agents and "
 "work with these accounts instead."
-msgstr "Nie używaj konta superużytkownika do pracy w OTRS! Stwórz raczej osobnych agentów i pracuj na ich kontach!"
+msgstr "Nie używaj konta superużytkownika do pracy w OTRS! Utwórz nowych Agentów i korzystaj z nich podaczas pracy!"
 
 #. Template: AAABase
 msgid "Dispatching by email To: field."
-msgstr "Przekazywanie na podstawie pola DO:"
+msgstr "Przydzielaj na podstawie pola DO:"
 
 #. Template: AAABase
 msgid "Dispatching by selected Queue."
-msgstr "Przekazywanie na podstawie zaznaczonej kolejki."
+msgstr "Przydzielaj na podstawie wybranej kolejki."
 
 #. Template: AAABase
 msgid "No entry found!"
-msgstr "Nic nie odnaleziono!"
+msgstr "Nic nie znaleziono!"
 
 #. Template: AAABase
 msgid "Session invalid. Please log in again."
@@ -969,11 +970,11 @@ msgstr "Sesja wygasła. Zaloguj się ponownie"
 
 #. Template: AAABase
 msgid "Session limit reached! Please try again later."
-msgstr "Przekroczony limit sesji! Spróbuj ponownie później."
+msgstr "Osiągnięto limit sesji! Spróbuj się zalogować później."
 
 #. Template: AAABase
 msgid "No Permission!"
-msgstr "Brak uprawnień!"
+msgstr "Brak dostępu!"
 
 #. Template: AAABase
 msgid "(Click here to add)"
@@ -985,11 +986,11 @@ msgstr "Podgląd"
 
 #. Template: AAABase
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr "Niepoprawnie zainstalowana paczka. Reinstaluj tę paczkę."
+msgstr "Pakiet zainstalowany nieprawidłowo! Zainstaluj pakiet ponownie."
 
 #. Template: AAABase
 msgid "%s is not writable!"
-msgstr "nie można zapisać %s!"
+msgstr "%s nie ma uprawnień do zapsiu!"
 
 #. Template: AAABase
 msgid "Cannot create %s!"
@@ -1001,15 +1002,15 @@ msgstr "Zaznacz aby aktywować tę datę"
 
 #. Template: AAABase
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr "Masz włączony status nieobecności - czy chcesz go wyłączyć?"
+msgstr "Usługa wiadomości o  nieobecności jest aktywna, czy chcesz ją wyłączyć?"
 
 #. Template: AAABase
 msgid "News about OTRS releases!"
-msgstr ""
+msgstr "Nowości w wersjach OTRS!"
 
 #. Template: AAABase
 msgid "Customer %s added"
-msgstr "Klient %s został dodatny"
+msgstr "Klient %s został dodany"
 
 #. Template: AAABase
 msgid "Role added!"
@@ -1069,15 +1070,15 @@ msgstr "Klient zaktualizowany!"
 
 #. Template: AAABase
 msgid "Customer company added!"
-msgstr "Firma klienta dodana!"
+msgstr "Firma Klienta dodana!"
 
 #. Template: AAABase
 msgid "Customer company updated!"
-msgstr "Firma klienta zaktualizowana!"
+msgstr "Firma Klienta zaktualizowana!"
 
 #. Template: AAABase
 msgid "Note: Company is invalid!"
-msgstr "Info: Firma jest nieprawidłowa!"
+msgstr "Uwaga: Firma jest nieprawidłowa!"
 
 #. Template: AAABase
 msgid "Mail account added!"
@@ -1089,11 +1090,11 @@ msgstr "Konto pocztowe zaktualizowane!"
 
 #. Template: AAABase
 msgid "System e-mail address added!"
-msgstr "Adres systemowy dodany!"
+msgstr "Systemowy adres e-mail dodany!"
 
 #. Template: AAABase
 msgid "System e-mail address updated!"
-msgstr "Adres systemowy zaktualizowany!"
+msgstr "Systemowy adres e-mail zaktualizowany!"
 
 #. Template: AAABase
 msgid "Contract"
@@ -1101,11 +1102,11 @@ msgstr "Umowa"
 
 #. Template: AAABase
 msgid "Online Customer: %s"
-msgstr "Klient zalogowany: %s"
+msgstr "Zalogowany Klient: %s"
 
 #. Template: AAABase
 msgid "Online Agent: %s"
-msgstr "Agent zalogowany: %s"
+msgstr "Zalogowany Agent: %s"
 
 #. Template: AAABase
 msgid "Calendar"
@@ -1129,11 +1130,11 @@ msgstr "Rozmiar"
 
 #. Template: AAABase
 msgid "Upload"
-msgstr "Wysyłanie"
+msgstr "Wyślij"
 
 #. Template: AAABase
 msgid "Directory"
-msgstr "Katalog"
+msgstr "Folder"
 
 #. Template: AAABase
 msgid "Signed"
@@ -1149,7 +1150,7 @@ msgstr "Zaszyfrowany"
 
 #. Template: AAABase
 msgid "Crypt"
-msgstr "Szyfr"
+msgstr "Szyfruj"
 
 #. Template: AAABase
 msgid "PGP"
@@ -1193,11 +1194,11 @@ msgstr "Tel. kom."
 
 #. Template: AAABase
 msgid "Zip"
-msgstr "Kod"
+msgstr "Kod pocztowy"
 
 #. Template: AAABase
 msgid "City"
-msgstr "Miasto"
+msgstr "Miejscowość"
 
 #. Template: AAABase
 msgid "Street"
@@ -1223,7 +1224,7 @@ msgstr "odinstalowany"
 msgid ""
 "Security Note: You should activate %s because application is already "
 "running!"
-msgstr "Nota bezpieczeństwa: Należy aktywować %s ponieważ aplikacja jest już uruchomiona!"
+msgstr "Uwaga dotycząca bezpieczeństwa: Należy aktywować %s ponieważ aplikacja jest już uruchomiona!"
 
 #. Template: AAABase
 msgid "Unable to parse repository index document."
@@ -1233,11 +1234,11 @@ msgstr "Nie można sparsować indeksu rezpozytorium."
 msgid ""
 "No packages for your framework version found in this repository, it only "
 "contains packages for other framework versions."
-msgstr "Brak paczek dla twojej wersji środowiska w tym repozytorium, zawiera ono tylko paczki dla innych wersji środowiska."
+msgstr "Nie znaleziono pakietów dla Twojej wersji frameworka w tym repozytorium, zawiera ono tylko pakiety pasujące do innych wersji frameworka."
 
 #. Template: AAABase
 msgid "No packages, or no new packages, found in selected repository."
-msgstr "Brak paczek lub brak nowych paczek w wybranym repozytorium."
+msgstr "Brak pakietów lub brak nowych pakietów w wybranym repozytorium."
 
 #. Template: AAABase
 msgid "Edit the system configuration settings."
@@ -1251,7 +1252,7 @@ msgstr "Dane dostępu ACL z bazy danych nie są zsynchronizowane z konfiguraacj�
 
 #. Template: AAABase
 msgid "printed at"
-msgstr "wydrukowano"
+msgstr "wydrukowano na"
 
 #. Template: AAABase
 msgid "Loading..."
@@ -1276,16 +1277,16 @@ msgstr "Witaj %s,"
 #. Template: AAABase
 msgid ""
 "This email address is not allowed to register. Please contact support staff."
-msgstr ""
+msgstr "Podany adres e-mail nie jest dopuszczony do rejestracji. Skontaktuj się z Obsługą Kienta."
 
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Utworzono nowe konto. Informacje dotyczące sposobu logowania zostały wysłane do %s. Prosimy o sprawdzenie swojej skrzynki pocztowej."
+msgstr "Utworzono nowe konto. Informacje dotyczące sposobu logowania zostały wysłane na adres %s. Prosimy o sprawdzenie swojej skrzynki pocztowej."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
-msgstr "Proszę wybrać Cofnij i spróbować ponownie."
+msgstr "Proszę kliknąć Cofnij i spróbować ponownie."
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
@@ -1293,7 +1294,7 @@ msgstr "Instrukcje dotyczące resetowania hasła zostały wysłane. Prosimy o sp
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr "Nowe hasło wysłane do %s. Prosimy o sprawdzenie swojej skrzynki pocztowej."
+msgstr "Nowe hasło wysłane na adres %s. Prosimy o sprawdzenie swojej skrzynki pocztowej."
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -1325,15 +1326,15 @@ msgstr "Pokazane"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr "Widoczni użytkownicy klienta"
+msgstr "Widoczni użytkownicy Klienta"
 
 #. Template: AAABase
 msgid "News"
-msgstr "Informacje"
+msgstr "Wiadomości "
 
 #. Template: AAABase
 msgid "Product News"
-msgstr "Informacje o produkcie"
+msgstr "Wiadomości o produkcie"
 
 #. Template: AAABase
 msgid "OTRS News"
@@ -1353,7 +1354,7 @@ msgstr "Informacje zarządzania procesami z bazy danych nie są zsynchronizowane
 msgid ""
 "Package not verified by the OTRS Group! It is recommended not to use this "
 "package."
-msgstr "Pakiet nie został zweryfikowany przez Grupę OTRS! Jest zalecane nieużywanie tego pakietu."
+msgstr "Pakiet nie został zweryfikowany przez Grupę OTRS! Zalecamy nie korzystanie z tego pakietu."
 
 #. Template: AAABase
 msgid ""
@@ -1362,11 +1363,11 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr "<br>W wypadku kontynuowania instalacji pakietu mogą wystąpić następujące problemy.<br><br>&nbsp;-problemy bezpieczeństwa<br>&nbsp;-problemy ze stabilnością<br>&nbsp;-problemy z wydajnością<br><br>Proszę zwrócić uwagę, iż problemy wynikające z użytkowania pakietu nie podlegają pod umowy dotyczące korzystania z usługi OTRS!<br><br>"
+msgstr "<br>W wypadku kontynuowania instalacji pakietu mogą wystąpić następujące problemy!<br><br>&nbsp;-Problemy bezpieczeństwa<br>&nbsp;-Problemy ze stabilnością<br>&nbsp;-Problemy z wydajnością<br><br>Proszę zwrócić uwagę, iż problemy wynikające z użytkowania pakietu nie podlegają pod umowy dotyczące korzystania z usługi OTRS!<br><br>"
 
 #. Template: AAABase
 msgid "Mark"
-msgstr "Oznacz"
+msgstr "Zaznacz"
 
 #. Template: AAABase
 msgid "Unmark"
@@ -1378,7 +1379,7 @@ msgstr "Pogrubienie"
 
 #. Template: AAABase
 msgid "Italic"
-msgstr "Italiki"
+msgstr "Kursywa"
 
 #. Template: AAABase
 msgid "Underline"
@@ -1394,27 +1395,27 @@ msgstr "Kolor tła"
 
 #. Template: AAABase
 msgid "Remove Formatting"
-msgstr "Usuń formatowanie"
+msgstr "Wyczyść formatowanie"
 
 #. Template: AAABase
 msgid "Show/Hide Hidden Elements"
-msgstr "Pokaż/Ukryj ukryte wiadomości"
+msgstr "Pokaż/Ukryj ukryte elementy"
 
 #. Template: AAABase
 msgid "Align Left"
-msgstr "Wyrównanie do lewej"
+msgstr "Wyrównaj do lewej"
 
 #. Template: AAABase
 msgid "Align Center"
-msgstr "Wyrównanie do środka"
+msgstr "Wyrównaj do środka"
 
 #. Template: AAABase
 msgid "Align Right"
-msgstr "Wyrównanie do prawej"
+msgstr "Wyrównaj do prawej"
 
 #. Template: AAABase
 msgid "Justify"
-msgstr "Justowanie"
+msgstr "Wyjustuj"
 
 #. Template: AAABase
 msgid "Header"
@@ -1422,11 +1423,11 @@ msgstr "Nagłówek"
 
 #. Template: AAABase
 msgid "Indent"
-msgstr "Wcięcie"
+msgstr "Zwiększ wcięcie"
 
 #. Template: AAABase
 msgid "Outdent"
-msgstr "Wysunięcie"
+msgstr "Zmniejsz wcięcie"
 
 #. Template: AAABase
 msgid "Create an Unordered List"
@@ -1438,7 +1439,7 @@ msgstr "Stwórz listę numerowaną"
 
 #. Template: AAABase
 msgid "HTML Link"
-msgstr "Łącze"
+msgstr "Łącze internetowe"
 
 #. Template: AAABase
 msgid "Insert Image"
@@ -1462,7 +1463,7 @@ msgstr "Ponów"
 
 #. Template: AAABase
 msgid "Scheduler process is registered but might not be running."
-msgstr "Proces harmonogramu zadań jest zarejestrowany ale prawdopodobnie nie jest uruchomiony."
+msgstr "Proces harmonogramu zadań jest zarejestrowany, ale może nie być uruchomiony."
 
 #. Template: AAABase
 msgid "Scheduler is not running."
@@ -1470,19 +1471,19 @@ msgstr "Harmonogram zadań nie jest uruchomiony."
 
 #. Template: AAABase
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "Zakończono wszystkie aktywne sesje za wyjątkiem bieżącej."
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
-msgstr "Nie można połaczyć sie z serwerem rejestracji. Porszę spróbuj ponownie."
+msgstr "Nie można połączyć się z serwerem rejestracji. Prosimy spróbuj ponownie później."
 
 #. Template: AAABase
 msgid "No content received from registration server. Please try again later."
-msgstr "Z serwera rejestracji nie otrzymano żadnych danych. Proszę później spróbuj ponownie."
+msgstr "Z serwera rejestracji nie otrzymano żadnych danych. Prosimy spróbuj ponownie później."
 
 #. Template: AAABase
 msgid "Problems processing server result. Please try again later."
-msgstr "Problem przy procesowaniu rezultatów. Proszę później spróbuj ponownie"
+msgstr "Problem przy procesowaniu rezultatów. Prosimy spróbuj ponownie później."
 
 #. Template: AAABase
 msgid "Username and password do not match. Please try again."
@@ -1490,59 +1491,59 @@ msgstr "Użytkownik oraz hasło nie zgadzają się. Prosze spróbuj ponownie."
 
 #. Template: AAABase
 msgid "The selected process is invalid!"
-msgstr "Wybrane procesy są nieprawidłowe!"
+msgstr "Wybrany proces jest nieprawidłowy!"
 
 #. Template: AAABase
 msgid "Upgrade to %s now!"
-msgstr ""
+msgstr "Zaktualizuj teraz do %s!"
 
 #. Template: AAABase
 msgid "%s Go to the upgrade center %s"
-msgstr ""
+msgstr "%s Przejdź do centrum aktualizacji %s"
 
 #. Template: AAABase
 msgid ""
 "The license for your %s is about to expire. Please make contact with %s to "
 "renew your contract!"
-msgstr ""
+msgstr "Twoja licencja na %s niedługo wygaśnie. Proszę skontaktuj się z %s w celu przedłużenia umowy!"
 
 #. Template: AAABase
 msgid ""
 "An update for your %s is available, but there is a conflict with your "
 "framework version! Please update your framework first!"
-msgstr ""
+msgstr "Dostępna jest aktualizacja dla %s, jednakże istnieje konflikt z atualną wersją frameworka! Należy zaktualizować framework w pierwszej kolejności."
 
 #. Template: AAABase
 msgid "Your system was successfully upgraded to %s."
-msgstr ""
+msgstr "Z powodzeniem zaktualizowano system do %s."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade to %s."
-msgstr ""
+msgstr "Wystąpił problem z aktualizacją do %s."
 
 #. Template: AAABase
 msgid "%s was correctly reinstalled."
-msgstr ""
+msgstr "%s było poprawnie przeinstalowane."
 
 #. Template: AAABase
 msgid "There was a problem reinstalling %s."
-msgstr ""
+msgstr "Wystąpił problem z przeinstalowaniem %s."
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Twój %s został zaktualizowany z powodzeniem."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
-msgstr ""
+msgstr "Wystąpił problem podczas aktualizacji %s."
 
 #. Template: AAABase
 msgid "%s was correctly uninstalled."
-msgstr ""
+msgstr "%s został poprawnie odinstalowany."
 
 #. Template: AAABase
 msgid "There was a problem uninstalling %s."
-msgstr ""
+msgstr "Wystąpił problem z odinstalowaniem %s."
 
 #. Template: AAACalendar
 msgid "New Year's Day"
@@ -1558,11 +1559,11 @@ msgstr "Wigilia Bożego Narodzenia"
 
 #. Template: AAACalendar
 msgid "First Christmas Day"
-msgstr "Pierwszy dzień Świąt Bożego Narodzenia"
+msgstr "Boże Narodzenie (pierwszy dzień)"
 
 #. Template: AAACalendar
 msgid "Second Christmas Day"
-msgstr "Drugi dzień Świąt Bożego Narodzenia"
+msgstr "Boże Narodzenie (drugi dzień)"
 
 #. Template: AAACalendar
 msgid "New Year's Eve"
@@ -1570,19 +1571,19 @@ msgstr "Sylwester"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as requester"
-msgstr "OTRS jako klient"
+msgstr "OTRS jako wnioskujący"
 
 #. Template: AAAGenericInterface
 msgid "OTRS as provider"
-msgstr "OTRS jako serwer"
+msgstr "OTRS jako usługodawca"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" created!"
-msgstr "Serwis sieciowy \"%s\" utworzony!"
+msgstr "Webserwis \"%s\" utworzony!"
 
 #. Template: AAAGenericInterface
 msgid "Webservice \"%s\" updated!"
-msgstr "Serwis sieciowy \"%s\" zaktualizowany!"
+msgstr "Webserwis \"%s\" zaktualizowany!"
 
 #. Template: AAAMonth
 msgid "Jan"
@@ -1682,7 +1683,7 @@ msgstr "Grudzień"
 
 #. Template: AAAPreferences
 msgid "Preferences updated successfully!"
-msgstr "Ustawienia zapisano pomyślnie!"
+msgstr "Konfiguracja uaktualniona!"
 
 #. Template: AAAPreferences
 msgid "User Profile"
@@ -1690,7 +1691,7 @@ msgstr "Profil użytkownika"
 
 #. Template: AAAPreferences
 msgid "Email Settings"
-msgstr "Ustawienia poczty e-mail"
+msgstr "Ustawienia e-mail"
 
 #. Template: AAAPreferences
 msgid "Other Settings"
@@ -1698,11 +1699,11 @@ msgstr "Inne ustawienia"
 
 #. Template: AAAPreferences
 msgid "Change Password"
-msgstr "Zmień hasło"
+msgstr "Zmiana hasła"
 
 #. Template: AAAPreferences
 msgid "Current password"
-msgstr "Obecne hasło"
+msgstr "Aktualne hasło"
 
 #. Template: AAAPreferences
 msgid "New password"
@@ -1710,7 +1711,7 @@ msgstr "Nowe hasło"
 
 #. Template: AAAPreferences
 msgid "Verify password"
-msgstr "Zweryfikuj hasło"
+msgstr "Powtórz hasło"
 
 #. Template: AAAPreferences
 msgid "Spelling Dictionary"
@@ -1718,38 +1719,38 @@ msgstr "Słownik pisowni"
 
 #. Template: AAAPreferences
 msgid "Default spelling dictionary"
-msgstr "Domyślny słownik sprawdzania pisowni."
+msgstr "Domyślny słownik pisowni"
 
 #. Template: AAAPreferences
 msgid "Max. shown Tickets a page in Overview."
-msgstr "Limit pokazywanych zgłoszeń na stronie Podsumowania"
+msgstr "Maksymalna liczba zgłoszeń widocznych na stronie Podsumowania."
 
 #. Template: AAAPreferences
 msgid "The current password is not correct. Please try again!"
-msgstr "Hasło jest niepoprawne. Spróbuj jeszcze raz!"
+msgstr "Aktualne hasło jest niepoprawne. Spróbuj jeszcze raz!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, your new passwords do not match. Please try again!"
-msgstr "Nie można zmienić hasła, nowe powtórzenia nowego hasła nie zgadzają się."
+msgstr "Nie można zmienić hasła. Hasła nie pasują do siebie. Spróbuj ponownie!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it contains invalid characters!"
-msgstr "Nie można zmienić hasła ponieważ nowe hasło zawiera nidozwolone znaki."
+msgstr "Nie można zmienić hasła ponieważ zawiera niedozwolone znaki!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr "Nie można zmienić hasła, nowe hasło musi zawierać co najmniej $s znaków."
+msgstr "Nie można zmienić hasła. Hasło musi składać się z co najmniej $s znaków!"
 
 #. Template: AAAPreferences
 msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "characters!"
-msgstr "Nie można zmienić hasła. Hasło musi zawierać co najmniej 2 wielkie i 2 małe litery."
+msgstr "Nie można zmienić hasła. Hasło musi zawierać co najmniej 2 małe i 2 wielkie litery!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr "Nie można zmienić hasła. Hasło musi zawierać co najmniej 1 cyfrę."
+msgstr "Nie można zmienić hasła. Hasło musi zawierać co najmniej 1 cyfrę!"
 
 #. Template: AAAPreferences
 msgid "Can't update password, it must contain at least 2 characters!"
@@ -1759,14 +1760,14 @@ msgstr "Nie można zmienić hasła. Hasło musi zawierać co najmniej dwa znaki 
 msgid ""
 "Can't update password, this password has already been used. Please choose a "
 "new one!"
-msgstr "Nie można zmienić hasła ponieważ było już używane. Należy wybrać nowe hasło!"
+msgstr "Nie można zmienić hasła. Hasło było już użyte. Należy wybrać nowe hasło!"
 
 #. Template: AAAPreferences
 msgid ""
 "Select the separator character used in CSV files (stats and searches). If "
 "you don't select a separator here, the default separator for your language "
 "will be used."
-msgstr "Wskaż znak separatora w pliku CSV (statystyki i wyszukiwania). Jeśli nie wskażesz tutaj separatora, użyty zostanie domyślny separator dla twojego języka."
+msgstr "Wybierz znak separatora w pliku CSV (statystyki i wyszukiwania). Jeśli nie wskażesz tutaj separatora, użyty zostanie domyślny separator dla twojego języka."
 
 #. Template: AAAPreferences
 msgid "CSV Separator"
@@ -1774,7 +1775,7 @@ msgstr "Separator CSV"
 
 #. Template: AAAStats
 msgid "Stat"
-msgstr "Statystyki"
+msgstr "Statystyka"
 
 #. Template: AAAStats
 msgid "Sum"
@@ -1782,15 +1783,15 @@ msgstr "Suma"
 
 #. Template: AAAStats
 msgid "No (not supported)"
-msgstr "Nie (nie wspierany)"
+msgstr "Nie (nie obsługiwany)"
 
 #. Template: AAAStats
 msgid "Days"
-msgstr ""
+msgstr "Dni"
 
 #. Template: AAAStats
 msgid "Please fill out the required fields!"
-msgstr "Wypełnij wymagane pola!"
+msgstr "Należy uzupełnić pola wymagane!"
 
 #. Template: AAAStats
 msgid "Please select a file!"
@@ -1812,27 +1813,27 @@ msgstr "Wybierz element dla osi X!"
 msgid ""
 "Please select only one element or turn off the button 'Fixed' where the "
 "select field is marked!"
-msgstr "Wybierz tylko jeden element lyb wyłącz klawisz'Stałe' przy zaznaczonym polu!"
+msgstr "Wybierz tylko jeden element lub wyłącz parametr 'Fixed' przy zaznaczonym polu wyboru!"
 
 #. Template: AAAStats
 msgid ""
 "If you use a checkbox you have to select some attributes of the select "
 "field!"
-msgstr "Po zaznaczeniu pola wyboru musisz wskazać atrybuty wybranego pola!"
+msgstr "Jeśli użyjesz pola wyboru musisz ustawić jego właściwości!"
 
 #. Template: AAAStats
 msgid ""
 "Please insert a value in the selected input field or turn off the 'Fixed' "
 "checkbox!"
-msgstr "Wprowadź wartość w wybrane pole lub odznacz pole 'Stały'!"
+msgstr "Wprowadź wartość w wybrane pole lub odznacz pole \"Fixed\"!"
 
 #. Template: AAAStats
 msgid "The selected end time is before the start time!"
-msgstr "Czas zakończenia wcześniejszy od czasu rozpoczęcia!"
+msgstr "Wybrany czas zakończenia jest wcześniejszy od czasu rozpoczęcia!"
 
 #. Template: AAAStats
 msgid "You have to select one or more attributes from the select field!"
-msgstr "Wskaż jeden lub więcej atrybut z pola wyboru!"
+msgstr "Musisz określić co najmniej jeden parametr wybranego pola!"
 
 #. Template: AAAStats
 msgid "The selected Date isn't valid!"
@@ -1840,7 +1841,7 @@ msgstr "Wybrana data jest nieprawidłowa!"
 
 #. Template: AAAStats
 msgid "Please select only one or two elements via the checkbox!"
-msgstr "Zaznacz tylko jeden lub dwa pola wyboru!"
+msgstr "Zaznacz tylko jeden lub dwa elementy pola wyboru!"
 
 #. Template: AAAStats
 msgid "If you use a time scale element you can only select one element!"
@@ -1853,23 +1854,23 @@ msgstr "Błąd w wyborze czasu!"
 #. Template: AAAStats
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale!"
-msgstr "Wybrany zakres czasu jest za mały, użyj większej skali czasu!"
+msgstr "Wybrany przedział czasu raportu jest zbyt krótki, poszeż zakres!"
 
 #. Template: AAAStats
 msgid "The selected start time is before the allowed start time!"
-msgstr "Wybrany czas początku jest przed dozwolonym czasem rozpoczęcia!"
+msgstr "Wybrany czas rozpoczęcia jest wcześniejszy niż dozwolony!"
 
 #. Template: AAAStats
 msgid "The selected end time is after the allowed end time!"
-msgstr "Wybrany czas końca przekracza dopuszczalny czas zakończenia!"
+msgstr "Wybrany czas zakończenia jest późniejszy niż dozwolony!"
 
 #. Template: AAAStats
 msgid "The selected time period is larger than the allowed time period!"
-msgstr "Wybrany zakres czasu przekracza maksymalny dopuszczalny!"
+msgstr "Wybrany okres czasu jest dłuższy niż dozwolony!"
 
 #. Template: AAAStats
 msgid "Common Specification"
-msgstr "Podstawowa specyfikacja"
+msgstr "Podstawowe wymagania"
 
 #. Template: AAAStats
 msgid "X-axis"
@@ -1885,23 +1886,23 @@ msgstr "Ograniczenia"
 
 #. Template: AAAStats
 msgid "graph-lines"
-msgstr "wykres-linie"
+msgstr "linie wykresu"
 
 #. Template: AAAStats
 msgid "graph-bars"
-msgstr "wykres-słupki"
+msgstr "słupki wykresu"
 
 #. Template: AAAStats
 msgid "graph-hbars"
-msgstr "wykres-słupki poziome"
+msgstr "poziome słupki wykresu"
 
 #. Template: AAAStats
 msgid "graph-points"
-msgstr "wykres-punkty"
+msgstr "punkty wykresu"
 
 #. Template: AAAStats
 msgid "graph-lines-points"
-msgstr "wykres- linie i punkty"
+msgstr "punkty wykresu liniowego"
 
 #. Template: AAAStats
 msgid "graph-area"
@@ -1909,7 +1910,7 @@ msgstr "obszar wykresu"
 
 #. Template: AAAStats
 msgid "graph-pie"
-msgstr "wykres-kołowy"
+msgstr "wykres kołowy"
 
 #. Template: AAAStats
 msgid "extended"
@@ -1921,7 +1922,7 @@ msgstr "Agent/Właściciel"
 
 #. Template: AAAStats
 msgid "Created by Agent/Owner"
-msgstr "Utworzony przez Agenta/Właściciela"
+msgstr "Utworzone przez Agenta/Właściciela"
 
 #. Template: AAAStats
 msgid "Created Priority"
@@ -1937,15 +1938,15 @@ msgstr "Czas utworzenia"
 
 #. Template: AAAStats
 msgid "CustomerUserLogin"
-msgstr "Login klienta"
+msgstr "LoginUżytkownikaKlienta"
 
 #. Template: AAAStats
 msgid "Close Time"
-msgstr "Czas zamknięcia"
+msgstr "Data zamknięcia"
 
 #. Template: AAAStats
 msgid "TicketAccumulation"
-msgstr "Kumulacja zgłoszeń"
+msgstr "Zgłoszenia narastająco"
 
 #. Template: AAAStats
 msgid "Attributes to be printed"
@@ -1981,39 +1982,39 @@ msgstr "Pierwsza Blokada"
 
 #. Template: AAAStats
 msgid "Evaluation by"
-msgstr "Ewaluacja do"
+msgstr "Ocenione przez"
 
 #. Template: AAAStats
 msgid "Total Time"
-msgstr "Całkowity Czas"
+msgstr "Czas całkowity"
 
 #. Template: AAAStats
 msgid "Ticket Average"
-msgstr "Zgłoszenie Średnio"
+msgstr "Średnia zgłoszenia"
 
 #. Template: AAAStats
 msgid "Ticket Min Time"
-msgstr "Zgłoszenie Min Czas"
+msgstr "Min. czas zgłoszenia"
 
 #. Template: AAAStats
 msgid "Ticket Max Time"
-msgstr "Zgłoszenie Max Czas"
+msgstr "Maks. czas zgłoszenia"
 
 #. Template: AAAStats
 msgid "Number of Tickets"
-msgstr "Ilość Zgłoszeń"
+msgstr "Ilość zgłoszeń"
 
 #. Template: AAAStats
 msgid "Article Average"
-msgstr "Wiadomość Średnio"
+msgstr "Średnia wiadomości"
 
 #. Template: AAAStats
 msgid "Article Min Time"
-msgstr "Wiadomość Min Czas"
+msgstr "Min. czas wiadomości"
 
 #. Template: AAAStats
 msgid "Article Max Time"
-msgstr "Wiadomość Max Czas"
+msgstr "Maks. czas wiadomości"
 
 #. Template: AAAStats
 msgid "Number of Articles"
@@ -2021,27 +2022,27 @@ msgstr "Ilość wiadomości"
 
 #. Template: AAAStats
 msgid "Accounted time by Agent"
-msgstr "Czas zaraportowany przez Agenta"
+msgstr "Czas rozliczony przez Agenta"
 
 #. Template: AAAStats
 msgid "Ticket/Article Accounted Time"
-msgstr "Zaraportowany czas Zgłoszenia/Wiadomości"
+msgstr "Rozliczony czas zgłoszenia (wiadomości)"
 
 #. Template: AAAStats
 msgid "TicketAccountedTime"
-msgstr "Zaraportowany czas obsługi zgłoszeń"
+msgstr "Rozliczony czas"
 
 #. Template: AAAStats
 msgid "Ticket Create Time"
-msgstr "Czas Utworzenia Zgłoszenia"
+msgstr "Czas utworzenia zgłoszenia"
 
 #. Template: AAAStats
 msgid "Ticket Close Time"
-msgstr "Czas Zamknięcia Zgłoszenia"
+msgstr "Czas zamknięcia zgłoszenia"
 
 #. Template: AAASupportDataCollector
 msgid "Unknown"
-msgstr ""
+msgstr "Nieznany"
 
 #. Template: AAASupportDataCollector
 msgid "Information"
@@ -2053,11 +2054,11 @@ msgstr "OK"
 
 #. Template: AAASupportDataCollector
 msgid "Problem"
-msgstr ""
+msgstr "Problem"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver"
-msgstr ""
+msgstr "Serwer www"
 
 #. Template: AAASupportDataCollector
 msgid "Operating System"
@@ -2065,200 +2066,200 @@ msgstr "System operacyjny"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS"
-msgstr ""
+msgstr "OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Table Presence"
-msgstr ""
+msgstr "Lista obecności"
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not open file."
-msgstr ""
+msgstr "Błąd wewnętrzny: Nie można otworzyć pliku."
 
 #. Template: AAASupportDataCollector
 msgid "Table Check"
-msgstr ""
+msgstr "Sprawdzanie tabeli"
 
 #. Template: AAASupportDataCollector
 msgid "Internal Error: Could not read file."
-msgstr ""
+msgstr "Błąd wewnętrzny: Nie można odczytać pliku."
 
 #. Template: AAASupportDataCollector
 msgid "Tables found which are not present in the database."
-msgstr ""
+msgstr "Zostały wykryte tabele których nie ma w bazie danych."
 
 #. Template: AAASupportDataCollector
 msgid "Database Size"
-msgstr ""
+msgstr "Rozmiar bazy danych"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database size."
-msgstr ""
+msgstr "Nie udało się określić rozmiaru bazy danych."
 
 #. Template: AAASupportDataCollector
 msgid "Database Version"
-msgstr ""
+msgstr "Wersja bazy danych"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine database version."
-msgstr ""
+msgstr "Nie udało się określić wersji bazy danych."
 
 #. Template: AAASupportDataCollector
 msgid "Client Connection Charset"
-msgstr ""
+msgstr "Kodowanie znaków połączenia Klienta"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "Character_set_client musi być ustawione na utf8."
 
 #. Template: AAASupportDataCollector
 msgid "Server Database Charset"
-msgstr ""
+msgstr "Kodowanie znaków serwera bazy danych"
 
 #. Template: AAASupportDataCollector
 msgid "Setting character_set_database needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Parametr \"character_set_database\" musi być ustawiony na UNICODE lub UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Table Charset"
-msgstr ""
+msgstr "Kodowanie znaków tabeli"
 
 #. Template: AAASupportDataCollector
 msgid "There were tables found which do not have utf8 as charset."
-msgstr ""
+msgstr "Znaleziono tabele dla których nie ustawiono kodowania znaków na utf8."
 
 #. Template: AAASupportDataCollector
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "Rozmiar pliku dziennika InnoDB"
 
 #. Template: AAASupportDataCollector
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "Parametr \"innodb_log_file_size\" musi być ustawiony na co najmniej 256 MB."
 
 #. Template: AAASupportDataCollector
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "Maksymalny rozmiar zapytania"
 
 #. Template: AAASupportDataCollector
 msgid "The setting 'max_allowed_packet' must be higher than 20 MB."
-msgstr ""
+msgstr "Parametr \"max_allowed_packet\" musi być mieć wartość większą niż 20 MB."
 
 #. Template: AAASupportDataCollector
 msgid "Query Cache Size"
-msgstr ""
+msgstr "Rozmiar pamięci podręcznej zapytania"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
-msgstr ""
+msgstr "Parametr \"query_cache_size\" powinień być ustawiony (więcej niż 10 MB, ale nie więcej niż 512 MB)."
 
 #. Template: AAASupportDataCollector
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "Domyślny magazyn danych"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "Znaleziono tabele z ustawionym magazynem danych innym niż domyślny."
 
 #. Template: AAASupportDataCollector
 msgid "MySQL 5.x or higher is required."
-msgstr ""
+msgstr "Wymagany jest MYSQL w wersji 5.x lub wyższej."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG Setting"
-msgstr ""
+msgstr "Ustawienie NLS_LANG"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_LANG must be set to AL32UTF8 (e.g. GERMAN_GERMANY.AL32UTF8)."
-msgstr ""
+msgstr "NLS_LANG musi mieć wartość AL32UTF8 (np. GERMAN_GERMANY.AL32UTF8)."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting"
-msgstr ""
+msgstr "Ustawienie NLS_DATE_FORMAT"
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
-msgstr ""
+msgstr "NLS_DATE_FORMAT musi mieć postać \"RRRR-MM-DD GG:MM:SS\"."
 
 #. Template: AAASupportDataCollector
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "NLS_DATE_FORMAT Ustawienie SQL Check"
 
 #. Template: AAASupportDataCollector
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Parametr \"client_encoding\" musi być ustawiony na UNICODE lub UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "Parametr \"server_encoding\" musi być ustawiony na UNICODE lub UTF8."
 
 #. Template: AAASupportDataCollector
 msgid "Date Format"
-msgstr ""
+msgstr "Format daty"
 
 #. Template: AAASupportDataCollector
 msgid "Setting DateStyle needs to be ISO."
-msgstr ""
+msgstr "Parametr \"DateStyle\" musi być zgodny z ISO."
 
 #. Template: AAASupportDataCollector
 msgid "PostgreSQL 8.x or higher is required."
-msgstr ""
+msgstr "Wymagany jest PostgreSQL w wersji 8.x lub nowszej."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Disk Partition"
-msgstr ""
+msgstr "Partycja dysku OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Disk Usage"
-msgstr ""
+msgstr "Użycie dysku"
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located is almost full."
-msgstr ""
+msgstr "Partycja na której znajduje się OTRS jest prawie pełna."
 
 #. Template: AAASupportDataCollector
 msgid "The partition where OTRS is located has no disk space problems."
-msgstr ""
+msgstr "Na partycji na której znajduje się OTRS zabrakło wolnego miejsca."
 
 #. Template: AAASupportDataCollector
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "Użycie miejsca partycji"
 
 #. Template: AAASupportDataCollector
 msgid "Distribution"
-msgstr ""
+msgstr "Dystrybucja"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine distribution."
-msgstr ""
+msgstr "Nie udało się określić dystrybucji."
 
 #. Template: AAASupportDataCollector
 msgid "Kernel Version"
-msgstr ""
+msgstr "Wersja jądra systemu"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine kernel version."
-msgstr ""
+msgstr "Nie udało się określić wersji jądra systemu."
 
 #. Template: AAASupportDataCollector
 msgid "System Load"
-msgstr ""
+msgstr "Obciążenie systemu"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g."
 " a load of 8 or less on a system with 8 CPUs is OK)."
-msgstr ""
+msgstr "Maksymalne obciążenie systemu powinno być równe ilości procesorów dostępnych w serwerze (np. obciążenie równe 8 lub mniej na 8 rdzeniowym serwerze jest prawidłowe)."
 
 #. Template: AAASupportDataCollector
 msgid "Perl Modules"
-msgstr ""
+msgstr "Moduły Perl"
 
 #. Template: AAASupportDataCollector
 msgid "Not all required Perl modules are correctly installed."
-msgstr ""
+msgstr "Nie wszystkie wymagane moduły Perl są poprawnie zainstalowane."
 
 #. Template: AAASupportDataCollector
 msgid "Perl Version"
@@ -2266,35 +2267,35 @@ msgstr "Wersja Perl"
 
 #. Template: AAASupportDataCollector
 msgid "Free Swap Space (%)"
-msgstr ""
+msgstr "Dostępna przestrzeń stronicowania (%)"
 
 #. Template: AAASupportDataCollector
 msgid "No Swap Enabled."
-msgstr ""
+msgstr "Przestrzeń wymiany wyłączona."
 
 #. Template: AAASupportDataCollector
 msgid "Used Swap Space (MB)"
-msgstr ""
+msgstr "Używana przestrzeń wymiany (MB)"
 
 #. Template: AAASupportDataCollector
 msgid "There should be more than 60% free swap space."
-msgstr ""
+msgstr " Co najmniej 60% przestrzeni wymiany powinno być wolne."
 
 #. Template: AAASupportDataCollector
 msgid "There should be no more than 200 MB swap space used."
-msgstr ""
+msgstr "Co najmniej 200 MB przestrzeni wymiany powinno być używane."
 
 #. Template: AAASupportDataCollector
 msgid "Config Settings"
-msgstr ""
+msgstr "Ustawienia konfiguracyjne"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine value."
-msgstr ""
+msgstr "Nie można określić wartości."
 
 #. Template: AAASupportDataCollector
 msgid "Database Records"
-msgstr ""
+msgstr "Rekordy bazy danych"
 
 #. Template: AAASupportDataCollector
 msgid "Tickets"
@@ -2302,19 +2303,19 @@ msgstr "Zgłoszenia"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket History Entries"
-msgstr ""
+msgstr "Historia zgłoszeń"
 
 #. Template: AAASupportDataCollector
 msgid "Articles"
-msgstr ""
+msgstr "Wiadomości"
 
 #. Template: AAASupportDataCollector
 msgid "Attachments (DB, Without HTML)"
-msgstr ""
+msgstr "Załączniki (DB, bez HTML)"
 
 #. Template: AAASupportDataCollector
 msgid "Customers With At Least One Ticket"
-msgstr ""
+msgstr "Klienci którzy posiadają co najmniej jedno zgłoszenie"
 
 #. Template: AAASupportDataCollector
 msgid "Queues"
@@ -2338,19 +2339,19 @@ msgstr "Pola dynamiczne"
 
 #. Template: AAASupportDataCollector
 msgid "Dynamic Field Values"
-msgstr ""
+msgstr "Wartości pól dynamicznych"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Fields"
-msgstr ""
+msgstr "Nieprawidłowe pola dynamiczne"
 
 #. Template: AAASupportDataCollector
 msgid "Invalid Dynamic Field Values"
-msgstr ""
+msgstr "Nieprawidłowe wartości pól dynamicznych"
 
 #. Template: AAASupportDataCollector
 msgid "GenericInterface Webservices"
-msgstr ""
+msgstr "Ogólny interfejs usług sieciowych"
 
 #. Template: AAASupportDataCollector
 msgid "Processes"
@@ -2358,75 +2359,75 @@ msgstr "Procesy"
 
 #. Template: AAASupportDataCollector
 msgid "Months Between First And Last Ticket"
-msgstr ""
+msgstr "Ilość miesięcy pomiędzy pierwszym, a ostatnim zgłoszeniem"
 
 #. Template: AAASupportDataCollector
 msgid "Tickets Per Month (avg)"
-msgstr ""
+msgstr "Zgłoszeń w miesiącu (śred.)"
 
 #. Template: AAASupportDataCollector
 msgid "Default SOAP Username and Password"
-msgstr ""
+msgstr "Domyślny użytkownik i hasło dla SOAP"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Security risk: you use the default setting for SOAP::User and "
 "SOAP::Password. Please change it."
-msgstr ""
+msgstr "Zagrożenie bezpieczeństwa: używasz domyślnych ustawień SOAP::User i SOAP::Password. Należy je zmienić."
 
 #. Template: AAASupportDataCollector
 msgid "Default Admin Password"
-msgstr ""
+msgstr "Domyślne hasło Admina"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
-msgstr ""
+msgstr "Zagrożenie bezpieczeństwa: Konto agenta \"root@localhost\" nadal ma ustawione domyślne hasło. Należy je zmienić lub wyłączyć konto."
 
 #. Template: AAASupportDataCollector
 msgid "Error Log"
-msgstr ""
+msgstr "Dziennik błędów"
 
 #. Template: AAASupportDataCollector
 msgid "There are error reports in your system log."
-msgstr ""
+msgstr "W dzienniku systemowym znajdują się raporty błędów."
 
 #. Template: AAASupportDataCollector
 msgid "File System Writable"
-msgstr ""
+msgstr "System plików jest zapisywalny"
 
 #. Template: AAASupportDataCollector
 msgid "The file system on your OTRS partition is not writable."
-msgstr ""
+msgstr "System plików na partycji OTRS nie ma praw do zapisu."
 
 #. Template: AAASupportDataCollector
 msgid "Domain Name"
-msgstr ""
+msgstr "Nazwa domeny"
 
 #. Template: AAASupportDataCollector
 msgid "Your FQDN setting is invalid."
-msgstr ""
+msgstr "Kompletna nazwa hosta (FQDN) jest nieprawidłowa."
 
 #. Template: AAASupportDataCollector
 msgid "Package installation status"
-msgstr ""
+msgstr "Stan instalacji pakietu"
 
 #. Template: AAASupportDataCollector
 msgid "Some packages are not correctly installed."
-msgstr ""
+msgstr "Niektóre pakiety nie zostały poprawnie zainstalowane."
 
 #. Template: AAASupportDataCollector
 msgid "Package List"
-msgstr ""
+msgstr "Lista pakietów"
 
 #. Template: AAASupportDataCollector
 msgid "SystemID"
-msgstr "ID Systemu"
+msgstr "SystemID"
 
 #. Template: AAASupportDataCollector
 msgid "Your SystemID setting is invalid, it should only contain digits."
-msgstr ""
+msgstr "Wartość pola SystemID jest nieprawidłowa, powinno zawierać tylko cyfry."
 
 #. Template: AAASupportDataCollector
 msgid "OTRS Version"
@@ -2434,132 +2435,132 @@ msgstr "Wersja OTRS"
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Index Module"
-msgstr ""
+msgstr "Moduł indeksów zgłoszeń"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Masz ponad 60 000 zgłoszeń i powinieneś korzystać z modułu StaticDB. Zobacz podręcznik administratora (poprawa wydajności) w celu uzyskania dodatkowych informacji."
 
 #. Template: AAASupportDataCollector
 msgid "Open Tickets"
-msgstr ""
+msgstr "Otwarte zgłoszenia"
 
 #. Template: AAASupportDataCollector
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr ""
+msgstr "Nie należy utrzymywać  w systemie więcej niż 8 000 otwartych zgłoszeń."
 
 #. Template: AAASupportDataCollector
 msgid "Ticket Search Index module"
-msgstr ""
+msgstr "Moduł indeksów wyszukiwania zgłoszeń"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "You have more than 50,000 articles and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Masz ponad 50 000 wiadomości i powinieneś korzystać z modułu StaticDB. Zobacz podręcznik administratora (poprawa wydajności) w celu uzyskania dodatkowych informacji."
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_lock_index Table"
-msgstr ""
+msgstr "Osierocone rekordy w tabeli ticket_lock_index"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Table ticket_lock_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr ""
+msgstr "W tabeli ticket_lock_index znajdują się osierocone rekordy. Należy uruchomić \"otrs/bin/otrs.CleanTicketIndex.pl\" w celu wyczyszczenia indeksu StaticDB."
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_index Table"
-msgstr ""
+msgstr "Osierocone rekordy w tabeli ticket_index"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Table ticket_index contains orphaned records. Please run "
 "otrs/bin/otrs.CleanTicketIndex.pl to clean the StaticDB index."
-msgstr ""
+msgstr "W tabeli ticket_index znajdują się osierocone rekordy. Należy uruchomić \"otrs/bin/otrs.CleanTicketIndex.pl\" w celu wyczyszczenia indeksu StaticDB."
 
 #. Template: AAASupportDataCollector
 msgid "Environment Variables"
-msgstr ""
+msgstr "Zmienne środowiskowe"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver Version"
-msgstr ""
+msgstr "Wersja serwera WWW"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine webserver version."
-msgstr ""
+msgstr "Nie udało się określić wersji serwera WWW."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "Załadowane moduły Apache"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
-msgstr ""
+msgstr "Model MPM"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRS wymaga uruchomienia serwera Apache wraz z modelem \"prefork\" MPM."
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
-msgstr ""
+msgstr "Wykorzystanie akceleratora CGI"
 
 #. Template: AAASupportDataCollector
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr ""
+msgstr "Należy korzystać z FastCGI lub mod_perl w celu zwiększenia wydajności."
 
 #. Template: AAASupportDataCollector
 msgid "mod_deflate Usage"
-msgstr ""
+msgstr "Wykorzystanie mod_deflate"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_deflate to improve GUI speed."
-msgstr ""
+msgstr "Należy zainstalować mod_deflate w celu poprawy wydajności GUI."
 
 #. Template: AAASupportDataCollector
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "Wykorzystanie mod_filter"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "Należy zainstalować mod_filter jeśli wykorzystywany jest mod_deflate."
 
 #. Template: AAASupportDataCollector
 msgid "mod_headers Usage"
-msgstr ""
+msgstr "Wykorzystanie mod_headers"
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_headers to improve GUI speed."
-msgstr ""
+msgstr "Należy zainstalować mod_headers w celu poprawy wydajności GUI."
 
 #. Template: AAASupportDataCollector
 msgid "Apache::Reload Usage"
-msgstr ""
+msgstr "Wykorzystanie Apache::Reload"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Apache::Reload or Apache2::Reload should be used as PerlModule and "
 "PerlInitHandler to prevent web server restarts when installing and upgrading"
 " modules."
-msgstr ""
+msgstr "Apache::Reload lub Apache2::Reload powinno być używane jako moduł Perl oraz PerlInitHandler, aby uniknąć ponownego uruchomienia serwera WWW podczas instalacji i aktualizacji modułów."
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
-msgstr ""
+msgstr "Wykorzystanie Apache::DBI"
 
 #. Template: AAASupportDataCollector
 msgid ""
 "Apache::DBI should be used to get a better performance  with pre-established"
 " database connections."
-msgstr ""
+msgstr "Apache::DBI powinno być używane w celu poprawy wydajności przy wykorzystaniu z góry ustalonych połączeń z bazą danych."
 
 #. Template: AAASupportDataCollector
 msgid "You should use PerlEx to increase your performance."
-msgstr ""
+msgstr "Należy korzystać z PerlEx  w celu zwiększenia wydajności."
 
 #. Template: AAATicket
 msgid "Status View"
@@ -2567,7 +2568,7 @@ msgstr "Widok statusów"
 
 #. Template: AAATicket
 msgid "Service View"
-msgstr ""
+msgstr "Widok usług"
 
 #. Template: AAATicket
 msgid "Bulk"
@@ -2575,7 +2576,7 @@ msgstr "Zbiorczo"
 
 #. Template: AAATicket
 msgid "Lock"
-msgstr "Blokada"
+msgstr "Zablokuj"
 
 #. Template: AAATicket
 msgid "Unlock"
@@ -2643,19 +2644,19 @@ msgstr "Aktualizacja priorytetu"
 
 #. Template: AAATicket
 msgid "Priority added!"
-msgstr "Priorytet dodany!"
+msgstr "Dodano priorytet!"
 
 #. Template: AAATicket
 msgid "Priority updated!"
-msgstr "Priorytet zaktualizowany!"
+msgstr "Zaktualizowano priorytet!"
 
 #. Template: AAATicket
 msgid "Signature added!"
-msgstr "Podpis dodany!"
+msgstr "Dodano podpis!"
 
 #. Template: AAATicket
 msgid "Signature updated!"
-msgstr "Podpis zaktualizowany!"
+msgstr "Zaktualizowano podpis!"
 
 #. Template: AAATicket
 msgid "SLA"
@@ -2663,11 +2664,11 @@ msgstr "SLA"
 
 #. Template: AAATicket
 msgid "Service Level Agreement"
-msgstr "Poziom SLA"
+msgstr " Umowa o gwarantowanym poziomie świadczenia usług - Service Level Agreement (SLA)"
 
 #. Template: AAATicket
 msgid "Service Level Agreements"
-msgstr "Poziomy SLA"
+msgstr "Katalog świadczonych usług"
 
 #. Template: AAATicket
 msgid "Service"
@@ -2679,11 +2680,11 @@ msgstr "Usługi"
 
 #. Template: AAATicket
 msgid "State"
-msgstr "Status"
+msgstr "Stan"
 
 #. Template: AAATicket
 msgid "States"
-msgstr "Statusy"
+msgstr "Statny"
 
 #. Template: AAATicket
 msgid "Status"
@@ -2703,7 +2704,7 @@ msgstr "Typy zgłoszeń"
 
 #. Template: AAATicket
 msgid "Compose"
-msgstr "Stwórz"
+msgstr "Utwórz"
 
 #. Template: AAATicket
 msgid "Pending"
@@ -2731,7 +2732,7 @@ msgstr "Nadawca"
 
 #. Template: AAATicket
 msgid "Article"
-msgstr "Artykuł"
+msgstr "Wiadomość"
 
 #. Template: AAATicket
 msgid "Ticket"
@@ -2771,11 +2772,11 @@ msgstr "Załączniki"
 
 #. Template: AAATicket
 msgid "This message was written in a character set other than your own."
-msgstr "Ta wiadomość została napisana z użyciem kodowania znaków innego niż Twój."
+msgstr "Ta wiadomość została napisana z użyciem kodowania znaków innego niż Twoje."
 
 #. Template: AAATicket
 msgid "If it is not displayed correctly,"
-msgstr "Jeśli nie jest wyświetlane poprawnie,"
+msgstr "Jeśli nie jest poprawnie wyświetlane,"
 
 #. Template: AAATicket
 msgid "This is a"
@@ -2783,15 +2784,15 @@ msgstr "To jest"
 
 #. Template: AAATicket
 msgid "to open it in a new window."
-msgstr "by otworzyć w oddzielnym oknie"
+msgstr "aby otworzyć w nowym oknie"
 
 #. Template: AAATicket
 msgid "This is a HTML email. Click here to show it."
-msgstr "To jest e-mail w formacie HTML. Kliknij tutaj, by go przeczytać."
+msgstr "To jest e-mail w formacie HTML. Kliknij tutaj żeby go otworzyć."
 
 #. Template: AAATicket
 msgid "Free Fields"
-msgstr "Pola dod."
+msgstr "Pola dodatkowe"
 
 #. Template: AAATicket
 msgid "Merge"
@@ -2819,7 +2820,7 @@ msgstr "Zablokowane zgłoszenia z przekroczonym czasem przypomnienia"
 
 #. Template: AAATicket
 msgid "Locked Tickets New"
-msgstr "Nowe zablokowane zgłoszenia"
+msgstr "Zablokowane nowe zgłoszenia"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Total"
@@ -2827,27 +2828,27 @@ msgstr "Odpowiedzialność za zgłoszenia razem"
 
 #. Template: AAATicket
 msgid "Responsible Tickets New"
-msgstr "Odpowiedzialność za zgłoszenia nowe"
+msgstr "Odpowiedzialność za nowe zgłoszenia"
 
 #. Template: AAATicket
 msgid "Responsible Tickets Reminder Reached"
-msgstr "Odpowiedzialność za zgłoszenia przekroczony czas przypomnienia"
+msgstr "Odpowiedzialność za zgłoszenia z przekroczonym czasem przypomnienia"
 
 #. Template: AAATicket
 msgid "Watched Tickets Total"
-msgstr "Zgłoszenia obserwowane razem"
+msgstr "Obserwowane zgłoszenia razem"
 
 #. Template: AAATicket
 msgid "Watched Tickets New"
-msgstr "Zgłoszenia obserwowane nowe"
+msgstr "Obserwowane nowe zgłoszenia"
 
 #. Template: AAATicket
 msgid "Watched Tickets Reminder Reached"
-msgstr "Zgłoszenia obserwowane z przekroczonym czasem przypomnienia"
+msgstr "Obserwowane zgłoszenia z przekroczonym czasem przypomnienia"
 
 #. Template: AAATicket
 msgid "All tickets"
-msgstr "Wszystkie"
+msgstr "Wszystkie zgłoszenia"
 
 #. Template: AAATicket
 msgid "Available tickets"
@@ -2859,7 +2860,7 @@ msgstr "Eskalacja"
 
 #. Template: AAATicket
 msgid "last-search"
-msgstr "ostatnie-wyszkiwanie"
+msgstr "ostatnie wyszukiwanie"
 
 #. Template: AAATicket
 msgid "QueueView"
@@ -2875,7 +2876,7 @@ msgstr "Wiadomość od"
 
 #. Template: AAATicket
 msgid "End message"
-msgstr "Koniec wiadomości"
+msgstr "Wiadomość kończąca"
 
 #. Template: AAATicket
 msgid "Forwarded message from"
@@ -2883,15 +2884,15 @@ msgstr "Wiadomość przekazana od"
 
 #. Template: AAATicket
 msgid "End forwarded message"
-msgstr "Koniec przekazanej wiadomości"
+msgstr "Wiadomość kończąca przekazana od"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Przekaż wiadomość na inny adres e-mail"
 
 #. Template: AAATicket
 msgid "Reply to note"
-msgstr ""
+msgstr "Odpowiedź na notatkę"
 
 #. Template: AAATicket
 msgid "new"
@@ -2931,7 +2932,7 @@ msgstr "oczekujące przypomnienie"
 
 #. Template: AAATicket
 msgid "pending auto"
-msgstr "oczekujące auto"
+msgstr "oczekujące na automatyczne"
 
 #. Template: AAATicket
 msgid "pending auto close+"
@@ -2943,19 +2944,19 @@ msgstr "oczekujące na automatyczne zamknięcie-"
 
 #. Template: AAATicket
 msgid "email-external"
-msgstr "E-mail zewnętrzny"
+msgstr "e-mail zewnętrzny"
 
 #. Template: AAATicket
 msgid "email-internal"
-msgstr "E-mail wewnętrzny"
+msgstr "e-mail wewnętrzny"
 
 #. Template: AAATicket
 msgid "note-external"
-msgstr "Notatka zewnętrzna"
+msgstr "notatka zewnętrzna"
 
 #. Template: AAATicket
 msgid "note-internal"
-msgstr "Notatka wewnętrzna"
+msgstr "notatka wewnętrzna"
 
 #. Template: AAATicket
 msgid "note-report"
@@ -2963,7 +2964,7 @@ msgstr "Notatka raportująca"
 
 #. Template: AAATicket
 msgid "phone"
-msgstr "Telefon"
+msgstr "telefon"
 
 #. Template: AAATicket
 msgid "sms"
@@ -2971,7 +2972,7 @@ msgstr "SMS"
 
 #. Template: AAATicket
 msgid "webrequest"
-msgstr "Zgłoszenie WWW"
+msgstr "zgłoszenie WWW"
 
 #. Template: AAATicket
 msgid "lock"
@@ -3023,23 +3024,23 @@ msgstr "5 bardzo wysoki"
 
 #. Template: AAATicket
 msgid "auto follow up"
-msgstr "auto nawiązanie"
+msgstr "automatyczne śledzenie"
 
 #. Template: AAATicket
 msgid "auto reject"
-msgstr "auto odrzucenie"
+msgstr "automatyczne odrzucenie"
 
 #. Template: AAATicket
 msgid "auto remove"
-msgstr "auto usunięcie"
+msgstr "automatyczne usunięcie"
 
 #. Template: AAATicket
 msgid "auto reply"
-msgstr "autoodpowiedź"
+msgstr "automatyczna odpowiedź"
 
 #. Template: AAATicket
 msgid "auto reply/new ticket"
-msgstr "autoodpowiedź/nowe zgłoszenie"
+msgstr "automatyczna odpowiedź / nowe zgłoszenie"
 
 #. Template: AAATicket
 msgid "Create"
@@ -3071,7 +3072,7 @@ msgstr "Nie znaleziono zgłoszenia numer \"%s\"! Nie można połączyć!"
 
 #. Template: AAATicket
 msgid "You don't have write access to this ticket."
-msgstr "Nie masz uprawnień zapisu do tego zgłoszenia."
+msgstr "Nie masz uprawnień do zapisu tego zgłoszenia."
 
 #. Template: AAATicket
 msgid "Sorry, you need to be the ticket owner to perform this action."
@@ -3079,7 +3080,7 @@ msgstr "Przykro mi, musisz być właścicielem zgłoszenia aby wykonać tę oper
 
 #. Template: AAATicket
 msgid "Please change the owner first."
-msgstr "Zmień najpierw właściciela zgłoszenia."
+msgstr "Najpierw zmień właściciela."
 
 #. Template: AAATicket
 msgid "Ticket selected."
@@ -3103,11 +3104,11 @@ msgstr "Pokaż zamknięte zgłoszenia"
 
 #. Template: AAATicket
 msgid "New Article"
-msgstr "Nowy artykuł"
+msgstr "Nowa wiadomość"
 
 #. Template: AAATicket
 msgid "Unread article(s) available"
-msgstr "Dostępne nie odczytane jeszcze artykuły"
+msgstr "Dostępne są nieprzeczytane wiadomości "
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
@@ -3135,15 +3136,15 @@ msgstr "Szukaj zgłoszeń"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "Prawdziwe nazwisko klienta"
 
 #. Template: AAATicket
 msgid "Customer History"
-msgstr ""
+msgstr "Historia Klienta"
 
 #. Template: AAATicket
 msgid "Edit Customer Users"
-msgstr "Edycja kont klienta"
+msgstr "Edycja użytkowników klienta"
 
 #. Template: AAATicket
 msgid "Edit Customer"
@@ -3151,11 +3152,11 @@ msgstr "Edytuj Klienta"
 
 #. Template: AAATicket
 msgid "Bulk Action"
-msgstr "Akcja grupowa"
+msgstr "Zbiorcze działanie"
 
 #. Template: AAATicket
 msgid "Bulk Actions on Tickets"
-msgstr "Akcje grupowe na zgłoszeniach"
+msgstr "Zbiorcze działania na zgłoszeniach"
 
 #. Template: AAATicket
 msgid "Send Email and create a new Ticket"
@@ -3175,7 +3176,7 @@ msgstr "Adres %s zastąpiony zarejestrowanym adresem klienta."
 
 #. Template: AAATicket
 msgid "Customer user automatically added in Cc."
-msgstr "Klient automatycznie dodawany na CC."
+msgstr "Użykownik klienta automatycznie dodany jako CC."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
@@ -3183,19 +3184,19 @@ msgstr "Przegląd otwartych zgłoszeń"
 
 #. Template: AAATicket
 msgid "Locked Tickets"
-msgstr "Zablokowane"
+msgstr "Zablokowane zgłoszenia"
 
 #. Template: AAATicket
 msgid "My Locked Tickets"
-msgstr "Zablokowane"
+msgstr "Moje zablokowane zgłoszenia"
 
 #. Template: AAATicket
 msgid "My Watched Tickets"
-msgstr "Obserwowane"
+msgstr "Moje obserwowane zgłoszenia"
 
 #. Template: AAATicket
 msgid "My Responsible Tickets"
-msgstr "Odpowiedzialny"
+msgstr "Zgłoszenia, za które jestem odpowiedzialny"
 
 #. Template: AAATicket
 msgid "Watched Tickets"
@@ -3219,7 +3220,7 @@ msgstr "Zablokuj by na tym pracować"
 
 #. Template: AAATicket
 msgid "Unlock to give it back to the queue"
-msgstr "Odblokuj aby zwrócić do kolejki"
+msgstr "Odblokuj aby przywrócić do kolejki"
 
 #. Template: AAATicket
 msgid "Show the ticket history"
@@ -3231,7 +3232,7 @@ msgstr "Wydrukuj to zgłoszenie"
 
 #. Template: AAATicket
 msgid "Print this article"
-msgstr "Wydrukuj ten artykuł"
+msgstr "Wydrukuj tą wiadomość"
 
 #. Template: AAATicket
 msgid "Split"
@@ -3239,11 +3240,11 @@ msgstr "Podziel"
 
 #. Template: AAATicket
 msgid "Split this article"
-msgstr "Podziel ten artykuł"
+msgstr "Podziel wiadomość"
 
 #. Template: AAATicket
 msgid "Forward article via mail"
-msgstr "Prześlij artykuł za pomocą e-mail"
+msgstr "Prześlij wiadomość dalej przez e-mail"
 
 #. Template: AAATicket
 msgid "Change the ticket priority"
@@ -3263,11 +3264,11 @@ msgstr "Zmień właściciela tego zgłoszenia"
 
 #. Template: AAATicket
 msgid "Change the  customer for this ticket"
-msgstr "Zmień klienta dla tego zgłoszenia"
+msgstr "Zmień klienta w tym zgłoszeniu"
 
 #. Template: AAATicket
 msgid "Add a note to this ticket"
-msgstr "Dodaj uwagi do tego zgłoszenia"
+msgstr "Dodaj notatkę do tego zgłoszenia"
 
 #. Template: AAATicket
 msgid "Merge into a different ticket"
@@ -3275,7 +3276,7 @@ msgstr "Scal z innym zgłoszeniem"
 
 #. Template: AAATicket
 msgid "Set this ticket to pending"
-msgstr "Ustaw przypomnienie dla tego zgłoszenia"
+msgstr "Ustaw czas oczekiwania dla tego zgłoszenia"
 
 #. Template: AAATicket
 msgid "Close this ticket"
@@ -3313,15 +3314,15 @@ msgstr "Twoje zgłoszenie o numerze \"<OTRS_TICKET>\" zostało scalone z \"<OTRS
 
 #. Template: AAATicket
 msgid "Ticket %s: first response time is over (%s)!"
-msgstr "Zgłoszenie %s: czas pierwszej odpowiedzi przekroczony (%s)!"
+msgstr "Zgłoszenie %s: przekroczono czas reakcji (%s)!"
 
 #. Template: AAATicket
 msgid "Ticket %s: first response time will be over in %s!"
-msgstr "Zgłoszenie %s: czas pierwszej odpowiedzi zostanie przekroczony za %s!"
+msgstr "Zgłoszenie %s: czas reakcji zostanie przekroczony za %s!"
 
 #. Template: AAATicket
 msgid "Ticket %s: update time is over (%s)!"
-msgstr "Zgłoszenie %s: czas aktualizacji przekroczony (%s)!"
+msgstr "Zgłoszenie %s: przekroczono czas aktualizacji (%s)!"
 
 #. Template: AAATicket
 msgid "Ticket %s: update time will be over in %s!"
@@ -3329,7 +3330,7 @@ msgstr "Zgłoszenie %s: czas aktualizacji zostanie przekroczony za %s!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time is over (%s)!"
-msgstr "Zgłoszenie %s: czas rozwiązania przekroczony (%s)!"
+msgstr "Zgłoszenie %s: przekroczono czas rozwiązania (%s)!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time will be over in %s!"
@@ -3337,11 +3338,11 @@ msgstr "Zgłoszenie %s: czas rozwiązania zostanie przekroczony za %s!"
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
-msgstr "Więcej przeterminowanych zgłoszeń!"
+msgstr "Istnieje więcej eskalowanych zgłoszeń!"
 
 #. Template: AAATicket
 msgid "Plain Format"
-msgstr "Źródło"
+msgstr "Bez formatowania"
 
 #. Template: AAATicket
 msgid "Reply All"
@@ -3353,23 +3354,23 @@ msgstr "Kierunek"
 
 #. Template: AAATicket
 msgid "Agent (All with write permissions)"
-msgstr "Agent (Wszyscy z dostępem do zapisu)"
+msgstr "Agent (wszyscy z prawami do zapisu)"
 
 #. Template: AAATicket
 msgid "Agent (Owner)"
-msgstr "Agent (Właściciel)"
+msgstr "Agent (właściciel)"
 
 #. Template: AAATicket
 msgid "Agent (Responsible)"
-msgstr "Agent (Odpowiedzialny)"
+msgstr "Agent (odpowiedzialny)"
 
 #. Template: AAATicket
 msgid "New ticket notification"
-msgstr "Powiadomienie o nowym zgłoszeniu"
+msgstr "Powiadomienia o nowych zgłoszeniach"
 
 #. Template: AAATicket
 msgid "Send me a notification if there is a new ticket in \"My Queues\"."
-msgstr "Powiadom o nowym zgłoszeniu w Moich kolejkach."
+msgstr "Wysyłaj powiadomienia o nowych zgłoszeniach w \"Moich kolejkach\"."
 
 #. Template: AAATicket
 msgid "Send new ticket notifications"
@@ -3377,13 +3378,13 @@ msgstr "Wysyłaj powiadomienia o nowych zgłoszeniach"
 
 #. Template: AAATicket
 msgid "Ticket follow up notification"
-msgstr "Wysyłaj powiadomienia o nowych wiadomościach w zgłoszeniach"
+msgstr "Powiadomienia o nowych wiadomościach w zgłoszeniach"
 
 #. Template: AAATicket
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my subscribed queues."
-msgstr "Wyślij mi wiadomość, gdy klient odpowie na zgłoszenie, którego ja jestem właścicielem."
+msgstr "Wysyłaj powiadomienia, gdy klient odpowie na zgłoszenie, którego jestem właścicielem lub gdy zgłoszenie nie jest zablokowane, a należy do jednej z moich kolejek."
 
 #. Template: AAATicket
 msgid "Send ticket follow up notifications"
@@ -3395,11 +3396,11 @@ msgstr "Powiadomienie o przekroczonym czasie blokady zgłoszenia"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
-msgstr "Wyślij mi wiadomość, gdy zgłoszenie zostanie odblokowane przez system."
+msgstr "Wysyłaj powiadomienia, gdy zgłoszenie zostanie odblokowane przez system."
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
-msgstr "Wysyłaj powiadomienia o upłynięciu terminu przypomnienia ustawionego w zgłoszeniu"
+msgstr "Wysyłaj powiadomienia o upłynięciu blokady zgłoszenia"
 
 #. Template: AAATicket
 msgid "Ticket move notification"
@@ -3576,11 +3577,11 @@ msgstr "Informacje o zgłoszeniu"
 
 #. Template: AAAWeekDay
 msgid "Sun"
-msgstr "Nie"
+msgstr "Nd"
 
 #. Template: AAAWeekDay
 msgid "Mon"
-msgstr "Pon"
+msgstr "Pn"
 
 #. Template: AAAWeekDay
 msgid "Tue"
@@ -3592,15 +3593,15 @@ msgstr "Śr"
 
 #. Template: AAAWeekDay
 msgid "Thu"
-msgstr "Czw"
+msgstr "Cz"
 
 #. Template: AAAWeekDay
 msgid "Fri"
-msgstr "Pią"
+msgstr "Pt"
 
 #. Template: AAAWeekDay
 msgid "Sat"
-msgstr "Sob"
+msgstr "So"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -3875,7 +3876,7 @@ msgstr "Pokaż imię i nazwisko nadawcy (jeżeli podał)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
-msgstr "Pokaż atrybut artykułu."
+msgstr "Pokaż właściwości wiadomości"
 
 #. Template: AdminAutoResponse
 msgid " e. g."
@@ -4623,7 +4624,7 @@ msgstr "(np. U4543)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr "Pełnotekstowe w artykule (np. \"J*n\" or \"Kowalsk*\")"
+msgstr "Szukanie pełnotekstowe we wiadomości (np. \"J*n\" lub \"Kowalsk*\")"
 
 #. Template: AdminGenericAgent
 msgid "Agent"
@@ -5939,26 +5940,26 @@ msgstr "Filtr zgłoszeń"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
-msgstr "Filtr artykułów"
+msgstr "Filtr wiadomości"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "Tylko w przypadku UtworzeniaWiadomości lub WysłaniaWiadomości"
 
 #. Template: AdminNotificationEvent
 msgid "Article type"
-msgstr "Typ artykułu"
+msgstr "Typ wiadomości"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "If ArticleCreate or ArticleSend is used as a trigger event, you need to "
 "specify an article filter as well. Please select at least one of the article"
 " filter fields."
-msgstr ""
+msgstr "Jeśli UtworzenieWiadomości lub WysłanieWiadomości inicjuje jakieś zdarzenie, konieczne jest również określenie filtra wiadomości. Należy wybrać co najmniej jedno pole pole filtrowania wiadomości."
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr "Typ nadawcy artykułu"
+msgstr "Typ nadawcy wiadomości"
 
 #. Template: AdminNotificationEvent
 msgid "Subject match"
@@ -5994,7 +5995,7 @@ msgstr "Adresy e-mail odbiorców"
 
 #. Template: AdminNotificationEvent
 msgid "Notification article type"
-msgstr "Typ artykuły powiadomienia"
+msgstr "Typ powiadomienia"
 
 #. Template: AdminNotificationEvent
 msgid "Only for notifications to specified email addresses"
@@ -6003,21 +6004,21 @@ msgstr "Tylko dla powiadomień do określonych adresów e-mail"
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
-msgstr "Aby pobrać pierwszych 20 znaków tematu (najnowszego artykułu agenta)"
+msgstr "Aby uzyskać pierwsze 20 znaków tematu (najnowszej wiadomości agenta)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
-msgstr "Aby pobrać pierwszych 5 linie treści (najnowszego artykułu agenta)"
+msgstr "Aby uzyskać pierwsze 5 linii treści (najnowszej wiadomości agenta)."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr "Aby pobrać pierwsze 20 znaków tematu (najnowszego artykułu klienta)"
+msgstr "Aby uzyskać pierwsze 20 znaków tematu (najnowszej wiadomości klienta)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr "Aby pobrać pierwsze 5 linii treści (najnowszego artykułu klienta)"
+msgstr "Aby uzyskać pierwsze 5 linii treści (najnowszej wiadomości klienta)."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Manage %s"
@@ -6055,7 +6056,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "Reinstall %s"
-msgstr ""
+msgstr "Zainstaluj ponownie %s"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid ""
@@ -6082,7 +6083,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
-msgstr ""
+msgstr "%s dostępna jest aktualizacja"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "An update for your %s is available! Please update at your earliest!"
@@ -6176,7 +6177,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Chat"
-msgstr ""
+msgstr "Czat"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Timeline view in ticket zoom"
@@ -6521,7 +6522,7 @@ msgstr "Warunek ORAZ"
 
 #. Template: AdminPostMasterFilter
 msgid "Check email header"
-msgstr ""
+msgstr "Sprawdź nagłówek wiadomości e-mail"
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
@@ -6541,11 +6542,11 @@ msgstr "Ustaw nagłówek e-mail"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "Ustaw nagłówek wiadomości e-mail"
 
 #. Template: AdminPostMasterFilter
 msgid "Set value"
-msgstr ""
+msgstr "Wstaw wartość"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
@@ -6774,7 +6775,7 @@ msgstr "Edytuj szczegóły pola"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
-msgstr "Typ artykułu"
+msgstr "TypWiadomości"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
@@ -6786,7 +6787,7 @@ msgstr "Edytuj szczegóły pola"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
-msgstr "Interfejs klienta nie wspiera wewnętrznych typów artykułów."
+msgstr "Interfejs Klienta nie obsługuje wewnętrznych typów wiadomości."
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
@@ -7229,7 +7230,7 @@ msgid ""
 "portal, the escalation update time is reset. If there is no customer "
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
-msgstr "Jeśli dodany zostanie artykuł, tj. nowa wiadomość przez e-mail lub z portala WWW klineta, czas aktualizacji eskalacji będzie zresetowany. Jeśli nie będzie kontaktu z klientem, zewnętrznego e-maila lub telefonu dodanego do zgłoszenia przed upłynięciem zadanego tutaj czasu, zgłoszenie to będzie eskalowane."
+msgstr "Jeśli dodana zostanie wiadomość, przez e-mail lub przez panel klienta, czas aktualizacji eskalacji będzie zresetowany. Jeśli nie będzie kontaktu z klientem, ani wiadomości e-mail, ani telefonu dodanego do zgłoszenia przed upływem określonego tutaj czasu, zgłoszenie to będzie eskalowane."
 
 #. Template: AdminQueue
 msgid ""
@@ -7373,7 +7374,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "Instrukcje"
 
 #. Template: AdminRegistration
 msgid "System deregistration not possible"
@@ -7411,7 +7412,7 @@ msgstr "Twoje OTRS-ID to adres e-mail który użyłeś podczas rejestracji na st
 
 #. Template: AdminRegistration
 msgid "Data Protection"
-msgstr ""
+msgstr "Ochrona danych"
 
 #. Template: AdminRegistration
 msgid "What are the advantages of system registration?"
@@ -7608,7 +7609,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Right to Information"
-msgstr ""
+msgstr "Prawo do informacji"
 
 #. Template: AdminRegistration
 msgid ""
@@ -7625,7 +7626,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Further Information"
-msgstr ""
+msgstr "Więcej informacji"
 
 #. Template: AdminRegistration
 msgid ""
@@ -7694,7 +7695,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Service Center"
-msgstr ""
+msgstr "Centrum Serwisowe"
 
 #. Template: AdminRegistration
 msgid "Support Data Management"
@@ -8050,7 +8051,7 @@ msgstr "Uruchom polecenie"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr ""
+msgstr "Zapytanie jest wykonywane."
 
 #. Template: AdminService
 msgid "Service Management"
@@ -8133,7 +8134,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Generating..."
-msgstr ""
+msgstr "Generowanie..."
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
@@ -8141,7 +8142,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Generate Result"
-msgstr ""
+msgstr "Generuj wynik"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Support Bundle"
@@ -8161,7 +8162,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "Wyślij za pomocą wiadomości e-mail"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
@@ -8184,7 +8185,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "Pobierz plik"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid ""
@@ -8501,7 +8502,7 @@ msgstr "Wyświetlana nazwa oraz adres e-mail będą umieszczane w wysyłanej poc
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "Zarządzanie konserwacją systemu"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
@@ -8521,27 +8522,27 @@ msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "Start date"
-msgstr ""
+msgstr "Data początku"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr ""
+msgstr "Data końca"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
-msgstr ""
+msgstr "Usuń konserwację systemu"
 
 #. Template: AdminSystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "Czy jesteś pewien, że chcesz usunąć zaplanowaną konserwację systemu?"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance %s"
-msgstr ""
+msgstr "Edytuj konserwację systemu %s"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance information"
-msgstr ""
+msgstr "Edytuj informację o konserwacji systemu"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
@@ -8549,35 +8550,35 @@ msgstr "Niepoprawna data"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
-msgstr ""
+msgstr "Wiadomość przy logowaniu"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
-msgstr ""
+msgstr "Pokaż wiadomość przy logowaniu"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Notify message"
-msgstr ""
+msgstr "Komunikat"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
-msgstr ""
+msgstr "Zarządzanie sesjami"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr ""
+msgstr "Wszystkie sesje"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
-msgstr ""
+msgstr "Sesje Agentów"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "Sesje Klientów"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Zakończ wszystkie sesje z wyjątkiem własnej"
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8607,7 +8608,7 @@ msgstr "Edytuj szablon"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "Szablon o takiej nazwie już istnieje!"
 
 #. Template: AdminTemplate
 msgid "Template"
@@ -8671,7 +8672,7 @@ msgstr "Edytuj typ zgłoszenia"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "Typ o takiej nazwie już istnieje!"
 
 #. Template: AdminUser
 msgid "Add agent"
@@ -8715,7 +8716,7 @@ msgstr "Nazwisko"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "Użytkownik o takiej nazwie już istnieje!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
@@ -8823,7 +8824,7 @@ msgstr "Zgłoszenia e-mail"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Rozpocznij czat"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8843,7 +8844,7 @@ msgstr "Nowe zgłoszenie e-mail od %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Rozpocznij czat"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8880,19 +8881,19 @@ msgstr "Zestakowane"
 
 #. Template: AgentDashboardStats
 msgid "Expanded"
-msgstr ""
+msgstr "Rozszerzony"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
-msgstr ""
+msgstr "Stream"
 
 #. Template: AgentDashboardStats
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Template: AgentDashboardStats
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
@@ -8912,7 +8913,7 @@ msgstr "Moje kolejki"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Zgłoszenia w Moje Usługi"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8984,11 +8985,11 @@ msgstr "Zmień swoje ustawienia"
 
 #. Template: AgentSchedulerInfo
 msgid "General Information"
-msgstr ""
+msgstr "Informacje ogólne"
 
 #. Template: AgentSchedulerInfo
 msgid "Scheduler is an OTRS separated process that perform asynchronous tasks"
-msgstr ""
+msgstr "Harmonogram jest w OTRS oddzielnym procesem w którym zadania wykonywane są asynchronicznie"
 
 #. Template: AgentSchedulerInfo
 msgid "(e.g. Generic Interface asynchronous invoker tasks)"
@@ -9002,7 +9003,7 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Starting Scheduler"
-msgstr ""
+msgstr "Uruchamianie harmonogramu"
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
@@ -9010,7 +9011,7 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Check that cron deamon is running in the system"
-msgstr ""
+msgstr "Upewnij się że demon CRON jest uruchomiony w systemie"
 
 #. Template: AgentSchedulerInfo
 msgid "Confirm that OTRS cron jobs are running, execute %s start"
@@ -9304,23 +9305,23 @@ msgstr "nie zmienialne dla statystyk pulpitu"
 
 #. Template: AgentStatsViewSettings
 msgid "Select Chart Type"
-msgstr ""
+msgstr "Wybierz typ wykresu"
 
 #. Template: AgentStatsViewSettings
 msgid "Chart Type"
-msgstr ""
+msgstr "Typ wykresu"
 
 #. Template: AgentStatsViewSettings
 msgid "Multi Bar Chart"
-msgstr ""
+msgstr "Wykres słupkowy"
 
 #. Template: AgentStatsViewSettings
 msgid "Multi Line Chart"
-msgstr ""
+msgstr "Wykres liniowy"
 
 #. Template: AgentStatsViewSettings
 msgid "Stacked Area Chart"
-msgstr ""
+msgstr "Wykres warstwowy"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of Ticket"
@@ -9380,11 +9381,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Dodaj wiadomość"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "Utwórz wiadomość"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -9396,7 +9397,7 @@ msgstr "Tekst szablonu"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "Wybranie szablonu usunie całą treść i załączniki."
 
 #. Template: AgentTicketActionCommon
 msgid "Note type"
@@ -9418,7 +9419,7 @@ msgstr "Poinformuj zaangażowanych agentów"
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr ""
+msgstr "Tutaj można wybrać dodatkowych Agentów, którzy powinni otrzymać powiadomienie o nowej wiadomości."
 
 #. Template: AgentTicketActionCommon
 msgid "Note will be (also) received by:"
@@ -9530,7 +9531,7 @@ msgstr "Utwórz nowe zgłoszenie e-mail"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "Przykładowy szablon"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
@@ -9558,7 +9559,7 @@ msgstr "Pobierz wszystkich"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "E-mail wychodzący"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
@@ -9698,7 +9699,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "Wiadomość czatu będzie dodana jako osobna wiadomość w zgłoszeniu."
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -9706,7 +9707,7 @@ msgstr "Widok tekstu źródłowego e-mail"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
-msgstr "Postać źródłowa"
+msgstr "Bez formatowania"
 
 #. Template: AgentTicketPlain
 msgid "Download this email"
@@ -9788,7 +9789,7 @@ msgstr "Usuń"
 msgid ""
 "Searches in the attributes From, To, Cc, Subject and the article body, "
 "overriding other attributes with the same name."
-msgstr "Wyszukiwania w atrybutach Od, Do, CC, Tytuł, Treść ignoruje inne atrybuty z tą samą nazwą."
+msgstr "Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne kryteria o tej samej nazwie."
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
@@ -9816,11 +9817,11 @@ msgstr "Obserwujący"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (before/after)"
-msgstr "Czas utworzenia artykułu (przed/po)"
+msgstr "Czas utworzenia wiadomości (przed/po)"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (between)"
-msgstr "Czas utworzenia artykułu (pomiędzy)"
+msgstr "Czas utworzenia wiadomości (pomiędzy)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
@@ -9876,7 +9877,7 @@ msgstr "Filtr wiadomości"
 
 #. Template: AgentTicketZoom
 msgid "Article Type"
-msgstr "Typ artykułu"
+msgstr "Typ wiadomości"
 
 #. Template: AgentTicketZoom
 msgid "Sender Type"
@@ -9924,7 +9925,7 @@ msgstr "W tym punkcie procesów brak jest jeszcze dialogów."
 
 #. Template: AgentTicketZoom
 msgid "This item has no articles yet."
-msgstr "Ten element nie ma jeszcze artykułów."
+msgstr "Ten element nie zawiera jeszcze żadnych wiadomości."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
@@ -9932,7 +9933,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
-msgstr ""
+msgstr "Przegląd wiadomości"
 
 #. Template: AgentTicketZoom
 msgid "Article(s)"
@@ -10000,7 +10001,7 @@ msgstr "Zmień rozmiar"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "Oznacz wiadomość jako przeczytaną"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
@@ -10008,7 +10009,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Pełna treść wiadomości"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
@@ -10018,7 +10019,7 @@ msgstr ""
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
-msgstr ""
+msgstr "W celu otwarcia linków zawartych w wiadomości może być konieczne naciśnięcie klawisza Ctrl, Cmd lub Shift w połączeniu z kliknięciem klawisza myszy (w zależności od używanej przeglądarki internetowej)."
 
 #. Template: AgentTicketZoom
 msgid "Close this message"
@@ -10026,7 +10027,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "Wiadomość nie może być otwarta! Być może znajduje się na innej stronie wiadomości."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -10296,7 +10297,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Expand article"
-msgstr "Rozwiń artykuł"
+msgstr "Rozwiń wiadomość"
 
 #. Template: CustomerTicketZoom
 msgid "Next Steps"
@@ -10907,7 +10908,7 @@ msgstr "Aktywuje wsparcie dla grup klientów."
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
-msgstr "Aktywuje filtr artykułów w widoku zbliżonym umożliwiając wybór które artykuły powinny zostać widoczne."
+msgstr "W widoku rozszerzonym aktywuje filtr wiadomości umożliwiający wybór, które artykuły powinny być widoczne."
 
 #. SysConfig
 msgid ""
@@ -16917,7 +16918,7 @@ msgstr "Pokazuje link do ściągnięcia załączników artykułu w widoku przybl
 
 #. SysConfig
 msgid "Shows a link to see a zoomed email ticket in plain text."
-msgstr "Pokazuje link ukazujący przybliżone zgłoszenia e-mail w czystym tekście. "
+msgstr "Pokazuje link pozwalający na pokazanie poszerzonego podglądu zgłoszenia e-mail bez formatowania tekstu."
 
 #. SysConfig
 msgid ""

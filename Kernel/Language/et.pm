@@ -235,8 +235,8 @@ sub Data {
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
             '',
-        'Logout' => 'Lahku',
-        'Logout successful. Thank you for using %s!' => '',
+        'Logout' => 'logi välja',
+        'Logout successful. Thank you for using %s!' => 'Väljalogimine õnnestus. Täname kasutamast!',
         'Feature not active!' => 'Omadus ei ole aktiveeritud!',
         'Agent updated!' => 'Agent uuendatud!',
         'Database Selection' => '',
@@ -564,7 +564,7 @@ sub Data {
         'Article Average' => '',
         'Article Min Time' => '',
         'Article Max Time' => '',
-        'Number of Articles' => '',
+        'Number of Articles' => 'Artiklite arv',
         'Accounted time by Agent' => '',
         'Ticket/Article Accounted Time' => '',
         'TicketAccountedTime' => '',
@@ -622,7 +622,7 @@ sub Data {
         'The partition where OTRS is located is almost full.' => '',
         'The partition where OTRS is located has no disk space problems.' =>
             '',
-        'Disk Partitions Usage' => 'ketta partitsioonde kasutus',
+        'Disk Partitions Usage' => 'ketta partitsioonide kasutus',
         'Distribution' => '',
         'Could not determine distribution.' => '',
         'Kernel Version' => 'kerneli versioon',
@@ -695,18 +695,18 @@ sub Data {
         'Environment Variables' => '',
         'Webserver Version' => '',
         'Could not determine webserver version.' => '',
-        'Loaded Apache Modules' => '',
+        'Loaded Apache Modules' => 'Apache\'i laaditud moodulid',
         'MPM model' => '',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
             '',
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            '',
-        'mod_deflate Usage' => '',
+            'Jõudluse suurendamiseks kasuta FastCGI\'d või mod_perl\'i',
+        'mod_deflate Usage' => 'mooduli mod_deflate kasutus',
         'Please install mod_deflate to improve GUI speed.' => '',
-        'mod_filter Usage' => '',
+        'mod_filter Usage' => 'mooduli mod_filter kasutus',
         'Please install mod_filter if mod_deflate is used.' => '',
-        'mod_headers Usage' => '',
+        'mod_headers Usage' => 'mooduli mod_headers kasutus',
         'Please install mod_headers to improve GUI speed.' => '',
         'Apache::Reload Usage' => '',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
@@ -797,7 +797,7 @@ sub Data {
         'Ticket Escalation View' => '',
         'Message from' => 'Teade kasutajalt',
         'End message' => 'Teate lõpp',
-        'Forwarded message from' => 'Teade edastatud kasutajalt',
+        'Forwarded message from' => 'Edastatud teade kasutajalt',
         'End forwarded message' => 'Edastatud teate lõpp',
         'Bounce Article to a different mail address' => '',
         'Reply to note' => '',
@@ -856,13 +856,13 @@ sub Data {
         'Show closed Tickets' => 'Näidata suletud intsidente',
         'New Article' => 'Uus intsident',
         'Unread article(s) available' => '',
-        'Remove from list of watched tickets' => '',
+        'Remove from list of watched tickets' => 'Eemalda vaadatud piletite nimekirjast',
         'Add to list of watched tickets' => '',
         'Email-Ticket' => 'E-postist',
         'Create new Email Ticket' => 'Uus e-posti intsident',
         'Phone-Ticket' => 'Telefonist',
         'Search Tickets' => 'Otsi intsidente',
-        'Customer Realname' => '',
+        'Customer Realname' => 'Kliendi pärisnimi',
         'Customer History' => '',
         'Edit Customer Users' => 'Klientkasutajate muutmine',
         'Edit Customer' => 'Kliendi muutmine',
@@ -923,7 +923,7 @@ sub Data {
         'New ticket notification' => 'Teavitus uuest intsidendist',
         'Send me a notification if there is a new ticket in "My Queues".' =>
             'Saada mulle teavitus, kui "Minu järjekordades" on uusi intsidente.',
-        'Send new ticket notifications' => '',
+        'Send new ticket notifications' => 'Saada uue pileti teavitus',
         'Ticket follow up notification' => '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
             'Saada mulle teavitus, kui klient vastab ja mina olen intsidendi omanik.',
@@ -990,19 +990,19 @@ sub Data {
         'Sat' => 'L',
 
         # Template: AdminACL
-        'ACL Management' => '',
-        'Filter for ACLs' => '',
+        'ACL Management' => 'Pääsuloendi haldus',
+        'Filter for ACLs' => 'Pääsuloendi filter',
         'Filter' => 'Filter',
-        'ACL Name' => '',
+        'ACL Name' => 'Pääsuloendi nimi',
         'Actions' => 'Tegevused',
-        'Create New ACL' => '',
-        'Deploy ACLs' => '',
-        'Export ACLs' => '',
+        'Create New ACL' => 'Loo uus pääsuloend',
+        'Deploy ACLs' => 'Kehtesta pääsuloend',
+        'Export ACLs' => 'Ekspordi pääsuloend',
         'Configuration import' => '',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             '',
         'This field is required.' => 'See väli on nõutav',
-        'Overwrite existing ACLs?' => '',
+        'Overwrite existing ACLs?' => 'Kirjutada olemasolev pääsuloend üle?',
         'Upload ACL configuration' => '',
         'Import ACL configuration(s)' => '',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
@@ -1012,16 +1012,16 @@ sub Data {
         'ACLs' => '',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
             '',
-        'ACL name' => '',
+        'ACL name' => 'Pääsuloendi nimi',
         'Validity' => 'Kehtivus',
         'Copy' => '',
         'No data found.' => 'Andmeid ei leitud.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Muuda pääsuloendit %s',
         'Go to overview' => 'Mine ülevaatesse',
-        'Delete ACL' => '',
-        'Delete Invalid ACL' => '',
+        'Delete ACL' => 'Kustuta pääsuloend',
+        'Delete Invalid ACL' => 'Kustuta vigane pääsuloend',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
@@ -1031,9 +1031,9 @@ sub Data {
         'Check the official' => '',
         'documentation' => '',
         'Show or hide the content' => '',
-        'Edit ACL information' => '',
+        'Edit ACL information' => 'Muuda pääsuloendi teavet',
         'Stop after match' => '',
-        'Edit ACL structure' => '',
+        'Edit ACL structure' => 'Muuda pääsuloendi struktuuri',
         'Save' => 'Salvesta',
         'or' => 'või',
         'Save and finish' => '',
@@ -1800,7 +1800,7 @@ sub Data {
         'Install Package' => '',
         'Update repository information' => '',
         'Online Repository' => 'Võrguallikas',
-        'Module documentation' => '',
+        'Module documentation' => 'Mooduli dokumentatsioon',
         'Upgrade' => 'Uuenda',
         'Local Repository' => 'Kohalik allikas',
         'This package is verified by OTRSverify (tm)' => '',
@@ -2035,7 +2035,7 @@ sub Data {
         'Conditions' => '',
         'Condition' => '',
         'Transitions are not being used in this process.' => '',
-        'Module name' => '',
+        'Module name' => 'Mooduli nimi',
         'Configuration' => '',
         'Transition actions are not being used in this process.' => '',
 
@@ -2045,9 +2045,9 @@ sub Data {
         'Transition' => '',
         'Transition Name' => '',
         'Type of Linking between Conditions' => '',
-        'Remove this Condition' => '',
+        'Remove this Condition' => 'Eemalda see tingimus',
         'Type of Linking' => '',
-        'Remove this Field' => '',
+        'Remove this Field' => 'Eemalda see väli',
         'And can\'t be repeated on the same condition.' => '',
         'Add a new Field' => '',
         'Add New Condition' => '',
@@ -2059,7 +2059,7 @@ sub Data {
         'Transition Action Name' => '',
         'Transition Action Module' => '',
         'Config Parameters' => '',
-        'Remove this Parameter' => '',
+        'Remove this Parameter' => 'Eemalda see parameeter',
         'Add a new Parameter' => '',
 
         # Template: AdminQueue
@@ -2102,9 +2102,9 @@ sub Data {
         'Change Auto Response Relations for Queue' => '',
 
         # Template: AdminQueueTemplates
-        'Manage Template-Queue Relations' => '',
-        'Filter for Templates' => '',
-        'Templates' => '',
+        'Manage Template-Queue Relations' => 'Halda mallide <-> järjekordade seoseid',
+        'Filter for Templates' => 'Mallide filter',
+        'Templates' => 'Mallid',
         'Change Queue Relations for Template' => '',
         'Change Template Relations for Queue' => '',
 
@@ -2130,7 +2130,7 @@ sub Data {
         'OTRS-ID Login' => '',
         'System registration is a service of OTRS Group, which provides a lot of advantages!' =>
             '',
-        'Read more' => '',
+        'Read more' => 'Loe lisaks',
         'You need to log in with your OTRS-ID to register your system.' =>
             '',
         'Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.' =>
@@ -2395,10 +2395,10 @@ sub Data {
         'Customer sessions' => '',
         'Unique agents' => '',
         'Unique customers' => '',
-        'Kill all sessions' => 'Hävita kõik seansid',
-        'Kill this session' => '',
+        'Kill all sessions' => 'Tapa kõik seansid',
+        'Kill this session' => 'Tapa see seanss',
         'Session' => 'Seanss',
-        'Kill' => '',
+        'Kill' => 'Tapa',
         'Detail View for SessionID' => '',
 
         # Template: AdminSignature
@@ -2493,7 +2493,7 @@ sub Data {
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance %s' => '',
         'Edit System Maintenance information' => '',
-        'Date invalid!' => 'Kuupäev ebasobiv!',
+        'Date invalid!' => 'Vigane kuupäev!',
         'Login message' => '',
         'Show login message' => '',
         'Notify message' => '',
@@ -2504,17 +2504,17 @@ sub Data {
         'Kill all Sessions, except for your own' => '',
 
         # Template: AdminTemplate
-        'Manage Templates' => '',
-        'Add template' => '',
+        'Manage Templates' => 'Halda malle',
+        'Add template' => 'Lisa mall',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
         'Don\'t forget to add new templates to queues.' => '',
-        'Add Template' => '',
-        'Edit Template' => '',
+        'Add Template' => 'Lisa mall',
+        'Edit Template' => 'Muuda malli',
         'A standard template with this name already exists!' => '',
-        'Template' => '',
+        'Template' => 'Mall',
         'Create type templates only supports this smart tags' => '',
-        'Example template' => '',
+        'Example template' => 'Näidismall',
         'The current ticket state is' => 'Intsidendi olek on',
         'Your email address is' => 'Teie e-posti aadress on',
 
@@ -2783,7 +2783,7 @@ sub Data {
         'Set Pending' => 'Pane ootele',
         'Change Priority of Ticket' => 'Intsidendi prioriteedi muutmine',
         'Change Responsible of Ticket' => 'Intsidendi vastutaja muutmine',
-        'All fields marked with an asterisk (*) are mandatory.' => '',
+        'All fields marked with an asterisk (*) are mandatory.' => 'Kõik tärniga (*) märgitud väljad peavad olema täidetud.',
         'Service invalid.' => 'Teenus ebasobiv.',
         'New Owner' => 'Uus omanik',
         'Please set a new owner!' => 'Palun määra uus omanik!',
@@ -2792,7 +2792,7 @@ sub Data {
         'For all pending* states.' => '',
         'Add Article' => '',
         'Create an Article' => '',
-        'Spell check' => '',
+        'Spell check' => 'Õigekirjakontroll',
         'Text Template' => '',
         'Setting a template will overwrite any text or attachment.' => '',
         'Note type' => 'Märkuse tüüp',
@@ -2831,8 +2831,8 @@ sub Data {
             '',
         'Remove Cc' => '',
         'Remove Bcc' => '',
-        'Address book' => '',
-        'Date Invalid!' => '',
+        'Address book' => 'Aadressiraamat',
+        'Date Invalid!' => 'Vigane kuupäev!',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Muuda intsidendiga seotud klienti',
@@ -2840,7 +2840,7 @@ sub Data {
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => '',
-        'Example Template' => '',
+        'Example Template' => 'Näidismall',
         'From queue' => '',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
@@ -3043,7 +3043,7 @@ sub Data {
         'Not yet registered?' => '',
         'Request new password' => 'Telli uus parool',
         'Your User Name' => 'Kasutajanimi',
-        'A new password will be sent to your email address.' => '',
+        'A new password will be sent to your email address.' => 'Uus salasõna saadetakse Teie e-posti aadressile,',
         'Create Account' => 'Loo konto',
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => '',
@@ -3055,18 +3055,18 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Muuda isiklikke eelistusi',
-        'Logout %s %s' => '',
+        'Logout %s %s' => 'Logi välja %s %s',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
 
         # Template: CustomerTicketMessage
-        'Service level agreement' => 'SLA',
+        'Service level agreement' => 'Teenustaseme leping',
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Tere tulemast!',
-        'Please click the button below to create your first ticket.' => '',
-        'Create your first ticket' => '',
+        'Please click the button below to create your first ticket.' => 'Pileti loomiseks vajuta allolevat nuppu.',
+        'Create your first ticket' => 'Loo uus pilet',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
@@ -3085,10 +3085,10 @@ sub Data {
         'Only tickets created' => '',
         'Only tickets created between' => '',
         'Ticket archive system' => '',
-        'Save search as template?' => '',
-        'Save as Template?' => '',
-        'Save as Template' => '',
-        'Template Name' => '',
+        'Save search as template?' => 'Salvesta otsing kui mall?',
+        'Save as Template?' => 'Salvesta kui mall?',
+        'Save as Template' => 'Salvesta kui mall',
+        'Template Name' => 'Malli nimi',
         'Pick a profile name' => '',
         'Output to' => 'Tulemuste formaat',
 
@@ -3111,28 +3111,28 @@ sub Data {
         'Thursday' => '',
         'Friday' => '',
         'Saturday' => '',
-        'Su' => '',
-        'Mo' => 't',
-        'Tu' => 'Mär',
-        'We' => 'Sisse',
-        'Th' => 'to',
-        'Fr' => '',
-        'Sa' => '',
-        'Event Information' => '',
+        'Su' => 'P',
+        'Mo' => 'E',
+        'Tu' => 'T',
+        'We' => 'K',
+        'Th' => 'N',
+        'Fr' => 'R',
+        'Sa' => 'L',
+        'Event Information' => 'Sündmuse teave',
         'Ticket fields' => '',
-        'Dynamic fields' => '',
+        'Dynamic fields' => 'Dünaamilised väljad',
 
         # Template: Datepicker
-        'Invalid date (need a future date)!' => '',
-        'Invalid date (need a past date)!' => '',
-        'Previous' => '',
+        'Invalid date (need a future date)!' => 'Vigane kuupäev (peab olema tulevikus)!',
+        'Invalid date (need a past date)!' => 'Vigane kuupäev (peab olema minevikus)!',
+        'Previous' => 'Eelmine',
         'Open date selection' => '',
 
         # Template: Error
         'Oops! An Error occurred.' => '',
         'You can' => '',
-        'Send a bugreport' => '',
-        'go back to the previous page' => '',
+        'Send a bugreport' => 'Saada vearaport',
+        'go back to the previous page' => 'Tagasi eelmisele lehele',
         'Error Details' => '',
 
         # Template: FooterJS
@@ -3300,7 +3300,7 @@ sub Data {
         'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'Access Control Lists (ACL)' => '',
+        'Access Control Lists (ACL)' => 'Pääsuloendid (ACL)',
         'AccountedTime' => '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             '',
@@ -3413,7 +3413,7 @@ sub Data {
             '',
         'Archive state changed: "%s"' => '',
         'ArticleTree' => '',
-        'Attachments <-> Templates' => '',
+        'Attachments <-> Templates' => 'Manused <-> Mallid',
         'Auto Responses <-> Queues' => 'Automaatvastused <-> Järjekorrad',
         'AutoFollowUp sent to "%s".' => 'Automaatedastus "%s".',
         'AutoReject sent to "%s".' => 'Automaatne tagasilükkamine "%s".',
@@ -3519,7 +3519,7 @@ sub Data {
         'Create and manage salutations.' => 'Tervituste loomine ja haldamine.',
         'Create and manage services.' => 'Teenuste loomine ja haldamine.',
         'Create and manage signatures.' => 'Allkirjade loomine ja haldamine.',
-        'Create and manage templates.' => '',
+        'Create and manage templates.' => 'Loo ja halda malle.',
         'Create and manage ticket priorities.' => 'Intsidendi prioriteetide loomine ja haldamine.',
         'Create and manage ticket states.' => 'Intsidentide olekute loomine ja haldamine.',
         'Create and manage ticket types.' => 'Intsidentide tüüpide loomine ja haldamine.',
@@ -3590,7 +3590,7 @@ sub Data {
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
             '',
         'Defines a default list of words, that are ignored by the spell checker.' =>
-            '',
+            'Määrab õigekirjakontrolli poolt eiratavate sõnade vaikenimekirja',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             '',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
@@ -3618,7 +3618,7 @@ sub Data {
             '',
         'Defines all the possible stats output formats.' => '',
         'Defines an alternate URL, where the login link refers to.' => '',
-        'Defines an alternate URL, where the logout link refers to.' => '',
+        'Defines an alternate URL, where the logout link refers to.' => 'Määrab alternatiivURLi, kuhu väljalogimislink viitab.',
         'Defines an alternate login URL for the customer panel..' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
@@ -3784,7 +3784,7 @@ sub Data {
             '',
         'Defines the default sort order for all services in the service view, after priority sort.' =>
             '',
-        'Defines the default spell checker dictionary.' => '',
+        'Defines the default spell checker dictionary.' => 'Määrab õigekirjakontrolli vaikesõnastiku.',
         'Defines the default state of new customer tickets in the customer interface.' =>
             '',
         'Defines the default state of new tickets.' => '',
@@ -4385,7 +4385,7 @@ sub Data {
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
             '',
-        'Forwarded to "%s".' => 'Edastatud "%s".',
+        'Forwarded to "%s".' => 'Edastatud "%s"-le.',
         'Frontend language' => 'kasutatav keel',
         'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
             '',
@@ -4567,12 +4567,12 @@ sub Data {
         'Left' => '',
         'Link agents to groups.' => 'Töötajate sidumine rühmadega.',
         'Link agents to roles.' => 'Töötajate sidumine rollidega',
-        'Link attachments to templates.' => '',
+        'Link attachments to templates.' => 'Seo manused mallidega.',
         'Link customer user to groups.' => '',
         'Link customer user to services.' => '',
         'Link queues to auto responses.' => 'Järjekordade sidumine automaatvastustega.',
         'Link roles to groups.' => 'Rollide sidumine rühmadega.',
-        'Link templates to queues.' => '',
+        'Link templates to queues.' => 'Seo mallid järjekordadega.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -5346,7 +5346,7 @@ sub Data {
             '',
         'System Maintenance' => '',
         'System Request (%s).' => '',
-        'Templates <-> Queues' => '',
+        'Templates <-> Queues' => 'Mallid <-> Järjekorrad',
         'Textarea' => 'Tekstiala',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '',
@@ -5384,7 +5384,7 @@ sub Data {
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
             '',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
-            '',
+            'Tekst teemarea alguses, kui e-kiri on edasi saadetud, nt. Fw, Fwd, Ed.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
             '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
@@ -5444,7 +5444,7 @@ sub Data {
             '',
         'View performance benchmark results.' => 'Jõudlustestide tulemuste vaatamine.',
         'View system log messages.' => 'Süsteemilogi teadete vaatamine.',
-        'Wear this frontend skin' => '',
+        'Wear this frontend skin' => 'kasutatav kest',
         'Webservice path separator.' => '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
             '',

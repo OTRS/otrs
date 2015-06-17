@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-05-18 14:19+0000\n"
+"Last-Translator: Krešimir Raič\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/OTRS/language/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -478,7 +478,7 @@ msgstr "korisnik"
 
 #. Template: AAABase
 msgid "agent"
-msgstr "zaposlenik"
+msgstr "operater"
 
 #. Template: AAABase
 msgid "system"
@@ -806,7 +806,7 @@ msgstr "Ne postoji račun s tim korisničkim imenom."
 
 #. Template: AAABase
 msgid "Please contact your administrator"
-msgstr "Upućujemo Vas na vašeg administratora"
+msgstr "Molimo obratite se svom administratoru"
 
 #. Template: AAABase
 msgid ""
@@ -817,7 +817,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr "Ova mail adresa već postoji. Molimo prijavite se ili obnovite svoju lozinku."
+msgstr "Ova e-mail adresa već postoji. Molimo prijavite se ili obnovite svoju lozinku."
 
 #. Template: AAABase
 msgid "Logout"
@@ -833,7 +833,7 @@ msgstr "Funkcija nije aktivna!"
 
 #. Template: AAABase
 msgid "Agent updated!"
-msgstr "Ažuriran zaposlenik"
+msgstr "Ažuriran operater"
 
 #. Template: AAABase
 msgid "Database Selection"
@@ -912,11 +912,11 @@ msgstr "Potrebna je lozinka!"
 
 #. Template: AAABase
 msgid "Take this Customer"
-msgstr "Uzmi ovog korisnika"
+msgstr "Preuzmi ovog korisnika"
 
 #. Template: AAABase
 msgid "Take this User"
-msgstr "Uzmi ovog korisnika sistema"
+msgstr "Uzmi ovog korisnika"
 
 #. Template: AAABase
 msgid "possible"
@@ -954,7 +954,7 @@ msgstr "Otprema E-pošte za: Polje."
 
 #. Template: AAABase
 msgid "Dispatching by selected Queue."
-msgstr "Otprema kroz izabrani rep."
+msgstr "Otprema kroz izabrani red."
 
 #. Template: AAABase
 msgid "No entry found!"
@@ -1106,7 +1106,7 @@ msgstr "Korisnik na vezi: %s"
 
 #. Template: AAABase
 msgid "Online Agent: %s"
-msgstr "Zaposlenik na vezi: %s"
+msgstr "Operater na vezi: %s"
 
 #. Template: AAABase
 msgid "Calendar"
@@ -1130,7 +1130,7 @@ msgstr "Veličina"
 
 #. Template: AAABase
 msgid "Upload"
-msgstr "Otpremanje"
+msgstr "Upload"
 
 #. Template: AAABase
 msgid "Directory"
@@ -1282,7 +1282,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "New account created. Sent login information to %s. Please check your email."
-msgstr "Kreiran novi račun. Podaci za prijavu poslani %s. Molimo provjerite vašu E-poštu."
+msgstr "Kreiran novi račun. Podaci za prijavu poslani %s. Molimo provjerite svoju E-poštu."
 
 #. Template: AAABase
 msgid "Please press Back and try again."
@@ -1290,11 +1290,11 @@ msgstr "Molimo pritisnite Natrag i pokušajte ponovo."
 
 #. Template: AAABase
 msgid "Sent password reset instructions. Please check your email."
-msgstr "Upute za resetiranje lozinke su poslane. Molimo provjerite vašu E-poštu."
+msgstr "Upute za resetiranje lozinke su poslane. Molimo provjerite svoju E-poštu."
 
 #. Template: AAABase
 msgid "Sent new password to %s. Please check your email."
-msgstr "Poslana je nova lozinka za %s. Provejrite vašu E-poštu."
+msgstr "Poslana je nova lozinka za %s. Provjerite svoju E-poštu."
 
 #. Template: AAABase
 msgid "Upcoming Events"
@@ -1415,7 +1415,7 @@ msgstr "Poravnaj nadesno"
 
 #. Template: AAABase
 msgid "Justify"
-msgstr "Poravnaj u blok"
+msgstr "Poravnaj obostrano"
 
 #. Template: AAABase
 msgid "Header"
@@ -1455,7 +1455,7 @@ msgstr "SHIFT"
 
 #. Template: AAABase
 msgid "Undo"
-msgstr "Odustani"
+msgstr "Poništi"
 
 #. Template: AAABase
 msgid "Redo"
@@ -1854,7 +1854,7 @@ msgstr "Vaš izbor vremena sadrži pogrešku!"
 #. Template: AAAStats
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale!"
-msgstr "Vaš interval izvještaja je prekratak, molimo zadajte veći vremenski razmak!"
+msgstr "Vaš vremenski interval izvještaja je prekratak, molimo zadajte veći vremenski opseg!"
 
 #. Template: AAAStats
 msgid "The selected start time is before the allowed start time!"
@@ -1918,11 +1918,11 @@ msgstr "proširen"
 
 #. Template: AAAStats
 msgid "Agent/Owner"
-msgstr "Zaposlenik/Vlasnik"
+msgstr "Operater/Vlasnik"
 
 #. Template: AAAStats
 msgid "Created by Agent/Owner"
-msgstr "Otvorio zaposlenik/Vlasnik"
+msgstr "Otvorio Operater/Vlasnik"
 
 #. Template: AAAStats
 msgid "Created Priority"
@@ -2022,7 +2022,7 @@ msgstr "Broj članaka"
 
 #. Template: AAAStats
 msgid "Accounted time by Agent"
-msgstr "Obračunato vrijeme po zaposleniku"
+msgstr "Obračunato vrijeme po operateru"
 
 #. Template: AAAStats
 msgid "Ticket/Article Accounted Time"
@@ -2323,7 +2323,7 @@ msgstr "Redovi"
 
 #. Template: AAASupportDataCollector
 msgid "Agents"
-msgstr "Zaposlenici"
+msgstr "Operateri"
 
 #. Template: AAASupportDataCollector
 msgid "Roles"
@@ -3088,7 +3088,7 @@ msgstr "Tiket izabran."
 
 #. Template: AAATicket
 msgid "Ticket is locked by another agent."
-msgstr "Tiket je zaključao drugi zaposlenik."
+msgstr "Tiket je zaključao drugi operater."
 
 #. Template: AAATicket
 msgid "Ticket locked."
@@ -3112,7 +3112,7 @@ msgstr "Raspoloživi nepročitani članci"
 
 #. Template: AAATicket
 msgid "Remove from list of watched tickets"
-msgstr "Ukloni sa liste pregledanih kartica"
+msgstr "Ukloni s liste pregledanih kartica"
 
 #. Template: AAATicket
 msgid "Add to list of watched tickets"
@@ -3292,15 +3292,15 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Mark as Spam!"
-msgstr "Označi kao SPAM!"
+msgstr "Označi kao Spam!"
 
 #. Template: AAATicket
 msgid "My Queues"
-msgstr "Moji repovi"
+msgstr "Moji redovi"
 
 #. Template: AAATicket
 msgid "Shown Tickets"
-msgstr "prikazane kartice"
+msgstr "Prikazane kartice"
 
 #. Template: AAATicket
 msgid "Shown Columns"
@@ -3330,11 +3330,11 @@ msgstr "kartica %s: vrijeme ažuriranja ističe za %s!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time is over (%s)!"
-msgstr "karticu %s: vrijeme rješavanja je isteklo (%s)!"
+msgstr "kartica %s: vrijeme rješavanja je isteklo (%s)!"
 
 #. Template: AAATicket
 msgid "Ticket %s: solution time will be over in %s!"
-msgstr "karticu %s: vrijeme rješavanja ističe za %s!"
+msgstr "kartica %s: vrijeme rješavanja ističe za %s!"
 
 #. Template: AAATicket
 msgid "There are more escalated tickets!"
@@ -3346,7 +3346,7 @@ msgstr "Jednostavan format"
 
 #. Template: AAATicket
 msgid "Reply All"
-msgstr "Odgovori na sve"
+msgstr "Odgovori svima"
 
 #. Template: AAATicket
 msgid "Direction"
@@ -3354,15 +3354,15 @@ msgstr "Smjer"
 
 #. Template: AAATicket
 msgid "Agent (All with write permissions)"
-msgstr "Zaposlenik (svi sa dozvolom promjene)"
+msgstr "Operater (svi sa dozvolom promjene)"
 
 #. Template: AAATicket
 msgid "Agent (Owner)"
-msgstr "Zaposlenik (Vlasnik)"
+msgstr "Operater (Vlasnik)"
 
 #. Template: AAATicket
 msgid "Agent (Responsible)"
-msgstr "Zaposlenik (Odgovoran)"
+msgstr "Operater (Odgovoran)"
 
 #. Template: AAATicket
 msgid "New ticket notification"
@@ -3370,11 +3370,11 @@ msgstr "Obavijest o novoj kartici"
 
 #. Template: AAATicket
 msgid "Send me a notification if there is a new ticket in \"My Queues\"."
-msgstr "Pošalji mi obavijest za novu karticu u \"Mojim repovima\"."
+msgstr "Pošalji mi obavijest za novu karticu u \"Mojim redovima\"."
 
 #. Template: AAATicket
 msgid "Send new ticket notifications"
-msgstr "Pošalji obavijesti o novim karticama"
+msgstr "Pošalji obavijesti o novoj kartici"
 
 #. Template: AAATicket
 msgid "Ticket follow up notification"
@@ -3384,19 +3384,19 @@ msgstr "Obavijest o nastavku kartice"
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my subscribed queues."
-msgstr "Pošalji mi obavjest ako korisnik slijedi tiket a ja sam vlasnik tiketa ili ako je tiket otključan u nekom od mojih redova."
+msgstr "Pošalji mi obavijest ako korisnik slijedi tiket a ja sam vlasnik tiketa ili ako je tiket otključan u nekom od mojih redova."
 
 #. Template: AAATicket
 msgid "Send ticket follow up notifications"
-msgstr "Pošalji obavjest o praćenju tiketa"
+msgstr "Pošalji obavijest o praćenju tiketa"
 
 #. Template: AAATicket
 msgid "Ticket lock timeout notification"
-msgstr "Obavijest o isticanju zaključavanja kartice"
+msgstr "Obavijest o istjecanju zaključane kartice"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is unlocked by the system."
-msgstr "Pošalji mi obavijest ako sustav otključa karticu.)"
+msgstr "Pošalji mi obavijest ako sustav otključa karticu."
 
 #. Template: AAATicket
 msgid "Send ticket lock timeout notifications"
@@ -3408,7 +3408,7 @@ msgstr "Obavijest o premještaju kartice"
 
 #. Template: AAATicket
 msgid "Send me a notification if a ticket is moved into one of \"My Queues\"."
-msgstr "Pošalji mi obavijest o premještaju kartice u \"Moje repove\"."
+msgstr "Pošalji mi obavijest o premještaju kartice u \"Moje redove\"."
 
 #. Template: AAATicket
 msgid "Send ticket move notifications"
@@ -3422,21 +3422,21 @@ msgstr ""
 
 #. Template: AAATicket
 msgid "Custom Queue"
-msgstr "Prilagođeni rep"
+msgstr "Prilagođeni red"
 
 #. Template: AAATicket
 msgid "QueueView refresh time"
-msgstr "Vrijeme osvježavanja pregleda repa"
+msgstr "Vrijeme osvježavanja pregleda reda"
 
 #. Template: AAATicket
 msgid ""
 "If enabled, the QueueView will automatically refresh after the specified "
 "time."
-msgstr "Ako je uključeno, pregled repa bit će osvježen poslije zadanog vremena."
+msgstr "Ako je uključeno, pregled reda bit će osvježen poslije zadanog vremena."
 
 #. Template: AAATicket
 msgid "Refresh QueueView after"
-msgstr "Osvježi pregled repa poslije"
+msgstr "Osvježi pregled reda poslije"
 
 #. Template: AAATicket
 msgid "Screen after new ticket"
@@ -3456,7 +3456,7 @@ msgstr "Prikaži zatvorene kartice."
 
 #. Template: AAATicket
 msgid "Max. shown Tickets a page in QueueView."
-msgstr "Maksimalni broj prikazanih kartica u pregledu repa."
+msgstr "Maksimalni broj prikazanih kartica u pregledu reda."
 
 #. Template: AAATicket
 msgid "Ticket Overview \"Small\" Limit"
@@ -3498,7 +3498,7 @@ msgstr "Pošalji obavijesti za promatranje kartice"
 
 #. Template: AAATicket
 msgid "Out Of Office Time"
-msgstr "Izvan uredovnog vremena"
+msgstr "Izvan radnog vremena"
 
 #. Template: AAATicket
 msgid "New Ticket"
@@ -3530,7 +3530,7 @@ msgstr "Dostignut podsjetnik"
 
 #. Template: AAATicket
 msgid "Reminder Tickets"
-msgstr "Kartice na podsjetniku"
+msgstr "Kartice podsjetnika"
 
 #. Template: AAATicket
 msgid "Escalated Tickets"
@@ -3756,7 +3756,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
-msgstr "Zaustavi poslije pogotka"
+msgstr "Zaustavi poslije uparivanja"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL structure"
@@ -4029,7 +4029,7 @@ msgstr "Aktivirajte je ovdje!"
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer Default Groups"
-msgstr "Urediti zadane grupe za korisnika"
+msgstr "Uredi zadane korisničke grupe"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customers."
@@ -4039,7 +4039,7 @@ msgstr "Ove grupe su automatski dodijeljene svim korisnicima"
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
-msgstr "Možete upravljati ovim grupama preko konfiguracijskih postavki \"...\""
+msgstr "Možete upravljati ovim grupama preko konfiguracijskih postavki \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for Groups"
@@ -4073,11 +4073,11 @@ msgstr "Ništa nije pronađeno."
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Group Relations for Customer"
-msgstr "Promijeni veze sa grupama za korisnika"
+msgstr "Promijeni Grupne Veze za Korisnika"
 
 #. Template: AdminCustomerUserGroup
 msgid "Change Customer Relations for Group"
-msgstr "promijeni veze sa korisnicima za grupu"
+msgstr "Promijeni Korisničke Veze za Grupu"
 
 #. Template: AdminCustomerUserGroup
 msgid "Toggle %s Permission for all"
@@ -4089,7 +4089,7 @@ msgstr "Promijeni %s dozvole za %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer Default Groups:"
-msgstr "Zadane grupe za korisnika:"
+msgstr "Zadane Grupe za Korisnika:"
 
 #. Template: AdminCustomerUserGroup
 msgid "No changes can be made to these groups."
@@ -4101,7 +4101,7 @@ msgstr "\"ro\""
 
 #. Template: AdminCustomerUserGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Pristup ograničen samo na čitanje za kartice u ovim grupama/repovima."
+msgstr "Pristup ograničen samo na čitanje za kartice u ovim grupama/redovima."
 
 #. Template: AdminCustomerUserGroup
 msgid "rw"
@@ -4109,11 +4109,11 @@ msgstr "\"rw\""
 
 #. Template: AdminCustomerUserGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Pristup bez ograničenja za kartice u ovim grupama/repovima."
+msgstr "Pristup bez ograničenja za kartice u ovim grupama/redovima."
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer-Services Relations"
-msgstr "Upravljanje vezama korisnik-usluge"
+msgstr "Upravljanje vezama Korisnik-Usluge"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -4384,7 +4384,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Number of rows"
-msgstr ""
+msgstr "Broj redaka"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the height (in lines) for this field in the edit mode."
@@ -4392,7 +4392,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "Number of cols"
-msgstr ""
+msgstr "Broj stupaca"
 
 #. Template: AdminDynamicFieldText
 msgid "Specify the width (in characters) for this field in the edit mode."
@@ -4436,7 +4436,7 @@ msgstr ""
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
-msgstr ""
+msgstr "Napravi administrativnu poruku"
 
 #. Template: AdminEmail
 msgid "Your message was sent to"
@@ -4472,7 +4472,7 @@ msgstr "Šalji"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent"
-msgstr "\"Generički\" zaposlenik"
+msgstr "\"Generički\" operater"
 
 #. Template: AdminGenericAgent
 msgid "Add job"
@@ -4508,7 +4508,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Toggle this widget"
-msgstr "Preklopi ovaj \"widget\""
+msgstr "Promjeni ovaj widget"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution (multiple tickets)"
@@ -4532,13 +4532,13 @@ msgstr "Planirano dana"
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr "Trenutno ovaj generički agentski zadatak neće raditi automatski."
+msgstr "Trenutno ovaj generički operaterski zadatak neće raditi automatski."
 
 #. Template: AdminGenericAgent
 msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
-msgstr "Da bi ste omogućili automatsko izvršavanje izaberite bar jednu vrijednost od minuta, sati i dana!"
+msgstr "Da bi ste omogućili automatsko izvršavanje izaberite bar jednu vrijednost: minute, sate ili dane!"
 
 #. Template: AdminGenericAgent
 msgid "Event based execution (single ticket)"
@@ -4554,7 +4554,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "Obrišite ovaj događaj"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4578,7 +4578,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Dodaj događaj"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4628,11 +4628,11 @@ msgstr "Potpuna tekstualna pretraga u članku (npr. \"Mar*n\" ili \"Hor*ić\")"
 
 #. Template: AdminGenericAgent
 msgid "Agent"
-msgstr "Zaposlenik"
+msgstr "Operater"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr "kartica zaključana"
+msgstr "Kartica zaključana"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -4644,7 +4644,7 @@ msgstr "Nema postavki vremena otvaranja."
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
-msgstr "karticu otvoren"
+msgstr "Kartica stvorena"
 
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
@@ -4672,7 +4672,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr "Nema promene vremena"
+msgstr "Nema promjene vremena."
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
@@ -4692,11 +4692,11 @@ msgstr "Nije postavljeno vrijeme zatvaranja."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
-msgstr "kartica zatvorena"
+msgstr "Kartica zatvorena"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed between"
-msgstr "kartica zatvorena između"
+msgstr "Kartica zatvorena između"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
@@ -4788,7 +4788,7 @@ msgstr "Postavi novi prioritet"
 
 #. Template: AdminGenericAgent
 msgid "Set new queue"
-msgstr "Postavi novi rep"
+msgstr "Postavi novi red"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
@@ -4796,11 +4796,11 @@ msgstr "Postavi novi status"
 
 #. Template: AdminGenericAgent
 msgid "Pending date"
-msgstr "Čekanje do"
+msgstr "Datum čekanja"
 
 #. Template: AdminGenericAgent
 msgid "Set new agent"
-msgstr "Postavi novog zaposlenika"
+msgstr "Postavi novog operatera"
 
 #. Template: AdminGenericAgent
 msgid "new owner"
@@ -4836,7 +4836,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr "Arhiviraj izabrane karticue"
+msgstr "Arhiviraj izabrane kartice"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -4852,7 +4852,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
-msgstr "Pošalji obavijesti zaposleniku/korisniku pri promjenama"
+msgstr "Pošalji obavijesti operateru/korisniku pri promjenama"
 
 #. Template: AdminGenericAgent
 msgid "CMD"
@@ -4896,11 +4896,11 @@ msgstr "Rezultati"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
-msgstr "%s zahvaćenih kartica. Šta želite da uradite?"
+msgstr "%s obuhvaćenih kartica. Što želite napraviti?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "UPOZORENJE: Upotrijebili ste opciju za brisanje. Svi obrisane kartice će biti izgubljene!"
+msgstr "Upozorenje: Upotrijebili ste opciju za BRISANJE. Sve obrisane kartice bit će izgubljene!"
 
 #. Template: AdminGenericAgent
 msgid "Edit job"
@@ -4980,7 +4980,7 @@ msgstr "Osvježi"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request Details"
-msgstr ""
+msgstr "Zahtjevi podrobnije"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "An error occurred during communication."
@@ -4988,7 +4988,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Show or hide the content."
-msgstr ""
+msgstr "Prikaži ili sakrij sadržaj."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear debug log"
@@ -5757,7 +5757,7 @@ msgid ""
 "appropriate changes in the SysConfig, you will be locked out of the "
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
-msgstr "UPOZORENJE: Ako promijenite ime grupe 'admin' prije adekvatnog podešavanja u sistemskoj konfiguraciji, izgubit ćete pristup administrativnom prostoru! Ukoliko se to dogodi, vratite ime grupi u \"admin\" pomoću SQL naredbe."
+msgstr "UPOZORENJE: Ako promijenite ime grupe 'admin' prije adekvatnog podešavanja u SysConfig-u, izgubit ćete pristup administratorskom sučelju! Ako se to dogodi, vratite ime grupe u \"admin\" SQL naredbom."
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -5872,11 +5872,11 @@ msgstr "Admininstracija"
 
 #. Template: AdminNavigationBar
 msgid "Agent Management"
-msgstr "Upravljanje zaposlenicima"
+msgstr "Upravljanje operaterima"
 
 #. Template: AdminNavigationBar
 msgid "Queue Settings"
-msgstr "Postavke repova"
+msgstr "Postavke redova"
 
 #. Template: AdminNavigationBar
 msgid "Ticket Settings"
@@ -5904,7 +5904,7 @@ msgstr "Filtar za obavijest"
 
 #. Template: AdminNotification
 msgid "Notifications are sent to an agent or a customer."
-msgstr "Obavijest poslana zaposleniku ili korisniku."
+msgstr "Obavijest poslana operateru ili korisniku."
 
 #. Template: AdminNotification
 msgid "Notification"
@@ -5983,7 +5983,7 @@ msgstr "Grupe primatelja"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient agents"
-msgstr "Zaposlenici primatelji"
+msgstr "Operateri primatelji"
 
 #. Template: AdminNotificationEvent
 msgid "Recipient roles"
@@ -6004,7 +6004,7 @@ msgstr "Samo za obavijesti za precizirane adrese E-pošte"
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
-msgstr "Vidjeti prvih 20 slova predmeta (posljednjeg članka zaposlenika)."
+msgstr "Vidjeti prvih 20 slova predmeta (posljednjeg članka operatera)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
@@ -6162,7 +6162,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Vendor"
-msgstr "Snabdjevač"
+msgstr "Isporučitelj"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid ""
@@ -6201,7 +6201,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "The %s skin"
-msgstr "tema"
+msgstr "Tema %s"
 
 #. Template: AdminPGP
 msgid "PGP Management"
@@ -6213,7 +6213,7 @@ msgstr "Upotrijebi ovu mogućnost za rad sa PGP-ključevima."
 
 #. Template: AdminPGP
 msgid "Add PGP key"
-msgstr "Dodaj PGP-ključ"
+msgstr "Dodaj PGP ključ"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
@@ -6221,7 +6221,7 @@ msgstr "Na ovaj način možete direktno uređivati komplet ključeva podešen u 
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
-msgstr "Upoznavanje sa PGP"
+msgstr "Uvod u PGP"
 
 #. Template: AdminPGP
 msgid "Result"
@@ -6237,7 +6237,7 @@ msgstr "Bit"
 
 #. Template: AdminPGP
 msgid "Fingerprint"
-msgstr "Sažetak"
+msgstr ""
 
 #. Template: AdminPGP
 msgid "Expires"
@@ -6249,11 +6249,11 @@ msgstr "Obriši ovaj ključ"
 
 #. Template: AdminPGP
 msgid "Add PGP Key"
-msgstr "Dodaj PGP-ključ"
+msgstr "Dodaj PGP ključ"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr "PGP-ključ"
+msgstr "PGP ključ"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
@@ -6265,7 +6265,7 @@ msgstr "Deinstaliraj paket"
 
 #. Template: AdminPackageManager
 msgid "Do you really want to uninstall this package?"
-msgstr "Da li uistinu želite deinstalirati ovaj paket?"
+msgstr "Da li zaista želite deinstalirati ovaj paket?"
 
 #. Template: AdminPackageManager
 msgid "Reinstall package"
@@ -6298,15 +6298,15 @@ msgstr "Instaliraj paket"
 
 #. Template: AdminPackageManager
 msgid "Update repository information"
-msgstr "Ažuriraj informacije o spremištu"
+msgstr "Ažuriraj informacije o repozitoriju"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr "Mrežno spremište"
+msgstr "Mrežni repozitorij"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
-msgstr "Dokumentacija kodula"
+msgstr "Dokumentacija modula"
 
 #. Template: AdminPackageManager
 msgid "Upgrade"
@@ -6314,7 +6314,7 @@ msgstr "Ažuriranje"
 
 #. Template: AdminPackageManager
 msgid "Local Repository"
-msgstr "Lokalno spremište"
+msgstr "Lokalni repozitorij"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTRSverify (tm)"
@@ -6384,7 +6384,7 @@ msgstr "Primarni ključ"
 
 #. Template: AdminPackageManager
 msgid "AutoIncrement"
-msgstr "samoprirast"
+msgstr "Samoprirast"
 
 #. Template: AdminPackageManager
 msgid "SQL"
@@ -6488,7 +6488,7 @@ msgstr "Radi otpreme ili filtriranja dolaznih poruka na osnovu zaglavlja. Uporab
 msgid ""
 "If you want to match only the email address, use "
 "EMAILADDRESS:info@example.com in From, To or Cc."
-msgstr "Ukoliko želite poklapanje samo sa adresama E-pošte, koristite EMAILADDRESS:info@example.com u \"Od\", \"Za\" ili \"Cc\"."
+msgstr "Ukoliko želite usklađivanje samo adresa e-pošte, koristite EMAILADDRESS:info@example.com u \"Od\", \"Za\" ili \"Cc\"."
 
 #. Template: AdminPostMasterFilter
 msgid ""
@@ -6502,11 +6502,11 @@ msgstr "Obriši ovaj filtar"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr "Dodaj \"PostMaster\" filtar"
+msgstr "Dodaj \"PostMaster\" filter"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr "Uredi \"PostMaster\" filtar"
+msgstr "Uredi \"PostMaster\" filter"
 
 #. Template: AdminPostMasterFilter
 msgid "The name is required."
@@ -6622,7 +6622,7 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Print"
-msgstr "Otisni"
+msgstr "Ispiši"
 
 #. Template: AdminProcessManagement
 msgid "Export Process Configuration"
@@ -6634,7 +6634,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close window"
-msgstr "Poništi & zatvori prozor"
+msgstr "Poništi i zatvori prozor"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
@@ -7169,19 +7169,19 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Manage Queues"
-msgstr "Upravljanje repovima"
+msgstr "Upravljanje redovima"
 
 #. Template: AdminQueue
 msgid "Add queue"
-msgstr "Dodaj rep"
+msgstr "Dodaj red"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr "Dodaj rep"
+msgstr "Dodaj red"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
-msgstr "Uredi rep"
+msgstr "Uredi red"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -7189,7 +7189,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
-msgstr "Pod-rep od"
+msgstr "Pod-red od"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
@@ -7212,7 +7212,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Notify by"
-msgstr "Pošiljalac obavjesti"
+msgstr "Zabilježeno od"
 
 #. Template: AdminQueue
 msgid "0 = no escalation"
@@ -7236,11 +7236,11 @@ msgstr ""
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the"
 " ticket is escalated."
-msgstr "Ako se karticu ne zatvori prije ovdje definiranog vremena, karticu eskalira."
+msgstr "Ako se karticu ne zatvori prije ovdje definiranog vremena, kartica eskalira."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
-msgstr "Opcije nastavka"
+msgstr "Opcije praćenja"
 
 #. Template: AdminQueue
 msgid ""
@@ -7663,7 +7663,7 @@ msgstr "Registrirajte se sada"
 
 #. Template: AdminRegistration
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Zaboravili ste lozinku?"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
@@ -7681,7 +7681,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "FQDN"
-msgstr ""
+msgstr "Puno ime domene"
 
 #. Template: AdminRegistration
 msgid "Optional description of this system."
@@ -7813,11 +7813,11 @@ msgstr "Pravo da se karticu premjesti u ovu grupu/rep."
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr "kreiranje"
+msgstr "napravi"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr "Pravo da se karticu kreira u ovoj grupi/repu."
+msgstr "Pravo da se karticu kreira u ovoj grupi/redu."
 
 #. Template: AdminRoleGroup
 msgid "note"
@@ -7825,7 +7825,7 @@ msgstr "napomena"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr "Dozvola za dodavanje napomena na kartice u ovoj grupi/repu."
+msgstr "Dozvola za dodavanje napomena karticama u ovoj grupi/redu."
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -7833,7 +7833,7 @@ msgstr "Vlasnik"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
-msgstr "Dozvole za promjenu vlasnika kartice u ovoj grupi/repu."
+msgstr "Dozvole za promjenu vlasnika kartice u ovoj grupi/redu."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -7841,27 +7841,27 @@ msgstr "prioritet"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Pravo da se mijenja prioritet kartice u ovoj grupi/repu."
+msgstr "Pravo da se mijenja prioritet kartice u ovoj grupi/redu."
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
-msgstr "Upravljanje vezama zaposlenik <-> uloga"
+msgstr "Upravljanje vezama Operater <-> Uloga"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
-msgstr "Filtar zaposlenika"
+msgstr "Filtar operatera"
 
 #. Template: AdminRoleUser
 msgid "Manage Role-Agent Relations"
-msgstr "Upravljanje vezama zaposlenik <-> uloga"
+msgstr "Upravljanje vezama Uloga <-> Operater"
 
 #. Template: AdminRoleUser
 msgid "Change Role Relations for Agent"
-msgstr "Promijeni veze sa ulogama za zaposlenika"
+msgstr "Promijeni veze sa Ulogama za Operatera"
 
 #. Template: AdminRoleUser
 msgid "Change Agent Relations for Role"
-msgstr "Promijeni veze sa zaposlenicima za ulogu"
+msgstr "Promijeni veze sa Operaterima za Ulogu"
 
 #. Template: AdminSLA
 msgid "SLA Management"
@@ -7998,19 +7998,19 @@ msgstr "Primjer zaglavlja/pozdrava"
 
 #. Template: AdminSecureMode
 msgid "Secure mode needs to be enabled!"
-msgstr "Potrebno je da \"siguran način\" bude uključen!"
+msgstr "Potrebno je da siguran način bude uključen!"
 
 #. Template: AdminSecureMode
 msgid ""
 "Secure mode will (normally) be set after the initial installation is "
 "completed."
-msgstr "\"Siguran način\" će (uobučajeno) biti postavljen nakon inicijalne instalacije."
+msgstr "Siguran način će (uobučajeno) biti postavljen nakon inicijalne instalacije."
 
 #. Template: AdminSecureMode
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
-msgstr "Ukoliko \"siguran način\" nije aktiviran, pokrenite ga kroz konfiguraciju sustava jer je vaša aplikacija već pokrenuta."
+msgstr "Ukoliko siguran način nije aktiviran, pokrenite ga kroz konfiguraciju sustava jer je vaša aplikacija već pokrenuta."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
@@ -8047,7 +8047,7 @@ msgstr "Format rezultata"
 
 #. Template: AdminSelectBox
 msgid "Run Query"
-msgstr "Pokreni upit"
+msgstr "Pokreni Upit"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -8063,11 +8063,11 @@ msgstr "Dodaj uslugu"
 
 #. Template: AdminService
 msgid "Add Service"
-msgstr "Dodaj uslugu"
+msgstr "Dodaj Uslugu"
 
 #. Template: AdminService
 msgid "Edit Service"
-msgstr "Uredi uslugu"
+msgstr "Uredi Uslugu"
 
 #. Template: AdminService
 msgid "Sub-service of"
@@ -8177,7 +8177,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Sending"
-msgstr "Pošiljatelj"
+msgstr "Slanje"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "The support bundle will be sent to OTRS Group via email automatically."
@@ -8212,7 +8212,7 @@ msgstr "Sve sesije"
 
 #. Template: AdminSession
 msgid "Agent sessions"
-msgstr "Sesije zaposlenika"
+msgstr "Sesije Operatera"
 
 #. Template: AdminSession
 msgid "Customer sessions"
@@ -8220,7 +8220,7 @@ msgstr "Sesije korisnika"
 
 #. Template: AdminSession
 msgid "Unique agents"
-msgstr "Jedinsveni zapolenici"
+msgstr "Jedinsveni operateri"
 
 #. Template: AdminSession
 msgid "Unique customers"
@@ -8272,7 +8272,7 @@ msgstr "Upravljanje statusima"
 
 #. Template: AdminState
 msgid "Add state"
-msgstr "Dodaj status"
+msgstr "Dodaj stanje"
 
 #. Template: AdminState
 msgid "Please also update the states in SysConfig where needed."
@@ -8280,15 +8280,15 @@ msgstr ""
 
 #. Template: AdminState
 msgid "Add State"
-msgstr "Dodaj status"
+msgstr "Dodaj stanje"
 
 #. Template: AdminState
 msgid "Edit State"
-msgstr "Uredi status"
+msgstr "Uredi stanje"
 
 #. Template: AdminState
 msgid "State type"
-msgstr "Tip statusa"
+msgstr "Tip stanja"
 
 #. Template: AdminSysConfig
 msgid "SysConfig"
@@ -8696,15 +8696,15 @@ msgstr "Prethodna prijava"
 
 #. Template: AdminUser
 msgid "Switch to agent"
-msgstr "Pređi na zaposlenika"
+msgstr "Prijeđi na operatera"
 
 #. Template: AdminUser
 msgid "Add Agent"
-msgstr "Dodaj zaposlenika"
+msgstr "Dodaj operatera"
 
 #. Template: AdminUser
 msgid "Edit Agent"
-msgstr "Uredi zaposlenika"
+msgstr "Uredi operatera"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -8732,15 +8732,15 @@ msgstr "Kraj"
 
 #. Template: AdminUserGroup
 msgid "Manage Agent-Group Relations"
-msgstr "Upravljanje vezama zaposlenik <-> grupa"
+msgstr "Upravljanje vezama Operater <-> Grupa"
 
 #. Template: AdminUserGroup
 msgid "Change Group Relations for Agent"
-msgstr "Promijeni veze s grupama za zaposlenika"
+msgstr "Promijeni veze s Grupama za Operatera"
 
 #. Template: AdminUserGroup
 msgid "Change Agent Relations for Group"
-msgstr "Promijeni veze s zaposlnicima za grupu"
+msgstr "Promijeni veze s operaterima za grupu"
 
 #. Template: AgentBook
 msgid "Address Book"
@@ -8937,7 +8937,7 @@ msgstr ""
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
-msgstr "kartica je zaključana."
+msgstr "Kartica je zaključana."
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "Undo & close window"
@@ -8957,7 +8957,7 @@ msgstr "Poveži objekt: %s"
 
 #. Template: AgentLinkObject
 msgid "go to link delete screen"
-msgstr "idi na ekran za brisanje veze"
+msgstr "idi na poveznicu za brisanje ekrana"
 
 #. Template: AgentLinkObject
 msgid "Select Target Object"
@@ -9023,7 +9023,7 @@ msgstr "Provjera pravopisa"
 
 #. Template: AgentSpelling
 msgid "spelling error(s)"
-msgstr "Pravopisne pogreške"
+msgstr "pravopisne pogreške"
 
 #. Template: AgentSpelling
 msgid "Apply these changes"
@@ -9035,7 +9035,7 @@ msgstr "Obriši statistiku"
 
 #. Template: AgentStatsDelete
 msgid "Do you really want to delete this stat?"
-msgstr "Da li uistinu želite obrisati ovu statistiku?"
+msgstr "Zaista želite obrisati ovu statistiku?"
 
 #. Template: AgentStatsEditRestrictions
 msgid "Step %s"
@@ -9051,7 +9051,7 @@ msgstr "Izaberite element koji će biti upotrebljen na X-osi"
 
 #. Template: AgentStatsEditRestrictions
 msgid "Select the elements for the value series"
-msgstr "Izaberite elemente za opsege vrijednosti"
+msgstr "Izaberite elemente za vrijednosti u nizu"
 
 #. Template: AgentStatsEditRestrictions
 msgid "Select the restrictions to characterize the stat"
@@ -9065,7 +9065,7 @@ msgstr "Ovdje možete postaviti ograničenja na vašoj statistici."
 msgid ""
 "If you remove the hook in the \"Fixed\" checkbox, the agent generating the "
 "stat can change the attributes of the corresponding element."
-msgstr "Ako uklonite oznaku sa elementa \"Fiksirano\", zaposlenik koji radi statistiku će moći izmijeniti atribute tog elementa."
+msgstr "Ako uklonite oznaku sa elementa \"Fiksirano\", operater koji radi statistiku će moći izmijeniti atribute tog elementa."
 
 #. Template: AgentStatsEditRestrictions
 msgid "Fixed"
@@ -9073,7 +9073,7 @@ msgstr "Fiksirano"
 
 #. Template: AgentStatsEditRestrictions
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr "Molimo izaberite samo jedan element ili isključite tipku \"fiksirano\"!"
+msgstr "Molimo izaberite samo jedan element ili isključite tipku \"Fiksirano\"!"
 
 #. Template: AgentStatsEditRestrictions
 msgid "Absolute Period"
@@ -9102,7 +9102,7 @@ msgstr "Dozvole"
 #. Template: AgentStatsEditSpecification
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr "Radi određivanja prava pristupa za zaposlenika, možete izabrati jednu ili više grupa."
+msgstr "Radi određivanja prava pristupa za operatere, možete izabrati jednu ili više grupa."
 
 #. Template: AgentStatsEditSpecification
 msgid ""
@@ -9140,7 +9140,7 @@ msgstr "Koristi predmemoriju"
 msgid ""
 "Most of the stats can be cached. This will speed up the presentation of this"
 " stat."
-msgstr "Većina stat. podataka se može keširati. Ovo će ubrzati prikaz statistike."
+msgstr "Većina stat. podataka se može privremeno pohraniti. Ovo će ubrzati prikaz statistike."
 
 #. Template: AgentStatsEditSpecification
 msgid "Show as dashboard widget"
@@ -9174,58 +9174,58 @@ msgstr ""
 
 #. Template: AgentStatsEditSpecification
 msgid "If set to invalid end users can not generate the stat."
-msgstr "Ako je pogrešno, krajnji korisnici ne mogu generisati statistiku."
+msgstr "Ako je postavljeno kao pogrešno, krajnji korisnici ne mogu napraviti statistiku."
 
 #. Template: AgentStatsEditValueSeries
 msgid "Here you can define the value series."
-msgstr "Ovde možete definisati opsege vrednosti."
+msgstr "Ovdje možete odrediti vrijednosti."
 
 #. Template: AgentStatsEditValueSeries
 msgid "You have the possibility to select one or two elements."
-msgstr "Imate mogućnost da izaberete jedan ili dva elementa."
+msgstr "Imate mogućnost izabrati jedan ili dva elementa."
 
 #. Template: AgentStatsEditValueSeries
 msgid "Then you can select the attributes of elements."
-msgstr "Onda možete izabrati atribute za elemente."
+msgstr "Onda možete izabrati atribute elemenata."
 
 #. Template: AgentStatsEditValueSeries
 msgid "Each attribute will be shown as single value series."
-msgstr "Svaki atribut će biti prikazan kao pojedinačni opseg vrednosti."
+msgstr "Svaki atribut će biti prikazan kao pojedinačna vrijednost."
 
 #. Template: AgentStatsEditValueSeries
 msgid ""
 "If you don't select any attribute all attributes of the element will be used"
 " if you generate a stat, as well as new attributes which were added since "
 "the last configuration."
-msgstr "Ako ne izaberete ni jedan atribut, prilikom generisanja statistike biće upotrebljeni svi atributi elementa kao i atributi dodani nakon poslednje konfiguracije."
+msgstr "Ako ne izaberete ni jedan atribut, prilikom stvaranja statistike bit će upotrebljeni svi atributi elementa kao i novi atributi dodani nakon posljednje konfiguracije."
 
 #. Template: AgentStatsEditValueSeries
 msgid "Scale"
-msgstr "Skaliranje"
+msgstr "Skala"
 
 #. Template: AgentStatsEditValueSeries
 msgid "minimal"
-msgstr "minimum"
+msgstr "najmanji"
 
 #. Template: AgentStatsEditValueSeries
 msgid ""
 "Please remember, that the scale for value series has to be larger than the "
 "scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year)."
-msgstr "Molimo zapamtite, da skala za opsege vrednosti moda da bude veća od skale za X-os (npr X-os => mjesec; Vrijednost opsega => godina)."
+msgstr "Molimo zapamtite, da skala vrijednosti mora biti veća od skale za X-os (npr. X-os => mjesec; ValueSeries => godina)."
 
 #. Template: AgentStatsEditXaxis
 msgid ""
 "Here you can define the x-axis. You can select one element via the radio "
 "button."
-msgstr ""
+msgstr "Ovdje možete odrediti os X. Možete izabrati jedan element."
 
 #. Template: AgentStatsEditXaxis
 msgid "maximal period"
-msgstr "maksimalni period"
+msgstr "najveći period"
 
 #. Template: AgentStatsEditXaxis
 msgid "minimal scale"
-msgstr "minimalna skala"
+msgstr "najmanja skala"
 
 #. Template: AgentStatsImport
 msgid "Import Stat"
@@ -9245,7 +9245,7 @@ msgstr "Statistika"
 
 #. Template: AgentStatsPrint
 msgid "No Element selected."
-msgstr "Niste odabrali niti jedan od elemenata."
+msgstr "Niste odabrali niti jedan element."
 
 #. Template: AgentStatsView
 msgid "Export config"
@@ -9265,7 +9265,7 @@ msgstr "Na koja polja i formate možete utjecati definirano je od strane adminis
 
 #. Template: AgentStatsView
 msgid "Stat Details"
-msgstr "Detalji staistke"
+msgstr "Detalji statistike"
 
 #. Template: AgentStatsView
 msgid "Format"
@@ -9277,19 +9277,19 @@ msgstr "Veličina grafa"
 
 #. Template: AgentStatsView
 msgid "Cache"
-msgstr "Predmemorija"
+msgstr "Privremena memorija"
 
 #. Template: AgentStatsView
 msgid "Exchange Axis"
-msgstr "Zamijeni ose"
+msgstr "Zamijeni osi"
 
 #. Template: AgentStatsViewSettings
 msgid "Configurable params of static stat"
-msgstr "Postavi parametri statičke statistike"
+msgstr "Postavi parametre statičke statistike"
 
 #. Template: AgentStatsViewSettings
 msgid "No element selected."
-msgstr "Nije izabran ni jedan element."
+msgstr "Nije izabran niti jedan element."
 
 #. Template: AgentStatsViewSettings
 msgid "maximal period from"
@@ -9305,19 +9305,19 @@ msgstr ""
 
 #. Template: AgentStatsViewSettings
 msgid "Select Chart Type"
-msgstr ""
+msgstr "Izaberi vrstu grafa"
 
 #. Template: AgentStatsViewSettings
 msgid "Chart Type"
-msgstr ""
+msgstr "Vrsta grafa"
 
 #. Template: AgentStatsViewSettings
 msgid "Multi Bar Chart"
-msgstr ""
+msgstr "Višestruki trakasti graf"
 
 #. Template: AgentStatsViewSettings
 msgid "Multi Line Chart"
-msgstr ""
+msgstr "Višestruki linijski graf"
 
 #. Template: AgentStatsViewSettings
 msgid "Stacked Area Chart"
@@ -9405,7 +9405,7 @@ msgstr "Tip napomene"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform Agent"
-msgstr "Obavijesti zaposlenika"
+msgstr "Obavijesti operatera"
 
 #. Template: AgentTicketActionCommon
 msgid "Optional"
@@ -9413,7 +9413,7 @@ msgstr "Proizvoljno"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved Agents"
-msgstr "Obavijesti uključene zaposlenike"
+msgstr "Obavijesti uključene operatere"
 
 #. Template: AgentTicketActionCommon
 msgid ""
@@ -9443,7 +9443,7 @@ msgstr "Ispravna adresa E-pošte je neophodna, ali ne koristite lokalnu adresu!"
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
-msgstr "Naredni status kartice"
+msgstr "Sljedeći status kartice"
 
 #. Template: AgentTicketBounce
 msgid "Inform sender"
@@ -9535,7 +9535,7 @@ msgstr ""
 
 #. Template: AgentTicketEmail
 msgid "From queue"
-msgstr "Iz repa"
+msgstr "Iz reda"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
@@ -9619,7 +9619,7 @@ msgstr "Premjesti karticu"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
-msgstr "Novi rep"
+msgstr "Novi red"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select all"
@@ -9643,11 +9643,11 @@ msgstr "Vrijeme ažuriranja"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Solution Time"
-msgstr "Vrijeme rješenja"
+msgstr "Vrijeme rješavanja"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr "Premjesti karticu u drugi rep"
+msgstr "Premjesti karticu u drugi red"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
@@ -9691,7 +9691,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr "U rep"
+msgstr "U red"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
@@ -9805,7 +9805,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
-msgstr "Otvoreno u repu"
+msgstr "Otvoreno u redu"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
@@ -9825,11 +9825,11 @@ msgstr "Vrijeme kreiranja članka (između)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
-msgstr "Vrijeme otvaranja kartice (prije/poslije)"
+msgstr "Vrijeme nastanka kartice (prije/poslije)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (between)"
-msgstr "Vrijeme otvaranja kartice (između)"
+msgstr "Vrijeme nastanka kartice (između)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (before/after)"
@@ -9869,7 +9869,7 @@ msgstr "Pretraga arhive"
 
 #. Template: AgentTicketSearch
 msgid "Run search"
-msgstr ""
+msgstr "Pokreni pretragu"
 
 #. Template: AgentTicketZoom
 msgid "Article filter"
@@ -9917,7 +9917,7 @@ msgstr "Povezani objekti"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr "Promijeni rep"
+msgstr "Promijeni red"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
@@ -10105,7 +10105,7 @@ msgstr ""
 
 #. Template: CustomerLogin
 msgid "Login"
-msgstr "Prijava za rad"
+msgstr "Prijava"
 
 #. Template: CustomerLogin
 msgid "User name"
@@ -10145,7 +10145,7 @@ msgstr "Nova lozinka će Vam biti poslana na Vašu adresu E-pošte."
 
 #. Template: CustomerLogin
 msgid "Create Account"
-msgstr "Kreirajte nalog"
+msgstr "Napravite korisnički račun"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
@@ -10197,11 +10197,11 @@ msgstr "Dobrodošli!"
 
 #. Template: CustomerTicketOverview
 msgid "Please click the button below to create your first ticket."
-msgstr "Molimo kliknite tipku ispod kako bi ste započeli svoju prvu karticu prijave problema."
+msgstr "Molimo kliknite tipku ispod kako bi ste napravili svoju prvu karticu."
 
 #. Template: CustomerTicketOverview
 msgid "Create your first ticket"
-msgstr "Započni prvu karticu"
+msgstr "Napravi prvu karticu"
 
 #. Template: CustomerTicketPrint
 msgid "Ticket Print"
@@ -10225,7 +10225,7 @@ msgstr "ID korisnika"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext search in tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr "Tekstualno pretraživanje u karticama (npr \"Mar*a\" or \"Hor*ić\")"
+msgstr "Tekstualno pretraživanje u karticama (npr. \"Kre*o\" ili \"Željk*\")"
 
 #. Template: CustomerTicketSearch
 msgid "Carbon Copy"
@@ -10249,11 +10249,11 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created"
-msgstr "Samo tek otvorene kartice"
+msgstr "Samo otvorene kartice"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
-msgstr "Samo kartice otvoreni između"
+msgstr "Samo kartice otvorene između"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket archive system"
@@ -10385,11 +10385,11 @@ msgstr "Neispravan datum (poteban budući datum)!"
 
 #. Template: Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "Neispravan datum (potreban već protekli datum)!"
 
 #. Template: Datepicker
 msgid "Previous"
-msgstr "Natrag"
+msgstr "Prethodni"
 
 #. Template: Datepicker
 msgid "Open date selection"
@@ -10397,7 +10397,7 @@ msgstr "Otvori izbor datuma"
 
 #. Template: Error
 msgid "Oops! An Error occurred."
-msgstr "Ups. Dogodila se pogreška."
+msgstr "Ups! Dogodila se pogreška."
 
 #. Template: Error
 msgid "You can"
@@ -10409,7 +10409,7 @@ msgstr "Pošalji izvještaj o pogrešci"
 
 #. Template: Error
 msgid "go back to the previous page"
-msgstr "idi na prethodnu stranu"
+msgstr "idi na prethodnu stranicu"
 
 #. Template: Error
 msgid "Error Details"
@@ -10666,7 +10666,7 @@ msgstr "Nakon ovoga Vaš OTRS je uključen i radi."
 
 #. Template: InstallerFinish
 msgid "Start page"
-msgstr "Početna strana"
+msgstr "Početna stranica"
 
 #. Template: InstallerFinish
 msgid "Your OTRS Team"
@@ -10678,17 +10678,17 @@ msgstr "Ne prihvaćaj licencu"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
-msgstr ""
+msgstr "Prihvati licencu i nastavi"
 
 #. Template: InstallerSystem
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr "Sustavski identifikator. Svaki broj kartice i svaki ID HTTP sesije sadrži ovaj broj."
+msgstr "Identifikator sustava. Svaki broj kartice i svaki ID HTTP sesije sadrži ovaj broj."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
-msgstr "Sustavski FQDN"
+msgstr "Puno ime domene sustava"
 
 #. Template: InstallerSystem
 msgid "Fully qualified domain name of your system."
@@ -10771,7 +10771,7 @@ msgstr "Natrag na prijavu"
 
 #. Template: Motd
 msgid "Message of the Day"
-msgstr "Današnja poruka"
+msgstr "Poruka dana"
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -10894,7 +10894,7 @@ msgstr "Aktivira mehanizam treptanja retka koji sadrži najstariju karticu."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr "Aktivira opciju izgubljene lozinke za zaposlene, na sučelju za njih."
+msgstr "Aktivira opciju izgubljene lozinke za operatere, na sučelju operatera."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
@@ -10914,7 +10914,7 @@ msgstr "Aktivira filter za članke u proširenom pregledu radi definiranja koji 
 msgid ""
 "Activates the available themes on the system. Value 1 means active, 0 means "
 "inactive."
-msgstr "Aktivira raspoložive teme - šablone u sustavu. Vrijednost 1 znači aktivno, 0 znači neaktivno."
+msgstr "Aktivira raspoložive teme. Vrijednost 1 znači aktivno, 0 znači neaktivno."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
@@ -10941,7 +10941,7 @@ msgstr "\"E-pošta poslana korisniku. %s\""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "Veza na \"%s\" postavljena."
+msgstr "Poveza na karticu \"%s\" postavljena."
 
 #. SysConfig
 msgid "Added note (%s)"
@@ -10990,19 +10990,19 @@ msgstr "Trajno dodaje neradne dane. Molimo Vas da koristite jednoznamenkasti bro
 
 #. SysConfig
 msgid "Agent Notifications"
-msgstr "Obavijesti zaposlenima"
+msgstr "Obavijesti operaterima"
 
 #. SysConfig
 msgid "Agent called customer."
-msgstr "\"Zaposlenikov telefonski poziv.\""
+msgstr "\"Operaterov telefonski poziv.\""
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
-msgstr "Modul sučelja zaposlenih za obavještavanja o članku, provjera PGP."
+msgstr "Modul sučelja operatera za obavještavanja o članku, provjera PGP."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr "Modul sučelja zaposlenih za obavještavanja o članku, provjera S/MIME"
+msgstr "Modul sučelja operatera za obavještavanja o članku, provjera S/MIME"
 
 #. SysConfig
 msgid "Agent interface module to access CIC search via nav bar."
@@ -11010,7 +11010,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent interface module to access fulltext search via nav bar."
-msgstr "Modul sučelja zaposlenih za pristup tekstualnom pretraživanju preko navigacijske trake."
+msgstr "Modul sučelja operatera za pristup tekstualnom pretraživanju preko navigacijske trake."
 
 #. SysConfig
 msgid "Agent interface module to access search profiles via nav bar."
@@ -11020,7 +11020,7 @@ msgstr "Modul sučelja zaposlenih za pristup profilima pretraživanja preko navi
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
-msgstr "Modul sučelja zaposlenih za provjeru dolaznih poruka u uvećanom pregledu kartice ako \"S/MIME\"-ključ postoji i dostupan je."
+msgstr "Modul sučelja operatera za provjeru dolaznih poruka u uvećanom pregledu kartice ako \"S/MIME\"-ključ postoji i dostupan je."
 
 #. SysConfig
 msgid ""
@@ -11031,7 +11031,7 @@ msgstr ""
 msgid ""
 "Agent interface notification module to see the number of tickets an agent is"
 " responsible for."
-msgstr "Modul sučelja zaposlenih za obvještavanje, pregled broja kartice za koje je agent odgovoran."
+msgstr "Modul sučelja operatera za obvještavanje, pregled broja kartice za koje je agent odgovoran."
 
 #. SysConfig
 msgid ""
@@ -11042,15 +11042,15 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Agent interface notification module to see the number of watched tickets."
-msgstr "Modul sučelja zaposlenih za obvještavanje, pregled broja praćenih kartica."
+msgstr "Modul sučelja operatera za obvještavanje, pregled broja praćenih kartica."
 
 #. SysConfig
 msgid "Agents <-> Groups"
-msgstr "Zaposlenici <-> Grupe"
+msgstr "Operateri <-> Grupe"
 
 #. SysConfig
 msgid "Agents <-> Roles"
-msgstr "Zaposlenici <-> Uloge"
+msgstr "Operateri <-> Uloge"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -11100,11 +11100,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr "Dozvoljava zaposlenima da zamjene osi na statistici ako je generiraju."
+msgstr "Dozvoljava operaterima da zamjene osi na pokrenutoj statistici."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
-msgstr "Dozvoljava zaposlenima da generiraju individualnu statistiku."
+msgstr "Dozvoljava operaterima da pokrenu individualnu statistiku."
 
 #. SysConfig
 msgid ""
@@ -11226,15 +11226,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Auto Responses <-> Queues"
-msgstr "Automatski odgovori <-> Repovi"
+msgstr "Automatski odgovori <-> Redovi"
 
 #. SysConfig
 msgid "AutoFollowUp sent to \"%s\"."
-msgstr "Automatski nastavak za \"%s\"."
+msgstr "Automatski nastavak poslan za \"%s\"."
 
 #. SysConfig
 msgid "AutoReject sent to \"%s\"."
-msgstr "Automatski odbačeno \"%s\"."
+msgstr "Automatski odbačeno poslano \"%s\"."
 
 #. SysConfig
 msgid "AutoReply sent to \"%s\"."
@@ -11254,7 +11254,7 @@ msgstr ""
 msgid ""
 "Automatically lock and set owner to current Agent after selecting for an "
 "Bulk Action."
-msgstr "Automatsko zaključavanje i postavljanje vlasnika na aktualnog zaposlenog nakon izbora masovne akcije."
+msgstr "Automatsko zaključavanje i postavljanje vlasnika na aktualnog operatera nakon izbora masovne akcije."
 
 #. SysConfig
 msgid ""
@@ -11339,7 +11339,7 @@ msgstr "Promjena lozinke"
 
 #. SysConfig
 msgid "Change queue!"
-msgstr "Promjena repa!"
+msgstr "Promjena reda!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
@@ -11359,7 +11359,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "Ažuriran prioritet sa \"%s\" (%s) na \"%s\" (%s)."
+msgstr "Promjenjen prioritet sa \"%s\" (%s) na \"%s\" (%s)."
 
 #. SysConfig
 msgid ""
@@ -11455,7 +11455,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
-msgstr "Komentar za nove povijesne unose u korisničkom sučelju."
+msgstr "Komentar za nove povjesne unose u korisničkom sučelju."
 
 #. SysConfig
 msgid "Comment2"
@@ -11567,7 +11567,7 @@ msgstr "Kreiranje i upravljanje grupama."
 
 #. SysConfig
 msgid "Create and manage queues."
-msgstr "Kreiranje i upravljanje repovima."
+msgstr "Kreiranje i upravljanje redovima."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
@@ -11749,7 +11749,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the agent interface."
-msgstr "Zadani ID kartice koji koristi sustav u sučelju zaposlenih."
+msgstr "Zadani ID kartice koji koristi sustav u sučelju operatera."
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the customer interface."
@@ -11817,7 +11817,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
-msgstr "Definira prvi dan u nedelji za izbor datuma."
+msgstr "Odredi prvi dan u nedjelji za izbor datuma."
 
 #. SysConfig
 msgid ""
@@ -12493,7 +12493,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the default spell checker dictionary."
-msgstr "Određuje zadani rečnik za proveru pravopisa."
+msgstr "Određuje zadani rječnik za provjeru pravopisa."
 
 #. SysConfig
 msgid ""
@@ -13010,7 +13010,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
-msgstr "Određuje sate i dane u sedmici radi kalkulacija radnog vremena."
+msgstr "Određuje sate i dane u tjednu radi kalkulacija radnog vremena."
 
 #. SysConfig
 msgid ""
@@ -13089,7 +13089,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
-msgstr "Određuje maksimalno vreme važenja (u sekundama) za ID sesije."
+msgstr "Određuje maksimalno vrijeme važenja (u sekundama) za ID sesije."
 
 #. SysConfig
 msgid ""
@@ -13222,7 +13222,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the name of the key for customer sessions."
-msgstr "Određuje naziv ključa za korisničke secije."
+msgstr "Određuje naziv ključa za korisničke sesije."
 
 #. SysConfig
 msgid "Defines the name of the session key. E.g. Session, SessionID or OTRS."
@@ -14164,7 +14164,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables spell checker support."
-msgstr "Omogućava podrđku za proveru pravopisa."
+msgstr "Omogućuje podršku za provjeru pravopisa."
 
 #. SysConfig
 msgid ""
@@ -14371,7 +14371,7 @@ msgstr ""
 
 #. SysConfig
 msgid "FollowUp for [%s]. %s"
-msgstr "Nastavak kartice [%s]. %s"
+msgstr "Slijedi za [%s]. %s"
 
 #. SysConfig
 msgid ""
@@ -14986,11 +14986,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Link agents to groups."
-msgstr "Poveži zaposlene sa gupama."
+msgstr "Poveži operatere s gupama."
 
 #. SysConfig
 msgid "Link agents to roles."
-msgstr "Poveži zaposlene sa ulogama."
+msgstr "Poveži operatere s ulogama."
 
 #. SysConfig
 msgid "Link attachments to templates."
@@ -15006,7 +15006,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Poveži repove s automatskim odgovorima."
+msgstr "Poveži redove s automatskim odgovorima."
 
 #. SysConfig
 msgid "Link roles to groups."
@@ -15091,7 +15091,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "kartica zaključana."
+msgstr "Kartica zaključana."
 
 #. SysConfig
 msgid "Log file for the ticket counter."
@@ -15099,7 +15099,7 @@ msgstr "Datoteka dnevnika za brojač kartice."
 
 #. SysConfig
 msgid "Loop-Protection! No auto-response sent to \"%s\"."
-msgstr "Zaštita od mrtve petlje! Automatski odgovor nije poslan na \"%s\"."
+msgstr "Zaštita od petlje! Automatski odgovor nije poslan na \"%s\"."
 
 #. SysConfig
 msgid "Mail Accounts"
@@ -15233,7 +15233,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to check customer permissions."
-msgstr "Modul za proveru korisničkih dozvola."
+msgstr "Modul za provjeru korisničkih dozvola."
 
 #. SysConfig
 msgid ""
@@ -15339,7 +15339,7 @@ msgstr ""
 
 #. SysConfig
 msgid "My Tickets"
-msgstr "Moji kartice"
+msgstr "Moje kartice"
 
 #. SysConfig
 msgid ""
@@ -15375,7 +15375,7 @@ msgstr "Novi vlasnik je \"%s\" (ID=%s)."
 
 #. SysConfig
 msgid "New phone ticket"
-msgstr "Novi telefonski karticu"
+msgstr "Nova telefonska kartica"
 
 #. SysConfig
 msgid "New process ticket"
@@ -15471,7 +15471,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "pregled svih otvorenih kartice."
+msgstr "Pregled svih otvorenih kartica."
 
 #. SysConfig
 msgid "PGP Key Management"
@@ -15801,7 +15801,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Queue view"
-msgstr "Pregled repa"
+msgstr "Pregled reda"
 
 #. SysConfig
 msgid ""
@@ -15829,18 +15829,18 @@ msgstr ""
 msgid ""
 "Replaces the original sender with current customer's email address on "
 "compose answer in the ticket compose screen of the agent interface."
-msgstr "Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja zaposlenika."
+msgstr "Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to change the customer of a ticket in the agent "
 "interface."
-msgstr "Potrebne dozvole za promenu korisnika kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za promenu korisnika kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the close ticket screen in the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za zatvaranje kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora za zatvaranje kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
@@ -15851,48 +15851,48 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket bounce screen in the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za odbijanje kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora za odbijanje kartice u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket compose screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora za otvaranje kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora za otvaranje kartice u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket forward screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora za prosleđivanje kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora za prosleđivanje kartice u sučelju zaposlenog."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket free text screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora slobodnog teksta kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora slobodnog teksta kartice u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket merge screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za spajanje pri uvećanom prikazu kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora za spajanje pri uvećanom prikazu kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket note screen in the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora za napomene kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora za napomene kartice u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket owner screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora vlasnika tuketa pri uvećanom prikazu kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora vlasnika tuketa pri uvećanom prikazu kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket pending screen of a zoomed ticket in "
 "the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora čekanja pri uvećanom prikazu kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora čekanja pri uvećanom prikazu kartice u interfejsu operatera."
 
 #. SysConfig
 msgid ""
@@ -15904,19 +15904,19 @@ msgstr ""
 msgid ""
 "Required permissions to use the ticket phone outbound screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora telefonskog odlaznog kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora telefonskog odlaznog kartice u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket priority screen of a zoomed ticket in"
 " the agent interface."
-msgstr "Potrebne dozvole za upotrebu prozora prioriteta pri uvećanom prikazu kartice u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora prioriteta pri uvećanom prikazu kartice u sučelju operatera."
 
 #. SysConfig
 msgid ""
 "Required permissions to use the ticket responsible screen in the agent "
 "interface."
-msgstr "Potrebne dozvole za upotrebu prozora odgovornog za karticu u interfejsu zaposlenog."
+msgstr "Potrebne dozvole za upotrebu prozora odgovornog za karticu u sučelju operatera."
 
 #. SysConfig
 msgid ""
@@ -15969,7 +15969,7 @@ msgstr ""
 
 #. SysConfig
 msgid "S/MIME Certificate Upload"
-msgstr "Slanje \"S/MIME\" sertifikata"
+msgstr "Slanje \"S/MIME\" certifikata"
 
 #. SysConfig
 msgid "Sample command output"

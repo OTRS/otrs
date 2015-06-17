@@ -2986,7 +2986,7 @@ sub Data {
         'Show all articles' => 'Visa alla artiklar',
         'Show Ticket Timeline View' => '',
         'Unread articles' => 'Olästa artiklar',
-        'No.' => 'Nej',
+        'No.' => 'Nr.',
         'Important' => 'Viktigt',
         'Unread Article!' => 'Oläst artikel!',
         'Incoming message' => 'Inkommande meddelande',

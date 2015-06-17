@@ -701,9 +701,9 @@ sub Data {
         'Webserver Version' => 'Webkiszolgáló verzió',
         'Could not determine webserver version.' => 'Nem sikerült meghatározni a webkiszolgáló verzióját.',
         'Loaded Apache Modules' => 'Betöltött Apache modulok',
-        'MPM model' => '',
+        'MPM model' => 'MPM modell',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
-            '',
+            'Az OTRS az apache „prefork” MPM modellel való futtatását igényli.',
         'CGI Accelerator Usage' => 'CGI gyorsító használat',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'A FastCGI vagy a mod_perl használatára lenne szüksége a teljesítmény növeléséhez.',
@@ -867,7 +867,7 @@ sub Data {
         'Create new Email Ticket' => 'Új e-mail jegy létrehozása',
         'Phone-Ticket' => 'Telefonos jegy',
         'Search Tickets' => 'Jegyek keresése',
-        'Customer Realname' => '',
+        'Customer Realname' => 'Ügyfél valódi neve',
         'Customer History' => 'Ügyfél előzmények',
         'Edit Customer Users' => 'Ügyfél-felhasználók szerkesztése',
         'Edit Customer' => 'Ügyfél szerkesztése',
@@ -1298,7 +1298,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Ez az esemény már csatolva van a feladathoz, használjon egy másikat.',
         'Delete this Event Trigger' => 'Esemény-aktiváló törlése',
-        'Remove selection' => '',
+        'Remove selection' => 'Kijelölés eltávolítása',
         'Select Tickets' => 'Jegyek kijelölése',
         '(e. g. 10*5155 or 105658*)' => '(például 10*5155 vagy 105658*)',
         '(e. g. 234321)' => '(például 234321)',
@@ -2857,11 +2857,11 @@ sub Data {
         'E-Mail Outbound' => 'Kimenő e-mail',
 
         # Template: AgentTicketEscalation
-        'Ticket %s: first response time is over (%s/%s)!' => '',
-        'Ticket %s: first response time will be over in %s/%s!' => '',
-        'Ticket %s: update time will be over in %s/%s!' => '',
-        'Ticket %s: solution time is over (%s/%s)!' => '',
-        'Ticket %s: solution time will be over in %s/%s!' => '',
+        'Ticket %s: first response time is over (%s/%s)!' => '%s jegy: az első válaszidő lejárt (%s/%s)!',
+        'Ticket %s: first response time will be over in %s/%s!' => '%s jegy: az első válaszidő le fog járni: %s/%s!',
+        'Ticket %s: update time will be over in %s/%s!' => '%s jegy: a frissítési idő le fog járni: %s/%s!',
+        'Ticket %s: solution time is over (%s/%s)!' => '%s jegy: a megoldási idő lejárt (%s/%s)!',
+        'Ticket %s: solution time will be over in %s/%s!' => '%s jegy: a megoldási idő le fog járni: %s/%s!',
 
         # Template: AgentTicketForward
         'Forward ticket: %s - %s' => 'Jegy továbbítása: %s - %s',
@@ -3060,7 +3060,7 @@ sub Data {
         'Incoming Chat Requests' => 'Bejövő csevegés kérések',
         'You have unanswered chat requests' => 'Megválaszolatlan csevegés kérései vannak',
         'Edit personal preferences' => 'Személyes beállítások szerkesztése',
-        'Logout %s %s' => '',
+        'Logout %s %s' => 'Kilépés: %s %s',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => 'Idézet felosztása',
@@ -3148,7 +3148,7 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             'Adjon meg legalább egy keresési értéket, vagy * karaktert, ha bármire rá szeretne keresni.',
         'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
+            'Távolítsa el a következő szavakat a keresésből, mivel azokra nem lehet rákeresni:',
         'Please check the fields marked as red for valid inputs.' => 'Ellenőrizze a pirosan megjelölt mezőket a helyes bevitelekért.',
         'Please perform a spell check on the the text first.' => 'Először hajtson végre helyesírás-ellenőrzést a szövegen.',
         'Slide the navigation bar' => 'Csúsztassa a navigációs sávot',
@@ -3162,7 +3162,7 @@ sub Data {
         'JavaScript not available' => 'JavaScript nem érhető el',
         'Database Settings' => 'Adatbázis-beállítások',
         'General Specifications and Mail Settings' => 'Általános specifikációk és levelezési beállítások',
-        'Welcome to %s' => '',
+        'Welcome to %s' => 'Üdvözli a(z) %s',
         'Web site' => 'Weboldal',
         'Mail check successful.' => 'Levélellenőrzés sikeres.',
         'Error in the mail settings. Please correct and try again.' => 'Hiba van a levélbeállításokban. Javítsa és próbálja újra.',
@@ -3286,7 +3286,7 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'OTRS tesztoldal',
-        'Welcome %s %s' => '',
+        'Welcome %s %s' => 'Üdvözli a(z) %s %s',
         'Counter' => 'Számláló',
 
         # Template: Warning
@@ -3574,7 +3574,7 @@ sub Data {
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.' =>
             'Szűrő meghatározása a HTML kimenethez, hogy hivatkozást adjon egy meghatározott szöveg mögé. Ez a képelem kétfajta bevitelt tesz lehetővé. Elsőként egy kép nevét (például faq.png). Ez esetben az OTRS képútvonal lesz felhasználva. A másik lehetőség a hivatkozás beszúrása a képhez.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the next setting below.' =>
-            'Leképezés meghatározása az ügyfél-felhasználó adatainak változói (kulcsok) és a jegyek dinamikus mezői (értékek) között. A cél az ügyfél-felhasználó adatainak tárolása a jegy dinamikus mezőiben. A dinamikus mezőknek jelen kell lennie a rendszeren, és engedélyezve kell lenniük az AgentTicketPhone, AgentTicketEmail és AgentTicketCustomer számára. Ha azok voltak, akkor elsőbbséget élveznek az automatikusan beállított értékekkel szemben. A leképezés használatához a következő lenti beállítást is aktiválnia kell.',
+            'Leképezés meghatározása az ügyfél-felhasználó adatainak változói (kulcsok) és a jegyek dinamikus mezői (értékek) között. A cél az ügyfél-felhasználó adatainak tárolása a jegy dinamikus mezőiben. A dinamikus mezőknek jelen kell lennie a rendszeren, és engedélyezve kell lenniük az AgentTicketFreeText számára azért, hogy az ügyintéző beállíthassa vagy frissíthesse azokat. Nem szabad engedélyezve lenniük az AgentTicketPhone, az AgentTicketEmail és az AgentTicketCustomer számára. Ha azok voltak, akkor elsőbbséget élveznek az automatikusan beállított értékekkel szemben. A leképezés használatához a következő lenti beállítást is aktiválnia kell.',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Dinamikus mezőnév meghatározása a befejezési időhöz. Ezt a mezőt kézzel kell hozzáadni a rendszerhez „Dátum / Idő” jegyként, és aktiválni kell a jegylétrehozó képernyőn és/vagy bármely más jegyművelet képernyőn.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -4154,7 +4154,7 @@ sub Data {
         'Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
             'Meghatározza a webkiszolgáló által használt protokoll típusát az alkalmazás kiszolgálásához. Ha https protokollt fognak használni az egyszerű http helyett, akkor azt itt kell megadni. Mivel ez nem befolyásolja a webkiszolgáló beállításait vagy viselkedését, ezért nem fogja megváltoztatni az alkalmazáshoz való hozzáférés módját, és ha rossz, nem fogja megakadályozni az alkalmazásba való belépést. Ezt a beállítást csak az OTRS_CONFIG_HttpType változójaként használják, amely az alkalmazás által használt üzenetküldés összes űrlapján megtalálható a jegyekre mutató hivatkozások készítéséhez a rendszeren belül.',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
-            'Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyírás képernyőjén.',
+            'Meghatározza az egyszerű szöveges e-mail idézetekhez használt karaktert az ügyintézői felület jegyírás képernyőjén. Ha ez üres vagy inaktív, akkor az eredeti levelek nem lesznek idézve, viszont hozzáfűzésre kerülnek a válaszhoz.',
         'Defines the user identifier for the customer panel.' => 'Meghatározza a felhasználói azonosítót az ügyfélpanelhez.',
         'Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).' =>
             'Meghatározza a SOAP leíróhoz való hozzáférés felhasználónevét (bin/cgi-bin/rpc.pl).',
@@ -4222,7 +4222,7 @@ sub Data {
         'Disables the web installer (http://yourhost.example.com/otrs/installer.pl), to prevent the system from being hijacked. If set to "No", the system can be reinstalled and the current basic configuration will be used to pre-populate the questions within the installer script. If not active, it also disables the GenericAgent, PackageManager and SQL Box.' =>
             'Letiltja a webes telepítőt (http://yourhost.example.com/otrs/installer.pl), hogy megakadályozza a rendszer feltörését. Ha „Nem” értékre állítja, a rendszer újratelepíthető, és a jelenlegi alap konfiguráció lesz felhasználva a telepítő parancsfájlon belüli kérdések előre kitöltéséhez. Ha nem aktív, akkor letiltja az általános ügyintézőt, a csomagkezelőt és az SQL dobozt is.',
         'Display a warning and prevent search when using stop words within fulltext search.' =>
-            '',
+            'Figyelmeztetés megjelenítése és a keresés megakadályozása, ha leállítási szavakat használ a szabad-szavas keresésen belül.',
         'Display settings to override defaults for Process Tickets.' => 'Beállítások megjelenítése az alapértékek felülbírálásához a jegyek feldolgozásánál.',
         'Displays the accounted time for an article in the ticket zoom view.' =>
             'Megjeleníti az elszámolt időt egy bejegyzésnél a jegy nagyítás nézeten.',

@@ -707,9 +707,9 @@ sub Data {
         'Webserver Version' => 'Версия Веб-сервера',
         'Could not determine webserver version.' => 'Не удалось определить версию Веб - сервера.',
         'Loaded Apache Modules' => 'Загруженные модули Apache',
-        'MPM model' => '',
+        'MPM model' => 'MPM model',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
-            '',
+            'Для OTRS необходимо, чтобы apache работал с опцией \'prefork\' MPM model.',
         'CGI Accelerator Usage' => 'Использование CGI Accelerator',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Необходимо использовать FastCGI или mod_perl для повышения производительности.',
@@ -873,7 +873,7 @@ sub Data {
         'Create new Email Ticket' => 'Создать заявку по email',
         'Phone-Ticket' => 'Заявка по телефону',
         'Search Tickets' => 'Поиск заявок',
-        'Customer Realname' => '',
+        'Customer Realname' => 'ФИО клиента',
         'Customer History' => 'История клиента',
         'Edit Customer Users' => 'Редактировать клиентов',
         'Edit Customer' => 'Редактировать компанию',
@@ -1304,7 +1304,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Это событие уже назначено задаче. Выберите другое.',
         'Delete this Event Trigger' => 'Удалить этот Триггер События',
-        'Remove selection' => '',
+        'Remove selection' => 'Удалить выбор',
         'Select Tickets' => 'Выбрать заявки',
         '(e. g. 10*5155 or 105658*)' => '(например, 10*5155 или 105658*)',
         '(e. g. 234321)' => '(например, 234321)',
@@ -1447,22 +1447,22 @@ sub Data {
         'This rule will apply for all keys with no mapping rule.' => '',
         'Default rule for unmapped values' => 'Правило по-умолчанию для неопределенных значений',
         'This rule will apply for all values with no mapping rule.' => 'Это правило будет применено для всех значений без правил',
-        'New key map' => '',
-        'Add key mapping' => '',
-        'Mapping for Key ' => '',
+        'New key map' => 'Новая карта ключкй',
+        'Add key mapping' => 'Добавить мапинг ключа',
+        'Mapping for Key ' => 'Мапинг для ключа',
         'Remove key mapping' => '',
-        'Key mapping' => '',
+        'Key mapping' => 'Мапинг ключа',
         'Map key' => '',
         'matching the' => 'соответствует',
         'to new key' => 'для нового ключа',
-        'Value mapping' => '',
-        'Map value' => '',
+        'Value mapping' => 'Значение мапинга',
+        'Map value' => 'Карта значений',
         'to new value' => 'в новое значение',
         'Remove value mapping' => '',
         'New value map' => '',
         'Add value mapping' => '',
         'Do you really want to delete this key mapping?' => '',
-        'Delete this Key Mapping' => '',
+        'Delete this Key Mapping' => 'Удалить этот мапинг ключа',
 
         # Template: AdminGenericInterfaceOperationDefault
         'Add new Operation to Web Service %s' => 'Добавить новую операцию для веб-сервиса %s',
@@ -1499,7 +1499,7 @@ sub Data {
         'This field should be an integer number.' => 'Это поле должно быть целым числом.',
         'Here you can specify the maximum size (in bytes) of REST messages that OTRS will process.' =>
             'Здесь вы можете задать макс. размер (в байтах) REST сообщений, которые OTRS будет обрабатывать.',
-        'Send Keep-Alive' => '',
+        'Send Keep-Alive' => 'Отправить Keep-Alive',
         'This configuration defines if incoming connections should get closed or kept alive.' =>
             'Этот параметр определяет закрывать входящие соединения или оставлять открытыми.',
         'Host' => 'Сервер',
@@ -1552,14 +1552,14 @@ sub Data {
         'Set to "No" to send an empty SOAPAction header.' => 'Установить в "No/Нет" для передачи пустого заголовка SOAPAction.',
         'SOAPAction separator' => 'Разделитель SOAPAction.',
         'Character to use as separator between name space and SOAP method.' =>
-            '',
+            'Символ, используемый в качестве разделителя между пространством имен и методом SOAP.',
         'Usually .Net web services uses a "/" as separator.' => 'Обычно .Net веб-сервисы используют "/" как разделитель.',
         'The full path and name of the SSL certificate file (must be in .p12 format).' =>
             'Полный путь и имя файла SSL сертификата (должны быть в формате .p12)',
         'e.g. /opt/otrs/var/certificates/SOAP/certificate.p12' => 'например, /opt/otrs/var/certificates/SOAP/certificate.p12',
         'The password to open the SSL certificate.' => 'Пароль для открытия SSL серификата.',
         'The full path and name of the certification authority certificate file that validates SSL certificate.' =>
-            '',
+            'Полный путь и имя файла сертификата для проверки SSL ',
         'e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem' => 'например, /opt/otrs/var/certificates/SOAP/CA/ca.pem',
         'Certification Authority (CA) Directory' => 'Каталог Certification Authority (CA)',
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
@@ -1606,8 +1606,8 @@ sub Data {
         'Invokers prepare data for a request to a remote web service, and process its response data.' =>
             'Invokers подготавливает данные для запроса к удаленному веб-сервису и обрабатывает данные их ответа.',
         'Controller' => 'Контроллер',
-        'Inbound mapping' => '',
-        'Outbound mapping' => '',
+        'Inbound mapping' => 'Входящий мапинг',
+        'Outbound mapping' => 'Исходящий мапинг',
         'Delete this action' => 'Удалить это действие',
         'At least one %s has a controller that is either not active or not present, please check the controller registration or delete the %s' =>
             'По крайней мере один %s имеет controller, который или неактивен, или отсутствует, проверьте, пожалуйста, controller registration или удалите %s',
@@ -2626,7 +2626,7 @@ sub Data {
         'Grouped' => 'Сгруппированная',
         'Stacked' => 'С накоплением',
         'Expanded' => 'Развернутая',
-        'Stream' => '',
+        'Stream' => 'Поток',
         'CSV' => 'CSV',
         'PDF' => 'PDF',
 
@@ -3154,7 +3154,7 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             'Пожалуйста, введите хотя бы одно значение для поиска, или * (звездочку) для поиска чего угодно.',
         'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
+            'Удалите, пожалуйста, следующие слова из поискового запроса, так как поиск по ним невозможен:',
         'Please check the fields marked as red for valid inputs.' => 'Проверьте поля отмеченные красным цветом и исправьте их.',
         'Please perform a spell check on the the text first.' => 'Выполните сначала проверку правописания.',
         'Slide the navigation bar' => '',
@@ -3415,7 +3415,7 @@ sub Data {
             'Допускает использование medium режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
             'Допускает использование small(краткий) режима просмотра заявок (CustomerInfo => 1 - показывает также информацию о клиенте).',
-        'Allows invalid agents to generate individual-related stats.' => '',
+        'Allows invalid agents to generate individual-related stats.' => 'Разрешать отчёты по агентам в статусе "invalid"',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
             'Дает возможность администратору войти в систему как клиенту, через панель управления учетными записями клиентов.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
@@ -4338,13 +4338,13 @@ sub Data {
         'Enroll this ticket into a process' => 'Зарегистрировать заявку в Процессе',
         'Escalation response time finished' => 'Эскалация - время первого ответа наступило',
         'Escalation response time forewarned' => 'Эскалация - предупреждение о наступлении времени первого ответа',
-        'Escalation response time in effect' => '',
+        'Escalation response time in effect' => 'Эскалация по времени отклика включена',
         'Escalation solution time finished' => 'Эскалация - время выполнения наступило',
         'Escalation solution time forewarned' => 'Эскалация - предупреждение о наступлении времени решения',
-        'Escalation solution time in effect' => '',
-        'Escalation update time finished' => '',
-        'Escalation update time forewarned' => '',
-        'Escalation update time in effect' => '',
+        'Escalation solution time in effect' => 'Эскалация по времени решения включена',
+        'Escalation update time finished' => 'Срок эскалации по времени обновления наступил',
+        'Escalation update time forewarned' => 'Срок эскалации по времени обновления скоро наступит',
+        'Escalation update time in effect' => 'Эскалация по времени обновления включена',
         'Escalation view' => 'Просмотр эскалированных заявок',
         'EscalationTime' => 'EscalationTime',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>

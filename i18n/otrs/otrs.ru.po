@@ -1,5 +1,6 @@
 # 
 # Translators:
+# Alexey Yusov <yusovas@gmail.com>, 2015
 # Anton <anton.astashkin@gmail.com>, 2015
 # Grigoriy <mr.bg.prodix@gmail.com>, 2015
 # Martin Gruner <martin.gruner@otrs.com>, 2014
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:41+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-05-12 09:51+0000\n"
+"Last-Translator: Alexey Yusov <yusovas@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/OTRS/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2502,11 +2503,11 @@ msgstr "Загруженные модули Apache"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
-msgstr ""
+msgstr "MPM model"
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "Для OTRS необходимо, чтобы apache работал с опцией 'prefork' MPM model."
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -3139,7 +3140,7 @@ msgstr "Поиск заявок"
 
 #. Template: AAATicket
 msgid "Customer Realname"
-msgstr ""
+msgstr "ФИО клиента"
 
 #. Template: AAATicket
 msgid "Customer History"
@@ -4603,7 +4604,7 @@ msgstr "Удалить этот Триггер События"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Удалить выбор"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -5126,15 +5127,15 @@ msgstr "Это правило будет применено для всех зн
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "Новая карта ключкй"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "Добавить мапинг ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "Мапинг для ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
@@ -5142,7 +5143,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "Мапинг ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
@@ -5158,11 +5159,11 @@ msgstr "для нового ключа"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "Значение мапинга"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "Карта значений"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
@@ -5186,7 +5187,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "Удалить этот мапинг ключа"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add new Operation to Web Service %s"
@@ -5305,7 +5306,7 @@ msgstr "Здесь вы можете задать макс. размер (в б�
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "Отправить Keep-Alive"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -5486,7 +5487,7 @@ msgstr "Разделитель SOAPAction."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP method."
-msgstr ""
+msgstr "Символ, используемый в качестве разделителя между пространством имен и методом SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services uses a \"/\" as separator."
@@ -5509,7 +5510,7 @@ msgstr "Пароль для открытия SSL серификата."
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
-msgstr ""
+msgstr "Полный путь и имя файла сертификата для проверки SSL "
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. /opt/otrs/var/certificates/SOAP/CA/ca.pem"
@@ -5667,11 +5668,11 @@ msgstr "Контроллер"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
-msgstr ""
+msgstr "Входящий мапинг"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Outbound mapping"
-msgstr ""
+msgstr "Исходящий мапинг"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
@@ -8888,7 +8889,7 @@ msgstr "Развернутая"
 
 #. Template: AgentDashboardStats
 msgid "Stream"
-msgstr ""
+msgstr "Поток"
 
 #. Template: AgentDashboardStats
 msgid "CSV"
@@ -10437,7 +10438,7 @@ msgstr "Пожалуйста, введите хотя бы одно значен
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Удалите, пожалуйста, следующие слова из поискового запроса, так как поиск по ним невозможен:"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -11195,7 +11196,7 @@ msgstr "Допускает использование small(краткий) ре
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
+msgstr "Разрешать отчёты по агентам в статусе \"invalid\""
 
 #. SysConfig
 msgid ""
@@ -14208,7 +14209,7 @@ msgstr "Эскалация - предупреждение о наступлен�
 
 #. SysConfig
 msgid "Escalation response time in effect"
-msgstr ""
+msgstr "Эскалация по времени отклика включена"
 
 #. SysConfig
 msgid "Escalation solution time finished"
@@ -14220,19 +14221,19 @@ msgstr "Эскалация - предупреждение о наступлен�
 
 #. SysConfig
 msgid "Escalation solution time in effect"
-msgstr ""
+msgstr "Эскалация по времени решения включена"
 
 #. SysConfig
 msgid "Escalation update time finished"
-msgstr ""
+msgstr "Срок эскалации по времени обновления наступил"
 
 #. SysConfig
 msgid "Escalation update time forewarned"
-msgstr ""
+msgstr "Срок эскалации по времени обновления скоро наступит"
 
 #. SysConfig
 msgid "Escalation update time in effect"
-msgstr ""
+msgstr "Эскалация по времени обновления включена"
 
 #. SysConfig
 msgid "Escalation view"
