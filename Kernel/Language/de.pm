@@ -697,9 +697,9 @@ sub Data {
         'Webserver Version' => 'Webserver-Version',
         'Could not determine webserver version.' => 'Konnte Webserver-Version nicht ermitteln.',
         'Loaded Apache Modules' => 'Geladene Apache-Module',
-        'MPM model' => '',
+        'MPM model' => 'MPM-Modell',
         'OTRS requires apache to be run with the \'prefork\' MPM model.' =>
-            '',
+            'OTRS benötigt das Apache \'prefork\' MPM Modul',
         'CGI Accelerator Usage' => 'Verwendung CGI-Beschleuniger',
         'You should use FastCGI or mod_perl to increase your performance.' =>
             'Sie sollten FastCGI oder mod_perl verwenden, um die Geschwindigkeit zu steigern.',
@@ -1020,7 +1020,7 @@ sub Data {
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'ACL %s bearbeiten',
-        'Go to overview' => 'Zur Übersicht',
+        'Go to overview' => 'Zur Übersicht gehen',
         'Delete ACL' => 'ACL löschen',
         'Delete Invalid ACL' => 'Ungültige ACL löschen',
         'Match settings' => 'Filterbedingungen',
@@ -1170,7 +1170,7 @@ sub Data {
 
         # Template: AdminDynamicFieldCheckbox
         'Field' => 'Feld',
-        'Go back to overview' => 'Zurück zur Übersicht',
+        'Go back to overview' => 'Zurück zur Übersicht gehen',
         'General' => 'Allgemein',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
             'Dieses Feld wird benötigt, und der Wert darf nur Buchstaben und Zahlen enthalten.',
@@ -2578,7 +2578,7 @@ sub Data {
         'Note: Customer is invalid!' => 'Hinweis: Kunde ist ungültig!',
 
         # Template: AgentDashboard
-        'Dashboard' => 'Übersicht',
+        'Dashboard' => 'Übersichtsseite',
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'in',
@@ -3144,7 +3144,7 @@ sub Data {
         'Please enter at least one search value or * to find anything.' =>
             'Bitte geben Sie zumindest einen Suchbegriff ein oder * um nach Allem zu suchen.',
         'Please remove the following words from your search as they cannot be searched for:' =>
-            'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da diese nicht für die Suche verwendet werden können:',
+            'Bitte entfernen Sie die folgenden Wörter aus Ihrer Suche, da nach ihnen nicht gesucht werden kann:',
         'Please check the fields marked as red for valid inputs.' => 'Bitte prüfen Sie die rot markierten Felder auf gültige Eingaben.',
         'Please perform a spell check on the the text first.' => 'Bitte führen Sie zuerst eine Rechtschreibprüfung aus.',
         'Slide the navigation bar' => 'Verschieben Sie die Navigationsleiste',
@@ -4037,7 +4037,7 @@ sub Data {
         'Defines the next possible states after sending a message in the email outbound screen of the agent interface.' =>
             'Definiert die nächsten, auswählbaren Status, nachdem eine ausgehende Email versendet wurde.',
         'Defines the next possible states for customer tickets in the customer interface.' =>
-            '',
+            'Definiert die nächsten möglichen Status für Tickets von Kunden in der Kunden-Oberfläche.',
         'Defines the next state of a ticket after adding a note, in the close ticket screen of the agent interface.' =>
             '',
         'Defines the next state of a ticket after adding a note, in the ticket bulk screen of the agent interface.' =>
@@ -4182,7 +4182,7 @@ sub Data {
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             'Löscht die Session, wenn die Session-ID mit einer ungültigen IP-Adresse benutzt wird.',
         'Deletes requested sessions if they have timed out.' => 'Löscht die angefragte Session, wenn ein Timeout vorliegt.',
-        'Deploy and manage OTRS Business Solution™.' => '',
+        'Deploy and manage OTRS Business Solution™.' => 'Bereitstellung und Verwaltung der OTRS Business Solution ™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
         'Determines if the statistics module may generate ticket lists.' =>
@@ -4364,7 +4364,7 @@ sub Data {
         'Exports the whole article tree in search result (it can affect the system performance).' =>
             '',
         'Fetches packages via proxy. Overwrites "WebUserAgent::Proxy".' =>
-            '',
+            'Lädt Pakete über einen Proxy herunter. Überschreibt "WebUserAgent::Proxy".',
         'File that is displayed in the Kernel::Modules::AgentInfo module, if located under Kernel/Output/HTML/Standard/AgentInfo.dtl.' =>
             '',
         'Filter for debugging ACLs. Note: More ticket attributes can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
@@ -4385,7 +4385,7 @@ sub Data {
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
-            '',
+            'Tickets werden nach dem Verschieben in eine andere Queue entsperrt.',
         'Forwarded to "%s".' => 'Weitergeleitet an "%s".',
         'Frontend language' => 'Oberflächen-Sprache',
         'Frontend module registration (disable AgentTicketService link if Ticket Serivice feature is not used).' =>
@@ -4854,7 +4854,7 @@ sub Data {
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
         'S/MIME Certificate Upload' => 'S/MIME Zertifikat hochladen',
-        'Sample command output' => '',
+        'Sample command output' => 'Beispielhafte Kommando-Ausgabe',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             'Speicherung von Artikel-Anlagen. "DB" legt alle Daten in der Datenbank ab (nicht empfohlen für große Anlagen). "FS" legt alle Daten im Dateisystem ab; dies ist schneller, jedoch sollte der Webserver mit dem OTRS-Benutzer betrieben werden. Sie können im laufenden Betrieb ohne Datenverlust zwischen den Modulen wechseln. Bitte beachten Sie, dass das Suchen nach Anlagen für "FS" nicht unterstützt wird.',
         'Schedule a maintenance period.' => 'Systemwartung planen',
@@ -4899,13 +4899,13 @@ sub Data {
             '',
         'Set this to yes if you trust in all your public and private pgp keys, even if they are not certified with a trusted signature.' =>
             '',
-        'Sets if SLA must be selected by the agent.' => '',
-        'Sets if SLA must be selected by the customer.' => '',
+        'Sets if SLA must be selected by the agent.' => 'Gibt an, ob ein SLA durch einen Agenten ausgewählt sein muss.',
+        'Sets if SLA must be selected by the customer.' => 'Gibt an, ob ein SLA durch einen Kundenbenutzer ausgewählt sein muss.',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             'Setzt ob eine Notiz vom Agenten ausgefüllt werden muss. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
-        'Sets if service must be selected by the agent.' => '',
-        'Sets if service must be selected by the customer.' => '',
-        'Sets if ticket owner must be selected by the agent.' => '',
+        'Sets if service must be selected by the agent.' => 'Gibt an, ob ein Service durch einen Agenten ausgewählt sein muss.',
+        'Sets if service must be selected by the customer.' => 'Gibt an, ob ein Service durch einen Kundenbenutzer ausgewählt sein muss.',
+        'Sets if ticket owner must be selected by the agent.' => 'Gibt an, ob ein Ticket-Besitzer durch einen Agenten ausgewählt sein muss.',
         'Sets the PendingTime of a ticket to 0 if the state is changed to a non-pending state.' =>
             '',
         'Sets the age in minutes (first level) for highlighting queues that contain untouched tickets.' =>
@@ -4917,9 +4917,9 @@ sub Data {
         'Sets the count of articles visible in preview mode of ticket overviews.' =>
             '',
         'Sets the default article type for new email tickets in the agent interface.' =>
-            '',
+            'Setzt den Standard Ticket-Typ für Neue Email-Tickets in der Agenten-Oberfläche an.',
         'Sets the default article type for new phone tickets in the agent interface.' =>
-            '',
+            'Setzt den Standard Ticket-Typ für Neue Telefon-Tickets in der Agenten-Oberfläche an.',
         'Sets the default body text for notes added in the close ticket screen of the agent interface.' =>
             '',
         'Sets the default body text for notes added in the ticket move screen of the agent interface.' =>
@@ -5046,7 +5046,7 @@ sub Data {
             '',
         'Sets the service in the ticket responsible screen of the agent interface (Ticket::Service needs to be activated).' =>
             '',
-        'Sets the size of the statistic graph.' => '',
+        'Sets the size of the statistic graph.' => 'Setzt die Größe des Statistikgraphen.',
         'Sets the stats hook.' => '',
         'Sets the system time zone (required a system with UTC as system time). Otherwise this is a diff time to the local time.' =>
             '',

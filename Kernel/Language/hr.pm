@@ -151,7 +151,7 @@ sub Data {
         'CustomerID' => 'ID korisnika',
         'CustomerIDs' => 'ID korisnika',
         'customer' => 'korisnik',
-        'agent' => 'zaposlenik',
+        'agent' => 'operater',
         'system' => 'sustav',
         'Customer Info' => 'Korisnički info.',
         'Customer Information' => 'Informacije o korisniku',
@@ -235,15 +235,15 @@ sub Data {
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Neuspješna prijava! Korisničko ime i/ili lozinka nisu valjani.',
         'There is no acount with that user name.' => 'Ne postoji račun s tim korisničkim imenom.',
-        'Please contact your administrator' => 'Upućujemo Vas na vašeg administratora',
+        'Please contact your administrator' => 'Molimo obratite se svom administratoru',
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact your administrator.' =>
             '',
         'This e-mail address already exists. Please log in or reset your password.' =>
-            'Ova mail adresa već postoji. Molimo prijavite se ili obnovite svoju lozinku.',
+            'Ova e-mail adresa već postoji. Molimo prijavite se ili obnovite svoju lozinku.',
         'Logout' => 'Odjava',
         'Logout successful. Thank you for using %s!' => 'Uspješno ste se odjavili! Hvala što ste koristili %s!',
         'Feature not active!' => 'Funkcija nije aktivna!',
-        'Agent updated!' => 'Ažuriran zaposlenik',
+        'Agent updated!' => 'Ažuriran operater',
         'Database Selection' => 'Izbor baze podataka',
         'Create Database' => 'Kreiraj bazu podataka',
         'System Settings' => 'Postavke sustava',
@@ -264,8 +264,8 @@ sub Data {
         'It is currently not possible to login due to a scheduled system maintenance.' =>
             '',
         'Password is needed!' => 'Potrebna je lozinka!',
-        'Take this Customer' => 'Uzmi ovog korisnika',
-        'Take this User' => 'Uzmi ovog korisnika sistema',
+        'Take this Customer' => 'Preuzmi ovog korisnika',
+        'Take this User' => 'Uzmi ovog korisnika',
         'possible' => 'moguće',
         'reject' => 'odbaci',
         'reverse' => 'obrnuto',
@@ -275,7 +275,7 @@ sub Data {
         'Don\'t use the Superuser account to work with OTRS! Create new Agents and work with these accounts instead.' =>
             '',
         'Dispatching by email To: field.' => 'Otprema E-pošte za: Polje.',
-        'Dispatching by selected Queue.' => 'Otprema kroz izabrani rep.',
+        'Dispatching by selected Queue.' => 'Otprema kroz izabrani red.',
         'No entry found!' => 'Unos nije pronađen!',
         'Session invalid. Please log in again.' => 'Sesija nije uspjela. Molimo prijavite se ponovo.',
         'Session has timed out. Please log in again.' => 'Vrijeme sesije je isteklo. Molimo prijavite se ponovno.',
@@ -315,13 +315,13 @@ sub Data {
         'System e-mail address updated!' => '',
         'Contract' => 'Ugovor',
         'Online Customer: %s' => 'Korisnik na vezi: %s',
-        'Online Agent: %s' => 'Zaposlenik na vezi: %s',
+        'Online Agent: %s' => 'Operater na vezi: %s',
         'Calendar' => 'Kalendar',
         'File' => 'Datoteka',
         'Filename' => 'Naziv datoteke',
         'Type' => 'Tip',
         'Size' => 'Veličina',
-        'Upload' => 'Otpremanje',
+        'Upload' => 'Upload',
         'Directory' => 'Imenik',
         'Signed' => 'Potpisano',
         'Sign' => 'Potpis',
@@ -363,10 +363,10 @@ sub Data {
         'This email address is not allowed to register. Please contact support staff.' =>
             '',
         'New account created. Sent login information to %s. Please check your email.' =>
-            'Kreiran novi račun. Podaci za prijavu poslani %s. Molimo provjerite vašu E-poštu.',
+            'Kreiran novi račun. Podaci za prijavu poslani %s. Molimo provjerite svoju E-poštu.',
         'Please press Back and try again.' => 'Molimo pritisnite Natrag i pokušajte ponovo.',
-        'Sent password reset instructions. Please check your email.' => 'Upute za resetiranje lozinke su poslane. Molimo provjerite vašu E-poštu.',
-        'Sent new password to %s. Please check your email.' => 'Poslana je nova lozinka za %s. Provejrite vašu E-poštu.',
+        'Sent password reset instructions. Please check your email.' => 'Upute za resetiranje lozinke su poslane. Molimo provjerite svoju E-poštu.',
+        'Sent new password to %s. Please check your email.' => 'Poslana je nova lozinka za %s. Provjerite svoju E-poštu.',
         'Upcoming Events' => 'Predstojeći događaji',
         'Event' => 'Događaj',
         'Events' => 'Događaji',
@@ -397,7 +397,7 @@ sub Data {
         'Align Left' => 'Poravnaj nalijevo',
         'Align Center' => 'Centriraj',
         'Align Right' => 'Poravnaj nadesno',
-        'Justify' => 'Poravnaj u blok',
+        'Justify' => 'Poravnaj obostrano',
         'Header' => 'Naslov',
         'Indent' => 'Uvlačenje',
         'Outdent' => 'Izvlačenje',
@@ -407,7 +407,7 @@ sub Data {
         'Insert Image' => 'Ubaci sliku',
         'CTRL' => 'CTRL',
         'SHIFT' => 'SHIFT',
-        'Undo' => 'Odustani',
+        'Undo' => 'Poništi',
         'Redo' => 'Ponovi',
         'Scheduler process is registered but might not be running.' => '',
         'Scheduler is not running.' => '',
@@ -527,7 +527,7 @@ sub Data {
             'Ukoliko koristite element vremenske skale, možete izabrati samo jedan element!',
         'You have an error in your time selection!' => 'Vaš izbor vremena sadrži pogrešku!',
         'Your reporting time interval is too small, please use a larger time scale!' =>
-            'Vaš interval izvještaja je prekratak, molimo zadajte veći vremenski razmak!',
+            'Vaš vremenski interval izvještaja je prekratak, molimo zadajte veći vremenski opseg!',
         'The selected start time is before the allowed start time!' => 'Izabrano vrijeme početka je prije dozvoljenog početnog vremena!',
         'The selected end time is after the allowed end time!' => 'Izabrano vrijeme kraja je poslije dozvoljenog vremena kraja!',
         'The selected time period is larger than the allowed time period!' =>
@@ -544,8 +544,8 @@ sub Data {
         'graph-area' => 'Plošni graf',
         'graph-pie' => 'Tortni graf',
         'extended' => 'proširen',
-        'Agent/Owner' => 'Zaposlenik/Vlasnik',
-        'Created by Agent/Owner' => 'Otvorio zaposlenik/Vlasnik',
+        'Agent/Owner' => 'Operater/Vlasnik',
+        'Created by Agent/Owner' => 'Otvorio Operater/Vlasnik',
         'Created Priority' => 'Otvoreno s prioritetom',
         'Created State' => 'Otvoreno sa statusom',
         'Create Time' => 'Vrijeme otvaranja',
@@ -570,7 +570,7 @@ sub Data {
         'Article Min Time' => 'Minimalno vrijeme po članku',
         'Article Max Time' => 'Maksimalno vrijeme po članku',
         'Number of Articles' => 'Broj članaka',
-        'Accounted time by Agent' => 'Obračunato vrijeme po zaposleniku',
+        'Accounted time by Agent' => 'Obračunato vrijeme po operateru',
         'Ticket/Article Accounted Time' => 'Obračunato vrijeme',
         'TicketAccountedTime' => 'Obračunato vrijeme obrade kartice',
         'Ticket Create Time' => 'Vrijeme otvaranja kartice',
@@ -652,7 +652,7 @@ sub Data {
         'Attachments (DB, Without HTML)' => '',
         'Customers With At Least One Ticket' => '',
         'Queues' => 'Redovi',
-        'Agents' => 'Zaposlenici',
+        'Agents' => 'Operateri',
         'Roles' => 'Uloge',
         'Groups' => 'Grupe',
         'Dynamic Fields' => '',
@@ -855,13 +855,13 @@ sub Data {
             'Nažalost, morate biti vlasnik tiketa za ovu aktivnost.',
         'Please change the owner first.' => 'Molimo prvo promijenite vlasnika.',
         'Ticket selected.' => 'Tiket izabran.',
-        'Ticket is locked by another agent.' => 'Tiket je zaključao drugi zaposlenik.',
+        'Ticket is locked by another agent.' => 'Tiket je zaključao drugi operater.',
         'Ticket locked.' => 'Tiket zaključan.',
         'Don\'t show closed Tickets' => 'Ne prikazuj zatvorene kartice',
         'Show closed Tickets' => 'Prikaži zatvorene kartice',
         'New Article' => 'Novi članak',
         'Unread article(s) available' => 'Raspoloživi nepročitani članci',
-        'Remove from list of watched tickets' => 'Ukloni sa liste pregledanih kartica',
+        'Remove from list of watched tickets' => 'Ukloni s liste pregledanih kartica',
         'Add to list of watched tickets' => 'Dodaj na listu praćenih kartica',
         'Email-Ticket' => 'Kartica E-pošte',
         'Create new Email Ticket' => 'Kreiraj novu karticu E-pošte',
@@ -906,9 +906,9 @@ sub Data {
         'Close this ticket' => '',
         'Look into a ticket!' => 'Pogledaj sadržaj kartice!',
         'Delete this ticket' => '',
-        'Mark as Spam!' => 'Označi kao SPAM!',
-        'My Queues' => 'Moji repovi',
-        'Shown Tickets' => 'prikazane kartice',
+        'Mark as Spam!' => 'Označi kao Spam!',
+        'My Queues' => 'Moji redovi',
+        'Shown Tickets' => 'Prikazane kartice',
         'Shown Columns' => '',
         'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' =>
             'Vaša poruka E-pošte sa brojem kartice "<OTRS_TICKET>" je objedinjena sa karticom "<OTRS_MERGE_TO_TICKET>"!',
@@ -916,43 +916,43 @@ sub Data {
         'Ticket %s: first response time will be over in %s!' => 'kartica %s: vrijeme reakcije ističe za %s!',
         'Ticket %s: update time is over (%s)!' => 'kartica %s: vrijeme ažuriranja je isteklo (%s)!',
         'Ticket %s: update time will be over in %s!' => 'kartica %s: vrijeme ažuriranja ističe za %s!',
-        'Ticket %s: solution time is over (%s)!' => 'karticu %s: vrijeme rješavanja je isteklo (%s)!',
-        'Ticket %s: solution time will be over in %s!' => 'karticu %s: vrijeme rješavanja ističe za %s!',
+        'Ticket %s: solution time is over (%s)!' => 'kartica %s: vrijeme rješavanja je isteklo (%s)!',
+        'Ticket %s: solution time will be over in %s!' => 'kartica %s: vrijeme rješavanja ističe za %s!',
         'There are more escalated tickets!' => 'Ima još eskaliralih kartica!',
         'Plain Format' => 'Jednostavan format',
-        'Reply All' => 'Odgovori na sve',
+        'Reply All' => 'Odgovori svima',
         'Direction' => 'Smjer',
-        'Agent (All with write permissions)' => 'Zaposlenik (svi sa dozvolom promjene)',
-        'Agent (Owner)' => 'Zaposlenik (Vlasnik)',
-        'Agent (Responsible)' => 'Zaposlenik (Odgovoran)',
+        'Agent (All with write permissions)' => 'Operater (svi sa dozvolom promjene)',
+        'Agent (Owner)' => 'Operater (Vlasnik)',
+        'Agent (Responsible)' => 'Operater (Odgovoran)',
         'New ticket notification' => 'Obavijest o novoj kartici',
         'Send me a notification if there is a new ticket in "My Queues".' =>
-            'Pošalji mi obavijest za novu karticu u "Mojim repovima".',
-        'Send new ticket notifications' => 'Pošalji obavijesti o novim karticama',
+            'Pošalji mi obavijest za novu karticu u "Mojim redovima".',
+        'Send new ticket notifications' => 'Pošalji obavijesti o novoj kartici',
         'Ticket follow up notification' => 'Obavijest o nastavku kartice',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
-            'Pošalji mi obavjest ako korisnik slijedi tiket a ja sam vlasnik tiketa ili ako je tiket otključan u nekom od mojih redova.',
-        'Send ticket follow up notifications' => 'Pošalji obavjest o praćenju tiketa',
-        'Ticket lock timeout notification' => 'Obavijest o isticanju zaključavanja kartice',
+            'Pošalji mi obavijest ako korisnik slijedi tiket a ja sam vlasnik tiketa ili ako je tiket otključan u nekom od mojih redova.',
+        'Send ticket follow up notifications' => 'Pošalji obavijest o praćenju tiketa',
+        'Ticket lock timeout notification' => 'Obavijest o istjecanju zaključane kartice',
         'Send me a notification if a ticket is unlocked by the system.' =>
-            'Pošalji mi obavijest ako sustav otključa karticu.)',
+            'Pošalji mi obavijest ako sustav otključa karticu.',
         'Send ticket lock timeout notifications' => 'Pošalji obavijest o isteku zaključavanja kartice',
         'Ticket move notification' => 'Obavijest o premještaju kartice',
         'Send me a notification if a ticket is moved into one of "My Queues".' =>
-            'Pošalji mi obavijest o premještaju kartice u "Moje repove".',
+            'Pošalji mi obavijest o premještaju kartice u "Moje redove".',
         'Send ticket move notifications' => 'Pošalji obavijest o premještaju kartice',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' =>
             '',
-        'Custom Queue' => 'Prilagođeni rep',
-        'QueueView refresh time' => 'Vrijeme osvježavanja pregleda repa',
+        'Custom Queue' => 'Prilagođeni red',
+        'QueueView refresh time' => 'Vrijeme osvježavanja pregleda reda',
         'If enabled, the QueueView will automatically refresh after the specified time.' =>
-            'Ako je uključeno, pregled repa bit će osvježen poslije zadanog vremena.',
-        'Refresh QueueView after' => 'Osvježi pregled repa poslije',
+            'Ako je uključeno, pregled reda bit će osvježen poslije zadanog vremena.',
+        'Refresh QueueView after' => 'Osvježi pregled reda poslije',
         'Screen after new ticket' => 'Ekran poslije otvaranja nove kartice',
         'Show this screen after I created a new ticket' => 'Prikaži ovaj ekran poslije otvaranja nove kartice',
         'Closed Tickets' => 'Zatvorene kartice',
         'Show closed tickets.' => 'Prikaži zatvorene kartice.',
-        'Max. shown Tickets a page in QueueView.' => 'Maksimalni broj prikazanih kartica u pregledu repa.',
+        'Max. shown Tickets a page in QueueView.' => 'Maksimalni broj prikazanih kartica u pregledu reda.',
         'Ticket Overview "Small" Limit' => '',
         'Ticket limit per page for Ticket Overview "Small"' => '',
         'Ticket Overview "Medium" Limit' => '',
@@ -963,7 +963,7 @@ sub Data {
         'Send me the same notifications for my watched tickets that the ticket owners will get.' =>
             'Pošlji mi istu obavijest za moje promatrane kartice koju će dobiti i vlasnik.',
         'Send ticket watch notifications' => 'Pošalji obavijesti za promatranje kartice',
-        'Out Of Office Time' => 'Izvan uredovnog vremena',
+        'Out Of Office Time' => 'Izvan radnog vremena',
         'New Ticket' => 'Nova kartica',
         'Create new Ticket' => 'Napravi novu karticu',
         'Customer called' => 'Kartica na korisnikov poziv',
@@ -971,7 +971,7 @@ sub Data {
         'Phone Call Outbound' => 'Odlazni telefonski poziv',
         'Phone Call Inbound' => '',
         'Reminder Reached' => 'Dostignut podsjetnik',
-        'Reminder Tickets' => 'Kartice na podsjetniku',
+        'Reminder Tickets' => 'Kartice podsjetnika',
         'Escalated Tickets' => 'Eskalirane kartice',
         'New Tickets' => 'Nove kartice',
         'Open Tickets / Need to be answered' => 'Otvorene kartice / Potrebno odgovoriti',
@@ -1037,7 +1037,7 @@ sub Data {
         'documentation' => '',
         'Show or hide the content' => 'Prikaži ili sakrij sadržaj',
         'Edit ACL information' => '',
-        'Stop after match' => 'Zaustavi poslije pogotka',
+        'Stop after match' => 'Zaustavi poslije uparivanja',
         'Edit ACL structure' => '',
         'Save' => 'Spremi',
         'or' => 'ili',
@@ -1123,10 +1123,10 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'Ovu funkciju koristite ako želite definirati grupne dozvole za korisnike.',
         'Enable it here!' => 'Aktivirajte je ovdje!',
-        'Edit Customer Default Groups' => 'Urediti zadane grupe za korisnika',
+        'Edit Customer Default Groups' => 'Uredi zadane korisničke grupe',
         'These groups are automatically assigned to all customers.' => 'Ove grupe su automatski dodijeljene svim korisnicima',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            'Možete upravljati ovim grupama preko konfiguracijskih postavki "..."',
+            'Možete upravljati ovim grupama preko konfiguracijskih postavki "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtar za grupe',
         'Just start typing to filter...' => '',
         'Select the customer:group permissions.' => 'Izaberi dozvole za korisnik:grupa',
@@ -1135,20 +1135,20 @@ sub Data {
         'Search Results' => 'Rezultat pretrage',
         'Customers' => 'Korisnici',
         'No matches found.' => 'Ništa nije pronađeno.',
-        'Change Group Relations for Customer' => 'Promijeni veze sa grupama za korisnika',
-        'Change Customer Relations for Group' => 'promijeni veze sa korisnicima za grupu',
+        'Change Group Relations for Customer' => 'Promijeni Grupne Veze za Korisnika',
+        'Change Customer Relations for Group' => 'Promijeni Korisničke Veze za Grupu',
         'Toggle %s Permission for all' => 'Promijeni %s dozvole za sve',
         'Toggle %s permission for %s' => 'Promijeni %s dozvole za %s',
-        'Customer Default Groups:' => 'Zadane grupe za korisnika:',
+        'Customer Default Groups:' => 'Zadane Grupe za Korisnika:',
         'No changes can be made to these groups.' => 'Na ovim grupama promjene nisu moguće.',
         'ro' => '"ro"',
-        'Read only access to the ticket in this group/queue.' => 'Pristup ograničen samo na čitanje za kartice u ovim grupama/repovima.',
+        'Read only access to the ticket in this group/queue.' => 'Pristup ograničen samo na čitanje za kartice u ovim grupama/redovima.',
         'rw' => '"rw"',
         'Full read and write access to the tickets in this group/queue.' =>
-            'Pristup bez ograničenja za kartice u ovim grupama/repovima.',
+            'Pristup bez ograničenja za kartice u ovim grupama/redovima.',
 
         # Template: AdminCustomerUserService
-        'Manage Customer-Services Relations' => 'Upravljanje vezama korisnik-usluge',
+        'Manage Customer-Services Relations' => 'Upravljanje vezama Korisnik-Usluge',
         'Edit default services' => 'Uredi zadane usluge',
         'Filter for Services' => 'Filter za usluge',
         'Allocate Services to Customer' => 'Pridruži usluge korisniku',
@@ -1233,10 +1233,10 @@ sub Data {
             '',
 
         # Template: AdminDynamicFieldText
-        'Number of rows' => '',
+        'Number of rows' => 'Broj redaka',
         'Specify the height (in lines) for this field in the edit mode.' =>
             '',
-        'Number of cols' => '',
+        'Number of cols' => 'Broj stupaca',
         'Specify the width (in characters) for this field in the edit mode.' =>
             '',
         'Check RegEx' => '',
@@ -1251,7 +1251,7 @@ sub Data {
         'Admin Notification' => 'Administrativne obavijesti',
         'With this module, administrators can send messages to agents, group or role members.' =>
             '',
-        'Create Administrative Message' => '',
+        'Create Administrative Message' => 'Napravi administrativnu poruku',
         'Your message was sent to' => 'Vaša poruka je poslana',
         'Send message to users' => 'Pošalji poruku korisnicima',
         'Send message to group members' => 'Pošalji poruku članovima grupe',
@@ -1262,7 +1262,7 @@ sub Data {
         'Send' => 'Šalji',
 
         # Template: AdminGenericAgent
-        'Generic Agent' => '"Generički" zaposlenik',
+        'Generic Agent' => '"Generički" operater',
         'Add job' => 'Dodaj posao',
         'Last run' => 'Posljednje pokretanje',
         'Run Now!' => 'Pokreni sad!',
@@ -1271,27 +1271,27 @@ sub Data {
         'Job Settings' => 'Podešavanje posla',
         'Job name' => 'Naziv posla',
         'The name you entered already exists.' => '',
-        'Toggle this widget' => 'Preklopi ovaj "widget"',
+        'Toggle this widget' => 'Promjeni ovaj widget',
         'Automatic execution (multiple tickets)' => '',
         'Execution Schedule' => '',
         'Schedule minutes' => 'Planirano minuta',
         'Schedule hours' => 'Planirano sati',
         'Schedule days' => 'Planirano dana',
         'Currently this generic agent job will not run automatically.' =>
-            'Trenutno ovaj generički agentski zadatak neće raditi automatski.',
+            'Trenutno ovaj generički operaterski zadatak neće raditi automatski.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
-            'Da bi ste omogućili automatsko izvršavanje izaberite bar jednu vrijednost od minuta, sati i dana!',
+            'Da bi ste omogućili automatsko izvršavanje izaberite bar jednu vrijednost: minute, sate ili dane!',
         'Event based execution (single ticket)' => '',
         'Event Triggers' => '',
         'List of all configured events' => '',
-        'Delete this event' => '',
+        'Delete this event' => 'Obrišite ovaj događaj',
         'Additionally or alternatively to a periodic execution, you can define ticket events that will trigger this job.' =>
             '',
         'If a ticket event is fired, the ticket filter will be applied to check if the ticket matches. Only then the job is run on that ticket.' =>
             '',
         'Do you really want to delete this event trigger?' => '',
         'Add Event Trigger' => '',
-        'Add Event' => '',
+        'Add Event' => 'Dodaj događaj',
         'To add a new event select the event object and event name and click on the "+" button' =>
             '',
         'Duplicate event.' => '',
@@ -1305,24 +1305,24 @@ sub Data {
         'Customer login' => 'Prijava korisnika',
         '(e. g. U5150)' => 'npr. U5150',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Potpuna tekstualna pretraga u članku (npr. "Mar*n" ili "Hor*ić")',
-        'Agent' => 'Zaposlenik',
-        'Ticket lock' => 'kartica zaključana',
+        'Agent' => 'Operater',
+        'Ticket lock' => 'Kartica zaključana',
         'Create times' => 'Vremena otvaranja',
         'No create time settings.' => 'Nema postavki vremena otvaranja.',
-        'Ticket created' => 'karticu otvoren',
+        'Ticket created' => 'Kartica stvorena',
         'Ticket created between' => 'karticu otvoren između',
         'Last changed times' => '',
         'No last changed time settings.' => '',
         'Ticket last changed' => '',
         'Ticket last changed between' => '',
         'Change times' => '',
-        'No change time settings.' => 'Nema promene vremena',
+        'No change time settings.' => 'Nema promjene vremena.',
         'Ticket changed' => 'Kartica mijenjana',
         'Ticket changed between' => 'Kartica mijenjana između',
         'Close times' => 'Vremena zatvaranja',
         'No close time settings.' => 'Nije postavljeno vrijeme zatvaranja.',
-        'Ticket closed' => 'kartica zatvorena',
-        'Ticket closed between' => 'kartica zatvorena između',
+        'Ticket closed' => 'Kartica zatvorena',
+        'Ticket closed between' => 'Kartica zatvorena između',
         'Pending times' => 'Vremena čekanja',
         'No pending time settings.' => 'Nema podešavanja vremena čekanja',
         'Ticket pending time reached' => 'Dostignuto vrijeme čekanja kartice',
@@ -1345,10 +1345,10 @@ sub Data {
         'Set new service' => 'Postavi novi servis',
         'Set new Service Level Agreement' => 'Postavi novi SLA',
         'Set new priority' => 'Postavi novi prioritet',
-        'Set new queue' => 'Postavi novi rep',
+        'Set new queue' => 'Postavi novi red',
         'Set new state' => 'Postavi novi status',
-        'Pending date' => 'Čekanje do',
-        'Set new agent' => 'Postavi novog zaposlenika',
+        'Pending date' => 'Datum čekanja',
+        'Set new agent' => 'Postavi novog operatera',
         'new owner' => 'novi vlasnik',
         'new responsible' => '',
         'Set new ticket lock' => 'Postavi novo zaključavanje kartice',
@@ -1357,11 +1357,11 @@ sub Data {
         'New title' => 'Novi naslov',
         'New type' => 'Novi tip',
         'New Dynamic Field Values' => '',
-        'Archive selected tickets' => 'Arhiviraj izabrane karticue',
+        'Archive selected tickets' => 'Arhiviraj izabrane kartice',
         'Add Note' => 'Dodaj napomenu',
         'Time units' => 'Vremenske jedinice',
         'Execute Ticket Commands' => '',
-        'Send agent/customer notifications on changes' => 'Pošalji obavijesti zaposleniku/korisniku pri promjenama',
+        'Send agent/customer notifications on changes' => 'Pošalji obavijesti operateru/korisniku pri promjenama',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             'Ova naredba će biti izvršena. ARG[0] je broj kartice, a ARG[1] ID kartice.',
@@ -1373,9 +1373,9 @@ sub Data {
         'Param %s value' => 'Vrijednost parametra %s',
         'Save Changes' => 'Spremi promjene',
         'Results' => 'Rezultati',
-        '%s Tickets affected! What do you want to do?' => '%s zahvaćenih kartica. Šta želite da uradite?',
+        '%s Tickets affected! What do you want to do?' => '%s obuhvaćenih kartica. Što želite napraviti?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'UPOZORENJE: Upotrijebili ste opciju za brisanje. Svi obrisane kartice će biti izgubljene!',
+            'Upozorenje: Upotrijebili ste opciju za BRISANJE. Sve obrisane kartice bit će izgubljene!',
         'Edit job' => 'Uredi posao',
         'Run job' => 'Pokreni posao',
         'Affected Tickets' => 'Obuhvaćene kartice',
@@ -1398,9 +1398,9 @@ sub Data {
         'Filter to' => '',
         'Filter by remote IP' => '',
         'Refresh' => 'Osvježi',
-        'Request Details' => '',
+        'Request Details' => 'Zahtjevi podrobnije',
         'An error occurred during communication.' => '',
-        'Show or hide the content.' => '',
+        'Show or hide the content.' => 'Prikaži ili sakrij sadržaj.',
         'Clear debug log' => '',
 
         # Template: AdminGenericInterfaceInvokerDefault
@@ -1629,7 +1629,7 @@ sub Data {
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            'UPOZORENJE: Ako promijenite ime grupe \'admin\' prije adekvatnog podešavanja u sistemskoj konfiguraciji, izgubit ćete pristup administrativnom prostoru! Ukoliko se to dogodi, vratite ime grupi u "admin" pomoću SQL naredbe.',
+            'UPOZORENJE: Ako promijenite ime grupe \'admin\' prije adekvatnog podešavanja u SysConfig-u, izgubit ćete pristup administratorskom sučelju! Ako se to dogodi, vratite ime grupe u "admin" SQL naredbom.',
         'Group Management' => 'Upravljanje grupama',
         'Add group' => 'Dodaj grupu',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
@@ -1666,8 +1666,8 @@ sub Data {
 
         # Template: AdminNavigationBar
         'Admin' => 'Admininstracija',
-        'Agent Management' => 'Upravljanje zaposlenicima',
-        'Queue Settings' => 'Postavke repova',
+        'Agent Management' => 'Upravljanje operaterima',
+        'Queue Settings' => 'Postavke redova',
         'Ticket Settings' => 'Postavke kartica',
         'System Administration' => 'Administracija sustava',
         'Online Admin Manual' => '',
@@ -1676,7 +1676,7 @@ sub Data {
         'Notification Management' => 'Upravljanje obavijestima',
         'Select a different language' => '',
         'Filter for Notification' => 'Filtar za obavijest',
-        'Notifications are sent to an agent or a customer.' => 'Obavijest poslana zaposleniku ili korisniku.',
+        'Notifications are sent to an agent or a customer.' => 'Obavijest poslana operateru ili korisniku.',
         'Notification' => 'Obavijest',
         'Edit Notification' => 'Uredi Obavijest',
         'e. g.' => 'npr.',
@@ -1698,13 +1698,13 @@ sub Data {
         'Include attachments to notification' => 'Priključi privitke uz obavijest',
         'Recipient' => 'Primalac',
         'Recipient groups' => 'Grupe primatelja',
-        'Recipient agents' => 'Zaposlenici primatelji',
+        'Recipient agents' => 'Operateri primatelji',
         'Recipient roles' => 'Uloge primatelja',
         'Recipient email addresses' => 'Adrese E-pošte primatelja',
         'Notification article type' => 'Tip članka obavijesti',
         'Only for notifications to specified email addresses' => 'Samo za obavijesti za precizirane adrese E-pošte',
         'To get the first 20 character of the subject (of the latest agent article).' =>
-            'Vidjeti prvih 20 slova predmeta (posljednjeg članka zaposlenika).',
+            'Vidjeti prvih 20 slova predmeta (posljednjeg članka operatera).',
         'To get the first 5 lines of the body (of the latest agent article).' =>
             '',
         'To get the first 20 character of the subject (of the latest customer article).' =>
@@ -1762,7 +1762,7 @@ sub Data {
         'Go to OTRS Package Manager' => '',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
-        'Vendor' => 'Snabdjevač',
+        'Vendor' => 'Isporučitelj',
         'Please uninstall the packages first using the package manager and try again.' =>
             '',
         'You are about to downgrade to OTRS Free and will lose the following features and all data related to these:' =>
@@ -1773,28 +1773,28 @@ sub Data {
         'DynamicField Database' => '',
         'SLA Selection Dialog' => '',
         'Ticket Attachment View' => '',
-        'The %s skin' => 'tema',
+        'The %s skin' => 'Tema %s',
 
         # Template: AdminPGP
         'PGP Management' => 'Upravljanje PGP ključevima',
         'Use this feature if you want to work with PGP keys.' => 'Upotrijebi ovu mogućnost za rad sa PGP-ključevima.',
-        'Add PGP key' => 'Dodaj PGP-ključ',
+        'Add PGP key' => 'Dodaj PGP ključ',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Na ovaj način možete direktno uređivati komplet ključeva podešen u sistemskim opcijama.',
-        'Introduction to PGP' => 'Upoznavanje sa PGP',
+        'Introduction to PGP' => 'Uvod u PGP',
         'Result' => 'Rezultat',
         'Identifier' => 'Identifikator',
         'Bit' => 'Bit',
         'Fingerprint' => 'Sažetak',
         'Expires' => 'Ističe',
         'Delete this key' => 'Obriši ovaj ključ',
-        'Add PGP Key' => 'Dodaj PGP-ključ',
-        'PGP key' => 'PGP-ključ',
+        'Add PGP Key' => 'Dodaj PGP ključ',
+        'PGP key' => 'PGP ključ',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Upravljanje paketima',
         'Uninstall package' => 'Deinstaliraj paket',
-        'Do you really want to uninstall this package?' => 'Da li uistinu želite deinstalirati ovaj paket?',
+        'Do you really want to uninstall this package?' => 'Da li zaista želite deinstalirati ovaj paket?',
         'Reinstall package' => 'Instaliraj paket ponovo',
         'Do you really want to reinstall this package? Any manual changes will be lost.' =>
             'Da li uistinu želite ponovno instalirati ovaj paket? Sve eventualne ručne promjene bit će izgubljene.',
@@ -1803,11 +1803,11 @@ sub Data {
             '',
         'Install' => 'Instaliraj',
         'Install Package' => 'Instaliraj paket',
-        'Update repository information' => 'Ažuriraj informacije o spremištu',
-        'Online Repository' => 'Mrežno spremište',
-        'Module documentation' => 'Dokumentacija kodula',
+        'Update repository information' => 'Ažuriraj informacije o repozitoriju',
+        'Online Repository' => 'Mrežni repozitorij',
+        'Module documentation' => 'Dokumentacija modula',
         'Upgrade' => 'Ažuriranje',
-        'Local Repository' => 'Lokalno spremište',
+        'Local Repository' => 'Lokalni repozitorij',
         'This package is verified by OTRSverify (tm)' => '',
         'Uninstall' => 'Deinstaliraj',
         'Reinstall' => 'Instaliraj ponovo',
@@ -1825,7 +1825,7 @@ sub Data {
         'Download file from package!' => 'Preuzmi datoteku iz paketa!',
         'Required' => 'Obavezno',
         'PrimaryKey' => 'Primarni ključ',
-        'AutoIncrement' => 'samoprirast',
+        'AutoIncrement' => 'Samoprirast',
         'SQL' => 'SQL',
         'File differences for file %s' => 'Razlike za datoteku %s',
 
@@ -1857,12 +1857,12 @@ sub Data {
         'To dispatch or filter incoming emails based on email headers. Matching using Regular Expressions is also possible.' =>
             'Radi otpreme ili filtriranja dolaznih poruka na osnovu zaglavlja. Uporaba regularnih izraza je također moguća.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' =>
-            'Ukoliko želite poklapanje samo sa adresama E-pošte, koristite EMAILADDRESS:info@example.com u "Od", "Za" ili "Cc".',
+            'Ukoliko želite usklađivanje samo adresa e-pošte, koristite EMAILADDRESS:info@example.com u "Od", "Za" ili "Cc".',
         'If you use Regular Expressions, you also can use the matched value in () as [***] in the \'Set\' action.' =>
             'Ukoliko koristite regularne izraze, možete također koristiti niz zahvaćen s () kao [***] u \'Set\' akciji.',
         'Delete this filter' => 'Obriši ovaj filtar',
-        'Add PostMaster Filter' => 'Dodaj "PostMaster" filtar',
-        'Edit PostMaster Filter' => 'Uredi "PostMaster" filtar',
+        'Add PostMaster Filter' => 'Dodaj "PostMaster" filter',
+        'Edit PostMaster Filter' => 'Uredi "PostMaster" filter',
         'The name is required.' => '',
         'Filter Condition' => 'Uvjet filtriranja',
         'AND Condition' => '',
@@ -1897,12 +1897,12 @@ sub Data {
         'Changes to the Processes here only affect the behavior of the system, if you synchronize the Process data. By synchronizing the Processes, the newly made changes will be written to the Configuration.' =>
             '',
         'Process name' => '',
-        'Print' => 'Otisni',
+        'Print' => 'Ispiši',
         'Export Process Configuration' => '',
         'Copy Process' => '',
 
         # Template: AdminProcessManagementActivity
-        'Cancel & close window' => 'Poništi & zatvori prozor',
+        'Cancel & close window' => 'Poništi i zatvori prozor',
         'Go Back' => '',
         'Please note, that changing this activity will affect the following processes' =>
             '',
@@ -2068,26 +2068,26 @@ sub Data {
         'Add a new Parameter' => '',
 
         # Template: AdminQueue
-        'Manage Queues' => 'Upravljanje repovima',
-        'Add queue' => 'Dodaj rep',
-        'Add Queue' => 'Dodaj rep',
-        'Edit Queue' => 'Uredi rep',
+        'Manage Queues' => 'Upravljanje redovima',
+        'Add queue' => 'Dodaj red',
+        'Add Queue' => 'Dodaj red',
+        'Edit Queue' => 'Uredi red',
         'A queue with this name already exists!' => '',
-        'Sub-queue of' => 'Pod-rep od',
+        'Sub-queue of' => 'Pod-red od',
         'Unlock timeout' => 'Vrijeme do otključavanja',
         '0 = no unlock' => '0 = nema otključavanja',
         'Only business hours are counted.' => 'Mjeri se samo radno vrijeme.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             '',
-        'Notify by' => 'Pošiljalac obavjesti',
+        'Notify by' => 'Zabilježeno od',
         '0 = no escalation' => '0 = nema eskalacije',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
             '',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
             '',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
-            'Ako se karticu ne zatvori prije ovdje definiranog vremena, karticu eskalira.',
-        'Follow up Option' => 'Opcije nastavka',
+            'Ako se karticu ne zatvori prije ovdje definiranog vremena, kartica eskalira.',
+        'Follow up Option' => 'Opcije praćenja',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
             'Nastavak na zatvorenu karticu ponovno otvara karticu ili otvara novi.',
         'Ticket lock after a follow up' => 'Zaključavanje kartice poslije nastavka',
@@ -2217,12 +2217,12 @@ sub Data {
         'OTRS-ID' => '',
         'You don\'t have an OTRS-ID yet?' => '',
         'Sign up now' => 'Registrirajte se sada',
-        'Forgot your password?' => '',
+        'Forgot your password?' => 'Zaboravili ste lozinku?',
         'Retrieve a new one' => '',
         'This data will be frequently transferred to OTRS Group when you register this system.' =>
             '',
         'Attribute' => '',
-        'FQDN' => '',
+        'FQDN' => 'Puno ime domene',
         'Optional description of this system.' => '',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
@@ -2264,23 +2264,23 @@ sub Data {
         'Toggle %s permission for all' => 'Promijeni %s dozvole za sve',
         'move_into' => 'premjesti u',
         'Permissions to move tickets into this group/queue.' => 'Pravo da se karticu premjesti u ovu grupu/rep.',
-        'create' => 'kreiranje',
-        'Permissions to create tickets in this group/queue.' => 'Pravo da se karticu kreira u ovoj grupi/repu.',
+        'create' => 'napravi',
+        'Permissions to create tickets in this group/queue.' => 'Pravo da se karticu kreira u ovoj grupi/redu.',
         'note' => 'napomena',
-        'Permissions to add notes to tickets in this group/queue.' => 'Dozvola za dodavanje napomena na kartice u ovoj grupi/repu.',
+        'Permissions to add notes to tickets in this group/queue.' => 'Dozvola za dodavanje napomena karticama u ovoj grupi/redu.',
         'owner' => 'Vlasnik',
         'Permissions to change the owner of tickets in this group/queue.' =>
-            'Dozvole za promjenu vlasnika kartice u ovoj grupi/repu.',
+            'Dozvole za promjenu vlasnika kartice u ovoj grupi/redu.',
         'priority' => 'prioritet',
         'Permissions to change the ticket priority in this group/queue.' =>
-            'Pravo da se mijenja prioritet kartice u ovoj grupi/repu.',
+            'Pravo da se mijenja prioritet kartice u ovoj grupi/redu.',
 
         # Template: AdminRoleUser
-        'Manage Agent-Role Relations' => 'Upravljanje vezama zaposlenik <-> uloga',
-        'Filter for Agents' => 'Filtar zaposlenika',
-        'Manage Role-Agent Relations' => 'Upravljanje vezama zaposlenik <-> uloga',
-        'Change Role Relations for Agent' => 'Promijeni veze sa ulogama za zaposlenika',
-        'Change Agent Relations for Role' => 'Promijeni veze sa zaposlenicima za ulogu',
+        'Manage Agent-Role Relations' => 'Upravljanje vezama Operater <-> Uloga',
+        'Filter for Agents' => 'Filtar operatera',
+        'Manage Role-Agent Relations' => 'Upravljanje vezama Uloga <-> Operater',
+        'Change Role Relations for Agent' => 'Promijeni veze sa Ulogama za Operatera',
+        'Change Agent Relations for Role' => 'Promijeni veze sa Operaterima za Ulogu',
 
         # Template: AdminSLA
         'SLA Management' => 'Upravljanje SLA',
@@ -2326,11 +2326,11 @@ sub Data {
         'Example salutation' => 'Primjer zaglavlja/pozdrava',
 
         # Template: AdminSecureMode
-        'Secure mode needs to be enabled!' => 'Potrebno je da "siguran način" bude uključen!',
+        'Secure mode needs to be enabled!' => 'Potrebno je da siguran način bude uključen!',
         'Secure mode will (normally) be set after the initial installation is completed.' =>
-            '"Siguran način" će (uobučajeno) biti postavljen nakon inicijalne instalacije.',
+            'Siguran način će (uobučajeno) biti postavljen nakon inicijalne instalacije.',
         'If secure mode is not activated, activate it via SysConfig because your application is already running.' =>
-            'Ukoliko "siguran način" nije aktiviran, pokrenite ga kroz konfiguraciju sustava jer je vaša aplikacija već pokrenuta.',
+            'Ukoliko siguran način nije aktiviran, pokrenite ga kroz konfiguraciju sustava jer je vaša aplikacija već pokrenuta.',
 
         # Template: AdminSelectBox
         'SQL Box' => 'SQL Box',
@@ -2344,14 +2344,14 @@ sub Data {
         'There is at least one parameter missing for the binding. Please check it.' =>
             'Najmanje jedan parametar nedostaje za povezivanje. Molimo provjerite.',
         'Result format' => 'Format rezultata',
-        'Run Query' => 'Pokreni upit',
+        'Run Query' => 'Pokreni Upit',
         'Query is executed.' => '',
 
         # Template: AdminService
         'Service Management' => 'Upravljanje uslugama',
         'Add service' => 'Dodaj uslugu',
-        'Add Service' => 'Dodaj uslugu',
-        'Edit Service' => 'Uredi uslugu',
+        'Add Service' => 'Dodaj Uslugu',
+        'Edit Service' => 'Uredi Uslugu',
         'Sub-service of' => 'Pod-usluga od',
 
         # Template: AdminServiceCenterSupportDataCollector
@@ -2384,7 +2384,7 @@ sub Data {
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
             '',
-        'Sending' => 'Pošiljatelj',
+        'Sending' => 'Slanje',
         'The support bundle will be sent to OTRS Group via email automatically.' =>
             '',
         'Download File' => '',
@@ -2396,9 +2396,9 @@ sub Data {
         # Template: AdminSession
         'Session Management' => 'Upravljanje sesijama',
         'All sessions' => 'Sve sesije',
-        'Agent sessions' => 'Sesije zaposlenika',
+        'Agent sessions' => 'Sesije Operatera',
         'Customer sessions' => 'Sesije korisnika',
-        'Unique agents' => 'Jedinsveni zapolenici',
+        'Unique agents' => 'Jedinsveni operateri',
         'Unique customers' => 'Jedinstveni korisnici',
         'Kill all sessions' => 'Ugasi sve sesije',
         'Kill this session' => 'Ugasi ovu sesiju',
@@ -2415,11 +2415,11 @@ sub Data {
 
         # Template: AdminState
         'State Management' => 'Upravljanje statusima',
-        'Add state' => 'Dodaj status',
+        'Add state' => 'Dodaj stanje',
         'Please also update the states in SysConfig where needed.' => '',
-        'Add State' => 'Dodaj status',
-        'Edit State' => 'Uredi status',
-        'State type' => 'Tip statusa',
+        'Add State' => 'Dodaj stanje',
+        'Edit State' => 'Uredi stanje',
+        'State type' => 'Tip stanja',
 
         # Template: AdminSysConfig
         'SysConfig' => 'Postavke sustava',
@@ -2544,9 +2544,9 @@ sub Data {
         'Don\'t forget to add a new agent to groups and/or roles!' => 'Ne zaboravite dodati novog zaposlenika u grupe i/ili uloge!',
         'Please enter a search term to look for agents.' => 'Molimo unesite upit za pretragu radi nalaženja zaposlenika.',
         'Last login' => 'Prethodna prijava',
-        'Switch to agent' => 'Pređi na zaposlenika',
-        'Add Agent' => 'Dodaj zaposlenika',
-        'Edit Agent' => 'Uredi zaposlenika',
+        'Switch to agent' => 'Prijeđi na operatera',
+        'Add Agent' => 'Dodaj operatera',
+        'Edit Agent' => 'Uredi operatera',
         'Firstname' => 'Ime',
         'Lastname' => 'Prezime',
         'A user with this username already exists!' => '',
@@ -2555,9 +2555,9 @@ sub Data {
         'End' => 'Kraj',
 
         # Template: AdminUserGroup
-        'Manage Agent-Group Relations' => 'Upravljanje vezama zaposlenik <-> grupa',
-        'Change Group Relations for Agent' => 'Promijeni veze s grupama za zaposlenika',
-        'Change Agent Relations for Group' => 'Promijeni veze s zaposlnicima za grupu',
+        'Manage Agent-Group Relations' => 'Upravljanje vezama Operater <-> Grupa',
+        'Change Group Relations for Agent' => 'Promijeni veze s Grupama za Operatera',
+        'Change Agent Relations for Group' => 'Promijeni veze s operaterima za grupu',
 
         # Template: AgentBook
         'Address Book' => 'Adresar',
@@ -2643,7 +2643,7 @@ sub Data {
         'until' => '',
 
         # Template: AgentHTMLReferencePageLayout
-        'The ticket has been locked' => 'kartica je zaključana.',
+        'The ticket has been locked' => 'Kartica je zaključana.',
         'Undo & close window' => 'Odustani & zatvori prozor',
 
         # Template: AgentInfo
@@ -2652,7 +2652,7 @@ sub Data {
 
         # Template: AgentLinkObject
         'Link Object: %s' => 'Poveži objekt: %s',
-        'go to link delete screen' => 'idi na ekran za brisanje veze',
+        'go to link delete screen' => 'idi na poveznicu za brisanje ekrana',
         'Select Target Object' => 'Izaberi ciljni objekt',
         'Link Object' => 'Poveži objekt',
         'with' => 'sa',
@@ -2676,25 +2676,25 @@ sub Data {
 
         # Template: AgentSpelling
         'Spell Checker' => 'Provjera pravopisa',
-        'spelling error(s)' => 'Pravopisne pogreške',
+        'spelling error(s)' => 'pravopisne pogreške',
         'Apply these changes' => 'Primjeni ove izmjene',
 
         # Template: AgentStatsDelete
         'Delete stat' => 'Obriši statistiku',
-        'Do you really want to delete this stat?' => 'Da li uistinu želite obrisati ovu statistiku?',
+        'Do you really want to delete this stat?' => 'Zaista želite obrisati ovu statistiku?',
 
         # Template: AgentStatsEditRestrictions
         'Step %s' => 'Korak %s',
         'General Specifications' => 'Opće specifikacije',
         'Select the element that will be used at the X-axis' => 'Izaberite element koji će biti upotrebljen na X-osi',
-        'Select the elements for the value series' => 'Izaberite elemente za opsege vrijednosti',
+        'Select the elements for the value series' => 'Izaberite elemente za vrijednosti u nizu',
         'Select the restrictions to characterize the stat' => 'Izaberite ograničenja značajna za statistiku',
         'Here you can make restrictions to your stat.' => 'Ovdje možete postaviti ograničenja na vašoj statistici.',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' =>
-            'Ako uklonite oznaku sa elementa "Fiksirano", zaposlenik koji radi statistiku će moći izmijeniti atribute tog elementa.',
+            'Ako uklonite oznaku sa elementa "Fiksirano", operater koji radi statistiku će moći izmijeniti atribute tog elementa.',
         'Fixed' => 'Fiksirano',
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            'Molimo izaberite samo jedan element ili isključite tipku "fiksirano"!',
+            'Molimo izaberite samo jedan element ili isključite tipku "Fiksirano"!',
         'Absolute Period' => 'Apsolutni period',
         'Between' => 'Između',
         'Relative Period' => 'Relativni period',
@@ -2704,7 +2704,7 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'Permissions' => 'Dozvole',
         'You can select one or more groups to define access for different agents.' =>
-            'Radi određivanja prava pristupa za zaposlenika, možete izabrati jednu ili više grupa.',
+            'Radi određivanja prava pristupa za operatere, možete izabrati jednu ili više grupa.',
         'Some result formats are disabled because at least one needed package is not installed.' =>
             '',
         'Please contact your administrator.' => 'Molimo, kontaktirajte vašeg administratora.',
@@ -2715,7 +2715,7 @@ sub Data {
         'Sum columns' => 'Zbroj kolona',
         'Use cache' => 'Koristi predmemoriju',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
-            'Većina stat. podataka se može keširati. Ovo će ubrzati prikaz statistike.',
+            'Većina stat. podataka se može privremeno pohraniti. Ovo će ubrzati prikaz statistike.',
         'Show as dashboard widget' => '',
         'Provide the statistic as a widget that agents can activate in their dashboard.' =>
             '',
@@ -2725,25 +2725,25 @@ sub Data {
         'Agents will not be able to change absolute time settings for statistics dashboard widgets.' =>
             '',
         'IE8 doesn\'t support statistics dashboard widgets.' => '',
-        'If set to invalid end users can not generate the stat.' => 'Ako je pogrešno, krajnji korisnici ne mogu generisati statistiku.',
+        'If set to invalid end users can not generate the stat.' => 'Ako je postavljeno kao pogrešno, krajnji korisnici ne mogu napraviti statistiku.',
 
         # Template: AgentStatsEditValueSeries
-        'Here you can define the value series.' => 'Ovde možete definisati opsege vrednosti.',
-        'You have the possibility to select one or two elements.' => 'Imate mogućnost da izaberete jedan ili dva elementa.',
-        'Then you can select the attributes of elements.' => 'Onda možete izabrati atribute za elemente.',
-        'Each attribute will be shown as single value series.' => 'Svaki atribut će biti prikazan kao pojedinačni opseg vrednosti.',
+        'Here you can define the value series.' => 'Ovdje možete odrediti vrijednosti.',
+        'You have the possibility to select one or two elements.' => 'Imate mogućnost izabrati jedan ili dva elementa.',
+        'Then you can select the attributes of elements.' => 'Onda možete izabrati atribute elemenata.',
+        'Each attribute will be shown as single value series.' => 'Svaki atribut će biti prikazan kao pojedinačna vrijednost.',
         'If you don\'t select any attribute all attributes of the element will be used if you generate a stat, as well as new attributes which were added since the last configuration.' =>
-            'Ako ne izaberete ni jedan atribut, prilikom generisanja statistike biće upotrebljeni svi atributi elementa kao i atributi dodani nakon poslednje konfiguracije.',
-        'Scale' => 'Skaliranje',
-        'minimal' => 'minimum',
+            'Ako ne izaberete ni jedan atribut, prilikom stvaranja statistike bit će upotrebljeni svi atributi elementa kao i novi atributi dodani nakon posljednje konfiguracije.',
+        'Scale' => 'Skala',
+        'minimal' => 'najmanji',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' =>
-            'Molimo zapamtite, da skala za opsege vrednosti moda da bude veća od skale za X-os (npr X-os => mjesec; Vrijednost opsega => godina).',
+            'Molimo zapamtite, da skala vrijednosti mora biti veća od skale za X-os (npr. X-os => mjesec; ValueSeries => godina).',
 
         # Template: AgentStatsEditXaxis
         'Here you can define the x-axis. You can select one element via the radio button.' =>
-            '',
-        'maximal period' => 'maksimalni period',
-        'minimal scale' => 'minimalna skala',
+            'Ovdje možete odrediti os X. Možete izabrati jedan element.',
+        'maximal period' => 'najveći period',
+        'minimal scale' => 'najmanja skala',
 
         # Template: AgentStatsImport
         'Import Stat' => 'Uvezi statistiku',
@@ -2754,7 +2754,7 @@ sub Data {
         'Stats' => 'Statistika',
 
         # Template: AgentStatsPrint
-        'No Element selected.' => 'Niste odabrali niti jedan od elemenata.',
+        'No Element selected.' => 'Niste odabrali niti jedan element.',
 
         # Template: AgentStatsView
         'Export config' => 'Izvezi konfiguraciju',
@@ -2762,22 +2762,22 @@ sub Data {
             'Preko polja za unos i izbor možete utjecati na oblik i sadržaj statistike.',
         'Exactly what fields and formats you can influence is defined by the statistic administrator.' =>
             'Na koja polja i formate možete utjecati definirano je od strane administratora statistike.',
-        'Stat Details' => 'Detalji staistke',
+        'Stat Details' => 'Detalji statistike',
         'Format' => 'Format',
         'Graphsize' => 'Veličina grafa',
-        'Cache' => 'Predmemorija',
-        'Exchange Axis' => 'Zamijeni ose',
+        'Cache' => 'Privremena memorija',
+        'Exchange Axis' => 'Zamijeni osi',
 
         # Template: AgentStatsViewSettings
-        'Configurable params of static stat' => 'Postavi parametri statičke statistike',
-        'No element selected.' => 'Nije izabran ni jedan element.',
+        'Configurable params of static stat' => 'Postavi parametre statičke statistike',
+        'No element selected.' => 'Nije izabran niti jedan element.',
         'maximal period from' => 'maksimalni period od',
         'to' => 'do',
         'not changable for dashboard statistics' => '',
-        'Select Chart Type' => '',
-        'Chart Type' => '',
-        'Multi Bar Chart' => '',
-        'Multi Line Chart' => '',
+        'Select Chart Type' => 'Izaberi vrstu grafa',
+        'Chart Type' => 'Vrsta grafa',
+        'Multi Bar Chart' => 'Višestruki trakasti graf',
+        'Multi Line Chart' => 'Višestruki linijski graf',
         'Stacked Area Chart' => '',
 
         # Template: AgentTicketActionCommon
@@ -2801,9 +2801,9 @@ sub Data {
         'Text Template' => '',
         'Setting a template will overwrite any text or attachment.' => '',
         'Note type' => 'Tip napomene',
-        'Inform Agent' => 'Obavijesti zaposlenika',
+        'Inform Agent' => 'Obavijesti operatera',
         'Optional' => 'Proizvoljno',
-        'Inform involved Agents' => 'Obavijesti uključene zaposlenike',
+        'Inform involved Agents' => 'Obavijesti uključene operatere',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             '',
         'Note will be (also) received by:' => '',
@@ -2814,7 +2814,7 @@ sub Data {
         'You need a email address.' => 'Potrebna vam je adresa E-pošte.',
         'Need a valid email address or don\'t use a local email address.' =>
             'Ispravna adresa E-pošte je neophodna, ali ne koristite lokalnu adresu!',
-        'Next ticket state' => 'Naredni status kartice',
+        'Next ticket state' => 'Sljedeći status kartice',
         'Inform sender' => 'Obavijesti pošiljatelja',
         'Send mail' => 'Pošalji E-poštu!',
 
@@ -2846,7 +2846,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Otvori novu karticu E-pošte',
         'Example Template' => '',
-        'From queue' => 'Iz repa',
+        'From queue' => 'Iz reda',
         'To customer user' => '',
         'Please include at least one customer user for the ticket.' => '',
         'Select this customer as the main customer.' => '',
@@ -2879,7 +2879,7 @@ sub Data {
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Premjesti karticu',
-        'New Queue' => 'Novi rep',
+        'New Queue' => 'Novi red',
 
         # Template: AgentTicketOverviewMedium
         'Select all' => 'Izaberi sve',
@@ -2887,8 +2887,8 @@ sub Data {
         'Select this ticket' => '',
         'First Response Time' => 'Vrijeme prvog odgovora',
         'Update Time' => 'Vrijeme ažuriranja',
-        'Solution Time' => 'Vrijeme rješenja',
-        'Move ticket to a different queue' => 'Premjesti karticu u drugi rep',
+        'Solution Time' => 'Vrijeme rješavanja',
+        'Move ticket to a different queue' => 'Premjesti karticu u drugi red',
         'Change queue' => 'Promjeni rep',
 
         # Template: AgentTicketOverviewNavBar
@@ -2905,7 +2905,7 @@ sub Data {
         'Save Chat Into New Phone Ticket' => '',
         'Create New Phone Ticket' => 'Otvori novi telefonski karticu',
         'Please include at least one customer for the ticket.' => '',
-        'To queue' => 'U rep',
+        'To queue' => 'U red',
         'Chat protocol' => '',
         'The chat will be appended as a separate article.' => '',
 
@@ -2944,13 +2944,13 @@ sub Data {
         'Customer User Login' => 'Prijava korisnika',
         'Attachment Name' => '',
         '(e. g. m*file or myfi*)' => '',
-        'Created in Queue' => 'Otvoreno u repu',
+        'Created in Queue' => 'Otvoreno u redu',
         'Lock state' => 'Status zaključavanja',
         'Watcher' => 'Praćenje',
         'Article Create Time (before/after)' => 'Vrijeme kreiranja članka (prije/poslije)',
         'Article Create Time (between)' => 'Vrijeme kreiranja članka (između)',
-        'Ticket Create Time (before/after)' => 'Vrijeme otvaranja kartice (prije/poslije)',
-        'Ticket Create Time (between)' => 'Vrijeme otvaranja kartice (između)',
+        'Ticket Create Time (before/after)' => 'Vrijeme nastanka kartice (prije/poslije)',
+        'Ticket Create Time (between)' => 'Vrijeme nastanka kartice (između)',
         'Ticket Change Time (before/after)' => 'Vrijeme promjene kartice (prije/poslije)',
         'Ticket Change Time (between)' => 'Vrijeme promjene kartice (između)',
         'Ticket Last Change Time (before/after)' => '',
@@ -2960,7 +2960,7 @@ sub Data {
         'Ticket Escalation Time (before/after)' => '',
         'Ticket Escalation Time (between)' => '',
         'Archive Search' => 'Pretraga arhive',
-        'Run search' => '',
+        'Run search' => 'Pokreni pretragu',
 
         # Template: AgentTicketZoom
         'Article filter' => 'Filtar za članke',
@@ -2974,7 +2974,7 @@ sub Data {
         'This ticket is archived.' => '',
         'Locked' => 'Zaključano',
         'Linked Objects' => 'Povezani objekti',
-        'Change Queue' => 'Promijeni rep',
+        'Change Queue' => 'Promijeni red',
         'There are no dialogs available at this point in the process.' =>
             '',
         'This item has no articles yet.' => '',
@@ -3039,7 +3039,7 @@ sub Data {
             'Kako bi ste koristili OTRS potrebno je aktivirati JavaScript u vašem web pregledniku.',
         'Browser Warning' => 'Upozorenje preglednika',
         'One moment please, you are being redirected...' => '',
-        'Login' => 'Prijava za rad',
+        'Login' => 'Prijava',
         'User name' => 'Korisničko ime',
         'Your user name' => 'Vaše korisničko ime',
         'Your password' => 'Vaša lozinka',
@@ -3049,7 +3049,7 @@ sub Data {
         'Request new password' => 'Zahtjev za novu lozinku',
         'Your User Name' => 'Vaše korisničko ime',
         'A new password will be sent to your email address.' => 'Nova lozinka će Vam biti poslana na Vašu adresu E-pošte.',
-        'Create Account' => 'Kreirajte nalog',
+        'Create Account' => 'Napravite korisnički račun',
         'Please fill out this form to receive login credentials.' => '',
         'How we should address you' => 'Kako da Vas oslovljavamo',
         'Your First Name' => 'Vaše ime',
@@ -3070,8 +3070,8 @@ sub Data {
 
         # Template: CustomerTicketOverview
         'Welcome!' => 'Dobrodošli!',
-        'Please click the button below to create your first ticket.' => 'Molimo kliknite tipku ispod kako bi ste započeli svoju prvu karticu prijave problema.',
-        'Create your first ticket' => 'Započni prvu karticu',
+        'Please click the button below to create your first ticket.' => 'Molimo kliknite tipku ispod kako bi ste napravili svoju prvu karticu.',
+        'Create your first ticket' => 'Napravi prvu karticu',
 
         # Template: CustomerTicketPrint
         'Ticket Print' => '',
@@ -3081,14 +3081,14 @@ sub Data {
         'Profile' => 'Profil',
         'e. g. 10*5155 or 105658*' => 'npr 10*5155 ili 105658*',
         'Customer ID' => 'ID korisnika',
-        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Tekstualno pretraživanje u karticama (npr "Mar*a" or "Hor*ić")',
+        'Fulltext search in tickets (e. g. "John*n" or "Will*")' => 'Tekstualno pretraživanje u karticama (npr. "Kre*o" ili "Željk*")',
         'Carbon Copy' => 'Kopija',
         'e. g. m*file or myfi*' => '',
         'Types' => 'Tipovi',
         'Time restrictions' => 'Vremenska ograničenja',
         'No time settings' => '',
-        'Only tickets created' => 'Samo tek otvorene kartice',
-        'Only tickets created between' => 'Samo kartice otvoreni između',
+        'Only tickets created' => 'Samo otvorene kartice',
+        'Only tickets created between' => 'Samo kartice otvorene između',
         'Ticket archive system' => '',
         'Save search as template?' => '',
         'Save as Template?' => 'Spremi kao predložak?',
@@ -3129,15 +3129,15 @@ sub Data {
 
         # Template: Datepicker
         'Invalid date (need a future date)!' => 'Neispravan datum (poteban budući datum)!',
-        'Invalid date (need a past date)!' => '',
-        'Previous' => 'Natrag',
+        'Invalid date (need a past date)!' => 'Neispravan datum (potreban već protekli datum)!',
+        'Previous' => 'Prethodni',
         'Open date selection' => 'Otvori izbor datuma',
 
         # Template: Error
-        'Oops! An Error occurred.' => 'Ups. Dogodila se pogreška.',
+        'Oops! An Error occurred.' => 'Ups! Dogodila se pogreška.',
         'You can' => 'Vi možete',
         'Send a bugreport' => 'Pošalji izvještaj o pogrešci',
-        'go back to the previous page' => 'idi na prethodnu stranu',
+        'go back to the previous page' => 'idi na prethodnu stranicu',
         'Error Details' => 'Detalji pogreške',
 
         # Template: FooterJS
@@ -3226,17 +3226,17 @@ sub Data {
             'Da biste mogli koristiti OTRS morate unijeti slijedeću liniju u Vašu komandnu liniju (Terminal/Shell) kao "root".',
         'Restart your webserver' => 'Ponovo pokrenite Vaš WEB Server.',
         'After doing so your OTRS is up and running.' => 'Nakon ovoga Vaš OTRS je uključen i radi.',
-        'Start page' => 'Početna strana',
+        'Start page' => 'Početna stranica',
         'Your OTRS Team' => 'Vaš OTRS Tim',
 
         # Template: InstallerLicense
         'Don\'t accept license' => 'Ne prihvaćaj licencu',
-        'Accept license and continue' => '',
+        'Accept license and continue' => 'Prihvati licencu i nastavi',
 
         # Template: InstallerSystem
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
-            'Sustavski identifikator. Svaki broj kartice i svaki ID HTTP sesije sadrži ovaj broj.',
-        'System FQDN' => 'Sustavski FQDN',
+            'Identifikator sustava. Svaki broj kartice i svaki ID HTTP sesije sadrži ovaj broj.',
+        'System FQDN' => 'Puno ime domene sustava',
         'Fully qualified domain name of your system.' => 'FQDN - ime servera uključujući puno ime domena, npr. "otrs-server.example.org"',
         'AdminEmail' => 'E-mail administrator',
         'Email address of the system administrator.' => 'E-mail adresa administratora sustava.',
@@ -3263,7 +3263,7 @@ sub Data {
         'Back to login' => 'Natrag na prijavu',
 
         # Template: Motd
-        'Message of the Day' => 'Današnja poruka',
+        'Message of the Day' => 'Poruka dana',
 
         # Template: NoPermission
         'Insufficient Rights' => 'Nedovoljna ovlaštenja',
@@ -3310,13 +3310,13 @@ sub Data {
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Aktivira mehanizam treptanja retka koji sadrži najstariju karticu.',
         'Activates lost password feature for agents, in the agent interface.' =>
-            'Aktivira opciju izgubljene lozinke za zaposlene, na sučelju za njih.',
+            'Aktivira opciju izgubljene lozinke za operatere, na sučelju operatera.',
         'Activates lost password feature for customers.' => 'Aktivira opciju izgubljene lozinke za korisnike.',
         'Activates support for customer groups.' => 'Aktivira podršku za korisničke grupe.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
             'Aktivira filter za članke u proširenom pregledu radi definiranja koji članci trebaju biti prikazani.',
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' =>
-            'Aktivira raspoložive teme - šablone u sustavu. Vrijednost 1 znači aktivno, 0 znači neaktivno.',
+            'Aktivira raspoložive teme. Vrijednost 1 znači aktivno, 0 znači neaktivno.',
         'Activates the ticket archive system search in the customer interface.' =>
             '',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
@@ -3324,7 +3324,7 @@ sub Data {
         'Activates time accounting.' => 'Aktivira mjerenje vremena.',
         'ActivityID' => '',
         'Added email. %s' => '"E-pošta poslana korisniku. %s"',
-        'Added link to ticket "%s".' => 'Veza na "%s" postavljena.',
+        'Added link to ticket "%s".' => 'Poveza na karticu "%s" postavljena.',
         'Added note (%s)' => 'Dodata napomena (%s)',
         'Added subscription for user "%s".' => 'Pretplata za korisnika "%s" uključena.',
         'Adds a suffix with the actual year and month to the OTRS log file. A logfile for every month will be created.' =>
@@ -3339,28 +3339,28 @@ sub Data {
             '',
         'Adds the permanent vacation days. Please use single digit pattern for numbers from 1 to 9 (instead of 01 - 09).' =>
             'Trajno dodaje neradne dane. Molimo Vas da koristite jednoznamenkasti broj od 1 do 9 (umjesto 01 - 09).',
-        'Agent Notifications' => 'Obavijesti zaposlenima',
-        'Agent called customer.' => '"Zaposlenikov telefonski poziv."',
-        'Agent interface article notification module to check PGP.' => 'Modul sučelja zaposlenih za obavještavanja o članku, provjera PGP.',
+        'Agent Notifications' => 'Obavijesti operaterima',
+        'Agent called customer.' => '"Operaterov telefonski poziv."',
+        'Agent interface article notification module to check PGP.' => 'Modul sučelja operatera za obavještavanja o članku, provjera PGP.',
         'Agent interface article notification module to check S/MIME.' =>
-            'Modul sučelja zaposlenih za obavještavanja o članku, provjera S/MIME',
+            'Modul sučelja operatera za obavještavanja o članku, provjera S/MIME',
         'Agent interface module to access CIC search via nav bar.' => '',
         'Agent interface module to access fulltext search via nav bar.' =>
-            'Modul sučelja zaposlenih za pristup tekstualnom pretraživanju preko navigacijske trake.',
+            'Modul sučelja operatera za pristup tekstualnom pretraživanju preko navigacijske trake.',
         'Agent interface module to access search profiles via nav bar.' =>
             'Modul sučelja zaposlenih za pristup profilima pretraživanja preko navigacijske trake.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
-            'Modul sučelja zaposlenih za provjeru dolaznih poruka u uvećanom pregledu kartice ako "S/MIME"-ključ postoji i dostupan je.',
+            'Modul sučelja operatera za provjeru dolaznih poruka u uvećanom pregledu kartice ako "S/MIME"-ključ postoji i dostupan je.',
         'Agent interface notification module to see the number of locked tickets.' =>
             '',
         'Agent interface notification module to see the number of tickets an agent is responsible for.' =>
-            'Modul sučelja zaposlenih za obvještavanje, pregled broja kartice za koje je agent odgovoran.',
+            'Modul sučelja operatera za obvještavanje, pregled broja kartice za koje je agent odgovoran.',
         'Agent interface notification module to see the number of tickets in My Services.' =>
             '',
         'Agent interface notification module to see the number of watched tickets.' =>
-            'Modul sučelja zaposlenih za obvještavanje, pregled broja praćenih kartica.',
-        'Agents <-> Groups' => 'Zaposlenici <-> Grupe',
-        'Agents <-> Roles' => 'Zaposlenici <-> Uloge',
+            'Modul sučelja operatera za obvještavanje, pregled broja praćenih kartica.',
+        'Agents <-> Groups' => 'Operateri <-> Grupe',
+        'Agents <-> Roles' => 'Operateri <-> Uloge',
         'All customer users of a CustomerID' => '',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
@@ -3377,8 +3377,8 @@ sub Data {
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
-            'Dozvoljava zaposlenima da zamjene osi na statistici ako je generiraju.',
-        'Allows agents to generate individual-related stats.' => 'Dozvoljava zaposlenima da generiraju individualnu statistiku.',
+            'Dozvoljava operaterima da zamjene osi na pokrenutoj statistici.',
+        'Allows agents to generate individual-related stats.' => 'Dozvoljava operaterima da pokrenu individualnu statistiku.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
             'Dozvoljava izbor između prikaza priloga u pregledniku ili samo omogućava njihovo preuzimanje.',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
@@ -3419,16 +3419,16 @@ sub Data {
         'Archive state changed: "%s"' => '',
         'ArticleTree' => '',
         'Attachments <-> Templates' => '',
-        'Auto Responses <-> Queues' => 'Automatski odgovori <-> Repovi',
-        'AutoFollowUp sent to "%s".' => 'Automatski nastavak za "%s".',
-        'AutoReject sent to "%s".' => 'Automatski odbačeno "%s".',
+        'Auto Responses <-> Queues' => 'Automatski odgovori <-> Redovi',
+        'AutoFollowUp sent to "%s".' => 'Automatski nastavak poslan za "%s".',
+        'AutoReject sent to "%s".' => 'Automatski odbačeno poslano "%s".',
         'AutoReply sent to "%s".' => 'Poslat automatski odgovor za "%s".',
         'Automated line break in text messages after x number of chars.' =>
             'Automatski kraj retka u tekstualnim porukama nakon simbola "x".',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
-            'Automatsko zaključavanje i postavljanje vlasnika na aktualnog zaposlenog nakon izbora masovne akcije.',
+            'Automatsko zaključavanje i postavljanje vlasnika na aktualnog operatera nakon izbora masovne akcije.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled).' =>
             '',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
@@ -3455,12 +3455,12 @@ sub Data {
             '',
         'Cache time in seconds for the web service config backend.' => '',
         'Change password' => 'Promjena lozinke',
-        'Change queue!' => 'Promjena repa!',
+        'Change queue!' => 'Promjena reda!',
         'Change the customer for this ticket' => '',
         'Change the free fields for this ticket' => '',
         'Change the priority for this ticket' => '',
         'Change the responsible person for this ticket' => '',
-        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Ažuriran prioritet sa "%s" (%s) na "%s" (%s).',
+        'Changed priority from "%s" (%s) to "%s" (%s).' => 'Promjenjen prioritet sa "%s" (%s) na "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
             '',
         'Checkbox' => '',
@@ -3485,7 +3485,7 @@ sub Data {
             '',
         'Columns that can be filtered in the watch view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
-        'Comment for new history entries in the customer interface.' => 'Komentar za nove povijesne unose u korisničkom sučelju.',
+        'Comment for new history entries in the customer interface.' => 'Komentar za nove povjesne unose u korisničkom sučelju.',
         'Comment2' => '',
         'Company Status' => '',
         'Company Tickets' => 'Kartice tvrtke',
@@ -3518,7 +3518,7 @@ sub Data {
         'Create and manage dynamic fields.' => '',
         'Create and manage event based notifications.' => 'Kreiranje i upravljanje događajem na bazi obavijesti.',
         'Create and manage groups.' => 'Kreiranje i upravljanje grupama.',
-        'Create and manage queues.' => 'Kreiranje i upravljanje repovima.',
+        'Create and manage queues.' => 'Kreiranje i upravljanje redovima.',
         'Create and manage responses that are automatically sent.' => 'Kreiranje i upravljanje automatskim odgovorima.',
         'Create and manage roles.' => 'Kreiranje i upravljanje ulogama.',
         'Create and manage salutations.' => 'Kreiranje i upravljanje pozdravima.',
@@ -3567,7 +3567,7 @@ sub Data {
         'Default skin for the agent interface (slim version).' => '',
         'Default skin for the agent interface.' => '',
         'Default ticket ID used by the system in the agent interface.' =>
-            'Zadani ID kartice koji koristi sustav u sučelju zaposlenih.',
+            'Zadani ID kartice koji koristi sustav u sučelju operatera.',
         'Default ticket ID used by the system in the customer interface.' =>
             'Zadani ID kartice koji koristi sustav u korisničkom sučelju.',
         'Default value for NameX' => '',
@@ -3585,7 +3585,7 @@ sub Data {
         'Define the sla comment 2.' => '',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
             '',
-        'Define the start day of the week for the date picker.' => 'Definira prvi dan u nedelji za izbor datuma.',
+        'Define the start day of the week for the date picker.' => 'Odredi prvi dan u nedjelji za izbor datuma.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
             'Definira korisnikovu stavku, koja generira ikonu LinkedIn na kraju korisnikovog info bloka.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
@@ -3789,7 +3789,7 @@ sub Data {
             '',
         'Defines the default sort order for all services in the service view, after priority sort.' =>
             '',
-        'Defines the default spell checker dictionary.' => 'Određuje zadani rečnik za proveru pravopisa.',
+        'Defines the default spell checker dictionary.' => 'Određuje zadani rječnik za provjeru pravopisa.',
         'Defines the default state of new customer tickets in the customer interface.' =>
             '',
         'Defines the default state of new tickets.' => 'Određuje zadani status novih kartice.',
@@ -3961,7 +3961,7 @@ sub Data {
             '',
         'Defines the hours and week days of the indicated calendar, to count the working time.' =>
             '',
-        'Defines the hours and week days to count the working time.' => 'Određuje sate i dane u sedmici radi kalkulacija radnog vremena.',
+        'Defines the hours and week days to count the working time.' => 'Određuje sate i dane u tjednu radi kalkulacija radnog vremena.',
         'Defines the key to be checked with Kernel::Modules::AgentInfo module. If this user preferences key is true, the message is accepted by the system.' =>
             '',
         'Defines the key to check with CustomerAccept. If this user preferences key is true, then the message is accepted by the system.' =>
@@ -3986,7 +3986,7 @@ sub Data {
         'Defines the maximal size (in bytes) for file uploads via the browser. Warning: Setting this option to a value which is too low could cause many masks in your OTRS instance to stop working (probably any mask which takes input from the user).' =>
             '',
         'Defines the maximal valid time (in seconds) for a session id.' =>
-            'Određuje maksimalno vreme važenja (u sekundama) za ID sesije.',
+            'Određuje maksimalno vrijeme važenja (u sekundama) za ID sesije.',
         'Defines the maximum length (in characters) for a scheduler task data. WARNING: Do not modify this setting unless you are sure of the current Database length for \'task_data\' filed from \'scheduler_data_list\' table.' =>
             '',
         'Defines the maximum number of pages per PDF file.' => 'Određuje maksimalni broj strana po "PDF" datoteci.',
@@ -4029,7 +4029,7 @@ sub Data {
         'Defines the name of the column to store the user identifier in the preferences table.' =>
             '',
         'Defines the name of the indicated calendar.' => '',
-        'Defines the name of the key for customer sessions.' => 'Određuje naziv ključa za korisničke secije.',
+        'Defines the name of the key for customer sessions.' => 'Određuje naziv ključa za korisničke sesije.',
         'Defines the name of the session key. E.g. Session, SessionID or OTRS.' =>
             '',
         'Defines the name of the table, where the customer preferences are stored.' =>
@@ -4319,7 +4319,7 @@ sub Data {
             '',
         'Enables performance log (to log the page response time). It will affect the system performance. Frontend::Module###AdminPerformanceLog must be enabled.' =>
             '',
-        'Enables spell checker support.' => 'Omogućava podrđku za proveru pravopisa.',
+        'Enables spell checker support.' => 'Omogućuje podršku za provjeru pravopisa.',
         'Enables the minimal ticket counter size (if "Date" was selected as TicketNumberGenerator).' =>
             '',
         'Enables ticket bulk action feature for the agent frontend to work on more than one ticket at a time.' =>
@@ -4383,7 +4383,7 @@ sub Data {
         'FirstResponseInMin' => '',
         'Firstname Lastname' => '',
         'Firstname Lastname (UserLogin)' => '',
-        'FollowUp for [%s]. %s' => 'Nastavak kartice [%s]. %s',
+        'FollowUp for [%s]. %s' => 'Slijedi za [%s]. %s',
         'Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64).' =>
             '',
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
@@ -4570,12 +4570,12 @@ sub Data {
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Left' => '',
-        'Link agents to groups.' => 'Poveži zaposlene sa gupama.',
-        'Link agents to roles.' => 'Poveži zaposlene sa ulogama.',
+        'Link agents to groups.' => 'Poveži operatere s gupama.',
+        'Link agents to roles.' => 'Poveži operatere s ulogama.',
         'Link attachments to templates.' => '',
         'Link customer user to groups.' => '',
         'Link customer user to services.' => '',
-        'Link queues to auto responses.' => 'Poveži repove s automatskim odgovorima.',
+        'Link queues to auto responses.' => 'Poveži redove s automatskim odgovorima.',
         'Link roles to groups.' => 'Poveži uloge sa grupama.',
         'Link templates to queues.' => '',
         'Links 2 tickets with a "Normal" type link.' => '',
@@ -4603,9 +4603,9 @@ sub Data {
         'List of default Standard Templates which are assigned automatically to new Queues upon creation.' =>
             '',
         'List view' => '',
-        'Locked ticket.' => 'kartica zaključana.',
+        'Locked ticket.' => 'Kartica zaključana.',
         'Log file for the ticket counter.' => 'Datoteka dnevnika za brojač kartice.',
-        'Loop-Protection! No auto-response sent to "%s".' => 'Zaštita od mrtve petlje! Automatski odgovor nije poslan na "%s".',
+        'Loop-Protection! No auto-response sent to "%s".' => 'Zaštita od petlje! Automatski odgovor nije poslan na "%s".',
         'Mail Accounts' => '',
         'Main menu registration.' => '',
         'Makes the application check the MX record of email addresses before sending an email or submitting a telephone or email ticket.' =>
@@ -4647,7 +4647,7 @@ sub Data {
             '',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
-        'Module to check customer permissions.' => 'Modul za proveru korisničkih dozvola.',
+        'Module to check customer permissions.' => 'Modul za provjeru korisničkih dozvola.',
         'Module to check if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.' =>
             '',
         'Module to check if arrived emails should be marked as email-internal (because of original forwarded internal email). ArticleType and SenderType define the values for the arrived email/article.' =>
@@ -4678,7 +4678,7 @@ sub Data {
         'My Queues and My Services' => '',
         'My Queues or My Services' => '',
         'My Services' => '',
-        'My Tickets' => 'Moji kartice',
+        'My Tickets' => 'Moje kartice',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -4688,7 +4688,7 @@ sub Data {
         'New Window' => '',
         'New email ticket' => 'Nova kartica E-pošte',
         'New owner is "%s" (ID=%s).' => 'Novi vlasnik je "%s" (ID=%s).',
-        'New phone ticket' => 'Novi telefonski karticu',
+        'New phone ticket' => 'Nova telefonska kartica',
         'New process ticket' => '',
         'New responsible is "%s" (ID=%s).' => 'Novi odgovorni je "%s" (ID=%s).',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
@@ -4715,7 +4715,7 @@ sub Data {
             '',
         'Overview Escalated Tickets' => 'Pregled eskaliralih kartice',
         'Overview Refresh Time' => '',
-        'Overview of all open Tickets.' => 'pregled svih otvorenih kartice.',
+        'Overview of all open Tickets.' => 'Pregled svih otvorenih kartica.',
         'PGP Key Management' => 'Upravljanje PGP ključevima',
         'PGP Key Upload' => 'Slanje "PGP" ključa',
         'Package event module file a scheduler task for update registration.' =>
@@ -4802,7 +4802,7 @@ sub Data {
             '',
         'Provides a matrix overview of the tickets per state per queue.' =>
             '',
-        'Queue view' => 'Pregled repa',
+        'Queue view' => 'Pregled reda',
         'Recognize if a ticket is a follow up to an existing ticket using an external ticket number.' =>
             '',
         'Refresh Overviews after' => '',
@@ -4811,37 +4811,37 @@ sub Data {
         'Removes the ticket watcher information when a ticket is archived.' =>
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
-            'Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja zaposlenika.',
+            'Zamjenjuje originalnog pošiljatelja adresom E-pošte trenutnog korisnika pri kreiranju odgovora u prozoru za pisanje odgovora sučelja operatera.',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
-            'Potrebne dozvole za promenu korisnika kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za promenu korisnika kartice u interfejsu operatera.',
         'Required permissions to use the close ticket screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora za zatvaranje kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora za zatvaranje kartice u interfejsu operatera.',
         'Required permissions to use the email outbound screen in the agent interface.' =>
             '',
         'Required permissions to use the ticket bounce screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora za odbijanje kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora za odbijanje kartice u sučelju operatera.',
         'Required permissions to use the ticket compose screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora za otvaranje kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora za otvaranje kartice u sučelju operatera.',
         'Required permissions to use the ticket forward screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora za prosleđivanje kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora za prosleđivanje kartice u sučelju zaposlenog.',
         'Required permissions to use the ticket free text screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora slobodnog teksta kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora slobodnog teksta kartice u sučelju operatera.',
         'Required permissions to use the ticket merge screen of a zoomed ticket in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora za spajanje pri uvećanom prikazu kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora za spajanje pri uvećanom prikazu kartice u interfejsu operatera.',
         'Required permissions to use the ticket note screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora za napomene kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora za napomene kartice u sučelju operatera.',
         'Required permissions to use the ticket owner screen of a zoomed ticket in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora vlasnika tuketa pri uvećanom prikazu kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora vlasnika tuketa pri uvećanom prikazu kartice u interfejsu operatera.',
         'Required permissions to use the ticket pending screen of a zoomed ticket in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora čekanja pri uvećanom prikazu kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora čekanja pri uvećanom prikazu kartice u interfejsu operatera.',
         'Required permissions to use the ticket phone inbound screen in the agent interface.' =>
             '',
         'Required permissions to use the ticket phone outbound screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora telefonskog odlaznog kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora telefonskog odlaznog kartice u sučelju operatera.',
         'Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora prioriteta pri uvećanom prikazu kartice u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora prioriteta pri uvećanom prikazu kartice u sučelju operatera.',
         'Required permissions to use the ticket responsible screen in the agent interface.' =>
-            'Potrebne dozvole za upotrebu prozora odgovornog za karticu u interfejsu zaposlenog.',
+            'Potrebne dozvole za upotrebu prozora odgovornog za karticu u sučelju operatera.',
         'Resets and unlocks the owner of a ticket if it was moved to another queue.' =>
             'Resetuje i otključava vlasnika kartice ako je premešten u drugi red.',
         'Restores a ticket from the archive (only if the event is a state change, from closed to any open available state).' =>
@@ -4857,7 +4857,7 @@ sub Data {
             '',
         'Runs the system in "Demo" mode. If set to "Yes", agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
-        'S/MIME Certificate Upload' => 'Slanje "S/MIME" sertifikata',
+        'S/MIME Certificate Upload' => 'Slanje "S/MIME" certifikata',
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',

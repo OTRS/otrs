@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-06-15 14:00+0000\n"
+"Last-Translator: Lars Jorgensen <ljorg6@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/OTRS/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1324,7 +1324,7 @@ msgstr "Viste"
 
 #. Template: AAABase
 msgid "Shown customer users"
-msgstr "Viste kunder"
+msgstr "Viste kundebrugere"
 
 #. Template: AAABase
 msgid "News"
@@ -1469,7 +1469,7 @@ msgstr "Scheduleren kører ikke."
 
 #. Template: AAABase
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "Alle sessioner er lukket, undtagen din egen"
 
 #. Template: AAABase
 msgid "Can't contact registration server. Please try again later."
@@ -2313,7 +2313,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Customers With At Least One Ticket"
-msgstr ""
+msgstr "Kunder med mindst én sag"
 
 #. Template: AAASupportDataCollector
 msgid "Queues"
@@ -2385,19 +2385,19 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Error Log"
-msgstr ""
+msgstr "Fejl-log"
 
 #. Template: AAASupportDataCollector
 msgid "There are error reports in your system log."
-msgstr ""
+msgstr "Der er fejl-rapporteringer i din systemlog."
 
 #. Template: AAASupportDataCollector
 msgid "File System Writable"
-msgstr ""
+msgstr "Filsystem skrivbart"
 
 #. Template: AAASupportDataCollector
 msgid "The file system on your OTRS partition is not writable."
-msgstr ""
+msgstr "Filsystemet på din OTRS-partition er ikke skrivbart."
 
 #. Template: AAASupportDataCollector
 msgid "Domain Name"
@@ -2457,7 +2457,7 @@ msgstr ""
 msgid ""
 "You have more than 50,000 articles and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
-msgstr ""
+msgstr "Du har mere end 50.000 indlæg og bør bruge StaticDB-backend. Se admin-manualen (Performance Tuning) for yderligere information."
 
 #. Template: AAASupportDataCollector
 msgid "Orphaned Records In ticket_lock_index Table"
@@ -2481,19 +2481,19 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Environment Variables"
-msgstr ""
+msgstr "Miljøvariable"
 
 #. Template: AAASupportDataCollector
 msgid "Webserver Version"
-msgstr ""
+msgstr "Webserver-version"
 
 #. Template: AAASupportDataCollector
 msgid "Could not determine webserver version."
-msgstr ""
+msgstr "Kunne ikke fastslå webserver-version."
 
 #. Template: AAASupportDataCollector
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "Indlæste Apache-moduler"
 
 #. Template: AAASupportDataCollector
 msgid "MPM model"
@@ -2501,7 +2501,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "OTRS requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTRS kræver, at apache kører med MPM-modellen 'prefork'."
 
 #. Template: AAASupportDataCollector
 msgid "CGI Accelerator Usage"
@@ -2517,7 +2517,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Please install mod_deflate to improve GUI speed."
-msgstr ""
+msgstr "Installer mod_deflate for at forøge hastigheden på brugerinterfacet."
 
 #. Template: AAASupportDataCollector
 msgid "mod_filter Usage"
@@ -2886,7 +2886,7 @@ msgstr "Slut på videresendt besked"
 
 #. Template: AAATicket
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "Bounce Indlæg til en anden mail-adresse"
 
 #. Template: AAATicket
 msgid "Reply to note"
@@ -3178,7 +3178,7 @@ msgstr "Kundebruger automatisk tilføjet til Cc."
 
 #. Template: AAATicket
 msgid "Overview of all open Tickets"
-msgstr "Oversigt over alle åbne sager"
+msgstr "Oversigt over alle frie sager"
 
 #. Template: AAATicket
 msgid "Locked Tickets"
@@ -3882,7 +3882,7 @@ msgstr "f.eks."
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr "Valgmuligheder for den nuværende bruger"
+msgstr "Valgmuligheder for den nuværende kundebruger"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -3920,7 +3920,7 @@ msgstr "Eksempel på svar"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
-msgstr "Administrer Kunde"
+msgstr "Administrer Kunder"
 
 #. Template: AdminCustomerCompany
 msgid "Wildcards like '*' are allowed."
@@ -3952,7 +3952,7 @@ msgstr "Tilbage til søgeresultater"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr "Tilføj kunde-bruger"
+msgstr "Tilføj kundebruger"
 
 #. Template: AdminCustomerUser
 msgid "Hint"
@@ -3978,11 +3978,11 @@ msgstr "Skift til kunde"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr "Tilføj Kunde-bruger"
+msgstr "Tilføj Kundebruger"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Rediger Kunde-bruger"
+msgstr "Rediger Kundebruger"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -6785,7 +6785,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
-msgstr ""
+msgstr "Kundeinterfacet understøtter ikke interne indlægs-typer."
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
@@ -8294,7 +8294,7 @@ msgstr "SysConfig"
 
 #. Template: AdminSysConfig
 msgid "Navigate by searching in %s settings"
-msgstr "Søg i %s konfigurationsindstillinger"
+msgstr "Søg i alle %s konfigurationsindstillinger."
 
 #. Template: AdminSysConfig
 msgid "Navigate by selecting config groups"
@@ -8322,7 +8322,7 @@ msgstr "Importer Konfiguration"
 
 #. Template: AdminSysConfig
 msgid "Please enter a search term to look for settings."
-msgstr "Indtaste søgeord for at lede i konfigurationen."
+msgstr "Indtast søgeord for at lede i konfigurationen."
 
 #. Template: AdminSysConfig
 msgid "Subgroup"
@@ -8560,23 +8560,23 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
-msgstr ""
+msgstr "Administrer sessioner"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr ""
+msgstr "Alle sessioner"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
-msgstr ""
+msgstr "Agent-sessioner"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "Kunde-sessioner"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Afbryd alle sessioner, undtagen din egen"
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8606,7 +8606,7 @@ msgstr "Rediger skabelon"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
-msgstr ""
+msgstr "En standard-skabelon med dette navn eksisterer allerede!"
 
 #. Template: AdminTemplate
 msgid "Template"
@@ -8670,7 +8670,7 @@ msgstr "Rediger type"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "En type med dette navn eksisterer allerede!"
 
 #. Template: AdminUser
 msgid "Add agent"
@@ -8714,7 +8714,7 @@ msgstr "Efternavn"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "En bruger med dette brugernavn eksisterer allerede!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
@@ -8770,7 +8770,7 @@ msgstr "Kundeinformations-center"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Kunde"
+msgstr "Kundebruger"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -8822,7 +8822,7 @@ msgstr "Mail-sager"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start Chat"
-msgstr ""
+msgstr "Start Chat"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "%s open ticket(s) of %s"
@@ -8842,7 +8842,7 @@ msgstr "Nye mail-sager til %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Start chat"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8983,11 +8983,11 @@ msgstr "Opdater dine indstillinger"
 
 #. Template: AgentSchedulerInfo
 msgid "General Information"
-msgstr ""
+msgstr "Generel Information"
 
 #. Template: AgentSchedulerInfo
 msgid "Scheduler is an OTRS separated process that perform asynchronous tasks"
-msgstr ""
+msgstr "Scheduler er en separat proces, der udfører asynkrone opgaver"
 
 #. Template: AgentSchedulerInfo
 msgid "(e.g. Generic Interface asynchronous invoker tasks)"
@@ -9001,7 +9001,7 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Starting Scheduler"
-msgstr ""
+msgstr "Starter Scheduler"
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
@@ -9379,11 +9379,11 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "Tilføj Indlæg"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "Opret et Indlæg"
 
 #. Template: AgentTicketActionCommon
 msgid "Spell check"
@@ -9697,7 +9697,7 @@ msgstr ""
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "Chatten vil blive tilføjet som et separat indlæg."
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -9999,7 +9999,7 @@ msgstr "Ændr størrelse"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "Marker dette indlæg som læst"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
@@ -10007,7 +10007,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "Indlæggets fulde tekst"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
@@ -10025,7 +10025,7 @@ msgstr "Luk denne besked"
 
 #. Template: AgentTicketZoom
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "Et indlæg kunne ikke åbnes! Måske er det på en anden indlægs side?"
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
@@ -11052,7 +11052,7 @@ msgstr "Agenter <-> Roller"
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
-msgstr ""
+msgstr "Alle kundebrugere af et CustomerID"
 
 #. SysConfig
 msgid ""
@@ -11196,7 +11196,7 @@ msgstr ""
 msgid ""
 "Allows the administrators to login as other customers, via the customer user"
 " administration panel."
-msgstr ""
+msgstr "Tillad administratorer at ligge ind som andre kunder via kundebruger-administrationspanelet."
 
 #. SysConfig
 msgid ""
@@ -11216,15 +11216,15 @@ msgstr "Arkivflag opdateret"
 
 #. SysConfig
 msgid "ArticleTree"
-msgstr ""
+msgstr "Indlægstræ"
 
 #. SysConfig
 msgid "Attachments <-> Templates"
-msgstr ""
+msgstr "Vedhæftede filer <-> Skabeloner"
 
 #. SysConfig
 msgid "Auto Responses <-> Queues"
-msgstr ""
+msgstr "Autosvar <-> Køer"
 
 #. SysConfig
 msgid "AutoFollowUp sent to \"%s\"."
@@ -11377,7 +11377,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "Lukkede sager (kundebruger)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
@@ -11545,7 +11545,7 @@ msgstr "Administrer vedhæftede filer."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr ""
+msgstr "Opret og administrer kundebrugere."
 
 #. SysConfig
 msgid "Create and manage customers."
@@ -11553,7 +11553,7 @@ msgstr "Administrer kunder."
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr ""
+msgstr "Opret og administrer dynamiske felter."
 
 #. SysConfig
 msgid "Create and manage event based notifications."
@@ -11589,7 +11589,7 @@ msgstr "Administrer signaturer."
 
 #. SysConfig
 msgid "Create and manage templates."
-msgstr ""
+msgstr "Opret og administrer skabeloner"
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
@@ -11605,7 +11605,7 @@ msgstr "Administrer sagstyper."
 
 #. SysConfig
 msgid "Create and manage web services."
-msgstr ""
+msgstr "Opret og administrer web-services."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)"
@@ -11635,19 +11635,19 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User <-> Groups"
-msgstr ""
+msgstr "Kundebruger <-> Grupper"
 
 #. SysConfig
 msgid "Customer User <-> Services"
-msgstr ""
+msgstr "Kundebruger <-> Services"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Kunde-administration"
+msgstr "Kundebruger-administration"
 
 #. SysConfig
 msgid "Customer Users"
-msgstr "Kunder"
+msgstr "Kundebrugere"
 
 #. SysConfig
 msgid "Customer called us."
@@ -11673,7 +11673,7 @@ msgstr "Kundeanmodning via web."
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "Søg efter kundebruger"
 
 #. SysConfig
 msgid "CustomerID search"
@@ -14337,7 +14337,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Filter incoming emails."
-msgstr ""
+msgstr "Filtrer indgående mail."
 
 #. SysConfig
 msgid "First Queue"
@@ -14849,7 +14849,7 @@ msgstr ""
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
-msgstr ""
+msgstr "Hvis aktiveret, vil de forskellige oversigter (Dashboard, Sagsoversigt, Køoversigt) automatisk opdateres efter den angivne periode."
 
 #. SysConfig
 msgid ""
@@ -14938,7 +14938,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Interface language"
-msgstr ""
+msgstr "Sprog"
 
 #. SysConfig
 msgid ""
@@ -14992,15 +14992,15 @@ msgstr "Kæd agenter til roller."
 
 #. SysConfig
 msgid "Link attachments to templates."
-msgstr ""
+msgstr "Kæd vedhæftede filer til skabeloner"
 
 #. SysConfig
 msgid "Link customer user to groups."
-msgstr ""
+msgstr "Kæd kundebrugere til grupper."
 
 #. SysConfig
 msgid "Link customer user to services."
-msgstr ""
+msgstr "Kæd kundebrugere til services."
 
 #. SysConfig
 msgid "Link queues to auto responses."
@@ -15012,7 +15012,7 @@ msgstr "Kæd roller til grupper."
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr ""
+msgstr "Kæd skabeloner til køer"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
@@ -15150,7 +15150,7 @@ msgstr "Administrer eksisterende sessioner."
 
 #. SysConfig
 msgid "Manage notifications that are sent to agents."
-msgstr ""
+msgstr "Administrer beskeder sendt til agenter."
 
 #. SysConfig
 msgid "Manage system registration."
@@ -15158,7 +15158,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
-msgstr ""
+msgstr "Administrer opgaver, der bliver udført på baggrund af hændelser eller tid."
 
 #. SysConfig
 msgid ""
@@ -15409,11 +15409,11 @@ msgstr "Besked sendt til \"%s\"."
 
 #. SysConfig
 msgid "Notifications (Event)"
-msgstr ""
+msgstr "Beskeder (Hændelsesstyret)"
 
 #. SysConfig
 msgid "Number of displayed tickets"
-msgstr ""
+msgstr "Antal viste sager"
 
 #. SysConfig
 msgid ""
@@ -15443,7 +15443,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "Åbne sager (kundebruger)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
@@ -17515,7 +17515,7 @@ msgstr "System Request (%s)"
 
 #. SysConfig
 msgid "Templates <-> Queues"
-msgstr ""
+msgstr "Skabeloner <-> Køer"
 
 #. SysConfig
 msgid "Textarea"
@@ -17770,7 +17770,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Update and extend your system with software packages."
-msgstr ""
+msgstr "Opdater "
 
 #. SysConfig
 msgid "Updated SLA to %s (ID=%s)."

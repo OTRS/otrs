@@ -2513,7 +2513,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Manage Templates' => 'テンプレート管理',
         'Add template' => 'テンプレートを追加',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
-            '',
+            'テンプレートは担当者による高速なチケット作成、回答または転送を支援するデフォルトの本文です。',
         'Don\'t forget to add new templates to queues.' => '新しいテンプレートにキューを追加してください。',
         'Add Template' => 'テンプレートを追加',
         'Edit Template' => 'テンプレートを編集',
@@ -2799,8 +2799,8 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Add Article' => '記事を追加',
         'Create an Article' => '',
         'Spell check' => 'スペルチェック',
-        'Text Template' => '',
-        'Setting a template will overwrite any text or attachment.' => '',
+        'Text Template' => '本文テンプレート',
+        'Setting a template will overwrite any text or attachment.' => 'テンプレートを設定すると作成中の本文または添付ファイルは上書きされます。',
         'Note type' => 'メモタイプ',
         'Inform Agent' => '担当者に知らせる',
         'Optional' => 'オプション',
@@ -2919,7 +2919,7 @@ OTRSが443ポートを用いてcloud.otrs.comに接続できることを確認�
         'Ticket-Info' => 'チケット情報',
         'Accounted time' => '作業時間',
         'Linked-Object' => '連結対象',
-        'by' => 'いいえ',
+        'by' => 'by',
 
         # Template: AgentTicketProcess
         'Create New Process Ticket' => '新しいプロセスチケットを作成',

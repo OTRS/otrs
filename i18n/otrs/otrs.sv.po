@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-05-20 16:11+0000\n"
+"Last-Translator: Anthon Nilsson <superdos@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/OTRS/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -9973,7 +9973,7 @@ msgstr "Olästa artiklar"
 
 #. Template: AgentTicketZoom
 msgid "No."
-msgstr "Nej"
+msgstr "Nr."
 
 #. Template: AgentTicketZoom
 msgid "Important"

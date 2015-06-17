@@ -1,11 +1,12 @@
 # 
 # Translators:
+# Sefer <sefersimsek@yahoo.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
+"PO-Revision-Date: 2015-06-17 08:59+0000\n"
+"Last-Translator: Sefer <sefersimsek@yahoo.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/OTRS/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -627,7 +628,7 @@ msgstr "arasında"
 
 #. Template: AAABase
 msgid "before/after"
-msgstr ""
+msgstr "önce/sonra"
 
 #. Template: AAABase
 msgid "Fulltext Search"
@@ -727,19 +728,19 @@ msgstr "Tarih seçici"
 
 #. Template: AAABase
 msgid "Show Tree Selection"
-msgstr ""
+msgstr "Seçilmiş Yapıyı Göster"
 
 #. Template: AAABase
 msgid "The field content is too long!"
-msgstr ""
+msgstr "Alan içeriği çok uzun!"
 
 #. Template: AAABase
 msgid "Maximum size is %s characters."
-msgstr ""
+msgstr "En fazla %s karakter olmalıdır."
 
 #. Template: AAABase
 msgid "This field is required or"
-msgstr ""
+msgstr "Bu alan gereklidir ya da"
 
 #. Template: AAABase
 msgid "New message"
@@ -814,7 +815,7 @@ msgstr ""
 #. Template: AAABase
 msgid ""
 "This e-mail address already exists. Please log in or reset your password."
-msgstr ""
+msgstr "Bu e-posta adresi zaten kayıtlı. Lütfen giriş yapın ya da şifrenizi sıfırlayın."
 
 #. Template: AAABase
 msgid "Logout"
@@ -834,7 +835,7 @@ msgstr "Aracı güncellendi!"
 
 #. Template: AAABase
 msgid "Database Selection"
-msgstr ""
+msgstr "Veritabanı Seçimi"
 
 #. Template: AAABase
 msgid "Create Database"
@@ -878,11 +879,11 @@ msgstr "Veritabanı silindi."
 
 #. Template: AAABase
 msgid "Enter the password for the administrative database user."
-msgstr ""
+msgstr "Veritabanı yönetici şifresini girin."
 
 #. Template: AAABase
 msgid "Enter the password for the database user."
-msgstr ""
+msgstr "Veritabanı kullanıcı şifresini girin."
 
 #. Template: AAABase
 msgid ""
@@ -892,7 +893,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Database already contains data - it should be empty!"
-msgstr ""
+msgstr "Veritabanı veri içeriyor. Boş olmalı!"
 
 #. Template: AAABase
 msgid "Login is needed!"
@@ -901,7 +902,7 @@ msgstr "Oturum açmanız gerekli!"
 #. Template: AAABase
 msgid ""
 "It is currently not possible to login due to a scheduled system maintenance."
-msgstr ""
+msgstr "Sistem bakımı esnasında giriş yapamazsınız."
 
 #. Template: AAABase
 msgid "Password is needed!"
