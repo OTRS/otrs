@@ -2263,15 +2263,42 @@ sub SearchStringStopWordsFind {
         }
     }
 
-    # create lower case stop words
-    my %StopWordRaw = %{ $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {} };
-    my %StopWord;
-    WORD:
-    for my $Word ( sort keys %StopWordRaw ) {
+    my $StopWordRaw = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::SearchIndex::StopWords') || {};
+    if ( !$StopWordRaw || ref $StopWordRaw ne 'HASH' ) {
 
-        next WORD if !$Word;
-        $Word = lc $Word;
-        $StopWord{$Word} = 1;
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Invalid config option Ticket::SearchIndex::StopWords! "
+                . "Please reset the search index options to reactivate the factory defaults.",
+        );
+
+        return;
+    }
+
+    my %StopWord;
+    LANGUAGE:
+    for my $Language ( sort keys %{$StopWordRaw} ) {
+
+        if ( !$Language || !$StopWordRaw->{$Language} || ref $StopWordRaw->{$Language} ne 'ARRAY' ) {
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Invalid config option Ticket::SearchIndex::StopWords###$Language! "
+                    . "Please reset this option to reactivate the factory defaults.",
+            );
+
+            next LANGUAGE;
+        }
+
+        WORD:
+        for my $Word ( @{ $StopWordRaw->{$Language} } ) {
+
+            next WORD if !$Word;
+
+            $Word = lc $Word;
+
+            $StopWord{$Word} = 1;
+        }
     }
 
     my %StopWordsFound;
