@@ -46,7 +46,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Filter",           'css' );
 
         # click 'Add template'
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminTemplate;Subaction=Add' )]")->click();
         $Selenium->WaitFor( JavaScript => "return \$('#TemplateType').length" );
 
         for my $ID (

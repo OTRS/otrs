@@ -54,7 +54,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add auto response'
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminAutoResponse;Subaction=Add' )]")->click();
 
         # check page
         for my $ID (
@@ -124,7 +124,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 
 );
 

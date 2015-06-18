@@ -44,7 +44,7 @@ $Selenium->RunTest(
         for my $File (qw(xls txt doc png pdf)) {
 
             # click 'add new attachment' link
-            $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+            $Selenium->find_element("//a[contains(\@href, \'Action=AdminAttachment;Subaction=Add' )]")->click();
 
             # file checks
             my $Location = $ConfigObject->Get('Home')

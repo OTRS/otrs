@@ -55,7 +55,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click "Add notification"
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminNotificationEvent;Subaction=Add' )]")->click();
 
         # check add NotificationEvent screen
         for my $ID (
@@ -179,7 +179,7 @@ $Selenium->RunTest(
         # delete test SLA with delete button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$NotifEventID{ID}' )]")->click();
 
-        }
+    }
 
 );
 

@@ -42,7 +42,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # check "Add mail account" link
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=AddNew' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminMailAccount;Subaction=AddNew' )]")->click();
 
         for my $ID (
             qw(TypeAdd LoginAdd PasswordAdd HostAdd IMAPFolder Trusted DispatchingBy ValidID Comment)
@@ -101,7 +101,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$MailAccountID' )]")->click();
         }
 
-        }
+    }
 
 );
 

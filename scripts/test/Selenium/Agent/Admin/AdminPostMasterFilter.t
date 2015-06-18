@@ -41,7 +41,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'Add filter'
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=AddAction' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPostMasterFilter;Subaction=AddAction' )]")->click();
 
         # check client side validation
         $Selenium->find_element( "#EditName", 'css' )->clear();
@@ -165,7 +165,7 @@ $Selenium->RunTest(
         # delete test PostMasterFilter with delete button
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Name=$PostMasterRandomID' )]")->click();
 
-        }
+    }
 
 );
 

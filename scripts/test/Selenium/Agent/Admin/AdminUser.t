@@ -57,7 +57,7 @@ $Selenium->RunTest(
         );
 
         # check add agent page
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminUser;Subaction=Add' )]")->click();
 
         for my $ID (
             qw(UserFirstname UserLastname UserLogin UserEmail)

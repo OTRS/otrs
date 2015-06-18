@@ -45,7 +45,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add new priority' link
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminPriority;Subaction=Add' )]")->click();
 
         # check add page
         my $Element = $Selenium->find_element( "#Name", 'css' );
@@ -142,7 +142,7 @@ $Selenium->RunTest(
             Type => 'Priority',
         );
 
-        }
+    }
 );
 
 1;

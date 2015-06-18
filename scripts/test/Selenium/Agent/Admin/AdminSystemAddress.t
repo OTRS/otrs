@@ -63,7 +63,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # click 'add system address'
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add')]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemAddress;Subaction=Add')]")->click();
 
         # check add new SystemAddress screen
         for my $ID (

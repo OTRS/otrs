@@ -63,7 +63,7 @@ $Selenium->RunTest(
         }
 
         # click 'add new role' linK
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=Add' )]")->click();
+        $Selenium->find_element("//a[contains(\@href, \'Action=AdminRole;Subaction=Add' )]")->click();
 
         # check add page
         my $Element = $Selenium->find_element( "#Name", 'css' );
