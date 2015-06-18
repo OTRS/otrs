@@ -97,7 +97,7 @@
                             </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("OverviewResultRow") %]
-                            <tr class="MasterAction">
+                            <tr class="MasterAction[% IF Data.ValidID && Data.ValidID != 1 %] Invalid[% END %]">
                                 <td><a class="AsBlock MasterActionLink" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;CustomerID=[% Data.CustomerID | uri %];Nav=[% Data.Nav | uri %]">[% Data.CustomerID | truncate(20) | html %]</a></td>
                                 <td>[% Data.CustomerCompanyName | html %]</td>
                                 <td title="[% Data.CustomerCompanyComment | html %]">[% Data.CustomerCompanyComment | truncate(26) | html %]</td>

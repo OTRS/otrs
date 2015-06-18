@@ -49,7 +49,7 @@ $Selenium->RunTest(
             Password => $TestUserLogin,
         );
 
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID = 'TestCustomer' . $Helper->GetRandomID();
 
         # Also create a CustomerCompany so that it can be selected in the dropdown
         $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
@@ -65,7 +65,7 @@ $Selenium->RunTest(
             UserID                 => 1,
         ) || die "Could not create test CustomerCompany";
 
-        my $RandomID2 = $Helper->GetRandomID();
+        my $RandomID2 = 'TestCustomer' . $Helper->GetRandomID();
 
         # Also create a CustomerCompany so that it can be selected in the dropdown
         $Kernel::OM->Get('Kernel::System::CustomerCompany')->CustomerCompanyAdd(
@@ -137,9 +137,12 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserLogin",           'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#UserEmail",           'css' )->send_keys( $RandomID2 . "\@localhost.com" );
         $Selenium->find_element( "#UserCustomerID option[value='$RandomID2']", 'css' )->click();
+        $Selenium->find_element( "#UserFirstname",                             'css' )->submit();
 
-        #$Selenium->find_element( "#UserCustomerID",      'css' )->send_keys($RandomID2);
-        $Selenium->find_element( "#UserFirstname", 'css' )->submit();
+        # test search filter only for test Customer users
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys('TestCustomer');
+        $Selenium->find_element( "#Search", 'css' )->submit();
 
         # check for another customer user
         $Self->True(
@@ -147,7 +150,7 @@ $Selenium->RunTest(
             "$RandomID2 found on page",
         );
 
-        # test search filter
+        # test search filter by customer user $RandomID
         $Selenium->find_element( "#Search", 'css' )->clear();
         $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#Search", 'css' )->submit();
@@ -156,6 +159,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
         );
+
         $Self->False(
             index( $Selenium->get_page_source(), $RandomID2 ) > -1,
             "$RandomID2 not found on page",
@@ -194,33 +198,46 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#UserFirstname",             'css' )->submit();
 
-        # delete created test customer user
-        for my $ID ( $RandomID, $RandomID2 ) {
+        # test search filter
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Search", 'css' )->submit();
+
+        # chack class of invalid customer user in the overview table
+        $Self->True(
+            $Selenium->find_element( "tr.Invalid", 'css' ),
+            "There is a class 'Invalid' for test Customer User",
+        );
+
+        # delete created test customer user and customer company
+        for my $CustomerID ( $RandomID, $RandomID2 ) {
             my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_user WHERE customer_id = ?",
-                Bind => [ \$ID ],
+                Bind => [ \$CustomerID ],
             );
             $Self->True(
                 $Success,
-                "Deleted CustomerUser - $ID",
+                "Deleted Customers - $CustomerID",
             );
 
-            my $Success2 = $DBObject->Do(
+            $Success = $DBObject->Do(
                 SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
-                Bind => [ \$ID ],
+                Bind => [ \$CustomerID ],
             );
             $Self->True(
-                $Success2,
-                "Deleted CustomerUser - $ID",
+                $Success,
+                "Deleted CustomerUser - $CustomerID",
             );
         }
 
-        # Make sure the cache is correct.
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-            Type => 'CustomerUser',
-        );
-
+        # make sure the cache is correct.
+        for my $Cache (qw(CustomerCompany CustomerUser)) {
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => $Cache,
+            );
         }
+
+    }
 
 );
 
