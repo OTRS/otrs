@@ -65,14 +65,14 @@ $Selenium->RunTest(
         );
 
         # create a real test group
-        my $RandomID = $Helper->GetRandomID();
-
+        my $RandomID = 'TestGroup' . $Helper->GetRandomID();
         $Selenium->find_element( "#GroupName",                 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
         $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test group');
         $Selenium->find_element( "#GroupName",                 'css' )->submit();
 
-  # after add group followed screen is AddUserGroup(Subaction=Group), there is posible to set permission for added group
+        # after add group followed screen is AddUserGroup(Subaction=Group),
+        # there is posible to set permission for added group
         $Self->True(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
@@ -101,7 +101,6 @@ $Selenium->RunTest(
 
         # edit test group permissions
         $Selenium->find_element( $RandomID, 'link_text' )->click();
-
         $Selenium->find_element("//input[\@value='$UserID'][\@name='rw']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->click();
@@ -153,7 +152,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#GroupName",                 'css' )->submit();
 
-        # Since there are no tickets that rely on our test group, we can remove them again
+        # chack class of invalid Group in the overview table
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminGroup");
+        $Self->True(
+            $Selenium->find_element( "tr.Invalid", 'css' ),
+            "There is a class 'Invalid' for test Group",
+        );
+
+        # since there are no tickets that rely on our test group, we can remove them again
         # from the DB.
         if ($RandomID) {
             my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -182,10 +188,10 @@ $Selenium->RunTest(
             );
         }
 
-        # Make sure the cache is correct.
+        # make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Group' );
 
-        }
+    }
 
 );
 

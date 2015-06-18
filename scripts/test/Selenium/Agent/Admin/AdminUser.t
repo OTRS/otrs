@@ -82,27 +82,35 @@ $Selenium->RunTest(
         );
 
         # create a real test agent
-        my $RandomID = $Helper->GetRandomID();
-
+        my $RandomID = 'TestAgent' . $Helper->GetRandomID();
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserLogin",     'css' )->send_keys($RandomID);
         $Selenium->find_element( "#UserEmail",     'css' )->send_keys( $RandomID . '@localhost.com' );
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
-        #edit real test agent values
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser;Search=$RandomID");
-        $Selenium->find_element( $RandomID, 'link_text' )->click();
+        # test search filter by agent $RandomID
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser");
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Search", 'css' )->submit();
 
-        my $EditRandomID = $Helper->GetRandomID();
+        # edit real test agent values
+        my $EditRandomID = 'EditedTestAgent' . $Helper->GetRandomID();
+        $Selenium->find_element( $RandomID,        'link_text' )->click();
         $Selenium->find_element( "#UserFirstname", 'css' )->clear();
         $Selenium->find_element( "#UserFirstname", 'css' )->send_keys($EditRandomID);
         $Selenium->find_element( "#UserLastname",  'css' )->clear();
         $Selenium->find_element( "#UserLastname",  'css' )->send_keys($EditRandomID);
         $Selenium->find_element( "#UserFirstname", 'css' )->submit();
 
+        # test search filter by agent $EditRandomID
+        $Selenium->WaitFor( JavaScript => 'return $("#Search").length' );
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($EditRandomID);
+        $Selenium->find_element( "#Search", 'css' )->submit();
+
         #check new agent values
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminUser;Search=$RandomID");
         $Selenium->find_element( $RandomID, 'link_text' )->click();
         $Self->Is(
             $Selenium->find_element( '#UserFirstname', 'css' )->get_value(),
@@ -129,7 +137,18 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#UserFirstname",             'css' )->submit();
 
-        }
+        # test search filter by agent $RandomID
+        $Selenium->find_element( "#Search", 'css' )->clear();
+        $Selenium->find_element( "#Search", 'css' )->send_keys($RandomID);
+        $Selenium->find_element( "#Search", 'css' )->submit();
+
+        # chack class of invalid Agent in the overview table
+        $Self->True(
+            $Selenium->find_element( "tr.Invalid", 'css' ),
+            "There is a class 'Invalid' for test Agent",
+        );
+
+    }
 
 );
 

@@ -49,7 +49,7 @@ $Selenium->RunTest(
             # file checks
             my $Location = $ConfigObject->Get('Home')
                 . "/scripts/test/sample/StdAttachment/StdAttachment-Test1.$File";
-            my $RandomID = $Helper->GetRandomID();
+            my $RandomID = 'StdAttachment' . $Helper->GetRandomID();
             $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
             $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
             $Selenium->find_element( "#FileUpload",                'css' )->send_keys($Location);
@@ -92,14 +92,26 @@ $Selenium->RunTest(
             # go back to AdminAttachment overview screen
             $Selenium->get("${ScriptAlias}index.pl?Action=AdminAttachment");
 
+            # chack class of invalid Attachment in the overview table
+            $Self->True(
+                $Selenium->find_element( "tr.Invalid", 'css' ),
+                "There is a class 'Invalid' for test Attachment",
+            );
+
             # check delete button
             my $ID = $Kernel::OM->Get('Kernel::System::StdAttachment')->StdAttachmentLookup(
                 StdAttachment => $RandomID,
             );
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;ID=$ID' )]")->click();
 
+            # check overview page
+            $Self->True(
+                index( $Selenium->get_page_source(), $RandomID ) == -1,
+                'Standard attacment is deleted - $RandomID'
+            );
+
         }
-        }
+    }
 );
 
 1;

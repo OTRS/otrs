@@ -19,8 +19,7 @@ my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 $Selenium->RunTest(
     sub {
 
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+        my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $Language = 'de';
 
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -85,8 +84,7 @@ $Selenium->RunTest(
         );
 
         # create a real test role
-        my $RandomID = $Helper->GetRandomID();
-
+        my $RandomID = 'TestRole' . $Helper->GetRandomID();
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
         $Selenium->find_element( "#Comment",                   'css' )->send_keys('Selenium test role');
@@ -130,6 +128,13 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $RandomID ) > -1,
             "$RandomID found on page",
         );
+
+        # chack class of invalid Role in the overview table
+        $Self->True(
+            $Selenium->find_element( "tr.Invalid", 'css' ),
+            "There is a class 'Invalid' for test Role",
+        );
+
         $Selenium->find_element( "table",             'css' );
         $Selenium->find_element( "table thead tr th", 'css' );
         $Selenium->find_element( "table tbody tr td", 'css' );
@@ -174,7 +179,7 @@ $Selenium->RunTest(
             Type => 'Group',
         );
 
-        }
+    }
 
 );
 
