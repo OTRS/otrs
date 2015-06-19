@@ -105,8 +105,10 @@ $Selenium->RunTest(
         $Selenium->find_element("//input[\@value='$UserID'][\@name='ro']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='note']")->click();
         $Selenium->find_element("//input[\@value='$UserID'][\@name='owner']")->click();
-
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+
+        # wait until overview screen has loaded, if neccessary
+        $Selenium->WaitFor( JavaScript => 'return $("#Groups").length' );
 
         # check edited test group permissions
         $Selenium->find_element( $RandomID, 'link_text' )->click();
@@ -153,9 +155,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#GroupName",                 'css' )->submit();
 
         # chack class of invalid Group in the overview table
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminGroup");
         $Self->True(
-            $Selenium->find_element( "tr.Invalid", 'css' ),
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($RandomID)').length"
+            ),
             "There is a class 'Invalid' for test Group",
         );
 
