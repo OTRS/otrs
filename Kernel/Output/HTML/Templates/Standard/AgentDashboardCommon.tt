@@ -123,7 +123,7 @@ Core.UI.RegisterToggleTwoContainer($('#Dashboard[% Data.Name | html %]_cancel'),
         <ul class="Actions">
 [% RenderBlockStart("MainMenuItem") %]
             <li>
-                <a href="[% Data.Link %]">
+                <a href="[% Data.Link | Interpolate %]">
                     [% Translate(Data.Name) | html %]
                 </a>
             </li>

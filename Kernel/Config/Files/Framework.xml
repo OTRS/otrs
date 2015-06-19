@@ -4404,7 +4404,7 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Description>Customer Information Center</Description>
                 <Title></Title>
-                <NavBarName>Customer Information Center</NavBarName>
+                <NavBarName>Customers</NavBarName>
                 <NavBar>
                     <Description Translatable="1"></Description>
                     <Name Translatable="1">Customer Information Center</Name>
