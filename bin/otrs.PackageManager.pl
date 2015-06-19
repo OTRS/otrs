@@ -74,6 +74,9 @@ if ( $Opts{h} ) {
         "      [-p package.opm|package.sopm|package|package-version] [-o OUTPUTDIR] [-f FORCE]\n";
     print " user (local):\n";
     print "   otrs.PackageManager.pl -a list\n";
+    print "   otrs.PackageManager.pl -a list -p Package\n";
+    print "   otrs.PackageManager.pl -a list -i\n";
+    print "   otrs.PackageManager.pl -a list -i -p Package\n";
     print "   otrs.PackageManager.pl -a listinstalledfiles\n";
     print "   otrs.PackageManager.pl -a install -p /path/to/Package-1.0.0.opm\n";
     print "   otrs.PackageManager.pl -a upgrade -p /path/to/Package-1.0.1.opm\n";
@@ -544,6 +547,11 @@ elsif ( $Opts{a} eq 'list' ) {
             next PACKAGE;
         }
 
+        if ( defined $Opts{p} && length $Opts{p} ) {
+            my $PackageString = $Package->{Name}->{Content} . '-' . $Package->{Version}->{Content};
+            next PACKAGE if $PackageString !~ m{$Opts{p}}i;
+        }
+
         my %Data = _MessageGet(
             Info     => $Package->{Description},
             Reformat => 'No'
@@ -555,6 +563,24 @@ elsif ( $Opts{a} eq 'list' ) {
         print "| URL:         $Package->{URL}->{Content}\n";
         print "| License:     $Package->{License}->{Content}\n";
         print "| Description: $Data{Description}\n";
+
+        if ( defined $Opts{i} ) {
+
+            my $PackageDeploymentOK = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
+                Name    => $Package->{Name}->{Content},
+                Version => $Package->{Version}->{Content},
+                Log     => 0,
+            );
+            print '| Deployment:  ' . ( $PackageDeploymentOK ? 'OK' : 'Not OK' ) . "\n";
+
+            my %PackageDeploymentInfo = $Kernel::OM->Get('Kernel::System::Package')->DeployCheckInfo();
+            if ( defined $PackageDeploymentInfo{File} && %{ $PackageDeploymentInfo{File} } ) {
+                for my $File ( sort keys %{ $PackageDeploymentInfo{File} } ) {
+                    my $FileMessage = $PackageDeploymentInfo{File}->{$File};
+                    print "| File Status: $File => $FileMessage\n";
+                }
+            }
+        }
     }
     print "+----------------------------------------------------------------------------+\n";
     exit;
@@ -821,7 +847,7 @@ sub _MessageGet {
         }
     }
     if ( !$Param{Reformat} || $Param{Reformat} ne 'No' ) {
-        $Title =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+        $Title       =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
         $Description =~ s/^\s*//mg;
         $Description =~ s/\n/ /gs;
         $Description =~ s/\r/ /gs;
