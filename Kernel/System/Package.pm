@@ -14,6 +14,7 @@ use warnings;
 
 use MIME::Base64;
 use File::Copy;
+
 # Workaround for a bug when loading MIME::Parser in DESTROY.
 #   This is caused by the event listener SupportDataSend and causes and endless loop with warnings like
 #   'Warning: Use of "require" without parentheses is ambiguous'. Prevent this by preloading MIME::Parser.
@@ -1390,6 +1391,7 @@ check if package (files) is deployed, returns true if it's ok
     $PackageObject->DeployCheck(
         Name    => 'Application A',
         Version => '1.0',
+        Log     => 1, # Default: 1
     );
 
 =cut
@@ -1408,6 +1410,10 @@ sub DeployCheck {
         }
     }
 
+    if ( !defined $Param{Log} ) {
+        $Param{Log} = 1;
+    }
+
     my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
 
@@ -1423,10 +1429,12 @@ sub DeployCheck {
 
         if ( !-e $LocalFile ) {
 
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
-            );
+            if ( $Param{Log} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "$Param{Name}-$Param{Version}: No such file: $LocalFile!"
+                );
+            }
 
             $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'No file installed!';
             $Hit = 1;
@@ -1451,10 +1459,12 @@ sub DeployCheck {
 
                 if ( ${$Content} ne $File->{Content} ) {
 
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "$Param{Name}-$Param{Version}: $LocalFile is different!",
-                    );
+                    if ( $Param{Log} ) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "$Param{Name}-$Param{Version}: $LocalFile is different!",
+                        );
+                    }
 
                     $Hit = 1;
                     $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'File is different!';
@@ -1462,10 +1472,12 @@ sub DeployCheck {
             }
             else {
 
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Can't read $LocalFile!",
-                );
+                if ( $Param{Log} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => "Can't read $LocalFile!",
+                    );
+                }
 
                 $Self->{DeployCheckInfo}->{File}->{ $File->{Location} } = 'Can\' read File!';
             }
@@ -1989,7 +2001,7 @@ sub PackageBuild {
                         for ( sort keys %{$Tag} ) {
 
                             if (
-                                $_ ne 'Tag'
+                                $_    ne 'Tag'
                                 && $_ ne 'Content'
                                 && $_ ne 'TagType'
                                 && $_ ne 'TagLevel'
