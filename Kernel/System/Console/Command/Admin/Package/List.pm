@@ -24,6 +24,21 @@ sub Configure {
 
     $Self->Description('List all installed OTRS packages.');
 
+    $Self->AddOption(
+        Name        => 'package-name',
+        Description => '(Part of) package name to filter for. Omit to show all installed packages.',
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/.*/,
+    );
+
+    $Self->AddOption(
+        Name        => 'show-deployment-info',
+        Description => 'Shows package and files status (package deployment info).',
+        Required    => 0,
+        HasValue    => 0,
+    );
+
     return;
 }
 
@@ -39,6 +54,9 @@ sub Run {
         return $Self->ExitCodeOk();
     }
 
+    my $PackageNameOption        = $Self->GetOption('package-name');
+    my $ShowDeploymentInfoOption = $Self->GetOption('show-deployment-info');
+
     PACKAGE:
     for my $Package (@Packages) {
 
@@ -49,6 +67,11 @@ sub Run {
             )
         {
             next PACKAGE;
+        }
+
+        if ( defined $PackageNameOption && length $PackageNameOption ) {
+            my $PackageString = $Package->{Name}->{Content} . '-' . $Package->{Version}->{Content};
+            next PACKAGE if $PackageString !~ m{$PackageNameOption}i;
         }
 
         my %Data = $Self->_PackageMetadataGet(
@@ -62,6 +85,30 @@ sub Run {
         $Self->Print("| <yellow>URL:</yellow>         $Package->{URL}->{Content}\n");
         $Self->Print("| <yellow>License:</yellow>     $Package->{License}->{Content}\n");
         $Self->Print("| <yellow>Description:</yellow> $Data{Description}\n");
+
+        if ($ShowDeploymentInfoOption) {
+            my $PackageDeploymentOK = $Kernel::OM->Get('Kernel::System::Package')->DeployCheck(
+                Name    => $Package->{Name}->{Content},
+                Version => $Package->{Version}->{Content},
+                Log     => 0,
+            );
+
+            my %PackageDeploymentInfo = $Kernel::OM->Get('Kernel::System::Package')->DeployCheckInfo();
+            if ( defined $PackageDeploymentInfo{File} && %{ $PackageDeploymentInfo{File} } ) {
+                $Self->Print(
+                    '| <red>Deployment:</red>  ' . ( $PackageDeploymentOK ? 'OK' : 'Not OK' ) . "\n"
+                );
+                for my $File ( sort keys %{ $PackageDeploymentInfo{File} } ) {
+                    my $FileMessage = $PackageDeploymentInfo{File}->{$File};
+                    $Self->Print("| <red>File Status:</red> $File => $FileMessage\n");
+                }
+            }
+            else {
+                $Self->Print(
+                    '| <yellow>Pck. Status:</yellow> ' . ( $PackageDeploymentOK ? 'OK' : 'Not OK' ) . "\n"
+                );
+            }
+        }
     }
     $Self->Print("+----------------------------------------------------------------------------+\n");
 
@@ -133,7 +180,7 @@ sub _PackageMetadataGet {
     }
 
     if ( !defined $Param{StripHTML} || $Param{StripHTML} ) {
-        $Title =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+        $Title       =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
         $Description =~ s/^\s*//mg;
         $Description =~ s/\n/ /gs;
         $Description =~ s/\r/ /gs;
