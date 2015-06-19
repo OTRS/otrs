@@ -1,4 +1,5 @@
 .project
+.sublimelinterrc
 .externalToolBuilders
 .gnupg
 .settings
