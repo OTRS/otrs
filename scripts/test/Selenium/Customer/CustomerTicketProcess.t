@@ -116,15 +116,15 @@ $Selenium->RunTest(
         $Self->True(
             index( $Selenium->get_page_source(), $SubjectRandom ) > -1,
             "$SubjectRandom found on page",
-        );
+        ) || die;
         $Self->True(
             index( $Selenium->get_page_source(), $ProcessName ) > -1,
             "$ProcessName found on page",
-        );
+        ) || die;
         $Self->True(
             index( $Selenium->get_page_source(), 'open' ) > -1,
             "Ticket open state found on page",
-        );
+        ) || die;
 
         # click on next step in process ticket
         $Selenium->find_element("//a[contains(\@href, \'ProcessEntityID=$ListReverse{$ProcessName}' )]")->click();
