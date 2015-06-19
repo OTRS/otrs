@@ -46,7 +46,6 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminSalutation");
 
         # check overview screen
@@ -79,7 +78,7 @@ $Selenium->RunTest(
         );
 
         # create real test Salutation
-        my $SalutationRandomID = "salutation" . $Helper->GetRandomID();
+        my $SalutationRandomID = "Salutation" . $Helper->GetRandomID();
         my $SalutationRichText = "Dear <OTRS_OWNER_Userfirstname>>,\n\nThank you for your request.";
         my $SalutationComment  = "Selenium Salutation test";
 
@@ -146,7 +145,18 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # Since there are no tickets that rely on our test Salutation, we can remove them
+        # go back to AdminSalutation overview screen
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminSalutation");
+
+        # chack class of invalid Salutation in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                 "return \$('tr.Invalid td a:contains($SalutationRandomID)').length"
+            ),
+            "There is a class 'Invalid' for test Salutation",
+        );
+
+        # since there are no tickets that rely on our test Salutation, we can remove them
         # again from the DB.
         if ($SalutationRandomID) {
             $SalutationRandomID = $DBObject->Quote($SalutationRandomID);
@@ -167,7 +177,7 @@ $Selenium->RunTest(
             Type => 'Salutation'
         );
 
-        }
+    }
 
 );
 

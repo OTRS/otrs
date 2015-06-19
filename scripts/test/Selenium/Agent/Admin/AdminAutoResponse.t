@@ -45,7 +45,6 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminAutoResponse");
 
         # check overview AdminAutoResponse
@@ -80,7 +79,7 @@ $Selenium->RunTest(
         );
 
         # create a real test Auto Response
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID = 'AutoResponse' . $Helper->GetRandomID();
         my $Text     = "Seleniumn auto response text";
 
         $Selenium->find_element( "#Name",                        'css' )->send_keys($RandomID);
@@ -98,10 +97,8 @@ $Selenium->RunTest(
         );
 
         # edit test job and set it to invalid
-        my $RandomID2 = $Helper->GetRandomID();
-
         $Selenium->find_element( $RandomID, 'link_text' )->click();
-
+        my $RandomID2 = 'AutoResponseUpdate' . $Helper->GetRandomID();
         $Selenium->find_element( "#Name",                      'css' )->clear();
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID2);
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
@@ -113,7 +110,15 @@ $Selenium->RunTest(
             "$RandomID2 auto response found on page",
         );
 
-        # Since there are no tickets that rely on our test auto response, we can remove them
+        # check class of invalid AutoResponse in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($RandomID2)').length"
+            ),
+            "There is a class 'Invalid' for test AutoResponse",
+        );
+
+        # since there are no tickets that rely on our test auto response, we can remove them
         # again from the DB.
         if ($RandomID2) {
             my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -122,6 +127,12 @@ $Selenium->RunTest(
                 SQL  => "DELETE FROM auto_response WHERE name = ?",
                 Bind => [ \$RandomID2 ],
             );
+            if ($Success) {
+                $Self->True(
+                    $Success,
+                    "AutoResponseDelete - $RandomID2",
+                );
+            }
         }
 
     }

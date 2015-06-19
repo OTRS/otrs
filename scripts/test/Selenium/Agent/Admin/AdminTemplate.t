@@ -70,8 +70,7 @@ $Selenium->RunTest(
         );
 
         # create real test template
-        my $TemplateRandomID = "template" . $Helper->GetRandomID();
-
+        my $TemplateRandomID = "Template" . $Helper->GetRandomID();
         $Selenium->find_element( "#Name",                      'css' )->send_keys($TemplateRandomID);
         $Selenium->find_element( "#Comment",                   'css' )->send_keys("Selenium template test");
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
@@ -84,6 +83,7 @@ $Selenium->RunTest(
         );
 
         # test search filter
+        $Selenium->find_element( "#Filter", 'css' )->clear();
         $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
 
         $Self->True(
@@ -121,6 +121,16 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ValidID option[value='2']",           'css' )->click();
         $Selenium->find_element( "#Name",                                'css' )->submit();
 
+        # test search filter
+        $Selenium->find_element( "#Filter", 'css' )->clear();
+        $Selenium->find_element( "#Filter", 'css' )->send_keys($TemplateRandomID);
+
+        # check class of invalid Template in the overview table
+        $Self->True(
+            $Selenium->find_element( "tr.Invalid", 'css' ),
+            "There is a class 'Invalid' for test Template",
+        );
+
         # check edited test template
         $Selenium->find_element( $TemplateRandomID, 'link_text' )->click();
 
@@ -140,7 +150,7 @@ $Selenium->RunTest(
             "#ValidID updated value",
         );
 
-        # go back to AdminTemplate screen
+        # go back to AdminTemplate overview screen
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminTemplate");
 
         # test template delete button

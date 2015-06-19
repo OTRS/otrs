@@ -46,7 +46,6 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminSignature");
 
         # check overview screen
@@ -79,7 +78,7 @@ $Selenium->RunTest(
         );
 
         # create real test Signature
-        my $SignatureRandomID = "signature" . $Helper->GetRandomID();
+        my $SignatureRandomID = "Signature" . $Helper->GetRandomID();
         my $SignatureRichText = "Your Ticket-Team \n\n<OTRS_Owner_UserFirstname> <OTRS_Owner_UserLastname>";
         my $SignatureComment  = "Selenium Signature test";
 
@@ -127,6 +126,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#Name",                      'css' )->submit();
+
+        # chack class of invalid Signature in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                 "return \$('tr.Invalid td a:contains($SignatureRandomID)').length"
+            ),
+            "There is a class 'Invalid' for test Signature",
+        );
 
         # check edited Signature
         $Selenium->find_element( $SignatureRandomID, 'link_text' )->click();
