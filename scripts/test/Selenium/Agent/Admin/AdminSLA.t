@@ -74,6 +74,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment", 'css' )->send_keys($SLAComment);
         $Selenium->find_element( "#Name",    'css' )->submit();
 
+        # wait to load overview screen
+        $Selenium->WaitFor( JavaScript => "return \$('a.AsBlock:contains($SLARandomID)').length" );
+
         # check if test SLA show on AdminSLA screen
         $Self->True(
             index( $Selenium->get_page_source(), $SLARandomID ) > -1,
@@ -103,6 +106,17 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#Name",                      'css' )->submit();
+
+        # wait to load overview screen
+        $Selenium->WaitFor( JavaScript => "return \$('a.AsBlock:contains($SLARandomID)').length" );
+
+        # check class of invalid SLA in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($SLARandomID)').length"
+            ),
+            "There is a class 'Invalid' for test SLA",
+        );
 
         # check edited SLA values
         $Selenium->find_element( $SLARandomID, 'link_text' )->click();
@@ -139,7 +153,7 @@ $Selenium->RunTest(
             );
         }
 
-        }
+    }
 
 );
 

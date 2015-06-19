@@ -68,7 +68,6 @@ $Selenium->RunTest(
                 # create a real test DynamicField
                 my $RandomID = $Helper->GetRandomID();
                 $Element->click();
-
                 $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#Label",                     'css' )->send_keys($RandomID);
                 $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
@@ -89,8 +88,18 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
                 $Selenium->find_element( "#Name",                      'css' )->submit();
 
-                # go to new DynamicField again after update and check values
+                # wait to load overview screen
                 $Selenium->WaitFor( JavaScript => "return \$('.DynamicFieldsContent').length" );
+
+                # check class of invalid DynamicField in the overview table
+                $Self->True(
+                    $Selenium->execute_script(
+                        "return \$('tr.Invalid td a:contains($RandomID)').length"
+                    ),
+                    "There is a class 'Invalid' for test DynamicField",
+                );
+
+                # go to new DynamicField again after update and check values
                 $Selenium->find_element( $RandomID, 'link_text' )->click();
                 $Selenium->WaitFor( JavaScript => "return \$('#Name').length" );
 
@@ -145,7 +154,7 @@ JAVASCRIPT
 
                 $Self->Is(
                     $Selenium->execute_script("return window.getLastConfirm()"),
-                    $LanguageObject->Get(
+                    $LanguageObject->Translate(
                         'Do you really want to delete this dynamic field? ALL associated data will be LOST!'
                     ),
                     'Check for opened confirm text',
@@ -165,7 +174,7 @@ JAVASCRIPT
 
             }
 
-            # Make sure the cache is correct.
+            # make sure the cache is correct.
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
         }
     }

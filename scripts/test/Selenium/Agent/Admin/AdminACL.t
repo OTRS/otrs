@@ -38,7 +38,6 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminACL");
 
         # click 'Create new ACL' link
@@ -68,7 +67,7 @@ $Selenium->RunTest(
         );
 
         # create a real test queue
-        my $RandomID = $Helper->GetRandomID();
+        my $RandomID = 'ACL' . $Helper->GetRandomID();
 
         # fill in test data
         $Selenium->find_element( "#Name",                      'css' )->send_keys($RandomID);
@@ -76,9 +75,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Description",               'css' )->send_keys('Selenium Test ACL');
         $Selenium->find_element( "#StopAfterMatch",            'css' )->click();
         $Selenium->find_element( "#ValidID option[value='1']", 'css' )->click();
-
-        # send form
-        $Selenium->find_element( "#Name", 'css' )->submit();
+        $Selenium->find_element( "#Name",                      'css' )->submit();
 
         # the next screen should be the edit screen for this ACL
         # which means that there should be dropdowns present for Match/Change settings
@@ -150,7 +147,7 @@ JAVASCRIPT
 
         $Self->Is(
             $Selenium->execute_script("return window.getLastAlert()"),
-            $LanguageObject->Get('An item with this name is already present.'),
+            $LanguageObject->Translate('An item with this name is already present.'),
             'Check for opened alert text',
         );
 
@@ -195,6 +192,25 @@ JAVASCRIPT
             'Check for .AddAll element',
         );
 
+        # set ACL to invalid
+        $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
+        $Selenium->find_element( "#Submit",                    'css' )->click();
+
+        # wait to open overview page
+        $Selenium->WaitFor( JavaScript => 'return $("#Filter").length' );
+
+        # test search filter
+        $Selenium->find_element( "#Filter", 'css' )->clear();
+        $Selenium->find_element( "#Filter", 'css' )->send_keys($RandomID);
+
+        # check class of invalid ACL in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($RandomID)').length"
+            ),
+            "There is a class 'Invalid' for test ACL",
+        );
+
         # delete test ACL from the database
         my $ACLObject = $Kernel::OM->Get('Kernel::System::ACL::DB::ACL');
         my $UserID    = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
@@ -215,12 +231,6 @@ JAVASCRIPT
             "Deleted $RandomID ACL",
         );
 
-        # go back to overview
-        $Selenium->find_element( '.CallForAction.Center.Fullsize.Back>span', 'css' )->click();
-
-        # wait to open overview page
-        $Selenium->WaitFor( JavaScript => 'return $("#Filter").length' );
-
         # sync ACL information from database with the system configuration
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy' )]")->click();
 
@@ -229,7 +239,7 @@ JAVASCRIPT
             Type => 'ACLEditor_ACL',
         );
 
-        }
+    }
 );
 
 1;

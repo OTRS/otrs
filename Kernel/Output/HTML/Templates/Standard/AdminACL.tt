@@ -101,7 +101,7 @@
                     </thead>
                     <tbody>
 [% RenderBlockStart("ACLRow") %]
-                        <tr>
+                        <tr [% IF Data.ValidID != "valid"%]class="Invalid"[% END %]>
                             <td><a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ACLEdit;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
                             <td>[% Data.Comment | html %]</td>
                             <td>[% Translate(Data.ValidID) | html %]</td>

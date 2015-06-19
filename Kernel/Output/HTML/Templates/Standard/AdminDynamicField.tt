@@ -149,7 +149,7 @@ $('#ShowContextSettingsDialog').bind('click', function (Event) {
                         </tr>
 [% RenderBlockEnd("NoDataFound") %]
 [% RenderBlockStart("DynamicFieldsRow") %]
-                        <tr id="DynamicFieldID_[% Data.ID | html %]" class="MasterAction">
+                        <tr class="MasterAction[% IF Data.ValidID != 1%] Invalid[% END %]" id="DynamicFieldID_[% Data.ID | html %]">
                             <td>
                                 <a href="[% Env("Baselink") %]Action=[% Data.ConfigDialog | uri %];Subaction=Change;ObjectType=[% Data.ObjectType | uri %];FieldType=[% Data.FieldType | uri %];ID=[% Data.ID | uri %]" title="[% Data.Name | html %]" class="MasterActionLink">[% Data.Name %]</a>
                             </td>
