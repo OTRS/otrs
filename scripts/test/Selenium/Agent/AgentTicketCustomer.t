@@ -126,6 +126,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketCustomer' )]")->click();
 
         # switch to another window
+        $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
@@ -155,13 +156,14 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return $("#CustomerAutoComplete").length' );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
-        $Selenium->close();
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
         $Selenium->WaitFor( JavaScript => 'return $("div.MainBox").length' );
 
         # click on history link and switch window
         $Selenium->find_element("//*[text()='History']")->click();
 
+        $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
