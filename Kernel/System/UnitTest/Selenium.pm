@@ -265,10 +265,12 @@ sub Login {
 =item WaitFor()
 
 wait with increasing sleep intervals until the given condition is true or the wait time is over.
+Exactly one condition (JavaScript or WindowCount) must be specified.
 
     $SeleniumObject->WaitFor(
-        JavaScript => 'return $(".someclass").length',   # Javascript code that checks condition
-        Time       => 20,                                # optional, wait time in seconds (default 20)
+        JavaScript  => 'return $(".someclass").length',   # Javascript code that checks condition
+        WindowCount => 2,                                 # Wait until this many windows are open
+        Time        => 20,                                # optional, wait time in seconds (default 20)
     );
 
 =cut
@@ -276,7 +278,7 @@ wait with increasing sleep intervals until the given condition is true or the wa
 sub WaitFor {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{JavaScript} ) {
+    if ( !$Param{JavaScript} && !$Param{WindowCount} ) {
         die "Need JavaScript.";
     }
 
@@ -285,8 +287,11 @@ sub WaitFor {
     my $Interval      = 0.1;
 
     while ( $WaitedSeconds < $Param{Time} ) {
-        if ( $Self->execute_script( $Param{JavaScript} ) ) {
-            return;
+        if ( $Param{Javascript} ) {
+            return if $Self->execute_script( $Param{JavaScript} )
+        }
+        elsif ( $Param{WindowCount} ) {
+            return if scalar( @{ $Self->get_window_handles() } ) == $Param{WindowCount};
         }
         sleep $Interval;
         $WaitedSeconds += $Interval;

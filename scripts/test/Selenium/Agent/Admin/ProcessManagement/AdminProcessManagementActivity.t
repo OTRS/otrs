@@ -125,7 +125,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
         $Selenium->find_element( "#Name", 'css' )->submit();
 
-        # return to main window
+        # Return to main window after the popup closed, as the popup sends commands to the main window.
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # get process id

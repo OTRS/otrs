@@ -154,7 +154,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Permission option[value='ro']",            'css' )->click();
         $Selenium->find_element( "#Name",                                     'css' )->submit();
 
-        # return to main window
+        # Return to main window after the popup closed, as the popup sends commands to the main window.
+        $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
 
         # check for edited test ActivityDialog using filter on AdminProcessManagement screen
