@@ -102,6 +102,9 @@ $Selenium->RunTest(
             UserID   => $TestUserID,
         );
 
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        sleep 1;
+
         # check if NavBarAgentTicketProcess button is available when process is available
         $Selenium->refresh();
         $Self->True(
@@ -200,9 +203,11 @@ $Selenium->RunTest(
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
+        sleep 1;
+
         # check if NavBarAgentTicketProcess button is not available when no process is available
         $Selenium->refresh();
-        sleep 1;
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is active when no process is available",
@@ -219,8 +224,11 @@ $Selenium->RunTest(
             Key   => 'Frontend::NavBarModule###1-TicketProcesses',
             Value => \%NavBarAgentTicketProcess,
         );
-        $Selenium->refresh();
+
+        # Sleep a little bit to allow mod_perl to pick up the changed config files.
         sleep 1;
+
+        $Selenium->refresh();
         $Self->True(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active, but NavBarAgentTicketProcess is disabled",
