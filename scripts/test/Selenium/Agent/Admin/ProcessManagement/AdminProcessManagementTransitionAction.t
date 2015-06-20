@@ -214,6 +214,7 @@ $Selenium->RunTest(
         );
 
         # return to main window
+        $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
 
         # get process id and return to overview afterwards
