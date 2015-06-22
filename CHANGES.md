@@ -1,4 +1,5 @@
 #3.3.15 ????-??-??
+ - 2015-06-19 Added option to package manager list action, to show deployment info of installed packages.
  - 2015-05-21 Followup for bug#[10837](http://bugs.otrs.org/show_bug.cgi?id=10837) - Reply in process ticket on webrequest article  fills customer mail into "cc" instead of "to".
 
 #3.3.14 2015-05-26
