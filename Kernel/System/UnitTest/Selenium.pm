@@ -287,7 +287,7 @@ sub WaitFor {
     my $Interval      = 0.1;
 
     while ( $WaitedSeconds < $Param{Time} ) {
-        if ( $Param{Javascript} ) {
+        if ( $Param{JavaScript} ) {
             return if $Self->execute_script( $Param{JavaScript} )
         }
         elsif ( $Param{WindowCount} ) {

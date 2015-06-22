@@ -160,6 +160,7 @@ JAVASCRIPT
                     'Check for opened confirm text',
                 );
 
+                $Selenium->WaitFor(JavaScript => 'return $(".Dialog:visible").length === 0;');
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
                 my $Success;
@@ -169,7 +170,7 @@ JAVASCRIPT
 
                 $Self->False(
                     $Success,
-                    "$RandomID dynamic filed is deleted!",
+                    "$RandomID dynamic field is deleted!",
                 );
 
             }
