@@ -4621,7 +4621,6 @@ sub _BuildSelectionDataRefCreate {
                             Value    => $ElementLongName,
                             Disabled => 1,
                         };
-
                     }
                     $Parents .= $Element . '::';
                 }
@@ -4630,6 +4629,7 @@ sub _BuildSelectionDataRefCreate {
                 push @NewDataLocal, {
                     Key      => $ValueHash->{Key},
                     Value    => $ValueHash->{Value},
+                    Selected => $ValueHash->{Selected} ? 1 : 0,
                     Disabled => $ValueHash->{Disabled} ? 1 : 0,
                 };
             }
