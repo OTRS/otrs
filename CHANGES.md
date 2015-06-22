@@ -56,6 +56,7 @@
  - 2015-05-11 Fixed bug#[11277](http://bugs.otrs.org/show_bug.cgi?id=11277) - Search for multiple ticket numbers with GenericInterface.
 
 #4.0.8 2015-05-12
+ - 2015-05-15 Fixed bug#[11241](http://bugs.otrs.org/show_bug.cgi?id=11241) - Queue Filter: only the subqueue Name is displayed.
  - 2015-05-06 Updated translations, thanks to all translators.
  - 2015-05-04 Fixed preselecting CustomerID when creating a new customer user from CIC, thanks to Elias Probst.
  - 2015-04-30 Fixed bug#[11102](http://bugs.otrs.org/show_bug.cgi?id=11102) - Refresh bug on process client interface using ie8
