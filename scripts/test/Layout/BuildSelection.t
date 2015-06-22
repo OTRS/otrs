@@ -1624,6 +1624,101 @@ my @Tests = (
             ],
         },
     },
+    {
+        Name       => 'ArrayHashRef Treeview with missing parents',
+        Definition => {
+            Data => [
+                {
+                    Key      => '1',
+                    Value    => 'Object1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '3',
+                    Value    => 'Object1::AttributeA::Value1',
+                    Selected => 1,
+                },
+                {
+                    Key      => '4',
+                    Value    => 'Object1::AttributeA::Value2',
+                    Selected => 0,
+                },
+                {
+                    Key      => '6',
+                    Value    => 'Object1::AttributeB::Value1',
+                    Selected => 0,
+                },
+                {
+                    Key      => '7',
+                    Value    => 'Object1::AttributeB::Value2',
+                    Selected => 0,
+                    Disabled => 1,
+                },
+            ],
+            Name           => 'Select1',
+            ID             => 'Select1ID',
+            Sort           => 'Numeric',
+            Multiple       => 0,
+            AutoComplete   => undef,
+            OnChange       => undef,
+            OnClick        => undef,
+            SelectedID     => undef,
+            SelectedValue  => undef,
+            SortReverse    => 0,
+            Translation    => 0,
+            PossibleNone   => 0,
+            TreeView       => 1,
+            DisabledBranch => undef,
+            Max            => 10,
+            HTMLQuote      => 0,
+            Title          => undef,
+            OptionTitle    => 0,
+        },
+        Response =>
+            '<select id="Select1ID" name="Select1">
+  <option value="1">Object1</option>
+  <option value="Object1::AttributeA_Disabled" disabled="disabled">&nbsp;&nbsp;AttributeA</option>
+  <option value="3" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
+  <option value="4">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+  <option value="Object1::AttributeB_Disabled" disabled="disabled">&nbsp;&nbsp;AttributeB</option>
+  <option value="6">&nbsp;&nbsp;&nbsp;&nbsp;Value1</option>
+  <option value="7" disabled="disabled">&nbsp;&nbsp;&nbsp;&nbsp;Value2</option>
+</select> <a href="#" title="Baumauswahl anzeigen" class="ShowTreeSelection"><span>Baumauswahl anzeigen</span><i class="fa fa-sitemap"></i></a>',
+        Success      => 1,
+        ExecuteJSON  => 1,
+        JSONResponse => {
+            'Select1' => [
+                [
+                    '1', 'Object1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeA_Disabled', '&nbsp;&nbsp;AttributeA',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+                [
+                    '3', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    $JSONTrue, $JSONTrue, $JSONFalse,
+                ],
+                [
+                    '4', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    'Object1::AttributeB_Disabled', '&nbsp;&nbsp;AttributeB',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+                [
+                    '6', '&nbsp;&nbsp;&nbsp;&nbsp;Value1',
+                    $JSONFalse, $JSONFalse, $JSONFalse,
+                ],
+                [
+                    '7', '&nbsp;&nbsp;&nbsp;&nbsp;Value2',
+                    $JSONFalse, $JSONFalse, $JSONTrue,
+                ],
+            ],
+        },
+    },
 );
 
 for my $Test (@Tests) {
