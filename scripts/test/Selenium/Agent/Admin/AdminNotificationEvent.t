@@ -79,9 +79,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Name",                                 'css' )->send_keys($NotifEventRandomID);
         $Selenium->find_element( "#Comment",                              'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#Events option[value='ArticleCreate']", 'css' )->click();
+        $Selenium->find_element( "#ArticleSubjectMatch",                  'css' )->send_keys($NotifEventText);
+        $Selenium->find_element( "#TransportEmail",                       'css' )->click();
         $Selenium->find_element( "#Subject",                              'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#RichText",                             'css' )->send_keys($NotifEventText);
-        $Selenium->find_element( "#ArticleSubjectMatch",                  'css' )->send_keys($NotifEventText);
         $Selenium->find_element( "#Name",                                 'css' )->submit();
 
         # check if test NotificationEvent show on AdminNotificationEvent screen
@@ -133,6 +134,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Comment",                   'css' )->clear();
         $Selenium->find_element( "#RichText",                  'css' )->clear();
         $Selenium->find_element( "#RichText",                  'css' )->send_keys($EditNotifEventText);
+        $Selenium->find_element( "#Subject",                   'css' )->clear();
+        $Selenium->find_element( "#Subject",                   'css' )->send_keys($EditNotifEventText);
         $Selenium->find_element( "#ArticleSubjectMatch",       'css' )->clear();
         $Selenium->find_element( "#ArticleBodyMatch",          'css' )->send_keys($EditNotifEventText);
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();

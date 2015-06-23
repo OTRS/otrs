@@ -109,7 +109,7 @@ my @Tests = (
 
 );
 
-my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
 for my $Test (@Tests) {
 

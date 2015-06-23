@@ -751,10 +751,8 @@ CREATE TABLE auto_response (
     name VARCHAR (200) NOT NULL,
     text0 TEXT NULL,
     text1 TEXT NULL,
-    text2 TEXT NULL,
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
-    charset VARCHAR (80) NOT NULL,
     content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
@@ -999,32 +997,11 @@ CREATE TABLE web_upload_cache (
     create_time_unix BIGINT NOT NULL
 );
 # ----------------------------------------------------------
-#  create table notifications
-# ----------------------------------------------------------
-CREATE TABLE notifications (
-    id INTEGER NOT NULL AUTO_INCREMENT,
-    notification_type VARCHAR (200) NOT NULL,
-    notification_charset VARCHAR (60) NOT NULL,
-    notification_language VARCHAR (60) NOT NULL,
-    subject VARCHAR (200) NOT NULL,
-    text TEXT NOT NULL,
-    content_type VARCHAR (250) NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
-# ----------------------------------------------------------
 #  create table notification_event
 # ----------------------------------------------------------
 CREATE TABLE notification_event (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (200) NOT NULL,
-    subject VARCHAR (200) NOT NULL,
-    text TEXT NOT NULL,
-    content_type VARCHAR (250) NOT NULL,
-    charset VARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments VARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
@@ -1033,6 +1010,21 @@ CREATE TABLE notification_event (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX notification_event_name (name)
+);
+# ----------------------------------------------------------
+#  create table notification_event_message
+# ----------------------------------------------------------
+CREATE TABLE notification_event_message (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    notification_id INTEGER NOT NULL,
+    subject VARCHAR (200) NOT NULL,
+    text TEXT NOT NULL,
+    content_type VARCHAR (250) NOT NULL,
+    language VARCHAR (60) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX notification_event_message_notification_id_language (notification_id, language),
+    INDEX notification_event_message_language (language),
+    INDEX notification_event_message_notification_id (notification_id)
 );
 # ----------------------------------------------------------
 #  create table notification_event_item
@@ -1397,4 +1389,21 @@ CREATE TABLE pm_entity_sync (
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
     UNIQUE INDEX pm_entity_sync_list (entity_type, entity_id)
+);
+# ----------------------------------------------------------
+#  create table cloud_service_config
+# ----------------------------------------------------------
+CREATE TABLE cloud_service_config (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    config LONGBLOB NOT NULL,
+    config_md5 VARCHAR (32) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX cloud_service_config_config_md5 (config_md5),
+    UNIQUE INDEX cloud_service_config_name (name)
 );

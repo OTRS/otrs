@@ -255,13 +255,36 @@ sub AgentPreferencesForm {
             if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
                 return $LayoutObject->FatalError();
             }
-            my $Object = $Module->new(
-                %{$Self},
-                UserObject => $Kernel::OM->Get('Kernel::System::User'),
-                ConfigItem => \%Preference,
-                Debug      => $Self->{Debug},
-            );
-            my @Params = $Object->Param( UserData => $Param{UserData} );
+
+            # create a new module object
+            my $Object;
+            eval {
+                $Object = $Module->new(
+                    %{$Self},
+                    UserObject => $Kernel::OM->Get('Kernel::System::User'),
+                    ConfigItem => \%Preference,
+                    Debug      => $Self->{Debug},
+                );
+            };
+            if ($@) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not create a new object for $Group Error: $@",
+                );
+            }
+            next PRIO if !$Object;
+
+            # get params for the new module object
+            my @Params;
+            eval {
+                @Params = $Object->Param( UserData => $Param{UserData} );
+            };
+            if ($@) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Could not get params from $Group Error: $@",
+                );
+            }
             next PRIO if !@Params;
 
             # show item

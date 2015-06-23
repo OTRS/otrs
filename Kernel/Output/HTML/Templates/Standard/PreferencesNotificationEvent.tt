@@ -1,0 +1,40 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table class="DataTable">
+    <thead>
+        <tr>
+            <th class="Center">[% Translate("Notification") | html %]</th>
+[% RenderBlockStart("HeaderRow") %]
+            <th class="Center"><i class="[% Data.TransportIcon %]" title="[% Data.TransportName | Translate | html%]"></i></th>
+[% RenderBlockEnd("HeaderRow") %]
+        </tr>
+    </thead>
+    <tbody>
+[% RenderBlockStart("NoDataFoundMsg") %]
+        <tr>
+            <td colspan="[% Data.ColSpan | html %]">
+                [% Translate("No user configurable notifications found.") | html %]
+            </td>
+        </tr>
+[% RenderBlockEnd("NoDataFoundMsg") %]
+[% RenderBlockStart("BodyRow") %]
+        <tr title="[% Data.NotificationTitle | html %]">
+            <td>[% Data.NotificationName | html %]</td>
+[% RenderBlockStart("BodyTransportColumn") %]
+            <td class="Center">
+[% RenderBlockStart("BodyTransportColumnEnabled") %]
+                <input type="checkbox" class="" id="[% Data.Identifier | html %]" name="[% Data.Identifier | html %]" title="[% Translate("Receive messages for notification '%s' by transport method '%s'.", Translate(Data.NotificationName), Translate(Data.TransportName) ) %]" value="1" [% Data.Checked | html %] />
+[% RenderBlockEnd("BodyTransportColumnEnabled") %]
+            </td>
+[% RenderBlockEnd("BodyTransportColumn") %]
+        </tr>
+[% RenderBlockEnd("BodyRow") %]
+    </tbody>
+</table>
+<div class="Clear SpacingTop"></div>

@@ -25,7 +25,7 @@ use base qw(Kernel::System::EventHandler);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
-    'Kernel::System::CloudService',
+    'Kernel::System::CloudService::Backend::Run',
     'Kernel::System::DB',
     'Kernel::System::Encode',
     'Kernel::System::JSON',
@@ -894,8 +894,8 @@ sub PackageUpgrade {
             if ( !$UseInstalled ) {
 
                 if (
-                    $Part->{TagType}     eq 'End'
-                    && $Part->{Tag}      eq $NotUseTag
+                    $Part->{TagType} eq 'End'
+                    && $Part->{Tag} eq $NotUseTag
                     && $Part->{TagLevel} eq $NotUseTagLevel
                     )
                 {
@@ -992,7 +992,7 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
+                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
                     && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
@@ -1786,7 +1786,7 @@ sub PackageVerify {
     );
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
@@ -1925,7 +1925,7 @@ sub PackageVerifyAll {
     );
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
@@ -2232,7 +2232,7 @@ sub PackageBuild {
                         for my $Key ( sort keys %{$Tag} ) {
 
                             if (
-                                $Key    ne 'Tag'
+                                $Key ne 'Tag'
                                 && $Key ne 'Content'
                                 && $Key ne 'TagType'
                                 && $Key ne 'TagLevel'
@@ -3895,8 +3895,8 @@ sub _CheckDBMerged {
         if ( $Use eq 0 ) {
 
             if (
-                $Part->{TagType}     eq 'End'
-                && $Part->{Tag}      eq $NotUseTag
+                $Part->{TagType} eq 'End'
+                && $Part->{Tag} eq $NotUseTag
                 && $Part->{TagLevel} eq $NotUseTagLevel
                 )
             {
@@ -4022,7 +4022,7 @@ sub CloudFileGet {
     );
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);

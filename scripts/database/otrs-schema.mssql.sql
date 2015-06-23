@@ -753,10 +753,8 @@ CREATE TABLE auto_response (
     name NVARCHAR (200) NOT NULL,
     text0 NVARCHAR (MAX) NULL,
     text1 NVARCHAR (MAX) NULL,
-    text2 NVARCHAR (MAX) NULL,
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
-    charset NVARCHAR (80) NOT NULL,
     content_type NVARCHAR (250) NULL,
     comments NVARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
@@ -1001,32 +999,11 @@ CREATE TABLE web_upload_cache (
     create_time_unix BIGINT NOT NULL
 );
 -- ----------------------------------------------------------
---  create table notifications
--- ----------------------------------------------------------
-CREATE TABLE notifications (
-    id INTEGER NOT NULL IDENTITY(1,1) ,
-    notification_type NVARCHAR (200) NOT NULL,
-    notification_charset NVARCHAR (60) NOT NULL,
-    notification_language NVARCHAR (60) NOT NULL,
-    subject NVARCHAR (200) NOT NULL,
-    text NVARCHAR (4000) NOT NULL,
-    content_type NVARCHAR (250) NULL,
-    create_time DATETIME NOT NULL,
-    create_by INTEGER NOT NULL,
-    change_time DATETIME NOT NULL,
-    change_by INTEGER NOT NULL,
-    PRIMARY KEY(id)
-);
--- ----------------------------------------------------------
 --  create table notification_event
 -- ----------------------------------------------------------
 CREATE TABLE notification_event (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     name NVARCHAR (200) NOT NULL,
-    subject NVARCHAR (200) NOT NULL,
-    text NVARCHAR (4000) NOT NULL,
-    content_type NVARCHAR (250) NOT NULL,
-    charset NVARCHAR (100) NOT NULL,
     valid_id SMALLINT NOT NULL,
     comments NVARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
@@ -1036,6 +1013,21 @@ CREATE TABLE notification_event (
     PRIMARY KEY(id),
     CONSTRAINT notification_event_name UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table notification_event_message
+-- ----------------------------------------------------------
+CREATE TABLE notification_event_message (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    notification_id INTEGER NOT NULL,
+    subject NVARCHAR (200) NOT NULL,
+    text NVARCHAR (4000) NOT NULL,
+    content_type NVARCHAR (250) NOT NULL,
+    language NVARCHAR (60) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT notification_event_message_notification_id_language UNIQUE (notification_id, language)
+);
+CREATE INDEX notification_event_message_language ON notification_event_message (language);
+CREATE INDEX notification_event_message_notification_id ON notification_event_message (notification_id);
 -- ----------------------------------------------------------
 --  create table notification_event_item
 -- ----------------------------------------------------------
@@ -1400,4 +1392,21 @@ CREATE TABLE pm_entity_sync (
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
     CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
+);
+-- ----------------------------------------------------------
+--  create table cloud_service_config
+-- ----------------------------------------------------------
+CREATE TABLE cloud_service_config (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    name NVARCHAR (200) NOT NULL,
+    config NVARCHAR (MAX) NOT NULL,
+    config_md5 NVARCHAR (32) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT cloud_service_config_config_md5 UNIQUE (config_md5),
+    CONSTRAINT cloud_service_config_name UNIQUE (name)
 );

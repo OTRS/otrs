@@ -1226,7 +1226,7 @@ special characters like &aacute; in HTML code are considered as just one charact
         Chars    => 123,
         Ellipsis => '...',              # optional (defaults to HTML &#8230;) string to indicate
                                         #    that the HTML was truncated until that point
-        UTF8Mode => 1,                  # optional 1 or 0 (defaults to 1)
+        UTF8Mode => 0,                  # optional 1 or 0 (defaults to 0)
         OnSpace  => 0,                  # optional 1 or 0 (defaults to 0) if enabled, prevents to
                                         #    truncate in a middle of a word, but in the space before
     );
@@ -1254,8 +1254,8 @@ sub HTMLTruncate {
 
     # translate params for compatibility reasons with HTML::Truncate
     my %CompatibilityParams = (
-        'utf8_mode' => $Param{UTF8Mode} // 0,
-        'on_space'  => $Param{OnSpace}  // 0,
+        'utf8_mode' => $Param{UTF8Mode} ? 1 : 0,
+        'on_space'  => $Param{OnSpace}  ? 1 : 0,
         'chars'     => $Param{Chars},
         'repair'    => 1,
     );

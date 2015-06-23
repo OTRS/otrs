@@ -223,9 +223,6 @@
 [% Translate("Plain Format") | html %]
 [% Translate("Reply All") | html %]
 [% Translate("Direction") | html %]
-[% Translate("Agent (All with write permissions)") | html %]
-[% Translate("Agent (Owner)") | html %]
-[% Translate("Agent (Responsible)") | html %]
 
 # preferences
 [% Translate("New ticket notification") | html %]

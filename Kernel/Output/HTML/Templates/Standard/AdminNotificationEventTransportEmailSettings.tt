@@ -1,0 +1,27 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<label for="RecipientEmail">[% Translate("Recipient email addresses") | html %]: </label>
+<div class="Field">
+    <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="[% Data.RecipientEmail | html %]"/>
+</div>
+<div class="Clear"></div>
+
+<label for="NotificationArticleTypeID">[% Translate("Notification article type") | html %]: </label>
+<div class="Field">
+    [% Data.NotificationArticleTypesStrg %]
+    <p class="FieldExplanation">[% Translate("An article will be created if the notification is sent to the customer or an additional email address.") | html %]</p>
+</div>
+<div class="Clear"></div>
+
+<label for="TransportEmailTemplate">[% Translate("Template") | html %]: </label>
+<div class="Field">
+    [% Data.TransportEmailTemplateStrg %]
+    <p class="FieldExplanation">[% Translate("Use this template to generate the complete email (only for HTML emails).") | html %]</p>
+</div>
+<div class="Clear"></div>

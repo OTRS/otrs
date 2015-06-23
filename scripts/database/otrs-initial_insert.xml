@@ -583,7 +583,6 @@ Have fun with OTRS! :-)
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
-        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -606,7 +605,6 @@ Please create a new ticket.
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">Your email has been rejected! (RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -632,7 +630,6 @@ Have fun with OTRS!
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
-        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -660,7 +657,6 @@ Have fun with OTRS!
 Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">New ticket has been created! (RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
-        <Data Key="charset" Type="Quote">utf-8</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -1430,11 +1426,516 @@ The OTRS Project
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
-<!-- notifications agent - en -->
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::NewTicket</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">1</Data>
+        <Data Key="name" Type="Quote">New ticket created</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgent</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationNewTicket</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyServices</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">1</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="name" Type="Quote">Follow-up on an unlocked ticket</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgent</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification if a customer sends a follow up to an unlocked ticket which is in your "My Queues" or "My Services".</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationFollowUp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentWatcher</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyServices</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">LockID</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">2</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="name" Type="Quote">Follow-up on a locked ticket</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgent</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification if a customer sends a follow up to a locked ticket of which you are the ticket owner or responsible.</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationFollowUp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentWatcher</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">LockID</Data>
+        <Data Key="event_value" Type="Quote">2</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">3</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">4</Data>
+        <Data Key="name" Type="Quote">Automatic ticket unlock</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgent</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification as soon as a ticket owned by you is automatically unlocked.</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationLockTimeout</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">4</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">5</Data>
+        <Data Key="name" Type="Quote">Ticket owner update</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">5</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationOwnerUpdate</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">5</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">5</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">6</Data>
+        <Data Key="name" Type="Quote">Ticket responsible update</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">6</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationResponsibleUpdate</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">6</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">6</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">7</Data>
+        <Data Key="name" Type="Quote">Note added to ticket</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">7</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationAddNote</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">7</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">7</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">7</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentWatcher</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">7</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">8</Data>
+        <Data Key="name" Type="Quote">Ticket moved</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgent</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification if a ticket is moved into one of your "My Queues".</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationMove</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">8</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">9</Data>
+        <Data Key="name" Type="Quote">Reminder time passed for a locked ticket</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationPendingReminder</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">OncePerDay</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">LockID</Data>
+        <Data Key="event_value" Type="Quote">2</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">9</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">10</Data>
+        <Data Key="name" Type="Quote">Reminder time passed for an unlocked ticket</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationPendingReminder</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentOwner</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentResponsible</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">OncePerDay</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">LockID</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">10</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">11</Data>
+        <Data Key="name" Type="Quote">Ticket has escalated</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">11</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationEscalation</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">11</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">11</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentWritePermissions</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">11</Data>
+        <Data Key="event_key" Type="Quote">OncePerDay</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">11</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">12</Data>
+        <Data Key="name" Type="Quote">Ticket will soon escalate</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">12</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationEscalationNotifyBefore</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">12</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">12</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentWritePermissions</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">12</Data>
+        <Data Key="event_key" Type="Quote">OncePerDay</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">12</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+    <Insert Table="notification_event">
+        <Data Key="id" Type="AutoIncrement">13</Data>
+        <Data Key="name" Type="Quote">Ticket service update</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="comments" Type="Quote"></Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgent</Data>
+        <Data Key="event_value" Type="Quote">1</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">VisibleForAgentTooltip</Data>
+        <Data Key="event_value" Type="Quote">You will receive a notification if a ticket's service is changed to one of your "My Services".</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">Events</Data>
+        <Data Key="event_value" Type="Quote">NotificationServiceUpdate</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">Recipients</Data>
+        <Data Key="event_value" Type="Quote">AgentMyServices</Data>
+    </Insert>
+    <Insert Table="notification_event_item">
+        <Data Key="notification_id">13</Data>
+        <Data Key="event_key" Type="Quote">Transports</Data>
+        <Data Key="event_value" Type="Quote">Email</Data>
+    </Insert>
+
+
+    <!-- notification_event_message - en -->
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">1</Data>
+        <Data Key="notification_id">1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">New ticket notification! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1449,16 +1950,12 @@ There is a new ticket in &lt;OTRS_TICKET_Queue&gt;!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">2</Data>
+        <Data Key="notification_id">2</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">You've got a follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1473,16 +1970,32 @@ You've got a follow up!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::LockTimeout</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">3</Data>
+        <Data Key="notification_id">3</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
+        <Data Key="subject" Type="Quote">You've got a follow up! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+
+You've got a follow up!
+
+&lt;OTRS_CUSTOMER_FROM&gt; wrote:
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Your OTRS Notification Master</Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">4</Data>
+        <Data Key="notification_id">4</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1497,16 +2010,12 @@ The lock timeout period on [&lt;OTRS_TICKET_TicketNumber&gt;] has been reached, 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::OwnerUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">5</Data>
+        <Data Key="notification_id">5</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket owner assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1519,16 +2028,12 @@ Comment:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">6</Data>
+        <Data Key="notification_id">6</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
 
@@ -1541,16 +2046,12 @@ Comment:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::AddNote</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">7</Data>
+        <Data Key="notification_id">7</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">New note! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1562,16 +2063,12 @@ Note:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::Move</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">8</Data>
+        <Data Key="notification_id">8</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Moved ticket in &lt;OTRS_CUSTOMER_QUEUE&gt; queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1584,16 +2081,12 @@ Your OTRS Notification Master</Data>
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">9</Data>
+        <Data Key="notification_id">9</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1611,16 +2104,35 @@ Please have a look at:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::Escalation</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">10</Data>
+        <Data Key="notification_id">10</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
+        <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+
+The ticket [&lt;OTRS_TICKET_TicketNumber&gt;] has reached its reminder time!
+
+&lt;OTRS_CUSTOMER_FROM&gt;
+
+wrote:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+Please have a look at:
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Your OTRS Notification Master</Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">11</Data>
+        <Data Key="notification_id">11</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket Escalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1641,16 +2153,12 @@ Please have a look at:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">12</Data>
+        <Data Key="notification_id">12</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">en</Data>
         <Data Key="subject" Type="Quote">Ticket Escalation Warning! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
@@ -1671,18 +2179,33 @@ Please have a look at:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">13</Data>
+        <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        <Data Key="language" Type="Quote">en</Data>
+        <Data Key="subject" Type="Quote">Updated service to &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
+        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
+
+&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; updated a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and changed the service to &lt;OTRS_TICKET_Service&gt;
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Your OTRS Notification Master
+        </Data>
     </Insert>
 
-<!-- notifications agent - de -->
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::NewTicket</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <!-- notification_event_message - de -->
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">14</Data>
+        <Data Key="notification_id">1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Neues Ticket! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1697,16 +2220,12 @@ es ist ein neues Ticket in &lt;OTRS_TICKET_Queue&gt;!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">15</Data>
+        <Data Key="notification_id">2</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1721,16 +2240,32 @@ Sie haben eine Nachfrage bekommen!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::LockTimeout</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">16</Data>
+        <Data Key="notification_id">3</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
+        <Data Key="subject" Type="Quote">Nachfrage! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+
+Sie haben eine Nachfrage bekommen!
+
+&lt;OTRS_CUSTOMER_FROM&gt; schrieb:
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Ihr OTRS Benachrichtigungs-Master</Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">17</Data>
+        <Data Key="notification_id">4</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Lock Timeout! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1745,16 +2280,12 @@ Aufhebung der Sperre auf Dein gesperrtes Ticket [&lt;OTRS_TICKET_TicketNumber&gt
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::OwnerUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">18</Data>
+        <Data Key="notification_id">5</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Besitz uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1767,16 +2298,12 @@ Kommentar:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">19</Data>
+        <Data Key="notification_id">6</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Verantwortung uebertragen an Sie! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_RESPONSIBLE_UserFirstname&gt; &lt;OTRS_RESPONSIBLE_UserLastname&gt;,
 
@@ -1789,16 +2316,12 @@ Kommentar:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::AddNote</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">20</Data>
+        <Data Key="notification_id">7</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1810,16 +2333,12 @@ Notiz:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::Move</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">21</Data>
+        <Data Key="notification_id">8</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1832,16 +2351,12 @@ Ihr OTRS Benachrichtigungs-Master</Data>
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">22</Data>
+        <Data Key="notification_id">9</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1859,16 +2374,35 @@ Bitte um weitere Bearbeitung:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::Escalation</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">23</Data>
+        <Data Key="notification_id">10</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
+        <Data Key="subject" Type="Quote">Ticket Erinnerung erreicht! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
+
+das Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] hat die Erinnerungszeit erreicht!
+
+&lt;OTRS_CUSTOMER_FROM&gt;
+
+schrieb:
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+Bitte um weitere Bearbeitung:
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Ihr OTRS Benachrichtigungs-Master</Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">24</Data>
+        <Data Key="notification_id">11</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Eskalation! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1889,16 +2423,12 @@ Bitte um Bearbeitung:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">25</Data>
+        <Data Key="notification_id">12</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">de</Data>
         <Data Key="subject" Type="Quote">Ticket Eskalations-Warnung! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
@@ -1919,18 +2449,32 @@ Bitte um Bearbeitung:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">26</Data>
+        <Data Key="notification_id">13</Data>
         <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        <Data Key="language" Type="Quote">de</Data>
+        <Data Key="subject" Type="Quote">Service aktualisiert zu &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
+        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt;,
+
+&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; aktualisierte Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and änderte den Service zu &lt;OTRS_TICKET_Service&gt;
+
+&lt;snip&gt;
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+&lt;snip&gt;
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+
+Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
 
-<!-- notifications agent - nl -->
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::NewTicket</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <!-- notification_event_message - nl -->
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">27</Data>
+        <Data Key="notification_id">1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Nieuw ticket (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -1942,16 +2486,12 @@ Er is een nieuw ticket aangemaakt in &lt;OTRS_TICKET_Queue&gt;!
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::FollowUp</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">28</Data>
+        <Data Key="notification_id">2</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Reactie ontvangen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -1963,17 +2503,31 @@ Er is een reactie ontvangen op onderstaand ticket.
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::LockTimeout</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">29</Data>
+        <Data Key="notification_id">3</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Reactie ontvangen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Er is een reactie ontvangen op onderstaand ticket.
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+        </Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">30</Data>
+        <Data Key="notification_id">4</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Ticket ontgrendeld (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -1985,17 +2539,13 @@ De bewerkingstijd van ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is overschreden,
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::OwnerUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">31</Data>
+        <Data Key="notification_id">5</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Ticket toegewezen (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -2006,17 +2556,13 @@ Opmerking:
 &lt;OTRS_COMMENT&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::ResponsibleUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">32</Data>
+        <Data Key="notification_id">6</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Verantwoordelijkheid bijgewerkt (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_RESPONSIBLE_UserFirstname&gt;,
 
@@ -2027,17 +2573,13 @@ Opmerking:
 &lt;OTRS_COMMENT&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::AddNote</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">33</Data>
+        <Data Key="notification_id">7</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Nieuwe notitie (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -2047,17 +2589,13 @@ Notitie:
 &lt;OTRS_CUSTOMER_BODY&gt;
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::Move</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">34</Data>
+        <Data Key="notification_id">8</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Ticket verplaatst naar &lt;OTRS_CUSTOMER_QUEUE&gt; (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -2067,17 +2605,13 @@ Notitie:
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">35</Data>
+        <Data Key="notification_id">9</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Herinnering (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -2089,17 +2623,31 @@ Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::Escalation</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">36</Data>
+        <Data Key="notification_id">10</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
+        <Data Key="subject" Type="Quote">Herinnering (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
+
+Het herinnermoment voor ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is bereikt.
+
+&lt;OTRS_CUSTOMER_FROM&gt; schreef:
+
+&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
+(eerste 30 regels zijn weergegeven)
+
+&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
+        </Data>
+    </Insert>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">37</Data>
+        <Data Key="notification_id">11</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Escalatie (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -2114,17 +2662,13 @@ Geëscaleerd sinds: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">nl</Data>
+    <Insert Table="notification_event_message">
+        <Data Key="id" Type="AutoIncrement">38</Data>
+        <Data Key="notification_id">12</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
+        <Data Key="language" Type="Quote">nl</Data>
         <Data Key="subject" Type="Quote">Ticket gaat escaleren (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Beste &lt;OTRS_UserFirstname&gt;,
 
@@ -2139,58 +2683,7 @@ Escalatie over: &lt;OTRS_TICKET_EscalationDestinationIn&gt;
 (eerste 30 regels zijn weergegeven)
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
-    </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::ServiceUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Updated service to &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
-        <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
-
-&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; updated a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and changed the service to &lt;OTRS_TICKET_Service&gt;
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-
-Your OTRS Notification Master
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
-    </Insert>
-    <Insert Table="notifications">
-        <Data Key="notification_type" Type="Quote">Agent::ServiceUpdate</Data>
-        <Data Key="notification_charset" Type="Quote">utf-8</Data>
-        <Data Key="notification_language" Type="Quote">de</Data>
-        <Data Key="subject" Type="Quote">Service aktualisiert zu &lt;OTRS_TICKET_Service>! (&lt;OTRS_CUSTOMER_SUBJECT[24]>)</Data>
-        <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt;,
-
-&lt;OTRS_CURRENT_UserFirstname> &lt;OTRS_CURRENT_UserLastname&gt; aktualisierte Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] and änderte den Service zu &lt;OTRS_TICKET_Service&gt;
-
-&lt;snip&gt;
-&lt;OTRS_CUSTOMER_EMAIL[30]&gt;
-&lt;snip&gt;
-
-&lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentTicketZoom;TicketID=&lt;OTRS_TICKET_TicketID&gt;
-
-Ihr OTRS Benachrichtigungs-Master
-</Data>
-        <Data Key="content_type" Type="Quote">text/plain</Data>
-        <Data Key="create_by">1</Data>
-        <Data Key="create_time">current_timestamp</Data>
-        <Data Key="change_by">1</Data>
-        <Data Key="change_time">current_timestamp</Data>
+        </Data>
     </Insert>
 
     <!-- Internal dynamic fields for ProcessManagement -->

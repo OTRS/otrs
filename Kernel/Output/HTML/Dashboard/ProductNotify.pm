@@ -90,7 +90,7 @@ sub Run {
     );
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);

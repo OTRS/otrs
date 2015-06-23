@@ -110,6 +110,15 @@
                             </div>
 [% RenderBlockEnd("OutOfOfficeSingleBlock") %]
 [% RenderBlockEnd("OutOfOffice") %]
+[% RenderBlockStart("RawHTML") %]
+                            <div class="FloatingField">
+                                [% Data.HTML %]
+[% RenderBlockStart("RawHTMLSingleBlock") %]
+                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+[% RenderBlockEnd("RawHTMLSingleBlock") %]
+                            </div>
+                            <div class="Clear"></div>
+[% RenderBlockEnd("RawHTML") %]
 [% RenderBlockEnd("Block") %]
 [% RenderBlockStart("MultipleBlocks") %]
                             <div class="Field">

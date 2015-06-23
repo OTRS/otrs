@@ -299,36 +299,6 @@ my @Tests = (
         },
         Success => 1,
     },
-    {
-        Name   => 'Correct Using Diferent UserID',
-        Config => {
-            UserID => $UserID,
-            Ticket => \%Ticket,
-            Config => {
-                ArticleType    => 'note-internal',
-                SenderType     => 'agent',
-                ContentType    => 'text/plain; charset=ISO-8859-15',
-                Subject        => 'some short description',
-                Body           => 'the message text',
-                HistoryType    => 'OwnerUpdate',
-                HistoryComment => 'Some free text!',
-                From           => 'Some Agent <email@example.com>',
-                To             => 'Some Customer A <customer-a@example.com>',
-                Cc             => 'Some Customer B <customer-b@example.com>',
-                ReplyTo        => 'Some Customer B <customer-b@example.com>',
-                MessageID      => '<asdasdasd.123@example.com>',
-                InReplyTo      => '<asdasdasd.12@example.com>',
-                References =>
-                    '<asdasdasd.1@example.com> <asdasdasd.12@example.com>',
-                NoAgentNotify             => 0,
-                ForceNotificationToUserID => [ 1, 43, 56, ],
-                ExcludeNotificationToUserID     => [ 43, 56, ],
-                ExcludeMuteNotificationToUserID => [ 43, 56, ],
-                UserID                          => $TestUserID,
-            },
-        },
-        Success => 1,
-    },
 );
 
 my %ExcludedArtributes = (
@@ -401,11 +371,6 @@ for my $Test (@Tests) {
                     $OrigTest->{Config}->{Config}->{$Attribute},
                     "$ModuleName - Test:'$Test->{Name}' | Attribute: $Attribute value: $OrigTest->{Config}->{Config}->{$Attribute} should been replaced",
                 );
-            }
-
-            # if article is created by another user it is automatically sent also to Owner
-            if ( $OrigTest->{Config}->{Config}->{UserID} && $Attribute eq 'To' ) {
-                $ExpectedValue .= ', Admin OTRS <root@localhost>'
             }
 
             $Self->Is(

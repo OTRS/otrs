@@ -15,7 +15,7 @@ use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::CloudService',
+    'Kernel::System::CloudService::Backend::Run',
     'Kernel::System::DB',
     'Kernel::System::Environment',
     'Kernel::System::Log',
@@ -155,7 +155,7 @@ sub TokenGet {
     );
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
@@ -330,7 +330,7 @@ sub Register {
     }
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
@@ -707,7 +707,7 @@ sub RegistrationUpdateSend {
     }
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
@@ -991,7 +991,7 @@ sub Deregister {
     );
 
     # get cloud service object
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
     # dispatch the cloud service request
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);

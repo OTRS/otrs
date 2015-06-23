@@ -464,6 +464,7 @@ Core.Form.Validate = (function (TargetNS) {
         return ApplyRule;
     });
 
+
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
     });

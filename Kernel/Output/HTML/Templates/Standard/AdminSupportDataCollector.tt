@@ -5,8 +5,8 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-<div class="MainBox ARIARoleMain AdminServiceCenter LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Service Center") | html %] » [% Translate("Support Data Management") | html %]</h1>
+<div class="MainBox ARIARoleMain AdminSupportDataCollector LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Support Data Collector") | html %]</h1>
 
     <div class="SidebarColumn">
 

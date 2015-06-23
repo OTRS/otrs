@@ -1,0 +1,113 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Cloud Service Management") | html %] » [% Translate("Support Data Collector") | html %]</h1>
+
+    <div class="SidebarColumn">
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AdminCloudServices" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    <li>
+                        <a href="Action=AdminSupportDataCollector" class="CallForAction Fullsize Center"><span><i class="fa fa-compass"></i>[% Translate("Support data collector") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+[% RenderBlockStart("RegisteredNotSending") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p>
+                    [% Translate("Currently support data is only shown in this system.") | html %]
+                    [% Translate("It is highly recommended to send this data to OTRS Group in order to get better support.") | html %]
+                </p>
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("RegisteredNotSending") %]
+
+    </div>
+    <div class="ContentColumn">
+
+[% RenderBlockStart("SendingEdit") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Configuration") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form action="[% Env("CGIHandle") %]" method="post" id="FormRegistration" class="Validate PreventMultipleSubmits">
+                    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="EditAction"/>
+
+                    <fieldset class="TableLike Registration">
+                        <label for="SupportDataSending">[% Translate("Send support data") | html %]:</label>
+                        <div class="Field">
+                            <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" [% Data.SupportDataSendingChecked %] />
+                            <p class="FieldExplanation">
+                                [% Translate("This will allow the system to send additional support data information to OTRS Group.") | html %]
+                            </p>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" id="Submit" value="[% Translate("Update") | html %]">
+                                <span>[% Translate("Update") | html %]</span>
+                            </button>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+[% RenderBlockEnd("SendingEdit") %]
+
+
+[% RenderBlockStart("NotRegistered") %]
+        <div class="WidgetSimple">
+            <div class="Header Center">
+                <h2>[% Translate("System Registration") %]</h2>
+            </div>
+            <div class="Content">
+                <p class="Center">
+                    [% Translate("Currently support data is only shown in this system.") | html %]
+                    [% Translate("It is highly recommended to send this data to OTRS Group in order to get better support.") | html %]
+                    <br/>
+                    [% Translate("To enable data sending, please register your system with OTRS Group or update your system registration information (make sure to activate the 'send support data' option.)") | html %]
+                </p>
+
+                [%  IF Config("Frontend::Module").AdminRegistration %]
+                <div class="Center SpacingTop">
+                    <a href="[% Env("Baselink") %]Action=AdminRegistration" class="CallForAction Primary">
+                        <span><i class="fa fa-sign-in"></i> [% Translate("Register this System") | html %]</span>
+                    </a>
+                </div>
+                [% ELSE %]
+                <div class="Center SpacingTop">
+                    <p>
+                        [% Translate("System Registration is disabled for your system. Please check your configuration.") %]
+                    </p>
+                </div>
+                [% END %]
+            </div>
+            <div class="Clear"></div>
+        </div>
+[% RenderBlockEnd("NotRegistered") %]
+
+
+    </div>
+</div>

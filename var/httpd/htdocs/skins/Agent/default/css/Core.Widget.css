@@ -87,6 +87,12 @@ ul.Tablelike li.Header + li {
     background: #f5f5f5;
 }
 
+.WidgetSimple .WidgetSimple {
+    background: #F2EFEF;
+    border: 1px solid #ddd;
+    margin: 15px 10px;
+}
+
 .WidgetSimple > .Header,
 .WidgetSimple.Collapsed.AnimationRunning > .Header {
     padding: 2px 5px 2px 5px;
@@ -313,11 +319,11 @@ ul.Tablelike li.Header + li {
     color: #555 !important;
 }
 
-.Expanded .WidgetAction.Toggle i.fa-caret-right {
+.Expanded > .Header > .WidgetAction.Toggle i.fa-caret-right {
     display: none !important;
 }
 
-.Collapsed .WidgetAction.Toggle i.fa-caret-down {
+.Collapsed > .Header > .WidgetAction.Toggle i.fa-caret-down {
     display: none !important;
 }
 

@@ -165,7 +165,9 @@ $Selenium->RunTest(
         my $ActivityDialogRandomEdit = $ActivityDialogRandom . "edit";
         my $DescriptionShortEdit     = $DescriptionShort . " Edit";
 
-        $Selenium->WaitFor( JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length" );
+        $Selenium->WaitFor(
+            JavaScript => "return \$('ul#ActivityDialogs li:contains($ActivityDialogRandomEdit)').length"
+        );
         $Selenium->find_element( "Activity Dialogs",      'link_text' )->click();
         $Selenium->find_element( "#ActivityDialogFilter", 'css' )->send_keys($ActivityDialogRandomEdit);
 
@@ -204,7 +206,6 @@ $Selenium->RunTest(
         );
 
         # return to main window
-        $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
 
         # get process id and return to overview afterwards

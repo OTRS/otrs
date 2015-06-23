@@ -423,8 +423,8 @@
                             <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" />
                             <p class="FieldExplanation">
                                         [% Translate("This will allow the system to send additional support data information to OTRS Group.") | html %] <br/>
-                                <a href="[% Env("Baselink") %]Action=AdminServiceCenter" target="_blank">
-                                            [% Translate("Service Center") | html %] &raquo; [% Translate("Support Data Management") | html %]
+                                <a href="[% Env("Baselink") %]Action=AdminSupportDataCollector" target="_blank">
+                                            [% Translate("Support Data Collector") | html %]
                                 </a>
                             </p>
                         </div>
@@ -513,8 +513,8 @@
                             <input type="checkbox" name="SupportDataSending" id="SupportDataSending" value="Yes" [% Data.SupportDataSendingChecked %] />
                             <p class="FieldExplanation">
                                         [% Translate("This will allow the system to send additional support data information to OTRS Group.") | html %] <br/>
-                                <a href="[% Env("Baselink") %]Action=AdminServiceCenter" target="_blank">
-                                            [% Translate("Service Center") | html %] &raquo; [% Translate("Support Data Management") | html %]
+                                <a href="[% Env("Baselink") %]Action=AdminSupportDataCollector" target="_blank">
+                                            [% Translate("Support Data Collector") | html %]
                                 </a>
                             </p>
                         </div>

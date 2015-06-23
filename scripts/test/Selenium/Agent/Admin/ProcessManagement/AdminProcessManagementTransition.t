@@ -61,6 +61,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
         # wait until form has loaded, if neccessary
         $Selenium->WaitFor( JavaScript => 'return $("#Name").length' );
 
@@ -235,7 +236,6 @@ $Selenium->RunTest(
         );
 
         # return to main window
-        $Selenium->close();
         $Selenium->switch_to_window( $Handles->[0] );
 
         # get process id and return to overview afterwards

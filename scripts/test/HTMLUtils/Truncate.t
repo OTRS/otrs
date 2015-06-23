@@ -122,6 +122,26 @@ my @Tests = (
         ExpectedResults => '<p><i>We</i> have to test <strong>sóme…</strong></p>',
         Success         => 1,
     },
+    {
+        Name   => 'Complex correct HTML on HTML entity utf8 2',
+        Config => {
+            String   => '<p><i>We</i> have to test <strong>sómething</strong>.</p>',
+            Chars    => 20,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => '<p><i>We</i> have to test <strong>sóme…</strong></p>',
+        Success         => 1,
+    },
+    {
+        Name   => 'Complex correct HTML on HTML entity utf8 3',
+        Config => {
+            String   => '<p><i>We</i> have to test <strong>sóöñmething</strong>.</p>',
+            Chars    => 20,
+            UTF8Mode => 1,
+        },
+        ExpectedResults => '<p><i>We</i> have to test <strong>sóöñ…</strong></p>',
+        Success         => 1,
+    },
 
     # this example is odd as it puts the ellipsis in side the strong tag
     {

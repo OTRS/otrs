@@ -324,6 +324,7 @@ to add new users
         UserLogin     => 'mhuber',
         UserPw        => 'some-pass', # not required
         UserEmail     => 'email@example.com',
+        UserMobile    => '1234567890', # not required
         ValidID       => 1,
         ChangeUserID  => 123,
     );
@@ -434,6 +435,13 @@ sub UserAdd {
         Value  => $Param{UserEmail}
     );
 
+    # set mobile phone
+    $Self->SetPreferences(
+        UserID => $UserID,
+        Key    => 'UserMobile',
+        Value  => $Param{UserMobile} || '',
+    );
+
     # delete cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
@@ -453,6 +461,7 @@ to update users
         UserLogin     => 'mhuber',
         UserPw        => 'some-pass', # not required
         UserEmail     => 'email@example.com',
+        UserMobile    => '1234567890', # not required
         ValidID       => 1,
         ChangeUserID  => 123,
     );
@@ -527,6 +536,13 @@ sub UserUpdate {
         UserID => $Param{UserID},
         Key    => 'UserEmail',
         Value  => $Param{UserEmail}
+    );
+
+    # set email address
+    $Self->SetPreferences(
+        UserID => $Param{UserID},
+        Key    => 'UserMobile',
+        Value  => $Param{UserMobile} || '',
     );
 
     # get cache object

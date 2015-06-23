@@ -37,7 +37,6 @@ our @ObjectDependencies = (
     'Kernel::System::Lock',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::Notification',
     'Kernel::System::PostMaster::LoopProtection',
     'Kernel::System::Priority',
     'Kernel::System::Queue',
@@ -1917,39 +1916,25 @@ sub TicketQueueSet {
     # send move notify to queue subscriber
     if ( !$Param{SendNoNotification} && $Ticket{StateType} ne 'closed' ) {
 
-        my %Used;
-        my @UserIDs = $Self->GetSubscribedUserIDsByQueueID( QueueID => $Param{QueueID} );
+        my @UserIDs;
 
         if ( $Param{ForceNotificationToUserID} ) {
             push @UserIDs, @{ $Param{ForceNotificationToUserID} };
         }
 
-        # get user object
-        my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-
-        USER:
-        for my $UserID (@UserIDs) {
-            if ( !$Used{$UserID} && $UserID ne $Param{UserID} ) {
-                $Used{$UserID} = 1;
-                my %UserData = $UserObject->GetUserData(
-                    UserID => $UserID,
-                    Valid  => 1,
-                );
-                next USER if !$UserData{UserSendMoveNotification};
-
-                # send agent notification
-                $Self->SendAgentNotification(
-                    Type                  => 'Move',
-                    RecipientID           => $UserID,
-                    CustomerMessageParams => {
-                        Queue => $Queue,
-                        Body  => $Param{Comment} || '',
-                    },
-                    TicketID => $Param{TicketID},
-                    UserID   => $Param{UserID},
-                );
-            }
-        }
+        # trigger notification event
+        $Self->EventHandler(
+            Event => 'NotificationMove',
+            Data  => {
+                TicketID              => $Param{TicketID},
+                CustomerMessageParams => {
+                    Queue => $Queue,
+                    Body  => $Param{Comment} || '',
+                },
+                Recipients => \@UserIDs,
+            },
+            UserID => $Param{UserID},
+        );
     }
 
     # trigger event, OldTicketData is needed for escalation events
@@ -2382,44 +2367,15 @@ sub TicketServiceSet {
         CreateUserID => $Param{UserID},
     );
 
-    # get queue data for this ticket
-    my %Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
-        ID => $Ticket{QueueID},
-    );
-
-    # get needed objects
-    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-    my $UserObject  = $Kernel::OM->Get('Kernel::System::User');
-
-    USERID:
-    for my $UserID ( $Self->GetSubscribedUserIDsByServiceID( ServiceID => $Param{ServiceID} ) ) {
-
-        # get the preferences for each user
-        my %Preferences = $UserObject->GetPreferences(
-            UserID => $UserID,
-        );
-
-        next USERID if !%Preferences;
-        next USERID if !$Preferences{UserSendServiceUpdateNotification};
-
-        # get groups where user is a member for at least the ro permission
-        my %GroupMember = $GroupObject->PermissionUserGet(
-            UserID => $UserID,
-            Type   => 'ro',
-        );
-
-        # do not send to users without ro permissions on this queue
-        next USERID if !$GroupMember{ $Queue{GroupID} };
-
-        # send agent notification
-        $Self->SendAgentNotification(
-            Type                  => 'ServiceUpdate',
-            RecipientID           => $UserID,
-            CustomerMessageParams => {},
+    # trigger notification event
+    $Self->EventHandler(
+        Event => 'NotificationServiceUpdate',
+        Data  => {
             TicketID              => $Param{TicketID},
-            UserID                => $Param{UserID},
-        );
-    }
+            CustomerMessageParams => {},
+        },
+        UserID => $Param{UserID},
+    );
 
     # trigger event
     $Self->EventHandler(
@@ -3948,38 +3904,21 @@ sub TicketLockSet {
     # send unlock notify
     if ( lc $Param{Lock} eq 'unlock' ) {
 
-        my %Ticket = $Self->TicketGet(
-            %Param,
-            DynamicFields => 0,
-        );
-
-        # check if the current user is the current owner, if not send a notify
-        my $To = '';
-        my $Notification = defined $Param{Notification} ? $Param{Notification} : 1;
-        if (
-            !$Param{SendNoNotification}
-            && $Ticket{OwnerID} ne $Param{UserID}
-            && $Notification
-            )
-        {
-
-            # get user data of owner
-            my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $Ticket{OwnerID},
-                Valid  => 1,
-            );
-
-            # send
-            if ( $Preferences{UserSendLockTimeoutNotification} ) {
-                $Self->SendAgentNotification(
-                    Type                  => 'LockTimeout',
-                    RecipientID           => $Ticket{OwnerID},
-                    CustomerMessageParams => {},
-                    TicketID              => $Param{TicketID},
-                    UserID                => $Param{UserID},
-                );
-            }
+        my @SkipRecipients;
+        if ( $Ticket{OwnerID} eq $Param{UserID} ) {
+            @SkipRecipients = [ $Param{UserID} ];
         }
+
+        # trigger notification event
+        $Self->EventHandler(
+            Event          => 'NotificationLockTimeout',
+            SkipRecipients => \@SkipRecipients,
+            Data           => {
+                TicketID              => $Param{TicketID},
+                CustomerMessageParams => {},
+            },
+            UserID => $Param{UserID},
+        );
     }
 
     # trigger event
@@ -4541,24 +4480,25 @@ sub TicketOwnerSet {
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
-        if (
-            $Param{UserID} ne $Param{NewUserID}
-            && $Param{NewUserID} ne $Kernel::OM->Get('Kernel::Config')->Get('PostmasterUserID')
-            )
-        {
 
-            # send agent notification
-            $Self->SendAgentNotification(
-                Type                  => 'OwnerUpdate',
-                RecipientID           => $Param{NewUserID},
+        my @SkipRecipients;
+        if ( $Param{UserID} eq $Param{NewUserID} ) {
+            @SkipRecipients = [ $Param{UserID} ];
+        }
+
+        # trigger notification event
+        $Self->EventHandler(
+            Event => 'NotificationOwnerUpdate',
+            Data  => {
+                TicketID              => $Param{TicketID},
+                SkipRecipients        => \@SkipRecipients,
                 CustomerMessageParams => {
                     %Param,
                     Body => $Param{Comment} || '',
                 },
-                TicketID => $Param{TicketID},
-                UserID   => $Param{UserID},
-            );
-        }
+            },
+            UserID => $Param{UserID},
+        );
     }
 
     # trigger event
@@ -4757,24 +4697,22 @@ sub TicketResponsibleSet {
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
-        if (
-            $Param{UserID} ne $Param{NewUserID}
-            && $Param{NewUserID} ne $Kernel::OM->Get('Kernel::Config')->Get('PostmasterUserID')
-            )
-        {
-            if ( !$Param{Comment} ) {
-                $Param{Comment} = '';
-            }
 
-            # send agent notification
-            $Self->SendAgentNotification(
-                Type                  => 'ResponsibleUpdate',
-                RecipientID           => $Param{NewUserID},
-                CustomerMessageParams => \%Param,
-                TicketID              => $Param{TicketID},
-                UserID                => $Param{UserID},
-            );
+        my @SkipRecipients;
+        if ( $Param{UserID} eq $Param{NewUserID} ) {
+            @SkipRecipients = [ $Param{UserID} ];
         }
+
+        # trigger notification event
+        $Self->EventHandler(
+            Event => 'NotificationResponsibleUpdate',
+            Data  => {
+                TicketID              => $Param{TicketID},
+                SkipRecipients        => \@SkipRecipients,
+                CustomerMessageParams => \%Param,
+            },
+            UserID => $Param{UserID},
+        );
     }
 
     # trigger event

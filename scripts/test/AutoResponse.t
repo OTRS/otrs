@@ -14,7 +14,6 @@ use vars (qw($Self));
 
 # get needed objects
 my $AutoResponseObject  = $Kernel::OM->Get('Kernel::System::AutoResponse');
-my $EncodeObject        = $Kernel::OM->Get('Kernel::System::Encode');
 my $SystemAddressObject = $Kernel::OM->Get('Kernel::System::SystemAddress');
 
 # add system address
@@ -42,7 +41,6 @@ my $AutoResponseID = $AutoResponseObject->AutoResponseAdd(
     Comment     => 'Some Comment',
     AddressID   => $SystemAddressID,
     TypeID      => 1,
-    Charset     => 'iso-8859-1',
     ContentType => 'text/plain',
     ValidID     => 1,
     UserID      => 1,
@@ -76,14 +74,9 @@ $Self->Is(
     'AutoResponseGet() - Comment',
 );
 $Self->Is(
-    $AutoResponse{Charset} || '',
-    'utf-8',
-    'AutoResponseGet() - Charset',
-);
-$Self->Is(
     $AutoResponse{ContentType} || '',
     'text/plain',
-    'AutoResponseGet() - Charset',
+    'AutoResponseGet() - ContentType',
 );
 $Self->Is(
     $AutoResponse{AddressID} || '',
@@ -116,7 +109,6 @@ my $AutoResponseUpdate = $AutoResponseObject->AutoResponseUpdate(
     Comment     => 'Some Comment1',
     AddressID   => $SystemAddressID,
     TypeID      => 1,
-    Charset     => 'utf8',
     ContentType => 'text/html',
     ValidID     => 2,
     UserID      => 1,
@@ -150,14 +142,9 @@ $Self->Is(
     'AutoResponseGet() - Comment',
 );
 $Self->Is(
-    $AutoResponse{Charset} || '',
-    'utf-8',
-    'AutoResponseGet() - Charset',
-);
-$Self->Is(
     $AutoResponse{ContentType} || '',
     'text/html',
-    'AutoResponseGet() - Charset',
+    'AutoResponseGet() - ContentType',
 );
 $Self->Is(
     $AutoResponse{AddressID} || '',

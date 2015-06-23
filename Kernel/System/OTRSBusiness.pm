@@ -16,7 +16,7 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
-    'Kernel::System::CloudService',
+    'Kernel::System::CloudService::Backend::Run',
     'Kernel::System::DynamicField',
     'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
@@ -123,7 +123,7 @@ checks with cloud.otrs.com if OTRSBusiness is available for the current framewor
 sub OTRSBusinessIsAvailable {
     my ( $Self, %Param ) = @_;
 
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
         RequestData => {
             OTRSBusiness => [
@@ -254,7 +254,7 @@ sub OTRSBusinessIsUpdateable {
     my $Package = $Self->_GetOTRSBusinessPackageFromRepository();
     return if !$Package;
 
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
         RequestData => {
             OTRSBusiness => [
@@ -385,7 +385,7 @@ Returns 1 if the cloud call was successful.
 sub OTRSBusinessEntitlementCheck {
     my ( $Self, %Param ) = @_;
 
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
         RequestData => {
             OTRSBusiness => [
@@ -621,7 +621,7 @@ sub HandleBusinessVersionCheckCloudServiceResult {
 sub _OTRSBusinessFileGet {
     my ( $Self, %Param ) = @_;
 
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
     my $RequestResult      = $CloudServiceObject->Request(
         RequestData => {
             OTRSBusiness => [

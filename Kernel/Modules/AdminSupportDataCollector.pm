@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::AdminServiceCenter;
+package Kernel::Modules::AdminSupportDataCollector;
 
 use strict;
 use warnings;
@@ -253,7 +253,7 @@ sub _SupportDataCollectorView {
     my $Output = $LayoutObject->Header();
     $Output .= $LayoutObject->NavigationBar();
     $Output .= $LayoutObject->Output(
-        TemplateFile => 'AdminServiceCenterSupportDataCollector',
+        TemplateFile => 'AdminSupportDataCollector',
         Data         => \%Param,
     );
     $Output .= $LayoutObject->Footer();

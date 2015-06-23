@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::CloudService;
+package Kernel::System::CloudService::Backend::Run;
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::CloudService - cloud service lib
+Kernel::System::CloudService::Backend::Run - cloud service lib
 
 =head1 SYNOPSIS
 
@@ -43,7 +43,7 @@ create a CloudService object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService');
+    my $CloudServiceObject = $Kernel::OM->Get('Kernel::System::CloudService::Backend::Run');
 
 =cut
 

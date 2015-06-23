@@ -1634,7 +1634,7 @@
                 <Item Key="PriorityUpdate" Translatable="1">Changed priority from "%s" (%s) to "%s" (%s).</Item>
                 <Item Key="Remove" Translatable="1">%s</Item>
                 <Item Key="ResponsibleUpdate" Translatable="1">New responsible is "%s" (ID=%s).</Item>
-                <Item Key="SendAgentNotification" Translatable="1">"%s"-notification sent to "%s".</Item>
+                <Item Key="SendAgentNotification" Translatable="1">"%s" notification was sent by "%s" to "%s".</Item>
                 <Item Key="SendAnswer" Translatable="1">Email sent to "%s".</Item>
                 <Item Key="SendAutoFollowUp" Translatable="1">AutoFollowUp sent to "%s".</Item>
                 <Item Key="SendAutoReject" Translatable="1">AutoReject sent to "%s".</Item>
@@ -5541,6 +5541,7 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <!--
+            TODO: Can this be removed?
             <String Regex="">[% Env("CGIHandle") %]?Action=AgentTicketCustomer;TicketID=[% Data.TicketID | html %]</String>
             -->
             <String Regex="">[% Env("CGIHandle") %]?Action=AgentCustomerInformationCenter;CustomerID=[% Data.CustomerID | uri %]</String>
@@ -7141,156 +7142,6 @@
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="CacheTTLLocal">0.5</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###NewTicketNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the NewTicketNotify object in the preferences view of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Email Settings</Item>
-                <Item Key="Label" Translatable="1">New ticket notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if there is a new ticket in my queues/services.</Item>
-                <Item Key="Key" Translatable="1">Send new ticket notifications if subscribed to</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0" Translatable="1">No Notification</Item>
-                        <Item Key="MyQueues" Translatable="1">My Queues</Item>
-                        <Item Key="MyServices" Translatable="1">My Services</Item>
-                        <Item Key="MyQueuesOrMyServices" Translatable="1">My Queues or My Services</Item>
-                        <Item Key="MyQueuesAndMyServices" Translatable="1">My Queues and My Services</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">0</Item>
-                <Item Key="PrefKey">UserSendNewTicketNotification</Item>
-                <Item Key="Prio">1000</Item>
-                <Item Key="Active">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###FollowUpNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the FollowUpNotify object in the preference view of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Email Settings</Item>
-                <Item Key="Label" Translatable="1">Ticket follow up notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if a customer sends a follow up and I'm the owner of the ticket or the ticket is unlocked and is in one of my queues/services.</Item>
-                <Item Key="Key" Translatable="1">Send ticket follow up notifications if subscribed to</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0" Translatable="1">No Notification</Item>
-                        <Item Key="MyQueues" Translatable="1">My Queues</Item>
-                        <Item Key="MyServices" Translatable="1">My Services</Item>
-                        <Item Key="MyQueuesOrMyServices" Translatable="1">My Queues or My Services</Item>
-                        <Item Key="MyQueuesAndMyServices" Translatable="1">My Queues and My Services</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">0</Item>
-                <Item Key="PrefKey">UserSendFollowUpNotification</Item>
-                <Item Key="Prio">2000</Item>
-                <Item Key="Active">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###LockTimeoutNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the LockTimeoutNotify object in the preference view of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Email Settings</Item>
-                <Item Key="Label" Translatable="1">Ticket lock timeout notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if a ticket is unlocked by the system.</Item>
-                <Item Key="Key" Translatable="1">Send ticket lock timeout notifications</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0" Translatable="1">No</Item>
-                        <Item Key="1" Translatable="1">Yes</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">0</Item>
-                <Item Key="PrefKey">UserSendLockTimeoutNotification</Item>
-                <Item Key="Prio">3000</Item>
-                <Item Key="Active">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###MoveNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the MoveNotify object in the preference view of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Email Settings</Item>
-                <Item Key="Label" Translatable="1">Ticket move notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if a ticket is moved into one of "My Queues".</Item>
-                <Item Key="Key" Translatable="1">Send ticket move notifications</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0" Translatable="1">No</Item>
-                        <Item Key="1" Translatable="1">Yes</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">0</Item>
-                <Item Key="PrefKey">UserSendMoveNotification</Item>
-                <Item Key="Prio">4000</Item>
-                <Item Key="Active">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###ServiceUpdateNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the ServiceUpdateNotify object in the preference view of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::Generic</Item>
-                <Item Key="Column">Email Settings</Item>
-                <Item Key="Label" Translatable="1">Service update notification</Item>
-                <Item Key="Desc" Translatable="1">Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.</Item>
-                <Item Key="Key" Translatable="1">Send service update notifications</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0" Translatable="1">No</Item>
-                        <Item Key="1" Translatable="1">Yes</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">0</Item>
-                <Item Key="PrefKey">UserSendServiceUpdateNotification</Item>
-                <Item Key="Prio">4000</Item>
-                <Item Key="Active">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###WatcherNotify" Required="0" Valid="1">
-        <Description Translatable="1">Parameters for the WatcherNotify object in the preference view of the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Preferences::TicketWatcher</Item>
-                <Item Key="Column">Email Settings</Item>
-                <Item Key="Label" Translatable="1">Ticket watch notification</Item>
-                <Item Key="Desc" Translatable="1">Send me the same notifications for my watched tickets that the ticket owners will get.</Item>
-                <Item Key="Key" Translatable="1">Send ticket watch notifications</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="0" Translatable="1">No</Item>
-                        <Item Key="1" Translatable="1">Yes</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">0</Item>
-                <Item Key="PrefKey">UserSendWatcherNotification</Item>
-                <Item Key="Prio">5000</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -8987,26 +8838,6 @@
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminNotification" Required="0" Valid="1">
-        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <Group>admin</Group>
-                <Description>Admin</Description>
-                <Title Translatable="1">Agent Notifications</Title>
-                <NavBarName>Admin</NavBarName>
-                <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
-                    <Name Translatable="1">Agent Notifications</Name>
-                    <Description Translatable="1">Manage notifications that are sent to agents.</Description>
-                    <Block>Ticket</Block>
-                    <Prio>400</Prio>
-                </NavBarModule>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminNotificationEvent" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Ticket</Group>
@@ -9015,15 +8846,19 @@
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Notifications (Event)</Title>
+                <Title Translatable="1">Ticket Notifications</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
-                    <Name Translatable="1">Notifications (Event)</Name>
-                    <Description Translatable="1">Create and manage event based notifications.</Description>
+                    <Name Translatable="1">Ticket Notifications</Name>
+                    <Description Translatable="1">Create and manage ticket notifications.</Description>
                     <Block>Ticket</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.NotificationEvent.css</CSS>
+                    <JavaScript>Core.Agent.Admin.NotificationEvent.js</JavaScript>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
@@ -9215,6 +9050,18 @@
                 <Item>EscalationResponseTimeStop</Item>
                 <Item>EscalationUpdateTimeStop</Item>
                 <Item>EscalationSolutionTimeStop</Item>
+                <Item>NotificationNewTicket</Item>
+                <Item>NotificationFollowUp</Item>
+                <Item>NotificationLockTimeout</Item>
+                <Item>NotificationOwnerUpdate</Item>
+                <Item>NotificationResponsibleUpdate</Item>
+                <Item>NotificationAddNote</Item>
+                <Item>NotificationMove</Item>
+                <Item>NotificationPendingReminder</Item>
+                <Item>NotificationEscalation</Item>
+                <Item>NotificationEscalationNotifyBefore</Item>
+                <Item>NotificationServiceUpdate</Item>
+
             </Array>
         </Setting>
     </ConfigItem>
@@ -9262,7 +9109,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Admin::AdminNotificationEvent###RichText" Required="0" Valid="1">
-        <Description Translatable="1">Uses richtext for viewing and editing notification events.</Description>
+        <Description Translatable="1">Uses richtext for viewing and editing ticket notification.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
         <Setting>
@@ -9288,6 +9135,77 @@
             <String Regex="^\d+%?$">320</String>
         </Setting>
     </ConfigItem>
+
+    <ConfigItem Name="Notification::Transport###Email" Required="0" Valid="1">
+        <Description Translatable="1">Defines all the parameters for this notification transport.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent::Transport::Email</Item>
+                <Item Key="Name">Email</Item>
+                <Item Key="Icon">fa fa-envelope</Item>
+                <Item Key="Prio">100</Item>
+                <Item Key="IsOTRSBusinessTransport">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Notification::Transport###NotificationView" Required="0" Valid="1">
+        <Description Translatable="1">Defines all the parameters for this notification transport.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent::Transport::NotificationView</Item>
+                <Item Key="Name">Web View</Item>
+                <Item Key="Icon">fa fa-th-list</Item>
+                <Item Key="Prio">110</Item>
+                <Item Key="IsOTRSBusinessTransport">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Notification::Transport###SMS" Required="0" Valid="1">
+        <Description Translatable="1">Defines all the parameters for this notification transport.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent::Transport::SMS</Item>
+                <Item Key="Name">SMS (Short Message Service)</Item>
+                <Item Key="Icon">fa fa-mobile</Item>
+                <Item Key="Prio">120</Item>
+                <Item Key="IsOTRSBusinessTransport">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###NotificationEvent" Required="0" Valid="1">
+        <Description Translatable="1">Transport selection for ticket notifications.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Preferences::NotificationEvent</Item>
+                <Item Key="Column">Email Settings</Item>
+                <Item Key="Label" Translatable="1">Ticket notifications</Item>
+                <Item Key="Desc" Translatable="1">Choose for which kind of ticket changes you want to receive notifications.</Item>
+                <Item Key="PrefKey">AdminNotifcationEventTransport</Item>
+                <Item Key="Prio">8000</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <ConfigItem Name="Notification::CharactersPerLine" Required="1" Valid="1">
+        <Description Translatable="1">Defines the number of character per line used in case an HTML article preview replacement on TemplateGenerator for EventNotifications.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::AdminNotificationEvent</SubGroup>
+        <Setting>
+            <String Regex="">80</String><!-- default 1 hour -->
+        </Setting>
+    </ConfigItem>
+
+
+
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketOverview" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Group>Ticket</Group>

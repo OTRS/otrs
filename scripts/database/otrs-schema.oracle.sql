@@ -1612,10 +1612,8 @@ CREATE TABLE auto_response (
     name VARCHAR2 (200) NOT NULL,
     text0 CLOB NULL,
     text1 CLOB NULL,
-    text2 CLOB NULL,
     type_id NUMBER (5, 0) NOT NULL,
     system_address_id NUMBER (5, 0) NOT NULL,
-    charset VARCHAR2 (80) NOT NULL,
     content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -2064,60 +2062,11 @@ CREATE TABLE web_upload_cache (
     create_time_unix NUMBER (20, 0) NOT NULL
 );
 -- ----------------------------------------------------------
---  create table notifications
--- ----------------------------------------------------------
-CREATE TABLE notifications (
-    id NUMBER (12, 0) NOT NULL,
-    notification_type VARCHAR2 (200) NOT NULL,
-    notification_charset VARCHAR2 (60) NOT NULL,
-    notification_language VARCHAR2 (60) NOT NULL,
-    subject VARCHAR2 (200) NOT NULL,
-    text VARCHAR2 (4000) NOT NULL,
-    content_type VARCHAR2 (250) NULL,
-    create_time DATE NOT NULL,
-    create_by NUMBER (12, 0) NOT NULL,
-    change_time DATE NOT NULL,
-    change_by NUMBER (12, 0) NOT NULL
-);
-ALTER TABLE notifications ADD CONSTRAINT PK_notifications PRIMARY KEY (id);
-BEGIN
-  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_notifications';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-/
---;
-CREATE SEQUENCE SE_notifications
-INCREMENT BY 1
-START WITH 1
-NOMAXVALUE
-NOCYCLE
-CACHE 20
-ORDER;
-CREATE OR REPLACE TRIGGER SE_notifications_t
-BEFORE INSERT ON notifications
-FOR EACH ROW
-BEGIN
-  IF :new.id IS NULL THEN
-    SELECT SE_notifications.nextval
-    INTO :new.id
-    FROM DUAL;
-  END IF;
-END;
-/
---;
-CREATE INDEX FK_notifications_change_by ON notifications (change_by);
-CREATE INDEX FK_notifications_create_by ON notifications (create_by);
--- ----------------------------------------------------------
 --  create table notification_event
 -- ----------------------------------------------------------
 CREATE TABLE notification_event (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
-    subject VARCHAR2 (200) NOT NULL,
-    text VARCHAR2 (4000) NOT NULL,
-    content_type VARCHAR2 (250) NOT NULL,
-    charset VARCHAR2 (100) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
@@ -2156,6 +2105,47 @@ END;
 CREATE INDEX FK_notification_event_changeaf ON notification_event (change_by);
 CREATE INDEX FK_notification_event_create9d ON notification_event (create_by);
 CREATE INDEX FK_notification_event_valid_id ON notification_event (valid_id);
+-- ----------------------------------------------------------
+--  create table notification_event_message
+-- ----------------------------------------------------------
+CREATE TABLE notification_event_message (
+    id NUMBER (12, 0) NOT NULL,
+    notification_id NUMBER (12, 0) NOT NULL,
+    subject VARCHAR2 (200) NOT NULL,
+    text VARCHAR2 (4000) NOT NULL,
+    content_type VARCHAR2 (250) NOT NULL,
+    language VARCHAR2 (60) NOT NULL,
+    CONSTRAINT notification_event_message_nb4 UNIQUE (notification_id, language)
+);
+ALTER TABLE notification_event_message ADD CONSTRAINT PK_notification_event_message PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_notification_event_messe4';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_notification_event_messe4
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_notification_event_messe4_t
+BEFORE INSERT ON notification_event_message
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_notification_event_messe4.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX notification_event_message_lb8 ON notification_event_message (language);
+CREATE INDEX notification_event_message_n1c ON notification_event_message (notification_id);
 -- ----------------------------------------------------------
 --  create table notification_event_item
 -- ----------------------------------------------------------
@@ -3054,3 +3044,49 @@ CREATE TABLE pm_entity_sync (
     change_time DATE NOT NULL,
     CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );
+-- ----------------------------------------------------------
+--  create table cloud_service_config
+-- ----------------------------------------------------------
+CREATE TABLE cloud_service_config (
+    id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    config CLOB NOT NULL,
+    config_md5 VARCHAR2 (32) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT cloud_service_config_config_39 UNIQUE (config_md5),
+    CONSTRAINT cloud_service_config_name UNIQUE (name)
+);
+ALTER TABLE cloud_service_config ADD CONSTRAINT PK_cloud_service_config PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_cloud_service_config';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_cloud_service_config
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_cloud_service_config_t
+BEFORE INSERT ON cloud_service_config
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_cloud_service_config.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX FK_cloud_service_config_chane1 ON cloud_service_config (change_by);
+CREATE INDEX FK_cloud_service_config_crea30 ON cloud_service_config (create_by);
+CREATE INDEX FK_cloud_service_config_valib2 ON cloud_service_config (valid_id);

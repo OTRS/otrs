@@ -1228,10 +1228,8 @@
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text0" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="text1" Required="false" Size="6000" Type="VARCHAR"/>
-    <Column Name="text2" Required="false" Size="6000" Type="VARCHAR"/>
     <Column Name="type_id" Required="true" Type="SMALLINT"/>
     <Column Name="system_address_id" Required="true" Type="SMALLINT"/>
-    <Column Name="charset" Required="true" Size="80" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -1550,33 +1548,10 @@
     <Column Name="create_time_unix" Required="true" Type="BIGINT"/>
 </Table>
 
-<!-- notifications -->
-<Table Name="notifications">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="notification_type" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="notification_charset" Required="true" Size="60" Type="VARCHAR"/>
-    <Column Name="notification_language" Required="true" Size="60" Type="VARCHAR"/>
-    <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="text" Required="true" Size="4000" Type="VARCHAR"/>
-    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="create_time" Required="true" Type="DATE"/>
-    <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Column Name="change_time" Required="true" Type="DATE"/>
-    <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <ForeignKey ForeignTable="users">
-        <Reference Local="create_by" Foreign="id"/>
-        <Reference Local="change_by" Foreign="id"/>
-    </ForeignKey>
-</Table>
-
 <!-- notification_event -->
 <Table Name="notification_event">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
-    <Column Name="text" Required="true" Size="4000" Type="VARCHAR"/>
-    <Column Name="content_type" Required="true" Size="250" Type="VARCHAR"/>
-    <Column Name="charset" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1593,6 +1568,29 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
+</Table>
+
+<!-- notification_event_message -->
+<Table Name="notification_event_message">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="notification_id" Required="true" Type="INTEGER"/>
+    <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="text" Required="true" Size="4000" Type="VARCHAR"/>
+    <Column Name="content_type" Required="true" Size="250" Type="VARCHAR"/>
+    <Column Name="language" Required="true" Size="60" Type="VARCHAR"/>
+    <ForeignKey ForeignTable="notification_event">
+        <Reference Foreign="id" Local="notification_id"/>
+    </ForeignKey>
+    <Index Name="notification_event_message_notification_id">
+        <IndexColumn Name="notification_id"/>
+    </Index>
+    <Index Name="notification_event_message_language">
+        <IndexColumn Name="language"/>
+    </Index>
+    <Unique Name="notification_event_message_notification_id_language">
+        <UniqueColumn Name="notification_id"/>
+        <UniqueColumn Name="language"/>
+    </Unique>
 </Table>
 
 <!-- notification_event_item -->
@@ -2110,6 +2108,32 @@
         <UniqueColumn Name="entity_type"/>
         <UniqueColumn Name="entity_id"/>
     </Unique>
+</Table>
+
+<!-- cloud_service_config -->
+<Table Name="cloud_service_config">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+    <Column Name="config" Required="true" Type="LONGBLOB"/>
+    <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"/>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <Column Name="change_time" Required="true" Type="DATE"/>
+    <Column Name="change_by" Required="true" Type="INTEGER"/>
+    <Unique Name="cloud_service_config_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <Unique Name="cloud_service_config_config_md5">
+        <UniqueColumn Name="config_md5"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
 </Table>
 
 </database>

@@ -61,7 +61,6 @@ $Selenium->RunTest(
             AdminGroup
             AdminLog
             AdminMailAccount
-            AdminNotification
             AdminNotificationEvent
             AdminOTRSBusiness
             AdminPGP
@@ -84,7 +83,7 @@ $Selenium->RunTest(
             AdminSalutation
             AdminSelectBox
             AdminService
-            AdminServiceCenter
+            AdminSupportDataCollector
             AdminSession
             AdminSignature
             AdminState
@@ -110,7 +109,7 @@ $Selenium->RunTest(
             #   for error messages and has "Admin" highlighted
             $Selenium->find_element( "li#nav-Admin.Selected", 'css' );
         }
-        }
+    }
 );
 
 1;

@@ -13,6 +13,10 @@ use warnings;
 
 use vars qw(@ISA);
 
+use Exporter;
+our @EXPORT_OK = qw(Translatable);    ## no critic
+our @ISA       = qw(Exporter);
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
@@ -202,6 +206,16 @@ sub new {
     }
 
     return $Self;
+}
+
+=item Translatable()
+
+this is a no-op to mark a text as translatable in the Perl code.
+
+=cut
+
+sub Translatable {
+    return shift;
 }
 
 =item Translate()

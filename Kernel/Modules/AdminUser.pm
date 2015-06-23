@@ -162,7 +162,7 @@ sub Run {
         my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (
-            qw(UserID UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
+            qw(UserID UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw UserMobile ValidID Search)
             )
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';
@@ -207,6 +207,7 @@ sub Run {
 
             if ($Update) {
                 my %Preferences = %{ $ConfigObject->Get('PreferencesGroups') };
+
                 GROUP:
                 for my $Group ( sort keys %Preferences ) {
                     next GROUP if $Group eq 'Password';
@@ -321,7 +322,7 @@ sub Run {
         my $Note = '';
         my ( %GetParam, %Errors );
         for my $Parameter (
-            qw(UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
+            qw(UserTitle UserLogin UserFirstname UserLastname UserEmail UserPw UserMobile ValidID Search)
             )
         {
             $GetParam{$Parameter} = $ParamObject->GetParam( Param => $Parameter ) || '';

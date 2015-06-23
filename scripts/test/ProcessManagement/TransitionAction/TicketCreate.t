@@ -724,10 +724,11 @@ for my $Test (@Tests) {
                 );
             }
 
-            # if article is created by another user it is automatically sent also to Owner
-            if ( $OrigTest->{Config}->{Config}->{UserID} && $Attribute eq 'To' ) {
-                $ExpectedValue .= ', Admin OTRS <root@localhost>'
-            }
+            # TODO: currently disabled, re-enable it when AgentNotification is fully switch to NotificationEvent
+            # # if article is created by another user it is automatically sent also to Owner
+            # if ( $OrigTest->{Config}->{Config}->{UserID} && $Attribute eq 'To' ) {
+            #     $ExpectedValue .= ', Admin OTRS <root@localhost>'
+            # }
 
             if ( $Test->{Article} ) {
                 $Self->Is(

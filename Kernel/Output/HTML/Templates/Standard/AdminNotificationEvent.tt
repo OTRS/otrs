@@ -5,9 +5,12 @@
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+
 [% RenderBlockStart("Overview") %]
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
-    <h1>[% Translate("Notification Management") | html %]</h1>
+    <h1>[% Translate("Ticket Notification Management") | html %]</h1>
 
     <div class="SidebarColumn">
 [% RenderBlockStart("ActionList") %]
@@ -26,11 +29,46 @@
                     <li>
                         <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add notification") | html %]</span></a>
                     </li>
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=NotificationExport" class="CallForAction Fullsize Center"><span><i class="fa fa-download"></i>[% Translate("Export Notifications") | html %]</span></a>
+                    </li>
 [% RenderBlockEnd("ActionAdd") %]
                 </ul>
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
+[% RenderBlockStart("ActionImport") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Configuration import") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can upload a configuration file to import Ticket Notifications to your system. The file needs to be in .yml format as exported by the Ticket Notification module.") | html %]
+                </p>
+                <ul class="ActionList SpacingTop">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="NotificationImport"/>
+                            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+                            <input name="FileUpload" id="FileUpload" type="file" size="18" class="Fixed W100pc Validate_Required [% Data.FileUploadInvalid | html %]"/>
+                            <div id="FileUploadError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="FileUploadServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <fieldset class="Separated">
+                                <input type="checkbox" id="OverwriteExistingNotifications" name="OverwriteExistingNotifications" value="1" />
+                                <label for="OverwriteExistingNotifications">[% Translate("Overwrite existing Notifications?") | html %]</label>
+                            </fieldset>
+
+                            <button class="CallForAction Fullsize Center" type="submit" value="[% Translate("Upload Notification configuration") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import Notification configuration") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+[% RenderBlockEnd("ActionImport") %]
     </div>
 
 
@@ -49,7 +87,9 @@
                             <th>[% Translate("Validity") | html %]</th>
                             <th>[% Translate("Changed") | html %]</th>
                             <th>[% Translate("Created") | html %]</th>
-                            <th>[% Translate("Delete") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Export") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Copy") | html %]</th>
+                            <th class="Center W10pc">[% Translate("Delete") | html %]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,8 +107,12 @@
                             <td>[% Translate(Data.Valid) | html %]</td>
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
+                            <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=NotificationExport;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-download"></i><span class="InvisibleText">[% Translate("Export") | html %]</span></a></td>
+                            <td class="Center"><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=NotificationCopy;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]"><i class="fa fa-copy"></i><span class="InvisibleText">[% Translate("Copy") | html %]</span></a></td>
                             <td class="Center">
-                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this notification") | html %]"><i class="fa fa-trash-o"></i>[% Translate("Delete") | html %]</a>
+                                <a class="TrashCan NotificationDelete" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this notification") | html %]">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
                             </td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
@@ -76,10 +120,30 @@
                 </table>
             </div>
         </div>
+
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.NotificationDelete').bind('click', function (Event) {
+
+    if (window.confirm([% Translate("Do you really want to delete this notification?") | JSON %])) {
+        window.location = $(this).attr('href');
+    }
+
+    // don't interfere with MasterAction
+    Event.stopPropagation();
+    Event.preventDefault();
+    return false;
+});
+//]]></script>
+[% END %]
+
+
 [% RenderBlockEnd("OverviewResult") %]
 
 [% RenderBlockStart("OverviewUpdate") %]
-        <form action="[% Env("CGIHandle") %]" method="post"  class="Validate" name="compose">
+
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate" name="compose" id="NotificationEvent">
             <div class="WidgetSimple">
                 <div class="Header">
 [% RenderBlockStart("HeaderAdd") %]
@@ -115,6 +179,18 @@
                         <div class="Field">
                             <input type="text" name="Comment" id="Comment" value="[% Data.Comment | html %]" class="W50pc" maxlength="250"/>
                         </div>
+
+                        <label for="VisibleForAgent">[% Translate("Show in agent preferences") | html %]: </label>
+                        <div class="Field">
+                            <input type="checkbox" name="VisibleForAgent" id="VisibleForAgent" value="1" [% Data.VisibleForAgentChecked %] />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="VisibleForAgentTooltip">[% Translate("Agent preferences tooltip") | html %]: </label>
+                        <div class="Field">
+                            <input type="text" name="VisibleForAgentTooltip" id="VisibleForAgentTooltip" class="W50pc" value="[% Data.VisibleForAgentTooltip | html %]" [% Data.VisibleForAgentTooltipReadonly %]/>
+                            <p class="FieldExplanation">[% Translate("This message will be shown on the agent preferences screen as a tooltip for this notification.") | html %]</p>
+                        </div>
                         <div class="Clear"></div>
 
                         <label for="ValidID">[% Translate("Validity") | html %]: </label>
@@ -126,7 +202,21 @@
                     </fieldset>
                 </div>
             </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    $('#VisibleForAgent').bind('click', function (Event) {
+        var TooltipObject = $('#VisibleForAgentTooltip');
 
+        if ($(this).prop('checked')) {
+            TooltipObject.removeAttr('readonly');
+            TooltipObject.prop('value','');
+        }
+        else {
+            TooltipObject.attr('readonly', 'readonly');
+        }
+    });
+//]]></script>
+[% END %]
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
                     <div class="WidgetAction Toggle">
@@ -150,6 +240,7 @@
                             <div id="EventsServerError" class="TooltipErrorMessage">
                                 <p>[% Translate("This field is required.") | html %]</p>
                             </div>
+                            <p class="FieldExplanation">[% Translate("Here you can choose which events will trigger this notification. An additional ticket filter can be applied below to only send for ticket with certain criteria.") | html %]</p>
                         </div>
                         <div class="Clear"></div>
 
@@ -228,7 +319,7 @@
 
 [% RenderBlockStart("DynamicField") %]
                         <div class="SpacingTop"></div>
-                        <label>[% Translate("Dynamic Fields") | html %]</label>
+                        <label><h4>[% Translate("Dynamic Fields") | html %]</h4></label>
                         <div class="Clear"></div>
                         <div class="SpacingTop"></div>
 [% RenderBlockStart("DynamicFieldElement") %]
@@ -320,33 +411,41 @@
                 <div class="Content">
                     <fieldset class="TableLike">
 
-                        <label for="Recipients">[% Translate("Recipient groups") | html %]: </label>
+                        <label for="Recipients">[% Translate("Send to") | html %]: </label>
                         <div class="Field">
                             [% Data.RecipientsStrg %]
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientAgents">[% Translate("Recipient agents") | html %]: </label>
+                        <label for="RecipientAgents">[% Translate("Send to these agents") | html %]: </label>
                         <div class="Field">
                             [% Data.RecipientAgentsStrg %]
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientGroups">[% Translate("Recipient groups") | html %]: </label>
+                        <label for="RecipientGroups">[% Translate("Send to all group members") | html %]: </label>
                         <div class="Field">
                             [% Data.RecipientGroupsStrg %]
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientRoles">[% Translate("Recipient roles") | html %]: </label>
+                        <label for="RecipientRoles">[% Translate("Send to all role members") | html %]: </label>
                         <div class="Field">
                             [% Data.RecipientRolesStrg %]
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RecipientEmail">[% Translate("Recipient email addresses") | html %]: </label>
+                        <label for="SendOnOutOfOffice">[% Translate("Send on out of office") | html %]: </label>
                         <div class="Field">
-                            <input type="text" name="RecipientEmail" id="RecipientEmail" class="W50pc" value="[% Data.RecipientEmail | html %]"/>
+                            <input type="checkbox" name="SendOnOutOfOffice" id="SendOnOutOfOffice" value="1" [% Data.SendOnOutOfOfficeChecked %] />
+                            [% Translate("Also send if the user is currently out of office.") | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="OncePerDay">[% Translate("Once per day") | html %]: </label>
+                        <div class="Field">
+                            <input type="checkbox" name="OncePerDay" id="OncePerDay" value="1" [% Data.OncePerDayChecked %] />
+                            [% Translate("Notify user just once per day about a single ticket using a selected transport.") | html %]
                         </div>
                         <div class="Clear"></div>
 
@@ -359,57 +458,215 @@
                     <div class="WidgetAction Toggle">
                         <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
                     </div>
-                    <h2>[% Translate("Notification") | html %]</h2>
+                    <h2>[% Translate("Notification methods") | html %]</h2>
                 </div>
 
-                <div class="Content">
+                <div class="Content TransportsContent">
                     <fieldset class="TableLike">
-
-                        <label for="Subject" class="Mandatory">
-                            <span class="Marker">*</span>
-                            [% Translate("Subject") | html %]:
+                        <p class="FieldExplanation">
+                            [% Translate("These are the possible methods that can be used to send this notification to each of the recipients. Note: Excluding Email, other methods might not reach all selected recipients, please take a look on the documentation of each merthod to get more information. Please select at least one method below.") | html %]
+                        </p>
+                    </fieldset>
+[% RenderBlockStart("TransportRow") %]
+                    <fieldset class="TableLike FixedLabel SpacingTop">
+                        <legend>[% Data.TransportName | html %]</legend>
+[% RenderBlockStart("TransportRowEnabled") %]
+                        <label for="Transport[% Data.Transport | html %]">
+                            [% Translate("Enable") | html %]:
                         </label>
                         <div class="Field">
-                            <input type="text" name="Subject" id="Subject" value="[% Data.Subject | html %]" class="W50pc Validate_Required [% Data.SubjectServerError %]" maxlength="200"/>
-                            <div id="SubjectError" class="TooltipErrorMessage">
-                                <p>[% Translate("This field is required.") | html %]</p>
+                            [% Data.EventsStrg %]
+                            <input type="checkbox" name="Transports" id="Transport[% Data.Transport | html %]" value="[% Data.Transport | html %]" class="Validate_OneChecked [% Data.TransportsServerError %]" title="[% Translate("Transport") %]: [% Translate(Data.Transport) %]" [% Data.TransportChecked %] />
+                            <div id="Transport[% Data.Transport | html %]Error" class="TooltipErrorMessage">
+                                <p>[% Translate("At least one method is needed per notification.") | html %]</p>
                             </div>
-                            <div id="SubjectServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("This field is required.") | html %]</p>
+                            <div id="Transport[% Data.Transport | html %]ServerError" class="TooltipErrorMessage">
+                                <p>[% Translate("At least one method is needed per notification.") | html %]</p>
                             </div>
                         </div>
                         <div class="Clear"></div>
 
-                        <label for="RichText" class="Mandatory">
-                            <span class="Marker">*</span>
-                            [% Translate("Text") | html %]:
-                        </label>
-                        <div class="RichTextField">
+                        [% Data.SettingsString %]
+[% RenderBlockEnd("TransportRowEnabled") %]
+[% RenderBlockStart("TransportRowDisabled") %]
+                        <div class="Field">
+                            <p class="FieldExplanation">
+                                [% Translate("This feature is currently not available.") | html %]
+                            </p>
+                        </div>
+[% RenderBlockEnd("TransportRowDisabled") %]
+[% RenderBlockStart("TransportRowRecommendation") %]
+                        <div class="Field Info">
+                            <a href="[% Env("Baselink") %]Action=AdminOTRSBusiness" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
+                        </div>
+[% RenderBlockEnd("TransportRowRecommendation") %]
+                        <div class="Clear"></div>
+                    </fieldset>
+[% RenderBlockEnd("TransportRow") %]
+[% RenderBlockStart("NoDataFoundMsgTransport") %]
+                    <fieldset class="TableLike SpacingTop">
+                        <legend>[% Translate("No data found") | html %]</legend>
+                        <p class="FieldExplanation">
+                            [% Translate("No notification method found.") | html %]
+                        </p>
+                    </fieldset>
+[% RenderBlockEnd("NoDataFoundMsgTransport") %]
+                </div>
+            </div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Form.Validate.AddMethod("Validate_OneChecked", function(Value, Element) {
+        if($(".Validate_OneChecked:checkbox:checked").length > 0){
+            return true;
+        }
+       return false;
+    });
+
+    Core.Form.Validate.AddRule("Validate_OneChecked", {
+        Validate_OneChecked: true
+    });
+//]]></script>
+[% END %]
+
+            <div class="WidgetSimple SpacingTop">
+                <div class="Header">
+                    <div class="WidgetAction Toggle">
+                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                    </div>
+                    <h2>[% Translate("Notification") | html %]</h2>
+                </div>
+
+                <div class="Content">
+                    <div class ="NotificationLanguageContainer">
 
 [% RenderBlockStart("RichText") %]
 [% InsertTemplate("RichTextEditor.tt") %]
 [% RenderBlockEnd("RichText") %]
 
-                            <textarea id="RichText" class="RichText Validate_RequiredRichText [% Data.BodyServerError | html %]" name="Body" title="Message body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
-                            <div id="BodyError" class="TooltipErrorMessage">
-                                <p>[% Translate("This field is required.") | html %]</p>
-                            </div>
-                            <div id="BodyServerError" class="TooltipErrorMessage">
-                                <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockStart("NotificationLanguage") %]
+                        <div class="NotificationLanguage">
+                            <div class="WidgetSimple SpacingTop">
+                                <div class="Header">
+                                    <div class="WidgetAction Toggle">
+                                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                                    </div>
+                                    <h2 class="Title">[% Translate(Data.Language) %]</h2>
+[% RenderBlockStart("NotificationLanguageRemoveButton") %]
+                                    <div class="AdditionalInformation">
+                                        <a value="Remove Language" class="RemoveButton LanguageRemove" id="[% Data.LanguageID | html %]_Language_Remove" href="" name="Data.LanguageID_Language_Remove"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove Notification Language") | html %]</span></a>
+                                    </div>
+[% RenderBlockEnd("NotificationLanguageRemoveButton") %]
+                                </div>
+
+                                <div class="Content">
+
+                                    <fieldset class="TableLike">
+
+                                        <input type="hidden" name="LanguageID" class="LanguageID" value="[% Data.LanguageID | html %]"/>
+
+                                        <label for="[% Data.LanguageID | html %]_Subject" id="[% Data.LanguageID | html %]_Label_Subject" class="Mandatory">
+                                            <span class="Marker">*</span>
+                            [% Translate("Subject") | html %]:
+                                        </label>
+                                        <div class="Field">
+                                            <input type="text" name="[% Data.LanguageID | html %]_Subject" id="[% Data.LanguageID | html %]_Subject" value="[% Data.Subject | html %]" class="W50pc Validate_Required [% Data.SubjectServerError | html %]" maxlength="200"/>
+                                            <div id="[% Data.LanguageID | html %]_SubjectError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                            <div id="[% Data.LanguageID | html %]_SubjectServerError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                        </div>
+                                        <div class="Clear"></div>
+
+                                        <label for="[% Data.LanguageID | html %]_Body" id="[% Data.LanguageID | html %]_Label_Body" class="Mandatory">
+                                            <span class="Marker">*</span>
+                            [% Translate("Text") | html %]:
+                                        </label>
+                                        <div class="RichTextField">
+                                            <textarea name="[% Data.LanguageID | html %]_Body" id="[% Data.LanguageID | html %]_Body" class="RichText Validate_RequiredRichText [% Data.BodyServerError | html %]" title="[% Translate("Message body") | html %]" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+
+                                            <div id="[% Data.LanguageID | html %]_BodyError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                            <div id="[% Data.LanguageID | html %]_BodyServerError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                        </div>
+                                        <div class="Clear"></div>
+
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
-                        <div class="Clear"></div>
+[% RenderBlockEnd("NotificationLanguage") %]
 
-                        <label for="NotificationArticleTypeID">[% Translate("Notification article type") | html %]: </label>
+                        <div class="Hidden Template NotificationLanguage">
+                            <div class="WidgetSimple SpacingTop">
+                                <div class="Header">
+                                    <div class="WidgetAction Toggle">
+                                        <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+                                    </div>
+                                    <h2 class="Title"></h2>
+                                    <div class="AdditionalInformation">
+                                        <a value="Remove Language" class="RemoveButton LanguageRemove" id="Template_Language_Remove" href="" name="Template_Language_Remove"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove Notification Language") | html %]</span></a>
+                                    </div>
+                                </div>
+                                <div class="Content">
+                                    <fieldset class="TableLike">
+                                        <input type="hidden" name="" class="LanguageID" value=""/>
+                                        <label for="Template_Subject" id="Template_Label_Subject" class="Mandatory">
+                                            <span class="Marker">*</span>
+                                            [% Translate("Subject") | html %]:
+                                        </label>
+                                        <div class="Field">
+                                            <input type="text" name="Template_Subject" id="Template_Subject" value="" class="W50pc" maxlength="200"/>
+                                            <div id="Template_SubjectError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                        </div>
+                                        <div class="Clear"></div>
+
+                                        <label for="Template_Body" id="Template_Label_Body" class="Mandatory">
+                                            <span class="Marker">*</span>
+                                            [% Translate("Text") | html %]:
+                                        </label>
+                                        <div class="RichTextField">
+                                            <textarea id="Template_Body" class="" name="Template_Body" title="[% Translate("Message body") | html %]" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]"></textarea>
+                                            <div id="Template_BodyError" class="TooltipErrorMessage">
+                                                <p>[% Translate("This field is required.") | html %]</p>
+                                            </div>
+                                        </div>
+                                        <div class="Clear"></div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <fieldset class="TableLike">
+                        <label for="Language">[% Translate("Add new notification language") | html %]:</label>
                         <div class="Field">
-                            [% Data.NotificationArticleTypesStrg %]
-                            <p class="FieldExplanation">([% Translate("Only for notifications to specified email addresses") | html %])</p>
+                            [% Data.LanguageStrg %]
                         </div>
                         <div class="Clear"></div>
-
                     </fieldset>
+                    <div class="Hidden">
+                        [% Data.LanguageOrigStrg %]
+                    </div>
                 </div>
             </div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+Core.Agent.Admin.NotificationEvent.Init({
+    Localization: {
+        DeleteNotificationLanguageMsg: [% Translate("Do you really want to delete this notification language?") | JSON %]
+    }
+});
+//]]></script>
+[% END %]
 
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
@@ -442,8 +699,8 @@
                 <p>[% Translate("Notifications are sent to an agent or a customer.") | html %]</p>
 
                 <p>[% Translate("You can use the following tags") | html %]:</p>
-                <dl>
 
+                <dl>
                     <dt><code>&lt;OTRS_AGENT_SUBJECT[20]&gt;</code></dt>
                     <dd>
                         [% Translate("To get the first 20 character of the subject (of the latest agent article).") | html %]
@@ -533,10 +790,7 @@
                         [% Translate("Config options") | html %]
                         ([% Translate(" e. g.") | html %] <code>&lt;OTRS_CONFIG_HttpType&gt;</code>).
                     </dd>
-
-
                 </dl>
-
 
                 <p class="SpacingTop">
                     [% Translate("Example response") | html %]:

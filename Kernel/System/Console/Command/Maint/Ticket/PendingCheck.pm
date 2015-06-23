@@ -146,86 +146,17 @@ sub Run {
             next TICKETID;
         }
 
-        # send the reminder to the ticket owner, if ticket is locked
-        my @UserID;
-        if (
-            $Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingNotificationOnlyToOwner')
-            || $Ticket{Lock} eq 'lock'
-            )
-        {
-            @UserID = ( $Ticket{OwnerID} );
-        }
-
-        # send the reminder to all queue subscribers and owner, if ticket is unlocked
-        else {
-            @UserID = $TicketObject->GetSubscribedUserIDsByQueueID(
-                QueueID => $Ticket{QueueID},
-            );
-            push @UserID, $Ticket{OwnerID};
-        }
-
-        # add the responsible agent to the notification list
-        if (
-            !$Kernel::OM->Get('Kernel::Config')->Get('Ticket::PendingNotificationNotToResponsible')
-            && $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Responsible')
-            && $Ticket{ResponsibleID} ne 1
-            )
-        {
-            push @UserID, $Ticket{ResponsibleID};
-        }
-
-        # send the reminder notification
-        $Self->Print(" Send reminder notification (TicketID=$TicketID)\n");
-
-        my %AlreadySent;
-        USERID:
-        for my $UserID (@UserID) {
-
-            # remember if reminder got already sent
-            next USERID if $AlreadySent{$UserID};
-            $AlreadySent{$UserID} = 1;
-
-            # get user data
-            my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $UserID,
-            );
-
-            # check if a reminder has already been sent today
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Kernel::OM->Get('Kernel::System::Time')->SystemTime2Date(
-                SystemTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
-            );
-
-            # get ticket history
-            my @Lines = $TicketObject->HistoryGet(
-                TicketID => $Ticket{TicketID},
-                UserID   => 1,
-            );
-
-            my $Sent = 0;
-            for my $Line (@Lines) {
-                if (
-                    $Line->{Name} =~ /PendingReminder/
-                    && $Line->{Name} =~ /\Q$Preferences{UserEmail}\E/i
-                    && $Line->{CreateTime} =~ /$Year-$Month-$Day/
-                    )
-                {
-                    $Sent = 1;
-                }
-            }
-
-            next USERID if $Sent;
-
-            # send agent notification
-            $TicketObject->SendAgentNotification(
+        # trigger notification event
+        $Self->EventHandler(
+            Event => 'NotificationPendingReminder',
+            Data  => {
                 TicketID              => $Ticket{TicketID},
-                Type                  => 'PendingReminder',
-                RecipientID           => $UserID,
                 CustomerMessageParams => {
                     TicketNumber => $Ticket{TicketNumber},
                 },
-                UserID => 1,
-            );
-        }
+            },
+            UserID => 1,
+        );
     }
 
     $Self->Print("<green>Done.</green>\n");

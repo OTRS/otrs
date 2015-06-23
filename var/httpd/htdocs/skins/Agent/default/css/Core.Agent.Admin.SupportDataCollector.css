@@ -11,21 +11,21 @@
  * @section     General
  */
 
-.AdminServiceCenter .CheckResults > li {
+.AdminSupportDataCollector .CheckResults > li {
     margin-bottom: 10px;
 }
 
-.AdminServiceCenter .CheckResults > li:last-child {
+.AdminSupportDataCollector .CheckResults > li:last-child {
     margin-bottom: 0px;
 }
 
-.AdminServiceCenter .CheckResults > li > p {
+.AdminSupportDataCollector .CheckResults > li > p {
     padding: 3px 5px;
     margin: 2px 0px 2px 28px;
     display: inline-block;
 }
 
-.AdminServiceCenter textarea.Value {
+.AdminSupportDataCollector textarea.Value {
     min-height: 150px;
     width: 96%;
     line-height: 140%;
@@ -38,36 +38,36 @@
     min-height: 150px;
 }
 
-.AdminServiceCenter .CheckResults > li h3.Heading {
+.AdminSupportDataCollector .CheckResults > li h3.Heading {
     position: relative;
     padding-left: 28px;
     line-height: 130%;
     margin-bottom: 0px;
 }
 
-.AdminServiceCenter .CheckResults > li.CheckResultUnknown span.Value,
-.AdminServiceCenter .CheckResults > li.CheckResultOK span.Value,
-.AdminServiceCenter .CheckResults > li.CheckResultInformation span.Value {
+.AdminSupportDataCollector .CheckResults > li.CheckResultUnknown span.Value,
+.AdminSupportDataCollector .CheckResults > li.CheckResultOK span.Value,
+.AdminSupportDataCollector .CheckResults > li.CheckResultInformation span.Value {
     color: #888;
 }
 
-.AdminServiceCenter .CheckResults > li.CheckResultOK > p {
+.AdminSupportDataCollector .CheckResults > li.CheckResultOK > p {
     color: #888;
 }
 
-.AdminServiceCenter .CheckResults > li > p:empty {
+.AdminSupportDataCollector .CheckResults > li > p:empty {
     display: none;
 }
 
-.AdminServiceCenter .CheckResults > li.CheckResultOK:hover > p {
+.AdminSupportDataCollector .CheckResults > li.CheckResultOK:hover > p {
     color: #000;
 }
 
-.AdminServiceCenter .CheckResultProblem p {
+.AdminSupportDataCollector .CheckResultProblem p {
     background-color: #EDD3D3;
 }
 
-.AdminServiceCenter .CheckResultWarning p {
+.AdminSupportDataCollector .CheckResultWarning p {
     background-color: #F4EBCD;
 }
 
@@ -75,25 +75,25 @@
  * @subsection  SubGroup
  */
 
-.AdminServiceCenter .CheckResults > li h3.SubHeading {
+.AdminSupportDataCollector .CheckResults > li h3.SubHeading {
     margin-top: 10px;
 }
 
-.AdminServiceCenter .CheckResults > li table {
+.AdminSupportDataCollector .CheckResults > li table {
     margin: 10px 0px 10px 28px;
     width: 96%;
 }
 
-.AdminServiceCenter .CheckResults > li table td.Status {
+.AdminSupportDataCollector .CheckResults > li table td.Status {
     width: 27px;
 }
 
-.AdminServiceCenter .CheckResults > li table.SupportDataTable {
+.AdminSupportDataCollector .CheckResults > li table.SupportDataTable {
     margin: 0;
     width: 100%;
 }
 
-.AdminServiceCenter .CheckResults > li .SupportDataTableScrollbar {
+.AdminSupportDataCollector .CheckResults > li .SupportDataTableScrollbar {
     max-height: 400px;
     overflow-y: auto;
     display: block;
@@ -106,34 +106,34 @@
  * @subsection  Flag
  */
 
-.AdminServiceCenter .Flag {
+.AdminSupportDataCollector .Flag {
     position: absolute;
     left: 0px;
     top: 5px;
 }
 
-.AdminServiceCenter .DataTable .Flag {
+.AdminSupportDataCollector .DataTable .Flag {
     position: static;
     display: block;
 }
 
-.AdminServiceCenter .Flag.Unknown span {
+.AdminSupportDataCollector .Flag.Unknown span {
     background-color: #555555;
 }
 
-.AdminServiceCenter .Flag.Information span {
+.AdminSupportDataCollector .Flag.Information span {
     background-color: #CDCDCD;
 }
 
-.AdminServiceCenter .Flag.OK span {
+.AdminSupportDataCollector .Flag.OK span {
     background-color: #008000;
 }
 
-.AdminServiceCenter .Flag.Warning span {
+.AdminSupportDataCollector .Flag.Warning span {
     background-color: #ffa000;
 }
 
-.AdminServiceCenter .Flag.Problem span {
+.AdminSupportDataCollector .Flag.Problem span {
     background-color: #ff0000;
 }
 

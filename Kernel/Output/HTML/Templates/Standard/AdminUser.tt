@@ -217,6 +217,12 @@
                         </div>
                         <div class="Clear"></div>
 
+                        <label for="UserMobile">[% Translate("Mobile") | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="UserMobile" id="UserMobile" value="[% Data.UserMobile | html %]" class="W50pc" maxlength="50"/>
+                        </div>
+                        <div class="Clear"></div>
+
                         <label for="ValidID">[% Translate("Validity") | html %]:</label>
                         <div class="Field">
                             [% Data.ValidOption %]

@@ -65,7 +65,7 @@ Encode a perl data structure to a JSON string.
 
     my $JSONString = $JSONObject->Encode(
         Data     => $Data,
-        SortKeys => 1,    (optional) (0|1) default 0, to sort the keys of the json data
+        SortKeys => 1,          # (optional) (0|1) default 0, to sort the keys of the json data
     );
 
 =cut

@@ -1,0 +1,198 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>[% Data.Subject | html %]</title>
+    <style type="text/css">
+    body {
+        width: 100% !important;
+        -webkit-text-size-adjust: none;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    table td {
+        border-collapse: collapse;
+    }
+
+    #backgroundTable {
+        height: 100% !important;
+        margin: 0;
+        padding: 0;
+        width: 100% !important;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color:#202020;
+        display:block;
+        font-family:Arial;
+        font-weight:bold;
+        line-height:100%;
+        margin-top:0;
+        margin-right:0;
+        margin-bottom:5px;
+        margin-left:0;
+        text-align:left;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    h2, h3, h4, h5, h6 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 24px;
+    }
+
+    h4 {
+        font-size: 22px;
+    }
+
+    h5 {
+        font-size: 18px;
+    }
+
+    h6 {
+        font-size: 16px;
+    }
+
+    #templateContainer, .bodyContent{
+        background-color: #FFFFFF;
+    }
+
+    .bodyContent, .bodyContent * {
+        color: #505050;
+        font-family: Arial;
+        font-size: 13px;
+        line-height: 150%;
+        text-align: left;
+    }
+
+    .bodyContent div {
+        padding-bottom: 5px;
+    }
+
+    .bodyContent a:link,
+    .bodyContent a:visited,
+    .footerContent div a:link,
+    .footerContent div a:visited {
+        color: #f92;
+        font-weight: normal;
+        text-decoration: none
+    }
+
+    #templateFooter {
+        background-color: #FFFFFF;
+        border-top: 0px;
+    }
+
+    .footerContent div {
+        color:#707070;
+        font-family:Arial;
+        font-size:12px;
+        line-height:125%;
+        text-align:left;
+    }
+
+    #links {
+        background-color: #FAFAFA;
+        border: 0;
+    }
+
+    #links div {
+        text-align: center;
+    }
+
+    .CallForAction:active,
+    .CallForAction:hover {
+        background-color: #e5e5e5;
+        border-color: #999;
+    }
+    </style>
+</head>
+<body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+    <center>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="backgroundTable" style="background-color:#FAFAFA">
+            <tbody>
+                <tr>
+                    <td align="center" valign="top">
+                        <br />
+                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer" style="border: 1px solid #DDDDDD;">
+                            <tbody>
+                                <tr>
+                                    <td align="center" valign="top">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" class="bodyContent">
+                                                        <h1 style="background: #333333; border-bottom: 10px solid #FF9922; padding: 20px; line-height: 130%; color: #999; margin: 0px; font-size: 20px;">
+                                                            [% Data.Subject | html %]
+                                                        </h1>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top" class="bodyContent" style="border-bottom: 1px solid #eee; background-color: #f9f9f9; padding: 15px; font-size: 13px;">
+# We need to perform some postprocessing on the notification content as it is neccessary to use inline CSS styles
+#   for best mail client compatibility. In particular, OTRS uses <div> elements with inline CSS instead of <blockquote>.
+#   Here we also change the inline style of this <div> to match with the current design.
+                                                        [% Data.Body
+                                                        .replace('<p>', '<div>')
+                                                        .replace('</p>', '</div>')
+                                                        .replace('<div\s+type="cite"[^>]*>', '<div type="cite" style="border-left: 5px solid #ccc !important; color: #999; margin: 10px 0; padding-left: 10px;">')
+                                                        %]
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top">
+                                        <table border="0" cellpadding="10" cellspacing="0" width="600" id="templateFooter">
+                                            <tbody>
+                                                <tr>
+                                                    <td valign="top" class="footerContent">
+                                                        <table border="0" cellpadding="10" cellspacing="0" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td colspan="2" valign="middle">
+                                                                        <div style="color: #999; font-size: 11px; text-align: center;">
+                                                                            [% Translate("Powered by") | html %] [% Config("Product") %] [% Config("Version").remove('\.0\..*') %]
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+</body>
+
+</html>

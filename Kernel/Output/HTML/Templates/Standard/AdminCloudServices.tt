@@ -1,0 +1,105 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+[% SET OTRSBusinessLabel = '<strong>OTRS Business Solution</strong>™' %]
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate("Cloud Service Management") | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Hint") | html %]</h2>
+            </div>
+            <div class="Content">
+            [% IF !Data.SystemIsRegistered %]
+                <p>
+                    [% Translate("System registration is a service of OTRS Group, which provides a lot of advantages!") | html %]
+                </p>
+                <p>
+                    [% Translate('Please note that you using OTRS cloud services requires the system to be registered.') | html %]
+                </p>
+                <p class="SpacingTop SpacingBottom">
+                    <a class="CallForAction Fullsize Centered" href="[% Env("Baselink") %]Action=AdminRegistration">
+                        <span>
+                            <i class="fa fa-sign-in"></i>
+                            [% Translate('Register this system') | html %]
+                        </span>
+                    </a>
+                </p>
+            [% END %]
+                <p class="FieldExplanation">
+                    [% Translate("Here you can configure available cloud services that communicate securely with %s.", "cloud.otrs.com") | html %]
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Available Cloud Services") | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="CloudServiceTable" summary="List of all registered CloudServices">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate("Description") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+[% RenderBlockStart("OverviewResultRow") %]
+                        <tr class="MasterAction">
+                            <td class="Center">
+                                <span><i class="[% Data.CloudService.Icon | html %]"></i></span>
+                            </td>
+                            <td>
+                                [% IF (Data.CloudService.IsOTRSBusiness && !Data.OTRSBusinessIsInstalled)
+                                || !Data.SystemIsRegistered
+                                %]
+                                    [% Data.CloudService.Name | html %]
+                                [% ELSE %]
+                                <a class="AsBlock MasterActionLink" href="[% Env("Baselink") %]Action=[% Data.CloudService.ConfigDialog | uri %];CloudServiceName=[% Data.CloudService.Name | uri %]">
+                                    [% Data.CloudService.Name | html %]
+                                </a>
+                                [% END %]
+                            </td>
+                            <td>
+                                [% Translate(Data.CloudService.Description) | html %]
+                                [% IF Data.CloudService.IsOTRSBusiness && !Data.OTRSBusinessIsInstalled %]
+                                <span class="Recomendation">
+                                    <a class="MasterActionLink Button" href="[% Env("Baselink") %]Action=AdminOTRSBusiness"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s", OTRSBusinessLabel) %]</a>
+                                </span>
+                                [% END %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("OverviewResultRow") %]
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="Clear"></div>
+</div>
+
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('.MasterAction').bind('click', function (Event) {
+    var $MasterActionLink = $(this).find('.MasterActionLink');
+    // only act if the link was not clicked directly
+    if (Event.target !== $MasterActionLink.get(0)) {
+        window.location = $MasterActionLink.attr('href');
+        return false;
+    }
+});
+//]]></script>
+[% END %]

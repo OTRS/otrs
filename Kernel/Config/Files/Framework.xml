@@ -5067,7 +5067,7 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminServiceCenter" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::Module###AdminSupportDataCollector" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the agent interface.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
@@ -5075,17 +5075,40 @@ via the Preferences button after logging in.
             <FrontendModuleReg>
                 <Group>admin</Group>
                 <Description>Admin</Description>
-                <Title Translatable="1">Service Center</Title>
+                <Title Translatable="1">Support Data Collector</Title>
                 <NavBarName>Admin</NavBarName>
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
-                    <Name Translatable="1">Service Center</Name>
-                    <Description Translatable="1">Manage OTRS Group services.</Description>
+                    <Name Translatable="1">Support Data Collector</Name>
+                    <Description Translatable="1">Manage support data.</Description>
                     <Block>System</Block>
                     <Prio>370</Prio>
                 </NavBarModule>
                 <Loader>
-                    <CSS>Core.Agent.Admin.ServiceCenter.css</CSS>
+                    <CSS>Core.Agent.Admin.SupportDataCollector.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminCloudServices" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title Translatable="1">Cloud Services</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBar::ModuleAdmin</Module>
+                    <Name Translatable="1">Cloud Services</Name>
+                    <Description Translatable="1">Manage OTRS Group cloud services.</Description>
+                    <Block>System</Block>
+                    <Prio>380</Prio>
+                </NavBarModule>
+                <Loader>
+                    <CSS>Core.Agent.Admin.CloudServices.css</CSS>
                 </Loader>
             </FrontendModuleReg>
         </Setting>
