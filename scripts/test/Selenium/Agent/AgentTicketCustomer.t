@@ -152,8 +152,8 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//*[text()='$AutoCompleteString']")->click();
 
-        # wait until customer data is loading
-        $Selenium->WaitFor( JavaScript => 'return $("#CustomerAutoComplete").length' );
+        # wait until customer data is loading (CustomerID is filled after CustomerAutoComplete)
+        $Selenium->WaitFor( JavaScript => 'return $("#CustomerID").val().length' );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->submit();
 
         $Selenium->WaitFor( WindowCount => 1 );
