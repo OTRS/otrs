@@ -142,6 +142,14 @@ $Selenium->RunTest(
         # wait for SystemAddress create
         $Selenium->WaitFor( JavaScript => "return \$('.MasterAction').length" );
 
+        # check class of invalid SystemAddress in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($SysAddRandom)').length"
+            ),
+            "There is a class 'Invalid' for test SystemAddress",
+        );
+
         # check edited test SystemAddress values
         $Selenium->find_element( $SysAddRandom, 'link_text' )->click();
         $Self->Is(

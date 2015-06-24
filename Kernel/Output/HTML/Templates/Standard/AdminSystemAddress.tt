@@ -74,7 +74,7 @@
                         </tr>
 [% RenderBlockEnd("NoDataFoundMsg") %]
 [% RenderBlockStart("OverviewResultRow") %]
-                        <tr class="MasterAction">
+                        <tr class="MasterAction[% IF Data.ValidID != 1%] Invalid[% END %]" >
                             <td><a class="AsBlock MasterActionLink" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;ID=[% Data.ID | uri %]">[% Data.Name | html %]</a></td>
                             <td title="[% Data.Realname | html %]">[% Data.Realname | truncate(26) | html %]</td>
                             <td>[% Data.Queue | html %]</td>

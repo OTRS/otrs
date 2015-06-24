@@ -293,18 +293,6 @@ sub _Overview {
             }
 
             my @List = $Kernel::OM->Get('Kernel::System::Valid')->ValidIDsGet();
-
-            LIST_ELEMENT:
-            for my $ListElement (@List) {
-                if ( $Data{ValidID} eq $ListElement ) {
-                    $Data{Invalid} = '';
-                    last LIST_ELEMENT;
-                }
-                else {
-                    $Data{Invalid} = 'Invalid';
-                }
-            }
-
             $Data{ShownValid} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(
                 ValidID => $Data{ValidID},
             );

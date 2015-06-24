@@ -33,7 +33,6 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $ConfigObject->Get('ScriptAlias');
-
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminMailAccount");
 
         # check AdminMailAccount screen
@@ -54,8 +53,7 @@ $Selenium->RunTest(
         }
 
         # add real test mail account
-        my $RandomID = $Helper->GetRandomID();
-
+        my $RandomID = "EmailAccount" . $Helper->GetRandomID();
         $Selenium->find_element( "#TypeAdd option[value='IMAP']",        'css' )->click();
         $Selenium->find_element( "#LoginAdd",                            'css' )->send_keys($RandomID);
         $Selenium->find_element( "#PasswordAdd",                         'css' )->send_keys("SomePassword");
@@ -79,6 +77,14 @@ $Selenium->RunTest(
         $Selenium->find_element( "#HostEdit",                  'css' )->send_keys("pop3edit.example.com");
         $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
         $Selenium->find_element( "#LoginEdit",                 'css' )->submit();
+
+        # check class of invalid EmailAccount in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td a:contains($RandomID)').length"
+            ),
+            "There is a class 'Invalid' for test EmailAccount",
+        );
 
         # check for edited mail account
         my $TestMailHostEdit = "pop3edit.example.com / $RandomID";
