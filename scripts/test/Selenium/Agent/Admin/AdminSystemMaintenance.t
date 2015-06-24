@@ -176,6 +176,14 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminSystemMaintenance' )]")->click();
 
+        # check class of invalid SystemMaintenance in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td:contains($SysMainComment)').length"
+            ),
+            "There is a class 'Invalid' for test SystemMaintenance",
+        );
+
         # check updated test SystemMaintenance values
         $Selenium->find_element(
             "//a[contains(\@href, \'Subaction=SystemMaintenanceEdit;SystemMaintenanceID=$SysMainID' )]"
@@ -206,7 +214,7 @@ $Selenium->RunTest(
             "Deleted - $SysMainComment",
         );
 
-        }
+    }
 
 );
 

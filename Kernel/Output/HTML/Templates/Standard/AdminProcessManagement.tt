@@ -99,7 +99,7 @@
                     </thead>
                     <tbody>
 [% RenderBlockStart("ProcessRow") %]
-                        <tr>
+                        <tr [% IF Data.State != "Active"%]class="Invalid"[% END %]>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=ProcessEdit;ID=[% Data.ID | uri %];EntityID=[% Data.EntityID | uri %]" title="[% Data.Name | html %] ([% Data.EntityID | html %])">
                                     [% Data.Name | html %]

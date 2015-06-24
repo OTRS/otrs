@@ -202,7 +202,7 @@
 [% RenderBlockEnd("NoDataFoundMsg") %]
 
 [% RenderBlockStart("OverviewResultRow") %]
-                        <tr>
+                        <tr [% IF Data.Valid != "valid"%]class="Invalid"[% END %]>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Change;WebserviceID=[% Data.ID | uri %];Nav=[% Data.Nav | uri %]">[% Data.Name | html %]</a>
                             </td>

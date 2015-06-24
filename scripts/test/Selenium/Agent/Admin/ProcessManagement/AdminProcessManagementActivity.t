@@ -135,6 +135,24 @@ $Selenium->RunTest(
         # get process id
         my $ProcessID = $Selenium->execute_script('return $("#ProcessDelete").data("id")') || undef;
 
+        # set process to inactive
+        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+        $Selenium->find_element( $ProcessRandom,                      'link_text' )->click();
+        $Selenium->find_element( "#StateEntityID option[value='S2']", 'css' )->click();
+        $Selenium->find_element( "#Submit",                           'css' )->click();
+
+        # test search filter
+        $Selenium->find_element( "#Filter", 'css' )->clear();
+        $Selenium->find_element( "#Filter", 'css' )->send_keys($ProcessRandom);
+
+        # check class of invalid Process in the overview table
+        $Self->True(
+            $Selenium->execute_script(
+                "return \$('tr.Invalid td:contains($ProcessRandom)').length"
+            ),
+            "There is a class 'Invalid' for test Process",
+        );
+
         # delete test activity
         my $Success = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity')->ActivityDelete(
             ID     => $ActivityID,
@@ -158,7 +176,6 @@ $Selenium->RunTest(
         );
 
         # synchronize process after deleting test process
-        $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
 
         # make sure cache is correct

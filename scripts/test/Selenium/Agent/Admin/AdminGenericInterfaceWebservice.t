@@ -80,15 +80,31 @@ $Selenium->RunTest(
             $Selenium->find_element( "#ConfigFile",         'css' )->send_keys($Location);
             $Selenium->find_element( "#ImportButtonAction", 'css' )->click();
 
+            # verify that webservice is created
+            $Self->True(
+                index( $Selenium->get_page_source(), "Web service \"$Webservice\" created!" ) > -1,
+                "$Webservice is created",
+            );
+
             # GenericInterface Web Service Management - Change screen
             $Selenium->find_element( $Webservice,                  'link_text' )->click();
             $Selenium->find_element( "#ValidID option[value='2']", 'css' )->click();
             $Selenium->find_element( "#RemoteSystem",              'css' )->send_keys('Test remote system');
 
             # save edited value
-            $Selenium->find_element("//button[\@value='Save and continue'][\@type='submit']")->click();
+            $Selenium->find_element( "#SaveAndFinishButton", 'css' )->click();
+
+            # check class of invalid Webservice in the overview table
+            $Self->True(
+                $Selenium->execute_script(
+                    "return \$('tr.Invalid td:contains($Webservice)').length"
+                ),
+                "There is a class 'Invalid' for test Webservice",
+            );
 
             # check web service values
+            $Selenium->find_element( $Webservice, 'link_text' )->click();
+
             $Self->Is(
                 $Selenium->find_element( '#Name', 'css' )->get_value(),
                 $Webservice,
@@ -120,16 +136,12 @@ $Selenium->RunTest(
             # wait until delete dialog has closed an action performed
             $Selenium->WaitFor( JavaScript => "return !\$('#DialogButton2').length" );
 
-            # verify that webservice is no longer present
-            my $Success;
-            eval {
-                $Success = $Selenium->find_element( $Webservice, 'link_text' )->is_displayed();
-            };
-
-            $Self->False(
-                $Success,
+            # verify that webservice is deleted
+            $Self->True(
+                index( $Selenium->get_page_source(), "Web service \"$Webservice\" deleted!" ) > -1,
                 "$Webservice is deleted",
             );
+
         }
 
     }

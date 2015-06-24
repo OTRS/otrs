@@ -64,7 +64,7 @@
                     </thead>
                     <tbody>
 [% RenderBlockStart("ViewRow") %]
-                        <tr>
+                        <tr [% IF Data.ValidID != "valid"%]class="Invalid"[% END %]>
                             <td>
                                 <a class="AsBlock" href="[% Env("Baselink") %]Action=AdminSystemMaintenance;Subaction=SystemMaintenanceEdit;SystemMaintenanceID=[% Data.ID | uri %]">[% Data.StartDateTimeStamp | html %]</a>
                             </td>
