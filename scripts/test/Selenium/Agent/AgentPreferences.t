@@ -38,9 +38,7 @@ $Selenium->RunTest(
         # check AgentPreferences screen
         for my $ID (
             qw(CurPw NewPw NewPw1 UserLanguage UserSkin OutOfOfficeOn OutOfOfficeOff
-            UserSendNewTicketNotification UserSendFollowUpNotification UserSendLockTimeoutNotification
-            UserSendMoveNotification UserSendServiceUpdateNotification QueueID
-            ServiceID UserRefreshTime UserCreateNextMask)
+            QueueID ServiceID UserRefreshTime UserCreateNextMask)
             )
         {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
@@ -59,42 +57,16 @@ $Selenium->RunTest(
             $Kernel::OM->Get('Kernel::Config')->Get('Loader::Agent::DefaultSelectedSkin'),
             "#UserSkin stored value",
         );
-        $Self->Is(
-            $Selenium->find_element( '#UserSendNewTicketNotification', 'css' )->get_value(),
-            0,
-            "#UserSendNewTicketNotification stored value",
-        );
-        $Self->Is(
-            $Selenium->find_element( '#UserSendFollowUpNotification', 'css' )->get_value(),
-            0,
-            "#UserSendFollowUpNotification stored value",
-        );
 
         # edit some of checked stored values
         $Selenium->find_element( "#UserSkin option[value='ivory']", 'css' )->click();
         $Selenium->find_element("//button[\@id='UserSkinUpdate'][\@type='submit']")->click();
-
-        $Selenium->find_element( "#UserSendNewTicketNotification option[value='MyQueues']", 'css' )->click();
-        $Selenium->find_element("//button[\@id='UserSendNewTicketNotificationUpdate'][\@type='submit']")->click();
-
-        $Selenium->find_element( "#UserSendFollowUpNotification option[value='MyQueues']", 'css' )->click();
-        $Selenium->find_element("//button[\@id='UserSendFollowUpNotificationUpdate'][\@type='submit']")->click();
 
         # check edited values
         $Self->Is(
             $Selenium->find_element( '#UserSkin', 'css' )->get_value(),
             "ivory",
             "#UserSkin updated value",
-        );
-        $Self->Is(
-            $Selenium->find_element( '#UserSendNewTicketNotification', 'css' )->get_value(),
-            "MyQueues",
-            "#UserSendNewTicketNotification updated value",
-        );
-        $Self->Is(
-            $Selenium->find_element( '#UserSendFollowUpNotification', 'css' )->get_value(),
-            "MyQueues",
-            "#UserSendFollowUpNotification updated value",
         );
 
         # test different language scenarios

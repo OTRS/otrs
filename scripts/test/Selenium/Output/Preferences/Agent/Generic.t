@@ -79,36 +79,6 @@ $Selenium->RunTest(
         # create test params
         my @Tests = (
             {
-                Name   => 'New Ticket Notification',
-                ID     => 'UserSendNewTicketNotification',
-                Value  => 'MyQueues',
-                Update => 'UserSendNewTicketNotificationUpdate',
-            },
-            {
-                Name   => 'Ticket follow up notification',
-                ID     => 'UserSendFollowUpNotification',
-                Value  => 'MyQueues',
-                Update => 'UserSendFollowUpNotificationUpdate',
-            },
-            {
-                Name   => 'Ticket lock timeout notification',
-                ID     => 'UserSendLockTimeoutNotification',
-                Value  => '1',
-                Update => 'UserSendLockTimeoutNotificationUpdate',
-            },
-            {
-                Name   => 'Ticket move notification',
-                ID     => 'UserSendMoveNotification',
-                Value  => '1',
-                Update => 'UserSendMoveNotificationUpdate',
-            },
-            {
-                Name   => 'Service update notification',
-                ID     => 'UserSendServiceUpdateNotification',
-                Value  => '1',
-                Update => 'UserSendServiceUpdateNotificationUpdate',
-            },
-            {
                 Name   => 'Overview Refresh Time',
                 ID     => 'UserRefreshTime',
                 Value  => '5',
