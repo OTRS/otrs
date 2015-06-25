@@ -115,6 +115,9 @@ $Selenium->RunTest(
         # go to test created ticket zoom
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        # Sleep a little bit to allow mod_perl to pick up the changed configuration files.
+        sleep 1;
+
         # check if process enroll is available for test ticket
         $Self->True(
             $Selenium->find_element(
@@ -214,6 +217,9 @@ $Selenium->RunTest(
 
         $Selenium->get("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->click();
+
+        # Sleep a little bit to allow mod_perl to pick up the changed configuration files.
+        sleep 1;
 
         # go to test created ticket zoom
         $Selenium->get("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
