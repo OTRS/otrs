@@ -11,10 +11,8 @@ package Kernel::System::VariableCheck;
 use strict;
 use warnings;
 
-use vars qw(@ISA @EXPORT_OK %EXPORT_TAGS);
-
-use Exporter;
-%EXPORT_TAGS = (    ## no critic
+use Exporter qw(import);
+our %EXPORT_TAGS = (    ## no critic
     all => [
         'IsArrayRefWithData',
         'IsHashRefWithData',
@@ -31,8 +29,6 @@ use Exporter;
     ],
 );
 Exporter::export_ok_tags('all');
-
-@ISA = qw(Exporter);
 
 =head1 NAME
 

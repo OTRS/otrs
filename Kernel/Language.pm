@@ -13,9 +13,8 @@ use warnings;
 
 use vars qw(@ISA);
 
-use Exporter;
+use Exporter qw(import);
 our @EXPORT_OK = qw(Translatable);    ## no critic
-our @ISA       = qw(Exporter);
 
 our @ObjectDependencies = (
     'Kernel::Config',
