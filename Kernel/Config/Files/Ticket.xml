@@ -1634,7 +1634,7 @@
                 <Item Key="PriorityUpdate" Translatable="1">Changed priority from "%s" (%s) to "%s" (%s).</Item>
                 <Item Key="Remove" Translatable="1">%s</Item>
                 <Item Key="ResponsibleUpdate" Translatable="1">New responsible is "%s" (ID=%s).</Item>
-                <Item Key="SendAgentNotification" Translatable="1">"%s" notification was sent by "%s" to "%s".</Item>
+                <Item Key="SendAgentNotification" Translatable="1">"%s" notification was sent to "%s" by "%s".</Item>
                 <Item Key="SendAnswer" Translatable="1">Email sent to "%s".</Item>
                 <Item Key="SendAutoFollowUp" Translatable="1">AutoFollowUp sent to "%s".</Item>
                 <Item Key="SendAutoReject" Translatable="1">AutoReject sent to "%s".</Item>
