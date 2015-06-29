@@ -114,18 +114,17 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
 
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Stats' => {
+            UserID => 1,
+        },
+    );
+
     return;
 }
 
 sub PreRun {
     my ( $Self, %Param ) = @_;
-
-    # create object manager
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
-        'Kernel::System::Stats' => {
-            UserID => 1,
-        },
-    );
 
     # check if the passed stat number exists
     $Self->{StatNumber} = $Self->GetOption('number');
@@ -180,13 +179,6 @@ sub PreRun {
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    # create object manager
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
-        'Kernel::System::Stats' => {
-            UserID => 1,
-        },
-    );
 
     $Self->Print("<yellow>Generating statistic number $Self->{StatNumber}...</yellow>\n");
 
@@ -246,7 +238,7 @@ sub Run {
         $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
             StatID   => $Self->{StatID},
             GetParam => \%GetParam,
-            )
+        ),
     };
 
     # generate output

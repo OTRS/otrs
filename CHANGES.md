@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-06-29 Redesigned statistics GUI.
  - 2015-06-11 Added possibility to define read only SysConfig settings.
  - 2015-06-11 Added possibility to disable a Date/Time field (created with Layout object BuildDateSelection()).
  - 2015-06-10 Added possibility to show tickets from subqueues in AgenTicketZoom.

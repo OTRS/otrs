@@ -1,0 +1,268 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+## nofilter(TidyAll::Plugin::OTRS::TT::Format)
+
+[%  SET HighlightError = {};
+    SET HighlightHint = {};
+    SET DisableButton = {};
+%]
+
+[% FOR XAxisElement IN Data.UseAsXvalue %]
+    [% IF XAxisElement.Selected %][% SET XAxisConfigured = 1 %][% END %]
+[% END %]
+[% IF !Data.UseAsXvalue.size %][% SET XAxisConfigured = 1 %][% END %]
+[% FOR YAxisElement IN Data.UseAsValueSeries %]
+    [% IF YAxisElement.Selected %][% SET YAxisConfigured = 1 %][% END %]
+[% END %]
+[% IF !Data.UseAsValueSeries.size %][% SET YAxisConfigured = 1 %][% END %]
+
+[% IF Data.StatsConfigurationErrors.size || !XAxisConfigured || !YAxisConfigured %]
+
+    <div class="Preview">
+
+        [% BLOCK ErrorText %]
+            <p class="Error">
+                <i class="fa fa-times"></i>
+                [% Translate('There are problems in the configuration of this statistic:') | html %]
+            </p>
+        [% END %]
+
+        [% IF Data.StatsConfigurationErrors.GeneralSpecificationFieldErrors.size %]
+            [% PROCESS ErrorText %]
+            [% FOR Error IN Data.StatsConfigurationErrors.GeneralSpecificationFieldErrors.pairs %]
+                <p class="Error">
+                    [% Error.key | html %]: [% Error.value %]
+                </p>
+            [% END %]
+
+        [% ELSIF Data.StatsConfigurationErrors.XAxisGeneralErrors.size || !XAxisConfigured %]
+            [%  SET DisableButton.YAxis = 1;
+                SET DisableButton.Restrictions = 1;
+            %]
+
+            [% IF XAxisConfigured %]
+                [%  SET HighlightError.XAxis = 1; %]
+                [% PROCESS ErrorText %]
+                [% FOR Error IN Data.StatsConfigurationErrors.XAxisGeneralErrors %]
+                    <p class="Error">
+                        [% Error | html %]
+                    </p>
+                [% END %]
+            [% ELSE %]
+                [%  SET HighlightHint.XAxis = 1; %]
+                <p class="Hint">
+                    <i class="fa fa-cog"></i>
+                    [% Translate('You may now configure the X-axis of your statistic.') | html %]
+                </p>
+            [% END %]
+
+        [% ELSIF Data.StatsConfigurationErrors.XAxisFieldErrors.size %]
+            [%  SET HighlightError.XAxis = 1;
+                SET DisableButton.YAxis = 1;
+                SET DisableButton.Restrictions = 1;
+            %]
+            [% FOR Error IN Data.StatsConfigurationErrors.XAxisFieldErrors.pairs %]
+                <p class="Error">
+                    <i class="fa fa-times"></i>
+                    [% Error.key | html%]: [% Error.value %]
+                </p>
+            [% END %]
+
+        [% ELSIF Data.StatsConfigurationErrors.YAxisGeneralErrors.size || !YAxisConfigured %]
+
+            [%  SET DisableButton.Restrictions = 1; %]
+
+            [% IF YAxisConfigured %]
+                [%  SET HighlightError.YAxis = 1; %]
+                [% PROCESS ErrorText %]
+                [% FOR Error IN Data.StatsConfigurationErrors.YAxisGeneralErrors %]
+                    <p class="Error">
+                        [% Error | html %]
+                    </p>
+                [% END %]
+            [% ELSE %]
+                [%  SET HighlightHint.YAxis = 1; %]
+                <p class="Hint">
+                    <i class="fa fa-cog"></i>
+                    [% Translate('You may now configure the Y-axis of your statistic.') | html %]
+                </p>
+            [% END %]
+
+        [% ELSIF Data.StatsConfigurationErrors.YAxisFieldErrors.size %]
+
+            [%  SET HighlightError.YAxis = 1;
+                SET DisableButton.Restrictions = 1;
+            %]
+
+            [% PROCESS ErrorText %]
+            [% FOR Error IN Data.StatsConfigurationErrors.YAxisFieldErrors.pairs %]
+                <p class="Error">
+                    [% Error.key | html%]: [% Error.value %]
+                </p>
+            [% END %]
+
+        [% ELSE %]
+
+            [%  SET HighlightError.Restrictions = 1; %]
+
+            [% PROCESS ErrorText %]
+            [% FOR Error IN Data.StatsConfigurationErrors.RestrictionsFieldErrors.pairs %]
+                <p class="Error">
+                    [% Error.key | html%]: [% Error.value %]
+                </p>
+            [% END %]
+
+        [% END %]
+
+    </div>
+
+[% ELSIF !Data.PreviewResult %]
+
+    <div class="Preview">
+        <p class="Hint">
+            <i class="fa fa-ban"></i>
+            [% Translate('This statistic does not provide preview data.') | html %]
+        </p>
+    </div>
+
+[% ELSE %]
+
+    [% SET PreviewFormats = Data.Format.grep('Print|D3') %]
+    [% SET ChartTypes = {
+    'D3::MultiBarChart'    => 'Bar',
+    'D3::MultiLineChart'   => 'Line',
+    'D3::StackedAreaChart' => 'StackedArea',
+    } %]
+    [% SET FormatConfig = Config('Stats::Format') %]
+
+    [% IF Data.PreviewResult && PreviewFormats.size %]
+
+        <div class="PreviewSettings">
+            [% Translate('Preview format:') | html %]
+            [% FOREACH Format IN PreviewFormats.sort %]
+            <a href="#" class="SwitchPreviewFormat" data-type="[% ChartTypes.item(Format) || Format %]" data-format="[% Format %]">[% FormatConfig.item(Format) %]</a>
+                [% IF !loop.last %]|[% END %]
+            [% END %]
+            <span class="Warning">
+                [% Translate('Please note that the preview uses random data and does not consider data restrictions.') | html %]
+            </span>
+        </div>
+        [% WRAPPER JSOnDocumentComplete %]
+        <script type="text/javascript">
+        $('.SwitchPreviewFormat').on('click', function() {
+            var Type = $(this).data('type'),
+                Format = $(this).data('format');
+            $('.SwitchPreviewFormat').removeClass('Active');
+            $(this).addClass('Active');
+            $('.PreviewContent:visible').hide();
+            $('svg.PreviewContent').empty();
+            $('#PreviewContent' + Type).show();
+            if (Format.match(/D3/)) {
+                Core.UI.AdvancedChart.Init(Type, [% JSON(Data.PreviewResult) %], 'svg#PreviewContent' + Type, { HideLegend: true });
+            }
+            return false;
+        });
+        $('.SwitchPreviewFormat').first().trigger('click');
+        </script>
+        [% END %]
+    [% END %]
+
+    <div class="Preview">
+    [% IF !Data.PreviewResult || !PreviewFormats.size %]
+        <p>[% Translate('This statistic does not provide preview data.') | html %]</p>
+    [% ELSE %]
+        [% FOREACH Format IN PreviewFormats %]
+            [% IF Format == 'Print' %]
+        <div class="PreviewContent PreviewTable" id="PreviewContent[% Format %]" style="display: none;">
+            [% SET HeaderRow = Data.PreviewResult.1 %]
+            <table class="DataTable">
+                <thead>
+                    <tr>
+                        [% FOREACH HeaderCell IN HeaderRow %]
+                            <th title="[% HeaderCell | html %]">[% HeaderCell | truncate(15) | html %]</th>
+                        [% END %]
+                    </tr>
+                </thead>
+                <tbody>
+                    [% SET DataRowMaxIndex = Data.PreviewResult.max %]
+                    [% FOREACH DataRowIndex = [ 2 .. DataRowMaxIndex ] %]
+                        [% SET DataRow = Data.PreviewResult.$DataRowIndex %]
+                    <tr>[% FOREACH DataCell IN DataRow %]<td>[% DataCell | truncate(20) | html %]</td>[% END %]</tr>
+                    [% END %]
+                </tbody>
+            </table>
+        </div>
+            [% ELSE %]
+                [% SET ChartType = ChartTypes.item(Format) %]
+        <svg class="PreviewContent PreviewCanvas" id="PreviewContent[% ChartType %]" style="display: none;"></svg>
+            [% END %]
+        [% END %]
+    [% END %]
+
+    </div>
+
+[% END %]
+
+<button type="button"
+    class="CallForAction EditXAxis Bottom
+        [% IF HighlightError.XAxis %]HighlightError[% END %]
+        [% IF HighlightHint.XAxis %]HighlightHint[% END %]
+    "
+    [% IF DisableButton.XAxis %]disabled="disabled"[% END %]
+    data-configuration-type="XAxis"
+    data-configuration-limit="1"
+    data-dialog-title="[% Translate('Configure X-Axis') | html %]">
+    <span>
+        <i class="fa fa-arrows-h"></i>
+        [% Translate('X-axis') | html %]
+    </span>
+</button>
+<div id="XAxisFormFields" class="Hidden"></div>
+
+<button type="button"
+    class="CallForAction EditYAxis Left
+        [% IF HighlightError.YAxis %]HighlightError[% END %]
+        [% IF HighlightHint.YAxis %]HighlightHint[% END %]
+    "
+    [% IF DisableButton.YAxis %]disabled="disabled"[% END %]
+    data-configuration-type="YAxis"
+    data-configuration-limit="2"
+    data-dialog-title="[% Translate('Configure Y-Axis') | html %]">
+    <span>
+        <i class="fa fa-arrows-v"></i>
+        [% Translate('Y-axis') | html %]
+    </span>
+</button>
+<div id="YAxisFormFields" class="Hidden"></div>
+
+<button type="button"
+    class="CallForAction EditRestrictions Right
+        [% IF HighlightError.Restrictions %]HighlightError[% END %]
+        [% IF HighlightHint.Restrictions %]HighlightHint[% END %]
+    "
+    [% IF DisableButton.Restrictions %]disabled="disabled"[% END %]
+    data-configuration-type="Restrictions"
+    data-configuration-limit=""
+    data-dialog-title="[% Translate('Configure Restrictions') | html %]">
+    <span>
+        <i class="fa fa-filter"></i>
+        [% Translate('Data restrictions') | html %]
+    </span>
+</button>
+<div id="RestrictionsFormFields" class="Hidden"></div>
+
+<div id="EditDialogTemplate" class="Hidden">
+    <div class="Fields"></div>
+    <fieldset class="TableLike Add">
+        <label>[% Translate("Add") | html %]:</label>
+        <div class="Field Value">
+            <select></select>
+        </div>
+    </fieldset>
+</div>

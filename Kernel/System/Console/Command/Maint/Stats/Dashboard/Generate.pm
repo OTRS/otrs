@@ -82,7 +82,7 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
+    $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Stats' => {
             UserID => 1,
         },

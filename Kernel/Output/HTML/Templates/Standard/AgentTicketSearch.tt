@@ -14,7 +14,7 @@
         <input type="hidden" name="EmptySearch" value="[% Data.EmptySearch | html %]" id="EmptySearch"/>
         <input type="hidden" name="ShownAttributes" value="" id="ShownAttributes">
         <fieldset class="TableLike">
-            <legend>[% Translate("Templates") | html %]</legend>
+            <legend><span>[% Translate("Templates") | html %]</span></legend>
             <label>[% Translate("Search template") | html %]:</label>
             <div class="Field">
                 [% Data.ProfilesStrg %]
@@ -35,10 +35,10 @@
             </div>
         </fieldset>
         <fieldset class="TableLike" id="SearchInsert">
-            <legend>[% Translate("Filters in use") | html %]</legend>
+            <legend><span>[% Translate("Filters in use") | html %]</span></legend>
         </fieldset>
         <fieldset class="TableLike">
-            <legend>[% Translate("Additional filters") | html %]</legend>
+            <legend><span>[% Translate("Additional filters") | html %]</span></legend>
             <label>[% Translate("Add another attribute") | html %]:</label>
             <div class="Field">
                 [% Data.AttributesStrg %]

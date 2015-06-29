@@ -369,8 +369,44 @@ ul.Tablelike li.Header + li {
     right: 0px;
 }
 
+ul.WidgetTooltip {
+    width: 170px;
+    right: -3px;
+    top: 21px;
+    background: rgba(216, 216, 216, 0.85);
+}
+
+ul.WidgetTooltip li {
+    padding: 7px 13px 2px 23px;
+    text-align: left;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+}
+
+ul.WidgetTooltip li i {
+    position: absolute;
+    left: 6px;
+    top: 7px;
+    color: #aaa !important;
+}
+
+ul.WidgetTooltip li:last-child {
+    border-bottom: 0px;
+}
+
+ul.WidgetTooltip li a {
+    color: #333;
+}
+
+ul.WidgetTooltip li a:hover {
+    text-decoration: underline;
+}
+
+ul.WidgetTooltip li a:hover i {
+    color: #333 !important;
+}
+
 .WidgetTooltip a {
-    background-color: #fff;
     padding: 0px;
     line-height: 150%;
     font-size: 11px;
@@ -424,6 +460,10 @@ ul.Tablelike li.Header + li {
     display: inline-block;
     cursor: pointer;
     transition: all ease-in 0.2s;
+}
+
+.CallForAction:disabled {
+    cursor: default;
 }
 
 .cke_dialog_footer_buttons a.cke_dialog_ui_button {
@@ -487,6 +527,11 @@ ul.Tablelike li.Header + li {
     text-shadow: 0 1px 0 #FFF;
     cursor: pointer;
     position: relative;
+}
+
+.CallForAction:disabled span {
+    color: graytext !important;
+    cursor: default;
 }
 
 .cke_dialog_footer_buttons td a.cke_dialog_ui_button span {

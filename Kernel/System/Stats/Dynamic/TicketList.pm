@@ -757,10 +757,20 @@ sub GetObjectAttributes {
     return @ObjectAttributes;
 }
 
+sub GetStatTablePreview {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->GetStatTable(
+        %Param,
+        Preview => 1,
+    );
+}
+
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
-    my %TicketAttributes = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+    my %TicketAttributes    = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
     my $SortedAttributesRef = $Self->_SortedAttributes();
+    my $Preview             = $Param{Preview};
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
@@ -915,7 +925,7 @@ sub GetStatTable {
     # get ticket object
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    if ( $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate} ) {
+    if ( !$Preview && $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate} ) {
 
         # Find tickets that were closed before the start of our
         # HistoricTimeRangeTimeNewerDate, these have to be excluded.
@@ -934,7 +944,7 @@ sub GetStatTable {
             String => $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
         );
     }
-    if ( $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate} ) {
+    if ( !$Preview && $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate} ) {
 
         # Find tickets that were closed after the end of our
         # HistoricTimeRangeTimeOlderDate, these have to be excluded
@@ -955,13 +965,25 @@ sub GetStatTable {
     }
 
     # get the involved tickets
-    my @TicketIDs = $TicketObject->TicketSearch(
-        UserID     => 1,
-        Result     => 'ARRAY',
-        Permission => 'ro',
-        %{ $Param{Restrictions} },
-        %DynamicFieldRestrictions,
-    );
+    my @TicketIDs;
+
+    if ($Preview) {
+        @TicketIDs = $TicketObject->TicketSearch(
+            UserID     => 1,
+            Result     => 'ARRAY',
+            Permission => 'ro',
+            Limit      => 10,
+        );
+    }
+    else {
+        @TicketIDs = $TicketObject->TicketSearch(
+            UserID     => 1,
+            Result     => 'ARRAY',
+            Permission => 'ro',
+            %{ $Param{Restrictions} },
+            %DynamicFieldRestrictions,
+        );
+    }
 
     # if we had Tickets we need to reduce the found tickets
     # to those not beeing in %OlderTicketsExclude
@@ -975,7 +997,8 @@ sub GetStatTable {
 
     # if we have to deal with history states
     if (
-        (
+        !$Preview
+        && (
             $Param{Restrictions}->{HistoricTimeRangeTimeNewerDate}
             || $Param{Restrictions}->{HistoricTimeRangeTimeOlderDate}
             || (

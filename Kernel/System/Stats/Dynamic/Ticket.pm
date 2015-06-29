@@ -654,6 +654,12 @@ sub GetObjectAttributes {
     return @ObjectAttributes;
 }
 
+sub GetStatElementPreview {
+    my ( $Self, %Param ) = @_;
+
+    return int rand 50;
+}
+
 sub GetStatElement {
     my ( $Self, %Param ) = @_;
 

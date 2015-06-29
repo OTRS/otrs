@@ -1,0 +1,156 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<input type="hidden" id="PDFUsable" name="PDFUsable" value="[% Data.PDFUsable | html %]"/>
+
+<fieldset class="TableLike">
+    <label>[% Translate("Object") | html %]:</label>
+    <div class="Value">[% Translate(Data.ObjectName) | html %]</div>
+    <div class="Clear"></div>
+
+    <label>[% Translate("Description") | html %]:</label>
+    <div class="Value">[% Data.Description | html %]</div>
+    <div class="Clear"></div>
+
+[% RenderBlockStart("Format") %]
+    <label for="Format">[% Translate("Format") | html %]:</label>
+    <div class="Value">[% Data.SelectFormat %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("Format") %]
+[% RenderBlockStart("FormatFixed") %]
+    <input type="hidden" id="Format" name="Format" value="[% Data.FormatKey | html %]"/>
+    <label>[% Translate("Format") | html %]:</label>
+    <div class="Value">[% Translate(Data.Format) | html %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("FormatFixed") %]
+[% RenderBlockStart("Graphsize") %]
+    <label>[% Translate("Graphsize") | html %]:</label>
+    <div class="Value">[% Data.SelectGraphSize %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("Graphsize") %]
+[% RenderBlockStart("GraphsizeFixed") %]
+    <input type="hidden" name="GraphSize" value="[% Data.GraphSizeKey | html %]"/>
+    <label>[% Translate("Graphsize") | html %]:</label>
+    <div class="Value">[% Data.GraphSize %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("GraphsizeFixed") %]
+
+[% RenderBlockStart("ExchangeAxis") %]
+    <label>[% Translate("Exchange Axis") | html %]:</label>
+    <div class="Value">[% Data.ExchangeAxis %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ExchangeAxis") %]
+</fieldset>
+
+[% RenderBlockStart("Static") %]
+<h2>
+        [% Translate("Configurable params of static stat") | html %]
+</h2>
+<fieldset class="TableLike">
+[% RenderBlockStart("ItemParam") %]
+    <label for="[% Data.Name | html %]">[% Translate(Data.Param) | html %]:</label>
+    <div class="Value">[% Data.Field %]</div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("ItemParam") %]
+</fieldset>
+[% RenderBlockEnd("Static") %]
+
+
+[% RenderBlockStart("Dynamic") %]
+<fieldset class="TableLike">
+    <legend><span>[% Translate(Data.Name) | html %]</span></legend>
+[% RenderBlockStart("NoElement") %]
+    <p class="NoValue">[% Translate("No element selected.") | html %]</p>
+[% RenderBlockEnd("NoElement") %]
+[% RenderBlockStart("Element") %]
+    <label>[% Translate(Data.Name) | html %]:</label>
+    <div class="Value">
+[% RenderBlockStart("TimePeriodFixed") %]
+        [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
+[% RenderBlockEnd("TimePeriodFixed") %]
+[% RenderBlockStart("TimeRelativeFixed") %]
+        [% Translate("The last") | html %] [% Data.TimeRelativeCount %] [% Translate(Data.TimeRelativeUnit) | html %]<br/>
+[% RenderBlockEnd("TimeRelativeFixed") %]
+[% RenderBlockStart("TimeScaleFixed") %]
+        [% Translate("Scale") | html %]: [% Data.Count %] [% Translate(Data.Scale) | html %]
+[% RenderBlockEnd("TimeScaleFixed") %]
+[% RenderBlockStart("Fixed") %]
+        [% Data.Value %]
+[% RenderBlockEnd("Fixed") %]
+[% RenderBlockStart("MultiSelectField") %]
+        [% Data.SelectField %]
+[% RenderBlockEnd("MultiSelectField") %]
+[% RenderBlockStart("SelectField") %]
+        [% Data.SelectField %]
+[% RenderBlockEnd("SelectField") %]
+[% RenderBlockStart("InputField") %]
+        <input type="text" name="[% Data.Key | html %]" value="[% Data.Value | html %]" class="W25pc"/>
+[% RenderBlockEnd("InputField") %]
+    </div>
+    <div class="Clear"></div>
+
+[% RenderBlockStart("TimePeriod") %]
+    <label><em>[% Translate("Absolute period") | html %]</em>:</label>
+    <div class="Value">
+        <p>
+            [% Translate('Between') | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]<br/>
+        </p>
+        <p class="FieldExplanation">
+            [% Translate("The maximal period is from") | html %] [% Data.TimeStartMax | Localize("TimeLong") %] [% Translate("to") | html %] [% Data.TimeStopMax | Localize("TimeLong") %].
+        </p>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("TimePeriod") %]
+
+[% RenderBlockStart("TimeScale") %]
+    <label><em>[% Translate("Scale") | html %]</em>:</label>
+    <div class="Value" data-min-seconds="[% Data.TimeScaleMinSeconds %]">
+        <p>
+            [% Data.TimeScaleCount %]
+            [% Data.TimeScaleUnit %]
+        </p>
+        <p class="FieldExplanation">
+[% RenderBlockStart("TimeScaleInfo") %]
+            [% Translate("The minimal scale is") | html %] [% Data.TimeScaleCountMax %] [% Translate(Data.TimeScaleUnitMax) | html %].
+[% RenderBlockEnd("TimeScaleInfo") %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("TimeScale") %]
+
+
+[% RenderBlockStart("TimePeriodNotChangeable") %]
+    <label><em>[% Translate("Period") | html %]</em>:</label>
+    <div class="Value">
+        <p>
+            [% Translate('Between') | html %]
+            [% Data.TimeStartMax | Localize("TimeLong") %] [% Translate("and") | html %] [% Data.TimeStopMax | Localize("TimeLong") %] ([% Translate("cannot be changed for cached statistics") | html %]).
+        </p>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("TimePeriodNotChangeable") %]
+
+[% RenderBlockStart("TimePeriodRelative") %]
+    <label><em>[% Translate("Relative period") | html %]</em>:</label>
+    <div class="Value" data-max-seconds="[% Data.TimeRelativeMaxSeconds %]">
+        <p>
+            [% Translate("The past complete") | html %]
+            [% Data.TimeRelativeCount %]
+            [% Data.TimeRelativeUnit %]
+        </p>
+        <p class="FieldExplanation">
+            [% Translate("The maximal period is") | html %]
+            [% Data.TimeRelativeCountMax %] [% Translate(Data.TimeRelativeUnitMax) | html %].
+        </p>
+    </div>
+    <div class="Clear"></div>
+[% RenderBlockEnd("TimePeriodRelative") %]
+
+[% RenderBlockEnd("Element") %]
+</fieldset>
+[% RenderBlockEnd("Dynamic") %]

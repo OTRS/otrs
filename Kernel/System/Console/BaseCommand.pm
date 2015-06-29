@@ -375,7 +375,7 @@ sub Execute {
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
             LogPrefix => 'OTRS-otrs.Console.pl-' . $Self->Name(),
-            }
+        },
     );
 
     # Don't allow to run these scripts as root.

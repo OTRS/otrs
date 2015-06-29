@@ -1,0 +1,141 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<fieldset class="TableLike">
+
+    <label class="Mandatory" for="Title">
+        <span class="Marker">*</span>
+        [% Translate("Title") | html %]:
+    </label>
+    <div class="Value">
+        <input type="text" name="Title" id="Title" class="W90pc Validate_Required [% Data.TitleServerError | html %]" value="[% Data.Title | html %]"/>
+        <div id="TitleError" class="TooltipErrorMessage">
+            <p>[% Translate("This field is required.") | html %]</p>
+        </div>
+    </div>
+    <div class="Clear"></div>
+
+    <label class="Mandatory" for="Description">
+        <span class="Marker">*</span>
+        [% Translate("Description") | html %]:
+    </label>
+    <div class="Value">
+        <textarea name="Description" id="Description" rows="4" cols="60" class="W90pc Validate_Required [% Data.DescriptionServerError | html %]">[% Data.Description | html %]</textarea>
+        <div id="DescriptionError" class="TooltipErrorMessage">
+            <p>[% Translate("This field is required.") | html %]</p>
+        </div>
+    </div>
+    <div class="Clear"></div>
+
+[% IF !Data.StatID %]
+    <input type="hidden" name="StatisticPreselection" value="[% Data.StatisticPreselection | html %]" />
+    <label class="Mandatory" for="Description">
+        <span class="Marker">*</span>
+        [% Translate("Object type") | html %]:
+    </label>
+    <div class="Value">
+        <input type="hidden" name="StatType" value="[% Data.StatType | html %]" />
+        [% Data.SelectObjectType %]
+    </div>
+    <div class="Clear"></div>
+[% END %]
+
+    <label class="Mandatory" for="Permission">
+        <span class="Marker">*</span>
+        [% Translate("Permissions") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectPermission %]
+        <p class="FieldExplanation">
+            [% Translate("You can select one or more groups to define access for different agents.") | html %]
+        </p>
+        <div id="ValueError" class="TooltipErrorMessage">
+            <p>[% Translate("This field is required.") | html %]</p>
+        </div>
+    </div>
+    <div class="Clear"></div>
+
+    <label class="Mandatory" for="Format">
+        <span class="Marker">*</span>
+        [% Translate("Result formats") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectFormat %]
+        <div id="FormatError" class="TooltipErrorMessage">
+            <p>[% Translate("This field is required.") | html %]</p>
+        </div>
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+$('#Format').bind('change', function (Event) {
+Core.Agent.Stats.FormatGraphSizeRelation();
+});
+//]]></script>
+[% END %]
+    </div>
+    <div class="Clear"></div>
+
+    <label for="SumRow">
+        [% Translate("Create summation row") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectSumRow %]
+        <p class="FieldExplanation">
+            [% Translate('Generate an additional row containing sums for all data columns.') | html %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+
+    <label for="SumCol">
+        [% Translate("Create summation column") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectSumCol %]
+        <p class="FieldExplanation">
+            [% Translate('Generate an additional column containing sums for all data rows.') | html %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+
+    <label for="Cache">
+        [% Translate("Cache results") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectCache %]
+        <p class="FieldExplanation">
+            [% Translate("Stores statistics result data in a cache to be used in subsequent views with the same configuration.") | html %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+
+[% IF Data.StatID %]
+    <label for="ShowAsDashboardWidget">
+        [% Translate("Show as dashboard widget") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectShowAsDashboardWidget %]
+        <p class="FieldExplanation">
+            [% Translate("Provide the statistic as a widget that agents can activate in their dashboard.") | html %]
+            [% Translate("Please note") | html %]:<br />
+            - [% Translate("Enabling the dashboard widget will activate caching for this statistic in the dashboard.") | html %]<br />
+            - [% Translate("Agents will not be able to change absolute time settings for statistics dashboard widgets.") | html %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+[% END %]
+
+    <label for="Valid">
+        [% Translate("Validity") | html %]:
+    </label>
+    <div class="Value">
+        [% Data.SelectValid %]
+        <p class="FieldExplanation">
+            [% Translate("If set to invalid end users can not generate the stat.") | html %]
+        </p>
+    </div>
+    <div class="Clear"></div>
+</fieldset>

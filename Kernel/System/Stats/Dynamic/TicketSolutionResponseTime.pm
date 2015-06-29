@@ -655,6 +655,36 @@ sub GetObjectAttributes {
 
 # REMARK: is the same code as in TicketAccountedTime.pm
 
+sub GetStatTablePreview {
+    my ( $Self, %Param ) = @_;
+
+    my @StatArray;
+    my $Count;
+
+    if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
+        for my $Row ( sort keys %{ $Param{TableStructure} } ) {
+            my @ResultRow        = ($Row);
+            for ( @{ $Param{XValue}{SelectedValues} } ) {
+                push @ResultRow, int rand 50;
+            }
+            push @StatArray, \@ResultRow;
+        }
+    }
+    else {
+        for my $Row ( sort keys %{ $Param{TableStructure} } ) {
+            my @ResultRow = ($Row);
+            for my $Cell ( @{ $Param{TableStructure}{$Row} } ) {
+                push @ResultRow, int rand 50;
+            }
+            push @StatArray, \@ResultRow;
+        }
+    }
+
+    return @StatArray;
+}
+
+# REMARK: is the same code as in TicketAccountedTime.pm
+
 sub GetStatTable {
     my ( $Self, %Param ) = @_;
     my @StatArray;

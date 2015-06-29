@@ -222,7 +222,7 @@
                 </div>
                 <div class="Spacing"></div>
                 <fieldset class="TableLike NoSupportBundleSendMessage Hidden">
-                    <legend>[% Translate("Send by Email") | html %]</legend>
+                    <legend><span>[% Translate("Send by Email") | html %]</span></legend>
                     <div class="FieldExplanation SizeMessage Hidden">
                         [% Translate("The support bundle is too large to send it by email, this option has been disabled.") | html %]
                     </div>
@@ -232,7 +232,7 @@
                     <div class="Spacing"></div>
                 </fieldset>
                 <fieldset class="TableLike SupportBundleSendFieldSet">
-                    <legend>[% Translate("Send by Email") | html %]</legend>
+                    <legend><span>[% Translate("Send by Email") | html %]</span></legend>
                     <label for="Name">[% Translate("Name") | html %]:</label>
                     <div class="Field">
                         <input type="text" id="Name" name="Name" value="[% Data.SenderName | html %]" class="W50pc" readonly="readonly" />
@@ -254,7 +254,7 @@
                     </div>
                 </fieldset>
                 <fieldset class="TableLike">
-                    <legend>[% Translate("Download File") | html %]</legend>
+                    <legend><span>[% Translate("Download File") | html %]</span></legend>
                     <div class="Field">
                         <button value="DownLoad" id="DownloadSupportBundle">[% Translate("Download") | html %]</button>
                         <div class="FieldExplanation">

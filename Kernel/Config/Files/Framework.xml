@@ -4388,6 +4388,9 @@ via the Preferences button after logging in.
                     <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
                     <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.0/rgbcolor.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.0/StackBlur.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.0/canvg.js</JavaScript>
                     <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
                     <JavaScript>Core.UI.AllocationList.js</JavaScript>
                     <JavaScript>Core.Agent.TableFilters.js</JavaScript>
@@ -5397,6 +5400,44 @@ via the Preferences button after logging in.
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentStatistics" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Title Translatable="1">Statistics</Title>
+                <Group>stats</Group>
+                <GroupRo>stats</GroupRo>
+                <Description>Statistics</Description>
+                <NavBarName>Statistics</NavBarName>
+                <NavBar>
+                    <Name Translatable="1">Statistics</Name>
+                    <Link>Action=AgentStatistics;Subaction=Overview</Link>
+                    <LinkOption></LinkOption>
+                    <NavBar>Statistics</NavBar>
+                    <Type>Menu</Type>
+                    <Description Translatable="1"></Description>
+                    <Prio>8500</Prio>
+                    <Block>ItemArea</Block>
+                    <AccessKey></AccessKey>
+                </NavBar>
+                <Loader>
+                    <JavaScript>thirdparty/d3-3.5.5/d3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/nvd3.min.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSMultiBarChart.js</JavaScript>
+                    <JavaScript>thirdparty/nvd3-1.7.1/models/OTRSStackedAreaChart.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.0/rgbcolor.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.0/StackBlur.js</JavaScript>
+                    <JavaScript>thirdparty/canvg-1.0/canvg.js</JavaScript>
+                    <JavaScript>Core.Agent.Statistics.js</JavaScript>
+                    <JavaScript>Core.UI.AdvancedChart.js</JavaScript>
+                    <CSS>thirdparty/nvd3-1.7.1/nv.d3.css</CSS>
+                    <CSS>Core.Agent.Statistics.css</CSS>
+                </Loader>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Stats::StatsHook" Required="1" Valid="1">
         <Description Translatable="1">Sets the stats hook.</Description>
         <Group>Framework</Group>
@@ -5467,6 +5508,9 @@ via the Preferences button after logging in.
                 <Item Key="Print">Print</Item>
                 <Item Key="CSV">CSV</Item>
                 <Item Key="Excel">Excel</Item>
+                <Item Key="D3::MultiBarChart">Graph: Multi Bar Chart</Item>
+                <Item Key="D3::MultiLineChart">Graph: Multi Line Chart</Item>
+                <Item Key="D3::StackedAreaChart">Graph: Stacked Area Chart</Item>
                 <Item Key="GD::Graph::lines">graph-lines</Item>
                 <Item Key="GD::Graph::bars">graph-bars</Item>
                 <Item Key="GD::Graph::hbars">graph-hbars</Item>

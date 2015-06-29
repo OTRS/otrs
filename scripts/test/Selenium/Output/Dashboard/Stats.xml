@@ -5,6 +5,9 @@
 <Description>Anzahl der neuen Tickets pro Tag und Queue die im letzten
 Monat in das System gelangt sind.</Description>
 <Format>Print</Format>
+<Format>D3::MultiBarChart</Format>
+<Format>D3::MultiLineChart</Format>
+<Format>D3::StackedAreaChart</Format>
 <Object>Ticket</Object>
 <ObjectModule>Kernel::System::Stats::Dynamic::Ticket</ObjectModule>
 <Permission>stats</Permission>

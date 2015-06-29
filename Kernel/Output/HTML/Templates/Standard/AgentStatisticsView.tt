@@ -1,0 +1,91 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+## nofilter(TidyAll::Plugin::OTRS::TT::Format)
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1>[% Translate('Statistics') | html %] &raquo; [% Translate("View Statistic \"%s\" (%s%s)", Data.Title, Config('Stats::StatsHook'), Data.StatNumber) | html %]</h1>
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    [% IF Data.AccessRw %]
+                        <li>
+                            <a href="[% Env("Baselink") %]Action=AgentStatistics;Subaction=Edit;StatID=[% Data.StatID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit") | html %]</span></a>
+                        </li>
+                    [% END %]
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
+            <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="Run"/>
+            <input type="hidden" name="StatID"    value="[% Data.StatID | html %]"/>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Settings") | html %]</h2>
+                </div>
+                <div class="Content">
+                    [% FOR Error IN Data.Errors %]
+                        <div class="MessageBox Error"><p>[% Error | html %]</p></div>
+                    [% END %]
+
+                    [% IF Data.StatsParamsWidget %]
+
+                        [% Data.StatsParamsWidget %]
+
+                        <fieldset class="TableLike SpacingTop">
+                            <div class="Value">
+                                <button class="Primary CallForAction" type="submit" id="StartStatistic" name="Start" value="[% Translate("Start") | html %]">
+                                    <span><i class="fa fa-caret-square-o-right"></i> [% Translate("Run now") | html %]</span>
+                                </button>
+                                or
+                                <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">Cancel</a>
+                            </div>
+                        </fieldset>
+
+                        [% WRAPPER JSOnDocumentComplete %]
+                        <script type="text/javascript">//<![CDATA[
+                        $('#StartStatistic').bind('click', function (Event) {
+                            var Format = $('#Format').val(),
+                                URL;
+
+                            // Open both HTML and PDF output in a popup because PDF is shown inline
+                            if (Format === 'Print' || Format.match(/D3/)) {
+                                URL = '[% Env("Baselink") %]' + Core.AJAX.SerializeForm($('#Format').parents('form'));
+                                Core.UI.Popup.OpenPopup(URL, 'Statistic', 'Default');
+                                return false;
+                            }
+                        });
+                        //]]></script>
+                        [% END %]
+
+                    [% ELSE %]
+
+                        <div class="MessageBox Warning">
+                            <p>[% Translate('This statistic contains configuration errors and can currently not be used.') | html %]</p>
+                        </div>
+
+                    [% END %]
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

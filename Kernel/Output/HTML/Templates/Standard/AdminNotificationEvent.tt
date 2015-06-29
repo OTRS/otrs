@@ -469,7 +469,7 @@ $('.NotificationDelete').bind('click', function (Event) {
                     </fieldset>
 [% RenderBlockStart("TransportRow") %]
                     <fieldset class="TableLike FixedLabel SpacingTop">
-                        <legend>[% Data.TransportName | html %]</legend>
+                        <legend><span>[% Data.TransportName | html %]</span></legend>
 [% RenderBlockStart("TransportRowEnabled") %]
                         <label for="Transport[% Data.Transport | html %]">
                             [% Translate("Enable") | html %]:
@@ -505,7 +505,7 @@ $('.NotificationDelete').bind('click', function (Event) {
 [% RenderBlockEnd("TransportRow") %]
 [% RenderBlockStart("NoDataFoundMsgTransport") %]
                     <fieldset class="TableLike SpacingTop">
-                        <legend>[% Translate("No data found") | html %]</legend>
+                        <legend><span>[% Translate("No data found") | html %]</span></legend>
                         <p class="FieldExplanation">
                             [% Translate("No notification method found.") | html %]
                         </p>

@@ -355,6 +355,29 @@ form fieldset {
     border: none;
 }
 
+fieldset > legend {
+    display: block;
+    width: 100%;
+}
+
+.WidgetSettingsForm fieldset legend {
+    padding-top: 10px;
+}
+
+fieldset > legend > span {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-weight: bold;
+    padding: 5px 0px 5px 30%;
+    text-indent: 8px;
+    margin-bottom: 5px;
+}
+
+form fieldset > p.NoValue {
+    padding: 5px 0px 5px 30%;
+    text-indent: 8px;
+}
+
 .FieldExplanation {
     color: #888;
     margin: 5px 0;

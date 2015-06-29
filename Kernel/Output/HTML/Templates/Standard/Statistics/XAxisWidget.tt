@@ -1,0 +1,84 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="XAxisContainer" class="Hidden">
+
+[% RenderBlockStart("Attribute") %]
+    <fieldset class="TableLike Element Element[% Data.Element | html %] ElementBlock[% Data.Block | html %]" data-element="[% Data.Element | html %]">
+        <input type="hidden" name="XAxisSelectedElement" value="[% Data.Element | html %]" [% Data.Checked %]/>
+        <legend>
+        <span>[% Translate(Data.Name) | html %]</span>
+        <a class="RemoveButton" href="#"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Delete") | html %]</span></a>
+        </legend>
+[% RenderBlockStart("MultiSelectField") %]
+        <label></label>
+        <div class="Field">
+            [% Data.SelectField %]
+        </div>
+[% RenderBlockEnd("MultiSelectField") %]
+[% RenderBlockStart("TimeExtended") %]
+        <label>
+            <input type="radio" name="[% Data.Element | html %]TimeSelect" value="Absolut" [% Data.CheckedAbsolut | html %]/>
+            [% Translate("Absolute period") | html %]:
+        </label>
+        <div class="Field">
+            [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]
+        </div>
+        <div class="Clear"></div>
+
+        <label>
+            <input type="radio" name="[% Data.Element | html %]TimeSelect" value="Relativ" [% Data.CheckedRelative | html %]/>
+            [% Translate("Relative period") | html %]:
+        </label>
+        <div class="Field">
+            [% Translate("The past complete") | html %]
+            [% Data.TimeRelativeCount %] [% Data.TimeRelativeUnit %]
+            <p class="FieldExplanation">[% Translate("The selected time period defines the maximal time frame for this statistic to collect data from.") | html %]</p>
+        </div>
+        <div class="Clear"></div>
+        <br/>
+
+        <label>[% Translate("Scale") | html %]:</label>
+        <div class="Field">
+            [% Data.TimeScaleCount %]
+            [% Data.TimeScaleUnit %]
+            <p class="FieldExplanation">[% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]</p>
+        </div>
+        <div class="Clear"></div>
+[% RenderBlockEnd("TimeExtended") %]
+[% RenderBlockStart("Time") %]
+        <label>[% Translate("Period") | html %]:</label>
+        <div class="Field">
+            [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]
+        </div>
+        <div class="Clear"></div>
+        <label>[% Translate("Scale") | html %]:</label>
+        <div class="Field SpacingTopSmall">
+            [% Data.TimeSelectField %]
+            <p class="FieldExplanation">
+                [% Translate("Please select only one element or allow changes at statistic generation.") | html %]
+            </p>
+        </div>
+        <div class="Clear"></div>
+[% RenderBlockEnd("Time") %]
+        <label></label>
+        <div class="Field">
+            <input type="checkbox" name="Fixed[% Data.Element %]" value="1" [% Data.Fixed %]/>
+            [% Translate("Do not allow changes to this element when the statistic is generated.") | html %]
+        </div>
+        <div class="Clear"></div>
+    </fieldset>
+[% IF Data.Checked %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">
+    Core.Agent.Statistics.ElementAdd('XAxis', '[% Data.Element | html %]');
+</script>
+[% END %]
+[% END %]
+[% RenderBlockEnd("Attribute") %]
+</div>

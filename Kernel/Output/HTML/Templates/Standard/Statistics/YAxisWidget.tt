@@ -1,0 +1,62 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="YAxisContainer" class="Hidden">
+
+[% RenderBlockStart("Attribute") %]
+    <fieldset class="TableLike Element Element[% Data.Element | html %] ElementBlock[% Data.Block | html %]" data-element="[% Data.Element | html %]">
+        <input type="hidden" name="Select[% Data.Element %]" value="1" />
+        <legend>
+        <span>[% Translate(Data.Name) | html %]</span>
+        <a class="RemoveButton" href="#"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Delete") | html %]</span></a>
+        </legend>
+[% RenderBlockStart("MultiSelectField") %]
+        <label></label>
+        <div class="Field">
+            [% Data.SelectField %]
+        </div>
+[% RenderBlockEnd("MultiSelectField") %]
+[% RenderBlockStart("TimeExtended") %]
+        <label>[% Translate("Scale") | html %]:</label>
+        <div class="Field">
+            [% Data.TimeScaleUnit %]
+            <p class="FieldExplanation">[% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]</p>
+# [% Data.TimeScaleCount %] Comment: Danger to use and no best practise
+        </div>
+[% RenderBlockEnd("TimeExtended") %]
+[% RenderBlockStart("Time") %]
+        <label>[% Translate("Scale") | html %]:</label>
+        <div class="Field">
+            [% Data.TimeSelectField %]
+            <p class="FieldExplanation">
+                [% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]
+            </p>
+            <p class="FieldExplanation">
+                [% Translate("Please select only one element or allow changes at statistic generation.") | html %]
+            </p>
+            <p class="FieldExplanation">
+                [% Translate("Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).") | html %]
+            </p>
+        </div>
+[% RenderBlockEnd("Time") %]
+        <label></label>
+        <div class="Field">
+            <input type="checkbox" name="Fixed[% Data.Element %]" value="1" [% Data.Fixed %]/>
+            [% Translate("Do not allow changes to this element when the statistic is generated.") | html %]
+        </div>
+        <div class="Clear"></div>
+    </fieldset>
+[% IF Data.Checked %]
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">
+    Core.Agent.Statistics.ElementAdd('YAxis', '[% Data.Element | html %]');
+</script>
+[% END %]
+[% END %]
+[% RenderBlockEnd("Attribute") %]
+</div>

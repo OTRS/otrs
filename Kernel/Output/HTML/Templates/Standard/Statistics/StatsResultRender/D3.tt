@@ -1,0 +1,46 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+## nofilter(TidyAll::Plugin::OTRS::TT::Format)
+
+[% SET ChartTypes = {
+'D3::MultiBarChart'    => 'Bar',
+'D3::MultiLineChart'   => 'Line',
+'D3::StackedAreaChart' => 'StackedArea',
+} %]
+
+<div class="MainBox AriaRoleMain">
+    <h1>
+        [% Data.Title | html %] ([% Translate(Config("Stats::StatsHook")) | html %][% Data.StatNumber | html %])
+    </h1>
+
+    <div id="svg-container">
+        <svg class="" id="ChartContent" style="min-height: 500px"></svg>
+    </div>
+
+    <a id="download-svg" class="CallForAction" download="[% Data.Title | html %].svg">
+        <span>[% Translate('Download SVG') | html %]</span>
+    </a>
+    <a id="download-png" class="CallForAction" download="[% Data.Title | html %].png">
+        <span>[% Translate('Download PNG') | html %]</span>
+    </a>
+
+[% WRAPPER JSOnDocumentComplete %]
+
+<script type="text/javascript">
+$('#download-svg').on('click', function() {
+    this.href = 'data:image/svg+xml;base64,' + btoa($('#svg-container').html());
+});
+$('#download-png').on('click', function() {
+    this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#svg-container'));
+});
+Core.UI.AdvancedChart.Init([% ChartTypes.item(Data.Format) | JSON %], [% JSON(Data.RawData) %], 'svg#ChartContent');
+</script>
+[% END %]
+
+</div>

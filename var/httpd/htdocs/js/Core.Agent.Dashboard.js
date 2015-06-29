@@ -510,9 +510,6 @@ Core.Agent.Dashboard = (function (TargetNS) {
         });
 
         ValidateTimeSettings();
-
-        // set chart type selection for dropdown
-        $('#ChartType').val($('#ChartType').data('selected'));
     };
 
     return TargetNS;

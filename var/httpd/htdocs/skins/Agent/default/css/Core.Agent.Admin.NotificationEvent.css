@@ -24,13 +24,8 @@
     padding: 4px;
 }
 
-#NotificationEvent legend {
-    color: #333333;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-    display: block;
-    width: 100%;
+#NotificationEvent legend span {
+    padding-left: 178px;
 }
 
 .TransportsContent {

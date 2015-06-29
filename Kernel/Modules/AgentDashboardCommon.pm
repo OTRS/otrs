@@ -87,7 +87,9 @@ sub Run {
 
                 my $Title = $LayoutObject->{LanguageObject}->Get( $StatsHash->{$StatID}->{Title} );
                 $Title = $LayoutObject->{LanguageObject}->Translate('Statistic') . ': '
-                    . $Title;
+                    . $Title . ' ('
+                    . $ConfigObject->Get('Stats::StatsHook')
+                    . $StatsHash->{$StatID}->{StatNumber} . ')';
 
                 $Config->{ ( $StatID + 1000 ) . '-Stats' } = {
                     'Block'       => 'ContentLarge',
