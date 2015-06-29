@@ -380,7 +380,8 @@ sub Execute {
 
     # Don't allow to run these scripts as root.
     if ( $> == 0 ) {    # $EFFECTIVE_USER_ID
-        $Self->PrintError("You cannot run otrs.Console.pl as root. Please run it as the 'otrs' user or with the help of su:");
+        $Self->PrintError(
+            "You cannot run otrs.Console.pl as root. Please run it as the 'otrs' user or with the help of su:");
         $Self->Print("  <yellow>su -c \"bin/otrs.Console.pl MyCommand\" -s /bin/bash otrs</yellow>\n");
         return $Self->ExitCodeError();
     }

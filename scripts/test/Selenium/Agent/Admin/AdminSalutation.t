@@ -151,7 +151,7 @@ $Selenium->RunTest(
         # chack class of invalid Salutation in the overview table
         $Self->True(
             $Selenium->execute_script(
-                 "return \$('tr.Invalid td a:contains($SalutationRandomID)').length"
+                "return \$('tr.Invalid td a:contains($SalutationRandomID)').length"
             ),
             "There is a class 'Invalid' for test Salutation",
         );
@@ -177,7 +177,7 @@ $Selenium->RunTest(
             Type => 'Salutation'
         );
 
-    }
+        }
 
 );
 

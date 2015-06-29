@@ -181,7 +181,7 @@ $Selenium->RunTest(
             Type => 'Service'
         );
 
-    }
+        }
 
 );
 

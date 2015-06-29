@@ -165,7 +165,7 @@ sub Run {
         $LayoutObject->{LanguageObject}->Translate('7 Day Stats'),
         \@TicketWeekdays,
         [ $CreatedText, reverse @TicketsCreated ],
-        [ $ClosedText, reverse @TicketsClosed ],
+        [ $ClosedText,  reverse @TicketsClosed ],
     );
 
     my $ChartDataJSON = $LayoutObject->JSONEncode(
@@ -174,8 +174,8 @@ sub Run {
 
     my %Data = (
         %{ $Self->{Config} },
-        Key            => int rand 99999,
-        ChartData      => $ChartDataJSON,
+        Key       => int rand 99999,
+        ChartData => $ChartDataJSON,
     );
 
     if ( $Self->{Config}->{CacheTTLLocal} ) {

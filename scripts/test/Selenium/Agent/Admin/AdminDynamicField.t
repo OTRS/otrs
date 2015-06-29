@@ -160,7 +160,7 @@ JAVASCRIPT
                     'Check for opened confirm text',
                 );
 
-                $Selenium->WaitFor(JavaScript => 'return $(".Dialog:visible").length === 0;');
+                $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
                 $Selenium->get("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
                 my $Success;
@@ -178,7 +178,7 @@ JAVASCRIPT
             # make sure the cache is correct.
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
         }
-    }
+        }
 );
 
 1;

@@ -155,7 +155,7 @@ $Selenium->RunTest(
         # delete test job
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Profile=$RandomID\' )]")->click();
 
-    }
+        }
 
 );
 

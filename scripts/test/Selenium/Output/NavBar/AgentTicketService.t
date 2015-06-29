@@ -120,7 +120,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), 'Action=AgentTicketService' ) > -1,
             "NavBar 'Service view' button IS available when frontend service module is enabled, while service feature and NavBarAgentTicketService are disabled",
         ) || die;
-    }
+        }
 );
 
 1;

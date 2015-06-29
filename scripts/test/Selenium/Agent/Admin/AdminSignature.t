@@ -130,7 +130,7 @@ $Selenium->RunTest(
         # chack class of invalid Signature in the overview table
         $Self->True(
             $Selenium->execute_script(
-                 "return \$('tr.Invalid td a:contains($SignatureRandomID)').length"
+                "return \$('tr.Invalid td a:contains($SignatureRandomID)').length"
             ),
             "There is a class 'Invalid' for test Signature",
         );

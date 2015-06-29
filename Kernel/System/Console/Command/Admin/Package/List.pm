@@ -180,7 +180,7 @@ sub _PackageMetadataGet {
     }
 
     if ( !defined $Param{StripHTML} || $Param{StripHTML} ) {
-        $Title       =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
+        $Title =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
         $Description =~ s/^\s*//mg;
         $Description =~ s/\n/ /gs;
         $Description =~ s/\r/ /gs;

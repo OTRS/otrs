@@ -144,7 +144,7 @@ $Selenium->RunTest(
 
         }
 
-    }
+        }
 );
 
 1;

@@ -170,7 +170,6 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-
         my $Name = $ParamObject->GetParam( Param => 'Name' );
 
         # get preferences settings

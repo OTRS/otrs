@@ -149,7 +149,7 @@ $Selenium->RunTest(
             Type => 'Priority',
         );
 
-    }
+        }
 );
 
 1;

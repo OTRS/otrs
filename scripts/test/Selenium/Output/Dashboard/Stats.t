@@ -70,7 +70,8 @@ $Selenium->RunTest(
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
         my $StatisticContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-            Location => $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/scripts/test/Selenium/Output/Dashboard/Stats.xml',
+            Location => $Kernel::OM->Get('Kernel::Config')->Get('Home')
+                . '/scripts/test/Selenium/Output/Dashboard/Stats.xml',
         );
 
         # import the exported stat
@@ -109,7 +110,7 @@ $Selenium->RunTest(
         my $ExitCode      = $CommandObject->Execute();
         $Selenium->refresh();
 
-        $Selenium->WaitFor(JavaScript => 'return $(".nvd3-svg").length;');
+        $Selenium->WaitFor( JavaScript => 'return $(".nvd3-svg").length;' );
 
         $Self->Is(
             $Selenium->execute_script('return $(".nv-legend-text:contains(Misc)").length'),
@@ -119,8 +120,8 @@ $Selenium->RunTest(
 
         # delete test stat
         $Self->True(
-           $StatsObject->StatsDelete( StatID => $TestStatID ),
-           "Delete StatID - $TestStatID",
+            $StatsObject->StatsDelete( StatID => $TestStatID ),
+            "Delete StatID - $TestStatID",
         );
 
         # make sure cache is correct
