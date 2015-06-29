@@ -85,9 +85,6 @@ Core.Config.Set('Stacked', [% Translate("Stacked") | JSON %]);
 Core.Config.Set('Expanded', [% Translate("Expanded") | JSON %]);
 Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
 
-// get settings for widget from preferences
-Core.Config.Set('Pref-GraphWidget[% Data.Name | html %]', [% Data.Preferences %]);
-
 (function(){
     var Timeout = 500;
     // check if the container is already expanded, otherwise the graph
@@ -98,7 +95,15 @@ Core.Config.Set('Pref-GraphWidget[% Data.Name | html %]', [% Data.Preferences %]
     }
 
     window.setTimeout(function () {
-        Core.UI.AdvancedChart.Init([% ChartTypes.item(Data.Format) | JSON %], [% JSON(Data.StatResultData) %], 'svg.GraphWidget[% Data.Name | html %]');
+        Core.UI.AdvancedChart.Init(
+            [% ChartTypes.item(Data.Format) | JSON %],
+            [% JSON(Data.StatResultData) %],
+            'svg.GraphWidget[% Data.Name | html %]',
+            {
+                PreferencesKey: 'GraphWidget[% Data.Name | html %]',
+                PreferencesData: [% Data.Preferences %],
+            }
+        );
     }, Timeout);
 
 }());

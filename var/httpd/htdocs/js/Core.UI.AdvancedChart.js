@@ -47,6 +47,10 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             },
             Preferences = Core.Config.Get('Pref-' + PrefName) || {};
 
+        if (!PrefName || !PrefName.length) {
+            return;
+        }
+        Preferences = Core.Config.Get('Pref-' + PrefName) || {};
         // Merge pref settings
         $.each(PrefValue, function(ChartType, Values) {
             $.each(Values, function (Key, Value) {
@@ -79,7 +83,8 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
             Counter = 0,
-            PreferencesData = Core.Config.Get('Pref-' + $(Element).attr('class').replace(' nvd3-svg', ''));
+            PreferencesKey = Options.PreferencesKey,
+            PreferencesData = Options.PreferencesData;
 
         // First RawData element is not needed
         RawData.shift();
@@ -174,7 +179,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     }
 
                     if ( typeof state.disabled !== 'undefined' ) {
-                        TargetNS.UpdatePreferences($(Element).attr('class').replace(' nvd3-svg', ''), {'Line': { 'Filter': getControlSelection(ResultData) }});
+                        TargetNS.UpdatePreferences(PreferencesKey, {'Line': { 'Filter': getControlSelection(ResultData) }});
                     }
 
                 });
@@ -331,7 +336,8 @@ Core.UI.AdvancedChart = (function (TargetNS) {
         var Headings,
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
-            PreferencesData = Core.Config.Get('Pref-' + $(Element).attr('class').replace(' nvd3-svg', ''));
+            PreferencesKey = Options.PreferencesKey,
+            PreferencesData = Options.PreferencesData;
 
         // First RawData element is not needed
         RawData.shift();
@@ -436,10 +442,10 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     }
 
                     if ( typeof state.stacked !== 'undefined' ) {
-                        TargetNS.UpdatePreferences($(Element).attr('class').replace(' nvd3-svg', ''), { 'Bar': { 'State': { 'Style': (state.stacked) ? 'stacked' : '' } } } );
+                        TargetNS.UpdatePreferences(PreferencesKey, { 'Bar': { 'State': { 'Style': (state.stacked) ? 'stacked' : '' } } } );
                     }
                     if ( typeof state.disabled !== 'undefined' ) {
-                        TargetNS.UpdatePreferences($(Element).attr('class').replace(' nvd3-svg', ''), { 'Bar': { 'Filter': getControlSelection(ResultData)}});
+                        TargetNS.UpdatePreferences(PreferencesKey, { 'Bar': { 'Filter': getControlSelection(ResultData)}});
                     }
 
                 });
@@ -483,7 +489,8 @@ Core.UI.AdvancedChart = (function (TargetNS) {
         var Headings,
             ResultData = [],
             Counter = 0,
-            PreferencesData = Core.Config.Get('Pref-' + $(Element).attr('class').replace(' nvd3-svg', ''));
+            PreferencesKey = Options.PreferencesKey,
+            PreferencesData = Options.PreferencesData;
 
         // First RawData element is not needed
         RawData.shift();
@@ -572,7 +579,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                     }
 
                     if ( typeof state.style !== 'undefined' || typeof state.disabled !== 'undefined' ) {
-                        TargetNS.UpdatePreferences($(Element).attr('class').replace(' nvd3-svg', ''), { 'StackedArea': { 'State': { 'Style': state.style }, 'Filter': getControlSelection(ResultData)}});
+                        TargetNS.UpdatePreferences(PreferencesKey, { 'StackedArea': { 'State': { 'Style': state.style }, 'Filter': getControlSelection(ResultData)}});
                     }
 
                 });
@@ -621,6 +628,9 @@ Core.UI.AdvancedChart = (function (TargetNS) {
      * @param {DOMObject} Element - Selector of the (SVG) element to use.
      * @param {Object} Options - Additional options.
      * @param {Boolean} [Options.HideLegend] - Don't display the legend (optional).
+     * @param {Boolean} [Options.PreferencesKey] - Name of an agent preferences key save
+     *      persistent D3 statistic settings to (currently used from the dashboard).
+     * @param {Boolean} [Options.PreferencesData] - Current value of the D3 statistic graph settings.
      * @description
      *      Initializes a chart.
      */
