@@ -134,10 +134,13 @@ sub Run {
             %Ticket,
         );
 
+        # get time object
+        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
         # check if it is during business hours, then send reminder
-        my $CountedTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
-            StartTime => $Kernel::OM->Get('Kernel::System::Time')->SystemTime() - ( 10 * 60 ),
-            StopTime  => $Kernel::OM->Get('Kernel::System::Time')->SystemTime(),
+        my $CountedTime = $TimeObject->WorkingTime(
+            StartTime => $TimeObject->SystemTime() - ( 10 * 60 ),
+            StopTime  => $TimeObject->SystemTime(),
             Calendar  => $Calendar,
         );
 
@@ -147,7 +150,7 @@ sub Run {
         }
 
         # trigger notification event
-        $Self->EventHandler(
+        $TicketObject->EventHandler(
             Event => 'NotificationPendingReminder',
             Data  => {
                 TicketID              => $Ticket{TicketID},
