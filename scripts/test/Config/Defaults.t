@@ -37,14 +37,15 @@ my @ConfigFiles = $MainObject->DirectoryRead(
 );
 
 my %AllowedConfigFiles = (
+    'CloudServices.xml'     => 1,
     'Framework.xml'         => 1,
     'Fred.xml'              => 1,
     'GenericInterface.xml'  => 1,
+    'OTRSCodePolicy.xml'    => 1,
     'ProcessManagement.xml' => 1,
     'Scheduler.xml'         => 1,
-    'Ticket.xml'            => 1,
     'Support.xml'           => 1,
-    'OTRSCodePolicy.xml'    => 1,
+    'Ticket.xml'            => 1,
 );
 
 for my $ConfigFile (@ConfigFiles) {
