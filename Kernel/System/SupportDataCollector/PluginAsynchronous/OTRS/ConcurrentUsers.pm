@@ -25,7 +25,8 @@ our @ObjectDependencies = (
 );
 
 sub GetDisplayPath {
-    return 'OTRS@Table:TimeStamp,UserSessionUnique|Unique agents,UserSession|Agent sessions,CustomerSessionUnique|Unique customers,CustomerSession|Customer sessions';
+    return
+        'OTRS@Table:TimeStamp,UserSessionUnique|Unique agents,UserSession|Agent sessions,CustomerSessionUnique|Unique customers,CustomerSession|Customer sessions';
 }
 
 sub Run {
@@ -35,8 +36,8 @@ sub Run {
 
     # the table details data
     $Self->AddResultInformation(
-        Label      => 'Concurrent Users Details',
-        Value      => $ConcurrentUsers || [],
+        Label => 'Concurrent Users Details',
+        Value => $ConcurrentUsers || [],
     );
 
     # get the full display path
@@ -64,7 +65,7 @@ sub Run {
         my $MaxValue = 0;
 
         ENTRY:
-        for my $Entry (@{$ConcurrentUsers}) {
+        for my $Entry ( @{$ConcurrentUsers} ) {
 
             next ENTRY if $Entry->{$Identifier} le $MaxValue;
 

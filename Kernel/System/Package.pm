@@ -895,8 +895,8 @@ sub PackageUpgrade {
             if ( !$UseInstalled ) {
 
                 if (
-                    $Part->{TagType}     eq 'End'
-                    && $Part->{Tag}      eq $NotUseTag
+                    $Part->{TagType} eq 'End'
+                    && $Part->{Tag} eq $NotUseTag
                     && $Part->{TagLevel} eq $NotUseTagLevel
                     )
                 {
@@ -993,7 +993,7 @@ sub PackageUpgrade {
 
                 if (
                     $Part->{TagType} eq 'End'
-                    && ( defined $NotUseTag      && $Part->{Tag}      eq $NotUseTag )
+                    && ( defined $NotUseTag      && $Part->{Tag} eq $NotUseTag )
                     && ( defined $NotUseTagLevel && $Part->{TagLevel} eq $NotUseTagLevel )
                     )
                 {
@@ -2233,7 +2233,7 @@ sub PackageBuild {
                         for my $Key ( sort keys %{$Tag} ) {
 
                             if (
-                                $Key    ne 'Tag'
+                                $Key ne 'Tag'
                                 && $Key ne 'Content'
                                 && $Key ne 'TagType'
                                 && $Key ne 'TagLevel'
@@ -3896,8 +3896,8 @@ sub _CheckDBMerged {
         if ( $Use eq 0 ) {
 
             if (
-                $Part->{TagType}     eq 'End'
-                && $Part->{Tag}      eq $NotUseTag
+                $Part->{TagType} eq 'End'
+                && $Part->{Tag} eq $NotUseTag
                 && $Part->{TagLevel} eq $NotUseTagLevel
                 )
             {

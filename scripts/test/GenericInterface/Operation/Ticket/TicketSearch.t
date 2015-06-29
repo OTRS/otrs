@@ -901,8 +901,8 @@ my @Tests = (
                 $TicketNumber1,
                 $TicketNumber2,
             ],
-            SortBy     => 'Ticket', # force order, because the Age (default) can be the same
-            OrderBy    => 'Down',
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -946,8 +946,8 @@ my @Tests = (
                 'Ticket One Title ' . $RandomID,
                 'Ticket Two Title ' . $RandomID,
             ],
-            SortBy     => 'Ticket',              # force order, because the Age (default) can be the same
-            OrderBy    => 'Down',
+            SortBy  => 'Ticket',    # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {
@@ -1156,10 +1156,10 @@ my @Tests = (
         Name           => "Test " . $TestCounter++,
         SuccessRequest => 1,
         RequestData    => {
-            States => ['new'],
-            Title  => '*' . $RandomID,
-            SortBy     => 'Ticket',    # force order, because the Age (default) can be the same
-            OrderBy    => 'Down',
+            States  => ['new'],
+            Title   => '*' . $RandomID,
+            SortBy  => 'Ticket',          # force order, because the Age (default) can be the same
+            OrderBy => 'Down',
         },
         ExpectedReturnLocalData => {
             Data => {

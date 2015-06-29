@@ -935,6 +935,7 @@ sub _Edit {
             );
         }
         elsif ( $Param{Action} eq 'Add' && $Entry->[0] =~ /^UserCustomerID$/i ) {
+
             # Use CustomerID param if called from CIC.
             $Param{Value} = $Param{ $Entry->[0] } || $Param{CustomerID} || '';
         }

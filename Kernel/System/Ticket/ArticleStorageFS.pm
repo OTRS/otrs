@@ -64,7 +64,7 @@ sub ArticleStorageInit {
     return 1 if $CacheModule ne 'Kernel::System::Cache::MemcachedFast';
     return 1 if !$ConfigObject->Get('Cache::ArticleStorageCache');
 
-    $Self->{ArticleStorageCache}    = 1;
+    $Self->{ArticleStorageCache} = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
 
     return 1;
