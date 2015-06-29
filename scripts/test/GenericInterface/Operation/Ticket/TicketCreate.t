@@ -3816,6 +3816,10 @@ for my $Test (@Tests) {
             )
         {
 
+            # Allow some time for all history entries to be written to the ticket before deleting it,
+            #   otherwise TicketDelete could fail.
+            sleep 1;
+
             my $TicketDelete = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => 1,
