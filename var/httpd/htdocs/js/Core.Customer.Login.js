@@ -20,7 +20,7 @@ Core.Customer = Core.Customer || {};
  */
 Core.Customer.Login = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer.Login', 'Core.UI', 'Core.UI')) {
-        return;
+        return false;
     }
 
     /**
@@ -49,6 +49,7 @@ Core.Customer.Login = (function (TargetNS) {
      * @name Init
      * @memberof Core.Customer.Login
      * @function
+     * @returns {Boolean} False if browser is not supported
      * @param {Object} Options - Options, mainly passed through from the sysconfig
      * @description
      *      This function initializes the login functions.
@@ -75,7 +76,7 @@ Core.Customer.Login = (function (TargetNS) {
             $('#Signup').hide();
             $('#PreLogin').hide();
             $('#OldBrowser').show();
-            return;
+            return false;
         }
 
         // enable login form
@@ -85,7 +86,7 @@ Core.Customer.Login = (function (TargetNS) {
 
         if ( $('#PreLogin').length ) {
             $('#PreLogin form').submit();
-            return;
+            return false;
         }
 
         $Inputs
@@ -168,13 +169,13 @@ Core.Customer.Login = (function (TargetNS) {
             TargetID = $(this).attr('href');
 
             // get the target id out of the href attribute of the anchor
-            $TargetInputs = $(TargetID + ' input:not(:checked, :hidden, :radio), ' + TargetID +' a, ' + TargetID + ' button');
+            $TargetInputs = $(TargetID + ' input:not(:checked, :hidden, :radio), ' + TargetID + ' a, ' + TargetID + ' button');
 
             // give the inputs on the slide the user just leaves all a 'tabindex' of '-1'
             $(this).parentsUntil('#SlideArea').last().find('input:not(:checked, :hidden, :radio), a, button').attr('tabindex', -1);
 
             // give all inputs on the new shown slide an increasing 'tabindex'
-            for (I; I< $TargetInputs.length; I++) {
+            for (I; I < $TargetInputs.length; I++) {
                 $TargetInputs.eq(I).attr('tabindex', I + 1);
             }
         });

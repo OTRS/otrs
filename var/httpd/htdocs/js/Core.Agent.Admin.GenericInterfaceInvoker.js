@@ -41,8 +41,8 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
      */
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
-        TargetNS.Invoker      = Params.Invoker;
-        TargetNS.Action       = Params.Action;
+        TargetNS.Invoker = Params.Invoker;
+        TargetNS.Action = Params.Action;
         TargetNS.Localization = Params.Localization;
     };
 
@@ -72,7 +72,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
         var Data = {
                 Action: TargetNS.Action,
                 Subaction: 'AddEvent',
-                NewEvent: $('#'+ EventType + 'Event').val(),
+                NewEvent: $('#' + EventType + 'Event').val(),
                 WebserviceID: TargetNS.WebserviceID,
                 Invoker: TargetNS.Invoker,
                 EventType: EventType
@@ -136,7 +136,8 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
                        Core.UI.Dialog.CloseDialog($('#DeleteDialog'));
                    }
-               }           ]
+               }
+           ]
         );
 
         Event.stopPropagation();

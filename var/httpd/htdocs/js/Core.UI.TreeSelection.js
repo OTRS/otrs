@@ -94,12 +94,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
             // Get number of trailing spaces in service name to
             // distinguish the level (2 spaces = 1 level)
-            var ElementID       = $(this).attr('value'),
+            var ElementID = $(this).attr('value'),
                 ElementDisabled = $(this).is(':disabled'),
-                ElementName     = $(this).text(),
+                ElementName = $(this).text(),
                 ElementSelected = $(this).is(':selected'),
                 ElementNameTrim = ElementName.replace(/(^[\xA0]+)/g, ''),
-                CurrentLevel    = (ElementName.length - ElementNameTrim.length) / 2,
+                CurrentLevel = (ElementName.length - ElementNameTrim.length) / 2,
                 ChildOf = 0,
                 ElementIndex = 0,
                 CurrentElement;
@@ -146,12 +146,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
             // Collect data of current service and add it to elements array
             CurrentElement = {
-                ID:       ElementID,
-                Name:     ElementNameTrim,
-                Level:    CurrentLevel,
-                ChildOf:  ChildOf,
+                ID: ElementID,
+                Name: ElementNameTrim,
+                Level: CurrentLevel,
+                ChildOf: ChildOf,
                 children: [],
-                text:     ElementNameTrim,
+                text: ElementNameTrim,
                 state: {
                     selected: ElementSelected
                 },
@@ -195,14 +195,14 @@ Core.UI.TreeSelection = (function (TargetNS) {
      */
     TargetNS.ShowTreeSelection = function($TriggerObj) {
 
-        var $TreeObj       = $('<div id="JSTree"><ul></ul></div>'),
-            $SelectObj     = $TriggerObj.prevAll('select'),
-            SelectSize     = $SelectObj.attr('size'),
-            Multiple       = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
-            ElementCount   = $SelectObj.find('option').length,
-            DialogTitle    = $SelectObj.parent().prev('label').clone().children().remove().end().text(),
-            Elements       = {},
-            InDialog       = false,
+        var $TreeObj = $('<div id="JSTree"><ul></ul></div>'),
+            $SelectObj = $TriggerObj.prevAll('select'),
+            SelectSize = $SelectObj.attr('size'),
+            Multiple = ($SelectObj.attr('multiple') !== '' && $SelectObj.attr('multiple') !== undefined) ? true : false,
+            ElementCount = $SelectObj.find('option').length,
+            DialogTitle = $SelectObj.parent().prev('label').clone().children().remove().end().text(),
+            Elements = {},
+            InDialog = false,
             StyleSheetURL,
             $SelectedNodesObj,
             SelectedNodes = [],
@@ -266,7 +266,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             plugins: [ 'search' ]
         })
         .bind('select_node.jstree', function (node, selected, event) {
-            var $Node = $('#'+selected.node.id);
+            var $Node = $('#' + selected.node.id);
             if ($Node.hasClass('Disabled') || !$Node.is(':visible')) {
                 $TreeObj.jstree('deselect_node', selected.node);
             }
@@ -298,7 +298,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         })
         .bind('deselect_node.jstree', function (node, selected) {
-            var $Node = $('#'+selected.node.id);
+            var $Node = $('#' + selected.node.id);
 
             // If we are already in a dialog, we don't use the submit
             // button for the tree selection, so we need to apply the changes 'live'
@@ -362,20 +362,21 @@ Core.UI.TreeSelection = (function (TargetNS) {
         });
 
         $('#TreeContainer').find('input#SubmitTree').bind('click', function() {
-            var SelectedObj = $TreeObj.jstree('get_selected', true);
+            var SelectedObj = $TreeObj.jstree('get_selected', true),
+                $Node;
             if (typeof SelectedObj === 'object' && SelectedObj[0]) {
                 if (SelectedObj.length > 1) {
 
                     $(SelectedObj).each(function() {
-                        var $Node = $('#'+this.id);
-                        SelectedNodes.push($Node.attr('data-id'));
+                        var $SelectedNode = $('#' + this.id);
+                        SelectedNodes.push($SelectedNode.attr('data-id'));
                     });
                     $SelectObj
                         .val(SelectedNodes)
                         .trigger('change');
                 }
                 else {
-                    var $Node = $('#'+SelectedObj[0].id);
+                    $Node = $('#' + SelectedObj[0].id);
                     if ($Node.attr('data-id') !== $SelectObj.val()) {
                         $SelectObj
                             .val($Node.attr('data-id'))
@@ -468,12 +469,12 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
         $.each(Data, function(index, OptionData) {
 
-            Key       = OptionData[0] || '';
-            Value     = OptionData[1] || '';
-            Spaces    = '';
+            Key = OptionData[0] || '';
+            Value = OptionData[1] || '';
+            Spaces = '';
             NeededSpaces = 0;
-            Selected  = OptionData[2] || false;
-            Disabled  = OptionData[3] || false;
+            Selected = OptionData[2] || false;
+            Disabled = OptionData[3] || false;
 
             if (AJAXUpdate === 1) {
                 Selected = OptionData[3];
@@ -503,10 +504,10 @@ Core.UI.TreeSelection = (function (TargetNS) {
             }
 
             SelectData.push({
-                'Key'          : Key,
-                'Value'        : Value,
-                'SelectedAttr' : SelectedAttr,
-                'DisabledAttr' : DisabledAttr
+                'Key': Key,
+                'Value': Value,
+                'SelectedAttr': SelectedAttr,
+                'DisabledAttr': DisabledAttr
             });
         });
 
@@ -524,8 +525,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
             return 0;
         });
 
-        $.each(SelectData, function(index, Data) {
-            $FieldObj.append('<option value="' + Data.Key + '"' + Data.SelectedAttr + Data.DisabledAttr + '>' + Data.Value + '</option>');
+        $.each(SelectData, function(index, SelectedData) {
+            $FieldObj.append('<option value="' + SelectedData.Key + '"' + SelectedData.SelectedAttr + SelectedData.DisabledAttr + '>' + SelectedData.Value + '</option>');
         });
 
         $FieldObj.addClass('TreeViewRestored');

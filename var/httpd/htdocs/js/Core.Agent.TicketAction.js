@@ -102,7 +102,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
      */
     function AddMailAddress($Link) {
         var $Element = $('#' + $Link.attr('rel')),
-            NewValue = $Element.val(),NewData,NewDataItem,Length;
+            NewValue = $Element.val(), NewData, NewDataItem, Length;
 
         if (NewValue.length) {
             NewValue = NewValue + ', ';
@@ -114,7 +114,7 @@ Core.Agent.TicketAction = (function (TargetNS) {
             .replace(/&gt;/g, '>');
         $Element.val( NewValue );
 
-        Length= $Element.val().length;
+        Length = $Element.val().length;
         $Element.focus();
         $Element[0].setSelectionRange(Length, Length);
 
@@ -316,10 +316,10 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 // check is set customer data for customer user information
                 // it will not be set if it is used CustomerAutoComplete ( e.g for forwrad, reply ticket )
                 if ($('#CustomerData').val()) {
-                    CustomerData =Core.JSON.Parse($('#CustomerData').val());
+                    CustomerData = Core.JSON.Parse($('#CustomerData').val());
                     $.each(CustomerData, function(CustomerMail, CustomerKey) {
                         $To.val(CustomerMail);
-                        parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer',CustomerMail , CustomerKey );
+                        parent.Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', CustomerMail, CustomerKey);
 
                     });
                 }

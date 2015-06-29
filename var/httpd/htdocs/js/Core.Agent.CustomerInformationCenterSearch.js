@@ -76,15 +76,15 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
                 };
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.Label,
                             value: this.Value
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
         }, function (Event, UI) {
             Redirect(UI.item.value, Event);

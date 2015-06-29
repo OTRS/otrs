@@ -20,11 +20,11 @@ var Core = Core || {};
 Core.App = (function (TargetNS) {
 
     if (!Core.Debug.CheckDependency('Core.App', 'Core.Exception', 'Core.Exception')) {
-        return;
+        return false;
     }
 
     if (!Core.Debug.CheckDependency('Core.App', 'Core.Config', 'Core.Config')) {
-        return;
+        return false;
     }
 
     /**
@@ -98,7 +98,7 @@ Core.App = (function (TargetNS) {
      *      Checks if the used browser is IE in Compatibility Mode.
      *      IE11 in Compatibility Mode is not recognized.
      */
-    TargetNS.BrowserCheckIECompatibilityMode = function  () {
+    TargetNS.BrowserCheckIECompatibilityMode = function () {
         var IE7 = ($.browser.msie && $.browser.version === '7.0');
 
         // if not IE7, we cannot be in compatibilty mode
@@ -179,7 +179,7 @@ Core.App = (function (TargetNS) {
      *      jQ does not allow the usage of dot or colon in ID or class names
      */
     TargetNS.EscapeSelector = function (Selector) {
-        return Selector.replace(/(#|:|\.|\[|\])/g,'\\$1');
+        return Selector.replace(/(#|:|\.|\[|\])/g, '\\$1');
     };
 
     /**

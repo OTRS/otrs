@@ -52,28 +52,28 @@ Core.UI.Table = (function (TargetNS) {
                  * @function
                  * @returns {Boolean} True if text was found, false otherwise.
                  * @param {jQueryObject} $Element - Element that will be checked.
-                 * @param {String} FilterText - The current filter text.
+                 * @param {String} Filter - The current filter text.
                  * @description
                  *      Check if a text exist inside an element.
                  */
-                function CheckText($Element, FilterText) {
+                function CheckText($Element, Filter) {
                     var Text;
 
                     Text = $Element.text();
-                    if (Text && Text.toLowerCase().indexOf(FilterText) > -1){
+                    if (Text && Text.toLowerCase().indexOf(Filter) > -1){
                         return true;
                     }
 
                     if ($Element.is('li, td')) {
                         Text = $Element.attr('title');
-                        if (Text && Text.toLowerCase().indexOf(FilterText) > -1) {
+                        if (Text && Text.toLowerCase().indexOf(Filter) > -1) {
                             return true;
                         }
                     }
                     else {
                         $Element.find('td').each(function () {
                             Text = $(this).attr('title');
-                            if (Text && Text.toLowerCase().indexOf(FilterText) > -1) {
+                            if (Text && Text.toLowerCase().indexOf(Filter) > -1) {
                                 return true;
                             }
                         });

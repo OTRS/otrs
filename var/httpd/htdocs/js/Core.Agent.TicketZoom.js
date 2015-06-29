@@ -222,7 +222,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      Used in OTRS Business Solution (TM). Loads an article in the Zoom from another window context (e.g. popup).
      */
     TargetNS.LoadArticleFromExternal = function (ArticleID, WindowObject) {
-        var $Element = $('#ArticleTable td.No input.ArticleID[value=' + ArticleID +']'),
+        var $Element = $('#ArticleTable td.No input.ArticleID[value=' + ArticleID + ']'),
             ArticleURL;
 
         // Check if we are in timeline view

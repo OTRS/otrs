@@ -19,7 +19,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  * @description
  *      This namespace contains the special module functions for the GenericInterface Mapping module.
  */
-Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
+Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
     /**
      * @name Init
@@ -96,7 +96,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
             KeyCounter = $('#KeyCounter').val();
 
         // increment key counter
-        KeyCounter ++;
+        KeyCounter++;
 
         // remove unnecessary classes
         $Clone.removeClass('Hidden KeyTemplate');
@@ -164,7 +164,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
         $('#KeyInsert').append($Clone);
 
         // reset template row values
-        $('.NewRule').find(':input:not(:button)').attr('value','');
+        $('.NewRule').find(':input:not(:button)').attr('value', '');
         $('#KeyName' + KeyCounter).focus();
 
         // set new value for KeyCounter
@@ -193,7 +193,7 @@ Core.Agent.Admin.GenericInterfaceMapping= (function (TargetNS) {
             Suffix;
 
         // increment value counter
-        ValueCounter ++;
+        ValueCounter++;
 
         Suffix = KeyCounter + '_' + ValueCounter;
 

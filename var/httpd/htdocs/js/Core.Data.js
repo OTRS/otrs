@@ -46,14 +46,14 @@ Core.Data = (function (TargetNS) {
      *      Retrieve data from dom element.
      */
     TargetNS.Get = function ($Element, Name) {
-        var Object;
+        var DataObject;
         if (isJQueryObject($Element)) {
-            Object = $Element.data(Name);
-            if (typeof Object === 'undefined' || Object === null) {
+            DataObject = $Element.data(Name);
+            if (typeof DataObject === 'undefined' || DataObject === null) {
                 return {};
             }
             else {
-                return Object;
+                return DataObject;
             }
         }
         return {};
@@ -75,7 +75,7 @@ Core.Data = (function (TargetNS) {
         if (!ObjectOne || !ObjectTwo) {
             return false;
         }
-        if (typeof(ObjectOne) !== 'object' || typeof(ObjectTwo) !== 'object') {
+        if (typeof ObjectOne !== 'object' || typeof ObjectTwo !== 'object') {
             return false;
         }
 
@@ -84,8 +84,8 @@ Core.Data = (function (TargetNS) {
         }
 
         for (Key in ObjectOne) {
-            if ((typeof(ObjectOne[Key]) === 'object') &&
-                (typeof(ObjectTwo[Key]) === 'object')) {
+            if ((typeof ObjectOne[Key] === 'object') &&
+                (typeof ObjectTwo[Key] === 'object')) {
                 if (!Core.Data.CompareObject(ObjectOne[Key], ObjectTwo[Key])) {
                     return false;
                 }
@@ -98,8 +98,8 @@ Core.Data = (function (TargetNS) {
         }
 
         for (Key in ObjectTwo) {
-            if ((typeof(ObjectTwo[Key]) === 'object') &&
-                (typeof(ObjectOne[Key]) === 'object')) {
+            if ((typeof ObjectTwo[Key] === 'object') &&
+                (typeof ObjectOne[Key] === 'object')) {
                 if (!Core.Data.CompareObject(ObjectTwo[Key], ObjectOne[Key])) {
                     return false;
                 }
@@ -126,7 +126,7 @@ Core.Data = (function (TargetNS) {
     TargetNS.CopyObject = function (Data) {
         var Key = '',
             TempObject;
-        if (!Data || typeof(Data) !== 'object') {
+        if (!Data || typeof Data !== 'object') {
             return Data;
         }
 

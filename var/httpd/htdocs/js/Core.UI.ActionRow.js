@@ -21,10 +21,10 @@ Core.UI = Core.UI || {};
 Core.UI.ActionRow = (function (TargetNS) {
 
     if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.JSON', 'JSON API')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.Data', 'Data API')) {
-        return;
+        return false;
     }
 
     /**
@@ -83,7 +83,7 @@ Core.UI.ActionRow = (function (TargetNS) {
         var Actions;
         // The element of the given ID must exist, JSONString must not be empty
         if (isJQueryObject($Element)) {
-            if (typeof JSONString === 'String') {
+            if (typeof JSONString === 'string') {
                 Actions = Core.JSON.Parse(JSONString);
             }
             else {

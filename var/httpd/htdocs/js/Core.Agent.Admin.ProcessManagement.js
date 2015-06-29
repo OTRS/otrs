@@ -130,7 +130,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                            if (!Response || !Response.Success) {
                                alert(Response.Message);
                                Core.UI.Dialog.CloseDialog($('.Dialog'));
-                               return;
+                               return false;
                            }
 
                            Core.App.InternalRedirect({
@@ -198,7 +198,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                            if (!Response || !Response.Success) {
                                alert(Response.Message);
                                Core.UI.Dialog.CloseDialog($('.Dialog'));
-                               return;
+                               return false;
                            }
 
                            // Remove element from accordion
@@ -457,11 +457,11 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                                 alert(Response.Message);
                             }
                             else {
-                                alert ('Error during AJAX communication');
+                                alert('Error during AJAX communication');
                             }
 
                             TargetNS.Canvas.ShowActivityAddActivityDialogError(Activity);
-                            return;
+                            return false;
                         }
 
                         TargetNS.Canvas.ShowActivityAddActivityDialogSuccess(Activity);
@@ -504,6 +504,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
        * @name AddTransitionToCanvas
        * @memberof Core.Agent.Admin.ProcessManagement.InitAccordionDND
        * @function
+       * @returns {Boolean} False if a another unconnected transition is on the canvas
        * @param {Object} Event - The event object.
        * @param {Object} UI - jQuery UI object.
        * @description
@@ -521,7 +522,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // connected to an end point. One cannot place two unconnected transitions on the canvas.
             if ($('#Dummy').length && DummyActivityConnected(ProcessEntityID)) {
               alert(Core.Agent.Admin.ProcessManagement.Localization.UnconnectedTransition);
-              return;
+              return false;
             }
 
             if (typeof Entity !== 'undefined') {
@@ -534,7 +535,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 // you cannot bind it a second time
                 if (Path[Activity] && typeof Path[Activity][EntityID] !== 'undefined') {
                     alert(Core.Agent.Admin.ProcessManagement.Localization.TransitionAlreadyPlaced);
-                    return;
+                    return false;
                 }
 
                 if (Activity) {
@@ -591,7 +592,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     ($.inArray(EntityID, Path[Transition.StartActivity][Transition.TransitionID].TransitionAction) >= 0)
                 ) {
                     alert(Core.Agent.Admin.ProcessManagement.Localization.TransitionActionAlreadyPlaced);
-                    return;
+                    return false;
                 }
 
                 if (Transition) {
@@ -712,7 +713,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             Core.UI.Accordion.Init($('ul#ProcessElements'), 'li.AccordionElement h2 a', 'div.Content');
 
             // open accordion element again, which was active before the update
-            Core.UI.Accordion.OpenElement($('ul#ProcessElements > li:nth-child(' + (parseInt(ActiveElement,10) + 1) + ')'));
+            Core.UI.Accordion.OpenElement($('ul#ProcessElements > li:nth-child(' + (parseInt(ActiveElement, 10) + 1) + ')'));
 
             // Initialize filters
             Core.UI.Table.InitTableFilter($('#ActivityFilter'), $('#Activities'));
@@ -787,9 +788,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                     alert(Response.Message);
                 }
                 else {
-                    alert ('Error during AJAX communication');
+                    alert('Error during AJAX communication');
                 }
-                return;
+                return false;
             }
             else {
                 if (typeof Callback !== 'undefined') {
@@ -1094,27 +1095,27 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                          Label: TargetNS.Localization.SaveMsg,
                          Class: 'Primary',
                          Function: function () {
-                             var FieldConfig = {};
+                             var FieldConfigElement = {};
 
-                             FieldConfig.DescriptionShort = $('#DescShort').val();
-                             FieldConfig.DescriptionLong = $('#DescLong').val();
-                             FieldConfig.DefaultValue = $('#DefaultValue').val();
-                             FieldConfig.Display = $('#Display').val();
+                             FieldConfigElement.DescriptionShort = $('#DescShort').val();
+                             FieldConfigElement.DescriptionLong = $('#DescLong').val();
+                             FieldConfigElement.DefaultValue = $('#DefaultValue').val();
+                             FieldConfigElement.Display = $('#Display').val();
 
                              if (Fieldname === 'Article') {
-                                 if (typeof FieldConfig.Config === 'undefined'){
-                                     FieldConfig.Config = {};
+                                 if (typeof FieldConfigElement.Config === 'undefined'){
+                                     FieldConfigElement.Config = {};
                                  }
-                                 FieldConfig.Config.ArticleType = $('#ArticleType').val();
+                                 FieldConfigElement.Config.ArticleType = $('#ArticleType').val();
 
                                  // show error if internal article type is set for an interface different than AgentInterface
                                  if ($('#Interface').val() !== 'AgentInterface' && $('#ArticleType').val().match(/int/i)){
                                      window.alert(Core.Agent.Admin.ProcessManagement.Localization.WrongArticleTypeMsg);
-                                     return;
+                                     return false;
                                  }
                              }
 
-                             $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfig));
+                             $Element.closest('li').data('config', Core.JSON.Stringify(FieldConfigElement));
 
                              Core.UI.Dialog.CloseDialog($('.Dialog'));
                          }
@@ -1379,8 +1380,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
                 $('#StartActivity').attr('title', ActivityInfo[Activity].Name).text(ActivityInfo[Activity].Name);
                 $('#EndActivity').attr('title', ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name).text(ActivityInfo[Transition[CurrentTransitionEntityID].ActivityEntityID].Name);
 
-                StartActivityEntityID     = Activity;
-                EndActivityEntityID       = Transition[CurrentTransitionEntityID].ActivityEntityID;
+                StartActivityEntityID = Activity;
+                EndActivityEntityID = Transition[CurrentTransitionEntityID].ActivityEntityID;
                 AssignedTransitionActions = Transition[CurrentTransitionEntityID].TransitionAction;
 
                 return false;
@@ -1412,7 +1413,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
         Core.Form.Validate.SetSubmitFunction($('#PathForm'), function (Form) {
 
             var NewTransitionEntityID = $('#Transition').val(),
-                NewTransitionActions  = [],
+                NewTransitionActions = [],
                 TransitionInfo;
 
             $('#AssignedTransitionActions li').each(function() {
@@ -1421,9 +1422,9 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
 
             // collection transition info for later merging
             TransitionInfo = {
-                StartActivityEntityID  : StartActivityEntityID,
-                NewTransitionEntityID  : NewTransitionEntityID,
-                NewTransitionActions   : NewTransitionActions,
+                StartActivityEntityID: StartActivityEntityID,
+                NewTransitionEntityID: NewTransitionEntityID,
+                NewTransitionActions: NewTransitionActions,
                 NewTransitionActivityID: EndActivityEntityID
             };
 
@@ -1513,8 +1514,8 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             // get all fields of the current condition
             $(this).find('fieldset.Fields').each(function() {
                 Conditions[ConditionKey].Fields[$(this).find('input').first().val()] = {
-                    Type  : $(this).find('select').val(),
-                    Match : $(this).find('input').last().val()
+                    Type: $(this).find('select').val(),
+                    Match: $(this).find('input').last().val()
                 };
             });
 

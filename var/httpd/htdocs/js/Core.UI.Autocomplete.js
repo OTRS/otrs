@@ -138,18 +138,18 @@ Core.UI.Autocomplete = (function (TargetNS) {
      *      This function initializes autocomplete on an input element.
      */
     TargetNS.Init = function ($Element, SourceFunction, SelectFunction, Type, Options) {
-        var Config;
+        var AutocompleteConfig;
 
         // Only start autocompletion, if $Element is valid element
         if (!isJQueryObject($Element) || !$Element.length) {
             return;
         }
 
-        Config = InitConfig(Type, Options);
+        AutocompleteConfig = InitConfig(Type, Options);
 
         $Element.autocomplete({
-            minLength: Config.MinQueryLength,
-            delay: Config.QueryDelay,
+            minLength: AutocompleteConfig.MinQueryLength,
+            delay: AutocompleteConfig.QueryDelay,
             open: function() {
                 // force a higher z-index than the overlay/dialog
                 $Element.autocomplete('widget').addClass('ui-overlay-autocomplete');
@@ -195,7 +195,7 @@ Core.UI.Autocomplete = (function (TargetNS) {
             }
         });
 
-        if (!Config.AutoCompleteActive) {
+        if (!AutocompleteConfig.AutoCompleteActive) {
             $Element.each(function () {
                 var $SelectedElement = $(this);
                 $SelectedElement.after('<button id="' + Core.App.EscapeSelector($SelectedElement.attr('id')) + 'Search" type="button">' + Config.ButtonText + '</button>');

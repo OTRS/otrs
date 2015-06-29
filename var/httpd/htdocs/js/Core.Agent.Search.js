@@ -177,7 +177,7 @@ Core.Agent.Search = (function (TargetNS) {
                 // label id, use the remaining name as name string for accessing
                 // the form input's value
                 ElementName = $(this).attr('id').substring(5);
-                $Element = $('#SearchForm input[name='+ElementName+']');
+                $Element = $('#SearchForm input[name=' + ElementName + ']');
 
                 // If there's no input element with the selected name
                 // find the next "select" element and use that one for checking
@@ -232,8 +232,8 @@ Core.Agent.Search = (function (TargetNS) {
 
     function AJAXStopWordCheck(SearchStrings, CallbackStopWordsFound, CallbackNoStopWordsFound) {
         var StopWordCheckData = {
-            Action:        'AgentTicketSearch',
-            Subaction:     'AJAXStopWordCheck',
+            Action: 'AgentTicketSearch',
+            Subaction: 'AJAXStopWordCheck',
             SearchStrings: SearchStrings
         };
 
@@ -250,10 +250,10 @@ Core.Agent.Search = (function (TargetNS) {
             function (Result) {
                 var FoundStopWords = '';
 
-                $.each( Result.FoundStopWords , function (Key, StopWords) {
+                $.each(Result.FoundStopWords, function (Key, StopWords) {
                     var TranslatedKey = Core.Config.Get('FieldTitle' + Key);
 
-                    if ( !StopWords.length ) {
+                    if (!StopWords.length) {
                         return;
                     }
 
@@ -319,7 +319,7 @@ Core.Agent.Search = (function (TargetNS) {
                     return;
                 }
 
-                $Element = $('#SearchForm input[name='+ElementName+']');
+                $Element = $('#SearchForm input[name=' + ElementName + ']');
 
                 if ($Element.length) {
                     if ( $Element.val() && $Element.val() !== '' ) {
@@ -478,11 +478,11 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // load profile
                 $('#SearchProfile').bind('change', function () {
-                    var Profile = $('#SearchProfile').val(),
-                        EmptySearch = $('#EmptySearch').val(),
-                        Action = $('#SearchAction').val();
+                    var SearchProfile = $('#SearchProfile').val(),
+                        SearchProfileEmptySearch = $('#EmptySearch').val(),
+                        SearchProfileAction = $('#SearchAction').val();
 
-                    TargetNS.OpenSearchDialog(Action, Profile, EmptySearch);
+                    TargetNS.OpenSearchDialog(SearchProfileAction, SearchProfile, SearchProfileEmptySearch);
                     return false;
                 });
 
@@ -534,11 +534,11 @@ Core.Agent.Search = (function (TargetNS) {
 
                 // direct link to profile
                 $('#SearchProfileAsLink').bind('click', function () {
-                    var Profile = $('#SearchProfile').val(),
-                        Action = $('#SearchAction').val();
+                    var SearchProfile = $('#SearchProfile').val(),
+                        SearchProfileAction = $('#SearchAction').val();
 
-                    window.location.href = Core.Config.Get('Baselink') + 'Action=' + Action +
-                    ';Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=' + encodeURIComponent(Profile);
+                    window.location.href = Core.Config.Get('Baselink') + 'Action=' + SearchProfileAction +
+                    ';Subaction=Search;TakeLastSearch=1;SaveProfile=1;Profile=' + encodeURIComponent(SearchProfile);
                     return false;
                 });
 

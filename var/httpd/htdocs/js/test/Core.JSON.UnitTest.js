@@ -32,18 +32,18 @@ Core.JSON = (function (Namespace) {
 
             /* Round 2*/
             var ObjectTwo =
-            { "Consulting" : [
-                                { "Address"     : "535 Joseph Roberts Av.",
-                                  "Employees"   : 12,
-                                  "LastUpdate"  : '06/12/2010' }
+            { "Consulting": [
+                                { "Address": "535 Joseph Roberts Av.",
+                                  "Employees": 12,
+                                  "LastUpdate": '06/12/2010' }
                               ],
-              "Sales"       : [
-                                { "Address"     : "789 Second St.",
-                                  "Employees"   : 8,
-                                  "LastUpdate"  : '06/12/2010' }
+              "Sales": [
+                                { "Address": "789 Second St.",
+                                  "Employees": 8,
+                                  "LastUpdate": '06/12/2010' }
                               ]
             };
-            var ReturnTwo   = Core.JSON.Stringify(ObjectTwo);
+            var ReturnTwo = Core.JSON.Stringify(ObjectTwo);
             var ObjectThree = Core.JSON.Parse(ReturnTwo);
             var ReturnThree = Core.JSON.Stringify(ObjectThree);
 
@@ -65,17 +65,17 @@ Core.JSON = (function (Namespace) {
             /* Round 3*/
             var ObjectFour =
             {
-                "CompanyOne" :
-                    [{ "Areas" :
-                        [{ "Marketing" :
-                            [{ "Address"     : "23 Albert Einstein St.",
-                               "Employees"   : 7,
-                               "LastUpdate"  : '10/03/2008'
+                "CompanyOne":
+                    [{ "Areas":
+                        [{ "Marketing":
+                            [{ "Address": "23 Albert Einstein St.",
+                               "Employees": 7,
+                               "LastUpdate": '10/03/2008'
                             }],
-                           "Sales" :
-                            [{ "Address"     : "1555 London St.",
-                               "Employees"   : 30,
-                               "LastUpdate"  : '20/10/2009'
+                           "Sales":
+                            [{ "Address": "1555 London St.",
+                               "Employees": 30,
+                               "LastUpdate": '20/10/2009'
                             }]
                         }]
                     }]
@@ -92,37 +92,37 @@ Core.JSON = (function (Namespace) {
             ObjectFour.CompanyThree = {};
             ObjectFour.CompanyThree.Areas = ObjectTwo;
 
-            var ReturnCompanyTwo   = Core.JSON.Stringify(ObjectFive.Areas);
+            var ReturnCompanyTwo = Core.JSON.Stringify(ObjectFive.Areas);
             equal(StringCompanyTwo, ReturnCompanyTwo, 'okay');
             var ResultCompare3 = Core.Data.CompareObject(ObjectFour.CompanyTwo.Areas, ObjectSix);
             equal(ResultCompare3, true, 'okay');
 
-            var ReturnCompanyTwoAreas   = Core.JSON.Stringify(ObjectFour.CompanyTwo.Areas);
+            var ReturnCompanyTwoAreas = Core.JSON.Stringify(ObjectFour.CompanyTwo.Areas);
             equal(ReturnCompanyTwoAreas, StringCompanyTwo, 'okay');
 
 
             var ResultCompare4 = Core.Data.CompareObject(ObjectFour.CompanyTwo, ObjectFour.CompanyThree);
             notEqual(ResultCompare4, true, 'okay');
 
-            var ReturnFour      = Core.JSON.Stringify(ObjectFour);
+            var ReturnFour = Core.JSON.Stringify(ObjectFour);
             var ObjectFourParse = Core.JSON.Parse(ReturnFour);
-            var ResultCompare5  = Core.Data.CompareObject(ObjectFourParse, ObjectFour);
+            var ResultCompare5 = Core.Data.CompareObject(ObjectFourParse, ObjectFour);
             equal(ResultCompare5, true, 'okay');
 
 
             /* Round 4*/
-            var ObjectSeven          = {};
-            ObjectSeven.one      = ObjectFour;
-            ObjectSeven.two      = ObjectFourParse;
-            ObjectSeven.three    = ObjectFive;
-            ObjectSeven.four     = ObjectSix;
-            var ReturnSeven      = Core.JSON.Stringify(ObjectSeven);
+            var ObjectSeven = {};
+            ObjectSeven.one = ObjectFour;
+            ObjectSeven.two = ObjectFourParse;
+            ObjectSeven.three = ObjectFive;
+            ObjectSeven.four = ObjectSix;
+            var ReturnSeven = Core.JSON.Stringify(ObjectSeven);
             var ObjectSevenParse = Core.JSON.Parse(ReturnSeven);
-            var ResultCompare6   = Core.Data.CompareObject(ObjectSeven, ObjectSevenParse);
+            var ResultCompare6 = Core.Data.CompareObject(ObjectSeven, ObjectSevenParse);
             equal(ResultCompare6, true, 'okay');
 
-            ObjectSeven.five     = ObjectTwo;
-            var ResultCompare7   = Core.Data.CompareObject(ObjectSevenParse, ObjectSeven);
+            ObjectSeven.five = ObjectTwo;
+            var ResultCompare7 = Core.Data.CompareObject(ObjectSevenParse, ObjectSeven);
             notEqual(ResultCompare7, true, 'okay');
 
         });

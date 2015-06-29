@@ -21,7 +21,7 @@ Core.UI = Core.UI || {};
 Core.UI.DnD = (function (TargetNS) {
 
     if (!Core.Debug.CheckDependency('Core.UI.DnD', '$([]).sortable', 'jQuery UI sortable')) {
-        return;
+        return false;
     }
 
     /**

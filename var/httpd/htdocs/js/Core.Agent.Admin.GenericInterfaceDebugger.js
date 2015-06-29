@@ -86,7 +86,7 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
 
 
         Data.FilterFrom = FormatISODate($('#FilterFromYear').val(), $('#FilterFromMonth').val(), $('#FilterFromDay').val()) + ' 00:00:00';
-        Data.FilterTo   = FormatISODate($('#FilterToYear').val(), $('#FilterToMonth').val(), $('#FilterToDay').val()) + ' 23:59:59';
+        Data.FilterTo = FormatISODate($('#FilterToYear').val(), $('#FilterToMonth').val(), $('#FilterToDay').val()) + ' 23:59:59';
 
         $('#CommunicationDetails').css('visibility', 'hidden');
         $('.RequestListWidget').addClass('Loading');
@@ -175,9 +175,9 @@ Core.Agent.Admin.GenericInterfaceDebugger = (function (TargetNS) {
                     if (this.Data && this.Data.length) {
 
                         // quote XML tags
-                        this.Data = this.Data.replace( new RegExp("&","gm"),"&amp;");
-                        this.Data = this.Data.replace( new RegExp("<","gm"),"&lt;");
-                        this.Data = this.Data.replace( new RegExp(">","gm"),"&gt;");
+                        this.Data = this.Data.replace( new RegExp("&", "gm"), "&amp;");
+                        this.Data = this.Data.replace( new RegExp("<", "gm"), "&lt;");
+                        this.Data = this.Data.replace( new RegExp(">", "gm"), "&gt;");
 
                         $Content.append('<pre><code>' + this.Data + '</code></pre>');
                     }

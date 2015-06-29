@@ -171,9 +171,9 @@ Core.AJAX = (function (TargetNS) {
         $(Value).each(function() {
             FileID = this.FileID;
             ButtonStrg = '<button type="button" id="AttachmentDeleteButton' + FileID + '" name="AttachmentDeleteButton' + FileID + '" value="Delete" class="SpacingLeft">' + DeleteText + '</button>';
-            InputStrg =  '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
+            InputStrg = '<input type="hidden" id="AttachmentDelete' + this.FileID + '" name="AttachmentDelete' + this.FileID + '" />';
             $('#FileUpload').parent().before(
-                '<li>' + this.Filename + ' (' + this.Filesize + ')' + ButtonStrg + InputStrg  +'</li>'
+                '<li>' + this.Filename + ' (' + this.Filesize + ')' + ButtonStrg + InputStrg + '</li>'
             );
 
             //3rd: set form submit and disable validation on attachment delete
@@ -268,23 +268,23 @@ Core.AJAX = (function (TargetNS) {
         if (typeof Data !== 'object') {
             return;
         }
-        $.each(Data, function (Key, Value) {
-            var $Element = $('#' + Key);
+        $.each(Data, function (DataKey, DataValue) {
+            var $Element = $('#' + DataKey);
 
             // special case to update ticket attachments
-            if (Key === 'TicketAttachments') {
-                UpdateTicketAttachments(Value);
+            if (DataKey === 'TicketAttachments') {
+                UpdateTicketAttachments(DataValue);
                 return;
             }
 
-            if ((!$Element.length || !Value) && !$Element.is('textarea')) {
+            if ((!$Element.length || !DataValue) && !$Element.is('textarea')) {
                 return;
             }
 
             // Select elements
             if ($Element.is('select')) {
                 $Element.empty();
-                $.each(Value, function (Index, Value) {
+                $.each(DataValue, function (Index, Value) {
                     var NewOption = new Option(Value[1], Value[0], Value[2], Value[3]);
 
                     // Check if option must be disabled.
@@ -303,12 +303,12 @@ Core.AJAX = (function (TargetNS) {
 
             // text area elements like the ticket body
             if ($Element.is('textarea')) {
-                UpdateTextarea($Element, Value);
+                UpdateTextarea($Element, DataValue);
                 return;
             }
 
             // Other form elements
-            $Element.val(Value);
+            $Element.val(DataValue);
         });
     }
 

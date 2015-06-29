@@ -21,18 +21,18 @@ Core.UI.Popup = (function (Namespace) {
             var ExpectedProfiles = {
                 'Default': {
                     WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
-                    Left:            100,
-                    Top:             100,
-                    Width:           1000,
-                    Height:          700
+                    Left: 100,
+                    Top: 100,
+                    Width: 1000,
+                    Height: 700
                 }
             };
 
             deepEqual(Core.UI.Popup.ProfileList(), ExpectedProfiles, 'Default profile list');
 
-            ExpectedProfiles['CustomLarge'] = "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000";
+            ExpectedProfiles.CustomLarge = "dependent=yes,height=700,left=100,top=100,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000";
 
-            Core.UI.Popup.ProfileAdd('CustomLarge', ExpectedProfiles['CustomLarge']);
+            Core.UI.Popup.ProfileAdd('CustomLarge', ExpectedProfiles.CustomLarge);
 
             deepEqual(Core.UI.Popup.ProfileList(), ExpectedProfiles, 'Modified profile list');
         });

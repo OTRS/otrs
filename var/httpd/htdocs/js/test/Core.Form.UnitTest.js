@@ -50,19 +50,19 @@ Core.Form = (function (Namespace) {
 
 
                 var readonlyValue = $(this).attr('readonly');
-                var tagnameValue  = $(this).prop('tagName');
-                var typeValue     = $(this).attr('type');
+                var tagnameValue = $(this).prop('tagName');
+                var typeValue = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
 
-                if (tagnameValue == "BUTTON") {
+                if (tagnameValue === "BUTTON") {
                     equal(disabledValue, 'disabled', 'disabledValue for BUTTON' );
                 }
                 else {
-                    if (typeValue == "hidden") {
-                        equal(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue );
+                    if (typeValue === "hidden") {
+                        equal(readonlyValue, undefined, 'readonlyValue for ' + tagnameValue);
                     }
                     else {
-                        equal(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue  );
+                        equal(readonlyValue, 'readonly', 'readonlyValue for ' + tagnameValue);
                     }
                 }
             });
@@ -78,18 +78,18 @@ Core.Form = (function (Namespace) {
             $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
                 var readonlyValue = $(this).attr('readonly');
-                var tagnameValue  = $(this).prop('tagName');
-                var typeValue     = $(this).attr('type');
+                var tagnameValue = $(this).prop('tagName');
+                var typeValue = $(this).attr('type');
                 var disabledValue = $(this).attr('disabled');
                 var expectedDisabledValue = $(this).data('initially-disabled') ? 'disabled' : undefined;
                 var expectedReadonlyValue = $(this).data('initially-readonly') ? 'readonly' : undefined;
 
 
-                if (tagnameValue == "BUTTON") {
+                if (tagnameValue === "BUTTON") {
                     equal(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON' );
                 }
                 else {
-                    if (typeValue == "hidden") {
+                    if (typeValue === "hidden") {
                         equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
                     }
                     else {

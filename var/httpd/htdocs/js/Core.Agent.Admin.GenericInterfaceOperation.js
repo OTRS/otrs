@@ -31,8 +31,8 @@ Core.Agent.Admin.GenericInterfaceOperation = (function (TargetNS) {
      */
     TargetNS.Init = function (Params) {
         TargetNS.WebserviceID = parseInt(Params.WebserviceID, 10);
-        TargetNS.Operation    = Params.Operation;
-        TargetNS.Action       = Params.Action;
+        TargetNS.Operation = Params.Operation;
+        TargetNS.Action = Params.Action;
         TargetNS.Localization = Params.Localization;
     };
 

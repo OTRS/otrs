@@ -155,7 +155,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                {
                    Label: Core.Agent.Admin.ProcessManagement.Localization.DeleteMsg,
                    Function: function () {
-                       if (typeof(Callback) !== 'undefined') {
+                       if (typeof Callback !== 'undefined') {
                            Callback();
                        }
                    }
@@ -181,7 +181,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         PosY = PosY || DefaultY;
 
         $('#Canvas').append('<div id="StartEvent"></div>').find('#StartEvent').css({
-            'top' : PosY + 'px',
+            'top': PosY + 'px',
             'left': PosX + 'px'
         });
     };
@@ -207,7 +207,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .append('<div class="Activity Task" id="' + EscapeHTML(EntityID) + '"><span>' + EscapeHTML(EntityName) + '</span><div class="TaskTypeIcon"><i class="fa fa-user fa-lg"></i></div><div class="Icon Loader"></div><div class="Icon Success"></div></div>')
             .find('#' + EntityID)
             .css({
-                'top' : PosY + 'px',
+                'top': PosY + 'px',
                 'left': PosX + 'px'
             })
             .bind('mouseenter.Activity', function() {
@@ -334,9 +334,9 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             $Tooltip.hide();
         }
 
-        $.each(PathInfo, function(Activity, Transition) {
-            if (Activity === StartActivity && typeof Transition[ElementID] !== 'undefined' && typeof Transition[ElementID].TransitionAction !== 'undefined') {
-                AssignedTransitionActions = Transition[ElementID].TransitionAction;
+        $.each(PathInfo, function(Activity, TransitionObject) {
+            if (Activity === StartActivity && typeof TransitionObject[ElementID] !== 'undefined' && typeof TransitionObject[ElementID].TransitionAction !== 'undefined') {
+                AssignedTransitionActions = TransitionObject[ElementID].TransitionAction;
                 return false;
             }
         });
@@ -436,11 +436,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 var Interfaces = Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Interface,
                     SelectedInterface = '';
 
-                $.each(Interfaces, function (Key, Value) {
+                $.each(Interfaces, function (InterfaceKey, InterfaceValue) {
                     if (SelectedInterface.length) {
                         SelectedInterface += '/';
                     }
-                    SelectedInterface += Value.substr(0,1);
+                    SelectedInterface += InterfaceValue.substr(0, 1);
                 });
                 text += "<li><span class=\"AvailableIn\">" + SelectedInterface + "</span> " + EscapeHTML(Core.Agent.Admin.ProcessManagement.ProcessData.ActivityDialog[Value].Name) + " (" + EscapeHTML(Value) + ") </li>";
             });
@@ -838,13 +838,13 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             }
         });
 
-        Connection.bind('dblclick', function(Connection, Event) {
-            var EndActivity = Connection.endpoints[1],
+        Connection.bind('dblclick', function(ConnectionObject, Event) {
+            var EndActivityObject = ConnectionObject.endpoints[1],
                 SessionData = Core.App.GetSessionInformation();
             // Do not open path dialog for dummy connections
             // dblclick on overlays (e.g. labels) propagate to the connection
             // prevent opening path dialog twice if clicked on label
-            if (EndActivity !== 'Dummy' && !$(Event.srcElement).hasClass('TransitionLabel')) {
+            if (EndActivityObject !== 'Dummy' && !$(Event.srcElement).hasClass('TransitionLabel')) {
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
 
                 if ( !Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
@@ -991,7 +991,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
 
         // Set some jsPlumb defaults
         jsPlumb.importDefaults({
-            Connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback:false } ],
+            Connector: [ 'Flowchart', { curviness: 0, margin: -1, showLoopback: false } ],
             PaintStyle: { strokeStyle: "#000", lineWidth: 2 },
             HoverPaintStyle: { strokeStyle: "#FF9922", lineWidth: 2 },
             ConnectionOverlays: [
@@ -1024,11 +1024,11 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
                 TransitionHash = Value;
 
             if (typeof TransitionHash !== 'undefined') {
-                $.each(TransitionHash, function (Key, Value) {
-                    TransitionID = Key;
+                $.each(TransitionHash, function (TransitionKey, TransitionValue) {
+                    TransitionID = TransitionKey;
                     // if EndActivity available, draw transition directly
-                    if (typeof Value !== 'undefined') {
-                        EndActivityID = Value.ActivityEntityID;
+                    if (typeof TransitionValue !== 'undefined') {
+                        EndActivityID = TransitionValue.ActivityEntityID;
                         TargetNS.CreateTransition(StartActivityID, EndActivityID, TransitionID);
                     }
 
@@ -1216,7 +1216,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             ActivityEntityID = $(this).attr('id');
             $(this).append('<em class="EntityID"><input type="text" value="' + ActivityEntityID + '" /></em>').find('.EntityID input').unbind().bind('focus', function(Event) {
                 this.select();
-                Event.stopPropagation;
+                Event.stopPropagation();
             });
         });
 
@@ -1228,7 +1228,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             if (Overlay) {
                 $(Overlay.canvas).append('<em class="EntityID"><input type="text" value="' + TransitionEntityID + '" /></em>').find('.EntityID input').unbind().bind('focus', function(Event) {
                     this.select();
-                    Event.stopPropagation;
+                    Event.stopPropagation();
                 });
             }
         });

@@ -33,17 +33,17 @@ Core.Data = (function (Namespace) {
             var ObjectOne = $('#ElementOne');
             var ObjectTwo = $('#ElementTwo');
 
-            var ResultOneEmpty = Core.Data.Get(ObjectOne,'One');
+            var ResultOneEmpty = Core.Data.Get(ObjectOne, 'One');
             deepEqual(ResultOneEmpty, {}, 'information not yet stored');
 
-            var NonexistingResult = Core.Data.Get($('#nonexisting_selector'),'One');
+            var NonexistingResult = Core.Data.Get($('#nonexisting_selector'), 'One');
             deepEqual(NonexistingResult, {}, 'nonexisting element');
 
-            Core.Data.Set(ObjectOne,'One',Sign);
-            Core.Data.Set(ObjectTwo,'Two',Sign);
+            Core.Data.Set(ObjectOne, 'One', Sign);
+            Core.Data.Set(ObjectTwo, 'Two', Sign);
 
-            var ResultOne = Core.Data.Get(ObjectOne,'One');
-            var ResultTwo = Core.Data.Get(ObjectTwo,'Two');
+            var ResultOne = Core.Data.Get(ObjectOne, 'One');
+            var ResultTwo = Core.Data.Get(ObjectTwo, 'Two');
 
             equal(ResultOne, Sign, 'okay');
             equal(ResultTwo, Sign, 'okay');

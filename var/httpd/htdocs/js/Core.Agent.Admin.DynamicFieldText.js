@@ -33,7 +33,7 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
     TargetNS.RemoveRegEx = function(IDSelector) {
 
         var ObjectIndex = IDSelector.match(/.+_(\d+)/)[1];
-        $('#RegExRow_'+ ObjectIndex).remove();
+        $('#RegExRow_' + ObjectIndex).remove();
 
         return true;
     };
@@ -52,7 +52,7 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
             RegExCounter = $('#RegExCounter').val();
 
         // increment RegEx counter
-        RegExCounter ++;
+        RegExCounter++;
 
         // remove unnecessary classes
         $Clone.removeClass('Hidden RegExTemplate');

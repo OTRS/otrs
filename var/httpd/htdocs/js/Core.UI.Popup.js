@@ -60,16 +60,16 @@ Core.UI.Popup = (function (TargetNS) {
         RegisterPopupTimeOut = 1000;
 
     if (!Core.Debug.CheckDependency('Core.UI.Dialog', 'Core.Config', 'Core.Config')) {
-        return;
+        return false;
     }
 
     PopupProfiles = {
         'Default': {
             WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
-            Left:            100,
-            Top:             100,
-            Width:           1000,
-            Height:          700
+            Left: 100,
+            Top: 100,
+            Width: 1000,
+            Height: 700
         }
     };
 
@@ -285,9 +285,9 @@ Core.UI.Popup = (function (TargetNS) {
      *      This function resizes an opened window.
      */
     TargetNS.Resize = function (Type, Width, Height) {
-        var Object = GetPopupObjectByType(Type);
-        if (typeof Object !== 'undefined') {
-            Object.resizeTo(Width, Height);
+        var PopupObject = GetPopupObjectByType(Type);
+        if (typeof PopupObject !== 'undefined') {
+            PopupObject.resizeTo(Width, Height);
         }
     };
 
@@ -344,7 +344,7 @@ Core.UI.Popup = (function (TargetNS) {
                 // check for popup blockers.
                 // currently, popup windows cannot easily be detected in chrome, because it will
                 //      load the entire content in an invisible window.
-                if (!NewWindow ||  NewWindow.closed || typeof NewWindow.closed === 'undefined') {
+                if (!NewWindow || NewWindow.closed || typeof NewWindow.closed === 'undefined') {
                     window.alert(Core.Config.Get('PopupBlockerMsg'));
                 }
                 else {

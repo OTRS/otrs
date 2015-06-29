@@ -106,7 +106,7 @@ Core.Exception = (function (TargetNS) {
      *      Checks if the given ErrorObject is an ApplicationError of the given Type.
      */
     TargetNS.IsErrorOfType = function (ErrorObject, ErrorType) {
-        return  (ErrorObject instanceof TargetNS.ApplicationError && ErrorObject.GetType === ErrorType);
+        return (ErrorObject instanceof TargetNS.ApplicationError && ErrorObject.GetType === ErrorType);
     };
 
     /**

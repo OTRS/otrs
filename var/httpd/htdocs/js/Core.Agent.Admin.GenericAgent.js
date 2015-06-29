@@ -43,7 +43,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
 
             // Only handle select fields with a size > 1, leave all single-dropdown fields untouched
             if (isNaN(Size) || Size <= 1) {
-                return;
+                return false;
             }
 
             // If select field has a tree selection icon already,
@@ -63,7 +63,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
                 $SelectField = $('#' + SelectID);
 
             if (!$SelectField.length) {
-                return;
+                return false;
             }
 
             // Clear field value
@@ -103,7 +103,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         $('#AddEvent').bind('click', function (){
             if ( $('#EventType').val() !== null ) {
                 TargetNS.AddEvent( $('#EventType').val() );
-                return false;
+                return;
             }
         });
 
@@ -132,7 +132,6 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
      * @name AddEvent
      * @memberof Core.Agent.Admin.GenericAgentEvent
      * @function
-     * @returns {Boolean} Returns false, if event already exists.
      * @param {String} EventType - The type of event trigger to assign to a job i.e. ticket or article.
      * @description
      *      This function calls the AddEvent action on the server.
@@ -140,11 +139,11 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
     TargetNS.AddEvent = function (EventType) {
 
         var $Clone = $('.EventRowTemplate').clone(),
-            EventName = $('#'+ EventType + 'Event').val(),
+            EventName = $('#' + EventType + 'Event').val(),
             IsDuplicated = false;
 
         if ( !EventName ) {
-            return false;
+            return;
         }
 
         // check for duplicated entries
@@ -155,13 +154,13 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         });
         if (IsDuplicated) {
             TargetNS.ShowDuplicatedDialog('EventName');
-            return false;
+            return;
         }
 
         // add needed values
         $Clone.find('.EventType').html(EventType);
         $Clone.find('.EventName').html(EventName);
-        $Clone.find('.EventValue').attr('name','EventValues').val(EventName);
+        $Clone.find('.EventValue').attr('name', 'EventValues').val(EventName);
 
         // bind delete function
         $Clone.find('#DeleteEvent').bind('click', function (Event) {

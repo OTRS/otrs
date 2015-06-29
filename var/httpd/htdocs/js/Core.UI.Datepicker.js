@@ -60,7 +60,7 @@ Core.UI.Datepicker = (function (TargetNS) {
         DatepickerCount = 0;
 
     if (!Core.Debug.CheckDependency('Core.UI.Datepicker', '$([]).datepicker', 'jQuery UI datepicker')) {
-        return;
+        return false;
     }
 
     /**

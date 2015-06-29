@@ -150,18 +150,18 @@ Core.Form.Validate = (function (Namespace) {
 
             // Test: Single Field Validations
             $.each(SingleFieldValidationMethods, function () {
-                var Object = this;
-                $('#ObjectOne').addClass(Object.Method);
-                $('#ObjectOne').val(Object.Content1);
+                var ValidationObject = this;
+                $('#ObjectOne').addClass(ValidationObject.Method);
+                $('#ObjectOne').val(ValidationObject.Content1);
                 Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-                equal($('#ObjectOne').hasClass('Error'), true, Object.Method + ': ' + Object.Desc1);
+                equal($('#ObjectOne').hasClass('Error'), true, ValidationObject.Method + ': ' + ValidationObject.Desc1);
 
-                $('#ObjectOne').val(Object.Content2);
+                $('#ObjectOne').val(ValidationObject.Content2);
                 Core.Form.Validate.ValidateElement($('#ObjectOne'));
 
-                equal($('#ObjectOne').hasClass('Error'), false, Object.Method + ': ' + Object.Desc2);
-                $('#ObjectOne').removeClass(Object.Method);
+                equal($('#ObjectOne').hasClass('Error'), false, ValidationObject.Method + ': ' + ValidationObject.Desc2);
+                $('#ObjectOne').removeClass(ValidationObject.Method);
             });
 
             // Cleanup div container and contents

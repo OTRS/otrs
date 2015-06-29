@@ -19,16 +19,16 @@ var Core = Core || {};
  */
 Core.Customer = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI', 'Core.UI')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.Form', 'Core.Form')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.Form.Validate', 'Core.Form.Validate')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
-        return;
+        return false;
     }
 
     /**

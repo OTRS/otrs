@@ -51,15 +51,15 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
 
         // add the input replacement to the mapping type so it can be parsed and distinguish from
         // empty values by the server
-        $('#'+ IDSelector).closest('fieldset').append($Clone);
+        $('#' + IDSelector).closest('fieldset').append($Clone);
 
         // remove the value from default list
         if ($Key !== ''){
-            $('#DefaultValue').find("option[value='"+ $Key +"']").remove();
+            $('#DefaultValue').find("option[value='" + $Key + "']").remove();
         }
 
         // remove possible value
-        $('#'+ IDSelector).parent().remove();
+        $('#' + IDSelector).parent().remove();
 
         return false;
     };
@@ -80,7 +80,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
             ValueCounter = $('#ValueCounter').val();
 
         // increment key counter
-        ValueCounter ++;
+        ValueCounter++;
 
         // remove unnecessary classes
         $Clone.removeClass('Hidden ValueTemplate');
@@ -153,7 +153,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         $('#DefaultValue').empty();
 
         // add the default "possible none" element
-        $('#DefaultValue').append($('<option>', { value : '' }).text('-'));
+        $('#DefaultValue').append($('<option>', { value: '' }).text('-'));
 
         // find all active possible values keys (this will omit all previously deleted keys)
         $('.ValueRow > .DefaultValueKeyItem').each(function(){
@@ -171,7 +171,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
 
             // check if both are none empty and add them to the default values list
             if (Key !== '' && Value !== '') {
-                $('#DefaultValue').append($('<option>', { value : Key }).text(Value));
+                $('#DefaultValue').append($('<option>', { value: Key }).text(Value));
 
             }
         });
@@ -180,7 +180,7 @@ Core.Agent.Admin.DynamicFieldDropdown = (function (TargetNS) {
         SelectOptions = $("#DefaultValue option");
 
         // sort the array by the text (this means the Value)
-        SelectOptions.sort(function(a,b) {
+        SelectOptions.sort(function(a, b) {
             if (a.text > b.text) {
                 return 1;
             }

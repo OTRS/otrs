@@ -24,7 +24,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
      * check dependencies first
      */
     if (!Core.Debug.CheckDependency('Core.Agent.TableFilters', 'Core.UI.AllocationList', 'Core.UI.AllocationList')) {
-        return;
+        return false;
     }
 
     /**
@@ -61,15 +61,15 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.Label + ' (' + this.Value + ')',
                             value: this.Value
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             },
             select: function (Event, UI) {
@@ -116,16 +116,16 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.CustomerValue + " (" + this.CustomerKey + ")",
                             value: this.CustomerValue,
                             key: this.CustomerKey
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             },
             select: function (Event, UI) {
@@ -174,16 +174,16 @@ Core.Agent.TableFilters = (function (TargetNS) {
                 }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.UserValue + " (" + this.UserKey + ")",
                             value: this.UserValue,
                             key: this.UserKey
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             },
             select: function (Event, UI) {
@@ -231,7 +231,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
         }
 
         Data.Columns = {};
-        Data.Order   = [];
+        Data.Order = [];
 
         $ContainerObj.find('.AvailableFields').find('li').each(function() {
             FieldName = $(this).attr('data-fieldname');
@@ -257,7 +257,7 @@ Core.Agent.TableFilters = (function (TargetNS) {
         $('.AllocationListContainer').each(function() {
 
             var $ContainerObj = $(this),
-                DataEnabledJSON   = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsEnabledJSON').val(),
+                DataEnabledJSON = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsEnabledJSON').val(),
                 DataAvailableJSON = $ContainerObj.closest('form.WidgetSettingsForm').find('input.ColumnsAvailableJSON').val(),
                 DataEnabled,
                 DataAvailable,

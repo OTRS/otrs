@@ -19,6 +19,30 @@ var Core = Core || {};
  */
 Core.Installer = (function (TargetNS) {
     /**
+     * @private
+     * @name CheckDBDataCallback
+     * @memberof Core.Installer
+     * @function
+     * @param {Object} json - The server response JSON object.
+     * @description
+     *      This function displays the results for the database credentials.
+     */
+    function CheckDBDataCallback(json) {
+        if (parseInt(json.Successful, 10) < 1) {
+            $('#FormDBResultMessage').html(json.Message);
+            $('#FormDBResultComment').html(json.Comment);
+            $('fieldset.ErrorMsg').show();
+            $('fieldset.Success').hide();
+        }
+        else {
+            $('#ButtonCheckDB').closest('.Field').hide();
+            $('#FormDBSubmit').removeAttr('disabled').removeClass('Disabled');
+            $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
+            $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
+        }
+    }
+
+    /**
      * @name CheckDBData
      * @memberof Core.Installer
      * @function
@@ -33,31 +57,6 @@ Core.Installer = (function (TargetNS) {
         $('input[name=Subaction]').val('DBCreate');
     };
 
-
-    /**
-     * @private
-     * @name CheckDBDataCallback
-     * @memberof Core.Installer
-     * @function
-     * @param {Object} json - The server response JSON object.
-     * @description
-     *      This function displays the results for the database credentials.
-     */
-    function CheckDBDataCallback(json) {
-        if (parseInt(json['Successful']) < 1) {
-            $('#FormDBResultMessage').html(json['Message']);
-            $('#FormDBResultComment').html(json['Comment']);
-            $('fieldset.ErrorMsg').show();
-            $('fieldset.Success').hide();
-        }
-        else {
-            $('#ButtonCheckDB').closest('.Field').hide();
-            $('#FormDBSubmit').removeAttr('disabled').removeClass('Disabled');
-            $('fieldset.ErrorMsg, fieldset.CheckDB').hide();
-            $('fieldset.HideMe, div.HideMe, fieldset.Success').show();
-        }
-    };
-
     /**
      * @name SelectOutboundMailType
      * @memberof Core.Installer
@@ -68,7 +67,7 @@ Core.Installer = (function (TargetNS) {
      */
     TargetNS.SelectOutboundMailType = function (obj) {
         var value = $(obj).val();
-        if (value != "sendmail") {
+        if (value !== "sendmail") {
             $('#InfoSMTP').show();
         }
         else {
@@ -112,6 +111,29 @@ Core.Installer = (function (TargetNS) {
     };
 
     /**
+     * @private
+     * @name CheckMailConfigCallback
+     * @memberof Core.Installer
+     * @function
+     * @param {Object} json - The server response JSON object.
+     * @description
+     *      This function shows the mail configuration check result.
+     */
+    function CheckMailConfigCallback(json) {
+        if (parseInt(json.Successful, 10) === 1) {
+            alert(Core.Config.Get('Installer.CheckMailLabelOne'));
+            $('fieldset.errormsg').hide();
+            $('input[name=Subaction]').val('Finish');
+            $('form').submit();
+        }
+        else {
+            $('#FormMailResultMessage').html(json.Message);
+            $('fieldset.ErrorMsg').show();
+            alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
+        }
+    }
+
+    /**
      * @name CheckMailConfig
      * @memberof Core.Installer
      * @function
@@ -125,29 +147,6 @@ Core.Installer = (function (TargetNS) {
         var Data = Core.AJAX.SerializeForm( $('#FormMail') );
         Data += 'CheckMode=Mail;';
         Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback );
-    };
-
-    /**
-     * @private
-     * @name CheckMailConfigCallback
-     * @memberof Core.Installer
-     * @function
-     * @param {Object} json - The server response JSON object.
-     * @description
-     *      This function shows the mail configuration check result.
-     */
-    function CheckMailConfigCallback(json) {
-        if (parseInt(json['Successful']) == 1) {
-            alert(Core.Config.Get('Installer.CheckMailLabelOne'));
-            $('fieldset.errormsg').hide();
-            $('input[name=Subaction]').val('Finish');
-            $('form').submit();
-        }
-        else {
-            $('#FormMailResultMessage').html(json['Message']);
-            $('fieldset.ErrorMsg').show();
-            alert(Core.Config.Get('Installer.CheckMailLabelTwo'));
-        }
     };
 
     return TargetNS;

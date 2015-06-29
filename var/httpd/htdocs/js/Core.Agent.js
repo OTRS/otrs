@@ -24,22 +24,22 @@ var Core = Core || {};
  */
 Core.Agent = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI', 'Core.UI')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.Form', 'Core.Form')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.Form.Validate', 'Core.Form.Validate')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.UI.TreeSelection', 'Core.UI.TreeSelection')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.Agent', 'Core.AJAX', 'Core.AJAX')) {
-        return;
+        return false;
     }
 
     /**
@@ -155,7 +155,7 @@ Core.Agent = (function (TargetNS) {
                 ClearSubnavOpenTimeout($Element);
 
                 if (!$Element.hasClass('Active')) {
-                    return;
+                    return false;
                 }
 
                 // Set Timeout for closing nav

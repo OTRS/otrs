@@ -29,136 +29,136 @@ Core.AJAX = (function (Namespace) {
         SerializeFormTests =
         [
              {
-                 HTML:   '',
+                 HTML: '',
                  Result: '',
-                 Name:   'Empty form.'
+                 Name: 'Empty form.'
 
              },
              {
-                 HTML:   '<input type="checkbox" value="test" checked="checked"/>',
+                 HTML: '<input type="checkbox" value="test" checked="checked"/>',
                  Result: '',
-                 Name:   'Checkbox without name'
+                 Name: 'Checkbox without name'
 
              },
              {
-                 HTML:   '<input type="checkbox" value="test" name="Element" checked="checked"/>',
+                 HTML: '<input type="checkbox" value="test" name="Element" checked="checked"/>',
                  Result: 'Element=test;',
-                 Name:   'Checkbox with custom value, checked'
+                 Name: 'Checkbox with custom value, checked'
 
              },
              {
-                 HTML:   '<input type="checkbox" value="test" name="Element@" checked="checked"/>',
+                 HTML: '<input type="checkbox" value="test" name="Element@" checked="checked"/>',
                  Result: 'Element%40=test;',
-                 Name:   'Checkbox funky name, checked'
+                 Name: 'Checkbox funky name, checked'
 
              },
              {
-                 HTML:   '<input type="checkbox" name="Element" checked="checked"/>',
+                 HTML: '<input type="checkbox" name="Element" checked="checked"/>',
                  Result: 'Element=on;',
-                 Name:   'Checkbox with custom value, checked'
+                 Name: 'Checkbox with custom value, checked'
 
              },
              {
-                 HTML:   '<input type="checkbox" name="Element" value="test" checked="checked"/><input type="checkbox" name="Element" value="test2" checked="checked"/><input type="checkbox" name="Element" value="test3"/>',
+                 HTML: '<input type="checkbox" name="Element" value="test" checked="checked"/><input type="checkbox" name="Element" value="test2" checked="checked"/><input type="checkbox" name="Element" value="test3"/>',
                  Result: 'Element=test;Element=test2;',
-                 Name:   'Multiple checkboxes with the same name'
+                 Name: 'Multiple checkboxes with the same name'
 
              },
              {
-                 HTML:   '<input type="checkbox" value="test" name="Element"/>',
+                 HTML: '<input type="checkbox" value="test" name="Element"/>',
                  Result: '',
-                 Name:   'Checkbox with custom value, unchecked'
+                 Name: 'Checkbox with custom value, unchecked'
 
              },
              {
-                 HTML:   '<input type="radio" value="test" name="Element" checked="checked"/>',
+                 HTML: '<input type="radio" value="test" name="Element" checked="checked"/>',
                  Result: 'Element=test;',
-                 Name:   'Radio with custom value, checked'
+                 Name: 'Radio with custom value, checked'
 
              },
              {
-                 HTML:   '<input type="radio" value="test" name="Element" /><input type="radio" value="test2" name="Element" checked="checked"/><input type="radio" value="test3" name="Element"/>',
+                 HTML: '<input type="radio" value="test" name="Element" /><input type="radio" value="test2" name="Element" checked="checked"/><input type="radio" value="test3" name="Element"/>',
                  Result: 'Element=test2;',
-                 Name:   'Radio with custom value, checked'
+                 Name: 'Radio with custom value, checked'
 
              },
              {
-                 HTML:   '<input type="Radio" name="Element" checked="checked"/>',
+                 HTML: '<input type="Radio" name="Element" checked="checked"/>',
                  Result: 'Element=on;',
-                 Name:   'Multiple radios with custom value, checked'
+                 Name: 'Multiple radios with custom value, checked'
 
              },
              {
-                 HTML:   '<input type="checkbox" value="test" name="Element"/>',
+                 HTML: '<input type="checkbox" value="test" name="Element"/>',
                  Result: '',
-                 Name:   'Radio with custom value, unchecked'
+                 Name: 'Radio with custom value, unchecked'
 
              },
              {
-                 HTML:   '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
+                 HTML: '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
                  Result: 'Element=1;Element=2;',
-                 Name:   'Multi-select with multiple values'
+                 Name: 'Multi-select with multiple values'
 
              },
              {
-                 HTML:   '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2">two</option></select>',
+                 HTML: '<select name="Element" multiple="multiple"><option value="1" selected="selected">one</option><option value="2">two</option></select>',
                  Result: 'Element=1;',
-                 Name:   'Multi-Select with one value'
+                 Name: 'Multi-Select with one value'
 
              },
              {
-                 HTML:   '<select name="Element" multiple="multiple"><option value="1">one</option><option value="2">two</option></select>',
+                 HTML: '<select name="Element" multiple="multiple"><option value="1">one</option><option value="2">two</option></select>',
                  Result: '',
-                 Name:   'Multi-select, empty'
+                 Name: 'Multi-select, empty'
 
              },
              {
-                 HTML:   '<select name="Element"><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
+                 HTML: '<select name="Element"><option value="1" selected="selected">one</option><option value="2" selected="selected">two</option></select>',
                  Result: 'Element=2;',
-                 Name:   'Select with one value but multiple preselected'
+                 Name: 'Select with one value but multiple preselected'
 
              },
              {
-                 HTML:   '<select name="Element"><option value="1">one</option><option value="2">two</option></select>',
+                 HTML: '<select name="Element"><option value="1">one</option><option value="2">two</option></select>',
                  Result: 'Element=1;',
-                 Name:   'Select, empty'
+                 Name: 'Select, empty'
 
              },
              {
-                 HTML:   '<input type="text" name="Element"/>',
+                 HTML: '<input type="text" name="Element"/>',
                  Result: 'Element=;',
-                 Name:   'Textarea, empty'
+                 Name: 'Textarea, empty'
 
              },
              {
-                 HTML:   '<input type="text" name="Element"/>',
+                 HTML: '<input type="text" name="Element"/>',
                  Result: 'Element=;',
-                 Name:   'Textarea, empty with value attribute'
+                 Name: 'Textarea, empty with value attribute'
 
              },
              {
-                 HTML:   '<input type="text" value="test" name="Element"/>',
+                 HTML: '<input type="text" value="test" name="Element"/>',
                  Result: 'Element=test;',
-                 Name:   'Textarea, simple'
+                 Name: 'Textarea, simple'
 
              },
              {
-                 HTML:   '<textarea name="Element">1\n2</textarea>',
+                 HTML: '<textarea name="Element">1\n2</textarea>',
                  Result: 'Element=1%0A2;',
-                 Name:   'Textarea, with newline'
+                 Name: 'Textarea, with newline'
 
              },
              {
-                 HTML:   '<textarea name="Element">1\n2</textarea><textarea name="Element2">1\n2</textarea>',
+                 HTML: '<textarea name="Element">1\n2</textarea><textarea name="Element2">1\n2</textarea>',
                  Ignore: { Element: 1 },
                  Result: 'Element2=1%0A2;',
-                 Name:   'Textarea, test Ignore parameter'
+                 Name: 'Textarea, test Ignore parameter'
 
              },
              {
-                 HTML:   '<input type="hidden" name="Element" value="12 3"/>',
+                 HTML: '<input type="hidden" name="Element" value="12 3"/>',
                  Result: 'Element=12%203;',
-                 Name:   'Hidden field'
+                 Name: 'Hidden field'
 
              }
         ];
@@ -257,6 +257,11 @@ Core.AJAX = (function (Namespace) {
          * Tests for error handling
          */
 
+        function RestoreOrignal() {
+            Core.Exception.HandleFinalError = ErrorHandlingFunc;
+            Core.Config.Set('Baselink', OldBaselink);
+        }
+
         function ChangeErrorHandlingForTest() {
             ErrorHandlingFunc = Core.Exception.HandleFinalError;
             Core.Exception.HandleFinalError = function (Exception) {
@@ -266,11 +271,6 @@ Core.AJAX = (function (Namespace) {
             };
 
             OldBaselink = Core.Config.Get('Baselink');
-        }
-
-        function RestoreOrignal() {
-            Core.Exception.HandleFinalError = ErrorHandlingFunc;
-            Core.Config.Set('Baselink', OldBaselink);
         }
 
         // FormUpdate

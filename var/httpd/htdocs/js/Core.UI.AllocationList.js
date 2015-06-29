@@ -20,7 +20,7 @@ Core.UI = Core.UI || {};
  */
 Core.UI.AllocationList = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.UI.AllocationList', '$([]).sortable', 'jQuery UI sortable')) {
-        return;
+        return false;
     }
 
     /**

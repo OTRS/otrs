@@ -91,8 +91,9 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         });
                         $ElementToUpdate.fadeIn();
                         try {
-                            /*jslint evil: true */
+                            /*eslint-disable no-eval */
                             eval(JavaScriptString);
+                            /*eslint-enable no-eval */
                         }
                         catch (Event) {
                             // do nothing here (code needed  to not have an empty block here)

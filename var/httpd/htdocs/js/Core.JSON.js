@@ -23,7 +23,7 @@ Core.JSON = (function (TargetNS) {
     // let you see a javascript error message instead of the 'old browser' warning box.
     // Therefore we do the dependency check silent in this case.
     if (!Core.Debug.CheckDependency('Core.JSON', 'JSON.parse', 'JSON parser', true)) {
-        return;
+        return false;
     }
 
     /**

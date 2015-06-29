@@ -23,7 +23,7 @@ Core.Form = (function (TargetNS) {
      * check dependencies first
      */
     if (!Core.Debug.CheckDependency('Core.Form', 'Core.Data', 'Core.Data')) {
-        return;
+        return false;
     }
 
     /**
@@ -44,7 +44,7 @@ Core.Form = (function (TargetNS) {
         if (!$Form.hasClass('AlreadyDisabled')) {
             $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function () {
                 var ReadonlyValue = $(this).attr('readonly'),
-                    TagnameValue  = $(this).prop('tagName'),
+                    TagnameValue = $(this).prop('tagName'),
                     DisabledValue = $(this).attr('disabled');
 
                 if (TagnameValue === 'BUTTON') {
@@ -90,7 +90,7 @@ Core.Form = (function (TargetNS) {
             .removeAttr('disabled');
 
         $.each($Form.find("input:not([type='hidden']), textarea, select, button"), function () {
-            var TagnameValue  = $(this).prop('tagName'),
+            var TagnameValue = $(this).prop('tagName'),
                 ReadonlyValue = Core.Data.Get($(this), 'OldReadonlyStatus'),
                 DisabledValue = Core.Data.Get($(this), 'OldDisabledStatus');
 
@@ -164,7 +164,7 @@ Core.Form = (function (TargetNS) {
             Core.App.Subscribe('Event.UI.Table.InitTableFilter.Change', function ($FilterInput, $Container) {
                 // Only continue, if the filter event is associated with the container we are working in
                 if (!$.contains($Container[0], $SelectAllCheckbox[0])) {
-                    return false;
+                    return;
                 }
 
                 $Checkboxes.prop('checked', false);

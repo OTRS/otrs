@@ -233,10 +233,10 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     };
 
                 $Element.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Element.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.CustomerValue + " (" + this.CustomerKey + ")",
                             // customer list representation (see CustomerUserListFields from Defaults.pm)
                             value: this.CustomerValue,
@@ -244,7 +244,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                             key: this.CustomerKey
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             }, function (Event, UI) {
                 var CustomerKey = UI.item.key,
@@ -372,7 +372,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
         TicketCustomerIDs = $('.CustomerContainer input[type="radio"]').length;
 
         // increment customer counter
-        CustomerTicketCounter ++;
+        CustomerTicketCounter++;
 
         // set sufix
         Suffix = '_' + CustomerTicketCounter;

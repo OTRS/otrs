@@ -23,7 +23,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
 
     // add dependencies to chart libs here (e.g. nvd3 etc.)
     if (!Core.Debug.CheckDependency('Core.UI.AdvancedChart', 'nv', 'nvd3')) {
-        return;
+        return false;
     }
 
     /**
@@ -342,13 +342,13 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                 return;
             }
 
-            var ResultLine = {
+            var Counter = 0,
+                ResultLine = {
                     key: DataElement[0],
                     color: Colors[Counter % Colors.length],
                     disabled: (PreferencesData && PreferencesData.Filter && $.inArray(DataElement[0], PreferencesData.Filter) === -1) ? true : false,
                     values: []
-                },
-                Counter = 0;
+                };
 
             $.each(Headings, function(HeadingIndex, HeadingElement){
                 var Value;
@@ -409,7 +409,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                 Chart.staggerLabels(true);
 
                 Chart.tooltips(function(key, x, y) {
-                    return '<h3>' + key + '</h3>' + '<p>' +  x + ': ' + y + '</p>';
+                    return '<h3>' + key + '</h3>' + '<p>' + x + ': ' + y + '</p>';
                 });
 
                 Chart.dispatch.on('stateChange', function(state) {

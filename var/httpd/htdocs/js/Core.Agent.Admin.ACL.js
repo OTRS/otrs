@@ -225,7 +225,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                                             if (typeof Data[Level1Key][Level2Key][Level3Key] !== 'object') {
 
                                                 Class = 'True';
-                                                Bool  = parseInt(Data[Level1Key][Level2Key][Level3Key], 10);
+                                                Bool = parseInt(Data[Level1Key][Level2Key][Level3Key], 10);
 
                                                 if (Bool === 0) {
                                                     Class = 'False';
@@ -414,7 +414,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         }
         else if (Level === 4) {
 
-            $LevelObj   = $('#TemplateLevel4 > li').clone();
+            $LevelObj = $('#TemplateLevel4 > li').clone();
             $TriggerObj = $Object.next('.AddButton');
 
             if (Value) {
@@ -556,15 +556,15 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
         $('.ACLStructure').on('click', '.AddAll', function() {
             var $SelectObj = $(this).prev('select'),
-                Boolean = '';
+                BooleanStr = '';
 
             if ($SelectObj.hasClass('Boolean')) {
-                Boolean = 'Boolean';
+                BooleanStr = 'Boolean';
             }
 
             $SelectObj.find('option').each(function() {
                 $SelectObj.val($(this).attr('value'));
-                TargetNS.AddItem($SelectObj, Boolean);
+                TargetNS.AddItem($SelectObj, BooleanStr);
             });
         });
 
@@ -771,11 +771,11 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         });
 
         $('.ACLStructure').on('change', '.NewDataKeyDropdown', function() {
-            var Boolean = '';
+            var BooleanStr = '';
             if ($(this).hasClass('Boolean')) {
-                Boolean = 'Boolean';
+                BooleanStr = 'Boolean';
             }
-            TargetNS.AddItem($(this), Boolean);
+            TargetNS.AddItem($(this), BooleanStr);
         });
 
         $('.ACLStructure').on('click', '.DataItem em', function() {
@@ -814,7 +814,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
         $('#Submit, #SubmitAndContinue').bind('click', function() {
 
             // collect data from the input areas
-            TargetNS.ConfigMatch  = TargetNS.CollectACLData($('#ACLMatch'));
+            TargetNS.ConfigMatch = TargetNS.CollectACLData($('#ACLMatch'));
             TargetNS.ConfigChange = TargetNS.CollectACLData($('#ACLChange'));
 
             $('input[name=ConfigMatch]').val(Core.JSON.Stringify(TargetNS.ConfigMatch));

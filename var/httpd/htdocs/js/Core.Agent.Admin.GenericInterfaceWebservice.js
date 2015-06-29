@@ -163,7 +163,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
 
         // get current system time to define suggested the name of the cloned webservice
         CurrentDate = new Date();
-        CloneName = $('#Name').val() + "-" +CurrentDate.getTime();
+        CloneName = $('#Name').val() + "-" + CurrentDate.getTime();
 
         // set the suggested name
         $('.CloneName').val( CloneName );
@@ -272,7 +272,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         }
 
         Core.UI.Dialog.ShowContentDialog(
-            $('#Delete'+ ActionType + 'DialogContainer'),
+            $('#Delete' + ActionType + 'DialogContainer'),
             DialogTitle,
             '240px',
             'Center',

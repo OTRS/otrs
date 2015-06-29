@@ -78,7 +78,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                     '</a></td>';
                     HTML += '<td><a href="#" class="AsBlock">' + this.CreateTime + '</a></td>';
                     HTML += '</tr>';
-                    Counter --;
+                    Counter--;
 
                 });
                 $('#WebserviceList tbody').html(HTML);
@@ -138,10 +138,10 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
             }
             else {
 
-                $('#WebserviceHistoryID').attr('value',WebserviceHistoryID);
+                $('#WebserviceHistoryID').attr('value', WebserviceHistoryID);
                 $('#WebserviceHistoryDetails .ControlRow').empty();
                 $('#WebserviceHistoryDetails .ControlRow').append(
-                    '<h2>History Details: Version ' + WebserviceHistoryVersion + ', ' + Response.LogData.CreateTime +  '</h2>'
+                    '<h2>History Details: Version ' + WebserviceHistoryVersion + ', ' + Response.LogData.CreateTime + '</h2>'
                 );
 
                 $('#WebserviceHistoryDetails .ConfigCode pre').empty();
@@ -184,7 +184,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
                 {
                     Label: TargetNS.Localization.RollbackLogMsg,
                     Function: function () {
-                        $('#Subaction').attr('value','Rollback');
+                        $('#Subaction').attr('value', 'Rollback');
                         $('#ActionForm').submit();
                     }
                 }

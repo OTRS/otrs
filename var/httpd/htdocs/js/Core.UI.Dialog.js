@@ -24,10 +24,10 @@ Core.UI.Dialog = (function (TargetNS) {
      * check dependencies first
      */
     if (!Core.Debug.CheckDependency('Core.UI.Dialog', '$([]).draggable', 'jQuery UI draggable')) {
-        return;
+        return false;
     }
     if (!Core.Debug.CheckDependency('Core.UI.Dialog', 'Core.Config', 'Core.Config')) {
-        return;
+        return false;
     }
 
     /**
@@ -109,7 +109,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 // :tabbable probably comes from jquery UI
                 $Tabbables = $('a:visible, input:visible, textarea:visible, select:visible, button:visible', $Dialog);
                 $First = $Tabbables.filter(':first');
-                $Last  = $Tabbables.filter(':last');
+                $Last = $Tabbables.filter(':last');
 
                 if (Event.target === $Last[0] && !Event.shiftKey) {
                     $First.focus(1);
@@ -391,8 +391,8 @@ Core.UI.Dialog = (function (TargetNS) {
         // Set position for Dialog
         if (Params.Type === 'Alert') {
             $Dialog.css({
-                top:    $(window).scrollTop() + ($(window).height() * 0.3),
-                left:   Math.round(($(window).width() - $Dialog.width()) / 2)
+                top: $(window).scrollTop() + ($(window).height() * 0.3),
+                left: Math.round(($(window).width() - $Dialog.width()) / 2)
             });
         }
 

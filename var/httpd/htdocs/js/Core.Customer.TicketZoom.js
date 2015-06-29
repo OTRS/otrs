@@ -20,7 +20,7 @@ Core.Customer = Core.Customer || {};
  */
 Core.Customer.TicketZoom = (function (TargetNS) {
     if (!Core.Debug.CheckDependency('Core.Customer', 'Core.UI.RichTextEditor', 'Core.UI.RichTextEditor')) {
-        return;
+        return false;
     }
 
     /**
@@ -33,7 +33,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      *      Sets the size of the iframe to the size of its inner html.
      */
     function CalculateHeight(Iframe){
-        Iframe =  isJQueryObject(Iframe) ? Iframe.get(0) : Iframe;
+        Iframe = isJQueryObject(Iframe) ? Iframe.get(0) : Iframe;
         setTimeout(function () {
             var $IframeContent = $(Iframe.contentDocument || Iframe.contentWindow.document),
                 NewHeight = $IframeContent.height();
@@ -84,7 +84,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
     function CheckIframe(Iframe, Callback){
         if ($.browser.safari || $.browser.opera){
             $(Iframe).load(function(){
-                setTimeout(ResizeIframe, 0, this, callback);
+                setTimeout(ResizeIframe, 0, this, Callback);
             });
             var Source = Iframe.src;
             Iframe.src = '';

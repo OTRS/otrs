@@ -54,15 +54,15 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.Label + ' (' + this.Value + ')',
                             value: this.Value
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             },
             select: function (Event, UI) {
@@ -109,16 +109,16 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.CustomerValue + " (" + this.CustomerKey + ")",
                             value: this.CustomerValue,
                             key: this.CustomerKey
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             },
             select: function (Event, UI) {
@@ -167,16 +167,16 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 }
 
                 $Input.data('AutoCompleteXHR', Core.AJAX.FunctionCall(URL, Data, function (Result) {
-                    var Data = [];
+                    var ValueData = [];
                     $Input.removeData('AutoCompleteXHR');
                     $.each(Result, function () {
-                        Data.push({
+                        ValueData.push({
                             label: this.UserValue + " (" + this.UserKey + ")",
                             value: this.UserValue,
                             key: this.UserKey
                         });
                     });
-                    Response(Data);
+                    Response(ValueData);
                 }));
             },
             select: function (Event, UI) {
@@ -378,13 +378,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
                 // re-calculate Top position if needed
                 VisibleScrollPosition = $(document).scrollTop();
                 WindowHeight = $(window).height();
-                DocumentVisible  = VisibleScrollPosition + WindowHeight;
+                DocumentVisible = VisibleScrollPosition + WindowHeight;
 
                 ContainerHeight = $('#events-layer').height();
                 LastYPosition = PosY + ContainerHeight;
                 if ( LastYPosition > DocumentVisible ) {
                     PosY = PosY - (LastYPosition - DocumentVisible) - 10;
-                    $('#events-layer').css('top', PosY+'px');
+                    $('#events-layer').css('top', PosY + 'px');
                 }
 
                 $('#events-layer').fadeIn("fast");
@@ -410,13 +410,13 @@ Core.Agent.Dashboard = (function (TargetNS) {
         // Initialize the time multiplicators for the time validation.
         $('.TimeRelativeUnitGeneric, .TimeScaleUnitGeneric', $Container).find('option').each(function() {
             var SecondsMapping = {
-                'Year'   : 31536000,
-                'Month'  : 2592000,
-                'Week'   : 604800,
-                'Day'    : 86400,
-                'Hour'   : 3600,
-                'Minute' : 60,
-                'Second' : 1
+                'Year': 31536000,
+                'Month': 2592000,
+                'Week': 604800,
+                'Day': 86400,
+                'Hour': 3600,
+                'Minute': 60,
+                'Second': 1
             };
 
             $(this).attr('data-seconds', SecondsMapping[$(this).val()]);

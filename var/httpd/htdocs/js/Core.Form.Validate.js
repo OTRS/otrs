@@ -28,46 +28,47 @@ Core.Form.Validate = (function (TargetNS) {
      *      Default options.
      */
     var Options = {
-        FormClass:          'Validate',
-        ErrorClass:         'Error',
-        ErrorLabelClass:    'LabelError',
-        ServerErrorClass:   'ServerError',
-        ServerLabelClass:   'ServerLabelError',
-        IgnoreClass:        'ValidationIgnore',
-        SubmitFunction:     {}
+        FormClass: 'Validate',
+        ErrorClass: 'Error',
+        ErrorLabelClass: 'LabelError',
+        ServerErrorClass: 'ServerError',
+        ServerLabelClass: 'ServerLabelError',
+        IgnoreClass: 'ValidationIgnore',
+        SubmitFunction: {}
     };
 
     /*
      * check dependencies first
      */
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.UI.Accessibility', 'Core.UI.Accessibility')) {
-        return;
+        return false;
     }
 
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.UI.Dialog', 'Core.UI.Dialog')) {
-        return;
+        return false;
     }
 
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.Form', 'Core.Form')) {
-        return;
+        return false;
     }
 
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.UI.RichTextEditor', 'Core.UI.RichTextEditor')) {
-        return;
+        return false;
     }
 
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.Form.ErrorTooltips', 'Core.Form.ErrorTooltips')) {
-        return;
+        return false;
     }
 
     if (!Core.Debug.CheckDependency('Core.Form.Validate', 'Core.App', 'Core.App')) {
-        return;
+        return false;
     }
 
     /**
      * @name HighlightError
      * @memberof Core.Form.Validate
      * @function
+     * @returns {Boolean} False if error is already highlighted
      * @param {DOMObject} Element - The DOM object of the form  or any element.
      * @param {String} ErrorType - The error type (a class that identifies the error type).
      * @description
@@ -86,7 +87,7 @@ Core.Form.Validate = (function (TargetNS) {
         // Check if the element has already an error class
         // (that means, this function call is an additional call)
         if ($Element.hasClass(Options.ErrorClass)) {
-            return;
+            return false;
         }
 
         // Add error class to field and its label
@@ -276,7 +277,7 @@ Core.Form.Validate = (function (TargetNS) {
     // Use the maxlength attribute to have a dynamic validation
     // Textarea fields will need JS code to set the maxlength attribute since is not supported by
     // XHTML
-    $.validator.addMethod("Validate_MaxLength",function (Value, Element) {
+    $.validator.addMethod("Validate_MaxLength", function (Value, Element) {
 
         // JS takes new lines '\n\r' in textarea elements as 1 character '\n' for length
         // calculation purposes therefore is needed to re-add the '\r' to get the correct length
@@ -300,13 +301,13 @@ Core.Form.Validate = (function (TargetNS) {
      * @returns {Boolean} True for a valid date, false otherwise.
      * @param {String} Value
      * @param {DOMObject} Element
-     * @param {Object} [Options]
-     * @param {Boolean} [Options.DateInFuture]
-     * @param {Boolean} [Options.DateNotInFuture]
+     * @param {Object} [DateOptions]
+     * @param {Boolean} [DateOptions.DateInFuture]
+     * @param {Boolean} [DateOptions.DateNotInFuture]
      * @description
      *      Validator method for dates.
      */
-    function DateValidator (Value, Element, Options) {
+    function DateValidator (Value, Element, DateOptions) {
         var Classes = $(Element).attr('class'),
         DateObject,
         RegExYear,
@@ -327,18 +328,18 @@ Core.Form.Validate = (function (TargetNS) {
         RegExMonth = new RegExp(DateMonthClassPrefix);
         RegExHour = new RegExp(DateHourClassPrefix);
         RegExMinute = new RegExp(DateMinuteClassPrefix);
-        $.each(Classes.split(' '), function (Index, Value) {
-            if (RegExYear.test(Value)) {
-                YearElement = Value.replace(DateYearClassPrefix, '');
+        $.each(Classes.split(' '), function (Index, ClassValue) {
+            if (RegExYear.test(ClassValue)) {
+                YearElement = ClassValue.replace(DateYearClassPrefix, '');
             }
-            if (RegExMonth.test(Value)) {
-                MonthElement = Value.replace(DateMonthClassPrefix, '');
+            if (RegExMonth.test(ClassValue)) {
+                MonthElement = ClassValue.replace(DateMonthClassPrefix, '');
             }
-            if (RegExHour.test(Value)) {
-                HourElement = Value.replace(DateHourClassPrefix, '');
+            if (RegExHour.test(ClassValue)) {
+                HourElement = ClassValue.replace(DateHourClassPrefix, '');
             }
-            if (RegExMinute.test(Value)) {
-                MinuteElement = Value.replace(DateMinuteClassPrefix, '');
+            if (RegExMinute.test(ClassValue)) {
+                MinuteElement = ClassValue.replace(DateMinuteClassPrefix, '');
             }
         });
         if (YearElement.length && MonthElement.length && $('#' + YearElement).length && $('#' + MonthElement).length) {
@@ -355,12 +356,12 @@ Core.Form.Validate = (function (TargetNS) {
                     DateCheck.setHours(0, 0, 0, 0);
                 }
 
-                if (Options.DateInFuture) {
+                if (DateOptions.DateInFuture) {
                     if (DateObject >= DateCheck) {
                         return true;
                     }
                 }
-                else if (Options.DateNotInFuture) {
+                else if (DateOptions.DateNotInFuture) {
                     if (DateObject <= DateCheck) {
                         return true;
                     }
@@ -420,9 +421,9 @@ Core.Form.Validate = (function (TargetNS) {
             RegExEqual,
             I;
         RegExEqual = new RegExp(EqualClassPrefix);
-        $.each(Classes.split(' '), function (Index, Value) {
-            if (RegExEqual.test(Value)) {
-                EqualElements.push(Value.replace(EqualClassPrefix, ''));
+        $.each(Classes.split(' '), function (Index, ClassValue) {
+            if (RegExEqual.test(ClassValue)) {
+                EqualElements.push(ClassValue.replace(EqualClassPrefix, ''));
             }
         });
         if (EqualElements.length) {

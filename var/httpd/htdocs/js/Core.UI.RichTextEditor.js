@@ -116,7 +116,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             width: Core.Config.Get('RichText.Width', 620),
             resize_minWidth: Core.Config.Get('RichText.Width', 620),
             height: Core.Config.Get('RichText.Height', 320),
-            removePlugins : 'elementspath,scayt,menubutton',
+            removePlugins: 'elementspath,scayt,menubutton',
             forcePasteAsPlainText: false,
             format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',

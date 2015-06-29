@@ -38,7 +38,7 @@ Core.Config = (function (TargetNS) {
         ConfigPrefix = 'Config';
 
     if (!Core.Debug.CheckDependency('Core.Config', 'Core.Data', 'Core.Data')) {
-        return;
+        return false;
     }
 
     /**
@@ -114,11 +114,11 @@ Core.Config = (function (TargetNS) {
      * @memberof Core.Config
      * @function
      * @param {Object} Data - The config data to include as a javascript object
-     * @param {String} Key - The key in the config where the data structure is saved to. If undefined, the Data is added to the root of the hash.
+     * @param {String} ConfigKey - The key in the config where the data structure is saved to. If undefined, the Data is added to the root of the hash.
      * @description
      *      This function includes the given data into the config hash.
      */
-    TargetNS.AddConfig = function (Data, Key) {
+    TargetNS.AddConfig = function (Data, ConfigKey) {
         var ConfigOptions,
             Keys,
             KeyToken,
@@ -133,13 +133,13 @@ Core.Config = (function (TargetNS) {
          */
         ConfigOptions = Core.Data.CopyObject(Data);
 
-        if (typeof Key === 'undefined') {
+        if (typeof ConfigKey === 'undefined') {
             $.each(Data, function (Key, Value) {
                 ConfigLevel[ConfigPrefix + Key] = Value;
             });
         }
         else {
-            Keys = Key.split('.');
+            Keys = ConfigKey.split('.');
             for (KeyToken in Keys) {
                 if (Keys.length === Count + 1) {
                     ConfigLevel[ConfigPrefix + Keys[KeyToken]] = ConfigOptions;

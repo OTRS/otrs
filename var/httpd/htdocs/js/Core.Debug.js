@@ -37,10 +37,12 @@ Core.Debug = (function (TargetNS) {
      *      Container variable for the generic DebugLog object.
      */
         DebugLog;
+    /*eslint-disable no-console */
     if (typeof console === 'object' && typeof console.log === 'function') {
         DebugConsole = console;
         DebugLog = console.log;
     }
+    /*eslint-enable no-console */
     else if (typeof opera === 'object' && typeof opera.PostError === 'function') {
         DebugConsole = opera;
         DebugLog = opera.PostError;
@@ -95,7 +97,9 @@ Core.Debug = (function (TargetNS) {
         var RequiredEval, ErrorMessage;
 
         try {
+            /*eslint-disable no-eval */
             RequiredEval = eval('try{ typeof ' + Required + '} catch (E) {}');
+            /*eslint-enable no-eval */
         }
         catch (Event) {
             // no code here
