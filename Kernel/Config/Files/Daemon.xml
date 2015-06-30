@@ -319,7 +319,7 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SupportDataCollectAsynchronous" Required="1" Valid="1" ReadOnly="0">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###SupportDataCollectAsynchronous" Required="1" Valid="1" ReadOnly="1">
         <Description Translatable="1">Collect support data for asynchronous plug-in modules.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
