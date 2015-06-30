@@ -100,6 +100,7 @@ Kernel/System/DynamicFieldDatabase.pm
 Kernel/System/Ticket/Event/NotificationEvent/Transport/NotificationView.pm
 Kernel/System/Ticket/Event/StoreHistoricalData.pm
 Kernel/System/NotificationView.pm
+Kernel/System/StatsReport.pm
 Kernel/Output/HTML/*Chat*
 Kernel/Output/HTML/NavBar/*Chat*
 Kernel/Output/HTML/CustomerUser/*Chat*
@@ -127,6 +128,7 @@ scripts/test/Console/Command/Maint/NotificationView*
 scripts/test/NotificationView*
 scripts/test/Selenium/Agent/AgentNotificationView.t
 scripts/test/Ticket/Event/NotificationEvent/Transport/NotificationView.t
+scripts/test/StatsReport.t
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
 var/httpd/htdocs/js/*ChronicalView*
