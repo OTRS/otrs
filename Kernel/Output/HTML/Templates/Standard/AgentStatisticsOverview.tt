@@ -47,7 +47,7 @@
 
                 <table class="Sortable DataTable">
                     <thead>
-                        <tr>
+                        <tr [% IF !Data.Valid %]class="Invalid"[% END %]>
                             <th class="[% Data.CSSSortID | html %]">
                                 <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;Direction=[% Data.LinkSortID | uri %];OrderBy=ID;StartHit=[% Data.StartHit | uri %]">
                                     [% Config("Stats::StatsHook") | html %]

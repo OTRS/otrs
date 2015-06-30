@@ -90,6 +90,7 @@ Kernel/Modules/*ContactWithData*
 Kernel/Modules/*DynamicFieldDatabase*
 Kernel/Modules/AgentTicketAttachmentView.pm
 Kernel/Modules/AgentNotificationView.pm
+Kernel/Modules/AgentStatisticsReports.pm
 Kernel/System/*Chat*
 Kernel/System/Console/Command/Maint/Chat*
 Kernel/System/Console/Command/Maint/NotificationView*
@@ -122,6 +123,7 @@ Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
 Kernel/Output/HTML/Templates/Standard/*ContactWithData*
 Kernel/Output/HTML/Templates/Standard/*DynamicFieldDatabase*
 Kernel/Output/HTML/Templates/Standard/*SLASelectionDialog*
+Kernel/Output/HTML/Templates/Standard/*AgentStatisticsReports*
 scripts/test/Chat
 scripts/test/Console/Command/Maint/Chat*
 scripts/test/Console/Command/Maint/NotificationView*
