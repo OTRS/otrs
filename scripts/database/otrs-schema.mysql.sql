@@ -1198,19 +1198,6 @@ CREATE TABLE gi_webservice_config_history (
     UNIQUE INDEX gi_webservice_config_history_config_md5 (config_md5)
 );
 # ----------------------------------------------------------
-#  create table scheduler_task_list
-# ----------------------------------------------------------
-CREATE TABLE scheduler_task_list (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    task_data TEXT NOT NULL,
-    task_data_md5 VARCHAR (32) NOT NULL,
-    task_type VARCHAR (200) NOT NULL,
-    due_time DATETIME NOT NULL,
-    create_time DATETIME NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX scheduler_task_list_task_data_md5 (task_data_md5)
-);
-# ----------------------------------------------------------
 #  create table gi_debugger_entry
 # ----------------------------------------------------------
 CREATE TABLE gi_debugger_entry (
@@ -1389,6 +1376,64 @@ CREATE TABLE pm_entity_sync (
     create_time DATETIME NOT NULL,
     change_time DATETIME NOT NULL,
     UNIQUE INDEX pm_entity_sync_list (entity_type, entity_id)
+);
+# ----------------------------------------------------------
+#  create table scheduler_task
+# ----------------------------------------------------------
+CREATE TABLE scheduler_task (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    ident BIGINT NOT NULL,
+    name VARCHAR (200) NULL,
+    task_type VARCHAR (200) NOT NULL,
+    task_data LONGBLOB NOT NULL,
+    attempts SMALLINT NOT NULL,
+    lock_key BIGINT NOT NULL,
+    lock_time DATETIME NULL,
+    lock_update_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX scheduler_task_ident (ident),
+    INDEX scheduler_task_ident_id (ident, id),
+    INDEX scheduler_task_lock_key_id (lock_key, id)
+);
+# ----------------------------------------------------------
+#  create table scheduler_future_task
+# ----------------------------------------------------------
+CREATE TABLE scheduler_future_task (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    ident BIGINT NOT NULL,
+    execution_time DATETIME NOT NULL,
+    name VARCHAR (200) NULL,
+    task_type VARCHAR (200) NOT NULL,
+    task_data LONGBLOB NOT NULL,
+    attempts SMALLINT NOT NULL,
+    lock_key BIGINT NOT NULL,
+    lock_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX scheduler_future_task_ident (ident),
+    INDEX scheduler_future_task_ident_id (ident, id),
+    INDEX scheduler_future_task_lock_key_id (lock_key, id)
+);
+# ----------------------------------------------------------
+#  create table scheduler_recurrent_task
+# ----------------------------------------------------------
+CREATE TABLE scheduler_recurrent_task (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    task_type VARCHAR (200) NOT NULL,
+    last_execution_time DATETIME NOT NULL,
+    last_worker_task_id BIGINT NULL,
+    last_worker_status SMALLINT NULL,
+    last_worker_running_time INTEGER NULL,
+    lock_key BIGINT NOT NULL,
+    lock_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX scheduler_recurrent_task_name_task_type (name, task_type),
+    INDEX scheduler_recurrent_task_lock_key_id (lock_key, id),
+    INDEX scheduler_recurrent_task_task_type_name (task_type, name)
 );
 # ----------------------------------------------------------
 #  create table cloud_service_config

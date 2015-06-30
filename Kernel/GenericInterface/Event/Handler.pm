@@ -55,7 +55,7 @@ sub Run {
         }
     }
 
-    # get webservice objects
+    # get web service objects
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 
     my %WebserviceList = %{
@@ -64,7 +64,7 @@ sub Run {
         ),
     };
 
-    # loop over webservices
+    # loop over web services
     WEBSERVICE:
     for my $WebserviceID ( sort keys %WebserviceList ) {
 
@@ -76,7 +76,7 @@ sub Run {
         next WEBSERVICE if !IsHashRefWithData( $WebserviceData->{Config}->{Requester} );
         next WEBSERVICE if !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} );
 
-        # check invokers of the webservice, to see if some might be connected to this event
+        # check invokers of the web service, to see if some might be connected to this event
         INVOKER:
         for my $Invoker ( sort keys %{ $WebserviceData->{Config}->{Requester}->{Invoker} } ) {
 
@@ -92,12 +92,14 @@ sub Run {
                 # check if the invoker is connected to this event
                 if ( $Event->{Event} eq $Param{Event} ) {
 
-                    # create a scheduler task for later execution
+                    # create a scheduler task
                     if ( $Event->{Asynchronous} ) {
 
-                        my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskRegister(
-                            Type => 'GenericInterface',
-                            Data => {
+                        my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler')->TaskAdd(
+                            Type     => 'GenericInterface',
+                            Name     => 'Invoker-' . $Invoker,
+                            Attempts => 10,
+                            Data     => {
                                 WebserviceID => $WebserviceID,
                                 Invoker      => $Invoker,
                                 Data         => $Param{Data},

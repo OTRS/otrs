@@ -1,0 +1,31 @@
+# --
+# Copyright (C) 2001-2015 OTRS AG, http://otrs.com/
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div id="DaemonRunDialog" class="InnerContent DaemonInfoContent">
+    <legend>[% Translate("General Information") | html %]</legend>
+    <div class="InfoParagraph">
+        <p>[% Translate("OTRS Daemon is a separated process that perform asynchronous tasks") | html %]</p>
+        <p class="FieldExplanation">[% Translate("(e.g. Generic Interface asynchronous invoker tasks, Ticket escalation triggering, Email sending, etc.)") | html %]</p>
+        <div class="SpacingTop"></div>
+        <p class="Strong">[% Translate("It is necessary to have the OTRS Daemon running to make the system work correctly!") | html %]</p>
+    </div>
+    <div class="Clear Spacing"></div>
+
+    <legend>[% Translate("Starting OTRS Daemon") | html %]</legend>
+    <div class="InfoParagraph">
+        <ul>
+            <li>[% Translate("Make sure that %s exists (without .dist extension)", Data.DaemonCron) | html %]</li>
+            <li>[% Translate("Check that cron deamon is running in the system") | html %]</li>
+            <li>[% Translate("Confirm that OTRS cron jobs are running, execute %s start", Data.CronExecutable) | html %]</li>
+        </ul>
+    </div>
+    <div class="Clear Spacing"></div>
+</div>
+<div class="ContentFooter Center">
+    <button id="DaemonFormCancel" class="Primary CallForAction" value="Close"><span><i class="fa fa-times"></i>[% Translate("Close") | html %]</span></button>
+</div>

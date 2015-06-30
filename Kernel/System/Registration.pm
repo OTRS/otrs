@@ -19,8 +19,6 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Environment',
     'Kernel::System::Log',
-    'Kernel::System::OTRSBusiness',
-    'Kernel::System::Scheduler::TaskManager',
     'Kernel::System::SupportDataCollector',
     'Kernel::System::SystemData',
     'Kernel::System::Time',
@@ -401,6 +399,12 @@ sub Register {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
+    # calculate due date for next update, fall back to 24h
+    my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 60 * 60 * 24 );
+    my $NextUpdateTime = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $TimeObject->SystemTime() + $NextUpdateSeconds,
+    );
+
     my %RegistrationData = (
         State              => 'registered',
         UniqueID           => $ResponseData->{UniqueID},
@@ -410,6 +414,7 @@ sub Register {
         Type               => $ResponseData->{Type} || $Param{Type},
         Description        => $ResponseData->{Description} || $Param{Description},
         SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
+        NextUpdateTime     => $NextUpdateTime,
     );
 
     # only add keys if the system has never been registered before
@@ -422,7 +427,7 @@ sub Register {
     if ( !$OldRegistration{UniqueID} ) {
 
         for my $Key (
-            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type)
+            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type NextUpdateTime)
             )
         {
             $SystemDataObject->SystemDataAdd(
@@ -446,7 +451,7 @@ sub Register {
 
         # update registration information
         for my $Key (
-            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type)
+            qw(State UniqueID APIKey LastUpdateID LastUpdateTime Description SupportDataSending Type NextUpdateTime)
             )
         {
             if ( defined $OldRegistration{$Key} ) {
@@ -467,36 +472,6 @@ sub Register {
             }
         }
     }
-
-    # calculate due date for next update, fall back to 24h
-    my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 3600 * 24 );
-    my $DueTime = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $TimeObject->SystemTime() + $NextUpdateSeconds,
-    );
-
-    # get task object
-    my $TaskObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
-
-    # remove all existing RegistrationUpdate scheduler task
-    my @TaskList = $TaskObject->TaskList();
-
-    TASK:
-    for my $Task (@TaskList) {
-
-        next TASK if $Task->{Type} ne 'RegistrationUpdate';
-
-        $TaskObject->TaskDelete( ID => $Task->{ID} );
-    }
-
-    # schedule update in scheduler
-    # after first update the updates will reschedule itself
-    my $Result = $TaskObject->TaskAdd(
-        Type    => 'RegistrationUpdate',
-        DueTime => $DueTime,
-        Data    => {
-            ReSchedule => 1,
-        },
-    );
 
     # check if Support Data could be added
     if ($SupportData) {
@@ -591,8 +566,7 @@ If you provide Type and Description, these will be sent to the registration serv
 returns
 
     %Result = (
-        Success      => 1,
-        ReScheduleIn => 604800, # number of seconds for next update
+        Success => 1,
     );
 
 or
@@ -674,27 +648,6 @@ sub RegistrationUpdateSend {
         },
         Timeout => $Self->{TimeoutRequest},
     );
-
-    # If we have an installed OTRSBusiness, call BusinessPermissionCheck cloud service
-    my $OTRSBusinessObject    = $Kernel::OM->Get('Kernel::System::OTRSBusiness');
-    my $OTRSBusinessInstalled = $OTRSBusinessObject->OTRSBusinessIsInstalled();
-    if ($OTRSBusinessInstalled) {
-        push @{ $RequestParams{RequestData}->{OTRSBusiness} }, {
-            Operation => 'BusinessPermission',
-            Data      => {},
-        };
-    }
-
-    # Get OTRSBusiness::ReleaseChannel from SysConfig (Stable = 1, Development = 0)
-    my $OnlyStable = $Kernel::OM->Get('Kernel::Config')->Get('OTRSBusiness::ReleaseChannel') // 1;
-
-    # Check for OTRSBusiness availability (for install or update)
-    push @{ $RequestParams{RequestData}->{OTRSBusiness} }, {
-        Operation => 'BusinessVersionCheck',
-        Data      => {
-            OnlyStable => $OnlyStable,
-        },
-    };
 
     # if we have SupportData, call SupportDataAdd on the same request
     if ($SupportData) {
@@ -803,6 +756,12 @@ sub RegistrationUpdateSend {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
+    # calculate due date for next update, fall back to 24 hours
+    my $NextUpdateSeconds = int $ResponseData->{NextUpdate} || ( 60 * 60 * 24 );
+    my $NextUpdateTime = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $TimeObject->SystemTime() + $NextUpdateSeconds,
+    );
+
     # gather and update provided data in SystemData table
     my %UpdateData = (
         LastUpdateID       => $ResponseData->{UpdateID},
@@ -810,6 +769,7 @@ sub RegistrationUpdateSend {
         Type               => $ResponseData->{Type},
         Description        => $ResponseData->{Description},
         SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
+        NextUpdateTime     => $NextUpdateTime,
     );
 
     # get system data object
@@ -851,60 +811,6 @@ sub RegistrationUpdateSend {
     my $Success = 1;
     my $Reason;
 
-    if ($OTRSBusinessInstalled) {
-
-        # Check result of BusinessPermission check
-        my $OperationResult = $CloudServiceObject->OperationResultGet(
-            RequestResult => $RequestResult,
-            CloudService  => 'OTRSBusiness',
-            Operation     => 'BusinessPermission',
-        );
-
-        if ( !IsHashRefWithData($OperationResult) || !$OperationResult->{Success} ) {
-            $Success = 0;
-            $Reason .= 'RegistrationUpdate - could not perform BusinessPermission check.';
-            if ( IsHashRefWithData($OperationResult) ) {
-                $Reason .= $OperationResult->{ErrorMessage};
-            }
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $Reason,
-            );
-        }
-        else {
-            $OTRSBusinessObject->HandleBusinessPermissionCloudServiceResult(
-                OperationResult => $OperationResult,
-            );
-        }
-
-    }
-
-    {
-        # Check result of BusinessVersionCheck
-        my $OperationResult = $CloudServiceObject->OperationResultGet(
-            RequestResult => $RequestResult,
-            CloudService  => 'OTRSBusiness',
-            Operation     => 'BusinessVersionCheck',
-        );
-
-        if ( !IsHashRefWithData($OperationResult) || !$OperationResult->{Success} ) {
-            $Success = 0;
-            $Reason .= 'RegistrationUpdate - could not perform BusinessPermission check.';
-            if ( IsHashRefWithData($OperationResult) ) {
-                $Reason .= $OperationResult->{ErrorMessage};
-            }
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => $Reason,
-            );
-        }
-        else {
-            $OTRSBusinessObject->HandleBusinessVersionCheckCloudServiceResult(
-                OperationResult => $OperationResult,
-            );
-        }
-    }
-
     # check if Support Data could be added
     if ($SupportData) {
         my $OperationResult = $CloudServiceObject->OperationResultGet(
@@ -933,9 +839,8 @@ sub RegistrationUpdateSend {
     }
 
     return (
-        Success      => $Success,
-        Reason       => $Reason,
-        ReScheduleIn => $ResponseData->{NextUpdate} // ( 3600 * 7 * 24 ),
+        Success => $Success,
+        Reason  => $Reason,
     );
 }
 
@@ -1060,20 +965,6 @@ sub Deregister {
         Value  => 'deregistered',
         UserID => 1,
     );
-
-    # get task object
-    my $TaskObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
-
-    # remove RegistrationUpdate scheduler task
-    my @TaskList = $TaskObject->TaskList();
-
-    TASK:
-    for my $Task (@TaskList) {
-
-        next TASK if $Task->{Type} ne 'RegistrationUpdate';
-
-        $TaskObject->TaskDelete( ID => $Task->{ID} );
-    }
 
     return 1;
 }

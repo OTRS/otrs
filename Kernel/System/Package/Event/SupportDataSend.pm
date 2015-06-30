@@ -16,7 +16,6 @@ use Kernel::System::VariableCheck qw(:all);
 our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Log',
-    'Kernel::System::Scheduler::TaskManager',
     'Kernel::System::SystemData',
     'Kernel::System::Time',
 );
@@ -71,90 +70,42 @@ sub Run {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # calculate due date for next update, 1h
-    my $NextUpdateSeconds = 3600;
-    my $NewDueTime        = $TimeObject->SystemTime() + $NextUpdateSeconds;
-    my $NewDueTimeStamp   = $TimeObject->SystemTime2TimeStamp(
-        SystemTime => $NewDueTime,
+    # calculate next update time for 1 hour
+    my $NewUpdateSeconds    = 3600;
+    my $NewUpdateSystemTime = $TimeObject->SystemTime() + $NewUpdateSeconds;
+    my $NewUpdateTime       = $TimeObject->SystemTime2TimeStamp(
+        SystemTime => $NewUpdateSystemTime,
     );
 
-    # get task manager object
-    my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
+    # get current update time
+    my $CurrentUpdateTime = $SystemDataObject->SystemDataGet(
+        Key => 'Registration::NextUpdateTime',
+    );
 
-    my @TaskList = $TaskManagerObject->TaskList();
-
-    if (@TaskList) {
-
-        TASKITEM:
-        for my $TaskItem (@TaskList) {
-
-            if ( !IsHashRefWithData($TaskItem) ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => 'Got invalid task list entry!',
-                );
-
-                next TASKITEM;
-            }
-
-            if ( !$TaskItem->{Type} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Task $TaskItem->{ID} has no type set!",
-                );
-
-                next TASKITEM;
-            }
-
-            next TASKITEM if $TaskItem->{Type} ne 'RegistrationUpdate';
-
-            my $TaskTime = $TimeObject->TimeStamp2SystemTime(
-                String => $TaskItem->{DueTime},
-            );
-
-            # if the task have a due time more than one hour update it to one hour
-            if ( $TaskTime > $NewDueTime ) {
-                my $UpdateResult = $TaskManagerObject->TaskUpdate(
-                    %{$TaskItem},
-                    DueTime => $NewDueTimeStamp,
-                );
-
-                if ( !$UpdateResult ) {
-                    $Kernel::OM->Get('Kernel::System::Log')->Log(
-                        Priority => 'error',
-                        Message =>
-                            "Error while updating scheduler task for RegistrationUpdate: $TaskItem->{ID}!",
-                    );
-                    return;
-                }
-
-                return 1;
-            }
-
-            return 1;
-        }
-    }
-
-    my $TaskID = $TaskManagerObject->TaskAdd(
-        Type    => 'RegistrationUpdate',
-        DueTime => $NewDueTimeStamp,
-        Data    => {
-            ReSchedule   => 1,
-            EventTrigger => $Param{Event},
-
-            # run the job as system user
+    # if there is no update time set it for 1 hour
+    if ( !defined $CurrentUpdateTime ) {
+        $SystemDataObject->SystemDataAdd(
+            Key    => 'Registration::NextUpdateTime',
+            Value  => $NewUpdateTime,
             UserID => 1,
-        },
-    );
-
-    if ( !$TaskID ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Error while registering scheduler task for RegistrationUpdate!",
         );
-        return;
+        return 1;
     }
 
+    # convert update time to system time for easy compare
+    my $CurrentUpdateSystemTime = $TimeObject->TimeStamp2SystemTime(
+        String => $CurrentUpdateTime,
+    );
+
+    # return success if the next update is schedule in or less than 1 hour
+    return 1 if $CurrentUpdateSystemTime <= $NewUpdateSystemTime;
+
+    # otherwise update next update for 1 hour
+    $SystemDataObject->SystemDataUpdate(
+        Key    => 'Registration::NextUpdateTime',
+        Value  => $NewUpdateTime,
+        UserID => 1,
+    );
     return 1;
 }
 

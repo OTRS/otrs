@@ -83,19 +83,6 @@ require Exporter;
         },
     },
     # --
-    # [name of job] -> send escalation notifications
-    # --
-    'send escalation notifications' => {
-        Escalation => 1,
-        # new ticket properties
-        New => {
-            # notify all agents who selected the queue in "my queues/custom queues"
-#            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupOfCustomQueue',
-            # notify all agents who can access the ticket with rw permissions
-            Module => 'Kernel::System::GenericAgent::NotifyAgentGroupWithWritePermission',
-        },
-    },
-    # --
     # [name of job] -> move all tickets from xyz to experts
     # --
     'move escalation ticket to experts and execute CMD' => {

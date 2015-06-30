@@ -13,6 +13,83 @@
         </IndexCreate>
     </TableAlter>
 
+    <!-- scheduler tables -->
+    <Table Name="scheduler_task">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="ident" Required="true" Type="BIGINT"/>
+        <Column Name="name" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="task_data" Required="true" Type="LONGBLOB"/>
+        <Column Name="attempts" Required="true" Type="SMALLINT"/>
+        <Column Name="lock_key" Required="true" Type="BIGINT"/>
+        <Column Name="lock_time" Required="false" Type="DATE"/>
+        <Column Name="lock_update_time" Required="false" Type="DATE"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Unique Name="scheduler_task_ident">
+            <UniqueColumn Name="ident"/>
+        </Unique>
+        <Index Name="scheduler_task_ident_id">
+            <IndexColumn Name="ident"/>
+            <IndexColumn Name="id"/>
+        </Index>
+        <Index Name="scheduler_task_lock_key_id">
+            <IndexColumn Name="lock_key"/>
+            <IndexColumn Name="id"/>
+        </Index>
+    </Table>
+
+    <Table Name="scheduler_future_task">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="ident" Required="true" Type="BIGINT"/>
+        <Column Name="execution_time" Required="true" Type="DATE"/>
+        <Column Name="name" Required="false" Size="200" Type="VARCHAR"/>
+        <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="task_data" Required="true" Type="LONGBLOB"/>
+        <Column Name="attempts" Required="true" Type="SMALLINT"/>
+        <Column Name="lock_key" Required="true" Type="BIGINT"/>
+        <Column Name="lock_time" Required="false" Type="DATE"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Unique Name="scheduler_future_task_ident">
+            <UniqueColumn Name="ident"/>
+        </Unique>
+        <Index Name="scheduler_future_task_ident_id">
+            <IndexColumn Name="ident"/>
+            <IndexColumn Name="id"/>
+        </Index>
+        <Index Name="scheduler_future_task_lock_key_id">
+            <IndexColumn Name="lock_key"/>
+            <IndexColumn Name="id"/>
+        </Index>
+    </Table>
+
+    <Table Name="scheduler_recurrent_task">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="last_execution_time" Required="true" Type="DATE"/>
+        <Column Name="last_worker_task_id" Required="fasle" Type="BIGINT"/>
+        <Column Name="last_worker_status" Required="false" Type="SMALLINT"/>
+        <Column Name="last_worker_running_time" Required="false" Type="INTEGER"/>
+        <Column Name="lock_key" Required="true" Type="BIGINT"/>
+        <Column Name="lock_time" Required="false" Type="DATE"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Unique Name="scheduler_recurrent_task_name_task_type">
+            <UniqueColumn Name="name"/>
+            <UniqueColumn Name="task_type"/>
+        </Unique>
+        <Index Name="scheduler_recurrent_task_task_type_name">
+            <IndexColumn Name="task_type"/>
+            <IndexColumn Name="name"/>
+        </Index>
+        <Index Name="scheduler_recurrent_task_lock_key_id">
+            <IndexColumn Name="lock_key"/>
+            <IndexColumn Name="id"/>
+        </Index>
+    </Table>
+
+    <TableDrop Name="scheduler_task_list"/>
+
     <!-- remove column that is used nowhere -->
     <TableAlter Name="auto_response">
         <ColumnDrop Name="text2"/>

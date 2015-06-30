@@ -561,30 +561,6 @@ my @NeededModules = (
     },
 );
 
-# if we're on Windows we need some additional modules
-if ( $^O eq 'MSWin32' ) {
-
-    my @WindowsModules = (
-        {
-            Module    => 'Win32::Daemon',
-            Required  => 1,
-            Comment   => 'For running the OTRS Scheduler Service.',
-            InstTypes => {
-                ppm => 'Win32-Daemon',
-            },
-        },
-        {
-            Module    => 'Win32::Service',
-            Required  => 1,
-            Comment   => 'For running the OTRS Scheduler Service.',
-            InstTypes => {
-                ppm => 'Win32-Service',
-            },
-        },
-    );
-    push @NeededModules, @WindowsModules;
-}
-
 if ($PackageList) {
     my %PackageList = _PackageList( \@NeededModules );
 

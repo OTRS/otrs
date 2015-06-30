@@ -2547,45 +2547,6 @@ CREATE INDEX FK_gi_webservice_config_histe6 ON gi_webservice_config_history (cha
 CREATE INDEX FK_gi_webservice_config_histeb ON gi_webservice_config_history (config_id);
 CREATE INDEX FK_gi_webservice_config_hist3d ON gi_webservice_config_history (create_by);
 -- ----------------------------------------------------------
---  create table scheduler_task_list
--- ----------------------------------------------------------
-CREATE TABLE scheduler_task_list (
-    id NUMBER (20, 0) NOT NULL,
-    task_data CLOB NOT NULL,
-    task_data_md5 VARCHAR2 (32) NOT NULL,
-    task_type VARCHAR2 (200) NOT NULL,
-    due_time DATE NOT NULL,
-    create_time DATE NOT NULL,
-    CONSTRAINT scheduler_task_list_task_dat81 UNIQUE (task_data_md5)
-);
-ALTER TABLE scheduler_task_list ADD CONSTRAINT PK_scheduler_task_list PRIMARY KEY (id);
-BEGIN
-  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_scheduler_task_list';
-EXCEPTION
-  WHEN OTHERS THEN NULL;
-END;
-/
---;
-CREATE SEQUENCE SE_scheduler_task_list
-INCREMENT BY 1
-START WITH 1
-NOMAXVALUE
-NOCYCLE
-CACHE 20
-ORDER;
-CREATE OR REPLACE TRIGGER SE_scheduler_task_list_t
-BEFORE INSERT ON scheduler_task_list
-FOR EACH ROW
-BEGIN
-  IF :new.id IS NULL THEN
-    SELECT SE_scheduler_task_list.nextval
-    INTO :new.id
-    FROM DUAL;
-  END IF;
-END;
-/
---;
--- ----------------------------------------------------------
 --  create table gi_debugger_entry
 -- ----------------------------------------------------------
 CREATE TABLE gi_debugger_entry (
@@ -3044,6 +3005,142 @@ CREATE TABLE pm_entity_sync (
     change_time DATE NOT NULL,
     CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );
+-- ----------------------------------------------------------
+--  create table scheduler_task
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_task (
+    id NUMBER (20, 0) NOT NULL,
+    ident NUMBER (20, 0) NOT NULL,
+    name VARCHAR2 (200) NULL,
+    task_type VARCHAR2 (200) NOT NULL,
+    task_data CLOB NOT NULL,
+    attempts NUMBER (5, 0) NOT NULL,
+    lock_key NUMBER (20, 0) NOT NULL,
+    lock_time DATE NULL,
+    lock_update_time DATE NULL,
+    create_time DATE NOT NULL,
+    CONSTRAINT scheduler_task_ident UNIQUE (ident)
+);
+ALTER TABLE scheduler_task ADD CONSTRAINT PK_scheduler_task PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_scheduler_task';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_scheduler_task
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_scheduler_task_t
+BEFORE INSERT ON scheduler_task
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_scheduler_task.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX scheduler_task_ident_id ON scheduler_task (ident, id);
+CREATE INDEX scheduler_task_lock_key_id ON scheduler_task (lock_key, id);
+-- ----------------------------------------------------------
+--  create table scheduler_future_task
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_future_task (
+    id NUMBER (20, 0) NOT NULL,
+    ident NUMBER (20, 0) NOT NULL,
+    execution_time DATE NOT NULL,
+    name VARCHAR2 (200) NULL,
+    task_type VARCHAR2 (200) NOT NULL,
+    task_data CLOB NOT NULL,
+    attempts NUMBER (5, 0) NOT NULL,
+    lock_key NUMBER (20, 0) NOT NULL,
+    lock_time DATE NULL,
+    create_time DATE NOT NULL,
+    CONSTRAINT scheduler_future_task_ident UNIQUE (ident)
+);
+ALTER TABLE scheduler_future_task ADD CONSTRAINT PK_scheduler_future_task PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_scheduler_future_task';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_scheduler_future_task
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_scheduler_future_task_t
+BEFORE INSERT ON scheduler_future_task
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_scheduler_future_task.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX scheduler_future_task_ident_id ON scheduler_future_task (ident, id);
+CREATE INDEX scheduler_future_task_lock_kbd ON scheduler_future_task (lock_key, id);
+-- ----------------------------------------------------------
+--  create table scheduler_recurrent_task
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_recurrent_task (
+    id NUMBER (20, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    task_type VARCHAR2 (200) NOT NULL,
+    last_execution_time DATE NOT NULL,
+    last_worker_task_id NUMBER (20, 0) NULL,
+    last_worker_status NUMBER (5, 0) NULL,
+    last_worker_running_time NUMBER (12, 0) NULL,
+    lock_key NUMBER (20, 0) NOT NULL,
+    lock_time DATE NULL,
+    create_time DATE NOT NULL,
+    change_time DATE NOT NULL,
+    CONSTRAINT scheduler_recurrent_task_nam4e UNIQUE (name, task_type)
+);
+ALTER TABLE scheduler_recurrent_task ADD CONSTRAINT PK_scheduler_recurrent_task PRIMARY KEY (id);
+BEGIN
+  EXECUTE IMMEDIATE 'DROP SEQUENCE SE_scheduler_recurrent_task';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+--;
+CREATE SEQUENCE SE_scheduler_recurrent_task
+INCREMENT BY 1
+START WITH 1
+NOMAXVALUE
+NOCYCLE
+CACHE 20
+ORDER;
+CREATE OR REPLACE TRIGGER SE_scheduler_recurrent_task_t
+BEFORE INSERT ON scheduler_recurrent_task
+FOR EACH ROW
+BEGIN
+  IF :new.id IS NULL THEN
+    SELECT SE_scheduler_recurrent_task.nextval
+    INTO :new.id
+    FROM DUAL;
+  END IF;
+END;
+/
+--;
+CREATE INDEX scheduler_recurrent_task_locb6 ON scheduler_recurrent_task (lock_key, id);
+CREATE INDEX scheduler_recurrent_task_tas3a ON scheduler_recurrent_task (task_type, name);
 -- ----------------------------------------------------------
 --  create table cloud_service_config
 -- ----------------------------------------------------------

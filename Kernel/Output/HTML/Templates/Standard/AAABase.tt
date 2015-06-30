@@ -396,9 +396,8 @@
 [% Translate("Undo") | html %]
 [% Translate("Redo") | html %]
 
-# scheduler
-[% Translate("Scheduler process is registered but might not be running.") | html %]
-[% Translate("Scheduler is not running.") | html %]
+# daemon
+[% Translate("OTRS Daemon is not running.") | html %]
 
 # system registration
 [% Translate("Can't contact registration server. Please try again later.") | html %]

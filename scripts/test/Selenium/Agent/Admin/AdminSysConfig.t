@@ -36,7 +36,7 @@ $Selenium->RunTest(
 
         # check for AdminSysConfig groups
         for my $SysGroupValues (
-            qw (DynamicFields Framework GenericInterface ProcessManagement Scheduler Ticket)
+            qw (DynamicFields Framework GenericInterface ProcessManagement Daemon Ticket)
             )
         {
             $Selenium->find_element( "#SysConfigGroup option[value='$SysGroupValues']", 'css' );
@@ -113,7 +113,7 @@ $Selenium->RunTest(
                 ->click();
         }
 
-        }
+    }
 
 );
 

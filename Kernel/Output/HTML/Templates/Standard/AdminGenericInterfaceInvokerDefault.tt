@@ -230,7 +230,7 @@ $('#MappingInboundConfigureButton').bind('click', function(){
                                 [% Translate("To add a new event select the event object and event name and click on the \"+\" button") | html %].
                             </p>
                             <p class="FieldExplanation">
-                                [% Translate("Asynchronous event triggers are handled by the OTRS Scheduler in background (recommended).") | html %]
+                                [% Translate("Asynchronous event triggers are handled by the OTRS Scheduler Daemon in background (recommended).") | html %]
                                 <br/>
                                 [% Translate("Synchronous event triggers would be processed directly during the web request.") | html %]
                             </p>

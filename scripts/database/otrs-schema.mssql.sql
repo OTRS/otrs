@@ -1200,19 +1200,6 @@ CREATE TABLE gi_webservice_config_history (
     CONSTRAINT gi_webservice_config_history_config_md5 UNIQUE (config_md5)
 );
 -- ----------------------------------------------------------
---  create table scheduler_task_list
--- ----------------------------------------------------------
-CREATE TABLE scheduler_task_list (
-    id BIGINT NOT NULL IDENTITY(1,1) ,
-    task_data NVARCHAR (MAX) NOT NULL,
-    task_data_md5 NVARCHAR (32) NOT NULL,
-    task_type NVARCHAR (200) NOT NULL,
-    due_time DATETIME NOT NULL,
-    create_time DATETIME NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT scheduler_task_list_task_data_md5 UNIQUE (task_data_md5)
-);
--- ----------------------------------------------------------
 --  create table gi_debugger_entry
 -- ----------------------------------------------------------
 CREATE TABLE gi_debugger_entry (
@@ -1393,6 +1380,64 @@ CREATE TABLE pm_entity_sync (
     change_time DATETIME NOT NULL,
     CONSTRAINT pm_entity_sync_list UNIQUE (entity_type, entity_id)
 );
+-- ----------------------------------------------------------
+--  create table scheduler_task
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_task (
+    id BIGINT NOT NULL IDENTITY(1,1) ,
+    ident BIGINT NOT NULL,
+    name NVARCHAR (200) NULL,
+    task_type NVARCHAR (200) NOT NULL,
+    task_data NVARCHAR (MAX) NOT NULL,
+    attempts SMALLINT NOT NULL,
+    lock_key BIGINT NOT NULL,
+    lock_time DATETIME NULL,
+    lock_update_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT scheduler_task_ident UNIQUE (ident)
+);
+CREATE INDEX scheduler_task_ident_id ON scheduler_task (ident, id);
+CREATE INDEX scheduler_task_lock_key_id ON scheduler_task (lock_key, id);
+-- ----------------------------------------------------------
+--  create table scheduler_future_task
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_future_task (
+    id BIGINT NOT NULL IDENTITY(1,1) ,
+    ident BIGINT NOT NULL,
+    execution_time DATETIME NOT NULL,
+    name NVARCHAR (200) NULL,
+    task_type NVARCHAR (200) NOT NULL,
+    task_data NVARCHAR (MAX) NOT NULL,
+    attempts SMALLINT NOT NULL,
+    lock_key BIGINT NOT NULL,
+    lock_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT scheduler_future_task_ident UNIQUE (ident)
+);
+CREATE INDEX scheduler_future_task_ident_id ON scheduler_future_task (ident, id);
+CREATE INDEX scheduler_future_task_lock_key_id ON scheduler_future_task (lock_key, id);
+-- ----------------------------------------------------------
+--  create table scheduler_recurrent_task
+-- ----------------------------------------------------------
+CREATE TABLE scheduler_recurrent_task (
+    id BIGINT NOT NULL IDENTITY(1,1) ,
+    name NVARCHAR (200) NOT NULL,
+    task_type NVARCHAR (200) NOT NULL,
+    last_execution_time DATETIME NOT NULL,
+    last_worker_task_id BIGINT NULL,
+    last_worker_status SMALLINT NULL,
+    last_worker_running_time INTEGER NULL,
+    lock_key BIGINT NOT NULL,
+    lock_time DATETIME NULL,
+    create_time DATETIME NOT NULL,
+    change_time DATETIME NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT scheduler_recurrent_task_name_task_type UNIQUE (name, task_type)
+);
+CREATE INDEX scheduler_recurrent_task_lock_key_id ON scheduler_recurrent_task (lock_key, id);
+CREATE INDEX scheduler_recurrent_task_task_type_name ON scheduler_recurrent_task (task_type, name);
 -- ----------------------------------------------------------
 --  create table cloud_service_config
 -- ----------------------------------------------------------

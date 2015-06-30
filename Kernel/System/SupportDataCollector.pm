@@ -114,32 +114,32 @@ sub Collect {
         return %{$Cache} if ref $Cache eq 'HASH';
     }
 
-    # Data must be collected in a web request context to be able to collect webserver data.
+    # Data must be collected in a web request context to be able to collect web server data.
     #   If called from CLI, make a web request to collect the data.
     if ( !$ENV{GATEWAY_INTERFACE} ) {
         return $Self->CollectByWebRequest( WebTimeout => $Param{WebTimeout} );
     }
 
-    # Look for all plugins in the FS
+    # Look for all plug-ins in the FS
     my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
         Filter    => "*.pm",
         Recursive => 1,
     );
 
-    # Look for all asynchronous plugins in the FS
+    # Look for all asynchronous plug-ins in the FS
     my @PluginAsynchronousFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
         Filter    => "*.pm",
         Recursive => 1,
     );
 
-    # merge the both plugins types together
+    # merge the both plug-ins types together
     my @PluginFilesAll = ( @PluginFiles, @PluginAsynchronousFiles );
 
     my @Result;
 
-    # Execute all Plugins
+    # Execute all plug-ins
     for my $PluginFile (@PluginFilesAll) {
 
         # Convert file name => package name
@@ -167,7 +167,7 @@ sub Collect {
         push @Result, @{ $PluginResult{Result} // [] };
     }
 
-    # sort the results from the plugins by the short identifier
+    # sort the results from the plug-ins by the short identifier
     @Result = sort { $a->{ShortIdentifier} cmp $b->{ShortIdentifier} } @Result;
 
     my %ReturnData = (
@@ -227,7 +227,7 @@ sub CollectByWebRequest {
 
     $Host ||= '127.0.0.1';
 
-    # prepare webservice config
+    # prepare web service config
     my $URL =
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType')
         . '://'
@@ -315,23 +315,32 @@ sub CollectByWebRequest {
 
 =item CollectAsynchronous()
 
-collect asynchronous data (the asynchronous plugin decide at which place the data will be saved)
+collect asynchronous data (the asynchronous plug-in decide at which place the data will be saved)
 
-    my $Success = $SupportDataCollectorObject->CollectAsynchronous();
+    my %Result = $SupportDataCollectorObject->CollectAsynchronous();
+
+returns:
+
+    %Result = (
+        Success      => 1,                  # or 0 in case of an error
+        ErrorMessage => 'some message'      # optional (only in case of an error)
+    );
+
+return
 
 =cut
 
 sub CollectAsynchronous {
     my ( $Self, %Param ) = @_;
 
-    # Look for all plugins in the FS
+    # Look for all plug-ins in the FS
     my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
         Filter    => "*.pm",
         Recursive => 1,
     );
 
-    # Execute all Plugins
+    # Execute all plug-ins
     for my $PluginFile (@PluginFiles) {
 
         # Convert file name => package name
@@ -351,17 +360,19 @@ sub CollectAsynchronous {
         if ( !$Success ) {
             return (
                 Success      => 0,
-                ErrorMessage => "Error during asynchrone execution of $PluginFile.",
+                ErrorMessage => "Error during asynchronous execution of $PluginFile.",
             );
         }
     }
 
-    return 1;
+    return (
+        Success => 1,
+    );
 }
 
 =item CleanupAsynchronous()
 
-cleanup asynchronous data (the asynchronous plugin decide for themselve)
+cleanup asynchronous data (the asynchronous plug-in decide for themselves)
 
     my $Success = $SupportDataCollectorObject->CleanupAsynchronous();
 
@@ -370,14 +381,14 @@ cleanup asynchronous data (the asynchronous plugin decide for themselve)
 sub CleanupAsynchronous {
     my ( $Self, %Param ) = @_;
 
-    # Look for all plugins in the FS
+    # Look for all plug-ins in the FS
     my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
         Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
         Filter    => "*.pm",
         Recursive => 1,
     );
 
-    # Execute all Plugins
+    # Execute all Plug-ins
     PLUGINFILE:
     for my $PluginFile (@PluginFiles) {
 

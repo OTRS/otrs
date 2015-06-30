@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -14,23 +15,91 @@ use vars (qw($Self));
 
 use URI::Escape();
 
-my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
-my $HelperObject      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
-my $TaskManagerObject = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
+# get config object
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-my $RandomID = $HelperObject->GetRandomID();
+# unregister other ticket handlers
+$ConfigObject->Set(
+    Key   => 'Ticket::EventModulePost',
+    Value => undef,
+);
 
-my $TestTaskList = sub {
+# register the generic interface test handler only
+$ConfigObject->Set(
+    Key   => 'Ticket::EventModulePost###1000-GenericInterface',
+    Value => {
+        Module      => 'Kernel::GenericInterface::Event::Handler',
+        Event       => '.*',
+        Transaction => 1,
+    },
+);
 
-    my %IgnoreTaskTypes = (
-        SupportDataCollectorAsynchronous => 1,
-        RegistrationUpdate               => 1,
+$Self->Is(
+    $ConfigObject->Get('Ticket::EventModulePost')->{'1000-GenericInterface'}->{Module},
+    'Kernel::GenericInterface::Event::Handler',
+    "Event handler added to config",
+);
+
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+# helper object
+$Kernel::OM->ObjectParamAdd(
+    'Kernel::System::UnitTest::Helper' => {
+        RestoreSystemConfiguration => 1,
+    },
+);
+
+my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+my $Home = $ConfigObject->Get('Home');
+
+my $Daemon = $Home . '/bin/otrs.Daemon.pl';
+
+# get daemon status (stop if necessary to reload configuration with planner daemon disabled)
+my $PreviousDaemonStatus = `$Daemon status`;
+
+if ( !$PreviousDaemonStatus ) {
+    $Self->False(
+        1,
+        "Could not determine current daemon status!",
     );
+    die "Could not determine current daemon status!";
+}
 
-    return grep { !$IgnoreTaskTypes{ $_->{Type} } } $TaskManagerObject->TaskList();
-};
+if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
+
+    my $ResultMessage = system("$Daemon stop");
+}
+else {
+    $Self->True(
+        1,
+        "Daemon was already stopped.",
+    );
+}
+
+# Wait for slow systems
+my $SleepTime = 120;
+print "Waiting at most $SleepTime s until daemon stops\n";
+ACTIVESLEEP:
+for my $Seconds ( 1 .. $SleepTime ) {
+    my $DaemonStatus = `$Daemon status`;
+    if ( $DaemonStatus =~ m{Daemon not running}i ) {
+        last ACTIVESLEEP;
+    }
+    print "Sleeping for $Seconds seconds...\n";
+    sleep 1;
+}
+
+my $CurrentDaemonStatus = `$Daemon status`;
+
+$Self->True(
+    int $CurrentDaemonStatus =~ m{Daemon not running}i,
+    "Daemon is not running",
+);
+
+if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
+    die "Daemon could not be stopped.";
+}
 
 my @Tests = (
     {
@@ -64,7 +133,7 @@ my @Tests = (
         Success      => 1,
     },
     {
-        Name             => 'Asynchronous event call via scheduler',
+        Name             => 'Asynchronous event call via scheduler daemon',
         WebserviceConfig => {
             Debugger => {
                 DebugThreshold => 'debug',
@@ -94,7 +163,7 @@ my @Tests = (
         Success      => 1,
     },
     {
-        Name             => 'Synchronous event call - Webservice set to invalid',
+        Name             => 'Synchronous event call - Web service set to invalid',
         WebserviceConfig => {
             Debugger => {
                 DebugThreshold => 'debug',
@@ -221,115 +290,13 @@ my @Tests = (
     },
 );
 
-# unregister other ticket handlers
-$ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost',
-    Value => undef,
-);
+# get needed objects
+my $WebserviceObject  = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+my $DebugLogObject    = $Kernel::OM->Get('Kernel::System::GenericInterface::DebugLog');
+my $TaskWorkerObject  = $Kernel::OM->Get('Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker');
+my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
 
-# register the generic interface test handler only
-$ConfigObject->Set(
-    Key   => 'Ticket::EventModulePost###1000-GenericInterface',
-    Value => {
-        Module      => 'Kernel::GenericInterface::Event::Handler',
-        Event       => '.*',
-        Transaction => 1,
-    },
-);
-
-$Self->Is(
-    $ConfigObject->Get('Ticket::EventModulePost')->{'1000-GenericInterface'}->{Module},
-    'Kernel::GenericInterface::Event::Handler',
-    "Event handler added to config",
-);
-
-my $Home = $ConfigObject->Get('Home');
-
-# check if scheduler is running (start, if necessary)
-my $Scheduler = $Home . '/bin/otrs.Scheduler.pl';
-if ( $^O =~ /^mswin/i ) {
-    $Scheduler = "\"$^X\" " . $Home . '/bin/otrs.Scheduler4win.pl';
-    $Scheduler =~ s{/}{\\}g
-}
-my $PreviousSchedulerStatus = `$Scheduler -a status`;
-
-if ( !$PreviousSchedulerStatus ) {
-    $Self->False(
-        1,
-        "Could not determine current scheduler status!",
-    );
-    die "Could not determine current scheduler status!";
-}
-
-if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    if ( $PreviousSchedulerStatus =~ m{registered}i ) {
-
-        # force stop
-        `$Scheduler -a stop -f 1`;
-        $Self->True(
-            1,
-            "Force stopping due to bad status...",
-        );
-
-        # Wait for slow systems
-        my $SleepTime = 120;
-        print "Waiting at most $SleepTime s until scheduler stops\n";
-        ACTIVESLEEP:
-        for my $Seconds ( 1 .. $SleepTime ) {
-            my $SchedulerStatus = `$Scheduler -a status`;
-            if ( $SchedulerStatus !~ m{\A running }msxi ) {
-                last ACTIVESLEEP;
-            }
-            print "Sleeping for $Seconds seconds...\n";
-            sleep 1;
-        }
-    }
-
-    my $ResultMessage = `$Scheduler -a start 2>&1`;
-    $Self->Is(
-        $?,
-        0,
-        "Scheduler start call returned successfully.",
-    );
-
-    # give some visibility if the test fail when it should not
-    if ($?) {
-        $Self->True(
-            0,
-            "Scheduler start DETECTED $ResultMessage",
-        );
-    }
-}
-else {
-    $Self->True(
-        1,
-        "Scheduler was already running.",
-    );
-}
-
-# Wait for slow systems
-my $SleepTime = 120;
-print "Waiting at most $SleepTime s until scheduler stops\n";
-ACTIVESLEEP:
-for my $Seconds ( 1 .. $SleepTime ) {
-    my $SchedulerStatus = `$Scheduler -a status`;
-    if ( $SchedulerStatus =~ m{\A running }msxi ) {
-        last ACTIVESLEEP;
-    }
-    print "Sleeping for $Seconds seconds...\n";
-    sleep 1;
-}
-
-my $CurrentSchedulerStatus = `$Scheduler -a status`;
-
-$Self->True(
-    int $CurrentSchedulerStatus =~ /^running/i,
-    "Scheduler is running",
-);
-
-if ( $CurrentSchedulerStatus !~ /^running/i ) {
-    die "Scheduler could not be started.";
-}
+my $RandomID = $HelperObject->GetRandomID();
 
 for my $Test (@Tests) {
 
@@ -341,9 +308,10 @@ for my $Test (@Tests) {
         UserID  => 1,
     );
 
-    $Self->True(
+    $Self->IsNot(
         $WebserviceID,
-        "$Test->{Name} WebserviceAdd()",
+        undef,
+        "$Test->{Name} WebserviceAdd() - should not be undef",
     );
 
     #
@@ -372,26 +340,45 @@ for my $Test (@Tests) {
             "$Test->{Name} TicketCreate()",
         );
 
-        $Kernel::OM->ObjectsDiscard('Kernel::System::Ticket');
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::Ticket'],
+        );
     }
 
-    # If this is asynchronous, wait for the scheduler to handle the task
+    # If this is asynchronous, wait for the daemon to handle the task
     if ( $Test->{Asynchronous} ) {
+
+        # Wait for slow systems
+        my $SleepTime = 5;
+        print "Waiting at most $SleepTime s until tasks are registered\n";
+        ACTIVESLEEP:
+        for my $Seconds ( 1 .. $SleepTime ) {
+            my @List = $SchedulerDBObject->TaskList(
+                Type => 'GenericInterface',
+            );
+            last ACTIVESLEEP if scalar @List;
+            print "Sleeping for $Seconds seconds...\n";
+            sleep 1;
+        }
+
+        # run worker tasks
+        my $Success = $TaskWorkerObject->Run();
         $Self->True(
-            1,
-            "Sleeping 2 secs to make sure that asynchronous tasks are registered...",
+            $Success,
+            'TaskWorker Run() - To execute current tasks, with true',
         );
-        sleep 2;
 
         my $TotalWaitToExecute = 120;
 
-        # wait for scheduler to execute tasks
+        # wait for daemon children to actually execute tasks
         WAITEXECUTE:
         for my $Wait ( 1 .. $TotalWaitToExecute ) {
-            print "Waiting for Scheduler to execute tasks, $Wait seconds\n";
+            print "Waiting for Daemon to execute tasks, $Wait seconds\n";
             sleep 1;
 
-            my @List = $TestTaskList->();
+            my @List = $SchedulerDBObject->TaskList(
+                Type => 'GenericInterface',
+            );
 
             if ( scalar @List eq 0 ) {
                 $Self->True(
@@ -464,29 +451,35 @@ for my $Test (@Tests) {
     );
 }
 
-# stop scheduler if it was not already running before this test
-if ( $PreviousSchedulerStatus =~ /^not running/i ) {
-    my $Result = system("$Scheduler -a stop -f 1");
+# start daemon if it was already running before this test
+if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
+    my $Result = system("$Daemon start");
     $Self->Is(
         $Result,
         0,
-        "Scheduler start call returned successfully.",
+        "Daemon start call returned successfully.",
     );
 
+    # Wait for slow systems
+    my $SleepTime = 120;
+    print "Waiting at most $SleepTime s until daemon start\n";
+    ACTIVESLEEP:
+    for my $Seconds ( 1 .. $SleepTime ) {
+        my $DaemonStatus = `$Daemon status`;
+        if ( $DaemonStatus =~ m{Daemon running}i ) {
+            last ACTIVESLEEP;
+        }
+        print "Sleeping for $Seconds seconds...\n";
+        sleep 1;
+    }
 }
 
-sleep 2;
-
-$CurrentSchedulerStatus = `$Scheduler -a status`;
-
-# remove the process id
-$PreviousSchedulerStatus =~ s{\d}{}g;
-$CurrentSchedulerStatus =~ s{\d}{}g;
+$CurrentDaemonStatus = `$Daemon status`;
 
 $Self->Is(
-    $CurrentSchedulerStatus,
-    $PreviousSchedulerStatus,
-    "Scheduler has original state again.",
+    $CurrentDaemonStatus,
+    $PreviousDaemonStatus,
+    "Daemon has original state again.",
 );
 
 1;

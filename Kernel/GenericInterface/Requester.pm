@@ -63,6 +63,7 @@ web service.
     my $Result = $RequesterObject->Run(
         WebserviceID => 1,                      # ID of the configured remote web service to use OR
         Invoker      => 'some_operation',       # Name of the Invoker to be used for sending the request
+        Asynchronous => 1,                      # Optional, 1 or 0, defaults to 0
         Data         => {                       # Data payload for the Invoker request (remote webservice)
            #...
         },
@@ -73,6 +74,18 @@ web service.
         ErrorMessage => '',  # if an error occurred
         Data         => {    # Data payload of Invoker result (web service response)
             #...
+        },
+    };
+
+in case of an error if the request has been made asynchronously it can be re-schedule in future if
+the invoker returns the appropriate information
+
+    $Result = {
+        Success      => 0,   # 0 or 1
+        ErrorMessage => 'some error message',
+        Data         => {
+            ReSchedule    => 1,
+            ExecutionTime => '2015-01-01 00:00:00',     # optional
         },
     };
 
@@ -263,16 +276,32 @@ sub Run {
         Data      => $DataOut,
     );
 
+    my $IsAsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;
+
     if ( !$FunctionResult->{Success} ) {
         my $ErrorReturn = $DebuggerObject->Error(
             Summary => $FunctionResult->{ErrorMessage},
         );
 
         # Send error to Invoker
-        $InvokerObject->HandleResponse(
+        my $Response = $InvokerObject->HandleResponse(
             ResponseSuccess      => 0,
             ResponseErrorMessage => $FunctionResult->{ErrorMessage},
         );
+
+        if ($IsAsAsynchronousCall) {
+
+            RESPONSEKEY:
+            for my $ResponseKey ( %{$Response} ) {
+
+                # skip Success and ErrorMessage as they are set already
+                next RESPONSEKEY if $ResponseKey eq 'Success';
+                next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
+
+                # add any other key from the invoker HandleResponse() in Data
+                $ErrorReturn->{$ResponseKey} = $Response->{$ResponseKey}
+            }
+        }
 
         return $ErrorReturn;
     }
@@ -357,10 +386,26 @@ sub Run {
 
     if ( !$FunctionResult->{Success} ) {
 
-        return $DebuggerObject->Error(
+        my $ErrorReturn = $DebuggerObject->Error(
             Summary => 'Error handling response data in Invoker',
             Data    => $FunctionResult->{ErrorMessage},
         );
+
+        if ($IsAsAsynchronousCall) {
+
+            RESPONSEKEY:
+            for my $ResponseKey ( %{$FunctionResult} ) {
+
+                # skip Success and ErrorMessage as they are set already
+                next RESPONSEKEY if $ResponseKey eq 'Success';
+                next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
+
+                # add any other key from the invoker HandleResponse() in Data
+                $ErrorReturn->{$ResponseKey} = $FunctionResult->{$ResponseKey}
+            }
+        }
+
+        return $ErrorReturn;
     }
 
     $DataIn = $FunctionResult->{Data};

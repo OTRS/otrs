@@ -53,6 +53,12 @@ sub LoadDefaults {
     # each http session id starts with this number)
     $Self->{SystemID} = 10;
 
+    # NodeID
+    # (The identify of the node. In a clustered environment
+    # each node needs a seperate NodeID. On a setup with just
+    # one frontend server, it is not needed to change this setting)
+    $Self->{NodeID} = 1;
+
     # FQDN
     # (Full qualified domain name of your system.)
     $Self->{FQDN} = 'yourhost.example.com';
@@ -627,8 +633,8 @@ sub LoadDefaults {
             'Module' => 'Kernel::Output::HTML::Notification::SystemMaintenanceCheck',
         },
 
-        '800-Scheduler-Check' => {
-          'Module' => 'Kernel::Output::HTML::Notification::SchedulerCheck',
+        '800-Daemon-Check' => {
+          'Module' => 'Kernel::Output::HTML::Notification::DaemonCheck',
         },
     };
 

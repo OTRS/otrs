@@ -11,18 +11,9 @@ package Kernel::System::Scheduler;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData IsStringWithData);
-use Kernel::System::Scheduler::TaskManager;
-use Kernel::System::Scheduler::TaskHandler;
-
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Cache',
+    'Kernel::System::Daemon::SchedulerDB',
     'Kernel::System::Log',
-    'Kernel::System::PID',
-    'Kernel::System::Registration',
-    'Kernel::System::Scheduler::TaskManager',
-    'Kernel::System::Time',
 );
 
 =head1 NAME
@@ -31,18 +22,7 @@ Kernel::System::Scheduler - Scheduler lib
 
 =head1 SYNOPSIS
 
-This object can be used in two ways:
-
-=head2 Registering new scheduler tasks
-
-By creating an instance of this object and calling L<TaskRegister()> on it, a task
-can be scheduled for asynchronous execution (either as soon as possible, or with a
-specified future execution time).
-
-=head2 Running pending tasks
-
-From the scheduler daemon, the L<Run()> method will be called to find and process
-all existing tasks.
+Includes the functions to add a new task to the scheduler daemon.
 
 =head1 PUBLIC INTERFACE
 
@@ -52,12 +32,11 @@ all existing tasks.
 
 =item new()
 
-create a time object. Do not use it directly, instead use:
+create a scheduler object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $SchedulerObject = $Kernel::OM->Get('Kernel::System::Scheduler');
-
 
 =cut
 
@@ -68,392 +47,116 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{PIDUpdateTime} = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 60;
-
-    $Kernel::OM->Get('Kernel::System::Cache')->Configure(
-        CacheInMemory => 0,
-    );
-
     return $Self;
 }
 
-=item Run()
+=item TaskAdd()
 
-find and dispatch pending tasks. This method is used from the scheduler
-daemon to regularly find and execute all pending tasks.
+add a task to scheduler
 
-    my $Success = $SchedulerObject->Run();
-
-    $Success = 1                   # 0 or 1;
-
-=cut
-
-sub Run {
-    my ( $Self, %Param ) = @_;
-
-    # try to update PID changed time
-    $Self->_PIDChangedTimeUpdate();
-
-    # Perform sanity checks
-    $Self->_SanityChecks();
-
-    # get all tasks
-    my @TaskList = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskList();
-
-    # if there are no task to execute return successfully
-    return 1 if !@TaskList;
-
-    # get the task details
-    TASKITEM:
-    for my $TaskItem (@TaskList) {
-
-        if ( !IsHashRefWithData($TaskItem) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Got invalid task list entry!',
-            );
-
-            next TASKITEM;
-        }
-
-        # delete task if no type is set
-        if ( !$TaskItem->{Type} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Task $TaskItem->{ID} will be deleted bacause type is not set!",
-            );
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
-
-            next TASKITEM;
-        }
-
-        # do not execute if task is scheduled for future
-        my $SystemTime  = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
-        my $TaskDueTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
-            String => $TaskItem->{DueTime},
-        );
-        next TASKITEM if ( $TaskDueTime gt $SystemTime );
-
-        # get task data
-        my %TaskData = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskGet( ID => $TaskItem->{ID} );
-        if ( !%TaskData ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Got invalid task data!',
-            );
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
-
-            # skip if cant get task data
-            next TASKITEM;
-        }
-
-        if ( !IsHashRefWithData( $TaskData{Data} ) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => 'Got invalid data inside task data!',
-            );
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
-
-            # skip if can't get task data -> data
-            next TASKITEM;
-        }
-
-        # create task handler object
-        my $TaskHandlerObject = eval {
-            Kernel::System::Scheduler::TaskHandler->new(
-                TaskHandlerType => $TaskItem->{Type},
-            );
-        };
-
-        # check if Task Handler object was created
-        if ( !$TaskHandlerObject ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't create $TaskItem->{Type} task handler object! $@",
-            );
-
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
-
-            # skip if can't create task handler
-            next TASKITEM;
-        }
-
-        # call run method on task handler object
-        my $TaskResult = $TaskHandlerObject->Run(
-            TaskID => $TaskItem->{ID},
-            Data   => $TaskData{Data},
-        );
-
-        # try to update PID changed time
-        $Self->_PIDChangedTimeUpdate();
-
-        # check if need to reschedule
-        if ( $TaskResult->{ReSchedule} ) {
-
-            # reschedule: update the current task
-            my $Success = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskUpdate(
-                ID      => $TaskItem->{ID},
-                DueTime => $TaskResult->{DueTime},
-                Data    => $TaskResult->{Data},
-                Type    => $TaskItem->{Type},
-            );
-
-            # check if task was rescheduled successfully
-            if ( !$Success ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Could not reschedule task.",
-                );
-
-                # delete the task
-                $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
-
-                next TASKITEM;
-            }
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'info',
-                Message  => "Task is rescheduled (TaskID: $TaskItem->{ID}).",
-            );
-        }
-
-        else {
-
-            # delete the task
-            $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskDelete( ID => $TaskItem->{ID} );
-        }
-    }
-
-    return 1;
-}
-
-=item TaskRegister()
-
-schedules a task for asynchronous execution (either as soon as possible, or with a
-specified future execution time). Each task has a task type, and for each task type
-a corresponding task handler backend must be present. The task data that is required
-depends on the task type. Please consult the task handler backend specification to find
-out which data is exactly needed.
-
-    my $TaskID = $SchedulerObject->TaskRegister(
-        Type     => 'GenericInterface',
-        Data     => {                               # task data, depends task handler backend
+    my $Success = $SchedulerObject->TaskAdd(
+        ExecutionTime => '2015-01-01 00:00:00',  # task will be executed emitiatly if no execution time is given
+        Type          => 'GenericInterface',     # e. g. GenericInterface, Test
+        Name          => 'any name',             # optional
+        Attempts      => 5,                      # optional (default 1)
+        Data          => {                       # data payload
             ...
         },
-        DueTime  => '2006-01-19 23:59:59',          # optional (default current time)
     );
 
 =cut
 
-sub TaskRegister {
+sub TaskAdd {
     my ( $Self, %Param ) = @_;
 
-    # check task type
-    if ( !IsStringWithData( $Param{Type} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Got no Task Type with content!',
-        );
-
-        # return failure if no task type is sent
-        return;
-    }
-
-    # check if task data is undefined
-    if ( !defined $Param{Data} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Got undefined Task data!',
-        );
-
-        # return error if task data is undefined
-        return;
-    }
-
-    # register task
-    my $TaskID = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager')->TaskAdd(
-        %Param,
-    );
-
-    # check if task was registered
-    if ( !$TaskID ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Task could not be registered',
-        );
-
-        # return failure if task registration fails
-        return;
-    }
-
-    # otherwise return the task ID
-    return $TaskID;
-}
-
-=item _SanityChecks()
-
-performs checks for the currently registered tasks.
-
-=cut
-
-sub _SanityChecks {
-    my ( $Self, %Param ) = @_;
-
-    $Self->_SanityCheckSupportDataCollectorAsynchronous();
-    $Self->_SanityCheckSystemRegistration();
-
-    return 1;
-}
-
-sub _SanityCheckSystemRegistration {
-    my ( $Self, %Param ) = @_;
-
-    my %RegistrationData = $Kernel::OM->Get('Kernel::System::Registration')->RegistrationDataGet();
-
-    # get all tasks
-    my $TaskManagerObject          = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
-    my @TaskList                   = $TaskManagerObject->TaskList();
-    my @RegistrationUpdateTaskList = grep { $_->{Type} eq 'RegistrationUpdate' } @TaskList;
-
-    # Registered system, must have RegistrationUpdate task.
-    if ( $RegistrationData{State} && $RegistrationData{State} eq 'registered' ) {
-
-        # Is there exactly 1 task?
-        if ( scalar @RegistrationUpdateTaskList == 1 ) {
-            return 1;
-        }
-        elsif ( scalar @RegistrationUpdateTaskList == 0 ) {
-
-            # Ok, RegistrationUpdate task is missing. Create it.
-            $TaskManagerObject->TaskAdd(
-                Type => 'RegistrationUpdate',
-                Data => {
-                    ReSchedule => 1,
-                },
-            );
-        }
-        else {
-            # Ok, there is more than one task. Remove the others.
-            shift @RegistrationUpdateTaskList;
-            for my $RegistrationUpdateTask (@RegistrationUpdateTaskList) {
-                $TaskManagerObject->TaskDelete(
-                    ID => $RegistrationUpdateTask->{ID}
-                );
-            }
-        }
-    }
-
-    # Not registered system, may not have RegistrationUpdate task.
-    else {
-        # Delete any remaining tasks.
-        for my $RegistrationUpdateTask (@RegistrationUpdateTaskList) {
-            $TaskManagerObject->TaskDelete(
-                ID => $RegistrationUpdateTask->{ID}
-            );
-        }
-    }
-    return 1;
-}
-
-sub _SanityCheckSupportDataCollectorAsynchronous {
-    my ( $Self, %Param ) = @_;
-
-    # get all tasks
-    my $TaskManagerObject                        = $Kernel::OM->Get('Kernel::System::Scheduler::TaskManager');
-    my @TaskList                                 = $TaskManagerObject->TaskList();
-    my @SupportDataCollectorAsynchronousTaskList = grep { $_->{Type} eq 'SupportDataCollectorAsynchronous' } @TaskList;
-
-    # Is there exactly 1 task?
-    if ( scalar @SupportDataCollectorAsynchronousTaskList == 1 ) {
-        return 1;
-    }
-    elsif ( scalar @SupportDataCollectorAsynchronousTaskList == 0 ) {
-
-        # get time object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        # generate a timestamp for the current hour
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime(),
-        );
-
-        my $SystemTime = $TimeObject->Date2SystemTime(
-            Year   => $Year,
-            Month  => $Month,
-            Day    => $Day,
-            Hour   => $Hour,
-            Minute => 0,
-            Second => 0,
-        );
-
-        my $DueTimeStamp = $TimeObject->SystemTime2TimeStamp(
-            SystemTime => $SystemTime,
-        );
-
-        # Ok, SupportDataCollectorAsynchronous task is missing. Create it.
-        $TaskManagerObject->TaskAdd(
-            Type    => 'SupportDataCollectorAsynchronous',
-            DueTime => $DueTimeStamp,
-            Data    => {
-                ReSchedule => 1,
-            },
-        );
-    }
-    else {
-        # Ok, there is more than one task. Remove the others.
-        shift @SupportDataCollectorAsynchronousTaskList;
-        for my $SupportDataCollectorAsynchronousTask (@SupportDataCollectorAsynchronousTaskList) {
-            $TaskManagerObject->TaskDelete(
-                ID => $SupportDataCollectorAsynchronousTask->{ID}
-            );
-        }
-    }
-
-    return 1;
-}
-
-=item _PIDChangedTimeUpdate()
-
-Check if is the case to update the changed time for the PID,
-in order to use it as a keep alive signal.
-
-    my $Success = $SchedulerObject->_PIDChangedTimeUpdate();
-
-=cut
-
-sub _PIDChangedTimeUpdate {
-    my ( $Self, %Param ) = @_;
-
-    # PID time to update should be defined, except the first time
-    if ( !defined $Self->{PIDTimeToUpdate} ) {
-        my %PIDGetUpdate = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
-            Name => 'otrs.Scheduler'
-        );
-        $Self->{PIDTimeToUpdate} = $PIDGetUpdate{Changed} + $Self->{PIDUpdateTime};
-    }
-
-    # get current system time
-    my $CurrentTime = time();
-
-    # check if it's necessary to update change time for pid
-    if ( $CurrentTime >= $Self->{PIDTimeToUpdate} ) {
-        my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::PID')->PIDUpdate(
-            Name => 'otrs.Scheduler'
-        );
-        if ( !$UpdateSuccess ) {
+    # check needed stuff
+    for my $Key (qw(Type Data)) {
+        if ( !$Param{$Key} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Could not update PID",
+                Message  => "Need $Key!",
             );
+
             return;
         }
-        my %PIDGetUpdate = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
-            Name => 'otrs.Scheduler'
-        );
-        $Self->{PIDTimeToUpdate} = $PIDGetUpdate{Changed} + $Self->{PIDUpdateTime};
     }
 
-    return 1;
+    # get scheduler database object
+    my $SchedulerDBObject = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB');
+
+    my $TaskID;
+    if ( $Param{ExecutionTime} ) {
+        $TaskID = $SchedulerDBObject->FutureTaskAdd(%Param);
+    }
+    else {
+        $TaskID = $SchedulerDBObject->TaskAdd(%Param);
+    }
+
+    return 1 if $TaskID;
+    return;
+}
+
+=item FutureTaskList()
+
+get the list of scheduler future tasks
+
+    my @List = $SchedulerObject->FutureTaskList(
+        Type => 'some type',  # optional
+    );
+
+Returns:
+
+    @List = (
+        {
+            TaskID        => 123,
+            ExecutionTime => '2015-01-01 00:00:00',
+            Name          => 'any name',
+            Type          => 'GenericInterface',
+        },
+        {
+            TaskID        => 456,
+            ExecutionTime => '2015-01-01 00:00:00',
+            Name          => 'any other name',
+            Type          => 'GenericInterface',
+        },
+        # ...
+    );
+
+=cut
+
+sub FutureTaskList {
+    my ( $Self, %Param ) = @_;
+
+    my @List = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->FutureTaskList(%Param);
+
+    return @List;
+}
+
+=item FutureTaskDelete()
+
+delete a task from scheduler future task list
+
+    my $Success = $Schedulerbject->FutureTaskDelete(
+        TaskID => 123,
+    );
+
+=cut
+
+sub FutureTaskDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TaskID} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TaskID!',
+        );
+        return;
+    }
+
+    my $Success = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->FutureTaskDelete(%Param);
+
+    return $Success;
 }
 
 1;

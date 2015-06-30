@@ -820,7 +820,14 @@ sub JobAdd {
 
 deletes a job from the database
 
-    $GenericAgentObject->JobDelete(Name => 'JobName');
+    my $Success = $GenericAgentObject->JobDelete(
+        Name   => 'JobName',
+        UserID => 123,
+    );
+
+returns:
+
+    $Success = 1;       # or false in case of a failure
 
 =cut
 

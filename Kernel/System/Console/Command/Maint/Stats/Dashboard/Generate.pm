@@ -82,6 +82,8 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    $Self->Print("<yellow>Generating dashboard widgets statistics...</yellow>\n");
+
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Stats' => {
             UserID => 1,

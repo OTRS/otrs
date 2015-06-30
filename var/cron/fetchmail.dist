@@ -1,4 +1,0 @@
-
-# fetch every 5 minutes emails via fetchmail
-#*/5 * * * * [ -x /usr/bin/fetchmail ] && /usr/bin/fetchmail -a >> /dev/null
-#*/5 * * * *    /usr/bin/fetchmail -a --ssl >> /dev/null

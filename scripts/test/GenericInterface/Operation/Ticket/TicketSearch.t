@@ -1300,7 +1300,7 @@ my @Tests = (
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data    => undef,
+            Data    => {},
             Success => 1,
         },
         Operation => 'TicketSearch',
@@ -1432,7 +1432,7 @@ for my $Item (
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data    => undef,
+            Data    => {},
             Success => 1
         },
         Operation => 'TicketSearch',
@@ -1465,7 +1465,7 @@ for my $Item (
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data    => undef,
+            Data    => {},
             Success => 1
         },
         Operation => 'TicketSearch',
@@ -1502,7 +1502,7 @@ for my $Item (
             Success => 1
         },
         ExpectedReturnRemoteData => {
-            Data    => undef,
+            Data    => {},
             Success => 1
         },
         Operation => 'TicketSearch',

@@ -455,15 +455,12 @@ sub _MaskUpdate {
         Translation => 0,
         SelectedID  => $JobData{ScheduleHours},
     );
+    my %Minutes;
+    for my $Number ( 0 .. 59 ) {
+        $Minutes{$Number} = sprintf( "%02d", $Number );
+    }
     $JobData{ScheduleMinutesList} = $LayoutObject->BuildSelection(
-        Data => {
-            '00' => '00',
-            10   => '10',
-            20   => '20',
-            30   => '30',
-            40   => '40',
-            50   => '50',
-        },
+        Data        => \%Minutes,
         Name        => 'ScheduleMinutes',
         Size        => 6,
         Multiple    => 1,

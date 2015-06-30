@@ -22,6 +22,8 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
 );
 
+our $SuppressANSI = 0;
+
 =head1 NAME
 
 Kernel::System::Console::Command - command base class
@@ -767,6 +769,7 @@ sub _Color {
     my ( $Self, $Color, $Text ) = @_;
 
     return $Text if !$Self->{ANSI};
+    return $Text if $SuppressANSI;
     return Term::ANSIColor::color($Color) . $Text . Term::ANSIColor::color('reset');
 }
 

@@ -118,6 +118,28 @@ sub HandleResponse {
         };
     }
 
+    if ( $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
+
+        # ResponseContent has URI like params, convert them into a hash
+        my %QueryParams = split /[&=]/, $Param{Data}->{ResponseContent};
+
+        # unscape URI strings in query parameters
+        for my $Param ( sort keys %QueryParams ) {
+            $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
+        }
+
+        # fix ExecutrionTime param
+        if ( $QueryParams{ExecutionTime} ) {
+            $QueryParams{ExecutionTime} =~ s{(\d+)\+(\d+)}{$1 $2};
+        }
+
+        return {
+            Success      => 0,
+            ErrorMessage => 'Re-Scheduling...',
+            Data         => \%QueryParams,
+        };
+    }
+
     return {
         Success => 1,
         Data    => $Param{Data},

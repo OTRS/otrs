@@ -1,3 +1,0 @@
-
-# just every day
-01 01 * * * $HOME/bin/otrs.RebuildTicketIndex.pl >> /dev/null

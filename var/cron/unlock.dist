@@ -1,3 +1,0 @@
-
-# unlock every hour old locked tickets
-35 * * * *  $HOME/bin/otrs.UnlockTickets.pl --timeout >> /dev/null

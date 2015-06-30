@@ -30,12 +30,12 @@ sub Run {
         Key => 'Registration::State',
     ) || '';
 
-    # if system is not yet registered, subaction should be 'register'
+    # if system is not yet registered, sub-action should be 'register'
     if ( $RegistrationState ne 'registered' ) {
 
         $Self->{Subaction} ||= 'OTRSIDValidate';
 
-        # subaction can't be 'Deregister' or UpdateNow
+        # sub-action can't be 'Deregister' or UpdateNow
         if ( $Self->{Subaction} eq 'Deregister' || $Self->{Subaction} eq 'UpdateNow' ) {
             $Self->{Subaction} = 'OTRSIDValidate';
         }
@@ -47,12 +47,12 @@ sub Run {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
     # ------------------------------------------------------------ #
-    # Scheduler not running screen
+    # Daemon not running screen
     # ------------------------------------------------------------ #
     if (
         $Self->{Subaction} ne 'OTRSIDValidate'
         && $RegistrationState ne 'registered'
-        && !$Self->_SchedulerRunning()
+        && !$Self->_DaemonRunning()
         )
     {
 
@@ -65,7 +65,7 @@ sub Run {
         );
 
         $LayoutObject->Block(
-            Name => 'SchedulerNotRunning',
+            Name => 'DaemonNotRunning',
         );
 
         $Output .= $LayoutObject->Output(
@@ -172,7 +172,7 @@ sub Run {
             );
         }
 
-        # users should not be able to de-register their system if they either have
+        # users should not be able to deregister their system if they either have
         # OTRS Business Solution installed or are entitled to use it (by having a valid contract).
         if (
             $RegistrationState eq 'registered'
@@ -194,11 +194,11 @@ sub Run {
                 Data => \%Param,
             );
 
-            # check if the scheduler is not running
-            if ( $RegistrationState ne 'registered' && !$Self->_SchedulerRunning() ) {
+            # check if the daemon is not running
+            if ( $RegistrationState ne 'registered' && !$Self->_DaemonRunning() ) {
 
                 $LayoutObject->Block(
-                    Name => 'OTRSIDValidationSchedulerNotRunning',
+                    Name => 'OTRSIDValidationDaemonNotRunning',
                 );
             }
             else {
@@ -383,7 +383,7 @@ sub Run {
             Class         => 'Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
         );
 
-        # fallback for support data sending switch
+        # fall-back for support data sending switch
         if ( !defined $RegistrationData{SupportDataSending} ) {
             $RegistrationData{SupportDataSending} = 'No';
         }
@@ -607,22 +607,37 @@ sub _SentDataOverview {
     return $Output;
 }
 
-sub _SchedulerRunning {
+sub _DaemonRunning {
     my ( $Self, %Param ) = @_;
 
-    # try to get scheduler PID
-    my %PID = $Kernel::OM->Get('Kernel::System::PID')->PIDGet(
-        Name => 'otrs.Scheduler',
-    );
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $PIDUpdateTime = $Kernel::OM->Get('Kernel::Config')->Get('Scheduler::PIDUpdateTime') || 600;
+    # get the NodeID from the SysConfig settings, this is used on High Availability systems.
+    my $NodeID = $ConfigObject->Get('NodeID') || 1;
 
-    # check if scheduler process is registered in the DB and if the update was not too long ago
-    if ( !%PID || ( time() - $PID{Changed} > 4 * $PIDUpdateTime ) ) {
-        return;
+    # get PID directory
+    my $PIDDir  = $ConfigObject->Get('Home') . '/var/run/';
+    my $PIDFile = $PIDDir . "Daemon-NodeID-$NodeID.pid";
+
+    my $RunningPID;
+
+    if ( -e $PIDFile ) {
+
+        # read existing PID file
+        open my $FH, '<', $PIDFile;    ## no critic
+        flock $FH, 1;
+        my $RegisteredPID = do { local $/; <$FH> };
+        close $FH;
+
+        if ($RegisteredPID) {
+
+            # check if process is running
+            $RunningPID = kill 0, $RegisteredPID;
+        }
     }
 
-    return 1;
+    return $RunningPID;
 }
 
 1;

@@ -1,3 +1,0 @@
-
-# start generic agent every 10 minutes
-*/10 * * * *    $HOME/bin/otrs.GenericAgent.pl -c db >> /dev/null

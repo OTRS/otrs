@@ -1,0 +1,3 @@
+
+# check OTRS daemon status
+*/5 * * * *    $HOME/bin/otrs.daemon.pl start >> /dev/null

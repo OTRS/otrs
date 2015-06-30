@@ -1,4 +1,0 @@
-
-# delete expired cache weekly (Sunday mornings)
-20 0 * * 0  $HOME/bin/otrs.DeleteCache.pl --expired >> /dev/null
-30 0 * * 0  $HOME/bin/otrs.LoaderCache.pl -o delete >> /dev/null

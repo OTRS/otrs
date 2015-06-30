@@ -6,6 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
 use utf8;
@@ -27,17 +28,17 @@ my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCo
 
 my $TimeStart = [ Time::HiRes::gettimeofday() ];
 
-my $Success = $SupportDataCollectorObject->CollectAsynchronous();
+my %Result = $SupportDataCollectorObject->CollectAsynchronous();
 
 $Self->Is(
-    $Success,
+    $Result{Success},
     1,
     "Asynchronous data collection status",
 );
 
 my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
-# Look for all plugins in the FS
+# Look for all plug-ins in the FS
 my @PluginFiles = $MainObject->DirectoryRead(
     Directory => $Kernel::OM->Get('Kernel::Config')->Get('Home')
         . "/Kernel/System/SupportDataCollector/PluginAsynchronous",
@@ -45,7 +46,7 @@ my @PluginFiles = $MainObject->DirectoryRead(
     Recursive => 1,
 );
 
-# Execute all Plugins
+# Execute all plug-ins
 for my $PluginFile (@PluginFiles) {
 
     # Convert file name => package name
@@ -64,7 +65,7 @@ for my $PluginFile (@PluginFiles) {
 
     $Self->True(
         defined $AsynchronousData,
-        "$PluginFile - asychronous data exists.",
+        "$PluginFile - asynchronous data exists.",
     );
 }
 
@@ -81,7 +82,7 @@ $CacheObject->CleanUp(
 
 $TimeStart = [ Time::HiRes::gettimeofday() ];
 
-my %Result = $SupportDataCollectorObject->Collect(
+%Result = $SupportDataCollectorObject->Collect(
     WebTimeout => 40,
 );
 

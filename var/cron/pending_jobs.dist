@@ -1,3 +1,0 @@
-
-# check every 120 min the pending jobs
-45 */2 * * *    $HOME/bin/otrs.PendingJobs.pl >> /dev/null

@@ -1,3 +1,0 @@
-
-# check daily the spool directory of OTRS
-10 0 * * *  $HOME/bin/otrs.ReprocessMails.pl >> /dev/null

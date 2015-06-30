@@ -80,6 +80,14 @@
             <String Regex="">yourhost.example.com</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="NodeID" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">Defines the cluster node identifier. This is only used in cluster configurations where there is more than one OTRS frontend system. Note: only values from 1 to 99 are allowed.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core</SubGroup>
+        <Setting>
+            <String Regex="^[1-9][\d]?$">1</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="HttpType" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Defines the type of protocol, used by the web server, to serve the application. If https protocol will be used instead of plain http, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Group>Framework</Group>

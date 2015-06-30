@@ -127,6 +127,18 @@ o Name:    CPAN Net::SSLGlue
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # (c) 2008-2013, Steffen Ullrich. All Rights Reserved.
 
+o Name:    CPAN Schedule::Cron::Event
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 2002 P Kent
+
+o Name:    CPAN Set::Crontab
+  Web:     n/a
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    # Copyright 2001 Abhijit Menon-Sen <ams@toroid.org>
+
 o Name:    CPAN Text::CSV
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html

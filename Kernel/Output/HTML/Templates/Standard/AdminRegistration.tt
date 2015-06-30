@@ -99,18 +99,18 @@
             </div>
             <div class="Clear"></div>
 [% RenderBlockEnd("OverviewRegistered") %]
-[% RenderBlockStart("SchedulerNotRunning") %]
+[% RenderBlockStart("DaemonNotRunning") %]
             <div class="Header">
                 <h2>[% Translate("System registration not possible") | html %]</h2>
             </div>
             <div class="Content">
                 <p>
-                    [% Translate("Please note that you can't register your system if your scheduler is not running correctly!") | html %]
-                    <a href="#" class="SchedulerInfo">[% Translate("Instructions") | html %]</a>.
+                    [% Translate("Please note that you can't register your system if OTRS Daemon is not running correctly!") | html %]
+                    <a href="#" class="DaemonInfo">[% Translate("Instructions") | html %]</a>.
                 </p>
             </div>
             <div class="Clear"></div>
-[% RenderBlockEnd("SchedulerNotRunning") %]
+[% RenderBlockEnd("DaemonNotRunning") %]
 [% RenderBlockStart("OTRSIDDeregistrationNotPossible") %]
             <div class="Header">
                 <h2>[% Translate("System deregistration not possible") | html %]</h2>
@@ -287,14 +287,14 @@
                         <p>[% Translate("Your OTRS-ID is the email address you used to sign up on the OTRS.com webpage.") | html %]</p>
                     </div>
 [% RenderBlockEnd("OTRSIDDeregistration") %]
-[% RenderBlockStart("OTRSIDValidationSchedulerNotRunning") %]
+[% RenderBlockStart("OTRSIDValidationDaemonNotRunning") %]
                     <div class="ServiceDescription">
                         <p>
-                            [% Translate("Please note that you can't register your system if your scheduler is not running correctly!") | html %]
-                            <a href="#" class="SchedulerInfo">[% Translate("Instructions") | html %]</a>.
+                            [% Translate("Please note that you can't register your system if OTRS Daemon is not running correctly!") | html %]
+                            <a href="#" class="DaemonInfo">[% Translate("Instructions") | html %]</a>.
                         </p>
                     </div>
-[% RenderBlockEnd("OTRSIDValidationSchedulerNotRunning") %]
+[% RenderBlockEnd("OTRSIDValidationDaemonNotRunning") %]
 [% RenderBlockStart("OTRSIDValidationForm") %]
                     <fieldset class="TableLike">
                         <label class="Mandatory" for="OTRSID"><span class="Marker">*</span> [% Translate("OTRS-ID") | html %]:</label>
