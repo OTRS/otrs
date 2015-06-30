@@ -5455,11 +5455,11 @@ via the Preferences button after logging in.
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::SearchPageShown" Required="1" Valid="1">
-        <Description Translatable="1">Defines the default maximum number of search results shown on the overview page.</Description>
+        <Description Translatable="1">Defines the default maximum number of statistics per page on the overview screen.</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,2}$">20</String>
+            <String Regex="^[0-9]{1,2}$">50</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::DefaultSelectedDynamicObject" Required="1" Valid="1">
@@ -5496,7 +5496,7 @@ via the Preferences button after logging in.
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,6}$">500</String>
+            <String Regex="^[0-9]{1,6}$">1000</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::Format" Required="1" Valid="1">
