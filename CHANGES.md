@@ -1,10 +1,10 @@
 #5.0.0.beta1 20??-??-??
- - 2015-06-30 Added OTRS Scheduler daemon task handlers for: generic agent, cron, and asynchronous executor tasks
- - 2015-06-30 Ported OTRS Scheduler to the OTRS Daemon architecture
- - 2015-06-30 Added OTRS Daemon sub-framework
- - 2015-06-30 Added possibility to execute any method of any object asynchronously Kernel/System/AsynchronousExecutor
- - 2015-06-30 Increased flexibility for time based generic agent jobs to be executed even each minute
- - 2015-06-30 Added CronEvent wrapper Kernel/System/CronEvent
+ - 2015-06-30 Added OTRS Scheduler daemon task handlers for: generic agent, cron, and asynchronous executor tasks.
+ - 2015-06-30 Ported OTRS Scheduler to the OTRS Daemon architecture.
+ - 2015-06-30 Added OTRS Daemon sub-framework.
+ - 2015-06-30 Added possibility to execute any method of any object asynchronously Kernel/System/AsynchronousExecutor.
+ - 2015-06-30 Increased flexibility for time based generic agent jobs to be executed even each minute.
+ - 2015-06-30 Added CronEvent wrapper Kernel/System/CronEvent.
  - 2015-06-29 Redesigned statistics GUI.
  - 2015-06-11 Added possibility to define read only SysConfig settings.
  - 2015-06-11 Added possibility to disable a Date/Time field (created with Layout object BuildDateSelection()).
