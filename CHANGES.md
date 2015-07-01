@@ -52,6 +52,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.10 2015-??-??
+ - 2015-06-30 Fixed bug#[11325](http://bugs.otrs.org/show_bug.cgi?id=11325) - Dashboard TicketList: Queuefilter in an empty list shows inactive queues, too.
 
 #4.0.9 2015-06-23
  - 2015-06-22 Fixed bug#[11347](http://bugs.otrs.org/show_bug.cgi?id=11347) - BuildSelection() + TreeView loose selected ID if ARRAY-HASH data is used.
