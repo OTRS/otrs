@@ -78,7 +78,7 @@
                                 <span>[% Translate("Save") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
-                            <button class="Primary CallForAction" type="submit" name="SaveAndFinish" value="[% Translate("Save") | html %]">
+                            <button class="Primary CallForAction" type="submit" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]">
                                 <span>[% Translate("Save and finish") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
