@@ -300,7 +300,7 @@ fieldset.TableLike.FixedLabelSmall > .Value {
 
 </style>
 </head>
-<body class="[% Data.BodyClass | html %]" onload="window.print();">
+<body class="[% Data.BodyClass | html %]">
     <a name="top"></a>
     <p>
         <a href="#" onclick="window.close();">[% Translate("Close window") | html %]</a>
