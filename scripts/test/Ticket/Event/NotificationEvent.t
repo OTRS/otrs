@@ -910,13 +910,6 @@ for my $Test (@Tests) {
         );
     }
 
-    if ( $Test->{SetOutOfOffice} ) {
-        $SetOutOfOffice->(
-            UserID      => $UserID,
-            OutOfOffice => 1,
-        );
-    }
-
     if ( $Test->{SetTicketHistory} ) {
         $SetTicketHistory->(
             UserID           => $UserID,
@@ -930,6 +923,13 @@ for my $Test (@Tests) {
             UserID         => $UserID,
             NotificationID => $NotificationID,
             %{ $Test->{SetUserNotificationPreference} },
+        );
+    }
+
+    if ( $Test->{SetOutOfOffice} ) {
+        $SetOutOfOffice->(
+            UserID      => $UserID,
+            OutOfOffice => 1,
         );
     }
 
