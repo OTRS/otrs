@@ -78,6 +78,10 @@
                                 <span>[% Translate("Save") | html %]</span>
                             </button>
                             [% Translate('or') | html %]
+                            <button class="Primary CallForAction" type="submit" name="SaveAndFinish" value="[% Translate("Save") | html %]">
+                                <span>[% Translate("Save and finish") | html %]</span>
+                            </button>
+                            [% Translate('or') | html %]
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
                                 [% Translate('Cancel') | html %]
                             </a>

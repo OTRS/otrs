@@ -541,8 +541,6 @@ sub EditAction {
     #
     if ( $Stat->{StatType} eq 'dynamic' ) {
         my $Index            = 0;
-        my $SelectFieldError = 0;
-        my $StopWordError    = 0;
         $Data{StatType} = $Stat->{StatType};
 
         OBJECTATTRIBUTE:
@@ -618,22 +616,6 @@ sub EditAction {
                 }
             }
 
-            # check for stop words
-            my %StopWordFields = $Self->{StatsViewObject}->_StopWordFieldsGet();
-
-            # only check if a stop word has been found in any one of the input fields
-            # as soon as a stop word has been found, no further check of other input fields is necessary
-            if ( !$StopWordError && $StopWordFields{$Element} ) {
-                my $Value = join( ' ', @{ $Data{UseAsRestriction}[$Index]{SelectedValues} } );
-                my %StopWordsServerErrors = $Self->{StatsViewObject}->_StopWordsServerErrorsGet(
-                    $Element => $Value,
-                );
-
-                if (%StopWordsServerErrors) {
-                    $StopWordError = 1;
-                }
-            }
-
             $Index++;
         }
 
@@ -659,6 +641,10 @@ sub EditAction {
         StatID => $Stat->{StatID},
         Hash   => \%Data,
     );
+
+    if ( $ParamObject->GetParam(Param => 'SaveAndFinish') ) {
+        return $LayoutObject->Redirect( OP => 'Action=AgentStatistics;Subaction=Overview' );
+    }
 
     return $Self->EditScreen(
         Errors   => \%Errors,

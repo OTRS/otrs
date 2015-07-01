@@ -124,7 +124,7 @@ Kernel/Output/HTML/Templates/Standard/AgentTicketAttachmentView.tt
 Kernel/Output/HTML/Templates/Standard/*ContactWithData*
 Kernel/Output/HTML/Templates/Standard/*DynamicFieldDatabase*
 Kernel/Output/HTML/Templates/Standard/*SLASelectionDialog*
-Kernel/Output/HTML/Templates/Standard/*AgentStatisticsReports*
+Kernel/Output/HTML/Templates/Standard/*StatisticsReports*
 scripts/test/Chat
 scripts/test/Console/Command/Maint/Chat*
 scripts/test/Console/Command/Maint/NotificationView*
@@ -135,6 +135,7 @@ scripts/test/StatsReport.t
 var/cron/cleanupchats.dist
 var/httpd/htdocs/js/*Chat*
 var/httpd/htdocs/js/*ChronicalView*
+var/httpd/htdocs/js/*StatisticsReports*
 var/httpd/htdocs/js/Core.Agent.NotificationView.js
 var/httpd/htdocs/js/Core.Agent.TicketAttachmentView.js
 var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js
