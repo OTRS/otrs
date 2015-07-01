@@ -20,7 +20,7 @@
     </h1>
 
     <div id="svg-container">
-        <svg class="" id="ChartContent" style="min-height: 500px"></svg>
+        <svg id="ChartContent" xmlns="http://www.w3.org/2000/svg" version="1.1" style="min-height: 500px"></svg>
     </div>
 
     <a id="download-svg" class="CallForAction" download="[% Data.Title | html %].svg">
@@ -34,7 +34,8 @@
 
 <script type="text/javascript">
 $('#download-svg').on('click', function() {
-    this.href = 'data:image/svg+xml;base64,' + btoa($('#svg-container').html());
+    // window.btoa() does not work because it does not support Unicode DOM strings.
+    this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64( $('#svg-container') );
 });
 $('#download-png').on('click', function() {
     this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#svg-container'));

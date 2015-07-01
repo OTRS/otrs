@@ -355,6 +355,10 @@ o Name:    canvg
   Web:     https://github.com/gabelerner/canvg
   License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
+o Name:    StringView
+  Web:     https://developer.mozilla.org/en-US/Add-ons/Code_snippets/StringView
+  License: GNU Lesser v3 - http://www.gnu.org/licenses/lgpl.html
+
 # --
 # Other
 # --

@@ -27,7 +27,7 @@
         [% IF Data.Format %]
 
             <div id="GraphWidgetContainer[% Data.Name | html %]">
-                <svg style="height: 350px;" class="GraphWidget[% Data.Name | html %]" id="GraphWidget[% Data.Name | html %]"></svg>
+                <svg style="height: 350px;" class="GraphWidget[% Data.Name | html %]" id="GraphWidget[% Data.Name | html %]" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
             </div>
 
             [% SET AvailableFormats = Data.Stat.Format %]
@@ -109,7 +109,7 @@ Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
 }());
 
 $('#DownloadSVG[% Data.Name | html %]').on('click', function() {
-    this.href = 'data:image/svg+xml;base64,' + btoa($('#GraphWidgetContainer[% Data.Name | html %]').html());
+    this.href = Core.UI.AdvancedChart.ConvertSVGtoBase64($('#GraphWidgetContainer[% Data.Name | html %]'));
 });
 
 $('#DownloadPNG[% Data.Name | html %]').on('click', function() {
