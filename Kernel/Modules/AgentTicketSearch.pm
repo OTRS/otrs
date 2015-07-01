@@ -783,7 +783,8 @@ sub Run {
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
 
             # get PDF object
-            my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+            my $PDFObject
+                = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
 
             my @PDFData;
             for my $TicketID (@ViewableTicketIDs) {

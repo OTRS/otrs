@@ -2387,11 +2387,7 @@ sub Run {
             $MainObject->Require('Kernel::System::PDF');
 
             # get PDF object
-            my $PDFObject;
-
-            if ( $ConfigObject->Get('PDF') ) {
-                $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
-            }
+            my $PDFObject = ( $ConfigObject->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
 
             # PDF Output
             if ($PDFObject) {

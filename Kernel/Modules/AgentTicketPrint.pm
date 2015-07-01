@@ -184,7 +184,8 @@ sub Run {
     }
 
     # get PDF object
-    my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
+    my $PDFObject
+        = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
 
     # generate pdf output
     if ($PDFObject) {

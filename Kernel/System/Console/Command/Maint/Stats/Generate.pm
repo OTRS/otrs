@@ -252,7 +252,11 @@ sub Run {
     }
     my %Attachment;
 
-    if ( $Self->{Format} eq 'PDF' && $Kernel::OM->Get('Kernel::System::PDF') ) {
+    # get PDF object
+    my $PDFObject
+        = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
+
+    if ( $Self->{Format} eq 'PDF' && $PDFObject ) {
 
         $Self->Print("<yellow>Chosen format: PDF.</yellow>\n");
 
@@ -334,7 +338,7 @@ sub Run {
         }
 
         # create new pdf document
-        $Kernel::OM->Get('Kernel::System::PDF')->DocumentNew(
+        $PDFObject->DocumentNew(
             Title  => $Kernel::OM->Get('Kernel::Config')->Get('Product') . ': ' . $Title,
             Encode => 'utf-8',
         );
@@ -346,21 +350,21 @@ sub Run {
 
             # if first page
             if ( $Counter == 1 ) {
-                $Kernel::OM->Get('Kernel::System::PDF')->PageNew(
+                $PDFObject->PageNew(
                     %PageParam,
                     FooterRight => $Page . ' ' . $Counter,
                 );
             }
 
             # output table (or a fragment of it)
-            %TableParam = $Kernel::OM->Get('Kernel::System::PDF')->Table( %TableParam, );
+            %TableParam = $PDFObject->Table( %TableParam, );
 
             # stop output or another page
             if ( $TableParam{State} ) {
                 $Loop = 0;
             }
             else {
-                $Kernel::OM->Get('Kernel::System::PDF')->PageNew(
+                $PDFObject->PageNew(
                     %PageParam,
                     FooterRight => $Page . ' ' . ( $Counter + 1 ),
                 );
@@ -374,7 +378,7 @@ sub Run {
         }
 
         # return the document
-        my $PDFString = $Kernel::OM->Get('Kernel::System::PDF')->DocumentOutput();
+        my $PDFString = $PDFObject->DocumentOutput();
 
         # save the pdf with the title and timestamp as filename, or read it from param
         my $Filename;
