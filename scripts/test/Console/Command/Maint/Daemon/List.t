@@ -13,7 +13,7 @@ use utf8;
 
 use vars (qw($Self));
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Daemon::DaemonModules::List');
+my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Daemon::List');
 
 my $ExitCode = $CommandObject->Execute();
 

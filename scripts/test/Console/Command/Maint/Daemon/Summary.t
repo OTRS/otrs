@@ -76,7 +76,7 @@ my @Tests = (
     },
 );
 
-my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Daemon::DaemonModules::Summary');
+my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Daemon::Summary');
 
 for my $Test (@Tests) {
 

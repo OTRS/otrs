@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Console::Command::Maint::Daemon::DaemonModules::List;
+package Kernel::System::Console::Command::Maint::Daemon::List;
 
 use strict;
 use warnings;
