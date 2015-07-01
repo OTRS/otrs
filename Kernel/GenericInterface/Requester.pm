@@ -292,7 +292,7 @@ sub Run {
         if ($IsAsAsynchronousCall) {
 
             RESPONSEKEY:
-            for my $ResponseKey ( %{$Response} ) {
+            for my $ResponseKey ( sort keys %{$Response} ) {
 
                 # skip Success and ErrorMessage as they are set already
                 next RESPONSEKEY if $ResponseKey eq 'Success';
@@ -394,7 +394,7 @@ sub Run {
         if ($IsAsAsynchronousCall) {
 
             RESPONSEKEY:
-            for my $ResponseKey ( %{$FunctionResult} ) {
+            for my $ResponseKey ( sort keys %{$FunctionResult} ) {
 
                 # skip Success and ErrorMessage as they are set already
                 next RESPONSEKEY if $ResponseKey eq 'Success';
