@@ -486,24 +486,24 @@ my %TaskTemplate = (
 );
 @Tests = (
     {
-        Name                 => "1 task",
-        MaximumPararellTasks => 1,
+        Name                     => "1 task",
+        MaximumParallelInstances => 1,
     },
     {
-        Name                 => "5 tasks",
-        MaximumPararellTasks => 10,
+        Name                     => "5 tasks",
+        MaximumParallelInstances => 10,
     },
     {
-        Name                 => "9 tasks",
-        MaximumPararellTasks => 9,
+        Name                     => "9 tasks",
+        MaximumParallelInstances => 9,
     },
     {
-        Name                 => "10 tasks",
-        MaximumPararellTasks => 10,
+        Name                     => "10 tasks",
+        MaximumParallelInstances => 10,
     },
     {
-        Name                 => "Unlimited tasks",
-        MaximumPararellTasks => 10,
+        Name                     => "Unlimited tasks",
+        MaximumParallelInstances => 10,
     },
 );
 
@@ -515,8 +515,8 @@ for my $Test (@Tests) {
 
         my $Success = $SchedulerDBObject->RecurrentTaskExecute(
             %TaskTemplate,
-            PreviousEventTimestamp => $SystemTime - 60,
-            MaximumPararellTasks   => $Test->{MaximumPararellTasks},
+            PreviousEventTimestamp   => $SystemTime - 60,
+            MaximumParallelInstances => $Test->{MaximumParallelInstances},
         );
         $Self->True(
             $Success,
@@ -532,7 +532,7 @@ for my $Test (@Tests) {
 
     my @FilteredList = grep { $_->{Name} eq $TaskTemplate{TaskName} } @List;
 
-    my $ExpectedTaskNumber = $Test->{MaximumPararellTasks} || 10;
+    my $ExpectedTaskNumber = $Test->{MaximumParallelInstances} || 10;
 
     if ( $ExpectedTaskNumber > 10 ) {
         $ExpectedTaskNumber = 10;

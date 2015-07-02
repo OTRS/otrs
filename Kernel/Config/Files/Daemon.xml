@@ -135,7 +135,7 @@
                 <Item Key="Module">Kernel::System::Cache</Item>
                 <Item Key="Function">CleanUp</Item>
                 <Item Key="Params">Expired 1</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -150,7 +150,7 @@
                 <Item Key="Module">Kernel::System::Loader</Item>
                 <Item Key="Function">CacheDelete</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -163,7 +163,7 @@
                 <Item Key="TaskName">FetchMail</Item>
                 <Item Key="Schedule">*/5 * * * *</Item> <!-- default each five minutes -->
                 <Item Key="Command">[ -x /usr/bin/fetchmail ] &amp;&amp; /usr/bin/fetchmail -a >> /dev/null</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -176,7 +176,7 @@
                 <Item Key="TaskName">FetchMailSSL</Item>
                 <Item Key="Schedule">*/5 * * * *</Item> <!-- default each five minutes -->
                 <Item Key="Command">/usr/bin/fetchmail -a --ssl >> /dev/null</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -192,7 +192,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Stats::Dashboard::Generate</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -207,7 +207,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::PendingCheck</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -222,7 +222,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::PostMaster::SpoolMailsReprocess</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -237,7 +237,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::PostMaster::MailAccountFetch</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -252,7 +252,7 @@
                 <Item Key="Module">Kernel::System::Ticket</Item>
                 <Item Key="Function">TicketAcceleratorRebuild</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -267,7 +267,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Session::DeleteExpired</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -282,7 +282,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::UnlockTimeout</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -300,7 +300,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -316,7 +316,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -332,7 +332,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -348,7 +348,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -364,7 +364,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -380,7 +380,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -396,7 +396,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -412,7 +412,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -428,7 +428,7 @@
                 <Item Key="Command"></Item>
                 <Item Key="Function"></Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -446,7 +446,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -462,7 +462,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -478,7 +478,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -494,7 +494,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -510,7 +510,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -527,7 +527,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Registration::UpdateSend</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -542,7 +542,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::SupportData::CollectAsynchronous</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -557,7 +557,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::EntitlementCheck</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -572,7 +572,7 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::AvailabilityCheck</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
-                <Item Key="MaximumPararellTasks">1</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>

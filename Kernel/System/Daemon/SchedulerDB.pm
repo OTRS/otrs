@@ -1376,13 +1376,13 @@ sub CronTaskToExecute {
 
         # execute recurrent tasks
         $Self->RecurrentTaskExecute(
-            NodeID                 => $Param{NodeID},
-            PID                    => $Param{PID},
-            TaskName               => $JobConfig->{TaskName},
-            TaskType               => 'Cron',
-            PreviousEventTimestamp => $PreviousEventTimestamp,
-            MaximumPararellTasks   => $JobConfig->{MaximumPararellTasks},
-            Data                   => {
+            NodeID                   => $Param{NodeID},
+            PID                      => $Param{PID},
+            TaskName                 => $JobConfig->{TaskName},
+            TaskType                 => 'Cron',
+            PreviousEventTimestamp   => $PreviousEventTimestamp,
+            MaximumParallelInstances => $JobConfig->{MaximumParallelInstances},
+            Data                     => {
                 Command  => $JobConfig->{Command}  || '',
                 Module   => $JobConfig->{Module}   || '',
                 Function => $JobConfig->{Function} || '',
@@ -1577,13 +1577,13 @@ sub GenericAgentTaskToExecute {
 
         # execute recurrent tasks
         $Self->RecurrentTaskExecute(
-            NodeID                 => $Param{NodeID},
-            PID                    => $Param{PID},
-            TaskName               => $JobName,
-            TaskType               => 'GenericAgent',
-            PreviousEventTimestamp => $EventSystemTime,
-            MaximumPararellTasks   => 1,
-            Data                   => \%Job,
+            NodeID                   => $Param{NodeID},
+            PID                      => $Param{PID},
+            TaskName                 => $JobName,
+            TaskType                 => 'GenericAgent',
+            PreviousEventTimestamp   => $EventSystemTime,
+            MaximumParallelInstances => 1,
+            Data                     => \%Job,
         );
     }
 
@@ -1927,14 +1927,14 @@ sub RecurrentTaskDelete {
 executes recurrent tasks like cron or generic agent tasks
 
     my $Success = $SchedulerDBObject->RecurrentTaskExecute(
-        NodeID                 => 1,                 # the ID of the node in a cluster environment
-        PID                    => 456,               # the process ID of the daemon that is creating the tasks to execution
-        TaskName               => 'UniqueTaskName',
-        TaskType               => 'Cron',
-        PreviousEventTimestamp => 1433212343,
-        MaximumPararellTasks   => 1,                 # number of tasks with the same name and type that can be in execution
-                                                     #  table at the same time, value of 0 means unlimited
-        Data                   => {                  # data payload
+        NodeID                   => 1,                 # the ID of the node in a cluster environment
+        PID                      => 456,               # the process ID of the daemon that is creating the tasks to execution
+        TaskName                 => 'UniqueTaskName',
+        TaskType                 => 'Cron',
+        PreviousEventTimestamp   => 1433212343,
+        MaximumParallelInstances => 1,                 # number of tasks with the same name and type that can be in execution
+                                                       #  table at the same time, value of 0 means unlimited
+        Data                   => {                    # data payload
             ...
         },
     );
@@ -1971,7 +1971,7 @@ sub RecurrentTaskExecute {
 
     return 1 if $Cache && $Cache eq $Param{PreviousEventTimestamp};
 
-    if ( $Param{MaximumPararellTasks} && $Param{MaximumPararellTasks} =~ m{\A \d+ \z}msx ) {
+    if ( $Param{MaximumParallelInstances} && $Param{MaximumParallelInstances} =~ m{\A \d+ \z}msx ) {
 
         # get the list of all worker tasks for the specified task type
         my @List = $Self->TaskList(
@@ -1982,7 +1982,7 @@ sub RecurrentTaskExecute {
         my @FilteredList = grep { $_->{Name} eq $Param{TaskName} } @List;
 
         # compare the number of task with the maximum parallel limit
-        return 1 if scalar @FilteredList >= $Param{MaximumPararellTasks}
+        return 1 if scalar @FilteredList >= $Param{MaximumParallelInstances}
     }
 
     # get needed objects
