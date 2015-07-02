@@ -287,11 +287,29 @@ o Name:    CPAN HTML::Tagset
            # Copyright 2000-2005 Sean M. Burke.
            # Copyright 2005-2008 Andy Lester.
 
-o Name:    CPAN Pop::Strip
+o Name:    CPAN Pod::Strip
   Web:     n/a
   License: # This program is free software; you can redistribute it and/or modify it
            # under the same terms as Perl itself.
   Note:    # Copyright 2004, 2005, 2006 Thomas Klausner, All Rights Reserved.
+
+o Name:    CPAN PDF::API2
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # PDF::API2 was originally written by Alfred Reibenschuh.
+           # It is currently being maintained by Steve Simms.
+
+o Name:    CPAN IO::String
+  Web:     n/a
+  License: # This program is free software; you can redistribute it and/or modify it
+           # under the same terms as Perl itself.
+  Note:    # Copyright 1998-2005 Gisle Aas.
+
+o Name:    CPAN Font::TTF
+  Web:     n/a
+  License: # GNU Lesser v2.1 - http://www.gnu.org/licenses/lgpl.html
+  Note:    # Copyright (c) 1998-2015, SIL International (http://www.sil.org).
 
 # --
 # JavaScript

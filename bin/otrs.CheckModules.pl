@@ -434,40 +434,6 @@ my @NeededModules = (
         },
     },
     {
-        Module       => 'PDF::API2',
-        Version      => '0.57',
-        Required     => 0,
-        Comment      => 'Required for PDF output.',
-        NotSupported => [
-            {
-                Version => '0.71.001',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-            {
-                Version => '0.72.001',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-            {
-                Version => '0.72.002',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-            {
-                Version => '0.72.003',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
-            },
-        ],
-        InstTypes => {
-            aptget => 'libpdf-api2-perl',
-            emerge => 'dev-perl/PDF-API2',
-            ppm    => 'PDF-API2',
-            zypper => 'perl-PDF-API2',
-        },
-    },
-    {
         Module    => 'Template',
         Required  => 1,
         Comment   => 'Template::Toolkit, the rendering engine of OTRS.',
