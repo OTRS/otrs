@@ -80,7 +80,7 @@
         [% Translate("Scale") | html %]: [% Data.Count %] [% Translate(Data.Scale) | html %]
 [% RenderBlockEnd("TimeScaleFixed") %]
 [% RenderBlockStart("Fixed") %]
-        [% Data.Value %]
+        <div title="[% Data.Value | html %]">[% Data.Value | truncate(120) | html %]</div>
 [% RenderBlockEnd("Fixed") %]
 [% RenderBlockStart("MultiSelectField") %]
         [% Data.SelectField %]

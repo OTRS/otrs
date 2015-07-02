@@ -326,21 +326,26 @@ sub StatsParamsWidget {
                             @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
                         }
 
+                        my @FixedAttributes;
+
                         for (@Sorted) {
                             my $Value = $ValueHash{$_};
                             if ( $ObjectAttribute->{Translation} ) {
                                 $Value = $LayoutObject->{LanguageObject}->Translate( $ValueHash{$_} );
                             }
-                            $LayoutObject->Block(
-                                Name => 'Fixed',
-                                Data => {
-                                    Value   => $Value,
-                                    Key     => $_,
-                                    Use     => $Use,
-                                    Element => $ObjectAttribute->{Element},
-                                },
-                            );
+                            push @FixedAttributes, $Value;
+
                         }
+
+                        $LayoutObject->Block(
+                            Name => 'Fixed',
+                            Data => {
+                                Value   => join(', ', @FixedAttributes),
+                                Key     => $_,
+                                Use     => $Use,
+                                Element => $ObjectAttribute->{Element},
+                            },
+                        );
                     }
                 }
 
