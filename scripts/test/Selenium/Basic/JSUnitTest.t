@@ -70,7 +70,7 @@ $Selenium->RunTest(
                 'Failed JavaScript unit test found (open js/test/JSUnitTest.html in your browser for details)'
             );
         }
-        }
+    }
 );
 
 1;
