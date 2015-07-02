@@ -469,6 +469,15 @@ sub _SendNotificationToRecipients {
             next RECIPIENT if $Recipient == 1;
             next RECIPIENT if $AgentUsed{$Recipient};
 
+            # skip users with out ro permissions
+            my $Permission = $TicketObject->TicketPermission(
+                Type     => 'ro',
+                TicketID => $Param{TicketID},
+                UserID   => $Recipient,
+            );
+
+            next RECIPIENT if !$Permission;
+
             $AgentUsed{$Recipient} = 1;
 
             my %User = $UserObject->GetUserData(
@@ -504,6 +513,15 @@ sub _SendNotificationToRecipients {
                 next GROUPMEMBER if $Recipient == 1;
                 next GROUPMEMBER if $AgentUsed{$Recipient};
 
+                # skip users with out ro permissions
+                my $Permission = $TicketObject->TicketPermission(
+                    Type     => 'ro',
+                    TicketID => $Param{TicketID},
+                    UserID   => $Recipient,
+                );
+
+                next GROUPMEMBER if !$Permission;
+
                 $AgentUsed{$Recipient} = 1;
 
                 my %UserData = $UserObject->GetUserData(
@@ -537,6 +555,15 @@ sub _SendNotificationToRecipients {
 
                 next ROLEMEMBER if $Recipient == 1;
                 next ROLEMEMBER if $AgentUsed{$Recipient};
+
+                # skip users with out ro permissions
+                my $Permission = $TicketObject->TicketPermission(
+                    Type     => 'ro',
+                    TicketID => $Param{TicketID},
+                    UserID   => $Recipient,
+                );
+
+                next ROLEMEMBER if !$Permission;
 
                 $AgentUsed{$Recipient} = 1;
 

@@ -2737,6 +2737,15 @@ sub SendAgentNotification {
     return if !$User{UserEmail};
     return if $User{UserEmail} !~ /@/;
 
+    # skip users with out ro permissions
+    my $Permission = $Self->TicketPermission(
+        Type     => 'ro',
+        TicketID => $Param{TicketID},
+        UserID   => $Param{RecipientID},
+    );
+
+    return 1 if !$Permission;
+
     # get ticket object to check state
     my %Ticket = $Self->TicketGet(
         TicketID      => $Param{TicketID},

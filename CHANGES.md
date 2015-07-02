@@ -1,4 +1,5 @@
 #4.0.10 2015-??-??
+ - 2015-07-02 Fixed bug#[11334](http://bugs.otrs.org/show_bug.cgi?id=11334) - If you don't have permission in a queue, you get an eMail Notification.
  - 2015-06-30 Fixed bug#[11325](http://bugs.otrs.org/show_bug.cgi?id=11325) - Dashboard TicketList: Queuefilter in an empty list shows inactive queues, too.
 
 #4.0.9 2015-06-23
