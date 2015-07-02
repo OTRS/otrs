@@ -561,13 +561,13 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###OTRSBusinessAvailabiityCheck" Required="1" Valid="1" ReadOnly="1">
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###OTRSBusinessAvailabilityCheck" Required="1" Valid="1" ReadOnly="1">
         <Description Translatable="1">Checks the availability of OTRS Business Solution™ for this system.</Description>
         <Group>Daemon</Group>
         <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="TaskName">OTRSBusinessAvailabiityCheck</Item>
+                <Item Key="TaskName">OTRSBusinessAvailabilityCheck</Item>
                 <Item Key="Schedule">20 */1 * * *</Item> <!-- default: each hour in the minute 20 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::OTRSBusiness::AvailabilityCheck</Item>
                 <Item Key="Function">Execute</Item>
