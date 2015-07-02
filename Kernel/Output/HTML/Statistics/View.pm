@@ -72,6 +72,8 @@ sub StatsParamsWidget {
         return;
     }
 
+    my $HasUserGetParam = ref $Param{UserGetParam} eq 'HASH';
+
     my %UserGetParam = %{ $Param{UserGetParam} // {} };
     my $IsCacheable = $Param{IsCacheable} // 0;
     my $Format = $Param{Formats} || $ConfigObject->Get('Stats::Format');
@@ -79,14 +81,17 @@ sub StatsParamsWidget {
     my $LocalGetParam = sub {
         my (%Param) = @_;
         my $Param = $Param{Param};
-        return $UserGetParam{$Param} // $ParamObject->GetParam( Param => $Param );
+        return $HasUserGetParam ? $UserGetParam{$Param} : $ParamObject->GetParam( Param => $Param );
     };
 
     my $LocalGetArray = sub {
         my (%Param) = @_;
         my $Param = $Param{Param};
-        if ( $UserGetParam{$Param} && ref $UserGetParam{$Param} eq 'ARRAY' ) {
-            return @{ $UserGetParam{$Param} };
+        if ( $HasUserGetParam ) {
+            if ($UserGetParam{$Param} && ref $UserGetParam{$Param} eq 'ARRAY' ) {
+                return @{ $UserGetParam{$Param} };
+            }
+            return;
         }
         return $ParamObject->GetArray( Param => $Param );
     };
