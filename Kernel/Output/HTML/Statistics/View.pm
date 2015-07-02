@@ -228,8 +228,8 @@ sub StatsParamsWidget {
     elsif ( $Stat->{StatType} eq 'dynamic' ) {
         my %Name = (
             UseAsXvalue      => 'X-axis',
-            UseAsValueSeries => 'Value Series',
-            UseAsRestriction => 'Restrictions',
+            UseAsValueSeries => 'Y-axis',
+            UseAsRestriction => 'Data restrictions',
         );
 
         for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
