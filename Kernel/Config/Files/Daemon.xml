@@ -196,22 +196,6 @@
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile" Required="0" Valid="0">
-        <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
-        <Group>Daemon</Group>
-        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="TaskName">GenericAgentFile</Item>
-                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
-                <!-- Use a console command here as it does some PID handling -->
-                <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
-                <Item Key="Function">Execute</Item>
-                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
-                <Item Key="MaximumPararellTasks">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###TicketPendingCheck" Required="0" Valid="1">
         <Description Translatable="1">Process pending tickets.</Description>
         <Group>Daemon</Group>
@@ -298,6 +282,234 @@
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Ticket::UnlockTimeout</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <!-- custom cron tasks -->
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom1" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom1</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom2" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom2</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom3" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom3</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom4" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom4</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom5" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom5</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom6" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom6</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom7" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom7</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom8" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom8</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###Custom9" Required="0" Valid="0">
+        <Description Translatable="1">Executes a custom command or module. Note: if module is used, function is required.</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">Custom8</Item>
+                <Item Key="Schedule">* * * * *</Item>
+                <Item Key="Module"></Item>
+                <Item Key="Command"></Item>
+                <Item Key="Function"></Item>
+                <Item Key="Params"></Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
+    <!-- custom generic agent tasks -->
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile1" Required="0" Valid="0">
+        <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">GenericAgentFile1</Item>
+                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
+                <!-- Use a console command here as it does some PID handling -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile2" Required="0" Valid="0">
+        <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">GenericAgentFile2</Item>
+                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
+                <!-- Use a console command here as it does some PID handling -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile3" Required="0" Valid="0">
+        <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">GenericAgentFile3</Item>
+                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
+                <!-- Use a console command here as it does some PID handling -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile4" Required="0" Valid="0">
+        <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">GenericAgentFile4</Item>
+                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
+                <!-- Use a console command here as it does some PID handling -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
+                <Item Key="MaximumPararellTasks">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Daemon::SchedulerCronTaskManager::Task###GenericAgentFile5" Required="0" Valid="0">
+        <Description Translatable="1">Run file based generic agent jobs (Note: module name need needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").</Description>
+        <Group>Daemon</Group>
+        <SubGroup>Daemon::SchedulerCronTaskManager::Task</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="TaskName">GenericAgentFile5</Item>
+                <Item Key="Schedule">*/20 * * * *</Item> <!-- Default every 20 mins -->
+                <!-- Use a console command here as it does some PID handling -->
+                <Item Key="Module">Kernel::System::Console::Command::Maint::GenericAgent::Run</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="Params">--configuration-module &lt;ModuleName&gt;</Item>
                 <Item Key="MaximumPararellTasks">1</Item>
             </Hash>
         </Setting>
