@@ -789,7 +789,7 @@ sub _RecipientsGet {
         }
 
         # skip users out of the office if configured
-        if ( !$Notification{Data}->{SendOnOutOfOffice} && $User{OutOfOfficeMessage} ) {
+        if ( !$Notification{Data}->{SendOnOutOfOffice} && $User{OutOfOffice} ) {
             next RECIPIENT;
         }
 
