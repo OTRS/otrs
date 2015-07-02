@@ -105,8 +105,18 @@ sub new {
 sub PreRun {
     my ( $Self, %Param ) = @_;
 
-    # check the database connection each 10 seconds
+    # check each 10 seconds
     return 1 if $Self->{DiscardCount} % ( 10 / $Self->{SleepPost} );
+
+    # set running daemon cache
+    $Self->{CacheObject}->Set(
+        Type           => 'DaemonRunning',
+        Key            => $Self->{NodeID},
+        Value          => 1,
+        TTL            => 30,
+        CacheInMemory  => 0,
+        CacheInBackend => 1,
+    );
 
     # check if database is on-line
     return 1 if $Self->{DBObject}->Ping();
