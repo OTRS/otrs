@@ -142,6 +142,7 @@ var/httpd/htdocs/js/Core.Agent.DynamicField.ContactWithData.js
 var/httpd/htdocs/js/Core.Agent.Admin.DynamicFieldDatabase.js
 var/httpd/htdocs/js/Core.Agent.DynamicFieldDatabaseSearch.js
 var/httpd/htdocs/skins/Agent/default/css/*Chat*
+var/httpd/htdocs/skins/Agent/default/css/*StatisticsReports*
 var/httpd/htdocs/skins/Agent/default/css/Core.Agent.NotificationView.css
 var/httpd/htdocs/skins/Customer/default/css/*Chat*
 var/httpd/htdocs/skins/Agent/business*
