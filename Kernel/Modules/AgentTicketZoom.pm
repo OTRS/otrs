@@ -2855,11 +2855,8 @@ sub _ArticleItem {
                 );
 
                 # check for the display of the filesize
-                if ( $Job eq '2-HTML-Viewer' && !%Data ) {
+                if ( $Job eq '2-HTML-Viewer' ) {
                     $Data{DataFileSize} = ", " . $File{Filesize};
-                }
-                elsif ( $Job eq '2-HTML-Viewer' && %Data ) {
-                    $Data{DataFileSize} = ", " . $Data{Filesize};
                 }
                 $LayoutObject->Block(
                     Name => $Data{Block} || 'ArticleAttachmentRowLink',
