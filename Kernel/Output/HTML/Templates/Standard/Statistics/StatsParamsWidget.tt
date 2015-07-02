@@ -65,7 +65,9 @@
 <fieldset class="TableLike">
     <legend><span>[% Translate(Data.Name) | html %]</span></legend>
 [% RenderBlockStart("NoElement") %]
-    <p class="NoValue">[% Translate("No element selected.") | html %]</p>
+    <div class="Value">
+        <p class="FieldExplanation">[% Translate("No element selected.") | html %]</p>
+    </div>
 [% RenderBlockEnd("NoElement") %]
 [% RenderBlockStart("Element") %]
     <label>[% Translate(Data.Name) | html %]:</label>
