@@ -75,7 +75,6 @@ sub StatsParamsWidget {
     my $HasUserGetParam = ref $Param{UserGetParam} eq 'HASH';
 
     my %UserGetParam = %{ $Param{UserGetParam} // {} };
-    my $IsCacheable = $Param{IsCacheable} // 0;
     my $Format = $Param{Formats} || $ConfigObject->Get('Stats::Format');
 
     my $LocalGetParam = sub {
@@ -416,28 +415,65 @@ sub StatsParamsWidget {
                         my $ScaleSelectedID = $LocalGetParam->(
                             Param => $ObjectAttribute->{Element} . 'TimeScaleCount',
                         );
+                        my %Time;
+                        if ( $ObjectAttribute->{TimeStart} ) {
+                            if ( $LocalGetParam->( Param => $ElementName . 'StartYear' ) ) {
+                                for my $Limit (qw(Start Stop)) {
+                                    for my $Unit (qw(Year Month Day Hour Minute Second)) {
+                                        if ( defined( $LocalGetParam->( Param => "$ElementName$Limit$Unit" ) ) ) {
+                                            $Time{ $Limit . $Unit } = $LocalGetParam->(
+                                                Param => $ElementName . "$Limit$Unit",
+                                            );
+                                        }
+                                    }
+                                    if ( !defined( $Time{ $Limit . 'Hour' } ) ) {
+                                        if ( $Limit eq 'Start' ) {
+                                            $Time{StartHour}   = 0;
+                                            $Time{StartMinute} = 0;
+                                            $Time{StartSecond} = 0;
+                                        }
+                                        elsif ( $Limit eq 'Stop' ) {
+                                            $Time{StopHour}   = 23;
+                                            $Time{StopMinute} = 59;
+                                            $Time{StopSecond} = 59;
+                                        }
+                                    }
+                                    elsif ( !defined( $Time{ $Limit . 'Second' } ) ) {
+                                        if ( $Limit eq 'Start' ) {
+                                            $Time{StartSecond} = 0;
+                                        }
+                                        elsif ( $Limit eq 'Stop' ) {
+                                            $Time{StopSecond} = 59;
+                                        }
+                                    }
+                                    $Time{"Time$Limit"} = sprintf(
+                                        "%04d-%02d-%02d %02d:%02d:%02d",
+                                        $Time{ $Limit . 'Year' },
+                                        $Time{ $Limit . 'Month' },
+                                        $Time{ $Limit . 'Day' },
+                                        $Time{ $Limit . 'Hour' },
+                                        $Time{ $Limit . 'Minute' },
+                                        $Time{ $Limit . 'Second' },
+                                    );
+                                }
+                            }
+                        }
                         my %TimeData = _Timeoutput(
                             $Self, %{$ObjectAttribute},
                             OnlySelectedAttributes => 1,
                             TimeRelativeCount      => $RelativeSelectedID || $ObjectAttribute->{TimeRelativeCount},
                             TimeScaleCount         => $ScaleSelectedID || $ObjectAttribute->{TimeScaleCount},
+                            %Time
                         );
                         %BlockData = ( %BlockData, %TimeData );
                         if ( $ObjectAttribute->{TimeStart} ) {
                             $BlockData{TimeStartMax} = $ObjectAttribute->{TimeStart};
                             $BlockData{TimeStopMax}  = $ObjectAttribute->{TimeStop};
-                            if ($IsCacheable) {
-                                $LayoutObject->Block(
-                                    Name => 'TimePeriodNotChangeable',
-                                    Data => \%BlockData,
-                                );
-                            }
-                            else {
-                                $LayoutObject->Block(
-                                    Name => 'TimePeriod',
-                                    Data => \%BlockData,
-                                );
-                            }
+
+                            $LayoutObject->Block(
+                                Name => 'TimePeriod',
+                                Data => \%BlockData,
+                            );
                         }
 
                         elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
@@ -1132,6 +1168,9 @@ sub StatsParamsGet {
     my ( $Self, %Param ) = @_;
 
     my $Stat = $Param{Stat};
+
+    my $HasUserGetParam = ref $Param{UserGetParam} eq 'HASH';
+
     my %UserGetParam = %{ $Param{UserGetParam} // {} };
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -1141,14 +1180,17 @@ sub StatsParamsGet {
     my $LocalGetParam = sub {
         my (%Param) = @_;
         my $Param = $Param{Param};
-        return $UserGetParam{$Param} // $ParamObject->GetParam( Param => $Param );
+        return $HasUserGetParam ? $UserGetParam{$Param} : $ParamObject->GetParam( Param => $Param );
     };
 
     my $LocalGetArray = sub {
         my (%Param) = @_;
         my $Param = $Param{Param};
-        if ( $UserGetParam{$Param} && ref $UserGetParam{$Param} eq 'ARRAY' ) {
-            return @{ $UserGetParam{$Param} };
+        if ($HasUserGetParam) {
+            if ( $UserGetParam{$Param} && ref $UserGetParam{$Param} eq 'ARRAY' ) {
+                return @{ $UserGetParam{$Param} };
+            }
+            return;
         }
         return $ParamObject->GetArray( Param => $Param );
     };
@@ -1237,12 +1279,7 @@ sub StatsParamsGet {
                             # get time object
                             my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-                            if (
-                                $LocalGetParam->(
-                                    Param => $ElementName . 'StartYear'
-                                )
-                                )
-                            {
+                            if ( $LocalGetParam->( Param => $ElementName . 'StartYear' ) ) {
                                 my %Time;
                                 for my $Limit (qw(Start Stop)) {
                                     for my $Unit (qw(Year Month Day Hour Minute Second)) {

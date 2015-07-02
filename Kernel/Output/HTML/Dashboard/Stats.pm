@@ -98,7 +98,6 @@ sub Preferences {
     my $StatsParamsWidget = $Self->{StatsViewObject}->StatsParamsWidget(
         Stat         => $Stat,
         UserGetParam => $StatsSettings,
-        IsCacheable  => 1,
         Formats      => \%FilteredFormats,
     );
 

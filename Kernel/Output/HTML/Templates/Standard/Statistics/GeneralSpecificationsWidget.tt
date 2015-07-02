@@ -120,9 +120,7 @@ Core.Agent.Stats.FormatGraphSizeRelation();
         [% Data.SelectShowAsDashboardWidget %]
         <p class="FieldExplanation">
             [% Translate("Provide the statistic as a widget that agents can activate in their dashboard.") | html %]
-            [% Translate("Please note") | html %]:<br />
-            - [% Translate("Enabling the dashboard widget will activate caching for this statistic in the dashboard.") | html %]<br />
-            - [% Translate("Agents will not be able to change absolute time settings for statistics dashboard widgets.") | html %]
+            [% Translate("Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard.") | html %]
         </p>
     </div>
     <div class="Clear"></div>

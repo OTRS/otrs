@@ -112,10 +112,8 @@
 [% RenderBlockStart("TimeScale") %]
     <label><em>[% Translate("Scale") | html %]</em>:</label>
     <div class="Value" data-min-seconds="[% Data.TimeScaleMinSeconds %]">
-        <p>
-            [% Data.TimeScaleCount %]
-            [% Data.TimeScaleUnit %]
-        </p>
+        [% Data.TimeScaleCount %]
+        [% Data.TimeScaleUnit %]
         <p class="FieldExplanation">
 [% RenderBlockStart("TimeScaleInfo") %]
             [% Translate("The minimal scale is") | html %] [% Data.TimeScaleCountMax %] [% Translate(Data.TimeScaleUnitMax) | html %].
@@ -125,26 +123,12 @@
     <div class="Clear"></div>
 [% RenderBlockEnd("TimeScale") %]
 
-
-[% RenderBlockStart("TimePeriodNotChangeable") %]
-    <label><em>[% Translate("Period") | html %]</em>:</label>
-    <div class="Value">
-        <p>
-            [% Translate('Between') | html %]
-            [% Data.TimeStartMax | Localize("TimeLong") %] [% Translate("and") | html %] [% Data.TimeStopMax | Localize("TimeLong") %] ([% Translate("cannot be changed for cached statistics") | html %]).
-        </p>
-    </div>
-    <div class="Clear"></div>
-[% RenderBlockEnd("TimePeriodNotChangeable") %]
-
 [% RenderBlockStart("TimePeriodRelative") %]
     <label><em>[% Translate("Relative period") | html %]</em>:</label>
     <div class="Value" data-max-seconds="[% Data.TimeRelativeMaxSeconds %]">
-        <p>
-            [% Translate("The past complete") | html %]
-            [% Data.TimeRelativeCount %]
-            [% Data.TimeRelativeUnit %]
-        </p>
+        [% Translate("The past complete") | html %]
+        [% Data.TimeRelativeCount %]
+        [% Data.TimeRelativeUnit %]
         <p class="FieldExplanation">
             [% Translate("The maximal period is") | html %]
             [% Data.TimeRelativeCountMax %] [% Translate(Data.TimeRelativeUnitMax) | html %].
