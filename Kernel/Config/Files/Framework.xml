@@ -3145,7 +3145,7 @@
             <String Regex="">DejaVuSans-Bold.ttf</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PDF::TTFontFile###ProportionalItalic" Required="0" Valid="0">
+    <ConfigItem Name="PDF::TTFontFile###ProportionalItalic" Required="1" Valid="1">
         <Description Translatable="1">Defines the path and TTF-File to handle italic proportional font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
@@ -3169,7 +3169,7 @@
             <String Regex="">DejaVuSansMono.ttf</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PDF::TTFontFile###MonospacedBold" Required="0" Valid="0">
+    <ConfigItem Name="PDF::TTFontFile###MonospacedBold" Required="1" Valid="1">
         <Description Translatable="1">Defines the path and TTF-File to handle bold monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
@@ -3177,7 +3177,7 @@
             <String Regex="">DejaVuSansMono-Bold.ttf</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PDF::TTFontFile###MonospacedItalic" Required="0" Valid="0">
+    <ConfigItem Name="PDF::TTFontFile###MonospacedItalic" Required="1" Valid="1">
         <Description Translatable="1">Defines the path and TTF-File to handle italic monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
@@ -3185,7 +3185,7 @@
             <String Regex="">DejaVuSansMono-Oblique.ttf</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="PDF::TTFontFile###MonospacedBoldItalic" Required="0" Valid="0">
+    <ConfigItem Name="PDF::TTFontFile###MonospacedBoldItalic" Required="1" Valid="1">
         <Description Translatable="1">Defines the path and TTF-File to handle bold italic monospaced font in PDF documents.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
