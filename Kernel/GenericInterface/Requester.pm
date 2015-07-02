@@ -276,7 +276,7 @@ sub Run {
         Data      => $DataOut,
     );
 
-    my $IsAsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;
+    my $IsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;
 
     if ( !$FunctionResult->{Success} ) {
         my $ErrorReturn = $DebuggerObject->Error(
@@ -289,7 +289,7 @@ sub Run {
             ResponseErrorMessage => $FunctionResult->{ErrorMessage},
         );
 
-        if ($IsAsAsynchronousCall) {
+        if ($IsAsynchronousCall) {
 
             RESPONSEKEY:
             for my $ResponseKey ( sort keys %{$Response} ) {
@@ -391,7 +391,7 @@ sub Run {
             Data    => $FunctionResult->{ErrorMessage},
         );
 
-        if ($IsAsAsynchronousCall) {
+        if ($IsAsynchronousCall) {
 
             RESPONSEKEY:
             for my $ResponseKey ( sort keys %{$FunctionResult} ) {
