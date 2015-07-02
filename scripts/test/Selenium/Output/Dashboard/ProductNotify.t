@@ -98,7 +98,7 @@ $Selenium->RunTest(
             Location => "$Home/RELEASE",
             Content  => \$OriginalContent,
         );
-        }
+    }
 );
 
 1;

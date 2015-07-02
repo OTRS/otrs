@@ -44,7 +44,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminRegistration' )]");
         $Selenium->find_element( "#GenerateSupportBundle", 'css' );
 
-        }
+    }
 
 );
 

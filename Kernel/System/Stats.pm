@@ -2092,7 +2092,7 @@ sub StatsResultCacheCompute {
         Stat   => $Stat,
         Errors => {},
     );
-    if (!$StatConfigurationValid) {
+    if ( !$StatConfigurationValid ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "This statistic contains configuration errors, skipping.",
@@ -2102,12 +2102,12 @@ sub StatsResultCacheCompute {
 
     my %GetParam = eval {
         $StatsViewObject->StatsParamsGet(
-            Stat => $Stat,
+            Stat         => $Stat,
             UserGetParam => $Param{UserGetParam},
         );
     };
 
-    if ($@ || !%GetParam) {
+    if ( $@ || !%GetParam ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The dashboard widget configuration for this user contains errors, skipping: $@!"
@@ -2181,7 +2181,7 @@ sub StatsResultCacheGet {
         Stat   => $Stat,
         Errors => {},
     );
-    if (!$StatConfigurationValid) {
+    if ( !$StatConfigurationValid ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "This statistic contains configuration errors, skipping.",
@@ -2191,12 +2191,12 @@ sub StatsResultCacheGet {
 
     my %GetParam = eval {
         $StatsViewObject->StatsParamsGet(
-            Stat => $Stat,
+            Stat         => $Stat,
             UserGetParam => $Param{UserGetParam},
         );
     };
 
-    if ($@ || !%GetParam) {
+    if ( $@ || !%GetParam ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The dashboard widget configuration for this user contains errors, skipping: $@!"
@@ -3441,7 +3441,7 @@ sub _GenerateDynamicStats {
 
     my @StatArray = ( [$Title], \@HeaderLine, @DataArray );
 
-    if (!$Param{Cache} || $Preview) {
+    if ( !$Param{Cache} || $Preview ) {
         return @StatArray
     }
 

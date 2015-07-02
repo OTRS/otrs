@@ -71,7 +71,7 @@ $Selenium->RunTest(
             index( $Selenium->get_current_url(), $ExpectedURL ) > -1,
             "ToolBar AgentTicketProcess shortcut - success",
         );
-        }
+    }
 );
 
 1;

@@ -148,7 +148,7 @@ $Selenium->RunTest(
             Type => "Queue",
         );
 
-        }
+    }
 
 );
 

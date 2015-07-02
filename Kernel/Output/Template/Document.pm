@@ -110,7 +110,7 @@ sub _InstallOTRSExtensions {
 
             die $@ if $@;
             return $output;
-            }
+        }
     );
 
     #

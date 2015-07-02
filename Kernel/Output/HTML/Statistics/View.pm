@@ -340,7 +340,7 @@ sub StatsParamsWidget {
                         $LayoutObject->Block(
                             Name => 'Fixed',
                             Data => {
-                                Value   => join(', ', @FixedAttributes),
+                                Value   => join( ', ', @FixedAttributes ),
                                 Key     => $_,
                                 Use     => $Use,
                                 Element => $ObjectAttribute->{Element},
@@ -781,7 +781,7 @@ sub XAxisWidget {
         my %BlockData;
         $BlockData{Fixed}   = 'checked="checked"';
         $BlockData{Checked} = '';
-        $BlockData{Block} = $ObjectAttribute->{Block};
+        $BlockData{Block}   = $ObjectAttribute->{Block};
 
         # things which should be done if this attribute is selected
         if ( $ObjectAttribute->{Selected} ) {
@@ -879,7 +879,7 @@ sub YAxisWidget {
         my %BlockData;
         $BlockData{Fixed}   = 'checked="checked"';
         $BlockData{Checked} = '';
-        $BlockData{Block} = $ObjectAttribute->{Block};
+        $BlockData{Block}   = $ObjectAttribute->{Block};
 
         if ( $ObjectAttribute->{Selected} ) {
             $BlockData{Checked} = 'checked="checked"';
@@ -1004,7 +1004,7 @@ sub RestrictionsWidget {
         my %BlockData;
         $BlockData{Fixed}   = 'checked="checked"';
         $BlockData{Checked} = '';
-        $BlockData{Block} = $ObjectAttribute->{Block};
+        $BlockData{Block}   = $ObjectAttribute->{Block};
 
         if ( $ObjectAttribute->{Selected} ) {
             $BlockData{Checked} = 'checked="checked"';
@@ -1203,6 +1203,7 @@ sub StatsParamsGet {
                         $Element->{SelectedValues} = \@SelectedValues;
                     }
                     if ( $Element->{Block} eq 'InputField' ) {
+
                         # Show warning if restrictions contain stop words within ticket search.
                         my %StopWordFields = $Self->_StopWordFieldsGet();
 
@@ -1459,7 +1460,8 @@ sub StatsResultRender {
         my $UserCSVSeparator = $LayoutObject->{LanguageObject}->{Separator};
 
         if ( $ConfigObject->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
-            my %UserData = $$Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
+            my %UserData
+                = $$Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
             $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
         }
         $Output .= $CSVObject->Array2CSV(
@@ -1549,7 +1551,8 @@ sub StatsResultRender {
             }
 
             # page params
-            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
+            my %User
+                = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
             my %PageParam;
             $PageParam{PageOrientation} = 'landscape';
             $PageParam{MarginTop}       = 30;
@@ -2441,7 +2444,7 @@ sub _StopWordErrorCheck {
 sub _StopWordFieldsGet {
     my ( $Self, %Param ) = @_;
 
-    if (!$Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
+    if ( !$Kernel::OM->Get('Kernel::System::Ticket')->SearchStringStopWordsUsageWarningActive() ) {
         return ();
     }
 

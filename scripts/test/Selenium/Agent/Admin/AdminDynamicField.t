@@ -178,7 +178,7 @@ JAVASCRIPT
             # make sure the cache is correct.
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "DynamicField" );
         }
-        }
+    }
 );
 
 1;

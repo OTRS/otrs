@@ -148,7 +148,7 @@ $Selenium->RunTest(
             "There is a class 'Invalid' for test Agent",
         );
 
-        }
+    }
 
 );
 

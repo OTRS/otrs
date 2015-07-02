@@ -293,7 +293,7 @@ $Selenium->RunTest(
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => $Cache );
         }
 
-        }
+    }
 );
 
 1;

@@ -62,7 +62,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $IFrameLink ) > -1,
             "IFrame dashboard plugin link '$IFrameLink' - found",
         );
-        }
+    }
 );
 
 1;

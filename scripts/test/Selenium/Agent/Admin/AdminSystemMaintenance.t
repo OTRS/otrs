@@ -214,7 +214,7 @@ $Selenium->RunTest(
             "Deleted - $SysMainComment",
         );
 
-        }
+    }
 
 );
 

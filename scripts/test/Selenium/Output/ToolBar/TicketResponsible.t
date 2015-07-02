@@ -90,7 +90,7 @@ $Selenium->RunTest(
             $Success,
             "Delete ticket - $TicketID"
         );
-        }
+    }
 );
 
 1;

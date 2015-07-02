@@ -76,7 +76,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "button.Primary", 'css' );
             $Selenium->find_element( "Go to overview", 'link_text' )->click();
         }
-        }
+    }
 );
 
 1;

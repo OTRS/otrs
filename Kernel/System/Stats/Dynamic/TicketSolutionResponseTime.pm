@@ -663,7 +663,7 @@ sub GetStatTablePreview {
 
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
         for my $Row ( sort keys %{ $Param{TableStructure} } ) {
-            my @ResultRow        = ($Row);
+            my @ResultRow = ($Row);
             for ( @{ $Param{XValue}{SelectedValues} } ) {
                 push @ResultRow, int rand 50;
             }

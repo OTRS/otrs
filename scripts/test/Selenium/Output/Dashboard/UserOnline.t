@@ -90,7 +90,7 @@ $Selenium->RunTest(
             index( $Selenium->get_page_source(), $ExpectedCustomer ) > -1,
             "$TestCustomerUserLogin - found on UserOnline plugin"
         );
-        }
+    }
 );
 
 1;

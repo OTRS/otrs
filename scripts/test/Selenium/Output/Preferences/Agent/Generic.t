@@ -124,7 +124,7 @@ $Selenium->RunTest(
                 "Agent preference $Test->{Name} - updated"
             );
         }
-        }
+    }
 );
 
 1;

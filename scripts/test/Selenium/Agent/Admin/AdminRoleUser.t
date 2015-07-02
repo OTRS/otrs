@@ -129,7 +129,7 @@ $Selenium->RunTest(
             Type => 'Group'
         );
 
-        }
+    }
 
 );
 

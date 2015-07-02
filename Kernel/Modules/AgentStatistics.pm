@@ -540,7 +540,7 @@ sub EditAction {
     # Restrictions
     #
     if ( $Stat->{StatType} eq 'dynamic' ) {
-        my $Index            = 0;
+        my $Index = 0;
         $Data{StatType} = $Stat->{StatType};
 
         OBJECTATTRIBUTE:
@@ -642,7 +642,7 @@ sub EditAction {
         Hash   => \%Data,
     );
 
-    if ( $ParamObject->GetParam(Param => 'SaveAndFinish') ) {
+    if ( $ParamObject->GetParam( Param => 'SaveAndFinish' ) ) {
         return $LayoutObject->Redirect( OP => 'Action=AgentStatistics;Subaction=Overview' );
     }
 
@@ -660,7 +660,7 @@ sub ViewScreen {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my @Errors;
-    if (ref $Param{Errors} eq 'ARRAY') {
+    if ( ref $Param{Errors} eq 'ARRAY' ) {
         @Errors = @{ $Param{Errors} || [] };
     }
 
