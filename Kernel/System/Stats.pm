@@ -3741,27 +3741,35 @@ with the given parameters.
 
 sub _GetCacheString {
     my ( $Self, %Param ) = @_;
-    my $CacheString = '';
+    my $Result = '';
 
     for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
-        USEREF:
-        for my $UseRef ( @{ $Param{$Use} } ) {
-            $CacheString .= '__' . $UseRef->{Name} . '_';
-            if ( $UseRef->{SelectedValues} ) {
-                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } )
+        $Result .= "$Use:";
+        for my $Element ( @{ $Param{$Use} } ) {
+            $Result .= "Name:$Element->{Name}:";
+            if ($Element->{Block} eq 'Time') {
+                if ( $Element->{SelectedValues}[0] && $Element->{TimeScaleCount} ) {
+                    $Result .= "TimeScaleUnit:$Element->{SelectedValues}[0]:";
+                    $Result .= "TimeScaleCount:$Element->{TimeScaleCount}:";
+                }
+
+                if ($Element->{TimeStart} && $Element->{TimeStop}) {
+                    $Result .= "TimeStart:$Element->{TimeStart}:TimeStop:$Element->{TimeStop}:";
+                }
             }
-            elsif ( $UseRef->{TimeStart} && $UseRef->{TimeStop} ) {
-                $CacheString .= $UseRef->{TimeStart} . '-' . $UseRef->{TimeStop};
+            if ( $Element->{SelectedValues} ) {
+                $Result .= "SelectedValues:" . join( ',', sort @{ $Element->{SelectedValues} } ) . ':';
             }
         }
     }
 
-    my $MD5Key = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-        Filename => $CacheString,
+    # Convert to MD5 (not sure if this is needed any more).
+    $Result = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+        Filename => $Result,
         Type     => 'md5',
     );
 
-    return $MD5Key;
+    return $Result;
 }
 
 1;
