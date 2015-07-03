@@ -45,6 +45,11 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type',
             Value => 0
         );
+        $SysConfigObject->ConfigItemUpdate(
+            Valid => 1,
+            Key   => 'Stats::TimeType',
+            Value => 'extended',
+        );
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -73,7 +78,7 @@ $Selenium->RunTest(
                     Restriction => 'open',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format', 'GraphSize',
+                    'Title', 'Description', 'Object', 'Permission', 'Format',
                     'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid',
                 ],
                 Step2Fields => [
@@ -107,7 +112,7 @@ $Selenium->RunTest(
                     Restriction => 'Ticket Create Time',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format', 'GraphSize',
+                    'Title', 'Description', 'Object', 'Permission', 'Format',
                     'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid'
                 ],
                 Step2Fields => [
@@ -147,7 +152,7 @@ $Selenium->RunTest(
                     Restriction => 'The last 1 day(s)',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format', 'GraphSize',
+                    'Title', 'Description', 'Object', 'Permission', 'Format',
                     'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid'
                 ],
                 Step2Fields => [
@@ -183,7 +188,7 @@ $Selenium->RunTest(
                     Restriction => 'UseAsRestrictionLimit',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format', 'GraphSize',
+                    'Title', 'Description', 'Object', 'Permission', 'Format',
                     'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid'
                 ],
                 Step2Fields => ['TicketAttributes'],
