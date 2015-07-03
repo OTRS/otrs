@@ -47,41 +47,51 @@ sub Run {
             $Self->PrintError("Connection was successful, but database content is missing.");
             return $Self->ExitCodeError();
         }
-        else {
-            $Self->Print("<green>Connection successful.</green>\n");
 
-            # check for common MySQL issue where default storage engine is different
-            # from initial OTRS table; this can happen when MySQL is upgraded from
-            # 5.1 > 5.5.
-            if ( $DBObject->{'DB::Type'} eq 'mysql' ) {
-                $DBObject->Prepare(
-                    SQL => "SHOW VARIABLES WHERE variable_name = 'storage_engine'",
-                );
-                my $StorageEngine;
-                while ( my @Row = $DBObject->FetchrowArray() ) {
-                    $StorageEngine = $Row[1];
-                }
-                $DBObject->Prepare(
-                    SQL  => "SHOW TABLE STATUS WHERE engine != ?",
-                    Bind => [ \$StorageEngine ],
-                );
-                my @Tables;
-                while ( my @Row = $DBObject->FetchrowArray() ) {
-                    push @Tables, $Row[0];
-                }
-                if (@Tables) {
-                    my $Error = "Your storage engine is $StorageEngine.\n";
-                    $Error .= "These tables use a different storage engine:\n\n";
-                    $Error .= join( "\n", sort @Tables );
-                    $Error .= "\n\n *** Please correct these problems! *** \n\n";
-
-                    $Self->PrintError($Error);
-                    return $Self->ExitCodeError();
-                }
+        for my $Table (qw(scheduler_task scheduler_future_task scheduler_recurrent_task)) {
+            my $Check = $DBObject->Prepare(
+                SQL   => "SELECT * FROM $Table",
+                Limit => 1,
+            );
+            if ( !$Check ) {
+                $Self->PrintError("Connection was successful, but table $Table is missing.");
+                return $Self->ExitCodeError();
             }
-
-            return $Self->ExitCodeOk();
         }
+
+        $Self->Print("<green>Connection successful.</green>\n");
+
+        # check for common MySQL issue where default storage engine is different
+        # from initial OTRS table; this can happen when MySQL is upgraded from
+        # 5.1 > 5.5.
+        if ( $DBObject->{'DB::Type'} eq 'mysql' ) {
+            $DBObject->Prepare(
+                SQL => "SHOW VARIABLES WHERE variable_name = 'storage_engine'",
+            );
+            my $StorageEngine;
+            while ( my @Row = $DBObject->FetchrowArray() ) {
+                $StorageEngine = $Row[1];
+            }
+            $DBObject->Prepare(
+                SQL  => "SHOW TABLE STATUS WHERE engine != ?",
+                Bind => [ \$StorageEngine ],
+            );
+            my @Tables;
+            while ( my @Row = $DBObject->FetchrowArray() ) {
+                push @Tables, $Row[0];
+            }
+            if (@Tables) {
+                my $Error = "Your storage engine is $StorageEngine.\n";
+                $Error .= "These tables use a different storage engine:\n\n";
+                $Error .= join( "\n", sort @Tables );
+                $Error .= "\n\n *** Please correct these problems! *** \n\n";
+
+                $Self->PrintError($Error);
+                return $Self->ExitCodeError();
+            }
+        }
+
+        return $Self->ExitCodeOk();
     }
 
     $Self->PrintError('Connection failed.');
