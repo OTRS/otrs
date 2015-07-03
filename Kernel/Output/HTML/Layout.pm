@@ -1499,64 +1499,6 @@ sub Print {
     return 1;
 }
 
-sub PrintHeader {
-    my ( $Self, %Param ) = @_;
-
-    # unless explicitly specified, we set the header width
-    $Param{Width} ||= 640;
-
-    my $File = $Param{Filename} || $Self->{Action} || 'unknown';
-
-    # set file name for "save page as"
-    $Param{ContentDisposition} = "filename=\"$File.html\"";
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # area and title
-    if ( !$Param{Area} ) {
-        $Param{Area} = $ConfigObject->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
-            || '';
-    }
-    if ( !$Param{Title} ) {
-        $Param{Title} = $ConfigObject->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
-            || '';
-    }
-    for my $Word (qw(Area Title Value)) {
-        if ( $Param{$Word} ) {
-            $Param{TitleArea} .= ' - ' . $Self->{LanguageObject}->Translate( $Param{$Word} );
-        }
-    }
-
-    # set rtl if needed
-    if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
-        $Param{BodyClass} = 'RTL';
-    }
-
-    my $Output = $Self->Output(
-        TemplateFile => 'PrintHeader',
-        Data         => \%Param
-    );
-
-    # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck( OutputRef => \$Output );
-
-    # create & return output
-    return $Output;
-}
-
-sub PrintFooter {
-    my ( $Self, %Param ) = @_;
-
-    $Param{Host} = $Self->Ascii2Html( Text => $ENV{SERVER_NAME} . $ENV{REQUEST_URI} );
-    $Param{Host} =~ s/&amp;/&/ig;
-
-    # create & return output
-    return $Self->Output(
-        TemplateFile => 'PrintFooter',
-        Data         => \%Param
-    );
-}
-
 =item Ascii2Html()
 
 convert ascii to html string

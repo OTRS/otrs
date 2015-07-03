@@ -184,209 +184,134 @@ sub Run {
     }
 
     # get PDF object
-    my $PDFObject
-        = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
+    my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
-    # generate pdf output
-    if ($PDFObject) {
-        my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-        my $Time      = $LayoutObject->{Time};
-        my %Page;
+    my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
+    my $Time      = $LayoutObject->{Time};
+    my %Page;
 
-        # get maximum number of pages
-        $Page{MaxPages} = $ConfigObject->Get('PDF::MaxPages');
-        if ( !$Page{MaxPages} || $Page{MaxPages} < 1 || $Page{MaxPages} > 1000 ) {
-            $Page{MaxPages} = 100;
-        }
-        my $HeaderRight  = $ConfigObject->Get('Ticket::Hook') . $Ticket{TicketNumber};
-        my $HeadlineLeft = $HeaderRight;
-        my $Title        = $HeaderRight;
-        if ( $Ticket{Title} ) {
-            $HeadlineLeft = $Ticket{Title};
-            $Title .= ' / ' . $Ticket{Title};
-        }
+    # get maximum number of pages
+    $Page{MaxPages} = $ConfigObject->Get('PDF::MaxPages');
+    if ( !$Page{MaxPages} || $Page{MaxPages} < 1 || $Page{MaxPages} > 1000 ) {
+        $Page{MaxPages} = 100;
+    }
+    my $HeaderRight  = $ConfigObject->Get('Ticket::Hook') . $Ticket{TicketNumber};
+    my $HeadlineLeft = $HeaderRight;
+    my $Title        = $HeaderRight;
+    if ( $Ticket{Title} ) {
+        $HeadlineLeft = $Ticket{Title};
+        $Title .= ' / ' . $Ticket{Title};
+    }
 
-        $Page{MarginTop}    = 30;
-        $Page{MarginRight}  = 40;
-        $Page{MarginBottom} = 40;
-        $Page{MarginLeft}   = 40;
-        $Page{HeaderRight}  = $HeaderRight;
-        $Page{FooterLeft}   = '';
-        $Page{PageText}     = $LayoutObject->{LanguageObject}->Translate('Page');
-        $Page{PageCount}    = 1;
+    $Page{MarginTop}    = 30;
+    $Page{MarginRight}  = 40;
+    $Page{MarginBottom} = 40;
+    $Page{MarginLeft}   = 40;
+    $Page{HeaderRight}  = $HeaderRight;
+    $Page{FooterLeft}   = '';
+    $Page{PageText}     = $LayoutObject->{LanguageObject}->Translate('Page');
+    $Page{PageCount}    = 1;
 
-        # create new pdf document
-        $PDFObject->DocumentNew(
-            Title  => $ConfigObject->Get('Product') . ': ' . $Title,
-            Encode => $LayoutObject->{UserCharset},
-        );
+    # create new pdf document
+    $PDFObject->DocumentNew(
+        Title  => $ConfigObject->Get('Product') . ': ' . $Title,
+        Encode => $LayoutObject->{UserCharset},
+    );
 
-        # create first pdf page
-        $PDFObject->PageNew(
-            %Page,
-            FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
-        );
-        $Page{PageCount}++;
+    # create first pdf page
+    $PDFObject->PageNew(
+        %Page,
+        FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+    );
+    $Page{PageCount}++;
 
-        $PDFObject->PositionSet(
-            Move => 'relativ',
-            Y    => -6,
-        );
+    $PDFObject->PositionSet(
+        Move => 'relativ',
+        Y    => -6,
+    );
 
-        # output title
-        $PDFObject->Text(
-            Text     => $Ticket{Title},
-            FontSize => 13,
-        );
+    # output title
+    $PDFObject->Text(
+        Text     => $Ticket{Title},
+        FontSize => 13,
+    );
 
-        $PDFObject->PositionSet(
-            Move => 'relativ',
-            Y    => -6,
-        );
+    $PDFObject->PositionSet(
+        Move => 'relativ',
+        Y    => -6,
+    );
 
-        # output "printed by"
-        $PDFObject->Text(
-            Text => $PrintedBy . ' '
-                . $Self->{UserFirstname} . ' '
-                . $Self->{UserLastname} . ' ('
-                . $Self->{UserEmail} . ')'
-                . ', ' . $Time,
-            FontSize => 9,
-        );
+    # output "printed by"
+    $PDFObject->Text(
+        Text => $PrintedBy . ' '
+            . $Self->{UserFirstname} . ' '
+            . $Self->{UserLastname} . ' ('
+            . $Self->{UserEmail} . ')'
+            . ', ' . $Time,
+        FontSize => 9,
+    );
 
-        $PDFObject->PositionSet(
-            Move => 'relativ',
-            Y    => -14,
-        );
+    $PDFObject->PositionSet(
+        Move => 'relativ',
+        Y    => -14,
+    );
 
-        # output ticket infos
-        $Self->_PDFOutputTicketInfos(
-            PageData        => \%Page,
-            TicketData      => \%Ticket,
-            UserData        => \%UserInfo,
-            ResponsibleData => \%ResponsibleInfo,
-        );
+    # output ticket infos
+    $Self->_PDFOutputTicketInfos(
+        PageData        => \%Page,
+        TicketData      => \%Ticket,
+        UserData        => \%UserInfo,
+        ResponsibleData => \%ResponsibleInfo,
+    );
 
-        # output ticket dynamic fields
-        $Self->_PDFOutputTicketDynamicFields(
-            PageData   => \%Page,
-            TicketData => \%Ticket,
-        );
+    # output ticket dynamic fields
+    $Self->_PDFOutputTicketDynamicFields(
+        PageData   => \%Page,
+        TicketData => \%Ticket,
+    );
 
-        # output linked objects
-        if (%LinkData) {
-            $Self->_PDFOutputLinkedObjects(
-                PageData     => \%Page,
-                LinkData     => \%LinkData,
-                LinkTypeList => \%LinkTypeList,
-            );
-        }
-
-        # output customer infos
-        if (%CustomerData) {
-            $Self->_PDFOutputCustomerInfos(
-                PageData     => \%Page,
-                CustomerData => \%CustomerData,
-            );
-        }
-
-        # output articles
-        $Self->_PDFOutputArticles(
-            PageData    => \%Page,
-            ArticleData => \@ArticleBox,
-        );
-
-        # get ticket object
-        my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
-
-        # return the pdf document
-        my $Filename = 'Ticket_' . $Ticket{TicketNumber};
-        my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-            SystemTime => $TimeObject->SystemTime(),
-        );
-        $M = sprintf( "%02d", $M );
-        $D = sprintf( "%02d", $D );
-        $h = sprintf( "%02d", $h );
-        $m = sprintf( "%02d", $m );
-        my $PDFString = $PDFObject->DocumentOutput();
-        return $LayoutObject->Attachment(
-            Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
-            ContentType => "application/pdf",
-            Content     => $PDFString,
-            Type        => 'inline',
+    # output linked objects
+    if (%LinkData) {
+        $Self->_PDFOutputLinkedObjects(
+            PageData     => \%Page,
+            LinkData     => \%LinkData,
+            LinkTypeList => \%LinkTypeList,
         );
     }
 
-    # generate html output
-    else {
-
-        # output header
-        $Output .= $LayoutObject->PrintHeader( Value => $Ticket{TicketNumber} );
-
-        if (%LinkData) {
-
-            # output link data
-            $LayoutObject->Block(
-                Name => 'Link',
-            );
-
-            for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %LinkData ) {
-
-                # investigate link type name
-                my @LinkData = split q{::}, $LinkTypeLinkDirection;
-
-                # output link type data
-                $LayoutObject->Block(
-                    Name => 'LinkType',
-                    Data => {
-                        LinkTypeName => $LinkTypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' },
-                    },
-                );
-
-                # extract object list
-                my $ObjectList = $LinkData{$LinkTypeLinkDirection};
-
-                for my $Object ( sort { lc $a cmp lc $b } keys %{$ObjectList} ) {
-
-                    for my $Item ( @{ $ObjectList->{$Object} } ) {
-
-                        # output link type data
-                        $LayoutObject->Block(
-                            Name => 'LinkTypeRow',
-                            Data => {
-                                LinkStrg => $Item->{Title},
-                            },
-                        );
-                    }
-                }
-            }
-        }
-
-        # output customer infos
-        if (%CustomerData) {
-            $Param{CustomerTable} = $LayoutObject->AgentCustomerViewTable(
-                Data => \%CustomerData,
-                Max  => 100,
-            );
-        }
-
-        # show ticket
-        $Output .= $Self->_HTMLMask(
-            TicketID        => $Self->{TicketID},
-            QueueID         => $QueueID,
-            ArticleBox      => \@ArticleBox,
-            ResponsibleData => \%ResponsibleInfo,
-            %Param,
-            %UserInfo,
-            %Ticket,
+    # output customer infos
+    if (%CustomerData) {
+        $Self->_PDFOutputCustomerInfos(
+            PageData     => \%Page,
+            CustomerData => \%CustomerData,
         );
-
-        # add footer
-        $Output .= $LayoutObject->PrintFooter();
-
-        # return output
-        return $Output;
     }
+
+    # output articles
+    $Self->_PDFOutputArticles(
+        PageData    => \%Page,
+        ArticleData => \@ArticleBox,
+    );
+
+    # get ticket object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    # return the pdf document
+    my $Filename = 'Ticket_' . $Ticket{TicketNumber};
+    my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+        SystemTime => $TimeObject->SystemTime(),
+    );
+    $M = sprintf( "%02d", $M );
+    $D = sprintf( "%02d", $D );
+    $h = sprintf( "%02d", $h );
+    $m = sprintf( "%02d", $m );
+    my $PDFString = $PDFObject->DocumentOutput();
+    return $LayoutObject->Attachment(
+        Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
+        ContentType => "application/pdf",
+        Content     => $PDFString,
+        Type        => 'inline',
+    );
 }
 
 sub _PDFOutputTicketInfos {
@@ -1209,293 +1134,6 @@ sub _PDFOutputArticles {
         $ArticleCounter++;
     }
     return 1;
-}
-
-sub _HTMLMask {
-    my ( $Self, %Param ) = @_;
-
-    # get needed objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # output responsible, if feature is enabled
-    if ( $ConfigObject->Get('Ticket::Responsible') ) {
-        my $Responsible = '-';
-        if ( $Param{Responsible} ) {
-            $Responsible = $Param{Responsible} . ' ('
-                . $Param{ResponsibleData}->{UserFirstname} . ' '
-                . $Param{ResponsibleData}->{UserLastname} . ')';
-        }
-        $LayoutObject->Block(
-            Name => 'Responsible',
-            Data => {
-                ResponsibleString => $Responsible,
-            },
-        );
-    }
-
-    # output type, if feature is enabled
-    if ( $ConfigObject->Get('Ticket::Type') ) {
-        $LayoutObject->Block(
-            Name => 'TicketType',
-            Data => { %Param, },
-        );
-    }
-
-    # output service and sla, if feature is enabled
-    if ( $ConfigObject->Get('Ticket::Service') ) {
-        $LayoutObject->Block(
-            Name => 'TicketService',
-            Data => {
-                Service => $Param{Service} || '-',
-                SLA     => $Param{SLA}     || '-',
-            },
-        );
-    }
-
-    # output accounted time
-    if ( $ConfigObject->Get('Ticket::Frontend::AccountTime') ) {
-        $LayoutObject->Block(
-            Name => 'AccountedTime',
-            Data => {%Param},
-        );
-    }
-
-    # output pending date
-    if ( $Param{PendingUntil} ) {
-        $LayoutObject->Block(
-            Name => 'PendingUntil',
-            Data => {%Param},
-        );
-    }
-
-    # output first response time
-    if ( defined( $Param{FirstResponseTime} ) ) {
-        $LayoutObject->Block(
-            Name => 'FirstResponseTime',
-            Data => {%Param},
-        );
-    }
-
-    # output update time
-    if ( defined( $Param{UpdateTime} ) ) {
-        $LayoutObject->Block(
-            Name => 'UpdateTime',
-            Data => {%Param},
-        );
-    }
-
-    # output solution time
-    if ( defined( $Param{SolutionTime} ) ) {
-        $LayoutObject->Block(
-            Name => 'SolutionTime',
-            Data => {%Param},
-        );
-    }
-
-    # get dynamic field config for frontend module
-    my $DynamicFieldFilter = $ConfigObject->Get("Ticket::Frontend::AgentTicketPrint")->{DynamicField};
-
-    # get dynamic field object
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-
-    # get the dynamic fields for ticket object
-    my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
-        Valid       => 1,
-        ObjectType  => ['Ticket'],
-        FieldFilter => $DynamicFieldFilter || {},
-    );
-
-    # get dynamicfield backend object
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    # cycle trough the activated Dynamic Fields for ticket object
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        my $Value = $DynamicFieldBackendObject->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Param{TicketID},
-        );
-
-        next DYNAMICFIELD if !$Value;
-        next DYNAMICFIELD if $Value eq "";
-
-        # get print string for this dynamic field
-        my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            Value              => $Value,
-            HTMLOutput         => 1,
-            ValueMaxChars      => 20,
-            LayoutObject       => $LayoutObject,
-        );
-
-        my $Label = $DynamicFieldConfig->{Label};
-
-        $LayoutObject->Block(
-            Name => 'TicketDynamicField',
-            Data => {
-                Label => $Label,
-                Value => $ValueStrg->{Value},
-                Title => $ValueStrg->{Title},
-            },
-        );
-
-        # example of dynamic fields order customization
-        $LayoutObject->Block(
-            Name => 'TicketDynamicField_' . $DynamicFieldConfig->{Name},
-            Data => {
-                Label => $Label,
-                Value => $ValueStrg->{Value},
-                Title => $ValueStrg->{Title},
-            },
-        );
-    }
-
-    # build article stuff
-    my $SelectedArticleID = $Param{ArticleID} || '';
-    my @ArticleBox = @{ $Param{ArticleBox} };
-
-    # get last customer article
-    for my $ArticleTmp (@ArticleBox) {
-        my %Article = %{$ArticleTmp};
-
-        # get attachment string
-        my %AtmIndex = ();
-        if ( $Article{Atms} ) {
-            %AtmIndex = %{ $Article{Atms} };
-        }
-        $Param{'Article::ATM'} = '';
-        for my $FileID ( sort keys %AtmIndex ) {
-            my %File = %{ $AtmIndex{$FileID} };
-            $File{Filename} = $LayoutObject->Ascii2Html( Text => $File{Filename} );
-            my $DownloadText = $LayoutObject->{LanguageObject}->Translate("Download");
-            $Param{'Article::ATM'}
-                .= '<a href="' . $LayoutObject->{Baselink} . 'Action=AgentTicketAttachment;'
-                . "ArticleID=$Article{ArticleID};FileID=$FileID\" target=\"attachment\" "
-                . "title=\"$DownloadText: $File{Filename}\">"
-                . "$File{Filename}</a> $File{Filesize}<br/>";
-        }
-
-        if ( $Article{ArticleType} eq 'chat-external' || $Article{ArticleType} eq 'chat-internal' )
-        {
-            $Article{ChatMessages} = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
-                Data => $Article{Body},
-            );
-            $Article{IsChat} = 1;
-        }
-        else {
-
-            # check if just a only html email
-            my $MimeTypeText = $LayoutObject->CheckMimeType(
-                %Param,
-                %Article,
-                Action => 'AgentTicketZoom',
-            );
-            if ($MimeTypeText) {
-                $Param{TextNote} = $MimeTypeText;
-                $Article{Body}   = '';
-            }
-            else {
-
-                # html quoting
-                $Article{Body} = $LayoutObject->Ascii2Html(
-                    NewLine => $ConfigObject->Get('DefaultViewNewLine'),
-                    Text    => $Article{Body},
-                    VMax    => $ConfigObject->Get('DefaultViewLines') || 5000,
-                );
-            }
-        }
-
-        $LayoutObject->Block(
-            Name => 'Article',
-            Data => { %Param, %Article },
-        );
-
-        # do some strips && quoting
-        for my $Parameter (qw(From To Cc Subject)) {
-            if ( $Article{$Parameter} ) {
-                $LayoutObject->Block(
-                    Name => 'Row',
-                    Data => {
-                        Key   => $Parameter,
-                        Value => $Article{$Parameter},
-                    },
-                );
-            }
-        }
-
-        # show accounted article time
-        if ( $ConfigObject->Get('Ticket::ZoomTimeDisplay') ) {
-            my $ArticleTime = $Kernel::OM->Get('Kernel::System::Ticket')->ArticleAccountedTimeGet(
-                ArticleID => $Article{ArticleID},
-            );
-            $LayoutObject->Block(
-                Name => "Row",
-                Data => {
-                    Key   => 'Time',
-                    Value => $ArticleTime,
-                },
-            );
-        }
-
-        # get the dynamic fields for ticket object
-        my $DynamicField = $DynamicFieldObject->DynamicFieldListGet(
-            Valid       => 1,
-            ObjectType  => ['Article'],
-            FieldFilter => $DynamicFieldFilter || {},
-        );
-
-        # cycle trough the activated Dynamic Fields for ticket object
-        DYNAMICFIELD:
-        for my $DynamicFieldConfig ( @{$DynamicField} ) {
-            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-            my $Value = $DynamicFieldBackendObject->ValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $Article{ArticleID},
-            );
-
-            next DYNAMICFIELD if !$Value;
-            next DYNAMICFIELD if $Value eq "";
-
-            # get print string for this dynamic field
-            my $ValueStrg = $DynamicFieldBackendObject->DisplayValueRender(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Value              => $Value,
-                HTMLOutput         => 1,
-                ValueMaxChars      => 20,
-                LayoutObject       => $LayoutObject,
-            );
-
-            my $Label = $DynamicFieldConfig->{Label};
-
-            $LayoutObject->Block(
-                Name => 'ArticleDynamicField',
-                Data => {
-                    Label => $Label,
-                    Value => $ValueStrg->{Value},
-                    Title => $ValueStrg->{Title},
-                },
-            );
-
-            # example of dynamic fields order customization
-            #            $LayoutObject->Block(
-            #                Name => 'ArticleDynamicField_' . $DynamicFieldConfig->{Name},
-            #                Data => {
-            #                    Label => $Label,
-            #                    Value => $ValueStrg->{Value},
-            #                    Title => $ValueStrg->{Title},
-            #                },
-            #            );
-        }
-    }
-
-    return $LayoutObject->Output(
-        TemplateFile => 'AgentTicketPrint',
-        Data         => \%Param,
-    );
 }
 
 1;

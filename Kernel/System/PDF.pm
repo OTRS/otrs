@@ -51,9 +51,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # load PDF::API2
-    return if !$Kernel::OM->Get('Kernel::Config')->Get('PDF');
-
     # read string width cache
     $Self->{CacheStringWidth} = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'PDF',
@@ -64,36 +61,12 @@ sub new {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message =>
-                "PDF support activated in SysConfig but cpan-module PDF::API2 isn't installed!"
+                "Could not load module PDF::API2!"
         );
         return;
     }
-    elsif (
 
-        # version 2.x or newer exports a proper version number
-        $PDF::API2::VERSION =~ m{^(\d)\..*}mx
-        && ( $1 > 1 )
-        )
-    {
-        return $Self;
-    }
-    elsif (
-
-        # versions 0.73 and lower have a special Version.pm
-        $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
-        && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) )
-        )
-    {
-        return $Self;
-    }
-    else {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "PDF support activated in SysConfig but PDF::API2 0.57 or newer is required. Found version $PDF::API2::Version::VERSION.",
-        );
-        return;
-    }
+    return $Self;
 }
 
 =item DocumentNew()

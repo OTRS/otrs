@@ -1,5 +1,5 @@
 #5.0.0.beta1 20??-??-??
- - 2015-07-02 Removed external dependency to PDF::API2 by bundling it.
+ - 2015-07-02 Removed external dependency to PDF::API2 by bundling it. Dropped HTML print view in favor of PDF.
  - 2015-06-30 Added OTRS Scheduler daemon task handlers for: generic agent, cron, and asynchronous executor tasks.
  - 2015-06-30 Ported OTRS Scheduler to the OTRS Daemon architecture.
  - 2015-06-30 Added OTRS Daemon sub-framework.

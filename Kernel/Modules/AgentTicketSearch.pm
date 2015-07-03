@@ -783,8 +783,7 @@ sub Run {
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
 
             # get PDF object
-            my $PDFObject
-                = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
+            my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
             my @PDFData;
             for my $TicketID (@ViewableTicketIDs) {
@@ -873,161 +872,138 @@ sub Run {
                 }
             }
 
-            # PDF Output
-            if ($PDFObject) {
-                my $Title = $LayoutObject->{LanguageObject}->Translate('Ticket') . ' '
-                    . $LayoutObject->{LanguageObject}->Translate('Search');
-                my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-                my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
-                my $Time      = $LayoutObject->{Time};
-                my $Url       = '';
-                if ( $ENV{REQUEST_URI} ) {
-                    $Url = $ConfigObject->Get('HttpType') . '://'
-                        . $ConfigObject->Get('FQDN')
-                        . $ENV{REQUEST_URI};
-                }
-
-                # get maximum number of pages
-                my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
-                if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
-                    $MaxPages = 100;
-                }
-
-                my $CellData;
-
-                # verify if there are tickets to show
-                if (@PDFData) {
-
-                    # create the header
-                    $CellData->[0]->[0]->{Content} = $ConfigObject->Get('Ticket::Hook');
-                    $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[1]->{Content} = $LayoutObject->{LanguageObject}->Translate('Created');
-                    $CellData->[0]->[1]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[2]->{Content} = $LayoutObject->{LanguageObject}->Translate('From');
-                    $CellData->[0]->[2]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[3]->{Content} = $LayoutObject->{LanguageObject}->Translate('Subject');
-                    $CellData->[0]->[3]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[4]->{Content} = $LayoutObject->{LanguageObject}->Translate('State');
-                    $CellData->[0]->[4]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[5]->{Content} = $LayoutObject->{LanguageObject}->Translate('Queue');
-                    $CellData->[0]->[5]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[6]->{Content} = $LayoutObject->{LanguageObject}->Translate('Owner');
-                    $CellData->[0]->[6]->{Font}    = 'ProportionalBold';
-                    $CellData->[0]->[7]->{Content} = $LayoutObject->{LanguageObject}->Translate('CustomerID');
-                    $CellData->[0]->[7]->{Font}    = 'ProportionalBold';
-
-                    # create the content array
-                    my $CounterRow = 1;
-                    for my $Row (@PDFData) {
-                        my $CounterColumn = 0;
-                        for my $Content ( @{$Row} ) {
-                            $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
-                            $CounterColumn++;
-                        }
-                        $CounterRow++;
-                    }
-                }
-
-                # otherwise, show 'No ticket data found' message
-                else {
-                    $CellData->[0]->[0]->{Content}
-                        = $LayoutObject->{LanguageObject}->Translate('No ticket data found.');
-                }
-
-                # page params
-                my %PageParam;
-                $PageParam{PageOrientation} = 'landscape';
-                $PageParam{MarginTop}       = 30;
-                $PageParam{MarginRight}     = 40;
-                $PageParam{MarginBottom}    = 40;
-                $PageParam{MarginLeft}      = 40;
-                $PageParam{HeaderRight}     = $Title;
-                $PageParam{FooterLeft}      = $Url;
-                $PageParam{HeadlineLeft}    = $Title;
-                $PageParam{HeadlineRight}   = $PrintedBy . ' '
-                    . $Self->{UserFirstname} . ' '
-                    . $Self->{UserLastname} . ' ('
-                    . $Self->{UserEmail} . ') '
-                    . $Time;
-
-                # table params
-                my %TableParam;
-                $TableParam{CellData}            = $CellData;
-                $TableParam{Type}                = 'Cut';
-                $TableParam{FontSize}            = 6;
-                $TableParam{Border}              = 0;
-                $TableParam{BackgroundColorEven} = '#AAAAAA';
-                $TableParam{BackgroundColorOdd}  = '#DDDDDD';
-                $TableParam{Padding}             = 1;
-                $TableParam{PaddingTop}          = 3;
-                $TableParam{PaddingBottom}       = 3;
-
-                # create new pdf document
-                $PDFObject->DocumentNew(
-                    Title  => $ConfigObject->Get('Product') . ': ' . $Title,
-                    Encode => $LayoutObject->{UserCharset},
-                );
-
-                # start table output
-                $PDFObject->PageNew(
-                    %PageParam,
-                    FooterRight => $Page . ' 1',
-                );
-                PAGE:
-                for my $PageNumber ( 2 .. $MaxPages ) {
-
-                    # output table (or a fragment of it)
-                    %TableParam = $PDFObject->Table(%TableParam);
-
-                    # stop output or another page
-                    if ( $TableParam{State} ) {
-                        last PAGE;
-                    }
-                    else {
-                        $PDFObject->PageNew(
-                            %PageParam,
-                            FooterRight => $Page . ' ' . $PageNumber,
-                        );
-                    }
-                }
-
-                # return the pdf document
-                my $Filename = 'ticket_search';
-                my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
-                    SystemTime => $TimeObject->SystemTime(),
-                );
-                $M = sprintf( "%02d", $M );
-                $D = sprintf( "%02d", $D );
-                $h = sprintf( "%02d", $h );
-                $m = sprintf( "%02d", $m );
-                my $PDFString = $PDFObject->DocumentOutput();
-                return $LayoutObject->Attachment(
-                    Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
-                    ContentType => "application/pdf",
-                    Content     => $PDFString,
-                    Type        => 'inline',
-                );
+            my $Title = $LayoutObject->{LanguageObject}->Translate('Ticket') . ' '
+                . $LayoutObject->{LanguageObject}->Translate('Search');
+            my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
+            my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
+            my $Time      = $LayoutObject->{Time};
+            my $Url       = '';
+            if ( $ENV{REQUEST_URI} ) {
+                $Url = $ConfigObject->Get('HttpType') . '://'
+                    . $ConfigObject->Get('FQDN')
+                    . $ENV{REQUEST_URI};
             }
+
+            # get maximum number of pages
+            my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
+            if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
+                $MaxPages = 100;
+            }
+
+            my $CellData;
+
+            # verify if there are tickets to show
+            if (@PDFData) {
+
+                # create the header
+                $CellData->[0]->[0]->{Content} = $ConfigObject->Get('Ticket::Hook');
+                $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[1]->{Content} = $LayoutObject->{LanguageObject}->Translate('Created');
+                $CellData->[0]->[1]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[2]->{Content} = $LayoutObject->{LanguageObject}->Translate('From');
+                $CellData->[0]->[2]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[3]->{Content} = $LayoutObject->{LanguageObject}->Translate('Subject');
+                $CellData->[0]->[3]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[4]->{Content} = $LayoutObject->{LanguageObject}->Translate('State');
+                $CellData->[0]->[4]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[5]->{Content} = $LayoutObject->{LanguageObject}->Translate('Queue');
+                $CellData->[0]->[5]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[6]->{Content} = $LayoutObject->{LanguageObject}->Translate('Owner');
+                $CellData->[0]->[6]->{Font}    = 'ProportionalBold';
+                $CellData->[0]->[7]->{Content} = $LayoutObject->{LanguageObject}->Translate('CustomerID');
+                $CellData->[0]->[7]->{Font}    = 'ProportionalBold';
+
+                # create the content array
+                my $CounterRow = 1;
+                for my $Row (@PDFData) {
+                    my $CounterColumn = 0;
+                    for my $Content ( @{$Row} ) {
+                        $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
+                        $CounterColumn++;
+                    }
+                    $CounterRow++;
+                }
+            }
+
+            # otherwise, show 'No ticket data found' message
             else {
-                $Output = $LayoutObject->PrintHeader( Width => 800 );
-                if ( @ViewableTicketIDs == $Self->{SearchLimit} ) {
-                    $Param{Warning} = $LayoutObject->{LanguageObject}->Translate(
-                        "Reached max. count of %s search hits!",
-                        $Self->{SearchLimit},
+                $CellData->[0]->[0]->{Content}
+                    = $LayoutObject->{LanguageObject}->Translate('No ticket data found.');
+            }
+
+            # page params
+            my %PageParam;
+            $PageParam{PageOrientation} = 'landscape';
+            $PageParam{MarginTop}       = 30;
+            $PageParam{MarginRight}     = 40;
+            $PageParam{MarginBottom}    = 40;
+            $PageParam{MarginLeft}      = 40;
+            $PageParam{HeaderRight}     = $Title;
+            $PageParam{FooterLeft}      = $Url;
+            $PageParam{HeadlineLeft}    = $Title;
+            $PageParam{HeadlineRight}   = $PrintedBy . ' '
+                . $Self->{UserFirstname} . ' '
+                . $Self->{UserLastname} . ' ('
+                . $Self->{UserEmail} . ') '
+                . $Time;
+
+            # table params
+            my %TableParam;
+            $TableParam{CellData}            = $CellData;
+            $TableParam{Type}                = 'Cut';
+            $TableParam{FontSize}            = 6;
+            $TableParam{Border}              = 0;
+            $TableParam{BackgroundColorEven} = '#AAAAAA';
+            $TableParam{BackgroundColorOdd}  = '#DDDDDD';
+            $TableParam{Padding}             = 1;
+            $TableParam{PaddingTop}          = 3;
+            $TableParam{PaddingBottom}       = 3;
+
+            # create new pdf document
+            $PDFObject->DocumentNew(
+                Title  => $ConfigObject->Get('Product') . ': ' . $Title,
+                Encode => $LayoutObject->{UserCharset},
+            );
+
+            # start table output
+            $PDFObject->PageNew(
+                %PageParam,
+                FooterRight => $Page . ' 1',
+            );
+            PAGE:
+            for my $PageNumber ( 2 .. $MaxPages ) {
+
+                # output table (or a fragment of it)
+                %TableParam = $PDFObject->Table(%TableParam);
+
+                # stop output or another page
+                if ( $TableParam{State} ) {
+                    last PAGE;
+                }
+                else {
+                    $PDFObject->PageNew(
+                        %PageParam,
+                        FooterRight => $Page . ' ' . $PageNumber,
                     );
                 }
-
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AgentTicketSearchResultPrint',
-                    Data         => \%Param,
-                );
-
-                # add footer
-                $Output .= $LayoutObject->PrintFooter();
-
-                # return output
-                return $Output;
             }
+
+            # return the pdf document
+            my $Filename = 'ticket_search';
+            my ( $s, $m, $h, $D, $M, $Y ) = $TimeObject->SystemTime2Date(
+                SystemTime => $TimeObject->SystemTime(),
+            );
+            $M = sprintf( "%02d", $M );
+            $D = sprintf( "%02d", $D );
+            $h = sprintf( "%02d", $h );
+            $m = sprintf( "%02d", $m );
+            my $PDFString = $PDFObject->DocumentOutput();
+            return $LayoutObject->Attachment(
+                Filename    => $Filename . "_" . "$Y-$M-$D" . "_" . "$h-$m.pdf",
+                ContentType => "application/pdf",
+                Content     => $PDFString,
+                Type        => 'inline',
+            );
         }
         else {
 

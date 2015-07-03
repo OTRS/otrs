@@ -6,8 +6,6 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<input type="hidden" id="PDFUsable" name="PDFUsable" value="[% Data.PDFUsable | html %]"/>
-
 <fieldset class="TableLike">
     <label>[% Translate("Object") | html %]:</label>
     <div class="Value">[% Translate(Data.ObjectName) | html %]</div>

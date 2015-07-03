@@ -653,11 +653,6 @@ sub Run {
             );
         }
 
-        # check if the PDF module is installed and enabled
-        if ( $ConfigObject->Get('PDF') ) {
-            $Stat->{PDFUsable} = $Kernel::OM->Get('Kernel::System::PDF') ? 1 : 0;
-        }
-
         # build output
         $Output .= $LayoutObject->Header( Title => 'View' );
         $Output .= $LayoutObject->NavigationBar();
@@ -2381,143 +2376,116 @@ sub Run {
             );
 
         }
-
-        # pdf or html output
         elsif ( $Param{Format} eq 'Print' ) {
-            $MainObject->Require('Kernel::System::PDF');
+            my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
-            # get PDF object
-            my $PDFObject = ( $ConfigObject->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
+            my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
+            my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
+            my $Time      = $LayoutObject->{Time};
+            my $Url       = ' ';
+            if ( $ENV{REQUEST_URI} ) {
+                $Url = $ConfigObject->Get('HttpType') . '://'
+                    . $ConfigObject->Get('FQDN')
+                    . $ENV{REQUEST_URI};
+            }
 
-            # PDF Output
-            if ($PDFObject) {
-                my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-                my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
-                my $Time      = $LayoutObject->{Time};
-                my $Url       = ' ';
-                if ( $ENV{REQUEST_URI} ) {
-                    $Url = $ConfigObject->Get('HttpType') . '://'
-                        . $ConfigObject->Get('FQDN')
-                        . $ENV{REQUEST_URI};
+            # get maximum number of pages
+            my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
+            if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
+                $MaxPages = 100;
+            }
+
+            # create the header
+            my $CellData;
+            my $CounterRow  = 0;
+            my $CounterHead = 0;
+            for my $Content ( @{$HeadArrayRef} ) {
+                $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
+                $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
+                $CounterHead++;
+            }
+            if ( $CounterHead > 0 ) {
+                $CounterRow++;
+            }
+
+            # create the content array
+            for my $Row (@StatArray) {
+                my $CounterColumn = 0;
+                for my $Content ( @{$Row} ) {
+                    $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
+                    $CounterColumn++;
                 }
+                $CounterRow++;
+            }
 
-                # get maximum number of pages
-                my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
-                if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
-                    $MaxPages = 100;
-                }
+            # output 'No matches found', if no content was given
+            if ( !$CellData->[0]->[0] ) {
+                $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No matches found.');
+            }
 
-                # create the header
-                my $CellData;
-                my $CounterRow  = 0;
-                my $CounterHead = 0;
-                for my $Content ( @{$HeadArrayRef} ) {
-                    $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-                    $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
-                    $CounterHead++;
-                }
-                if ( $CounterHead > 0 ) {
-                    $CounterRow++;
-                }
+            # page params
+            my %User = $UserObject->GetUserData( UserID => $Self->{UserID} );
+            my %PageParam;
+            $PageParam{PageOrientation} = 'landscape';
+            $PageParam{MarginTop}       = 30;
+            $PageParam{MarginRight}     = 40;
+            $PageParam{MarginBottom}    = 40;
+            $PageParam{MarginLeft}      = 40;
+            $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
+            $PageParam{FooterLeft}      = $Url;
+            $PageParam{HeadlineLeft}    = $Title;
+            $PageParam{HeadlineRight}   = $PrintedBy . ' '
+                . $User{UserFirstname} . ' '
+                . $User{UserLastname} . ' ('
+                . $User{UserEmail} . ') '
+                . $Time;
 
-                # create the content array
-                for my $Row (@StatArray) {
-                    my $CounterColumn = 0;
-                    for my $Content ( @{$Row} ) {
-                        $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
-                        $CounterColumn++;
-                    }
-                    $CounterRow++;
-                }
+            # table params
+            my %TableParam;
+            $TableParam{CellData}            = $CellData;
+            $TableParam{Type}                = 'Cut';
+            $TableParam{FontSize}            = 6;
+            $TableParam{Border}              = 0;
+            $TableParam{BackgroundColorEven} = '#AAAAAA';
+            $TableParam{BackgroundColorOdd}  = '#DDDDDD';
+            $TableParam{Padding}             = 1;
+            $TableParam{PaddingTop}          = 3;
+            $TableParam{PaddingBottom}       = 3;
 
-                # output 'No matches found', if no content was given
-                if ( !$CellData->[0]->[0] ) {
-                    $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No matches found.');
-                }
+            # create new pdf document
+            $PDFObject->DocumentNew(
+                Title  => $ConfigObject->Get('Product') . ': ' . $Title,
+                Encode => $LayoutObject->{UserCharset},
+            );
 
-                # page params
-                my %User = $UserObject->GetUserData( UserID => $Self->{UserID} );
-                my %PageParam;
-                $PageParam{PageOrientation} = 'landscape';
-                $PageParam{MarginTop}       = 30;
-                $PageParam{MarginRight}     = 40;
-                $PageParam{MarginBottom}    = 40;
-                $PageParam{MarginLeft}      = 40;
-                $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
-                $PageParam{FooterLeft}      = $Url;
-                $PageParam{HeadlineLeft}    = $Title;
-                $PageParam{HeadlineRight}   = $PrintedBy . ' '
-                    . $User{UserFirstname} . ' '
-                    . $User{UserLastname} . ' ('
-                    . $User{UserEmail} . ') '
-                    . $Time;
+            # start table output
+            $PDFObject->PageNew(
+                %PageParam,
+                FooterRight => $Page . ' 1',
+            );
+            COUNT:
+            for ( 2 .. $MaxPages ) {
 
-                # table params
-                my %TableParam;
-                $TableParam{CellData}            = $CellData;
-                $TableParam{Type}                = 'Cut';
-                $TableParam{FontSize}            = 6;
-                $TableParam{Border}              = 0;
-                $TableParam{BackgroundColorEven} = '#AAAAAA';
-                $TableParam{BackgroundColorOdd}  = '#DDDDDD';
-                $TableParam{Padding}             = 1;
-                $TableParam{PaddingTop}          = 3;
-                $TableParam{PaddingBottom}       = 3;
+                # output table (or a fragment of it)
+                %TableParam = $PDFObject->Table( %TableParam, );
 
-                # create new pdf document
-                $PDFObject->DocumentNew(
-                    Title  => $ConfigObject->Get('Product') . ': ' . $Title,
-                    Encode => $LayoutObject->{UserCharset},
-                );
+                # stop output or output next page
+                last COUNT if $TableParam{State};
 
-                # start table output
                 $PDFObject->PageNew(
                     %PageParam,
-                    FooterRight => $Page . ' 1',
-                );
-                COUNT:
-                for ( 2 .. $MaxPages ) {
-
-                    # output table (or a fragment of it)
-                    %TableParam = $PDFObject->Table( %TableParam, );
-
-                    # stop output or output next page
-                    last COUNT if $TableParam{State};
-
-                    $PDFObject->PageNew(
-                        %PageParam,
-                        FooterRight => $Page . ' ' . $_,
-                    );
-                }
-
-                # return the pdf document
-                my $PDFString = $PDFObject->DocumentOutput();
-                return $LayoutObject->Attachment(
-                    Filename    => $Filename . '.pdf',
-                    ContentType => 'application/pdf',
-                    Content     => $PDFString,
-                    Type        => 'inline',
+                    FooterRight => $Page . ' ' . $_,
                 );
             }
 
-            # HTML Output
-            else {
-                $Stat->{Table} = $Self->_OutputHTMLTable(
-                    Head => $HeadArrayRef,
-                    Data => \@StatArray,
-                );
-
-                $Stat->{Title} = $Title;
-
-                # presentation
-                my $Output = $LayoutObject->PrintHeader( Value => $Title );
-                $Output .= $LayoutObject->Output(
-                    Data         => $Stat,
-                    TemplateFile => 'AgentStatsPrint',
-                );
-                $Output .= $LayoutObject->PrintFooter();
-                return $Output;
-            }
+            # return the pdf document
+            my $PDFString = $PDFObject->DocumentOutput();
+            return $LayoutObject->Attachment(
+                Filename    => $Filename . '.pdf',
+                ContentType => 'application/pdf',
+                Content     => $PDFString,
+                Type        => 'inline',
+            );
         }
 
         # graph

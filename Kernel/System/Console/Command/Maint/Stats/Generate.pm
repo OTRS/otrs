@@ -252,11 +252,9 @@ sub Run {
     }
     my %Attachment;
 
-    # get PDF object
-    my $PDFObject
-        = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
+    if ( $Self->{Format} eq 'PDF' ) {
 
-    if ( $Self->{Format} eq 'PDF' && $PDFObject ) {
+        my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
         $Self->Print("<yellow>Chosen format: PDF.</yellow>\n");
 
