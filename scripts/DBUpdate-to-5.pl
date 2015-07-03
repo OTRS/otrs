@@ -836,7 +836,9 @@ sub _MigrateNotifications {
             };
         }
 
-        for my $NotificationData ( @{ $NotificationTypeMapping{$NotificationType} } ) {
+        for my $NotificationDataOri ( @{ $NotificationTypeMapping{$NotificationType} } ) {
+
+            my $NotificationData = $NotificationDataOri;
 
             my $NotificationName = $NotificationData->{Name};
             delete $NotificationData->{Name};
@@ -863,7 +865,9 @@ sub _MigrateNotifications {
                 $NotificationData->{Recipients} = ['AgentOwner'];
             }
 
-            next NOTIFICATIONTYPE if $NotificationListReverse{$NotificationName};
+            if ( $NotificationListReverse{'Old ' .$NotificationName} ) {
+                $NotificationName .= ' ( Duplicate Name )';
+            }
 
             # add new event notification
             my $ID = $NotificationEventObject->NotificationAdd(
@@ -953,7 +957,9 @@ sub _MigrateNotifications {
             my $NotificationName = $NotificationData->{Name};
             delete $NotificationData->{Name};
 
-            next NEWNOTIFICATION if $NotificationListReverse{$NotificationName};
+            if ( $NotificationListReverse{$NotificationName} ) {
+                $NotificationName .= ' ( Duplicate Name )';
+            }
 
             # add new event notification
             my $ID = $NotificationEventObject->NotificationAdd(
