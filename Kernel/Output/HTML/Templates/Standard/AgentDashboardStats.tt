@@ -149,7 +149,7 @@ $('#GraphWidgetLink[% Data.Name | html %]').closest('.Header').bind('mouseleave.
 [% ELSE %]
 
     <div class="MessageBox Warning" id="StatsConigurationError[% Data.NamePref | html %]">
-        <p>[% Translate('This statistic contains configuration errors and can currently not be used.') | html %]</p>
+        <p>[% Translate('This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator.') | html %]</p>
     </div>
 
 [% END %]
