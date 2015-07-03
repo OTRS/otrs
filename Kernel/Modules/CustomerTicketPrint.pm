@@ -127,11 +127,6 @@ sub Run {
     $Page{MarginLeft}    = 40;
     $Page{HeaderRight}   = $HeaderRight;
     $Page{HeadlineLeft}  = $HeadlineLeft;
-    $Page{HeadlineRight} = $PrintedBy . ' '
-        . $Self->{UserFirstname} . ' '
-        . $Self->{UserLastname} . ' ('
-        . $Self->{UserEmail} . ') '
-        . $Time;
     $Page{FooterLeft} = '';
     $Page{PageText}   = $LayoutObject->{LanguageObject}->Translate('Page');
     $Page{PageCount}  = 1;
@@ -149,26 +144,35 @@ sub Run {
     );
     $Page{PageCount}++;
 
-    # type of print tag
-    my $PrintTag = '';
+    $PDFObject->PositionSet(
+        Move => 'relativ',
+        Y    => -6,
+    );
 
-    $PrintTag = ( $LayoutObject->{LanguageObject}->Translate('Ticket') ) . ' ' .
-        ( $LayoutObject->{LanguageObject}->Translate('Print') );
-
-    # output headline
+    # output title
     $PDFObject->Text(
-        Text     => $PrintTag,
-        Height   => 9,
-        Type     => 'Cut',
-        Font     => 'ProportionalBold',
-        Align    => 'right',
-        FontSize => 9,
-        Color    => '#666666',
+        Text     => $Ticket{Title},
+        FontSize => 13,
     );
 
     $PDFObject->PositionSet(
         Move => 'relativ',
         Y    => -6,
+    );
+
+    # output "printed by"
+    $PDFObject->Text(
+        Text => $PrintedBy . ' '
+            . $Self->{UserFirstname} . ' '
+            . $Self->{UserLastname} . ' ('
+            . $Self->{UserEmail} . ')'
+            . ', ' . $Time,
+        FontSize => 9,
+    );
+
+    $PDFObject->PositionSet(
+        Move => 'relativ',
+        Y    => -14,
     );
 
     # output ticket infos
@@ -343,8 +347,7 @@ sub _PDFOutputTicketInfos {
     $TableParam{Type}                = 'Cut';
     $TableParam{Border}              = 0;
     $TableParam{FontSize}            = 6;
-    $TableParam{BackgroundColorEven} = '#AAAAAA';
-    $TableParam{BackgroundColorOdd}  = '#DDDDDD';
+    $TableParam{BackgroundColorEven} = '#DDDDDD';
     $TableParam{Padding}             = 1;
     $TableParam{PaddingTop}          = 3;
     $TableParam{PaddingBottom}       = 3;

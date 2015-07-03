@@ -877,12 +877,6 @@ sub Run {
             my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
             my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
             my $Time      = $LayoutObject->{Time};
-            my $Url       = '';
-            if ( $ENV{REQUEST_URI} ) {
-                $Url = $ConfigObject->Get('HttpType') . '://'
-                    . $ConfigObject->Get('FQDN')
-                    . $ENV{REQUEST_URI};
-            }
 
             # get maximum number of pages
             my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
@@ -939,13 +933,7 @@ sub Run {
             $PageParam{MarginBottom}    = 40;
             $PageParam{MarginLeft}      = 40;
             $PageParam{HeaderRight}     = $Title;
-            $PageParam{FooterLeft}      = $Url;
             $PageParam{HeadlineLeft}    = $Title;
-            $PageParam{HeadlineRight}   = $PrintedBy . ' '
-                . $Self->{UserFirstname} . ' '
-                . $Self->{UserLastname} . ' ('
-                . $Self->{UserEmail} . ') '
-                . $Time;
 
             # table params
             my %TableParam;
@@ -953,8 +941,7 @@ sub Run {
             $TableParam{Type}                = 'Cut';
             $TableParam{FontSize}            = 6;
             $TableParam{Border}              = 0;
-            $TableParam{BackgroundColorEven} = '#AAAAAA';
-            $TableParam{BackgroundColorOdd}  = '#DDDDDD';
+            $TableParam{BackgroundColorEven} = '#DDDDDD';
             $TableParam{Padding}             = 1;
             $TableParam{PaddingTop}          = 3;
             $TableParam{PaddingBottom}       = 3;
@@ -970,6 +957,38 @@ sub Run {
                 %PageParam,
                 FooterRight => $Page . ' 1',
             );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -6,
+            );
+
+            # output title
+            $PDFObject->Text(
+                Text     => $Title,
+                FontSize => 13,
+            );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -6,
+            );
+
+            # output "printed by"
+            $PDFObject->Text(
+                Text => $PrintedBy . ' '
+                    . $Self->{UserFirstname} . ' '
+                    . $Self->{UserLastname} . ' ('
+                    . $Self->{UserEmail} . ')'
+                    . ', ' . $Time,
+                FontSize => 9,
+            );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -14,
+            );
+
             PAGE:
             for my $PageNumber ( 2 .. $MaxPages ) {
 
