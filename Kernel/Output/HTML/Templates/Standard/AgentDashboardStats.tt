@@ -27,7 +27,7 @@
         [% IF Data.Format %]
 
             <div id="GraphWidgetContainer[% Data.Name | html %]">
-                <svg style="height: 350px;" class="GraphWidget[% Data.Name | html %]" id="GraphWidget[% Data.Name | html %]" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+                <svg style="height: 350px;" class="D3GraphCanvas GraphWidget[% Data.Name | html %]" id="GraphWidget[% Data.Name | html %]" xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
             </div>
 
             [% SET AvailableFormats = Data.Stat.Format %]
@@ -142,7 +142,7 @@ $('#GraphWidgetLink[% Data.Name | html %]').closest('.Header').bind('mouseleave.
     [% ELSE %]
 
         <i class="fa fa-signal" style="display: block; margin-bottom: 3px; font-size: 20px; text-align: center; color: #E77A34;"></i>
-        <p class="Center FieldExplanation">[% Translate("The content of this statistic is being prepared for you, please be patient.") | html %]</p>
+        <p class="Center D3GraphMessage FieldExplanation">[% Translate("The content of this statistic is being prepared for you, please be patient.") | html %]</p>
 
     [% END %]
 

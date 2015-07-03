@@ -24,8 +24,11 @@
 [% RenderBlockEnd("ItemArea") %]
 [% RenderBlockStart("SearchIcon") %]
         <li id="nav-search">
-            <a class="Search ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="[% Env("Baselink") %]Action=AgentTicketSearch" title="[% Translate("Search") | html %]">
+            <a class="Search ScreenXL ARIARoleSearch ARIAHasPopup" id="GlobalSearchNav" href="[% Env("Baselink") %]Action=AgentTicketSearch" title="[% Translate("Search") | html %]">
                 <i class="fa fa-search"></i>
+            </a>
+            <a class="Search SmallerOrEqualScreenL ARIARoleSearch ARIAHasPopup" id="GlobalSearchNavResponsive" href="[% Env("Baselink") %]Action=AgentTicketSearch" title="[% Translate("Search") | html %]">
+                [% Translate("Search") | html %]
             </a>
         </li>
 [% RenderBlockEnd("SearchIcon") %]

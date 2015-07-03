@@ -207,54 +207,105 @@ EOF
     # check Frontend::Output::FilterText
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
-    # check browser (default is IE because I don't have IE)
-    $Self->{Browser} = 'Unknown';
+    # check browser
+    $Self->{Browser}        = 'Unknown';
+    $Self->{BrowserVersion} = 0;
+    $Self->{Platform}       = '';
+    $Self->{IsMobile}       = 0;
 
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
     my $HttpUserAgent = ( defined $ENV{HTTP_USER_AGENT} ? lc $ENV{HTTP_USER_AGENT} : '' );
+
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
     elsif ($HttpUserAgent) {
 
+        # check, if we are on a mobile platform.
+        # tablets are handled like desktops
+        # only phones are "mobile"
+        if ( $HttpUserAgent =~ /mobile/ ) {
+            $Self->{IsMobile} = 1;
+        }
+
+        # android
+        if ( $HttpUserAgent =~ /android/ ) {
+            $Self->{Platform} = 'Android';
+        }
+
+        # edge / spartan
+        if ( $HttpUserAgent =~ /edge/ ) {
+            $Self->{Browser} = 'Edge';
+        }
+
         # msie
-        if (
+        elsif (
             $HttpUserAgent =~ /msie\s([0-9.]+)/
             || $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
             )
         {
             $Self->{Browser} = 'MSIE';
+
+            if ( $1 =~ /(\d+)\.(\d+)/ ) {
+                $Self->{BrowserMajorVersion} = $1;
+                $Self->{BrowserMinorVersion} = $2;
+            }
+
+            # older windows mobile phones (until IE9), that still have 'MSIE' in the user agent string
+            if ( $Self->{IsMobile} ) {
+                $Self->{Platform} = 'Windows Phone';
+            }
+        }
+
+        # mobile ie
+        elsif ( $HttpUserAgent =~ /iemobile/ ) {
+            $Self->{Browser}  = 'MSIE';
+            $Self->{Platform} = 'Windows Phone';
+        }
+
+        # mobile ie (second try)
+        elsif ( $HttpUserAgent =~ /trident/ ) {
+            $Self->{Browser} = 'MSIE';
+
+            if ( $HttpUserAgent =~ /rv:([0-9])+\.([0-9])+/ ) {
+                $Self->{BrowserMajorVersion} = $2;
+                $Self->{BrowserMinorVersion} = $3;
+            }
+        }
+
+        # iOS
+        elsif ( $HttpUserAgent =~ /(ipad|iphone|ipod)/ ) {
+            $Self->{Platform} = 'iOS';
+            $Self->{Browser}  = 'Safari';
+
+            if ( $HttpUserAgent =~ /(ipad|iphone|ipod);.*cpu.*os ([0-9]+)_/ ) {
+                $Self->{BrowserVersion} = $2;
+            }
+
+            if ( $HttpUserAgent =~ /crios/ ) {
+                $Self->{Browser} = 'Chrome';
+            }
+
+            # RichText is supported in iOS6+.
+            if ( $Self->{BrowserVersion} >= 6 ) {
+                $Self->{BrowserRichText} = 1;
+            }
+            else {
+                $Self->{BrowserRichText} = 0;
+            }
         }
 
         # safari
         elsif ( $HttpUserAgent =~ /safari/ ) {
-            $Self->{Browser} = 'Safari';
-
-            # if it's an iPad/iPhone with iOS5 the rte can be enabled
-            if ( $HttpUserAgent =~ /(ipad|iphone);.*cpu.*os 5_/ ) {
-                $Self->{BrowserRichText} = 1;
-            }
-
-            # on iphone (with older iOS) disable rich text editor
-            elsif ( $HttpUserAgent =~ /iphone\sos/ ) {
-                $Self->{BrowserRichText} = 0;
-            }
-
-            # on ipad (with older iOS) disable rich text editor
-            elsif ( $HttpUserAgent =~ /ipad;\s/ ) {
-                $Self->{BrowserRichText} = 0;
-            }
-
-            # on android disable rich text editor
-            elsif ( $HttpUserAgent =~ /android/ ) {
-                $Self->{BrowserRichText} = 0;
-            }
 
             # chrome
-            elsif ( $HttpUserAgent =~ /chrome/ ) {
+            if ( $HttpUserAgent =~ /chrome/ ) {
                 $Self->{Browser} = 'Chrome';
+            }
+            else {
+                $Self->{Browser} = 'Safari';
             }
         }
 
@@ -266,9 +317,9 @@ EOF
             $Self->{BrowserRichText} = 0;
         }
 
-        # mozilla
-        elsif ( $HttpUserAgent =~ /^mozilla/ ) {
-            $Self->{Browser} = 'Mozilla';
+        # firefox
+        elsif ( $HttpUserAgent =~ /firefox/ ) {
+            $Self->{Browser} = 'Firefox';
         }
 
         # opera
@@ -300,6 +351,11 @@ EOF
         else {
             $Self->{Browser} = 'Unknown - ' . $HttpUserAgent;
         }
+    }
+
+    # check mobile devices to disable richtext support
+    if ( $Self->{IsMobile} && $Self->{Platform} ne 'iOS' ) {
+        $Self->{BrowserRichText} = 0;
     }
 
     # check if rich text can be active

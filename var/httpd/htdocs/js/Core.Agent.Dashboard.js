@@ -198,55 +198,59 @@ Core.Agent.Dashboard = (function (TargetNS) {
      *      Initialize the dashboard module.
      */
     TargetNS.Init = function () {
-        Core.UI.DnD.Sortable(
-            $('.SidebarColumn'),
-            {
-                Handle: '.Header h2',
-                Items: '.CanDrag',
-                Placeholder: 'DropPlaceholder',
-                Tolerance: 'pointer',
-                Distance: 15,
-                Opacity: 0.6,
-                Update: function () {
-                    var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;';
-                    $('.CanDrag').each(
-                        function () {
-                            url = url + ';Backend=' + $(this).attr('id');
-                        }
-                    );
-                    Core.AJAX.FunctionCall(
-                        Core.Config.Get('CGIHandle'),
-                        url,
-                        function () {}
-                    );
+        // Disable drag and drop of dashboard widgets on mobile / touch devices
+        // to prevent accidentally moved widgets while tabbing/swiping
+        if (!Core.App.Responsive.IsTouchDevice()) {
+            Core.UI.DnD.Sortable(
+                $('.SidebarColumn'),
+                {
+                    Handle: '.Header h2',
+                    Items: '.CanDrag',
+                    Placeholder: 'DropPlaceholder',
+                    Tolerance: 'pointer',
+                    Distance: 15,
+                    Opacity: 0.6,
+                    Update: function () {
+                        var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;';
+                        $('.CanDrag').each(
+                            function () {
+                                url = url + ';Backend=' + $(this).attr('id');
+                            }
+                        );
+                        Core.AJAX.FunctionCall(
+                            Core.Config.Get('CGIHandle'),
+                            url,
+                            function () {}
+                        );
+                    }
                 }
-            }
-        );
+            );
 
-        Core.UI.DnD.Sortable(
-            $('.ContentColumn'),
-            {
-                Handle: '.Header h2',
-                Items: '.CanDrag',
-                Placeholder: 'DropPlaceholder',
-                Tolerance: 'pointer',
-                Distance: 15,
-                Opacity: 0.6,
-                Update: function () {
-                    var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;';
-                    $('.CanDrag').each(
-                        function () {
-                            url = url + ';Backend=' + $(this).attr('id');
-                        }
-                    );
-                    Core.AJAX.FunctionCall(
-                        Core.Config.Get('CGIHandle'),
-                        url,
-                        function () {}
-                    );
+            Core.UI.DnD.Sortable(
+                $('.ContentColumn'),
+                {
+                    Handle: '.Header h2',
+                    Items: '.CanDrag',
+                    Placeholder: 'DropPlaceholder',
+                    Tolerance: 'pointer',
+                    Distance: 15,
+                    Opacity: 0.6,
+                    Update: function () {
+                        var url = 'Action=' + Core.Config.Get('Action') + ';Subaction=UpdatePosition;';
+                        $('.CanDrag').each(
+                            function () {
+                                url = url + ';Backend=' + $(this).attr('id');
+                            }
+                        );
+                        Core.AJAX.FunctionCall(
+                            Core.Config.Get('CGIHandle'),
+                            url,
+                            function () {}
+                        );
+                    }
                 }
-            }
-        );
+            );
+        }
 
         $('.SettingsWidget').find('label').each(function() {
             if ($(this).find('input').prop('checked')) {
@@ -258,6 +262,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
         });
 
         Core.Agent.TableFilters.SetAllocationList();
+
     };
 
     /**

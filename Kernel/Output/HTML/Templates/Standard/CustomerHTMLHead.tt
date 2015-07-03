@@ -7,6 +7,16 @@
 # --
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+    <meta id="viewport" name="viewport" content="">
+# set viewport for mobile mode, do not set viewport for DesktopMode
+    <script>
+        (function(doc, win) {
+            var viewport = doc.getElementById('viewport');
+            if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+                viewport.setAttribute("content", "width=device-width, initial-scale=1.0, user-scalable=no");
+            }
+        }(document, window));
+    </script>
 [% RenderBlockStart("MetaHttpEquivRefresh") %]
 [% INCLUDE "HTMLHeadRefresh.tt" %]
 [% RenderBlockEnd("MetaHttpEquivRefresh") %]
@@ -63,6 +73,23 @@
             }
         }
     </style>
+
+# decide, if responsive CSS must be loaded
+# resposive CSS will not be loaded in "desktop mode" or if the document is within an iframe (customer overview in ticket phone overlay)
+    <script>
+      (function(doc, win) {
+          if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+            var ResponsiveCSS;
+[% RenderBlockStart("ResponsiveCSS") %]
+            ResponsiveCSS = doc.createElement("link");
+            ResponsiveCSS.setAttribute("rel", "stylesheet");
+            ResponsiveCSS.setAttribute("type", "text/css");
+            ResponsiveCSS.setAttribute("href", "[% Config("Frontend::WebPath") %]skins/Customer/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]");
+            doc.getElementsByTagName("head")[0].appendChild(ResponsiveCSS);
+[% RenderBlockEnd("ResponsiveCSS") %]
+          }
+      }(document, window));
+    </script>
 
     <title>[% Data.TitleArea | html %] [% Config("ProductName") %]</title>
 

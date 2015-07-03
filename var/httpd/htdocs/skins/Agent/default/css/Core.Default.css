@@ -27,6 +27,10 @@ body {
     direction: rtl;
 }
 
+#ViewModeSwitch {
+    margin: 5px 0px;
+}
+
 /**
  * @subsection  Print elements - Only show when page is printed
  */
@@ -974,5 +978,59 @@ textarea.cke_dialog_ui_input_textarea:focus {
     border: 0px !important;
 }
 
-} /* end @media */
+/*
+ * @subsection Popup-Iframe (for responsive)
+ */
+iframe.PopupIframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+}
+
+/*
+ * @subsection Media Query Reset-CSS (for desktop screen resolutions)
+ */
+@media only screen and (min-width: 1025px) {
+
+    /*
+     * @subsection Responsive classes
+     */
+    .ScreenXL {
+        display: block !important;
+    }
+
+    .SmallerOrEqualScreenXL {
+        display: block !important;
+    }
+
+    .ScreenL, .ScreenM, .ScreenS, .ScreenXS,
+    .SmallerOrEqualScreenL, .SmallerOrEqualScreenM,
+    .SmallerOrEqualScreenS, .SmallerOrEqualScreenXS {
+        display: none !important;
+    }
+
+    /*
+     * @subsection Responsive footer classes
+     * @description Used to determinethe active screen size in JavaScript
+     */
+    #ResponsiveFooter .Visible-ScreenXL {
+        display: block !important;
+    }
+
+    #ResponsiveFooter .Visible-ScreenL,
+    #ResponsiveFooter .Visible-ScreenM,
+    #ResponsiveFooter .Visible-ScreenS,
+    #ResponsiveFooter .Visible-ScreenXS {
+        display: none !important;
+    }
+
+    .ResponsiveHandle {
+        display: none !important;
+    }
+}
 

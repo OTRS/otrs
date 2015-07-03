@@ -137,6 +137,25 @@ sub LoaderCreateAgentCSSCalls {
         );
     }
 
+    # handle the responsive CSS
+    {
+        my @FileList;
+        my $ResponsiveCSSList = $ConfigObject->Get('Loader::Agent::ResponsiveCSS');
+
+        for my $Key ( sort keys %{$ResponsiveCSSList} ) {
+            push @FileList, @{ $ResponsiveCSSList->{$Key} };
+        }
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ResponsiveCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Agent',
+            Skin      => $SkinSelected,
+        );
+    }
+
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
     return 1;
@@ -291,6 +310,25 @@ sub LoaderCreateCustomerCSSCalls {
         );
     }
 
+    # handle the responsive CSS
+    {
+        my @FileList;
+        my $ResponsiveCSSList = $ConfigObject->Get('Loader::Customer::ResponsiveCSS');
+
+        for my $Key ( sort keys %{$ResponsiveCSSList} ) {
+            push @FileList, @{ $ResponsiveCSSList->{$Key} };
+        }
+
+        $Self->_HandleCSSList(
+            List      => \@FileList,
+            DoMinify  => $DoMinify,
+            BlockName => 'ResponsiveCSS',
+            SkinHome  => $SkinHome,
+            SkinType  => 'Customer',
+            Skin      => $SkinSelected,
+        );
+    }
+
     #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
 
     return 1;
@@ -377,7 +415,6 @@ sub _HandleCSSList {
         CSSFILE:
         for my $CSSFile ( @{ $Param{List} } ) {
             my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Skin/css/$CSSFile";
-
             next CSSFILE if ( !-e $SkinFile );
 
             if ( $Param{DoMinify} ) {

@@ -54,7 +54,11 @@ Core.UI.Dialog = (function (TargetNS) {
         // if dialog height is more than 300px recalculate width of InnerContent to make it scrollable
         // if dialog is smaller than 300px this is not necessary
         // if AllowAutoGrow is set, auto-resizing should be possible
-        if (AllowAutoGrow || DialogHeight > 300) {
+        // if in a mobile environment and a small screen, use as much window height as possible
+        if ($('.Dialog:visible').hasClass('Fullsize')) {
+            ContentScrollHeight = WindowHeight - 80;
+        }
+        else if (AllowAutoGrow || DialogHeight > 300) {
             ContentScrollHeight = WindowHeight - ((DialogTopMargin - WindowScrollTop) * 2) - 100;
         }
         else {
@@ -256,7 +260,8 @@ Core.UI.Dialog = (function (TargetNS) {
         }
 
         var $Dialog, $Content, $ButtonFooter, HTMLBackup, DialogCopy, DialogCopySelector,
-            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>';
+            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>',
+            FullsizeMode = false;
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {
@@ -277,6 +282,12 @@ Core.UI.Dialog = (function (TargetNS) {
 
         // Build Dialog HTML
         $Dialog = $(DialogHTML);
+
+        // Add responsive functionality
+        if (Core.App.Responsive.IsSmallerOrEqual(Core.App.Responsive.GetScreenSize(), 'ScreenL')) {
+            FullsizeMode = true;
+            $Dialog.addClass('Fullsize');
+        }
 
         if (Params.Modal) {
             $Dialog.addClass('Modal');
@@ -331,7 +342,7 @@ Core.UI.Dialog = (function (TargetNS) {
                 Type: 'Close',
                 Function: Params.OnClose
             }];
-            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="Close">Ok</button></div>');
+            $Content.append('<div class="Center Spacing"><button type="button" id="DialogButton1" class="CallForAction Close"><span>Ok</span></button></div>');
         }
         // Define different other types here...
         else if (Params.Type === 'Search') {
@@ -417,18 +428,25 @@ Core.UI.Dialog = (function (TargetNS) {
         // Check window height and adjust the scrollable height of InnerContent
         AdjustScrollableHeight(Params.AllowAutoGrow);
 
-        // Add event-handling
-        $Dialog.draggable({
-            containment: 'body',
-            handle: '.Header',
-            start: function() {
-                // Hide any possibly existing tooltips as they will not be moved
-                //  with this dialog.
-                if (Core.Form && Core.Form.ErrorTooltips) {
-                    Core.Form.ErrorTooltips.HideTooltip();
+        // Adjust dialog position on mobile devices
+        if (FullsizeMode) {
+            $Dialog.css('top', $(window).scrollTop());
+        }
+
+        // Add event-handling, not allowed on mobile devices
+        if (!FullsizeMode) {
+            $Dialog.draggable({
+                containment: 'body',
+                handle: '.Header',
+                start: function() {
+                    // Hide any possibly existing tooltips as they will not be moved
+                    //  with this dialog.
+                    if (Core.Form && Core.Form.ErrorTooltips) {
+                        Core.Form.ErrorTooltips.HideTooltip();
+                    }
                 }
-            }
-        });
+            });
+        }
 
         // Add button events
         if (Params.Buttons) {
@@ -483,6 +501,15 @@ Core.UI.Dialog = (function (TargetNS) {
         // Add resize event handler for calculating the scroll height
         $(window).unbind('resize.Dialog').bind('resize.Dialog', function () {
             AdjustScrollableHeight(Params.AllowAutoGrow);
+        });
+
+        Core.App.Subscribe('Event.App.Responsive.SmallerOrEqualScreenL', function () {
+            // Dialog should be fullsize, if on smaller screens
+            $Dialog.addClass('Fullsize');
+        });
+
+        Core.App.Subscribe('Event.App.Responsive.ScreenXL', function () {
+            $Dialog.removeClass('Fullsize');
         });
 
         // Init KeyEvent-Logger

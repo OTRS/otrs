@@ -81,12 +81,38 @@
 
 .OverviewMedium li ul.InlineActions li a {
     color: #fff;
-    display: block;
-    float: left;
 }
 
 .OverviewMedium li ul.InlineActions li:nth-child(even) {
     background-color: transparent;
+}
+
+.OverviewMedium li ul.InlineActions li.ResponsiveActionMenu {
+    display: none;
+}
+
+.OverviewMedium li ul.InlineActions li.ResponsiveActionMenu:after {
+    content: "";
+    display: inline;
+    float: none;
+    margin: 0;
+    margin-left: 8px;
+}
+
+body.TouchDevice .OverviewMedium li ul.InlineActions li.ResponsiveActionMenu.Opened:after {
+    content: " | ";
+    display: block;
+    float: right;
+    margin: 5px 3px;
+}
+
+body.TouchDevice .OverviewMedium li ul.InlineActions {
+    top: 0px;
+    transition: none;
+}
+
+body.TouchDevice .OverviewMedium li ul.InlineActions li.ResponsiveActionMenu {
+    display: inline-block;
 }
 
 .OverviewMedium li div.Content {

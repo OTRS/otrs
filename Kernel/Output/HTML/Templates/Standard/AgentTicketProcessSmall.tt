@@ -14,7 +14,7 @@
         <h1>[% Translate("Enroll Ticket into a Process") | html %]</h1>
         <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
         <p>
-            <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+            <a class="CancelClosePopup" href="#"><span class="ScreenXL">[% Translate("Cancel & close window") | html %]</span><span class="SmallerOrEqualScreenL">[% Translate("Cancel") | html %]</span></a>
         </p>
     </div>
     <div class="Content">

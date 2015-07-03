@@ -88,7 +88,7 @@ sub new {
     $Self->{SeleniumTestsActive} = 1;
 
     #$Self->debug_on();
-    $Self->set_window_size( 1024, 768 );
+    $Self->set_window_size( 768, 1025 );
 
     # get remote host with some precautions for certain unit test systems
     my $FQDN = $Kernel::OM->Get('Kernel::Config')->Get('FQDN');

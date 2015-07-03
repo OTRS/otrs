@@ -137,54 +137,58 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         }
         CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
 
-        // Hack for updating the textarea with the RTE content (bug#5857)
-        // Rename the original function to another name, than overwrite the original one
-        CKEDITOR.instances[EditorID].updateElementOriginal = CKEDITOR.instances[EditorID].updateElement;
-        CKEDITOR.instances[EditorID].updateElement = function() {
-            var Data;
+        // check if creating CKEditor was successful
+        // might be a problem on mobile devices e.g.
+        if (typeof Editor !== 'undefined') {
+            // Hack for updating the textarea with the RTE content (bug#5857)
+            // Rename the original function to another name, than overwrite the original one
+            CKEDITOR.instances[EditorID].updateElementOriginal = CKEDITOR.instances[EditorID].updateElement;
+            CKEDITOR.instances[EditorID].updateElement = function() {
+                var Data;
 
-            // First call the original function
-            CKEDITOR.instances[EditorID].updateElementOriginal();
+                // First call the original function
+                CKEDITOR.instances[EditorID].updateElementOriginal();
 
-            // Now check if there is actually any non-whitespace content in the
-            //  textarea field. If not, set it to an empty value to make sure
-            //  the server side validation works correctly and there is no trash
-            //  like '<br/>' stored in the DB.
-            Data = this.element.getValue(); // get textarea content
+                // Now check if there is actually any non-whitespace content in the
+                //  textarea field. If not, set it to an empty value to make sure
+                //  the server side validation works correctly and there is no trash
+                //  like '<br/>' stored in the DB.
+                Data = this.element.getValue(); // get textarea content
 
-            // only if data contains no image tag,
-            // this is important for inline images, we don't want to remove them!
-            if ( !Data.match(/<img/) ) {
+                // only if data contains no image tag,
+                // this is important for inline images, we don't want to remove them!
+                if ( !Data.match(/<img/) ) {
 
-                // remove tags and whitespace for checking
-                Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
-                if (!Data.length) {
-                    this.element.setValue(''); // reset textarea
+                    // remove tags and whitespace for checking
+                    Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
+                    if (!Data.length) {
+                        this.element.setValue(''); // reset textarea
+                    }
                 }
-            }
-        };
+            };
 
-        // Needed for clientside validation of RTE
-        CKEDITOR.instances[EditorID].on('blur', function () {
-            CKEDITOR.instances[EditorID].updateElement();
-            Core.Form.Validate.ValidateElement($EditorArea);
-        });
+            // Needed for clientside validation of RTE
+            CKEDITOR.instances[EditorID].on('blur', function () {
+                CKEDITOR.instances[EditorID].updateElement();
+                Core.Form.Validate.ValidateElement($EditorArea);
+            });
 
-        // needed for client-side validation
-        CKEDITOR.instances[EditorID].on('focus', function () {
-            if ($EditorArea.attr('class').match(/Error/)) {
-                window.setTimeout(function () {
-                    CKEDITOR.instances[EditorID].updateElement();
-                    Core.Form.Validate.ValidateElement($EditorArea);
-                }, 0);
-            }
-        });
+            // needed for client-side validation
+            CKEDITOR.instances[EditorID].on('focus', function () {
+                if ($EditorArea.attr('class').match(/Error/)) {
+                    window.setTimeout(function () {
+                        CKEDITOR.instances[EditorID].updateElement();
+                        Core.Form.Validate.ValidateElement($EditorArea);
+                    }, 0);
+                }
+            });
 
-        // mainly needed for client-side validation
-        $EditorArea.focus(function () {
-            TargetNS.Focus($EditorArea);
-            Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
-        });
+            // mainly needed for client-side validation
+            $EditorArea.focus(function () {
+                TargetNS.Focus($EditorArea);
+                Core.UI.ScrollTo($("label[for=" + $EditorArea.attr('id') + "]"));
+            });
+        }
     };
 
     /**

@@ -128,7 +128,7 @@ Core.Agent = (function (TargetNS) {
                 var $Element = $(this);
                 // special treatment for the first menu level: by default this opens submenus only via click,
                 //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
-                if ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover')) {
+                if ($('body').hasClass('Visible-ScreenXL') && ( $Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover')) ) {
 
                     // Set Timeout for opening nav
                     CreateSubnavOpenTimeout($Element, function () {
@@ -147,30 +147,33 @@ Core.Agent = (function (TargetNS) {
             })
             .bind('mouseleave', function () {
 
-                var $Element = $(this);
+                if ($('body').hasClass('Visible-ScreenXL')) {
 
-                // Clear Timeout for opening items on hover. Submenus should only be opened intentional,
-                // so if the user doesn't hover long enough, he probably doesn't want the submenu to be opened.
-                // If Timeout is set for this nav element, clear it
-                ClearSubnavOpenTimeout($Element);
+                    var $Element = $(this);
 
-                if (!$Element.hasClass('Active')) {
-                    return false;
-                }
+                    // Clear Timeout for opening items on hover. Submenus should only be opened intentional,
+                    // so if the user doesn't hover long enough, he probably doesn't want the submenu to be opened.
+                    // If Timeout is set for this nav element, clear it
+                    ClearSubnavOpenTimeout($Element);
 
-                // Set Timeout for closing nav
-                CreateSubnavCloseTimeout($Element, function () {
-                    $Element.removeClass('Active').attr('aria-expanded', false);
-                    if (!$('#Navigation > li.Active').length) {
-                        $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                    if (!$Element.hasClass('Active')) {
+                        return false;
                     }
-                });
+
+                    // Set Timeout for closing nav
+                    CreateSubnavCloseTimeout($Element, function () {
+                        $Element.removeClass('Active').attr('aria-expanded', false);
+                        if (!$('#Navigation > li.Active').length) {
+                            $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                        }
+                    });
+                }
             })
             .bind('click', function (Event) {
 
                 // if OpenMainMenuOnHover is enabled, clicking the item
                 // should lead to the link as regular
-                if (Core.Config.Get('OpenMainMenuOnHover')) {
+                if ($('body').hasClass('Visible-ScreenXL') && Core.Config.Get('OpenMainMenuOnHover')) {
                     return true;
                 }
 
@@ -179,16 +182,22 @@ Core.Agent = (function (TargetNS) {
                 if ($Element.hasClass('Active')) {
                     $Element.removeClass('Active').attr('aria-expanded', false);
 
-                    // restore initial container height
-                    $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                    if ($('body').hasClass('Visible-ScreenXL')) {
+                        // restore initial container height
+                        $('#NavigationContainer').css('height', InitialNavigationContainerHeight);
+                    }
                 }
                 else {
                     $Element.addClass('Active').attr('aria-expanded', true)
                         .siblings().removeClass('Active');
-                    $('#NavigationContainer').css('height', '300px');
 
-                    // If Timeout is set for this nav element, clear it
-                    ClearSubnavCloseTimeout($Element);
+                    if ($('body').hasClass('Visible-ScreenXL')) {
+
+                        $('#NavigationContainer').css('height', '300px');
+
+                        // If Timeout is set for this nav element, clear it
+                        ClearSubnavCloseTimeout($Element);
+                    }
                 }
                 // If element has subnavigation, prevent the link
                 if ($Target.closest('li').find('ul').length) {
@@ -211,7 +220,7 @@ Core.Agent = (function (TargetNS) {
             });
 
         // make the navigation items sortable (if enabled)
-        if (Core.Config.Get('MenuDragDropEnabled') === 1) {
+        if (Core.Config.Get('MenuDragDropEnabled') === 1 && $('body').hasClass('Visible-ScreenXL')) {
             Core.UI.DnD.Sortable(
                 $('#Navigation'),
                 {
@@ -258,13 +267,18 @@ Core.Agent = (function (TargetNS) {
          * Register event for global search
          *
          */
-        $('#GlobalSearchNav').bind('click', function () {
+        $('#GlobalSearchNav, #GlobalSearchNavResponsive').bind('click', function () {
             Core.Agent.Search.OpenSearchDialog();
             return false;
         });
 
         TargetNS.ResizeNavigationBar();
         $(window).resize(function() {
+            // navigation resizing only possible in ScreenXL mode
+            if (!$('body').hasClass('Visible-ScreenXL')) {
+                return;
+            }
+
             window.clearTimeout(NavigationResizeTimeout);
             NavigationResizeTimeout = window.setTimeout(function () {
                 TargetNS.ResizeNavigationBar(true);
@@ -439,6 +453,11 @@ Core.Agent = (function (TargetNS) {
         var NavigationBarWidth = 0,
             NewContainerWidth;
 
+        // navigation resizing only possible in ScreenXL mode
+        if (!$('body').hasClass('Visible-ScreenXL')) {
+            return;
+        }
+
         // set the original width (from css) of #NavigationContainer to have it available later
         if (!$('#NavigationContainer').attr('data-original-width')) {
             $('#NavigationContainer').attr('data-original-width', parseInt(parseInt($('#NavigationContainer').css('width'), 10) / $('body').width() * 100, 10) + '%');
@@ -527,6 +546,8 @@ Core.Agent = (function (TargetNS) {
         if (!TargetNS.SupportedBrowser) {
             alert( Core.Config.Get('BrowserTooOldMsg') + ' ' + Core.Config.Get('BrowserListMsg') + ' ' + Core.Config.Get('BrowserDocumentationMsg') );
         }
+
+        Core.App.Responsive.CheckIfTouchDevice();
 
         InitNavigation();
         Core.Exception.Init();

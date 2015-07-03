@@ -15,4 +15,4 @@
 }());
 //]]></script>
 [% END %]
-<svg style="height: 250px;" class="GraphWidget[% Data.Key | html %]" id="GraphWidget[% Data.Key | html %]"></svg>
+<svg style="height: 250px;" class="D3GraphCanvas GraphWidget[% Data.Key | html %]" id="GraphWidget[% Data.Key | html %]"></svg>

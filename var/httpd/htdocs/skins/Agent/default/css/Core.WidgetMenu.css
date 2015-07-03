@@ -220,8 +220,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li {
     line-height: 18px;
     font-size: 11px;
-    display: block;
-    float: left;
+    display: inline-block;
 }
 
 .Actions li:after {
@@ -263,8 +262,7 @@ ul.ContextFunctions li:last-child:hover > a {
 .Actions li span {
     padding: 5px 2px;
     color: #000;
-    display: block;
-    float: left;
+    display: inline-block;
 }
 
 .Actions li a:hover,

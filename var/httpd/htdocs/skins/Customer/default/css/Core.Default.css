@@ -15,6 +15,10 @@ body {
     -webkit-text-stroke: 1px transparent;
 }
 
+#ViewModeSwitch {
+    margin: 5px 0px;
+}
+
 .RTL {
     text-align: right;
     direction: rtl;

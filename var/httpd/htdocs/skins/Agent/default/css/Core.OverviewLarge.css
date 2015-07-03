@@ -84,8 +84,6 @@
 
 .OverviewLarge > li ul.InlineActions li a {
     color: #fff;
-    display: block;
-    float: left;
 }
 
 .OverviewLarge > li ul.InlineActions li:last-child a {
@@ -94,6 +92,34 @@
 
 .OverviewLarge > li ul.InlineActions li:nth-child(even) {
     background-color: transparent;
+}
+
+.OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
+    display: none;
+}
+
+.OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu:after {
+    content: "";
+    display: inline;
+    float: none;
+    margin: 0;
+    margin-left: 8px;
+}
+
+body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu.Opened:after {
+    content: " | ";
+    display: block;
+    float: right;
+    margin: 5px 3px;
+}
+
+body.TouchDevice .OverviewLarge > li ul.InlineActions {
+    top: 0px;
+    transition: none;
+}
+
+body.TouchDevice .OverviewLarge > li ul.InlineActions li.ResponsiveActionMenu {
+    display: inline-block;
 }
 
 .OverviewLarge .Content {

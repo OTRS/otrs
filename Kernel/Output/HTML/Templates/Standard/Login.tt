@@ -13,6 +13,7 @@ X-OTRS-Login: [% Env("Baselink") %]
 <html>
 [% InsertTemplate("Copyright.tt") %]
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="Content-type" content="text/html;charset=utf-8" />
     <link rel="shortcut icon" href="[% Config("Frontend::ImagePath") %]icons/product.ico" type="image/ico" />
 
@@ -68,6 +69,23 @@ X-OTRS-Login: [% Env("Baselink") %]
             }
         }
     </style>
+
+# decide, if responsive CSS must be loaded
+# resposive CSS will not be loaded in "desktop mode" or if the document is within an iframe (customer overview in ticket phone overlay)
+    <script>
+      (function(doc, win) {
+          if ((win.top.location.href === win.location.href || win.name.search(/^OTRSPopup_/) != -1) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+            var ResponsiveCSS;
+[% RenderBlockStart("ResponsiveCSS") %]
+            ResponsiveCSS = doc.createElement("link");
+            ResponsiveCSS.setAttribute("rel", "stylesheet");
+            ResponsiveCSS.setAttribute("type", "text/css");
+            ResponsiveCSS.setAttribute("href", "[% Config("Frontend::WebPath") %]skins/Agent/[% Data.Skin | uri %]/[% Data.CSSDirectory %]/[% Data.Filename %]");
+            doc.getElementsByTagName("head")[0].appendChild(ResponsiveCSS);
+[% RenderBlockEnd("ResponsiveCSS") %]
+          }
+      }(document, window));
+    </script>
 
     <title>[% Translate(Data.Title) | html %] - [% Config("ProductName") %]</title>
 
@@ -166,7 +184,7 @@ X-OTRS-Login: [% Env("Baselink") %]
                                         [% Translate("Username") | html %]:
                                 </label>
                                 <div class="Field">
-                                    <input type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
+                                    <input autocorrect="off" autocapitalize="off" type="text" id="User" name="User" value="[% Data.User | html %]" class="W75pc Validate_Required" />
                                     <div id="UserError" class="TooltipErrorMessage" ><p>[% Translate("This field is required.") | html %]</p></div>
                                 </div>
                                 <div class="Clear"></div>

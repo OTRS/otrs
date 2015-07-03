@@ -887,6 +887,7 @@ sub LoadDefaults {
         'Core.Config.js',
         'Core.AJAX.js',
         'Core.App.js',
+        'Core.App.Responsive.js',
         'Core.UI.js',
         'Core.UI.Accessibility.js',
         'Core.UI.Dialog.js',
@@ -898,7 +899,8 @@ sub LoadDefaults {
         'Core.Form.js',
         'Core.Form.ErrorTooltips.js',
         'Core.Form.Validate.js',
-        'Core.Customer.js'
+        'Core.Customer.js',
+        'Core.Customer.Responsive.js'
     ];
 
     # Agent Common JS
@@ -906,6 +908,7 @@ sub LoadDefaults {
         'thirdparty/jquery-2.1.4/jquery.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.11.4/jquery-ui.js',
+        'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
         'thirdparty/jquery-validate-1.13.1/jquery.validate.js',
         'thirdparty/stacktrace-0.6.4/stacktrace.js',
         'thirdparty/jquery-pubsub/pubsub.js',
@@ -918,6 +921,7 @@ sub LoadDefaults {
         'Core.JSON.js',
         'Core.AJAX.js',
         'Core.App.js',
+        'Core.App.Responsive.js',
         'Core.UI.js',
         'Core.UI.Accordion.js',
         'Core.UI.Datepicker.js',
@@ -936,7 +940,8 @@ sub LoadDefaults {
         'Core.Form.Validate.js',
         'Core.Agent.js',
         'Core.Agent.Search.js',
-        'Core.Agent.CustomerInformationCenterSearch.js'
+        'Core.Agent.CustomerInformationCenterSearch.js',
+        'Core.Agent.Responsive.js',
     ];
 
     # --------------------------------------------------- #

@@ -58,7 +58,7 @@
                     <input type="hidden" name="TimeOffset" id="TimeOffset" value=""/>
                     <div>
                         <label for="User">[% Translate("User name") | html %]</label>
-                        <input title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
+                        <input autocorrect="off" autocapitalize="off" title="[% Translate("Your user name") | html %]" type="text" name="User" id="User" maxlength="150" />
                     </div>
                     <div>
                         <label for="Password">[% Translate("Password") | html %]</label>

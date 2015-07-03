@@ -1,0 +1,276 @@
+/*  All devices capable of OTRS minimum solution. Used to hide elements for mobile devices. */
+@media only screen and (min-width: 1025px) {
+
+    html.NoScroll,
+    html.NoScroll body {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /*
+     * @subsection Responsive classes
+     */
+    .ScreenXL {
+        display: block;
+    }
+
+    .SmallerOrEqualScreenXL {
+        display: block;
+    }
+
+    .ScreenL, .ScreenM, .ScreenS, .ScreenXS,
+    .SmallerOrEqualScreenL, .SmallerOrEqualScreenM,
+    .SmallerOrEqualScreenS, .SmallerOrEqualScreenXS {
+        display: none;
+    }
+
+    /*
+     * @subsection Responsive footer classes
+     * @description Used to determinethe active screen size in JavaScript
+     */
+    #ResponsiveFooter .Visible-ScreenXL {
+        display: block;
+    }
+
+    #ResponsiveFooter .Visible-ScreenL,
+    #ResponsiveFooter .Visible-ScreenM,
+    #ResponsiveFooter .Visible-ScreenS,
+    #ResponsiveFooter .Visible-ScreenXS {
+        display: none;
+    }
+
+    #ResponsiveNavigationHandle {
+        display: none;
+    }
+}
+
+/*  All devices with a smaller resolution than the current OTRS minimum solution */
+@media only screen and (min-width: 0px) and (max-width: 1024px) {
+
+    body {
+        font-size: 1em;
+    }
+
+    h1.CompanyName {
+        margin-left: 30px;
+    }
+
+    .ResponsiveSidebarContainer {
+        background: rgba(22, 22, 22, 0.7);
+        height: 100%;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        display: none;
+        z-index: 998;
+    }
+
+    #ResponsiveNavigationHandle,
+    #ResponsiveSidebarHandle {
+        position: absolute;
+        left: 21px;
+        top: 19px;
+        font-size: 1.7em;
+        z-index: 999;
+    }
+
+    #ResponsiveSidebarHandle {
+        left: auto;
+        right: 21px;
+    }
+
+    .ErrorBox, .SuccessBox, .WarningBox {
+        margin: 0px 0px 20px 0px;
+        line-height: 150%;
+    }
+
+    .InlineNavigation {
+        position: static;
+        margin: 15px 0px;
+        display: block;
+    }
+
+    #Slider {
+        width: auto;
+        padding: 0px 20px;
+    }
+
+    .Login {
+        padding: 0px;
+    }
+
+    #Login, #Reset, #Signup, #PreLogin {
+        padding-left: 0px;
+        width: auto;
+        padding-top: 10px;
+    }
+
+    #Navigation {
+        position: fixed;
+        height: 100%;
+        left: -300px;
+        width: 300px;
+        z-index: 998;
+        padding-top: 30px;
+        top: 0px;
+    }
+
+    #Navigation > ul,
+    #Navigation .Individual,
+    #Navigation > ul > li {
+        float: none;
+        background: none !important;
+    }
+
+    #Navigation > ul {
+        margin-top: 30px;
+    }
+
+    #Navigation > ul > li {
+        border-right: 0px;
+    }
+
+    #Navigation > ul > li > ul {
+        display: block;
+        position: static;
+    }
+
+    #Navigation ul li a {
+        display: block;
+        background: none !important;
+        color: #333 !important;
+        border-top: 1px solid #ccc !important;
+    }
+
+    #Navigation > ul > li:first-child > a {
+        border-top: 0px !important;
+    }
+
+    #Navigation > ul > li > a,
+    #Navigation > ul > li > ul a {
+        font-size: 1em;
+        line-height: 170%;
+        padding: 5px 20px;
+    }
+
+    #Navigation .Selected + li a {
+        padding-left: 20px;
+    }
+
+    #Navigation > ul > li > ul li:last-child {
+        border-bottom: 0px;
+    }
+
+    .TicketView > .Content {
+        overflow: auto;
+    }
+
+    #ZoomSidebar {
+        background: #ddd;
+        float: right;
+        height: 100%;
+        position: fixed;
+        right: -300px;
+        top: 0px;
+        width: 280px;
+        z-index: 998;
+        padding: 60px 10px 10px 10px;
+    }
+
+    #Metadata, #Activities {
+        float: none;
+        width: auto;
+        background: #eee;
+    }
+
+    .TicketHeader,
+    #Messages,
+    #FollowUp {
+        float: none;
+        width: auto;
+    }
+
+    #Messenger fieldset,
+    #NewCustomerTicket fieldset,
+    #ActivityDialogContent fieldset,
+    #NewProcessTicket fieldset {
+        display: table-cell;
+    }
+
+    .TicketProcess fieldset {
+        min-width: 0px;
+    }
+
+    .TicketCompose .Content, 
+    .Preferences .Content, 
+    .Search .Content {
+        padding: 5px 10px;
+    }
+
+    #Messenger label,
+    #NewCustomerTicket label,
+    #ActivityDialogContent label,
+    #NewProcessTicket label {
+        display: block;
+        text-align: left;
+        width: auto;
+        float: none;
+        font-size: 1em;
+        padding: 5px 10px;
+    }
+
+    #Messenger input,
+    #Messenger select,
+    #NewCustomerTicket input,
+    #NewCustomerTicket select,
+    #ActivityDialogContent input,
+    #ActivityDialogContent select,
+    #NewProcessTicket select,
+    .TicketCompose fieldset #Subject {
+        font-size: 1em;
+        margin: 5px 5px 0px 5px;
+        padding: 5px;
+        width: 90%;
+    }
+
+    #Messenger #cke_RichText,
+    #NewCustomerTicket #cke_RichText,
+    #ActivityDialogContent #cke_RichText {
+        width: auto !important;
+    }
+
+    .Preferences .Content .Box {
+        width: auto;
+        float: none;
+    }
+
+    fieldset .ShowTreeSelection {
+        display: none;
+    }
+}
+
+/*  ~ Tablet landscape */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+/*  All devices smaller than tablet landscape */
+@media only screen and (min-width: 0px) and (max-width: 767px) {
+
+}
+
+/*  ~ Tablet portrait */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+   
+}
+
+/*  ~ Smartphone landscape */
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+    
+}
+
+/*  ~ Smartphone portrait */
+@media only screen and (max-width: 319px) {
+   
+}

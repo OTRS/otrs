@@ -6,7 +6,7 @@
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<div class="MainBox ARIARoleMain SpacingTopLarge">
+<div class="MainBox ARIARoleMain SpacingTopLarge ErrorScreen">
 
     <div class="W33pc CenterBox SpacingBottomLarge">
         <div class="WidgetSimple">

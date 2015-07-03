@@ -7,10 +7,12 @@
 # --
 
 [% RenderBlockStart("ContentSmallUserOnlineFilter") %]
-<ul class="UserFilter Tab Actions">
-    <li class="[% Data.item("Agent::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Agent" class="[% Data.item("Agent::Selected") | html %]">[% Translate("Agents") | html %] ([% Data.Agent | html %])</a></li>
-    <li class="[% Data.item("Customer::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Customer" class="[% Data.item("Customer::Selected") | html %]">[% Translate("Customers") | html %] ([% Data.Customer | html %])</a></li>
-</ul>
+<div class="DashboardActions">
+    <ul class="UserFilter Tab Actions">
+        <li class="[% Data.item("Agent::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Agent" class="[% Data.item("Agent::Selected") | html %]">[% Translate("Agents") | html %] ([% Data.Agent | html %])</a></li>
+        <li class="[% Data.item("Customer::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Customer" class="[% Data.item("Customer::Selected") | html %]">[% Translate("Customers") | html %] ([% Data.Customer | html %])</a></li>
+    </ul>
+</div>
 [% WRAPPER JSOnDocumentComplete %]
 <script type="text/javascript">//<![CDATA[
     $('#Dashboard[% Data.Name | html %]Agent').unbind('click').bind('click', function(){

@@ -13,7 +13,7 @@
             [% Translate("History of") | html %] [% Config("Ticket::Hook") %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]
         </h1>
         <p>
-            <a href="#" class="CancelClosePopup">[% Translate("Close window") | html %]</a>
+            <a href="#" class="CancelClosePopup"><span class="ScreenXL">[% Translate("Close window") | html %]</span><span class="SmallerOrEqualScreenL">[% Translate("Go back") | html %]</span></a>
         </p>
     </div>
 

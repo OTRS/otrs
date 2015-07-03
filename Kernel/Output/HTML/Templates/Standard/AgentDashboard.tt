@@ -7,7 +7,7 @@
 # --
 
 [% RenderBlockStart("Content") %]
-<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarLast">
+<div class="MainBox Dashboard ARIARoleMain LayoutFixedSidebar SidebarLast">
     <h1>[% Translate("Dashboard") | html %]</h1>
 
 [% InsertTemplate("AgentDashboardCommon.tt") %]

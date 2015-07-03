@@ -23,14 +23,15 @@
             <p class="AsteriskExplanation">[% Translate("All fields marked with an asterisk (*) are mandatory.") | html %]</p>
 [% RenderBlockStart("TicketBack") %]
             <p>
-                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+                <a class="CancelClosePopup" href="#"><span class="ScreenXL">[% Translate("Cancel & close window") | html %]</span><span class="SmallerOrEqualScreenL">[% Translate("Cancel") | html %]</span></a>
             </p>
 [% RenderBlockEnd("TicketBack") %]
 [% RenderBlockStart("TicketBackUndo") %]
             <p>
                 [% Translate("The ticket has been locked") | html %].
                 <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID %];[% Env("ChallengeTokenParam") | html %]">
-                    [% Translate("Undo & close window") | html %]
+                    <span class="ScreenXL">[% Translate("Undo & close window") | html %]</span>
+                    <span class="SmallerOrEqualScreenL">[% Translate("Undo") | html %]</span>
                 </a>
             </p>
 [% RenderBlockEnd("TicketBackUndo") %]
