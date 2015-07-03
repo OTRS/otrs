@@ -1447,12 +1447,6 @@ sub StatsResultRender {
         my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
         my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
         my $Time      = $LayoutObject->{Time};
-        my $Url       = ' ';
-        if ( $ENV{REQUEST_URI} ) {
-            $Url = $ConfigObject->Get('HttpType') . '://'
-                . $ConfigObject->Get('FQDN')
-                . $ENV{REQUEST_URI};
-        }
 
         # get maximum number of pages
         my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
@@ -1498,7 +1492,6 @@ sub StatsResultRender {
         $PageParam{MarginBottom}    = 40;
         $PageParam{MarginLeft}      = 40;
         $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
-        $PageParam{FooterLeft}      = $Url;
         $PageParam{HeadlineLeft}    = $Title;
 
         # table params
