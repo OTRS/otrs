@@ -49,6 +49,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{WorkerName} = 'Worker: GenericAgent';
+
     return $Self;
 }
 
@@ -137,6 +140,10 @@ sub Run {
 
     my $Success;
     my $ErrorMessage;
+
+    if ( $Self->{Debug} ) {
+        print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
+    }
 
     do {
 

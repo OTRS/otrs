@@ -52,6 +52,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{WorkerName} = 'Worker: Cron';
+
     return $Self;
 }
 
@@ -171,6 +174,11 @@ sub Run {
         my $ErrorMessage;
 
         my $Result;
+
+        if ( $Self->{Debug} ) {
+            print "    $Self->{WorkerName} Executes task: $Param{TaskName}\n";
+        }
+
         eval {
 
             # localize the standard error, everything will be restored after the eval block
@@ -252,6 +260,10 @@ sub Run {
 
     # create a symbol for the error file handle
     $ERRFH = gensym();
+
+    if ( $Self->{Debug} ) {
+        print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
+    }
 
     # call the command, capturing output and error
     my $ProcessID;

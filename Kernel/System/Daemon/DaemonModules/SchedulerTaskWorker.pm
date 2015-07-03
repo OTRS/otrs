@@ -99,6 +99,9 @@ sub new {
 
     $Self->{DiscardCount} = $Self->{Discard} / $Self->{SleepPost};
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{DaemonName} = 'Daemon: SchedulerTaskWorker';
+
     return $Self;
 }
 
@@ -229,6 +232,13 @@ sub Run {
             # create task handler object
             my $TaskHandlerObject;
             eval {
+
+                $Kernel::OM->ObjectParamAdd(
+                    $TaskHandlerModule => {
+                        Debug => $Self->{Debug},
+                    },
+                );
+
                 $TaskHandlerObject = $Kernel::OM->Get($TaskHandlerModule);
             };
 
@@ -298,6 +308,10 @@ sub PostRun {
     return if !$Self->_WorkerPIDsCheck();
 
     $Self->{DiscardCount}--;
+
+    if ( $Self->{Debug} ) {
+        print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
+    }
 
     # update task locks and remove expired each 60 seconds
     if ( !int $Self->{DiscardCount} % ( 60 / $Self->{SleepPost} ) ) {

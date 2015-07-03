@@ -50,6 +50,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{WorkerName} = 'Worker: GenericInterface';
+
     return $Self;
 }
 
@@ -113,6 +116,10 @@ sub Run {
 
             return;
         }
+    }
+
+    if ( $Self->{Debug} ) {
+        print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
     }
 
     # run requester
@@ -181,6 +188,10 @@ sub Run {
                 );
             }
 
+            if ( $Self->{Debug} ) {
+                print "    $Self->{WorkerName} re-schedule task: $Param{TaskName} for: $ExecutionTime\n";
+            }
+
             # create a new task (replica) that will be executed in the future
             my $TaskID = $Kernel::OM->Get('Kernel::System::Daemon::SchedulerDB')->FutureTaskAdd(
                 ExecutionTime => $ExecutionTime,
@@ -193,7 +204,7 @@ sub Run {
             if ( !$TaskID ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Could not re-Schedule a task in future for task $Param{TaskName}",
+                    Message  => "Could not re-schedule a task in future for task $Param{TaskName}",
                 );
             }
         }

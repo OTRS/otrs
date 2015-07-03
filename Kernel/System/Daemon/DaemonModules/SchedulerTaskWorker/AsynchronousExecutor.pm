@@ -45,6 +45,9 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{WorkerName} = 'Worker: AsynchronousExecutor';
+
     return $Self;
 }
 
@@ -143,6 +146,10 @@ sub Run {
     my $Function = $Param{Data}->{Function};
 
     my $ErrorMessage;
+
+    if ( $Self->{Debug} ) {
+        print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
+    }
 
     # run given function on the object with the specified parameters in Data->{Params}
     eval {

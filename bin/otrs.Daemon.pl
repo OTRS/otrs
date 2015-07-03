@@ -75,6 +75,18 @@ if ( !@ARGV ) {
     exit 0;
 }
 
+# check for debug mode
+my $Debug;
+if ( $ARGV[1] && lc $ARGV[1] eq '--debug' ) {
+    $Debug = 1;
+}
+elsif ( $ARGV[1] ) {
+    print STDERR "Invalid option: $ARGV[1]\n\n";
+    PrintUsage();
+    exit 0;
+}
+
+# check for action
 if ( lc $ARGV[0] eq 'start' ) {
     exit 1 if !Start();
     exit 0;
@@ -96,7 +108,7 @@ else {
 
 sub PrintUsage {
     my $UsageText = "Usage:\n";
-    $UsageText .= " otrs.Daemon.pl <ACTION>\n";
+    $UsageText .= " otrs.Daemon.pl <ACTION> [--debug]\n";
     $UsageText .= "\nActions:\n";
     $UsageText .= sprintf " %-30s - %s", 'start', 'Starts the daemon process' . "\n";
     $UsageText .= sprintf " %-30s - %s", 'stop', 'Stops the daemon process' . "\n";
@@ -220,6 +232,13 @@ sub Start {
 
                     # create daemon object if not exists
                     eval {
+
+                        $Kernel::OM->ObjectParamAdd(
+                            $Module => {
+                                Debug => $Debug,
+                            },
+                        );
+
                         $DaemonObject ||= $Kernel::OM->Get($Module);
                     };
 

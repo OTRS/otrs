@@ -82,6 +82,9 @@ sub new {
 
     $Self->{DiscardCount} = $Self->{Discard} / $Self->{SleepPost};
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{DaemonName} = 'Daemon: SchedulerGenericAgentTaskManager';
+
     return $Self;
 }
 
@@ -113,6 +116,10 @@ sub PostRun {
     sleep $Self->{SleepPost};
 
     $Self->{DiscardCount}--;
+
+    if ( $Self->{Debug} ) {
+        print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
+    }
 
     # unlock long locked tasks
     $Self->{SchedulerDBObject}->RecurrentTaskUnlockExpired(

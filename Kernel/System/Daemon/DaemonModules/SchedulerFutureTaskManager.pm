@@ -81,6 +81,9 @@ sub new {
 
     $Self->{DiscardCount} = $Self->{Discard} / $Self->{SleepPost};
 
+    $Self->{Debug}      = $Param{Debug};
+    $Self->{DaemonName} = 'Daemon: SchedulerFutureTaskManager';
+
     return $Self;
 }
 
@@ -115,6 +118,10 @@ sub PostRun {
     sleep $Self->{SleepPost};
 
     $Self->{DiscardCount}--;
+
+    if ( $Self->{Debug} ) {
+        print "  $Self->{DaemonName} Discard Count: $Self->{DiscardCount}\n";
+    }
 
     return if $Self->{DiscardCount} <= 0;
     return 1;
