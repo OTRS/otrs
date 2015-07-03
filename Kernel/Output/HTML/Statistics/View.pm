@@ -1478,7 +1478,7 @@ sub StatsResultRender {
             my $CounterHead = 0;
             for my $Content ( @{$HeadArrayRef} ) {
                 $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-                $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
+                $CellData->[$CounterRow]->[$CounterHead]->{Font} = 'ProportionalBold';
                 $CounterHead++;
             }
             if ( $CounterHead > 0 ) {
@@ -1512,11 +1512,6 @@ sub StatsResultRender {
             $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
             $PageParam{FooterLeft}      = $Url;
             $PageParam{HeadlineLeft}    = $Title;
-            $PageParam{HeadlineRight}   = $PrintedBy . ' '
-                . $User{UserFirstname} . ' '
-                . $User{UserLastname} . ' ('
-                . $User{UserEmail} . ') '
-                . $Time;
 
             # table params
             my %TableParam;
@@ -1524,11 +1519,8 @@ sub StatsResultRender {
             $TableParam{Type}                = 'Cut';
             $TableParam{FontSize}            = 6;
             $TableParam{Border}              = 0;
-            $TableParam{BackgroundColorEven} = '#AAAAAA';
-            $TableParam{BackgroundColorOdd}  = '#DDDDDD';
-            $TableParam{Padding}             = 1;
-            $TableParam{PaddingTop}          = 3;
-            $TableParam{PaddingBottom}       = 3;
+            $TableParam{BackgroundColorEven} = '#DDDDDD';
+            $TableParam{Padding}             = 4;
 
             # create new pdf document
             $PDFObject->DocumentNew(
@@ -1541,6 +1533,38 @@ sub StatsResultRender {
                 %PageParam,
                 FooterRight => $Page . ' 1',
             );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -6,
+            );
+
+            # output title
+            $PDFObject->Text(
+                Text     => $Title,
+                FontSize => 13,
+            );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -6,
+            );
+
+            # output "printed by"
+            $PDFObject->Text(
+                Text => $PrintedBy . ' '
+                    . $User{UserFirstname} . ' '
+                    . $User{UserLastname} . ' ('
+                    . $User{UserEmail} . ')'
+                    . ', ' . $Time,
+                FontSize => 9,
+            );
+
+            $PDFObject->PositionSet(
+                Move => 'relativ',
+                Y    => -14,
+            );
+
             COUNT:
             for ( 2 .. $MaxPages ) {
 
