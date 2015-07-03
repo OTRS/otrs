@@ -15,10 +15,7 @@ use vars (qw($Self));
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
-my $PDFObject    = ( $Kernel::OM->Get('Kernel::Config')->Get('PDF') ) ? $Kernel::OM->Get('Kernel::System::PDF') : undef;
-
-die 'PDF support is disabled in sysconfig or CPAN module PDF::API2 is missing!'
-    if !$PDFObject;
+my $PDFObject    = $Kernel::OM->Get('Kernel::System::PDF');
 
 # create a pdf document
 my $DocumentNew1 = $PDFObject->DocumentNew(
