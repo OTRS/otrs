@@ -750,25 +750,7 @@ sub GeneralSpecificationsWidget {
     $Stat->{SelectPermission} = $LayoutObject->BuildSelection(%Permission);
 
     # create multiselectboxes 'format'
-    my $GDAvailable;
     my $AvailableFormats = $ConfigObject->Get('Stats::Format');
-
-    # check availability of packages
-    for my $Module ( 'GD', 'GD::Graph' ) {
-        $GDAvailable = ( $Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) ? 1 : 0;
-    }
-
-    # if the GD package is not installed, all the graph options will be disabled
-    if ( !$GDAvailable ) {
-        my @FormatData = map {
-            Key          => $_,
-                Value    => $AvailableFormats->{$_},
-                Disabled => ( ( $_ =~ m/GD/gi ) ? 1 : 0 ),
-        }, keys %{$AvailableFormats};
-
-        $AvailableFormats = \@FormatData;
-        $LayoutObject->Block( Name => 'PackageUnavailableMsg' );
-    }
 
     $Stat->{SelectFormat} = $LayoutObject->BuildSelection(
         Data     => $AvailableFormats,
@@ -777,17 +759,6 @@ sub GeneralSpecificationsWidget {
         Multiple => 1,
         Size     => 5,
         SelectedID => $GetParam{Format} // $Stat->{Format} || $ConfigObject->Get('Stats::DefaultSelectedFormat'),
-    );
-
-    # create multiselectboxes 'graphsize'
-    $Stat->{SelectGraphSize} = $LayoutObject->BuildSelection(
-        Data        => $ConfigObject->Get('Stats::GraphSize'),
-        Name        => 'GraphSize',
-        Multiple    => 1,
-        Size        => 3,
-        SelectedID  => $GetParam{GraphSize} // $Stat->{GraphSize},
-        Translation => 0,
-        Disabled    => ( first { $_ =~ m{^GD::}smx } @{ $Stat->{GraphSize} } ) ? 0 : 1,
     );
 
     my $Output .= $LayoutObject->Output(

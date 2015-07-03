@@ -15,7 +15,7 @@ Version:      0.0
 Copyright:    GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007
 Group:        Applications/Mail
 Provides:     otrs
-Requires:     apache2 apache2-mod_perl perl perl-Archive-Zip perl-DBI perl-Digest-MD5 perl-GD perl-GDGraph perl-GDTextUtil perl-IO-Socket-SSL perl-ldap perl-libwww-perl perl-Net-DNS perl-Template-Toolkit perl-TimeDate procmail
+Requires:     apache2 apache2-mod_perl perl perl-Archive-Zip perl-DBI perl-Digest-MD5 perl-IO-Socket-SSL perl-ldap perl-libwww-perl perl-Net-DNS perl-Template-Toolkit perl-TimeDate procmail
 Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2

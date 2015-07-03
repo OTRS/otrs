@@ -292,41 +292,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'GD',
-        Required  => 0,
-        Comment   => 'Required for stats.',
-        InstTypes => {
-            aptget => 'libgd-gd2-perl',
-            emerge => 'dev-perl/GD',
-            ppm    => 'GD',
-            zypper => 'perl-GD',
-        },
-        Depends => [
-            {
-                Module    => 'GD::Text',
-                Required  => 0,
-                Comment   => 'Required for stats.',
-                InstTypes => {
-                    aptget => 'libgd-text-perl',
-                    emerge => 'dev-perl/GDTextUtil',
-                    ppm    => 'GDTextUtil',
-                    zypper => 'perl-GDTextUtil',
-                },
-            },
-            {
-                Module    => 'GD::Graph',
-                Required  => 0,
-                Comment   => 'Required for stats.',
-                InstTypes => {
-                    aptget => 'libgd-graph-perl',
-                    emerge => 'dev-perl/GDGraph',
-                    ppm    => 'GDGraph',
-                    zypper => 'perl-GDGraph',
-                },
-            },
-        ],
-    },
-    {
         Module    => 'IO::Socket::SSL',
         Required  => 0,
         Comment   => 'Required for SSL connections to web and mail servers.',
