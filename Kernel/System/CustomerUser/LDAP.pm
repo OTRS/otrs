@@ -287,6 +287,10 @@ sub CustomerName {
 sub CustomerSearch {
     my ( $Self, %Param ) = @_;
 
+    if ( $Param{CustomerIDRaw} ) {
+        $Param{CustomerID} = $Param{CustomerIDRaw};
+    }
+
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} && !$Param{CustomerID} )
     {
