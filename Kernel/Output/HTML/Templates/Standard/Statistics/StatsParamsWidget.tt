@@ -28,17 +28,6 @@
     <div class="Value">[% Translate(Data.Format) | html %]</div>
     <div class="Clear"></div>
 [% RenderBlockEnd("FormatFixed") %]
-[% RenderBlockStart("Graphsize") %]
-    <label>[% Translate("Graphsize") | html %]:</label>
-    <div class="Value">[% Data.SelectGraphSize %]</div>
-    <div class="Clear"></div>
-[% RenderBlockEnd("Graphsize") %]
-[% RenderBlockStart("GraphsizeFixed") %]
-    <input type="hidden" name="GraphSize" value="[% Data.GraphSizeKey | html %]"/>
-    <label>[% Translate("Graphsize") | html %]:</label>
-    <div class="Value">[% Data.GraphSize %]</div>
-    <div class="Clear"></div>
-[% RenderBlockEnd("GraphsizeFixed") %]
 
 [% RenderBlockStart("ExchangeAxis") %]
     <label>[% Translate("Exchange Axis") | html %]:</label>

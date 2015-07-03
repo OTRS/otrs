@@ -54,7 +54,10 @@ sub StatsParamsWidget {
 
     for my $Needed (qw(Stat)) {
         if ( !$Param{$Needed} ) {
-            return $LayoutObject->ErrorScreen( Message => "Need $Needed!" );
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed!"
+            );
         }
     }
 
@@ -86,8 +89,8 @@ sub StatsParamsWidget {
     my $LocalGetArray = sub {
         my (%Param) = @_;
         my $Param = $Param{Param};
-        if ( $HasUserGetParam ) {
-            if ($UserGetParam{$Param} && ref $UserGetParam{$Param} eq 'ARRAY' ) {
+        if ($HasUserGetParam) {
+            if ( $UserGetParam{$Param} && ref $UserGetParam{$Param} eq 'ARRAY' ) {
                 return @{ $UserGetParam{$Param} };
             }
             return;
@@ -110,27 +113,13 @@ sub StatsParamsWidget {
 
     # create format select box
     my %SelectFormat;
-    my $Flag    = 0;
-    my $Counter = 0;
-    for my $UseAsValueSeries ( @{ $Stat->{UseAsValueSeries} } ) {
-        if ( $UseAsValueSeries->{Selected} ) {
-            $Counter++;
-        }
-    }
-    my $CounterII = 0;
     VALUE:
     for my $Value ( @{ $Stat->{Format} } ) {
         next VALUE if !defined $Format->{$Value};
-        if ( $Counter == 0 || $Value ne 'GD::Graph::pie' ) {
-            $SelectFormat{$Value} = $Format->{$Value};
-            $CounterII++;
-        }
-        if ( $Value =~ m{^GD::Graph\.*}x ) {
-            $Flag = 1;
-        }
+        $SelectFormat{$Value} = $Format->{$Value};
     }
 
-    if ( $CounterII > 1 ) {
+    if ( keys %SelectFormat > 1 ) {
         my %Frontend;
         $Frontend{SelectFormat} = $LayoutObject->BuildSelection(
             Data       => \%SelectFormat,
@@ -150,37 +139,6 @@ sub StatsParamsWidget {
                 FormatKey => $Stat->{Format}->[0],
             },
         );
-    }
-
-    # create graphic size select box
-    if ( $Stat->{GraphSize} && $Flag ) {
-        my %GraphSize;
-        my %Frontend;
-        my $GraphSizeRef = $ConfigObject->Get('Stats::GraphSize');
-        for my $Value ( @{ $Stat->{GraphSize} } ) {
-            $GraphSize{$Value} = $GraphSizeRef->{$Value};
-        }
-        if ( $#{ $Stat->{GraphSize} } > 0 ) {
-            $Frontend{SelectGraphSize} = $LayoutObject->BuildSelection(
-                Data        => \%GraphSize,
-                Name        => 'GraphSize',
-                SelectedID  => $LocalGetParam->( Param => 'GraphSize' ),
-                Translation => 0,
-            );
-            $LayoutObject->Block(
-                Name => 'Graphsize',
-                Data => \%Frontend,
-            );
-        }
-        else {
-            $LayoutObject->Block(
-                Name => 'GraphsizeFixed',
-                Data => {
-                    GraphSize    => $GraphSizeRef->{ $Stat->{GraphSize}->[0] },
-                    GraphSizeKey => $Stat->{GraphSize}->[0],
-                },
-            );
-        }
     }
 
     if ( $ConfigObject->Get('Stats::ExchangeAxis') ) {
@@ -515,7 +473,11 @@ sub StatsParamsWidget {
                             my $TimeScale = _TimeScale();
                             my %TimeScaleOption;
                             ITEM:
-                            for ( sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale} ) {
+                            for (
+                                sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} }
+                                keys %{$TimeScale}
+                                )
+                            {
                                 $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
                                 last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
                             }
@@ -1627,40 +1589,6 @@ sub StatsResultRender {
             return $Output;
         }
     }
-
-    # graph
-    elsif ( $Param{Format} =~ m{^GD::Graph\.*}x ) {
-
-        # make graph
-        my $Ext   = 'png';
-        my $Graph = $Self->{StatsObject}->GenerateGraph(
-            Array        => \@StatArray,
-            HeadArrayRef => $HeadArrayRef,
-            Title        => $Title,
-            Format       => $Param{Format},
-            GraphSize    => $Param{GraphSize},
-        );
-
-        # error messages if there is no graph
-        if ( !$Graph ) {
-            if ( $Param{Format} =~ m{^GD::Graph::pie}x ) {
-                return $LayoutObject->ErrorScreen(
-                    Message => 'You use invalid data! Perhaps there are no results.',
-                );
-            }
-            return $LayoutObject->ErrorScreen(
-                Message => "Too much data, can't use it with graph!",
-            );
-        }
-
-        # return image to browser
-        return $LayoutObject->Attachment(
-            Filename    => $Filename . '.' . $Ext,
-            ContentType => "image/$Ext",
-            Content     => $Graph,
-            Type        => 'attachment',             # not inline because of bug# 2757
-        );
-    }
 }
 
 =item StatsConfigurationValidate()
@@ -1706,16 +1634,6 @@ sub StatsConfigurationValidate {
         if ( $Stat{StatType} && $Stat{StatType} eq 'dynamic' && !$Stat{Object} ) {
             $GeneralSpecificationFieldErrors{Object} = Translatable('This field is required.');
         }
-
-        # if ( !$Param{Stat}{GraphSize} && $Param{Stat}{Format} ) {
-        #     FORMAT:
-        #     for ( @{ $Stat{Format} } ) {
-        #         if ( $_ =~ m{^GD::Graph\.*}x ) {
-        #             push @IndexArray, 3;
-        #             last FORMAT;
-        #         }
-        #     }
-        # }
     }
 
     # get needed objects
@@ -1963,32 +1881,6 @@ sub StatsConfigurationValidate {
     return;
 }
 
-sub _Notify {
-    my ( $Self, %Param ) = @_;
-
-    my $NotifyOutput = '';
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # check if need params are available
-    for (qw(StatData Section)) {
-        if ( !$Param{$_} ) {
-            return $LayoutObject->ErrorScreen( Message => "_Notify: Need $_!" );
-        }
-    }
-
-    # CompletenessCheck
-    my @Notify = $Self->{StatsObject}->CompletenessCheck(
-        StatData => $Param{StatData},
-        Section  => $Param{Section},
-    );
-    for my $Ref (@Notify) {
-        $NotifyOutput .= $LayoutObject->Notify( %{$Ref} );
-    }
-    return $NotifyOutput;
-}
-
 sub _Timeoutput {
     my ( $Self, %Param ) = @_;
 
@@ -1999,8 +1891,9 @@ sub _Timeoutput {
 
     # check if need params are available
     if ( !$Param{TimePeriodFormat} ) {
-        return $LayoutObject->ErrorScreen(
-            Message => '_Timeoutput: Need TimePeriodFormat!'
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => "error",
+            Message  => '_Timeoutput: Need TimePeriodFormat!'
         );
     }
 
@@ -2178,8 +2071,9 @@ sub _ColumnAndRowTranslation {
     # check if need params are available
     for my $NeededParam (qw(StatArrayRef HeadArrayRef StatRef)) {
         if ( !$Param{$NeededParam} ) {
-            return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->ErrorScreen(
-                Message => "_ColumnAndRowTranslation: Need $NeededParam!"
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "_ColumnAndRowTranslation: Need $NeededParam!"
             );
         }
     }
@@ -2362,8 +2256,11 @@ sub _TimeInSeconds {
 
     # check if need params are available
     if ( !$Param{TimeUnit} ) {
-        return $Kernel::OM->Get('Kernel::Output::HTML::Layout')
-            ->ErrorScreen( Message => '_TimeInSeconds: Need TimeUnit!' );
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => "error",
+            Message  => '_TimeInSeconds: Need TimeUnit!',
+        );
+        return;
     }
 
     my %TimeInSeconds = (

@@ -69,13 +69,6 @@
         <div id="FormatError" class="TooltipErrorMessage">
             <p>[% Translate("This field is required.") | html %]</p>
         </div>
-[% WRAPPER JSOnDocumentComplete %]
-<script type="text/javascript">//<![CDATA[
-$('#Format').bind('change', function (Event) {
-Core.Agent.Stats.FormatGraphSizeRelation();
-});
-//]]></script>
-[% END %]
     </div>
     <div class="Clear"></div>
 
