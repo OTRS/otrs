@@ -5528,17 +5528,6 @@ via the Preferences button after logging in.
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Stats::TimeType" Required="1" Valid="1">
-        <Description Translatable="1">Sets the time type which should be shown.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::Stats</SubGroup>
-        <Setting>
-            <Option SelectedID="Extended">
-                <Item Key="Normal">normal</Item>
-                <Item Key="Extended">extended</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Stats::ExchangeAxis" Required="1" Valid="1">
         <Description Translatable="1">Allows agents to exchange the axis of a stat if they generate one.</Description>
         <Group>Framework</Group>

@@ -408,7 +408,6 @@ sub StatsParamsWidget {
                     }
                     elsif ( $ObjectAttribute->{Block} eq 'Time' ) {
                         $ObjectAttribute->{Element} = $Use . $ObjectAttribute->{Element};
-                        my $TimeType = $ConfigObject->Get('Stats::TimeType') || 'Normal';
                         my $RelativeSelectedID = $LocalGetParam->(
                             Param => $ObjectAttribute->{Element} . 'TimeRelativeCount',
                         );
@@ -478,31 +477,29 @@ sub StatsParamsWidget {
 
                         elsif ( $ObjectAttribute->{TimeRelativeUnit} ) {
                             my $TimeScale = _TimeScale();
-                            if ( $TimeType eq 'Extended' ) {
-                                my %TimeScaleOption;
-                                my $SelectedID = $LocalGetParam->(
-                                    Param => $ObjectAttribute->{Element} . 'TimeRelativeUnit'
-                                );
+                            my %TimeScaleOption;
+                            my $SelectedID = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element} . 'TimeRelativeUnit'
+                            );
 
-                                ITEM:
-                                for (
-                                    sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} }
-                                    keys %{$TimeScale}
-                                    )
-                                {
-                                    $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
-                                    last ITEM if $ObjectAttribute->{TimeRelativeUnit} eq $_;
-                                }
-                                $BlockData{TimeRelativeUnit} = $LayoutObject->BuildSelection(
-                                    Name           => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
-                                    Data           => \%TimeScaleOption,
-                                    Sort           => 'IndividualKey',
-                                    SelectedID     => $SelectedID // $ObjectAttribute->{TimeRelativeUnit},
-                                    SortIndividual => [
-                                        'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
-                                    ],
-                                );
+                            ITEM:
+                            for (
+                                sort { $TimeScale->{$a}->{Position} <=> $TimeScale->{$b}->{Position} }
+                                keys %{$TimeScale}
+                                )
+                            {
+                                $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
+                                last ITEM if $ObjectAttribute->{TimeRelativeUnit} eq $_;
                             }
+                            $BlockData{TimeRelativeUnit} = $LayoutObject->BuildSelection(
+                                Name           => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
+                                Data           => \%TimeScaleOption,
+                                Sort           => 'IndividualKey',
+                                SelectedID     => $SelectedID // $ObjectAttribute->{TimeRelativeUnit},
+                                SortIndividual => [
+                                    'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
+                                ],
+                            );
                             $BlockData{TimeRelativeCountMax} = $ObjectAttribute->{TimeRelativeCount};
                             $BlockData{TimeRelativeUnitMax}
                                 = $TimeScale->{ $ObjectAttribute->{TimeRelativeUnit} }{Value};
@@ -515,45 +512,34 @@ sub StatsParamsWidget {
 
                         # build the Timescale output
                         if ( $Use ne 'UseAsRestriction' ) {
-                            if ( $TimeType eq 'Normal' ) {
-                                $BlockData{TimeScaleCount} = 1;
-                                $BlockData{TimeScaleUnit}  = $BlockData{TimeSelectField};
+                            my $TimeScale = _TimeScale();
+                            my %TimeScaleOption;
+                            ITEM:
+                            for ( sort { $TimeScale->{$b}->{Position} <=> $TimeScale->{$a}->{Position} } keys %{$TimeScale} ) {
+                                $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
+                                last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
                             }
-                            elsif ( $TimeType eq 'Extended' ) {
-                                my $TimeScale = _TimeScale();
-                                my %TimeScaleOption;
-                                ITEM:
-                                for (
-                                    sort {
-                                        $TimeScale->{$b}->{Position}
-                                            <=> $TimeScale->{$a}->{Position}
-                                    } keys %{$TimeScale}
-                                    )
-                                {
-                                    $TimeScaleOption{$_} = $TimeScale->{$_}->{Value};
-                                    last ITEM if $ObjectAttribute->{SelectedValues}[0] eq $_;
-                                }
-                                $BlockData{TimeScaleUnitMax} = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
-                                    {Value};
-                                $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
+                            $BlockData{TimeScaleUnitMax} = $TimeScale->{ $ObjectAttribute->{SelectedValues}[0] }
+                                {Value};
+                            $BlockData{TimeScaleCountMax} = $ObjectAttribute->{TimeScaleCount};
 
-                                my $SelectedID = $LocalGetParam->(
-                                    Param => $ObjectAttribute->{Element},
-                                );
-                                $BlockData{TimeScaleUnit} = $LayoutObject->BuildSelection(
-                                    Name           => $ObjectAttribute->{Element},
-                                    Data           => \%TimeScaleOption,
-                                    SelectedID     => $SelectedID // $ObjectAttribute->{SelectedValues}[0],
-                                    Sort           => 'IndividualKey',
-                                    SortIndividual => [
-                                        'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
-                                    ],
-                                );
-                                $LayoutObject->Block(
-                                    Name => 'TimeScaleInfo',
-                                    Data => \%BlockData,
-                                );
-                            }
+                            my $SelectedID = $LocalGetParam->(
+                                Param => $ObjectAttribute->{Element},
+                            );
+                            $BlockData{TimeScaleUnit} = $LayoutObject->BuildSelection(
+                                Name           => $ObjectAttribute->{Element},
+                                Data           => \%TimeScaleOption,
+                                SelectedID     => $SelectedID // $ObjectAttribute->{SelectedValues}[0],
+                                Sort           => 'IndividualKey',
+                                SortIndividual => [
+                                    'Second', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
+                                ],
+                            );
+                            $LayoutObject->Block(
+                                Name => 'TimeScaleInfo',
+                                Data => \%BlockData,
+                            );
+
                             if ( $ObjectAttribute->{SelectedValues} ) {
                                 $LayoutObject->Block(
                                     Name => 'TimeScale',
@@ -844,13 +830,7 @@ sub XAxisWidget {
         );
 
         if ( $ObjectAttribute->{Block} eq 'Time' ) {
-            my $TimeType = $ConfigObject->Get('Stats::TimeType') || 'Normal';
-            if ( $TimeType eq 'Time' ) {
-                $ObjectAttribute->{Block} = 'Time';
-            }
-            elsif ( $TimeType eq 'Extended' ) {
-                $ObjectAttribute->{Block} = 'TimeExtended';
-            }
+            $ObjectAttribute->{Block} = 'Time';
 
             my %TimeData = _Timeoutput(
                 $Self,
@@ -943,11 +923,10 @@ sub YAxisWidget {
         );
 
         if ( $ObjectAttribute->{Block} eq 'Time' ) {
-            my $TimeType = $ConfigObject->Get("Stats::TimeType") || 'Normal';
             for ( @{ $Stat->{UseAsXvalue} } ) {
                 if (
                     $_->{Selected}
-                    && ( $_->{Fixed} || ( !$_->{SelectedValues}[1] && $TimeType eq 'Normal' ) )
+                    && $_->{Fixed}
                     && $_->{Block} eq 'Time'
                     )
                 {
@@ -975,8 +954,6 @@ sub YAxisWidget {
                     }
                 }
             }
-
-            $ObjectAttribute->{Block} = $TimeType eq 'Normal' ? 'Time' : 'TimeExtended';
 
             my %TimeData = _Timeoutput(
                 $Self,
@@ -1073,8 +1050,6 @@ sub RestrictionsWidget {
             Data => \%BlockData,
         );
         if ( $ObjectAttribute->{Block} eq 'Time' ) {
-            my $TimeType = $ConfigObject->Get('Stats::TimeType') || 'Normal';
-            $ObjectAttribute->{Block} = $TimeType eq 'Normal' ? 'Time' : 'TimeExtended';
 
             my %TimeData = _Timeoutput(
                 $Self,

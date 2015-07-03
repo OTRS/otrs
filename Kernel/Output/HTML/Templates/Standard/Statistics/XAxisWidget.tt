@@ -21,7 +21,7 @@
             [% Data.SelectField %]
         </div>
 [% RenderBlockEnd("MultiSelectField") %]
-[% RenderBlockStart("TimeExtended") %]
+[% RenderBlockStart("Time") %]
         <label>
             <input type="radio" name="[% Data.Element | html %]TimeSelect" value="Absolut" [% Data.CheckedAbsolut | html %]/>
             [% Translate("Absolute period") | html %]:
@@ -48,21 +48,6 @@
             [% Data.TimeScaleCount %]
             [% Data.TimeScaleUnit %]
             <p class="FieldExplanation">[% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]</p>
-        </div>
-        <div class="Clear"></div>
-[% RenderBlockEnd("TimeExtended") %]
-[% RenderBlockStart("Time") %]
-        <label>[% Translate("Period") | html %]:</label>
-        <div class="Field">
-            [% Translate("Between") | html %] [% Data.TimeStart %] [% Translate("and") | html %] [% Data.TimeStop %]
-        </div>
-        <div class="Clear"></div>
-        <label>[% Translate("Scale") | html %]:</label>
-        <div class="Field SpacingTopSmall">
-            [% Data.TimeSelectField %]
-            <p class="FieldExplanation">
-                [% Translate("Please select only one element or allow changes at statistic generation.") | html %]
-            </p>
         </div>
         <div class="Clear"></div>
 [% RenderBlockEnd("Time") %]

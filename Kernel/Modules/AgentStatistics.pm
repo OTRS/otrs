@@ -418,13 +418,10 @@ sub EditAction {
 
             # This part is only needed if the block time is selected
             # perhaps a separate function is better
-            my $TimeType = $ConfigObject->Get('Stats::TimeType') || 'Normal';
             my %Time;
             $Data{UseAsXvalue}[0]{TimeScaleCount}
-                = $ParamObject->GetParam( Param => $SelectedElement . 'TimeScaleCount' )
-                || 1;
-            my $TimeSelect = $ParamObject->GetParam( Param => $SelectedElement . 'TimeSelect' )
-                || 'Absolut';
+                = $ParamObject->GetParam( Param => $SelectedElement . 'TimeScaleCount' ) || 1;
+            my $TimeSelect = $ParamObject->GetParam( Param => $SelectedElement . 'TimeSelect' ) || 'Absolut';
 
             if ( $TimeSelect eq 'Absolut' ) {
                 for my $Limit (qw(Start Stop)) {
@@ -503,18 +500,6 @@ sub EditAction {
 
             # Check if Time was selected
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                my $TimeType = $ConfigObject->Get('Stats::TimeType') || 'Normal';
-                if ( $TimeType eq 'Normal' ) {
-
-                    # if the admin has only one unit selected, unfixed is useless
-                    if (
-                        !$Data{UseAsValueSeries}[0]{SelectedValues}[1]
-                        && $Data{UseAsValueSeries}[0]{SelectedValues}[0]
-                        )
-                    {
-                        $Data{UseAsValueSeries}[0]{Fixed} = 1;
-                    }
-                }
 
                 # for working with extended time
                 $Data{UseAsValueSeries}[$Index]{TimeScaleCount} = $ParamObject->GetParam(

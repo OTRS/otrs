@@ -21,27 +21,15 @@
             [% Data.SelectField %]
         </div>
 [% RenderBlockEnd("MultiSelectField") %]
-[% RenderBlockStart("TimeExtended") %]
+[% RenderBlockStart("Time") %]
         <label>[% Translate("Scale") | html %]:</label>
         <div class="Field">
             [% Data.TimeScaleUnit %]
             <p class="FieldExplanation">[% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]</p>
+#            <p class="FieldExplanation">
+#                [% Translate("Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).") | html %]
+#            </p>
 # [% Data.TimeScaleCount %] Comment: Danger to use and no best practise
-        </div>
-[% RenderBlockEnd("TimeExtended") %]
-[% RenderBlockStart("Time") %]
-        <label>[% Translate("Scale") | html %]:</label>
-        <div class="Field">
-            [% Data.TimeSelectField %]
-            <p class="FieldExplanation">
-                [% Translate("Defines the time unit that will be used to split the selected time period into reporting data points.") | html %]
-            </p>
-            <p class="FieldExplanation">
-                [% Translate("Please select only one element or allow changes at statistic generation.") | html %]
-            </p>
-            <p class="FieldExplanation">
-                [% Translate("Please remember that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).") | html %]
-            </p>
         </div>
 [% RenderBlockEnd("Time") %]
         <label></label>
