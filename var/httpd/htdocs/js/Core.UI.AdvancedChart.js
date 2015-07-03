@@ -664,25 +664,37 @@ Core.UI.AdvancedChart = (function (TargetNS) {
     TargetNS.ConvertSVGtoPNG = function($SVGContainer) {
 
         var SVGContent = $SVGContainer.html().trim(), // Canvg requires trimmed content
+            Height = $SVGContainer.css('height'),
+            Width = $SVGContainer.css('width'),
             $CanvasContainer,
-            $Canvas;
+            $Canvas,
+            $Canvas2,
+            Canvas2Context;
 
-        $Canvas = $('<canvas></canvas>')
-            .attr('height', $SVGContainer.css('height'))
-            .attr('width', $SVGContainer.css('width'));
+        $Canvas = $('<canvas></canvas>').attr('height', Height).attr('width', Width);
+        $Canvas2 = $('<canvas></canvas>').attr('height', Height).attr('width', Width);
 
         $CanvasContainer = $('<div style="position: absolute; top: 0; visibility: hidden;"></div>')
             .append($Canvas)
+            .append($Canvas2)
             .appendTo('body');
 
+        // First transfer the SVG content to the first canvas. This will be transparent.
         canvg(
             $Canvas.get(0),
             SVGContent,
             { ignoreMouse: true, ignoreAnimations: true }
         );
         $Canvas.get(0).svg.stop();
+
+        // Now transfer content of first canvas to second canvas with white background.
+        Canvas2Context = $Canvas2.get(0).getContext('2d');
+        Canvas2Context.fillStyle = "white";
+        Canvas2Context.fillRect(0, 0, Width.replace('px', ''), Height.replace('px', ''));
+        Canvas2Context.drawImage($Canvas.get(0), 0, 0);
+
         $CanvasContainer.remove();
-        return $Canvas.get(0).toDataURL('image/png');
+        return $Canvas2.get(0).toDataURL('image/png');
     };
 
     /**
