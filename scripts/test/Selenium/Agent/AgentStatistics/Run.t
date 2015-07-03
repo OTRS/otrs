@@ -12,9 +12,6 @@ use utf8;
 
 use vars (qw($Self));
 
-# This does not work any more because of missing HTML print.
-return 1;
-
 # get selenium object
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Selenium' => {
@@ -49,12 +46,6 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'PDF',
-            Value => 0
-        );
-
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', 'stats' ],
@@ -67,82 +58,26 @@ $Selenium->RunTest(
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-        $Selenium->get("${ScriptAlias}index.pl?Action=AgentStats;Subaction=Import");
+        $Selenium->get("${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Import");
 
         # get test user ID
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
 
-        # add test customer for testing
-        my $TestCustomer = 'Customer' . $Helper->GetRandomID();
-        my $UserLogin    = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserAdd(
-            Source         => 'CustomerUser',
-            UserFirstname  => $TestCustomer,
-            UserLastname   => $TestCustomer,
-            UserCustomerID => $TestCustomer,
-            UserLogin      => $TestCustomer,
-            UserEmail      => "$TestCustomer\@localhost.com",
-            ValidID        => 1,
-            UserID         => $TestUserID,
-        );
-
-        $Self->True(
-            $UserLogin,
-            "CustomerUser is created - $TestCustomer",
-        );
-
-        # get ticket object
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # create test tickets
-        my @TicketIDs;
-        my @TicketNumbers;
-        for ( 1 .. 5 ) {
-
-            # create test ticcket
-            my $TicketNumber = $TicketObject->TicketCreateNumber();
-            my $TicketID     = $TicketObject->TicketCreate(
-                TN           => $TicketNumber,
-                Title        => "Selenium Test Ticket",
-                Queue        => 'Junk',
-                Lock         => 'unlock',
-                Priority     => '3 normal',
-                State        => 'new',
-                CustomerID   => 'SeleniumCustomer',
-                CustomerUser => "SeleniumCustomer\@localhost.com",
-                OwnerID      => $TestUserID,
-                UserID       => $TestUserID,
-            );
-
-            $Self->True(
-                $TicketID,
-                "Ticket is created - $TicketID",
-            );
-
-            push @TicketIDs,     $TicketID;
-            push @TicketNumbers, $TicketNumber;
-
-        }
-
         # import test selenium statistic
         my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home')
-            . "/scripts/test/sample/Stats/Stats.TestTicketList.en.xml";
-        $Selenium->find_element( "#file_upload", 'css' )->send_keys($Location);
+            . "/scripts/test/sample/Stats/Stats.TicketOverview.de.xml";
+        $Selenium->find_element( "#File", 'css' )->send_keys($Location);
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->click();
 
-        # wait until test stat is imported, if neccessary
-        $Selenium->WaitFor( JavaScript => "return \$('#compose').length" );
-
         # create params for import test stats
-        my %StatsValues =
-            (
-            Title       => 'Test TicketList statistic',
-            Object      => 'Ticketlist',
-            Description => 'List of all tickets. Restricted by Junk Queue.',
-            Format      => 'Print',
-            Restriction => 'UseAsRestrictionQueueIDs',
-            );
+        my %StatsValues = (
+            Title       => 'Überblick über alle Tickets im System',
+            Object      => 'Ticket',
+            Description => 'Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.',
+            Format      => 'D3::MultiBarChart',
+        );
 
         # check for imported values on test stat
         for my $StatsValue ( sort keys %StatsValues ) {
@@ -152,16 +87,16 @@ $Selenium->RunTest(
             );
         }
 
-        # navigate to AgentStats Overview screen
+        # navigate to AgentStatistics Overview screen
         $Selenium->get(
-            "${ScriptAlias}index.pl?Action=AgentStats;Subaction=Overview;"
+            "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;"
         );
 
         # get stats object
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::Stats' => {
                 UserID => 1,
-                }
+            },
         );
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
@@ -180,30 +115,20 @@ $Selenium->RunTest(
         );
 
         # go to imported stat to run it
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentStats;Subaction=View;StatID=$StatsIDLast\' )]")
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentStatistics;Subaction=View;StatID=$StatsIDLast\' )]")
             ->click();
 
         # run test statistic
         $Selenium->find_element( "#StartStatistic", 'css' )->click();
-
-        sleep 3;
+        $Selenium->WaitFor( WindowCount => 2 );
 
         # switch to another window
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
-        # check result of stats
-        for my $TicketNumber (@TicketNumbers) {
-
-            $Self->True(
-                index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-                "TicketNumber is founded on stats - $TicketNumber "
-            );
-        }
-
         $Self->True(
             index( $Selenium->get_page_source(), $StatsValues{Title} ) > -1,
-            "Title of stats is founded - $StatsValues{Title} "
+            "Title of stats is found - $StatsValues{Title} "
         );
 
         # delete test stats
@@ -215,19 +140,6 @@ $Selenium->RunTest(
             $Success,
             "Deleted stats - $StatsValues{Title}",
         );
-
-        # delete created test tickets
-        for my $TicketID (@TicketIDs) {
-
-            my $Success = $TicketObject->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => $TestUserID,
-            );
-            $Self->True(
-                $Success,
-                "Ticket is deleted - $TicketID"
-            );
-        }
 
         # make sure the cache is correct.
         for my $Cache (qw( Ticket Stats )) {
