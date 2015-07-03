@@ -165,8 +165,8 @@ sub RunAsynchronous {
         }
     }
 
-    # get the session active time
-    my $SessionActiveTime = $Kernel::OM->Get('Kernel::Config')->Get('SessionActiveTime') || 60 * 10;
+    # set the session active time for the counter
+    my $SessionActiveTime = 3600;
 
     # get all sessions
     my @Sessions = $AuthSessionObject->GetAllSessionIDs();
