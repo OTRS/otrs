@@ -13,6 +13,7 @@ use utf8;
 use vars (qw($Self));
 
 use Selenium::Remote::WDKeys;
+use Kernel::Language;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
