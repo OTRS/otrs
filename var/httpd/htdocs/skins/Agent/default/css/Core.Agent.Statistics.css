@@ -123,6 +123,15 @@
     width: 100px;
 }
 
+.PreviewSettings .CallForAction {
+    width: auto;
+}
+
+.PreviewSettings .CallForAction.Active {
+    background-color: #e0e0e0;
+    border-color: #777;
+}
+
 .PreviewContainer .CallForAction span {
     height: auto;
 }

@@ -146,8 +146,7 @@
         <div class="PreviewSettings">
             [% Translate('Preview format:') | html %]
             [% FOREACH Format IN PreviewFormats.sort %]
-            <a href="#" class="SwitchPreviewFormat" data-type="[% ChartTypes.item(Format) || Format %]" data-format="[% Format %]">[% FormatConfig.item(Format) %]</a>
-                [% IF !loop.last %]|[% END %]
+            <button class="CallForAction SwitchPreviewFormat" data-type="[% ChartTypes.item(Format) || Format %]" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
             [% END %]
             <span class="Warning">
                 [% Translate('Please note that the preview uses random data and does not consider data restrictions.') | html %]
