@@ -1483,8 +1483,7 @@ sub StatsResultRender {
         }
 
         # page params
-        my %User
-            = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
+        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
         my %PageParam;
         $PageParam{PageOrientation} = 'landscape';
         $PageParam{MarginTop}       = 30;

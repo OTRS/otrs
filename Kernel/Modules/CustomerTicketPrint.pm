@@ -121,15 +121,15 @@ sub Run {
         $Title .= ' / ' . $Ticket{Title};
     }
 
-    $Page{MarginTop}     = 30;
-    $Page{MarginRight}   = 40;
-    $Page{MarginBottom}  = 40;
-    $Page{MarginLeft}    = 40;
-    $Page{HeaderRight}   = $HeaderRight;
-    $Page{HeadlineLeft}  = $HeadlineLeft;
-    $Page{FooterLeft} = '';
-    $Page{PageText}   = $LayoutObject->{LanguageObject}->Translate('Page');
-    $Page{PageCount}  = 1;
+    $Page{MarginTop}    = 30;
+    $Page{MarginRight}  = 40;
+    $Page{MarginBottom} = 40;
+    $Page{MarginLeft}   = 40;
+    $Page{HeaderRight}  = $HeaderRight;
+    $Page{HeadlineLeft} = $HeadlineLeft;
+    $Page{FooterLeft}   = '';
+    $Page{PageText}     = $LayoutObject->{LanguageObject}->Translate('Page');
+    $Page{PageCount}    = 1;
 
     # create new pdf document
     $PDFObject->DocumentNew(

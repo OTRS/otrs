@@ -78,8 +78,8 @@ $Selenium->RunTest(
                     Restriction => 'open',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format',
-                    'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid',
+                    'Title',  'Description', 'Object', 'Permission',            'Format',
+                    'SumRow', 'SumCol',      'Cache',  'ShowAsDashboardWidget', 'Valid',
                 ],
                 Step2Fields => [
                     'QueueIDs', 'StateIDs', 'StateTypeIDs', 'PriorityIDs', 'CreatedQueueIDs', 'CreatedPriorityIDs',
@@ -112,8 +112,8 @@ $Selenium->RunTest(
                     Restriction => 'Ticket Create Time',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format',
-                    'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid'
+                    'Title',  'Description', 'Object', 'Permission',            'Format',
+                    'SumRow', 'SumCol',      'Cache',  'ShowAsDashboardWidget', 'Valid'
                 ],
                 Step2Fields => [
                     'KindsOfReporting', 'QueueIDs', 'StateIDs', 'StateTypeIDs', 'PriorityIDs', 'CreatedQueueIDs',
@@ -152,8 +152,8 @@ $Selenium->RunTest(
                     Restriction => 'The last 1 day(s)',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format',
-                    'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid'
+                    'Title',  'Description', 'Object', 'Permission',            'Format',
+                    'SumRow', 'SumCol',      'Cache',  'ShowAsDashboardWidget', 'Valid'
                 ],
                 Step2Fields => [
                     'KindsOfReporting', 'QueueIDs', 'StateIDs', 'StateTypeIDs', 'PriorityIDs', 'CreatedQueueIDs',
@@ -188,8 +188,8 @@ $Selenium->RunTest(
                     Restriction => 'UseAsRestrictionLimit',
                     },
                 Step1Fields => [
-                    'Title', 'Description', 'Object', 'Permission', 'Format',
-                    'SumRow', 'SumCol', 'Cache', 'ShowAsDashboardWidget', 'Valid'
+                    'Title',  'Description', 'Object', 'Permission',            'Format',
+                    'SumRow', 'SumCol',      'Cache',  'ShowAsDashboardWidget', 'Valid'
                 ],
                 Step2Fields => ['TicketAttributes'],
                 Step3Fields => [ 'OrderBy', 'SortSequence' ],

@@ -921,8 +921,7 @@ sub Run {
 
             # otherwise, show 'No ticket data found' message
             else {
-                $CellData->[0]->[0]->{Content}
-                    = $LayoutObject->{LanguageObject}->Translate('No ticket data found.');
+                $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No ticket data found.');
             }
 
             # page params

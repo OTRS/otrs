@@ -762,11 +762,11 @@ my $SetOutOfOffice = sub {
     # get time object
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() -1, # put it one second is past
+        SystemTime => $TimeObject->SystemTime() - 1,    # put it one second is past
     );
 
     my ( $ESec, $EMin, $EHour, $EDay, $EMonth, $EYear, $EWeekDay ) = $TimeObject->SystemTime2Date(
-        SystemTime => $TimeObject->SystemTime() + ( 60 * 24 ), # add one day
+        SystemTime => $TimeObject->SystemTime() + ( 60 * 24 ),    # add one day
     );
 
     my %Preferences = (

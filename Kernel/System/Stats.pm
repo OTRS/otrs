@@ -3747,13 +3747,13 @@ sub _GetCacheString {
         $Result .= "$Use:";
         for my $Element ( @{ $Param{$Use} } ) {
             $Result .= "Name:$Element->{Name}:";
-            if ($Element->{Block} eq 'Time') {
+            if ( $Element->{Block} eq 'Time' ) {
                 if ( $Element->{SelectedValues}[0] && $Element->{TimeScaleCount} ) {
                     $Result .= "TimeScaleUnit:$Element->{SelectedValues}[0]:";
                     $Result .= "TimeScaleCount:$Element->{TimeScaleCount}:";
                 }
 
-                if ($Element->{TimeStart} && $Element->{TimeStop}) {
+                if ( $Element->{TimeStart} && $Element->{TimeStop} ) {
                     $Result .= "TimeStart:$Element->{TimeStart}:TimeStop:$Element->{TimeStop}:";
                 }
             }

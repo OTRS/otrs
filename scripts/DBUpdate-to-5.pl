@@ -865,7 +865,7 @@ sub _MigrateNotifications {
                 $NotificationData->{Recipients} = ['AgentOwner'];
             }
 
-            if ( $NotificationListReverse{'Old ' .$NotificationName} ) {
+            if ( $NotificationListReverse{ 'Old ' . $NotificationName } ) {
                 $NotificationName .= ' ( Duplicate Name )';
             }
 
