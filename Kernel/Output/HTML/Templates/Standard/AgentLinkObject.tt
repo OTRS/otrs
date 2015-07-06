@@ -14,7 +14,7 @@
             [% Translate("Link Object: %s", Data.SourceObjectLong) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close window") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkAddCloseLink">[% Translate("Close") | html %]</a>
 
 [% RenderBlockStart("LinkAddTemporaryLink") %]
 [% WRAPPER JSOnDocumentComplete %]
@@ -136,7 +136,7 @@
             [% Translate("Unlink Object: %s", Data.SourceObjectNormal) | html %]
         </h1>
         <p>
-            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkDeleteCloseLink">[% Translate("Close window") | html %]</a>
+            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Close" id="LinkDeleteCloseLink">[% Translate("Close") | html %]</a>
 
 [% RenderBlockStart("LinkDeleteTemporaryLink") %]
 [% WRAPPER JSOnDocumentComplete %]

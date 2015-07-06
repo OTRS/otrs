@@ -81,7 +81,7 @@ Core.UI.Popup = (function (TargetNS) {
             WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
             Left: 100,
             Top: 100,
-            Width: 1024,
+            Width: 1025,
             Height: 700
         }
     };
@@ -493,7 +493,8 @@ Core.UI.Popup = (function (TargetNS) {
      *      This function closes a opened popup.
      */
     TargetNS.ClosePopup = function (PopupType) {
-        var PopupObject;
+        var PopupObject,
+            ParentObject;
 
         // If parameter is not defined, we are in a popup and want to close this popup itself.
         // We get the PopupType from the current popup window
@@ -507,10 +508,13 @@ Core.UI.Popup = (function (TargetNS) {
             // We try to get the popup object by type, which only works, if we are in the parent window
             // If PopupObject is undefined after that, we are in the popup window itself.
             PopupObject = GetPopupObjectByType(PopupType);
+            ParentObject = window;
 
-            // We are in the popup window itself and try to get a window object of the parent window.
+            // We are in the popup window itself
+            // for mobile mode we also need the parent window object
             if (typeof PopupObject === 'undefined') {
-                PopupObject = GetWindowParentObject();
+                PopupObject = window;
+                ParentObject = GetWindowParentObject();
             }
         }
         // If PopupType is not a string, it is an window object, which we got as a parameter
@@ -521,7 +525,7 @@ Core.UI.Popup = (function (TargetNS) {
 
         if (typeof PopupObject !== 'undefined') {
             // If we opened a real popup, we can close it now safely
-            // Thsi works from the parent window as well as from the popup window itself
+            // This works from the parent window as well as from the popup window itself
             if (WindowMode === 'Popup') {
                 PopupObject.close();
             }
@@ -537,8 +541,8 @@ Core.UI.Popup = (function (TargetNS) {
                     }
                 }
 
-                $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', PopupObject.document).remove();
-                $('body', PopupObject.document).css({
+                $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', ParentObject.document).remove();
+                $('body', ParentObject.document).css({
                     'overflow': 'auto'
                 });
             }

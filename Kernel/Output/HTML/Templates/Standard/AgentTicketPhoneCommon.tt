@@ -19,7 +19,7 @@
 
 [% RenderBlockStart("TicketBack") %]
             <p>
-                <a class="CancelClosePopup" href="#"><span class="ScreenXL">[% Translate("Cancel & close window") | html %]</span><span class="SmallerOrEqualScreenL">[% Translate("Cancel") | html %]</span></a>
+                <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
             </p>
 [% RenderBlockEnd("TicketBack") %]
 

@@ -9,7 +9,7 @@
     <div class="Header">
         <h1>[% Translate("S/MIME Certificate") | html %]: [% Data.Filename | html %]</h1>
         <p>
-            <a class="CancelClosePopup" href="#"><span class="ScreenXL">[% Translate("Close window") | html %]</span><span class="SmallerOrEqualScreenL">[% Translate("Go back") | html %]</span></a>
+            <a class="CancelClosePopup" href="#">[% Translate("Close") | html %]</a>
         </p>
     </div>
     <div class="Content">

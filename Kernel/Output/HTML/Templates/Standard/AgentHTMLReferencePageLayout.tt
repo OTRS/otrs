@@ -194,8 +194,7 @@
                 <p>
                     [% Translate("The ticket has been locked") | html %].
                     <a class="UndoClosePopup" href="[% Env("Baselink") %]Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID %];[% Env("ChallengeTokenParam") | html %]">
-                        <span class="ScreenXL">[% Translate("Undo & close window") | html %]</span>
-                        <span class="SmallerOrEqualScreenL">[% Translate("Undo") | html %]</span>
+                        [% Translate("Undo & close") | html %]
                     </a>
                 </p>
             </div>

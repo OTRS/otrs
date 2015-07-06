@@ -11,7 +11,7 @@
     <div class="Header">
         <h1>[% Translate("Email Text Plain View") | html %]: [% Data.TicketNumber | html %] - [% Data.Title | html %]</h1>
         <p>
-            <a class="CancelClosePopup" href="#"><span class="ScreenXL">[% Translate("Close window") | html %]</span><span class="SmallerOrEqualScreenL">[% Translate("Go back") | html %]</span></a>
+            <a class="CancelClosePopup" href="#">[% Translate("Close") | html %]</a>
         </p>
     </div>
 
