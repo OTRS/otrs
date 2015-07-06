@@ -52,7 +52,7 @@
 
                         <fieldset class="TableLike SpacingTop">
                             <div class="Value">
-                                <button class="Primary CallForAction" type="submit" id="StartStatistic" name="Start" value="[% Translate("Start") | html %]">
+                                <button class="Primary CallForAction" type="submit" id="StartStatistic" name="Start" value="[% Translate("Run now") | html %]">
                                     <span><i class="fa fa-caret-square-o-right"></i> [% Translate("Run now") | html %]</span>
                                 </button>
                                 or
