@@ -1369,7 +1369,6 @@ sub StatsResultRender {
         StatRef      => $Stat,
         ExchangeAxis => $Param{ExchangeAxis},
     );
-    my $Output;
 
     # get CSV object
     my $CSVObject = $Kernel::OM->Get('Kernel::System::CSV');
@@ -1409,7 +1408,7 @@ sub StatsResultRender {
                 = $$Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
             $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
         }
-        $Output .= $CSVObject->Array2CSV(
+        my $Output .= $CSVObject->Array2CSV(
             Head      => $HeadArrayRef,
             Data      => \@StatArray,
             Separator => $UserCSVSeparator,
@@ -1424,7 +1423,7 @@ sub StatsResultRender {
 
     # generate excel output
     elsif ( $Param{Format} eq 'Excel' ) {
-        $Output .= $CSVObject->Array2CSV(
+        my $Output .= $CSVObject->Array2CSV(
             Head   => $HeadArrayRef,
             Data   => \@StatArray,
             Format => 'Excel',
