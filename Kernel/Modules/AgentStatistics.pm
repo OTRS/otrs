@@ -184,6 +184,27 @@ sub OverviewScreen {
         );
     }
 
+    # Check if AgentStatisticsReports is installed and the current user has permission to use it.
+    my $ReportsReg = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::Module')->{'AgentStatisticsReports'};
+    my $ReportsFrontendPermission = 0;
+    if ( $ReportsReg && !$ReportsReg->{GroupRo} && !$ReportsReg->{Group} ) {
+        $ReportsFrontendPermission = 1;
+    }
+    else {
+        TYPE:
+        for my $Type (qw(GroupRo Group)) {
+            my $StatsGroups = ref $ReportsReg->{$Type} eq 'ARRAY' ? $ReportsReg->{$Type} : [ $ReportsReg->{$Type} ];
+            GROUP:
+            for my $StatsGroup ( @{$StatsGroups} ) {
+                next GROUP if !$StatsGroup;
+                next GROUP if !$LayoutObject->{"UserIsGroupRo[$StatsGroup]"};
+                next GROUP if $LayoutObject->{"UserIsGroupRo[$StatsGroup]"} ne 'Yes';
+                $ReportsFrontendPermission = 1;
+                last TYPE;
+            }
+        }
+    }
+
     # build output
     my $Output = $LayoutObject->Header( Title => 'Overview' );
     $Output .= $LayoutObject->NavigationBar();
@@ -192,6 +213,7 @@ sub OverviewScreen {
             %Pagination,
             %Param,
             AccessRw => $Self->{AccessRw},
+            ReportsFrontendPermission => $ReportsFrontendPermission,
         },
         TemplateFile => 'AgentStatisticsOverview',
     );
