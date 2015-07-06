@@ -13,6 +13,7 @@ use warnings;
 
 use base qw(Kernel::System::Console::BaseCommand);
 
+use Lingua::Translit;
 use Pod::Strip;
 
 use Kernel::Language;
@@ -214,6 +215,27 @@ sub HandleLanguage {
         UserLanguage => $Language,
     );
 
+    # Helpers for SR Cyr2Lat Transliteration
+    my $TranslitObject;
+    my $TranslitLanguageCoreObject;
+    my $TranslitLanguageObject;
+    my %TranslitLanguagesMap = (
+        sr_Latn => {
+            SourceLanguage => 'sr_Cyrl',
+            TranslitTable  => 'ISO/R 9',
+        },
+    );
+    if ( $TranslitLanguagesMap{$Language} ) {
+        $TranslitObject             = new Lingua::Translit( $TranslitLanguagesMap{$Language}->{TranslitTable} );
+        $TranslitLanguageCoreObject = Kernel::Language->new(
+            UserLanguage    => $TranslitLanguagesMap{$Language}->{SourceLanguage},
+            TranslationFile => 1,
+        );
+        $TranslitLanguageObject = Kernel::Language->new(
+            UserLanguage => $TranslitLanguagesMap{$Language}->{SourceLanguage},
+        );
+    }
+
     my %POTranslations;
 
     if ( $Param{WritePOT} || $Param{WritePO} ) {
@@ -268,11 +290,22 @@ sub HandleLanguage {
                 # if we translate a module, we must handle also that possibly
                 # there is already a translation in the core files
                 if ($IsSubTranslation) {
+
                     if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
+                        my $Translation;
+
+                        # transliterate word from existing translation if language supports it
+                        if ( $TranslitLanguagesMap{$Language} ) {
+                            $UsedWords{$Word} = $TranslitLanguageObject->{Translation}->{$Word};
+                            $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
+                        }
 
                         # lookup for existing translation in module language object
-                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
-                        my $Translation = $UsedWords{$Word} || '';
+                        else {
+                            $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
+                            $Translation = $UsedWords{$Word} || '';
+                        }
+
                         push @TranslationStrings, {
                             Location => "Template: $File",
                             Source => $Word,
@@ -282,9 +315,20 @@ sub HandleLanguage {
                     }
                 }
                 else {
+                    my $Translation;
+
+                    # transliterate word from existing translation if language supports it
+                    if ( $TranslitLanguagesMap{$Language} ) {
+                        $UsedWords{$Word} = $TranslitLanguageCoreObject->{Translation}->{$Word};
+                        $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
+                    }
+
                     # lookup for existing translation in core language object
-                    $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
-                    my $Translation = $UsedWords{$Word} || '';
+                    else {
+                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
+                        $Translation = $UsedWords{$Word} || '';
+                    }
+
                     push @TranslationStrings, {
                         Location => "Template: $File",
                         Source => $Word,
@@ -359,10 +403,20 @@ sub HandleLanguage {
                 # there is already a translation in the core files
                 if ($IsSubTranslation) {
                     if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
+                        my $Translation;
+
+                        # transliterate word from existing translation if language supports it
+                        if ( $TranslitLanguagesMap{$Language} ) {
+                            $UsedWords{$Word} = $TranslitLanguageObject->{Translation}->{$Word};
+                            $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
+                        }
 
                         # lookup for existing translation in module language object
-                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
-                        my $Translation = $UsedWords{$Word} || '';
+                        else {
+                            $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
+                            $Translation = $UsedWords{$Word} || '';
+                        }
+
                         push @TranslationStrings, {
                             Location => "Perl Module: $File",
                             Source => $Word,
@@ -372,9 +426,20 @@ sub HandleLanguage {
                     }
                 }
                 else {
+                    my $Translation;
+
+                    # transliterate word from existing translation if language supports it
+                    if ( $TranslitLanguagesMap{$Language} ) {
+                        $UsedWords{$Word} = $TranslitLanguageCoreObject->{Translation}->{$Word};
+                        $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
+                    }
+
                     # lookup for existing translation in core language object
-                    $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
-                    my $Translation = $UsedWords{$Word} || '';
+                    else {
+                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
+                        $Translation = $UsedWords{$Word} || '';
+                    }
+
                     push @TranslationStrings, {
                         Location => "Perl Module: $File",
                         Source => $Word,
@@ -425,10 +490,20 @@ sub HandleLanguage {
                 # there is already a translation in the core files
                 if ($IsSubTranslation) {
                     if (!exists $LanguageCoreObject->{Translation}->{$Word} ) {
+                        my $Translation;
+
+                        # transliterate word from existing translation if language supports it
+                        if ( $TranslitLanguagesMap{$Language} ) {
+                            $UsedWords{$Word} = $TranslitLanguageObject->{Translation}->{$Word};
+                            $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
+                        }
 
                         # lookup for existing translation in module language object
-                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
-                        my $Translation = $UsedWords{$Word} || '';
+                        else {
+                            $UsedWords{$Word} = $POTranslations{$Word} || $LanguageObject->{Translation}->{$Word};
+                            $Translation = $UsedWords{$Word} || '';
+                        }
+
                         push @TranslationStrings, {
                             Location => "Database XML Definition: $File",
                             Source => $Word,
@@ -438,9 +513,20 @@ sub HandleLanguage {
                     }
                 }
                 else {
+                    my $Translation;
+
+                    # transliterate word from existing translation if language supports it
+                    if ( $TranslitLanguagesMap{$Language} ) {
+                        $UsedWords{$Word} = $TranslitLanguageCoreObject->{Translation}->{$Word};
+                        $Translation = $TranslitObject->translit($UsedWords{$Word}) || '';
+                    }
+
                     # lookup for existing translation in core language object
-                    $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
-                    my $Translation = $UsedWords{$Word} || '';
+                    else {
+                        $UsedWords{$Word} = $POTranslations{$Word} || $LanguageCoreObject->{Translation}->{$Word};
+                        $Translation = $UsedWords{$Word} || '';
+                    }
+
                     push @TranslationStrings, {
                         Location => "Database XML Definition: $File",
                         Source => $Word,
@@ -464,12 +550,24 @@ sub HandleLanguage {
         # skip if we translate a module and the word already exists in the core translation
         next STRING if $IsSubTranslation && exists $LanguageCoreObject->{Translation}->{$String};
 
-        # lookup for existing translation
-        $UsedWords{$String} = $POTranslations{$String}
-            || ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
-            ->{$String};
+        my $Translation;
 
-        my $Translation = $UsedWords{$String} || '';
+        # transliterate word from existing translation if language supports it
+        if ( $TranslitLanguagesMap{$Language} ) {
+            $UsedWords{$String}
+                = ( $IsSubTranslation ? $TranslitLanguageObject : $TranslitLanguageCoreObject )->{Translation}
+                ->{$String};
+            $Translation = $TranslitObject->translit( $UsedWords{$String} ) || '';
+        }
+
+        # lookup for existing translation
+        else {
+            $UsedWords{$String} = $POTranslations{$String}
+                || ( $IsSubTranslation ? $LanguageObject : $LanguageCoreObject )->{Translation}
+                ->{$String};
+            $Translation = $UsedWords{$String} || '';
+        }
+
         push @TranslationStrings, {
             Location    => 'SysConfig',
             Source      => $String,
@@ -568,6 +666,7 @@ sub WritePOFile {
             $POLookup{ $String->{Source} }->automatic( $String->{Location} );
         }
         else {
+
             # No PO entry yet, create one.
             push @{$POEntries}, Locale::PO->new(
                 -msgid     => $Source,
