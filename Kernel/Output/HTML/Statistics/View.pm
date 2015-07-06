@@ -1440,8 +1440,6 @@ sub StatsResultRender {
 
     # pdf or html output
     elsif ( $Param{Format} eq 'Print' ) {
-        $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::PDF');
-
         my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
 
         my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
