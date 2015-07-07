@@ -129,6 +129,11 @@ Core.Agent.TicketProcess = (function (TargetNS) {
                         // Initially display dynamic fields with TreeMode = 1 correctly
                         Core.UI.TreeSelection.InitDynamicFieldTreeViewRestore();
 
+                        // trigger again a responsive event
+                        if (Core.App.Responsive.IsSmallerOrEqual(Core.App.Responsive.GetScreenSize(), 'ScreenL')) {
+                            Core.App.Publish('Event.App.Responsive.SmallerOrEqualScreenL');
+                        }
+
                         $('#AJAXLoader').addClass('Hidden');
                         $('#AJAXDialog').val('1');
 

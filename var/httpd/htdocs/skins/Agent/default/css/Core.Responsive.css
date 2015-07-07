@@ -371,14 +371,20 @@
 
     .ResponsiveSidebarContainer fieldset.TableLike > label,
     .ResponsiveSidebarContainer fieldset.TableLike > .Row > label {
-        float: left;
+        float: none;
+        display: inline;
+        margin: 0px;
+        padding: 0px;
     }
 
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Field, 
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Field, 
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Value, 
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabel > .Row > .Value {
-        margin-left: 0px;
+        float: none;
+        display: inline;
+        margin: 0px;
+        padding: 0px;
     }
 
     fieldset.TableLike > .Field,
@@ -640,6 +646,19 @@
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabelSmall > .Value,
     .ResponsiveSidebarContainer fieldset.TableLike.FixedLabelSmall > .Row > .Value {
         font-size: 1em;
+        float: none;
+        padding: 0px;
+        margin: 0px;
+        display: inline;
+    }
+
+    .ResponsiveSidebarContainer fieldset.TableLike {
+        margin-bottom: 10px;
+        line-height: 1.7em;
+    }
+
+    .ResponsiveSidebarContainer fieldset.TableLike:empty {
+        display: none;
     }
 
     .TicketZoom .Actions form {
@@ -886,6 +905,13 @@
     fieldset.TableLike > .Value, 
     fieldset.TableLike > .Row > .Value {
         margin-left: 0px;
+    }
+
+    /* Process dialogs */
+
+    #ActivityDialogContent .LayoutPopup > .Content {
+        padding: 0px;
+        border-top: 1px solid #ccc;
     }
 
 }

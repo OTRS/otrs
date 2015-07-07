@@ -21,7 +21,6 @@ Core.Agent = Core.Agent || {};
 Core.Agent.Responsive = (function (TargetNS) {
 
     Core.App.Subscribe('Event.App.Responsive.SmallerOrEqualScreenL', function () {
-
         // Add switch for Desktopmode
         if (!$('#ViewModeSwitch').length) {
             $('#Footer').append('<div id="ViewModeSwitch"><a href="#">' + Core.Config.Get('ViewModeSwitchDesktop') + '</a></div>');
@@ -72,8 +71,11 @@ Core.Agent.Responsive = (function (TargetNS) {
         });
 
         // wrap sidebar modules with an additional container
-        if (!$('.ResponsiveSidebarContainer').length) {
-            $('.SidebarColumn, #NavigationContainer').wrap('<div class="ResponsiveSidebarContainer" />');
+        if (!$('.SidebarColumn').closest('.ResponsiveSidebarContainer').length) {
+            $('.SidebarColumn').wrap('<div class="ResponsiveSidebarContainer" />');
+        }
+        if (!$('#NavigationContainer').closest('.ResponsiveSidebarContainer').length) {
+            $('#NavigationContainer').wrap('<div class="ResponsiveSidebarContainer" />');
         }
 
         // make sure the relevant sidebar is being collapsed on clicking
