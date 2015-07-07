@@ -15,7 +15,7 @@
 } %]
 
 <div class="MainBox AriaRoleMain">
-    <h1>
+    <h1 class="Center SpacingBottom">
         [% Data.Title | html %] ([% Translate(Config("Stats::StatsHook")) | html %][% Data.StatNumber | html %])
     </h1>
 
@@ -23,15 +23,17 @@
         <svg id="ChartContent" xmlns="http://www.w3.org/2000/svg" version="1.1" style="min-height: 500px"></svg>
     </div>
 
-    <a id="download-svg" class="CallForAction" download="[% Data.Title | html %].svg">
-        <span>[% Translate('Download SVG') | html %]</span>
-    </a>
-    <a id="download-png" class="CallForAction" download="[% Data.Title | html %].png">
-        <span>[% Translate('Download PNG') | html %]</span>
-    </a>
+    <div class="Center SpacingTop">
+        <a id="download-svg" class="CallForAction" download="[% Data.Title | html %].svg">
+            <span>[% Translate('Download SVG') | html %]</span>
+        </a>
+        <a id="download-png" class="CallForAction" download="[% Data.Title | html %].png">
+            <span>[% Translate('Download PNG') | html %]</span>
+        </a>
+    </div>
+</div>
 
 [% WRAPPER JSOnDocumentComplete %]
-
 <script type="text/javascript">
 $('#download-svg').on('click', function() {
     // window.btoa() does not work because it does not support Unicode DOM strings.
@@ -43,5 +45,3 @@ $('#download-png').on('click', function() {
 Core.UI.AdvancedChart.Init([% ChartTypes.item(Data.Format) | JSON %], [% JSON(Data.RawData) %], 'svg#ChartContent');
 </script>
 [% END %]
-
-</div>
