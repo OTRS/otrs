@@ -20,13 +20,6 @@ Core.UI = Core.UI || {};
  */
 Core.UI.ActionRow = (function (TargetNS) {
 
-    if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.JSON', 'JSON API')) {
-        return false;
-    }
-    if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.Data', 'Data API')) {
-        return false;
-    }
-
     /**
      * @private
      * @name TicketElementSelectors
@@ -49,6 +42,13 @@ Core.UI.ActionRow = (function (TargetNS) {
      *      The active ticket view.
      */
         TicketView;
+
+    if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.JSON', 'JSON API')) {
+        return false;
+    }
+    if (!Core.Debug.CheckDependency('Core.UI.ActionRow', 'Core.Data', 'Data API')) {
+        return false;
+    }
 
     /**
      * @private
@@ -127,7 +127,7 @@ Core.UI.ActionRow = (function (TargetNS) {
                 .find('li:last').addClass('Last');
         }
         // Exactly one checkbox is selected
-        else if ($Checkboxes.length === 1 && !$('#SelectAllTickets').is(':checked') ) {
+        else if ($Checkboxes.length === 1 && !$('#SelectAllTickets').is(':checked')) {
             // Update actions and activate bulk action
             $ActionRow.find('#BulkAction').removeClass('Inactive');
 

@@ -84,7 +84,7 @@ Core.Customer.Login = (function (TargetNS) {
 
         $('#TimeOffset').val(Diff);
 
-        if ( $('#PreLogin').length ) {
+        if ($('#PreLogin').length) {
             $('#PreLogin form').submit();
             return false;
         }

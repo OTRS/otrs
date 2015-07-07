@@ -387,7 +387,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
 
                 ContainerHeight = $('#events-layer').height();
                 LastYPosition = PosY + ContainerHeight;
-                if ( LastYPosition > DocumentVisible ) {
+                if (LastYPosition > DocumentVisible) {
                     PosY = PosY - (LastYPosition - DocumentVisible) - 10;
                     $('#events-layer').css('top', PosY + 'px');
                 }

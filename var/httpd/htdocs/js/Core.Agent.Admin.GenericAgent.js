@@ -96,13 +96,13 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         TargetNS.Localization = Params.Localization;
 
         $('.DeleteEvent').bind('click', function (Event) {
-            TargetNS.ShowDeleteEventDialog( Event, $(this) );
+            TargetNS.ShowDeleteEventDialog(Event, $(this));
             return false;
         });
 
         $('#AddEvent').bind('click', function (){
-            if ( $('#EventType').val() !== null ) {
-                TargetNS.AddEvent( $('#EventType').val() );
+            if ($('#EventType').val() !== null) {
+                TargetNS.AddEvent($('#EventType').val());
                 return;
             }
         });
@@ -142,13 +142,13 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
             EventName = $('#' + EventType + 'Event').val(),
             IsDuplicated = false;
 
-        if ( !EventName ) {
+        if (!EventName) {
             return;
         }
 
         // check for duplicated entries
         $('[class*=EventValue]').each(function() {
-            if ( $(this).val() === EventName ) {
+            if ($(this).val() === EventName) {
                 IsDuplicated = true;
             }
         });
@@ -165,7 +165,7 @@ Core.Agent.Admin.GenericAgent = (function (TargetNS) {
         // bind delete function
         $Clone.find('#DeleteEvent').bind('click', function (Event) {
             // remove row
-            TargetNS.ShowDeleteEventDialog(Event, $(this) );
+            TargetNS.ShowDeleteEventDialog(Event, $(this));
             return false;
         });
 

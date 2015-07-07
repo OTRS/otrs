@@ -102,7 +102,7 @@ Core.Agent.TicketProcess = (function (TargetNS) {
 
                         // Handle special server errors (Response = <div class="ServerError" data-message="Message"></div>)
                         // Check if first element has class 'ServerError'
-                        if ( $ElementToUpdate.children().first().hasClass('ServerError') ) {
+                        if ($ElementToUpdate.children().first().hasClass('ServerError')) {
                             ErrorMessage = $ElementToUpdate.children().first().data('message');
 
                             // Add class ServerError to the process select element

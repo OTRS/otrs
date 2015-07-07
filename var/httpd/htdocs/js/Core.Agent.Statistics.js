@@ -38,16 +38,16 @@ Core.Agent.Statistics = (function (TargetNS) {
             $(this).addClass('Active');
 
             $('#GeneralSpecifications').fadeIn(function() {
+                var URL = Core.Config.Get('Baselink'),
+                    Data = {
+                        Action: 'AgentStatistics',
+                        Subaction: 'GeneralSpecificationsWidgetAJAX',
+                        StatisticPreselection: $Link.data('statistic-preselection')
+                    };
 
                 $('#GeneralSpecifications .Content').addClass('Center').html('<span class="AJAXLoader"></span>');
                 $('#SaveWidget').hide();
 
-                var URL = Core.Config.Get('Baselink'),
-                Data = {
-                    Action: 'AgentStatistics',
-                    Subaction: 'GeneralSpecificationsWidgetAJAX',
-                    StatisticPreselection: $Link.data('statistic-preselection')
-                };
                 Core.AJAX.FunctionCall(URL, Data, function(Response) {
                     $('#GeneralSpecifications .Content').removeClass('Center').html(Response);
                     $('#SaveWidget').show();

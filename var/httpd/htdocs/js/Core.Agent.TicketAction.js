@@ -112,14 +112,14 @@ Core.Agent.TicketAction = (function (TargetNS) {
             .replace(/&quot;/g, '"')
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>');
-        $Element.val( NewValue );
+        $Element.val(NewValue);
 
         Length = $Element.val().length;
         $Element.focus();
         $Element[0].setSelectionRange(Length, Length);
 
         // set customer data for customer user information (AgentTicketEmail) in the compose screen
-        if ( $Link.attr('rel') === 'ToCustomer' && Core.Config.Get('CustomerInfoSet') ){
+        if ($Link.attr('rel') === 'ToCustomer' && Core.Config.Get('CustomerInfoSet')){
 
             NewData = $('#CustomerData').val();
             NewDataItem = Core.Data.Get($Link.closest('a'), 'customerdatajson');
@@ -198,14 +198,14 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 Core.Config.Set('TextIsSpellChecked', true);
             });
 
-            if ( parseInt(Core.Config.Get('RichTextSet'), 10) === 0){
+            if (parseInt(Core.Config.Get('RichTextSet'), 10) === 0) {
                 $('#RichTextField, .RichTextField').on('change', '#RichText', function() {
                     Core.Config.Set('TextIsSpellChecked', false);
                 });
             }
 
             Core.Form.Validate.SetSubmitFunction($('form[name=compose]'), function() {
-                if ( $('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked') ) {
+                if ($('#RichText').val() && !$('#RichText').hasClass('ValidationIgnore') && !Core.Config.Get('TextIsSpellChecked')) {
                     Core.App.Publish('Event.Agent.TicketAction.NeedSpellCheck', [$('#RichText')]);
                     Core.UI.Dialog.ShowContentDialog('<p>' + Core.Config.Get('SpellCheckNeededMsg') + '</p>', '', '150px', 'Center', true, [
                         {
@@ -326,18 +326,18 @@ Core.Agent.TicketAction = (function (TargetNS) {
                 else{
                     $.each($('#ToCustomer').val().split(/, ?/), function(Index, Value){
                         $To.val(Value);
-                        parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'ToCustomer', Value );
+                        parent.Core.Agent.CustomerSearch.AddTicketCustomer('ToCustomer', Value);
                     });
                 }
 
                 $.each($('#CcCustomer').val().split(/, ?/), function(Index, Value){
                     $Cc.val(Value);
-                    parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'CcCustomer', Value );
+                    parent.Core.Agent.CustomerSearch.AddTicketCustomer('CcCustomer', Value);
                 });
 
                 $.each($('#BccCustomer').val().split(/, ?/), function(Index, Value){
                     $Bcc.val(Value);
-                    parent.Core.Agent.CustomerSearch.AddTicketCustomer( 'BccCustomer', Value );
+                    parent.Core.Agent.CustomerSearch.AddTicketCustomer('BccCustomer', Value);
                 });
             }
 

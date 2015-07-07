@@ -45,6 +45,8 @@ Core.UI.Table = (function (TargetNS) {
             window.clearTimeout(Timeout);
             Timeout = window.setTimeout(function () {
 
+                var FilterText = ($FilterInput.val() || '').toLowerCase();
+
                 /**
                  * @private
                  * @name CheckText
@@ -82,7 +84,6 @@ Core.UI.Table = (function (TargetNS) {
                     return false;
                 }
 
-                var FilterText = ($FilterInput.val() || '').toLowerCase();
                 if (FilterText.length) {
                     $Elements.hide();
                     $Rows.each(function () {

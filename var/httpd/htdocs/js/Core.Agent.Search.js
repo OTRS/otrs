@@ -171,7 +171,7 @@ Core.Agent.Search = (function (TargetNS) {
                 $FieldElement = $LabelElement.next('.Field');
 
             // those with ID's are used for searching
-            if ( $(this).attr('id') ) {
+            if ($(this).attr('id')) {
 
                 // substring "Label" (e.g. first five characters ) from the
                 // label id, use the remaining name as name string for accessing
@@ -191,12 +191,12 @@ Core.Agent.Search = (function (TargetNS) {
                 // input type=text elment in the corresponding field element.
                 // All time field elements have to be filled in, but if only one
                 // is missing, we treat the whole field as invalid.
-                if ( $FieldElement.find('input[name$="SearchType"]').val() === 'TimeSlot' && !$FieldElement.find('select').length ) {
+                if ($FieldElement.find('input[name$="SearchType"]').val() === 'TimeSlot' && !$FieldElement.find('select').length) {
                     $Element = $FieldElement.find('input[type=text]').first();
                 }
 
                 if ($Element.length) {
-                    if ( $Element.val() && $Element.val() !== '' ) {
+                    if ($Element.val() && $Element.val() !== '') {
                         SearchValueFlag = true;
                     }
                 }
@@ -309,20 +309,20 @@ Core.Agent.Search = (function (TargetNS) {
                 $Element;
 
             // those with ID's are used for searching
-            if ( $(this).attr('id') ) {
+            if ($(this).attr('id')) {
 
                 // substring "Label" (e.g. first five characters ) from the
                 // label id, use the remaining name as name string for accessing
                 // the form input's value
                 ElementName = $(this).attr('id').substring(5);
-                if ( !RelevantElementNames[ElementName] ) {
+                if (!RelevantElementNames[ElementName]) {
                     return;
                 }
 
                 $Element = $('#SearchForm input[name=' + ElementName + ']');
 
                 if ($Element.length) {
-                    if ( $Element.val() && $Element.val() !== '' ) {
+                    if ($Element.val() && $Element.val() !== '') {
                         SearchStrings[ElementName] = $Element.val();
                         SearchStringsFound = 1;
                     }
@@ -442,7 +442,7 @@ Core.Agent.Search = (function (TargetNS) {
 
                     // remember shown attributes
                     $('#SearchInsert label').each(function () {
-                        if ( $(this).attr('id') ) {
+                        if ($(this).attr('id')) {
                             ShownAttributes = ShownAttributes + ';' + $(this).attr('id');
                         }
                     });
@@ -455,7 +455,7 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                            CheckSearchStringsForStopWords( function () {
+                            CheckSearchStringsForStopWords(function () {
                                 $('#SearchForm').submit();
                                 ShowWaitingDialog();
                            });
@@ -467,7 +467,7 @@ Core.Agent.Search = (function (TargetNS) {
                             return false;
                         }
                         else {
-                            CheckSearchStringsForStopWords( function () {
+                            CheckSearchStringsForStopWords(function () {
                                 $('#SearchForm').submit();
                                 $('#SearchForm').attr('target', '');
                             });
@@ -594,8 +594,10 @@ Core.Agent.Search = (function (TargetNS) {
 
         // register return key
         $('#ToolBar li.Extended.SearchFulltext form[name="SearchFulltext"]').unbind('keypress.FilterInput').bind('keypress.FilterInput', function (Event) {
+            var SearchString;
+
             if ((Event.charCode || Event.keyCode) === 13) {
-                var SearchString = $('#Fulltext').val();
+                SearchString = $('#Fulltext').val();
 
                 if (!SearchString.length || !Core.Config.Get('CheckSearchStringsForStopWords')) {
                     return true;

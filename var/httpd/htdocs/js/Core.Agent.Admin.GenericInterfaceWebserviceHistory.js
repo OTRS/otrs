@@ -54,6 +54,9 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
         $('.WebserviceListWidget').addClass('Loading');
 
         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
+            var HTML = '',
+                Counter;
+
             if (!Response || !Response.LogData) {
                 alert(TargetNS.Localization.WebserviceHistoryErrorMsg);
                 return;
@@ -66,7 +69,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
             }
             else {
                 $('#WebserviceList tbody').empty();
-                var HTML = '',
+
                 Counter = Response.LogData.length;
 
                 $.each(Response.LogData, function(){
@@ -118,7 +121,7 @@ Core.Agent.Admin.GenericInterfaceWebserviceHistory = (function (TargetNS) {
         $('.WebserviceListWidget').addClass('Loading');
 
         Core.AJAX.FunctionCall(Core.Config.Get('CGIHandle'), Data, function (Response) {
-            if (!Response || !Response.LogData ) {
+            if (!Response || !Response.LogData) {
                 alert(TargetNS.Localization.WebserviceHistoryErrorMsg);
                 return;
             }

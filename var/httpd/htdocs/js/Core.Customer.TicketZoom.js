@@ -82,11 +82,13 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * @see http://sonspring.com/journal/jquery-iframe-sizing
      */
     function CheckIframe(Iframe, Callback){
+        var Source;
+
         if ($.browser.safari || $.browser.opera){
             $(Iframe).load(function(){
                 setTimeout(ResizeIframe, 0, this, Callback);
             });
-            var Source = Iframe.src;
+            Source = Iframe.src;
             Iframe.src = '';
             Iframe.src = Source;
         }

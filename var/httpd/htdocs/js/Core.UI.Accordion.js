@@ -84,12 +84,13 @@ Core.UI.Accordion = (function (TargetNS) {
      *      This function initializes the accordion effect on the specified list.
      */
     TargetNS.Init = function ($Element, LinkSelector, ContentSelector) {
+
+        var $LinkSelectors = $Element.find(LinkSelector);
+
         // If no accordion element is found, stop
         if (!isJQueryObject($Element) || $Element.length === 0) {
             return false;
         }
-
-        var $LinkSelectors = $Element.find(LinkSelector);
 
         // Stop, if no link selector is found
         if ($LinkSelectors.length === 0) {

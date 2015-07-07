@@ -228,7 +228,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .bind('dblclick.Activity', function() {
                 var Path = Core.Config.Get('Config.PopupPathActivity') + "EntityID=" + EntityID + ";ID=" + ActivityID,
                     SessionData = Core.App.GetSessionInformation();
-                if ( !Core.Config.Get('SessionIDCookie') && Path.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
+                if (!Core.Config.Get('SessionIDCookie') && Path.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
                     Path += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
                 }
 
@@ -239,7 +239,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         // Correct placing of activity name within box
         $EntityBox = $('#' + EntityID);
         EntityNameHeight = $EntityBox.find('span').height();
-        $EntityBox.find('span').css('margin-top', parseInt( (ActivityBoxHeight - EntityNameHeight) / 2, 10) );
+        $EntityBox.find('span').css('margin-top', parseInt((ActivityBoxHeight - EntityNameHeight) / 2, 10));
 
         // make the activity able to accept transitions
         jsPlumb.makeTarget(EntityID, {
@@ -553,7 +553,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             .bind('click', function () {
                 var Path = Core.Config.Get('Config.PopupPathActivity') + "EntityID=" + ElementID + ";ID=" + Activity[ElementID].ID,
                     SessionData = Core.App.GetSessionInformation();
-                if ( !Core.Config.Get('SessionIDCookie') && Path.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
+                if (!Core.Config.Get('SessionIDCookie') && Path.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
                     Path += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
                 }
 
@@ -847,7 +847,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
             if (EndActivityObject !== 'Dummy' && !$(Event.srcElement).hasClass('TransitionLabel')) {
                 Core.Agent.Admin.ProcessManagement.ShowOverlay();
 
-                if ( !Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
+                if (!Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
                     PopupPath += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
                 }
 
@@ -903,7 +903,7 @@ Core.Agent.Admin.ProcessManagement.Canvas = (function (TargetNS) {
         if (!$(Connection.canvas).find('.Edit').length) {
             $(Connection.canvas).append('<a class="Edit" title="' + Core.Agent.Admin.ProcessManagement.Localization.TransitionEditLink + '" href="#"><i class="fa fa-edit"></i></a>').find('.Edit').bind('click', function(Event) {
                 if (EndActivity !== 'Dummy') {
-                    if ( !Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1 ) {
+                    if (!Core.Config.Get('SessionIDCookie') && PopupPath.indexOf(SessionData[Core.Config.Get('SessionName')]) === -1) {
                         PopupPath += ';' + encodeURIComponent(Core.Config.Get('SessionName')) + '=' + encodeURIComponent(SessionData[Core.Config.Get('SessionName')]);
                     }
                     Core.Agent.Admin.ProcessManagement.ShowOverlay();

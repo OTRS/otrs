@@ -15,9 +15,10 @@ Core.Config = (function (Namespace) {
     Namespace.RunUnitTests = function(){
         module('Core.Config');
         test('Core.Config.Get()', function(){
+            var ConfigTest = 'Test value';
+
             expect(6);
 
-            var ConfigTest = 'Test value';
             Core.Config.Set('Test', ConfigTest);
             deepEqual(Core.Config.Get('Test'), ConfigTest);
 
@@ -35,13 +36,15 @@ Core.Config = (function (Namespace) {
         });
 
         test('Core.Config.AddConfig()', function(){
-            expect(3);
 
             var ConfigTest = {
                 Width: 600,
                 Height: 400,
                 Name: 'Test'
             };
+
+            expect(3);
+
             Core.Config.AddConfig(ConfigTest, 'RichText');
             deepEqual(Core.Config.Get('RichText'), ConfigTest);
 

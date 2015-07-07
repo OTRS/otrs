@@ -16,8 +16,6 @@ Core.UI.Accessibility = (function (Namespace) {
         module('Core.UI.Accessibility');
         test('Core.UI.Accessibility.Init()', function(){
 
-            expect(8);
-
             /*
              * Create a div containter for the tests
              */
@@ -36,6 +34,8 @@ Core.UI.Accessibility = (function (Namespace) {
              * Run the tests
              */
             Core.UI.Accessibility.Init();
+
+            expect(8);
 
             equal($('.ARIARoleBanner')
                 .attr('role'), 'banner', 'Role banner');

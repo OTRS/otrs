@@ -50,13 +50,16 @@ Core.UI.Table.Sort = (function (TargetNS) {
      *      used for the sorting.
      */
     TargetNS.Init = function ($Table, Finished) {
+        var $SortableColumns,
+            $InitialSorting,
+            SortOrder,
+            Headers = {},
+            InitialSort = [],
+            ColumnCount = 0;
+
         if (isJQueryObject($Table)) {
-            var $SortableColumns = $Table.find('th.Sortable'),
-                $InitialSorting = $SortableColumns.filter('.InitialSorting'),
-                SortOrder,
-                Headers = {},
-                InitialSort = [],
-                ColumnCount = 0;
+            $SortableColumns = $Table.find('th.Sortable');
+            $InitialSorting = $SortableColumns.filter('.InitialSorting');
 
             // Only start, if there are columns that allow sorting
             if ($SortableColumns.length) {

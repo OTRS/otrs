@@ -78,7 +78,7 @@ Core.Agent.Admin.DynamicFieldText = (function (TargetNS) {
             $(this).parent().find('#' + ID + 'ServerError').attr('name', ID + '_' + RegExCounter + 'ServerError');
 
             // add event handler to remove button
-            if( $(this).hasClass('RemoveRegEx') ) {
+            if($(this).hasClass('RemoveRegEx')) {
 
                 // bind click function to remove button
                 $(this).bind('click', function () {

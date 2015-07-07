@@ -36,11 +36,11 @@ Core.App = (function (Namespace) {
         });
 
         test('Core.App.EscapeSelector()', function () {
-            expect(3);
             var Selector = 'ConfigItemClass::Config::Hardware::MapTypeAdd::Attribute###SubItem',
                 Id,
                 Value;
 
+            expect(3);
             equal(Core.App.EscapeSelector(Selector), 'ConfigItemClass\\:\\:Config\\:\\:Hardware\\:\\:MapTypeAdd\\:\\:Attribute\\#\\#\\#SubItem');
             equal(Core.App.EscapeSelector('ID-mit_anderen+Sonderzeichen'), 'ID-mit_anderen+Sonderzeichen');
 
@@ -52,9 +52,9 @@ Core.App = (function (Namespace) {
         });
 
         test('Core.App.Publish()/Subscribe()', function () {
-            expect(4);
             var Counter = 0, Handle;
 
+            expect(4);
             // Subscribe to channel
             Handle = Core.App.Subscribe('UNITTEST1', function () {
                 Counter++;

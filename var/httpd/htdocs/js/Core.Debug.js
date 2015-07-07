@@ -134,8 +134,6 @@ Core.Debug = (function (TargetNS) {
      */
     TargetNS.SimulateRTLPage = function () {
 
-        $('body').addClass('RTL');
-
         var ExcludeTags = {
             'html': 1,
             'head': 1,
@@ -148,6 +146,9 @@ Core.Debug = (function (TargetNS) {
             'iframe': 1
         },
         Replacement = 'رسال الإجابة (البريد الإلكتروني';
+
+
+        $('body').addClass('RTL');
 
         /**
          * @private

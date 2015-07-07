@@ -61,7 +61,7 @@ Core.Agent.Login = (function (TargetNS) {
         }
 
         // if in PreLogin mode, automatically submit form
-        if ( $('#LoginBox').hasClass('PreLogin') ) {
+        if ($('#LoginBox').hasClass('PreLogin')) {
             $('#LoginBox form').submit();
         }
     };

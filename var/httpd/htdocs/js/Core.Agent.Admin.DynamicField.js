@@ -75,17 +75,21 @@ Core.Agent.Admin.DynamicField = (function (TargetNS) {
      */
     TargetNS.ValidationInit = function() {
         Core.Form.Validate.AddRule("Validate_Alphanumeric", {
+            /*eslint-disable camelcase */
             Validate_Alphanumeric: true
+            /*eslint-enable camelcase */
         });
         Core.Form.Validate.AddMethod("Validate_Alphanumeric", function (Value) {
-            return ( /^[a-zA-Z0-9]+$/.test(Value));
+            return (/^[a-zA-Z0-9]+$/.test(Value));
         }, "");
 
         Core.Form.Validate.AddRule("Validate_PositiveNegativeNumbers", {
+            /*eslint-disable camelcase */
             Validate_PositiveNegativeNumbers: true
+            /*eslint-enable camelcase */
         });
         Core.Form.Validate.AddMethod("Validate_PositiveNegativeNumbers", function (Value) {
-            return ( /^-?[0-9]+$/.test(Value));
+            return (/^-?[0-9]+$/.test(Value));
         }, "");
     };
 

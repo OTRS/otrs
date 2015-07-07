@@ -128,7 +128,7 @@ Core.Agent = (function (TargetNS) {
                 var $Element = $(this);
                 // special treatment for the first menu level: by default this opens submenus only via click,
                 //  but the config setting "OpenMainMenuOnHover" also activates opening on hover for it.
-                if ($('body').hasClass('Visible-ScreenXL') && ( $Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover')) ) {
+                if ($('body').hasClass('Visible-ScreenXL') && ($Element.parent().attr('id') !== 'Navigation' || Core.Config.Get('OpenMainMenuOnHover'))) {
 
                     // Set Timeout for opening nav
                     CreateSubnavOpenTimeout($Element, function () {
@@ -147,9 +147,9 @@ Core.Agent = (function (TargetNS) {
             })
             .bind('mouseleave', function () {
 
-                if ($('body').hasClass('Visible-ScreenXL')) {
+                var $Element = $(this);
 
-                    var $Element = $(this);
+                if ($('body').hasClass('Visible-ScreenXL')) {
 
                     // Clear Timeout for opening items on hover. Submenus should only be opened intentional,
                     // so if the user doesn't hover long enough, he probably doesn't want the submenu to be opened.
@@ -171,14 +171,15 @@ Core.Agent = (function (TargetNS) {
             })
             .bind('click', function (Event) {
 
+                var $Element = $(this),
+                    $Target = $(Event.target);
+
                 // if OpenMainMenuOnHover is enabled, clicking the item
                 // should lead to the link as regular
                 if ($('body').hasClass('Visible-ScreenXL') && Core.Config.Get('OpenMainMenuOnHover')) {
                     return true;
                 }
 
-                var $Element = $(this),
-                    $Target = $(Event.target);
                 if ($Element.hasClass('Active')) {
                     $Element.removeClass('Active').attr('aria-expanded', false);
 
@@ -427,12 +428,12 @@ Core.Agent = (function (TargetNS) {
         // (2) 'top' of #NavigationContainer is smaller than the height of the #ToolBar
         //      which would typically mean there is not enough space on top of #NavigationContainer
         //      to display the ToolBar.
-        if ( ( !$('body').hasClass('RTL') &&
-            ( parseInt($('#ToolBar').css('left'), 10) > parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('left'), 10)) ) &&
-            parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10) ) ||
+        if ((!$('body').hasClass('RTL') &&
+            (parseInt($('#ToolBar').css('left'), 10) > parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('left'), 10))) &&
+            parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10)) ||
             ($('body').hasClass('RTL') &&
-            ( parseInt($('#ToolBar').css('left'), 10) < parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('right'), 10)) ) &&
-            parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10) ) ) {
+            (parseInt($('#ToolBar').css('left'), 10) < parseInt($('#ToolBar').css('right'), 10) || isNaN(parseInt($('#ToolBar').css('right'), 10))) &&
+            parseInt($('#NavigationContainer').css('top'), 10) < parseInt($('#ToolBar').height(), 10))) {
             return true;
         }
         return false;
@@ -469,7 +470,7 @@ Core.Agent = (function (TargetNS) {
         $('.NavigationBarNavigateLeft').remove();
 
         // when we have the toolbar being displayed next to the navigation, we need to leave some space for it
-        if ( ToolBarIsAside() && ( !$('#NavigationContainer').hasClass('IsResized') || RealResizeEvent ) ) {
+        if (ToolBarIsAside() && (!$('#NavigationContainer').hasClass('IsResized') || RealResizeEvent)) {
 
             // reset back to original width to avoid making it smaller and smaller
             $('#NavigationContainer').css('width', $('#NavigationContainer').attr('data-original-width'));
@@ -544,7 +545,7 @@ Core.Agent = (function (TargetNS) {
         }
 
         if (!TargetNS.SupportedBrowser) {
-            alert( Core.Config.Get('BrowserTooOldMsg') + ' ' + Core.Config.Get('BrowserListMsg') + ' ' + Core.Config.Get('BrowserDocumentationMsg') );
+            alert(Core.Config.Get('BrowserTooOldMsg') + ' ' + Core.Config.Get('BrowserListMsg') + ' ' + Core.Config.Get('BrowserDocumentationMsg'));
         }
 
         Core.App.Responsive.CheckIfTouchDevice();

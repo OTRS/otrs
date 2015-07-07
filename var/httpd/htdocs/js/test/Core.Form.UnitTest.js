@@ -15,8 +15,6 @@ Core.Form = (function (Namespace) {
         module('Core.Form');
         test('Core.Form.DisableForm() and Core.Form.EnableForm()', function(){
 
-            expect(26);
-
             /*
              * Create a form containter for the tests
              */
@@ -44,7 +42,9 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.DisableForm($('#TestForm'));
 
-            equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled' );
+            expect(26);
+
+            equal($('#TestForm').hasClass("AlreadyDisabled"), true, 'Form is already disabled');
 
             $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
@@ -55,7 +55,7 @@ Core.Form = (function (Namespace) {
                 var disabledValue = $(this).attr('disabled');
 
                 if (tagnameValue === "BUTTON") {
-                    equal(disabledValue, 'disabled', 'disabledValue for BUTTON' );
+                    equal(disabledValue, 'disabled', 'disabledValue for BUTTON');
                 }
                 else {
                     if (typeValue === "hidden") {
@@ -73,7 +73,7 @@ Core.Form = (function (Namespace) {
              */
             Core.Form.EnableForm($('#TestForm'));
 
-            equal($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled' );
+            equal($('#TestForm').hasClass("AlreadyDisabled"), false, 'Form is not already disabled');
 
             $.each($('#TestForm').find("input, textarea, select, button"), function() {
 
@@ -86,14 +86,14 @@ Core.Form = (function (Namespace) {
 
 
                 if (tagnameValue === "BUTTON") {
-                    equal(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON' );
+                    equal(disabledValue, expectedDisabledValue, 'enabledValue for BUTTON');
                 }
                 else {
                     if (typeValue === "hidden") {
-                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
+                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
                     }
                     else {
-                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue );
+                        equal(readonlyValue, expectedReadonlyValue, 'readonlyValue for ' + tagnameValue);
                     }
                 }
             });

@@ -284,7 +284,7 @@ Core.Form.Validate = (function (TargetNS) {
         // JS takes new lines '\n\r' in textarea elements as 1 character '\n' for length
         // calculation purposes therefore is needed to re-add the '\r' to get the correct length
         // for validation and match to perl and database criteria
-        return ( Value.replace(/\n\r?/g, "\n\r").length <= $(Element).data('maxlength') );
+        return (Value.replace(/\n\r?/g, "\n\r").length <= $(Element).data('maxlength'));
     }, "");
 
     $.validator.addMethod("Validate_DateYear", function (Value) {
@@ -351,7 +351,7 @@ Core.Form.Validate = (function (TargetNS) {
                 DateObject.getDate() === parseInt(Value, 10)) {
 
                 DateCheck = new Date();
-                if ( MinuteElement.length && HourElement.length ) {
+                if (MinuteElement.length && HourElement.length) {
                     DateObject.setHours($('#' + HourElement).val(), $('#' + MinuteElement).val(), 0, 0);
                 }
                 else {
@@ -455,9 +455,9 @@ Core.Form.Validate = (function (TargetNS) {
             }
         });
 
-        if ( GroupClass !== '' ) {
-            $(Element).closest('fieldset fieldset.TableLike').find('.' + GroupClass).each( function () {
-                if ( $(Element).attr('id') !== $(this).attr('id') && $(this).val() === Value ) {
+        if (GroupClass !== '') {
+            $(Element).closest('fieldset fieldset.TableLike').find('.' + GroupClass).each(function () {
+                if ($(Element).attr('id') !== $(this).attr('id') && $(this).val() === Value) {
                     ApplyRule = 0;
                 }
             });
@@ -467,7 +467,7 @@ Core.Form.Validate = (function (TargetNS) {
         return ApplyRule;
     });
 
-
+    /*eslint-disable camelcase */
     $.validator.addClassRules("Validate_Required", {
         Validate_Required: true
     });
@@ -524,6 +524,7 @@ Core.Form.Validate = (function (TargetNS) {
     $.validator.addClassRules("Validate_NotEqual", {
         Validate_NotEqual: true
     });
+    /*eslint-enable camelcase */
 
     /**
      * @private
@@ -572,7 +573,9 @@ Core.Form.Validate = (function (TargetNS) {
 
 
     $.validator.addClassRules("Validate_DependingRequiredAND", {
+        /*eslint-disable camelcase */
         Validate_DependingRequiredAND: true
+        /*eslint-enable camelcase */
     });
 
     /*
@@ -597,7 +600,9 @@ Core.Form.Validate = (function (TargetNS) {
 
 
     $.validator.addClassRules("Validate_DependingRequiredOR", {
+        /*eslint-disable camelcase */
         Validate_DependingRequiredOR: true
+        /*eslint-enable camelcase */
     });
 
     /**

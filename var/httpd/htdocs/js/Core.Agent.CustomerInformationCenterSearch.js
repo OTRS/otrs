@@ -129,8 +129,8 @@ Core.Agent.CustomerInformationCenterSearch = (function (TargetNS) {
      *      This function initializes the search dialog.
      */
     TargetNS.Init = function () {
-        TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID' );
-        TargetNS.InitAutocomplete( $("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser' );
+        TargetNS.InitAutocomplete($("#AgentCustomerInformationCenterSearchCustomerID"), 'SearchCustomerID');
+        TargetNS.InitAutocomplete($("#AgentCustomerInformationCenterSearchCustomerUser"), 'SearchCustomerUser');
     };
 
     return TargetNS;

@@ -197,17 +197,20 @@ Core.AJAX = (function (TargetNS) {
      *      Inserts value in textarea components or RichText editors for the ajax requests.
      */
     function UpdateTextarea($Element, Value) {
-        if ( $Element.length) {
-            var $ParentBody = $Element,
-                ParentBody = $ParentBody[0],
-                Range,
-                StartRange = 0,
-                NewPosition = 0;
+        var $ParentBody,
+            ParentBody,
+            Range,
+            StartRange = 0,
+            NewPosition = 0;
+
+        if ($Element.length) {
+            $ParentBody = $Element;
+            ParentBody = $ParentBody[0];
 
             // add the text to the RichText editor
             if (parent.CKEDITOR && parent.CKEDITOR.instances.RichText) {
                 parent.CKEDITOR.instances.RichText.focus();
-                window.setTimeout( function () {
+                window.setTimeout(function () {
 
                     // In some circumstances, this command throws an error (although inserting the HTML works)
                     // Because the intended functionality also works, we just wrap it in a try-catch-statement

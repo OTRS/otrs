@@ -49,15 +49,16 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      */
     TargetNS.MarkTicketAsSeen = function (TicketID) {
         TargetNS.TicketMarkAsSeenTimeout = window.setTimeout(function () {
-            // Mark old row as readed
-            $('#ArticleTable .ArticleID').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
-
-            // Mark article as seen in backend
             var Data = {
                 Action: 'AgentTicketZoom',
                 Subaction: 'TicketMarkAsSeen',
                 TicketID: TicketID
             };
+
+            // Mark old row as read
+            $('#ArticleTable .ArticleID').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
+
+            // Mark article as seen in backend
             Core.AJAX.FunctionCall(
                 Core.Config.Get('CGIHandle'),
                 Data,
@@ -84,6 +85,13 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         }
 
         TargetNS.MarkAsSeenTimeout = window.setTimeout(function () {
+            var Data = {
+                Action: 'AgentTicketZoom',
+                Subaction: 'MarkAsSeen',
+                TicketID: TicketID,
+                ArticleID: ArticleID
+            };
+
             // Mark old row as readed
             $('#ArticleTable .ArticleID[value=' + ArticleID + ']').closest('tr').removeClass('UnreadArticles').find('span.UnreadArticles').remove();
             $('.ChronicalView li#ArticleID_' + ArticleID).find('.UnreadArticles').fadeOut(function() {
@@ -91,12 +99,6 @@ Core.Agent.TicketZoom = (function (TargetNS) {
             });
 
             // Mark article as seen in backend
-            var Data = {
-                Action: 'AgentTicketZoom',
-                Subaction: 'MarkAsSeen',
-                TicketID: TicketID,
-                ArticleID: ArticleID
-            };
             Core.AJAX.FunctionCall(
                 Core.Config.Get('CGIHandle'),
                 Data,
@@ -114,8 +116,10 @@ Core.Agent.TicketZoom = (function (TargetNS) {
      *      Set iframe height automatically based on real content height and default config setting.
      */
     TargetNS.IframeAutoHeight = function ($Iframe) {
+        var NewHeight;
+
         if (isJQueryObject($Iframe)) {
-            var NewHeight = $Iframe.contents().height();
+            NewHeight = $Iframe.contents().height();
             if (!NewHeight || isNaN(NewHeight)) {
                 NewHeight = Core.Config.Get('Ticket::Frontend::HTMLArticleHeightDefault');
             }
@@ -411,7 +415,7 @@ Core.Agent.TicketZoom = (function (TargetNS) {
         });
 
         // Scroll to active article
-        if ( !ZoomExpand && $('#ArticleTable tbody tr.Active').length ) {
+        if (!ZoomExpand && $('#ArticleTable tbody tr.Active').length) {
             $('div.Scroller').get(0).scrollTop = parseInt($('#ArticleTable tbody tr.Active').position().top, 10) - 30;
         }
 

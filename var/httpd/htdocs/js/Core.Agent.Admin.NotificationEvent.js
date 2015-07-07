@@ -35,7 +35,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
 
         // bind click function to add button
         $('.LanguageAdd').bind('change', function () {
-            TargetNS.AddLanguage( $(this).val(), $('.LanguageAdd option:selected').text() );
+            TargetNS.AddLanguage($(this).val(), $('.LanguageAdd option:selected').text());
             return false;
         });
 
@@ -43,7 +43,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
         $('.LanguageRemove').bind('click', function () {
 
             if (window.confirm(TargetNS.Localization.DeleteNotificationLanguageMsg)) {
-                TargetNS.RemoveLanguage( $(this) );
+                TargetNS.RemoveLanguage($(this));
             }
             return false;
         });
@@ -61,11 +61,11 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
      */
     TargetNS.AddLanguage = function(LanguageID, Language){
 
+        var $Clone = $('.Template').clone();
+
         if (Language === '-'){
             return false;
         }
-
-        var $Clone = $('.Template').clone();
 
         // remove unnecessary classes
         $Clone.removeClass('Hidden Template');
@@ -106,7 +106,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
         $('.NotificationLanguageContainer').append($Clone);
 
         // initialize the rich text editor if set
-        if ( parseInt(Core.Config.Get('RichTextSet'), 10) === 1) {
+        if (parseInt(Core.Config.Get('RichTextSet'), 10) === 1) {
             Core.UI.RichTextEditor.InitAll();
         }
 
@@ -114,7 +114,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
         $('.LanguageRemove').bind('click', function () {
 
             if (window.confirm(TargetNS.Localization.DeleteNotificationLanguageMsg)) {
-                TargetNS.RemoveLanguage( $(this) );
+                TargetNS.RemoveLanguage($(this));
             }
             return false;
         });
@@ -155,7 +155,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
 
         // strip all already used attributes
         $LanguageClone.find('option').each(function () {
-            if ( $('.NotificationLanguageContainer label#' + $(this).val() + '_Label_Subject').length ) {
+            if ($('.NotificationLanguageContainer label#' + $(this).val() + '_Label_Subject').length) {
                 $(this).remove();
             }
         });
@@ -165,7 +165,7 @@ Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
 
         // bind click function to add button
         $('.LanguageAdd').bind('change', function () {
-            TargetNS.AddLanguage( $(this).val(), $('.LanguageAdd option:selected').text() );
+            TargetNS.AddLanguage($(this).val(), $('.LanguageAdd option:selected').text());
             return false;
         });
 

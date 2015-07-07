@@ -15,13 +15,13 @@ Core.Form.Validate = (function (Namespace) {
     Namespace.RunUnitTests = function(){
         module('Core.Form.Validate');
         test('Remove ServerError only after the user changed the field - bug#6736', function(){
+            var $TestForm = $('<form id="TestForm" class="Validate"></form>');
 
             expect(14);
 
             /*
              * Create a form container for the tests
              */
-            var $TestForm = $('<form id="TestForm" class="Validate"></form>');
             $TestForm.append('<input type="text" value="ObjectOne" id="ObjectOne" name="ObjectOne" class="ServerError" />');
             $TestForm.append('<input type="password" value="ObjectTwo" id="ObjectTwo" name="ObjectTwo" class="ServerError" />');
             $TestForm.append('<input type="checkbox" value="ObjectThree" id="ObjectThree" name="ObjectThree" class="ServerError" />');
@@ -72,11 +72,11 @@ Core.Form.Validate = (function (Namespace) {
         });
 
         test('Validation methods (single field)', function(){
-
             /*
              * Create a form container for the tests
              */
-            var $TestForm = $('<form id="TestForm" class="Validate"></form>');
+            var SingleFieldValidationMethods,
+                $TestForm = $('<form id="TestForm" class="Validate"></form>');
             $TestForm.append('<input type="text" value="" id="ObjectOne" name="ObjectOne" />');
             $('body').append($TestForm);
 
@@ -87,7 +87,7 @@ Core.Form.Validate = (function (Namespace) {
             Core.Config.Set('CheckEmailAddresses', true);
             Core.Form.Validate.Init();
 
-            var SingleFieldValidationMethods = [
+            SingleFieldValidationMethods = [
                 {
                     Method: 'Validate_Required',
                     Content1: '',
@@ -173,7 +173,8 @@ Core.Form.Validate = (function (Namespace) {
             /*
              * Create a form container for the tests
              */
-            var $TestForm = $('<form id="TestForm" class="Validate"></form>');
+            var NewDate,
+                $TestForm = $('<form id="TestForm" class="Validate"></form>');
             $TestForm.append('<input type="text" value="" id="ObjectOne" name="ObjectOne" />');
             $TestForm.append('<input type="text" value="" id="ObjectTwo" name="ObjectTwo" />');
             $TestForm.append('<input type="text" value="" id="ObjectThree" name="ObjectThree" />');
@@ -215,7 +216,7 @@ Core.Form.Validate = (function (Namespace) {
             // Test: Validate_DateInFuture
             $('#ObjectOne').addClass('Validate_DateDay Validate_DateYear_ObjectTwo Validate_DateMonth_ObjectThree Validate_DateInFuture');
 
-            var NewDate = new Date();
+            NewDate = new Date();
             NewDate.setDate(NewDate.getDate() - 2);
 
             $('#ObjectOne').val(NewDate.getDate());

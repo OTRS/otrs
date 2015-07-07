@@ -50,10 +50,11 @@ Core.Installer = (function (TargetNS) {
      *      This function check the values for the database configuration.
      */
     TargetNS.CheckDBData = function () {
+        var Data;
         $('input[name=Subaction]').val('CheckRequirements');
-        var Data = Core.AJAX.SerializeForm( $('#FormDB') );
+        Data = Core.AJAX.SerializeForm($('#FormDB'));
         Data += 'CheckMode=DB;';
-        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckDBDataCallback );
+        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckDBDataCallback);
         $('input[name=Subaction]').val('DBCreate');
     };
 
@@ -75,8 +76,8 @@ Core.Installer = (function (TargetNS) {
         }
 
         // Change default port
-        $('#OutboundMailDefaultPorts').val( $('#OutboundMailType').val() );
-        $('#SMTPPort').val( $('#OutboundMailDefaultPorts :selected').text() );
+        $('#OutboundMailDefaultPorts').val($('#OutboundMailType').val());
+        $('#SMTPPort').val($('#OutboundMailDefaultPorts :selected').text());
     };
 
     /**
@@ -141,12 +142,13 @@ Core.Installer = (function (TargetNS) {
      *      This function checks the mail configuration.
      */
     TargetNS.CheckMailConfig = function () {
+        var Data;
         $('input[name=Skip]').val('0');
         // Check mail data via AJAX
         $('input[name=Subaction]').val('CheckRequirements');
-        var Data = Core.AJAX.SerializeForm( $('#FormMail') );
+        Data = Core.AJAX.SerializeForm($('#FormMail'));
         Data += 'CheckMode=Mail;';
-        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback );
+        Core.AJAX.FunctionCall(Core.Config.Get('Baselink'), Data, CheckMailConfigCallback);
     };
 
     return TargetNS;

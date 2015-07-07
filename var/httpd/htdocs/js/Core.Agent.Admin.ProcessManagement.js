@@ -1144,7 +1144,7 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
             }
 
             // fields without default value can not be hidden
-            if ($.inArray(Fieldname, FieldsWithoutDefaultValue) > -1 ) {
+            if ($.inArray(Fieldname, FieldsWithoutDefaultValue) > -1) {
                 $('#Display').find('option[value=0]').remove();
             }
 
@@ -1493,12 +1493,12 @@ Core.Agent.Admin.ProcessManagement = (function (TargetNS) {
      */
     TargetNS.GetConditionConfig = function ($Conditions) {
 
+        var Conditions = {},
+            ConditionKey;
+
         if (!$Conditions.length) {
             return {};
         }
-
-        var Conditions = {},
-            ConditionKey;
 
         $Conditions.each(function() {
 

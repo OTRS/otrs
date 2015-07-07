@@ -120,13 +120,15 @@ Core.Form = (function (TargetNS) {
      *      This function selects or deselects all checkboxes given by the ElementName.
      */
     TargetNS.SelectAllCheckboxes = function ($ClickedBox, $SelectAllCheckbox) {
+        var ElementName, SelectAllID, $Elements,
+            Status, CountCheckboxes, CountSelectedCheckboxes;
+
         if (isJQueryObject($ClickedBox, $SelectAllCheckbox)) {
-            var ElementName = $ClickedBox.attr('name'),
-                SelectAllID = $SelectAllCheckbox.attr('id'),
-                $Elements = $('input[type="checkbox"][name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible'),
-                Status = $ClickedBox.prop('checked'),
-                CountCheckboxes,
-                CountSelectedCheckboxes;
+            ElementName = $ClickedBox.attr('name');
+            SelectAllID = $SelectAllCheckbox.attr('id');
+            $Elements = $('input[type="checkbox"][name=' + ElementName + ']').filter('[id!=' + SelectAllID + ']:visible');
+            Status = $ClickedBox.prop('checked');
+
             if ($ClickedBox.attr('id') && $ClickedBox.attr('id') === SelectAllID) {
                 $Elements.prop('checked', Status).triggerHandler('click');
             }

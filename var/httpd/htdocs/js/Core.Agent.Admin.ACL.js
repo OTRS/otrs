@@ -163,7 +163,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                                 .next('input')
                                 .attr('data-parent', Level2Key);
 
-                            if ( Level2Key === 'DynamicField' ) {
+                            if (Level2Key === 'DynamicField') {
                                 SelectHTML = $('#' + Level2Key).parent().html();
                                 SelectHTML += '<span class="AddAll">' + Core.Agent.Admin.ACL.Localization.AddAll + '</span>';
 
@@ -356,7 +356,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
                     .next('input')
                     .attr('data-parent', Value);
 
-                if ( Value === 'DynamicField' ) {
+                if (Value === 'DynamicField') {
                     SelectHTML = $('#' + Value).parent().html();
                     SelectHTML += '<span class="AddAll">' + Core.Agent.Admin.ACL.Localization.AddAll + '</span>';
 
@@ -408,7 +408,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             }
             $Object.val('');
 
-            if ( Value && Type !== 'Boolean' ) {
+            if (Value && Type !== 'Boolean') {
                 $TriggerObj.click();
             }
         }
@@ -621,6 +621,14 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
         $('.ACLStructure').on('click', '.Editable span', function() {
 
+            var $Obj = $(this),
+                Value = $Obj.text(),
+                Width = $Obj.width() + 3,
+                $SelectObj = $('#TemplateLevel3').find('select'),
+                $SelectObjClone = $SelectObj.clone(),
+                RegexResult,
+                LastLevel = true;
+
             // only apply on right spans
             if ($(this).hasClass('Icon')) {
                 return false;
@@ -630,14 +638,6 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             if ($(this).nextAll('ul').hasClass('Boolean')) {
                 return false;
             }
-
-            var $Obj = $(this),
-                Value = $Obj.text(),
-                Width = $Obj.width() + 3,
-                $SelectObj = $('#TemplateLevel3').find('select'),
-                $SelectObjClone = $SelectObj.clone(),
-                RegexResult,
-                LastLevel = true;
 
             // decide if we are already on the last level
             if (!$(this).next('em').length) {
@@ -714,9 +714,11 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
 
         $('.ACLStructure').on('blur keydown', '.LiveEdit', function(Event) {
 
+            var Value;
+
             if ((Event.type === 'keydown' && Event.which === 13) || Event.type !== 'keydown') {
 
-                var Value = $(this).val();
+                Value = $(this).val();
 
                 if (Value) {
 
@@ -836,7 +838,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
             $('.LiveEdit, .NewDataItem').each(function() {
 
                 // only do it for the 'Action' item (can be extended in the future)
-                if ( $(this).closest('ul').closest('li').data('content') === 'Action' ) {
+                if ($(this).closest('ul').closest('li').data('content') === 'Action') {
 
                     Core.UI.Autocomplete.Init(
                         $(this),

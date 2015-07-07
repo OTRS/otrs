@@ -106,24 +106,24 @@ Core.UI.TreeSelection = (function (TargetNS) {
 
             // Skip entry if no ID (should only occur for the leading empty element, '-')
             // also skip entries which only contain '------------' as visible text (e.g. in AgentLinkObject)
-            if ( !ElementID || ElementID === "||-" || ( ElementDisabled && ElementName.match(/^-+$/) ) ) {
+            if (!ElementID || ElementID === "||-" || (ElementDisabled && ElementName.match(/^-+$/))) {
                 return true;
             }
 
             // Determine whether this element is a child of a preceding element
             // therefore, take the last element we have added to our elements
             // array and compare if to the current element
-            if ( Elements.length && CurrentLevel > 0 ) {
+            if (Elements.length && CurrentLevel > 0) {
 
                 // If the current level is bigger than the last known level,
                 // we're dealing with a child element of the last element
-                if ( CurrentLevel > Elements[Elements.length - 1].Level ) {
+                if (CurrentLevel > Elements[Elements.length - 1].Level) {
                     ChildOf = Elements[Elements.length - 1].ID;
                 }
 
                 // If both levels equal each other, we have a sibling and can
                 // re-use the parent (= the ChildOf value) of the last element
-                else if ( CurrentLevel === Elements[Elements.length - 1].Level ) {
+                else if (CurrentLevel === Elements[Elements.length - 1].Level) {
                     ChildOf = Elements[Elements.length - 1].ChildOf;
                 }
 
@@ -131,8 +131,8 @@ Core.UI.TreeSelection = (function (TargetNS) {
                 // of the first level, so we walk through all yet saved elements
                 // (bottom up) and find the next element with a lower level
                 else {
-                    for ( ElementIndex = Elements.length; ElementIndex >= 0; ElementIndex-- ) {
-                        if ( CurrentLevel > Elements[ElementIndex - 1].Level ) {
+                    for (ElementIndex = Elements.length; ElementIndex >= 0; ElementIndex--) {
+                        if (CurrentLevel > Elements[ElementIndex - 1].Level) {
                             ChildOf = Elements[ElementIndex - 1].ID;
                             break;
                         }
@@ -145,6 +145,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             ElementID = (ElementID === '-') ? Math.floor((Math.random() * 100000) + 1) : ElementID;
 
             // Collect data of current service and add it to elements array
+            /*eslint-disable camelcase */
             CurrentElement = {
                 ID: ElementID,
                 Name: ElementNameTrim,
@@ -160,6 +161,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
                     'class': (ElementDisabled) ? 'Disabled' : ''
                 }
             };
+            /*eslint-enable camelcase */
             Elements.push(CurrentElement);
 
             if (CurrentLevel > HighestLevel) {
@@ -246,6 +248,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
         // Set StyleSheetURL in order to correctly load the CSS for treeview
         StyleSheetURL = Core.Config.Get('WebPath') + 'skins/Agent/default/css/thirdparty/jstree-theme/default/style.css';
 
+        /*eslint-disable camelcase */
         $TreeObj.jstree({
             core: {
                 animation: 70,
@@ -265,6 +268,7 @@ Core.UI.TreeSelection = (function (TargetNS) {
             },
             plugins: [ 'search' ]
         })
+        /*eslint-enable camelcase */
         .bind('select_node.jstree', function (node, selected, event) {
             var $Node = $('#' + selected.node.id);
             if ($Node.hasClass('Disabled') || !$Node.is(':visible')) {

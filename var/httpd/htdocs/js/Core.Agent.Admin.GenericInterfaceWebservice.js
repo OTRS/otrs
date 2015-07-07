@@ -166,7 +166,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         CloneName = $('#Name').val() + "-" + CurrentDate.getTime();
 
         // set the suggested name
-        $('.CloneName').val( CloneName );
+        $('.CloneName').val(CloneName);
 
         // bind button actions
         $('#CancelCloneButtonAction').bind('click', function() {
@@ -223,7 +223,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
      * @description
      *      Redirects.
      */
-    TargetNS.Redirect = function( ConfigKey, DataSource, Data ) {
+    TargetNS.Redirect = function(ConfigKey, DataSource, Data) {
         var WebserviceConfigPart, Action, ConfigElement;
 
         // get configuration
@@ -233,7 +233,7 @@ Core.Agent.Admin.GenericInterfaceWebservice = (function (TargetNS) {
         ConfigElement = $('#' + DataSource).val();
 
         // check is config element is a valid scring
-        if ( ConfigElement !== null ) {
+        if (ConfigElement !== null) {
 
             // get action
             Action = WebserviceConfigPart[ ConfigElement ];

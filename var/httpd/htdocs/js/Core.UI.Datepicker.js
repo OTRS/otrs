@@ -120,6 +120,11 @@ Core.UI.Datepicker = (function (TargetNS) {
      */
     TargetNS.Init = function (Element) {
 
+        var $DatepickerElement,
+            HasDateSelectBoxes = false,
+            Options,
+            ErrorMessage;
+
         if (typeof Element.VacationDays === 'object') {
             Core.Config.Set('Datepicker.VacationDays', Element.VacationDays);
         }
@@ -142,11 +147,6 @@ Core.UI.Datepicker = (function (TargetNS) {
                 return Number;
             }
         }
-
-        var $DatepickerElement,
-            HasDateSelectBoxes = false,
-            Options,
-            ErrorMessage;
 
         if (typeof LocalizationData === 'undefined') {
             LocalizationData = Core.Config.Get('Datepicker.Localization');

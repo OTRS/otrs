@@ -57,9 +57,10 @@ Core.App.Responsive = (function (TargetNS) {
      *      Returns an array of class names based on the available screen sizes.
      */
     function GetAllScreenClasses() {
-        var Classes = [];
+        var Classes = [],
+            Key;
 
-        for(var Key in ScreenSizes) {
+        for(Key in ScreenSizes) {
             Classes.push('Visible-' + Key);
         }
 
@@ -77,12 +78,13 @@ Core.App.Responsive = (function (TargetNS) {
      */
     function CheckScreenResolution() {
         var $ResponsiveFooter = $('#ResponsiveFooter'),
-            AllClasses = GetAllScreenClasses().join(' ');
+            AllClasses = GetAllScreenClasses().join(' '),
+            Key, i;
 
         Core.App.Publish('Event.App.Responsive.CheckScreenResolution');
 
         // check visibility of responsive footer elements
-        for (var Key in ScreenSizes) {
+        for (Key in ScreenSizes) {
             if ($ResponsiveFooter.find('.Visible-' + Key).is(':visible') && Key !== ActiveScreenSize) {
                 ActiveScreenSize = Key;
                 break;
@@ -101,7 +103,7 @@ Core.App.Responsive = (function (TargetNS) {
             Core.App.Publish('Event.App.Responsive.SmallerOrEqual' + ActiveScreenSize);
 
             // publish event for "SmallerOrEqual" screen sizes
-            for (var i = 0; i < ScreenSizes[ActiveScreenSize].length; i++) {
+            for (i = 0; i < ScreenSizes[ActiveScreenSize].length; i++) {
                 Core.App.Publish('Event.App.Responsive.SmallerOrEqual' + ScreenSizes[ActiveScreenSize][i]);
             }
         }
@@ -131,11 +133,13 @@ Core.App.Responsive = (function (TargetNS) {
      *      screen size names.
      */
     TargetNS.IsSmallerOrEqual = function (ScreenSize, CompareSize) {
+        var i;
+
         if (ScreenSize === CompareSize) {
             return true;
         }
 
-        for(var i = 0; i < ScreenSizes[ScreenSize].length; i++) {
+        for(i = 0; i < ScreenSizes[ScreenSize].length; i++) {
             if (ScreenSizes[ScreenSize][i] === CompareSize) {
                 return true;
             }
@@ -177,6 +181,7 @@ Core.App.Responsive = (function (TargetNS) {
      *      Initialize all responsive functionalities.
      */
     TargetNS.Init = function () {
+        var TimeoutID = 0;
 
         // Check DesktopMode
         if ((top.location.href !== location.href && window.name.search(/^OTRSPopup_/) === -1) || parseInt(localStorage.getItem("DesktopMode"), 10) > 0) {
@@ -197,8 +202,6 @@ Core.App.Responsive = (function (TargetNS) {
             $('body').addClass('Visible-ScreenXL');
             return;
         }
-
-        var TimeoutID = 0;
 
         $(window).on('resize', function () {
             clearTimeout(TimeoutID);

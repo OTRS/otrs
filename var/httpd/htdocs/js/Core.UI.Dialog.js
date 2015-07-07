@@ -189,6 +189,11 @@ Core.UI.Dialog = (function (TargetNS) {
      *      The main dialog function used for all different types of dialogs.
      */
     TargetNS.ShowDialog = function(Params) {
+
+        var $Dialog, $Content, $ButtonFooter, HTMLBackup, DialogCopy, DialogCopySelector,
+            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>',
+            FullsizeMode = false;
+
         /**
          * @private
          * @name HandleClosingAction
@@ -258,10 +263,6 @@ Core.UI.Dialog = (function (TargetNS) {
 
             return (Position + 'px');
         }
-
-        var $Dialog, $Content, $ButtonFooter, HTMLBackup, DialogCopy, DialogCopySelector,
-            DialogHTML = '<div class="Dialog"><div class="Header"><a class="Close" title="' + Core.Config.Get('DialogCloseMsg') + '" href="#"><i class="fa fa-times"></i></a></div><div class="Content"></div><div class="Footer"></div></div>',
-            FullsizeMode = false;
 
         // Close all opened dialogs
         if ($('.Dialog:visible').length) {

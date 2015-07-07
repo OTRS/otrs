@@ -55,12 +55,12 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
         $('.NewValue').bind('change', function(){
 
             // modified title
-            $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
+            $(this).closest('.WidgetKey').find('.Title').html('Mapping for Key ' + $(this).val());
         });
 
         // register remove key action
         $('.AdditionalInformation .KeyMapRemove').bind('click', function () {
-            TargetNS.ShowDeleteDialog( $(this).attr('id') );
+            TargetNS.ShowDeleteDialog($(this).attr('id'));
             return false;
         });
 
@@ -75,7 +75,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
 
         //bind click function to add button
         $('.ValueRemove').bind('click', function () {
-            TargetNS.RemoveValueMapping( $(this) );
+            TargetNS.RemoveValueMapping($(this));
         //            $(this).parent().remove();
             return false;
         });
@@ -112,20 +112,20 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
             $(this).addClass('Validate_Required');
 
             // add event handler to Add button
-            if( $(this).hasClass('ValueAdd') ) {
+            if($(this).hasClass('ValueAdd')) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    TargetNS.AddValueMapping( $(this).closest('fieldset').parent().find('.ValueInsert'), KeyCounter );
+                    TargetNS.AddValueMapping($(this).closest('fieldset').parent().find('.ValueInsert'), KeyCounter);
                     return false;
                 });
             }
 
-            if( $(this).hasClass('KeyMapRemove') ) {
+            if($(this).hasClass('KeyMapRemove')) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
-                    TargetNS.ShowDeleteDialog( $(this).attr('id') );
+                    TargetNS.ShowDeleteDialog($(this).attr('id'));
                     return false;
                 });
             }
@@ -143,7 +143,7 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
                 $(this).bind('change', function(){
 
                     // modified title
-                    $(this).closest('.WidgetKey').find('.Title').html( 'Mapping for Key ' + $(this).val() );
+                    $(this).closest('.WidgetKey').find('.Title').html('Mapping for Key ' + $(this).val());
                 });
             }
 
@@ -208,12 +208,12 @@ Core.Agent.Admin.GenericInterfaceMapping = (function (TargetNS) {
             $(this).addClass('Validate_Required');
 
             // add event handler to remove button
-            if( $(this).hasClass('ValueRemove') ) {
+            if($(this).hasClass('ValueRemove')) {
 
                 // bind click function to add button
                 $(this).bind('click', function () {
                     // remove row
-                    TargetNS.RemoveValueMapping( $(this) );
+                    TargetNS.RemoveValueMapping($(this));
                     return false;
                 });
             }

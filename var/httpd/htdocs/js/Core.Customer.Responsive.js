@@ -57,7 +57,7 @@ Core.Customer.Responsive = (function (TargetNS) {
         });
 
         // add handle for for navigation
-        if ( !$('#MainBox').hasClass('Login') && !$('#ResponsiveNavigationHandle').length ) {
+        if (!$('#MainBox').hasClass('Login') && !$('#ResponsiveNavigationHandle').length) {
             $('#Header').append('<a id="ResponsiveNavigationHandle" href="#"><i class="fa fa-bars"></i></a>');
         }
 

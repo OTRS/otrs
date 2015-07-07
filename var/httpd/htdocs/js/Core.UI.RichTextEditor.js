@@ -108,6 +108,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
         UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
 
+        /*eslint-disable camelcase */
         CKEDITOR.replace(EditorID,
         {
             customConfig: '', // avoid loading external config files
@@ -131,6 +132,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             entities: false,
             skin: 'bootstrapck'
         });
+        /*eslint-enable camelcase */
+
         if (CheckFormID().length) {
             CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload');
             CKEDITOR.config.formID = CheckFormID().val();
@@ -157,8 +160,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
                 // only if data contains no image tag,
                 // this is important for inline images, we don't want to remove them!
-                if ( !Data.match(/<img/) ) {
-
+                if (!Data.match(/<img/)) {
                     // remove tags and whitespace for checking
                     Data = Data.replace(/\s+|&nbsp;|<\/?\w+[^>]*\/?>/g, '');
                     if (!Data.length) {
@@ -214,8 +216,10 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      *      Get RTE jQuery element.
      */
     TargetNS.GetRTE = function ($EditorArea) {
+        var $RTE;
+
         if (isJQueryObject($EditorArea)) {
-            var $RTE = $('#cke_' + $EditorArea.attr('id'));
+            $RTE = $('#cke_' + $EditorArea.attr('id'));
             return ($RTE.length ? $RTE : undefined);
         }
     };

@@ -78,7 +78,7 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
                 EventType: EventType
         };
 
-        if ( $('#Asynchronous').is(':checked') ) {
+        if ($('#Asynchronous').is(':checked')) {
             Data.Asynchronous = 1;
         }
 

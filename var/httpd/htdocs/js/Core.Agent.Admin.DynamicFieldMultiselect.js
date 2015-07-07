@@ -104,8 +104,7 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
             $(this).parent().find('#' + ID + 'ServerError').attr('name', ID + '_' + ValueCounter + 'ServerError');
 
             // add event handler to remove button
-            if( $(this).hasClass('RemoveButton') ) {
-
+            if($(this).hasClass('RemoveButton')) {
                 // bind click function to remove button
                 $(this).bind('click', function () {
                     TargetNS.RemoveValue($(this).attr('id'));
@@ -193,7 +192,7 @@ Core.Agent.Admin.DynamicFieldMultiselect = (function (TargetNS) {
         });
 
         // clear the list again and re-populate it with the sorted list
-        $("#DefaultValue").empty().append( SelectOptions );
+        $("#DefaultValue").empty().append(SelectOptions);
 
         // set the selected value as it was before, this will not apply if the key name was
         // changed
