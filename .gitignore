@@ -149,4 +149,4 @@ var/httpd/htdocs/skins/Agent/default/css/DynamicFieldDatabase.css
 var/httpd/htdocs/skins/Customer/default/css/*Chat*
 var/httpd/htdocs/skins/Customer/default/css/DynamicFieldDatabase.css
 var/packagesetup/OTRSBusiness.pm
-var/phantomjs
+var/thirdparty/phantomjs
