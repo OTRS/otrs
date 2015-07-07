@@ -338,7 +338,6 @@ Core.UI.AdvancedChart = (function (TargetNS) {
     function DrawBarChart(RawData, Element, Options) {
 
         var Headings,
-            Counter = 0,
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
             PreferencesKey = Options.PreferencesKey,
