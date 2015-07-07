@@ -13,6 +13,8 @@ use warnings;
 
 use base qw(Kernel::System::Console::BaseCommand);
 
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectManagerCreation)
+
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::DB',
