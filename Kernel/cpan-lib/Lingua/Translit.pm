@@ -4,7 +4,7 @@ package Lingua::Translit;
 # Copyright (C) 2007-2008 ...
 #   Alex Linke <alinke@lingua-systems.com>
 #   Rona Linke <rlinke@lingua-systems.com>
-# Copyright (C) 2009-2014 Lingua-Systems Software GmbH
+# Copyright (C) 2009-2015 Lingua-Systems Software GmbH
 #
 
 use strict;
@@ -17,7 +17,7 @@ use Encode qw/encode decode/;
 
 use Lingua::Translit::Tables;
 
-our $VERSION = '0.21';
+our $VERSION = '0.22';
 
 =pod
 
@@ -279,6 +279,8 @@ I<ALA-LC RUS>, not reversible, ALA-LC:1997, Cyrillic to Latin, Russian
 
 I<ISO 9>, reversible, ISO 9:1995, Cyrillic to Latin
 
+I<ISO/R 9>, reversible, ISO 9:1954, Cyrillic to Latin
+
 I<DIN 1460 RUS>, reversible, DIN 1460:1982, Cyrillic to Latin, Russian
 
 I<DIN 1460 UKR>, reversible, DIN 1460:1982, Cyrillic to Latin, Ukrainian
@@ -373,6 +375,8 @@ transliteration table.
 Thanks to Ahmed Elsheshtawy for his help implementing the "Common ARA" Arabic
 transliteration.
 
+Thanks to Dusan Vuckovic for contributing the "ISO/R 9" transliteration table.
+
 =head1 AUTHORS
 
 Alex Linke <alinke@lingua-systems.com>
@@ -383,7 +387,7 @@ Rona Linke <rlinke@lingua-systems.com>
 
 Copyright (C) 2007-2008 Alex Linke and Rona Linke
 
-Copyright (C) 2009-2014 Lingua-Systems Software GmbH
+Copyright (C) 2009-2015 Lingua-Systems Software GmbH
 
 This module is free software. It may be used, redistributed
 and/or modified under the terms of either the GPL v2 or the
