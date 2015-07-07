@@ -334,6 +334,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
     function DrawBarChart(RawData, Element, Options) {
 
         var Headings,
+            Counter = 0,
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
             PreferencesKey = Options.PreferencesKey,
@@ -356,8 +357,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                 return;
             }
 
-            var Counter = 0,
-                ResultLine = {
+            var ResultLine = {
                     key: DataElement[0],
                     color: Colors[Counter % Colors.length],
                     disabled: (PreferencesData && PreferencesData.Filter && $.inArray(DataElement[0], PreferencesData.Filter) === -1) ? true : false,

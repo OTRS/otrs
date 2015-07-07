@@ -71,7 +71,7 @@ Core.Agent.Responsive = (function (TargetNS) {
         });
 
         // wrap sidebar modules with an additional container
-        if (!$('.SidebarColumn').closest('.ResponsiveSidebarContainer').length) {
+        if ($('.SidebarColumn').children().length && !$('.SidebarColumn').closest('.ResponsiveSidebarContainer').length) {
             $('.SidebarColumn').wrap('<div class="ResponsiveSidebarContainer" />');
         }
         if (!$('#NavigationContainer').closest('.ResponsiveSidebarContainer').length) {
