@@ -171,7 +171,9 @@ Core.Form.Validate = (function (TargetNS) {
         if (RemoveError) {
             // remove error classes from element and its label
             $Element.removeClass(Options.ErrorClass).removeClass(Options.ServerErrorClass);
-            $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").removeClass(Options.ErrorLabelClass);
+            if (Element.id && Element.id.length) {
+                $(Element.form).find("label[for=" + Core.App.EscapeSelector(Element.id) + "]").removeClass(Options.ErrorLabelClass);
+            }
 
             // mark field as valid for screenreader users
             $Element.attr('aria-invalid', false);
