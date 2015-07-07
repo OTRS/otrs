@@ -20,9 +20,7 @@ use Kernel::System::ObjectManager;
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-my $Filename;
-my $TempDir;
-my $FH;
+my ($Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix);
 
 {
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
@@ -37,6 +35,30 @@ my $FH;
     $Self->True(
         ( -e $Filename ),
         'TempFile() -e',
+    );
+
+    $Self->Is(
+        ( substr($Filename, -4) ),
+        '.tmp',
+        'TempFile() suffix',
+    );
+
+    ( $FHSuffix, $FilenameSuffix ) = $FileTempObject->TempFile( Suffix => '.png' );
+
+    $Self->True(
+        $FilenameSuffix,
+        'TempFile()',
+    );
+
+    $Self->True(
+        ( -e $FilenameSuffix ),
+        'TempFile() -e',
+    );
+
+    $Self->Is(
+        ( substr($FilenameSuffix, -4) ),
+        '.png',
+        'TempFile() custom suffix',
     );
 
     $TempDir = $FileTempObject->TempDir();
@@ -72,6 +94,11 @@ my $FH;
 $Self->False(
     ( -e $Filename ),
     "TempFile() $Filename -e after destroy",
+);
+
+$Self->False(
+    ( -e $FilenameSuffix ),
+    "TempFile() $FilenameSuffix -e after destroy",
 );
 
 $Self->False(
