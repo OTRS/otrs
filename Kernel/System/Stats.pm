@@ -2108,9 +2108,10 @@ sub StatsResultCacheCompute {
     };
 
     if ( $@ || !%GetParam ) {
+        my $Errors = ref $@ ? join("\n", @{ $@} ) : $@;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The dashboard widget configuration for this user contains errors, skipping: $@!"
+            Message  => "The dashboard widget configuration for this user contains errors, skipping: $Errors"
         );
         return;
     }
@@ -2197,9 +2198,10 @@ sub StatsResultCacheGet {
     };
 
     if ( $@ || !%GetParam ) {
+        my $Errors = ref $@ ? join("\n", @{ $@} ) : $@;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "The dashboard widget configuration for this user contains errors, skipping: $@!"
+            Message  => "The dashboard widget configuration for this user contains errors, skipping: $Errors"
         );
         return;
     }
