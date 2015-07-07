@@ -16,6 +16,7 @@ use Term::ANSIColor;
 use SOAP::Lite;
 
 use Kernel::System::ObjectManager;
+## nofilter(TidyAll::Plugin::OTRS::Perl::ObjectManagerCreation)
 
 # UnitTest helper must be loaded to override the builtin time functions!
 use Kernel::System::UnitTest::Helper;

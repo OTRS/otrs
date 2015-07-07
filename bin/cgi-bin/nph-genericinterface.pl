@@ -30,7 +30,11 @@ use lib "$Bin/../../Custom";
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
 
-local $Kernel::OM = Kernel::System::ObjectManager->new();
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'GenericInterfaceProvider',
+    },
+);
 
 my $Provider = Kernel::GenericInterface::Provider->new();
 $Provider->Run();

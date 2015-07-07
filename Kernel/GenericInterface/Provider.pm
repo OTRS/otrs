@@ -72,13 +72,6 @@ web service.
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # common objects
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
-        'Kernel::System::Log' => {
-            LogPrefix => 'GenericInterfaceProvider',
-        },
-    );
-
     #
     # First, we need to locate the desired webservice and load its configuration data.
     #
