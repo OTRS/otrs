@@ -131,22 +131,43 @@ $Selenium->RunTest(
             "Title of stats is found - $StatsValues{Title} "
         );
 
-        # delete test stats
-        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => "DELETE FROM xml_storage where xml_key = ?",
-            Bind => [ \$StatsIDLast ],
+        # run test statistic
+        $Selenium->close();
+        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->WaitFor( WindowCount => 1 );
+
+        # navigate to AgentStatistics Overview screen
+        $Selenium->get(
+            "${ScriptAlias}index.pl?Action=AgentStatistics;Subaction=Overview;"
         );
+
+        my $CheckConfirmJS = <<"JAVASCRIPT";
+(function () {
+    var lastConfirm = undefined;
+    window.confirm = function (message) {
+        lastConfirm = message;
+        return true;
+    };
+}());
+JAVASCRIPT
+
+        $Selenium->execute_script($CheckConfirmJS);
+
+        # delete test stats
+        # click on delete icon
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentStatistics;Subaction=DeleteAction;StatID=$StatsIDLast\' )]"
+        )->click();
+
+        $Selenium->WaitFor( JavaScript => 'return $(".Dialog:visible").length === 0;' );
+
         $Self->True(
-            $Success,
-            "Deleted stats - $StatsValues{Title}",
+            index( $Selenium->get_page_source(), "Action=AgentStatistics;Subaction=Edit;StatID=$StatsIDLast" ) == -1,
+            "Test statistic is deleted - $StatsIDLast "
         );
 
         # make sure the cache is correct.
-        for my $Cache (qw( Ticket Stats )) {
-            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                Type => 'Ticket',
-            );
-        }
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => "Stats" );
 
     }
 );

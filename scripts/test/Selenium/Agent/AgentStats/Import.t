@@ -66,15 +66,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#file_upload", 'css' )->send_keys($Location);
         $Selenium->find_element("//button[\@value='Import'][\@type='submit']")->click();
 
-        # wait until test stats is imported, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('#compose').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
-
         # create params for import test stats
         my %StatsValues =
             (
@@ -169,15 +160,6 @@ $Selenium->RunTest(
         # delete edited imported test stats
         $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete\' )]")->click();
         $Selenium->find_element("//button[\@value='Yes'][\@type='submit']")->click();
-
-        # wait until test stats is deleted, if neccessary
-        ACTIVESLEEP:
-        for my $Second ( 1 .. 20 ) {
-            if ( $Selenium->execute_script("return \$('.ContentColumn').length") ) {
-                last ACTIVESLEEP;
-            }
-            sleep 1;
-        }
 
         # check if stats is deleted
         $Self->True(

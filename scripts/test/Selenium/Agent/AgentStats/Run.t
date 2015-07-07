@@ -49,12 +49,6 @@ $Selenium->RunTest(
             Value => 0
         );
 
-        $SysConfigObject->ConfigItemUpdate(
-            Valid => 1,
-            Key   => 'PDF',
-            Value => 0
-        );
-
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
             Groups => [ 'admin', 'users', 'stats' ],
@@ -185,12 +179,14 @@ $Selenium->RunTest(
 
         # run test statistic
         $Selenium->find_element( "#StartStatistic", 'css' )->click();
-
-        sleep 3;
+        $Selenium->WaitFor( WindowCount => 2 );
 
         # switch to another window
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
+
+        # wait while PDF output is loading
+        sleep 5;
 
         # check result of stats
         for my $TicketNumber (@TicketNumbers) {
@@ -206,14 +202,25 @@ $Selenium->RunTest(
             "Title of stats is founded - $StatsValues{Title} "
         );
 
+        $Selenium->close();
+        $Selenium->switch_to_window( $Handles->[0] );
+        $Selenium->WaitFor( WindowCount => 1 );
+
         # delete test stats
-        my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL  => "DELETE FROM xml_storage where xml_key = ?",
-            Bind => [ \$StatsIDLast ],
-        );
+        # click on delete button
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=AgentStats;Subaction=Delete;StatID=$StatsIDLast\' )]"
+        )->click();
+
+        $Selenium->find_element("//button[\@value='Yes'][\@type='submit']")->click();
+
+        # sort descending stats by ID
+        $Selenium->get("${ScriptAlias}index.pl?Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1");
+
+        # check if stats is deleted
         $Self->True(
-            $Success,
-            "Deleted stats - $StatsValues{Title}",
+            index( $Selenium->get_page_source(), $StatsValues{Title} ) == -1,
+            "$StatsValues{Title} is deleted"
         );
 
         # delete created test tickets
