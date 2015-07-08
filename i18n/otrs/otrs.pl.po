@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-06-14 19:17+0000\n"
+"PO-Revision-Date: 2015-07-02 17:56+0000\n"
 "Last-Translator: Jerzy Ruszczak <orcio6@o2.pl>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/OTRS/language/pl/)\n"
+"Language-Team: Polish (http://www.transifex.com/p/OTRS/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -474,7 +474,7 @@ msgstr "ID Klientów"
 
 #. Template: AAABase
 msgid "customer"
-msgstr "Klient"
+msgstr "klient"
 
 #. Template: AAABase
 msgid "agent"
@@ -3370,7 +3370,7 @@ msgstr "Powiadomienia o nowych zgłoszeniach"
 
 #. Template: AAATicket
 msgid "Send me a notification if there is a new ticket in \"My Queues\"."
-msgstr "Wysyłaj powiadomienia o nowych zgłoszeniach w \"Moich kolejkach\"."
+msgstr "Wyślij mi powiadomienia o nowych zgłoszeniach w \"Moich kolejkach\"."
 
 #. Template: AAATicket
 msgid "Send new ticket notifications"
@@ -3884,7 +3884,7 @@ msgstr "np."
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr "Opcje danych obecnego konta klienta"
+msgstr "Opcje danych obecnego użytkownika klienta"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -3946,7 +3946,7 @@ msgstr "Dodaj Klienta"
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr "Zarządzanie kontami klienta"
+msgstr "Zarządzanie użytkownikami klienta"
 
 #. Template: AdminCustomerUser
 msgid "Back to search results"
@@ -3954,7 +3954,7 @@ msgstr "Wstecz do wyników wyszukiwania"
 
 #. Template: AdminCustomerUser
 msgid "Add customer user"
-msgstr "Dodaj konto klienta"
+msgstr "Dodaj użytkownika klienta"
 
 #. Template: AdminCustomerUser
 msgid "Hint"
@@ -3964,7 +3964,7 @@ msgstr "Podpowiedź"
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
-msgstr "Konto klienta jest konieczne by móc posiadać historię klienta oraz logować się przez panel klienta."
+msgstr "W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia konta użytkownika klienta."
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
@@ -3976,15 +3976,15 @@ msgstr "Zaloguj jako"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr "Przełącz na klienta"
+msgstr "Zmień klienta"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr ""
+msgstr "Dodaj Użykownika Klienta"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr "Edytuj konto klienta"
+msgstr "Edytuj Użytkownika Klienta"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -4021,7 +4021,7 @@ msgstr "Ta funkcja jest wyłączona!"
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr "Użyj tej funkcji jeśli chcesz zdefinioać grupę uprawnień dla klientów."
+msgstr "Użyj tej funkcji jeśli chcesz określić grupę uprawnień dla klientów."
 
 #. Template: AdminCustomerUserGroup
 msgid "Enable it here!"
@@ -4029,11 +4029,11 @@ msgstr "Włącz tutaj!"
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer Default Groups"
-msgstr "Edytuj domyślne Grupy Klientów"
+msgstr "Edytuj Domyślne Grupy Klientów"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customers."
-msgstr "Te grupy są automatycznie przypisane do wszystkich klientów."
+msgstr "Te grupy są automatycznie przypisywane wszystkim klientom."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -4400,7 +4400,7 @@ msgstr "Określ szerokość (w znakach) dla tego pola w trybie edycji."
 
 #. Template: AdminDynamicFieldText
 msgid "Check RegEx"
-msgstr ""
+msgstr "Sprawdź wyrażenie regularne"
 
 #. Template: AdminDynamicFieldText
 msgid ""
@@ -4410,11 +4410,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr ""
+msgstr "Wyrażenie regularne"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
-msgstr ""
+msgstr "Nieprawidłowe wyrażenie regularne"
 
 #. Template: AdminDynamicFieldText
 msgid "Error Message"
@@ -4422,7 +4422,7 @@ msgstr "Komunikat błędu"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr ""
+msgstr "Dodaj wyrażenie regularne"
 
 #. Template: AdminEmail
 msgid "Admin Notification"
@@ -4578,7 +4578,7 @@ msgstr "Dodaj trigger"
 
 #. Template: AdminGenericAgent
 msgid "Add Event"
-msgstr ""
+msgstr "Dodaj wydarzenie"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4600,11 +4600,11 @@ msgstr "Usuń ten trigger"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Usuń zaznaczenie"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "Zaznacz zgłoszenia"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
@@ -4652,7 +4652,7 @@ msgstr "Zgłoszenie utworzone między"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "Data ostatnich modyfikacji"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
@@ -4772,7 +4772,7 @@ msgstr "Aktywna opcja szukania"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "Zmień/dodaj parametry zgłoszenia"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
@@ -4848,7 +4848,7 @@ msgstr "Zaraportowany czas obsługi"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "Wykonaj polecenia zgłoszeń"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
@@ -5320,7 +5320,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "np. https://www.otrs.com:10745/api/v1.0 (bez ukośnika na końcu)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -6075,11 +6075,11 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Not Yet Available"
-msgstr ""
+msgstr "%s jeszcze nie jest dostępne"
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s will be available soon."
-msgstr ""
+msgstr "%s wkrótce będzie dostępne."
 
 #. Template: AdminOTRSBusinessInstalled
 msgid "%s Update Available"
@@ -6148,7 +6148,7 @@ msgstr ""
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Cancel downgrade and go back"
-msgstr ""
+msgstr "Przerwij downgrade i wróć"
 
 #. Template: AdminOTRSBusinessUninstall
 msgid "Go to OTRS Package Manager"
@@ -6330,7 +6330,7 @@ msgstr "Przeinstaluj"
 
 #. Template: AdminPackageManager
 msgid "Features for %s customers only"
-msgstr ""
+msgstr "Funkcje tylko dla %s klientów"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -8772,7 +8772,7 @@ msgstr "Centrum informacji o kliencie"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
-msgstr "Konto Klienta"
+msgstr "Użytkownik Klienta"
 
 #. Template: AgentCustomerSearch
 msgid "Duplicated entry"
@@ -8788,7 +8788,7 @@ msgstr "To zostanie usunięte z pola, spróbuj ponownie."
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
-msgstr "Info: Klient jest nieprawidłowy!"
+msgstr "Uwaga: Nieprawidłowy klient!"
 
 #. Template: AgentDashboard
 msgid "Dashboard"
@@ -9377,7 +9377,7 @@ msgstr "Następny status"
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "Dla wszystkich odraczających* stanów."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -9423,7 +9423,7 @@ msgstr "Tutaj można wybrać dodatkowych Agentów, którzy powinni otrzymać pow
 
 #. Template: AgentTicketActionCommon
 msgid "Note will be (also) received by:"
-msgstr ""
+msgstr "Notatka zostanie (również) odebrana przez:"
 
 #. Template: AgentTicketBounce
 msgid "Bounce Ticket"
@@ -9523,7 +9523,7 @@ msgstr "Zmień klienta dla zgłoszenia"
 
 #. Template: AgentTicketCustomer
 msgid "Customer user"
-msgstr "Konto klienta"
+msgstr "Użytkownik klienta"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
@@ -9539,7 +9539,7 @@ msgstr "Do kolejki"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr "Do konta klienta"
+msgstr "Do użytkownika klienta"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
@@ -9695,7 +9695,7 @@ msgstr "Do kolejki"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "Protokół czatu"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
@@ -9763,11 +9763,11 @@ msgstr "Zapisz zmiany w szablonie"
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr ""
+msgstr "Filtry w użyciu"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
-msgstr ""
+msgstr "dodatkowe filtry"
 
 #. Template: AgentTicketSearch
 msgid "Add another attribute"
@@ -9793,15 +9793,15 @@ msgstr "Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne k
 
 #. Template: AgentTicketSearch
 msgid "Customer User Login"
-msgstr "Login Klienta"
+msgstr "Login Użytkownika Klienta"
 
 #. Template: AgentTicketSearch
 msgid "Attachment Name"
-msgstr ""
+msgstr "Nazwa załącznika"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. m*file or myfi*)"
-msgstr ""
+msgstr "(np. m*jplik lub mójpl*)"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
@@ -9897,7 +9897,7 @@ msgstr ""
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "Zapisz jako domyślny"
 
 #. Template: AgentTicketZoom
 msgid "Archive"
@@ -9929,7 +9929,7 @@ msgstr "Ten element nie zawiera jeszcze żadnych wiadomości."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Podgląd linii czasu zgłoszenia"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
@@ -9965,7 +9965,7 @@ msgstr "Pokaż wszystkie wiadomości"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "Pokaż podgląd linii czasu zgłoszenia"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -10005,7 +10005,7 @@ msgstr "Oznacz wiadomość jako przeczytaną"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "Pokaż pełną treść"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
@@ -10039,7 +10039,7 @@ msgstr "Załaduj zablokowaną treść."
 
 #. Template: ChatStartForm
 msgid "First message"
-msgstr ""
+msgstr "Pierwsza wiadomość"
 
 #. Template: CustomerError
 msgid "Traceback"
@@ -10181,7 +10181,7 @@ msgstr "Edytuj ustawienia osobiste"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "Wylogój %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -10470,7 +10470,7 @@ msgstr "Ustawienia ogólne i poczty e-mail"
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Witaj w %s"
 
 #. Template: Installer
 msgid "Web site"
@@ -10859,7 +10859,7 @@ msgstr "(Login) Nazwisko"
 
 #. SysConfig
 msgid "A Website"
-msgstr ""
+msgstr "Strona internetowa"
 
 #. SysConfig
 msgid ""
@@ -10870,7 +10870,7 @@ msgstr ""
 
 #. SysConfig
 msgid "A picture"
-msgstr ""
+msgstr "Obrazek"
 
 #. SysConfig
 msgid ""
@@ -11379,11 +11379,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "Zamknięte zgłoszenia (użytkownik klienta)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
-msgstr ""
+msgstr "Zamknięte zgłoszenia (klient)"
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -11637,7 +11637,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer User <-> Groups"
-msgstr "Użytkownicy Klienta <-> Grupy"
+msgstr "Użytkownik Klienta <-> Grupy"
 
 #. SysConfig
 msgid "Customer User <-> Services"
@@ -11645,7 +11645,7 @@ msgstr "Użytkownicy Klienta <-> Serwisy"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Zarządzanie Kontami Klienta"
+msgstr "Zarządzanie Użytkownikiem Klienta"
 
 #. SysConfig
 msgid "Customer Users"
@@ -11653,7 +11653,7 @@ msgstr "Użytkownicy Klienta"
 
 #. SysConfig
 msgid "Customer called us."
-msgstr "Klient telefonował do agenta."
+msgstr "Klient zadzwonił do nas."
 
 #. SysConfig
 msgid ""
@@ -11675,7 +11675,7 @@ msgstr "Żądanie klienta przez www."
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "Szkukaj użytkownika klienta"
 
 #. SysConfig
 msgid "CustomerID search"
@@ -14343,7 +14343,7 @@ msgstr "Fitrowanie przychodzących e-maili."
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Pierwsza kolejka"
 
 #. SysConfig
 msgid "FirstLock"
@@ -14439,7 +14439,7 @@ msgstr "Indeks filtrów pełnotekstowych do usuwania części tekstu."
 
 #. SysConfig
 msgid "Fulltext search"
-msgstr ""
+msgstr "Szukanie pełnotekstowe"
 
 #. SysConfig
 msgid ""
@@ -15327,15 +15327,15 @@ msgstr "Multiwybór"
 
 #. SysConfig
 msgid "My Queues and My Services"
-msgstr ""
+msgstr "Moje Kolejki i Moje Usługi"
 
 #. SysConfig
 msgid "My Queues or My Services"
-msgstr ""
+msgstr "Moje Kolejki lub Moje Usługi"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Moje Usługi"
 
 #. SysConfig
 msgid "My Tickets"
@@ -15403,7 +15403,7 @@ msgstr ""
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "Brak"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -15441,19 +15441,19 @@ msgstr "Aktualizacja statusu. Stary: \"%s\" nowy: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "Online"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
-msgstr ""
+msgstr "Otwarte zgłoszenia (użytkownik klienta)"
 
 #. SysConfig
 msgid "Open tickets (customer)"
-msgstr ""
+msgstr "Otwarte zgłoszenia (klient)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Poza biurem"
 
 #. SysConfig
 msgid ""
@@ -17489,7 +17489,7 @@ msgstr "Statystyki"
 
 #. SysConfig
 msgid "Status view"
-msgstr "Widok statusów"
+msgstr "Podgląd statusów"
 
 #. SysConfig
 msgid "Stop words for fulltext index. These words will be removed."
@@ -17521,7 +17521,7 @@ msgstr "Szablony <-> Kolejki"
 
 #. SysConfig
 msgid "Textarea"
-msgstr "Obszar tekstu"
+msgstr "Pole tekstowe"
 
 #. SysConfig
 msgid ""

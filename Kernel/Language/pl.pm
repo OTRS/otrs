@@ -149,7 +149,7 @@ sub Data {
         'Customer' => 'Klient',
         'CustomerID' => 'ID Klienta',
         'CustomerIDs' => 'ID Klientów',
-        'customer' => 'Klient',
+        'customer' => 'klient',
         'agent' => 'Agent',
         'system' => 'System',
         'Customer Info' => 'Informacje o kliencie',
@@ -926,7 +926,7 @@ sub Data {
         'Agent (Responsible)' => 'Agent (odpowiedzialny)',
         'New ticket notification' => 'Powiadomienia o nowych zgłoszeniach',
         'Send me a notification if there is a new ticket in "My Queues".' =>
-            'Wysyłaj powiadomienia o nowych zgłoszeniach w "Moich kolejkach".',
+            'Wyślij mi powiadomienia o nowych zgłoszeniach w "Moich kolejkach".',
         'Send new ticket notifications' => 'Wysyłaj powiadomienia o nowych zgłoszeniach',
         'Ticket follow up notification' => 'Powiadomienia o nowych wiadomościach w zgłoszeniach',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my subscribed queues.' =>
@@ -1075,7 +1075,7 @@ sub Data {
         'To get the realname of the sender (if given).' => 'Pokaż imię i nazwisko nadawcy (jeżeli podał).',
         'To get the article attribute' => 'Pokaż właściwości wiadomości',
         ' e. g.' => 'np.',
-        'Options of the current customer user data' => 'Opcje danych obecnego konta klienta',
+        'Options of the current customer user data' => 'Opcje danych obecnego użytkownika klienta',
         'Ticket owner options' => 'Opcje właściciela zgłoszenia',
         'Ticket responsible options' => 'Opcje odpowiedzialego za zgłoszenie',
         'Options of the current user who requested this action' => 'Opcje bieżącego użytkownika, który żądał akcji',
@@ -1095,17 +1095,17 @@ sub Data {
         'Add Customer' => 'Dodaj Klienta',
 
         # Template: AdminCustomerUser
-        'Customer User Management' => 'Zarządzanie kontami klienta',
+        'Customer User Management' => 'Zarządzanie użytkownikami klienta',
         'Back to search results' => 'Wstecz do wyników wyszukiwania',
-        'Add customer user' => 'Dodaj konto klienta',
+        'Add customer user' => 'Dodaj użytkownika klienta',
         'Hint' => 'Podpowiedź',
         'Customer user are needed to have a customer history and to login via customer panel.' =>
-            'Konto klienta jest konieczne by móc posiadać historię klienta oraz logować się przez panel klienta.',
+            'W celu posiadania historii klientów oraz umożliwić im logowanie się do panelu klienta konieczne jest założenia konta użytkownika klienta.',
         'Last Login' => 'Ostatnie logowanie',
         'Login as' => 'Zaloguj jako',
-        'Switch to customer' => 'Przełącz na klienta',
-        'Add Customer User' => '',
-        'Edit Customer User' => 'Edytuj konto klienta',
+        'Switch to customer' => 'Zmień klienta',
+        'Add Customer User' => 'Dodaj Użykownika Klienta',
+        'Edit Customer User' => 'Edytuj Użytkownika Klienta',
         'This field is required and needs to be a valid email address.' =>
             'To pole jest wymagane i musi być poprawnym adresem e-mail.',
         'This email address is not allowed due to the system configuration.' =>
@@ -1120,10 +1120,10 @@ sub Data {
         'Notice' => 'Uwaga',
         'This feature is disabled!' => 'Ta funkcja jest wyłączona!',
         'Just use this feature if you want to define group permissions for customers.' =>
-            'Użyj tej funkcji jeśli chcesz zdefinioać grupę uprawnień dla klientów.',
+            'Użyj tej funkcji jeśli chcesz określić grupę uprawnień dla klientów.',
         'Enable it here!' => 'Włącz tutaj!',
-        'Edit Customer Default Groups' => 'Edytuj domyślne Grupy Klientów',
-        'These groups are automatically assigned to all customers.' => 'Te grupy są automatycznie przypisane do wszystkich klientów.',
+        'Edit Customer Default Groups' => 'Edytuj Domyślne Grupy Klientów',
+        'These groups are automatically assigned to all customers.' => 'Te grupy są automatycznie przypisywane wszystkim klientom.',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Możesz zarządzać tymi grupami poprzez parametr "CustomerGroupAlwaysGroups".',
         'Filter for Groups' => 'Filtr dla grup.',
@@ -1238,13 +1238,13 @@ sub Data {
         'Number of cols' => 'Liczba kolumn',
         'Specify the width (in characters) for this field in the edit mode.' =>
             'Określ szerokość (w znakach) dla tego pola w trybie edycji.',
-        'Check RegEx' => '',
+        'Check RegEx' => 'Sprawdź wyrażenie regularne',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             '',
-        'RegEx' => '',
-        'Invalid RegEx' => '',
+        'RegEx' => 'Wyrażenie regularne',
+        'Invalid RegEx' => 'Nieprawidłowe wyrażenie regularne',
         'Error Message' => 'Komunikat błędu',
-        'Add RegEx' => '',
+        'Add RegEx' => 'Dodaj wyrażenie regularne',
 
         # Template: AdminEmail
         'Admin Notification' => 'Powiadomienia administratora',
@@ -1290,15 +1290,15 @@ sub Data {
             'Jeśli zgłoszenie zostanie wykonane wówczas filtr zgłoszeń zostanie wykonany dla sprawdzenia dopasowania zgłoszenia. Tylko wówczas zadanie jest wykonane na danym zgłoszeniu.',
         'Do you really want to delete this event trigger?' => 'Czy na pewno chcesz usunąć ten trigger?',
         'Add Event Trigger' => 'Dodaj trigger',
-        'Add Event' => '',
+        'Add Event' => 'Dodaj wydarzenie',
         'To add a new event select the event object and event name and click on the "+" button' =>
             'Aby dodać nowe zdarzenie, zaznacz obiekt zdarzenia i nazwę zdarzenia i kliknij przycisk "+"',
         'Duplicate event.' => 'Duplikuj zdarzenie',
         'This event is already attached to the job, Please use a different one.' =>
             'Jeśli zdarzenie jest już dodane do zadania wówczas prosze użyj innego.',
         'Delete this Event Trigger' => 'Usuń ten trigger',
-        'Remove selection' => '',
-        'Select Tickets' => '',
+        'Remove selection' => 'Usuń zaznaczenie',
+        'Select Tickets' => 'Zaznacz zgłoszenia',
         '(e. g. 10*5155 or 105658*)' => '(np. 10*5155 lub 105658*)',
         '(e. g. 234321)' => '(np. 3242442)',
         'Customer login' => 'Login klienta',
@@ -1310,7 +1310,7 @@ sub Data {
         'No create time settings.' => 'Bez czasów utworzenia.',
         'Ticket created' => 'Zgłoszenie utworzone',
         'Ticket created between' => 'Zgłoszenie utworzone między',
-        'Last changed times' => '',
+        'Last changed times' => 'Data ostatnich modyfikacji',
         'No last changed time settings.' => '',
         'Ticket last changed' => '',
         'Ticket last changed between' => '',
@@ -1340,7 +1340,7 @@ sub Data {
         'Ticket solution time reached' => 'Osiągnięty czas rozwiązania zgłoszenia',
         'Ticket solution time reached between' => 'Czas rozwiązania zgłoszenia będzie osiągnięty za',
         'Archive search option' => 'Aktywna opcja szukania',
-        'Update/Add Ticket Attributes' => '',
+        'Update/Add Ticket Attributes' => 'Zmień/dodaj parametry zgłoszenia',
         'Set new service' => 'Ustaw nową usługę',
         'Set new Service Level Agreement' => 'Ustaw nowe SLA',
         'Set new priority' => 'Ustaw nowy priorytet',
@@ -1359,7 +1359,7 @@ sub Data {
         'Archive selected tickets' => 'Zarchiwizuj zaznaczone zgłoszenia',
         'Add Note' => 'Dodaj notatkę',
         'Time units' => 'Zaraportowany czas obsługi',
-        'Execute Ticket Commands' => '',
+        'Execute Ticket Commands' => 'Wykonaj polecenia zgłoszeń',
         'Send agent/customer notifications on changes' => 'Wyślij powidomienia agentowi/klientowi przy zmianie ',
         'CMD' => 'linia poleceń',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
@@ -1498,7 +1498,7 @@ sub Data {
         'Host' => 'Adres',
         'Remote host URL for the REST requests.' => '',
         'e.g https://www.otrs.com:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'np. https://www.otrs.com:10745/api/v1.0 (bez ukośnika na końcu)',
         'Controller mapping for Invoker' => '',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             '',
@@ -1728,8 +1728,8 @@ sub Data {
         'You can either reinstall your current version or perform an update with the buttons below (update recommended).' =>
             '',
         'Update %s' => '',
-        '%s Not Yet Available' => '',
-        '%s will be available soon.' => '',
+        '%s Not Yet Available' => '%s jeszcze nie jest dostępne',
+        '%s will be available soon.' => '%s wkrótce będzie dostępne.',
         '%s Update Available' => '%s dostępna jest aktualizacja',
         'An update for your %s is available! Please update at your earliest!' =>
             '',
@@ -1757,7 +1757,7 @@ sub Data {
             '',
 
         # Template: AdminOTRSBusinessUninstall
-        'Cancel downgrade and go back' => '',
+        'Cancel downgrade and go back' => 'Przerwij downgrade i wróć',
         'Go to OTRS Package Manager' => '',
         'Sorry, but currently you can\'t downgrade due to the following packages which depend on %s:' =>
             '',
@@ -1810,7 +1810,7 @@ sub Data {
         'This package is verified by OTRSverify (tm)' => 'Ten pakiet został zweryfikowany poprzez OTRSverify (tm)',
         'Uninstall' => 'Odinstaluj',
         'Reinstall' => 'Przeinstaluj',
-        'Features for %s customers only' => '',
+        'Features for %s customers only' => 'Funkcje tylko dla %s klientów',
         'With %s, you can benefit from the following optional features. Please make contact with %s if you need more information.' =>
             '',
         'Download package' => 'Pobierz pakiet',
@@ -2570,7 +2570,7 @@ sub Data {
         'Customer Information Center' => 'Centrum informacji o kliencie',
 
         # Template: AgentCustomerInformationCenterSearch
-        'Customer User' => 'Konto Klienta',
+        'Customer User' => 'Użytkownik Klienta',
 
         # Template: AgentCustomerSearch
         'Duplicated entry' => 'Zduplikowana pozycja',
@@ -2578,7 +2578,7 @@ sub Data {
         'It is going to be deleted from the field, please try again.' => 'To zostanie usunięte z pola, spróbuj ponownie.',
 
         # Template: AgentCustomerTableView
-        'Note: Customer is invalid!' => 'Info: Klient jest nieprawidłowy!',
+        'Note: Customer is invalid!' => 'Uwaga: Nieprawidłowy klient!',
 
         # Template: AgentDashboard
         'Dashboard' => 'Pulpit',
@@ -2793,7 +2793,7 @@ sub Data {
         'Please set a new owner!' => 'Prosimy ustaw nowego właściciela!',
         'Previous Owner' => 'Poprzedni właściciel',
         'Next state' => 'Następny status',
-        'For all pending* states.' => '',
+        'For all pending* states.' => 'Dla wszystkich odraczających* stanów.',
         'Add Article' => 'Dodaj wiadomość',
         'Create an Article' => 'Utwórz wiadomość',
         'Spell check' => 'Sprawdzanie poprawności',
@@ -2805,7 +2805,7 @@ sub Data {
         'Inform involved Agents' => 'Poinformuj zaangażowanych agentów',
         'Here you can select additional agents which should receive a notification regarding the new article.' =>
             'Tutaj można wybrać dodatkowych Agentów, którzy powinni otrzymać powiadomienie o nowej wiadomości.',
-        'Note will be (also) received by:' => '',
+        'Note will be (also) received by:' => 'Notatka zostanie (również) odebrana przez:',
 
         # Template: AgentTicketBounce
         'Bounce Ticket' => 'Przekaż zgłoszenie',
@@ -2840,13 +2840,13 @@ sub Data {
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Zmień klienta dla zgłoszenia',
-        'Customer user' => 'Konto klienta',
+        'Customer user' => 'Użytkownik klienta',
 
         # Template: AgentTicketEmail
         'Create New Email Ticket' => 'Utwórz nowe zgłoszenie e-mail',
         'Example Template' => 'Przykładowy szablon',
         'From queue' => 'Do kolejki',
-        'To customer user' => 'Do konta klienta',
+        'To customer user' => 'Do użytkownika klienta',
         'Please include at least one customer user for the ticket.' => 'Proszę wybierz przynajmniej jednego konta klienta dla zgłoszenia.',
         'Select this customer as the main customer.' => 'Wybierz tego klienta jako podstawowego',
         'Remove Ticket Customer User' => 'Usuń zgłoszenie klienta',
@@ -2905,7 +2905,7 @@ sub Data {
         'Create New Phone Ticket' => 'Utwórz nowe zgłoszenie telefoniczne',
         'Please include at least one customer for the ticket.' => 'Wprowadź przynajmniej jednego klienta dla zgłoszenia.',
         'To queue' => 'Do kolejki',
-        'Chat protocol' => '',
+        'Chat protocol' => 'Protokół czatu',
         'The chat will be appended as a separate article.' => 'Wiadomość czatu będzie dodana jako osobna wiadomość w zgłoszeniu.',
 
         # Template: AgentTicketPlain
@@ -2932,17 +2932,17 @@ sub Data {
         'Create New' => 'Stwórz nowy',
         'Profile link' => 'Link do profilu',
         'Save changes in template' => 'Zapisz zmiany w szablonie',
-        'Filters in use' => '',
-        'Additional filters' => '',
+        'Filters in use' => 'Filtry w użyciu',
+        'Additional filters' => 'dodatkowe filtry',
         'Add another attribute' => 'Dodaj inny parametr',
         'Output' => 'Format wyjściowy',
         'Fulltext' => 'Pełnotekstowe',
         'Remove' => 'Usuń',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
             'Wyszukiwanie wg. parametrów Od, Do, CC, Tytuł, Treść ignoruje inne kryteria o tej samej nazwie.',
-        'Customer User Login' => 'Login Klienta',
-        'Attachment Name' => '',
-        '(e. g. m*file or myfi*)' => '',
+        'Customer User Login' => 'Login Użytkownika Klienta',
+        'Attachment Name' => 'Nazwa załącznika',
+        '(e. g. m*file or myfi*)' => '(np. m*jplik lub mójpl*)',
         'Created in Queue' => 'Utworzono w kolejce',
         'Lock state' => 'Stan blokady',
         'Watcher' => 'Obserwujący',
@@ -2968,7 +2968,7 @@ sub Data {
         'Save filter settings as default' => 'Zapisz ustawienia filtru jako domyślne',
         'Event Type Filter' => '',
         'Event Type' => '',
-        'Save as default' => '',
+        'Save as default' => 'Zapisz jako domyślny',
         'Archive' => 'Archiwum',
         'This ticket is archived.' => 'To zgłoszenie jest zarchiwizowane.',
         'Locked' => 'Blokada',
@@ -2977,7 +2977,7 @@ sub Data {
         'There are no dialogs available at this point in the process.' =>
             'W tym punkcie procesów brak jest jeszcze dialogów.',
         'This item has no articles yet.' => 'Ten element nie zawiera jeszcze żadnych wiadomości.',
-        'Ticket Timeline View' => '',
+        'Ticket Timeline View' => 'Podgląd linii czasu zgłoszenia',
         'Article Overview' => 'Przegląd wiadomości',
         'Article(s)' => 'Wiadomość(ci)',
         'Page' => 'Strona',
@@ -2986,7 +2986,7 @@ sub Data {
         'Reset Filter' => 'resetuj filtr',
         'Show one article' => 'Pokaż tylko jedną wiadomość',
         'Show all articles' => 'Pokaż wszystkie wiadomości',
-        'Show Ticket Timeline View' => '',
+        'Show Ticket Timeline View' => 'Pokaż podgląd linii czasu zgłoszenia',
         'Unread articles' => 'Nieprzeczytane wiadomości',
         'No.' => 'Lp.',
         'Important' => 'Ważne',
@@ -2996,7 +2996,7 @@ sub Data {
         'Internal message' => 'Wiadomość wewnętrzna',
         'Resize' => 'Zmień rozmiar',
         'Mark this article as read' => 'Oznacz wiadomość jako przeczytaną',
-        'Show Full Text' => '',
+        'Show Full Text' => 'Pokaż pełną treść',
         'Full Article Text' => 'Pełna treść wiadomości',
         'No more events found. Please try changing the filter settings.' =>
             '',
@@ -3011,7 +3011,7 @@ sub Data {
         'Load blocked content.' => 'Załaduj zablokowaną treść.',
 
         # Template: ChatStartForm
-        'First message' => '',
+        'First message' => 'Pierwsza wiadomość',
 
         # Template: CustomerError
         'Traceback' => 'Śledź wstecz',
@@ -3059,7 +3059,7 @@ sub Data {
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
         'Edit personal preferences' => 'Edytuj ustawienia osobiste',
-        'Logout %s %s' => '',
+        'Logout %s %s' => 'Wylogój %s %s',
 
         # Template: CustomerRichTextEditor
         'Split Quote' => '',
@@ -3161,7 +3161,7 @@ sub Data {
         'JavaScript not available' => 'JavaSript nie jest dostępny',
         'Database Settings' => 'Ustawienia bazy danych',
         'General Specifications and Mail Settings' => 'Ustawienia ogólne i poczty e-mail',
-        'Welcome to %s' => '',
+        'Welcome to %s' => 'Witaj w %s',
         'Web site' => 'Strona WWW',
         'Mail check successful.' => 'Sprawdzanie poczty e-mail zakończone pomyślnie.',
         'Error in the mail settings. Please correct and try again.' => 'Błąd w ustawieniach poczty. Popraw i spróbuj ponownie.',
@@ -3298,10 +3298,10 @@ sub Data {
         '%s time unit(s) accounted. Now total %s time unit(s).' => 'Dodano %s jednostek czasu. Obecnie całkowity czas to %s jednostek.',
         '(UserLogin) Firstname Lastname' => '(Login) Imię',
         '(UserLogin) Lastname, Firstname' => '(Login) Nazwisko',
-        'A Website' => '',
+        'A Website' => 'Strona internetowa',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
             '',
-        'A picture' => '',
+        'A picture' => 'Obrazek',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Modu; ACL pozwalajacy na zamykanie nadrzędnych zgłoszeń tylko wóczas gdy wszystkie podrzędne są już zamknięte ("Status") pokazuje które stany nie są dostępne dla zgłoszenia nadrzędnego aż do momentu zamknięcia wszystkich podrzędnych.',
         'Access Control Lists (ACL)' => 'Lista Kontroli dostępu (ACL)',
@@ -3465,8 +3465,8 @@ sub Data {
         'Checkbox' => 'Pole wyboru',
         'Checks the SystemID in ticket number detection for follow-ups (use "No" if SystemID has been changed after using the system).' =>
             '',
-        'Closed tickets (customer user)' => '',
-        'Closed tickets (customer)' => '',
+        'Closed tickets (customer user)' => 'Zamknięte zgłoszenia (użytkownik klienta)',
+        'Closed tickets (customer)' => 'Zamknięte zgłoszenia (klient)',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Kolumna filtrów zgłoszeń dla "małego" Podglądu Zgłoszeń.',
         'Columns that can be filtered in the escalation view of the agent interface. Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed.' =>
             '',
@@ -3535,17 +3535,17 @@ sub Data {
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => '',
-        'Customer User <-> Groups' => 'Użytkownicy Klienta <-> Grupy',
+        'Customer User <-> Groups' => 'Użytkownik Klienta <-> Grupy',
         'Customer User <-> Services' => 'Użytkownicy Klienta <-> Serwisy',
-        'Customer User Administration' => 'Zarządzanie Kontami Klienta',
+        'Customer User Administration' => 'Zarządzanie Użytkownikiem Klienta',
         'Customer Users' => 'Użytkownicy Klienta',
-        'Customer called us.' => 'Klient telefonował do agenta.',
+        'Customer called us.' => 'Klient zadzwonił do nas.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             '',
         'Customer request via web.' => 'Żądanie klienta przez www.',
-        'Customer user search' => '',
+        'Customer user search' => 'Szkukaj użytkownika klienta',
         'CustomerID search' => '',
         'CustomerName' => 'Nazwa klienta',
         'Customers <-> Groups' => 'Klienci <-> Grupy',
@@ -4375,7 +4375,7 @@ sub Data {
         'Filter for debugging Transitions. Note: More filters can be added in the format <OTRS_TICKET_Attribute> e.g. <OTRS_TICKET_Priority>.' =>
             '',
         'Filter incoming emails.' => 'Fitrowanie przychodzących e-maili.',
-        'First Queue' => '',
+        'First Queue' => 'Pierwsza kolejka',
         'FirstLock' => 'Pierwsza blokada',
         'FirstResponse' => 'Pierwsza odpowiedź',
         'FirstResponseDiffInMin' => 'Pierwsza odpowiedź w min. - różnica',
@@ -4403,7 +4403,7 @@ sub Data {
         'Frontend module registration for the customer interface.' => 'Widok modułu interfejsu dla interfejsu klienta.',
         'Frontend theme' => 'Schemat graficzny',
         'Fulltext index regex filters to remove parts of the text.' => 'Indeks filtrów pełnotekstowych do usuwania części tekstu.',
-        'Fulltext search' => '',
+        'Fulltext search' => 'Szukanie pełnotekstowe',
         'General ticket data shown in the ticket overviews (fall-back). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default. Note that TicketNumber can not be disabled, because it is necessary.' =>
             '',
         'GenericAgent' => 'Agent automatyczny',
@@ -4674,9 +4674,9 @@ sub Data {
             '',
         'Module to use database filter storage.' => 'Moduł do filtrowania zapisów bazy danych.',
         'Multiselect' => 'Multiwybór',
-        'My Queues and My Services' => '',
-        'My Queues or My Services' => '',
-        'My Services' => '',
+        'My Queues and My Services' => 'Moje Kolejki i Moje Usługi',
+        'My Queues or My Services' => 'Moje Kolejki lub Moje Usługi',
+        'My Services' => 'Moje Usługi',
         'My Tickets' => 'Moje zgłoszenia',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             '',
@@ -4695,7 +4695,7 @@ sub Data {
         'Next possible ticket states after adding a phone note in the ticket phone outbound screen of the agent interface.' =>
             '',
         'No Notification' => '',
-        'None' => '',
+        'None' => 'Brak',
         'Notification sent to "%s".' => 'Powiadomienie wysłano do "%s".',
         'Notifications (Event)' => 'Powiadomienia o zdarzeniu',
         'Number of displayed tickets' => 'Liczba wyświetlanych zgłoszeń',
@@ -4706,10 +4706,10 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Old: "%s" New: "%s"' => 'Aktualizacja statusu. Stary: "%s" nowy: "%s"',
-        'Online' => '',
-        'Open tickets (customer user)' => '',
-        'Open tickets (customer)' => '',
-        'Out Of Office' => '',
+        'Online' => 'Online',
+        'Open tickets (customer user)' => 'Otwarte zgłoszenia (użytkownik klienta)',
+        'Open tickets (customer)' => 'Otwarte zgłoszenia (klient)',
+        'Out Of Office' => 'Poza biurem',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Przegląd eskalowanych zgłoszeń',
@@ -5342,7 +5342,7 @@ sub Data {
             '',
         'Stat#' => 'Statystyka#',
         'Statistics' => 'Statystyki',
-        'Status view' => 'Widok statusów',
+        'Status view' => 'Podgląd statusów',
         'Stop words for fulltext index. These words will be removed.' => 'Słowa wstrzymane dla indeksowania pełnotekstowego. Te słowa zostaną usunięte.',
         'Stores cookies after the browser has been closed.' => 'Przechowuje ciasteczka po zakmnięciu przeglądarki.',
         'Strips empty lines on the ticket preview in the queue view.' => 'Usuwa puste linie z podglądu zgłoszenia w widoku kolejki.',
@@ -5351,7 +5351,7 @@ sub Data {
         'System Maintenance' => '',
         'System Request (%s).' => 'Żądanie systemowe (%s).',
         'Templates <-> Queues' => 'Szablony <-> Kolejki',
-        'Textarea' => 'Obszar tekstu',
+        'Textarea' => 'Pole tekstowe',
         'The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.' =>
             '"bin/PostMasterMailAccount.pl" ponowi połączenie do serwera POP3/POP3S/IMAP/IMAPS po wskazanej ilości wiadomości.',
         'The agent skin\'s InternalName which should be used in the agent interface. Please check the available skins in Frontend::Agent::Skins.' =>

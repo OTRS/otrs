@@ -2578,7 +2578,7 @@ sub Data {
         'Note: Customer is invalid!' => 'Hinweis: Kunde ist ungültig!',
 
         # Template: AgentDashboard
-        'Dashboard' => 'Übersichtsseite',
+        'Dashboard' => 'Übersicht',
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'in',

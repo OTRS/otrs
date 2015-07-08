@@ -1299,7 +1299,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Este evento ya está ligado al trabajo, seleccione uno diferente.',
         'Delete this Event Trigger' => 'Borrar este disparador de eventos',
-        'Remove selection' => '',
+        'Remove selection' => 'Remover selección',
         'Select Tickets' => 'Seleccionar Ticket',
         '(e. g. 10*5155 or 105658*)' => '(ej: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ej: 234321)',
@@ -1626,20 +1626,20 @@ sub Data {
         'Do you really want to restore this version of the web service configuration?' =>
             '',
         'Your current web service configuration will be overwritten.' => '',
-        'Restore' => '',
+        'Restore' => 'Restaurar',
 
         # Template: AdminGroup
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
             'ATENCIÓN: Cuando cambia el nombre del grupo \'admin\', antes de realizar los cambios apropiados en SysConfig, ¡bloqueará el panel de administración! Si esto sucediera, por favor vuelva a renombrar el grupo para administrar por declaración SQL.',
         'Group Management' => 'Administración de grupos',
-        'Add group' => '',
+        'Add group' => 'Agregar grupo',
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'El grupo admin es para usar el área de administración y el grupo stats para usar el área estadisticas.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
             '',
         'It\'s useful for ASP solutions. ' => '',
         'Add Group' => 'Añadir Grupo',
-        'Edit Group' => '',
+        'Edit Group' => 'Editar grupo',
 
         # Template: AdminLog
         'System Log' => 'Registro del sistema',
@@ -1649,21 +1649,21 @@ sub Data {
 
         # Template: AdminMailAccount
         'Mail Account Management' => 'Gestión de Cuentas de Correo',
-        'Add mail account' => '',
+        'Add mail account' => 'Agregar cuenta de correo',
         'All incoming emails with one account will be dispatched in the selected queue!' =>
             '¡Todos los correos entrantes con una cuenta serán enviados a la cola seleccionada!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' =>
             'Si su cuenta está validada, ¡las cabeceras X-OTRS ya existentes en la llegada se utilizarán para la prioridad! El filtro Postmaster se usa de todas formas.',
-        'Delete account' => '',
-        'Fetch mail' => '',
-        'Add Mail Account' => '',
-        'Example: mail.example.com' => '',
+        'Delete account' => 'Eliminar cuenta',
+        'Fetch mail' => 'Traer correos',
+        'Add Mail Account' => 'Agregar Cuenta de Correo',
+        'Example: mail.example.com' => 'Ejemplo: mail.ejemplo.com',
         'IMAP Folder' => '',
         'Only modify this if you need to fetch mail from a different folder than INBOX.' =>
             '',
         'Trusted' => 'Validado',
         'Dispatching' => 'Remitiendo',
-        'Edit Mail Account' => '',
+        'Edit Mail Account' => 'Editar Cuenta de Correo',
 
         # Template: AdminNavigationBar
         'Admin' => 'Administrar',
@@ -1671,7 +1671,7 @@ sub Data {
         'Queue Settings' => 'Ajustes de las colas',
         'Ticket Settings' => 'Ajustes de los tickets',
         'System Administration' => 'Administración del sistema',
-        'Online Admin Manual' => '',
+        'Online Admin Manual' => 'Manual de Administración Online',
 
         # Template: AdminNotification
         'Notification Management' => 'Gestión de Notificaciones',
@@ -1679,12 +1679,12 @@ sub Data {
         'Filter for Notification' => '',
         'Notifications are sent to an agent or a customer.' => 'Las notificaciones se envían a un agente o cliente',
         'Notification' => 'Notificaciones',
-        'Edit Notification' => '',
-        'e. g.' => '',
+        'Edit Notification' => 'Editar Notificación',
+        'e. g.' => 'ej.',
         'Options of the current customer data' => '',
 
         # Template: AdminNotificationEvent
-        'Add notification' => '',
+        'Add notification' => 'Agregar notificación',
         'Delete this notification' => '',
         'Add Notification' => 'Agregar Notificación',
         'Ticket Filter' => 'Filtro de tickets',

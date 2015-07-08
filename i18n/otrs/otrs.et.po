@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-20 17:27+0000\n"
+"PO-Revision-Date: 2015-07-07 06:33+0000\n"
 "Last-Translator: Uve Lokk <uvelokk@gmail.com>\n"
-"Language-Team: Estonian (http://www.transifex.com/projects/p/OTRS/language/et/)\n"
+"Language-Team: Estonian (http://www.transifex.com/p/OTRS/language/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1530,7 +1530,7 @@ msgstr ""
 
 #. Template: AAABase
 msgid "Your %s was successfully updated."
-msgstr ""
+msgstr "Teie %s uuendamine õnnestus."
 
 #. Template: AAABase
 msgid "There was a problem during the upgrade of %s."
@@ -1778,11 +1778,11 @@ msgstr "Statistika"
 
 #. Template: AAAStats
 msgid "Sum"
-msgstr ""
+msgstr "summa"
 
 #. Template: AAAStats
 msgid "No (not supported)"
-msgstr ""
+msgstr "Ei (pole toetatud)"
 
 #. Template: AAAStats
 msgid "Days"
@@ -2538,7 +2538,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Apache::Reload Usage"
-msgstr ""
+msgstr "Apache::Reload kasutus"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -2549,7 +2549,7 @@ msgstr ""
 
 #. Template: AAASupportDataCollector
 msgid "Apache::DBI Usage"
-msgstr ""
+msgstr "Apache::DBI kasutus"
 
 #. Template: AAASupportDataCollector
 msgid ""
@@ -6224,7 +6224,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Result"
-msgstr "Vastus"
+msgstr "Tulemus"
 
 #. Template: AdminPGP
 msgid "Identifier"
@@ -8101,7 +8101,7 @@ msgstr ""
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "Uuendamise tulemus"
 
 #. Template: AdminServiceCenterSupportDataCollector
 msgid "Currently this data is only shown in this system."
@@ -8928,11 +8928,11 @@ msgstr ""
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "töölt eemal"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr ""
+msgstr "kuni"
 
 #. Template: AgentHTMLReferencePageLayout
 msgid "The ticket has been locked"
@@ -9006,7 +9006,7 @@ msgstr ""
 
 #. Template: AgentSchedulerInfo
 msgid "Make sure that %s exists (without .dist extension)"
-msgstr ""
+msgstr "Veendu, et %s on olemas (.dist laiendita)"
 
 #. Template: AgentSchedulerInfo
 msgid "Check that cron deamon is running in the system"
@@ -9125,11 +9125,11 @@ msgstr "If you use a graph as output format you have to select at least one grap
 
 #. Template: AgentStatsEditSpecification
 msgid "Sum rows"
-msgstr "Summaread"
+msgstr "Ridade summa"
 
 #. Template: AgentStatsEditSpecification
 msgid "Sum columns"
-msgstr "Summaveerud"
+msgstr "Veergude summa"
 
 #. Template: AgentStatsEditSpecification
 msgid "Use cache"
@@ -9762,7 +9762,7 @@ msgstr ""
 
 #. Template: AgentTicketSearch
 msgid "Filters in use"
-msgstr ""
+msgstr "kasutatavad filtrid"
 
 #. Template: AgentTicketSearch
 msgid "Additional filters"
@@ -9774,7 +9774,7 @@ msgstr "Lisa parameeter"
 
 #. Template: AgentTicketSearch
 msgid "Output"
-msgstr "Tulemuste formaat"
+msgstr "Väljund"
 
 #. Template: AgentTicketSearch
 msgid "Fulltext"
@@ -10312,7 +10312,7 @@ msgstr ""
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Sunday"
-msgstr ""
+msgstr "pühapäev"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Monday"
@@ -10477,7 +10477,7 @@ msgstr ""
 
 #. Template: Installer
 msgid "Mail check successful."
-msgstr ""
+msgstr "E-posti kontroll õnnestus."
 
 #. Template: Installer
 msgid "Error in the mail settings. Please correct and try again."
@@ -10573,7 +10573,7 @@ msgstr ""
 
 #. Template: InstallerConfigureMail
 msgid "Result of mail configuration check"
-msgstr ""
+msgstr "E-posti häälestuse kontrolli tulemus"
 
 #. Template: InstallerConfigureMail
 msgid "Check mail configuration"
@@ -10585,7 +10585,7 @@ msgstr ""
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
-msgstr ""
+msgstr "Andmebaasi paigaldus õnnestus!"
 
 #. Template: InstallerDBStart
 msgid "Install Type"
@@ -10609,11 +10609,11 @@ msgstr ""
 
 #. Template: InstallerDBmssql
 msgid "Result of database check"
-msgstr ""
+msgstr "Andmebaasi kontrolli tulemus"
 
 #. Template: InstallerDBmssql
 msgid "Database check successful."
-msgstr ""
+msgstr "Andmebaasi kontroll õnnestus."
 
 #. Template: InstallerDBmssql
 msgid "Database User"
@@ -15440,7 +15440,7 @@ msgstr "Vana: \"%s\" Uus: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "Hetkel siin"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15452,7 +15452,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Töölt eemal"
 
 #. SysConfig
 msgid ""
@@ -17627,7 +17627,7 @@ msgstr ""
 msgid ""
 "The text at the beginning of the subject in an email reply, e.g. RE, AW, or "
 "AS."
-msgstr ""
+msgstr "Tekst vastuskirja teemarea alguses, nt. Re, Vs."
 
 #. SysConfig
 msgid ""
@@ -17757,7 +17757,7 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Eemalda lukk juhul kui piletile lisatakse märkus ning pileti omanik on töölt eemal."
 
 #. SysConfig
 msgid "Unlocked ticket."
