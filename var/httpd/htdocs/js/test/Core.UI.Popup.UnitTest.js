@@ -23,7 +23,7 @@ Core.UI.Popup = (function (Namespace) {
                     WindowURLParams: "dependent=yes,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no",
                     Left: 100,
                     Top: 100,
-                    Width: 1024,
+                    Width: 1025,
                     Height: 700
                 }
             };
