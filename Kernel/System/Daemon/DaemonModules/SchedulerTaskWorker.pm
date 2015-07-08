@@ -171,14 +171,6 @@ sub Run {
                 }
             }
 
-            # override existing object manager with a new one
-            local $Kernel::OM = Kernel::System::ObjectManager->new(
-                'Kernel::System::Log' => {
-                    LogPrefix =>
-                        "OTRS-otrs.Daemon.pl - Daemon Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker - Child $$",
-                },
-            );
-
             # destroy objects
             $Kernel::OM->ObjectsDiscard(
                 ForcePackageReload => 1,
