@@ -120,9 +120,16 @@
 
     #Navigation > ul,
     #Navigation .Individual,
-    #Navigation > ul > li {
+    #Navigation > ul > li,
+    .RTL #Navigation > ul,
+    .RTL #Navigation .Individual {
         float: none;
         background: none !important;
+    }
+
+    .RTL #Navigation > ul > li {
+        float: none;
+        margin: 0px;
     }
 
     #Navigation > ul {
