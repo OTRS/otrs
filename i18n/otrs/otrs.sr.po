@@ -1,14 +1,14 @@
 # 
 # Translators:
 # S7 Design d.o.o. <otrs@s7designcreative.com>, 2015
-# Милорад Јовановић <j.milorad@gmail.com>, 2014
+# Милорад Јовановић <j.milorad@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Serbian (http://www.transifex.com/projects/p/OTRS/language/sr/)\n"
+"PO-Revision-Date: 2015-07-06 18:54+0000\n"
+"Last-Translator: Милорад Јовановић <j.milorad@gmail.com>\n"
+"Language-Team: Serbian (http://www.transifex.com/p/OTRS/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -8577,7 +8577,7 @@ msgstr "Сесије корисника"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "Прекини све сесије, осим сопствене"
 
 #. Template: AdminTemplate
 msgid "Manage Templates"
@@ -8843,7 +8843,7 @@ msgstr "Нови имејл тикет од %s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Start chat"
-msgstr ""
+msgstr "Почни ћаскање"
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -9558,27 +9558,27 @@ msgstr "Узми све"
 
 #. Template: AgentTicketEmailOutbound
 msgid "E-Mail Outbound"
-msgstr ""
+msgstr "Одлазни имејл"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr ""
+msgstr "Тикет %s: време одзива је преко (%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "Тикет %s: време одзива истиче за %s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "Тикет %s: време ажурирања истиче за %s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
-msgstr ""
+msgstr "Тикет %s: време решавања је преко (%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "Тикет %s: време решавања истиче за %s!"
 
 #. Template: AgentTicketForward
 msgid "Forward ticket: %s - %s"
@@ -9698,7 +9698,7 @@ msgstr "Протокол ћаскања"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "Ћаскање ће бити додато као посебан чланак."
 
 #. Template: AgentTicketPlain
 msgid "Email Text Plain View"
@@ -9738,7 +9738,7 @@ msgstr "Proces"
 
 #. Template: AgentTicketProcessSmall
 msgid "Enroll Ticket into a Process"
-msgstr ""
+msgstr "Прикључи тикет процесу"
 
 #. Template: AgentTicketSearch
 msgid "Search template"
@@ -9840,11 +9840,11 @@ msgstr "Време промене тикета (између)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "Време последње промене тикета (пре/после)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "Време последње промене тикета (између)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
@@ -9888,7 +9888,7 @@ msgstr "Сачувај подешавања филтера као подразу
 
 #. Template: AgentTicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "Филтер типа догађаја"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
@@ -9928,7 +9928,7 @@ msgstr "Ова ставка још увек нема члканке."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "Преглед тикета на временској линији"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview"
@@ -9964,7 +9964,7 @@ msgstr "Прикажи све чланке"
 
 #. Template: AgentTicketZoom
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "Прикажи тикете на временској линији"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
@@ -10012,7 +10012,7 @@ msgstr "Текст целог чланка"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
+msgstr "Нема више догађаја. Покушајте да промените подешавања филтера."
 
 #. Template: AgentTicketZoom
 msgid ""
@@ -10068,7 +10068,7 @@ msgstr "Тренутно нема слободних елемената за о�
 
 #. Template: CustomerFooterJS
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "Молимо да искључите мод компатибилности у Интернет експлореру!"
 
 #. Template: CustomerFooterJS
 msgid "The browser you are using is too old."
@@ -10172,7 +10172,7 @@ msgstr "Долазни захтеви за ћаскање"
 
 #. Template: CustomerNavigationBar
 msgid "You have unanswered chat requests"
-msgstr ""
+msgstr "Имате неодговорене захтеве за ћаскање"
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
@@ -10180,7 +10180,7 @@ msgstr "Уреди личне поставке"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
-msgstr ""
+msgstr "Одјава %s %s"
 
 #. Template: CustomerRichTextEditor
 msgid "Split Quote"
@@ -10433,7 +10433,7 @@ msgstr "Молимо унесите барем једну вредност пр�
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "Молимо да уклоните следеће речи из ваше претраге јер се не могу тражити:"
 
 #. Template: FooterJS
 msgid "Please check the fields marked as red for valid inputs."
@@ -10441,7 +10441,7 @@ msgstr "Молимо проверите поља означена црвеним
 
 #. Template: FooterJS
 msgid "Please perform a spell check on the the text first."
-msgstr ""
+msgstr "Молимо да прво проверите правопис на тексту."
 
 #. Template: FooterJS
 msgid "Slide the navigation bar"
@@ -10469,7 +10469,7 @@ msgstr "Опште спецификације и подешавање поште
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "Добродошли у %s"
 
 #. Template: Installer
 msgid "Web site"
@@ -10822,7 +10822,7 @@ msgstr "OTRS тест страна"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "Добродошли %s %s"
 
 #. Template: Test
 msgid "Counter"
@@ -10869,7 +10869,7 @@ msgstr ""
 
 #. SysConfig
 msgid "A picture"
-msgstr ""
+msgstr "Слика"
 
 #. SysConfig
 msgid ""
@@ -10932,7 +10932,7 @@ msgstr "Активира мерење времена."
 
 #. SysConfig
 msgid "ActivityID"
-msgstr ""
+msgstr "ИД активности"
 
 #. SysConfig
 msgid "Added email. %s"
@@ -11578,7 +11578,7 @@ msgstr "Креирање и управљање улогама."
 
 #. SysConfig
 msgid "Create and manage salutations."
-msgstr "Kreiranje i upravljanje pozdravima."
+msgstr "Креирање и управљање поздравима."
 
 #. SysConfig
 msgid "Create and manage services."
@@ -11622,7 +11622,7 @@ msgstr "Креирај нови процес за тикет"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "Прилагођени RSS извор"
 
 #. SysConfig
 msgid ""
@@ -11812,7 +11812,7 @@ msgstr ""
 msgid ""
 "Define the start day of the week for the date picker for the indicated "
 "calendar."
-msgstr ""
+msgstr "Дефиниши први дан у недељи за избор датума за наведени календар."
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
@@ -14200,7 +14200,7 @@ msgstr "Истекло време одговора на ескалацију"
 
 #. SysConfig
 msgid "Escalation response time forewarned"
-msgstr ""
+msgstr "Претходно упозорење за време одговора на ескалацију"
 
 #. SysConfig
 msgid "Escalation response time in effect"
@@ -14212,7 +14212,7 @@ msgstr "Истекло време решавања ескалације"
 
 #. SysConfig
 msgid "Escalation solution time forewarned"
-msgstr ""
+msgstr "Претходно упозорење за време решавања ескалације"
 
 #. SysConfig
 msgid "Escalation solution time in effect"
@@ -14224,7 +14224,7 @@ msgstr "Истекло време ажурирања ескалације"
 
 #. SysConfig
 msgid "Escalation update time forewarned"
-msgstr ""
+msgstr "Претходно упозорење за време ажурирања ескалације"
 
 #. SysConfig
 msgid "Escalation update time in effect"
@@ -14342,7 +14342,7 @@ msgstr "Филтрирање долазних порука."
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Први ред"
 
 #. SysConfig
 msgid "FirstLock"
@@ -15362,7 +15362,7 @@ msgstr "Нови тикет [%s] отворен (Q=%s;P=%s;S=%s)."
 
 #. SysConfig
 msgid "New Window"
-msgstr ""
+msgstr "Нови прозор"
 
 #. SysConfig
 msgid "New email ticket"
@@ -15402,7 +15402,7 @@ msgstr "Нема обавештења"
 
 #. SysConfig
 msgid "None"
-msgstr ""
+msgstr "Ни један"
 
 #. SysConfig
 msgid "Notification sent to \"%s\"."
@@ -15452,7 +15452,7 @@ msgstr "Отворени тикети (корисник)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Ван канцеларије"
 
 #. SysConfig
 msgid ""
@@ -16006,7 +16006,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Second Queue"
-msgstr ""
+msgstr "Други Ред"
 
 #. SysConfig
 msgid "Select your frontend Theme."
@@ -16047,11 +16047,11 @@ msgstr ""
 msgid ""
 "Send me a notification if the service of a ticket is changed to a service in"
 " \"My Services\" and the ticket is in a queue where I have read permissions."
-msgstr ""
+msgstr "Пошаљи ми обавештење за нови тикет у \"Мојим Сервисима\"."
 
 #. SysConfig
 msgid "Send me a notification if there is a new ticket in my queues/services."
-msgstr ""
+msgstr "Пошаљи ми обавештење за нови тикет у мојим редовима/сервисима."
 
 #. SysConfig
 msgid "Send new ticket notifications if subscribed to"
@@ -16263,18 +16263,18 @@ msgstr ""
 msgid ""
 "Sets the default message for the notification is shown on a running system "
 "maintenance period."
-msgstr ""
+msgstr "Одређује подразумевану поруку за обавештење које се види током периода одржавања."
 
 #. SysConfig
 msgid ""
 "Sets the default next state for new phone tickets in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани следећи статус за нове телефонске тикете у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default next ticket state, after the creation of an email ticket in"
 " the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани следећи статус тикета, након креирања имејл тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
@@ -16285,12 +16285,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Sets the default priority for new email tickets in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани приоритет новог имејл тикета а у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default priority for new phone tickets in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани приоритет новог телефонског тикета а у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
@@ -16306,69 +16306,69 @@ msgstr ""
 msgid ""
 "Sets the default subject for new email tickets (e.g. 'email Outbound') in "
 "the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за нове имејл тикете (нпр „одлазни имејл”) у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for new phone tickets (e.g. 'Phone call') in the "
 "agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за нове телефонске тикете (нпр „телефонски позив”) у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the close ticket screen of the "
 "agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на приказу екрана затвореног тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket move screen of the "
 "agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на приказу екрана померања тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket note screen of the "
 "agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на приказу екрана напомена тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket owner screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на детаљном приказу екрана власника тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket pending screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на детаљном приказу екрана тикета на чекању у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на детаљном приказу екрана приоритета тикета у интерфејсу оператера."
 
 #. SysConfig
 msgid ""
 "Sets the default subject for notes added in the ticket responsible screen of"
 " the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани предмет за напомене додате на приказу екрана одговорног за тикет у интерфејсу оператера."
 
 #. SysConfig
 msgid "Sets the default text for new email tickets in the agent interface."
-msgstr ""
+msgstr "Одређује подразумевани текст новог имејл тикета а у интерфејсу оператера."
 
 #. SysConfig
 msgid "Sets the display order of the different items in the preferences view."
-msgstr ""
+msgstr "Одређује редослед приказа разних ставки у приказу подешавања."
 
 #. SysConfig
 msgid ""
 "Sets the inactivity time (in seconds) to pass before a session is killed and"
 " a user is loged out."
-msgstr ""
+msgstr "Одређује време без активности (у секундама) пре него што сесија буде угашена, а корисник одјављен."
 
 #. SysConfig
 msgid ""
@@ -16405,7 +16405,7 @@ msgstr ""
 msgid ""
 "Sets the minutes a notification is shown for notice about upcoming system "
 "maintenance period."
-msgstr ""
+msgstr "Одређује број минута трајања приказа обавештења о предсојећем периоду одржавања."
 
 #. SysConfig
 msgid ""
@@ -16415,12 +16415,12 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets the options for PGP binary."
-msgstr ""
+msgstr "Одређује опције за PGP binary."
 
 #. SysConfig
 msgid ""
 "Sets the order of the different items in the customer preferences view."
-msgstr ""
+msgstr "Одређује редослед приказа разних ставки у приказу корисничких подешавања."
 
 #. SysConfig
 msgid "Sets the password for private PGP key."
@@ -17567,7 +17567,7 @@ msgstr "Наслов приказан у корисничком интерфеј
 msgid ""
 "The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is "
 "Ticket#."
-msgstr ""
+msgstr "Идентификатор тикета, нпр Тикет#, Позив#, МојТикет#. Подразумевано је Тикет#."
 
 #. SysConfig
 msgid ""
@@ -17666,7 +17666,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
-msgstr ""
+msgstr "Ова опција одређује подразумевани приоритет процеса тикета."
 
 #. SysConfig
 msgid "This option defines the process tickets default queue."
@@ -17729,7 +17729,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tree view"
-msgstr ""
+msgstr "Приказ у облику стабла"
 
 #. SysConfig
 msgid ""
@@ -17757,7 +17757,7 @@ msgstr "Укључивање провере удаљене IP адресе. Тр
 #. SysConfig
 msgid ""
 "Unlock tickets whenever a note is added and the owner is out of office."
-msgstr ""
+msgstr "Откључавање тикета кад год се дода напомена и власник је ван канцеларије."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -17865,11 +17865,11 @@ msgstr "Када су тикети спојени, корисник може б�
 
 #. SysConfig
 msgid "Write a new, outgoing mail"
-msgstr ""
+msgstr "Напишит нови, одлазни имејл"
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Да, али склони архивиране тикете"
 
 #. SysConfig
 msgid ""

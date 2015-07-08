@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/OTRS/language/fr/)\n"
+"PO-Revision-Date: 2015-07-06 08:39+0000\n"
+"Last-Translator: Egareg JAOUEN <egareg.jaouen@elitt.com>\n"
+"Language-Team: French (http://www.transifex.com/p/OTRS/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -514,11 +514,11 @@ msgstr "aller"
 
 #. Template: AAABase
 msgid "All"
-msgstr "Tout"
+msgstr "Tous"
 
 #. Template: AAABase
 msgid "all"
-msgstr "tout"
+msgstr "tous"
 
 #. Template: AAABase
 msgid "Sorry"
@@ -1367,7 +1367,7 @@ msgid ""
 "problems<br>&nbsp;-Performance problems<br><br>Please note that issues that "
 "are caused by working with this package are not covered by OTRS service "
 "contracts!<br><br>"
-msgstr ""
+msgstr "<br>Si vous continuez l'installation de ce paquet, les erreurs suivantes peuvent se produire!<br><br>&nbsp;-Problèmes de sécurité<br>&nbsp;-Problèmes de stabilité<br>&nbsp;-Problèmes de performance<br><br>Veuillez noter que les erreurs causées par l'utilisation de ce paquet ne sont pas couvertes par les contrats de service OTRS ! <br><br>"
 
 #. Template: AAABase
 msgid "Mark"
@@ -3577,7 +3577,7 @@ msgstr "Tickets non archivés"
 
 #. Template: AAATicket
 msgid "Ticket Information"
-msgstr ""
+msgstr "Information Ticket"
 
 #. Template: AAAWeekDay
 msgid "Sun"
@@ -4033,7 +4033,7 @@ msgstr "Activez la ici !"
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer Default Groups"
-msgstr "Editer les groupes par défault du client"
+msgstr "Éditer les groupes par défault du client"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customers."
@@ -4121,7 +4121,7 @@ msgstr "Gérer les Relations Client-Services"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
-msgstr "Editer les services par défaut"
+msgstr "Éditer les services par défaut"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
@@ -5892,7 +5892,7 @@ msgstr "Administration Système"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr "Manuel Admin en ligne"
+msgstr "Manuel d'Administration en Ligne"
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -6302,11 +6302,11 @@ msgstr "Installer Package"
 
 #. Template: AdminPackageManager
 msgid "Update repository information"
-msgstr "Mettre à jour les informations du dépot"
+msgstr "Mettre à jour les informations du dépôt"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr "Dépot en ligne"
+msgstr "Dépôt en ligne"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
@@ -6574,7 +6574,7 @@ msgstr "Editer priorité"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
-msgstr ""
+msgstr "Gestion des Processus"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
@@ -6651,7 +6651,7 @@ msgstr ""
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr ""
+msgstr "Activité"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
@@ -6775,7 +6775,7 @@ msgstr "Champs assignés"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Details for Field"
-msgstr "Editer les détails du champ"
+msgstr "Éditer les détails du champ"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "ArticleType"
@@ -6787,7 +6787,7 @@ msgstr "Afficher"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Edit Field Details"
-msgstr "Editer les détails du champ"
+msgstr "Éditer les détails du champ"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Customer interface does not support internal article types."
@@ -7324,7 +7324,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
-msgstr "Gestion de l'enregistrement système"
+msgstr "Gestion Inscription Système"
 
 #. Template: AdminRegistration
 msgid "Edit details"
@@ -7699,7 +7699,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Service Center"
-msgstr ""
+msgstr "Centre Service"
 
 #. Template: AdminRegistration
 msgid "Support Data Management"
@@ -8340,7 +8340,7 @@ msgstr "Éléments"
 
 #. Template: AdminSysConfigEdit
 msgid "Edit Config Settings"
-msgstr "Editer les éléments de configuration"
+msgstr "Éditer les réglages de configuration"
 
 #. Template: AdminSysConfigEdit
 msgid "This config item is only available in a higher config level!"
@@ -8772,7 +8772,7 @@ msgstr "Appliquer"
 
 #. Template: AgentCustomerInformationCenter
 msgid "Customer Information Center"
-msgstr "Tableau de bord client"
+msgstr "Tableau de Bord Client"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
@@ -10181,7 +10181,7 @@ msgstr ""
 
 #. Template: CustomerNavigationBar
 msgid "Edit personal preferences"
-msgstr "Editer les préférences"
+msgstr "Éditer les préférences"
 
 #. Template: CustomerNavigationBar
 msgid "Logout %s %s"
@@ -11479,11 +11479,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure Processes."
-msgstr ""
+msgstr "Configurer les Processus."
 
 #. SysConfig
 msgid "Configure and manage ACLs."
-msgstr "Configurer et gérer les ACLs"
+msgstr "Configurer et gérer les ACLs."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
@@ -11551,7 +11551,7 @@ msgstr "Créer et gérer les pièces jointes."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr "Créer et gérer les utilisateurs clients"
+msgstr "Créer et gérer les utilisateurs clients."
 
 #. SysConfig
 msgid "Create and manage customers."
@@ -11595,7 +11595,7 @@ msgstr "Créer et gérer les signatures."
 
 #. SysConfig
 msgid "Create and manage templates."
-msgstr "Créer et gérer les modèles"
+msgstr "Créer et gérer les modèles."
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
@@ -11649,7 +11649,7 @@ msgstr "Utilisateur client <-> Services"
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr "Administration des utilisateurs clients"
+msgstr "Administration des Utilisateurs Clients"
 
 #. SysConfig
 msgid "Customer Users"
@@ -13729,7 +13729,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deploy and manage OTRS Business Solution™."
-msgstr ""
+msgstr "Déployer et gérer OTRS Business Solution™."
 
 #. SysConfig
 msgid ""
@@ -14283,7 +14283,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "Agenda des Événements de Ticket"
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -14855,7 +14855,7 @@ msgstr ""
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
-msgstr ""
+msgstr "Lorsqu'activé, les différents apperçus (Tableau de bord, Vue Verrouillé, Vue File) seront automatiquement rafraîchis après le temps spécifié."
 
 #. SysConfig
 msgid ""
@@ -14990,35 +14990,35 @@ msgstr ""
 
 #. SysConfig
 msgid "Link agents to groups."
-msgstr "Lier les opérateurs aux groupes"
+msgstr "Lier les opérateurs aux groupes."
 
 #. SysConfig
 msgid "Link agents to roles."
-msgstr "Lier les opérateurs aux rôles"
+msgstr "Lier les opérateurs aux rôles."
 
 #. SysConfig
 msgid "Link attachments to templates."
-msgstr "Lier les pièces jointes aux modèles"
+msgstr "Lier les pièces jointes aux modèles."
 
 #. SysConfig
 msgid "Link customer user to groups."
-msgstr ""
+msgstr "Lier utilisateur client aux groupes."
 
 #. SysConfig
 msgid "Link customer user to services."
-msgstr ""
+msgstr "Lier utilisateur client aux services."
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Lier les files aux réponses automatiques"
+msgstr "Lier les files aux réponses automatiques."
 
 #. SysConfig
 msgid "Link roles to groups."
-msgstr "Lier les rôles aux groupes"
+msgstr "Lier les rôles aux groupes."
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr "Lier les modèles aux files"
+msgstr "Lier les modèles aux files."
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
@@ -15136,7 +15136,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage OTRS Group services."
-msgstr ""
+msgstr "Gérer les services du Groupe OTRS."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -15156,15 +15156,15 @@ msgstr "Gérer les sessions existantes."
 
 #. SysConfig
 msgid "Manage notifications that are sent to agents."
-msgstr "Gérer les notifications envoyées aux opérateurs"
+msgstr "Gérer les notifications envoyées aux opérateurs."
 
 #. SysConfig
 msgid "Manage system registration."
-msgstr ""
+msgstr "Gérer l'inscription du système."
 
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
-msgstr ""
+msgstr "Gérer les tâches déchenchées par un événement ou une exécution temporelle."
 
 #. SysConfig
 msgid ""
@@ -15445,7 +15445,7 @@ msgstr "État Avant: \"%s\" Après: \"%s\""
 
 #. SysConfig
 msgid "Online"
-msgstr ""
+msgstr "En ligne"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
@@ -15457,7 +15457,7 @@ msgstr "Ouvrir les tickets (client)"
 
 #. SysConfig
 msgid "Out Of Office"
-msgstr ""
+msgstr "Absent du Bureau"
 
 #. SysConfig
 msgid ""
@@ -15949,7 +15949,7 @@ msgstr "Rôles <-> Groupes"
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr ""
+msgstr "Processus Tickets en Cours"
 
 #. SysConfig
 msgid ""
@@ -15991,7 +15991,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Schedule a maintenance period."
-msgstr ""
+msgstr "Planifier une plage de maintenance."
 
 #. SysConfig
 msgid "Search Customer"
@@ -16046,17 +16046,17 @@ msgstr ""
 msgid ""
 "Send me a notification if a customer sends a follow up and I'm the owner of "
 "the ticket or the ticket is unlocked and is in one of my queues/services."
-msgstr ""
+msgstr "M'envoyer une notification si un client envoie un suivi et que je suis le propriétaire du ticket ou que le ticket est déverrouillé et est dans une de mes files/services."
 
 #. SysConfig
 msgid ""
 "Send me a notification if the service of a ticket is changed to a service in"
 " \"My Services\" and the ticket is in a queue where I have read permissions."
-msgstr ""
+msgstr "M'envoyer une notification si le service d'un ticket est changé pour un service dans « Mes Services » et que le ticket est dans une file pour laquelle j'ai la permission de lecture."
 
 #. SysConfig
 msgid "Send me a notification if there is a new ticket in my queues/services."
-msgstr ""
+msgstr "M'envoyer une notification s'il y a un nouveau ticket dans mes files/services."
 
 #. SysConfig
 msgid "Send new ticket notifications if subscribed to"
@@ -17696,7 +17696,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Aperçu de la file de ticket"
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -17837,7 +17837,7 @@ msgstr "Voir les résultats du benchmark de performance."
 
 #. SysConfig
 msgid "View system log messages."
-msgstr "Voir les messages de log système"
+msgstr "Voir les messages du journal système."
 
 #. SysConfig
 msgid "Wear this frontend skin"
@@ -17886,4 +17886,4 @@ msgstr "Votre sélection de files préférées. Vous recevrez des notifications 
 msgid ""
 "Your service selection of your favorite services. You also get notified "
 "about those services via email if enabled."
-msgstr ""
+msgstr "Votre sélection de services préférés. Vous recevrez des notifications à propos de ces services par e-mail."

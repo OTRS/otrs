@@ -1,14 +1,15 @@
 # 
 # Translators:
 # Carlos Rodríguez <carlos.rodriguez@otrs.com>, 2015
+# Deiry Arias <mailimarias@gmail.com>, 2015
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/OTRS/language/es/)\n"
+"PO-Revision-Date: 2015-07-06 22:43+0000\n"
+"Last-Translator: Deiry Arias <mailimarias@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/p/OTRS/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4599,7 +4600,7 @@ msgstr "Borrar este disparador de eventos"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Remover selección"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -5748,7 +5749,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
 
 #. Template: AdminGroup
 msgid ""
@@ -5764,7 +5765,7 @@ msgstr "Administración de grupos"
 
 #. Template: AdminGroup
 msgid "Add group"
-msgstr ""
+msgstr "Agregar grupo"
 
 #. Template: AdminGroup
 msgid ""
@@ -5788,7 +5789,7 @@ msgstr "Añadir Grupo"
 
 #. Template: AdminGroup
 msgid "Edit Group"
-msgstr ""
+msgstr "Editar grupo"
 
 #. Template: AdminLog
 msgid "System Log"
@@ -5812,7 +5813,7 @@ msgstr "Gestión de Cuentas de Correo"
 
 #. Template: AdminMailAccount
 msgid "Add mail account"
-msgstr ""
+msgstr "Agregar cuenta de correo"
 
 #. Template: AdminMailAccount
 msgid ""
@@ -5829,19 +5830,19 @@ msgstr "Si su cuenta está validada, ¡las cabeceras X-OTRS ya existentes en la 
 
 #. Template: AdminMailAccount
 msgid "Delete account"
-msgstr ""
+msgstr "Eliminar cuenta"
 
 #. Template: AdminMailAccount
 msgid "Fetch mail"
-msgstr ""
+msgstr "Traer correos"
 
 #. Template: AdminMailAccount
 msgid "Add Mail Account"
-msgstr ""
+msgstr "Agregar Cuenta de Correo"
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
-msgstr ""
+msgstr "Ejemplo: mail.ejemplo.com"
 
 #. Template: AdminMailAccount
 msgid "IMAP Folder"
@@ -5863,7 +5864,7 @@ msgstr "Remitiendo"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
+msgstr "Editar Cuenta de Correo"
 
 #. Template: AdminNavigationBar
 msgid "Admin"
@@ -5887,7 +5888,7 @@ msgstr "Administración del sistema"
 
 #. Template: AdminNavigationBar
 msgid "Online Admin Manual"
-msgstr ""
+msgstr "Manual de Administración Online"
 
 #. Template: AdminNotification
 msgid "Notification Management"
@@ -5911,11 +5912,11 @@ msgstr "Notificaciones"
 
 #. Template: AdminNotification
 msgid "Edit Notification"
-msgstr ""
+msgstr "Editar Notificación"
 
 #. Template: AdminNotification
 msgid "e. g."
-msgstr ""
+msgstr "ej."
 
 #. Template: AdminNotification
 msgid "Options of the current customer data"
@@ -5923,7 +5924,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Add notification"
-msgstr ""
+msgstr "Agregar notificación"
 
 #. Template: AdminNotificationEvent
 msgid "Delete this notification"

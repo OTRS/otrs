@@ -423,7 +423,7 @@ sub Data {
         'There was a problem during the upgrade to %s.' => '',
         '%s was correctly reinstalled.' => '',
         'There was a problem reinstalling %s.' => '',
-        'Your %s was successfully updated.' => '',
+        'Your %s was successfully updated.' => 'Teie %s uuendamine õnnestus.',
         'There was a problem during the upgrade of %s.' => '',
         '%s was correctly uninstalled.' => '',
         'There was a problem uninstalling %s.' => '',
@@ -499,8 +499,8 @@ sub Data {
 
         # Template: AAAStats
         'Stat' => 'Statistika',
-        'Sum' => '',
-        'No (not supported)' => '',
+        'Sum' => 'summa',
+        'No (not supported)' => 'Ei (pole toetatud)',
         'Days' => '',
         'Please fill out the required fields!' => 'Palun täida nõutud väljad!',
         'Please select a file!' => 'Vali fail!',
@@ -708,10 +708,10 @@ sub Data {
         'Please install mod_filter if mod_deflate is used.' => '',
         'mod_headers Usage' => 'mooduli mod_headers kasutus',
         'Please install mod_headers to improve GUI speed.' => '',
-        'Apache::Reload Usage' => '',
+        'Apache::Reload Usage' => 'Apache::Reload kasutus',
         'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.' =>
             '',
-        'Apache::DBI Usage' => '',
+        'Apache::DBI Usage' => 'Apache::DBI kasutus',
         'Apache::DBI should be used to get a better performance  with pre-established database connections.' =>
             '',
         'You should use PerlEx to increase your performance.' => '',
@@ -1777,7 +1777,7 @@ sub Data {
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'Nii saad otse muuta SysConfig-is seadistatud võtmeid.',
         'Introduction to PGP' => '',
-        'Result' => 'Vastus',
+        'Result' => 'Tulemus',
         'Identifier' => 'Identifikaator',
         'Bit' => 'Bit',
         'Fingerprint' => 'Sõrmejälg',
@@ -2358,7 +2358,7 @@ sub Data {
         'Sending Update...' => '',
         'Support Data information was successfully sent.' => '',
         'Was not possible to send Support Data information.' => '',
-        'Update Result' => '',
+        'Update Result' => 'Uuendamise tulemus',
         'Currently this data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTRS Group in order to get better support.' =>
             '',
@@ -2632,10 +2632,10 @@ sub Data {
         'Totals' => '',
 
         # Template: AgentDashboardUserOnline
-        'out of office' => '',
+        'out of office' => 'töölt eemal',
 
         # Template: AgentDashboardUserOutOfOffice
-        'until' => '',
+        'until' => 'kuni',
 
         # Template: AgentHTMLReferencePageLayout
         'The ticket has been locked' => 'Intsident on lukustatud',
@@ -2665,7 +2665,7 @@ sub Data {
         'It is necessary to have the Scheduler running to make the system work correctly!' =>
             '',
         'Starting Scheduler' => '',
-        'Make sure that %s exists (without .dist extension)' => '',
+        'Make sure that %s exists (without .dist extension)' => 'Veendu, et %s on olemas (.dist laiendita)',
         'Check that cron deamon is running in the system' => '',
         'Confirm that OTRS cron jobs are running, execute %s start' => '',
 
@@ -2706,8 +2706,8 @@ sub Data {
         'Graph size' => '',
         'If you use a graph as output format you have to select at least one graph size.' =>
             'If you use a graph as output format you have to select at least one graph size.',
-        'Sum rows' => 'Summaread',
-        'Sum columns' => 'Summaveerud',
+        'Sum rows' => 'Ridade summa',
+        'Sum columns' => 'Veergude summa',
         'Use cache' => 'Puhverda',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' =>
             'Enamikku statistikaaruannetest saab puhverdada. See kiirendab aruande loomist.',
@@ -2928,10 +2928,10 @@ sub Data {
         'Create New' => 'Loo uus',
         'Profile link' => '',
         'Save changes in template' => '',
-        'Filters in use' => '',
+        'Filters in use' => 'kasutatavad filtrid',
         'Additional filters' => '',
         'Add another attribute' => 'Lisa parameeter',
-        'Output' => 'Tulemuste formaat',
+        'Output' => 'Väljund',
         'Fulltext' => 'Täistekst',
         'Remove' => 'Eemalda',
         'Searches in the attributes From, To, Cc, Subject and the article body, overriding other attributes with the same name.' =>
@@ -3104,7 +3104,7 @@ sub Data {
 
         # Template: DashboardEventsTicketCalendar
         'All-day' => '',
-        'Sunday' => '',
+        'Sunday' => 'pühapäev',
         'Monday' => '',
         'Tuesday' => '',
         'Wednesday' => '',
@@ -3159,7 +3159,7 @@ sub Data {
         'General Specifications and Mail Settings' => '',
         'Welcome to %s' => '',
         'Web site' => '',
-        'Mail check successful.' => '',
+        'Mail check successful.' => 'E-posti kontroll õnnestus.',
         'Error in the mail settings. Please correct and try again.' => '',
 
         # Template: InstallerConfigureMail
@@ -3185,12 +3185,12 @@ sub Data {
         'User for inbound mail.' => '',
         'Inbound mail password' => 'Parool',
         'Password for inbound mail.' => '',
-        'Result of mail configuration check' => '',
+        'Result of mail configuration check' => 'E-posti häälestuse kontrolli tulemus',
         'Check mail configuration' => '',
         'Skip this step' => '',
 
         # Template: InstallerDBResult
-        'Database setup successful!' => '',
+        'Database setup successful!' => 'Andmebaasi paigaldus õnnestus!',
 
         # Template: InstallerDBStart
         'Install Type' => '',
@@ -3200,8 +3200,8 @@ sub Data {
         # Template: InstallerDBmssql
         'Database name' => '',
         'Check database settings' => '',
-        'Result of database check' => '',
-        'Database check successful.' => '',
+        'Result of database check' => 'Andmebaasi kontrolli tulemus',
+        'Database check successful.' => 'Andmebaasi kontroll õnnestus.',
         'Database User' => '',
         'New' => 'Uus',
         'A new database user with limited permissions will be created for this OTRS system.' =>
@@ -4702,10 +4702,10 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Old: "%s" New: "%s"' => 'Vana: "%s" Uus: "%s"',
-        'Online' => '',
+        'Online' => 'Hetkel siin',
         'Open tickets (customer user)' => '',
         'Open tickets (customer)' => '',
-        'Out Of Office' => '',
+        'Out Of Office' => 'Töölt eemal',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => '',
@@ -5382,7 +5382,7 @@ sub Data {
         'The maximal number of articles shown on a single page in AgentTicketZoom.' =>
             '',
         'The text at the beginning of the subject in an email reply, e.g. RE, AW, or AS.' =>
-            '',
+            'Tekst vastuskirja teemarea alguses, nt. Re, Vs.',
         'The text at the beginning of the subject when an email is forwarded, e.g. FW, Fwd, or WG.' =>
             'Tekst teemarea alguses, kui e-kiri on edasi saadetud, nt. Fw, Fwd, Ed.',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see the setting above for how to configure the mapping.' =>
@@ -5422,7 +5422,7 @@ sub Data {
         'Turns on the remote ip address check. It should be set to "No" if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
-            '',
+            'Eemalda lukk juhul kui piletile lisatakse märkus ning pileti omanik on töölt eemal.',
         'Unlocked ticket.' => 'Intsidendi lukk eemaldati.',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',

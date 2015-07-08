@@ -3,7 +3,7 @@
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2015
 # Diego Fialho Rodrigues <dfialho84@gmail.com>, 2015
 # eder.brito <ederbritoo@gmail.com>, 2015
-# José Junior <joserribeiro26@gmail.com>, 2014
+# José Junior <joserribeiro26@gmail.com>, 2014-2015
 # Marcos Aurélio Silvério <maureliosilverio@gmail.com>, 2014
 # MBaeta <matheus.baeta@otrs.com>, 2014-2015
 # MBaeta <matheus.baeta@otrs.com>, 2014
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OTRS\n"
 "POT-Creation-Date: 2014-08-08 19:10+0200\n"
-"PO-Revision-Date: 2015-05-06 17:28+0000\n"
-"Last-Translator: Carlos Rodríguez <carlos.rodriguez@otrs.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/OTRS/language/pt_BR/)\n"
+"PO-Revision-Date: 2015-07-02 13:53+0000\n"
+"Last-Translator: José Junior <joserribeiro26@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/p/OTRS/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4606,7 +4606,7 @@ msgstr "Excluir este disparador de evento"
 
 #. Template: AdminGenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "Remover tradução"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -14839,7 +14839,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, TicketPhone and TicketEmail will be open in new windows."
-msgstr ""
+msgstr "Se ativo, chamados por fone  e chamados por e-mail serão abertos em uma nova janela."
 
 #. SysConfig
 msgid ""

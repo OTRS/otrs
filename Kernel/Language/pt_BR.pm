@@ -1298,7 +1298,7 @@ sub Data {
         'This event is already attached to the job, Please use a different one.' =>
             'Este evento já está associado a uma tarefa, por favor use um diferente.',
         'Delete this Event Trigger' => 'Excluir este disparador de evento',
-        'Remove selection' => '',
+        'Remove selection' => 'Remover tradução',
         'Select Tickets' => 'Selecionar Chamados',
         '(e. g. 10*5155 or 105658*)' => '(ex.: 10*5155 ou 105658*)',
         '(e. g. 234321)' => '(ex.: email@empresa.com.br)',
@@ -4527,7 +4527,7 @@ sub Data {
         'If enabled, OTRS will deliver all JavaScript files in minified form.' =>
             '',
         'If enabled, TicketPhone and TicketEmail will be open in new windows.' =>
-            '',
+            'Se ativo, chamados por fone  e chamados por e-mail serão abertos em uma nova janela.',
         'If enabled, the OTRS version tag will be removed from the Webinterface, the HTTP headers and the X-Headers of outgoing mails.' =>
             '',
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>

@@ -162,8 +162,8 @@ sub Data {
         'Company' => 'Entreprise',
         'go!' => 'c\'est parti !',
         'go' => 'aller',
-        'All' => 'Tout',
-        'all' => 'tout',
+        'All' => 'Tous',
+        'all' => 'tous',
         'Sorry' => 'Désolé',
         'update!' => 'mettre à jour !',
         'update' => 'mettre à jour',
@@ -387,7 +387,7 @@ sub Data {
         'Package not verified by the OTRS Group! It is recommended not to use this package.' =>
             'Paquets non vérifié pour le groupe OTRS! Il est recommendé de ne pas utiliser ce paquet.',
         '<br>If you continue to install this package, the following issues may occur!<br><br>&nbsp;-Security problems<br>&nbsp;-Stability problems<br>&nbsp;-Performance problems<br><br>Please note that issues that are caused by working with this package are not covered by OTRS service contracts!<br><br>' =>
-            '',
+            '<br>Si vous continuez l\'installation de ce paquet, les erreurs suivantes peuvent se produire!<br><br>&nbsp;-Problèmes de sécurité<br>&nbsp;-Problèmes de stabilité<br>&nbsp;-Problèmes de performance<br><br>Veuillez noter que les erreurs causées par l\'utilisation de ce paquet ne sont pas couvertes par les contrats de service OTRS ! <br><br>',
         'Mark' => 'Sélectionner',
         'Unmark' => 'Déselectionner',
         'Bold' => 'Gras',
@@ -986,7 +986,7 @@ sub Data {
             'Tout les tickets dont la date de rappel à été atteinte.',
         'Archived tickets' => 'Tickets archivés',
         'Unarchived tickets' => 'Tickets non archivés',
-        'Ticket Information' => '',
+        'Ticket Information' => 'Information Ticket',
 
         # Template: AAAWeekDay
         'Sun' => 'Dim',
@@ -1126,7 +1126,7 @@ sub Data {
         'Just use this feature if you want to define group permissions for customers.' =>
             'Utiliser cette fonction uniquement si vous shouhaitez définir des permissions de groupe pour les clients',
         'Enable it here!' => 'Activez la ici !',
-        'Edit Customer Default Groups' => 'Editer les groupes par défault du client',
+        'Edit Customer Default Groups' => 'Éditer les groupes par défault du client',
         'These groups are automatically assigned to all customers.' => 'Ces groupes sont automatiquement assignés à tous les clients',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
             'Vous pouvez gérer ces groupes via le paramètre de configuration "CustomerGroupAlwaysGroups".',
@@ -1152,7 +1152,7 @@ sub Data {
 
         # Template: AdminCustomerUserService
         'Manage Customer-Services Relations' => 'Gérer les Relations Client-Services',
-        'Edit default services' => 'Editer les services par défaut',
+        'Edit default services' => 'Éditer les services par défaut',
         'Filter for Services' => 'Filtre pour les Services',
         'Allocate Services to Customer' => 'Allouer des Services au Client',
         'Allocate Customers to Service' => 'Allouer des Clients au Service',
@@ -1673,7 +1673,7 @@ sub Data {
         'Queue Settings' => 'Configuration des Files',
         'Ticket Settings' => 'Configuration des Tickets',
         'System Administration' => 'Administration Système',
-        'Online Admin Manual' => 'Manuel Admin en ligne',
+        'Online Admin Manual' => 'Manuel d\'Administration en Ligne',
 
         # Template: AdminNotification
         'Notification Management' => 'Gestion des notifications',
@@ -1806,8 +1806,8 @@ sub Data {
             '',
         'Install' => 'Installation',
         'Install Package' => 'Installer Package',
-        'Update repository information' => 'Mettre à jour les informations du dépot',
-        'Online Repository' => 'Dépot en ligne',
+        'Update repository information' => 'Mettre à jour les informations du dépôt',
+        'Online Repository' => 'Dépôt en ligne',
         'Module documentation' => 'Documentation du module',
         'Upgrade' => 'Mise à jour',
         'Local Repository' => 'Dépôt local',
@@ -1886,7 +1886,7 @@ sub Data {
         'Edit Priority' => 'Editer priorité',
 
         # Template: AdminProcessManagement
-        'Process Management' => '',
+        'Process Management' => 'Gestion des Processus',
         'Filter for Processes' => '',
         'Create New Process' => '',
         'Deploy All Processes' => '',
@@ -1909,7 +1909,7 @@ sub Data {
         'Go Back' => 'Retour',
         'Please note, that changing this activity will affect the following processes' =>
             '',
-        'Activity' => '',
+        'Activity' => 'Activité',
         'Activity Name' => '',
         'Activity Dialogs' => '',
         'You can assign Activity Dialogs to this Activity by dragging the elements with the mouse from the left list to the right list.' =>
@@ -1946,10 +1946,10 @@ sub Data {
         'Filter available fields' => 'Filtrer les champs disponibles',
         'Available Fields' => 'Champs disponibles',
         'Assigned Fields' => 'Champs assignés',
-        'Edit Details for Field' => 'Editer les détails du champ',
+        'Edit Details for Field' => 'Éditer les détails du champ',
         'ArticleType' => 'Type d\'article',
         'Display' => 'Afficher',
-        'Edit Field Details' => 'Editer les détails du champ',
+        'Edit Field Details' => 'Éditer les détails du champ',
         'Customer interface does not support internal article types.' => '',
 
         # Template: AdminProcessManagementPath
@@ -2117,7 +2117,7 @@ sub Data {
         'Change Template Relations for Queue' => '',
 
         # Template: AdminRegistration
-        'System Registration Management' => 'Gestion de l\'enregistrement système',
+        'System Registration Management' => 'Gestion Inscription Système',
         'Edit details' => 'Editer details',
         'Show transmitted data' => '',
         'Deregister system' => '',
@@ -2229,7 +2229,7 @@ sub Data {
         'Optional description of this system.' => '',
         'This will allow the system to send additional support data information to OTRS Group.' =>
             '',
-        'Service Center' => '',
+        'Service Center' => 'Centre Service',
         'Support Data Management' => '',
         'Register' => '',
         'Deregister System' => '',
@@ -2438,7 +2438,7 @@ sub Data {
         'Elements' => 'Éléments',
 
         # Template: AdminSysConfigEdit
-        'Edit Config Settings' => 'Editer les éléments de configuration',
+        'Edit Config Settings' => 'Éditer les réglages de configuration',
         'This config item is only available in a higher config level!' =>
             'Cet élément de configuration n\'est disponible que dans un niveau supérieur de configuration',
         'Reset this setting' => 'Réinitialiser cet élément',
@@ -2571,7 +2571,7 @@ sub Data {
         'Apply' => 'Appliquer',
 
         # Template: AgentCustomerInformationCenter
-        'Customer Information Center' => 'Tableau de bord client',
+        'Customer Information Center' => 'Tableau de Bord Client',
 
         # Template: AgentCustomerInformationCenterSearch
         'Customer User' => 'Client Utilisateur',
@@ -3062,7 +3062,7 @@ sub Data {
         # Template: CustomerNavigationBar
         'Incoming Chat Requests' => '',
         'You have unanswered chat requests' => '',
-        'Edit personal preferences' => 'Editer les préférences',
+        'Edit personal preferences' => 'Éditer les préférences',
         'Logout %s %s' => 'Déconnexion %s %s',
 
         # Template: CustomerRichTextEditor
@@ -3494,8 +3494,8 @@ sub Data {
         'Company Tickets' => 'Tickets de l\'entreprise',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
-        'Configure Processes.' => '',
-        'Configure and manage ACLs.' => 'Configurer et gérer les ACLs',
+        'Configure Processes.' => 'Configurer les Processus.',
+        'Configure and manage ACLs.' => 'Configurer et gérer les ACLs.',
         'Configure your own log text for PGP.' => '',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (http://doc.otrs.org/), chapter "Ticket Event Module".' =>
             '',
@@ -3516,7 +3516,7 @@ sub Data {
         'Create and manage Service Level Agreements (SLAs).' => 'Créer et gérer les contrats de niveau de support (SLAs).',
         'Create and manage agents.' => 'Créer et gérer les opérateurs.',
         'Create and manage attachments.' => 'Créer et gérer les pièces jointes.',
-        'Create and manage customer users.' => 'Créer et gérer les utilisateurs clients',
+        'Create and manage customer users.' => 'Créer et gérer les utilisateurs clients.',
         'Create and manage customers.' => 'Créer et gérer les clients.',
         'Create and manage dynamic fields.' => 'Créer et gérer les champs dynamiques.',
         'Create and manage event based notifications.' => 'Créer et gérer les notifications évenementielles.',
@@ -3527,7 +3527,7 @@ sub Data {
         'Create and manage salutations.' => 'Créer et gérer les en-têtes.',
         'Create and manage services.' => 'Créer et gérer les services.',
         'Create and manage signatures.' => 'Créer et gérer les signatures.',
-        'Create and manage templates.' => 'Créer et gérer les modèles',
+        'Create and manage templates.' => 'Créer et gérer les modèles.',
         'Create and manage ticket priorities.' => 'Créer et gérer les priorités de ticket.',
         'Create and manage ticket states.' => 'Créer et gérer les états de ticket.',
         'Create and manage ticket types.' => 'Créer et gérer les types de ticket.',
@@ -3541,7 +3541,7 @@ sub Data {
         'Customer Administration' => 'Administration des Clients',
         'Customer User <-> Groups' => 'Utilisateur client <-> Groupes',
         'Customer User <-> Services' => 'Utilisateur client <-> Services',
-        'Customer User Administration' => 'Administration des utilisateurs clients',
+        'Customer User Administration' => 'Administration des Utilisateurs Clients',
         'Customer Users' => 'Clients',
         'Customer called us.' => 'Le client nous a appellé.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
@@ -4189,7 +4189,7 @@ sub Data {
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
-        'Deploy and manage OTRS Business Solution™.' => '',
+        'Deploy and manage OTRS Business Solution™.' => 'Déployer et gérer OTRS Business Solution™.',
         'Determines if the list of possible queues to move to ticket into should be displayed in a dropdown list or in a new window in the agent interface. If "New Window" is set you can add a move note to the ticket.' =>
             '',
         'Determines if the statistics module may generate ticket lists.' =>
@@ -4358,7 +4358,7 @@ sub Data {
             '',
         'Event module that updates tickets after an update of the Customer.' =>
             '',
-        'Events Ticket Calendar' => '',
+        'Events Ticket Calendar' => 'Agenda des Événements de Ticket',
         'Execute SQL statements.' => 'Executer des requêtes SQL.',
         'Executes follow up checks on In-Reply-To or References headers for mails that don\'t have a ticket number in the subject.' =>
             '',
@@ -4536,7 +4536,7 @@ sub Data {
         'If enabled, the customer can search for tickets in all services (regardless what services are assigned to the customer).' =>
             '',
         'If enabled, the different overviews (Dashboard, LockedView, QueueView) will automatically refresh after the specified time.' =>
-            '',
+            'Lorsqu\'activé, les différents apperçus (Tableau de bord, Vue Verrouillé, Vue File) seront automatiquement rafraîchis après le temps spécifié.',
         'If enabled, the first level of the main menu opens on mouse hover (instead of click only).' =>
             '',
         'If set, this address is used as envelope sender header in outgoing notifications. If no address is specified, the envelope sender header is empty.' =>
@@ -4573,14 +4573,14 @@ sub Data {
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'Left' => '',
-        'Link agents to groups.' => 'Lier les opérateurs aux groupes',
-        'Link agents to roles.' => 'Lier les opérateurs aux rôles',
-        'Link attachments to templates.' => 'Lier les pièces jointes aux modèles',
-        'Link customer user to groups.' => '',
-        'Link customer user to services.' => '',
-        'Link queues to auto responses.' => 'Lier les files aux réponses automatiques',
-        'Link roles to groups.' => 'Lier les rôles aux groupes',
-        'Link templates to queues.' => 'Lier les modèles aux files',
+        'Link agents to groups.' => 'Lier les opérateurs aux groupes.',
+        'Link agents to roles.' => 'Lier les opérateurs aux rôles.',
+        'Link attachments to templates.' => 'Lier les pièces jointes aux modèles.',
+        'Link customer user to groups.' => 'Lier utilisateur client aux groupes.',
+        'Link customer user to services.' => 'Lier utilisateur client aux services.',
+        'Link queues to auto responses.' => 'Lier les files aux réponses automatiques.',
+        'Link roles to groups.' => 'Lier les rôles aux groupes.',
+        'Link templates to queues.' => 'Lier les modèles aux files.',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'List of CSS files to always be loaded for the agent interface.' =>
@@ -4617,14 +4617,14 @@ sub Data {
         'Makes the picture transparent.' => 'Rendre l\'image transparente.',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
-        'Manage OTRS Group services.' => '',
+        'Manage OTRS Group services.' => 'Gérer les services du Groupe OTRS.',
         'Manage PGP keys for email encryption.' => 'Gérer les clés PGP pour le chiffrement des e-mails.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Gérer les comptes POP3 ou IMAP où aller chercher les e-mails.',
         'Manage S/MIME certificates for email encryption.' => 'Gérer les certificats S/MIME pour le chiffrement des e-mails.',
         'Manage existing sessions.' => 'Gérer les sessions existantes.',
-        'Manage notifications that are sent to agents.' => 'Gérer les notifications envoyées aux opérateurs',
-        'Manage system registration.' => '',
-        'Manage tasks triggered by event or time based execution.' => '',
+        'Manage notifications that are sent to agents.' => 'Gérer les notifications envoyées aux opérateurs.',
+        'Manage system registration.' => 'Gérer l\'inscription du système.',
+        'Manage tasks triggered by event or time based execution.' => 'Gérer les tâches déchenchées par un événement ou une exécution temporelle.',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
         'Max size (in rows) of the informed agents box in the agent interface.' =>
@@ -4710,10 +4710,10 @@ sub Data {
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
         'Old: "%s" New: "%s"' => 'État Avant: "%s" Après: "%s"',
-        'Online' => '',
+        'Online' => 'En ligne',
         'Open tickets (customer user)' => 'Ouvrir les tickets (utilisateur client)',
         'Open tickets (customer)' => 'Ouvrir les tickets (client)',
-        'Out Of Office' => '',
+        'Out Of Office' => 'Absent du Bureau',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
             '',
         'Overview Escalated Tickets' => 'Aperçu des tickets remontés',
@@ -4853,7 +4853,7 @@ sub Data {
             '',
         'Right' => '',
         'Roles <-> Groups' => 'Rôles <-> Groupes',
-        'Running Process Tickets' => '',
+        'Running Process Tickets' => 'Processus Tickets en Cours',
         'Runs an initial wildcard search of the existing customer company when accessing the AdminCustomerCompany module.' =>
             '',
         'Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.' =>
@@ -4864,7 +4864,7 @@ sub Data {
         'Sample command output' => '',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTRS user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used.' =>
             '',
-        'Schedule a maintenance period.' => '',
+        'Schedule a maintenance period.' => 'Planifier une plage de maintenance.',
         'Search Customer' => 'Recherche de client',
         'Search User' => '',
         'Search backend default router.' => '',
@@ -4877,11 +4877,11 @@ sub Data {
         'Selects the ticket number generator module. "AutoIncrement" increments the ticket number, the SystemID and the counter are used with SystemID.counter format (e.g. 1010138, 1010139). With "Date" the ticket numbers will be generated by the current date, the SystemID and the counter. The format looks like Year.Month.Day.SystemID.counter (e.g. 200206231010138, 200206231010139). With "DateChecksum"  the counter will be appended as checksum to the string of date and SystemID. The checksum will be rotated on a daily basis. The format looks like Year.Month.Day.SystemID.Counter.CheckSum (e.g. 2002070110101520, 2002070110101535). "Random" generates randomized ticket numbers in the format "SystemID.Random" (e.g. 100057866352, 103745394596).' =>
             '',
         'Send me a notification if a customer sends a follow up and I\'m the owner of the ticket or the ticket is unlocked and is in one of my queues/services.' =>
-            '',
+            'M\'envoyer une notification si un client envoie un suivi et que je suis le propriétaire du ticket ou que le ticket est déverrouillé et est dans une de mes files/services.',
         'Send me a notification if the service of a ticket is changed to a service in "My Services" and the ticket is in a queue where I have read permissions.' =>
-            '',
+            'M\'envoyer une notification si le service d\'un ticket est changé pour un service dans « Mes Services » et que le ticket est dans une file pour laquelle j\'ai la permission de lecture.',
         'Send me a notification if there is a new ticket in my queues/services.' =>
-            '',
+            'M\'envoyer une notification s\'il y a un nouveau ticket dans mes files/services.',
         'Send new ticket notifications if subscribed to' => 'Envoyer une notification de nouveau ticket si abonné à ',
         'Send notifications to users.' => 'Envoyer des notifications aux clients',
         'Send service update notifications' => '',
@@ -5409,7 +5409,7 @@ sub Data {
             '',
         'This setting allows you to override the built-in country list with your own list of countries. This is particularly handy if you just want to use a small select group of countries.' =>
             '',
-        'Ticket Queue Overview' => '',
+        'Ticket Queue Overview' => 'Aperçu de la file de ticket',
         'Ticket event module that triggers the escalation stop events.' =>
             '',
         'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).' => 'Le ticket a été déplacé dans la file "%s" (%s) - Ancienne file: "%s" (%s).',
@@ -5451,7 +5451,7 @@ sub Data {
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
         'View performance benchmark results.' => 'Voir les résultats du benchmark de performance.',
-        'View system log messages.' => 'Voir les messages de log système',
+        'View system log messages.' => 'Voir les messages du journal système.',
         'Wear this frontend skin' => 'Utiliser cette apparence',
         'Webservice path separator.' => '',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
@@ -5465,7 +5465,7 @@ sub Data {
         'Your queue selection of your favorite queues. You also get notified about those queues via email if enabled.' =>
             'Votre sélection de files préférées. Vous recevrez des notifications à propos de ces files par e-mail si activé.',
         'Your service selection of your favorite services. You also get notified about those services via email if enabled.' =>
-            '',
+            'Votre sélection de services préférés. Vous recevrez des notifications à propos de ces services par e-mail.',
 
     };
     # $$STOP$$
