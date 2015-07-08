@@ -341,7 +341,8 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             ResultData = [],
             ValueFormat = 'd', // y axis format is by default "integer"
             PreferencesKey = Options.PreferencesKey,
-            PreferencesData = Options.PreferencesData;
+            PreferencesData = Options.PreferencesData,
+            Counter = 0;
 
         // First RawData element is not needed
         RawData.shift();
@@ -355,7 +356,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
         }
 
         $.each(RawData, function(DataIndex, DataElement) {
-            var Counter = 0,
+            var InnerCounter = 0,
                 ResultLine;
 
             // Ignore sum row
@@ -373,7 +374,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
             $.each(Headings, function(HeadingIndex, HeadingElement){
                 var Value;
 
-                Counter++;
+                InnerCounter++;
 
                 // First element is x axis label
                 if (HeadingIndex === 0){
@@ -401,7 +402,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
                 // add a custom label for uniquity of the headings which is being
                 // removed later (see OTRSmultiBarChart.js)
                 ResultLine.values.push({
-                    x: '__LABEL_START__' + Counter + '__LABEL_END__' + HeadingElement + ' ',
+                    x: '__LABEL_START__' + InnerCounter + '__LABEL_END__' + HeadingElement + ' ',
                     y: Value
                 });
             });
