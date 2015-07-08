@@ -1,4 +1,6 @@
-#4.0.10 2015-??-??
+#4.0.11 2015-??-??
+
+#4.0.10 2015-07-14
  - 2015-07-08 Updated translations, thanks to all translators.
  - 2015-07-07 Fixed bug#[11367](http://bugs.otrs.org/show_bug.cgi?id=11367) - timezone in time stamps of outgoing mails is always UTC.
  - 2015-07-03 Fixed bug#[11337](http://bugs.otrs.org/show_bug.cgi?id=11337) - Customer Information Center does not show CustomerUsers.
