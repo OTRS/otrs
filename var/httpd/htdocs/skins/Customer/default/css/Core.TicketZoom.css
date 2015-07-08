@@ -240,10 +240,6 @@
     width: 90%;
 }
 
-.RTL .MessageHeader h3 {
-    padding-left: 100px;
-}
-
 .MessageHeader h3 span {
     font-weight: normal;
 }
