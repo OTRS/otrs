@@ -662,6 +662,51 @@ Core.UI.AdvancedChart = (function (TargetNS) {
     };
 
     /**
+     * @name GetSVGContent
+     * @memberof Core.UI.AdvancedChart
+     * @private
+     * @function
+     * @param {jQueryObject} $SVGContainer - The element containing the SVG element. There should be no other content.
+     * @return {String} - The prepared SVG content as a string.
+     * @description
+     *      This method serializes SVG from the DOM to a string. For this purpose,
+     *      some attributes coming from CSS are actually set also in the SVG elements
+     *      so that for export / rendering they are present even if the CSS is not there
+     *      any more.
+     */
+    function GetSVGContent($SVGContainer) {
+        var $Clone,
+            ReplaceMap = {
+            'text': ['font-family', 'font-size'],
+            'line': ['fill', 'stroke', 'opacity', 'shape-rendering', 'stroke-opacity'],
+            'path': ['fill', 'stroke', 'opacity', 'shape-rendering', 'stroke-opacity']
+        };
+
+        $.each(ReplaceMap, function(Selector, Attributes){
+            $(Selector, $SVGContainer).each(function() {
+                var $Element = $(this);
+                $.each(Attributes, function(){
+                    var CSSAttribute;
+                    if ($Element.attr(this)) {
+                        return;
+                    }
+                    CSSAttribute = $Element.css(this);
+                    if (!CSSAttribute) {
+                        return;
+                    }
+                    $Element.attr(this, CSSAttribute);
+                });
+            });
+        });
+
+        // Remove controls for export.
+        $Clone = $SVGContainer.clone();
+        $Clone.find('.nv-controlsWrap').remove();
+
+        return $Clone.html().trim();
+    }
+
+    /**
      * @name ConvertSVGtoPNG
      * @memberof Core.UI.AdvancedChart
      * @function
@@ -672,7 +717,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
      */
     TargetNS.ConvertSVGtoPNG = function($SVGContainer) {
 
-        var SVGContent = $SVGContainer.html().trim(), // Canvg requires trimmed content
+        var SVGContent = GetSVGContent($SVGContainer), // Canvg requires trimmed content
             Height = $SVGContainer.css('height'),
             Width = $SVGContainer.css('width'),
             $CanvasContainer,
@@ -718,7 +763,7 @@ Core.UI.AdvancedChart = (function (TargetNS) {
     TargetNS.ConvertSVGtoBase64 = function($SVGContainer) {
         // window.btoa() does not work because it does not support Unicode DOM strings.
         var SVGPrefix = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">',
-            UnicodeStringView = new StringView(SVGPrefix + $SVGContainer.html());
+            UnicodeStringView = new StringView(SVGPrefix + GetSVGContent($SVGContainer));
         return 'data:image/svg+xml;base64,' + UnicodeStringView.toBase64();
     };
 
