@@ -32,7 +32,7 @@ Core.Agent.Responsive = (function (TargetNS) {
         }
 
         $('.Dashboard .WidgetSimple .Header').off('click.Responsive').on('click.Responsive', function() {
-            $(this).find('.ActionMenu').toggle();
+            $(this).find('.ActionMenu').fadeToggle();
         });
 
         // hide graphs as they're not properly supported on mobile devices

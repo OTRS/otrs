@@ -276,7 +276,6 @@
 
     .WidgetSimple .WidgetAction,
     .RTL .WidgetSimple .WidgetAction {
-        float: none;
         display: inline-block;
         margin-right: 5px;
     }
