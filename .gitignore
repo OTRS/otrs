@@ -112,9 +112,11 @@ Kernel/Output/HTML/Templates/Standard/PublicChat.tt
 Kernel/Output/HTML/TicketMenu/AttachmentView.pm
 Kernel/Output/HTML/ToolBar/*Chat*
 Kernel/Output/HTML/ToolBar/NotificationView.pm
+Kernel/Output/PDF/StatisticsReports*
 Kernel/System/*Chat*
 Kernel/System/Console/Command/Maint/Chat*
 Kernel/System/Console/Command/Maint/NotificationView*
+Kernel/System/Console/Command/Maint/Stats/Reports*
 Kernel/System/DynamicField/Driver/BaseDatabase.pm
 Kernel/System/DynamicField/Driver/ContactWithData.pm
 Kernel/System/DynamicField/Driver/Database.pm
@@ -127,6 +129,7 @@ OTRSBusiness.sopm
 scripts/test/Chat
 scripts/test/Console/Command/Maint/Chat*
 scripts/test/Console/Command/Maint/NotificationView*
+scripts/test/Console/Command/Maint/Stats/Reports*
 scripts/test/NotificationView*
 scripts/test/Selenium/Agent/AgentNotificationView.t
 scripts/test/StatsReport.t
