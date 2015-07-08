@@ -145,6 +145,11 @@
     overflow: hidden;
 }
 
+.RTL #TicketOptions {
+    right: auto;
+    left: 0px;
+}
+
 #TicketOptions li {
     float: left;
     margin-left: 5px;
@@ -251,6 +256,7 @@
 
 .RTL .MessageHeader .Age {
     left: 8px;
+    right: auto;
 }
 
 .MessageBody {

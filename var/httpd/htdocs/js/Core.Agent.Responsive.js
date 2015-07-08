@@ -31,6 +31,10 @@ Core.Agent.Responsive = (function (TargetNS) {
             });
         }
 
+        $('.Dashboard .WidgetSimple .Header').off('click.Responsive').on('click.Responsive', function() {
+            $(this).find('.ActionMenu').toggle();
+        });
+
         // hide graphs as they're not properly supported on mobile devices
         $('.D3GraphMessage, .D3GraphCanvas').closest('.WidgetSimple').hide();
 

@@ -52,7 +52,9 @@
     }
 
     h1.CompanyName {
-        margin-left: 30px;
+        margin: 0px 50px;
+        text-align: center;
+        font-size: 13px;
     }
 
     .ResponsiveSidebarContainer {
@@ -179,7 +181,7 @@
     }
 
     #Metadata, #Activities {
-        float: none;
+        float: none !important;
         width: auto;
         background: #eee;
     }
