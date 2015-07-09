@@ -95,7 +95,8 @@
 
 [% RenderBlockStart("ConfigElementString") %]
                             <div class="String">
-                                <input type="[% Data.InputType | html %]" name="[% Data.ElementKey | html %]" value="[% Data.Content | html %]" title="[% Data.Content | html %]" [% Data.ReadOnlyAttribute %]/>
+                                <input type="[% Data.InputType | html %]" name="[% Data.ElementKey | html %]" value="[% Data.Content | html %]"
+                                    [% IF Data.InputType != 'password' %]title="[% Data.Content | html %]"[% END %] [% Data.ReadOnlyAttribute %]/>
                                 <p class="DefaultValue">
                                     [% Translate("Default value") | html %]: [% Data.Default | html %]
                                 </p>
