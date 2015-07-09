@@ -302,7 +302,7 @@ sub TypeFilterValuesGet {
     return if !$DBObject->Prepare(
         SQL => "SELECT DISTINCT(t.type_id), tt.name"
             . " FROM ticket t, ticket_type tt"
-            . " WHERE AND t.type_id = tt.id"
+            . " WHERE t.type_id = tt.id"
             . $TicketIDString
             . " ORDER BY t.type_id DESC",
     );
