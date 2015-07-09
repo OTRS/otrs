@@ -155,6 +155,17 @@ if ( $ENV{nocolors} || $Options =~ m{\A nocolors}msxi ) {
 # config
 my @NeededModules = (
     {
+        Module    => 'Apache::DBI',
+        Required  => 0,
+        Comment   => 'Improves Performance on Apache webservers with mod_perl enabled.',
+        InstTypes => {
+            aptget => 'libapache-dbi-perl',
+            emerge => 'dev-perl/Apache-DBI',
+            ppm    => 'Apache-DBI',
+            zypper => 'perl-Apache-DBI',
+        },
+    },
+    {
         Module    => 'Apache2::Reload',
         Required  => 0,
         Comment   => 'Avoids web server restarts on mod_perl.',
