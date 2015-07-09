@@ -19,7 +19,7 @@ accompanying [COPYING](COPYING) file for more details.
 Documentation
 =============
 You can find quick documentation in README.* and the long version
-[online](http://doc.otrs.org/). The source code of OTRS and its public extension
+[online](http://otrs.github.io/doc/). The source code of OTRS and its public extension
 modules is available on [github](http://otrs.github.io).
 
 

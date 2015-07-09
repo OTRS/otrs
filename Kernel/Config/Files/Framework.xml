@@ -132,7 +132,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
-        <Description Translatable="1">Defines all the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of the PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. Specify any own-defined language here (see the developer documentation http://doc.otrs.org/ for more infomation). Please remember to use the HTML equivalents for non-ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use the &amp;ouml; symbol).</Description>
+        <Description Translatable="1">Defines all the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of the PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. Specify any own-defined language here (see the developer documentation http://otrs.github.io/doc/ for more infomation). Please remember to use the HTML equivalents for non-ASCII characters (i.e. for the German oe = o umlaut, it is necessary to use the &amp;ouml; symbol).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -185,7 +185,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://doc.otrs.org/.</Description>
+        <Description Translatable="1">Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at http://otrs.github.io/doc/.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>

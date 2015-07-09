@@ -814,16 +814,16 @@ $TableCalculate{1}{Width}  = 300;
 $TableCalculate{1}{Border} = 1;
 
 $TableCalculate{1}{CellData}[0][0]{Content}
-    = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
+    = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
 $TableCalculate{1}{CellData}[0][1]{Content}
-    = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n\tManage your communication!\n";
+    = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n\tManage your communication!\n";
 $TableCalculate{1}{CellData}[1][0]{Content}
-    = "\tWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n\t";
+    = "\tWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n\t";
 $TableCalculate{1}{CellData}[1][1]{Content}
-    = "\r\r\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\rYour OTRS Team\n\n    Manage your communication!\r\n";
+    = "\r\r\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\rYour OTRS Team\n\n    Manage your communication!\r\n";
 
 $TableCalculate{1}{ReturnCellData}[0][0]{Content}
-    = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
+    = "Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!";
 $TableCalculate{1}{ReturnCellData}[0][0]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[0][0]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[0][0]{FontSize}        = 10;
@@ -832,7 +832,7 @@ $TableCalculate{1}{ReturnCellData}[0][0]{Align}           = 'left';
 $TableCalculate{1}{ReturnCellData}[0][0]{Lead}            = 0;
 $TableCalculate{1}{ReturnCellData}[0][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[0][1]{Content}
-    = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n  Manage your communication!\n";
+    = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n  Manage your communication!\n";
 $TableCalculate{1}{ReturnCellData}[0][1]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[0][1]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[0][1]{FontSize}        = 10;
@@ -841,7 +841,7 @@ $TableCalculate{1}{ReturnCellData}[0][1]{Align}           = 'left';
 $TableCalculate{1}{ReturnCellData}[0][1]{Lead}            = 0;
 $TableCalculate{1}{ReturnCellData}[0][1]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][0]{Content}
-    = "  Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n  ";
+    = "  Welcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\n\n\nYour OTRS Team\n\n    Manage your communication!\n  ";
 $TableCalculate{1}{ReturnCellData}[1][0]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[1][0]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[1][0]{FontSize}        = 10;
@@ -850,7 +850,7 @@ $TableCalculate{1}{ReturnCellData}[1][0]{Align}           = 'left';
 $TableCalculate{1}{ReturnCellData}[1][0]{Lead}            = 0;
 $TableCalculate{1}{ReturnCellData}[1][0]{BackgroundColor} = 'NULL';
 $TableCalculate{1}{ReturnCellData}[1][1]{Content}
-    = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://doc.otrs.org/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\nYour OTRS Team\n\n    Manage your communication!\n";
+    = "\nWelcome to OTRS!\n\nthank you for installing OTRS.\n\nYou will find updates and patches at http://otrs.org/. Online\ndocumentation is available at http://otrs.github.io/doc/. You can also\ntake advantage of our mailing lists http://lists.otrs.org/.\nYour OTRS Team\n\n    Manage your communication!\n";
 $TableCalculate{1}{ReturnCellData}[1][1]{Type}            = 'ReturnLeftOver';
 $TableCalculate{1}{ReturnCellData}[1][1]{Font}            = 'Testfont1';
 $TableCalculate{1}{ReturnCellData}[1][1]{FontSize}        = 10;
