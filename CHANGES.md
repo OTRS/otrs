@@ -53,6 +53,7 @@
  - 2015-01-06 Added ACLs handling for Owner and Responsible on screen load for AgentTicketOwner and AgentTicketResponsible.
 
 #4.0.11 2015-??-??
+ - 2015-07-09 Fixed bug#[11191](http://bugs.otrs.org/show_bug.cgi?id=11191) - Dashboard ticket filter TYPE.
 
 #4.0.10 2015-07-14
  - 2015-07-08 Updated translations, thanks to all translators.
