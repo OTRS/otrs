@@ -405,6 +405,14 @@ Core.UI.Popup = (function (TargetNS) {
             ConfirmClosePopup = true,
             PopupFeatures;
 
+        // If we are in a mobile environment on opening the popup, open it as an iframe
+        if (Core.App.Responsive.IsSmallerOrEqual(Core.App.Responsive.GetScreenSize(), 'ScreenL') && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
+            TargetNS.SetWindowMode('Iframe');
+        }
+        else {
+            TargetNS.SetWindowMode('Popup');
+        }
+
         CheckOpenPopups();
         if (URL) {
             PopupObject = GetPopupObjectByType(Type);
@@ -490,65 +498,81 @@ Core.UI.Popup = (function (TargetNS) {
      * @function
      * @param {String|Object} PopupType - The type of a popup or the window object. If not defined, the current popup windoe is closed.
      * @description
-     *      This function closes a opened popup.
+     *      This function closes an opened popup.
+     *      If no parameter is given, we are in the popup itself and want to close it.
+     *      If a parameter is defined we are in the parent window and want to close a specific popup window.
+     *      There are four possible states for this function:
+     *      1) In parent window, trying to close a "real" popup
+     *      2) In parent window, trying to close an iframe-popup ("responsive mode")
+     *      3) In the popup itself, closing itself ("real" popup)
+     *      4) In the popup itself, closing itself (iframe-popup, "responsive mode")
      */
     TargetNS.ClosePopup = function (PopupType) {
         var PopupObject,
-            ParentObject;
+            ParentObject,
+            PlaceOfExecution,
+            WindowMode;
 
-        // If parameter is not defined, we are in a popup and want to close this popup itself.
-        // We get the PopupType from the current popup window
+        // If PopupType is defined, we are in the parent window and want to close a specific popup
+        // Otherwise we are in the popup itself
         if (typeof PopupType === 'undefined') {
+            PlaceOfExecution = 'Popup';
+
+            // get PopupType of active popup
             PopupType = CurrentIsPopupWindow();
+
+            // the PopupObject is the active window
+            PopupObject = window;
+
+            // the parent window object is reached differently, if popup or iframe
+            ParentObject = GetWindowParentObject();
         }
+        else {
+            PlaceOfExecution = 'Parent';
 
-        // The PopupType is a string, if we are in a popup or the paraemter of the function was a string
-        // with the type of Popup to close.
-        if (typeof PopupType === 'string') {
-            // We try to get the popup object by type, which only works, if we are in the parent window
-            // If PopupObject is undefined after that, we are in the popup window itself.
-            PopupObject = GetPopupObjectByType(PopupType);
-            ParentObject = window;
+            // if parameter PopupType is a string, we need to get the window object
+            if (typeof PopupType === 'string') {
+                // This only works in parent window
+                PopupObject = GetPopupObjectByType(PopupType);
+                ParentObject = window;
+            }
+            // in some circumstances the parameter PopupType is an window object instead of a string
+            else {
+                PopupObject = PopupType;
 
-            // We are in the popup window itself
-            // for mobile mode we also need the parent window object
-            if (typeof PopupObject === 'undefined') {
-                PopupObject = window;
-                ParentObject = GetWindowParentObject();
+                // we can now find out the type of the popup based on the popup object
+                if (PopupObject && typeof PopupObject.name !== 'undefined' && PopupObject.name.match(/OTRSPopup_([^_]+)_.+/)) {
+                    PopupType = RegExp.$1;
+                }
+
+                // we are still in the parent window
+                ParentObject = window;
             }
         }
-        // If PopupType is not a string, it is an window object, which we got as a parameter
-        // from the function call.
-        else {
-            PopupObject = PopupType;
-        }
 
-        if (typeof PopupObject !== 'undefined') {
-            // If we opened a real popup, we can close it now safely
-            // This works from the parent window as well as from the popup window itself
+        if (typeof PopupObject !== 'undefined' && typeof ParentObject !== 'undefined') {
+            // Retrieve correct WindowMode (which is only correctly set in the parent window)
+            if (PlaceOfExecution === 'Parent') {
+                WindowMode = TargetNS.GetWindowMode();
+            }
+            else if (PlaceOfExecution === 'Popup') {
+                WindowMode = ParentObject.Core.UI.Popup.GetWindowMode();
+            }
+
+            // if we are in a real popup, we can now savely close the popup.
             if (WindowMode === 'Popup') {
                 PopupObject.close();
             }
-            // If we are in Iframe mode, we have to make sure, that we delete the iframe DOM element
-            // from the parent window (PopupObject.document)
-            // We also restore the parent windows CSS.
-            else {
-                // in some circumstances PopupType can be a window object instead of a string
-                // we extract the PopupType from the window name and carry on
-                if (typeof PopupType !== 'string') {
-                    if (PopupType && typeof PopupType.name !== 'undefined' && PopupType.name.match(/OTRSPopup_([^_]+)_.+/)) {
-                        PopupType = RegExp.$1;
-                    }
-                }
-
+            // closing the Iframe is a little bit more complicated
+            else if (WindowMode === 'Iframe') {
                 $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', ParentObject.document).remove();
                 $('body', ParentObject.document).css({
                     'overflow': 'auto'
                 });
             }
-
-            CheckOpenPopups();
         }
+
+        CheckOpenPopups();
     };
 
     /**
@@ -559,17 +583,6 @@ Core.UI.Popup = (function (TargetNS) {
      *      The init function.
      */
     TargetNS.Init = function () {
-
-        // Whenever the screen size changes to smaller or equal ScreenL,
-        // we need to change the window mode to Iframe
-        Core.App.Subscribe('Event.App.Responsive.SmallerOrEqualScreenL', function () {
-            TargetNS.SetWindowMode('Iframe');
-        });
-
-        // Set window mode back to Popup, if screen size is big enough
-        Core.App.Subscribe('Event.App.Responsive.ScreenXL', function () {
-            TargetNS.SetWindowMode('Popup');
-        });
 
         $(window).bind('beforeunload.Popup', function () {
             return Core.UI.Popup.CheckPopupsOnUnload();
