@@ -500,4 +500,135 @@ for my $SQL (@SQL) {
     );
 }
 
+# auto-increment tests
+# only execute this tests on PostgreSQL
+return 1 if $DBObject->GetDatabaseFunction('Type') ne 'postgresql';
+
+$XML = '
+<TableCreate Name="test_f">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+    <Column Name="name_a" Required="false" Type="INTEGER" />
+</TableCreate>
+';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+
+@SQL = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my @Tests = (
+    {
+        Name   => 'Just Insert',
+        Insert => {
+            name_a => 1,
+        },
+    },
+
+    {
+        Name => 'Change id from Integer to BigInt',
+        XML  => << 'END',
+<TableAlter Name="test_f">
+    <ColumnChange NameOld="id" NameNew="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+</TableAlter>
+END
+        Insert => {
+            name_a => 1,
+        },
+    },
+    {
+        Name => 'Change id to id 2',
+        XML  => << 'END',
+<TableAlter Name="test_f">
+    <ColumnChange NameOld="id" NameNew="id2" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+</TableAlter>
+END
+        Insert => {
+            name_a => 1,
+        },
+    },
+    {
+        Name => 'Add name_b as AutoIncrement',
+        XML  => << 'END',
+<TableAlter Name="test_f">
+    <ColumnAdd Name="name_b" Required="true" AutoIncrement="true" Type="BIGINT"/>
+</TableAlter>
+END
+        Insert => {
+            name_a => 1,
+        },
+    },
+    {
+        Name => 'Add id as AutoIncrement',
+        XML  => << 'END',
+<TableAlter Name="test_f">
+    <ColumnAdd Name="id" Required="true" AutoIncrement="true" Type="BIGINT"/>
+</TableAlter>
+END
+        Insert => {
+            name_a => 1,
+        },
+    },
+
+);
+
+for my $Test (@Tests) {
+
+    if ( $Test->{XML} ) {
+        my @XMLARRAY = $XMLObject->XMLParse(
+            String => $Test->{XML},
+        );
+        my @SQL = $DBObject->SQLProcessor(
+            Database => \@XMLARRAY,
+        );
+        $Self->True(
+            $SQL[0],
+            "$Test->{Name} SQLProcessor() ALTER TABLE",
+        );
+
+        for my $SQL (@SQL) {
+            $Self->True(
+                $DBObject->Do( SQL => $SQL ) || 0,
+                "$Test->{Name} Do() ALTER TABLE ($SQL)",
+            );
+        }
+    }
+    if ( $Test->{Insert} ) {
+        my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
+        my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+        my $InsertColumns = join q{, }, @InsertColumnsSorted;
+        my $InsertValues  = join q{, }, @InsertValuesSorted;
+
+        my $SQLInsert = "INSERT INTO test_f ($InsertColumns) VALUES ($InsertValues)";
+
+        $Self->True(
+            $DBObject->Do( SQL => $SQLInsert ) || 0,
+            "$Test->{Name} Do() INSERT",
+        );
+    }
+}
+
+$XML      = '<TableDrop Name="test_f"/>';
+@XMLARRAY = $XMLObject->XMLParse( String => $XML );
+@SQL      = $DBObject->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    'SQLProcessor() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $DBObject->Do( SQL => $SQL ) || 0,
+        "Do() DROP TABLE ($SQL)",
+    );
+}
+
 1;

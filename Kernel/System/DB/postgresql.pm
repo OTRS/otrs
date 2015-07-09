@@ -346,6 +346,8 @@ sub TableAlter {
     my $ReferenceName = '';
     my @Reference     = ();
     my $Table         = '';
+
+    TAG:
     for my $Tag (@Param) {
 
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
@@ -368,6 +370,17 @@ sub TableAlter {
 
             # Type translation
             $Tag = $Self->_TypeTranslation($Tag);
+
+            # auto increment
+            if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
+
+                my $PseudoType = 'serial';
+                if ( $Tag->{Type} =~ /^bigint$/i ) {
+                    $PseudoType = 'bigserial';
+                }
+                push @SQL, $SQLStart . " ADD $Tag->{Name} $PseudoType NOT NULL";
+                next TAG;
+            }
 
             # normal data type
             push @SQL, $SQLStart . " ADD $Tag->{Name} $Tag->{Type} NULL";
@@ -411,6 +424,9 @@ sub TableAlter {
                 push @SQL, $SQLStart . " RENAME $Tag->{NameOld} TO $Tag->{NameNew}";
             }
             push @SQL, $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
+
+            # if there is an AutoIncrement column no other changes are needed
+            next TAG if $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i;
 
             # remove possible default
             push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} DROP DEFAULT";
