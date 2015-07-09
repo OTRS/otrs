@@ -629,6 +629,21 @@ $Self->True(
     'GroupMemberList6()',
 );
 
+# check groupmembers of User1 via GroupGroupMemberList (there was a bug in generated SQL when using parameter UserIDs)
+%MemberList1 = $GroupObject->GroupGroupMemberList(
+    UserIDs => [$UserID1],
+    Type   => 'ro',
+    Result => 'HASH',
+);
+$GroupMemberList1 = 1;
+if ( keys %MemberList1 != 1 || !exists $MemberList1{$GroupID1} ) {
+    $GroupMemberList1 = 0;
+}
+$Self->True(
+    $GroupMemberList1,
+    'GroupGroupMemberList1() - UserIDs param (array)',
+);
+
 # check involved users of User1
 my %InvolvedList1 = $GroupObject->GroupMemberInvolvedList(
     UserID => $UserID1,

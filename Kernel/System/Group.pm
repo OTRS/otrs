@@ -915,7 +915,7 @@ sub GroupGroupMemberList {
         for my $UserID (@UserIDs) {
             $UserID = $DBObject->Quote( $UserID, 'Integer' );
         }
-        $SQL .= ' ru.user_id IN (' . join( ',', @UserIDs ) . ')';
+        $SQL .= ' gu.user_id IN (' . join( ',', @UserIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
