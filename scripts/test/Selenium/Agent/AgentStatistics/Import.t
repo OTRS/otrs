@@ -135,7 +135,7 @@ $Selenium->RunTest(
             Title       => 'Überblick über alle Tickets im System',
             Object      => 'Ticket',
             Description => 'Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.',
-            Format      => 'D3::MultiBarChart',
+            Format      => 'D3::BarChart',
         );
 
         # check for imported values on test stat
@@ -187,15 +187,15 @@ $Selenium->RunTest(
             "Print format is displayed",
         );
         $Self->True(
-            $Selenium->execute_script("return \$('#PreviewContentBar').css('display')") eq 'none',
+            $Selenium->execute_script("return \$('#PreviewContentD3BarChart').css('display')") eq 'none',
             "Bar format is not displayed",
         );
 
         # change preview format to Bar
-        $Selenium->find_element("//button[contains(\@data-format, \'D3::MultiBarChart')]")->click();
+        $Selenium->find_element("//button[contains(\@data-format, \'D3::BarChart')]")->click();
 
         $Self->True(
-            $Selenium->execute_script("return \$('#PreviewContentBar').css('display')") eq 'block',
+            $Selenium->execute_script("return \$('#PreviewContentD3BarChart').css('display')") eq 'block',
             "Bar format is displayed",
         );
         $Self->True(

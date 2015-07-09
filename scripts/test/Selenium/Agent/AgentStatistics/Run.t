@@ -51,7 +51,7 @@ $Selenium->RunTest(
             Title       => 'Überblick über alle Tickets im System',
             Object      => 'Ticket',
             Description => 'Aktueller Status aller im System befindlicher Tickets ohne Zeitbeschränkung.',
-            Format      => 'D3::MultiBarChart',
+            Format      => 'D3::BarChart',
         );
 
         # check for imported values on test stat

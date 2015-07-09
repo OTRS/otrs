@@ -70,11 +70,15 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
         "StatsRun preview result has same number of columns in Row 1 as live result (StatID $StatID) $Stat->{Object}",
     );
 
-    $Self->IsNotDeeply(
-        $ResultLive,
-        $ResultPreview,
-        "StatsRun differs between live and preview (StatID $StatID)",
-    );
+    # Ticketlist stats make a ticket search and that could return identical results in preview and live
+    #   if there are not enough tickets in the system (for example just one).
+    if ($Stat->{Object} ne 'TicketList') {
+        $Self->IsNotDeeply(
+            $ResultLive,
+            $ResultPreview,
+            "StatsRun differs between live and preview (StatID $StatID)",
+        );
+    }
 }
 
 1;

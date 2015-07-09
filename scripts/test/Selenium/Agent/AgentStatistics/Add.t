@@ -184,16 +184,16 @@ $Selenium->RunTest(
             },
             {
                 Format         => 'D3::StackedAreaChart',
-                PreviewContent => 'PreviewContentStackedArea',
+                PreviewContent => 'PreviewContentD3StackedAreaChart',
 
             },
             {
-                Format         => 'D3::MultiLineChart',
-                PreviewContent => 'PreviewContentLine',
+                Format         => 'D3::LineChart',
+                PreviewContent => 'PreviewContentD3LineChart',
             },
             {
-                Format         => 'D3::MultiBarChart',
-                PreviewContent => 'PreviewContentBar',
+                Format         => 'D3::BarChart',
+                PreviewContent => 'PreviewContentD3BarChart',
             },
 
         );
