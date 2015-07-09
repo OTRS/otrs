@@ -745,6 +745,127 @@ for my $Test (@Tests) {
     }
 }
 
+my $TaskCleanup = sub {
+    my %Param = @_;
+
+    my $Message = $Param{Message} || '';
+
+    my @List = $SchedulerDBObject->TaskList(
+        Type => 'UnitTest',
+    );
+
+    TASK:
+    for my $Task (@List) {
+        next TASK if $Task->{Type} ne 'UnitTest';
+
+        my $TaskID = $Task->{TaskID};
+
+        my $Success = $SchedulerDBObject->TaskDelete(
+            TaskID => $TaskID,
+        );
+        $Self->True(
+            $Success,
+            "$Message TaskDelete() - for $TaskID with true",
+        );
+    }
+};
+
+$TaskCleanup->(
+    Message => 'Cleanup',
+);
+
+# MaximumParallelTask feature test
+%TaskTemplate = (
+    NodeID => 1,
+    PID    => 456,
+    Name   => 'UniqueTaskName',
+    Type   => 'UnitTest',
+    Data   => {},
+);
+
+@Tests = (
+    {
+        Name                     => "1 task",
+        MaximumParallelInstances => 1,
+    },
+    {
+        Name                     => "5 tasks",
+        MaximumParallelInstances => 5,
+    },
+    {
+        Name                     => "9 tasks",
+        MaximumParallelInstances => 9,
+    },
+    {
+        Name                     => "10 tasks",
+        MaximumParallelInstances => 10,
+    },
+    {
+        Name                     => "Unlimited tasks",
+        MaximumParallelInstances => 10,
+    },
+);
+
+for my $Test (@Tests) {
+
+    for my $Counter ( 0 .. 10 ) {
+
+        my $TaskID = $SchedulerDBObject->TaskAdd(
+            %TaskTemplate,
+            MaximumParallelInstances => $Test->{MaximumParallelInstances},
+        );
+        $Self->IsNot(
+            $TaskID,
+            undef,
+            "$Test->{Name} TaskAdd() - result should not be undef",
+        );
+
+        $HelperObject->FixedTimeAddSeconds(60);
+    }
+
+    my @List = $SchedulerDBObject->TaskList(
+        Type => 'UnitTest',
+    );
+
+    my @FilteredList = grep { $_->{Name} eq $TaskTemplate{Name} } @List;
+
+    my $ExpectedTaskNumber = $Test->{MaximumParallelInstances} || 10;
+
+    if ( $ExpectedTaskNumber > 10 ) {
+        $ExpectedTaskNumber = 10;
+    }
+
+    $Self->Is(
+        scalar @FilteredList,
+        $ExpectedTaskNumber,
+        "$Test->{Name} TaskList() - Number of worker tasks",
+    );
+
+    $TaskCleanup->(
+        Message => "$Test->{Name}"
+    );
+}
+
+my $TaskID = $SchedulerDBObject->TaskAdd(
+    %TaskTemplate,
+);
+$Self->IsNot(
+    $TaskID,
+    undef,
+    "TaskAdd() - result should not be undef",
+);
+
+$TaskID = $SchedulerDBObject->TaskAdd(
+    %TaskTemplate,
+    Name                     => undef,
+    MaximumParallelInstances => 1,
+);
+$Self->Is(
+    $TaskID,
+    -1,
+    "TaskAdd() - MaximumParallelInstances without name should be -1",
+);
+
 # cleanup
 @List = $SchedulerDBObject->TaskList(
     Type => 'UnitTest',

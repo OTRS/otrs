@@ -55,11 +55,15 @@ sub new {
 add a task to scheduler
 
     my $Success = $SchedulerObject->TaskAdd(
-        ExecutionTime => '2015-01-01 00:00:00',  # task will be executed emitiatly if no execution time is given
-        Type          => 'GenericInterface',     # e. g. GenericInterface, Test
-        Name          => 'any name',             # optional
-        Attempts      => 5,                      # optional (default 1)
-        Data          => {                       # data payload
+        ExecutionTime            => '2015-01-01 00:00:00',  # task will be executed immediately if no execution
+                                                            #   time is given
+        Type                     => 'GenericInterface',     # e. g. GenericInterface, Test
+        Name                     => 'any name',             # optional
+        Attempts                 => 5,                      # optional (default 1)
+        MaximumParallelInstances => 2,                      # optional, number of tasks with the same type
+                                                            #   (and name if provided) that can exists at
+                                                            #   the same time, value of 0 means unlimited
+        Data => {                                           # data payload
             ...
         },
     );

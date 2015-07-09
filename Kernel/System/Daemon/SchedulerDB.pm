@@ -66,17 +66,20 @@ sub new {
 add a new task to scheduler task list
 
     my $TaskID = $SchedulerDBObject->TaskAdd(
-        Type     => 'GenericInterface',  # e. g. GenericInterface, Test
-        Name     => 'any name',          # optional
-        Attempts => 5,                   # optional (default 1)
-        Data     => {                    # data payload
+        Type                     => 'GenericInterface',     # e. g. GenericInterface, Test
+        Name                     => 'any name',             # optional
+        Attempts                 => 5,                      # optional (default 1)
+        MaximumParallelInstances => 2,                      # optional, number of tasks with the same type
+                                                            #   (and name if provided) that can exists at
+                                                            #   the same time, value of 0 means unlimited
+        Data => {                                           # data payload
             ...
         },
     );
 
 Returns:
 
-    my $TaskID = 123;  # or false in case of an error
+    my $TaskID = 123;  # false in case of an error or -1 in case of reach MaximumParallelInstances
 
 =cut
 
@@ -93,6 +96,25 @@ sub TaskAdd {
 
             return;
         }
+    }
+
+    if ( $Param{MaximumParallelInstances} && $Param{MaximumParallelInstances} =~ m{\A \d+ \z}msx ) {
+
+        # get the list of all worker tasks for the specified task type
+        my @List = $Self->TaskList(
+            Type => $Param{Type},
+        );
+
+        my @FilteredList = @List;
+
+        if ( $Param{Name} ) {
+
+            # remove all tasks that does not match specified task name
+            @FilteredList = grep { $_->{Name} eq $Param{Name} } @List;
+        }
+
+        # compare the number of task with the maximum parallel limit
+        return -1 if scalar @FilteredList >= $Param{MaximumParallelInstances}
     }
 
     # set default of attempts parameter
@@ -832,11 +854,14 @@ sub TaskUnlockExpired {
 add a new task to scheduler future task list
 
     my $TaskID = $SchedulerDBObject->FutureTaskAdd(
-        ExecutionTime => '2015-01-01 00:00:00',
-        Type          => 'GenericInterface',  # e. g. GenericInterface, Test
-        Name          => 'any name',          # optional
-        Attempts      => 5,                   # optional (default 1)
-        Data          => {                    # data payload
+        ExecutionTime            => '2015-01-01 00:00:00',
+        Type                     => 'GenericInterface',  # e. g. GenericInterface, Test
+        Name                     => 'any name',          # optional
+        Attempts                 => 5,                   # optional (default 1)
+        MaximumParallelInstances => 2,                   # optional, number of tasks with the same type
+                                                         #   (and name if provided) that can exists at
+                                                         #   the same time, value of 0 means unlimited
+        Data => {                                        # data payload
             ...
         },
     );
@@ -904,9 +929,9 @@ sub FutureTaskAdd {
         last TRY if $DBObject->Do(
             SQL => '
                 INSERT INTO scheduler_future_task
-                    (ident, execution_time, name, task_type, task_data, attempts, lock_key, create_time)
+                    (ident, execution_time, name, task_type, task_data, attempts, maximum_parallel_instances, lock_key, create_time)
                 VALUES
-                    (?, ?, ?, ?, ?, ?, 1, current_timestamp)',
+                    (?, ?, ?, ?, ?, ?, ?, 1, current_timestamp)',
             Bind => [
                 \$Identifier,
                 \$Param{ExecutionTime},
@@ -914,6 +939,7 @@ sub FutureTaskAdd {
                 \$Param{Type},
                 \$Data,
                 \$Param{Attempts},
+                \$Param{MaximumParallelInstances},
             ],
         );
     }
@@ -961,15 +987,16 @@ get scheduler future task
 Returns:
 
     %Task = (
-        TaskID        => 123,
-        ExecutionTime => '2015-01-01 00:00:00',
-        Name          => 'any name',
-        Type          => 'GenericInterface',
-        Data          => $DataRef,
-        Attempts      => 10,
-        LockKey       => 'XYZ',
-        LockTime      => '2011-02-08 15:08:01',
-        CreateTime    => '2011-02-08 15:08:00',
+        TaskID                   => 123,
+        ExecutionTime            => '2015-01-01 00:00:00',
+        Name                     => 'any name',
+        Type                     => 'GenericInterface',
+        Data                     => $DataRef,
+        Attempts                 => 10,
+        MaximumParallelInstances => 5,
+        LockKey                  => 'XYZ',
+        LockTime                 => '2011-02-08 15:08:01',
+        CreateTime               => '2011-02-08 15:08:00',
     );
 
 =cut
@@ -991,7 +1018,8 @@ sub FutureTaskGet {
 
     # get task from database
     return if !$DBObject->Prepare(
-        SQL => 'SELECT execution_time, name, task_type, task_data, attempts, lock_key, lock_time, create_time
+        SQL =>
+            'SELECT execution_time, name, task_type, task_data, attempts, maximum_parallel_instances, lock_key, lock_time, create_time
             FROM scheduler_future_task
             WHERE id = ?',
         Bind => [ \$Param{TaskID} ],
@@ -1026,15 +1054,16 @@ sub FutureTaskGet {
         }
 
         %Task = (
-            TaskID        => $Param{TaskID},
-            ExecutionTime => $Data[0],
-            Name          => $Data[1],
-            Type          => $Data[2],
-            Data          => $DataParam || {},
-            Attempts      => $Data[4],
-            LockKey       => $Data[5] // 0,
-            LockTime      => $Data[6] // '',
-            CreateTime    => $Data[7],
+            TaskID                   => $Param{TaskID},
+            ExecutionTime            => $Data[0],
+            Name                     => $Data[1],
+            Type                     => $Data[2],
+            Data                     => $DataParam || {},
+            Attempts                 => $Data[4],
+            MaximumParallelInstances => $Data[5] // 0,
+            LockKey                  => $Data[6] // 0,
+            LockTime                 => $Data[7] // '',
+            CreateTime               => $Data[8],
         );
     }
 
@@ -1197,7 +1226,7 @@ sub FutureTaskToExecute {
     # get all locked future tasks
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT id, name, task_type, task_data, attempts
+            SELECT id, name, task_type, task_data, attempts, maximum_parallel_instances
             FROM scheduler_future_task
             WHERE lock_key = ?
             ORDER BY execution_time ASC',
@@ -1234,11 +1263,12 @@ sub FutureTaskToExecute {
         }
 
         my %Task = (
-            TaskID   => $Row[0],
-            Name     => $Row[1],
-            Type     => $Row[2],
-            Data     => $DataParam || {},
-            Attempts => $Row[4],
+            TaskID                   => $Row[0],
+            Name                     => $Row[1],
+            Type                     => $Row[2],
+            Data                     => $DataParam || {},
+            Attempts                 => $Row[4],
+            MaximumParallelInstances => $Row[5] // 0,
         );
 
         push @FutureTaskList, \%Task;
@@ -1331,7 +1361,7 @@ sub CronTaskToExecute {
     # get cron config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::SchedulerCronTaskManager::Task') || {};
 
-    # do noting if there are no cron tasks definitions in sysconfig
+    # do noting if there are no cron tasks definitions in SysConfig
     return 1 if !IsHashRefWithData($Config);
 
     # get needed objects
@@ -1407,7 +1437,7 @@ sub CronTaskToExecute {
 
 =item CronTaskCleanup()
 
-removes recurrent tasks that does not have a matching a cron tasks definition in sysconfig
+removes recurrent tasks that does not have a matching a cron tasks definition in SysConfig
 
     my $Success = $SchedulerDBObject->CronTaskCleanup();
 
@@ -1419,7 +1449,7 @@ sub CronTaskCleanup {
     # get cron config
     my $Config = $Kernel::OM->Get('Kernel::Config')->Get('Daemon::SchedulerCronTaskManager::Task') || {};
 
-    # do noting if there are no cron tasks definitions in sysconfig
+    # do noting if there are no cron tasks definitions in SysConfig
     return 1 if !IsHashRefWithData($Config);
 
     # get needed objects
@@ -1982,25 +2012,11 @@ sub RecurrentTaskExecute {
 
     return 1 if $Cache && $Cache eq $Param{PreviousEventTimestamp};
 
-    if ( $Param{MaximumParallelInstances} && $Param{MaximumParallelInstances} =~ m{\A \d+ \z}msx ) {
-
-        # get the list of all worker tasks for the specified task type
-        my @List = $Self->TaskList(
-            Type => $Param{TaskType},
-        );
-
-        # remove all tasks that does not match specified task name
-        my @FilteredList = grep { $_->{Name} eq $Param{TaskName} } @List;
-
-        # compare the number of task with the maximum parallel limit
-        return 1 if scalar @FilteredList >= $Param{MaximumParallelInstances}
-    }
-
     # get needed objects
     my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
     my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
-    # convert last previous event timestamp
+    # convert last previous event time-stamp
     my $PreviousEventTime = $TimeObject->SystemTime2TimeStamp(
         SystemTime => $Param{PreviousEventTimestamp},
     );
@@ -2049,7 +2065,7 @@ sub RecurrentTaskExecute {
 
         next TRY if !$EntryID;
 
-        # convert last execution time to a timestamp
+        # convert last execution time to a time-stamp
         if ($LastExecutionTime) {
             $LastExecutionTimeStamp = $TimeObject->TimeStamp2SystemTime(
                 String => $LastExecutionTime,
@@ -2119,26 +2135,41 @@ sub RecurrentTaskExecute {
 
     # add the task
     my $TaskID = $Self->TaskAdd(
-        Type     => $Param{TaskType},
-        Name     => $Param{TaskName},
-        Attempts => 1,
-        Data     => $Param{Data},
+        Type                     => $Param{TaskType},
+        Name                     => $Param{TaskName},
+        Attempts                 => 1,
+        MaximumParallelInstances => $Param{MaximumParallelInstances},
+        Data                     => $Param{Data},
     );
 
     # unlock the task
-    $DBObject->Do(
-        SQL => '
-            UPDATE scheduler_recurrent_task
-            SET lock_key = 0, lock_time = NULL, last_execution_time = ?, last_worker_task_id = ?,
-                change_time = current_timestamp
-            WHERE lock_key = ? AND id = ?',
-        Bind => [
-            \$PreviousEventTime,
-            \$TaskID,
-            \$LockKey,
-            \$EntryID,
-        ],
-    );
+    if ( IsPositiveInteger($TaskID) ) {
+        $DBObject->Do(
+            SQL => '
+                UPDATE scheduler_recurrent_task
+                SET lock_key = 0, lock_time = NULL, last_execution_time = ?, last_worker_task_id = ?,
+                    change_time = current_timestamp
+                WHERE lock_key = ? AND id = ?',
+            Bind => [
+                \$PreviousEventTime,
+                \$TaskID,
+                \$LockKey,
+                \$EntryID,
+            ],
+        );
+    }
+    else {
+        $DBObject->Do(
+            SQL => '
+                UPDATE scheduler_recurrent_task
+                SET lock_key = 0, lock_time = NULL, change_time = current_timestamp
+                WHERE lock_key = ? AND id = ?',
+            Bind => [
+                \$LockKey,
+                \$EntryID,
+            ],
+        );
+    }
 
     return 1 if $TaskID;
 
