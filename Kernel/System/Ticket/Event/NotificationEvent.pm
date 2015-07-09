@@ -328,7 +328,6 @@ sub _NotificationFilter {
         next KEY if $Key eq 'RecipientAgents';
         next KEY if $Key eq 'RecipientGroups';
         next KEY if $Key eq 'RecipientRoles';
-        next KEY if $Key eq 'RecipientEmail';
         next KEY if $Key eq 'TransportEmailTemplate';
         next KEY if $Key eq 'Events';
         next KEY if $Key eq 'ArticleTypeID';
@@ -343,6 +342,11 @@ sub _NotificationFilter {
         next KEY if $Key eq 'VisibleForAgentTooltip';
         next KEY if $Key eq 'LanguageID';
         next KEY if $Key eq 'SendOnOutOfOffice';
+
+        # check recipient fields from transport methods
+        if ( $Key =~ m{\A Recipient}xms ) {
+            next KEY;
+        }
 
         # check ticket attributes
         next KEY if !$Notification{Data}->{$Key};
