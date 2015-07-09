@@ -511,7 +511,7 @@ Core.UI.Popup = (function (TargetNS) {
         var PopupObject,
             ParentObject,
             PlaceOfExecution,
-            WindowMode;
+            LocalWindowMode;
 
         // If PopupType is defined, we are in the parent window and want to close a specific popup
         // Otherwise we are in the popup itself
@@ -553,18 +553,18 @@ Core.UI.Popup = (function (TargetNS) {
         if (typeof PopupObject !== 'undefined' && typeof ParentObject !== 'undefined') {
             // Retrieve correct WindowMode (which is only correctly set in the parent window)
             if (PlaceOfExecution === 'Parent') {
-                WindowMode = TargetNS.GetWindowMode();
+                LocalWindowMode = TargetNS.GetWindowMode();
             }
             else if (PlaceOfExecution === 'Popup') {
-                WindowMode = ParentObject.Core.UI.Popup.GetWindowMode();
+                LocalWindowMode = ParentObject.Core.UI.Popup.GetWindowMode();
             }
 
             // if we are in a real popup, we can now savely close the popup.
-            if (WindowMode === 'Popup') {
+            if (LocalWindowMode === 'Popup') {
                 PopupObject.close();
             }
             // closing the Iframe is a little bit more complicated
-            else if (WindowMode === 'Iframe') {
+            else if (LocalWindowMode === 'Iframe') {
                 $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', ParentObject.document).remove();
                 $('body', ParentObject.document).css({
                     'overflow': 'auto'
