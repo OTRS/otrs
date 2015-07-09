@@ -466,9 +466,6 @@ sub ArticleCreate {
         DynamicFields => 0,
     );
 
-    # remember already sent agent notifications
-    my %AlreadySent;
-
     # remember agent to exclude notifications
     my @SkipRecipients;
     if ( $Param{ExcludeNotificationToUserID} && ref $Param{ExcludeNotificationToUserID} eq 'ARRAY' )
@@ -507,6 +504,8 @@ sub ArticleCreate {
             Event => 'NotificationNewTicket',
             Data  => {
                 TicketID              => $Param{TicketID},
+                ArticleID             => $ArticleID,
+                ArticleType           => $Param{ArticleType},
                 Queue                 => $Param{Queue},
                 Recipients            => $ExtraRecipients,
                 SkipRecipients        => \@SkipRecipients,
@@ -524,6 +523,8 @@ sub ArticleCreate {
             Event => 'NotificationAddNote',
             Data  => {
                 TicketID              => $Param{TicketID},
+                ArticleID             => $ArticleID,
+                ArticleType           => $Param{ArticleType},
                 Queue                 => $Param{Queue},
                 Recipients            => $ExtraRecipients,
                 SkipRecipients        => \@SkipRecipients,
@@ -541,6 +542,8 @@ sub ArticleCreate {
             Event => 'NotificationFollowUp',
             Data  => {
                 TicketID              => $Param{TicketID},
+                ArticleID             => $ArticleID,
+                ArticleType           => $Param{ArticleType},
                 Queue                 => $Param{Queue},
                 Recipients            => $ExtraRecipients,
                 SkipRecipients        => \@SkipRecipients,
@@ -548,34 +551,6 @@ sub ArticleCreate {
             },
             UserID => $Param{UserID},
         );
-    }
-
-    # update note to: field
-    if (%AlreadySent) {
-        if ( !$Param{ArticleType} ) {
-            $Param{ArticleType} = $Self->ArticleTypeLookup(
-                ArticleTypeID => $Param{ArticleTypeID},
-            );
-        }
-        if ( $Param{ArticleType} =~ /^note\-/ && $Param{UserID} ne 1 ) {
-            my $NewTo = $Param{To} || '';
-            for my $UserID ( sort keys %AlreadySent ) {
-                my %UserData = $UserObject->GetUserData(
-                    UserID => $UserID,
-                    Valid  => 1,
-                );
-                if ($NewTo) {
-                    $NewTo .= ', ';
-                }
-                $NewTo .= "$UserData{UserFirstname} $UserData{UserLastname} <$UserData{UserEmail}>";
-            }
-            if ($NewTo) {
-                $DBObject->Do(
-                    SQL  => 'UPDATE article SET a_to = ? WHERE id = ?',
-                    Bind => [ \$NewTo, \$ArticleID ],
-                );
-            }
-        }
     }
 
     # return ArticleID
