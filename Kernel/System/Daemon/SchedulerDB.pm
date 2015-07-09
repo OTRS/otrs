@@ -621,6 +621,11 @@ sub TaskSummary {
     my @HandledTasks;
     my @UnhandledTasks;
 
+    # get time object
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+
+    my $SystemTime = $TimeObject->SystemTime();
+
     TASK:
     for my $Task (@List) {
 
@@ -636,13 +641,24 @@ sub TaskSummary {
 
             # extract the NodeID and ProcessID from the lock key
             my ( $NodeID, $ProcessID ) = $Task->{LockKey} =~ m{\A 1 (\d{3}) (\d{8}) \z}msx;
+
+            # calculate duration from lock time
+            my $CurrentDuration;
+            if ( defined $Task->{LockTime} ) {
+                my $LockSystemTime = $TimeObject->TimeStamp2SystemTime(
+                    String => $Task->{LockTime},
+                );
+                $CurrentDuration = $Self->_Seconds2String( $SystemTime - $LockSystemTime );
+            }
+
             push @HandledTasks, {
-                Name       => $Task->{Name},
-                Type       => $Task->{Type},
-                NodeID     => $NodeID,
-                ProcessID  => $ProcessID,
-                LockTime   => $Task->{LockTime},
-                CreateTime => $Task->{CreateTime},
+                Name            => $Task->{Name},
+                Type            => $Task->{Type},
+                NodeID          => $NodeID,
+                ProcessID       => $ProcessID,
+                LockTime        => $Task->{LockTime},
+                CreateTime      => $Task->{CreateTime},
+                CurrentDuration => $CurrentDuration
             };
         }
     }
@@ -694,13 +710,8 @@ sub TaskSummary {
                     Size        => 9,
                 },
                 {
-                    Name        => 'LockTime',
-                    DisplayName => 'Lock Time',
-                    Size        => 20,
-                },
-                {
-                    Name        => 'CreateTime',
-                    DisplayName => 'Create Time',
+                    Name        => 'CurrentDuration',
+                    DisplayName => 'Duration',
                     Size        => 20,
                 },
             ],
@@ -2245,18 +2256,8 @@ sub RecurrentTaskSummary {
                     Size        => 40,
                 },
                 {
-                    Name        => 'Type',
-                    DisplayName => 'Type',
-                    Size        => 20,
-                },
-                {
                     Name        => 'LastExecutionTime',
-                    DisplayName => 'Last Schedule',
-                    Size        => 20,
-                },
-                {
-                    Name        => 'NextExecutionTime',
-                    DisplayName => 'Next Schedule',
+                    DisplayName => 'Last Execution',
                     Size        => 20,
                 },
                 {
@@ -2266,8 +2267,13 @@ sub RecurrentTaskSummary {
                 },
                 {
                     Name        => 'LastWorkerRunningTime',
-                    DisplayName => 'Last Running Time',
+                    DisplayName => 'Last Duration',
                     Size        => 18,
+                },
+                {
+                    Name        => 'NextExecutionTime',
+                    DisplayName => 'Next Execution',
+                    Size        => 20,
                 },
             ],
             Data           => \@List,
