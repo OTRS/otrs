@@ -8,12 +8,6 @@
 
 ## nofilter(TidyAll::Plugin::OTRS::TT::Format)
 
-[% SET ChartTypes = {
-'D3::MultiBarChart'    => 'Bar',
-'D3::MultiLineChart'   => 'Line',
-'D3::StackedAreaChart' => 'StackedArea',
-} %]
-
 <div class="MainBox AriaRoleMain">
     <h1 class="Center SpacingBottom">
         [% Data.Title | html %] ([% Translate(Config("Stats::StatsHook")) | html %][% Data.StatNumber | html %])
@@ -42,6 +36,6 @@ $('#download-svg').on('click', function() {
 $('#download-png').on('click', function() {
     this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#svg-container'));
 });
-Core.UI.AdvancedChart.Init([% ChartTypes.item(Data.Format) | JSON %], [% JSON(Data.RawData) %], 'svg#ChartContent');
+Core.UI.AdvancedChart.Init([% Data.Format | JSON %], [% JSON(Data.RawData) %], 'svg#ChartContent');
 </script>
 [% END %]

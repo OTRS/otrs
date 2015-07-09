@@ -5488,8 +5488,8 @@ via the Preferences button after logging in.
                 <Item>Print</Item>
                 <Item>CSV</Item>
                 <Item>Excel</Item>
-                <Item>D3::MultiBarChart</Item>
-                <Item>D3::MultiLineChart</Item>
+                <Item>D3::BarChart</Item>
+                <Item>D3::LineChart</Item>
                 <Item>D3::StackedAreaChart</Item>
             </Array>
         </Setting>
@@ -5511,8 +5511,8 @@ via the Preferences button after logging in.
                 <Item Key="Print">Print</Item>
                 <Item Key="CSV">CSV</Item>
                 <Item Key="Excel">Excel</Item>
-                <Item Key="D3::MultiBarChart">Graph: Multi Bar Chart</Item>
-                <Item Key="D3::MultiLineChart">Graph: Multi Line Chart</Item>
+                <Item Key="D3::BarChart">Graph: Bar Chart</Item>
+                <Item Key="D3::LineChart">Graph: Line Chart</Item>
                 <Item Key="D3::StackedAreaChart">Graph: Stacked Area Chart</Item>
             </Hash>
         </Setting>

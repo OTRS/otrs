@@ -134,11 +134,6 @@
 [% ELSE %]
 
     [% SET PreviewFormats = Data.Format.grep('Print|D3') %]
-    [% SET ChartTypes = {
-    'D3::MultiBarChart'    => 'Bar',
-    'D3::MultiLineChart'   => 'Line',
-    'D3::StackedAreaChart' => 'StackedArea',
-    } %]
     [% SET FormatConfig = Config('Stats::Format') %]
 
     [% IF Data.PreviewResult && PreviewFormats.size %]
@@ -146,7 +141,7 @@
         <div class="PreviewSettings">
             [% Translate('Preview format:') | html %]
             [% FOREACH Format IN PreviewFormats.sort %]
-            <button class="CallForAction SwitchPreviewFormat" data-type="[% ChartTypes.item(Format) || Format %]" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
+            <button class="CallForAction SwitchPreviewFormat" data-format="[% Format %]"><span>[% FormatConfig.item(Format) %]</span></button>
             [% END %]
             <span class="Warning">
                 [% Translate('Please note that the preview uses random data and does not consider data restrictions.') | html %]
@@ -155,15 +150,22 @@
         [% WRAPPER JSOnDocumentComplete %]
         <script type="text/javascript">
         $('.SwitchPreviewFormat').on('click', function() {
-            var Type = $(this).data('type'),
-                Format = $(this).data('format');
+            var Format = $(this).data('format'),
+                FormatCleaned = Format.replace('::', '');
             $('.SwitchPreviewFormat').removeClass('Active');
             $(this).addClass('Active');
             $('.PreviewContent:visible').hide();
             $('svg.PreviewContent').empty();
-            $('#PreviewContent' + Type).show();
+            $('#PreviewContent' + FormatCleaned).show();
             if (Format.match(/D3/)) {
-                Core.UI.AdvancedChart.Init(Type, [% JSON(Data.PreviewResult) %], 'svg#PreviewContent' + Type, { HideLegend: true });
+                Core.UI.AdvancedChart.Init(
+                    Format,
+                    [% JSON(Data.PreviewResult) %],
+                    'svg#PreviewContent' + FormatCleaned,
+                    {
+                        HideLegend: true
+                    }
+                );
             }
             return false;
         });
@@ -178,7 +180,7 @@
     [% ELSE %]
         [% FOREACH Format IN PreviewFormats %]
             [% IF Format == 'Print' %]
-        <div class="PreviewContent PreviewTable" id="PreviewContent[% Format %]" style="display: none;">
+        <div class="PreviewContent PreviewTable" id="PreviewContent[% Format.replace('::', '') | html %]" style="display: none;">
             [% SET HeaderRow = Data.PreviewResult.1 %]
             <table class="DataTable">
                 <thead>
@@ -198,8 +200,7 @@
             </table>
         </div>
             [% ELSE %]
-                [% SET ChartType = ChartTypes.item(Format) %]
-        <svg class="PreviewContent PreviewCanvas" id="PreviewContent[% ChartType %]" style="display: none;"></svg>
+        <svg class="PreviewContent PreviewCanvas" id="PreviewContent[% Format.replace('::', '') %]" style="display: none;"></svg>
             [% END %]
         [% END %]
     [% END %]

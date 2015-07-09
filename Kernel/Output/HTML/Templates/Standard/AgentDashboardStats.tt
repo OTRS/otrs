@@ -8,12 +8,6 @@
 
 ## nofilter(TidyAll::Plugin::OTRS::TT::Format)
 
-[% SET ChartTypes = {
-    'D3::MultiBarChart'    => 'Bar',
-    'D3::MultiLineChart'   => 'Line',
-    'D3::StackedAreaChart' => 'StackedArea',
-} %]
-
 [% IF Data.StatConfigurationValid %]
 
     [% IF !Data.StatParametersValid %]
@@ -96,7 +90,7 @@ Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
 
     window.setTimeout(function () {
         Core.UI.AdvancedChart.Init(
-            [% ChartTypes.item(Data.Format) | JSON %],
+            [% Data.Format | JSON %],
             [% JSON(Data.StatResultData) %],
             'svg.GraphWidget[% Data.Name | html %]',
             {

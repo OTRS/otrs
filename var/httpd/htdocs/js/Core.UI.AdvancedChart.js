@@ -647,16 +647,20 @@ Core.UI.AdvancedChart = (function (TargetNS) {
         Options = Options || {};
         switch (Type) {
             case 'Bar':
+            case 'D3::BarChart':
                 DrawBarChart(RawData, Element, Options);
                 break;
-            case 'Line':
-                DrawLineChart(RawData, Element, Options);
-                break;
-            case 'LineSimple':
+            case 'D3::SimpleLineChart':
                 DrawSimpleLineChart(RawData, Element, Options);
                 break;
             case 'StackedArea':
+            case 'D3::StackedAreaChart':
                 DrawStackedAreaChart(RawData, Element, Options);
+                break;
+            case 'Line':
+            case 'D3::LineChart':
+            default:
+                DrawLineChart(RawData, Element, Options);
                 break;
         }
     };
