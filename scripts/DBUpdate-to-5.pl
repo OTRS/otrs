@@ -83,6 +83,10 @@ Please run it as the 'otrs' user or with the help of su:
             Command => \&_CheckFrameworkVersion,
         },
         {
+            Message => 'Migrate Database Column Types',
+            Command => \&_MigrateDatabaseColumnTypes,
+        },
+        {
             Message => 'Migrate charset to UTF-8 on auto_response table',
             Command => \&_MigrateCharsetAndDeleteCharsetColumnsAutoResponse,
         },
@@ -224,6 +228,182 @@ sub _CheckFrameworkVersion {
     }
 
     return 1;
+}
+
+=item _MigrateDatabaseColumnTypes()
+
+Migrate the column type from INTEGER to BIGINT for all columns on all tables where it was originally
+defined (applies only to PostgreSQL databases).
+
+    _MigrateDatabaseColumnTypes();
+
+=cut
+
+sub _MigrateDatabaseColumnTypes {
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    # do nothing if current DB is not postgressql
+    return 1 if $DBObject->GetDatabaseFunction('Type') ne 'postgresql';
+
+    # read otrs schema file
+    my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $SchemaFile = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+        Location => "$Home/scripts/database/otrs-schema.xml",
+        Result   => 'ARRAY',
+    );
+
+    # get needed SQL statements to update affected columns
+    my @SQL = _GetColumnUpdateSQL($SchemaFile);
+
+    # get package object
+    my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+
+    # get a list of all installed packages (only the meta-data as content is parsed in this function)
+    my @PackageList = $PackageObject->RepositoryList(
+        Result => 'short',
+    );
+
+    # check installed packages
+    PACKAGE:
+    for my $Package (@PackageList) {
+
+        # skip package if it does not have the needed meta-data to get its contents
+        next PACKAGE if !$Package->{Name};
+        next PACKAGE if !$Package->{Version};
+
+        # get package XML content
+        my $PackageContent = $PackageObject->RepositoryGet(
+            %{$Package},
+        );
+
+        # skip package if it does not have DatabaseInstall section
+        next PACKAGE if $PackageContent !~ m{<DatabaseInstall [^>]+ >}msxig;
+
+        # remove any other sections in the file but DatabaseInstall
+        $PackageContent =~ s{(?: .*) ( <DatabaseInstall [^>]+ > (.*) </DatabaseInstall> ) (?: .*) }{$1}msxig;
+
+        # skip if resulting content is empty
+        next PACKAGE if !$PackageContent;
+
+        # convert columns tags into self closing from <Column ...></Column ...> to <Column .../>
+        $PackageContent =~ s{( <Column (?:Change|Add)? [^>]+ ) (>) </Column (?:Change|Add)? >}{$1/$2}msxig;
+
+        # convert package content into an array (be sure to keep the line feed)
+        my @Schema = map { $_ . "\n" } split /\n/, $PackageContent;
+
+        # get needed SQL statements to update affected columns
+        my @PackageSQL = _GetColumnUpdateSQL( \@Schema );
+
+        # skip if there are no SQL statements
+        next PACKAGE if !@PackageSQL;
+
+        # join the SQL statements with the ones from the framework and other packages
+        @SQL = ( @SQL, @PackageSQL );
+    }
+
+    # execute SQL
+    for my $SQL (@SQL) {
+        my $Success = $DBObject->Do( SQL => $SQL );
+        if ( !$Success ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Error during execution of '$SQL'!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=item _GetColumnUpdateSQL
+
+Gets the SQL statements to update a column type to BIGINT from an XML schema string.
+
+    my @SQL _GetColumnUpdateSQL(
+        $XMLContent,                    # Database table and column definitions
+                                        #   (e.g  the contents of otrs.schema.xml).
+    );
+
+=cut
+
+sub _GetColumnUpdateSQL {
+    my $XML = shift;
+
+    # define a top level tag
+    my $SourceXML = "<Database>\n";
+    my $Table;
+    my $SaveTable;
+
+    # check each line
+    LINE:
+    for my $Line ( @{$XML} ) {
+
+        # skip if line is not a table start or end tag or if is not a column tag
+        next LINE if $Line !~ m{< /? (?: Table | Column)}msx;
+
+        # skip line if is a column tag but the type is not BIGINT
+        next LINE if $Line =~ m{<Column}msx && $Line !~ m (BIGINT)msx;
+
+        # remember line as a part of the whole table tag (opening table tag or column tag)
+        $Table .= $Line;
+
+        # got to next line if current is an opening table tag
+        next LINE if $Line =~ m{<Table}msxi;
+
+        # check if line is a BIGINT column and mark table for save and go to next line
+        if ( $Line =~ m{BIGINT} ) {
+            $SaveTable = 1;
+            next LINE;
+        }
+
+        # otherwise (closing table tag), save table if it has at least a column
+        if ($SaveTable) {
+            $SourceXML .= $Table;
+        }
+
+        # reset for next table
+        $Table     = '';
+        $SaveTable = 0;
+    }
+
+    # convert <Table ...> and <TableCreate...> tags into <TableAlter ...> tags
+    #   preserving the rest of the attributes
+    $SourceXML =~ s{(<Table) (?:Create|Alter)? ([^>]+)}{$1Alter$2}msxig;
+
+    # convert </Table> and </TableCreate> tags into </TableAlter> tags
+    $SourceXML =~ s{(</Table) (?:Create|Alter)?}{$1Alter}msxig;
+
+    # convert <Column ... Name="###" ...> and <ColumnAdd ... Name="###" ...> tags into
+    # <ColumnChange ... NameOld="###" NameNew="###" ...>  tags preserving the rest of the attributes
+    $SourceXML =~ s{(<Column) (?:Add)? (.*) Name(="[^"]+") ([^>]+) >}{$1Change$2 NameOld$3 NameNew$3$4>}mxig;
+
+    # close top level tag
+    $SourceXML .= '</Database>';
+
+    # parse XML update schema
+    my @XMLARRAY = $Kernel::OM->Get('Kernel::System::XML')->XMLParse(
+        String => $SourceXML,
+    );
+
+    # get database object
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+
+    my @SQL;
+
+    # create database specific SQL
+    push @SQL, $DBObject->SQLProcessor(
+        Database => \@XMLARRAY,
+    );
+
+    my @SQLPost;
+
+    # create database specific PostSQL
+    push @SQLPost, $DBObject->SQLProcessorPost();
+
+    return ( @SQL, @SQLPost );
 }
 
 =item _MigrateCharsetAndDeleteCharsetColumnsAutoResponse()
