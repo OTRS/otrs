@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-10 Updated CPAN module CGI to version 4.21.
  - 2015-07-09 Added support for SOAP requests with chunked Transfer-Encoding, thanks to Frederic Van Espen.
  - 2015-07-09 Added possibility to add or change auto-increment columns during 'TABLE ALTER' SQL statements for PostgreSQL.
  - 2015-07-02 Removed external dependency to PDF::API2 by bundling it. Dropped HTML print view in favor of PDF.

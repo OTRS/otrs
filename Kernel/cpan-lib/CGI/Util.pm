@@ -6,9 +6,9 @@ use if $] >= 5.019, 'deprecate';
 our @EXPORT_OK = qw(rearrange rearrange_header make_attributes unescape escape
         expires ebcdic2ascii ascii2ebcdic);
 
-our $VERSION = '3.64';
+our $VERSION = '4.21';
 
-use constant EBCDIC => "\t" ne "\011";
+our $_EBCDIC = "\t" ne "\011";
 
 # This option is not documented and may change or go away.
 # The HTML spec does not require attributes to be sorted,
@@ -53,7 +53,7 @@ our @E2A = (
   48, 49, 50, 51, 52, 53, 54, 55, 56, 57,179,219,220,217,218,159
      );
 
-if (EBCDIC && ord('^') == 106) { # as in the BS2000 posix-bc coded character set
+if ($_EBCDIC && ord('^') == 106) { # as in the BS2000 posix-bc coded character set
      $A2E[91] = 187;   $A2E[92] = 188;  $A2E[94] = 106;  $A2E[96] = 74;
      $A2E[123] = 251;  $A2E[125] = 253; $A2E[126] = 255; $A2E[159] = 95;
      $A2E[162] = 176;  $A2E[166] = 208; $A2E[168] = 121; $A2E[172] = 186;
@@ -66,7 +66,7 @@ if (EBCDIC && ord('^') == 106) { # as in the BS2000 posix-bc coded character set
      $E2A[221] = 219; $E2A[224] = 217; $E2A[251] = 123; $E2A[253] = 125;
      $E2A[255] = 126;
    }
-elsif (EBCDIC && ord('^') == 176) { # as in codepage 037 on os400
+elsif ($_EBCDIC && ord('^') == 176) { # as in codepage 037 on os400
   $A2E[10] = 37;  $A2E[91] = 186;  $A2E[93] = 187; $A2E[94] = 176;
   $A2E[133] = 21; $A2E[168] = 189; $A2E[172] = 95; $A2E[221] = 173;
 
@@ -114,15 +114,28 @@ sub _rearrange_params {
     $i++;
     }
 
+    my %params_as_hash = ( @param );
+
     my (@result,%leftover);
     $#result = $#$order;  # preextend
-    while (@param) {
-    my $key = lc(shift(@param));
+
+    foreach my $k (
+        # sort keys alphabetically but favour certain keys before others
+        # specifically for the case where there could be several options
+        # for a param key, but one should be preferred (see GH #155)
+        sort {
+            if    ( $a =~ /content/i ) { return 1 }
+            elsif ( $b =~ /content/i ) { return -1 }
+            else  { $a cmp $b }
+        }
+        keys( %params_as_hash )
+    ) {
+    my $key = lc($k);
     $key =~ s/^\-//;
     if (exists $pos{$key}) {
-        $result[$pos{$key}] = shift(@param);
+        $result[$pos{$key}] = $params_as_hash{$k};
     } else {
-        $leftover{$key} = shift(@param);
+        $leftover{$key} = $params_as_hash{$k};
     }
     }
 
@@ -154,7 +167,7 @@ sub make_attributes {
     my $value = $escape ? simple_escape($attr->{$_}) : $attr->{$_};
     push(@att,defined($attr->{$_}) ? qq/$key=$quote$value$quote/ : qq/$key/);
     }
-    return @att;
+    return sort @att;
 }
 
 sub simple_escape {
@@ -182,7 +195,7 @@ sub unescape {
   my $todecode = shift;
   return undef unless defined($todecode);
   $todecode =~ tr/+/ /;       # pluses become spaces
-    if (EBCDIC) {
+    if ($_EBCDIC) {
       $todecode =~ s/%([0-9a-fA-F]{2})/chr $A2E[hex($1)]/ge;
     } else {
     # handle surrogate pairs first -- dankogai. Ref: http://unicode.org/faq/utf_bom.html#utf16-2
@@ -223,7 +236,7 @@ sub escape {
   my $toencode = shift;
   return undef unless defined($toencode);
   utf8::encode($toencode) if utf8::is_utf8($toencode);
-    if (EBCDIC) {
+    if ($_EBCDIC) {
       $toencode=~s/([^a-zA-Z0-9_.~-])/uc sprintf("%%%02x",$E2A[ord($1)])/eg;
     } else {
       $toencode=~s/([^a-zA-Z0-9_.~-])/uc sprintf("%%%02x",ord($1))/eg;

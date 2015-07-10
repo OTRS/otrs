@@ -1,13 +1,12 @@
 package CGI::Push;
 use if $] >= 5.019, 'deprecate';
 
-$CGI::Push::VERSION='1.06';
+$CGI::Push::VERSION='4.21';
 use CGI;
 use CGI::Util 'rearrange';
 @ISA = ('CGI');
 
 $CGI::DefaultClass = 'CGI::Push';
-$CGI::Push::AutoloadClass = 'CGI';
 
 # add do_push() and push_delay() to exported tags
 push(@{$CGI::EXPORT_TAGS{':standard'}},'do_push','push_delay');
@@ -83,6 +82,7 @@ sub do_sleep {
         sleep($delay);
     } else {
         select(undef,undef,undef,$delay);
+		return $delay;
     }
 }
 
@@ -100,27 +100,26 @@ CGI::Push - Simple Interface to Server Push
 
 =head1 SYNOPSIS
 
+    use strict;
+    use warnings;
+
     use CGI::Push qw(:standard);
 
-    do_push(-next_page=>\&next_page,
-            -last_page=>\&last_page,
-            -delay=>0.5);
+    do_push(
+        -next_page => \&next_page,
+        -last_page => \&last_page,
+        -delay     => 0.5
+    );
 
     sub next_page {
         my($q,$counter) = @_;
         return undef if $counter >= 10;
-        return start_html('Test'),
-               h1('Visible'),"\n",
-               "This page has been called ", strong($counter)," times",
-               end_html();
+        ....
     }
 
     sub last_page {
         my($q,$counter) = @_;
-        return start_html('Done'),
-               h1('Finished'),
-               strong($counter - 1),' iterations.',
-               end_html;
+        return ...
     }
 
 =head1 DESCRIPTION
@@ -152,7 +151,7 @@ You may call do_push() in the object oriented manner or not, as you
 prefer:
 
     use CGI::Push;
-    $q = new CGI::Push;
+    $q = CGI::Push->new;
     $q->do_push(-next_page=>\&draw_a_page);
 
         -or-
@@ -179,9 +178,7 @@ redrawing loop and print out the final page (if any)
     sub my_draw_routine {
         my($q,$counter) = @_;
         return undef if $counter > 100;
-        return start_html('testing'),
-               h1('testing'),
-               "This page called $counter times";
+        ...
     }
 
 You are of course free to refer to create and use global variables
@@ -235,9 +232,7 @@ look like this:
     sub my_draw_routine {
         my($q,$counter) = @_;
         return header('text/html'),   # note we're producing the header here
-               start_html('testing'),
-               h1('testing'),
-               "This page called $counter times";
+        ....
     }
 
 You can add any header fields that you like, but some (cookies and
@@ -251,19 +246,13 @@ as shown below:
         my($q,$counter) = @_;
         return undef if $counter > 10;
         return header('text/html'),   # note we're producing the header here
-               start_html('testing'),
-               h1('testing'),
-               "This page called $counter times";
+        ...
     }
 
     sub my_last_page {
         return header(-refresh=>'5; URL=http://somewhere.else/finished.html',
                       -type=>'text/html'),
-               start_html('Moved'),
-               h1('This is the last page'),
-               'Goodbye!'
-               hr,
-               end_html; 
+        ...
     }
 
 =head2 Changing the Page Delay on the Fly
