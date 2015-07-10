@@ -109,7 +109,25 @@ sub ProviderProcessRequest {
     }
 
     # check basic stuff
-    my $Length = $ENV{'CONTENT_LENGTH'};
+    my $Length = $ENV{'CONTENT_LENGTH'} || 0;
+
+    # if the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked
+    my $Chunked = (
+        defined $ENV{'HTTP_TRANSFER_ENCODING'}
+        && $ENV{'HTTP_TRANSFER_ENCODING'} =~ /^chunked.*$/
+    ) || 0;
+
+    my $Content = q{};
+
+    # if chunked transfer encoding is used, read request from chunks and calculate its length
+    #   afterwards
+    if ( $Chunked ) {
+        my $Buffer;
+        while ( read( STDIN, $Buffer, 1024 ) ) {
+            $Content .= $Buffer;
+        }
+        $Length = length($Content);
+    }
 
     # no length provided
     if ( !$Length ) {
@@ -168,9 +186,10 @@ sub ProviderProcessRequest {
         );
     }
 
-    # read request
-    my $Content;
-    read STDIN, $Content, $Length;
+    # if no chunked transfer encoding was used, read request directly
+    if ( !$Chunked ) {
+        read STDIN, $Content, $Length;
+    }
 
     # check if we have content
     if ( !IsStringWithData($Content) ) {
