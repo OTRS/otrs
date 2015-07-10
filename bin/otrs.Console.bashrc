@@ -23,4 +23,4 @@ OTRS_CONSOLE_PATH=$(cd $(dirname $BASH_SOURCE); pwd);
 # Remove : from wordbreak delimiter because OTRS uses it in the command names
 COMP_WORDBREAKS=${COMP_WORDBREAKS//:/}
 # Configure bash completion
-complete -C "$OTRS_CONSOLE_PATH/otrs.Console.pl" otrs.Console.pl
+complete -C "$OTRS_CONSOLE_PATH/otrs.Console.pl" $OTRS_CONSOLE_PATH/otrs.Console.pl
