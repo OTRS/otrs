@@ -538,7 +538,7 @@
         <Setting>
             <Hash>
                 <Item Key="TaskName">SupportDataCollectAsynchronous</Item>
-                <Item Key="Schedule">20 * * * *</Item> <!-- default: every hour in minute 20 -->
+                <Item Key="Schedule">1 * * * *</Item> <!-- default: every hour in minute 1 -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::SupportData::CollectAsynchronous</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="Params"></Item>
