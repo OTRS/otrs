@@ -19,6 +19,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
     'Kernel::Output::HTML::Layout',
+    'Kernel::Output::PDF::Statistics',
     'Kernel::System::CSV',
     'Kernel::System::Group',
     'Kernel::System::Log',
@@ -58,6 +59,7 @@ sub StatsParamsWidget {
                 Priority => "error",
                 Message  => "Need $Needed!"
             );
+            return;
         }
     }
 
@@ -1439,126 +1441,13 @@ sub StatsResultRender {
 
     # pdf or html output
     elsif ( $Param{Format} eq 'Print' ) {
-        my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
-
-        my $PrintedBy = $LayoutObject->{LanguageObject}->Translate('printed by');
-        my $Page      = $LayoutObject->{LanguageObject}->Translate('Page');
-        my $Time      = $LayoutObject->{Time};
-
-        # get maximum number of pages
-        my $MaxPages = $ConfigObject->Get('PDF::MaxPages');
-        if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
-            $MaxPages = 100;
-        }
-
-        # create the header
-        my $CellData;
-        my $CounterRow  = 0;
-        my $CounterHead = 0;
-        for my $Content ( @{$HeadArrayRef} ) {
-            $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-            $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
-            $CounterHead++;
-        }
-        if ( $CounterHead > 0 ) {
-            $CounterRow++;
-        }
-
-        # create the content array
-        for my $Row (@StatArray) {
-            my $CounterColumn = 0;
-            for my $Content ( @{$Row} ) {
-                $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
-                $CounterColumn++;
-            }
-            $CounterRow++;
-        }
-
-        # output 'No matches found', if no content was given
-        if ( !$CellData->[0]->[0] ) {
-            $CellData->[0]->[0]->{Content} = $LayoutObject->{LanguageObject}->Translate('No matches found.');
-        }
-
-        # page params
-        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
-        my %PageParam;
-        $PageParam{PageOrientation} = 'landscape';
-        $PageParam{MarginTop}       = 30;
-        $PageParam{MarginRight}     = 40;
-        $PageParam{MarginBottom}    = 40;
-        $PageParam{MarginLeft}      = 40;
-        $PageParam{HeaderRight}     = $ConfigObject->Get('Stats::StatsHook') . $Stat->{StatNumber};
-        $PageParam{HeadlineLeft}    = $Title;
-
-        # table params
-        my %TableParam;
-        $TableParam{CellData}            = $CellData;
-        $TableParam{Type}                = 'Cut';
-        $TableParam{FontSize}            = 6;
-        $TableParam{Border}              = 0;
-        $TableParam{BackgroundColorEven} = '#DDDDDD';
-        $TableParam{Padding}             = 4;
-
-        # create new pdf document
-        $PDFObject->DocumentNew(
-            Title  => $ConfigObject->Get('Product') . ': ' . $Title,
-            Encode => $LayoutObject->{UserCharset},
+        my $PDFString = $Kernel::OM->Get('Kernel::Output::PDF::Statistics')->GeneratePDF(
+            Stat         => $Stat,
+            Title        => $Title,
+            HeadArrayRef => $HeadArrayRef,
+            StatArray    => \@StatArray,
+            UserID       => $Self->{StatsObject}->{UserID},
         );
-
-        # start table output
-        $PDFObject->PageNew(
-            %PageParam,
-            FooterRight => $Page . ' 1',
-        );
-
-        $PDFObject->PositionSet(
-            Move => 'relativ',
-            Y    => -6,
-        );
-
-        # output title
-        $PDFObject->Text(
-            Text     => $Title,
-            FontSize => 13,
-        );
-
-        $PDFObject->PositionSet(
-            Move => 'relativ',
-            Y    => -6,
-        );
-
-        # output "printed by"
-        $PDFObject->Text(
-            Text => $PrintedBy . ' '
-                . $User{UserFirstname} . ' '
-                . $User{UserLastname} . ' ('
-                . $User{UserEmail} . ')'
-                . ', ' . $Time,
-            FontSize => 9,
-        );
-
-        $PDFObject->PositionSet(
-            Move => 'relativ',
-            Y    => -14,
-        );
-
-        COUNT:
-        for ( 2 .. $MaxPages ) {
-
-            # output table (or a fragment of it)
-            %TableParam = $PDFObject->Table( %TableParam, );
-
-            # stop output or output next page
-            last COUNT if $TableParam{State};
-
-            $PDFObject->PageNew(
-                %PageParam,
-                FooterRight => $Page . ' ' . $_,
-            );
-        }
-
-        # return the pdf document
-        my $PDFString = $PDFObject->DocumentOutput();
         return $LayoutObject->Attachment(
             Filename    => $Filename . '.pdf',
             ContentType => 'application/pdf',

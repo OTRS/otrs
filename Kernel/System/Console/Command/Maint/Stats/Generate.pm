@@ -16,6 +16,7 @@ use base qw(Kernel::System::Console::BaseCommand);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
+    'Kernel::Output::PDF::Statistics',
     'Kernel::System::CSV',
     'Kernel::System::CheckItem',
     'Kernel::System::Email',
@@ -63,10 +64,10 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'format',
-        Description => "Target format (CSV|Excel|PDF) for which the file should be generated (defaults to CSV).",
+        Description => "Target format (CSV|Excel|Print) for which the file should be generated (defaults to CSV).",
         Required    => 0,
         HasValue    => 1,
-        ValueRegex  => qr/(CSV|Excel|PDF)/smx,
+        ValueRegex  => qr/(CSV|Excel|Print|PDF)/smx,
     );
     $Self->AddOption(
         Name        => 'separator',
@@ -200,13 +201,13 @@ sub Run {
         my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $Self->{StatID} );
         for my $ParamItem ( @{$Params} ) {
             if ( !$ParamItem->{Multiple} ) {
-                my $Value = GetParam(
+                my $Value = $Self->GetParam(
                     Param  => $ParamItem->{Name},
                     Params => $Self->{Params}
                 );
                 if ( defined $Value ) {
                     $GetParam{ $ParamItem->{Name} } =
-                        GetParam(
+                        $Self->GetParam(
                         Param  => $ParamItem->{Name},
                         Params => $Self->{Params},
                         );
@@ -216,7 +217,7 @@ sub Run {
                 }
             }
             else {
-                my @Value = GetArray(
+                my @Value = $Self->GetArray(
                     Param  => $ParamItem->{Name},
                     Params => $Self->{Params},
                 );
@@ -252,131 +253,14 @@ sub Run {
     }
     my %Attachment;
 
-    if ( $Self->{Format} eq 'PDF' ) {
+    if ( $Self->{Format} eq 'Print' || $Self->{Format} eq 'PDF' ) {
 
-        my $PDFObject = $Kernel::OM->Get('Kernel::System::PDF');
-
-        $Self->Print("<yellow>Chosen format: PDF.</yellow>\n");
-
-        # Create the PDF
-        my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => 1 );
-
-        my $PrintedBy  = $Kernel::OM->Get('Kernel::Language')->Translate('printed by');
-        my $Page       = $Kernel::OM->Get('Kernel::Language')->Translate('Page');
-        my $SystemTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
-        my $TimeStamp =
-            $Kernel::OM->Get('Kernel::System::Time')->SystemTime2TimeStamp(
-            SystemTime => $SystemTime,
-            );
-        my $Time =
-            $Kernel::OM->Get('Kernel::Language')->FormatTimeString(
-            $TimeStamp, 'DateFormat'
-            );
-
-        # create the content array
-        my $CellData;
-        my $CounterRow  = 0;
-        my $CounterHead = 0;
-        for my $Content ( @{$HeadArrayRef} ) {
-            $CellData->[$CounterRow]->[$CounterHead]->{Content} = $Content;
-            $CellData->[$CounterRow]->[$CounterHead]->{Font}    = 'ProportionalBold';
-            $CounterHead++;
-        }
-        if ( $CounterHead > 0 ) {
-            $CounterRow++;
-        }
-        for my $Row (@StatArray) {
-            my $CounterColumn = 0;
-            for my $Content ( @{$Row} ) {
-                $CellData->[$CounterRow]->[$CounterColumn]->{Content} = $Content;
-                $CounterColumn++;
-            }
-            $CounterRow++;
-        }
-        if ( !$CellData->[0]->[0] ) {
-            $CellData->[0]->[0]->{Content} =
-                $Kernel::OM->Get('Kernel::Language')->Translate('No Result!');
-        }
-
-        # page params
-        my %PageParam;
-        $PageParam{PageOrientation} = 'landscape';
-        $PageParam{MarginTop}       = 30;
-        $PageParam{MarginRight}     = 40;
-        $PageParam{MarginBottom}    = 40;
-        $PageParam{MarginLeft}      = 40;
-        $PageParam{HeaderRight} =
-            $Kernel::OM->Get('Kernel::Config')->Get('Stats::StatsHook')
-            . $Stat->{StatNumber};
-        $PageParam{FooterLeft}   = 'otrs.GenerateStats.pl';
-        $PageParam{HeadlineLeft} = $Title;
-        $PageParam{HeadlineRight} =
-            $PrintedBy . ' '
-            . $User{UserFirstname} . ' '
-            . $User{UserLastname} . ' ('
-            . $User{UserEmail} . ') '
-            . $Time;
-
-        # table params
-        my %TableParam;
-        $TableParam{CellData}            = $CellData;
-        $TableParam{Type}                = 'Cut';
-        $TableParam{FontSize}            = 6;
-        $TableParam{Border}              = 0;
-        $TableParam{BackgroundColorEven} = '#AAAAAA';
-        $TableParam{BackgroundColorOdd}  = '#DDDDDD';
-        $TableParam{Padding}             = 1;
-        $TableParam{PaddingTop}          = 3;
-        $TableParam{PaddingBottom}       = 3;
-
-        # get maximum number of pages
-        my $MaxPages = $Kernel::OM->Get('Kernel::Config')->Get('PDF::MaxPages');
-        if ( !$MaxPages || $MaxPages < 1 || $MaxPages > 1000 ) {
-            $MaxPages = 100;
-        }
-
-        # create new pdf document
-        $PDFObject->DocumentNew(
-            Title  => $Kernel::OM->Get('Kernel::Config')->Get('Product') . ': ' . $Title,
-            Encode => 'utf-8',
+        my $PDFString = $Kernel::OM->Get('Kernel::Output::PDF::Statistics')->GeneratePDF(
+            Stat         => $Stat,
+            Title        => $Title,
+            HeadArrayRef => $HeadArrayRef,
+            StatArray    => \@StatArray,
         );
-
-        # start table output
-        my $Loop    = 1;
-        my $Counter = 1;
-        while ($Loop) {
-
-            # if first page
-            if ( $Counter == 1 ) {
-                $PDFObject->PageNew(
-                    %PageParam,
-                    FooterRight => $Page . ' ' . $Counter,
-                );
-            }
-
-            # output table (or a fragment of it)
-            %TableParam = $PDFObject->Table( %TableParam, );
-
-            # stop output or another page
-            if ( $TableParam{State} ) {
-                $Loop = 0;
-            }
-            else {
-                $PDFObject->PageNew(
-                    %PageParam,
-                    FooterRight => $Page . ' ' . ( $Counter + 1 ),
-                );
-            }
-            $Counter++;
-
-            # check max pages
-            if ( $Counter >= $MaxPages ) {
-                $Loop = 0;
-            }
-        }
-
-        # return the document
-        my $PDFString = $PDFObject->DocumentOutput();
 
         # save the pdf with the title and timestamp as filename, or read it from param
         my $Filename;
@@ -399,15 +283,7 @@ sub Run {
     elsif ( $Self->{Format} eq 'Excel' ) {
 
         # Create the Excel data
-        my $Output;
-
-        $Self->Print("<yellow>Chosen format: Excel.</yellow>\n");
-
-        # Only add the name if parameter is set
-        if ( $Self->GetOption('with-header') ) {
-            $Output .= "Name: $Title; Created: $Time\n";
-        }
-        $Output .= $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
+        my $Output = $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
             Head   => $HeadArrayRef,
             Data   => \@StatArray,
             Format => 'Excel',
@@ -435,15 +311,7 @@ sub Run {
     else {
 
         # Create the CSV data
-        my $Output;
-
-        $Self->Print("<yellow>Chosen format: CSV.</yellow>\n");
-
-        # Only add the name if parameter is set
-        if ( $Self->GetOption('with-header') ) {
-            $Output .= "Name: $Title; Created: $Time\n";
-        }
-        $Output .= $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
+        my $Output = $Kernel::OM->Get('Kernel::System::CSV')->Array2CSV(
             Head      => $HeadArrayRef,
             Data      => \@StatArray,
             Separator => $Self->{Separator},
@@ -474,7 +342,7 @@ sub Run {
         if ( open my $Filehandle, '>', "$Self->{TargetDirectory}/$Attachment{Filename}" ) {    ## no critic
             print $Filehandle $Attachment{Content};
             close $Filehandle;
-            $Self->Print("<yellow>Writing file $Self->{TargetDirectory}/$Attachment{Filename}.</yellow>\n");
+            $Self->Print("  Writing file <yellow>$Self->{TargetDirectory}/$Attachment{Filename}</yellow>.\n");
             $Self->Print("<green>Done.</green>\n");
             return $Self->ExitCodeOk();
         }
@@ -492,7 +360,7 @@ sub Run {
         if ( !$Kernel::OM->Get('Kernel::System::CheckItem')->CheckEmail( Address => $Recipient ) ) {
 
             $Self->PrintError(
-                "Warning: email address $Recipient invalid, skipping address."
+                "Email address $Recipient invalid, skipping address."
                     . $Kernel::OM->Get('Kernel::System::CheckItem')->CheckError()
             );
             next RECIPIENT;
@@ -514,10 +382,10 @@ sub Run {
 }
 
 sub GetParam {
-    my (%Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Param} ) {
-        print STDERR "ERROR: Need 'Param' in GetParam()\n";
+        $Self->PrintError("Need 'Param' in GetParam()");
     }
     my @P = split( /&/, $Param{Params} || '' );
     for (@P) {
@@ -530,10 +398,10 @@ sub GetParam {
 }
 
 sub GetArray {
-    my (%Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Param} ) {
-        print STDERR "ERROR: Need 'Param' in GetArray()\n";
+        $Self->PrintError("Need 'Param' in GetArray()");
     }
     my @P = split( /&/, $Param{Params} || '' );
     my @Array;

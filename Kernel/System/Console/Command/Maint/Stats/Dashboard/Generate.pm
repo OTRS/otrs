@@ -33,11 +33,10 @@ sub Configure {
         ValueRegex  => qr/\d+/smx,
     );
     $Self->AddOption(
-        Name        => 'force',
-        Description => "Force execution of the script even it is already running.",
+        Name        => 'force-pid',
+        Description => "Start even if another process is still registered in the database.",
         Required    => 0,
         HasValue    => 0,
-        ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
         Name        => 'debug',
@@ -51,30 +50,18 @@ sub Configure {
 }
 
 sub PreRun {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
-    # create pid lock
-    if (
-        !$Self->GetOption('force')
-        && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'GenerateDashboardStats' )
-        )
-    {
-        die "Script is already running (use '--force' if you want to start it forced)!\n";
-    }
-    elsif (
-        $Self->GetOption('force')
-        && !$Kernel::OM->Get('Kernel::System::PID')->PIDCreate( Name => 'GenerateDashboardStats' )
-        )
-    {
-        $Self->Print("<yellow>Script is already running but is starting again!...</yellow>\n");
-    }
-
-    # set new PID
-    $Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
-        Name  => 'GenerateDashboardStats',
-        Force => 1,
+    my $PIDCreated = $Kernel::OM->Get('Kernel::System::PID')->PIDCreate(
+        Name  => $Self->Name(),
+        Force => $Self->GetOption('force-pid'),
         TTL   => 60 * 60 * 24 * 3,
     );
+    if ( !$PIDCreated ) {
+        my $Error = "Unable to register the process in the database. Is another instance still running?\n";
+        $Error .= "You can use --force-pid to override this check.\n";
+        die $Error;
+    }
 
     return;
 }
@@ -164,12 +151,9 @@ sub Run {
 }
 
 sub PostRun {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
-    # delete pid lock
-    $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => 'GenerateDashboardStats' );
-
-    return;
+    return $Kernel::OM->Get('Kernel::System::PID')->PIDDelete( Name => $Self->Name() );
 }
 
 1;

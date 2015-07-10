@@ -26,7 +26,7 @@ sub Configure {
 
     $Self->AddOption(
         Name        => 'force',
-        Description => "Force to execute even if next update time has not been reach.",
+        Description => "Force to execute even if next update time has not been reached yet.",
         Required    => 0,
         HasValue    => 0,
         ValueRegex  => qr/.*/smx,

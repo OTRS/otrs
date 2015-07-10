@@ -30,7 +30,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'force',
-        Description => "force to execute even if SMIME is not enabled in SysConfig.",
+        Description => "Execute even if SMIME is not enabled in SysConfig.",
         Required    => 0,
         HasValue    => 0,
         ValueRegex  => qr/.*/smx,
