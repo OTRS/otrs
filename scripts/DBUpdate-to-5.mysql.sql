@@ -33,7 +33,6 @@ CREATE TABLE scheduler_future_task (
     task_type VARCHAR (200) NOT NULL,
     task_data LONGBLOB NOT NULL,
     attempts SMALLINT NOT NULL,
-    maximum_parallel_instances SMALLINT NULL,
     lock_key BIGINT NOT NULL,
     lock_time DATETIME NULL,
     create_time DATETIME NOT NULL,

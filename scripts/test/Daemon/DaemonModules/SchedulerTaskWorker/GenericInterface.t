@@ -318,7 +318,6 @@ for my $Test (@Test) {
                 Type          => 'GenericInterface',
                 Data          => $Test->{Config}->{Data},
                 Attempts      => 10,
-                MaximumParallelInstances => 0,
                 LockKey       => 0,
                 LockTime      => '',
                 CreateTime    => $TimeStamp,

@@ -193,11 +193,10 @@ for my $Test (@Tests) {
                 TestData2 => 88888888,
                 TestData3 => 99999999,
             },
-            Attempts                 => 1,
-            MaximumParallelInstances => 0,
-            LockKey                  => 0,
-            LockTime                 => '',
-            CreateTime               => $TimeStamp,
+            Attempts   => 1,
+            LockKey    => 0,
+            LockTime   => '',
+            CreateTime => $TimeStamp,
         },
         Success => 1,
     },
@@ -216,11 +215,10 @@ for my $Test (@Tests) {
                 TestData2 => 88888888,
                 TestData3 => 99999999,
             },
-            Attempts                 => 5,
-            MaximumParallelInstances => 0,
-            LockKey                  => 0,
-            LockTime                 => '',
-            CreateTime               => $TimeStamp,
+            Attempts   => 5,
+            LockKey    => 0,
+            LockTime   => '',
+            CreateTime => $TimeStamp,
         },
         Success => 1,
     },
@@ -230,13 +228,12 @@ for my $Test (@Tests) {
             TaskID => $AddedTasksIDs[2],
         },
         ExpectedResults => {
-            TaskID                   => $AddedTasksIDs[2],
-            ExecutionTime            => '2020-12-12 12:00:00',
-            Name                     => 'any name',
-            Type                     => 'Unittest2',
-            Attempts                 => 5,
-            MaximumParallelInstances => 0,
-            Data                     => {
+            TaskID        => $AddedTasksIDs[2],
+            ExecutionTime => '2020-12-12 12:00:00',
+            Name          => 'any name',
+            Type          => 'Unittest2',
+            Attempts      => 5,
+            Data          => {
                 TestData1 => 'äëïöüÄËÏÖÜáéíóúÁÉÍÓÚñÑ€исß',
                 TestData2 => 88888888,
                 TestData3 => 99999999,
@@ -483,26 +480,6 @@ my $TaskCleanup = sub {
             "$Message FuitureTaskDelete() - for $TaskID with true",
         );
     }
-
-    # remove also worker tasks
-    @List = $SchedulerDBObject->TaskList(
-        Type => 'UnitTest',
-    );
-
-    TASK:
-    for my $Task (@List) {
-        next TASK if $Task->{Type} ne 'UnitTest';
-
-        my $TaskID = $Task->{TaskID};
-
-        my $Success = $SchedulerDBObject->TaskDelete(
-            TaskID => $TaskID,
-        );
-        $Self->True(
-            $Success,
-            "$Message TaskDelete() - for $TaskID with true",
-        );
-    }
 };
 
 $TaskCleanup->(
@@ -550,22 +527,13 @@ for my $Test (@Tests) {
         );
         $Self->True(
             $Success,
-            "$Test->{Name} TaskAdd() - result with true",
+            "$Test->{Name} FutureTaskAdd() - result with true",
         );
 
         $HelperObject->FixedTimeAddSeconds(60);
     }
 
-    my $Success = $SchedulerDBObject->FutureTaskToExecute(
-        NodeID => 1,
-        PID    => 456,
-    );
-    $Self->True(
-        $Success,
-        "$Test->{Name} FutureTaskToExecute() - result with true",
-    );
-
-    my @List = $SchedulerDBObject->TaskList(
+    my @List = $SchedulerDBObject->FutureTaskList(
         Type => 'UnitTest',
     );
 
@@ -580,7 +548,7 @@ for my $Test (@Tests) {
     $Self->Is(
         scalar @FilteredList,
         $ExpectedTaskNumber,
-        "$Test->{Name} TaskList() - Number of worker tasks",
+        "$Test->{Name} FutureTaskList() - Number of future tasks",
     );
 
     $TaskCleanup->(

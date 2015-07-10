@@ -69,9 +69,10 @@ add a new task to scheduler task list
         Type                     => 'GenericInterface',     # e. g. GenericInterface, Test
         Name                     => 'any name',             # optional
         Attempts                 => 5,                      # optional (default 1)
-        MaximumParallelInstances => 2,                      # optional, number of tasks with the same type
-                                                            #   (and name if provided) that can exists at
-                                                            #   the same time, value of 0 means unlimited
+        MaximumParallelInstances => 2,                      # optional (default 0), number of tasks
+                                                            #   with the same type (and name if
+                                                            #   provided) that can exists at the same
+                                                            #   time, value of 0 means unlimited
         Data => {                                           # data payload
             ...
         },
@@ -858,9 +859,10 @@ add a new task to scheduler future task list
         Type                     => 'GenericInterface',  # e. g. GenericInterface, Test
         Name                     => 'any name',          # optional
         Attempts                 => 5,                   # optional (default 1)
-        MaximumParallelInstances => 2,                   # optional, number of tasks with the same type
-                                                         #   (and name if provided) that can exists at
-                                                         #   the same time, value of 0 means unlimited
+        MaximumParallelInstances => 2,                   # optional (default 0), number of tasks
+                                                         #   with the same type (and name if provided)
+                                                         #   that can exists at the same time,
+                                                         #   value of 0 means unlimited
         Data => {                                        # data payload
             ...
         },
@@ -901,6 +903,25 @@ sub FutureTaskAdd {
         return;
     }
 
+    if ( $Param{MaximumParallelInstances} && $Param{MaximumParallelInstances} =~ m{\A \d+ \z}msx ) {
+
+        # get the list of all future tasks for the specified task type
+        my @List = $Self->FutureTaskList(
+            Type => $Param{Type},
+        );
+
+        my @FilteredList = @List;
+
+        if ( $Param{Name} ) {
+
+            # remove all tasks that does not match specified task name
+            @FilteredList = grep { $_->{Name} eq $Param{Name} } @List;
+        }
+
+        # compare the number of task with the maximum parallel limit
+        return -1 if scalar @FilteredList >= $Param{MaximumParallelInstances}
+    }
+
     # set default of attempts parameter
     $Param{Attempts} ||= 1;
 
@@ -929,9 +950,9 @@ sub FutureTaskAdd {
         last TRY if $DBObject->Do(
             SQL => '
                 INSERT INTO scheduler_future_task
-                    (ident, execution_time, name, task_type, task_data, attempts, maximum_parallel_instances, lock_key, create_time)
+                    (ident, execution_time, name, task_type, task_data, attempts, lock_key, create_time)
                 VALUES
-                    (?, ?, ?, ?, ?, ?, ?, 1, current_timestamp)',
+                    (?, ?, ?, ?, ?, ?, 1, current_timestamp)',
             Bind => [
                 \$Identifier,
                 \$Param{ExecutionTime},
@@ -939,7 +960,6 @@ sub FutureTaskAdd {
                 \$Param{Type},
                 \$Data,
                 \$Param{Attempts},
-                \$Param{MaximumParallelInstances},
             ],
         );
     }
@@ -987,16 +1007,15 @@ get scheduler future task
 Returns:
 
     %Task = (
-        TaskID                   => 123,
-        ExecutionTime            => '2015-01-01 00:00:00',
-        Name                     => 'any name',
-        Type                     => 'GenericInterface',
-        Data                     => $DataRef,
-        Attempts                 => 10,
-        MaximumParallelInstances => 5,
-        LockKey                  => 'XYZ',
-        LockTime                 => '2011-02-08 15:08:01',
-        CreateTime               => '2011-02-08 15:08:00',
+        TaskID        => 123,
+        ExecutionTime => '2015-01-01 00:00:00',
+        Name          => 'any name',
+        Type          => 'GenericInterface',
+        Data          => $DataRef,
+        Attempts      => 10,
+        LockKey       => 'XYZ',
+        LockTime      => '2011-02-08 15:08:01',
+        CreateTime    => '2011-02-08 15:08:00',
     );
 
 =cut
@@ -1019,7 +1038,7 @@ sub FutureTaskGet {
     # get task from database
     return if !$DBObject->Prepare(
         SQL =>
-            'SELECT execution_time, name, task_type, task_data, attempts, maximum_parallel_instances, lock_key, lock_time, create_time
+            'SELECT execution_time, name, task_type, task_data, attempts, lock_key, lock_time, create_time
             FROM scheduler_future_task
             WHERE id = ?',
         Bind => [ \$Param{TaskID} ],
@@ -1054,16 +1073,15 @@ sub FutureTaskGet {
         }
 
         %Task = (
-            TaskID                   => $Param{TaskID},
-            ExecutionTime            => $Data[0],
-            Name                     => $Data[1],
-            Type                     => $Data[2],
-            Data                     => $DataParam || {},
-            Attempts                 => $Data[4],
-            MaximumParallelInstances => $Data[5] // 0,
-            LockKey                  => $Data[6] // 0,
-            LockTime                 => $Data[7] // '',
-            CreateTime               => $Data[8],
+            TaskID        => $Param{TaskID},
+            ExecutionTime => $Data[0],
+            Name          => $Data[1],
+            Type          => $Data[2],
+            Data          => $DataParam || {},
+            Attempts      => $Data[4],
+            LockKey       => $Data[5] // 0,
+            LockTime      => $Data[6] // '',
+            CreateTime    => $Data[7],
         );
     }
 
@@ -1226,7 +1244,7 @@ sub FutureTaskToExecute {
     # get all locked future tasks
     return if !$DBObject->Prepare(
         SQL => '
-            SELECT id, name, task_type, task_data, attempts, maximum_parallel_instances
+            SELECT id, name, task_type, task_data, attempts
             FROM scheduler_future_task
             WHERE lock_key = ?
             ORDER BY execution_time ASC',
@@ -1263,12 +1281,11 @@ sub FutureTaskToExecute {
         }
 
         my %Task = (
-            TaskID                   => $Row[0],
-            Name                     => $Row[1],
-            Type                     => $Row[2],
-            Data                     => $DataParam || {},
-            Attempts                 => $Row[4],
-            MaximumParallelInstances => $Row[5] // 0,
+            TaskID   => $Row[0],
+            Name     => $Row[1],
+            Type     => $Row[2],
+            Data     => $DataParam || {},
+            Attempts => $Row[4],
         );
 
         push @FutureTaskList, \%Task;
@@ -1969,12 +1986,15 @@ executes recurrent tasks like cron or generic agent tasks
 
     my $Success = $SchedulerDBObject->RecurrentTaskExecute(
         NodeID                   => 1,                 # the ID of the node in a cluster environment
-        PID                      => 456,               # the process ID of the daemon that is creating the tasks to execution
+        PID                      => 456,               # the process ID of the daemon that is creating
+                                                       #    the tasks to execution
         TaskName                 => 'UniqueTaskName',
         TaskType                 => 'Cron',
         PreviousEventTimestamp   => 1433212343,
-        MaximumParallelInstances => 1,                 # number of tasks with the same name and type that can be in execution
-                                                       #  table at the same time, value of 0 means unlimited
+        MaximumParallelInstances => 1,                 # optional (default 0) number of tasks with the
+                                                       #    same name and type that can be in execution
+                                                       #    table at the same time, value of 0 means
+                                                       #    unlimited
         Data                   => {                    # data payload
             ...
         },

@@ -46,7 +46,6 @@
         <Column Name="task_type" Required="true" Size="200" Type="VARCHAR"/>
         <Column Name="task_data" Required="true" Type="LONGBLOB"/>
         <Column Name="attempts" Required="true" Type="SMALLINT"/>
-        <Column Name="maximum_parallel_instances" Required="false" Type="SMALLINT"/>
         <Column Name="lock_key" Required="true" Type="BIGINT"/>
         <Column Name="lock_time" Required="false" Type="DATE"/>
         <Column Name="create_time" Required="true" Type="DATE"/>
