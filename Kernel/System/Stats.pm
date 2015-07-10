@@ -21,6 +21,7 @@ use Kernel::Output::HTML::Statistics::View;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Language',
+    'Kernel::Output::HTML::Statistics::View',
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::Encode',
@@ -49,11 +50,7 @@ All stats functions.
 create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
-        'Kernel::System::Stats' => {
-            UserID  => 123,
-        }
-    );
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
     my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
 =cut
@@ -65,8 +62,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
-
     # temporary directory
     $Self->{StatsTempDir} = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/stats/';
 
@@ -77,12 +72,24 @@ sub new {
 
 add new empty stats
 
-    my $StatID = $StatsObject->StatsAdd();
+    my $StatID = $StatsObject->StatsAdd(
+        UserID => $UserID,
+    );
 
 =cut
 
 sub StatsAdd {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed.",
+            );
+            return;
+        }
+    }
 
     # get needed objects
     my $XMLObject  = $Kernel::OM->Get('Kernel::System::XML');
@@ -111,13 +118,13 @@ sub StatsAdd {
             { Content => $TimeStamp },
         ],
         CreatedBy => [
-            { Content => $Self->{UserID} },
+            { Content => $Param{UserID} },
         ],
         Changed => [
             { Content => $TimeStamp },
         ],
         ChangedBy => [
-            { Content => $Self->{UserID} },
+            { Content => $Param{UserID} },
         ],
         Valid => [
             { Content => 1 },
@@ -372,13 +379,24 @@ update a stat
 
     $StatsObject->StatsUpdate(
         StatID => '123',
-        Hash   => \%Hash
+        Hash   => \%Hash,
+        UserID => $UserID,
     );
 
 =cut
 
 sub StatsUpdate {
     my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed.",
+            );
+            return;
+        }
+    }
 
     # declaration of the hash
     my %StatXML;
@@ -468,7 +486,7 @@ sub StatsUpdate {
         SystemTime => $TimeObject->SystemTime(),
     );
     $StatXML{Changed}->[1]->{Content}   = $TimeStamp;
-    $StatXML{ChangedBy}->[1]->{Content} = $Self->{UserID};
+    $StatXML{ChangedBy}->[1]->{Content} = $Param{UserID};
 
     # get xml object
     my $XMLObject = $Kernel::OM->Get('Kernel::System::XML');
@@ -606,6 +624,7 @@ fetches all statistics that the current user may see
 
     my $StatsRef = $StatsObject->StatsListGet(
         AccessRw => 1, # Optional, indicates that user may see all statistics
+        UserID   => $UserID,
     );
 
     Returns
@@ -621,6 +640,16 @@ fetches all statistics that the current user may see
 
 sub StatsListGet {
     my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed.",
+            );
+            return;
+        }
+    }
 
     my @SearchResult;
 
@@ -669,7 +698,7 @@ sub StatsListGet {
 
     # get user groups
     my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
-        UserID => $Self->{UserID},
+        UserID => $Param{UserID},
         Type   => 'ro',
     );
 
@@ -683,7 +712,7 @@ sub StatsListGet {
         );
 
         my $UserPermission = 0;
-        if ( $Param{AccessRw} || $Self->{UserID} == 1 ) {
+        if ( $Param{AccessRw} || $Param{UserID} == 1 ) {
 
             $UserPermission = 1;
         }
@@ -717,12 +746,23 @@ lists all stats id's
         AccessRw  => 1, # Optional, indicates that user may see all statistics
         OrderBy   => 'ID' || 'Title' || 'Object', # optional
         Direction => 'ASC' || 'DESC',             # optional
+        UserID    => $UserID,
     );
 
 =cut
 
 sub GetStatsList {
     my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed.",
+            );
+            return;
+        }
+    }
 
     $Param{OrderBy}   ||= 'ID';
     $Param{Direction} ||= 'ASC';
@@ -829,528 +869,6 @@ sub SumBuild {
     return \@Data;
 }
 
-=item GenerateGraph()
-
-make graph from result array
-
-    my $Graph = $StatsObject->GenerateGraph(
-        Array        => \@StatArray,
-        GraphSize    => '800x600',
-        HeadArrayRef => $HeadArrayRef,
-        Title        => 'All Tickets of the month',
-        Format       => 'GD::Graph::lines',
-    );
-
-=cut
-
-sub GenerateGraph {
-    my ( $Self, %Param ) = @_;
-
-    # check if need params are available
-    for (qw(Array GraphSize HeadArrayRef Title Format)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-            return;
-        }
-    }
-
-    my @StatArray    = @{ $Param{Array} };
-    my $HeadArrayRef = $Param{HeadArrayRef};
-    my $GDBackend    = $Param{Format};
-
-    # delete SumCol and SumRow if present
-    if ( $StatArray[-1][0] eq 'Sum' ) {
-        pop @StatArray;
-    }
-    if ( $HeadArrayRef->[-1] eq 'Sum' ) {
-        pop @{$HeadArrayRef};
-        for my $Row (@StatArray) {
-            pop @{$Row};
-        }
-    }
-
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    # load gd modules
-    for my $Module ( 'GD', 'GD::Graph', $GDBackend ) {
-        if ( !$MainObject->Require($Module) ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $Module!"
-            );
-            return;
-        }
-    }
-
-    # remove first y/x position
-    my $Xlabel = shift @{$HeadArrayRef};
-
-    # get first col for legend
-    my @YLine;
-    for my $Tmp (@StatArray) {
-        push @YLine, $Tmp->[0];
-        shift @{$Tmp};
-    }
-
-    # build plot data
-    my @PData = ( $HeadArrayRef, @StatArray );
-    my ( $XSize, $YSize ) = split( m{x}x, $Param{GraphSize} );
-    my $Graph = $GDBackend->new( $XSize || 550, $YSize || 350 );
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # set fonts so we can use non-latin characters
-    my $FontDir    = $ConfigObject->Get('Home') . '/var/fonts/';
-    my $TitleFont  = $FontDir . $ConfigObject->Get('Stats::Graph::TitleFont');
-    my $LegendFont = $FontDir . $ConfigObject->Get('Stats::Graph::LegendFont');
-    $Graph->set_title_font( $TitleFont, 14 );
-
-    # there are different font options for different font types
-    if ( $GDBackend eq 'GD::Graph::pie' ) {
-        $Graph->set_value_font( $LegendFont, 9 );
-    }
-    else {
-        $Graph->set_values_font( $LegendFont, 9 );
-        $Graph->set_legend_font( $LegendFont, 9 );
-        $Graph->set_x_label_font( $LegendFont, 9 );
-        $Graph->set_y_label_font( $LegendFont, 9 );
-        $Graph->set_x_axis_font( $LegendFont, 9 );
-        $Graph->set_y_axis_font( $LegendFont, 9 );
-    }
-    $Graph->set(
-        x_label => $Xlabel,
-
-        #        y_label => 'Ylabel',
-        title => $Param{Title},
-
-        #        y_max_value => 20,
-        #        y_tick_number => 16,
-        #        y_label_skip => 4,
-        #        x_tick_number => 8,
-        t_margin    => $ConfigObject->Get('Stats::Graph::t_margin')    || 10,
-        b_margin    => $ConfigObject->Get('Stats::Graph::b_margin')    || 10,
-        l_margin    => $ConfigObject->Get('Stats::Graph::l_margin')    || 10,
-        r_margin    => $ConfigObject->Get('Stats::Graph::r_margin')    || 20,
-        bgclr       => $ConfigObject->Get('Stats::Graph::bgclr')       || 'white',
-        transparent => $ConfigObject->Get('Stats::Graph::transparent') || 0,
-        interlaced  => 1,
-        fgclr       => $ConfigObject->Get('Stats::Graph::fgclr')       || 'black',
-        boxclr      => $ConfigObject->Get('Stats::Graph::boxclr')      || 'white',
-        accentclr   => $ConfigObject->Get('Stats::Graph::accentclr')   || 'black',
-        shadowclr   => $ConfigObject->Get('Stats::Graph::shadowclr')   || 'black',
-        legendclr   => $ConfigObject->Get('Stats::Graph::legendclr')   || 'black',
-        textclr     => $ConfigObject->Get('Stats::Graph::textclr')     || 'black',
-        dclrs       => $ConfigObject->Get('Stats::Graph::dclrs')
-            || [
-            qw(red green blue yellow purple orange pink marine cyan lgray lblue lyellow lgreen lred lpurple lorange lbrown)
-            ],
-        x_tick_offset       => 0,
-        x_label_position    => 1 / 2,
-        y_label_position    => 1 / 2,
-        x_labels_vertical   => 31,
-        line_width          => $ConfigObject->Get('Stats::Graph::line_width') || 1,
-        legend_placement    => $ConfigObject->Get('Stats::Graph::legend_placement') || 'BC',
-        legend_spacing      => $ConfigObject->Get('Stats::Graph::legend_spacing') || 4,
-        legend_marker_width => $ConfigObject->Get('Stats::Graph::legend_marker_width')
-            || 12,
-        legend_marker_height => $ConfigObject->Get('Stats::Graph::legend_marker_height')
-            || 8,
-    );
-
-    # set legend (y-line)
-    if ( $Param{Format} ne 'GD::Graph::pie' ) {
-        $Graph->set_legend(@YLine);
-    }
-
-    # investigate the possible output types
-    my @OutputTypeList = $Graph->export_format();
-
-    # transfer array to hash
-    my %OutputTypes;
-    for my $OutputType (@OutputTypeList) {
-        $OutputTypes{$OutputType} = 1;
-    }
-
-    # select output type
-    my $Ext;
-    if ( $OutputTypes{'png'} ) {
-        $Ext = 'png';
-    }
-    elsif ( $OutputTypes{'gif'} ) {
-        $Ext = 'gif';
-    }
-    elsif ( $OutputTypes{'jpeg'} ) {
-        $Ext = 'jpeg';
-    }
-
-    # error handling
-    if ( !$Ext ) {
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message =>
-                "The support of png, jpeg and gif output is not activated in the GD CPAN module!",
-        );
-
-        return;
-    }
-
-    # create graph
-    my $Content = eval { $Graph->plot( \@PData )->$Ext() };
-
-    return $Content;
-}
-
-=item CompletenessCheck()
-
-    my @Notify = $StatsObject->CompletenessCheck(
-        StatData => \%StatData,
-        Section => 'All' || 'Specification' || 'ValueSeries' || 'Restrictions || Xaxis'
-    );
-
-=cut
-
-sub CompletenessCheck {
-    my ( $Self, %Param ) = @_;
-
-    my @Notify;
-    my @NotifySelected;
-    my @IndexArray;
-
-    $Notify[0] = {
-        Info     => 'Please fill out the required fields!',
-        Priority => 'Error'
-    };
-    $Notify[1] = {
-        Info     => 'Please select a file!',
-        Priority => 'Error'
-    };
-    $Notify[2] = {
-        Info     => 'Please select an object!',
-        Priority => 'Error'
-    };
-    $Notify[3] = {
-        Info     => 'Please select a graph size!',
-        Priority => 'Error'
-    };
-    $Notify[4] = {
-        Info     => 'Please select one element for the X-axis!',
-        Priority => 'Error'
-    };
-    $Notify[6] = {
-        Info =>
-            'Please select only one element or turn of the button \'Fixed\' where the select field is marked!',
-        Priority => 'Error'
-    };
-    $Notify[7] = {
-        Info     => 'If you use a checkbox you have to select some attributes of the select field!',
-        Priority => 'Error'
-    };
-    $Notify[8] = {
-        Info =>
-            'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!',
-        Priority => 'Error'
-    };
-    $Notify[9] = {
-        Info     => 'The selected end time is before the start time!',
-        Priority => 'Error'
-    };
-    $Notify[10] = {
-        Info     => 'You have to select one or more attributes from the select field!',
-        Priority => 'Error'
-    };
-    $Notify[11] = {
-        Info     => 'The selected Date isn\'t valid!',
-        Priority => 'Error'
-    };
-    $Notify[12] = {
-        Info     => 'Please select only one or two elements via the checkbox!',
-        Priority => 'Error'
-    };
-    $Notify[13] = {
-        Info     => 'If you use a time scale element you can only select one element!',
-        Priority => 'Error'
-    };
-    $Notify[14] = {
-        Info     => 'You have an error in your time selection!',
-        Priority => 'Error'
-    };
-    $Notify[15] = {
-        Info     => 'Your reporting time interval is too small, please use a larger time scale!',
-        Priority => 'Error'
-    };
-    $Notify[16] = {
-        Info     => 'There is something wrong with your time scale selection. Please check it!',
-        Priority => 'Error'
-    };
-    $Notify[17] = {
-        Info     => 'You have to select a time scale like day or month!',
-        Priority => 'Error'
-    };
-
-    # check if need params are available
-    NEED:
-    for my $Need (qw(StatData Section)) {
-        next NEED if $Param{$Need};
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need $Need"
-        );
-        return;
-    }
-
-    my %StatData = %{ $Param{StatData} };
-    if ( $Param{Section} eq 'Specification' || $Param{Section} eq 'All' ) {
-        KEY:
-        for (qw(Title Description StatType Permission Format ObjectModule)) {
-            if ( !$StatData{$_} ) {
-                push @IndexArray, 0;
-                last KEY;
-            }
-        }
-        if ( $StatData{StatType} && $StatData{StatType} eq 'static' && !$StatData{File} ) {
-            push @IndexArray, 1;
-        }
-        if ( $StatData{StatType} && $StatData{StatType} eq 'dynamic' && !$StatData{Object} ) {
-            push @IndexArray, 2;
-        }
-        if ( !$Param{StatData}{GraphSize} && $Param{StatData}{Format} ) {
-            FORMAT:
-            for ( @{ $StatData{Format} } ) {
-                if ( $_ =~ m{^GD::Graph\.*}x ) {
-                    push @IndexArray, 3;
-                    last FORMAT;
-                }
-            }
-        }
-    }
-
-    # get needed objects
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $TimeObject   = $Kernel::OM->Get('Kernel::System::Time');
-
-    # for form calls
-    if ( $StatData{StatType} && $StatData{StatType} eq 'dynamic' ) {
-        if (
-            ( $Param{Section} eq 'Xaxis' || $Param{Section} eq 'All' )
-            && $StatData{StatType} eq 'dynamic'
-            )
-        {
-            my $Flag = 0;
-            XVALUE:
-            for my $Xvalue ( @{ $StatData{UseAsXvalue} } ) {
-                next XVALUE if !$Xvalue->{Selected};
-
-                if ( $Xvalue->{Block} eq 'Time' ) {
-                    if ( $Xvalue->{TimeStart} && $Xvalue->{TimeStop} ) {
-                        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-                            String => $Xvalue->{TimeStart}
-                        );
-                        my $TimeStop = $TimeObject->TimeStamp2SystemTime(
-                            String => $Xvalue->{TimeStop}
-                        );
-                        if ( !$TimeStart || !$TimeStop ) {
-                            push @IndexArray, 11;
-                            last XVALUE;
-                        }
-                        elsif ( $TimeStart > $TimeStop ) {
-                            push @IndexArray, 9;
-                            last XVALUE;
-                        }
-                    }
-                    elsif ( !$Xvalue->{TimeRelativeUnit} || !$Xvalue->{TimeRelativeCount} ) {
-                        push @IndexArray, 9;
-                        last XVALUE;
-                    }
-
-                    if ( !$Xvalue->{SelectedValues}[0] ) {
-                        push @IndexArray, 16;
-                    }
-                    elsif ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
-                        push @IndexArray, 16;
-                    }
-                }
-                $Flag = 1;
-                last XVALUE;
-            }
-            if ( !$Flag ) {
-                push @IndexArray, 4;
-            }
-        }
-        if (
-            ( $Param{Section} eq 'ValueSeries' || $Param{Section} eq 'All' )
-            && $StatData{StatType} eq 'dynamic'
-            )
-        {
-            my $Counter = 0;
-            my $Flag    = 0;
-            VALUESERIES:
-            for my $ValueSeries ( @{ $StatData{UseAsValueSeries} } ) {
-                next VALUESERIES if !$ValueSeries->{Selected};
-
-                if (
-                    $ValueSeries->{Block} eq 'Time'
-                    || $ValueSeries->{Block} eq 'TimeExtended'
-                    )
-                {
-                    if ( $ValueSeries->{Fixed} && $#{ $ValueSeries->{SelectedValues} } > 0 ) {
-                        push @IndexArray, 6;
-                    }
-                    elsif ( !$ValueSeries->{SelectedValues}[0] ) {
-                        push @IndexArray, 7;
-                    }
-                    $Flag = 1;
-                }
-
-                $Counter++;
-            }
-            if ( $Counter > 1 && $Flag ) {
-                push @IndexArray, 13;
-            }
-            elsif ( $Counter > 2 ) {
-                push @IndexArray, 12;
-            }
-        }
-        if (
-            ( $Param{Section} eq 'Restrictions' || $Param{Section} eq 'All' )
-            && $StatData{StatType} eq 'dynamic'
-            )
-        {
-            RESTRICTION:
-            for my $Restriction ( @{ $StatData{UseAsRestriction} } ) {
-                next RESTRICTION if !$Restriction->{Selected};
-
-                if ( $Restriction->{Block} eq 'SelectField' ) {
-                    if ( $Restriction->{Fixed} && $#{ $Restriction->{SelectedValues} } > 0 ) {
-                        push @IndexArray, 6;
-                        last RESTRICTION;
-                    }
-                    elsif ( !$Restriction->{SelectedValues}[0] ) {
-                        push @IndexArray, 7;
-                        last RESTRICTION;
-                    }
-                }
-                elsif (
-                    $Restriction->{Block} eq 'InputField'
-                    && !$Restriction->{SelectedValues}[0]
-                    && $Restriction->{Fixed}
-                    )
-                {
-                    push @IndexArray, 8;
-                    last RESTRICTION;
-                }
-                elsif (
-                    $Restriction->{Block} eq 'Time'
-                    || $Restriction->{Block} eq 'TimeExtended'
-                    )
-                {
-                    if ( $Restriction->{TimeStart} && $Restriction->{TimeStop} ) {
-                        my $TimeStart = $TimeObject->TimeStamp2SystemTime(
-                            String => $Restriction->{TimeStart}
-                        );
-                        my $TimeStop = $TimeObject->TimeStamp2SystemTime(
-                            String => $Restriction->{TimeStop}
-                        );
-                        if ( !$TimeStart || !$TimeStop ) {
-                            push @IndexArray, 11;
-                            last RESTRICTION;
-                        }
-                        elsif ( $TimeStart > $TimeStop ) {
-                            push @IndexArray, 9;
-                            last RESTRICTION;
-                        }
-                    }
-                    elsif (
-                        !$Restriction->{TimeRelativeUnit}
-                        || !$Restriction->{TimeRelativeCount}
-                        )
-                    {
-                        push @IndexArray, 9;
-                        last RESTRICTION;
-                    }
-                }
-            }
-        }
-
-        # check if the timeperiod is too big or the time scale too small
-        # used only for fixed time values
-        # remark time functions should be exportet in external functions (tr)
-        if ( $Param{Section} eq 'All' && $StatData{StatType} eq 'dynamic' ) {
-            my $Stat = $Self->StatsGet( StatID => $StatData{StatID} );
-
-            XVALUE:
-            for my $Xvalue ( @{ $Stat->{UseAsXvalue} } ) {
-                next XVALUE
-                    if !( $Xvalue->{Selected} && $Xvalue->{Fixed} && $Xvalue->{Block} eq 'Time' );
-
-                my $Flag = 1;
-                VALUESERIES:
-                for my $ValueSeries ( @{ $Stat->{UseAsValueSeries} } ) {
-                    if ( $ValueSeries->{Selected} && $ValueSeries->{Block} eq 'Time' ) {
-                        $Flag = 0;
-                        last VALUESERIES;
-                    }
-                }
-
-                last XVALUE if !$Flag;
-
-                my $ScalePeriod = 0;
-                my $TimePeriod  = 0;
-
-                my $Count = $Xvalue->{TimeScaleCount} ? $Xvalue->{TimeScaleCount} : 1;
-
-                my %TimeInSeconds = (
-                    Year   => 31536000,    # 60 * 60 * 60 * 365
-                    Month  => 2592000,     # 60 * 60 * 24 * 30
-                    Week   => 604800,      # 60 * 60 * 24 * 7
-                    Day    => 86400,       # 60 * 60 * 24
-                    Hour   => 3600,        # 60 * 60
-                    Minute => 60,
-                    Second => 1,
-                );
-
-                $ScalePeriod = $TimeInSeconds{ $Xvalue->{SelectedValues}[0] };
-
-                if ( !$ScalePeriod ) {
-                    push @IndexArray, 17;
-                    last XVALUE;
-                }
-
-                if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
-                    $TimePeriod = (
-                        $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStop} )
-                        )
-                        - (
-                        $TimeObject->TimeStamp2SystemTime( String => $Xvalue->{TimeStart} )
-                        );
-                }
-                else {
-                    $TimePeriod = $TimeInSeconds{ $Xvalue->{TimeRelativeUnit} }
-                        * $Xvalue->{TimeRelativeCount};
-                }
-
-                my $MaxAttr = $ConfigObject->Get('Stats::MaxXaxisAttributes') || 1000;
-                if ( $TimePeriod / ( $ScalePeriod * $Count ) > $MaxAttr ) {
-                    push @IndexArray, 15;
-                }
-
-                last XVALUE;
-            }
-        }
-    }
-    for (@IndexArray) {
-        push @NotifySelected, $Notify[$_];
-    }
-
-    return @NotifySelected;
-
-}
-
 =item GetStatsObjectAttributes()
 
 Get all attributes from the object in dependence of the use
@@ -1406,12 +924,23 @@ Get all static files
 
     my $FileHash = $StatsObject->GetStaticFiles(
         OnlyUnusedFiles => 1 | 0, # optional default 0
+        UserID => $UserID,
     );
 
 =cut
 
 sub GetStaticFiles {
     my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed.",
+            );
+            return;
+        }
+    }
 
     my $Directory = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     if ( $Directory !~ m{^.*\/$}x ) {
@@ -1431,11 +960,16 @@ sub GetStaticFiles {
     if ( $Param{OnlyUnusedFiles} ) {
 
         # get all Stats from the db
-        my $Result = $Self->GetStatsList();
+        my $Result = $Self->GetStatsList(
+            UserID => $Param{UserID},
+        );
 
         if ( defined $Result ) {
             for my $StatID ( @{$Result} ) {
-                my $Data = $Self->StatsGet( StatID => $StatID );
+                my $Data = $Self->StatsGet(
+                    StatID => $StatID,
+                    UserID => $Param{UserID},
+                );
 
                 # check witch one are static statistics
                 if ( $Data->{File} && $Data->{StatType} eq 'static' ) {
@@ -1715,6 +1249,7 @@ sub Export {
 import a stats from xml file
 
     my $StatID = $StatsObject->Import(
+        UserID  => $UserID,
         Content => $UploadStuff{Content},
     );
 
@@ -1723,12 +1258,14 @@ import a stats from xml file
 sub Import {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{Content} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need Content!'
-        );
-        return;
+    for my $Needed (qw(UserID Content)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => "error",
+                Message  => "Need $Needed.",
+            );
+            return;
+        }
     }
 
     # get xml object
@@ -1800,9 +1337,9 @@ sub Import {
 
     # meta tags
     $StatsXML->{Created}->[1]->{Content}    = $TimeStamp;
-    $StatsXML->{CreatedBy}->[1]->{Content}  = $Self->{UserID};
+    $StatsXML->{CreatedBy}->[1]->{Content}  = $Param{UserID};
     $StatsXML->{Changed}->[1]->{Content}    = $TimeStamp;
-    $StatsXML->{ChangedBy}->[1]->{Content}  = $Self->{UserID};
+    $StatsXML->{ChangedBy}->[1]->{Content}  = $Param{UserID};
     $StatsXML->{StatNumber}->[1]->{Content} = $StatID + $ConfigObject->Get('Stats::StatsStartNumber');
 
     my $DynamicFiles = $Self->GetDynamicFiles();
@@ -1989,6 +1526,7 @@ run a statistic.
         StatID     => '123',
         GetParam   => \%GetParam,
         Preview    => 1,        # optional, return fake data for preview (only for dynamic stats)
+        UserID     => $UserID,
     );
 
 =cut
@@ -1997,14 +1535,14 @@ sub StatsRun {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    NEED:
-    for my $Need (qw(StatID GetParam)) {
-        next NEED if $Param{$Need};
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need $Need!"
-        );
-        return;
+    for my $Needed (qw(StatID GetParam UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
     }
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
@@ -2025,6 +1563,7 @@ sub StatsRun {
             Title        => $Stat->{Title},
             StatID       => $Stat->{StatID},
             Cache        => $Stat->{Cache},
+            UserID       => $Param{UserID},
         );
     }
 
@@ -2040,6 +1579,7 @@ sub StatsRun {
             StatID           => $Stat->{StatID},
             Cache            => $Stat->{Cache},
             Preview          => $Param{Preview},
+            UserID           => $Param{UserID},
         );
     }
 
@@ -2062,6 +1602,7 @@ This can be used to precompute stats data e. g. for dashboard widgets in a cron 
 
     my $StatArray = $StatsObject->StatsResultCacheCompute(
         StatID       => '123',
+        UserID       => $UserID,        # target UserID
         UserGetParam => \%UserGetParam, # user settings of non-fixed fields
     );
 
@@ -2070,7 +1611,7 @@ This can be used to precompute stats data e. g. for dashboard widgets in a cron 
 sub StatsResultCacheCompute {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(StatID UserGetParam)) {
+    for my $Needed (qw(StatID UserGetParam UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -2084,13 +1625,12 @@ sub StatsResultCacheCompute {
         StatID => $Param{StatID},
     );
 
-    my $StatsViewObject = Kernel::Output::HTML::Statistics::View->new(
-        StatsObject => $Self,
-    );
+    my $StatsViewObject = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View');
 
     my $StatConfigurationValid = $StatsViewObject->StatsConfigurationValidate(
         Stat   => $Stat,
         Errors => {},
+        UserID => $Param{UserID},
     );
     if ( !$StatConfigurationValid ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2108,7 +1648,7 @@ sub StatsResultCacheCompute {
     };
 
     if ( $@ || !%GetParam ) {
-        my $Errors = ref $@ ? join("\n", @{ $@} ) : $@;
+        my $Errors = ref $@ ? join( "\n", @{$@} ) : $@;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The dashboard widget configuration for this user contains errors, skipping: $Errors"
@@ -2125,11 +1665,12 @@ sub StatsResultCacheCompute {
         String => \$DumpString,
     );
 
-    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::$MD5Sum";
+    my $CacheKey = "StatsRunCached::$Param{UserID}::$Param{StatID}::$MD5Sum";
 
     my $Result = $Self->StatsRun(
         StatID   => $Param{StatID},
         GetParam => \%GetParam,
+        UserID   => $Param{UserID},
     );
 
     # Only set/update the cache after computing it, otherwise no cache data
@@ -2152,6 +1693,7 @@ This can be used to fetch cached stats data e. g. for stats widgets in the dashb
 
     my $StatArray = $StatsObject->StatsResultCacheGet(
         StatID       => '123',
+        UserID       => $UserID,    # target UserID
         GetParam     => \%GetParam,
     );
 
@@ -2174,13 +1716,12 @@ sub StatsResultCacheGet {
         StatID => $Param{StatID},
     );
 
-    my $StatsViewObject = Kernel::Output::HTML::Statistics::View->new(
-        StatsObject => $Self,
-    );
+    my $StatsViewObject = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View');
 
     my $StatConfigurationValid = $StatsViewObject->StatsConfigurationValidate(
         Stat   => $Stat,
         Errors => {},
+        UserID => $Param{UserID},
     );
     if ( !$StatConfigurationValid ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2194,11 +1735,12 @@ sub StatsResultCacheGet {
         $StatsViewObject->StatsParamsGet(
             Stat         => $Stat,
             UserGetParam => $Param{UserGetParam},
+            UserID       => $Param{UserID},
         );
     };
 
     if ( $@ || !%GetParam ) {
-        my $Errors = ref $@ ? join("\n", @{ $@} ) : $@;
+        my $Errors = ref $@ ? join( "\n", @{$@} ) : $@;
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "The dashboard widget configuration for this user contains errors, skipping: $Errors"
@@ -2215,7 +1757,7 @@ sub StatsResultCacheGet {
         String => \$DumpString,
     );
 
-    my $CacheKey = "StatsRunCached::$Self->{UserID}::$Param{StatID}::$MD5Sum";
+    my $CacheKey = "StatsRunCached::$Param{UserID}::$Param{StatID}::$MD5Sum";
 
     return $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'StatsRun',
@@ -2421,7 +1963,9 @@ sub StatsCleanUp {
     my $Self = shift;
 
     # get a list of all stats
-    my $ListRef = $Self->GetStatsList();
+    my $ListRef = $Self->GetStatsList(
+        UserID => 1,
+    );
 
     return if !$ListRef;
     return if ref $ListRef ne 'ARRAY';
@@ -2462,6 +2006,7 @@ sub StatsCleanUp {
         Title        => $Stat->{Title},
         StatID       => $Stat->{StatID},
         Cache        => $Stat->{Cache},
+        UserID       => $UserID,
     );
 
 =cut
@@ -2471,7 +2016,7 @@ sub _GenerateStaticStats {
 
     # check needed params
     NEED:
-    for my $Need (qw(ObjectModule GetParam Title StatID)) {
+    for my $Need (qw(ObjectModule GetParam Title StatID UserID)) {
         next NEED if $Param{$Need};
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -2506,7 +2051,7 @@ sub _GenerateStaticStats {
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     my %User = $UserObject->GetUserData(
-        UserID => $Self->{UserID},
+        UserID => $Param{UserID},
     );
 
     # run stats function
@@ -2548,6 +2093,7 @@ sub _GenerateStaticStats {
         StatID           => 123,
         Cache            => 1,      # optional,
         Preview          => 1,      # optional, generate fake data
+        UserID           => $UserID,
     );
 
 =cut
@@ -2562,9 +2108,10 @@ sub _GenerateDynamicStats {
     my $TitleTimeStop  = '';
 
     my $Preview = $Param{Preview};
+    my $UserID  = $Param{UserID};
 
     NEED:
-    for my $Need (qw(ObjectModule UseAsXvalue UseAsValueSeries Title Object StatID)) {
+    for my $Need (qw(ObjectModule UseAsXvalue UseAsValueSeries Title Object StatID UserID)) {
         next NEED if $Param{$Need};
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -2716,7 +2263,7 @@ sub _GenerateDynamicStats {
     my $UserObject     = $Kernel::OM->Get('Kernel::System::User');
 
     my %User = $UserObject->GetUserData(
-        UserID => $Self->{UserID},
+        UserID => $UserID,
     );
 
     # get the selected Xvalue

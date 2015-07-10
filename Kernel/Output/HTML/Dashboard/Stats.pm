@@ -33,13 +33,6 @@ sub new {
     # Settings
     $Self->{PrefKeyStatsConfiguration} = 'UserDashboardStatsStatsConfiguration' . $Self->{Name};
 
-    $Self->{StatsObject} = Kernel::System::Stats->new(
-        UserID => $Self->{UserID},
-    );
-    $Self->{StatsViewObject} = Kernel::Output::HTML::Statistics::View->new(
-        StatsObject => $Self->{StatsObject},
-    );
-
     return $Self;
 }
 
@@ -49,7 +42,7 @@ sub Preferences {
     # get StatID
     my $StatID = $Self->{Config}->{StatID};
 
-    my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $StatID );
 
     # get the object name
     if ( $Stat->{StatType} eq 'static' ) {
@@ -83,9 +76,10 @@ sub Preferences {
     my @Errors;
 
     my %GetParam = eval {
-        $Self->{StatsViewObject}->StatsParamsGet(
+        $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsGet(
             Stat         => $Stat,
             UserGetParam => $StatsSettings,
+            UserID       => $Self->{UserID},
         );
     };
 
@@ -94,11 +88,15 @@ sub Preferences {
     }
 
     # Fetch the stat again as StatsParamGet might have modified it in between.
-    $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
-    my $StatsParamsWidget = $Self->{StatsViewObject}->StatsParamsWidget(
+    $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
+        StatID => $StatID,
+        UserID => $Self->{UserID},
+    );
+    my $StatsParamsWidget = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsWidget(
         Stat         => $Stat,
         UserGetParam => $StatsSettings,
         Formats      => \%FilteredFormats,
+        UserID       => $Self->{UserID},
     );
 
     # This indicates that there are configuration errors in the statistic.
@@ -157,18 +155,20 @@ sub Run {
         );
     }
 
-    my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $StatID );
 
-    my $StatConfigurationValid = $Self->{StatsViewObject}->StatsConfigurationValidate(
+    my $StatConfigurationValid = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsConfigurationValidate(
         Stat   => $Stat,
         Errors => {},
+        UserID => $Self->{UserID},
     );
 
     my $StatParametersValid;
     eval {
-        $Self->{StatsViewObject}->StatsParamsGet(
+        $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsGet(
             Stat         => $Stat,
             UserGetParam => $StatsSettings,
+            UserID       => $Self->{UserID},
         );
         $StatParametersValid = 1;
     };
@@ -176,15 +176,19 @@ sub Run {
     my $CachedData;
 
     if ( $StatConfigurationValid && $StatParametersValid ) {
-        $CachedData = $Self->{StatsObject}->StatsResultCacheGet(
+        $CachedData = $Kernel::OM->Get('Kernel::System::Stats')->StatsResultCacheGet(
             StatID       => $StatID,
             UserGetParam => $StatsSettings,
+            UserID       => $Self->{UserID},
         );
     }
 
     my $Format = $StatsSettings->{Format};
     if ( !$Format ) {
-        my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
+        my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
+            StatID => $StatID,
+            UserID => $Self->{UserID},
+        );
         STATFORMAT:
         for my $StatFormat ( @{ $Stat->{Format} || [] } ) {
             if ( $StatFormat =~ m{^D3}smx ) {

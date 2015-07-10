@@ -55,14 +55,9 @@ sub Run {
     #   and register them dynamically in the configuration.
     if ( $Self->{Action} eq 'AgentDashboard' ) {
 
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::Stats' => {
-                UserID => $Self->{UserID},
-                }
+        my $StatsHash = $Kernel::OM->Get('Kernel::System::Stats')->StatsListGet(
+            UserID => $Self->{UserID},
         );
-
-        my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
-        my $StatsHash   = $StatsObject->StatsListGet();
 
         if ( IsHashRefWithData($StatsHash) ) {
             STATID:

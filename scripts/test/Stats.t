@@ -17,12 +17,6 @@ use Kernel::System::ObjectManager;
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Stats' => {
-        UserID => 1,
-        }
-);
-
 my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
 # try to get an invalid stat
@@ -39,6 +33,7 @@ my $Update = $StatsObject->StatsUpdate(
         Title       => 'TestTitle from UnitTest.pl',
         Description => 'some Description',
     },
+    UserID => 1,
 );
 $Self->False(
     $Update,
@@ -46,8 +41,12 @@ $Self->False(
 );
 
 # check the StatsAddfunction
-my $StatID1 = $StatsObject->StatsAdd();
-my $StatID2 = $StatsObject->StatsAdd();
+my $StatID1 = $StatsObject->StatsAdd(
+    UserID => 1,
+);
+my $StatID2 = $StatsObject->StatsAdd(
+    UserID => 1,
+);
 
 # test 1
 $Self->True(
@@ -82,6 +81,7 @@ $Update = $StatsObject->StatsUpdate(
         SumRow       => '1',
         Valid        => '1',
     },
+    UserID => 1,
 );
 $Self->True(
     $Update,
@@ -94,6 +94,7 @@ $Update = $StatsObject->StatsUpdate(
         Title       => 'TestTitle from UnitTest.pl',
         Description => 'some Description',
     },
+    UserID => 1,
 );
 $Self->False(
     $Update,
@@ -126,6 +127,7 @@ $Update = $StatsObject->StatsUpdate(
     Hash   => {
         Cache => 1,
     },
+    UserID => 1,
 );
 
 $Self->True(
@@ -147,6 +149,7 @@ $Update = $StatsObject->StatsUpdate(
     Hash   => {
         ShowAsDashboardWidget => 1,
     },
+    UserID => 1,
 );
 
 $Self->True(
@@ -187,21 +190,11 @@ $Self->IsDeeply(
     "GetObjectBehaviours with cache",
 );
 
-# check completenesscheck
-my @Notify = $StatsObject->CompletenessCheck(
-    StatData => $Stat,
-    Section  => 'All',
-);
-$Self->Is(
-    $Notify[0]{Priority},
-    'Error',
-    'CompletenessCheck() check the checkfunctions',
-);
-
 # check StatsList
 my $ArrayRef = $StatsObject->GetStatsList(
     OrderBy   => 'StatID',
     Direction => 'ASC',
+    UserID    => 1,
 );
 
 my $Counter = 0;
@@ -217,7 +210,9 @@ $Self->Is(
     'GetStatsList() check if StatID1 and StatID2 available in the statslist',
 );
 
-my $StatsHash = $StatsObject->StatsListGet();
+my $StatsHash = $StatsObject->StatsListGet(
+    UserID => 1,
+);
 $Self->Is(
     $StatsHash->{$StatID1}->{Title},
     'TestTitle from UnitTest.pl',
@@ -229,7 +224,9 @@ $Self->True(
 );
 
 # check the available DynamicFiles
-my $DynamicArrayRef = $StatsObject->GetDynamicFiles();
+my $DynamicArrayRef = $StatsObject->GetDynamicFiles(
+    UserID => 1,
+);
 $Self->True(
     $DynamicArrayRef,
     'GetDynamicFiles() check if dynamic files available',
@@ -283,14 +280,20 @@ $Self->Is(
 );
 
 # export StatID 1
-my $ExportFile = $StatsObject->Export( StatID => $StatID1 );
+my $ExportFile = $StatsObject->Export(
+    StatID => $StatID1,
+    UserID => 1,
+);
 $Self->True(
     $ExportFile->{Content},
     'Export() check if Exportfile has a content',
 );
 
 # import the exportet stat
-my $StatID3 = $StatsObject->Import( Content => $ExportFile->{Content} );
+my $StatID3 = $StatsObject->Import(
+    Content => $ExportFile->{Content},
+    UserID  => 1,
+);
 $Self->True(
     $StatID3,
     'Import() is StatID3 true',
@@ -306,20 +309,32 @@ $Self->Is(
 
 # check delete stat function
 $Self->True(
-    $StatsObject->StatsDelete( StatID => $StatID1 ),
+    $StatsObject->StatsDelete(
+        StatID => $StatID1,
+        UserID => 1,
+    ),
     'StatsDelete() delete StatID1',
 );
 $Self->True(
-    $StatsObject->StatsDelete( StatID => $StatID2 ),
+    $StatsObject->StatsDelete(
+        StatID => $StatID2,
+        UserID => 1,
+    ),
     'StatsDelete() delete StatID2',
 );
 $Self->True(
-    $StatsObject->StatsDelete( StatID => $StatID3 ),
+    $StatsObject->StatsDelete(
+        StatID => $StatID3,
+        UserID => 1,
+    ),
     'StatsDelete() delete StatID3',
 );
 
 # verify stat is deleted
-$Stat3 = $StatsObject->StatsGet( StatID => $StatID3 );
+$Stat3 = $StatsObject->StatsGet(
+    StatID => $StatID3,
+    UserID => 1,
+);
 $Self->Is(
     $Stat3->{Title},
     undef,
@@ -330,6 +345,7 @@ $Self->Is(
 $ArrayRef = $StatsObject->GetStatsList(
     OrderBy   => 'StatID',
     Direction => 'ASC',
+    UserID    => 1,
 );
 
 $Counter = 0;
@@ -345,7 +361,9 @@ $Self->Is(
     'GetStatsList() check if StatID1 and StatID2 removed from in the statslist',
 );
 
-$StatsHash = $StatsObject->StatsListGet();
+$StatsHash = $StatsObject->StatsListGet(
+    UserID => 1,
+);
 $Self->False(
     exists $StatsHash->{$StatID1},
     'StatsListGet() contains Stat1',
@@ -380,12 +398,16 @@ my $ImportContent = join '', @Lines;
 
 close $Filehandle;
 
-$StatID = $StatsObject->Import( Content => $ImportContent );
+$StatID = $StatsObject->Import(
+    Content => $ImportContent,
+    UserID  => 1,
+);
 
 # check StatsList
 $ArrayRef = $StatsObject->GetStatsList(
     OrderBy   => 'StatID',
     Direction => 'ASC',
+    UserID    => 1,
 );
 
 $Counter = 0;
@@ -401,7 +423,10 @@ $Self->Is(
     'GetStatsList() check if imported stat is in the statslist',
 );
 
-$ExportContent = $StatsObject->Export( StatID => $StatID );
+$ExportContent = $StatsObject->Export(
+    StatID => $StatID,
+    UserID => 1,
+);
 
 # the following line are because of different spelling 'ISO-8859' or 'iso-8859'
 # but this is no solution for the problem if one string is iso and the other utf!
@@ -454,34 +479,17 @@ $Self->Is(
 );
 
 $Self->True(
-    $StatsObject->StatsDelete( StatID => $StatID ),
+    $StatsObject->StatsDelete(
+        StatID => $StatID,
+        UserID => 1,
+    ),
     'StatsDelete() delete import stat',
 );
 
-# check the graph GD functionality
-my $HeadArrayRef = [ 'State', 'Administration', 'Alarm', 'Sum' ];
-my $StatsArrayRef = [
-    [ 'closed successful',   7,  2, 4,  13 ],
-    [ 'closed unsuccessful', 6,  3, 9,  18 ],
-    [ 'merged',              1,  0, 3,  4 ],
-    [ 'Sum',                 14, 5, 16, 35 ],
-];
-
-my $Graph = $StatsObject->GenerateGraph(
-    Array        => $StatsArrayRef,
-    GraphSize    => '800x600',
-    HeadArrayRef => $HeadArrayRef,
-    Title        => 'some text',
-    Format       => 'GD::Graph::lines',
-);
-
-$Self->True(
-    $Graph,
-    'GenerateGraph() make a diagram',
-);
-
 # try the clean up function
-$Result = $StatsObject->StatsCleanUp();
+$Result = $StatsObject->StatsCleanUp(
+    UserID => 1,
+);
 $Self->True(
     $Result,
     'StatsCleanUp() - clean up stats',

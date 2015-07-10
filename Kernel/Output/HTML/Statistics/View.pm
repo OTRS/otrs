@@ -41,8 +41,6 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{StatsObject} = $Param{StatsObject} || die 'Need StatsObject!';
-
     return $Self;
 }
 
@@ -164,7 +162,7 @@ sub StatsParamsWidget {
     if ( $Stat->{StatType} eq 'static' ) {
 
         # load static module
-        my $Params = $Self->{StatsObject}->GetParams( StatID => $StatID );
+        my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $StatID );
         $LayoutObject->Block(
             Name => 'Static',
         );
@@ -571,7 +569,10 @@ sub GeneralSpecificationsWidget {
 
     my $Stat;
     if ( $Param{StatID} ) {
-        $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
+        $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
+            StatID => $Param{StatID},
+            UserID => $Param{UserID},
+        );
     }
     else {
         $Stat->{StatID}     = '';
@@ -615,7 +616,7 @@ sub GeneralSpecificationsWidget {
 
     # Create a new statistic
     if ( !$Stat->{StatType} ) {
-        my $DynamicFiles = $Self->{StatsObject}->GetDynamicFiles();
+        my $DynamicFiles = $Kernel::OM->Get('Kernel::System::Stats')->GetDynamicFiles();
 
         my %ObjectModules;
         DYNAMIC_FILE:
@@ -633,8 +634,9 @@ sub GeneralSpecificationsWidget {
             }
         }
 
-        my $StaticFiles = $Self->{StatsObject}->GetStaticFiles(
+        my $StaticFiles = $Kernel::OM->Get('Kernel::System::Stats')->GetStaticFiles(
             OnlyUnusedFiles => 1,
+            UserID          => $Param{UserID},
         );
         for my $StaticFile ( sort keys %{ $StaticFiles // {} } ) {
             $ObjectModules{Static}->{ 'Kernel::System::Stats::Static::' . $StaticFile } = $StaticFiles->{$StaticFile};
@@ -1051,10 +1053,11 @@ sub PreviewWidget {
     my %Frontend;
 
     if ( !%StatsConfigurationErrors ) {
-        $Frontend{PreviewResult} = $Self->{StatsObject}->StatsRun(
+        $Frontend{PreviewResult} = $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
             StatID   => $Stat->{StatID},
             GetParam => $Stat,
             Preview  => 1,
+            UserID   => $Param{UserID},
         );
     }
 
@@ -1360,7 +1363,7 @@ sub StatsResultRender {
     }
 
     # Generate Filename
-    my $Filename = $Self->{StatsObject}->StringAndTimestamp2Filename(
+    my $Filename = $Kernel::OM->Get('Kernel::System::Stats')->StringAndTimestamp2Filename(
         String => $Stat->{Title} . ' Created',
     );
 
@@ -1406,8 +1409,9 @@ sub StatsResultRender {
         my $UserCSVSeparator = $LayoutObject->{LanguageObject}->{Separator};
 
         if ( $ConfigObject->Get('PreferencesGroups')->{CSVSeparator}->{Active} ) {
-            my %UserData
-                = $$Kernel::OM->Get('Kernel::System::User')->GetUserData( UserID => $Self->{StatsObject}->{UserID} );
+            my %UserData = $$Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                UserID => $Param{UserID}
+            );
             $UserCSVSeparator = $UserData{UserCSVSeparator} if $UserData{UserCSVSeparator};
         }
         my $Output .= $CSVObject->Array2CSV(
@@ -1446,7 +1450,7 @@ sub StatsResultRender {
             Title        => $Title,
             HeadArrayRef => $HeadArrayRef,
             StatArray    => \@StatArray,
-            UserID       => $Self->{StatsObject}->{UserID},
+            UserID       => $Param{UserID},
         );
         return $LayoutObject->Attachment(
             Filename    => $Filename . '.pdf',
@@ -1459,7 +1463,7 @@ sub StatsResultRender {
 
 =item StatsConfigurationValidate()
 
-    my $StatCorrectlyConfigured = $StatsObject->StatsConfigurationValidate(
+    my $StatCorrectlyConfigured = $StatsViewObject->StatsConfigurationValidate(
         StatData => \%StatData,
         Errors   => \%Errors,   # Hash to be populated with errors, if any
     );
@@ -1922,7 +1926,7 @@ sub _TimeScale {
 
 translate the column and row name if needed
 
-    $StatsObject->_ColumnAndRowTranslation(
+    $StatsViewObject->_ColumnAndRowTranslation(
         StatArrayRef => $StatArrayRef,
         HeadArrayRef => $HeadArrayRef,
         StatRef      => $StatRef,

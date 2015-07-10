@@ -115,12 +115,6 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
 
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Stats' => {
-            UserID => 1,
-        },
-    );
-
     return;
 }
 
@@ -189,7 +183,10 @@ sub Run {
         );
 
     my %GetParam;
-    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet( StatID => $Self->{StatID} );
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
+        StatID => $Self->{StatID},
+        UserID => 1,
+    );
 
     if ( $Stat->{StatType} eq 'static' ) {
         $GetParam{Year}  = $Y;
@@ -198,7 +195,10 @@ sub Run {
 
         # get params from -p
         # only for static files
-        my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams( StatID => $Self->{StatID} );
+        my $Params = $Kernel::OM->Get('Kernel::System::Stats')->GetParams(
+            StatID => $Self->{StatID},
+            UserID => 1,
+        );
         for my $ParamItem ( @{$Params} ) {
             if ( !$ParamItem->{Multiple} ) {
                 my $Value = $Self->GetParam(
@@ -239,6 +239,7 @@ sub Run {
         $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
             StatID   => $Self->{StatID},
             GetParam => \%GetParam,
+            UserID   => 1,
         ),
     };
 

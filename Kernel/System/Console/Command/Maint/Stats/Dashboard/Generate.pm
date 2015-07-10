@@ -71,16 +71,12 @@ sub Run {
 
     $Self->Print("<yellow>Generating dashboard widgets statistics...</yellow>\n");
 
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Stats' => {
-            UserID => 1,
-        },
-    );
-
     my $StatNumber = $Self->GetOption('number');
 
     # get the list of stats that can be used in agent dashboards
-    my $Stats = $Kernel::OM->Get('Kernel::System::Stats')->StatsListGet();
+    my $Stats = $Kernel::OM->Get('Kernel::System::Stats')->StatsListGet(
+        UserID => 1,
+    );
 
     STATID:
     for my $StatID ( sort keys %{ $Stats || {} } ) {
@@ -124,20 +120,16 @@ sub Run {
                 );
             }
 
-            # use an own object for the user to handle permissions correctly
-            my $UserStatsObject = Kernel::System::Stats->new(
-                UserID => $UserID,
-            );
-
             if ( $Self->GetOption('debug') ) {
                 print STDERR "DEBUG: user statistic configuration data:\n";
                 print STDERR $Kernel::OM->Get('Kernel::System::Main')->Dump($UserGetParam);
             }
 
             # now run the stat to fill the cache with the current parameters
-            my $Result = $UserStatsObject->StatsResultCacheCompute(
+            my $Result = $Kernel::OM->Get('Kernel::System::Stats')->StatsResultCacheCompute(
                 StatID       => $StatID,
                 UserGetParam => $UserGetParam,
+                UserID       => $UserID
             );
 
             if ( !$Result ) {

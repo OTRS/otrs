@@ -40,21 +40,6 @@ sub new {
         }
     }
 
-    # Create stats object (requires UserID).
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Stats' => {
-            UserID => $Param{UserID},
-        },
-    );
-    $Self->{StatsObject} = $Kernel::OM->Get('Kernel::System::Stats');
-
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::Output::HTML::Statistics::View' => {
-            StatsObject => $Self->{StatsObject},
-        },
-    );
-    $Self->{StatsViewObject} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View');
-
     return $Self;
 }
 
@@ -125,10 +110,11 @@ sub OverviewScreen {
     );
 
     # get all Stats from the db
-    my $Result = $Self->{StatsObject}->GetStatsList(
+    my $Result = $Kernel::OM->Get('Kernel::System::Stats')->GetStatsList(
         AccessRw  => $Self->{AccessRw},
         OrderBy   => $Param{OrderBy},
         Direction => $Param{Direction},
+        UserID    => $Self->{UserID},
     );
 
     my %Order2CSSSort = (
@@ -162,9 +148,10 @@ sub OverviewScreen {
     for ( my $Z = 0; ( $Z < $Param{SearchPageShown} && $Index < $#{$Result} ); $Z++ ) {
         $Index = $Param{StartHit} + $Z - 1;
         my $StatID = $Result->[$Index];
-        my $Stat   = $Self->{StatsObject}->StatsGet(
+        my $Stat   = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
             StatID             => $StatID,
             NoObjectAttributes => 1,
+            UserID             => $Self->{UserID},
         );
 
         # get the object name
@@ -212,7 +199,7 @@ sub OverviewScreen {
         Data => {
             %Pagination,
             %Param,
-            AccessRw => $Self->{AccessRw},
+            AccessRw                  => $Self->{AccessRw},
             ReportsFrontendPermission => $ReportsFrontendPermission,
         },
         TemplateFile => 'AgentStatisticsOverview',
@@ -258,8 +245,9 @@ sub ImportAction {
             Encoding => 'Raw'
         );
         if ( $UploadStuff{Content} =~ m{<otrs_stats>}x ) {
-            my $StatID = $Self->{StatsObject}->Import(
+            my $StatID = $Kernel::OM->Get('Kernel::System::Stats')->Import(
                 Content => $UploadStuff{Content},
+                UserID  => $Self->{UserID},
             );
 
             if ($StatID) {
@@ -297,7 +285,10 @@ sub ExportAction {
         return $LayoutObject->ErrorScreen( Message => 'Export: Need StatID!' );
     }
 
-    my $ExportFile = $Self->{StatsObject}->Export( StatID => $StatID );
+    my $ExportFile = $Kernel::OM->Get('Kernel::System::Stats')->Export(
+        StatID => $StatID,
+        UserID => $Self->{UserID},
+    );
 
     return $LayoutObject->Attachment(
         Filename    => $ExportFile->{Filename},
@@ -319,7 +310,10 @@ sub DeleteAction {
 
     # challenge token check for write action
     $LayoutObject->ChallengeTokenCheck();
-    $Self->{StatsObject}->StatsDelete( StatID => $StatID );
+    $Kernel::OM->Get('Kernel::System::Stats')->StatsDelete(
+        StatID => $StatID,
+        UserID => $Self->{UserID},
+    );
     return $LayoutObject->Redirect( OP => 'Action=AgentStatistics;Subaction=Overview' );
 }
 
@@ -337,25 +331,34 @@ sub EditScreen {
         );
     }
 
-    my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
-
-    my %Frontend;
-    $Frontend{GeneralSpecificationsWidget} = $Self->{StatsViewObject}->GeneralSpecificationsWidget(
-        StatID => $Stat->{StatID},
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
+        StatID => $Param{StatID},
+        UserID => $Self->{UserID},
     );
 
+    my %Frontend;
+    $Frontend{GeneralSpecificationsWidget}
+        = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget(
+        StatID => $Stat->{StatID},
+        UserID => $Self->{UserID},
+        );
+
     if ( $Stat->{StatType} eq 'dynamic' ) {
-        $Frontend{PreviewWidget} = $Self->{StatsViewObject}->PreviewWidget(
-            Stat => $Stat,
+        $Frontend{PreviewWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->PreviewWidget(
+            Stat   => $Stat,
+            UserID => $Self->{UserID},
         );
-        $Frontend{XAxisWidget} = $Self->{StatsViewObject}->XAxisWidget(
-            Stat => $Stat,
+        $Frontend{XAxisWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->XAxisWidget(
+            Stat   => $Stat,
+            UserID => $Self->{UserID},
         );
-        $Frontend{YAxisWidget} = $Self->{StatsViewObject}->YAxisWidget(
-            Stat => $Stat,
+        $Frontend{YAxisWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->YAxisWidget(
+            Stat   => $Stat,
+            UserID => $Self->{UserID},
         );
-        $Frontend{RestrictionsWidget} = $Self->{StatsViewObject}->RestrictionsWidget(
-            Stat => $Stat,
+        $Frontend{RestrictionsWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->RestrictionsWidget(
+            Stat   => $Stat,
+            UserID => $Self->{UserID},
         );
     }
 
@@ -381,8 +384,9 @@ sub EditAction {
 
     my %Errors;
 
-    my $Stat = $Self->{StatsObject}->StatsGet(
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
         StatID => $ParamObject->GetParam( Param => 'StatID' ),
+        UserID => $Self->{UserID},
     );
     if ( !$Stat ) {
         return $LayoutObject->ErrorScreen(
@@ -621,7 +625,7 @@ sub EditAction {
         $Data{UseAsRestriction} ||= [];
     }
 
-    # my @Notify = $Self->{StatsObject}->CompletenessCheck(
+    # my @Notify = $Kernel::OM->Get('Kernel::System::Stats')->CompletenessCheck(
     #     StatData => {
     #         %{$Stat},
     #         %Data,
@@ -636,9 +640,10 @@ sub EditAction {
         );
     }
 
-    $Self->{StatsObject}->StatsUpdate(
+    $Kernel::OM->Get('Kernel::System::Stats')->StatsUpdate(
         StatID => $Stat->{StatID},
         Hash   => \%Data,
+        UserID => $Self->{UserID},
     );
 
     if ( $ParamObject->GetParam( Param => 'SaveAndFinish' ) ) {
@@ -673,15 +678,18 @@ sub ViewScreen {
     #my $Message = $ParamObject->GetParam( Param => 'Message' );
 
     # Get all statistics that the current user may see (does permission check).
-    my $StatsList = $Self->{StatsObject}->StatsListGet();
+    my $StatsList = $Kernel::OM->Get('Kernel::System::Stats')->StatsListGet(
+        UserID => $Self->{UserID},
+    );
     if ( !IsHashRefWithData( $StatsList->{$StatID} ) ) {
         return $LayoutObject->ErrorScreen(
             Message => 'Could not load stat.',
         );
     }
 
-    my $Stat = $Self->{StatsObject}->StatsGet(
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
         StatID => $StatID,
+        UserID => $Self->{UserID},
     );
 
     # get param
@@ -693,8 +701,9 @@ sub ViewScreen {
 
     my %Frontend;
 
-    $Frontend{StatsParamsWidget} = $Self->{StatsViewObject}->StatsParamsWidget(
-        Stat => $Stat,
+    $Frontend{StatsParamsWidget} = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsWidget(
+        Stat   => $Stat,
+        UserID => $Self->{UserID},
     );
 
     my $Output = $LayoutObject->Header( Title => 'View' );
@@ -724,7 +733,7 @@ sub AddScreen {
 
     my %Frontend;
 
-    my $DynamicFiles = $Self->{StatsObject}->GetDynamicFiles();
+    my $DynamicFiles = $Kernel::OM->Get('Kernel::System::Stats')->GetDynamicFiles();
     DYNAMIC_FILE:
     for my $DynamicFile ( sort keys %{ $DynamicFiles // {} } ) {
         my $ObjectName = 'Kernel::System::Stats::Dynamic::' . $DynamicFile;
@@ -740,8 +749,9 @@ sub AddScreen {
         }
     }
 
-    my $StaticFiles = $Self->{StatsObject}->GetStaticFiles(
+    my $StaticFiles = $Kernel::OM->Get('Kernel::System::Stats')->GetStaticFiles(
         OnlyUnusedFiles => 1,
+        UserID          => $Self->{UserID},
     );
     if ( scalar keys %{$StaticFiles} ) {
         $Frontend{ShowAddStaticButton}++;
@@ -750,10 +760,12 @@ sub AddScreen {
     # This is a page reload because of validation errors
     if (%Errors) {
         $Frontend{StatisticPreselection} = $ParamObject->GetParam( Param => 'StatisticPreselection' );
-        $Frontend{GeneralSpecificationsWidget} = $Self->{StatsViewObject}->GeneralSpecificationsWidget(
+        $Frontend{GeneralSpecificationsWidget}
+            = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget(
             Errors   => \%Errors,
             GetParam => \%GetParam,
-        );
+            UserID   => $Self->{UserID},
+            );
         $Frontend{ShowFormInitially} = 1;
     }
 
@@ -811,7 +823,7 @@ sub AddAction {
         }
     }
 
-    # my @Notify = $Self->{StatsObject}->CompletenessCheck(
+    # my @Notify = $Kernel::OM->Get('Kernel::System::Stats')->CompletenessCheck(
     #     StatData => \%Data,
     #     Section  => 'Specification'
     # );
@@ -823,13 +835,16 @@ sub AddAction {
         );
     }
 
-    $Param{StatID} = $Self->{StatsObject}->StatsAdd();
+    $Param{StatID} = $Kernel::OM->Get('Kernel::System::Stats')->StatsAdd(
+        UserID => $Self->{UserID},
+    );
     if ( !$Param{StatID} ) {
         return $LayoutObject->ErrorScreen( Message => 'Could not create statistic.' );
     }
-    $Self->{StatsObject}->StatsUpdate(
+    $Kernel::OM->Get('Kernel::System::Stats')->StatsUpdate(
         StatID => $Param{StatID},
         Hash   => \%Data,
+        UserID => $Self->{UserID},
     );
 
     # For static stats, the configuration is finished
@@ -866,7 +881,10 @@ sub RunAction {
         }
     }
 
-    my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
+    my $Stat = $Kernel::OM->Get('Kernel::System::Stats')->StatsGet(
+        StatID => $Param{StatID},
+        UserID => $Self->{UserID},
+    );
 
     # permission check
     if ( !$Self->{AccessRw} ) {
@@ -896,7 +914,10 @@ sub RunAction {
 
     # get params
     my %GetParam = eval {
-        $Self->{StatsViewObject}->StatsParamsGet( Stat => $Stat );
+        $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsParamsGet(
+            Stat   => $Stat,
+            UserID => $Self->{UserID},
+        );
     };
     if ($@) {
         return $Self->ViewScreen( Errors => $@ );
@@ -921,9 +942,10 @@ sub RunAction {
             );
         }
         @StatArray = @{
-            $Self->{StatsObject}->StatsResultCacheGet(
+            $Kernel::OM->Get('Kernel::System::Stats')->StatsResultCacheGet(
                 StatID       => $Param{StatID},
                 UserGetParam => $StatsSettings,
+                UserID       => $Self->{UserID},
             );
             }
     }
@@ -931,9 +953,10 @@ sub RunAction {
     # called normally within the stats area - generate stats now and use provided configuraton
     else {
         @StatArray = @{
-            $Self->{StatsObject}->StatsRun(
+            $Kernel::OM->Get('Kernel::System::Stats')->StatsRun(
                 StatID   => $Param{StatID},
                 GetParam => \%GetParam,
+                UserID   => $Self->{UserID},
             );
         };
     }
@@ -954,9 +977,10 @@ sub RunAction {
         @StatArray = @NewStatArray;
     }
 
-    return $Self->{StatsViewObject}->StatsResultRender(
+    return $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsResultRender(
         StatArray => \@StatArray,
         Stat      => $Stat,
+        UserID    => $Self->{UserID},
         %Param
     );
 
@@ -970,9 +994,10 @@ sub GeneralSpecificationsWidgetAJAX {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     return $LayoutObject->Attachment(
         ContentType => 'text/html',
-        Content     => $Self->{StatsViewObject}->GeneralSpecificationsWidget(),
-        Type        => 'inline',
-        NoCache     => 1,
+        Content     => $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')
+            ->GeneralSpecificationsWidget( UserID => $Self->{UserID} ),
+        Type    => 'inline',
+        NoCache => 1,
     );
 }
 

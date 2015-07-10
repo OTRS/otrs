@@ -17,15 +17,11 @@ use Kernel::System::ObjectManager;
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Stats' => {
-        UserID => 1,
-    },
-);
-
 my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
-my $Stats = $StatsObject->StatsListGet();
+my $Stats = $StatsObject->StatsListGet(
+    UserID => 1,
+);
 
 $Self->True(
     scalar keys %{$Stats},
@@ -41,6 +37,7 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
     my $ResultLive = $StatsObject->StatsRun(
         StatID   => $StatID,
         GetParam => $Stat,
+        UserID   => 1,
     );
 
     $Self->True(
@@ -52,6 +49,7 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
         StatID   => $StatID,
         GetParam => $Stat,
         Preview  => 1,
+        UserID   => 1,
     );
 
     $Self->True(
@@ -72,7 +70,7 @@ for my $StatID ( sort { $a <=> $b } keys %{$Stats} ) {
 
     # Ticketlist stats make a ticket search and that could return identical results in preview and live
     #   if there are not enough tickets in the system (for example just one).
-    if ($Stat->{Object} ne 'TicketList') {
+    if ( $Stat->{Object} ne 'TicketList' ) {
         $Self->IsNotDeeply(
             $ResultLive,
             $ResultPreview,

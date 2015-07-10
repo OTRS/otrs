@@ -61,12 +61,6 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        # get stats object
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::Stats' => {
-                UserID => $TestUserID,
-            },
-        );
         my $StatsObject = $Kernel::OM->Get('Kernel::System::Stats');
 
         my $StatisticContent = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
@@ -75,7 +69,10 @@ $Selenium->RunTest(
         );
 
         # import the exported stat
-        my $TestStatID = $StatsObject->Import( Content => $$StatisticContent );
+        my $TestStatID = $StatsObject->Import(
+            Content => $$StatisticContent,
+            UserID  => $TestUserID,
+        );
         $Self->True(
             $TestStatID,
             "Successfully imported StatID $TestStatID",
@@ -89,6 +86,7 @@ $Selenium->RunTest(
                 Title                 => $TestStatsName,
                 ShowAsDashboardWidget => '1',
             },
+            UserID => $TestUserID,
         );
         $Self->True(
             $Update,
@@ -120,7 +118,10 @@ $Selenium->RunTest(
 
         # delete test stat
         $Self->True(
-            $StatsObject->StatsDelete( StatID => $TestStatID ),
+            $StatsObject->StatsDelete(
+                StatID => $TestStatID,
+                UserID => $TestUserID,
+            ),
             "Delete StatID - $TestStatID",
         );
 
