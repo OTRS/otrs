@@ -399,7 +399,7 @@ sub _Init {
 
     # check cron object
     if ( !$CronObject ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Could not create new Schedule::Cron::Events object!",
         );
