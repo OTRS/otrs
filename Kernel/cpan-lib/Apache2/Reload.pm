@@ -18,7 +18,7 @@ package Apache2::Reload;
 use strict;
 use warnings FATAL => 'all';
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 use Apache2::Const -compile => qw(OK);
 

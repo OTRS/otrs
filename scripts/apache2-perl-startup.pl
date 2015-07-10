@@ -64,4 +64,10 @@ use Apache::DBI;
 #use DBD::Oracle ();
 #use Kernel::System::DB::oracle;
 
+# preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise it
+# can be that loading of Net::DNS tooks more than 30 seconds.
+eval { require Net::DNS };
+
+use Encode qw(:all);
+
 1;
