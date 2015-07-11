@@ -679,7 +679,9 @@ sub StatsListGet {
         if ( !( @SearchResult = $XMLObject->XMLHashSearch( Type => 'Stats' ) ) ) {
 
             # Import sample stats
-            $Self->_AutomaticSampleImport();
+            $Self->_AutomaticSampleImport(
+                UserID => $Param{UserID},
+            );
 
             # Load stats again
             return if !( @SearchResult = $XMLObject->XMLHashSearch( Type => 'Stats' ) );
@@ -1702,7 +1704,7 @@ This can be used to fetch cached stats data e. g. for stats widgets in the dashb
 sub StatsResultCacheGet {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed (qw(StatID UserGetParam)) {
+    for my $Needed (qw(StatID UserGetParam UserID)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1851,6 +1853,7 @@ installs stats
 
     my $Result = $StatsObject->StatsInstall(
         FilePrefix => 'FAQ',  # (optional)
+        UserID     => $UserID,
     );
 
 =cut
@@ -1858,14 +1861,28 @@ installs stats
 sub StatsInstall {
     my ( $Self, %Param ) = @_;
 
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
     # prepare prefix
     $Param{FilePrefix} = $Param{FilePrefix} ? $Param{FilePrefix} . '-' : '';
 
     # start AutomaticSampleImport if no stats are installed
-    $Self->GetStatsList();
+    $Self->GetStatsList(
+        UserID => $Param{UserID},
+    );
 
     # cleanup stats
-    $Self->StatsCleanUp();
+    $Self->StatsCleanUp(
+        UserID => $Param{UserID},
+    );
 
     # get main object
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -1892,6 +1909,7 @@ sub StatsInstall {
         # import stat
         my $StatID = $Self->Import(
             Content => ${$XMLContentRef},
+            UserID => $Param{UserID},
         );
 
         next FILE if !$StatID;
@@ -1912,12 +1930,23 @@ uninstalls stats
 
     my $Result = $StatsObject->StatsUninstall(
         FilePrefix => 'FAQ',  # (optional)
+        UserID     => $UserID,
     );
 
 =cut
 
 sub StatsUninstall {
     my ( $Self, %Param ) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
 
     # prepare prefix
     $Param{FilePrefix} = $Param{FilePrefix} ? $Param{FilePrefix} . '-' : '';
@@ -1942,11 +1971,14 @@ sub StatsUninstall {
         # delete stats
         $Self->StatsDelete(
             StatID => ${$StatsIDRef},
+            UserID => $Param{UserID},
         );
     }
 
     # cleanup stats
-    $Self->StatsCleanUp();
+    $Self->StatsCleanUp(
+        UserID => $Param{UserID},
+    );
 
     return 1;
 }
@@ -1960,11 +1992,21 @@ removed stats with not existing backend file
 =cut
 
 sub StatsCleanUp {
-    my $Self = shift;
+    my ($Self, %Param) = @_;
+
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
 
     # get a list of all stats
     my $ListRef = $Self->GetStatsList(
-        UserID => 1,
+        UserID => $Param{UserID},
     );
 
     return if !$ListRef;
@@ -1988,7 +2030,10 @@ sub StatsCleanUp {
             && $MainObject->Require( $HashRef->{ObjectModule} );
 
         # delete stats
-        $Self->StatsDelete( StatID => $StatsID );
+        $Self->StatsDelete(
+            StatID => $StatsID,
+            UserID => $Param{UserID},
+        );
     }
 
     return 1;
@@ -3137,11 +3182,11 @@ sub _SetResultCache {
     my ( $Self, %Param ) = @_;
 
     # check needed params
-    for my $NeededParam (qw( Filename Result)) {
-        if ( !$Param{$NeededParam} ) {
+    for my $Needed (qw(Filename Result)) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $NeededParam!"
+                Message  => "Need $Needed!"
             );
             return;
         }
@@ -3222,6 +3267,16 @@ sub _MonthArray {
 sub _AutomaticSampleImport {
     my ( $Self, %Param ) = @_;
 
+    for my $Needed (qw(UserID)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!"
+            );
+            return;
+        }
+    }
+
     my $Language  = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage');
     my $Directory = $Self->{StatsTempDir};
 
@@ -3267,6 +3322,7 @@ sub _AutomaticSampleImport {
 
             my $StatID = $Self->Import(
                 Content => $Content,
+                UserID  => $Param{UserID},
             );
         }
     }
