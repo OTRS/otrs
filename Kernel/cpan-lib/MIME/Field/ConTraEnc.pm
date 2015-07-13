@@ -35,7 +35,7 @@ L<MIME::Field::ParamVal>, L<Mail::Field>
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
-David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
+Dianne Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
 =cut
 
@@ -47,7 +47,7 @@ use vars qw($VERSION @ISA);
 @ISA = qw(MIME::Field::ParamVal);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.505";
+$VERSION = "5.506";
 
 # Install it:
 bless([])->register('Content-transfer-encoding');

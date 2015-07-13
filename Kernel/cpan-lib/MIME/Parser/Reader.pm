@@ -241,7 +241,7 @@ sub read_chunk {
 	if ($n_out) {            ### native input, native output [fastest]
 	    while (<$n_in>) {
 		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
+		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -253,7 +253,7 @@ sub read_chunk {
 	else {                   ### native input, OO output [slower]
 	    while (<$n_in>) {
 		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
+		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -267,7 +267,7 @@ sub read_chunk {
 	if ($n_out) {            ### OO input, native output [even slower]
 	    while (defined($_ = $in->getline)) {
 		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
+		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
@@ -279,7 +279,7 @@ sub read_chunk {
 	else {                   ### OO input, OO output [slowest]
 	    while (defined($_ = $in->getline)) {
 		# Normalize line ending
-		$_ =~ s/(:?\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
+		$_ =~ s/(?:\n\r|\r\n|\r)$/\n/ if $normalize_newlines;
 		if (substr($_, 0, 2) eq '--') {
 		    ($maybe = $_) =~ s/[ \t\r\n]+\Z//;
 		    $bh{$maybe} and do { $eos = $bh{$maybe}; last };
