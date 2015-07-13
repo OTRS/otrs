@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.31';
+$VERSION = '1.33';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -93,6 +93,7 @@ my %def_attr = (
     quote_null          => 1,
     quote_binary        => 1,
     diag_verbose        => 0,
+    decode_utf8         => 1,
 
     _EOF                => 0,
     _RECNO              => 0,
@@ -354,9 +355,9 @@ sub _parse {
 
     return 0 if(!defined $line);
 
-    my ($binary, $quot, $sep, $esc, $types, $keep_meta_info, $allow_whitespace, $eol, $blank_is_undef, $empty_is_undef, $unquot_esc)
+    my ($binary, $quot, $sep, $esc, $types, $keep_meta_info, $allow_whitespace, $eol, $blank_is_undef, $empty_is_undef, $unquot_esc, $decode_utf8)
          = @{$self}{
-            qw/binary quote_char sep_char escape_char types keep_meta_info allow_whitespace eol blank_is_undef empty_is_undef allow_unquoted_escape/
+            qw/binary quote_char sep_char escape_char types keep_meta_info allow_whitespace eol blank_is_undef empty_is_undef allow_unquoted_escape decode_utf8/
            };
 
     $sep  = ',' unless (defined $sep);
@@ -409,7 +410,7 @@ sub _parse {
 
     my $pos = 0;
 
-    my $utf8 = 1 if utf8::is_utf8( $line ); # if UTF8 marked, flag on.
+    my $utf8 = 1 if $decode_utf8 and utf8::is_utf8( $line ); # if decode_utf8 is true(default) and UTF8 marked, flag on.
 
     for my $col ( $line =~ /$re_split/g ) {
 
@@ -548,7 +549,7 @@ sub _parse {
         }
 
         utf8::encode($col) if $utf8;
-        if ( defined $col && _is_valid_utf8($col) ) {
+        if ( $decode_utf8 && defined $col && _is_valid_utf8($col) ) {
             utf8::decode($col);
         }
 
@@ -566,6 +567,25 @@ sub _parse {
     if ($palatable) {
         $self->{_ERROR_INPUT} = undef;
         $self->{_FIELDS}      = \@part;
+
+        if ( $self->{_BOUND_COLUMNS} ) {
+            my @vals  = @part;
+            my ( $max, $count ) = ( scalar @vals, 0 );
+
+            if ( @{ $self->{_BOUND_COLUMNS} } < $max ) {
+                $self->_set_error_diag(3006);
+                return;
+            }
+
+            for ( my $i = 0; $i < $max; $i++ ) {
+                my $bind = $self->{_BOUND_COLUMNS}->[ $i ];
+                if ( Scalar::Util::readonly( $$bind ) ) {
+                    $self->_set_error_diag(3008);
+                    return;
+                }
+                $$bind = $vals[ $i ];
+            }
+        }
     }
 
     $self->{_FFLAGS} = $keep_meta_info ? $meta_flag : [];
@@ -635,7 +655,7 @@ sub _make_regexp_split_column_allow_sp {
     qr/$ws*
        (
         \Q$quot\E
-            [^\Q$quot$esc\E]*(?:\Q$esc\E[\Q$quot$esc$sep\E0][^\Q$quot$esc\E]*)*
+            [^\Q$quot$esc\E]*(?:\Q$esc\E[\Q$quot\E][^\Q$quot$esc\E]*)*
         \Q$quot\E
         | # or
         [^\Q$sep\E]*?
@@ -676,7 +696,7 @@ sub getline {
 
     require IO::Handle;
 
-    $self->{_EOF} = eof($io) ? 1 : '';
+    $self->{_EOF} = $io->eof ? 1 : '';
 
     my $quot = $self->{quote_char};
     my $sep  = $self->{sep_char};
@@ -724,7 +744,7 @@ sub getline {
                 /x ? 0 : 1;
             }
 
-            if ( $is_continued and !eof($io) ) {
+            if ( $is_continued and !$io->eof) {
                 $line .= $io->getline();
                 goto LOOP;
             }
@@ -735,38 +755,13 @@ sub getline {
 
     $self->_parse($line);
 
-    return $self->_return_getline_result();
-}
-
-
-sub _return_getline_result {
-
     if ( eof ) {
-        $_[0]->{_AUTO_DETECT_CR} = 0;
+        $self->{_AUTO_DETECT_CR} = 0;
     }
 
-    return unless $_[0]->{_STATUS};
+    return unless $self->{_STATUS};
 
-    return [ $_[0]->_fields() ] unless $_[0]->{_BOUND_COLUMNS};
-
-    my @vals  = $_[0]->_fields();
-    my ( $max, $count ) = ( scalar @vals, 0 );
-
-    if ( @{ $_[0]->{_BOUND_COLUMNS} } < $max ) {
-            $_[0]->_set_error_diag(3006);
-            return;
-    }
-
-    for ( my $i = 0; $i < $max; $i++ ) {
-        my $bind = $_[0]->{_BOUND_COLUMNS}->[ $i ];
-        if ( Scalar::Util::readonly( $$bind ) ) {
-            $_[0]->_set_error_diag(3008);
-            return;
-        }
-        $$bind = $vals[ $i ];
-    }
-
-    return [];
+    return $self->{_BOUND_COLUMNS} ? [] : [ $self->_fields() ];
 }
 ################################################################################
 # getline_all
@@ -786,7 +781,7 @@ sub getline_all {
 
     while ( my $row = $self->getline($io) ) {
         next if $offset && $offset-- > 0;               # skip
-        last if defined $len && !$tail && $n >= $len;   # exceedes limit size
+        last if defined $len && !$tail && $n >= $len;   # exceeds limit size
         push @list, $row;
         ++$n;
         if ( $tail && $n > $tail ) {
@@ -933,7 +928,7 @@ sub is_missing {
 }
 ################################################################################
 # _check_type
-#  take an arg as scalar referrence.
+#  take an arg as scalar reference.
 #  if not numeric, make the value 0. otherwise INTEGERized.
 ################################################################################
 sub _check_type {
@@ -992,6 +987,15 @@ sub sep_char {
     $self->{sep_char};
 }
 
+sub decode_utf8 {
+    my $self = shift;
+    if ( @_ ) {
+        $self->{decode_utf8} = $_[0];
+        my $ec = _check_sanity( $self );
+        $ec and Carp::croak( $self->SetDiag( $ec ) );
+    }
+    $self->{decode_utf8};
+}
 
 sub quote_char {
     my $self = shift;
@@ -1269,7 +1273,7 @@ is read as
 
  (1, undef, undef, " ", 2)
 
-Note that this only effects fields that are I<realy> empty, not fields
+Note that this only effects fields that are I<really> empty, not fields
 that are empty after stripping allowed whitespace. YMMV.
 
 =item quote_char
@@ -1613,6 +1617,17 @@ Will set C<$hr->{"\cAUNDEF\cA"}> to the 1st field, C<$hr->{""}> to the
 
 C<column_names ()> croaks on invalid arguments.
 
+=head2 print_hr
+
+ $csv->print_hr ($io, $ref);
+
+Provides an easy way to print a C<$ref> as fetched with L<getline_hr>
+provided the column names are set with L<column_names>.
+
+It is just a wrapper method with basic parameter checks over
+
+ $csv->print ($io, [ map { $ref->{$_} } $csv->column_names ]);
+
 =head2 bind_columns
 
 Takes a list of references to scalars to store the fields fetched
@@ -1755,7 +1770,7 @@ C<combine ()> or C<parse ()>, whichever was called more recently.
  $error_str    = "" . $csv->error_diag ();
  ($cde, $str, $pos) = $csv->error_diag ();
 
-If (and only if) an error occured, this function returns the diagnostics
+If (and only if) an error occurred, this function returns the diagnostics
 of that error.
 
 If called in void context, it will print the internal error code and the
@@ -1783,10 +1798,10 @@ Use to reset the diagnostics if you are dealing with errors.
 
 =head1 DIAGNOSTICS
 
-If an error occured, $csv->error_diag () can be used to get more information
+If an error occurred, $csv->error_diag () can be used to get more information
 on the cause of the failure. Note that for speed reasons, the internal value
 is never cleared on success, so using the value returned by error_diag () in
-normal cases - when no error occured - may cause unexpected results.
+normal cases - when no error occurred - may cause unexpected results.
 
 Note: CSV_PP's diagnostics is different from CSV_XS's:
 
@@ -1875,7 +1890,7 @@ Text::CSV was written by E<lt>alan[at]mfgrtl.comE<gt>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2005-2013 by Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
+Copyright 2005-2015 by Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 

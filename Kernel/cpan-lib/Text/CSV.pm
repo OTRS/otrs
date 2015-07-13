@@ -6,14 +6,14 @@ use Carp ();
 use vars qw( $VERSION $DEBUG );
 
 BEGIN {
-    $VERSION = '1.32';
+    $VERSION = '1.33';
     $DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.99';
+my $XS_Version = '1.02';
 
 my $Is_Dynamic = 0;
 
@@ -288,10 +288,10 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.32
+    1.33
 
-This module is compatible with Text::CSV_XS B<0.99> and later.
-(except for diag_verbose and allow_unquoted_escape)
+This module is compatible with Text::CSV_XS B<1.02> and later.
+(except for diag_verbose)
 
 =head2 Embedded newlines
 
@@ -366,7 +366,7 @@ See to L<Text::CSV_XS/SPECIFICATION>.
 
 =head1 FUNCTIONS
 
-These methods are common between XS and puer Perl version.
+These methods are common between the XS and the pure Perl version.
 Most of the document was shamelessly copied and replaced from Text::CSV_XS.
 
 =head2 version ()
@@ -543,6 +543,24 @@ binary characters other than CR or NL are encountered. Note that a simple
 string like C<"\x{00a0}"> might still be binary, but not marked UTF8, so
 setting C<{ binary =E<gt> 1 }> is still a wise option.
 
+=item decode_utf8
+
+This attributes defaults to TRUE.
+
+While I<parsing>,  fields that are valid UTF-8, are automatically set to be
+UTF-8, so that
+
+  $csv->parse ("\xC4\xA8\n");
+
+results in
+
+  PV("\304\250"\0) [UTF8 "\x{128}"]
+
+Sometimes it might not be a desired action.  To prevent those upgrades, set
+this attribute to false, and the result will be
+
+  PV("\304\250"\0)
+
 =item types
 
 A set of column types; this attribute is immediately passed to the
@@ -607,7 +625,7 @@ Imagine a file format like
 where, the line ending is a very specific "#\r\n", and the sep_char
 is a ^ (caret). None of the fields is quoted, but embedded binary
 data is likely to be present. With the specific line ending, that
-shouldn not be too hard to detect.
+should not be too hard to detect.
 
 By default, Text::CSV' parse function however is instructed to only
 know about "\n" and "\r" to be legal line endings, and so has to deal
@@ -647,6 +665,7 @@ is equivalent to
      quote_space         => 1,
      quote_null          => 1,
      binary              => 0,
+     decode_utf8         => 0,
      keep_meta_info      => 0,
      allow_loose_quotes  => 0,
      allow_loose_escapes => 0,
@@ -793,6 +812,17 @@ C<getline_hr ()> will croak if called before C<column_names ()>.
 
 This will return a reference to a list of C<getline_hr ($io)> results.
 In this call, C<keep_meta_info> is disabled.
+
+=head2 print_hr
+
+ $csv->print_hr ($io, $ref);
+
+Provides an easy way to print a C<$ref> as fetched with L<getline_hr>
+provided the column names are set with L<column_names>.
+
+It is just a wrapper method with basic parameter checks over
+
+ $csv->print ($io, [ map { $ref->{$_} } $csv->column_names ]);
 
 =head2 column_names
 
@@ -976,7 +1006,7 @@ C<combine ()> or C<parse ()>, whichever was called more recently.
  $error_str    = "" . $csv->error_diag ();
  ($cde, $str, $pos) = $csv->error_diag ();
 
-If (and only if) an error occured, this function returns the diagnostics
+If (and only if) an error occurred, this function returns the diagnostics
 of that error.
 
 If called in void context, it will print the internal error code and the
@@ -995,7 +1025,7 @@ If called in scalar context, it will return the diagnostics in a single
 scalar, a-la $!. It will contain the error code in numeric context, and
 the diagnostics message in string context.
 
-Depending on the used worker module, returned diagnostics is diffferent.
+Depending on the used worker module, returned diagnostics is different.
 
 Text::CSV_XS parses csv strings by dividing one character while Text::CSV_PP
 by using the regular expressions. That difference makes the different cause
@@ -1042,10 +1072,10 @@ Returns true value if Text::CSV or the object uses pure-Perl module as worker.
 
 =head1 DIAGNOSTICS
 
-If an error occured, $csv->error_diag () can be used to get more information
+If an error occurred, $csv->error_diag () can be used to get more information
 on the cause of the failure. Note that for speed reasons, the internal value
 is never cleared on success, so using the value returned by error_diag () in
-normal cases - when no error occured - may cause unexpected results.
+normal cases - when no error occurred - may cause unexpected results.
 
 This function changes depending on the used module (XS or PurePerl).
 
@@ -1069,7 +1099,7 @@ If this call is fail, Text::CSV uses L<Text::CSV_PP>.
 
 The required Text::CSV_XS version is I<0.41> in Text::CSV version 1.03.
 
-If you set an enviornment variable C<PERL_TEXT_CSV>, The calling action will be changed.
+If you set an environment variable C<PERL_TEXT_CSV>, The calling action will be changed.
 
 =over
 
@@ -1162,17 +1192,17 @@ New Text::CSV (since 0.99) is maintained by Makamaka.
 Text::CSV
 
 Copyright (C) 1997 Alan Citterman. All rights reserved.
-Copyright (C) 2007-2009 Makamaka Hannyaharamitu.
+Copyright (C) 2007-2015 Makamaka Hannyaharamitu.
 
 
 Text::CSV_PP:
 
-Copyright (C) 2005-2013 Makamaka Hannyaharamitu.
+Copyright (C) 2005-2015 Makamaka Hannyaharamitu.
 
 
 Text:CSV_XS:
 
-Copyright (C) 2007-2013 H.Merijn Brand for PROCURA B.V.
+Copyright (C) 2007-2015 H.Merijn Brand for PROCURA B.V.
 Copyright (C) 1998-2001 Jochen Wiedmann. All rights reserved.
 Portions Copyright (C) 1997 Alan Citterman. All rights reserved.
 
