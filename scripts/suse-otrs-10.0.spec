@@ -95,20 +95,6 @@ fi
 # sysconfig
 %{fillup_and_insserv -s otrs START_OTRS}
 
-# if it's a major-update backup old version templates (maybe not compatible!)
-if test -e /tmp/otrs-old.tmp; then
-    TOINSTALL=`echo %{version}| sed 's/..$//'`
-    OLDOTRS=`cat /tmp/otrs-old.tmp`
-    if echo $OLDOTRS | grep -v "$TOINSTALL" > /dev/null; then
-        echo "backup old (maybe not compatible) templates (of $OLDOTRS)"
-        for i in /opt/otrs/Kernel/Output/HTML/Templates/Standard/*.rpmnew;
-            do BF=`echo $i|sed 's/.rpmnew$//'`; mv -v $BF $BF.backup_maybe_not_compat_to.$OLDOTRS; mv $i $BF;
-        done
-    fi
-    rm -rf /tmp/otrs-old.tmp
-fi
-
-# run OTRS rebuild config, delete cache, if the system was already in use (i.e. upgrade).
 export OTRSUSER=otrs
 if test -e /opt/otrs/Kernel/Config/Files/ZZZAAuto.pm; then
     su $OTRSUSER -s /bin/bash -c "/opt/otrs/bin/otrs.Console.pl Maint::Config::Rebuild";
