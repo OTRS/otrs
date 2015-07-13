@@ -114,14 +114,14 @@ sub ProviderProcessRequest {
     # if the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked
     my $Chunked = (
         defined $ENV{'HTTP_TRANSFER_ENCODING'}
-        && $ENV{'HTTP_TRANSFER_ENCODING'} =~ /^chunked.*$/
+            && $ENV{'HTTP_TRANSFER_ENCODING'} =~ /^chunked.*$/
     ) || 0;
 
     my $Content = q{};
 
     # if chunked transfer encoding is used, read request from chunks and calculate its length
     #   afterwards
-    if ( $Chunked ) {
+    if ($Chunked) {
         my $Buffer;
         while ( read( STDIN, $Buffer, 1024 ) ) {
             $Content .= $Buffer;

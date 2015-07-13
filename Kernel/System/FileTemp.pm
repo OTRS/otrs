@@ -65,7 +65,7 @@ Please note that you need to close the file handle for other processes to write 
 =cut
 
 sub TempFile {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     my $TempDir = $Kernel::OM->Get('Kernel::Config')->Get('TempDir');
 

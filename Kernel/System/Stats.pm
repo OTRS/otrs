@@ -1909,7 +1909,7 @@ sub StatsInstall {
         # import stat
         my $StatID = $Self->Import(
             Content => ${$XMLContentRef},
-            UserID => $Param{UserID},
+            UserID  => $Param{UserID},
         );
 
         next FILE if !$StatID;
@@ -1992,7 +1992,7 @@ removed stats with not existing backend file
 =cut
 
 sub StatsCleanUp {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     for my $Needed (qw(UserID)) {
         if ( !$Param{$Needed} ) {

@@ -235,8 +235,10 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( JavaScript => "return \$('#$StatsData->{YAxis}').length;" );
 
                 # select order by option
-                $Selenium->find_element( "#EditDialog #$StatsData->{YAxis} option[value='$StatsData->{OrderBy}']",
-                    'css' )->click();
+                $Selenium->find_element(
+                    "#EditDialog #$StatsData->{YAxis} option[value='$StatsData->{OrderBy}']",
+                    'css'
+                )->click();
             }
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
@@ -249,8 +251,8 @@ $Selenium->RunTest(
 
             # add restriction
             $Selenium->find_element(
-                "#EditDialog #$StatsData->{RestrictionID} option[value='$StatsData->{Restrictionvalue}']", 'css' )
-                ->click();
+                "#EditDialog #$StatsData->{RestrictionID} option[value='$StatsData->{Restrictionvalue}']", 'css'
+            )->click();
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
 
             # change preview format to Print
@@ -285,7 +287,8 @@ JAVASCRIPT
 
             # sort decreasing by StatsID
             $Selenium->find_element(
-                "//a[contains(\@href, \'Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]")->click();
+                "//a[contains(\@href, \'Subaction=Overview;Direction=DESC;OrderBy=ID;StartHit=1\' )]"
+            )->click();
 
             # get stats object
             $Kernel::OM->ObjectParamAdd(

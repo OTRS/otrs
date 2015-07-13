@@ -15,7 +15,6 @@ use vars (qw($Self));
 use CGI;
 use Kernel::System::Web::Request;
 
-
 {
     local %ENV = (
         REQUEST_METHOD => 'GET',
@@ -44,7 +43,6 @@ use Kernel::System::Web::Request;
         'SingleParam - not defined',
     );
 
-
     local $CGI::POST_MAX = 1024;    ## no critic
 
     $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
@@ -56,7 +54,6 @@ use Kernel::System::Web::Request;
     );
 
 }
-
 
 {
     my $PostData = 'a=4&b=5;d=2';
@@ -80,23 +77,23 @@ use Kernel::System::Web::Request;
     );
 
     $Self->IsDeeply(
-        [$Request->GetArray( Param => 'a' )],
+        [ $Request->GetArray( Param => 'a' ) ],
         [4],
         'Param a, from POST',
     );
 
     $Self->IsDeeply(
-        [$Request->GetArray( Param => 'b' )],
+        [ $Request->GetArray( Param => 'b' ) ],
         [5],
         'Param b, from POST (GET ignored)',
     );
     $Self->IsDeeply(
-        [$Request->GetArray( Param => 'c' )],
-        [4, 5],
+        [ $Request->GetArray( Param => 'c' ) ],
+        [ 4, 5 ],
         'Param c, from GET',
     );
     $Self->IsDeeply(
-        [$Request->GetArray( Param => 'd' )],
+        [ $Request->GetArray( Param => 'd' ) ],
         [2],
         'Param d, from POST',
     );

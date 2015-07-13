@@ -179,7 +179,7 @@ sub GetParamNames {
     my $RequestMethod = $Self->{Query}->request_method() // '';
     if ( $RequestMethod && $RequestMethod ne 'GET' ) {
         my %POSTNames;
-        @POSTNames{ @ParamNames } = @ParamNames;
+        @POSTNames{@ParamNames} = @ParamNames;
         my @GetNames = $Self->{Query}->url_param();
         GETNAME:
         for my $GetName (@GetNames) {

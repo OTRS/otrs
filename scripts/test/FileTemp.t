@@ -20,7 +20,7 @@ use Kernel::System::ObjectManager;
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-my ($Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix);
+my ( $Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix );
 
 {
     my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
@@ -38,7 +38,7 @@ my ($Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix);
     );
 
     $Self->Is(
-        ( substr($Filename, -4) ),
+        ( substr( $Filename, -4 ) ),
         '.tmp',
         'TempFile() suffix',
     );
@@ -56,7 +56,7 @@ my ($Filename, $FilenameSuffix, $TempDir, $FH, $FHSuffix);
     );
 
     $Self->Is(
-        ( substr($FilenameSuffix, -4) ),
+        ( substr( $FilenameSuffix, -4 ) ),
         '.png',
         'TempFile() custom suffix',
     );
