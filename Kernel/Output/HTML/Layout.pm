@@ -354,7 +354,7 @@ EOF
     }
 
     # check mobile devices to disable richtext support
-    if ( $Self->{IsMobile} && $Self->{Platform} ne 'iOS' ) {
+    if ( $Self->{IsMobile} && $Self->{Platform} ne 'iOS' && $Self->{Platform} ne 'Android' && $Self->{Platform} ne 'Windows Phone') {
         $Self->{BrowserRichText} = 0;
     }
 
