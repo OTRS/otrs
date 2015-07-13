@@ -19,6 +19,7 @@ has inline_series   => default => sub {0};
 has use_aliases     => default => sub {1};
 has purity          => default => sub {0};
 has stringify       => default => sub {0};
+has quote_numeric_strings => default => sub {0};
 
 # Properties
 has stream      => default => sub {''};
@@ -65,6 +66,8 @@ sub set_global_options {
       if defined $YAML::Purity;
     $self->stringify($YAML::Stringify)
       if defined $YAML::Stringify;
+    $self->quote_numeric_strings($YAML::QuoteNumericStrings)
+      if defined $YAML::QuoteNumericStrings;
 }
 
 sub dump {

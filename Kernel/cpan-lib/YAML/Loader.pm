@@ -34,9 +34,7 @@ sub _parse {
     $self->line(0);
     $self->die('YAML_PARSE_ERR_BAD_CHARS')
       if $self->stream =~ /$ESCAPE_CHAR/;
-    $self->die('YAML_PARSE_ERR_NO_FINAL_NEWLINE')
-      if length($self->stream) and
-         $self->{stream} !~ s/(.)\n\Z/$1/s;
+    $self->{stream} =~ s/(.)\n\Z/$1/s;
     $self->lines([split /\x0a/, $self->stream, -1]);
     $self->line(1);
     # Throw away any comments or blanks before the header (or start of
@@ -562,7 +560,7 @@ sub _parse_implicit {
     return $value if $value eq '';
     return undef if $value =~ /^~$/;
     return $value
-      unless $value =~ /^[\@\`\^]/ or
+      unless $value =~ /^[\@\`]/ or
              $value =~ /^[\-\?]\s/;
     $self->die('YAML_PARSE_ERR_BAD_IMPLICIT', $value);
 }
@@ -646,7 +644,7 @@ sub _parse_next_line {
         else {
             # First get rid of any comments.
             while (@{$self->lines} && ($self->lines->[0] =~ /^\s*#/)) {
-                $self->lines->[0] =~ /^( *)/ or die;
+                $self->lines->[0] =~ /^( *)/;
                 last unless length($1) <= $offset;
                 shift @{$self->lines};
                 $self->{line}++;
@@ -671,7 +669,8 @@ sub _parse_next_line {
             return;
         }
         else {
-            $self->lines->[0] =~ /^( *)\S/ or die;
+            $self->lines->[0] =~ /^( *)\S/ or
+                $self->die('YAML_PARSE_ERR_NONSPACE_INDENTATION');
             if (length($1) > $offset) {
                 $self->offset->[$level+1] = length($1);
             }

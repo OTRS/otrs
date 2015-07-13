@@ -1,6 +1,6 @@
 use strict; use warnings;
 package YAML::Any;
-our $VERSION = '1.09';
+our $VERSION = '1.15';
 
 use Exporter ();
 
@@ -46,6 +46,7 @@ sub import {
 
 sub Dump {
     no strict 'refs';
+    no warnings 'once';
     my $implementation = __PACKAGE__->implementation;
     for my $option (@dump_options) {
         my $var = "$implementation\::$option";
@@ -58,6 +59,7 @@ sub Dump {
 
 sub DumpFile {
     no strict 'refs';
+    no warnings 'once';
     my $implementation = __PACKAGE__->implementation;
     for my $option (@dump_options) {
         my $var = "$implementation\::$option";
@@ -70,6 +72,7 @@ sub DumpFile {
 
 sub Load {
     no strict 'refs';
+    no warnings 'once';
     my $implementation = __PACKAGE__->implementation;
     for my $option (@load_options) {
         my $var = "$implementation\::$option";
@@ -82,6 +85,7 @@ sub Load {
 
 sub LoadFile {
     no strict 'refs';
+    no warnings 'once';
     my $implementation = __PACKAGE__->implementation;
     for my $option (@load_options) {
         my $var = "$implementation\::$option";
