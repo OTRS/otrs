@@ -110,6 +110,10 @@ perform TicketCreate Operation. This will return the created ticket number.
                     Hour   => 23,
                     Minute => 05,
                 },
+                # or
+                # PendingTime {
+                #     Diff => 10080, # Pending time in minutes
+                #},
             },
             Article => {
                 ArticleTypeID                   => 123,                        # optional

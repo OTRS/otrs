@@ -109,6 +109,10 @@ perform TicketCreate Operation. This will return the created ticket number.
                     Hour   => 23,
                     Minute => 05,
                 },
+                # or
+                # PendingTime {
+                #     Diff => 10080, # Pending time in minutes
+                #},
             },
             Article {                                                          # optional
                 ArticleTypeID                   => 123,                        # optional
@@ -1563,7 +1567,7 @@ sub _TicketUpdate {
             ID => $StateID,
         );
 
-        # forse unlock if state type is close
+        # force unlock if state type is close
         if ( $StateData{TypeName} =~ /^close/i ) {
 
             # set lock

@@ -258,28 +258,34 @@ WARNING: This WSDL file is for Development and Test purposes ONLY!
     </xsd:complexType>
 
     <xsd:complexType name="OTRS_PendingTime">
-        <xsd:sequence>
+        <xsd:choice>
+            <xsd:sequence>
+                <xsd:element
+                    name="Year"
+                    type="xsd:positiveInteger">
+                </xsd:element>
+                <xsd:element
+                    name="Month"
+                    type="xsd:positiveInteger">
+                </xsd:element>
+                <xsd:element
+                    name="Day"
+                    type="xsd:positiveInteger">
+                </xsd:element>
+                <xsd:element
+                    name="Hour"
+                    type="xsd:positiveInteger">
+                </xsd:element>
+                <xsd:element
+                    name="Minute"
+                    type="xsd:positiveInteger">
+                </xsd:element>
+            </xsd:sequence>
             <xsd:element
-                name="Year"
+                name="Diff"
                 type="xsd:positiveInteger">
             </xsd:element>
-            <xsd:element
-                name="Month"
-                type="xsd:positiveInteger">
-            </xsd:element>
-            <xsd:element
-                name="Day"
-                type="xsd:positiveInteger">
-            </xsd:element>
-            <xsd:element
-                name="Hour"
-                type="xsd:positiveInteger">
-            </xsd:element>
-            <xsd:element
-                name="Minute"
-                type="xsd:positiveInteger">
-            </xsd:element>
-        </xsd:sequence>
+        </xsd:choice>
     </xsd:complexType>
 
     <xsd:complexType name="OTRS_Article">
