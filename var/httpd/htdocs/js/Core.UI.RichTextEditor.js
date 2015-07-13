@@ -66,7 +66,8 @@ Core.UI.RichTextEditor = (function (TargetNS) {
      */
     TargetNS.Init = function ($EditorArea) {
         var EditorID = '',
-            UserLanguage;
+            UserLanguage,
+            UploadURL = '';
 
         if (isJQueryObject($EditorArea) && $EditorArea.hasClass('HasCKEInstance')) {
             return false;
@@ -108,6 +109,17 @@ Core.UI.RichTextEditor = (function (TargetNS) {
         // To correct this, we replace "_" with "-" in the language (e.g. zh_CN becomes zh-cn)
         UserLanguage = Core.Config.Get('UserLanguage').replace(/_/, "-");
 
+        // build URL for image upload
+        if (CheckFormID().length) {
+            UploadURL = Core.Config.Get('Baselink')
+                    + 'Action='
+                    + Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload')
+                    + '&FormID='
+                    + CheckFormID().val()
+                    + '&' + Core.Config.Get('SessionName')
+                    + '=' + Core.Config.Get('SessionID');
+        }
+
         /*eslint-disable camelcase */
         CKEDITOR.replace(EditorID,
         {
@@ -121,23 +133,20 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             forcePasteAsPlainText: false,
             format_tags: 'p;h1;h2;h3;h4;h5;h6;pre',
             fontSize_sizes: '8px;10px;12px;16px;18px;20px;22px;24px;26px;28px;30px;',
-            extraAllowedContent: 'div table tr td th colgroup col img style[*]{*}',
+            extraAllowedContent: 'div table tr td th colgroup col img figure figcaption style[*]{*}',
             enterMode: CKEDITOR.ENTER_BR,
             shiftEnterMode: CKEDITOR.ENTER_BR,
             contentsLangDirection: Core.Config.Get('RichText.TextDir', 'ltr'),
             disableNativeSpellChecker: false,
             toolbar: CheckFormID().length ? Core.Config.Get('RichText.Toolbar') : Core.Config.Get('RichText.ToolbarWithoutImage'),
-            filebrowserUploadUrl: Core.Config.Get('Baselink'),
+            filebrowserBrowseUrl: '',
+            filebrowserUploadUrl: UploadURL,
             extraPlugins: Core.Config.Get('RichText.SpellChecker') ? 'aspell,splitquote' : 'splitquote',
             entities: false,
             skin: 'bootstrapck'
         });
         /*eslint-enable camelcase */
 
-        if (CheckFormID().length) {
-            CKEDITOR.config.action = Core.Config.Get('RichText.PictureUploadAction', 'PictureUpload');
-            CKEDITOR.config.formID = CheckFormID().val();
-        }
         CKEDITOR.config.spellerPagesServerScript = Core.Config.Get('Baselink');
 
         // check if creating CKEditor was successful

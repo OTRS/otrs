@@ -13,6 +13,8 @@ use utf8;
 use vars (qw($Self));
 
 use CGI;
+use Kernel::System::Web::Request;
+
 
 {
     local %ENV = (
@@ -21,7 +23,7 @@ use CGI;
     );
 
     CGI->initialize_globals();
-    my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Request = Kernel::System::Web::Request->new();
 
     my @ParamNames = $Request->GetParamNames();
     $Self->IsDeeply(
@@ -41,12 +43,9 @@ use CGI;
         undef,
         'SingleParam - not defined',
     );
-}
 
-{
+
     local $CGI::POST_MAX = 1024;    ## no critic
-
-    my $Request = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
 
@@ -55,6 +54,53 @@ use CGI;
         'Unittest failed ;-) - POST_MAX=1KB',
         'Error()',
     );
+
+}
+
+
+{
+    my $PostData = 'a=4&b=5;d=2';
+    local %ENV = (
+        REQUEST_METHOD => 'POST',
+        CONTENT_LENGTH => length($PostData),
+        QUERY_STRING   => 'c=4;c=5;b=6',
+    );
+
+    local *STDIN;
+    open STDIN, '<:utf8', \$PostData;    ## no critic
+
+    CGI->initialize_globals();
+    my $Request = Kernel::System::Web::Request->new();
+
+    my @ParamNames = $Request->GetParamNames();
+    $Self->IsDeeply(
+        [ sort @ParamNames ],
+        [qw/a b c d/],
+        'ParamNames',
+    );
+
+    $Self->IsDeeply(
+        [$Request->GetArray( Param => 'a' )],
+        [4],
+        'Param a, from POST',
+    );
+
+    $Self->IsDeeply(
+        [$Request->GetArray( Param => 'b' )],
+        [5],
+        'Param b, from POST (GET ignored)',
+    );
+    $Self->IsDeeply(
+        [$Request->GetArray( Param => 'c' )],
+        [4, 5],
+        'Param c, from GET',
+    );
+    $Self->IsDeeply(
+        [$Request->GetArray( Param => 'd' )],
+        [2],
+        'Param d, from POST',
+    );
+
 }
 
 1;

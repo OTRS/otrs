@@ -33,6 +33,7 @@ sub Run {
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $FormID          = $ParamObject->GetParam( Param => 'FormID' );
     my $CKEditorFuncNum = $ParamObject->GetParam( Param => 'CKEditorFuncNum' ) || 0;
+    my $ResponseType    = $ParamObject->GetParam( Param => 'responseType' ) || '';
 
     # return if no form id exists
     if ( !$FormID ) {
@@ -162,6 +163,22 @@ sub Run {
     }
     my $URL = $LayoutObject->{Baselink}
         . "Action=PictureUpload;FormID=$FormID;ContentID=$ContentIDNew$Session";
+
+    # if ResponseType is JSON, do not return template content but a JSON structure
+    if ( $ResponseType eq 'json' ) {
+        my %Result = (
+            fileName => $FilenameTmp,
+            uploaded => 1,
+            url      => $URL,
+        );
+
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $Charset,
+            Content     => $LayoutObject->JSONEncode( Data => \%Result ),
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
 
     $LayoutObject->Block(
         Name => 'Success',

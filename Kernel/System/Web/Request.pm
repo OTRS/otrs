@@ -114,12 +114,11 @@ sub Error {
 
 =item GetParam()
 
-to get single request parameters.
-By default, trimming is performed on the data.
+to get single request parameters. By default, trimming is performed on the data.
 
     my $Param = $ParamObject->GetParam(
         Param => 'ID',
-        Raw   => 1,     # optional, input data is not changed
+        Raw   => 1,       # optional, input data is not changed
     );
 
 =cut
@@ -128,6 +127,12 @@ sub GetParam {
     my ( $Self, %Param ) = @_;
 
     my $Value = $Self->{Query}->param( $Param{Param} );
+
+    # Fallback to query string for mixed requests.
+    if ( $Self->{Query}->request_method() ne 'GET' && !defined $Value ) {
+        $Value = $Self->{Query}->url_param( $Param{Param} );
+    }
+
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
     my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
@@ -169,7 +174,18 @@ sub GetParamNames {
     # fetch all names
     my @ParamNames = $Self->{Query}->param();
 
-    # is encode needed?
+    # Fallback to query string for mixed requests.
+    if ( $Self->{Query}->request_method() ne 'GET' ) {
+        my %POSTNames;
+        @POSTNames{ @ParamNames } = @ParamNames;
+        my @GetNames = $Self->{Query}->url_param();
+        GETNAME:
+        for my $GetName (@GetNames) {
+            next GETNAME if !defined $GetName;
+            push @ParamNames, $GetName if !exists $POSTNames{$GetName};
+        }
+    }
+
     for my $Name (@ParamNames) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
     }
@@ -193,6 +209,11 @@ sub GetArray {
     my ( $Self, %Param ) = @_;
 
     my @Values = $Self->{Query}->multi_param( $Param{Param} );
+
+    # Fallback to query string for mixed requests.
+    if ( $Self->{Query}->request_method() ne 'GET' && !@Values ) {
+        @Values = $Self->{Query}->url_param( $Param{Param} );
+    }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
