@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module REST::Client to version 272.
  - 2015-07-13 Updated CPAN module Net::IMAP::Simple to version 1.2206.
  - 2015-07-13 Updated CPAN module Net::SSLGlue to version 1.054.
  - 2015-07-13 Updated CPAN module Net::HTTP to version 6.09.

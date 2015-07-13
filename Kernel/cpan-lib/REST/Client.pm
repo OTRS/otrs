@@ -74,7 +74,7 @@ use 5.008_000;
 use constant TRUE => 1;
 use constant FALSE => 0;
 
-our ($VERSION) = ('$Rev: 271 $' =~ /(\d+)/);
+our ($VERSION) = ('$Rev: 272 $' =~ /(\d+)/);
 
 use URI;
 use LWP::UserAgent;
@@ -342,7 +342,7 @@ sub request {
     my $req = HTTP::Request->new( $method => $url );
 
     #build headers
-    if($content){
+    if(defined $content && length($content)){
         $req->content($content);
         $req->header('Content-Length', length($content));
     }else{
