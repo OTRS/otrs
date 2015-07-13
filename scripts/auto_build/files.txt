@@ -1,11 +1,9 @@
 
 %config(noreplace) /opt/otrs/Kernel/Config.pm
-%config(noreplace) /opt/otrs/Kernel/Config/GenericAgent.pm
 %config(noreplace) /opt/otrs/var/log/TicketCounter.log
 %config(noreplace) /opt/otrs/.procmailrc
 %config(noreplace) /opt/otrs/.fetchmailrc
 %config(noreplace) /opt/otrs/.mailfilter
-%config(noreplace) /opt/otrs/var/cron/*
 
 %dir /opt/otrs/
 /opt/otrs/RELEASE
@@ -47,6 +45,7 @@
 /opt/otrs/var/fonts/
 /opt/otrs/var/httpd/
 /opt/otrs/var/logo-otrs.png
+%dir /opt/otrs/var/cron/
 %dir /opt/otrs/var/log/
 %dir /opt/otrs/var/sessions/
 %dir /opt/otrs/var/spool/
