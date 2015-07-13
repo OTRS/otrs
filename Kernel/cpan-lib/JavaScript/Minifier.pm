@@ -3,7 +3,7 @@ package JavaScript::Minifier;
 use strict;
 use warnings;
 
-our $VERSION = '1.11'; # VERSION
+our $VERSION = '1.14'; # VERSION
 
 require Exporter;
 our @ISA = qw(Exporter);
@@ -342,7 +342,7 @@ sub minify {
     }
   }
 
-  if ( $s->{last_read_char} =~ /\n/ ) {
+  if ( defined $s->{last_read_char} and $s->{last_read_char} =~ /\n/ ) {
     _put($s, "\n");
   }
 
@@ -357,7 +357,7 @@ __END__
 
 =encoding utf8
 
-=for stopwords Crockford ECMAScript JSMin stripDebug
+=for stopwords Crockford ECMAScript JSMin stripDebug Minifying minification minifying minified minify
 
 =head1 NAME
 
@@ -368,15 +368,18 @@ JavaScript::Minifier - Perl extension for minifying JavaScript code
 To minify a JavaScript file and have the output written directly to another file
 
   use JavaScript::Minifier qw(minify);
-  open(INFILE, 'myScript.js') or die;
-  open(OUTFILE, '>myScript-min.js') or die;
-  minify(input => *INFILE, outfile => *OUTFILE);
-  close(INFILE);
-  close(OUTFILE);
+
+  open(my $in, 'myScript.js') or die;
+  open(my $out, '>', 'myScript-min.js') or die;
+
+  minify(input => $in, outfile => $out);
+
+  close($in);
+  close($out);
 
 To minify a JavaScript string literal. Note that by omitting the outfile parameter a the minified code is returned as a string.
 
-  my minifiedJavaScript = minify(input => 'var x = 2;');
+  my $minifiedJavaScript = minify(input => 'var x = 2;');
 
 To include a copyright comment at the top of the minified code.
 
@@ -421,7 +424,14 @@ Zoffix Znet C<< <zoffix@cpan.org> >> L<https://metacpan.org/author/ZOFFIX>
 =head1 AUTHORS
 
 Peter Michaux, E<lt>petermichaux@gmail.comE<gt>
+
 Eric Herrera, E<lt>herrera@10east.comE<gt>
+
+=head1 CONTRIBUTORS
+
+Miller 'tmhall' Hall
+
+Вячеслав 'vti' Тихановский
 
 =head1 COPYRIGHT AND LICENSE
 
