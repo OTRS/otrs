@@ -3,7 +3,9 @@ package Net::HTTP;
 use strict;
 use vars qw($VERSION @ISA $SOCKET_CLASS);
 
-$VERSION = "6.07";
+$VERSION = "6.09";
+$VERSION = eval $VERSION;
+
 unless ($SOCKET_CLASS) {
     # Try several, in order of capability and preference
     if (eval { require IO::Socket::IP }) {
@@ -95,7 +97,7 @@ C<IO::Socket::INET>'s as well as these:
 The C<Host> option is also the default for C<IO::Socket::INET>'s
 C<PeerAddr>.  The C<PeerPort> defaults to 80 if not provided.
 The C<PeerPort> specification can also be embedded in the C<PeerAddr>
-by preceding it with a ":", and closing the IPv6 address on bracktes "[]" if
+by preceding it with a ":", and closing the IPv6 address on brackets "[]" if
 necessary: "192.0.2.1:80","[2001:db8::1]:80","any.example.com:80".
 
 The C<Listen> option provided by C<IO::Socket::INET>'s constructor

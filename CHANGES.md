@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module Net::HTTP to version 6.09.
  - 2015-07-13 Updated CPAN module Mozilla::CA to version 20141217.
  - 2015-07-13 Updated CPAN module MailTools to version 2.14.
  - 2015-07-13 Updated CPAN module MIME::Tools to version 5.506.

@@ -6,7 +6,8 @@ use strict;
 use vars qw($VERSION);
 use URI;
 
-$VERSION = "6.07";
+$VERSION = "6.09";
+$VERSION = eval $VERSION;
 
 my $CRLF = "\015\012";   # "\r\n" is not portable
 
@@ -37,7 +38,7 @@ sub http_configure {
     my($self, $cnf) = @_;
 
     die "Listen option not allowed" if $cnf->{Listen};
-    my $explict_host = (exists $cnf->{Host});
+    my $explicit_host = (exists $cnf->{Host});
     my $host = delete $cnf->{Host};
     my $peer = $cnf->{PeerAddr} || $cnf->{PeerHost};
     if (!$peer) {
@@ -57,8 +58,8 @@ sub http_configure {
     # If not specified, set to PeerAddr and port number
     # ALWAYS: If IPv6 address, use [brackets]  (thanks to the URI package)
     # ALWAYS: omit port number if http_default_port
-    if (($host) || (! $explict_host)) {
-        my $uri =  ($explict_host) ? URI->new("http://$host") : $peer_uri->clone;
+    if (($host) || (! $explicit_host)) {
+        my $uri =  ($explicit_host) ? URI->new("http://$host") : $peer_uri->clone;
         if (!$uri->_port) {
             # Always use *our*  $self->http_default_port  instead of URI's  (Covers HTTP, HTTPS)
             $uri->port( $cnf->{PeerPort} ||  $self->http_default_port);
@@ -265,20 +266,34 @@ sub my_readline {
 		if $max_line_length && length($_) > $max_line_length;
 
 	    # need to read more data to find a line ending
+            my $new_bytes = 0;
+
           READ:
-            {
-                die "read timeout" unless $self->can_read;
-                my $n = $self->sysread($_, 1024, length);
-                unless (defined $n) {
-                    redo READ if $!{EINTR} || $!{EAGAIN};
-                    # if we have already accumulated some data let's at least
-                    # return that as a line
-                    die "$what read failed: $!" unless length;
+            {   # wait until bytes start arriving
+                $self->can_read
+                     or die "read timeout";
+
+                # consume all incoming bytes
+                while(1) {
+                    my $bytes_read = $self->sysread($_, 1024, length);
+                    if(defined $bytes_read) {
+                        $new_bytes += $bytes_read;
+                        last if $bytes_read < 1024;
+                    }
+                    elsif($!{EINTR} || $!{EAGAIN} || $!{EWOULDBLOCK}) {
+                        redo READ;
+                    }
+                    else {
+                        # if we have already accumulated some data let's at
+                        # least return that as a line
+                        length or die "$what read failed: $!";
+                        last;
+                    }
                 }
-                unless ($n) {
-                    return undef unless length;
-                    return substr($_, 0, length, "");
-                }
+
+                # no line-ending, no new bytes
+                return length($_) ? substr($_, 0, length($_), "") : undef
+                    if $new_bytes==0;
             }
 	}
 	die "$what line too long ($pos; limit is $max_line_length)"
@@ -296,7 +311,7 @@ sub can_read {
     return 1 unless defined(fileno($self));
     return 1 if $self->isa('IO::Socket::SSL') && $self->pending;
 
-    # With no timeout, wait forever.  An explict timeout of 0 can be
+    # With no timeout, wait forever.  An explicit timeout of 0 can be
     # used to just check if the socket is readable without waiting.
     my $timeout = @_ ? shift : (${*$self}{io_socket_timeout} || undef);
 
