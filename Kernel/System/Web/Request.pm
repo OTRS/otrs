@@ -130,7 +130,7 @@ sub GetParam {
 
     # Fallback to query string for mixed requests.
     my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod && $RequestMethod ne 'GET' && !defined $Value ) {
+    if ( $RequestMethod eq 'POST' && !defined $Value ) {
         $Value = $Self->{Query}->url_param( $Param{Param} );
     }
 
@@ -177,7 +177,7 @@ sub GetParamNames {
 
     # Fallback to query string for mixed requests.
     my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod && $RequestMethod ne 'GET' ) {
+    if ( $RequestMethod eq 'POST' ) {
         my %POSTNames;
         @POSTNames{@ParamNames} = @ParamNames;
         my @GetNames = $Self->{Query}->url_param();
@@ -214,7 +214,7 @@ sub GetArray {
 
     # Fallback to query string for mixed requests.
     my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod && $RequestMethod ne 'GET' && !@Values ) {
+    if ( $RequestMethod eq 'POST' && !@Values ) {
         @Values = $Self->{Query}->url_param( $Param{Param} );
     }
 
