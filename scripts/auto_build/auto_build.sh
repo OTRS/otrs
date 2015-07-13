@@ -19,8 +19,8 @@
 # or see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm"
-echo "Copyright (C) 2001-2013 OTRS AG, http://otrs.org/\n";
+echo "auto_build.sh - build OTRS release files"
+echo "Copyright (C) 2001-2015 OTRS AG, http://otrs.com/";
 
 PATH_TO_CVS_SRC=$1
 PRODUCT=OTRS
