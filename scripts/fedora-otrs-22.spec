@@ -45,15 +45,8 @@ export DESTROOT="/opt/otrs/"
 mkdir -p $RPM_BUILD_ROOT/$DESTROOT/
 # copy files
 cp -R . $RPM_BUILD_ROOT/$DESTROOT
-# install init-Script
-install -d -m 755 $RPM_BUILD_ROOT/etc/rc.d/init.d
-install -d -m 755 $RPM_BUILD_ROOT/etc/sysconfig
+# configure apache
 install -d -m 755 $RPM_BUILD_ROOT/etc/httpd/conf.d
-
-install -m 755 scripts/redhat-rcotrs $RPM_BUILD_ROOT/etc/rc.d/init.d/otrs
-install -m 644 scripts/redhat-rcotrs-config $RPM_BUILD_ROOT/etc/sysconfig/otrs
-
-# copy apache2-httpd.include.conf to /etc/httpd/conf.d/zzz_otrs.conf
 install -m 644 scripts/apache2-httpd.include.conf $RPM_BUILD_ROOT/etc/httpd/conf.d/zzz_otrs.conf
 
 # register apache
@@ -67,10 +60,6 @@ groupadd apache || :
 $RPM_BUILD_ROOT/opt/otrs/bin/otrs.SetPermissions.pl --web-group=apache
 
 %pre
-# remember about the installed version
-if test -e /opt/otrs/RELEASE; then
-    cat /opt/otrs/RELEASE|grep VERSION|sed 's/VERSION = //'|sed 's/ /-/g' > /tmp/otrs-old.tmp
-fi
 # useradd
 export OTRSUSER=otrs
 echo -n "Check OTRS user ... "
@@ -103,9 +92,6 @@ echo " Make sure your database server is running."
 echo " Use a web browser and open this link:"
 echo " http://$HOST/otrs/installer.pl"
 echo ""
-echo "[OTRS services]"
-echo " Start OTRS 'service otrs start' (service otrs {start|stop|status|restart)."
-echo ""
 echo "((enjoy))"
 echo ""
 echo " Your OTRS Team"
@@ -115,13 +101,5 @@ echo ""
 rm -rf $RPM_BUILD_ROOT
 
 %files
-%config(noreplace) /etc/sysconfig/otrs
 %config /etc/httpd/conf.d/zzz_otrs.conf
-/etc/rc.d/init.d/otrs
 <FILES>
-
-%changelog
-* Mon Dec 17 2012 - mb@otrs.com
-- Updated to use Fedora 17 & 18 packages.
-* Thu Mar 07 2007 - martin+rpm@otrs.org
-- spec for Fedora created

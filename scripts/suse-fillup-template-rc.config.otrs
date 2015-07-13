@@ -1,5 +1,0 @@
-# 
-# Start OTRS (yes|no)?
-# (a web based ticket system)
-# 
-START_OTRS="yes"
