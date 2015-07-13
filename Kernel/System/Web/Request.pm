@@ -192,7 +192,7 @@ By default, trimming is performed on the data.
 sub GetArray {
     my ( $Self, %Param ) = @_;
 
-    my @Values = $Self->{Query}->param( $Param{Param} );
+    my @Values = $Self->{Query}->multi_param( $Param{Param} );
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
