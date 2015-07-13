@@ -460,14 +460,13 @@ Core.UI.Popup = (function (TargetNS) {
                     }
                 }
                 else if (WindowMode === 'Iframe') {
-                    // jump to the top  and remove window scrollbar
+                    // jump to the top
                     window.scrollTo(0, 0);
-                    $('body').css({
-                        'overflow': 'hidden'
-                    });
                     // add iframe overlay
                     $('body').append('<iframe data-popuptype="' + Type + '" name="' + WindowName + '" class="PopupIframe" src="' + URL + '"></iframe>');
-                    $('iframe.PopupIframe').height($(document).height());
+                    if ($(document).height() > $('iframe.PopupIframe').height()) {
+                        $('iframe.PopupIframe').height($(document).height());
+                    }
                 }
             }
         }
@@ -570,9 +569,6 @@ Core.UI.Popup = (function (TargetNS) {
             // closing the Iframe is a little bit more complicated
             else if (LocalWindowMode === 'Iframe') {
                 $('iframe.PopupIframe[data-popuptype=' + PopupType + ']', ParentObject.document).remove();
-                $('body', ParentObject.document).css({
-                    'overflow': 'auto'
-                });
             }
         }
 
