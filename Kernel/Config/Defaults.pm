@@ -1023,7 +1023,7 @@ sub LoadDefaults {
 
     # PreferencesView
     # (Order of shown items)
-    $Self->{PreferencesView} = [ 'User Profile', 'Email Settings', 'Other Settings' ];
+    $Self->{PreferencesView} = [ 'User Profile', 'Notification Settings', 'Other Settings' ];
 
     $Self->{PreferencesGroups}->{Password} = {
         'Active' => '1',
@@ -1074,7 +1074,7 @@ sub LoadDefaults {
     $Self->{PreferencesGroups}->{Language} = {
         'Active' => '1',
         'Column' => 'User Profile',
-        'Key' => 'Frontend language',
+        'Key' => 'Language',
         'Label' => 'Language',
         'Module' => 'Kernel::Output::HTML::Preferences::Language',
         'PrefKey' => 'UserLanguage',
