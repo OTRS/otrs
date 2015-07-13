@@ -2,7 +2,7 @@ require 5.006;
 use strict;
 use warnings;
 package Email::Valid;
-$Email::Valid::VERSION = '1.194';
+$Email::Valid::VERSION = '1.196';
 # ABSTRACT: Check validity of Internet email addresses
 our (
   $RFC822PAT,
@@ -146,7 +146,7 @@ sub _net_dns_query {
 
   my $packet = $Resolver->send($host, 'MX') or croak $Resolver->errorstring;
   if ($packet->header->ancount) {
-    my @mx_entries = grep { $_->{'type'} eq 'MX' } $packet->answer;
+    my @mx_entries = grep { $_->type eq 'MX' } $packet->answer;
     if(@mx_entries) {
         my $mx = ($mx_entries[0])->exchange;
         if ($mx eq '.' or $mx eq '') {
@@ -281,16 +281,6 @@ sub _local_rules {
   my $self = shift;
   my($user, $host) = @_;
 
-  # AOL addresses cannot:
-  #     - Be shorter than 3 or longer than 16 characters
-  #     - Begin with numerals
-  #     - Contain periods, underscores, dashes or other punctuation characters
-  #
-  # http://postmaster.info.aol.com/faq.html
-  # Last updated: Aug 23, 2003
-  if ($host =~ /aol\.com/i) {
-    return undef unless $user =~ /^[a-zA-Z][a-zA-Z0-9]{2,15}$/;
-  }
   1;
 }
 
@@ -719,7 +709,7 @@ Email::Valid - Check validity of Internet email addresses
 
 =head1 VERSION
 
-version 1.194
+version 1.196
 
 =head1 SYNOPSIS
 
