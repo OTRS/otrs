@@ -419,6 +419,10 @@ This makes parsing performance slow.
 
 Yusuke Kawasaki, http://www.kawa.net/
 
+=head1 REPOSITORY
+
+https://github.com/kawanet/XML-TreePP
+
 =head1 COPYRIGHT
 
 The following copyright notice applies to all the files provided in
@@ -440,7 +444,7 @@ use Carp;
 use Symbol;
 
 use vars qw( $VERSION );
-$VERSION = '0.42';
+$VERSION = '0.43';
 
 my $XML_ENCODING      = 'UTF-8';
 my $INTERNAL_ENCODING = 'UTF-8';
@@ -635,7 +639,6 @@ sub parsehttp_lwp {
     my $ua = $self->{lwp_useragent} if exists $self->{lwp_useragent};
     if ( ! ref $ua ) {
         $ua = LWP::UserAgent->new();
-        $ua->timeout(10);
         $ua->env_proxy();
         $ua->agent( $self->{__user_agent} ) if defined $self->{__user_agent};
     } else {
