@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module Linux::Distribution to version 0.23.
  - 2015-07-13 Updated CPAN module libwww-perl to version 6.13.
  - 2015-07-13 Updated CPAN module JavaScript::Minifier to version 1.14.
  - 2015-07-13 Updated CPAN module Excel::Writer::XLSX to version 0.84.
