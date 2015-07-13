@@ -4,42 +4,55 @@ use warnings;
 package Net::SSLGlue::POP3;
 use IO::Socket::SSL 1.19;
 use Net::POP3;
-our $VERSION = 0.91;
+our $VERSION = 0.911;
 
-##############################################################################
-# mix starttls method into Net::POP3 which on SSL handshake success 
-# upgrades the class to Net::POP3::_SSLified
-##############################################################################
-sub Net::POP3::starttls {
+my $DONT;
+BEGIN {
+    if (defined &Net::POP3::starttls) {
+	warn "using SSL support of Net::POP3 $Net::POP3::VERSION instead of SSLGlue";
+	$DONT = 1;
+	goto DONE;
+    }
+
+    ##############################################################################
+    # mix starttls method into Net::POP3 which on SSL handshake success
+    # upgrades the class to Net::SSLGlue::POP3::_SSLified
+    ##############################################################################
+    *Net::POP3::starttls = sub {
 	my $self = shift;
 	$self->_STLS or return;
 	my $host = $self->host;
 	# for name verification strip port from domain:port, ipv4:port, [ipv6]:port
 	$host =~s{(?<!:):\d+$}{};
 
-	Net::POP3::_SSLified->start_SSL( $self,
-		SSL_verify_mode => 1,
-		SSL_verifycn_scheme => 'pop3',
-		SSL_verifycn_name => $host,
-		@_ 
+	Net::SSLGlue::POP3::_SSLified->start_SSL( $self,
+	    SSL_verify_mode => 1,
+	    SSL_verifycn_scheme => 'pop3',
+	    SSL_verifycn_name => $host,
+	    @_
 	) or return;
-}
-sub Net::POP3::_STLS { 
-	shift->command("STLS")->response() == Net::POP3::CMD_OK
-}
+    };
 
-no warnings 'redefine';
-my $old_new = \&Net::POP3::new;
-*Net::POP3::new = sub {
+    *Net::POP3::_STLS = sub {
+	shift->command("STLS")->response() == Net::POP3::CMD_OK
+    };
+
+    no warnings 'redefine';
+    my $old_new = \&Net::POP3::new;
+    *Net::POP3::new = sub {
 	my $class = shift;
 	my %arg = @_ % 2 == 0 ? @_ : ( Host => shift,@_ );
 	if ( delete $arg{SSL} ) {
-		$arg{Port} ||= 995;
-		return Net::POP3::_SSLified->new(%arg);
+	    $arg{Port} ||= 995;
+	    return Net::SSLGlue::POP3::_SSLified->new(%arg);
 	} else {
-		return $old_new->($class,%arg);
+	    return $old_new->($class,%arg);
 	}
-};
+    };
+
+    DONE:
+    1;
+}
 
 ##############################################################################
 # Socket class derived from IO::Socket::SSL
@@ -47,25 +60,29 @@ my $old_new = \&Net::POP3::new;
 ##############################################################################
 our %SSLopts;
 {
-	package Net::POP3::_SSL_Socket;
-	our @ISA = 'IO::Socket::SSL';
-	sub configure_SSL {
-		my ($self,$arg_hash) = @_;
+    package Net::SSLGlue::POP3::_SSL_Socket;
+    goto DONE if $DONT;
+    our @ISA = 'IO::Socket::SSL';
+    *configure_SSL = sub {
+	my ($self,$arg_hash) = @_;
 
-		# set per default strict certificate verification
-		$arg_hash->{SSL_verify_mode} = 1 
-			if ! exists $arg_hash->{SSL_verify_mode};
-		$arg_hash->{SSL_verifycn_scheme} = 'pop3'
-			if ! exists $arg_hash->{SSL_verifycn_scheme};
-		$arg_hash->{SSL_verifycn_name} = $self->host
-			if ! exists $arg_hash->{SSL_verifycn_name};
+	# set per default strict certificate verification
+	$arg_hash->{SSL_verify_mode} = 1
+	    if ! exists $arg_hash->{SSL_verify_mode};
+	$arg_hash->{SSL_verifycn_scheme} = 'pop3'
+	    if ! exists $arg_hash->{SSL_verifycn_scheme};
+	$arg_hash->{SSL_verifycn_name} = $self->host
+	    if ! exists $arg_hash->{SSL_verifycn_name};
 
-		# force keys from %SSLopts
-		while ( my ($k,$v) = each %SSLopts ) {
-			$arg_hash->{$k} = $v;
-		}
-		return $self->SUPER::configure_SSL($arg_hash)
+	# force keys from %SSLopts
+	while ( my ($k,$v) = each %SSLopts ) {
+	    $arg_hash->{$k} = $v;
 	}
+	return $self->SUPER::configure_SSL($arg_hash)
+    };
+
+    DONE:
+    1;
 }
 
 
@@ -74,45 +91,48 @@ our %SSLopts;
 # this talks SSL to the peer
 ##############################################################################
 {
-	package Net::POP3::_SSLified;
-	use Carp 'croak';
+    package Net::SSLGlue::POP3::_SSLified;
+    use Carp 'croak';
+    goto DONE if $DONT;
 
-	# deriving does not work because we need to replace a superclass
-	# from Net::POP3, so just copy the class into the new one and then
-	# change it
+    # deriving does not work because we need to replace a superclass
+    # from Net::POP3, so just copy the class into the new one and then
+    # change it
 
-	# copy subs
-	for ( keys %{Net::POP3::} ) {
-		no strict 'refs';
-		eval { *{$Net::POP3::{$_}} && *{$Net::POP3::{$_}}{CODE} } or next;
-		*{$_} = \&{ "Net::POP3::$_" };
-	}
+    # copy subs
+    for ( keys %{Net::POP3::} ) {
+	no strict 'refs';
+	*{$_} = \&{ "Net::POP3::$_" } if defined &{ "Net::POP3::$_" };
+    }
 
-	# copy + fix @ISA
-	our @ISA = @Net::POP3::ISA;
-	grep { s{^IO::Socket::INET$}{Net::POP3::_SSL_Socket} } @ISA
-		or die "cannot find and replace IO::Socket::INET superclass";
+    # copy + fix @ISA
+    our @ISA = @Net::POP3::ISA;
+    grep { s{^IO::Socket::INET$}{Net::SSLGlue::POP3::_SSL_Socket} } @ISA
+	or die "cannot find and replace IO::Socket::INET superclass";
 
-	# we are already sslified
-	no warnings 'redefine';
-	sub starttls { croak "have already TLS\n" }
+    # we are already sslified
+    no warnings 'redefine';
+    *starttls = sub { croak "have already TLS\n" };
 
-	my $old_new = \&new;
-	*Net::POP3::_SSLified::new = sub {
-		my $class = shift;
-		my %arg = @_ % 2 == 0 ? @_ : ( Host => shift,@_ );
-		local %SSLopts;
-		$SSLopts{$_} = delete $arg{$_} for ( grep { /^SSL_/ } keys %arg );
-		return $old_new->($class,%arg);
-	};
+    my $old_new = \&new;
+    *new = sub {
+	my $class = shift;
+	my %arg = @_ % 2 == 0 ? @_ : ( Host => shift,@_ );
+	local %SSLopts;
+	$SSLopts{$_} = delete $arg{$_} for ( grep { /^SSL_/ } keys %arg );
+	return $old_new->($class,%arg);
+    };
 
-	# Net::Cmd getline uses select, but this is not sufficient with SSL
-	# note that this does no EBCDIC etc conversions
-	*Net::POP3::_SSLified::getline = sub {
-		my $self = shift;
-		# skip Net::POP3 getline and go directly to IO::Socket::SSL
-		return $self->IO::Socket::SSL::getline(@_);
-	};
+    # Net::Cmd getline uses select, but this is not sufficient with SSL
+    # note that this does no EBCDIC etc conversions
+    *getline = sub {
+	my $self = shift;
+	# skip Net::POP3 getline and go directly to IO::Socket::SSL
+	return $self->IO::Socket::SSL::getline(@_);
+    };
+
+    DONE:
+    1;
 }
 
 1;
@@ -123,14 +143,14 @@ Net::SSLGlue::POP3 - make Net::POP3 able to use SSL
 
 =head1 SYNOPSIS
 
-  	use Net::SSLGlue::POP3;
-  	my $pop3s = Net::POP3->new( $host, 
-  		SSL => 1,
-		SSL_ca_path => ...
-	);
+    use Net::SSLGlue::POP3;
+    my $pop3s = Net::POP3->new( $host,
+	SSL => 1,
+	SSL_ca_path => ...
+    );
 
-	my $pop3 = Net::POP3->new( $host );
-	$pop3->starttls( SSL_ca_path => ... );
+    my $pop3 = Net::POP3->new( $host );
+    $pop3->starttls( SSL_ca_path => ... );
 
 =head1 DESCRIPTION
 
