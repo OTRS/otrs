@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use URI;
+use Scalar::Util 'blessed';
 
 our $VERSION = "2.20";
 
@@ -15,7 +16,7 @@ sub new
 {
     my($class, $uri, $base) = @_;
     my $ibase = $base;
-    if ($base && ref($base) && UNIVERSAL::isa($base, __PACKAGE__)) {
+    if ($base && blessed($base) && $base->isa(__PACKAGE__)) {
 	$base = $base->abs;
 	$ibase = $base->[0];
     }
@@ -39,7 +40,7 @@ sub _init
 sub eq
 {
     my($self, $other) = @_;
-    $other = $other->[0] if UNIVERSAL::isa($other, __PACKAGE__);
+    $other = $other->[0] if blessed($other) and $other->isa(__PACKAGE__);
     $self->[0]->eq($other);
 }
 

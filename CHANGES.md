@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module URI to version 1.68.
  - 2015-07-13 Updated CPAN module Text::CSV to version 1.33.
  - 2015-07-13 Updated CPAN module Selenium::Remote::Driver to version 0.26.
  - 2015-07-13 Updated CPAN module SOAP::Lite to version 1.14.

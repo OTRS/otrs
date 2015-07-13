@@ -38,7 +38,7 @@ sub query_form {
         }
         elsif (ref($r) eq "HASH") {
             $delim = $_[1];
-            @_ = %$r;
+            @_ = map { $_ => $r->{$_} } sort keys %$r;
         }
         $delim = pop if @_ % 2;
 

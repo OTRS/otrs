@@ -10,7 +10,7 @@ our $VERSION = "5.04";
 # Provide as much as possible of the old URI::URL interface for backwards
 # compatibility...
 
-use Exporter 'import';
+use Exporter 5.57 'import';
 our @EXPORT = qw(url);
 
 # Easy to use constructor

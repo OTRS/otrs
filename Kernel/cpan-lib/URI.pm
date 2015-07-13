@@ -3,7 +3,7 @@ package URI;
 use strict;
 use warnings;
 
-our $VERSION = "1.64";
+our $VERSION = "1.68";
 
 our ($ABS_REMOTE_LEADING_DOTS, $ABS_ALLOW_RELATIVE_SCHEME, $DEFAULT_QUERY_FORM_DELIMITER);
 
@@ -155,6 +155,7 @@ sub clone
     bless \$other, ref $self;
 }
 
+sub TO_JSON { ${$_[0]} }
 
 sub _no_scheme_ok { 0 }
 

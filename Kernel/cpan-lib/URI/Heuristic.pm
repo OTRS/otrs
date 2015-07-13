@@ -89,7 +89,7 @@ modify it under the same terms as Perl itself.
 use strict;
 use warnings;
 
-use Exporter 'import';
+use Exporter 5.57 'import';
 our @EXPORT_OK = qw(uf_uri uf_uristr uf_url uf_urlstr);
 our $VERSION = "4.20";
 
