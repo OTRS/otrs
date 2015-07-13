@@ -6,7 +6,7 @@ use strict;
 
 package Mail::Field::Date;
 use vars '$VERSION';
-$VERSION = '2.13';
+$VERSION = '2.14';
 
 use base 'Mail::Field';
 

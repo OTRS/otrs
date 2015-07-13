@@ -8,7 +8,7 @@ use strict;
 
 package Mail::Mailer::smtps;
 use vars '$VERSION';
-$VERSION = '2.13';
+$VERSION = '2.14';
 
 use base 'Mail::Mailer::rfc822';
 
@@ -90,7 +90,7 @@ sub close(@)
 
 package Mail::Mailer::smtps::pipe;
 use vars '$VERSION';
-$VERSION = '2.13';
+$VERSION = '2.14';
 
 
 sub TIEHANDLE

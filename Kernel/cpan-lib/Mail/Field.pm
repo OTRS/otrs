@@ -4,7 +4,7 @@
 # Pod stripped from pm file by OODoc 2.01.
 package Mail::Field;
 use vars '$VERSION';
-$VERSION = '2.13';
+$VERSION = '2.14';
 
 
 use Carp;
@@ -29,7 +29,7 @@ sub _header_pkg_name
 }
 
 sub _require_dir
-{   my($class,$dir,$dir_sep) = @_;
+{   my($class, $dir, $dir_sep) = @_;
 
     local *DIR;
     opendir DIR, $dir
@@ -47,6 +47,9 @@ sub _require_dir
         else
         {   $p =~ s/-/_/go;
             eval "require ${class}::$p";
+
+            # added next warning in 2.14, may be ignored for ancient code
+            warn $@ if $@;
         }
     }
     closedir DIR;
@@ -62,11 +65,12 @@ sub import
         return;
     }
 
-    my($dir,$dir_sep);
-    foreach my $f (keys %INC)
+    my ($dir, $dir_sep);
+    foreach my $f (grep defined $INC{$_}, keys %INC)
     {   next if $f !~ /^Mail(\W)Field\W/i;
         $dir_sep = $1;
-        $dir = ($INC{$f} =~ /(.*Mail\W+Field)/i)[0] . $dir_sep;
+# $dir = ($INC{$f} =~ /(.*Mail\W+Field)/i)[0] . $dir_sep;
+        ($dir = $INC{$f}) =~ s/(Mail\W+Field).*/$1$dir_sep/;
         last;
     }
 
