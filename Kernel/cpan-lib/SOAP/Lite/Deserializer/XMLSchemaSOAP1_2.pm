@@ -1,4 +1,5 @@
 package SOAP::Lite::Deserializer::XMLSchemaSOAP1_2;
+use strict;
 use SOAP::Lite::Deserializer::XMLSchemaSOAP1_1;
 
 sub anyTypeValue { 'anyType' }

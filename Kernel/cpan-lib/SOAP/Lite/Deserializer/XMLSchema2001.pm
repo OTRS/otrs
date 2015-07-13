@@ -21,8 +21,7 @@ BEGIN {
         century gMonthDay gDay duration recurringDuration
         language integer nonPositiveInteger negativeInteger long int short
         byte nonNegativeInteger unsignedLong unsignedInt unsignedShort
-        unsignedByte positiveInteger date time dateTime
-        QName
+        unsignedByte positiveInteger date time QName
     )) {
         my $name = 'as_' . $method;
         *$name = sub { $_[1] }

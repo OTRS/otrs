@@ -17,7 +17,7 @@ package SOAP::Lite;
 use strict;
 use warnings;
 
-our $VERSION = '1.11';
+our $VERSION = '1.14';
 
 package SOAP::XMLSchemaApacheSOAP::Deserializer;
 
@@ -792,6 +792,8 @@ sub new {
         _objectstack => {},
         _signature => [],
         _maptype => {},
+        _bodyattr => {},
+        _headerattr => {},
         _on_nonserialized => sub {Carp::carp "Cannot marshall @{[ref shift]} reference" if $^W; return},
         _encodingStyle => $SOAP::Constants::NS_ENC,
         _attr => {
@@ -1013,6 +1015,19 @@ sub xmlschema {
 
     $self->xmlschemaclass($class);
 
+    return $self;
+}
+
+sub headerattr {
+    my $self = shift->new();
+    return $self->{_headerattr} unless @_;
+    $self->{_headerattr} = shift;
+    return $self;
+}
+sub bodyattr {
+    my $self = shift->new();
+    return $self->{_bodyattr} unless @_;
+    $self->{_bodyattr} = shift;
     return $self;
 }
 
@@ -1681,12 +1696,13 @@ sub envelope {
         SOAP::Data->name(
             SOAP::Utils::qualify($self->envprefix => 'Envelope') => \SOAP::Data->value(
                 ($header
-                    ? SOAP::Data->name( SOAP::Utils::qualify($self->envprefix => 'Header') => \$header)
+                    ? SOAP::Data->name( SOAP::Utils::qualify($self->envprefix => 'Header') => \$header)->attr( $self->headerattr)
                     : ()
                 ),
                 ($body
                     ? SOAP::Data->name(SOAP::Utils::qualify($self->envprefix => 'Body') => \$body)
-                    : SOAP::Data->name(SOAP::Utils::qualify($self->envprefix => 'Body')) ),
+                    : SOAP::Data->name(SOAP::Utils::qualify($self->envprefix => 'Body'))
+                )->attr( $self->bodyattr),
             )
         )->attr($self->attr)
     );
@@ -3519,6 +3535,16 @@ sub self {
 
 sub autodispatched { \&{*UNIVERSAL::AUTOLOAD} eq \&{*SOAP::AUTOLOAD} };
 
+sub on_debug {
+    my $self = shift;
+    my ($logger) = @_;
+    #print "DEBUG: self=$self\n";
+    #print "DEBUG: logger=$logger\n";
+    #print "DEBUG: transport=$self->transport\n";
+    #print "DEBUG: Lite.pm: calling setDebugLogger\n";
+    $self->transport->setDebugLogger($logger);
+}
+
 sub soapversion {
     my $self = shift;
     my $version = shift or return $SOAP::Constants::SOAP_VERSION;
@@ -3711,6 +3737,7 @@ sub BEGIN {
 
     # SOAP::Seriailizer Shortcuts
     for my $method (qw(autotype readable envprefix encodingStyle
+                    bodyattr headerattr
                     encprefix multirefinplace encoding
                     typelookup header maptype xmlschema
                     uri ns_prefix ns_uri use_prefix use_default_ns
@@ -4123,6 +4150,38 @@ sent to the endpoint has extra characters (spaces and new lines) added in to
 make the XML itself more readable to human eyes (presumably for debugging).
 The default is to not send any additional characters.
 
+=item headerattr(hash reference of attributes)
+
+    $obj->headerattr({ attr1 => 'value' });
+
+Allows for the setting of arbitrary attributes on the header object. Keep in mind the requirement that
+ any attributes not natively known to SOAP must be namespace-qualified.
+If using $session->call ($method, $callData, $callHeader), SOAP::Lite serializes the informations as
+
+  <soap:Envelope>
+    <soap:Header>
+      <userId>xxxxx</userId>
+      <password>yyyyy</password>
+    </soap:Header>
+    <soap:Body>
+      <myMethod xmlns="http://www.someuri.com">
+        <foo />  
+      </myMethod>
+    </soap:Body>
+  </soap:Envelope>
+
+The attributes, given to headerattr are placed into the Header as
+
+    <soap:Header attr1="value">
+
+=item bodyattr(hash reference of attributes)
+
+    $obj->bodyattr({ attr1 => 'value' });
+
+Allows for the setting of arbitrary attributes on the body object. Keep in mind the requirement that
+ any attributes not natively known to SOAP must be namespace-qualified.
+See L<headerattr>
+
 =item default_ns($uri)
 
 Sets the default namespace for the request to the specified uri. This
@@ -4357,6 +4416,7 @@ To change SOAP::Lite's behaviour to use uri/method as SOAPAction header, use
 the following code:
 
     $client->on_action( sub { join '/', @_ } );
+
 =item on_fault(callback)
 
     $client->on_fault(sub { popup_dialog($_[1]) });

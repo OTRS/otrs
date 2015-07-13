@@ -10,7 +10,7 @@ package SOAP::Transport::HTTP;
 
 use strict;
 
-our $VERSION = 1.11;
+our $VERSION = 1.14;
 
 use SOAP::Lite;
 use SOAP::Packager;
@@ -81,8 +81,14 @@ sub http_response {
     return $self->{'_http_response'};
 }
 
+sub setDebugLogger {
+    my ($self,$logger) = @_;
+    $self->{debug_logger} = $logger;
+}
+
 sub new {
     my $class = shift;
+    #print "HTTP.pm DEBUG: in sub new\n";
 
     return $class if ref $class;    # skip if we're already object...
 
@@ -122,6 +128,8 @@ sub new {
     }
 
     SOAP::Trace::objects('()');
+
+    $self->setDebugLogger(\&SOAP::Trace::debug);
 
     return $self;
 }
@@ -262,7 +270,7 @@ sub send_receive {
 
             $http_request->content_length($bytelength);
             SOAP::Trace::transport($http_request);
-            SOAP::Trace::debug( $http_request->as_string );
+            &{$self->{debug_logger}}($http_request->as_string);
 
             $self->SUPER::env_proxy if $ENV{'HTTP_proxy'};
 
@@ -270,7 +278,7 @@ sub send_receive {
             # TODO maybe eval this? what happens on connection close?
             $self->http_response( $self->SUPER::request($http_request) );
             SOAP::Trace::transport( $self->http_response );
-            SOAP::Trace::debug( $self->http_response->as_string );
+            &{$self->{debug_logger}}($self->http_response->as_string);
 
             # 100 OK, continue to read?
             if ( (
@@ -335,6 +343,11 @@ $COMPRESS = 'deflate';
 
 sub DESTROY { SOAP::Trace::objects('()') }
 
+sub setDebugLogger {
+    my ($self,$logger) = @_;
+    $self->{debug_logger} = $logger;
+}
+
 sub new {
     require LWP::UserAgent;
     my $self = shift;
@@ -353,6 +366,8 @@ sub new {
                   || $action ne join( '', @_ ) );
     };
     SOAP::Trace::objects('()');
+
+    $self->setDebugLogger(\&SOAP::Trace::debug);
 
     return $self;
 }
@@ -373,7 +388,7 @@ sub BEGIN {
 sub handle {
     my $self = shift->new;
 
-    SOAP::Trace::debug( $self->request->content );
+    &{$self->{debug_logger}}($self->request->content);
 
     if ( $self->request->method eq 'POST' ) {
         $self->action( $self->request->header('SOAPAction') || undef );
@@ -441,7 +456,7 @@ sub handle {
         : $content
     ) or return;
 
-    SOAP::Trace::debug($response);
+    &{$self->{debug_logger}}($response);
 
     $self->make_response( $SOAP::Constants::HTTP_ON_SUCCESS_CODE, $response );
 }
@@ -821,7 +836,7 @@ sub handler {
     } else {
         %headers = %{ $r->headers_in }; # Apache2::RequestRec structure
     }
-    
+
     $self->request(
         HTTP::Request->new(
             $r->method() => $r->uri,
