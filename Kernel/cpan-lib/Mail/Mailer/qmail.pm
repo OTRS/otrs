@@ -7,7 +7,7 @@ use strict;
 
 package Mail::Mailer::qmail;
 use vars '$VERSION';
-$VERSION = '2.13';
+$VERSION = '2.14';
 
 use base 'Mail::Mailer::rfc822';
 

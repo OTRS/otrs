@@ -1,4 +1,8 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module Mozilla::CA to version 20141217.
+ - 2015-07-13 Updated CPAN module MailTools to version 2.14.
+ - 2015-07-13 Updated CPAN module MIME::Tools to version 5.506.
+ - 2015-07-13 Updated CPAN module Locale::Codes to version 3.35.
  - 2015-07-13 Updated CPAN module Linux::Distribution to version 0.23.
  - 2015-07-13 Updated CPAN module libwww-perl to version 6.13.
  - 2015-07-13 Updated CPAN module JavaScript::Minifier to version 1.14.

@@ -3,7 +3,7 @@ Locale::Codes::Currency_Retired;
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'deprecate_codes' is run.
-#    Generated on: Wed May 28 11:24:54 EDT 2014
+#    Generated on: Mon Jun  1 13:35:17 EDT 2015
 
 use strict;
 require 5.006;
@@ -11,7 +11,7 @@ use warnings;
 use utf8;
 
 our($VERSION);
-$VERSION='3.31';
+$VERSION='3.35';
 
 $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(ADP) => q(Andorran Peseta),
@@ -36,6 +36,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
    q(GWP) => q(Guinea-Bissau Peso),
    q(IEP) => q(Irish Pound),
    q(ITL) => q(Italian Lira),
+   q(LTL) => q(Lithuanian Litas),
    q(LUF) => q(Luxembourg Franc),
    q(LVL) => q(Latvian Lats),
    q(MGF) => q(Malagasy Franc),
@@ -69,6 +70,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'code'} = {
 
 $Locale::Codes::Retired{'currency'}{'num'}{'code'} = {
    q(428) => q(Latvian Lats),
+   q(440) => q(Lithuanian Litas),
    q(654) => q(Saint Helena Pound),
    q(998) => q(US Dollar (Same day)),
 };
@@ -82,6 +84,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'name'} = {
    q(bolivar fuerte) => [ q(VEF), q(Bolivar Fuerte) ],
    q(bond markets units european composite unit (eurco)) => [ q(XBA), q(Bond Markets Units European Composite Unit (EURCO)) ],
    q(candian dollar) => [ q(CAD), q(Candian Dollar) ],
+   q(cape verde escudo) => [ q(CVE), q(Cape Verde Escudo) ],
    q(cedi) => [ q(GHS), q(Cedi) ],
    q(convertible marks) => [ q(BAM), q(Convertible Marks) ],
    q(cyprus pound) => [ q(CYP), q(Cyprus Pound) ],
@@ -110,6 +113,7 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'name'} = {
    q(latvian lats) => [ q(LVL), q(Latvian Lats) ],
    q(leu) => [ q(RON), q(Leu) ],
    q(lev) => [ q(BGL), q(Lev) ],
+   q(lithuanian litas) => [ q(LTL), q(Lithuanian Litas) ],
    q(luxembourg franc) => [ q(LUF), q(Luxembourg Franc) ],
    q(malagasy franc) => [ q(MGF), q(Malagasy Franc) ],
    q(maltese lira) => [ q(MTL), q(Maltese Lira) ],
@@ -148,9 +152,11 @@ $Locale::Codes::Retired{'currency'}{'alpha'}{'name'} = {
 
 $Locale::Codes::Retired{'currency'}{'num'}{'name'} = {
    q(bolivar fuerte) => [ q(937), q(Bolivar Fuerte) ],
+   q(cape verde escudo) => [ q(132), q(Cape Verde Escudo) ],
    q(cedi) => [ q(936), q(Cedi) ],
    q(latvian lats) => [ q(428), q(Latvian Lats) ],
    q(leu) => [ q(946), q(Leu) ],
+   q(lithuanian litas) => [ q(440), q(Lithuanian Litas) ],
    q(metical) => [ q(943), q(Metical) ],
    q(new manat) => [ q(934), q(New Manat) ],
    q(saint helena pound) => [ q(654), q(Saint Helena Pound) ],

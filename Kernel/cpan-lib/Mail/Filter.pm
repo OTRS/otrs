@@ -5,7 +5,7 @@
 use strict;
 package Mail::Filter;
 use vars '$VERSION';
-$VERSION = '2.13';
+$VERSION = '2.14';
 
 
 use Carp;
