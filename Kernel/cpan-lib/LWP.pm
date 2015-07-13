@@ -1,6 +1,6 @@
 package LWP;
 
-$VERSION = "6.08";
+$VERSION = "6.13";
 sub Version { $VERSION; }
 
 require 5.008;
@@ -105,7 +105,7 @@ Let us start with this quote from the HTTP specification document
 
 =over 3
 
-=item
+=item *
 
 The HTTP protocol is based on a request/response paradigm. A client
 establishes a connection with a server and sends a request to the

@@ -19,9 +19,7 @@ sub _new_socket
 
     # IPv6 literal IP address should be [bracketed] to remove
     # ambiguity between ip address and port number.
-    # Extra cautious to ensure that $host is _just_ an IPv6 address
-    # (at least as best as we can tell).
-    if ( ($host =~ /:/) && ($host =~ /^[0-9a-f:.]+$/i) ) {
+    if ( ($host =~ /:/) && ($host !~ /^\[/) ) {
       $host = "[$host]";
     }
 
@@ -284,7 +282,7 @@ sub request
             my $n = $socket->syswrite($req_buf, length($req_buf));
             unless (defined $n) {
                 redo WRITE if $!{EINTR};
-                if ($!{EAGAIN}) {
+                if ($!{EWOULDBLOCK} || $!{EAGAIN}) {
                     select(undef, undef, undef, 0.1);
                     redo WRITE;
                 }
@@ -354,7 +352,7 @@ sub request
             {
                 my $nfound = select($rbits, $wbits, undef, $sel_timeout);
                 if ($nfound < 0) {
-                    if ($!{EINTR} || $!{EAGAIN}) {
+                    if ($!{EINTR} || $!{EWOULDBLOCK} || $!{EAGAIN}) {
                         if ($time_before) {
                             $sel_timeout = $sel_timeout_before - (time - $time_before);
                             $sel_timeout = 0 if $sel_timeout < 0;
@@ -375,7 +373,7 @@ sub request
 		my $buf = $socket->_rbuf;
 		my $n = $socket->sysread($buf, 1024, length($buf));
                 unless (defined $n) {
-                    die "read failed: $!" unless  $!{EINTR} || $!{EAGAIN};
+                    die "read failed: $!" unless  $!{EINTR} || $!{EWOULDBLOCK} || $!{EAGAIN};
                     # if we get here the rest of the block will do nothing
                     # and we will retry the read on the next round
                 }
@@ -406,7 +404,7 @@ sub request
 	    if (defined($wbits) && $wbits =~ /[^\0]/) {
 		my $n = $socket->syswrite($$wbuf, length($$wbuf), $woffset);
                 unless (defined $n) {
-                    die "write failed: $!" unless $!{EINTR} || $!{EAGAIN};
+                    die "write failed: $!" unless $!{EINTR} || $!{EWOULDBLOCK} || $!{EAGAIN};
                     $n = 0;  # will retry write on the next round
                 }
                 elsif ($n == 0) {
@@ -463,7 +461,7 @@ sub request
 	{
 	    $n = $socket->read_entity_body($buf, $size);
             unless (defined $n) {
-                redo READ if $!{EINTR} || $!{EAGAIN} || $!{ENOTTY};
+                redo READ if $!{EINTR} || $!{EWOULDBLOCK} || $!{EAGAIN} || $!{ENOTTY};
                 die "read failed: $!";
             }
 	    redo READ if $n == -1;
