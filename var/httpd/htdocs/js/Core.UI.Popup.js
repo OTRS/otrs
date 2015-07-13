@@ -127,7 +127,10 @@ Core.UI.Popup = (function (TargetNS) {
      */
     function GetWindowParentObject() {
         // we have a normal popup, opener is defined
-        if (window.opener !== null) {
+        // In Chrome/Webkit/Android window.opener is null instead of undefined
+        // In IE (Win Phone) window.opener is undefined
+        // typeof null === object
+        if (window.opener !== null && typeof window.opener !== 'undefined') {
             return window.opener;
         }
         else {
@@ -464,6 +467,7 @@ Core.UI.Popup = (function (TargetNS) {
                     });
                     // add iframe overlay
                     $('body').append('<iframe data-popuptype="' + Type + '" name="' + WindowName + '" class="PopupIframe" src="' + URL + '"></iframe>');
+                    $('iframe.PopupIframe').height($(document).height());
                 }
             }
         }
