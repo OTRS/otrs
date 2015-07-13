@@ -10,7 +10,14 @@
 (function(){
     var Timeout = 500;
     window.setTimeout(function () {
-        Core.UI.AdvancedChart.Init("D3::SimpleLineChart", [% Data.ChartData %], 'svg.GraphWidget[% Data.Key | html %]');
+        Core.UI.AdvancedChart.Init(
+            "D3::SimpleLineChart",
+            [% Data.ChartData %],
+            'svg.GraphWidget[% Data.Key | html %]',
+            {
+                Duration: 250
+            }
+        );
     }, Timeout);
 }());
 //]]></script>

@@ -36,6 +36,13 @@ $('#download-svg').on('click', function() {
 $('#download-png').on('click', function() {
     this.href = Core.UI.AdvancedChart.ConvertSVGtoPNG($('#svg-container'));
 });
-Core.UI.AdvancedChart.Init([% Data.Format | JSON %], [% JSON(Data.RawData) %], 'svg#ChartContent');
+Core.UI.AdvancedChart.Init(
+    [% Data.Format | JSON %],
+    [% JSON(Data.RawData) %],
+    'svg#ChartContent',
+    {
+        Duration: 250
+    }
+);
 </script>
 [% END %]

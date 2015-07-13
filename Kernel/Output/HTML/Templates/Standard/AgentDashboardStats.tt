@@ -96,6 +96,7 @@ Core.Config.Set('Stream', [% Translate("Stream") | JSON %]);
             {
                 PreferencesKey: 'GraphWidget[% Data.Name | html %]',
                 PreferencesData: [% Data.Preferences %],
+                Duration: 250
             }
         );
     }, Timeout);
