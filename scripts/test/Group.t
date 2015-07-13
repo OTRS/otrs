@@ -632,8 +632,8 @@ $Self->True(
 # check groupmembers of User1 via GroupGroupMemberList (there was a bug in generated SQL when using parameter UserIDs)
 %MemberList1 = $GroupObject->GroupGroupMemberList(
     UserIDs => [$UserID1],
-    Type   => 'ro',
-    Result => 'HASH',
+    Type    => 'ro',
+    Result  => 'HASH',
 );
 $GroupMemberList1 = 1;
 if ( keys %MemberList1 != 1 || !exists $MemberList1{$GroupID1} ) {
