@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2205";
+our $VERSION = "1.2206";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -1169,7 +1169,7 @@ sub _read_multiline {
     }
 
     if( $list and $lines[-1] !~ m/\)[\x0d\x0a\s]*$/ ) {
-        $self->_debug( caller, __LINE__, '_read_multiline', "Looking for ending parenthsis match..." );
+        $self->_debug( caller, __LINE__, '_read_multiline', "Looking for ending parenthesis match..." ) if $self->{debug};
 
         my $unmatched = 1;
         while( $unmatched ) {
