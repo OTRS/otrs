@@ -177,7 +177,7 @@ Core.Agent.Responsive = (function (TargetNS) {
         });
 
         // Collapse widgets in preferences screen for better overview
-        $('.PreferencesScreen .WidgetSimple').removeClass('Expanded').addClass('Collapsed');
+        $('.PreferencesScreen .Size1of3 > .WidgetSimple').removeClass('Expanded').addClass('Collapsed');
     });
 
     Core.App.Subscribe('Event.App.Responsive.ScreenXL', function () {

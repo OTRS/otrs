@@ -8,7 +8,6 @@
 
 [% RenderBlockStart("Body") %]
 <div class="MainBox ARIARoleMain PreferencesScreen">
-    <h1>[% Translate("Edit your preferences") | html %]</h1>
 
     <div class="LayoutGrid ColumnsWithSpacing">
 
@@ -28,107 +27,129 @@
                         <input type="hidden" name="Action" value="[% Env("Action") %]"/>
                         <input type="hidden" name="Subaction" value="Update"/>
                         <input type="hidden" name="Group" value="[% Data.Group | html %]"/>
-                        <h3>[% Translate(Data.Label) | html %]</h3>
 
-                        <p class="FieldExplanation">
-                            [% Translate(Data.Desc) | html %]
-                        </p>
-                        <fieldset class="TableLike SpacingBottomMedium">
+                        <div class="WidgetSimple">
+                            <div class="Header"><h2>[% Translate(Data.Label) | html %]</h2></div>
+                            <div class="Content">
+                            [% IF Data.Desc %]
+                                <p class="FieldExplanation">
+                                    [% Translate(Data.Desc) | html %]
+                                </p>
+                            [% END %]
+                                <fieldset class="TableLike">
 [% RenderBlockStart("Block") %]
 [% RenderBlockStart("InputKey") %]
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                            <div class="Field">
-                                <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
+                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                    <div class="Field">
+                                        <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
+                                    </div>
+                                    <div class="Clear"></div>
 [% RenderBlockStart("InputKeySingleBlock") %]
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("InputKeySingleBlock") %]
-                            </div>
-                            <div class="Clear"></div>
 [% RenderBlockEnd("InputKey") %]
 [% RenderBlockStart("Input") %]
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                            <div class="Field">
-                                <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
+                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                    <div class="Field">
+                                        <input type="text" name="[% Data.Name | html %]" id="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" />
+                                    </div>
+                                    <div class="Clear"></div>
 [% RenderBlockStart("InputSingleBlock") %]
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    </div>
 [% RenderBlockEnd("InputSingleBlock") %]
-                            </div>
-                            <div class="Clear"></div>
 [% RenderBlockEnd("Input") %]
 [% RenderBlockStart("Option") %]
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                            <div class="FloatingField">
-                                [% Data.Option %]
+                                [% IF Data.Key %]
+                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                [% END %]
+                                    <div class="Field[% IF !Data.Key %] NoMargin[% END %]">
+                                        [% Data.Option %]
+                                    </div>
+                                    <div class="Clear"></div>
 [% RenderBlockStart("OptionSingleBlock") %]
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("OptionSingleBlock") %]
-                            </div>
-                            <div class="Clear"></div>
 [% RenderBlockEnd("Option") %]
 [% RenderBlockStart("Upload") %]
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                            <div class="Field">
-                                <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="file" size="20" class="fixed"/>
-                                <br/>
-                                <a href="">[% Data.Filename | html %]</a>
+                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                    <div class="Field">
+                                        <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="file" size="20" class="fixed"/>
+                                        <br/>
+                                        <a href="">[% Data.Filename | html %]</a>
+                                    </div>
+                                    <div class="Clear"></div>
 [% RenderBlockStart("UploadSingleBlock") %]
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("UploadSingleBlock") %]
-                            </div>
-                            <div class="Clear"></div>
 [% RenderBlockEnd("Upload") %]
 [% RenderBlockStart("Password") %]
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
-                            <div class="Field">
-                                <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="password" autocomplete="off"/>
+                                    <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]:</label>
+                                    <div class="Field">
+                                        <input name="[% Data.Name | html %]" id="[% Data.Name | html %]" type="password" autocomplete="off"/>
+                                    </div>
+                                    <div class="Clear"></div>
 [% RenderBlockStart("PasswordSingleBlock") %]
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("PasswordSingleBlock") %]
-                            </div>
-                            <div class="Clear"></div>
 [% RenderBlockEnd("Password") %]
 [% RenderBlockStart("OutOfOffice") %]
-                            <p class="FieldExplanation">[% Translate(Data.Key) | html %]</p>
-                            <label>[% Translate("Active") | html %]:</label>
-                            <div class="Field">
-                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" [% Data.OutOfOfficeOn %] />
-                                <label for="OutOfOfficeOn">[% Translate("On") | html %]</label>
-                                <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" [% Data.OutOfOfficeOff %] />
-                                <label for="OutOfOfficeOff">[% Translate("Off") | html %]</label>
-                            </div>
-                            <div class="Clear"></div>
-                            <label>[% Translate("Start") | html %]:</label>
-                            <div class="Field">
-                                [% Data.OptionStart %]
-                            </div>
-                            <div class="Clear"></div>
-                            <label>[% Translate("End") | html %]:</label>
-                            <div class="Field">
-                                [% Data.OptionEnd %]
-                            </div>
-                            <div class="Clear"></div>
+                                    <div class="Row OutOfOffice">
+                                        <p class="FieldExplanation">[% Translate(Data.Key) | html %]</p>
+                                        <label>[% Translate("Active") | html %]:</label>
+                                        <div class="Field">
+                                            <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" [% Data.OutOfOfficeOn %] />
+                                            <label for="OutOfOfficeOn">[% Translate("On") | html %]</label>
+                                            <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" [% Data.OutOfOfficeOff %] />
+                                            <label for="OutOfOfficeOff">[% Translate("Off") | html %]</label>
+                                        </div>
+                                        <div class="Clear"></div>
+                                        <label>[% Translate("Start") | html %]:</label>
+                                        <div class="Field">
+                                            [% Data.OptionStart %]
+                                        </div>
+                                        <div class="Clear"></div>
+                                        <label>[% Translate("End") | html %]:</label>
+                                        <div class="Field">
+                                            [% Data.OptionEnd %]
+                                        </div>
+                                        <div class="Clear"></div>
+                                    </div>
 [% RenderBlockStart("OutOfOfficeSingleBlock") %]
-                            <div class="Field">
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
-                            </div>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("OutOfOfficeSingleBlock") %]
 [% RenderBlockEnd("OutOfOffice") %]
 [% RenderBlockStart("RawHTML") %]
-                            <div class="FloatingField">
-                                [% Data.HTML %]
+                                    <div class="Field NoMargin">
+                                        [% Data.HTML %]
+                                    </div>
+                                    <div class="Clear"></div>
 [% RenderBlockStart("RawHTMLSingleBlock") %]
-                                <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" id="[% Data.Name | html %]Update" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("RawHTMLSingleBlock") %]
-                            </div>
-                            <div class="Clear"></div>
 [% RenderBlockEnd("RawHTML") %]
 [% RenderBlockEnd("Block") %]
 [% RenderBlockStart("MultipleBlocks") %]
-                            <div class="Field">
-                                <button type="submit" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
-                            </div>
+                                    <div class="Field ButtonOnly">
+                                        <button type="submit" value="[% Translate("Update") | html %]" class="CallForAction"><span>[% Translate("Update") | html %]</span></button>
+                                    </div>
 [% RenderBlockEnd("MultipleBlocks") %]
-                        </fieldset>
+                                </fieldset>
+                            </div>
+                        </div>
                     </form>
 [% RenderBlockEnd("Item") %]
                 </div>

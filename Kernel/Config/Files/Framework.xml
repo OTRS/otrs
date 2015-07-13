@@ -3485,7 +3485,7 @@ You can log in via the following URL:
         <Setting>
             <Array>
                 <Item>User Profile</Item>
-                <Item>Email Settings</Item>
+                <Item>Notification Settings</Item>
                 <Item>Other Settings</Item>
             </Array>
         </Setting>
@@ -3580,7 +3580,7 @@ You can log in via the following URL:
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Language</Item>
                 <Item Key="Column">User Profile</Item>
                 <Item Key="Label" Translatable="1">Language</Item>
-                <Item Key="Key" Translatable="1">Frontend language</Item>
+                <Item Key="Key" Translatable="1">Language</Item>
                 <Item Key="PrefKey">UserLanguage</Item>
                 <Item Key="Prio">1000</Item>
                 <Item Key="Active">1</Item>
@@ -3594,11 +3594,11 @@ You can log in via the following URL:
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Preferences::Skin</Item>
-                <Item Key="Column">User Profile</Item>
+                <Item Key="Column">Other Settings</Item>
                 <Item Key="Label" Translatable="1">Skin</Item>
-                <Item Key="Key" Translatable="1">Wear this frontend skin</Item>
+                <Item Key="Key" Translatable="1">Skin</Item>
                 <Item Key="PrefKey">UserSkin</Item>
-                <Item Key="Prio">2000</Item>
+                <Item Key="Prio">100</Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Setting>
@@ -4494,6 +4494,9 @@ via the Preferences button after logging in.
                 <Description>Agent Preferences</Description>
                 <Title></Title>
                 <NavBarName>Preferences</NavBarName>
+                <Loader>
+                    <CSS>Core.Agent.Preferences.css</CSS>
+                </Loader>
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>

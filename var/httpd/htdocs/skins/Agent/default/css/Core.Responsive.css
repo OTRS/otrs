@@ -747,6 +747,48 @@
         margin-right: 0px;
     }
 
+    .PreferencesScreen .Size1of3 > .WidgetSimple > .Header {
+        background: #E8E8E8;
+        border-bottom: 0px;
+        margin: 10px 0px 0px 0px;
+        padding: 5px 0px;
+    }
+
+    .PreferencesScreen .FieldExplanation {
+        text-align: center;
+    }
+
+    .PreferencesScreen .Content form label {
+        width: auto;
+        display: block;
+    }
+
+    .PreferencesScreen .Content form .OutOfOffice label {
+        width: auto;
+        display: inline;
+    }
+
+    .PreferencesScreen .Content form .OutOfOffice .Field,
+    .PreferencesScreen .Content form .Field {
+        margin-left: 0px;
+    }
+
+    .PreferencesScreen fieldset.TableLike > .Row > .Field > input[type=radio] {
+        width: auto;
+    }
+
+    .PreferencesScreen .Content form .Field.NoMargin select[multiple="multiple"] {
+        height: auto;
+    }
+
+    .PreferencesScreen .WidgetSimple .Content form table.DataTable {
+        min-width: 0px;
+    }
+
+    .PreferencesScreen .Size1of3 > .WidgetSimple > .Header .WidgetAction {
+        display: block;
+    }
+
     .PreferencesScreen fieldset.TableLike > label,
     .PreferencesScreen fieldset.TableLike > .Row > label {
         font-size: 0.9em;

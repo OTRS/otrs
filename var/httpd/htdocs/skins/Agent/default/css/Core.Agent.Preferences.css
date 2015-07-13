@@ -1,0 +1,110 @@
+/**
+ * @project     OTRS (http://www.otrs.org) - Agent Frontend
+ * @copyright   OTRS AG
+ * @license     AGPL (http://www.gnu.org/licenses/agpl.txt)
+ */
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  Preferences
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+.PreferencesScreen {
+    padding-top: 20px;
+}
+
+.PreferencesScreen .Size1of3 > .WidgetSimple > .Header {
+    background: none;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    padding: 0px 0px 5px 0px;
+    margin: 0px;
+}
+
+.WidgetSimple .WidgetSimple {
+    border: 0px;
+    margin: 0px;
+}
+
+.WidgetSimple .WidgetSimple .Header {
+    text-align: center;
+}
+
+.WidgetSimple .WidgetSimple .Content {
+    padding: 5px 10px 10px 10px;
+}
+
+.WidgetSimple .Header .WidgetAction {
+    display: none;
+}
+
+.PreferencesScreen .Size1of3 > .WidgetSimple {
+    background: none;
+    margin: 0px 10px;
+}
+
+.PreferencesScreen .Content {
+    padding: 0px;
+}
+
+.PreferencesScreen .Content form {
+    margin: 10px 0px 15px 0px;
+}
+
+.PreferencesScreen .Content form label {
+    width: 40%;
+}
+
+.PreferencesScreen .Content form .OutOfOffice label {
+    width: 30%;
+}
+
+.PreferencesScreen .Content form .Field {
+    margin-left: 40%;
+    padding: 4px 0px 3px 5px;
+}
+
+.PreferencesScreen .Content form .Field.NoMargin select {
+    width: 100%;
+}
+
+.PreferencesScreen .Content form .Field.NoMargin select[multiple="multiple"] {
+    height: 100px;
+}
+
+.PreferencesScreen .Content form .Field .ShowTreeSelection {
+    display: none;
+}
+
+.PreferencesScreen .Content form .Field.NoMargin {
+    margin: 0px;
+    padding: 0px;
+}
+
+.PreferencesScreen .Content form .OutOfOffice .Field {
+    margin-left: 30%;
+}
+
+.PreferencesScreen .Content form .Field.ButtonOnly {
+    border-top: 1px solid #ddd;
+    margin: 10px -10px 0px -10px;
+    text-align: center;
+    padding: 10px 0px 0px 0px;
+}
+
+.PreferencesScreen .FieldExplanation {
+    font-size: 11px;
+}
+
+.PreferencesScreen .FieldExplanation:empty {
+    display: none;
+}
+
+} /* end @media*/
