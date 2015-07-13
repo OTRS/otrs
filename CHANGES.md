@@ -1,4 +1,5 @@
 #5.0.0.beta1 20??-??-??
+ - 2015-07-13 Updated CPAN module XML::Parser::Lite to version 0.721.
  - 2015-07-13 Updated CPAN module XML::TreePP to version 0.43.
  - 2015-07-13 Updated CPAN module URI to version 1.68.
  - 2015-07-13 Updated CPAN module Text::CSV to version 1.33.

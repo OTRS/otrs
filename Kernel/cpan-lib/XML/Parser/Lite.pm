@@ -2,17 +2,18 @@
 #
 # Copyright (C) 2000-2007 Paul Kulchenko (paulclinger@yahoo.com)
 # Copyright (C) 2008 Martin Kutter (martin.kutter@fen-net.de)
-# SOAP::Lite is free software; you can redistribute it
+# XML::Parser::Lite is free software; you can redistribute it
 # and/or modify it under the same terms as Perl itself.
 #
 # ======================================================================
 
 package XML::Parser::Lite;
 
+use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = 0.719;
+our $VERSION = '0.721';
 
 sub new {
     my $class = shift;
@@ -220,7 +221,7 @@ __END__
 
 =head1 NAME
 
-XML::Parser::Lite - Lightweight regexp-based XML parser
+XML::Parser::Lite - Lightweight pure-perl XML Parser (based on regexps)
 
 =head1 SYNOPSIS
 
@@ -245,8 +246,8 @@ XML::Parser::Lite - Lightweight regexp-based XML parser
 
 =head1 DESCRIPTION
 
-This Perl implements an XML parser with a interface similar to
-XML::Parser. Though not all callbacks are supported, you should be able to
+This module implements an XML parser with a interface similar to
+L<XML::Parser>. Though not all callbacks are supported, you should be able to
 use it in the same way you use XML::Parser. Due to using experimental regexp
 features it'll work only on Perl 5.6 and above and may behave differently on
 different platforms.
@@ -261,8 +262,10 @@ not re-entrant).
 
 Constructor.
 
-As (almost) all SOAP::Lite constructors, new() returns the object called on
-when called as object method. This means that the following effectively is
+The new() method returns the object called on when called as object method.
+This behaviour was inherited from L<SOAP::Lite>,
+which XML::Parser::Lite was split out from.
+This means that the following effectively is
 a no-op if $obj is a object:
 
  $obj = $obj->new();
@@ -342,7 +345,14 @@ cleanup here.
 
 =head1 SEE ALSO
 
- XML::Parser
+L<XML::Parser> - a full-blown XML Parser, on which XML::Parser::Lite is based.
+Requires a C compiler and the I<expat> XML parser.
+
+L<XML::Parser::LiteCopy> - a fork in L<XML::Parser::Lite::Tree>.
+
+L<YAX> - another pure-perl module for XML parsing.
+
+L<XML::Parser::REX> - another module that parses XML with regular expressions.
 
 =head1 COPYRIGHT
 
@@ -353,7 +363,8 @@ Copyright (C) 2008- Martin Kutter. All rights reserved.
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-This parser is based on "shallow parser" http://www.cs.sfu.ca/~cameron/REX.html
+This parser is based on "shallow parser"
+L<http://www.cs.sfu.ca/~cameron/REX.html>
 Copyright (c) 1998, Robert D. Cameron.
 
 =head1 AUTHOR
